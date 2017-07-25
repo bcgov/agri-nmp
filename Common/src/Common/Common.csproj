@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Common code for the HETS application.</Description>
+    <Description>Common code for the application.</Description>
     <Copyright>Copyright© 2017, Province of British Columbia.</Copyright>
-    <AssemblyTitle>HETS Common</AssemblyTitle>
-    <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyName>HETSCommon</AssemblyName>
-    <PackageId>HETSCommon</PackageId>
+    <AssemblyTitle>Common</AssemblyTitle>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>Common</AssemblyName>
+    <PackageId>Common</PackageId>
     <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
