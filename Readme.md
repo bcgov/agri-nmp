@@ -13,6 +13,26 @@ If you would like to contribute, please see our [contributing](CONTRIBUTING.md) 
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
+Development
+-----------
+This project uses .NET Core version 2, which is currently in Preview (3).
+
+You will need to install Visual Studio 2017 Preview 3 in order to effectively develop the application from a Windows PC.
+
+Note that .NET Core is cross platform, so you can also use a Mac or Linux computer equipped with the appropriate build tools.  
+
+Static Code Analysis
+--------------------
+
+Steps to conduct static code analysis:
+1) Install the Visual Studio 2017 Community Edition plus standalone build tools, such that you are able to compile the source for the application.
+2) Login to http://sonarqube-agri-nmp-tools.pathfinder.gov.bc.ca
+3) Aquire a token by going to My Account -> Security Tab
+4) Change to the folder containing the .SLN file (the Server directory)
+5) Edit the sonar.bat file in that folder, changing the token to match the value above.
+6) Run sonar.bat on a Windows computer to execute the scan and upload the stats.
+
+
 License
 -------
 
