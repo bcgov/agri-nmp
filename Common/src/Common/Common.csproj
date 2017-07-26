@@ -7,17 +7,14 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Common</AssemblyName>
     <PackageId>Common</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+	<RuntimeFrameworkVersion>2.0</RuntimeFrameworkVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="1.1.1" />
-    <PackageReference Include="System.Data.Common" Version="4.3.0" />
   </ItemGroup>
 
 </Project>
