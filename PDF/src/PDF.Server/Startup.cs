@@ -42,7 +42,7 @@ namespace PDF
         {
             services.AddSingleton<IDbAppContextFactory, DbAppContextFactory>(CreateDbAppContextFactory);
             // Add database context
-            services.AddDbContext<DbAppContext>(options => options.UseNpgsql(GetConnectionString()));
+            
             services.AddSingleton(provider => Configuration);
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
@@ -79,14 +79,7 @@ namespace PDF
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                DbContext context = serviceScope.ServiceProvider.GetService<DbAppContext>();
-
-                Seeders.SeedFactory<DbAppContext> seederFactory = new Seeders.SeedFactory<DbAppContext>(Configuration, env, loggerFactory);
-                seederFactory.Seed(context as DbAppContext);
-            }
+            loggerFactory.AddDebug();           
 
             if (env.IsDevelopment())
             {
