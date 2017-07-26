@@ -6,12 +6,13 @@ import spock.lang.Unroll
 
 class FlowSpecs extends GebReportingSpec {
 
-	def "Simple Test"{
-		given:
+	@Unroll
+	def "Simple test"(){
+	given:
 			to HomePage
 	when:
-		$("p").click()
+		$("a","id":"Explore").click()
 	then:
-			at homePage    
+			at HomePage    
     }
 }
