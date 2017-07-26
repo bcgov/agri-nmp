@@ -56,3 +56,7 @@ EXAMPLE - to allow the production project access to the images, run:
 
 `oc policy add-role-to-user system:image-puller system:serviceaccount:agri-nmp-prod:default -n agri-nmp-tools`
 
+- Process and create the Environment Template
+- `oc process -f deployment-template.json  -p APP_DEPLOYMENT_TAG=<DEPLOYMENT TAG> | oc create -f -`
+	- Substitute latest (dev enviornment), test (test enviornment) or prod (prod enviornment) for the <DEPLOYMENT TAG>
+

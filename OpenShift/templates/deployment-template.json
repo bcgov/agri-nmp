@@ -235,27 +235,37 @@
                   "limits": {
                     "memory": "${BACKEND_MEMORY_LIMIT}"
                   }
-                },
-                "volumeMounts": [
-                  {
-                    "name": "${BACKEND_NAME}-docs",
-                    "mountPath": "${DOCUMENT_MOUNT_PATH}"
-                  }
-                ]
-              }
-            ],
-            "volumes": [
-              {
-                "name": "${BACKEND_NAME}-docs",
-                "persistentVolumeClaim": {
-                  "claimName": "${BACKEND_NAME}-docs-pvc"
                 }
               }
             ]
+            
           }
         }
       }
-    }    
+    },
+{
+    "kind": "Route",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "nmp",
+        "creationTimestamp": null,
+        "labels": {
+            "template": "environment-deployment"
+        }
+    },
+    "spec": {
+        "host": "agri-nmp-${APP_DEPLOYMENT_TAG}.pathfinder.gov.bc.ca",
+        "to": {
+            "kind": "Service",
+            "name": "nmp",
+            "weight": 100
+        },
+        "port": {
+            "targetPort": "web"
+        },
+        "wildcardPolicy": "None"
+    }
+}    
   ],
   "parameters": [
     {
