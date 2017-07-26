@@ -7,7 +7,7 @@ Contribution
 
 Please report any [issues](https://github.com/bcgov/agri-nmp/issues).
 
-[Pull requests](https://github.com/bcgov/agri-nmp/pulls) are always welcome for this project.
+[Pull requests](https://github.com/bcgov/agri-nmp/pulls) are always welcome.
 
 If you would like to contribute, please see our [contributing](CONTRIBUTING.md) guidelines.
 
