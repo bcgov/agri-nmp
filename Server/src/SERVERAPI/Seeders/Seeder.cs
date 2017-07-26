@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HETSAPI.Seeders
+namespace SERVERAPI.Seeders
 {
     public abstract class Seeder<T> where T : DbContext
     {

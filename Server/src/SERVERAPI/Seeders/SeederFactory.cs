@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace HETSAPI.Seeders
+namespace SERVERAPI.Seeders
 {
     /// <summary>
     /// This class automattically loades all seeder classes defined in this assembly,
@@ -20,7 +20,7 @@ namespace HETSAPI.Seeders
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
 
-        private List<Seeder<T>> SeederInstances = new List<Seeder<T>>();
+        private readonly List<Seeder<T>> SeederInstances = new List<Seeder<T>>();
 
         public SeedFactory(IConfiguration configuration, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {

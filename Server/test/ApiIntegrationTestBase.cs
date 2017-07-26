@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.TestHost;
 using System.IO;
 using System.Net.Http;
 
-namespace HETSAPI.Test
+namespace SERVERAPI.Test
 {
     public abstract class ApiIntegrationTestBase
     {

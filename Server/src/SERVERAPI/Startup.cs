@@ -26,13 +26,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Http;
-using Hangfire.PostgreSql;
-using Hangfire;
-using Hangfire.Console;
+
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace HETSAPI
+namespace SERVERAPI
 {
     /// <summary>
     /// The application Startup class
@@ -93,19 +91,13 @@ namespace HETSAPI
                 options.SingleApiVersion(new Info
                 {
                     Version = "v1",
-                    Title = "REST API",
+                    Title = "AGRI NMP REST API",
                     Description = ""
                 });
 
-                options.DescribeAllEnumsAsStrings();
-
-                var comments = new XPathDocument($"{AppContext.BaseDirectory}{Path.DirectorySeparatorChar}{_hostingEnv.ApplicationName}.xml");
-                options.OperationFilter<XmlCommentsOperationFilter>(comments);
-                options.ModelFilter<XmlCommentsModelFilter>(comments);
+                options.DescribeAllEnumsAsStrings();              
             });
 
-            // Add application services.
-            //services.RegisterApplicationServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

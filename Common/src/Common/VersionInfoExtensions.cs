@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -12,32 +11,6 @@ namespace Common
 {
     public static class VersionInfoExtensions
     {
-        public static DatabaseVersionInfo GetDatabaseVersionInfo(this DatabaseFacade database)
-        {
-            DatabaseVersionInfo info = null;
-            DbConnection connection = database.GetDbConnection();
-
-            try
-            {
-                connection.Open();
-                info = new DatabaseVersionInfo()
-                {
-                    Name = connection.GetType().Name,
-                    Version = connection.ServerVersion,
-                    Server = connection.DataSource,
-                    Database = connection.Database,
-                    Migrations = database.GetMigrations(),
-                    AppliedMigrations = database.GetAppliedMigrations(),
-                    PendingMigrations = database.GetPendingMigrations()
-                };
-            }
-            finally
-            {
-                connection.Close();
-            }
-
-            return info;
-        }
 
         public static ApplicationVersionInfo GetApplicationVersionInfo(this Assembly assembly, string commit = null)
         {

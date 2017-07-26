@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 
-namespace HETSAPI
+namespace SERVERAPI
 {
     /// <summary>
     /// The main Program for the application.

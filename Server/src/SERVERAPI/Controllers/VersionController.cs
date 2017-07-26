@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Common;
 
-namespace HETSAPI.Controllers
+namespace SERVERAPI.Controllers
 {
     [Authorize]
     [Route("api")]
