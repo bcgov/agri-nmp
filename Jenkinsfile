@@ -3,7 +3,11 @@ node('maven') {
 	// Code Quality Check is not possible for a C# project, as it must be run from a MS Windows server or PC.
 	// See the project readme for instructions.
 	
-	// Since the code quality check is not run here, then there is also no need to checkout the source.
+	stage('checkout') {
+       echo "checking out source"
+       echo "Build: ${BUILD_ID}"
+       checkout scm
+    }
 	    
 	stage('build') {
 	 echo "Building..."
