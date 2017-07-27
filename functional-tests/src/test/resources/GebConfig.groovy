@@ -44,7 +44,7 @@ environments {
 //
 // phantomJs --> “./gradlew phantomJsTest”   (headless)
 // chrome    --> "./gradlew chromeTest"
-baseUrl = "	http://agri-nmp-dev.pathfinder.gov.bc.ca"
+baseUrl = "http://agri-nmp-dev.pathfinder.gov.bc.ca"
 
 baseNavigatorWaiting = true
 
