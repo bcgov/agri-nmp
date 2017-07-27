@@ -1,6 +1,5 @@
 import geb.spock.GebReportingSpec
 import pages.app.HomePage
-import pages.app.Disclaimer
 import spock.lang.Unroll
 
 
