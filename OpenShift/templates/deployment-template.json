@@ -216,16 +216,16 @@
                   }
                 ],                
                 "readinessProbe": {
-                  "timeoutSeconds": 3000,
-                  "initialDelaySeconds": 3,
+                  "timeoutSeconds": 5,
+                  "initialDelaySeconds": 15,
                   "httpGet": {
                     "path": "${BACKEND_READINESS_PROBE_URL}",
                     "port": 8080
                   }
                 },
                 "livenessProbe": {
-                  "timeoutSeconds": 3000,
-                  "initialDelaySeconds": 30,
+                  "timeoutSeconds": 5,
+                  "initialDelaySeconds": 15,
                   "httpGet": {
                     "path": "${BACKEND_READINESS_PROBE_URL}",
                     "port": 8080
