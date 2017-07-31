@@ -16,6 +16,7 @@ namespace SERVERAPI.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.Title = "NMP";
             return View();
         }
         [HttpGet]
