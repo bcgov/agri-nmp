@@ -5,11 +5,13 @@
     <Copyright>Copyright© 2017, Province of British Columbia.</Copyright>
     <AssemblyTitle>DOTNET API Server</AssemblyTitle>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <DebugType>portable</DebugType>
     <AssemblyName>SERVERAPI</AssemblyName>
     <PackageId>SERVERAPI</PackageId>    
     <StartupObject>SERVERAPI.Program</StartupObject>    
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>    
+    <UserSecretsId>aspnet-Core2-37757D75-C7BA-4F7A-8B80-0040DB6484EA</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,36 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Antiforgery" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.WebApiCompatShim" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0-preview2-final" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.2.0.2536" />
-    <PackageReference Include="Swashbuckle.SwaggerGen" Version="6.0.0-beta902" />
-    <PackageReference Include="Swashbuckle.SwaggerUi" Version="6.0.0-beta902" />
-    <PackageReference Include="System.Xml.XmlDocument" Version="4.4.0-beta-24913-02" />
-    <PackageReference Include="System.Xml.XPath.XmlDocument" Version="4.4.0-beta-24913-02" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.0.0-preview2-final" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0-preview2-final" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
   </ItemGroup>
 
-  
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0-preview2-final" />
+  </ItemGroup>
+
   <ItemGroup>
     <Folder Include="Mappings\" />
     <Folder Include="Migrations\" />
@@ -70,6 +49,12 @@
     <Folder Include="Services.Impl\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Home\index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
