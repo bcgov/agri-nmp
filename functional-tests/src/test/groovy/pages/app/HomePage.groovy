@@ -4,6 +4,6 @@ import geb.Page
 
 class HomePage extends Page {
 
-    static at = { title=="Swagger UI" }
-    static url = "/swagger/ui/index.html"
+    static at = { title=="NMP" }
+    static url = "/index.html"
 }
