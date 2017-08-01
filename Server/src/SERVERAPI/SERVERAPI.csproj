@@ -60,6 +60,12 @@
     <ProjectReference Include="..\..\..\Common\src\Common\Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="PDF.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
