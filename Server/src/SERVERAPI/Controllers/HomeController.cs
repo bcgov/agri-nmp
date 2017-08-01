@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.NodeServices;
+using SERVERAPI.Models;
+using Newtonsoft.Json;
 
 namespace SERVERAPI.Controllers
 {
@@ -20,7 +22,7 @@ namespace SERVERAPI.Controllers
             return View();
         }
         [HttpGet]
-        public async Task<IActionResult> Print([FromServices] INodeServices nodeServices)
+        public async Task<IActionResult> Report([FromServices] INodeServices nodeServices)
         {
             JSONResponse result = null;
             var options = new { format = "letter", orientation = "landscape" };
@@ -37,6 +39,22 @@ namespace SERVERAPI.Controllers
             result = await nodeServices.InvokeAsync<JSONResponse>("pdf.js", rawdata, options);
 
             return new FileContentResult(result.data, "application/pdf");
+        }
+        [HttpGet]
+        public IActionResult Farm()
+        {
+            FarmData userData = new FarmData();
+            userData.Years = new List<YearData>();
+            YearData year = new YearData();
+            year.Fields = new List<Field>();
+            Field fld1 = new Field();
+            Field fld2 = new Field();
+            year.Fields.Add(fld1);
+            year.Fields.Add(fld2);
+            userData.Years.Add(year);
+            var json = JsonConvert.SerializeObject(userData);
+
+            return View();
         }
     }
 }
