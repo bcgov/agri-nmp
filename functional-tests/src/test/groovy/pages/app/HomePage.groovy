@@ -4,6 +4,6 @@ import geb.Page
 
 class HomePage extends Page {
 
-    static at = { title=="" }
+    static at = { title=="NMP" }
     static url = "/"
 }
