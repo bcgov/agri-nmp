@@ -25,6 +25,10 @@
   
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
+    <None Remove="PDF.js" />
+    <Content Include="PDF.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Update="wwwroot\**\*;Views;Areas\**\Views">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -58,12 +62,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\src\Common\Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="PDF.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
