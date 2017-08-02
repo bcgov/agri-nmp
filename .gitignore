@@ -276,3 +276,5 @@ __pycache__/
 
 # SonarQube
 *.sonarqube
+functional-tests/build/*
+!PDF/.s2i/*
