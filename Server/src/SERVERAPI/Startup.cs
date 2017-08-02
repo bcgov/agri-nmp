@@ -68,6 +68,14 @@ namespace SERVERAPI
 
             services.AddResponseCompression();
             services.AddNodeServices();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.CookieHttpOnly = true;
+                options.CookieName = ".NMP.Session";
+            });
 
             //// Add framework services.
             services.AddMvc()
@@ -100,11 +108,11 @@ namespace SERVERAPI
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseSession();
             app.UseResponseCompression();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
- 
         }
     }    
 }

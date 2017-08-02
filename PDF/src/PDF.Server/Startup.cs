@@ -40,7 +40,7 @@ namespace PDF
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IDbAppContextFactory, DbAppContextFactory>(CreateDbAppContextFactory);
+            //services.AddSingleton<IDbAppContextFactory, DbAppContextFactory>(CreateDbAppContextFactory);
             // Add database context
             
             services.AddSingleton(provider => Configuration);
@@ -124,12 +124,12 @@ namespace PDF
             return connectionString;
         }
 
-        private DbAppContextFactory CreateDbAppContextFactory(IServiceProvider serviceProvider)
-        {
-            DbContextOptionsBuilder<DbAppContext> options = new DbContextOptionsBuilder<DbAppContext>();
-            options.UseNpgsql(GetConnectionString());
-            DbAppContextFactory dbAppContextFactory = new DbAppContextFactory(options.Options);
-            return dbAppContextFactory;
-        }
+        //private DbAppContextFactory CreateDbAppContextFactory(IServiceProvider serviceProvider)
+        //{
+        //    DbContextOptionsBuilder<DbAppContext> options = new DbContextOptionsBuilder<DbAppContext>();
+        //    options.UseNpgsql(GetConnectionString());
+        //    DbAppContextFactory dbAppContextFactory = new DbAppContextFactory(options.Options);
+        //    return dbAppContextFactory;
+        //}
     }
 }

@@ -14,6 +14,10 @@ using Microsoft.AspNetCore.NodeServices;
 
 namespace PDF.Controllers
 {
+    public class PDFRequest
+    {
+        public string html { get; set; }
+    }
     public class JSONResponse
     {
         public string type;
@@ -32,12 +36,11 @@ namespace PDF.Controllers
 
         protected ILogger _logger;
 
-        public PDFController(IHttpContextAccessor httpContextAccessor, IConfigurationRoot configuration, DbAppContext context, ILoggerFactory loggerFactory)
+        public PDFController(IHttpContextAccessor httpContextAccessor, IConfigurationRoot configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
 
             _httpContextAccessor = httpContextAccessor;
-            _context = context;
 
             userId = getFromHeaders("SM_UNIVERSALID");
             guid = getFromHeaders("SMGOV_USERGUID");
@@ -59,13 +62,13 @@ namespace PDF.Controllers
         [HttpPost]
         [Route("GetPDF")]
 
-        public async Task<IActionResult> GetPDF([FromServices] INodeServices nodeServices, [FromBody]  Object rawdata )
+        public async Task<IActionResult> GetPDF([FromServices] INodeServices nodeServices, [FromBody]  PDFRequest rawdata )
         {
             JSONResponse result = null;
             var options = new { format="letter", orientation= "landscape" };
 
             // execute the Node.js component
-            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf", "rental_agreement", rawdata, options);
+            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf", rawdata.html, options);
 
             return new FileContentResult(result.data, "application/pdf");
         }

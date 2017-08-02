@@ -1,4 +1,7 @@
-﻿module.exports = function (callback, html, pdf_options) {
+﻿// https://www.npmjs.com/package/html-pdf
+var pdf = require('html-pdf');
+
+module.exports = function (callback, html, pdf_options) {
 
     const DEFAULT_PDF_OPTIONS = {
         format: 'letter',

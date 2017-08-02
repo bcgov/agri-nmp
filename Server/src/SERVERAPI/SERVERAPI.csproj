@@ -25,6 +25,10 @@
   
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
+    <None Remove="PDF.js" />
+    <Content Include="PDF.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Update="wwwroot\**\*;Views;Areas\**\Views">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
@@ -45,10 +49,8 @@
     <Folder Include="Mappings\" />
     <Folder Include="Migrations\" />
     <Folder Include="Models.Impl\" />
-    <Folder Include="Models\" />
     <Folder Include="Services.Impl\" />
     <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
