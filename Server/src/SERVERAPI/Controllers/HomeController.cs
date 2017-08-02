@@ -62,8 +62,9 @@ namespace SERVERAPI.Controllers
         {
             FileContentResult result = null;
             //JSONResponse result = null;
+            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            string pdfHost = "http://localhost:57315";
+            //string pdfHost = Configuration["PDF_SERVICE_NAME"];
 
             string targetUrl = pdfHost + "/api/PDF/GetPDF";
 
