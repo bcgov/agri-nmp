@@ -8,6 +8,9 @@ using SERVERAPI.Models;
 using SERVERAPI.ViewModels;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using System.Net.Http;
+using System.Text;
+using System.Net;
 
 namespace SERVERAPI.Controllers
 {
@@ -15,6 +18,11 @@ namespace SERVERAPI.Controllers
     {
         public string type;
         public byte[] data;
+    }
+    public class JSONRequest
+    {
+        public string type;
+        public string data;
     }
     public static class SessionExtensions
     {
@@ -53,6 +61,56 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Report([FromServices] INodeServices nodeServices)
         {
+            //FileContentResult result = null;
+            ////JSONResponse result = null;
+
+            //string pdfHost = "http://localhost:57315";
+
+            //string targetUrl = pdfHost + "/api/PDF/GetPDF";
+
+            //// call the microservice
+            //try
+            //{
+            //    JSONRequest req = new JSONRequest();
+
+
+            //    HttpClient client = new HttpClient();
+
+            //    string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
+
+            //    req.data = rawdata;
+
+            //    string payload = JsonConvert.SerializeObject(req);
+
+            //    var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
+            //    request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+            //    request.Headers.Clear();
+            //    // transfer over the request headers.
+            //    foreach (var item in Request.Headers)
+            //    {
+            //        string key = item.Key;
+            //        string value = item.Value;
+            //        request.Headers.Add(key, value);
+            //    }
+
+            //    Task<HttpResponseMessage> responseTask = client.SendAsync(request);
+            //    responseTask.Wait();
+
+            //    HttpResponseMessage response = responseTask.Result;
+            //    if (response.StatusCode == HttpStatusCode.OK) // success
+            //    {
+            //        var bytetask = response.Content.ReadAsByteArrayAsync();
+            //        bytetask.Wait();
+
+            //        result = new FileContentResult(bytetask.Result, "application/pdf");
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    result = null;
+            //}
+
             JSONResponse result = null;
 
             var options = new { format = "letter", orientation = "landscape" };
