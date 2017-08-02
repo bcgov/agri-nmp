@@ -5,6 +5,11 @@ echo "Running upstream assemble"
 
 echo "Restoring NPM packages"
 
-pushd src\PDF.Server
+
+echo "Restoring NPM packages"
+
+ls
+
+pushd src/PDF.Server
 npm install
 popd 
