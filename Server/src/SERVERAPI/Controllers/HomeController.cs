@@ -19,10 +19,9 @@ namespace SERVERAPI.Controllers
         public string type;
         public byte[] data;
     }
-    public class JSONRequest
+    public class PDFRequest
     {
-        public string type;
-        public string data;
+        public string html;
     }
     public static class SessionExtensions
     {
@@ -61,72 +60,72 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Report([FromServices] INodeServices nodeServices)
         {
-            //FileContentResult result = null;
-            ////JSONResponse result = null;
+            FileContentResult result = null;
+            //JSONResponse result = null;
 
-            //string pdfHost = "http://localhost:57315";
+            string pdfHost = "http://localhost:57315";
 
-            //string targetUrl = pdfHost + "/api/PDF/GetPDF";
+            string targetUrl = pdfHost + "/api/PDF/GetPDF";
 
-            //// call the microservice
-            //try
-            //{
-            //    JSONRequest req = new JSONRequest();
-
-
-            //    HttpClient client = new HttpClient();
-
-            //    string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
-
-            //    req.data = rawdata;
-
-            //    string payload = JsonConvert.SerializeObject(req);
-
-            //    var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-            //    request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
-
-            //    request.Headers.Clear();
-            //    // transfer over the request headers.
-            //    foreach (var item in Request.Headers)
-            //    {
-            //        string key = item.Key;
-            //        string value = item.Value;
-            //        request.Headers.Add(key, value);
-            //    }
-
-            //    Task<HttpResponseMessage> responseTask = client.SendAsync(request);
-            //    responseTask.Wait();
-
-            //    HttpResponseMessage response = responseTask.Result;
-            //    if (response.StatusCode == HttpStatusCode.OK) // success
-            //    {
-            //        var bytetask = response.Content.ReadAsByteArrayAsync();
-            //        bytetask.Wait();
-
-            //        result = new FileContentResult(bytetask.Result, "application/pdf");
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    result = null;
-            //}
-
-            JSONResponse result = null;
-
-            var options = new { format = "letter", orientation = "landscape" };
-
-            var opts = new
+            // call the microservice
+            try
             {
-                orientation = "landscape",
+                PDFRequest req = new PDFRequest();
 
-            };
 
-            string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
+                HttpClient client = new HttpClient();
 
-            // execute the Node.js component
-            result = await nodeServices.InvokeAsync<JSONResponse>("./PDF.js", rawdata, options);
+                string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
 
-            return new FileContentResult(result.data, "application/pdf");
+                req.html = rawdata;
+
+                string payload = JsonConvert.SerializeObject(req);
+
+                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
+                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                request.Headers.Clear();
+                // transfer over the request headers.
+                foreach (var item in Request.Headers)
+                {
+                    string key = item.Key;
+                    string value = item.Value;
+                    request.Headers.Add(key, value);
+                }
+
+                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
+                responseTask.Wait();
+
+                HttpResponseMessage response = responseTask.Result;
+                if (response.StatusCode == HttpStatusCode.OK) // success
+                {
+                    var bytetask = response.Content.ReadAsByteArrayAsync();
+                    bytetask.Wait();
+
+                    result = new FileContentResult(bytetask.Result, "application/pdf");
+                }
+            }
+            catch (Exception e)
+            {
+                result = null;
+            }
+
+            //JSONResponse result = null;
+
+            //var options = new { format = "letter", orientation = "landscape" };
+
+            //var opts = new
+            //{
+            //    orientation = "landscape",
+
+            //};
+
+            //string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
+
+            //// execute the Node.js component
+            //result = await nodeServices.InvokeAsync<JSONResponse>("./PDF.js", rawdata, options);
+
+            return new FileContentResult(result.FileContents, "application/pdf");
         }
         [HttpGet]
         public IActionResult Farm()

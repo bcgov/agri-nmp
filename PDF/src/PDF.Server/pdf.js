@@ -15,11 +15,9 @@ const DEFAULT_PDF_OPTIONS = {
 	// PDF options
     var options = Object.assign({}, DEFAULT_PDF_OPTIONS, pdfOptions);
 
-    var json = JSON.parse(rawdata);
-
 			
 	// export as PDF
-	pdf.create(json.data, options).toBuffer(function(err, buffer){
+	pdf.create(rawdata, options).toBuffer(function(err, buffer){
 		if (err)
 		{
 			callback (err, null);
