@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Running upstream assemble"
+
+/usr/libexec/s2i/assemble
+
+echo "Restoring NPM packages"
+
+pushd src\PDF.Server
+npm install
+popd 
