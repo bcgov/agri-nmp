@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace SERVERAPI.Models
 {
     public class FarmData
     {
-        public string FarmName { get; set; }
+        public string farmName { get; set; }
+        public bool? soilTests { get; set; }
+        public bool? manure { get; set; }
         public List<YearData> Years { get; set; }
     }
     public class YearData

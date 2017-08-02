@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.NodeServices;
 using SERVERAPI.Models;
+using SERVERAPI.ViewModels;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 namespace SERVERAPI.Controllers
 {
@@ -14,11 +16,38 @@ namespace SERVERAPI.Controllers
         public string type;
         public byte[] data;
     }
+    public static class SessionExtensions
+    {
+        public static void SetObjectAsJson(this ISession session, string key, object value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+
+        public static T GetObjectFromJson<T>(this ISession session, string key)
+        {
+            var value = session.GetString(key);
+
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        }
+    }
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
             ViewBag.Title = "NMP";
+            FarmData userData = new FarmData();
+            userData.Years = new List<YearData>();
+            YearData year = new YearData();
+            year.Fields = new List<Field>();
+            Field fld1 = new Field();
+            Field fld2 = new Field();
+            year.Fields.Add(fld1);
+            year.Fields.Add(fld2);
+            userData.Years.Add(year);
+            userData.farmName = "ElDorado";
+            var json = JsonConvert.SerializeObject(userData);
+
+            HttpContext.Session.SetObjectAsJson("FarmData", userData);
             return View();
         }
         [HttpGet]
@@ -44,18 +73,35 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public IActionResult Farm()
         {
-            FarmData userData = new FarmData();
-            userData.Years = new List<YearData>();
-            YearData year = new YearData();
-            year.Fields = new List<Field>();
-            Field fld1 = new Field();
-            Field fld2 = new Field();
-            year.Fields.Add(fld1);
-            year.Fields.Add(fld2);
-            userData.Years.Add(year);
-            var json = JsonConvert.SerializeObject(userData);
+            var userData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
-            return View();
+            FarmViewModel fvm = new FarmViewModel();
+
+            fvm.farmName = userData.farmName;
+            if(userData.soilTests != null)
+            {
+                fvm.soilTests = userData.soilTests.Value;
+            }
+            if (userData.manure != null)
+            {
+                fvm.manure = userData.manure.Value;
+            }
+
+
+            return View(fvm);
+        }
+        [HttpPost]
+        public IActionResult Farm(FarmViewModel fvm)
+        {
+            var userData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            userData.farmName = fvm.farmName;
+            userData.soilTests = (fvm.soilTests == null) ? null : fvm.soilTests;
+            userData.manure = (fvm.manure == null) ? null : fvm.manure;
+
+            HttpContext.Session.SetObjectAsJson("FarmData", userData);
+
+            return View(fvm);
         }
         private static async Task<JSONResponse> BuildReport(INodeServices nodeServices)
         {

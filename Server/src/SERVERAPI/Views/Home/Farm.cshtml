@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SERVERAPI.ViewModels.FarmViewModel
+
+@{
     ViewBag.Title = "Farm";
 }
 <!-- modal placeholder-->
@@ -18,6 +20,40 @@
     <div class="row">
         <div id="main-content" class="contentPageMainColumn col-xs-12">
             <h3>Farm Information</h3>
+            <form asp-controller="Home" asp-action="Farm" method="post">
+                <div>
+                    <label asp-for="farmName"></label>
+                </div>
+                <div>
+                    <input asp-for="farmName" />
+                    <span asp-validation-for="farmName"></span>
+                </div>
+                <br />
+                <br />
+                <div>
+                    <label asp-for="soilTests"></label>
+                </div>
+                <div>
+                    <input asp-for="soilTests" type="radio" value="true" /> Yes
+                    <input asp-for="soilTests" type="radio" value="false" /> No
+                    <span asp-validation-for="soilTests"></span>
+                </div>
+                <br />
+                <br />
+                <div>
+                    <label asp-for="manure"></label>
+                </div>
+                <div>
+                    <input asp-for="manure" type="radio" value="true" /> Yes
+                    <input asp-for="manure" type="radio" value="false" /> No
+                    <span asp-validation-for="manure"></span>
+                </div>
+                <br />
+                <br />
+                <div>
+                    <input type="submit" value="Save" />
+                </div>
+            </form>
         </div>
     </div>
     <!-- PAGE CONTENT -->

@@ -51,7 +51,6 @@
     <Folder Include="Models.Impl\" />
     <Folder Include="Services.Impl\" />
     <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\images\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
