@@ -1,19 +1,25 @@
 ﻿@{
+    Layout = null;
+}
+@{
     ViewBag.Title = "Welcome";
 }
 
-    <!-- BODY CONTENT -->
-    <div id="topicTemplate" class="template container gov-container">
-        <!-- PAGE CONTENT -->
-        <div class="row">
-            <div id="main-content" class="contentPageMainColumn col-xs-12">
-                <h3>Welcome to the Nutrient Management Program</h3>
-                @Html.ActionLink("Report", "Print", new {controller="Home"}, new {target="_blank"})
-                <br />
-                <br />
-                <input type="button" value="Begin" onclick="location.href='@Url.Action("Farm", "Home")'" />
-            </div>
-        </div>
-        <!-- PAGE CONTENT -->
-    </div>
-    <!-- /BODY CONTENT -->
+<head>
+    <script>
+        if (typeof (Storage) !== "undefined") {
+            var nmp = localStorage.getItem("nmp");
+            if (nmp != null) {
+                window.location.href = '@Url.Action("Launch", "Home", new { id = "true" })';
+            } else {
+                window.location.href = '@Url.Action("Launch", "Home", new { id = "false" })';
+            }
+
+        } else {
+                window.location.href = '@Url.Action("Launch", "Home", new { id = "false" })';
+        }
+    </script>
+</head>
+<body>
+    <h1>Index</h1>
+</body>

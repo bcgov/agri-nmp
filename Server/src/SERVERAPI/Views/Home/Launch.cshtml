@@ -1,0 +1,47 @@
+﻿@model  SERVERAPI.ViewModels.LaunchViewModel
+@{
+    ViewBag.Title = "Welcome";
+}
+@inject IJsonHelper Json;
+
+<!-- BODY CONTENT -->
+<div id="topicTemplate" class="template container gov-container">
+    <!-- PAGE CONTENT -->
+    <form asp-controller="Home" method="post">
+        <div class="row">
+            <div id="main-content" class="contentPageMainColumn col-xs-12">
+                <h3>Welcome to the Nutrient Management Program</h3>
+                @Html.ActionLink("Report", "Print", new { controller = "Home" }, new { target = "_blank" })
+                <br />
+                <br />
+                <input type="submit" value="New" name="type" />
+                @if (Model.canContinue == true)
+                {
+                    <input type="submit" value="Continue" name="type" />
+                }
+            </div>
+        </div>
+        @Html.HiddenFor(x => x.userData)
+        @Html.HiddenFor(x => x.canContinue)
+    </form>
+    <!-- PAGE CONTENT -->
+</div>
+<!-- /BODY CONTENT -->
+
+@section Scripts {
+
+<script type="text/JavaScript">
+    $(document).ready(function () {
+        var canContinue = $('#canContinue').val();
+        if (canContinue == "False")
+        {
+            localStorage.setItem("nmp", $('#userData').val());
+        }
+        else
+        {
+            var data = localStorage.getItem("nmp");
+            $('#userData').val(data);
+        }
+    });
+</script>
+}

@@ -1,0 +1,49 @@
+﻿@model SERVERAPI.ViewModels.FieldDetailViewModel
+
+@{
+    Layout = null;
+}
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title" id="myModalLabel">Field Details</h4>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="modal-body">
+        <form asp-controller="Home" asp-action="Farm" method="post">
+            <div>
+                <label asp-for="fieldName"></label>
+            </div>
+            <div>
+                <input asp-for="fieldName" />
+                <span asp-validation-for="fieldName"></span>
+            </div>
+            <br />
+            <br />
+            <div>
+                <label asp-for="fieldArea"></label>
+            </div>
+            <div>
+                <input asp-for="fieldArea" />
+                <span asp-validation-for="fieldArea"></span>
+            </div>
+            <br />
+            <br />
+            <div>
+                <label asp-for="fieldComment"></label>
+            </div>
+            <div>
+                <input asp-for="fieldComment" />
+                <span asp-validation-for="fieldComment"></span>
+            </div>
+            <br />
+            <br />
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+        <input class="btn btn-primary" type="submit" value="Save" />
+    </div>
+}

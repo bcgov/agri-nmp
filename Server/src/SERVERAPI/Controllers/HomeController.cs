@@ -41,21 +41,72 @@ namespace SERVERAPI.Controllers
     {
         public IActionResult Index()
         {
-            ViewBag.Title = "NMP";
-            FarmData userData = new FarmData();
-            userData.Years = new List<YearData>();
-            YearData year = new YearData();
-            year.Fields = new List<Field>();
-            Field fld1 = new Field();
-            Field fld2 = new Field();
-            year.Fields.Add(fld1);
-            year.Fields.Add(fld2);
-            userData.Years.Add(year);
-            userData.farmName = "ElDorado";
-            var json = JsonConvert.SerializeObject(userData);
+            //ViewBag.Title = "NMP";
+            //FarmData userData = new FarmData();
+            //userData.Years = new List<YearData>();
+            //YearData year = new YearData();
+            //year.Fields = new List<Field>();
+            //Field fld1 = new Field();
+            //Field fld2 = new Field();
+            //year.Fields.Add(fld1);
+            //year.Fields.Add(fld2);
+            //userData.Years.Add(year);
+            //userData.farmName = "ElDorado";
+            //var json = JsonConvert.SerializeObject(userData);
 
-            HttpContext.Session.SetObjectAsJson("FarmData", userData);
+            //HttpContext.Session.SetObjectAsJson("FarmData", userData);
             return View();
+        }
+        public IActionResult Launch(string id)
+        {
+            ViewBag.Title = "NMP";
+
+            LaunchViewModel lvm = new LaunchViewModel();
+            lvm.userData = null;
+
+            if (id == "false")
+            {
+                //userData.Years = new List<YearData>();
+                //YearData year = new YearData();
+                //year.Fields = new List<Field>();
+                //Field fld1 = new Field();
+                //Field fld2 = new Field();
+                //year.Fields.Add(fld1);
+                //year.Fields.Add(fld2);
+                //userData.Years.Add(year);
+                //userData.farmName = "ElDorado";
+                //var json = JsonConvert.SerializeObject(userData);
+                //lvm.userData = json;
+                lvm.canContinue = false;
+            }
+            else
+            {
+                lvm.canContinue = true;
+            }
+
+            HttpContext.Session.SetObjectAsJson("FarmData", lvm.userData);
+
+            return View(lvm);
+
+        }
+        [HttpPost]
+        public IActionResult Launch(LaunchViewModel lvm, string type)
+        {
+            if(type == "Continue")
+            {
+                // save the local storage user data in it's stringified form
+                HttpContext.Session.SetString("FarmData", lvm.userData);
+                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+                //HttpContext.Session.SetObjectAsJson("FarmData", lvm.userData);
+            }
+            else
+            {
+                FarmData userData = new FarmData();
+                HttpContext.Session.SetObjectAsJson("FarmData", userData);
+                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            }
+            return RedirectToAction("Farm");
         }
         [HttpGet]
         public async Task<IActionResult> Report([FromServices] INodeServices nodeServices)
@@ -194,35 +245,46 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public IActionResult Farm()
         {
-            var userData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
             FarmViewModel fvm = new FarmViewModel();
 
-            fvm.farmName = userData.farmName;
-            if(userData.soilTests != null)
+            fvm.farmName = farmData.farmName;
+            if(farmData.soilTests != null)
             {
-                fvm.soilTests = userData.soilTests.Value;
+                fvm.soilTests = farmData.soilTests.Value;
             }
-            if (userData.manure != null)
+            if (farmData.manure != null)
             {
-                fvm.manure = userData.manure.Value;
+                fvm.manure = farmData.manure.Value;
             }
 
+            fvm.userData = HttpContext.Session.GetString("FarmData");
 
             return View(fvm);
         }
         [HttpPost]
         public IActionResult Farm(FarmViewModel fvm)
         {
-            var userData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            string x = HttpContext.Session.GetString("FarmData");
+            var farmData = JsonConvert.DeserializeObject<FarmData>(fvm.userData);
 
-            userData.farmName = fvm.farmName;
-            userData.soilTests = (fvm.soilTests == null) ? null : fvm.soilTests;
-            userData.manure = (fvm.manure == null) ? null : fvm.manure;
+            farmData.farmName = fvm.farmName;
+            farmData.soilTests = (fvm.soilTests == null) ? null : fvm.soilTests;
+            farmData.manure = (fvm.manure == null) ? null : fvm.manure;
 
-            HttpContext.Session.SetObjectAsJson("FarmData", userData);
+            HttpContext.Session.SetObjectAsJson("FarmData", farmData);
+            fvm.userData = JsonConvert.SerializeObject(farmData);
+            HttpContext.Session.SetObjectAsJson("FarmData", fvm.userData);
+            ModelState.Remove("userData");
 
             return View(fvm);
+        }
+        [HttpGet]
+        public IActionResult FieldDetail()
+        {
+
+            return View();
         }
         private static async Task<JSONResponse> BuildReport(INodeServices nodeServices)
         {
