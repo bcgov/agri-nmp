@@ -23,7 +23,7 @@ namespace PDF.Controllers
         public string type;
         public byte[] data;
     }
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     public class PDFController : Controller
     {
         private readonly IConfiguration Configuration;
