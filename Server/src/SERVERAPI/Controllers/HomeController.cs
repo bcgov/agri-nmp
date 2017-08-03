@@ -129,6 +129,69 @@ namespace SERVERAPI.Controllers
             return new FileContentResult(result.FileContents, "application/pdf");
         }
         [HttpGet]
+        public IActionResult Print()
+        {
+            var userData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            FileContentResult result = null;
+            //JSONResponse result = null;
+            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
+
+            //string pdfHost = Configuration["PDF_SERVICE_NAME"];
+
+            string targetUrl = pdfHost + "/api/PDF/GetPDF";
+
+            ViewBag.Service = targetUrl;
+
+            // call the microservice
+            try
+            {
+                PDFRequest req = new PDFRequest();
+
+
+                HttpClient client = new HttpClient();
+
+                string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
+
+                req.html = rawdata;
+
+                string payload = JsonConvert.SerializeObject(req);
+
+                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
+                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                request.Headers.Clear();
+                // transfer over the request headers.
+                foreach (var item in Request.Headers)
+                {
+                    string key = item.Key;
+                    string value = item.Value;
+                    request.Headers.Add(key, value);
+                }
+
+                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
+                responseTask.Wait();
+
+                HttpResponseMessage response = responseTask.Result;
+
+                ViewBag.StatusCode = response.StatusCode.ToString();
+
+                if (response.StatusCode == HttpStatusCode.OK) // success
+                {
+                    var bytetask = response.Content.ReadAsByteArrayAsync();
+                    bytetask.Wait();
+
+                    result = new FileContentResult(bytetask.Result, "application/pdf");
+                }
+            }
+            catch (Exception e)
+            {
+                result = null;
+            }
+
+            return View();
+        }
+        [HttpGet]
         public IActionResult Farm()
         {
             var userData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");

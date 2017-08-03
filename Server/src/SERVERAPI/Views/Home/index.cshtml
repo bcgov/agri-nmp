@@ -8,7 +8,7 @@
         <div class="row">
             <div id="main-content" class="contentPageMainColumn col-xs-12">
                 <h3>Welcome to the Nutrient Management Program</h3>
-                @Html.ActionLink("Report", "Report", new {controller="Home"}, new {target="_blank"})
+                @Html.ActionLink("Report", "Print", new {controller="Home"}, new {target="_blank"})
                 <br />
                 <br />
                 <input type="button" value="Begin" onclick="location.href='@Url.Action("Farm", "Home")'" />
