@@ -68,7 +68,7 @@ namespace PDF.Controllers
             var options = new { format="letter", orientation= "landscape" };
 
             // execute the Node.js component
-            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf", rawdata.html, options);
+            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
 
             return new FileContentResult(result.data, "application/pdf");
         }
