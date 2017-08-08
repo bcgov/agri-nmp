@@ -3,13 +3,13 @@ echo "Running upstream assemble"
 
 /usr/libexec/s2i/assemble
 
-echo "Restoring NPM packages"
-
-
-echo "Restoring NPM packages"
-
-ls
-
 pushd src/PDF.Server
+echo Copying Node.js components
+cp pdf.js /opt/app-root/publish
+cp package.json /opt/app-root/publish
+echo Copying templates
+cp -a Templates /opt/app-root/publish
+cd /opt/app-root/publish
+echo Restoring Node.js packages
 npm install
 popd 
