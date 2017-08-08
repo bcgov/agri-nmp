@@ -336,6 +336,12 @@ namespace SERVERAPI.Controllers
 
                 var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
                 YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
+
+                if (yd.fields == null)
+                {
+                    yd.fields = new List<Field>();
+                }
+
                 Field fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.fieldName);
 
                 if(fvm.act == "Add")
@@ -354,11 +360,6 @@ namespace SERVERAPI.Controllers
                 fld.fieldName = fvm.fieldName;
                 fld.area = area;
                 fld.comment = fvm.fieldComment;
-
-                if(yd.fields == null)
-                {
-                    yd.fields = new List<Field>();
-                }
 
                 if (fvm.act == "Add")
                 {

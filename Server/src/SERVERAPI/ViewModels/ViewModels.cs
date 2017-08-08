@@ -24,6 +24,7 @@ namespace SERVERAPI.ViewModels
         public bool sendNMP { get; set; }
         public string userData { get; set; }
         public List<Models.StaticData.SelectListItem> regOptions { get; set; }
+        [Display(Name = "Region")]
         public int? selRegOption { get; set; }
 
     }
