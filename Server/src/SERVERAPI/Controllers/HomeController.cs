@@ -56,7 +56,7 @@ namespace SERVERAPI.Controllers
         public IActionResult Launch(string id)
         {
             ViewBag.Title = "NMP";
-            LoadStatic();
+            //LoadStatic();
             LaunchViewModel lvm = new LaunchViewModel();
             lvm.userData = null;
 
