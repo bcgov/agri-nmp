@@ -3,47 +3,45 @@
 @{
     Layout = null;
 }
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">Field Details</h4>
-</div>
+<div id="target">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Field Details - @Model.act</h4>
+    </div>
 
-@using (Html.BeginForm())
-{
-    <div class="modal-body">
-        <form asp-controller="Home" asp-action="Farm" method="post">
-            <div>
+    <form asp-action="FieldDetail" asp-controller="Home" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
                 <label asp-for="fieldName"></label>
-            </div>
-            <div>
-                <input asp-for="fieldName" />
-                <span asp-validation-for="fieldName"></span>
+                <div>
+                    <input asp-for="fieldName" class="col-sm-6" />
+                    <span asp-validation-for="fieldName"></span>
+                </div>
             </div>
             <br />
-            <br />
-            <div>
+            <div class="form-group">
                 <label asp-for="fieldArea"></label>
-            </div>
-            <div>
-                <input asp-for="fieldArea" />
-                <span asp-validation-for="fieldArea"></span>
+                <div>
+                    <input asp-for="fieldArea" class="col-sm-2" />
+                    <div style="padding-top:5px">&nbsp;Acres&nbsp;</div>
+                    <span asp-validation-for="fieldArea"></span>
+                </div>
             </div>
             <br />
-            <br />
-            <div>
+            <div class="form-group">
                 <label asp-for="fieldComment"></label>
+                <div>
+                    <textarea asp-for="fieldComment" rows="2" cols="80" style="resize:none"></textarea>
+                    <span asp-validation-for="fieldComment"></span>
+                </div>
             </div>
-            <div>
-                <input asp-for="fieldComment" />
-                <span asp-validation-for="fieldComment"></span>
-            </div>
-            <br />
-            <br />
-        </form>
-
-    </div>
-    <div class="modal-footer">
-        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-        <input class="btn btn-primary" type="submit" value="Save" />
-    </div>
-}
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </div>
+        @Html.HiddenFor(x => x.userDataField)
+        @Html.HiddenFor(x => x.act)
+    </form>
+</div>

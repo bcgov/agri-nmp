@@ -1,0 +1,54 @@
+﻿@model FieldsViewModel
+<div>
+    @if (Model.fields.Count() > 0)
+    {
+        <h3>Fields</h3>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align: left; border-top:none; width:400px">
+                            <label>Field Name</label>
+                        </th>
+                        <th style="text-align: left; border-top:none; width:200px">
+                            <label>Area (acres)</label>
+                        </th>
+                        <th style="text-align: left; border-top:none; width:600px">
+                            <label>Comment</label>
+                        </th>
+                        <th style="text-align: left; border-top:none; width:100px">
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.fields)
+                    {
+                        <tr>
+                            <td style="vertical-align:top; width:400px">
+                                @item.fieldName
+                            </td>
+                            <td style="vertical-align:top; width:200px">
+                                @item.area
+                            </td>
+                            <td style="vertical-align:top; width:600px">
+                                @item.comment
+                            </td>
+                            <td style="vertical-align:top; width:100px">
+                                <a asp-action="FieldDetail" asp-controller="Home" asp-route-name="@item.fieldName" data_modal="">Edit</a>
+                                <a asp-action="FieldDelete" asp-controller="Home" asp-route-name="@item.fieldName" data_modal="">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @for (int i = 0; i < Model.fields.Count; i++)
+        {
+            @Html.Hidden("fieldName[" + i + "]", Model.fields[i].fieldName)
+            @Html.Hidden("area[" + i + "]", Model.fields[i].area)
+            @Html.Hidden("comment[" + i + "]", Model.fields[i].comment)
+        }
+        }
+
+</div>

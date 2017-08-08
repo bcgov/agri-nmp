@@ -1,0 +1,32 @@
+﻿@model SERVERAPI.ViewModels.FieldDeleteViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" style="background-color:red" id="myModalLabel">Field Details - @Model.act</h4>
+    </div>
+
+    <form asp-action="FieldDelete" asp-controller="Home" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="fieldName"></label>
+                <div>
+                    @Model.fieldName<br />
+                    <span asp-validation-for="fieldName"></span>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-danger" type="submit" value="Delete" />
+        </div>
+        @Html.HiddenFor(x => x.fieldName)
+        @Html.HiddenFor(x => x.userDataField)
+        @Html.HiddenFor(x => x.act)
+    </form>
+</div>

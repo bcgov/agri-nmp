@@ -1,2 +1,10 @@
 ﻿body {
 }
+.field-validation-error {
+    color:red;
+    clear:both;
+    display:block;
+}
+tr:nth-child(even) {
+    background-color: #d9edf7;
+}

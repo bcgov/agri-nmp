@@ -39,6 +39,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.3" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,7 +50,6 @@
   <ItemGroup>
     <Folder Include="Mappings\" />
     <Folder Include="Migrations\" />
-    <Folder Include="Models.Impl\" />
     <Folder Include="Services.Impl\" />
     <Folder Include="Services\" />
     <Folder Include="wwwroot\images\" />

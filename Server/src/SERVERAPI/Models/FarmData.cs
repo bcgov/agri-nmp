@@ -8,21 +8,23 @@ namespace SERVERAPI.Models
 {
     public class FarmData
     {
+        public string year { get; set; }
         public string farmName { get; set; }
+        public int? farmRegion { get; set; }
         public bool? soilTests { get; set; }
         public bool? manure { get; set; }
-        public List<YearData> Years { get; set; }
+        public List<YearData> years { get; set; }
     }
     public class YearData
     {
-        public string Year { get; set; }
-        public List<Field> Fields { get; set; }
+        public string year { get; set; }
+        public List<Field> fields { get; set; }
     }
     public class Field
     {
-        public string FieldName { get; set; }
-        public int Area { get; set; }
-        public string Comment { get; set; }
+        public string fieldName { get; set; }
+        public int area { get; set; }
+        public string comment { get; set; }
     }
 }
 
