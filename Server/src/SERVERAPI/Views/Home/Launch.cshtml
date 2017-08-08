@@ -4,6 +4,16 @@
 }
 @inject IJsonHelper Json;
 
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+
 <!-- BODY CONTENT -->
 <div id="topicTemplate" class="template container gov-container">
     <!-- PAGE CONTENT -->
@@ -44,4 +54,61 @@
         }
     });
 </script>
+<script type="text/javascript">
+
+        // ensure this event handler is attached to current and future elements (after partial renders)
+        $(document).on("click", 'a[data_modal=""]', function (e) {
+            $('#myModalContent').load(this.href, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+
+        function bindForm(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            var ls;
+                            ls = localStorage;
+                            ls.setItem("nmp", result.farmdata);
+                            $('#replacetarget').load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+
+
+        $(document).ready(function () {
+            localStorage.setItem("nmp", $('#userData').val());
+            $.ajaxSetup({ cache: false });
+            SetModal();
+        });
+
+        $(document).ready(function () {
+            var sendNMP = $('#sendNMP').val();
+            if (sendNMP == "False") {
+                localStorage.setItem("nmp", $('#userData').val());
+            }
+            else {
+                var data = localStorage.getItem("nmp");
+                $('#userData').val(data);
+            }
+        });
+
+</script>
+
 }

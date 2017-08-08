@@ -56,7 +56,7 @@ namespace SERVERAPI.Controllers
         public IActionResult Launch(string id)
         {
             ViewBag.Title = "NMP";
-            //LoadStatic();
+            LoadStatic();
             LaunchViewModel lvm = new LaunchViewModel();
             lvm.userData = null;
 
@@ -442,7 +442,7 @@ namespace SERVERAPI.Controllers
         }
         public void LoadStatic()
         {
-            string path = _env.WebRootPath.ToString() + "\\data\\static.json";
+            string path = _env.WebRootPath + "\\data\\static.json";
             string staticValues = string.Join("", System.IO.File.ReadAllLines(path));
             HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
         }
