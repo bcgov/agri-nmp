@@ -444,12 +444,12 @@ namespace SERVERAPI.Controllers
         public void LoadStatic()
         {
             var webRoot = _env.WebRootPath;
-            var path = System.IO.Path.Combine(webRoot, "data\\static.json");
+            var path = System.IO.Path.Combine(webRoot, "data/static.json");
             //string path = _env.WebRootPath + "\\data\\static.json";
             //string path = @"./wwwroot/data/static.json";
 
-            //string staticValues = string.Join("", System.IO.File.ReadAllLines(path));
-            //HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
+            string staticValues = string.Join("", System.IO.File.ReadAllLines(path));
+            HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
             HttpContext.Session.Set("path", Encoding.ASCII.GetBytes(path));
         }
     }
