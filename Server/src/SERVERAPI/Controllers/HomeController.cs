@@ -59,6 +59,7 @@ namespace SERVERAPI.Controllers
             LoadStatic();
             LaunchViewModel lvm = new LaunchViewModel();
             lvm.userData = null;
+            lvm.path = HttpContext.Session.GetString("path");
 
             if (id == "false")
             {
@@ -447,8 +448,9 @@ namespace SERVERAPI.Controllers
             //string path = _env.WebRootPath + "\\data\\static.json";
             //string path = @"./wwwroot/data/static.json";
 
-            string staticValues = string.Join("", System.IO.File.ReadAllLines(path));
-            HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
+            //string staticValues = string.Join("", System.IO.File.ReadAllLines(path));
+            //HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
+            HttpContext.Session.Set("path", Encoding.ASCII.GetBytes(path));
         }
     }
 }
