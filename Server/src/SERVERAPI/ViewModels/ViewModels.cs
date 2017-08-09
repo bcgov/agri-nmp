@@ -50,6 +50,7 @@ namespace SERVERAPI.ViewModels
         public string act { get; set; }
         public bool sendNMP { get; set; }
         public string userDataField { get; set; }
+        public string currFieldName { get; set; }
     }
     public class FieldDeleteViewModel
     {

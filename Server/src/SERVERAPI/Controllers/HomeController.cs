@@ -304,6 +304,7 @@ namespace SERVERAPI.Controllers
                 Field fld = yd.fields.FirstOrDefault(y => y.fieldName == name);
                 if(fld != null)
                 {
+                    fvm.currFieldName = fld.fieldName;
                     fvm.fieldName = fld.fieldName;
                     fvm.fieldArea = fld.area.ToString();
                     fvm.fieldComment = fld.comment;
@@ -345,7 +346,7 @@ namespace SERVERAPI.Controllers
                     yd.fields = new List<Field>();
                 }
 
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.fieldName);
+                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.currFieldName);
 
                 if(fvm.act == "Add")
                 {
