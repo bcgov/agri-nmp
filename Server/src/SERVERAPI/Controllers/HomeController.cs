@@ -346,16 +346,26 @@ namespace SERVERAPI.Controllers
                     yd.fields = new List<Field>();
                 }
 
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.currFieldName);
+                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.fieldName);
 
-                if(fvm.act == "Add")
+                if (fld != null)
                 {
-                    if (fld != null)
+                    if ((fvm.act == "Edit" & fvm.currFieldName != fvm.fieldName) |
+                        fvm.act == "Add")
                     {
                         ModelState.AddModelError("fieldName", "A field already exists with this name.");
                         return PartialView("FieldDetail", fvm);
                     }
-                    else
+                }
+
+                if (fvm.act == "Add")
+                {
+                    fld = new Field();
+                }
+                else
+                {
+                    fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.currFieldName);
+                    if(fld ==null)
                     {
                         fld = new Field();
                     }

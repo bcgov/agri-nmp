@@ -7,35 +7,140 @@
             "-id": "0",
             "-name": "Bulkley-Nechako",
             "-SoilTestPhospherousRegionCd": "2",
-            "-SoilTestPotassiumtRegionCd": "3",
+            "-SoilTestPotassiumRegionCd": "3",
             "-Location": "Interior"
           },
           {
             "-id": "1",
             "-name": "Capital Regional District",
             "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumtRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "1",
             "-Location": "Coastal"
           },
           {
             "-id": "2",
             "-name": "Cariboo",
             "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumtRegionCd": "2",
+            "-SoilTestPotassiumRegionCd": "2",
             "-Location": "Interior"
           },
           {
             "-id": "3",
             "-name": "Central Kootenay",
             "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumtRegionCd": "2",
+            "-SoilTestPotassiumRegionCd": "2",
             "-Location": "Interior"
           },
           {
             "-id": "4",
             "-name": "Central Okanagan",
             "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumtRegionCd": "2",
+            "-SoilTestPotassiumRegionCd": "2",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "5",
+            "-name": "Columbia Shuswap",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "2",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "6",
+            "-name": "Comox Valley",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "1",
+            "-Location": "Coastal"
+          },
+          {
+            "-id": "7",
+            "-name": "Cowichan Valley",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "1",
+            "-Location": "Coastal"
+          },
+          {
+            "-id": "8",
+            "-name": "East Kootenay",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "2",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "9",
+            "-name": "Fraser Valley",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "1",
+            "-Location": "Coastal"
+          },
+          {
+            "-id": "10",
+            "-name": "Fraser-Fort George",
+            "-SoilTestPhospherousRegionCd": "2",
+            "-SoilTestPotassiumRegionCd": "3",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "11",
+            "-name": "Kitimat-Stikine",
+            "-SoilTestPhospherousRegionCd": "2",
+            "-SoilTestPotassiumRegionCd": "3",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "12",
+            "-name": "Kootenay Boundary",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "2",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "13",
+            "-name": "Metro Vancouver",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "1",
+            "-Location": "Coastal"
+          },
+          {
+            "-id": "14",
+            "-name": "Nanaimo",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "1",
+            "-Location": "Coastal"
+          },
+          {
+            "-id": "15",
+            "-name": "North Okanagan",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "2",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "16",
+            "-name": "Okanagan-Similkameen",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "2",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "17",
+            "-name": "Peace River",
+            "-SoilTestPhospherousRegionCd": "3",
+            "-SoilTestPotassiumRegionCd": "3",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "18",
+            "-name": "Squamish-Lilloeet",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "2",
+            "-Location": "Coastal"
+          },
+          {
+            "-id": "19",
+            "-name": "Thompson-Nicola",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumRegionCd": "2",
             "-Location": "Interior"
           }
         ]

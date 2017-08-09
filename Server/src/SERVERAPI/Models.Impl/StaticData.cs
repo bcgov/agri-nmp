@@ -32,7 +32,7 @@ namespace SERVERAPI.Models.Impl
                 reg.name = r["-name"].ToString();
                 reg.location = r["-Location"].ToString();
                 reg.p_regioncd = Convert.ToInt32(r["-SoilTestPhospherousRegionCd"].ToString());
-                reg.k_regioncd = Convert.ToInt32(r["-SoilTestPotassiumtRegionCd"].ToString());
+                reg.k_regioncd = Convert.ToInt32(r["-SoilTestPotassiumRegionCd"].ToString());
                 regs.regions.Add(reg);
             }
 
