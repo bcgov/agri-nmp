@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Http;
 
 using System.Reflection;
 using System.Runtime.Loader;
+using Microsoft.Extensions.FileProviders;
 
 namespace SERVERAPI
 {
@@ -65,7 +66,6 @@ namespace SERVERAPI
             //{
             //    options.MultipartBodyLengthLimit = 1073741824; // 1 GB
             //});
-
             services.AddResponseCompression();
             services.AddNodeServices();
             services.AddDistributedMemoryCache();

@@ -1,0 +1,45 @@
+﻿{
+  "agri": {
+    "nmp": {
+      "regions": {
+        "region": [
+          {
+            "-id": "0",
+            "-name": "Bulkley-Nechako",
+            "-SoilTestPhospherousRegionCd": "2",
+            "-SoilTestPotassiumtRegionCd": "3",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "1",
+            "-name": "Capital Regional District",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumtRegionCd": "1",
+            "-Location": "Coastal"
+          },
+          {
+            "-id": "2",
+            "-name": "Cariboo",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumtRegionCd": "2",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "3",
+            "-name": "Central Kootenay",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumtRegionCd": "2",
+            "-Location": "Interior"
+          },
+          {
+            "-id": "4",
+            "-name": "Central Okanagan",
+            "-SoilTestPhospherousRegionCd": "1",
+            "-SoilTestPotassiumtRegionCd": "2",
+            "-Location": "Interior"
+          }
+        ]
+      }
+    }
+  }
+}

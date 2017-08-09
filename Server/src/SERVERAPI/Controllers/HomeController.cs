@@ -15,6 +15,9 @@ using System.Text;
 using System.Net;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
+using System.Reflection;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace SERVERAPI.Controllers
 {
@@ -59,7 +62,6 @@ namespace SERVERAPI.Controllers
             LoadStatic();
             LaunchViewModel lvm = new LaunchViewModel();
             lvm.userData = null;
-            lvm.path = HttpContext.Session.GetString("path");
 
             if (id == "false")
             {
@@ -443,12 +445,13 @@ namespace SERVERAPI.Controllers
         }
         public void LoadStatic()
         {
-            var webRoot = _env.WebRootPath;
-            var path = System.IO.Path.Combine(webRoot, "data/Static.json");
-
-            string staticValues = string.Join("", System.IO.File.ReadAllLines(path));
-            HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
-            HttpContext.Session.Set("path", Encoding.ASCII.GetBytes(path));
+            var assembly = Assembly.GetEntryAssembly();
+            var resourceStream = assembly.GetManifestResourceStream("SERVERAPI.Data.static.json");
+            using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
+            {
+                string staticValues = reader.ReadToEnd();
+                HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
+            }
         }
     }
 }

@@ -36,7 +36,6 @@ namespace SERVERAPI.ViewModels
     {
         public bool canContinue { get; set; }
         public string userData { get; set; }
-        public string path { get; set; }
     }
     public class FieldDetailViewModel
     {

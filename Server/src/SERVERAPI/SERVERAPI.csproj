@@ -14,6 +14,10 @@
     <UserSecretsId>aspnet-Core2-37757D75-C7BA-4F7A-8B80-0040DB6484EA</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup> 
+    <Content Remove="Data\static.json" /> 
+  </ItemGroup> 
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
   </ItemGroup>
@@ -25,6 +29,7 @@
   
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
+    <Content Remove="Data\static.json" />
     <None Remove="PDF.js" />
     <Content Include="PDF.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -45,6 +50,10 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0-preview2-final" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\static.json" />
   </ItemGroup>
 
   <ItemGroup>
