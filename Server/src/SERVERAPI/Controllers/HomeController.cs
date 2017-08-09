@@ -101,8 +101,6 @@ namespace SERVERAPI.Controllers
             //JSONResponse result = null;
             var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            //string pdfHost = Configuration["PDF_SERVICE_NAME"];
-
             string targetUrl = pdfHost + "/api/PDF/GetPDF";
 
             // call the microservice
@@ -185,7 +183,6 @@ namespace SERVERAPI.Controllers
             {
                 PDFRequest req = new PDFRequest();
 
-
                 HttpClient client = new HttpClient();
 
                 string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
@@ -226,7 +223,7 @@ namespace SERVERAPI.Controllers
                 result = null;
             }
 
-            return View();
+            return result;
         }
         [HttpGet]
         public IActionResult Farm()
@@ -241,6 +238,7 @@ namespace SERVERAPI.Controllers
             fvm.sendNMP = true;
 
             fvm.year = farmData.year;
+            fvm.currYear = farmData.year;
             fvm.farmName = farmData.farmName;
             if(farmData.soilTests != null)
             {
@@ -283,6 +281,7 @@ namespace SERVERAPI.Controllers
                 }
             }
 
+            fvm.currYear = fvm.year;
             HttpContext.Session.SetObjectAsJson("FarmData", farmData);
             fvm.userData = JsonConvert.SerializeObject(farmData);
             HttpContext.Session.SetObjectAsJson("FarmData", farmData);
@@ -324,13 +323,13 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public ActionResult FieldDetail(FieldDetailViewModel fvm)
         {
-            int area = 0;
+            decimal area = 0;
 
             if(ModelState.IsValid)
             {
                 try
                 {
-                    area = Int32.Parse(fvm.fieldArea);
+                    area = decimal.Parse(fvm.fieldArea);
                 }
                 catch (Exception ex)
                 {
@@ -372,7 +371,7 @@ namespace SERVERAPI.Controllers
                 }
 
                 fld.fieldName = fvm.fieldName;
-                fld.area = area;
+                fld.area = Math.Round(area,1);
                 fld.comment = fvm.fieldComment;
 
                 if (fvm.act == "Add")

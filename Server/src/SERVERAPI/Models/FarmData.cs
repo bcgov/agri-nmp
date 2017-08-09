@@ -23,7 +23,7 @@ namespace SERVERAPI.Models
     public class Field
     {
         public string fieldName { get; set; }
-        public int area { get; set; }
+        public decimal area { get; set; }
         public string comment { get; set; }
     }
 }

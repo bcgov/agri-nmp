@@ -26,6 +26,7 @@ namespace SERVERAPI.ViewModels
         public List<Models.StaticData.SelectListItem> regOptions { get; set; }
         [Display(Name = "Region")]
         public int? selRegOption { get; set; }
+        public string currYear { get; set; }
 
     }
     public class IndexViewModel
