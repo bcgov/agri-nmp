@@ -3,7 +3,6 @@ echo "Running upstream assemble"
 
 /usr/libexec/s2i/assemble
 
-
 pushd src/PDF.Server
 echo Copying Node.js components
 cp pdf.js /opt/app-root/publish
@@ -17,3 +16,8 @@ cd /opt/app-root/publish
 echo Restoring Node.js packages
 npm install
 popd 
+
+fix-permissions ./
+# set permissions for any installed artifacts
+fix-permissions /opt/app-root
+fix-permissions /opt/app-root/publish
