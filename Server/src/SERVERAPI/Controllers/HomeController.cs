@@ -240,6 +240,10 @@ namespace SERVERAPI.Controllers
             fvm.year = farmData.year;
             fvm.currYear = farmData.year;
             fvm.farmName = farmData.farmName;
+            if(string.IsNullOrEmpty(farmData.year))
+            {
+                fvm.year = DateTime.Now.ToString("yyyy");
+            }
             if(farmData.soilTests != null)
             {
                 fvm.soilTests = farmData.soilTests.Value;

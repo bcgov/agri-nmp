@@ -130,7 +130,6 @@
     $(document).ready(function () {
         localStorage.setItem("nmp", $('#userData').val());
         $.ajaxSetup({ cache: false });
-        SetModal();
     });
 
     $(document).ready(function () {
@@ -147,16 +146,16 @@
 </script>
     <script type="text/javascript">
 
-        function Sub(a) {
-            var data = localStorage.getItem("nmp");
-            $('#userDataField').val(data);
-            a.submit;
-        }
+        //function Sub(a) {
+        //    var data = localStorage.getItem("nmp");
+        //    $('#userDataField').val(data);
+        //    a.submit;
+        //}
 
-        $("#savebtn").on("click", function (e) {
-            var data = localStorage.getItem("nmp");
-            $('#userData').val(data);
-        });
+        //$("#savebtn").on("click", function (e) {
+        //    var data = localStorage.getItem("nmp");
+        //    $('#userData').val(data);
+        //});
 
         //function SaveData() {
         //    var data = localStorage.getItem("nmp");
