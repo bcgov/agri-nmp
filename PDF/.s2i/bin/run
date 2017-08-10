@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+cd /opt/app-root/publish
+
+exec dotnet PDF.Server.dll

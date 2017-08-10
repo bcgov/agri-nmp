@@ -3,13 +3,25 @@ echo "Running upstream assemble"
 
 /usr/libexec/s2i/assemble
 
+echo clean up any locks.
+rm /tmp/NuGetScratch/lock/*
+
 pushd src/PDF.Server
 echo Copying Node.js components
 cp pdf.js /opt/app-root/publish
 cp package.json /opt/app-root/publish
 echo Copying templates
 cp -a Templates /opt/app-root/publish
+echo Publishing app
+dotnet publish -o /opt/app-root/publish
+
 cd /opt/app-root/publish
 echo Restoring Node.js packages
 npm install
 popd 
+
+fix-permissions ./
+# set permissions for any installed artifacts
+fix-permissions /opt/app-root
+fix-permissions /opt/app-root/publish
+fix-permissions /tmp/NuGetScratch/lock
