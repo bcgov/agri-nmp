@@ -3,6 +3,9 @@ echo "Running upstream assemble"
 
 /usr/libexec/s2i/assemble
 
+echo clean up any locks.
+rm /tmp/NuGetScratch/lock/*
+
 pushd src/PDF.Server
 echo Copying Node.js components
 cp pdf.js /opt/app-root/publish
@@ -21,3 +24,4 @@ fix-permissions ./
 # set permissions for any installed artifacts
 fix-permissions /opt/app-root
 fix-permissions /opt/app-root/publish
+fix-permissions /tmp/NuGetScratch/lock
