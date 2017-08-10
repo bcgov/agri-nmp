@@ -3,4 +3,4 @@ set -e
 
 cd /opt/app-root/publish
 
-exec dotnet run
+exec dotnet PDF.Server.dll
