@@ -60,9 +60,9 @@ namespace PDF.Controllers
         }
 
         [HttpPost]
-        [Route("GetPDF")]
+        [Route("BuildPDF")]
 
-        public async Task<IActionResult> GetPDF([FromServices] INodeServices nodeServices, [FromBody]  PDFRequest rawdata )
+        public async Task<IActionResult> BuildPDF([FromServices] INodeServices nodeServices, [FromBody]  PDFRequest rawdata )
         {
             JSONResponse result = null;
             var options = new { format="letter", orientation= "landscape" };

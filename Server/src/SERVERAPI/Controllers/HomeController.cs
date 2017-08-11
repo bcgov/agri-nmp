@@ -101,7 +101,7 @@ namespace SERVERAPI.Controllers
             //JSONResponse result = null;
             var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            string targetUrl = pdfHost + "/api/PDF/GetPDF";
+            string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
             // call the microservice
             try
@@ -174,7 +174,7 @@ namespace SERVERAPI.Controllers
 
             //string pdfHost = Configuration["PDF_SERVICE_NAME"];
 
-            string targetUrl = pdfHost + "/api/PDF/GetPDF";
+            string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
             ViewBag.Service = targetUrl;
 
@@ -223,7 +223,7 @@ namespace SERVERAPI.Controllers
                 result = null;
             }
 
-            return result;
+            return View();
         }
         [HttpGet]
         public IActionResult Farm()
