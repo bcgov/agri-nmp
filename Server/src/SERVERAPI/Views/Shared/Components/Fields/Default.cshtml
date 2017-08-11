@@ -1,54 +1,95 @@
 ﻿@model FieldsViewModel
 <div>
+    @if (Model.fields.Count == 0)
+    {
+
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <legend class="form-box-heading">Enter your fields</legend>
+            </div>
+            <div class="form-box-body">
+
+                <div class="form-box-table">
+                    <div class="form-box-table-row form-box-table-header row row-eq-height">
+                        <div class="col-sm-3 form-box-table-cell">
+                            <strong>Field Name</strong>
+                        </div>
+                        <div class="col-sm-2 form-box-table-cell">
+                            <strong>Acres</strong>
+                        </div>
+                        <div class="col-sm-5 form-box-table-cell">
+                            <strong>Comments</strong>
+                        </div>
+                        <div class="col-sm-2 form-box-table-cell">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-box-table-first text-center">
+                    <h3>Add your first field</h3>
+                    <button class="btn btn-default" type="button">Add field</button>
+                    <a asp-action="FieldDetail" asp-controller="Home" asp-route-name="" data_modal="">Add Field</a>
+                </div>
+            </div>
+        </div>
+    }
+
+
     @if (Model.fields.Count() > 0)
     {
-        <h3>Fields</h3>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="text-align: left; border-top:none; width:400px">
-                            <label>Field Name</label>
-                        </th>
-                        <th style="text-align: left; border-top:none; width:200px">
-                            <label>Area (acres)</label>
-                        </th>
-                        <th style="text-align: left; border-top:none; width:600px">
-                            <label>Comment</label>
-                        </th>
-                        <th style="text-align: left; border-top:none; width:100px">
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <legend class="form-box-heading">Enter your fields</legend>
+            </div>
+            <div class="form-box-body">
+                <div class="form-box-table">
+                    <div class="form-box-table-header form-box-table-row row row-eq-height">
+                        <div class="col-sm-3 form-box-table-cell">
+                            <strong>Field Name</strong>
+                        </div>
+                        <div class="col-sm-2 form-box-table-cell">
+                            <strong>Acres</strong>
+                        </div>
+                        <div class="col-sm-5 form-box-table-cell">
+                            <strong>Comments</strong>
+                        </div>
+                        <div class="col-sm-2 form-box-table-cell">
+                        </div>
+                    </div>
                     @foreach (var item in Model.fields)
                     {
-                        <tr>
-                            <td style="vertical-align:top; width:400px">
+                        <div class="form-box-table-row row row-eq-height">
+                            <div class="col-sm-3 form-box-table-cell">
                                 @item.fieldName
-                            </td>
-                            <td style="vertical-align:top; width:200px">
+                            </div>
+                            <div class="col-sm-2 form-box-table-cell">
                                 @item.area
-                            </td>
-                            <td style="vertical-align:top; width:600px">
+                            </div>
+                            <div class="col-sm-5 form-box-table-cell">
                                 @item.comment
-                            </td>
-                            <td style="vertical-align:top; width:100px">
-                                <a asp-action="FieldDetail" asp-controller="Home" asp-route-name="@item.fieldName" data_modal="">Edit</a>
-                                <a asp-action="FieldDelete" asp-controller="Home" asp-route-name="@item.fieldName" data_modal="">Delete</a>
-                            </td>
-                        </tr>
+                            </div>
+                            <div class="col-sm-2 form-box-table-cell text-center">
+                                <button aria-label="edit" class="form-box-table-button" type="button">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
+                                </button>
+                                <button aria-label="delete" class="form-box-table-button" type="button">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
+                                </button>
+                            </div>
+                        </div>
                     }
-                </tbody>
-            </table>
+                    <div class="form-box-table-add text-right form-box-table-row row">
+                        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#myModal" role="alertdialog">Add another field</button>
+                    </div>
+                </div>
+            </div>
         </div>
+
         @for (int i = 0; i < Model.fields.Count; i++)
         {
             @Html.Hidden("fieldName[" + i + "]", Model.fields[i].fieldName)
             @Html.Hidden("area[" + i + "]", Model.fields[i].area)
             @Html.Hidden("comment[" + i + "]", Model.fields[i].comment)
         }
-        }
+    }
 
 </div>

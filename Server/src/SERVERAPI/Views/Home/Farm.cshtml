@@ -13,86 +13,239 @@
 </div>
 
 <!-- BODY CONTENT -->
-<div id="topicTemplate" class="template container gov-container">
-    <!-- PAGE CONTENT -->
-    <div class="row">
-        <div id="main-content" class="contentPageMainColumn col-xs-12">
-            <h3>Farm Information</h3>
-            <form asp-controller="Home" asp-action="Farm" method="post">
-                <div>
-                    <label asp-for="year"></label>
-                </div>
-                <div>
-                    <input asp-for="year" />
-                    <span asp-validation-for="year"></span>
-                </div>
-                <br />
-                <div>
-                    <label asp-for="farmName"></label>
-                </div>
-                <div>
-                    <input asp-for="farmName" />
-                    <span asp-validation-for="farmName"></span>
-                </div>
-                <br />
-                <div>
-                    <label asp-for="selRegOption"></label>
-                </div>
-                <div>
-                    <select asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions,"Id","Value"))">
-                        <option>select region</option>
-                    </select>
-                    <span asp-validation-for="farmName"></span>
-                </div>
-                <br />
 
-                <div>
-                    <label asp-for="soilTests"></label>
+<div class="header-height"></div>
+<!--WIZARD-->
+<div class="wizard">
+    <ul class="wrapper wizard-list clearfix">
+        <li class="wizard-item wizard-item-done">
+            <div class="wizard-circle">
+                <div class="wizard-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                         height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                    <g stroke-width="2" transform="translate(0, 0)">
+                    <polygon fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="12,27 2,17 6,13
+	12,19 26,5 30,9 " stroke-linejoin="miter"></polygon>
+                </g>
+            </svg>
                 </div>
-                <div>
-                    <input asp-for="soilTests" type="radio" value="true" /> Yes
-                    <input asp-for="soilTests" type="radio" value="false" /> No
-                    <span asp-validation-for="soilTests"></span>
+            </div>
+            <span class="wizard-name">Farm & Field Details</span>
+        </li>
+        <li class="wizard-item">
+            <div class="wizard-circle">
+                <div class="wizard-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                         height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                    <g stroke-width="2" transform="translate(0, 0)">
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
+                          y1="13" x2="15" y2="13" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
+                          y1="18" x2="15" y2="18" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
+                          y1="23" x2="15" y2="23" stroke-linejoin="miter"></line>
+                    <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,1v4h3v21
+	c0,2.761,2.239,5,5,5h0c2.761,0,5-2.239,5-5V5h3V1H8z" stroke-linejoin="miter"></path>
+                </g>
+            </svg>
                 </div>
-                <br />
-                <div>
-                    <label asp-for="manure"></label>
+            </div>
+            <span class="wizard-name">Field Soil Tests</span>
+        </li>
+        <li class="wizard-item">
+            <div class="wizard-circle">
+                <div class="wizard-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                         height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                    <g stroke-width="2" transform="translate(0, 0)">
+                    <polyline data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" points="1,16 7.8,16 11.9,7.8
+	20.1,24.2 24.2,16 31,16 " stroke-linejoin="miter" stroke-linecap="butt"></polyline>
+                    <circle fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" cx="16" cy="16" r="15"
+                            stroke-linejoin="miter"></circle>
+                </g>
+            </svg>
                 </div>
-                <div>
-                    <input asp-for="manure" type="radio" value="true" /> Yes
-                    <input asp-for="manure" type="radio" value="false" /> No
-                    <span asp-validation-for="manure"></span>
+            </div>
+            <span class="wizard-name">Manure/Compost Analysis</span>
+        </li>
+        <li class="wizard-item">
+            <div class="wizard-circle">
+                <div class="wizard-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                         height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                    <g stroke-width="2" transform="translate(0, 0)">
+                    <rect x="3" y="1" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" width="26"
+                          height="30" stroke-linejoin="miter"></rect>
+                    <rect data-color="color-2" x="7" y="5" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10"
+                          width="18" height="6" stroke-linejoin="miter"></rect>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
+                          y1="16" x2="10" y2="16" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
+                          y1="16" x2="18" y2="16" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
+                          y1="21" x2="10" y2="21" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
+                          y1="21" x2="18" y2="21" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
+                          y1="26" x2="10" y2="26" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
+                          y1="26" x2="18" y2="26" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
+                          y1="16" x2="25" y2="16" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
+                          y1="21" x2="25" y2="21" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
+                          y1="26" x2="25" y2="26" stroke-linejoin="miter"></line>
+                </g>
+            </svg>
                 </div>
-                <br />
-                <div>
-                    <input type="submit" value="Save" />
+            </div>
+            <span class="wizard-name">Calculate Nutrients</span>
+        </li>
+        <li class="wizard-item">
+            <div class="wizard-circle">
+                <div class="wizard-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                         height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                    <g stroke-width="2" transform="translate(0, 0)">
+                    <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M26,22V1H3v27
+	c0,1.657,1.343,3,3,3h2" stroke-linejoin="miter"></path>
+                    <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,28c0,1.657-1.343,3-3,3
+	h21c1.657,0,3-1.343,3-3v-2H9V28z" stroke-linejoin="miter"></path>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
+                          y1="7" x2="20" y2="7" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
+                          y1="13" x2="20" y2="13" stroke-linejoin="miter"></line>
+                    <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
+                          y1="19" x2="20" y2="19" stroke-linejoin="miter"></line>
+                </g>
+            </svg>
                 </div>
-                <br />
-                @Html.HiddenFor(x => x.userData)
-                @Html.HiddenFor(x => x.currYear)
-            </form>
-            @if (Model.currYear != null)
-            {
-                <a asp-action="FieldDetail" asp-controller="Home" asp-route-name="" data_modal="">Add Field</a>
-            }
-            <br />
-            <br />
+            </div>
+            <span class="wizard-name">Nutrient Report</span>
+        </li>
+    </ul>
+</div>
+<!-- /WIZARD -->
+
+<div class="step-header">
+    <div class="container">
+        <div class="col-sm-6">
+            <span class="step-header-circle">1</span>
+            <span class="step-header-name">Farm & Field Details</span>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4 text-right">
+                <span class="step-header-steps">Step 1 of 5</span>
+            </div>
+            <div class="col-sm-4 step-header-form">
+                <span>Units</span>
+                <select class="form-control" id="select">
+                    <option>Not implemented</option>
+                    <option>lb/ac</option>
+                    <option>kg</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="Home" asp-action="Farm" method="post">
+            <div class="form-box">
+                <div class="form-box-header clearfix">
+                    <legend class="form-box-heading">Enter your farm details</legend>
+                </div>
+                <div class="form-box-body">
+                    <p class="form-box-desc">
+                        The first step towards nutrient management planning is understanding the nutrients in your soil. To do this,
+                        you need your soil nutrient measurements from a soil test from each of your fields. Enter information about
+                        your farm, fields and soil tests below.
+                    </p>
+                    <div class="form-box-fields">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label asp-for="year">Year for analysis</label>
+                                <input class="form-control" asp-for="year" id="year" type="text" />
+                                <span asp-validation-for="year"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label asp-for="farmName">Farm name</label>
+                                <input class="form-control" asp-for="farmName" id="farmName" name="farmName" type="text">
+                                <span asp-validation-for="farmName"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label asp-for="selRegOption">Region</label>
+                                <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
+                                <select class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions,"Id","Value"))">
+                                    <option>select region</option>
+                                </select>
+                                <span asp-validation-for="selRegOption"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-box-fields">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <label asp-for="soilTests">Do you have soil tests for your fields?</label>
+                                <div class="radio">
+                                    <label>
+                                        <input asp-for="soilTests" type="radio" value="true" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="soilTests" type="radio" value="false" /> No
+                                    </label>
+                                </div>
+                                <span asp-validation-for="soilTests"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <label asp-for="manure">Do you use manure or compost?</label>
+                                <div class="radio">
+                                    <label>
+                                        <input asp-for="manure" type="radio" value="true" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="manure" type="radio" value="false" /> No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-box-fields text-right">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            @Html.HiddenFor(x => x.userData)
+            @Html.HiddenFor(x => x.currYear)
+
             <div id="replacetarget">
                 @await Component.InvokeAsync("Fields")
             </div>
-
-        </div>
+            <div class="form-box-submit">
+                <button class="form-box-submit-button btn btn-primary btn-lg" type="submit">Next</button>
+            </div>
+        </form>
+        <!-- PAGE CONTENT -->
     </div>
-    <!-- PAGE CONTENT -->
 </div>
+
 <!-- /BODY CONTENT -->
 @section Scripts {
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    // ensure this event handler is attached to current and future elements (after partial renders)
-    $(document).on("click", 'a[data_modal=""]', function (e) {
+        // ensure this event handler is attached to current and future elements (after partial renders)
+        $(document).on("click", 'a[data_modal=""]', function (e) {
             $('#myModalContent').load(this.href, function () {
                 $('#myModal').modal({
                     /*backdrop: 'static',*/
@@ -103,47 +256,47 @@
             return false;
         });
 
-    function bindForm(dialog) {
-        $('form', dialog).submit(function () {
-            $.ajax({
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize(),
-                success: function (result) {
-                    if (result.success) {
-                        $('#myModal').modal('hide');
-                        var ls;
-                        ls = localStorage;
-                        ls.setItem("nmp", result.farmdata);
-                        $('#replacetarget').load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                    } else {
-                        $('#myModalContent').html(result);
-                        bindForm(dialog);
+        function bindForm(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            var ls;
+                            ls = localStorage;
+                            ls.setItem("nmp", result.farmdata);
+                            $('#replacetarget').load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm(dialog);
+                        }
                     }
-                }
+                });
+                return false;
             });
-            return false;
-        });
-    }
+        }
 
 
-    $(document).ready(function () {
-        localStorage.setItem("nmp", $('#userData').val());
-        $.ajaxSetup({ cache: false });
-    });
-
-    $(document).ready(function () {
-        var sendNMP = $('#sendNMP').val();
-        if (sendNMP == "False") {
+        $(document).ready(function () {
             localStorage.setItem("nmp", $('#userData').val());
-        }
-        else {
-            var data = localStorage.getItem("nmp");
-            $('#userData').val(data);
-        }
-    });
+            $.ajaxSetup({ cache: false });
+        });
 
-</script>
+        $(document).ready(function () {
+            var sendNMP = $('#sendNMP').val();
+            if (sendNMP == "False") {
+                localStorage.setItem("nmp", $('#userData').val());
+            }
+            else {
+                var data = localStorage.getItem("nmp");
+                $('#userData').val(data);
+            }
+        });
+
+    </script>
     <script type="text/javascript">
 
         //function Sub(a) {
