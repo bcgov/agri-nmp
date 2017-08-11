@@ -756,6 +756,42 @@
     "status": {
         "lastVersion": 0
     }
+},
+{
+    "kind": "BuildConfig",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "pdf-pipeline",
+        "creationTimestamp": null,
+        "labels": {
+            "app": "pdf-pipeline",
+            "name": "pdf-pipeline",
+            "template": "pdf-pipeline"
+        }
+    },
+    "spec": {        
+        "runPolicy": "Parallel",
+        "source": {
+            "type": "Git",
+            "git": {
+                "uri": "${SOURCE_REPOSITORY_URL}",
+                "ref": "master"
+            }
+        },
+        "strategy": {
+            "type": "JenkinsPipeline",
+            "jenkinsPipelineStrategy": {
+                "jenkinsfilePath": "pdf.Jenkinsfile"
+            }
+        },
+        "output": {},
+        "resources": {},
+        "postCommit": {},
+        "nodeSelector": null
+    },
+    "status": {
+        "lastVersion": 0
+    }
 }
   ],
   "parameters": [
