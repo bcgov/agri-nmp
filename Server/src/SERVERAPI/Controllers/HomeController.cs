@@ -243,8 +243,16 @@ namespace SERVERAPI.Controllers
             if(string.IsNullOrEmpty(farmData.year))
             {
                 fvm.year = DateTime.Now.ToString("yyyy");
+                if (farmData.years == null)
+                {
+                    farmData.years = new List<YearData>();
+                    farmData.years.Add(new YearData { year = fvm.year });
+                }
+
+                farmData.year = fvm.year;
+                HttpContext.Session.SetObjectAsJson("FarmData", farmData);
             }
-            if(farmData.soilTests != null)
+            if (farmData.soilTests != null)
             {
                 fvm.soilTests = farmData.soilTests.Value;
             }
@@ -466,6 +474,24 @@ namespace SERVERAPI.Controllers
                 string staticValues = reader.ReadToEnd();
                 HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
             }
+        }
+        public IActionResult Download()
+        {
+            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            var fileName = farmData.year + " - " + farmData.farmName + ".nmp";
+            byte[] fileBytes = Encoding.ASCII.GetBytes(HttpContext.Session.GetString("FarmData"));
+            return File(fileBytes, "application/octet-stream", fileName);
+        }
+        public IActionResult FileLoad()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult FileLoad(FileLoadViewModel fvm, IFormFile filename)
+        {
+
+            return View();
         }
     }
 }

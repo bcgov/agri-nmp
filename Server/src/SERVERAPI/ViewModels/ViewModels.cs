@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SERVERAPI.Models;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace SERVERAPI.ViewModels
 {
@@ -60,4 +61,10 @@ namespace SERVERAPI.ViewModels
         public string act { get; set; }
         public string userDataField { get; set; }
     }
+    public class FileLoadViewModel
+    {
+        [Display(Name = "File Name")]
+        public string fileName { get; set; }
+    }
+
 }
