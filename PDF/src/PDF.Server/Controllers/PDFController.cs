@@ -67,7 +67,7 @@ namespace PDF.Controllers
             JSONResponse result = null;
             var options = new { format="letter", orientation= "landscape" };
 
-            // execute the Node.js component to generate PDF
+            // execute the Node.js component
             result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
 
             return new FileContentResult(result.data, "application/pdf");
