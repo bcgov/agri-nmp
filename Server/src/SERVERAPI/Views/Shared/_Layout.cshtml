@@ -106,7 +106,7 @@
                     <!-- COLLAPSING NAVBAR -->
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href="#">Nutrient Management Calculator</a></li>
+                            <li><a href='@Url.Action("Launch", "Home" )'>Nutrient Management Calculator</a></li>
                         </ul>
                     </div>
                     <!-- /COLLAPSING NAVBAR -->
@@ -116,7 +116,7 @@
             <div class="navigationRibbon">
                 <div class="level2Navigation">
                     <div class="container">
-                        <a href="#">Nutrient Management Calculator</a>
+                        <a href='@Url.Action("Launch", "Home" )'>Nutrient Management Calculator</a>
                     </div>
                 </div>
             </div>
@@ -127,7 +127,7 @@
     <div class="wizard">
         <ul class="wrapper wizard-list clearfix">
             <li class="wizard-item wizard-item-done">
-                <a href='@Url.Action("Farm", "Home" )'>
+                <a href='@Url.Action("Farm", "Farm" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
@@ -143,7 +143,7 @@
                 </a>
             </li>
             <li class="wizard-item">
-                <a href='@Url.Action("SoilTests", "Home" )'>
+                <a href='@Url.Action("SoilTests", "Soil" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
@@ -165,7 +165,7 @@
                 </a>
             </li>
             <li class="wizard-item">
-                <a href='@Url.Action("Manure", "Home" )'>
+                <a href='@Url.Action("Manure", "Manure" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
@@ -183,7 +183,7 @@
                 </a>
             </li>
             <li class="wizard-item">
-                <a href='@Url.Action("Calculate", "Home" )'>
+                <a href='@Url.Action("Calculate", "Nutrients" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
@@ -219,7 +219,7 @@
                 </a>
             </li>
             <li class="wizard-item">
-                <a href='@Url.Action("Report", "Home" )'>
+                <a href='@Url.Action("Report", "Report" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
@@ -245,7 +245,7 @@
         </ul>
     </div>
     <!-- /WIZARD -->
-    <a asp-action="Download" asp->
+    <a asp-action="Download" asp-controller="Home" asp->
         Download</a>
 
         <!-- /Header -->
