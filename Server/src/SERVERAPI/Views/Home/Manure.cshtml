@@ -1,0 +1,209 @@
+﻿@model SERVERAPI.ViewModels.FarmViewModel
+
+@{
+    ViewBag.Title = "Manure";
+}
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<div class="step-header">
+    <div class="container">
+        <div class="col-sm-6">
+            <span class="step-header-circle">1</span>
+            <span class="step-header-name">Farm & Field Details</span>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4 text-right">
+                <span class="step-header-steps">Step 3 of 5</span>
+            </div>
+            <div class="col-sm-4 step-header-form">
+                <span>Units</span>
+                <select class="form-control" id="select">
+                    <option>Not implemented</option>
+                    <option>lb/ac</option>
+                    <option>kg</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="Home" asp-action="Farm" method="post">
+            <div class="form-box">
+                <div class="form-box-header clearfix">
+                    <legend class="form-box-heading">Enter your farm details</legend>
+                </div>
+                <div class="form-box-body">
+                    <p class="form-box-desc">
+                        The first step towards nutrient management planning is understanding the nutrients in your soil. To do this,
+                        you need your soil nutrient measurements from a soil test from each of your fields. Enter information about
+                        your farm, fields and soil tests below.
+                    </p>
+                    <div class="form-box-fields">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label asp-for="year">Year for analysis</label>
+                                <input class="form-control" asp-for="year" id="year" type="text" />
+                                <span asp-validation-for="year"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label asp-for="farmName">Farm name</label>
+                                <input class="form-control" asp-for="farmName" id="farmName" name="farmName" type="text">
+                                <span asp-validation-for="farmName"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label asp-for="selRegOption">Region</label>
+                                <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
+                                <select class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions,"Id","Value"))">
+                                    <option>select region</option>
+                                </select>
+                                <span asp-validation-for="selRegOption"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-box-fields">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <label asp-for="soilTests">Do you have soil tests for your fields?</label>
+                                <div class="radio">
+                                    <label>
+                                        <input asp-for="soilTests" type="radio" value="true" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="soilTests" type="radio" value="false" /> No
+                                    </label>
+                                </div>
+                                <span asp-validation-for="soilTests"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <label asp-for="manure">Do you use manure or compost?</label>
+                                <div class="radio">
+                                    <label>
+                                        <input asp-for="manure" type="radio" value="true" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="manure" type="radio" value="false" /> No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-box-fields text-right">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            @Html.HiddenFor(x => x.userData)
+            @Html.HiddenFor(x => x.currYear)
+
+            <div id="replacetarget">
+                @await Component.InvokeAsync("Fields")
+            </div>
+            <div class="form-box-submit">
+                <button class="form-box-submit-button btn btn-primary btn-lg" type="submit">Next</button>
+            </div>
+        </form>
+        <!-- PAGE CONTENT -->
+    </div>
+</div>
+
+<!-- /BODY CONTENT -->
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+        // ensure this event handler is attached to current and future elements (after partial renders)
+        $(document).on("click", 'a[data_modal=""]', function (e) {
+            $('#myModalContent').load(this.href, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+
+        function bindForm(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            var ls;
+                            ls = localStorage;
+                            ls.setItem("nmp", result.farmdata);
+                            $('#replacetarget').load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+
+
+        $(document).ready(function () {
+            localStorage.setItem("nmp", $('#userData').val());
+            $.ajaxSetup({ cache: false });
+        });
+
+        $(document).ready(function () {
+            var sendNMP = $('#sendNMP').val();
+            if (sendNMP == "False") {
+                localStorage.setItem("nmp", $('#userData').val());
+            }
+            else {
+                var data = localStorage.getItem("nmp");
+                $('#userData').val(data);
+            }
+        });
+
+    </script>
+    <script type="text/javascript">
+
+        //function Sub(a) {
+        //    var data = localStorage.getItem("nmp");
+        //    $('#userDataField').val(data);
+        //    a.submit;
+        //}
+
+        //$("#savebtn").on("click", function (e) {
+        //    var data = localStorage.getItem("nmp");
+        //    $('#userData').val(data);
+        //});
+
+        //function SaveData() {
+        //    var data = localStorage.getItem("nmp");
+        //    $('#userDataField').val(data);
+        //    $("#submitter").submit();
+        //}
+
+    </script>
+}
