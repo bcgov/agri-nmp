@@ -1,0 +1,58 @@
+﻿@model SERVERAPI.ViewModels.FarmViewModel
+
+@{
+    ViewBag.Title = "Soil Tests";
+}
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<div class="step-header">
+    <div class="container">
+        <div class="col-sm-6">
+            <span class="step-header-circle">2</span>
+            <span class="step-header-name">Field Soil Tests</span>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4 text-right">
+                <span class="step-header-steps">Step 2 of 5</span>
+            </div>
+            <div class="col-sm-4 step-header-form">
+                <span>Units</span>
+                <select class="form-control" id="select">
+                    <option>Not implemented</option>
+                    <option>lb/ac</option>
+                    <option>kg</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="Home" asp-action="SoilTests" method="post">
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="form-box-submit">
+                <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("Manure", "Home" )';" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+
+}

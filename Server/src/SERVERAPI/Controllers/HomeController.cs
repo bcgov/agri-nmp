@@ -94,75 +94,7 @@ namespace SERVERAPI.Controllers
             }
             return RedirectToAction("Farm");
         }
-        [HttpGet]
-        public async Task<IActionResult> Report([FromServices] INodeServices nodeServices)
-        {
-            FileContentResult result = null;
-            //JSONResponse result = null;
-            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            string targetUrl = pdfHost + "/api/PDF/BuildPDF";
-
-            // call the microservice
-            try
-            {
-                PDFRequest req = new PDFRequest();
-
-
-                HttpClient client = new HttpClient();
-
-                string rawdata = "<!DOCTYPE html><html><head><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
-
-                req.html = rawdata;
-
-                string payload = JsonConvert.SerializeObject(req);
-
-                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
-
-                request.Headers.Clear();
-                // transfer over the request headers.
-                foreach (var item in Request.Headers)
-                {
-                    string key = item.Key;
-                    string value = item.Value;
-                    request.Headers.Add(key, value);
-                }
-
-                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
-                responseTask.Wait();
-
-                HttpResponseMessage response = responseTask.Result;
-                if (response.StatusCode == HttpStatusCode.OK) // success
-                {
-                    var bytetask = response.Content.ReadAsByteArrayAsync();
-                    bytetask.Wait();
-
-                    result = new FileContentResult(bytetask.Result, "application/pdf");
-                }
-            }
-            catch (Exception e)
-            {
-                result = null;
-            }
-
-            //JSONResponse result = null;
-
-            //var options = new { format = "letter", orientation = "landscape" };
-
-            //var opts = new
-            //{
-            //    orientation = "landscape",
-
-            //};
-
-            //string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
-
-            //// execute the Node.js component
-            //result = await nodeServices.InvokeAsync<JSONResponse>("./PDF.js", rawdata, options);
-
-            return new FileContentResult(result.FileContents, "application/pdf");
-        }
         [HttpGet]
         public IActionResult Print()
         {
@@ -223,7 +155,7 @@ namespace SERVERAPI.Controllers
                 result = null;
             }
 
-            return View();
+            return result;
         }
         [HttpGet]
         public IActionResult Farm()
@@ -485,13 +417,125 @@ namespace SERVERAPI.Controllers
         }
         public IActionResult FileLoad()
         {
-            return View();
+            FileLoadViewModel lvm = new FileLoadViewModel();
+
+            return View(lvm);
         }
         [HttpPost]
-        public IActionResult FileLoad(FileLoadViewModel fvm, IFormFile filename)
+        public IActionResult FileLoad(FileLoadViewModel lvm)
+        {
+            string fileContents = "";
+
+            if (Request.Form.Files.Count > 0)
+            {
+                if (Request.Form.Files.Count > 1)
+                {
+                    ModelState.AddModelError("", "Only one file may be selected.");
+                }
+                else
+                {
+                    try
+                    {
+                        foreach (var file in Request.Form.Files)
+                        {
+                            var fileBytes = new byte[file.Length];
+
+                            file.OpenReadStream().Read(fileBytes, 0, (int)file.Length);
+                            fileContents = System.Text.Encoding.Default.GetString(fileBytes);
+                        }
+
+                        try
+                        {
+                            FarmData fd = JsonConvert.DeserializeObject<FarmData>(fileContents);
+                        }
+                        catch(Exception ex)
+                        {
+                            ModelState.AddModelError("", "File does not appear to be a valid NMP data file.");
+                            return View(lvm);
+                        }
+
+                        // Returns message that successfully uploaded  
+                        HttpContext.Session.SetString("FarmData", fileContents);
+
+                        string url = Url.Action("Farm", "Home");
+                        return Json(new { success = true, url = url, farmdata = fileContents });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json("Error occurred. Error details: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "A file hs not been selected.");
+            }
+            return View(lvm);
+        }
+        [HttpGet]
+        public IActionResult SoilTests()
+        {
+            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            Models.Impl.StaticData sd = new Models.Impl.StaticData();
+
+            FarmViewModel fvm = new FarmViewModel();
+
+            return View(fvm);
+        }
+        [HttpPost]
+        public IActionResult SoilTests(FarmViewModel fvm)
         {
 
-            return View();
+            return View(fvm);
         }
+        [HttpGet]
+        public IActionResult Manure()
+        {
+            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            Models.Impl.StaticData sd = new Models.Impl.StaticData();
+
+            FarmViewModel fvm = new FarmViewModel();
+
+            return View(fvm);
+        }
+        [HttpPost]
+        public IActionResult Manure(FarmViewModel fvm)
+        {
+
+            return View(fvm);
+        }
+        [HttpGet]
+        public IActionResult Calculate()
+        {
+            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            Models.Impl.StaticData sd = new Models.Impl.StaticData();
+
+            FarmViewModel fvm = new FarmViewModel();
+
+            return View(fvm);
+        }
+        [HttpPost]
+        public IActionResult Calculate(FarmViewModel fvm)
+        {
+
+            return View(fvm);
+        }
+        [HttpGet]
+        public IActionResult Report()
+        {
+            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            Models.Impl.StaticData sd = new Models.Impl.StaticData();
+
+            FarmViewModel fvm = new FarmViewModel();
+
+            return View(fvm);
+        }
+        [HttpPost]
+        public IActionResult Report(FarmViewModel fvm)
+        {
+
+            return View(fvm);
+        }
+
     }
 }

@@ -57,15 +57,15 @@ namespace SERVERAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddAuthorization();
-            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IConfiguration>(Configuration);
 
 
             //// allow for large files to be uploaded
-            //services.Configure<FormOptions>(options =>
-            //{
-            //    options.MultipartBodyLengthLimit = 1073741824; // 1 GB
-            //});
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 1073741824; // 1 GB
+            });
             services.AddResponseCompression();
             services.AddNodeServices();
             services.AddDistributedMemoryCache();
@@ -97,7 +97,7 @@ namespace SERVERAPI
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-         
+
 
             if (env.IsDevelopment())
             {

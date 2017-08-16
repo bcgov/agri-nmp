@@ -9,25 +9,21 @@
         <h4 class="modal-title" id="myModalLabel">File Load</h4>
     </div>
 
-    <form method="post" asp-action="FileLoad" asp-controller="Home" enctype="multipart/form-data">
-
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="FileLoad">
         <div class="modal-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <div class="col-md-10">
-                    <p>Upload your Nutrient Plan:</p>
-                    <input type="file" id="filename" name="filename"  />
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10">
+                    <br />
+                    <p>Please select a file to upload:</p>
+                    <br />
+                    <input class="form-control-file" type="file" name="files" id="FileUpload1" accept=".nmp" />
                 </div>
             </div>
         </div>
         <div class="modal-footer">
+            <input class="btn btn-primary" type="submit" value="Upload" />
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input type="submit" value="Upload" />
         </div>
-
     </form>
-
 </div>
