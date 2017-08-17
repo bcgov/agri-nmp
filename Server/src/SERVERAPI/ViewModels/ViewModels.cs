@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using SERVERAPI.Models;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SERVERAPI.ViewModels
 {
@@ -66,5 +67,18 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "File Name")]
         public string fileName { get; set; }
     }
-
+    public class ManureDetailsViewModel
+    {
+        public string act { get; set; }
+        public string fieldName { get; set; }
+        public string selManOption { get; set; }
+        public List<SelectListItem> manOptions { get; set; }
+        public string selApplOption { get; set; }
+        public List<SelectListItem> applOptions { get; set; }
+        public string selRateOption { get; set; }
+        public List<SelectListItem> rateOptions { get; set; }
+        public string rate { get; set; }
+        public string nh4 { get; set; }
+        public string avail { get; set; }
+    }
 }
