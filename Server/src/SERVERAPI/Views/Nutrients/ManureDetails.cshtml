@@ -4,60 +4,119 @@
     Layout = null;
 }
 <div id="target">
-    <form asp-action="ManureDetails" asp-controller="Farm" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+    <form asp-action="ManureDetails" asp-controller="Nutrients" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Manure Details - @Model.act</h4>
+            <h4 class="modal-title" id="myModalLabel">Manure Details - @Model.title</h4>
         </div>
 
         <div class="modal-body">
             <div class="row">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <div class="form-group col-sm-3">
-                            <label asp-for="selManOption">Material Type</label>
-                            <select class="form-control" asp-for="selManOption" asp-items="@(new SelectList(Model.manOptions,"Value","Text"))">
-                                <option>select</option>
-                            </select>
-                            <span asp-validation-for="selManOption"></span>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-4">
+                        <label asp-for="selManOption">Material Type</label>
+                        <select class="form-control" asp-for="selManOption" asp-items="@(new SelectList(Model.manOptions,"Value","Text"))">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selManOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label asp-for="selApplOption">Application Season/Method</label>
+                        <select class="form-control" asp-for="selApplOption" asp-items="@(new SelectList(Model.applOptions,"Value","Text"))">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selApplOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label asp-for="selApplOption">Rate</label>
+                        <input class="form-control" asp-for="rate" id="year" type="text" />
+                        <span asp-validation-for="rate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label>&nbsp;</label>
+                        <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Value","Text"))">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selRateOption" class="text-danger"></span>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-2">
+                        <label asp-for="selApplOption">NH<sub>4</sub>.N<br />Retention (%)</label>
+                        <input class="form-control" asp-for="nh4" id="year" type="text" />
+                        <span asp-validation-for="nh4"class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label asp-for="selApplOption">1st Yr Org.N Availability (%)</label>
+                        <input class="form-control" asp-for="avail" id="year" type="text" />
+                        <span asp-validation-for="avail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Avail in 1st Yr</p>
                         </div>
-                        <div class="form-group col-sm-3">
-                            <label asp-for="selApplOption">Season/Method</label>
-                            <select class="form-control" asp-for="selApplOption" asp-items="@(new SelectList(Model.applOptions,"Value","Text"))">
-                                <option>select</option>
-                            </select>
-                            <span asp-validation-for="selApplOption"></span>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-2">
-                            <label asp-for="selApplOption">Rate</label>
-                            <input class="form-control" asp-for="rate" id="year" type="text" />
-                            <span asp-validation-for="rate"></span>
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <label>&nbsp;</label>
-                            <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Value","Text"))">
-                                <option>select</option>
-                            </select>
-                            <span asp-validation-for="selRateOption"></span>
+                        <div class="Row">
+                            <div class="Cell">
+                                <p>##</p>
+                            </div>
+                            <div class="Cell">
+                                <p>##</p>
+                            </div>
+                            <div class="Cell">
+                                <p>##</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="form-group col-sm-2">
-                            <label asp-for="selApplOption">NH4 Ret</label>
-                            <input class="form-control" asp-for="nh4" id="year" type="text" />
-                            <span asp-validation-for="nh4"></span>
+                </div>
+                <div class="form-group col-sm-4">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Avail Long Term</p>
                         </div>
-                        <div class="form-group col-sm-2">
-                            <label asp-for="selApplOption">1st Yr</label>
-                            <input class="form-control" asp-for="avail" id="year" type="text" />
-                            <span asp-validation-for="avail"></span>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
+                        </div>
+                        <div class="Row">
+                            <div class="Cell">
+                                <p>##</p>
+                            </div>
+                            <div class="Cell">
+                                <p>##</p>
+                            </div>
+                            <div class="Cell">
+                                <p>##</p>
+                            </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-primary" type="submit" value="Save" />
+            <input class="btn btn-primary" type="submit" value="@Model.action" />
         </div>
         @Html.HiddenFor(x => x.fieldName)
     </form>

@@ -38,11 +38,27 @@ namespace SERVERAPI.Controllers
         {
             ManureDetailsViewModel mvm = new ManureDetailsViewModel();
 
-            mvm.act = id == null ? "Add" : "Edit";
+            mvm.title = id == null ? "Add" : "Edit";
+            mvm.action = id == null ? "Calculate" : "Return";
+            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            Models.Impl.StaticData sd = new Models.Impl.StaticData();
+            ManureDetailsSetup(ref mvm);
+
+            return View(mvm);
+        }
+        [HttpPost]
+        public IActionResult ManureDetails(ManureDetailsViewModel mvm)
+        {
+
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             Models.Impl.StaticData sd = new Models.Impl.StaticData();
 
+            ManureDetailsSetup(ref mvm);
 
+            return View(mvm);
+        }
+        private void ManureDetailsSetup(ref ManureDetailsViewModel mvm)
+        {
             mvm.manOptions = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
             mvm.manOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = "Beef", Value = "1" });
             mvm.manOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = "Chicken", Value = "2" });
@@ -52,13 +68,13 @@ namespace SERVERAPI.Controllers
             mvm.applOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = "Spring - spray", Value = "1" });
             mvm.applOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = "Spring - broadcast", Value = "2" });
             mvm.applOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = "Fall - spray", Value = "3" });
-            mvm.applOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = "Fall - braodcast", Value = "4" });
+            mvm.applOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = "Fall - broadcast", Value = "4" });
 
             mvm.rateOptions = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
             mvm.rateOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = "gal/ac", Value = "1" });
             mvm.rateOptions.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = "lbs/ac", Value = "2" });
 
-            return View(mvm);
+            return;
         }
     }
 }

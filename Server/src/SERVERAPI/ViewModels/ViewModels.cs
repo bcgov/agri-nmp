@@ -69,14 +69,22 @@ namespace SERVERAPI.ViewModels
     }
     public class ManureDetailsViewModel
     {
-        public string act { get; set; }
+        public string title { get; set; }
+        public string action { get; set; }
         public string fieldName { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public string selManOption { get; set; }
         public List<SelectListItem> manOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public string selApplOption { get; set; }
         public List<SelectListItem> applOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public string selRateOption { get; set; }
         public List<SelectListItem> rateOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
         public string rate { get; set; }
         public string nh4 { get; set; }
         public string avail { get; set; }

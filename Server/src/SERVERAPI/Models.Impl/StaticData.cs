@@ -30,9 +30,9 @@ namespace SERVERAPI.Models.Impl
 
                 reg.id = Convert.ToInt32(r["id"].ToString());
                 reg.name = r["name"].ToString();
-                reg.location = r["Location"].ToString();
-                reg.p_regioncd = Convert.ToInt32(r["SoilTestPhospherousRegionCd"].ToString());
-                reg.k_regioncd = Convert.ToInt32(r["SoilTestPotassiumRegionCd"].ToString());
+                reg.location = r["location"].ToString();
+                reg.soil_test_phospherous_region_cd = Convert.ToInt32(r["soil_test_phospherous_region_cd"].ToString());
+                reg.soil_test_potassium_region_cd = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString());
                 regs.regions.Add(reg);
             }
 
