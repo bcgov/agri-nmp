@@ -1,147 +1,643 @@
 ﻿{
   "agri": {
     "nmp": {
+      "locations": {
+        "location": [
+          {
+            "id": "0",
+            "name": "Interior"
+          },
+          {
+            "id": "1",
+            "name": "Coastal"
+          }
+        ]
+      },
       "regions": {
         "region": [
           {
-            "-id": "0",
-            "-name": "Bulkley-Nechako",
-            "-SoilTestPhospherousRegionCd": "2",
-            "-SoilTestPotassiumRegionCd": "3",
-            "-Location": "Interior"
+            "id": "0",
+            "name": "Bulkley-Nechako",
+            "SoilTestPhospherousRegionCd": "2",
+            "SoilTestPotassiumRegionCd": "3",
+            "Location": "Interior"
           },
           {
-            "-id": "1",
-            "-name": "Capital Regional District",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "1",
-            "-Location": "Coastal"
+            "id": "1",
+            "name": "Capital Regional District",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "1",
+            "Location": "Coastal"
           },
           {
-            "-id": "2",
-            "-name": "Cariboo",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Interior"
+            "id": "2",
+            "name": "Cariboo",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Interior"
           },
           {
-            "-id": "3",
-            "-name": "Central Kootenay",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Interior"
+            "id": "3",
+            "name": "Central Kootenay",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Interior"
           },
           {
-            "-id": "4",
-            "-name": "Central Okanagan",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Interior"
+            "id": "4",
+            "name": "Central Okanagan",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Interior"
           },
           {
-            "-id": "5",
-            "-name": "Columbia Shuswap",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Interior"
+            "id": "5",
+            "name": "Columbia Shuswap",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Interior"
           },
           {
-            "-id": "6",
-            "-name": "Comox Valley",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "1",
-            "-Location": "Coastal"
+            "id": "6",
+            "name": "Comox Valley",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "1",
+            "Location": "Coastal"
           },
           {
-            "-id": "7",
-            "-name": "Cowichan Valley",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "1",
-            "-Location": "Coastal"
+            "id": "7",
+            "name": "Cowichan Valley",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "1",
+            "Location": "Coastal"
           },
           {
-            "-id": "8",
-            "-name": "East Kootenay",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Interior"
+            "id": "8",
+            "name": "East Kootenay",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Interior"
           },
           {
-            "-id": "9",
-            "-name": "Fraser Valley",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "1",
-            "-Location": "Coastal"
+            "id": "9",
+            "name": "Fraser Valley",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "1",
+            "Location": "Coastal"
           },
           {
-            "-id": "10",
-            "-name": "Fraser-Fort George",
-            "-SoilTestPhospherousRegionCd": "2",
-            "-SoilTestPotassiumRegionCd": "3",
-            "-Location": "Interior"
+            "id": "10",
+            "name": "Fraser-Fort George",
+            "SoilTestPhospherousRegionCd": "2",
+            "SoilTestPotassiumRegionCd": "3",
+            "Location": "Interior"
           },
           {
-            "-id": "11",
-            "-name": "Kitimat-Stikine",
-            "-SoilTestPhospherousRegionCd": "2",
-            "-SoilTestPotassiumRegionCd": "3",
-            "-Location": "Interior"
+            "id": "11",
+            "name": "Kitimat-Stikine",
+            "SoilTestPhospherousRegionCd": "2",
+            "SoilTestPotassiumRegionCd": "3",
+            "Location": "Interior"
           },
           {
-            "-id": "12",
-            "-name": "Kootenay Boundary",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Interior"
+            "id": "12",
+            "name": "Kootenay Boundary",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Interior"
           },
           {
-            "-id": "13",
-            "-name": "Metro Vancouver",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "1",
-            "-Location": "Coastal"
+            "id": "13",
+            "name": "Metro Vancouver",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "1",
+            "Location": "Coastal"
           },
           {
-            "-id": "14",
-            "-name": "Nanaimo",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "1",
-            "-Location": "Coastal"
+            "id": "14",
+            "name": "Nanaimo",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "1",
+            "Location": "Coastal"
           },
           {
-            "-id": "15",
-            "-name": "North Okanagan",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Interior"
+            "id": "15",
+            "name": "North Okanagan",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Interior"
           },
           {
-            "-id": "16",
-            "-name": "Okanagan-Similkameen",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Interior"
+            "id": "16",
+            "name": "Okanagan-Similkameen",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Interior"
           },
           {
-            "-id": "17",
-            "-name": "Peace River",
-            "-SoilTestPhospherousRegionCd": "3",
-            "-SoilTestPotassiumRegionCd": "3",
-            "-Location": "Interior"
+            "id": "17",
+            "name": "Peace River",
+            "SoilTestPhospherousRegionCd": "3",
+            "SoilTestPotassiumRegionCd": "3",
+            "Location": "Interior"
           },
           {
-            "-id": "18",
-            "-name": "Squamish-Lilloeet",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Coastal"
+            "id": "18",
+            "name": "Squamish-Lilloeet",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Coastal"
           },
           {
-            "-id": "19",
-            "-name": "Thompson-Nicola",
-            "-SoilTestPhospherousRegionCd": "1",
-            "-SoilTestPotassiumRegionCd": "2",
-            "-Location": "Interior"
+            "id": "19",
+            "name": "Thompson-Nicola",
+            "SoilTestPhospherousRegionCd": "1",
+            "SoilTestPotassiumRegionCd": "2",
+            "Location": "Interior"
+          }
+        ]
+      },
+      "manures": {
+        "manure": [
+          {
+            "id": "0",
+            "name": "Beef - feedlot - ≤72% moisture",
+            "class": "Beef - feedlot",
+            "solid-liquid": "Solid",
+            "moisture": "≤72% moisture",
+            "nitrogen": "0.42",
+            "ammonia": "44",
+            "phosphorous": "0.13",
+            "potassium": "0.67"
+          },
+          {
+            "id": "1",
+            "name": "Beef - feedlot - 72-82% moisture",
+            "class": "Beef - feedlot",
+            "solid-liquid": "Solid",
+            "moisture": "72-82% moisture",
+            "nitrogen": "0.68",
+            "ammonia": "368",
+            "phosphorous": "0.15",
+            "potassium": "0.3"
+          },
+          {
+            "id": "2",
+            "name": "Beef - feedlot - 82-90% moisture",
+            "class": "Beef - feedlot",
+            "solid-liquid": "Liquid",
+            "moisture": "82-90% moisture",
+            "nitrogen": "0.28",
+            "ammonia": "77",
+            "phosphorous": "0.09",
+            "potassium": "0.19"
+          },
+          {
+            "id": "3",
+            "name": "Compost - general",
+            "class": "Compost",
+            "solid-liquid": "Solid",
+            "moisture": "general",
+            "nitrogen": "n/a",
+            "ammonia": "n/a",
+            "phosphorous": "n/a",
+            "potassium": "n/a"
+          },
+          {
+            "id": "4",
+            "name": "Chickens - Broiler (average)",
+            "class": "Chickens",
+            "solid-liquid": "Solid",
+            "moisture": "Broiler (average)",
+            "nitrogen": "2.26",
+            "ammonia": "3423",
+            "phosphorous": "0.91",
+            "potassium": "1.14"
+          },
+          {
+            "id": "5",
+            "name": "Chickens - Broiler (indoor, fresh)",
+            "class": "Chickens",
+            "solid-liquid": "Solid",
+            "moisture": "Broiler (indoor, fresh)",
+            "nitrogen": "2.97",
+            "ammonia": "4078",
+            "phosphorous": "1.05",
+            "potassium": "1.04"
+          },
+          {
+            "id": "6",
+            "name": "Chickens - Broiler (outdoor, aged)",
+            "class": "Chickens",
+            "solid-liquid": "Solid",
+            "moisture": "Broiler (outdoor, aged)",
+            "nitrogen": "1.91",
+            "ammonia": "3095",
+            "phosphorous": "0.8",
+            "potassium": "1.14"
+          },
+          {
+            "id": "7",
+            "name": "Chickens - Broiler breeder",
+            "class": "Chickens",
+            "solid-liquid": "Solid",
+            "moisture": "Broiler breeder",
+            "nitrogen": "1.07",
+            "ammonia": "2858",
+            "phosphorous": "0.72",
+            "potassium": "0.8"
+          },
+          {
+            "id": "8",
+            "name": "Chickens - Hatching egg",
+            "class": "Chickens",
+            "solid-liquid": "Liquid",
+            "moisture": "Hatching egg",
+            "nitrogen": "1.96",
+            "ammonia": "4050",
+            "phosphorous": "1.31",
+            "potassium": "5.36"
+          },
+          {
+            "id": "9",
+            "name": "Chickens - Layer",
+            "class": "Chickens",
+            "solid-liquid": "Liquid",
+            "moisture": "Layer",
+            "nitrogen": "2.26",
+            "ammonia": "3889",
+            "phosphorous": "1.13",
+            "potassium": "1.51"
+          },
+          {
+            "id": "10",
+            "name": "Dairy - ≤72% moisture",
+            "class": "Dairy",
+            "solid-liquid": "Solid",
+            "moisture": "≤72% moisture",
+            "nitrogen": "0.76",
+            "ammonia": "317",
+            "phosphorous": "0.2",
+            "potassium": "0.43"
+          },
+          {
+            "id": "11",
+            "name": "Dairy - 72-82% moisture",
+            "class": "Dairy",
+            "solid-liquid": "Solid",
+            "moisture": "72-82% moisture",
+            "nitrogen": "0.39",
+            "ammonia": "797",
+            "phosphorous": "0.1",
+            "potassium": "0.3"
+          },
+          {
+            "id": "12",
+            "name": "Dairy solids - mechanically separated",
+            "class": "Dairy solids",
+            "solid-liquid": "Solid",
+            "moisture": "mechanically separated",
+            "nitrogen": "n/a",
+            "ammonia": "n/a",
+            "phosphorous": "n/a",
+            "potassium": "n/a"
+          },
+          {
+            "id": "13",
+            "name": "Dairy - 82-90% moisture (thick slurry)",
+            "class": "Dairy",
+            "solid-liquid": "Liquid",
+            "moisture": "82-90% moisture (thick slurry)",
+            "nitrogen": "0.36",
+            "ammonia": "1202",
+            "phosphorous": "0.1",
+            "potassium": "0.27"
+          },
+          {
+            "id": "14",
+            "name": "Dairy - 90-94% moisture",
+            "class": "Dairy",
+            "solid-liquid": "Liquid",
+            "moisture": "90-94% moisture",
+            "nitrogen": "0.28",
+            "ammonia": "1330",
+            "phosphorous": "0.05",
+            "potassium": "0.27"
+          },
+          {
+            "id": "15",
+            "name": "Dairy - 94-96% moisture",
+            "class": "Dairy",
+            "solid-liquid": "Liquid",
+            "moisture": "94-96% moisture",
+            "nitrogen": "0.23",
+            "ammonia": "1394",
+            "phosphorous": "0.05",
+            "potassium": "0.2"
+          },
+          {
+            "id": "16",
+            "name": "Dairy - 96-98% moisture",
+            "class": "Dairy",
+            "solid-liquid": "Liquid",
+            "moisture": "96-98% moisture",
+            "nitrogen": "0.15",
+            "ammonia": "757",
+            "phosphorous": "0.03",
+            "potassium": "0.14"
+          },
+          {
+            "id": "17",
+            "name": "Dairy - 98-99% moisture (very watery)",
+            "class": "Dairy",
+            "solid-liquid": "Liquid",
+            "moisture": "98-99% moisture (very watery)",
+            "nitrogen": "0.09",
+            "ammonia": "497",
+            "phosphorous": "0.02",
+            "potassium": "0.12"
+          },
+          {
+            "id": "18",
+            "name": "Goats (dairy) - 65% moisture",
+            "class": "Goats (dairy)",
+            "solid-liquid": "Solid",
+            "moisture": "65% moisture",
+            "nitrogen": "1.07",
+            "ammonia": "2865",
+            "phosphorous": "0.28",
+            "potassium": "1.03"
+          },
+          {
+            "id": "19",
+            "name": "Hog - ≥82% moisture",
+            "class": "Hog",
+            "solid-liquid": "Liquid",
+            "moisture": "≥82% moisture",
+            "nitrogen": "0.33",
+            "ammonia": "2211",
+            "phosphorous": "0.1",
+            "potassium": "0.15"
+          },
+          {
+            "id": "20",
+            "name": "Hog - <82% moisture",
+            "class": "Hog",
+            "solid-liquid": "Solid",
+            "moisture": "<82% moisture",
+            "nitrogen": "0.86",
+            "ammonia": "525",
+            "phosphorous": "0.42",
+            "potassium": "0.5"
+          },
+          {
+            "id": "21",
+            "name": "Horses - <82% moisture",
+            "class": "Horses",
+            "solid-liquid": "Solid",
+            "moisture": "<82% moistur",
+            "nitrogen": "0.32",
+            "ammonia": "268",
+            "phosphorous": "0.09",
+            "potassium": "0.25"
+          },
+          {
+            "id": "22",
+            "name": "Mink - 50% moisture",
+            "class": "Mink",
+            "solid-liquid": "Solid",
+            "moisture": "50% moisture",
+            "nitrogen": "2.97",
+            "ammonia": "12465",
+            "phosphorous": "1.68",
+            "potassium": "0.7"
+          },
+          {
+            "id": "23",
+            "name": "Sheep - 66% moisture",
+            "class": "Sheep",
+            "solid-liquid": "Solid",
+            "moisture": "66% moisture",
+            "nitrogen": "0.8",
+            "ammonia": "2299",
+            "phosphorous": "0.28",
+            "potassium": "0.78"
+          },
+          {
+            "id": "24",
+            "name": "Turkeys - Aged (≥7 weeks old)",
+            "class": "Turkeys",
+            "solid-liquid": "Solid",
+            "moisture": "Aged (≥7 weeks old)",
+            "nitrogen": "0.87",
+            "ammonia": "1281",
+            "phosphorous": "0.44",
+            "potassium": "0.59"
+          },
+          {
+            "id": "25",
+            "name": "Turkeys - Fresh (<7 weeks old)",
+            "class": "Turkeys",
+            "solid-liquid": "Solid",
+            "moisture": "Fresh (<7 weeks old)",
+            "nitrogen": "1.79",
+            "ammonia": "2518",
+            "phosphorous": "0.79",
+            "potassium": "1.31"
+          },
+          {
+            "id": "26",
+            "name": "Other - Solid",
+            "class": "Other",
+            "solid-liquid": "Solid",
+            "moisture": "Solid",
+            "nitrogen": "n/a",
+            "ammonia": "n/a",
+            "phosphorous": "n/a",
+            "potassium": "n/a"
+          },
+          {
+            "id": "27",
+            "name": "Other - Liquid",
+            "class": "Other",
+            "solid-liquid": "Liquid",
+            "moisture": "Liquid",
+            "nitrogen": "n/a",
+            "ammonia": "n/a",
+            "phosphorous": "n/a",
+            "potassium": "n/a"
+          }
+        ]
+      },
+      "season-applications": {
+        "season-applicaton": [
+          {
+            "id": "0",
+            "name": "Spring - Immediately incorporated (1 h)",
+            "season": "Spring",
+            "application-method": "Immediately incorporated (1 h)",
+            "DMlt1": "0.95",
+            "DM1-5": "0.95",
+            "DM5-10": "0.95",
+            "DMgt10": "0.95",
+            "poultry-solid": "0.95",
+            "compost": "1"
+          },
+          {
+            "id": "1",
+            "name": "Spring - Incorporated 1 day after",
+            "season": "Spring",
+            "application-method": "Incorporated 1 day after",
+            "DMlt1": "0.95",
+            "DM1-5": "0.7",
+            "DM5-10": "0.6",
+            "DMgt10": "0.5",
+            "poultry-solid": "0.7",
+            "compost": "1"
+          },
+          {
+            "id": "2",
+            "name": "Spring - Incorporated 2 days after",
+            "season": "Spring",
+            "application-method": "Incorporated 2 days after",
+            "DMlt1": "0.95",
+            "DM1-5": "0.6",
+            "DM5-10": "0.45",
+            "DMgt10": "0.3",
+            "poultry-solid": "0.5",
+            "compost": "1"
+          },
+          {
+            "id": "3",
+            "name": "Spring - Incorporated 3 days after",
+            "season": "Spring",
+            "application-method": "Incorporated 3 days after",
+            "DMlt1": "0.95",
+            "DM1-5": "0.55",
+            "DM5-10": "0.4",
+            "DMgt10": "0.2",
+            "poultry-solid": "0.4",
+            "compost": "1"
+          },
+          {
+            "id": "4",
+            "name": "Spring - Incorporated 4 days after",
+            "season": "Spring",
+            "application-method": "Incorporated 4 days after",
+            "DMlt1": "0.95",
+            "DM1-5": "0.55",
+            "DM5-10": "0.4",
+            "DMgt10": "0.2",
+            "poultry-solid": "0.4",
+            "compost": "1"
+          },
+          {
+            "id": "5",
+            "name": "Spring - Incorporated 5 days after",
+            "season": "Spring",
+            "application-method": "Incorporated 5 days after",
+            "DMlt1": "0.95",
+            "DM1-5": "0.55",
+            "DM5-10": "0.4",
+            "DMgt10": "0.2",
+            "poultry-solid": "0.4",
+            "compost": "1"
+          },
+          {
+            "id": "6",
+            "name": "Spring - Not incorporated",
+            "season": "Spring",
+            "application-method": "Not incorporated",
+            "DMlt1": "0.95",
+            "DM1-5": "0.55",
+            "DM5-10": "0.4",
+            "DMgt10": "0.2",
+            "poultry-solid": "0.34",
+            "compost": "1"
+          },
+          {
+            "id": "7",
+            "name": "Spring - Injected (covered)",
+            "season": "Spring",
+            "application-method": "Injected (covered)",
+            "DMlt1": "0.95",
+            "DM1-5": "0.95",
+            "DM5-10": "0.95",
+            "DMgt10": "0.95",
+            "poultry-solid": "reselect",
+            "compost": "reselect"
+          },
+          {
+            "id": "8",
+            "name": "Spring - Surface band (partial injection)",
+            "season": "Spring",
+            "application-method": "Surface band (partial injection)",
+            "DMlt1": "0.85",
+            "DM1-5": "0.85",
+            "DM5-10": "0.7",
+            "DMgt10": "0.7",
+            "poultry-solid": "reselect",
+            "compost": "reselect"
+          },
+          {
+            "id": "9",
+            "name": "Spring - Surface band (no incorporation)",
+            "season": "Spring",
+            "application-method": "Surface band (no incorporation)",
+            "DMlt1": "0.75",
+            "DM1-5": "0.75",
+            "DM5-10": "0.6",
+            "DMgt10": "0.6",
+            "poultry-solid": "reselect",
+            "compost": "reselect"
+          },
+          {
+            "id": "10",
+            "name": "Summer-early fall - Not incorporated, bare soil",
+            "season": "Summer-early fall",
+            "application-method": "Not incorporated, bare soil",
+            "DMlt1": "0.34",
+            "DM1-5": "0.34",
+            "DM5-10": "0.34",
+            "DMgt10": "0.2",
+            "poultry-solid": "0.34",
+            "compost": "1"
+          },
+          {
+            "id": "11",
+            "name": "Summer-early fall - Not incorporated, pretilled",
+            "season": "Summer-early fall",
+            "application-method": "Not incorporated, pretilled",
+            "DMlt1": "0.7",
+            "DM1-5": "0.7",
+            "DM5-10": "0.7",
+            "DMgt10": "0.7",
+            "poultry-solid": "reselect",
+            "compost": "reselect"
+          },
+          {
+            "id": "12",
+            "name": "Summer-early fall - Not incorporated, crop residue >30%",
+            "season": "Summer-early fall",
+            "application-method": "Not incorporated, crop residue >30%",
+            "DMlt1": "0.5",
+            "DM1-5": "0.5",
+            "DM5-10": "0.5",
+            "DMgt10": "0.5",
+            "poultry-solid": "0.5",
+            "compost": "1"
+          },
+          {
+            "id": "13",
+            "name": "Summer-early fall - Not incorporated, standing crop (below the canopy)",
+            "season": "Summer-early fall",
+            "application-method": "Not incorporated, standing crop (below the canopy)",
+            "DMlt1": "0.67",
+            "DM1-5": "0.67",
+            "DM5-10": "0.67",
+            "DMgt10": "0.67",
+            "poultry-solid": "0.67",
+            "compost": "1"
           }
         ]
       }
