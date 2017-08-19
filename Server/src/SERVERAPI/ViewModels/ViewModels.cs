@@ -99,6 +99,8 @@ namespace SERVERAPI.ViewModels
         public string ltN { get; set; }
         public string ltP2o5 { get; set; }
         public string ltK2o { get; set; }
+        public bool stdN { get; set; }
+        public bool stdAvail { get; set; }
     }
     public class CalculateViewModel
     {

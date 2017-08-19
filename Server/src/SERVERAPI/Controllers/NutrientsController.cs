@@ -67,6 +67,10 @@ namespace SERVERAPI.Controllers
             mvm.title = id == null ? "Add" : "Edit";
             mvm.btnText = id == null ? "Calculate" : "Return";
             mvm.id = id;
+            mvm.avail = "40";
+            mvm.nh4 = "40";
+            mvm.stdN = true;
+            mvm.stdAvail = true;
 
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             ManureDetailsSetup(ref mvm);
@@ -96,7 +100,27 @@ namespace SERVERAPI.Controllers
 
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
-            if(mvm.buttonPressed == "TypeChange")
+            if(mvm.buttonPressed == "ResetN")
+            {
+                ModelState.Clear();
+                mvm.buttonPressed = "";
+                mvm.btnText = "Calculate";
+                mvm.nh4 = "40";
+                mvm.stdN = true;
+                return View(mvm);
+            }
+
+            if (mvm.buttonPressed == "ResetA")
+            {
+                ModelState.Clear();
+                mvm.buttonPressed = "";
+                mvm.btnText = "Calculate";
+                mvm.avail = "40";
+                mvm.stdAvail = true;
+                return View(mvm);
+            }
+
+            if (mvm.buttonPressed == "TypeChange")
             {
                 ModelState.Clear();
                 mvm.buttonPressed = "";
@@ -128,6 +152,15 @@ namespace SERVERAPI.Controllers
                     mvm.ltK2o = "6.6";
 
                     mvm.btnText = "Add to Field";
+
+                    if(Convert.ToDecimal(mvm.nh4) != 40)
+                    {
+                        mvm.stdN = false;
+                    }
+                    if (Convert.ToDecimal(mvm.avail) != 40)
+                    {
+                        mvm.stdAvail = false;
+                    }
                 }
                 else
                 {

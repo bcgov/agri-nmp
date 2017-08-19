@@ -31,6 +31,10 @@ namespace SERVERAPI.ViewComponents
                     yd.fields = new List<Field>();
                 }
                 Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+                if(fld == null)
+                {
+                    fld = new Field();
+                }
                 if (fld.nutrients == null)
                 {
                     fld.nutrients = new Nutrients();

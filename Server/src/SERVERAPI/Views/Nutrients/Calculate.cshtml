@@ -199,6 +199,20 @@
         })
     });
 
+    $(document).ready(function () {
+        $("body").on("click", "#rstN", function () {
+            $('#buttonPressed').val("ResetN");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("click", "#rstA", function () {
+            $('#buttonPressed').val("ResetA");
+            $("#modForm").submit();
+        })
+    });
+
         function bindForm(dialog) {
             $('form', dialog).submit(function () {
                 $.ajax({
