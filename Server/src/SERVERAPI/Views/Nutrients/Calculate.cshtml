@@ -1,11 +1,11 @@
-﻿@model SERVERAPI.ViewModels.FarmViewModel
+﻿@model SERVERAPI.ViewModels.CalculateViewModel
 
 @{
     ViewBag.Title = "Calculate Nutrients";
 }
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog" id="divSize">
         <div class="modal-content">
             <div id='myModalContent'></div>
         </div>
@@ -44,23 +44,42 @@
         <!-- PAGE CONTENT -->
         <form asp-controller="Nutrients" asp-action="Calculate" method="post">
             <div class="step-forms col-sm-2">
-                <ul style="list-style-type: none; padding-left: 0; overflow: hidden; -ms-text-overflow: ellipses; -o-text-overflow: ellipses; text-overflow: ellipsis; ">
-                    <li style="display:block; float:left;"><a href="#" class="btn btn-default">Field 1 up over the pike</a></li>
-                    <li style="display:block; float:left;"><a href="#" class="btn btn-default">Field 2 under the bridge A Field 2 under the bridge</a></li>
-                    <li style="display:block; float:left;"><a href="#" class="btn btn-default">Field 3 South of hen house</a></li>
-                    <li style="display:block; float:left;"><a href="#" class="btn btn-default">Field 4 Donkey Paddock</a></li>
-                    <li style="display:block; float:left;"><a href="#" class="btn btn-default">Field 5 My 50 Acre field</a></li>
-                </ul>
+                @if (Model.fldsFnd)
+                {
+                    <ul style="list-style-type: none; padding-left: 0; overflow: hidden; -ms-text-overflow: ellipses; -o-text-overflow: ellipses; text-overflow: ellipsis; ">
+                        @foreach (var f in Model.fields)
+                        {
+                            <li style="display:block; float:left;"><a href="#" class="btn btn-default" >@f.fieldName</a></li>
+                        }
+                    </ul>
+                }
+                <br />
+                <button class="btn btn-default" type="button" data_modal2="" data-type="@Url.Action("FieldDetail", "Farm")">Add field</button>
             </div>
             <div class="step-forms col-sm-9">
-                <div class="form-box">
-                    <div class="form-box-header clearfix">
-                        <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients")">Add Manure</button>
-                        <button class="btn btn-success">Add Fertilzer</button>
-                        <button class="btn btn-success">Add Other</button>
+                @if (Model.fldsFnd)
+                {
+                    <div class="form-box">
+                        <div class="form-box-header clearfix">
+                            <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
+                            <button class="btn btn-success" disabled="disabled">Add Fertilzer</button>
+                            <button class="btn btn-success" disabled="disabled">Add Other</button>
+                        </div>
                     </div>
+                }
+                else
+                {
+                    <div class="form-box">
+                        <div class="form-box-header clearfix">
+                            <h3>To add nutrients please add a field first</h3>
+                        </div>
+                    </div>
+                }
+                <div id="replacetarget">
+                    @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
                 </div>
-                <div class="form-box">
+
+                @*<div class="form-box">
                     <div class="form-box-header clearfix">
                         <div>
                             <legend class="form-box-heading">Manure</legend>
@@ -129,7 +148,7 @@
                             <button class="btn btn-success" type="button" data-toggle="modal" data-target="#myModal" role="alertdialog">Add another manure</button>
                         </div>
                     </div>
-                </div>
+                </div>*@
             
                 </div>
 
@@ -148,20 +167,42 @@
 
         // ensure this event handler is attached to current and future elements (after partial renders)
     $(document).on("click", '[data_modal]', function (e) {
-            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-            $('#myModalContent').load($type, function () {
-                $('#myModal').modal({
-                    /*backdrop: 'static',*/
-                    //keyboard: true
-                }, 'show');
-                bindForm(this);
-            });
-            return false;
+        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").addClass("modal-lg");
+        $('#myModalContent').load($type, function () {
+            $('#myModal').modal({
+                /*backdrop: 'static',*/
+                //keyboard: true
+            }, 'show');
+            bindForm(this);
         });
+        return false;
+    });
+
+    $(document).on("click", '[data_modal2]', function (e) {
+        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").removeClass("modal-lg");
+        $('#myModalContent').load($type, function () {
+            $('#myModal').modal({
+                /*backdrop: 'static',*/
+                //keyboard: true
+            }, 'show');
+            bindForm2(this);
+        });
+        return false;
+    });
+
+    $(document).ready(function () {
+        $("body").on("change", "#ddlMan", function () {
+            $('#buttonPressed').val("TypeChange");
+            $("#modForm").submit();
+        })
+    });
 
         function bindForm(dialog) {
             $('form', dialog).submit(function () {
                 $.ajax({
+                    cache: false,
                     url: this.action,
                     type: this.method,
                     data: $(this).serialize(),
@@ -180,6 +221,56 @@
                 });
                 return false;
             });
+        }
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            var ls;
+                            ls = localStorage;
+                            ls.setItem("nmp", result.farmdata);
+                            location.reload(); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm2(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+
+        $(document).on('propertychange input paste', '#rate', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#ddlAppl', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#ddlRate', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('propertychange input paste', '#avail', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('propertychange input paste', '#nh4', function () {
+            NeedRefresh();
+        });
+
+
+        function NeedRefresh() {
+            $("#ok_button").html('Calculate');
+            $("#ok_button").css('background-color', '#1abbed');
+            $("#btnText").val("Calculate");
         }
 
 </script>

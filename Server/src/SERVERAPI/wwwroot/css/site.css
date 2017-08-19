@@ -36,6 +36,6 @@ tr:nth-child(even) {
     display: table-cell;
     border: none;
     border-width: thin;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
 }

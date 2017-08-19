@@ -1,0 +1,41 @@
+﻿@model CalcManureViewModel
+<div>
+    @if (Model.manures.Count > 0)
+    {
+        <div class="form-box">
+            <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#manure" style="width:100%; text-align:left;">Manure</button>
+            <div id="manure" class="form-box-body">
+
+                <div class="form-box-table">
+                    <div class="Table">
+                        <div class="Heading">
+                            <div class="Cell" style="text-align:left">
+                                Material Type
+                            </div>
+                            <div class="Cell" style="text-align:left">
+                                Application
+                            </div>
+                            <div class="Cell">
+                                Rate
+                            </div>
+                        </div>
+                        @foreach (var m in Model.manures)
+                        {
+                            <div class="Row">
+                                <div class="Cell" style="text-align:left">
+                                    <p>@m.matType</p>
+                                </div>
+                                <div class="Cell" style="text-align:left">
+                                    <p>@m.applType</p>
+                                </div>
+                                <div class="Cell" style="text-align:center">
+                                    <p>@m.rate</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

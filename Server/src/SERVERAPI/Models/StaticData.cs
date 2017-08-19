@@ -84,7 +84,7 @@ namespace SERVERAPI.Models
 
         public class Units
         {
-            public List<Unit> unit { get; set; }
+            public List<Unit> units { get; set; }
         }
 
         public class Unit

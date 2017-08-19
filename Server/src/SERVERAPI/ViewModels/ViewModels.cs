@@ -69,24 +69,42 @@ namespace SERVERAPI.ViewModels
     }
     public class ManureDetailsViewModel
     {
+        public int? id { get; set; }
         public string title { get; set; }
-        public string action { get; set; }
+        public string btnText { get; set; }
         public string fieldName { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selManOption { get; set; }
-        public List<SelectListItem> manOptions { get; set; }
+        public List<Models.StaticData.SelectListItem> manOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selApplOption { get; set; }
-        public List<SelectListItem> applOptions { get; set; }
+        public List<Models.StaticData.SelectListItem> applOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selRateOption { get; set; }
-        public List<SelectListItem> rateOptions { get; set; }
+        public List<Models.StaticData.SelectListItem> rateOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         public string rate { get; set; }
+        public string currUnit { get; set; }
+        [Required(ErrorMessage = "Required")]
         public string nh4 { get; set; }
+        [Required(ErrorMessage = "Required")]
         public string avail { get; set; }
+        public string buttonPressed { get; set; }
+        public string yrN { get; set; }
+        public string yrP2o5 { get; set; }
+        public string yrK2o { get; set; }
+        public string ltN { get; set; }
+        public string ltP2o5 { get; set; }
+        public string ltK2o { get; set; }
     }
+    public class CalculateViewModel
+    {
+        public bool fldsFnd { get; set; }
+        public string currFld { get; set; }
+        public List<Field> fields { get; set; }
+    }
+
 }
