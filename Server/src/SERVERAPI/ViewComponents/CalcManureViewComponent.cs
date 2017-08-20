@@ -25,7 +25,7 @@ namespace SERVERAPI.ViewComponents
 
             if (farmData.years != null)
             {
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
+                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.farmDetails.year);
                 if (yd.fields == null)
                 {
                     yd.fields = new List<Field>();

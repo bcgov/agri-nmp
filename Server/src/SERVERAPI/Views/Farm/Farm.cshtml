@@ -112,10 +112,9 @@
                 </div>
             </div>
 
-            @Html.HiddenFor(x => x.userData)
             @Html.HiddenFor(x => x.currYear)
 
-            <div id="replacetarget">
+            <div id="fields">
                 @await Component.InvokeAsync("Fields")
             </div>
             <div class="form-box-submit">
@@ -154,10 +153,7 @@
                     success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
-                            var ls;
-                            ls = localStorage;
-                            ls.setItem("nmp", result.farmdata);
-                            $('#replacetarget').load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);
@@ -167,43 +163,6 @@
                 return false;
             });
         }
-
-
-        $(document).ready(function () {
-            localStorage.setItem("nmp", $('#userData').val());
-            $.ajaxSetup({ cache: false });
-        });
-
-        $(document).ready(function () {
-            var sendNMP = $('#sendNMP').val();
-            if (sendNMP == "False") {
-                localStorage.setItem("nmp", $('#userData').val());
-            }
-            else {
-                var data = localStorage.getItem("nmp");
-                $('#userData').val(data);
-            }
-        });
-
-    </script>
-    <script type="text/javascript">
-
-        //function Sub(a) {
-        //    var data = localStorage.getItem("nmp");
-        //    $('#userDataField').val(data);
-        //    a.submit;
-        //}
-
-        //$("#savebtn").on("click", function (e) {
-        //    var data = localStorage.getItem("nmp");
-        //    $('#userData').val(data);
-        //});
-
-        //function SaveData() {
-        //    var data = localStorage.getItem("nmp");
-        //    $('#userDataField').val(data);
-        //    $("#submitter").submit();
-        //}
 
     </script>
 }

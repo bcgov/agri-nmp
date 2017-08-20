@@ -114,17 +114,6 @@
             $.ajaxSetup({ cache: false });
         });
 
-        $(document).ready(function () {
-            var sendNMP = $('#sendNMP').val();
-            if (sendNMP == "False") {
-                localStorage.setItem("nmp", $('#userData').val());
-            }
-            else {
-                var data = localStorage.getItem("nmp");
-                $('#userData').val(data);
-            }
-        });
-
 </script>
 
 }

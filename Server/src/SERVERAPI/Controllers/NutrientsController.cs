@@ -7,38 +7,42 @@ using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.ViewModels;
 using SERVERAPI.Models;
 using Newtonsoft.Json;
+using SERVERAPI.Models.Impl;
+using SERVERAPI.ViewComponents;
 
 namespace SERVERAPI.Controllers
 {
     public class NutrientsController : Controller
     {
         private IHostingEnvironment _env;
+        private UserData _ud;
 
-        public NutrientsController(IHostingEnvironment env)
+        public NutrientsController(IHostingEnvironment env, UserData ud)
         {
             _env = env;
+            _ud = ud;
         }
         // GET: /<controller>/
-        public IActionResult Calculate(int? id)
+        public IActionResult Calculate(string id)
         {
             CalculateViewModel cvm = new CalculateViewModel();
             cvm.fields = new List<Field>();
 
-            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             Models.Impl.StaticData sd = new Models.Impl.StaticData();
 
             // not id entered so default to the first one for the farm
             if(id == null)
             {
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-                if(yd.fields == null)
+                List<Field> fldLst = _ud.GetFields();
+
+                if(fldLst.Count() == 0)
                 {
                     cvm.fldsFnd = false;
                 }
                 else
                 {
                     cvm.fldsFnd = true;
-                    foreach(var f in yd.fields)
+                    foreach(var f in fldLst)
                     {
                         cvm.fields.Add(f);
                     }
@@ -47,7 +51,13 @@ namespace SERVERAPI.Controllers
             }
             else
             {
-
+                cvm.currFld = id;
+                List<Field> fldLst = _ud.GetFields();
+                cvm.fldsFnd = true;
+                foreach (var f in fldLst)
+                {
+                    cvm.fields.Add(f);
+                }
             }
 
             return View(cvm);
@@ -95,7 +105,6 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult ManureDetails(ManureDetailsViewModel mvm)
         {
-            int nextId = 1;
             ManureDetailsSetup(ref mvm);
 
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -166,53 +175,28 @@ namespace SERVERAPI.Controllers
                 {
                     if(mvm.id == null)
                     {
-                        if (farmData.years != null)
-                        {
-                            YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-                            if (yd.fields == null)
-                            {
-                                yd.fields = new List<Field>();
-                            }
-                            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == mvm.fieldName);
-                            if (fld.nutrients == null)
-                            {
-                                fld.nutrients = new Nutrients();
-                            }
-                            List<NutrientManure> fldManures = fld.nutrients.nutrientManures;
-                            if (fldManures == null)
-                            {
-                                fldManures = new List<NutrientManure>();
-                                fld.nutrients.nutrientManures = fldManures;
-                            }
-                            foreach(var f in fldManures)
-                            {
-                                nextId = nextId <= f.id ? f.id + 1 : nextId;
-                            }
-                            NutrientManure nm = new NutrientManure()
-                            {
-                                id = nextId,
-                                manureId = mvm.selManOption,
-                                applicationId = mvm.selApplOption,
-                                unitId = mvm.selRateOption,
-                                rate = Convert.ToDecimal(mvm.rate),
-                                nh4Retention = Convert.ToDecimal(mvm.nh4),
-                                nAvail = Convert.ToDecimal(mvm.avail),
-                                yrN = Convert.ToDecimal(mvm.yrN),
-                                yrP2o5 = Convert.ToDecimal(mvm.yrP2o5),
-                                yrK2o = Convert.ToDecimal(mvm.yrK2o),
-                                ltN = Convert.ToDecimal(mvm.ltN),
-                                ltP2o5 = Convert.ToDecimal(mvm.ltP2o5),
-                                ltK2o = Convert.ToDecimal(mvm.ltK2o)
-                            };
 
-                            fldManures.Add(nm);
-                        }
+                        NutrientManure nm = new NutrientManure()
+                        {
+                            manureId = mvm.selManOption,
+                            applicationId = mvm.selApplOption,
+                            unitId = mvm.selRateOption,
+                            rate = Convert.ToDecimal(mvm.rate),
+                            nh4Retention = Convert.ToDecimal(mvm.nh4),
+                            nAvail = Convert.ToDecimal(mvm.avail),
+                            yrN = Convert.ToDecimal(mvm.yrN),
+                            yrP2o5 = Convert.ToDecimal(mvm.yrP2o5),
+                            yrK2o = Convert.ToDecimal(mvm.yrK2o),
+                            ltN = Convert.ToDecimal(mvm.ltN),
+                            ltP2o5 = Convert.ToDecimal(mvm.ltP2o5),
+                            ltK2o = Convert.ToDecimal(mvm.ltK2o)
+                        };
+
+                        _ud.AddFieldNutrientsManure(mvm.fieldName, nm);
                     }
 
-                    HttpContext.Session.SetObjectAsJson("FarmData", farmData);
-
                     string url = Url.Action("RefreshManureList", "Nutrients", new {fieldName = mvm.fieldName });
-                    return Json(new { success = true, url = url, farmdata = JsonConvert.SerializeObject(farmData) });
+                    return Json(new { success = true, url = url });
                 }
             }
 
@@ -222,13 +206,13 @@ namespace SERVERAPI.Controllers
         {
             Models.Impl.StaticData sd = new Models.Impl.StaticData();
 
-            mvm.manOptions = new List<StaticData.SelectListItem>();
+            mvm.manOptions = new List<Models.StaticData.SelectListItem>();
             mvm.manOptions = sd.GetManuresDll(HttpContext).ToList();
 
-            mvm.applOptions = new List<StaticData.SelectListItem>();
+            mvm.applOptions = new List<Models.StaticData.SelectListItem>();
             mvm.applOptions = sd.GetApplicationsDll(HttpContext).ToList();
 
-            mvm.rateOptions = new List<StaticData.SelectListItem>();
+            mvm.rateOptions = new List<Models.StaticData.SelectListItem>();
             mvm.rateOptions = sd.GetUnitsDll(HttpContext, mvm.currUnit).ToList();
 
             return;
@@ -236,6 +220,10 @@ namespace SERVERAPI.Controllers
         public IActionResult RefreshManureList(string fieldName)
         {
             return ViewComponent("CalcManure", new { fldName = fieldName });
+        }
+        public IActionResult RefreshFieldList(string fieldName)
+        {
+            return ViewComponent("FieldList");
         }
     }
 }

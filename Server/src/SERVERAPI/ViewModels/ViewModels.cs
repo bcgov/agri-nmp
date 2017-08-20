@@ -23,8 +23,6 @@ namespace SERVERAPI.ViewModels
         public bool? soilTests { get; set; }
         [Display(Name = "Do you use manure or compost?")]
         public bool? manure { get; set; }
-        public bool sendNMP { get; set; }
-        public string userData { get; set; }
         public List<Models.StaticData.SelectListItem> regOptions { get; set; }
         [Display(Name = "Region")]
         public int? selRegOption { get; set; }
@@ -51,9 +49,11 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Comments")]
         public string fieldComment { get; set; }
         public string act { get; set; }
-        public bool sendNMP { get; set; }
         public string userDataField { get; set; }
         public string currFieldName { get; set; }
+        public string target { get; set; }
+        public string cntl { get; set; }
+        public string actn { get; set; }
     }
     public class FieldDeleteViewModel
     {
@@ -61,6 +61,7 @@ namespace SERVERAPI.ViewModels
         public string fieldName { get; set; }
         public string act { get; set; }
         public string userDataField { get; set; }
+        public string target { get; set; }
     }
     public class FileLoadViewModel
     {

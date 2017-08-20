@@ -46,15 +46,12 @@
             <div class="step-forms col-sm-2">
                 @if (Model.fldsFnd)
                 {
-                    <ul style="list-style-type: none; padding-left: 0; overflow: hidden; -ms-text-overflow: ellipses; -o-text-overflow: ellipses; text-overflow: ellipsis; ">
-                        @foreach (var f in Model.fields)
-                        {
-                            <li style="display:block; float:left;"><a href="#" class="btn btn-default" >@f.fieldName</a></li>
-                        }
-                    </ul>
+                    <div id="fieldList">
+                        @await Component.InvokeAsync("FieldList", new { cntl = "Nutrients", actn = "Calculate" })
+                    </div>
                 }
-                <br />
-                <button class="btn btn-default" type="button" data_modal2="" data-type="@Url.Action("FieldDetail", "Farm")">Add field</button>
+
+                <button class="btn btn-default" type="button" data_modal2="" data-type="@Url.Action("FieldDetail", "Farm", new { target = "#fieldList", cntl = "Nutrients", actn = "Calculate" })">Add field</button>
             </div>
             <div class="step-forms col-sm-9">
                 @if (Model.fldsFnd)
@@ -159,7 +156,9 @@
                 <div class="form-box-submit">
                     <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("Report", "Report" )';" />
                 </div>
-</form>
+            @Html.HiddenFor(x => x.fldsFnd)
+            @Html.HiddenFor(x => x.currFld)
+        </form>
     </div>
 </div>
 @section Scripts {
@@ -249,7 +248,7 @@
                             var ls;
                             ls = localStorage;
                             ls.setItem("nmp", result.farmdata);
-                            location.reload(); //  Load data from the server and place the returned HTML into the matched element
+                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
                         } else {
                             $('#myModalContent').html(result);
                             bindForm2(dialog);

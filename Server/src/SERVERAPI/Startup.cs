@@ -60,7 +60,6 @@ namespace SERVERAPI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
 
-
             //// allow for large files to be uploaded
             services.Configure<FormOptions>(options =>
             {
@@ -90,6 +89,7 @@ namespace SERVERAPI
                         opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     });
 
+            services.AddScoped<SERVERAPI.Models.Impl.UserData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

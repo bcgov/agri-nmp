@@ -8,44 +8,35 @@ using SERVERAPI.Models;
 using SERVERAPI.ViewModels;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Controllers
 {
     public class FarmController : Controller
     {
         private IHostingEnvironment _env;
+        private UserData _ud;
 
-        public FarmController(IHostingEnvironment env)
+        public FarmController(IHostingEnvironment env, UserData ud)
         {
             _env = env;
+            _ud = ud;
         }
         [HttpGet]
         public IActionResult Farm()
         {
-            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            var farmData = _ud.FarmDetails();
             Models.Impl.StaticData sd = new Models.Impl.StaticData();
 
             FarmViewModel fvm = new FarmViewModel();
+
             fvm.regOptions = sd.GetRegionsDll(HttpContext).ToList();
             fvm.selRegOption = null;
-
-            fvm.sendNMP = true;
 
             fvm.year = farmData.year;
             fvm.currYear = farmData.year;
             fvm.farmName = farmData.farmName;
-            if (string.IsNullOrEmpty(farmData.year))
-            {
-                fvm.year = DateTime.Now.ToString("yyyy");
-                if (farmData.years == null)
-                {
-                    farmData.years = new List<YearData>();
-                    farmData.years.Add(new YearData { year = fvm.year });
-                }
 
-                farmData.year = fvm.year;
-                HttpContext.Session.SetObjectAsJson("FarmData", farmData);
-            }
             if (farmData.soilTests != null)
             {
                 fvm.soilTests = farmData.soilTests.Value;
@@ -54,8 +45,8 @@ namespace SERVERAPI.Controllers
             {
                 fvm.manure = farmData.manure.Value;
             }
+
             fvm.selRegOption = farmData.farmRegion;
-            fvm.userData = HttpContext.Session.GetString("FarmData");
 
             return View(fvm);
         }
@@ -63,7 +54,8 @@ namespace SERVERAPI.Controllers
         public IActionResult Farm(FarmViewModel fvm)
         {
             Models.Impl.StaticData sd = new Models.Impl.StaticData();
-            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            var farmData = _ud.FarmDetails();
+
             fvm.regOptions = sd.GetRegionsDll(HttpContext).ToList();
 
             farmData.year = fvm.year;
@@ -72,53 +64,39 @@ namespace SERVERAPI.Controllers
             farmData.soilTests = (fvm.soilTests == null) ? null : fvm.soilTests;
             farmData.manure = (fvm.manure == null) ? null : fvm.manure;
 
-            if (farmData.years == null)
-            {
-                farmData.years = new List<YearData>();
-                farmData.years.Add(new YearData { year = fvm.year });
-            }
-            else
-            {
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == fvm.year);
-
-                if (yd == null)
-                {
-                    farmData.years.Add(new YearData { year = fvm.year });
-                }
-            }
+            _ud.UpdateFarmDetails(farmData);
 
             fvm.currYear = fvm.year;
-            HttpContext.Session.SetObjectAsJson("FarmData", farmData);
-            fvm.userData = JsonConvert.SerializeObject(farmData);
-            HttpContext.Session.SetObjectAsJson("FarmData", farmData);
-            fvm.sendNMP = false;
             ModelState.Remove("userData");
-            ModelState.Remove("sendNMP");
 
             return View(fvm);
         }
         [HttpGet]
-        public ActionResult FieldDetail(string name)
+        public ActionResult FieldDetail(string name, string target, string cntl, string actn)
         {
             FieldDetailViewModel fvm = new FieldDetailViewModel();
+            fvm.target = target;
+            fvm.actn = actn;
+            fvm.cntl = cntl;
 
             if (!string.IsNullOrEmpty(name))
             {
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == name);
-                if (fld != null)
-                {
-                    fvm.currFieldName = fld.fieldName;
-                    fvm.fieldName = fld.fieldName;
-                    fvm.fieldArea = fld.area.ToString();
-                    fvm.fieldComment = fld.comment;
-                    fvm.act = "Edit";
-                }
-                else
-                {
-                    fvm.act = "Add";
-                }
+                Field fld = _ud.GetFieldDetails(name);
+                //var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+                //YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.farmDetails.year);
+                //Field fld = yd.fields.FirstOrDefault(y => y.fieldName == name);
+                //if (fld != null)
+                //{
+                fvm.currFieldName = fld.fieldName;
+                fvm.fieldName = fld.fieldName;
+                fvm.fieldArea = fld.area.ToString();
+                fvm.fieldComment = fld.comment;
+                fvm.act = "Edit";
+                //}
+                //else
+                //{
+                //    fvm.act = "Add";
+                //}
             }
             else
             {
@@ -130,6 +108,7 @@ namespace SERVERAPI.Controllers
         public ActionResult FieldDetail(FieldDetailViewModel fvm)
         {
             decimal area = 0;
+            string url;
 
             if (ModelState.IsValid)
             {
@@ -143,15 +122,7 @@ namespace SERVERAPI.Controllers
                     return PartialView("FieldDetail", fvm);
                 }
 
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-
-                if (yd.fields == null)
-                {
-                    yd.fields = new List<Field>();
-                }
-
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.fieldName);
+                Field fld = _ud.GetFieldDetails(fvm.fieldName);
 
                 if (fld != null)
                 {
@@ -169,7 +140,7 @@ namespace SERVERAPI.Controllers
                 }
                 else
                 {
-                    fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.currFieldName);
+                    fld = _ud.GetFieldDetails(fvm.fieldName);
                     if (fld == null)
                     {
                         fld = new Field();
@@ -182,13 +153,21 @@ namespace SERVERAPI.Controllers
 
                 if (fvm.act == "Add")
                 {
-                    yd.fields.Add(fld);
+                    _ud.AddField(fld);
                 }
-
-                HttpContext.Session.SetObjectAsJson("FarmData", farmData);
-
-                string url = Url.Action("RefreshFieldsList", "Farm");
-                return Json(new { success = true, url = url, farmdata = JsonConvert.SerializeObject(farmData) });
+                else
+                {
+                    _ud.UpdateField(fld);
+                }
+                if (fvm.target == "#fields")
+                {
+                    url = Url.Action("RefreshFieldsList", "Farm");
+                }
+                else
+                {
+                    url = Url.Action("RefreshList", "Farm", new { cntl = fvm.cntl, actn = fvm.actn });
+                }
+                return Json(new { success = true, url = url, target = fvm.target });
             }
             return PartialView("FieldDetail", fvm);
         }
@@ -196,24 +175,20 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("Fields");
         }
+        public IActionResult RefreshList(string actn, string cntl)
+        {
+            return ViewComponent("FieldList", new { actn = actn, cntl = cntl });
+        }
         [HttpGet]
-        public ActionResult FieldDelete(string name)
+        public ActionResult FieldDelete(string name, string target)
         {
             FieldDeleteViewModel fvm = new FieldDeleteViewModel();
-            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            fvm.target = target;
 
-            if (!string.IsNullOrEmpty(name))
-            {
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == name);
-                if (fld != null)
-                {
-                    fvm.fieldName = fld.fieldName;
-                    fvm.act = "Delete";
-                }
-            }
+            Field fld = _ud.GetFieldDetails(name);
 
-            fvm.userDataField = JsonConvert.SerializeObject(farmData);
+            fvm.fieldName = fld.fieldName;
+            fvm.act = "Delete";
 
             return PartialView("FieldDelete", fvm);
         }
@@ -222,22 +197,10 @@ namespace SERVERAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.fieldName);
-
-                if (fld == null)
-                {
-                    ModelState.AddModelError("fieldName", "Field name not found.");
-                    return PartialView("FieldDelete", fvm);
-                }
-
-                yd.fields.Remove(fld);
-
-                HttpContext.Session.SetObjectAsJson("FarmData", farmData);
+                _ud.DeleteField(fvm.fieldName);
 
                 string url = Url.Action("RefreshFieldsList", "Farm");
-                return Json(new { success = true, url = url, farmdata = JsonConvert.SerializeObject(farmData) });
+                return Json(new { success = true, url = url, target = fvm.target });
             }
             return PartialView("FieldDelete", fvm);
         }

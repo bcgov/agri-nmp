@@ -47,10 +47,12 @@ namespace SERVERAPI.Controllers
     public class HomeController : Controller
     {
         private IHostingEnvironment _env;
+        private UserData _ud;
 
-        public HomeController(IHostingEnvironment env)
+        public HomeController(IHostingEnvironment env, UserData ud)
         {
             _env = env;
+            _ud = ud;
         }
         public IActionResult Index()
         {
@@ -88,9 +90,7 @@ namespace SERVERAPI.Controllers
             }
             else
             {
-                FarmData userData = new FarmData();
-                HttpContext.Session.SetObjectAsJson("FarmData", userData);
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+                _ud.NewFarm();
             }
             return RedirectToAction("Farm","Farm");
         }
@@ -189,7 +189,7 @@ namespace SERVERAPI.Controllers
         {
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
-            var fileName = farmData.year + " - " + farmData.farmName + ".nmp";
+            var fileName = farmData.farmDetails.year + " - " + farmData.farmDetails.farmName + ".nmp";
             byte[] fileBytes = Encoding.ASCII.GetBytes(HttpContext.Session.GetString("FarmData"));
             return File(fileBytes, "application/octet-stream", fileName);
         }
