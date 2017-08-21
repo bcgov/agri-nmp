@@ -194,9 +194,9 @@ namespace SERVERAPI.Controllers
 
                         _ud.AddFieldNutrientsManure(mvm.fieldName, nm);
                     }
-
+                    string target = "#manure";
                     string url = Url.Action("RefreshManureList", "Nutrients", new {fieldName = mvm.fieldName });
-                    return Json(new { success = true, url = url });
+                    return Json(new { success = true, url = url, target = target });
                 }
             }
 

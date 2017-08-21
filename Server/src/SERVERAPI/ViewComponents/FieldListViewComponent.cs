@@ -22,14 +22,16 @@ namespace SERVERAPI.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string cntl, string actn)
         {
-            return View(await GetFieldsAsync(cntl, actn));
+            var itemsTask = GetFieldsAsync(cntl, actn);
+            var items = await itemsTask;
+            return View(items);
         }
 
         private Task<FieldListViewModel> GetFieldsAsync(string cntl, string actn)
         {
             FieldListViewModel fvm = new FieldListViewModel();
-            fvm.cntl = cntl;
             fvm.actn = actn;
+            fvm.cntl = cntl;
             fvm.fields = new List<Field>();
 
             List<Field> fldList = _ud.GetFields();
