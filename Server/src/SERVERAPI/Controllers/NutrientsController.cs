@@ -105,6 +105,10 @@ namespace SERVERAPI.Controllers
                 Models.StaticData.Manure man = sd.GetManure(HttpContext, nm.manureId);
                 mvm.currUnit = man.solid_liquid;
                 mvm.rateOptions = sd.GetUnitsDll(HttpContext, mvm.currUnit).ToList();
+
+                mvm.stdN = Convert.ToDecimal(mvm.nh4) != 40 ? false : true;
+                mvm.stdAvail = Convert.ToDecimal(mvm.avail) != 40 ? false : true;
+
             }
             else
 
