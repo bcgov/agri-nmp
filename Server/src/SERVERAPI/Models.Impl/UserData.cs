@@ -119,6 +119,16 @@ namespace SERVERAPI.Models.Impl
             return yd.fields;
         }
 
+        public NutrientManure GetFieldNutrientsManure(string fldName, int manId)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+            NutrientManure nm = fld.nutrients.nutrientManures.FirstOrDefault(m => m.id == manId);
+
+            return nm;
+        }
+
         public void AddFieldNutrientsManure(string fldName, NutrientManure newMan)
         {
             int nextId = 1;
@@ -147,6 +157,41 @@ namespace SERVERAPI.Models.Impl
             newMan.id = nextId;
 
             fld.nutrients.nutrientManures.Add(newMan);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void UpdateFieldNutrientsManure(string fldName, NutrientManure updtMan)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+            NutrientManure nm = fld.nutrients.nutrientManures.FirstOrDefault(m => m.id == updtMan.id);
+
+            nm.applicationId = updtMan.applicationId;
+            nm.ltK2o = updtMan.ltK2o;
+            nm.ltN = updtMan.ltN;
+            nm.ltP2o5 = updtMan.ltP2o5;
+            nm.manureId = updtMan.manureId;
+            nm.nAvail = updtMan.nAvail;
+            nm.nh4Retention = updtMan.nh4Retention;
+            nm.rate = updtMan.rate;
+            nm.unitId = updtMan.unitId;
+            nm.yrK2o = updtMan.yrK2o;
+            nm.yrN = updtMan.yrN;
+            nm.yrP2o5 = updtMan.yrP2o5;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void DeleteFieldNutrientsManure(string fldName, int id)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+            NutrientManure nm = fld.nutrients.nutrientManures.FirstOrDefault(m => m.id == id);
+
+            fld.nutrients.nutrientManures.Remove(nm);
+
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
     }

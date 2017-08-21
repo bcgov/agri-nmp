@@ -1,6 +1,4 @@
-﻿body {
-}
-.field-validation-error {
+﻿.field-validation-error {
     color:red;
     clear:both;
     display:block;
@@ -38,4 +36,12 @@ tr:nth-child(even) {
     border-width: thin;
     padding-left: 25px;
     padding-right: 25px;
+}
+
+.Cell2 {
+    display: table-cell;
+    border: none;
+    border-width: thin;
+    padding-left: 5px;
+    padding-right: 5px;
 }

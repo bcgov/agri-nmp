@@ -31,7 +31,7 @@ namespace SERVERAPI.ViewComponents
                     yd.fields = new List<Field>();
                 }
                 Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
-                if(fld == null)
+                if (fld == null)
                 {
                     fld = new Field();
                 }
@@ -40,7 +40,7 @@ namespace SERVERAPI.ViewComponents
                     fld.nutrients = new Nutrients();
                 }
                 List<NutrientManure> fldManures = fld.nutrients.nutrientManures;
-                if(fldManures == null)
+                if (fldManures == null)
                 {
                     fldManures = new List<NutrientManure>();
                 }
@@ -49,9 +49,17 @@ namespace SERVERAPI.ViewComponents
                 {
                     DisplayNutrientManure dm = new DisplayNutrientManure()
                     {
+                        fldName = fldName,
+                        manId = m.id,
                         matType = sd.GetManure(HttpContext, m.manureId).name,
                         applType = sd.GetApplication(HttpContext, m.applicationId).name,
-                        rate = m.rate.ToString()
+                        rate = m.rate.ToString() + " " + sd.GetUnit(HttpContext, m.unitId).name,
+                        yrN = m.yrN.ToString(),
+                        yrP = m.yrP2o5.ToString(),
+                        yrK = m.yrK2o.ToString(),
+                        ltN = m.ltN.ToString(),
+                        ltP = m.ltP2o5.ToString(),
+                        ltK = m.ltK2o.ToString(),
                     };
                     mvm.manures.Add(dm);
                 }
@@ -66,8 +74,16 @@ namespace SERVERAPI.ViewComponents
     }
     public class DisplayNutrientManure
     {
+        public string fldName { get; set; }
+        public int manId { get; set; }
         public string matType { get; set; }
         public string applType { get; set; }
         public string rate { get; set; }
+        public string yrN { get; set; }
+        public string yrP { get; set; }
+        public string yrK { get; set; }
+        public string ltN { get; set; }
+        public string ltP { get; set; }
+        public string ltK { get; set; }
     }
 }

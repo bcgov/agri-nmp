@@ -181,6 +181,35 @@ namespace SERVERAPI.Models.Impl
 
             return applsOptions;
         }
+        public Models.StaticData.Unit GetUnit(HttpContext ctx, string unitId)
+        {
+            Models.StaticData.Unit unit = new Models.StaticData.Unit();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(ctx.Session.Get("Static")));
+            JArray units = (JArray)rss["agri"]["nmp"]["units"]["unit"];
+
+            foreach (var r in units)
+            {
+                if (r["id"].ToString() == unitId)
+                {
+                    unit.id = Convert.ToInt32(r["id"].ToString());
+                    unit.name = r["name"].ToString();
+                    unit.nutrient_content_units = r["nutrient_content_units"].ToString();
+                    unit.conversion_lbton = Convert.ToDecimal(r["conversion_lbton"].ToString());
+                    unit.nutrient_rate_units = r["nutrient_rate_units"].ToString();
+                    unit.cost_units = r["cost_units"].ToString();
+                    unit.cost_applications = Convert.ToDecimal(r["cost_applications"].ToString());
+                    unit.dollar_unit_area = r["dollar_unit_area"].ToString();
+                    unit.value_material_units = r["value_material_units"].ToString();
+                    unit.value_N = Convert.ToDecimal(r["value_N"].ToString());
+                    unit.value_P2O5 = Convert.ToDecimal(r["value_P2O5"].ToString());
+                    unit.value_K2O = Convert.ToDecimal(r["value_K2O"].ToString());
+                    unit.solid_liquid = r["solid_liquid"].ToString();
+                }
+            }
+
+            return unit;
+        }
         public Models.StaticData.Units GetUnits(HttpContext ctx)
         {
             Models.StaticData.Units units = new Models.StaticData.Units();
