@@ -256,7 +256,8 @@
                 .done(function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
-                        $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        window.location.href = '@Url.Action("Calculate","Nutrients")';
                     } else {
                         $('#myModalContent').html(result);
                         bindForm2(dialog);

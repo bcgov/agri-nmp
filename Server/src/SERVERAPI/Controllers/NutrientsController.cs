@@ -223,7 +223,8 @@ namespace SERVERAPI.Controllers
         }
         public IActionResult RefreshFieldList(string fieldName)
         {
-            return ViewComponent("FieldList");
+            return RedirectToAction("Calculate", "Nutrients");
+            //return ViewComponent("FieldList");
         }
     }
 }
