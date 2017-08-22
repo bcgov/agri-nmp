@@ -21,7 +21,6 @@ namespace SERVERAPI.Controllers
         public IActionResult Report()
         {
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-            Models.Impl.StaticData sd = new Models.Impl.StaticData();
 
             FarmViewModel fvm = new FarmViewModel();
 

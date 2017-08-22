@@ -16,19 +16,19 @@ namespace SERVERAPI.Controllers
     {
         private IHostingEnvironment _env;
         private UserData _ud;
+        private Models.Impl.StaticData _sd;
 
-        public NutrientsController(IHostingEnvironment env, UserData ud)
+        public NutrientsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;
             _ud = ud;
+            _sd = sd;
         }
         // GET: /<controller>/
         public IActionResult Calculate(string id)
         {
             CalculateViewModel cvm = new CalculateViewModel();
             cvm.fields = new List<Field>();
-
-            Models.Impl.StaticData sd = new Models.Impl.StaticData();
 
             // not id entered so default to the first one for the farm
             if(id == null)
@@ -101,10 +101,9 @@ namespace SERVERAPI.Controllers
                 mvm.ltN = nm.ltN.ToString();
                 mvm.ltP2o5 = nm.ltP2o5.ToString();
                 mvm.ltK2o = nm.ltK2o.ToString();
-                Models.Impl.StaticData sd = new Models.Impl.StaticData();
-                Models.StaticData.Manure man = sd.GetManure(HttpContext, nm.manureId);
+                Models.StaticData.Manure man = _sd.GetManure(nm.manureId);
                 mvm.currUnit = man.solid_liquid;
-                mvm.rateOptions = sd.GetUnitsDll(HttpContext, mvm.currUnit).ToList();
+                mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
 
                 mvm.stdN = Convert.ToDecimal(mvm.nh4) != 40 ? false : true;
                 mvm.stdAvail = Convert.ToDecimal(mvm.avail) != 40 ? false : true;
@@ -158,12 +157,12 @@ namespace SERVERAPI.Controllers
 
                 if (mvm.selManOption != "")
                 {
-                    Models.Impl.StaticData sd = new Models.Impl.StaticData();
-                    Models.StaticData.Manure man = sd.GetManure(HttpContext, mvm.selManOption);
+                    Models.StaticData.Manure man = _sd.GetManure(mvm.selManOption);
                     if(mvm.currUnit != man.solid_liquid)
                     {
                         mvm.currUnit = man.solid_liquid;
-                        mvm.rateOptions = sd.GetUnitsDll(HttpContext, mvm.currUnit).ToList();
+                        mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
+                        mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
                     }
                 }
                 return View(mvm);
@@ -243,16 +242,14 @@ namespace SERVERAPI.Controllers
         }
         private void ManureDetailsSetup(ref ManureDetailsViewModel mvm)
         {
-            Models.Impl.StaticData sd = new Models.Impl.StaticData();
-
             mvm.manOptions = new List<Models.StaticData.SelectListItem>();
-            mvm.manOptions = sd.GetManuresDll(HttpContext).ToList();
+            mvm.manOptions = _sd.GetManuresDll().ToList();
 
             mvm.applOptions = new List<Models.StaticData.SelectListItem>();
-            mvm.applOptions = sd.GetApplicationsDll(HttpContext).ToList();
+            mvm.applOptions = _sd.GetApplicationsDll().ToList();
 
             mvm.rateOptions = new List<Models.StaticData.SelectListItem>();
-            mvm.rateOptions = sd.GetUnitsDll(HttpContext, mvm.currUnit).ToList();
+            mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
 
             return;
         }
@@ -268,13 +265,12 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public ActionResult ManureDelete(string fldName, int id)
         {
-            Models.Impl.StaticData sd = new Models.Impl.StaticData();
             ManureDeleteViewModel dvm = new ManureDeleteViewModel();
             dvm.id = id;
             dvm.fldName = fldName;
 
             NutrientManure nm = _ud.GetFieldNutrientsManure(fldName, id);
-            dvm.matType = sd.GetManure(HttpContext, nm.manureId).name;
+            dvm.matType = _sd.GetManure(nm.manureId).name;
 
             dvm.act = "Delete";
 

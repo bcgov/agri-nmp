@@ -16,21 +16,22 @@ namespace SERVERAPI.Controllers
     {
         private IHostingEnvironment _env;
         private UserData _ud;
+        private Models.Impl.StaticData _sd;
 
-        public FarmController(IHostingEnvironment env, UserData ud)
+        public FarmController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;
             _ud = ud;
+            _sd = sd;
         }
         [HttpGet]
         public IActionResult Farm()
         {
             var farmData = _ud.FarmDetails();
-            Models.Impl.StaticData sd = new Models.Impl.StaticData();
 
             FarmViewModel fvm = new FarmViewModel();
 
-            fvm.regOptions = sd.GetRegionsDll(HttpContext).ToList();
+            fvm.regOptions = _sd.GetRegionsDll().ToList();
             fvm.selRegOption = null;
 
             fvm.year = farmData.year;
@@ -53,10 +54,9 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult Farm(FarmViewModel fvm)
         {
-            Models.Impl.StaticData sd = new Models.Impl.StaticData();
             var farmData = _ud.FarmDetails();
 
-            fvm.regOptions = sd.GetRegionsDll(HttpContext).ToList();
+            fvm.regOptions = _sd.GetRegionsDll().ToList();
 
             farmData.year = fvm.year;
             farmData.farmName = fvm.farmName;

@@ -10,6 +10,13 @@ namespace SERVERAPI.ViewComponents
 {
     public class CalcManure : ViewComponent
     {
+        private Models.Impl.StaticData _sd;
+
+        public CalcManure(Models.Impl.StaticData sd)
+        {
+            _sd = sd;
+        }
+
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
             return View(await GetManureAsync(fldName));
@@ -17,7 +24,6 @@ namespace SERVERAPI.ViewComponents
 
         private Task<CalcManureViewModel> GetManureAsync(string fldName)
         {
-            Models.Impl.StaticData sd = new Models.Impl.StaticData();
             CalcManureViewModel mvm = new CalcManureViewModel();
             mvm.manures = new List<DisplayNutrientManure>();
 
@@ -51,9 +57,9 @@ namespace SERVERAPI.ViewComponents
                     {
                         fldName = fldName,
                         manId = m.id,
-                        matType = sd.GetManure(HttpContext, m.manureId).name,
-                        applType = sd.GetApplication(HttpContext, m.applicationId).name,
-                        rate = m.rate.ToString() + " " + sd.GetUnit(HttpContext, m.unitId).name,
+                        matType = _sd.GetManure(m.manureId).name,
+                        applType = _sd.GetApplication(m.applicationId).name,
+                        rate = m.rate.ToString() + " " + _sd.GetUnit(m.unitId).name,
                         yrN = m.yrN.ToString(),
                         yrP = m.yrP2o5.ToString(),
                         yrK = m.yrK2o.ToString(),

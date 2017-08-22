@@ -29,7 +29,7 @@
             </div>
             <div class="col-sm-4 step-header-form">
                 <span>Units</span>
-                <select class="form-control" id="select">
+                <select class="form-control" id="select" disabled="disabled" title="Not Implemented">
                     <option>Not implemented</option>
                     <option>lb/ac</option>
                     <option>kg</option>
@@ -48,7 +48,8 @@
             <br />
             <br />
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';" />
+                <input class="form-box-submit-button btn btn-primary btn-lg" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("SoilTests", "Soil" )';" />
+                <input class="form-box-submit-button btn btn-primary btn-lg" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';" />
             </div>
         </form>
     </div>

@@ -11,12 +11,19 @@ namespace SERVERAPI.Models.Impl
 {
     public partial class StaticData
     {
-        public Models.StaticData.Regions GetRegions(HttpContext ctx)
+        private readonly IHttpContextAccessor _ctx;
+
+        public StaticData(IHttpContextAccessor ctx)
+        {
+            _ctx = ctx;
+        }
+
+        public Models.StaticData.Regions GetRegions()
         {
             Models.StaticData.Regions regs = new Models.StaticData.Regions();
             regs.regions = new List<Models.StaticData.Region>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(ctx.Session.Get("Static")));
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray regions = (JArray)rss["agri"]["nmp"]["regions"]["region"];
 
             foreach (var r in regions)
@@ -34,9 +41,9 @@ namespace SERVERAPI.Models.Impl
             return regs;
         }
 
-        public List<Models.StaticData.SelectListItem> GetRegionsDll(HttpContext ctx)
+        public List<Models.StaticData.SelectListItem> GetRegionsDll()
         {
-            Models.StaticData.Regions regs = GetRegions(ctx);
+            Models.StaticData.Regions regs = GetRegions();
 
             List <Models.StaticData.SelectListItem> regOptions = new List<Models.StaticData.SelectListItem>();
 
@@ -48,11 +55,11 @@ namespace SERVERAPI.Models.Impl
 
             return regOptions;
         }
-        public Models.StaticData.Manure GetManure(HttpContext ctx, string manId )
+        public Models.StaticData.Manure GetManure(string manId )
         {
             Models.StaticData.Manure man = new Models.StaticData.Manure();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(ctx.Session.Get("Static")));
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray manures = (JArray)rss["agri"]["nmp"]["manures"]["manure"];
 
             foreach (var r in manures)
@@ -73,12 +80,12 @@ namespace SERVERAPI.Models.Impl
 
             return man;
         }
-        public Models.StaticData.Manures GetManures(HttpContext ctx)
+        public Models.StaticData.Manures GetManures()
         {
             Models.StaticData.Manures mans = new Models.StaticData.Manures();
             mans.manures = new List<Models.StaticData.Manure>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(ctx.Session.Get("Static")));
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray manures = (JArray)rss["agri"]["nmp"]["manures"]["manure"];
 
             foreach (var r in manures)
@@ -99,9 +106,9 @@ namespace SERVERAPI.Models.Impl
 
             return mans;
         }
-        public List<Models.StaticData.SelectListItem> GetManuresDll(HttpContext ctx)
+        public List<Models.StaticData.SelectListItem> GetManuresDll()
         {
-            Models.StaticData.Manures mans = GetManures(ctx);
+            Models.StaticData.Manures mans = GetManures();
 
             List<Models.StaticData.SelectListItem> manOptions = new List<Models.StaticData.SelectListItem>();
 
@@ -113,11 +120,11 @@ namespace SERVERAPI.Models.Impl
 
             return manOptions;
         }
-        public Models.StaticData.Season_Application GetApplication(HttpContext ctx, string applId)
+        public Models.StaticData.Season_Application GetApplication(string applId)
         {
             Models.StaticData.Season_Application appl = new Models.StaticData.Season_Application();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(ctx.Session.Get("Static")));
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-applicaton"];
 
             foreach (var r in applications)
@@ -139,12 +146,12 @@ namespace SERVERAPI.Models.Impl
 
             return appl;
         }
-        public Models.StaticData.Season_Applications GetApplications(HttpContext ctx)
+        public Models.StaticData.Season_Applications GetApplications()
         {
             Models.StaticData.Season_Applications appls = new Models.StaticData.Season_Applications();
             appls.season_applications = new List<Models.StaticData.Season_Application>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(ctx.Session.Get("Static")));
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-applicaton"];
 
             foreach (var r in applications)
@@ -167,9 +174,9 @@ namespace SERVERAPI.Models.Impl
             return appls;
         }
 
-        public List<Models.StaticData.SelectListItem> GetApplicationsDll(HttpContext ctx)
+        public List<Models.StaticData.SelectListItem> GetApplicationsDll()
         {
-            Models.StaticData.Season_Applications appls = GetApplications(ctx);
+            Models.StaticData.Season_Applications appls = GetApplications();
 
             List<Models.StaticData.SelectListItem> applsOptions = new List<Models.StaticData.SelectListItem>();
 
@@ -181,11 +188,11 @@ namespace SERVERAPI.Models.Impl
 
             return applsOptions;
         }
-        public Models.StaticData.Unit GetUnit(HttpContext ctx, string unitId)
+        public Models.StaticData.Unit GetUnit(string unitId)
         {
             Models.StaticData.Unit unit = new Models.StaticData.Unit();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(ctx.Session.Get("Static")));
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray units = (JArray)rss["agri"]["nmp"]["units"]["unit"];
 
             foreach (var r in units)
@@ -210,12 +217,12 @@ namespace SERVERAPI.Models.Impl
 
             return unit;
         }
-        public Models.StaticData.Units GetUnits(HttpContext ctx)
+        public Models.StaticData.Units GetUnits()
         {
             Models.StaticData.Units units = new Models.StaticData.Units();
             units.units = new List<Models.StaticData.Unit>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(ctx.Session.Get("Static")));
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["units"]["unit"];
 
             foreach (var r in array)
@@ -240,9 +247,9 @@ namespace SERVERAPI.Models.Impl
             return units;
         }
 
-        public List<Models.StaticData.SelectListItem> GetUnitsDll(HttpContext ctx, string unitType)
+        public List<Models.StaticData.SelectListItem> GetUnitsDll(string unitType)
         {
-            Models.StaticData.Units units = GetUnits(ctx);
+            Models.StaticData.Units units = GetUnits();
 
             List<Models.StaticData.SelectListItem> unitsOptions = new List<Models.StaticData.SelectListItem>();
 
