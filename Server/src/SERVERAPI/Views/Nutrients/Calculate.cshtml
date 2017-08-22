@@ -72,80 +72,13 @@
                         </div>
                     </div>
                 }
-                <div id="manure">
-                    @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
+                <div class="panel-group" id="accordion">
+                    <!-- accordion 1 -->
+                    <div id="manure">
+                        @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
+                    </div>
                 </div>
 
-                @*<div class="form-box">
-                    <div class="form-box-header clearfix">
-                        <div>
-                            <legend class="form-box-heading">Manure</legend>
-                        </div>
-                    </div>
-                    <div class="form-box-body">
-                        <div class="form-box-table">
-                            <table class="form-box-table">
-                                <thead>
-                                    <tr>
-                                        <th colspan="2"></th>
-                                        <th colspan="3">First year (lbs/ac)</th>
-                                        <th colspan="3">Long term (lbs/ac)</th>
-                                    </tr>
-                                    <tr>
-                                        <th>Application season and method</th>
-                                        <th>Manure type</th>
-                                        <th>Application rate</th>
-                                        <th>N</th>
-                                        <th>P205</th>
-                                        <th>K20</th>
-                                        <th>N</th>
-                                        <th>P205</th>
-                                        <th>K20</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Spring -not incorporated</td>
-                                        <td>Solid -heavy</td>
-                                        <td>35</td>
-                                        <td>50</td>
-                                        <td>48</td>
-                                        <td>72</td>
-                                        <td>70</td>
-                                        <td>65</td>
-                                        <td>72</td>
-                                        <td>
-                                            <button aria-label="edit" class="form-box-table-button" type="button">
-                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
-                                            </button>
-                                            <button aria-label="delete" class="form-box-table-button" type="button">
-                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td>Yearly Total</td>
-                                        <td></td>
-                                        <td>35</td>
-                                        <td>50</td>
-                                        <td>48</td>
-                                        <td>72</td>
-                                        <td>70</td>
-                                        <td>65</td>
-                                        <td>72</td>
-                                        <td></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div class="form-box-table-add text-right form-box-table-row row">
-                            <button class="btn btn-success" type="button" data-toggle="modal" data-target="#myModal" role="alertdialog">Add another manure</button>
-                        </div>
-                    </div>
-                </div>*@
             
                 </div>
 
@@ -304,6 +237,7 @@
             $("#ok_button").css('background-color', '#1abbed');
             $("#btnText").val("Calculate");
         }
+
 
 </script>
 
