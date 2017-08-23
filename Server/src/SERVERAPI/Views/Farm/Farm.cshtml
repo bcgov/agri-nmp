@@ -23,16 +23,14 @@
             <span class="step-header-name">Farm & Field Details</span>
         </div>
         <div class="col-sm-6">
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4 text-right">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3 text-right">
                 <span class="step-header-steps">Step 1 of 5</span>
             </div>
-            <div class="col-sm-4 step-header-form">
+            <div class="col-sm-6 step-header-form">
                 <span>Units</span>
-                <select class="form-control" id="select" disabled="disabled" title="Not Implemented">
-                    <option>Not implemented</option>
+                <select class="form-control" id="select" disabled="disabled" title="Not Implemented" style="width:80px">
                     <option>lb/ac</option>
-                    <option>kg</option>
                 </select>
             </div>
         </div>
@@ -147,6 +145,7 @@
 
         // ensure this event handler is attached to current and future elements (after partial renders)
         $(document).on("click", '[data_modal]', function (e) {
+            $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({
@@ -167,6 +166,8 @@
                     success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
+                            alert(result.target);
+                            alert(result.url);
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
                         } else {
                             $('#myModalContent').html(result);

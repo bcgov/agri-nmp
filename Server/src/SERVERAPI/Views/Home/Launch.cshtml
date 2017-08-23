@@ -63,6 +63,7 @@
 
         // ensure this event handler is attached to current and future elements (after partial renders)
     $(document).on("click", '[data_modal]', function (e) {
+        $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({

@@ -104,7 +104,6 @@ namespace SERVERAPI.Controllers
                 Models.StaticData.Manure man = _sd.GetManure(nm.manureId);
                 mvm.currUnit = man.solid_liquid;
                 mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
-                mvm.selRateOptionText = "(" + mvm.rateOptions.Find(r => r.Id.ToString() == mvm.selRateOption).Value + ")";
 
                 mvm.stdN = Convert.ToDecimal(mvm.nh4) != 40 ? false : true;
                 mvm.stdAvail = Convert.ToDecimal(mvm.avail) != 40 ? false : true;
@@ -127,12 +126,6 @@ namespace SERVERAPI.Controllers
         public IActionResult ManureDetails(ManureDetailsViewModel mvm)
         {
             ManureDetailsSetup(ref mvm);
-            if (mvm.selRateOption != "select")
-            {
-                mvm.selRateOptionText = "(" + mvm.rateOptions.Find(r => r.Id.ToString() == mvm.selRateOption).Value + ")";
-            }
-
-            //var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
             if (mvm.buttonPressed == "ResetN")
             {
@@ -168,7 +161,6 @@ namespace SERVERAPI.Controllers
                         mvm.currUnit = man.solid_liquid;
                         mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
                         mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
-                        mvm.selRateOptionText = "(" + mvm.rateOptions.Find(r => r.Id.ToString() == mvm.selRateOption).Value + ")";
                     }
                 }
                 return View(mvm);
@@ -256,6 +248,7 @@ namespace SERVERAPI.Controllers
 
             mvm.rateOptions = new List<Models.StaticData.SelectListItem>();
             mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
+            mvm.selRateOptionText = "(lb/ac)";
 
             return;
         }

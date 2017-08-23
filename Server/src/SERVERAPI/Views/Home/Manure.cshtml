@@ -134,6 +134,7 @@
 
         // ensure this event handler is attached to current and future elements (after partial renders)
         $(document).on("click", 'a[data_modal=""]', function (e) {
+            $.ajaxSetup({ cache: false });
             $('#myModalContent').load(this.href, function () {
                 $('#myModal').modal({
                     /*backdrop: 'static',*/

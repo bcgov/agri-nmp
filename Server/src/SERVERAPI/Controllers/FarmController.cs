@@ -178,7 +178,7 @@ namespace SERVERAPI.Controllers
         public IActionResult RefreshList(string actn, string cntl)
         {
             //return ViewComponent("FieldList", new { actn = actn, cntl = cntl });
-            return RedirectToAction("Calculate", "Nutrients");
+            return RedirectToAction(actn, cntl);
         }
         [HttpGet]
         public ActionResult FieldDelete(string name, string target)
