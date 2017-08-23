@@ -9,6 +9,7 @@ namespace SERVERAPI.Models
     public class FarmData
     {
         public FarmDetails farmDetails { get; set; }
+        public bool unsaved { get; set; }
         public List<YearData> years { get; set; }
     }
     public class FarmDetails

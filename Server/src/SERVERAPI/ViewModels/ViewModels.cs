@@ -35,7 +35,7 @@ namespace SERVERAPI.ViewModels
     }
     public class LaunchViewModel
     {
-        public bool canContinue { get; set; }
+        public bool wasWarned { get; set; }
         public string userData { get; set; }
     }
     public class FieldDetailViewModel
@@ -67,6 +67,7 @@ namespace SERVERAPI.ViewModels
     {
         [Display(Name = "File Name")]
         public string fileName { get; set; }
+        public bool wasWarned { get; set; }
     }
     public class ManureDetailsViewModel
     {

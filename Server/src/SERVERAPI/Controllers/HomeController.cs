@@ -58,40 +58,38 @@ namespace SERVERAPI.Controllers
         {
             return View();
         }
-        public IActionResult Launch(string id)
+        public IActionResult Launch()
         {
             ViewBag.Title = "NMP";
             LoadStatic();
             LaunchViewModel lvm = new LaunchViewModel();
-            lvm.userData = null;
-
-            if (id == "false")
-            {
-                lvm.canContinue = false;
-            }
-            else
-            {
-                lvm.canContinue = true;
-            }
-
-            HttpContext.Session.SetObjectAsJson("FarmData", lvm.userData);
+            lvm.wasWarned = false;
 
             return View(lvm);
 
         }
         [HttpPost]
-        public IActionResult Launch(LaunchViewModel lvm, string type)
+        public IActionResult Launch(LaunchViewModel lvm, string name)
         {
-            if(type == "Continue")
+            var userData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            if(userData != null && userData.unsaved)
             {
-                // save the local storage user data in it's stringified form
-                HttpContext.Session.SetString("FarmData", lvm.userData);
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+                if(lvm.wasWarned)
+                {
+                    _ud.NewFarm();
+                    return RedirectToAction("Farm", "Farm");
+                }
+                else
+                {
+                    ModelState.Clear();
+                    ModelState.AddModelError("", "There is currently an active file open that has changes that have not been saved - to continue without downloading the current file please press New again.");
+                    lvm.wasWarned = true;
+                    return View(lvm);
+                }
             }
-            else
-            {
-                _ud.NewFarm();
-            }
+
+            _ud.NewFarm();
             return RedirectToAction("Farm","Farm");
         }
 
@@ -187,7 +185,9 @@ namespace SERVERAPI.Controllers
         }
         public IActionResult Download()
         {
-            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            FarmData farmData = _ud.FarmData();
+            farmData.unsaved = false;
+            _ud.SaveFarmData(farmData);
 
             var fileName = farmData.farmDetails.year + " - " + farmData.farmDetails.farmName + ".nmp";
             byte[] fileBytes = Encoding.ASCII.GetBytes(HttpContext.Session.GetString("FarmData"));
@@ -196,12 +196,19 @@ namespace SERVERAPI.Controllers
         public IActionResult FileLoad()
         {
             FileLoadViewModel lvm = new FileLoadViewModel();
+            FarmData farmData = _ud.FarmData();
+            if(farmData != null && farmData.unsaved)
+            {
+                lvm.wasWarned = true;
+            }
 
             return View(lvm);
         }
         [HttpPost]
         public IActionResult FileLoad(FileLoadViewModel lvm)
         {
+            FarmData fd;
+
             string fileContents = "";
 
             if (Request.Form.Files.Count > 0)
@@ -224,7 +231,7 @@ namespace SERVERAPI.Controllers
 
                         try
                         {
-                            FarmData fd = JsonConvert.DeserializeObject<FarmData>(fileContents);
+                            fd = JsonConvert.DeserializeObject<FarmData>(fileContents);
                         }
                         catch(Exception ex)
                         {
@@ -233,7 +240,7 @@ namespace SERVERAPI.Controllers
                         }
 
                         // Returns message that successfully uploaded  
-                        HttpContext.Session.SetString("FarmData", fileContents);
+                        _ud.SaveFarmData(fd);
 
                         string url = Url.Action("Farm", "Farm");
                         return Json(new { success = true, url = url, farmdata = fileContents });

@@ -25,7 +25,20 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.year = newYear;
             userData.years = new List<YearData>();
             userData.years.Add(new YearData() { year = newYear });
+            userData.unsaved = true;
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public FarmData FarmData()
+        {
+            FarmData farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            return farmData;
+        }
+
+        public void SaveFarmData(FarmData userData)
+        {
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+            return;
         }
 
         public FarmDetails FarmDetails()
@@ -37,6 +50,7 @@ namespace SERVERAPI.Models.Impl
         public void UpdateFarmDetails(FarmDetails fd)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
             userData.farmDetails.farmName = fd.farmName;
             userData.farmDetails.farmRegion = fd.farmRegion;
             userData.farmDetails.soilTests = fd.soilTests;
@@ -55,6 +69,7 @@ namespace SERVERAPI.Models.Impl
         public void AddField(Field newFld)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
 
             if(yd.fields == null)
@@ -69,6 +84,7 @@ namespace SERVERAPI.Models.Impl
         public void UpdateField(Field updtFld)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             Field fld = yd.fields.FirstOrDefault(f => f.fieldName == updtFld.fieldName);
 
@@ -81,6 +97,7 @@ namespace SERVERAPI.Models.Impl
         public void DeleteField(string name)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             Field fld = yd.fields.FirstOrDefault(f => f.fieldName == name);
             yd.fields.Remove(fld);
@@ -134,6 +151,7 @@ namespace SERVERAPI.Models.Impl
             int nextId = 1;
 
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
 
@@ -163,6 +181,7 @@ namespace SERVERAPI.Models.Impl
         public void UpdateFieldNutrientsManure(string fldName, NutrientManure updtMan)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
             NutrientManure nm = fld.nutrients.nutrientManures.FirstOrDefault(m => m.id == updtMan.id);
@@ -186,6 +205,7 @@ namespace SERVERAPI.Models.Impl
         public void DeleteFieldNutrientsManure(string fldName, int id)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
             NutrientManure nm = fld.nutrients.nutrientManures.FirstOrDefault(m => m.id == id);

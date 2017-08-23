@@ -11,6 +11,17 @@
 
     <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="FileLoad">
         <div class="modal-body">
+            @if (Model.wasWarned)
+            {
+                <div class="row">
+                    <p  class="text-danger">There is currently an active file open that has changes that have not been saved - to continue without downloading the current file please select file and upload.</p>
+                    <div class="col-sm-3">
+                        <div>
+                            <a asp-action="Download" asp-controller="Home" asp->Download</a>
+                        </div>
+                    </div>
+                </div>
+            }
             <div class="row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
