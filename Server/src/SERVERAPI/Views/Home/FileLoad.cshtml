@@ -11,7 +11,8 @@
 
     <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="FileLoad">
         <div class="modal-body">
-            @if (Model.wasWarned)
+            @Html.HiddenFor(x => x.unsavedData)
+            @if (Model.unsavedData)
             {
                 <div class="row">
                     <p  class="text-danger">There is currently an active file open that has changes that have not been saved - to continue without downloading the current file please select file and upload.</p>
@@ -22,21 +23,31 @@
                     </div>
                 </div>
             }
-            <div class="row">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <br />
-                        <p>Please select a file to upload:</p>
-                        <br />
-                        <input class="form-control-file" type="file" name="files" id="FileUpload1" accept=".nmp" />
+            else
+            {
+                <div class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <br />
+                            <p>Please select a file to upload:</p>
+                            <br />
+                            <input class="form-control-file" type="file" name="files" id="FileUpload1" accept=".nmp" />
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-primary" type="submit" value="Upload" />
+            @if (Model.unsavedData)
+            {
+                <input class="btn btn-primary" type="submit" value="Continue Upload" />
+            }
+            else
+            {
+                <input class="btn btn-primary" type="submit" value="Upload" />
+            }
         </div>
     </form>
 </div>

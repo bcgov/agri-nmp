@@ -60,37 +60,36 @@ namespace SERVERAPI.Controllers
         }
         public IActionResult Launch()
         {
+            LaunchViewModel lvm = new LaunchViewModel();
+            FarmData fd = _ud.FarmData();
+            if(fd != null && fd.unsaved)
+            {
+                lvm.unsavedData = true;
+            }
+
             ViewBag.Title = "NMP";
             LoadStatic();
-            LaunchViewModel lvm = new LaunchViewModel();
-            lvm.wasWarned = false;
 
             return View(lvm);
 
         }
         [HttpPost]
-        public IActionResult Launch(LaunchViewModel lvm, string name)
+        public IActionResult Launch(LaunchViewModel lvm)
         {
-            var userData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-
-            if(userData != null && userData.unsaved)
-            {
-                if(lvm.wasWarned)
-                {
-                    _ud.NewFarm();
-                    return RedirectToAction("Farm", "Farm");
-                }
-                else
-                {
-                    ModelState.Clear();
-                    ModelState.AddModelError("", "There is currently an active file open that has changes that have not been saved - to continue without downloading the current file please press New again.");
-                    lvm.wasWarned = true;
-                    return View(lvm);
-                }
-            }
-
             _ud.NewFarm();
             return RedirectToAction("Farm","Farm");
+        }
+        public IActionResult NewWarning()
+        {
+            NewWarningViewModel nvm = new NewWarningViewModel();
+            return View(nvm);
+        }
+        [HttpPost]
+        public IActionResult NewWarning(NewWarningViewModel nvm)
+        {
+            _ud.NewFarm();
+            string url = Url.Action("Farm", "Farm");
+            return Json(new { success = true, url = url });
         }
 
         [HttpGet]
@@ -197,9 +196,10 @@ namespace SERVERAPI.Controllers
         {
             FileLoadViewModel lvm = new FileLoadViewModel();
             FarmData farmData = _ud.FarmData();
+
             if(farmData != null && farmData.unsaved)
             {
-                lvm.wasWarned = true;
+                lvm.unsavedData = true;
             }
 
             return View(lvm);
@@ -208,6 +208,13 @@ namespace SERVERAPI.Controllers
         public IActionResult FileLoad(FileLoadViewModel lvm)
         {
             FarmData fd;
+
+            if(lvm.unsavedData)
+            {
+                ModelState.Clear();
+                lvm.unsavedData = false;
+                return View(lvm);
+            }
 
             string fileContents = "";
 

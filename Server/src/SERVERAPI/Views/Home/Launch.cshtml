@@ -25,15 +25,16 @@
                 <br />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group col-sm-10">
-                    <div class="col-sm-2">
-                        <input class="btn btn-info" type="submit" value="New" name="new" />
-                    </div>
-                    @if (Model.wasWarned)
+                    @if (Model.unsavedData)
                     {
-                        <div class="col-sm-3">
-                            <div>
-                                <a asp-action="Download" asp-controller="Home" asp->Download</a>
-                            </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-info" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-2">
+                            <input class="btn btn-info" type="submit" value="New" name="new" />
                         </div>
                     }
                 </div>
@@ -44,7 +45,7 @@
                 </div>
             </div>
         </div>
-        @Html.HiddenFor(x => x.wasWarned)
+        @Html.HiddenFor(x => x.unsavedData)
     </form>
 
     <!-- PAGE CONTENT -->
@@ -71,37 +72,91 @@
 
         function bindForm(dialog) {
             $('form', dialog).submit(function () {
-                var fileUpload = $("#FileUpload1").get(0);
-                var files = fileUpload.files;
+                if ($("#unsavedData").val() == "False") {
+                    var fileUpload = $("#FileUpload1").get(0);
+                    var files = fileUpload.files;
 
-                // Create FormData object  
-                var fileData = new FormData();
+                    // Create FormData object
+                    var fileData = new FormData();
 
-                // Looping over all files and add it to FormData object  
-                for (var i = 0; i < files.length; i++) {
-                    fileData.append(files[i].name, files[i]);
-                }  
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    contentType: false,
-                    processData: false,
-                    data: fileData,
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            var ls;
-                            ls = localStorage;
-                            ls.setItem("nmp", result.farmdata);
-                            window.location.href = result.url;
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindForm(dialog);
-                        }
+                    // Looping over all files and add it to FormData object
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
                     }
-                });
+                    $.ajax({
+                        url: this.action,
+                        type: this.method,
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: function (result) {
+                            if (result.success) {
+                                $('#myModal').modal('hide');
+                                window.location.href = result.url;
+                            } else {
+                                $('#myModalContent').html(result);
+                                bindForm(dialog);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    $.ajax({
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
+                        .done(function (result) {
+                            if (result.success) {
+                                $('#myModal').modal('hide');
+                                $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            } else {
+                                $('#myModalContent').html(result);
+                                bindForm(dialog);
+                            }
+                        });
+                }
                 return false;
             });
+        }
+
+        $(document).on("click", '[data_modal2]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm2(this);
+            });
+            return false;
+        });
+
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
+                .done(function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        window.location.href = result.url;
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm2(dialog);
+                    }
+                });
+
+                return false;
+            });
+
         }
 
         $(document).ready(function () {

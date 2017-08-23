@@ -35,8 +35,11 @@ namespace SERVERAPI.ViewModels
     }
     public class LaunchViewModel
     {
-        public bool wasWarned { get; set; }
+        public bool unsavedData { get; set; }
         public string userData { get; set; }
+    }
+    public class NewWarningViewModel
+    {
     }
     public class FieldDetailViewModel
     {
@@ -67,7 +70,7 @@ namespace SERVERAPI.ViewModels
     {
         [Display(Name = "File Name")]
         public string fileName { get; set; }
-        public bool wasWarned { get; set; }
+        public bool unsavedData { get; set; }
     }
     public class ManureDetailsViewModel
     {
