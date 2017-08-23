@@ -85,6 +85,7 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selRateOption { get; set; }
+        public string selRateOptionText { get; set; }
         public List<Models.StaticData.SelectListItem> rateOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         public string rate { get; set; }

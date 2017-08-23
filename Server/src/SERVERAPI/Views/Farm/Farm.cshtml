@@ -118,7 +118,21 @@
                 @await Component.InvokeAsync("Fields")
             </div>
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("SoilTests", "Soil" )';" />
+                @if (Model.soilTests != null && Model.soilTests.Value)
+                {
+                <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("SoilTests", "Soil")';" />
+                }
+                else
+                {
+                    if (Model.manure != null && Model.manure.Value)
+                    {
+                        <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("Manure", "Manure")';" />
+                    }
+                    else
+                    {
+                        <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("Calculate", "Nutrients")';" />
+                    }
+                }
             </div>
         </form>
         <!-- PAGE CONTENT -->

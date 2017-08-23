@@ -4,9 +4,9 @@
     Layout = null;
 }
 <div id="target">
-    <div class="modal-header" style="background-color:red">
+    <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" style="background-color:red" id="myModalLabel">Manure Details - @Model.act</h4>
+        <h4 class="modal-title" id="myModalLabel">Manure Details - @Model.act</h4>
     </div>
 
     <form asp-action="ManureDelete" asp-controller="Nutrients" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
@@ -23,7 +23,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-danger" type="submit" value="Delete" />
+            <input class="btn btn-primary" type="submit" value="Delete" />
         </div>
         @Html.HiddenFor(x => x.fldName)
         @Html.HiddenFor(x => x.act)
