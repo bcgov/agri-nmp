@@ -166,8 +166,6 @@
                     success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
-                            alert(result.target);
-                            alert(result.url);
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
                         } else {
                             $('#myModalContent').html(result);
