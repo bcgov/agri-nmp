@@ -87,9 +87,9 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult NewWarning(NewWarningViewModel nvm)
         {
-            _ud.NewFarm();
-            string url = Url.Action("Farm", "Farm");
-            return Json(new { success = true, url = url });
+                _ud.NewFarm();
+                string url = Url.Action("Farm", "Farm");
+                return Json(new { success = true, url = url });
         }
 
         [HttpGet]

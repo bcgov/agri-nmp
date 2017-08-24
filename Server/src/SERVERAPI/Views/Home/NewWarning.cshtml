@@ -9,22 +9,18 @@
         <h4 class="modal-title" id="myModalLabel">Warning - Unsaved Data</h4>
     </div>
 
-    <form asp-action="NewWarning" asp-controller="Home" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+    <form asp-action="NewWarning" asp-controller="Home" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target" id="warnForm">
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <p class="text-danger">There is currently an active file open that has changes that have not been downloaded - to continue without downloading the current file please select Continue.</p>
             </div>
             <br />
-            <div class="form-group">
-                <div>
-                    <a asp-action="Download" asp-controller="Home" asp->Download</a>
-                </div>
-            </div>
             <br />
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="button" value="Save Changes" onclick="location.href='@Url.Action("Download", "Home")'" />
             <input class="btn btn-primary" type="submit" value="Continue" />
         </div>
     </form>

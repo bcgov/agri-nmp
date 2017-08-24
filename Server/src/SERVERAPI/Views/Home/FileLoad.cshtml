@@ -16,11 +16,6 @@
             {
                 <div class="row">
                     <p  class="text-danger">There is currently an active file open that has changes that have not been saved - to continue without downloading the current file please select file and upload.</p>
-                    <div class="col-sm-3">
-                        <div>
-                            <a asp-action="Download" asp-controller="Home" asp->Download</a>
-                        </div>
-                    </div>
                 </div>
             }
             else
@@ -42,6 +37,7 @@
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
             @if (Model.unsavedData)
             {
+                <input class="btn btn-primary" type="button" value="Save Changes" onclick="location.href='@Url.Action("Download", "Home")'" />
                 <input class="btn btn-primary" type="submit" value="Continue Upload" />
             }
             else

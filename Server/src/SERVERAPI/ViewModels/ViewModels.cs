@@ -29,6 +29,11 @@ namespace SERVERAPI.ViewModels
         public string currYear { get; set; }
 
     }
+    public class FieldPageViewModel
+    {
+        public bool? soilTests { get; set; }
+        public bool? manure { get; set; }
+    }
     public class IndexViewModel
     {
         public string userData { get; set; }
