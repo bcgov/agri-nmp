@@ -1,0 +1,57 @@
+﻿@model SERVERAPI.ViewModels.FarmViewModel
+
+@{
+    ViewBag.Title = "Manure/Compost Analysis";
+}
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<div class="step-header">
+    <div class="container">
+        <div class="col-sm-6">
+            <span class="step-header-circle">3</span>
+            <span class="step-header-name">Manure/Compost Analysis</span>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3 text-right">
+                <span class="step-header-steps">Step 4 of 6</span>
+            </div>
+            <div class="col-sm-6 step-header-form">
+                <span>Units</span>
+                <select class="form-control" id="select" disabled="disabled" title="Not Implemented" style="width:80px">
+                    <option>lb/ac</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="Manure" asp-action="Manure" method="post">
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="form-box-submit">
+                <input class="form-box-submit-button btn btn-primary btn-lg" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("SoilTests", "Soil" )';" />
+                <input class="form-box-submit-button btn btn-primary btn-lg" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+
+}

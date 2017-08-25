@@ -1,0 +1,245 @@
+﻿@model SERVERAPI.ViewModels.CalculateViewModel
+
+@{
+    ViewBag.Title = "Calculate Nutrients";
+}
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog" id="divSize">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<div class="step-header">
+    <div class="container">
+        <div class="col-sm-6">
+            <span class="step-header-circle">4</span>
+            <span class="step-header-name">Calculate Nutrients</span>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3 text-right">
+                <span class="step-header-steps">Step 5 of 6</span>
+            </div>
+            <div class="col-sm-6 step-header-form">
+                <span>Units</span>
+                <select class="form-control" id="select" disabled="disabled" title="Not Implemented" style="width:80px">
+                    <option>lb/ac</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="Nutrients" asp-action="Calculate" method="post">
+            <div class="step-forms col-sm-2">
+                @if (Model.fldsFnd)
+                {
+                    <div id="fieldList">
+                        @await Component.InvokeAsync("FieldList", new { cntl = "Nutrients", actn = "Calculate" })
+                    </div>
+                }
+
+                <button class="btn btn-default" type="button" data_modal2="" data-type="@Url.Action("FieldDetail", "Fields", new { target = "#fieldList", cntl = "Nutrients", actn = "Calculate" })">Add field</button>
+            </div>
+            <div class="step-forms col-sm-9">
+                @if (Model.fldsFnd)
+                {
+                    <div class="form-box">
+                        <div class="form-box-header clearfix">
+                            <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
+                            <button class="btn btn-success" disabled="disabled">Add Fertilzer</button>
+                            <button class="btn btn-success" disabled="disabled">Add Other</button>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-box">
+                        <div class="form-box-header clearfix">
+                            <h3>To add nutrients please add a field first</h3>
+                        </div>
+                    </div>
+                }
+                <div class="panel-group" id="accordion">
+                    <!-- accordion 1 -->
+                    <div id="manure">
+                        @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
+                    </div>
+                </div>
+
+            
+                </div>
+
+                <br />
+                <br />
+                <br />
+                <br />
+                <div class="form-box-submit">
+                    <input class="form-box-submit-button btn btn-primary btn-lg" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />
+                    <input class="form-box-submit-button btn btn-primary btn-lg" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Report", "Report" )';" />
+                </div>
+            @Html.HiddenFor(x => x.fldsFnd)
+            @Html.HiddenFor(x => x.currFld)
+        </form>
+    </div>
+</div>
+@section Scripts {
+<script type="text/javascript">
+
+        // ensure this event handler is attached to current and future elements (after partial renders)
+    $(document).on("click", '[data_modal]', function (e) {
+        $.ajaxSetup({ cache: false });
+        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").addClass("modal-lg");
+        $('#myModalContent').load($type, function () {
+            $('#myModal').modal({
+                /*backdrop: 'static',*/
+                //keyboard: true
+            }, 'show');
+            bindForm(this);
+        });
+        return false;
+    });
+
+    $(document).on("click", '[data_modal2]', function (e) {
+        $.ajaxSetup({ cache: false });
+        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").removeClass("modal-lg");
+        $('#myModalContent').load($type, function () {
+            $('#myModal').modal({
+                /*backdrop: 'static',*/
+                //keyboard: true
+            }, 'show');
+            bindForm2(this);
+        });
+        return false;
+    });
+
+    $(document).ready(function () {
+        $("body").on("change", "#ddlMan", function () {
+            $('#buttonPressed').val("TypeChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("click", "#rstN", function () {
+            $('#buttonPressed').val("ResetN");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("click", "#rstA", function () {
+            $('#buttonPressed').val("ResetA");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).on("onload", "#fieldList", function () {
+        alert("current");
+        current();
+    });
+
+    $(document).ready(function () {
+        current();
+    });
+
+    $(document).on("change", "#fieldList", function () {
+        alert("changed");
+    });
+
+        function bindForm(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
+                .done(function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        window.location.href = '@Url.Action("Calculate","Nutrients")';
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm2(dialog);
+                    }
+                });
+
+                return false;
+            });
+
+        }
+
+
+        function current() {
+            $("#fieldList li a").each(function () {
+                if ($(this).text() == $("#currFld").val()) {
+                    $(this).addClass('btn-primary');
+                }
+            });
+        }
+
+        $(document).on('propertychange input paste', '#rate', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#ddlAppl', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#ddlRate', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('propertychange input paste', '#avail', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('propertychange input paste', '#nh4', function () {
+            NeedRefresh();
+        });
+
+
+        function NeedRefresh() {
+            $("#ok_button").html('Calculate');
+            $("#ok_button").css('background-color', '#1abbed');
+            $("#btnText").val("Calculate");
+        }
+
+
+</script>
+
+}

@@ -1,6 +1,7 @@
 ﻿@model  SERVERAPI.ViewModels.LaunchViewModel
 @{
     ViewBag.Title = "Welcome";
+    Layout = "_LayoutNoNav";
 }
 @inject IJsonHelper Json;
 
@@ -21,44 +22,45 @@
         <div class="row">
             <div id="main-content" class="contentPageMainColumn col-xs-12">
                 <h3>Welcome to the Nutrient Management Program</h3>
-                @Html.ActionLink("Report", "Print", new { controller = "Home" }, new { target = "_blank" })
                 <br />
-                <br />
-                <input type="submit" value="New" name="type" />
-                @if (Model.canContinue == true)
-                {
-                    <input type="submit" value="Continue" name="type" />
-                }
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group col-sm-10">
+                    @if (Model.unsavedData)
+                    {
+                        <div class="col-sm-2">
+                            <button class="btn btn-info" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-sm-2">
+                            <input class="btn btn-info" type="submit" value="New" name="new" />
+                        </div>
+                    }
+                </div>
+                <div class="form-group col-sm-10">
+                    <div class="col-sm-2">
+                        <button class="btn btn-info" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
+                    </div>
+                </div>
             </div>
         </div>
-        @Html.HiddenFor(x => x.userData)
-        @Html.HiddenFor(x => x.canContinue)
+        @Html.HiddenFor(x => x.unsavedData)
     </form>
+
     <!-- PAGE CONTENT -->
 </div>
 <!-- /BODY CONTENT -->
 
 @section Scripts {
 
-<script type="text/JavaScript">
-    $(document).ready(function () {
-        var canContinue = $('#canContinue').val();
-        if (canContinue == "False")
-        {
-            localStorage.setItem("nmp", $('#userData').val());
-        }
-        else
-        {
-            var data = localStorage.getItem("nmp");
-            $('#userData').val(data);
-        }
-    });
-</script>
 <script type="text/javascript">
 
         // ensure this event handler is attached to current and future elements (after partial renders)
-        $(document).on("click", 'a[data_modal=""]', function (e) {
-            $('#myModalContent').load(this.href, function () {
+    $(document).on("click", '[data_modal]', function (e) {
+        $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $('#myModalContent').load($type, function () {
                 $('#myModal').modal({
                     /*backdrop: 'static',*/
                     //keyboard: true
@@ -66,47 +68,99 @@
                 bindForm(this);
             });
             return false;
-        });
+         });
 
         function bindForm(dialog) {
             $('form', dialog).submit(function () {
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            var ls;
-                            ls = localStorage;
-                            ls.setItem("nmp", result.farmdata);
-                            $('#replacetarget').load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindForm(dialog);
-                        }
+                if ($("#unsavedData").val() == "False") {
+                    var fileUpload = $("#FileUpload1").get(0);
+                    var files = fileUpload.files;
+
+                    // Create FormData object
+                    var fileData = new FormData();
+
+                    // Looping over all files and add it to FormData object
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
                     }
-                });
+                    $.ajax({
+                        url: this.action,
+                        type: this.method,
+                        contentType: false,
+                        processData: false,
+                        data: fileData,
+                        success: function (result) {
+                            if (result.success) {
+                                $('#myModal').modal('hide');
+                                window.location.href = result.url;
+                            } else {
+                                $('#myModalContent').html(result);
+                                bindForm(dialog);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    $.ajax({
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
+                        .done(function (result) {
+                            if (result.success) {
+                                $('#myModal').modal('hide');
+                                $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            } else {
+                                $('#myModalContent').html(result);
+                                bindForm(dialog);
+                            }
+                        });
+                }
                 return false;
             });
         }
 
-
-        $(document).ready(function () {
-            localStorage.setItem("nmp", $('#userData').val());
+        $(document).on("click", '[data_modal2]', function (e) {
             $.ajaxSetup({ cache: false });
-            SetModal();
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm2(this);
+            });
+            return false;
         });
 
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
+                .done(function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        window.location.href = result.url;
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm2(dialog);
+                    }
+                });
+
+                return false;
+            });
+
+        }
+
         $(document).ready(function () {
-            var sendNMP = $('#sendNMP').val();
-            if (sendNMP == "False") {
-                localStorage.setItem("nmp", $('#userData').val());
-            }
-            else {
-                var data = localStorage.getItem("nmp");
-                $('#userData').val(data);
-            }
+            $.ajaxSetup({ cache: false });
         });
 
 </script>

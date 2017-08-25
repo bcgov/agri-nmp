@@ -1,0 +1,110 @@
+﻿@model SERVERAPI.ViewModels.FieldPageViewModel
+
+@{
+    ViewBag.Title = "Fields";
+}
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<div class="step-header">
+    <div class="container">
+        <div class="col-sm-6">
+            <span class="step-header-circle">1</span>
+            <span class="step-header-name">Field Details</span>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3 text-right">
+                <span class="step-header-steps">Step 2 of 6</span>
+            </div>
+            <div class="col-sm-6 step-header-form">
+                <span>Units</span>
+                <select class="form-control" id="select" disabled="disabled" title="Not Implemented" style="width:80px">
+                    <option>lb/ac</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="Farm" asp-action="Farm" method="post">
+            <div id="fields">
+                @await Component.InvokeAsync("Fields")
+            </div>
+            <div class="form-box-submit">
+                @if (Model.soilTests != null && Model.soilTests.Value)
+                {
+                    <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("SoilTests", "Soil")';" />
+                }
+                else
+                {
+                    if (Model.manure != null && Model.manure.Value)
+                    {
+                        <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("Manure", "Manure")';" />
+                    }
+                    else
+                    {
+                        <input class="form-box-submit-button btn btn-primary btn-lg" type="button" value="Next" onclick="window.location.href='@Url.Action("Calculate", "Nutrients")';" />
+                    }
+                }
+            </div>
+        </form>
+        <!-- PAGE CONTENT -->
+    </div>
+</div>
+
+<!-- /BODY CONTENT -->
+@section Scripts {
+
+
+    <script type="text/javascript">
+
+        // ensure this event handler is attached to current and future elements (after partial renders)
+        $(document).on("click", '[data_modal]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+
+        function bindForm(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+
+    </script>
+}

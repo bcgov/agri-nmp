@@ -9,7 +9,7 @@
         <h4 class="modal-title" id="myModalLabel">Field Details - @Model.act</h4>
     </div>
 
-    <form asp-action="FieldDetail" asp-controller="Home" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+    <form asp-action="FieldDetail" asp-controller="Fields" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -44,5 +44,8 @@
         @Html.HiddenFor(x => x.userDataField)
         @Html.HiddenFor(x => x.act)
         @Html.HiddenFor(x => x.currFieldName)
+        @Html.HiddenFor(x => x.target)
+        @Html.HiddenFor(x => x.cntl)
+        @Html.HiddenFor(x => x.actn)
     </form>
 </div>

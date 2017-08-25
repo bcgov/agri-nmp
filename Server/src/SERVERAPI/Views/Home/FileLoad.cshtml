@@ -1,0 +1,49 @@
+﻿@model SERVERAPI.ViewModels.FileLoadViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">File Load</h4>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="FileLoad">
+        <div class="modal-body">
+            @Html.HiddenFor(x => x.unsavedData)
+            @if (Model.unsavedData)
+            {
+                <div class="row">
+                    <p  class="text-danger">There is currently an active file open that has changes that have not been saved - to continue without downloading the current file please select file and upload.</p>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <br />
+                            <p>Please select a file to upload:</p>
+                            <br />
+                            <input class="form-control-file" type="file" name="files" id="FileUpload1" accept=".nmp" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            @if (Model.unsavedData)
+            {
+                <input class="btn btn-primary" type="button" value="Save Changes" onclick="location.href='@Url.Action("Download", "Home")'" />
+                <input class="btn btn-primary" type="submit" value="Continue Upload" />
+            }
+            else
+            {
+                <input class="btn btn-primary" type="submit" value="Upload" />
+            }
+        </div>
+    </form>
+</div>

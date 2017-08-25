@@ -1,0 +1,153 @@
+﻿@model SERVERAPI.ViewModels.ManureDetailsViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <form asp-action="ManureDetails" asp-controller="Nutrients" id="modForm" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Manure Details - @Model.title</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-4">
+                        <label asp-for="selManOption">Material Type</label>
+                        <select class="form-control" asp-for="selManOption" asp-items="@(new SelectList(Model.manOptions,"Id","Value"))" id="ddlMan">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selManOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label asp-for="selApplOption">Application Season/Method</label>
+                        <select class="form-control" asp-for="selApplOption" asp-items="@(new SelectList(Model.applOptions,"Id","Value"))" id="ddlAppl">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selApplOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label asp-for="selApplOption"> Application Rate</label>
+                        <input class="form-control" asp-for="rate" id="rate" type="text" />
+                        <span asp-validation-for="rate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label>Units</label>
+                        <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selRateOption" class="text-danger"></span>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-2">
+                        <label asp-for="selApplOption">Ammonium-N Retention (%)</label>
+                        <div class="input-group">
+                            <input class="form-control" asp-for="nh4" id="nh4" type="text" />
+                            @if (!Model.stdN)
+                            {
+                            <span class="input-group-btn" title="Reset to standard value">
+                                <button class="btn btn-default" type="button" id="rstN" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                            </span>
+                            }
+                        </div>
+                        <span asp-validation-for="nh4"class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label asp-for="selApplOption">1st Yr Organic N Availability (%)</label>
+                        <div class="input-group">
+                            <input class="form-control col-sm-1" asp-for="avail" id="avail" type="text" />
+                            @if (!Model.stdAvail)
+                            {
+                            <span class="input-group-btn" title="Reset to standard value">
+                                <button class="btn btn-default" type="button" id="rstA" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                            </span>
+                            }
+                        </div>
+                        <span asp-validation-for="avail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Available in 1st Yr<br /> @Model.selRateOptionText</p>
+                        </div>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
+                        </div>
+                        <div class="Row">
+                            <div class="Cell">
+                                <p>@Model.yrN</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.yrP2o5</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.yrK2o</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Available Long Term<br /> @Model.selRateOptionText</p>
+                        </div>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
+                        </div>
+                        <div class="Row">
+                            <div class="Cell">
+                                <p>@Model.ltN</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.ltP2o5</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.ltK2o</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
+       </div>
+        @Html.HiddenFor(x => x.title)
+        @Html.HiddenFor(x => x.id)
+        @Html.HiddenFor(x => x.fieldName)
+        @Html.HiddenFor(x => x.buttonPressed)
+        @Html.HiddenFor(x => x.rateOptions)
+        @Html.HiddenFor(x => x.btnText)
+        @Html.HiddenFor(x => x.currUnit)
+        @Html.HiddenFor(x => x.yrN)
+        @Html.HiddenFor(x => x.yrP2o5)
+        @Html.HiddenFor(x => x.yrK2o)
+        @Html.HiddenFor(x => x.ltN)
+        @Html.HiddenFor(x => x.ltP2o5)
+        @Html.HiddenFor(x => x.ltK2o)
+        @Html.HiddenFor(x => x.stdN)
+        @Html.HiddenFor(x => x.stdAvail)
+    </form>
+</div>

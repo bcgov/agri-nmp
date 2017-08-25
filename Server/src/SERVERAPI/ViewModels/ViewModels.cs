@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using SERVERAPI.Models;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SERVERAPI.ViewModels
 {
@@ -21,13 +23,16 @@ namespace SERVERAPI.ViewModels
         public bool? soilTests { get; set; }
         [Display(Name = "Do you use manure or compost?")]
         public bool? manure { get; set; }
-        public bool sendNMP { get; set; }
-        public string userData { get; set; }
         public List<Models.StaticData.SelectListItem> regOptions { get; set; }
         [Display(Name = "Region")]
         public int? selRegOption { get; set; }
         public string currYear { get; set; }
 
+    }
+    public class FieldPageViewModel
+    {
+        public bool? soilTests { get; set; }
+        public bool? manure { get; set; }
     }
     public class IndexViewModel
     {
@@ -35,8 +40,11 @@ namespace SERVERAPI.ViewModels
     }
     public class LaunchViewModel
     {
-        public bool canContinue { get; set; }
+        public bool unsavedData { get; set; }
         public string userData { get; set; }
+    }
+    public class NewWarningViewModel
+    {
     }
     public class FieldDetailViewModel
     {
@@ -49,9 +57,11 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Comments")]
         public string fieldComment { get; set; }
         public string act { get; set; }
-        public bool sendNMP { get; set; }
         public string userDataField { get; set; }
         public string currFieldName { get; set; }
+        public string target { get; set; }
+        public string cntl { get; set; }
+        public string actn { get; set; }
     }
     public class FieldDeleteViewModel
     {
@@ -59,5 +69,63 @@ namespace SERVERAPI.ViewModels
         public string fieldName { get; set; }
         public string act { get; set; }
         public string userDataField { get; set; }
+        public string target { get; set; }
     }
+    public class FileLoadViewModel
+    {
+        [Display(Name = "File Name")]
+        public string fileName { get; set; }
+        public bool unsavedData { get; set; }
+    }
+    public class ManureDetailsViewModel
+    {
+        public int? id { get; set; }
+        public string title { get; set; }
+        public string btnText { get; set; }
+        public string fieldName { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selManOption { get; set; }
+        public List<Models.StaticData.SelectListItem> manOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selApplOption { get; set; }
+        public List<Models.StaticData.SelectListItem> applOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selRateOption { get; set; }
+        public string selRateOptionText { get; set; }
+        public List<Models.StaticData.SelectListItem> rateOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string rate { get; set; }
+        public string currUnit { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string nh4 { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string avail { get; set; }
+        public string buttonPressed { get; set; }
+        public string yrN { get; set; }
+        public string yrP2o5 { get; set; }
+        public string yrK2o { get; set; }
+        public string ltN { get; set; }
+        public string ltP2o5 { get; set; }
+        public string ltK2o { get; set; }
+        public bool stdN { get; set; }
+        public bool stdAvail { get; set; }
+    }
+    public class ManureDeleteViewModel
+    {
+        public string act { get; set; }
+        public string fldName { get; set; }
+        public int id { get; set; }
+        [Display(Name = "Material Type")]
+        public string matType { get; set; }
+    }
+    public class CalculateViewModel
+    {
+        public bool fldsFnd { get; set; }
+        public string currFld { get; set; }
+        public List<Field> fields { get; set; }
+    }
+
 }

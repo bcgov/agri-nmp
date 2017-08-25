@@ -60,14 +60,14 @@ namespace PDF.Controllers
         }
 
         [HttpPost]
-        [Route("GetPDF")]
+        [Route("BuildPDF")]
 
-        public async Task<IActionResult> GetPDF([FromServices] INodeServices nodeServices, [FromBody]  PDFRequest rawdata )
+        public async Task<IActionResult> BuildPDF([FromServices] INodeServices nodeServices, [FromBody]  PDFRequest rawdata )
         {
             JSONResponse result = null;
             var options = new { format="letter", orientation= "landscape" };
 
-            // execute the Node.js component
+            // execute the Node.js component to generate a PDF
             result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
 
             return new FileContentResult(result.data, "application/pdf");

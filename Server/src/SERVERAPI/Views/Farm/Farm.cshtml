@@ -1,0 +1,116 @@
+﻿@model SERVERAPI.ViewModels.FarmViewModel
+
+@{
+    ViewBag.Title = "Farm";
+}
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<div class="step-header">
+    <div class="container">
+        <div class="col-sm-6">
+            <span class="step-header-circle">1</span>
+            <span class="step-header-name">Farm Details</span>
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3 text-right">
+                <span class="step-header-steps">Step 1 of 6</span>
+            </div>
+            <div class="col-sm-6 step-header-form">
+                <span>Units</span>
+                <select class="form-control" id="select" disabled="disabled" title="Not Implemented" style="width:80px">
+                    <option>lb/ac</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="Farm" asp-action="Farm" method="post">
+            <div class="form-box">
+                <div class="form-box-header clearfix">
+                    <legend class="form-box-heading">Enter your farm details</legend>
+                </div>
+                <div class="form-box-body">
+                    <div class="form-box-fields">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label asp-for="year">Year for analysis</label>
+                                <input class="form-control" asp-for="year" id="year" type="text" />
+                                <span asp-validation-for="year"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label asp-for="farmName">Farm name</label>
+                                <input class="form-control" asp-for="farmName" id="farmName" name="farmName" type="text">
+                                <span asp-validation-for="farmName"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label asp-for="selRegOption">Region</label>
+                                <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
+                                <select class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions,"Id","Value"))">
+                                    <option>select region</option>
+                                </select>
+                                <span asp-validation-for="selRegOption"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-box-fields">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <label asp-for="soilTests">Do you have soil tests for your fields?</label>
+                                <div class="radio">
+                                    <label>
+                                        <input asp-for="soilTests" type="radio" value="true" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="soilTests" type="radio" value="false" /> No
+                                    </label>
+                                </div>
+                                <span asp-validation-for="soilTests"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <label asp-for="manure">Do you use manure or compost?</label>
+                                <div class="radio">
+                                    <label>
+                                        <input asp-for="manure" type="radio" value="true" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="manure" type="radio" value="false" /> No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-box-fields text-right">
+                        <button class="btn btn-primary" type="submit">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            @Html.HiddenFor(x => x.currYear)
+        </form>
+        <!-- PAGE CONTENT -->
+    </div>
+</div>
+
+<!-- /BODY CONTENT -->
+@section Scripts {
+}

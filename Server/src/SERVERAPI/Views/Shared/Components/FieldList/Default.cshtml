@@ -1,0 +1,13 @@
+﻿@model FieldListViewModel
+<div style="width:100%">
+    @if (Model.fields.Count > 0)
+    {
+        <ul style="list-style-type: none; padding-left: 0; overflow: hidden; -ms-text-overflow: ellipses; -o-text-overflow: ellipses; text-overflow: ellipsis;">
+            @foreach (var f in Model.fields)
+            {
+                <li style="display:block; float:left; clear:both; width:100%"><a href="@Url.Action(Model.actn,Model.cntl, new { id = f.fieldName })" class="btn btn-default" style="width:100%; text-align:left">@f.fieldName</a></li>
+            }
+        </ul>
+    }
+    <br />
+</div>

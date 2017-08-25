@@ -9,24 +9,26 @@
     <meta name="HandheldFriendly" content="true" />
     <meta name="description" content="" />
     <meta name="author" content="Ministry of Environment" />
-    <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png" />
-    <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png" />
-    <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png" />
-    <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png" />
-    <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/android-icon-192x192.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
-    <link rel="manifest" href="icons/manifest.json" />
-    <link rel="icon" type="image/png" href="images/favicon.ico" />
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
-    <meta name="theme-color" content="#ffffff" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="-1">
+    @*<link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="icons/android-icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+        <link rel="manifest" href="icons/manifest.json" />
+        <link rel="icon" type="image/png" href="images/favicon.ico" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
+        <meta name="theme-color" content="#ffffff" />*@
 
     <title>@ViewBag.Title</title>
 
@@ -76,13 +78,17 @@
 <body>
     <!-- HEADER -->
     <div id="header">
-        <div id="header-main" class="navbar navbar-default navbar-fixed-top">
+        <div id="header-main" class="navbar navbar-default ">
+
             <div class="container">
                 <div id="header-main-row" class="row">
                     <!-- GOV & ENV TITLE -->
                     <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
                         <div id="logo">
                             <a href="http://gov.bc.ca"><img src="~/images/gov3_bc_logo.png" alt="Government of B.C." title="Government of B.C." /></a>
+                        </div>
+                        <div>
+                            <span style="padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Program</span>
                         </div>
                         <div id="access">
                             <ul>
@@ -101,57 +107,170 @@
                             <img src="~/images/menu-open-mobile.png" />
                         </button>
                     </div>
-                    <div class="col-sm-8 col-md-8 col-lg-6 hidden-xs">
-                        <div class="bcgov-title">
-                            <h1>Nutrient Management Program</h1>
-                        </div>
-                    </div>
                     <!-- /GOV & ENV TITLE -->
                     <!-- COLLAPSING NAVBAR -->
                     <div id="navbar" class="collapse navbar-collapse">
-
                         <ul class="nav navbar-nav">
-                            <li><a href="#">Navigation Link 1</a></li>
-                            <li><a href="#">Navigation Link 2</a></li>
-                            <li><a href="#">Navigation Link 3</a></li>
-                            <li><a href="#">Navigation Link 4</a></li>
+                            <li><a href='@Url.Action("Launch", "Home" )'>Home Page</a></li>
                         </ul>
                     </div>
                     <!-- /COLLAPSING NAVBAR -->
+
                 </div>
             </div>
             <div class="navigationRibbon">
                 <div class="level2Navigation">
                     <div class="container">
-                        <a href="#">Navigation Link 1</a>
-                        <a href="#">Navigation Link 2</a>
-                        <a href="#">Navigation Link 3</a>
-                        <a href="#">Navigation Link 4</a>
-
-
+                        <a href='@Url.Action("Launch", "Home" )'>Home Page</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- /Header -->
-    <div>
-        @RenderBody()
+    <div class="header-height"></div>
+    <!--WIZARD-->
+    <div class="wizard">
+        <ul class="wrapper wizard-list clearfix">
+            <li class="wizard-item wizard-item-done">
+                <a href='@Url.Action("Farm", "Farm" )'>
+                    <div class="wizard-circle">
+                        <div class="wizard-icon">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                            <g stroke-width="2" transform="translate(0, 0)">
+                            <polygon fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="12,27 2,17 6,13
+	12,19 26,5 30,9 " stroke-linejoin="miter"></polygon>
+                </g>
+            </svg>
+                        </div>
+                    </div>
+                    <span class="wizard-name">Farm & Field Details</span>
+                </a>
+            </li>
+            <li class="wizard-item">
+                <a href='@Url.Action("SoilTests", "Soil" )'>
+                    <div class="wizard-circle">
+                        <div class="wizard-icon">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                            <g stroke-width="2" transform="translate(0, 0)">
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
+                                  y1="13" x2="15" y2="13" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
+                                  y1="18" x2="15" y2="18" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
+                                  y1="23" x2="15" y2="23" stroke-linejoin="miter"></line>
+                            <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,1v4h3v21
+	    c0,2.761,2.239,5,5,5h0c2.761,0,5-2.239,5-5V5h3V1H8z" stroke-linejoin="miter"></path>
+                    </g>
+                </svg>
+                        </div>
+                    </div>
+                    <span class="wizard-name">Field Soil Tests</span>
+                </a>
+            </li>
+            <li class="wizard-item">
+                <a href='@Url.Action("Manure", "Manure" )'>
+                    <div class="wizard-circle">
+                        <div class="wizard-icon">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                            <g stroke-width="2" transform="translate(0, 0)">
+                            <polyline data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" points="1,16 7.8,16 11.9,7.8
+	20.1,24.2 24.2,16 31,16 " stroke-linejoin="miter" stroke-linecap="butt"></polyline>
+                            <circle fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" cx="16" cy="16" r="15"
+                                    stroke-linejoin="miter"></circle>
+                </g>
+            </svg>
+                        </div>
+                    </div>
+                    <span class="wizard-name">Manure/Compost Analysis</span>
+                </a>
+            </li>
+            <li class="wizard-item">
+                <a href='@Url.Action("Calculate", "Nutrients" )'>
+                    <div class="wizard-circle">
+                        <div class="wizard-icon">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                            <g stroke-width="2" transform="translate(0, 0)">
+                            <rect x="3" y="1" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" width="26"
+                                  height="30" stroke-linejoin="miter"></rect>
+                            <rect data-color="color-2" x="7" y="5" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10"
+                                  width="18" height="6" stroke-linejoin="miter"></rect>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
+                                  y1="16" x2="10" y2="16" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
+                                  y1="16" x2="18" y2="16" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
+                                  y1="21" x2="10" y2="21" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
+                                  y1="21" x2="18" y2="21" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
+                                  y1="26" x2="10" y2="26" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
+                                  y1="26" x2="18" y2="26" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
+                                  y1="16" x2="25" y2="16" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
+                                  y1="21" x2="25" y2="21" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
+                                  y1="26" x2="25" y2="26" stroke-linejoin="miter"></line>
+                </g>
+            </svg>
+                        </div>
+                    </div>
+                    <span class="wizard-name">Calculate Nutrients</span>
+                </a>
+            </li>
+            <li class="wizard-item">
+                <a href='@Url.Action("Report", "Report" )'>
+                    <div class="wizard-circle">
+                        <div class="wizard-icon">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                            <g stroke-width="2" transform="translate(0, 0)">
+                            <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M26,22V1H3v27
+	c0,1.657,1.343,3,3,3h2" stroke-linejoin="miter"></path>
+                            <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,28c0,1.657-1.343,3-3,3
+	h21c1.657,0,3-1.343,3-3v-2H9V28z" stroke-linejoin="miter"></path>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
+                                  y1="7" x2="20" y2="7" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
+                                  y1="13" x2="20" y2="13" stroke-linejoin="miter"></line>
+                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
+                                  y1="19" x2="20" y2="19" stroke-linejoin="miter"></line>
+                </g>
+            </svg>
+                        </div>
+                    </div>
+                    <span class="wizard-name">Nutrient Report</span>
+                </a>
+            </li>
+        </ul>
     </div>
+    <!-- /WIZARD -->
+    <a asp-action="Download" asp-controller="Home" asp->
+        Download</a>
 
-    @*<script src="js/bootstrap.min.js"></script>
-    <script src="js/misc.js"></script>
-    <script src="js/navMenu.js"></script>
-     IE10 viewport hack for Surface/desktop Windows 8 bug 
-    <script src="js/ie10-viewport-bug-workaround.js"></script>*@
+        <!-- /Header -->
+        <div>
+            @RenderBody()
+        </div>
+    <footer id="footer" style="border-top:none">
+    </footer>
+        @*<script src="js/bootstrap.min.js"></script>
+            <script src="js/misc.js"></script>
+            <script src="js/navMenu.js"></script>
+             IE10 viewport hack for Surface/desktop Windows 8 bug
+            <script src="js/ie10-viewport-bug-workaround.js"></script>*@
 
-    <!-- Datatables config -->
-    @*<script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
-            $('#bs-datatables').DataTable();
-        });
-    </script>*@
-    @RenderSection("Scripts", required: true)
+        <!-- Datatables config -->
+        @*<script type="text/javascript" charset="utf-8">
+                $(document).ready(function () {
+                    $('#bs-datatables').DataTable();
+                });
+            </script>*@
+        @RenderSection("Scripts", required: true)
 </body>
 </html>

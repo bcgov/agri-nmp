@@ -47,122 +47,51 @@ namespace SERVERAPI.Controllers
     public class HomeController : Controller
     {
         private IHostingEnvironment _env;
+        private UserData _ud;
 
-        public HomeController(IHostingEnvironment env)
+        public HomeController(IHostingEnvironment env, UserData ud)
         {
             _env = env;
+            _ud = ud;
         }
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Launch(string id)
+        public IActionResult Launch()
         {
+            LaunchViewModel lvm = new LaunchViewModel();
+            FarmData fd = _ud.FarmData();
+            if(fd != null && fd.unsaved)
+            {
+                lvm.unsavedData = true;
+            }
+
             ViewBag.Title = "NMP";
             LoadStatic();
-            LaunchViewModel lvm = new LaunchViewModel();
-            lvm.userData = null;
-
-            if (id == "false")
-            {
-                lvm.canContinue = false;
-            }
-            else
-            {
-                lvm.canContinue = true;
-            }
-
-            HttpContext.Session.SetObjectAsJson("FarmData", lvm.userData);
 
             return View(lvm);
 
         }
         [HttpPost]
-        public IActionResult Launch(LaunchViewModel lvm, string type)
+        public IActionResult Launch(LaunchViewModel lvm)
         {
-            if(type == "Continue")
-            {
-                // save the local storage user data in it's stringified form
-                HttpContext.Session.SetString("FarmData", lvm.userData);
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-            }
-            else
-            {
-                FarmData userData = new FarmData();
-                HttpContext.Session.SetObjectAsJson("FarmData", userData);
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-            }
-            return RedirectToAction("Farm");
+            _ud.NewFarm();
+            return RedirectToAction("Farm","Farm");
         }
-        [HttpGet]
-        public async Task<IActionResult> Report([FromServices] INodeServices nodeServices)
+        public IActionResult NewWarning()
         {
-            FileContentResult result = null;
-            //JSONResponse result = null;
-            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
-
-            string targetUrl = pdfHost + "/api/PDF/GetPDF";
-
-            // call the microservice
-            try
-            {
-                PDFRequest req = new PDFRequest();
-
-
-                HttpClient client = new HttpClient();
-
-                string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
-
-                req.html = rawdata;
-
-                string payload = JsonConvert.SerializeObject(req);
-
-                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
-
-                request.Headers.Clear();
-                // transfer over the request headers.
-                foreach (var item in Request.Headers)
-                {
-                    string key = item.Key;
-                    string value = item.Value;
-                    request.Headers.Add(key, value);
-                }
-
-                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
-                responseTask.Wait();
-
-                HttpResponseMessage response = responseTask.Result;
-                if (response.StatusCode == HttpStatusCode.OK) // success
-                {
-                    var bytetask = response.Content.ReadAsByteArrayAsync();
-                    bytetask.Wait();
-
-                    result = new FileContentResult(bytetask.Result, "application/pdf");
-                }
-            }
-            catch (Exception e)
-            {
-                result = null;
-            }
-
-            //JSONResponse result = null;
-
-            //var options = new { format = "letter", orientation = "landscape" };
-
-            //var opts = new
-            //{
-            //    orientation = "landscape",
-
-            //};
-
-            //string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
-
-            //// execute the Node.js component
-            //result = await nodeServices.InvokeAsync<JSONResponse>("./PDF.js", rawdata, options);
-
-            return new FileContentResult(result.FileContents, "application/pdf");
+            NewWarningViewModel nvm = new NewWarningViewModel();
+            return View(nvm);
         }
+        [HttpPost]
+        public IActionResult NewWarning(NewWarningViewModel nvm)
+        {
+                _ud.NewFarm();
+                string url = Url.Action("Farm", "Farm");
+                return Json(new { success = true, url = url });
+        }
+
         [HttpGet]
         public IActionResult Print()
         {
@@ -174,7 +103,7 @@ namespace SERVERAPI.Controllers
 
             //string pdfHost = Configuration["PDF_SERVICE_NAME"];
 
-            string targetUrl = pdfHost + "/api/PDF/GetPDF";
+            string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
             ViewBag.Service = targetUrl;
 
@@ -185,7 +114,7 @@ namespace SERVERAPI.Controllers
 
                 HttpClient client = new HttpClient();
 
-                string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
+                string rawdata = "<!DOCTYPE html><html><head><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
 
                 req.html = rawdata;
 
@@ -225,216 +154,6 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
-        [HttpGet]
-        public IActionResult Farm()
-        {
-            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-            Models.Impl.StaticData sd = new Models.Impl.StaticData();
-
-            FarmViewModel fvm = new FarmViewModel();
-            fvm.regOptions = sd.GetRegionsDll(HttpContext).ToList();
-            fvm.selRegOption = null;
-
-            fvm.sendNMP = true;
-
-            fvm.year = farmData.year;
-            fvm.currYear = farmData.year;
-            fvm.farmName = farmData.farmName;
-            if(farmData.soilTests != null)
-            {
-                fvm.soilTests = farmData.soilTests.Value;
-            }
-            if (farmData.manure != null)
-            {
-                fvm.manure = farmData.manure.Value;
-            }
-            fvm.selRegOption = farmData.farmRegion;
-            fvm.userData = HttpContext.Session.GetString("FarmData");
-
-            return View(fvm);
-        }
-        [HttpPost]
-        public IActionResult Farm(FarmViewModel fvm)
-        {
-            Models.Impl.StaticData sd = new Models.Impl.StaticData();
-            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-            fvm.regOptions = sd.GetRegionsDll(HttpContext).ToList();
-
-            farmData.year = fvm.year;
-            farmData.farmName = fvm.farmName;
-            farmData.farmRegion = fvm.selRegOption;
-            farmData.soilTests = (fvm.soilTests == null) ? null : fvm.soilTests;
-            farmData.manure = (fvm.manure == null) ? null : fvm.manure;
-
-            if (farmData.years == null)
-            {
-                farmData.years = new List<YearData>();
-                farmData.years.Add(new YearData { year = fvm.year });
-            }
-            else
-            {
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == fvm.year);
-
-                if (yd == null)
-                {
-                    farmData.years.Add(new YearData { year = fvm.year });
-                }
-            }
-
-            fvm.currYear = fvm.year;
-            HttpContext.Session.SetObjectAsJson("FarmData", farmData);
-            fvm.userData = JsonConvert.SerializeObject(farmData);
-            HttpContext.Session.SetObjectAsJson("FarmData", farmData);
-            fvm.sendNMP = false;
-            ModelState.Remove("userData");
-            ModelState.Remove("sendNMP");
-
-            return View(fvm);
-        }
-        [HttpGet]
-        public ActionResult FieldDetail(string name)
-        {
-            FieldDetailViewModel fvm = new FieldDetailViewModel();
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == name);
-                if(fld != null)
-                {
-                    fvm.currFieldName = fld.fieldName;
-                    fvm.fieldName = fld.fieldName;
-                    fvm.fieldArea = fld.area.ToString();
-                    fvm.fieldComment = fld.comment;
-                    fvm.act = "Edit";
-                }
-                else
-                {
-                    fvm.act = "Add";
-                }
-            }
-            else
-            {
-                fvm.act = "Add";
-            }
-            return PartialView("FieldDetail", fvm);
-        }
-        [HttpPost]
-        public ActionResult FieldDetail(FieldDetailViewModel fvm)
-        {
-            decimal area = 0;
-
-            if(ModelState.IsValid)
-            {
-                try
-                {
-                    area = decimal.Parse(fvm.fieldArea);
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("fieldArea", "Invalid amount for area.");
-                    return PartialView("FieldDetail", fvm);
-                }
-
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-
-                if (yd.fields == null)
-                {
-                    yd.fields = new List<Field>();
-                }
-
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.fieldName);
-
-                if (fld != null)
-                {
-                    if ((fvm.act == "Edit" & fvm.currFieldName != fvm.fieldName) |
-                        fvm.act == "Add")
-                    {
-                        ModelState.AddModelError("fieldName", "A field already exists with this name.");
-                        return PartialView("FieldDetail", fvm);
-                    }
-                }
-
-                if (fvm.act == "Add")
-                {
-                    fld = new Field();
-                }
-                else
-                {
-                    fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.currFieldName);
-                    if(fld ==null)
-                    {
-                        fld = new Field();
-                    }
-                }
-
-                fld.fieldName = fvm.fieldName;
-                fld.area = Math.Round(area,1);
-                fld.comment = fvm.fieldComment;
-
-                if (fvm.act == "Add")
-                {
-                    yd.fields.Add(fld);
-                }
-
-                HttpContext.Session.SetObjectAsJson("FarmData", farmData);
-
-                string url = Url.Action("RefreshFieldsList", "Home");
-                return Json(new { success = true, url = url , farmdata = JsonConvert.SerializeObject(farmData) });
-            }
-            return PartialView("FieldDetail",fvm);
-        }
-        public IActionResult RefreshFieldsList()
-        {
-            return ViewComponent("Fields");
-        }
-        [HttpGet]
-        public ActionResult FieldDelete(string name)
-        {
-            FieldDeleteViewModel fvm = new FieldDeleteViewModel();
-            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-
-            if (!string.IsNullOrEmpty(name))
-            {
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == name);
-                if (fld != null)
-                {
-                    fvm.fieldName = fld.fieldName;
-                    fvm.act = "Delete";
-                }
-            }
-
-            fvm.userDataField = JsonConvert.SerializeObject(farmData);
-
-            return PartialView("FieldDelete", fvm);
-        }
-        [HttpPost]
-        public ActionResult FieldDelete(FieldDeleteViewModel fvm)
-        {
-            if (ModelState.IsValid)
-            {
-                var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.year);
-                Field fld = yd.fields.FirstOrDefault(y => y.fieldName == fvm.fieldName);
-
-                if (fld == null)
-                {
-                    ModelState.AddModelError("fieldName", "Field name not found.");
-                    return PartialView("FieldDelete", fvm);
-                }
-
-                yd.fields.Remove(fld);
-
-                HttpContext.Session.SetObjectAsJson("FarmData", farmData);
-
-                string url = Url.Action("RefreshFieldsList", "Home");
-                return Json(new { success = true, url = url, farmdata = JsonConvert.SerializeObject(farmData) });
-            }
-            return PartialView("FieldDelete", fvm);
-        }
         private static async Task<JSONResponse> BuildReport(INodeServices nodeServices)
         {
             JSONResponse result = null;
@@ -462,6 +181,118 @@ namespace SERVERAPI.Controllers
                 string staticValues = reader.ReadToEnd();
                 HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
             }
+        }
+        public IActionResult Download()
+        {
+            FarmData farmData = _ud.FarmData();
+            farmData.unsaved = false;
+            _ud.SaveFarmData(farmData);
+
+            var fileName = farmData.farmDetails.year + " - " + farmData.farmDetails.farmName + ".nmp";
+            byte[] fileBytes = Encoding.ASCII.GetBytes(HttpContext.Session.GetString("FarmData"));
+            return File(fileBytes, "application/octet-stream", fileName);
+        }
+        public IActionResult FileLoad()
+        {
+            FileLoadViewModel lvm = new FileLoadViewModel();
+            FarmData farmData = _ud.FarmData();
+
+            if(farmData != null && farmData.unsaved)
+            {
+                lvm.unsavedData = true;
+            }
+
+            return View(lvm);
+        }
+        [HttpPost]
+        public IActionResult FileLoad(FileLoadViewModel lvm)
+        {
+            FarmData fd;
+
+            if(lvm.unsavedData)
+            {
+                ModelState.Clear();
+                lvm.unsavedData = false;
+                return View(lvm);
+            }
+
+            string fileContents = "";
+
+            if (Request.Form.Files.Count > 0)
+            {
+                if (Request.Form.Files.Count > 1)
+                {
+                    ModelState.AddModelError("", "Only one file may be selected.");
+                }
+                else
+                {
+                    try
+                    {
+                        foreach (var file in Request.Form.Files)
+                        {
+                            var fileBytes = new byte[file.Length];
+
+                            file.OpenReadStream().Read(fileBytes, 0, (int)file.Length);
+                            fileContents = System.Text.Encoding.Default.GetString(fileBytes);
+                        }
+
+                        try
+                        {
+                            fd = JsonConvert.DeserializeObject<FarmData>(fileContents);
+                        }
+                        catch(Exception ex)
+                        {
+                            ModelState.AddModelError("", "File does not appear to be a valid NMP data file.");
+                            return View(lvm);
+                        }
+
+                        // Returns message that successfully uploaded  
+                        _ud.SaveFarmData(fd);
+
+                        string url = Url.Action("Farm", "Farm");
+                        return Json(new { success = true, url = url, farmdata = fileContents });
+                    }
+                    catch (Exception ex)
+                    {
+                        return Json("Error occurred. Error details: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "A file hs not been selected.");
+            }
+            return View(lvm);
+        }
+        [HttpGet]
+        public IActionResult SoilTests()
+        {
+            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            FarmViewModel fvm = new FarmViewModel();
+
+            return View(fvm);
+        }
+        [HttpPost]
+        public IActionResult SoilTests(FarmViewModel fvm)
+        {
+
+            return View(fvm);
+        }
+        [HttpGet]
+        public IActionResult Manure()
+        {
+            var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            FarmViewModel fvm = new FarmViewModel();
+
+            return View(fvm);
+        }
+        [HttpPost]
+        public IActionResult Manure(FarmViewModel fvm)
+        {
+
+            return View(fvm);
         }
     }
 }
