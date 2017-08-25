@@ -112,12 +112,12 @@ namespace SERVERAPI.Controllers
             else
 
             {
-                mvm.yrN = "0.0";
-                mvm.yrP2o5 = "0.0";
-                mvm.yrK2o = "0.0";
-                mvm.ltN = "0.0";
-                mvm.ltP2o5 = "0.0";
-                mvm.ltK2o = "0.0";
+                mvm.yrN = "  0";
+                mvm.yrP2o5 = "  0";
+                mvm.yrK2o = "  0";
+                mvm.ltN = "  0";
+                mvm.ltP2o5 = "  0";
+                mvm.ltK2o = "  0";
             }
 
             return PartialView(mvm);
@@ -171,12 +171,12 @@ namespace SERVERAPI.Controllers
                 if (mvm.btnText == "Calculate")
                 {
                     ModelState.Clear();
-                    mvm.yrN = "1.1";
-                    mvm.yrP2o5 = "2.2";
-                    mvm.yrK2o = "3.3";
-                    mvm.ltN = "4.4";
-                    mvm.ltP2o5 = "5.5";
-                    mvm.ltK2o = "6.6";
+                    mvm.yrN = "111";
+                    mvm.yrP2o5 = "222";
+                    mvm.yrK2o = "333";
+                    mvm.ltN = "444";
+                    mvm.ltP2o5 = "555";
+                    mvm.ltK2o = "666";
 
                     mvm.btnText = mvm.id == null ? "Add to Field" : "Update Field";
 

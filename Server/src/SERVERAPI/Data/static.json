@@ -645,7 +645,7 @@
         "unit": [
           {
             "id": "1",
-            "name": "imp. gallons/ac (liquid)",
+            "name": "imp. gallons/ac",
             "nutrient_content_units": "lb/1000 imp. gal",
             "conversion_lbton": "5",
             "nutrient_rate_units": "lb/ac",
@@ -660,7 +660,7 @@
           },
           {
             "id": "2",
-            "name": "m3/ha (liquid)",
+            "name": "m3/ha",
             "nutrient_content_units": "kg/m3",
             "conversion_lbton": "498.881657",
             "nutrient_rate_units": "kg/ha",
@@ -675,7 +675,7 @@
           },
           {
             "id": "3",
-            "name": "US gallons/ac (liquid)",
+            "name": "US gallons/ac",
             "nutrient_content_units": "lb/1000 US gal",
             "conversion_lbton": "4.1633692",
             "nutrient_rate_units": "lb/ac",
@@ -690,7 +690,7 @@
           },
           {
             "id": "4",
-            "name": "tons/ac (solid)",
+            "name": "tons/ac",
             "nutrient_content_units": "lb/ton",
             "conversion_lbton": "1",
             "nutrient_rate_units": "lb/ac",
@@ -705,7 +705,7 @@
           },
           {
             "id": "5",
-            "name": "tonnes/ha (solid)",
+            "name": "tonnes/ha",
             "nutrient_content_units": "kg/tonne",
             "conversion_lbton": "0.5",
             "nutrient_rate_units": "kg/ha",
