@@ -278,3 +278,4 @@ __pycache__/
 *.sonarqube
 functional-tests/build/*
 !PDF/.s2i/*
+!.s2i/*
