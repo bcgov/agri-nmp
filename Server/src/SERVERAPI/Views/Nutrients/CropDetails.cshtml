@@ -1,0 +1,134 @@
+﻿@model SERVERAPI.ViewModels.CropDetailsViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <form asp-action="CropDetails" asp-controller="Nutrients" id="modForm" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Crop Details - @Model.title</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-4">
+                        <label asp-for="selTypOption">Crop Type</label>
+                        <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selTypOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label asp-for="selCropOption">Crop</label>
+                        <select class="form-control" asp-for="selCropOption" asp-items="@(new SelectList(Model.cropOptions,"Id","Value"))" id="ddlAppl">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selCropOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label>Yield</label>
+                        <input class="form-control" asp-for="yield" id="rate" type="text" />
+                        <span asp-validation-for="yield" class="text-danger"></span>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-2">
+                        <label>Previous Crop</label>
+                        <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlAppl">
+                            <option>select........................</option>
+                        </select>
+                    </div>
+                    @if (Model.showCrude)
+                    {
+                        <div class="form-group col-sm-2">
+                            <label>Crude Protien (%)</label>
+                            <div class="input-group">
+                                <input class="form-control col-sm-1" asp-for="crude" id="crude" type="text" />
+                            </div>
+                            <span asp-validation-for="crude" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group col-sm-4">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Crop Requirement (lb/ac)</p>
+                        </div>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
+                        </div>
+                        <div class="Row">
+                            <div class="Cell">
+                                <p>@Model.reqN</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.reqP2o5</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.reqK2o</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Nutrient Removal (lb/ac)</p>
+                        </div>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
+                        </div>
+                        <div class="Row">
+                            <div class="Cell">
+                                <p>@Model.remN</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.remP2o5</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.remK2o</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
+        </div>
+        @Html.HiddenFor(x => x.title)
+        @Html.HiddenFor(x => x.id)
+        @Html.HiddenFor(x => x.fieldName)
+        @Html.HiddenFor(x => x.buttonPressed)
+        @Html.HiddenFor(x => x.showCrude)
+        @Html.HiddenFor(x => x.btnText)
+        @Html.HiddenFor(x => x.reqN)
+        @Html.HiddenFor(x => x.reqP2o5)
+        @Html.HiddenFor(x => x.reqK2o)
+        @Html.HiddenFor(x => x.remN)
+        @Html.HiddenFor(x => x.remP2o5)
+        @Html.HiddenFor(x => x.remK2o)
+    </form>
+</div>

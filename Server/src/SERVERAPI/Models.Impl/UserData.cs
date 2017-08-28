@@ -136,6 +136,29 @@ namespace SERVERAPI.Models.Impl
             return yd.fields;
         }
 
+        public List<NutrientManure> GetFieldNutrientsManures(string fldName)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+
+            if(fld == null)
+            {
+                fld = new Field();
+            }
+
+            if (fld.nutrients == null)
+            {
+                fld.nutrients = new Nutrients();
+            }
+            List<NutrientManure> fldManures = fld.nutrients.nutrientManures;
+            if (fldManures == null)
+            {
+                fldManures = new List<NutrientManure>();
+            }
+            return fldManures;
+        }
+
         public NutrientManure GetFieldNutrientsManure(string fldName, int manId)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -211,6 +234,96 @@ namespace SERVERAPI.Models.Impl
             NutrientManure nm = fld.nutrients.nutrientManures.FirstOrDefault(m => m.id == id);
 
             fld.nutrients.nutrientManures.Remove(nm);
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public List<Crop> GetFieldCrops(string fldName)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+
+            if (fld == null)
+            {
+                fld = new Field();
+            }
+
+            if (fld == null)
+            {
+                fld.nutrients = new Nutrients();
+            }
+            List<Crop> fldCrops = fld.crops;
+            if (fldCrops == null)
+            {
+                fldCrops = new List<Crop>();
+            }
+            return fldCrops;
+        }
+
+        public Crop GetFieldCrop(string fldName, int cropId)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+            Crop crp = fld.crops.FirstOrDefault(m => m.id == cropId);
+
+            return crp;
+        }
+
+        public void AddFieldCrop(string fldName, Crop newCrop)
+        {
+            int nextId = 1;
+
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+
+            if (fld.crops == null)
+            {
+                fld.crops = new List<Crop>();
+            }
+
+            foreach (var f in fld.crops)
+            {
+                nextId = nextId <= f.id ? f.id + 1 : nextId;
+            }
+            newCrop.id = nextId;
+
+            fld.crops.Add(newCrop);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void UpdateFieldCrop(string fldName, Crop updtCrop)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+            Crop crp = fld.crops.FirstOrDefault(m => m.id == updtCrop.id);
+
+            crp.cropId = updtCrop.cropId;
+            crp.yield = updtCrop.yield;
+            crp.reqK2o = updtCrop.reqK2o;
+            crp.reqN = updtCrop.reqN;
+            crp.reqP2o5 = updtCrop.reqP2o5;
+            crp.remK2o = updtCrop.remK2o;
+            crp.remN = updtCrop.remN;
+            crp.remP2o5 = updtCrop.remP2o5;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void DeleteFieldCrop(string fldName, int id)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+            Crop crp = fld.crops.FirstOrDefault(m => m.id == id);
+
+            fld.crops.Remove(crp);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

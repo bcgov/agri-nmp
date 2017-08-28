@@ -56,6 +56,7 @@
                 {
                     <div class="form-box">
                         <div class="form-box-header clearfix">
+                            <button class="btn btn-success" data_modal3="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
                             <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
                             <button class="btn btn-success" disabled="disabled">Add Fertilzer</button>
                             <button class="btn btn-success" disabled="disabled">Add Other</button>
@@ -72,9 +73,12 @@
                 }
                 <div class="panel-group" id="accordion">
                     <!-- accordion 1 -->
-                    <div id="manure">
-                        @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
-                    </div>
+                    @if(Model.currFld != null)
+                    { 
+                        <div id="manure">
+                            @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
+                        </div>
+                    }
                 </div>
 
             
@@ -96,7 +100,7 @@
 @section Scripts {
 <script type="text/javascript">
 
-        // ensure this event handler is attached to current and future elements (after partial renders)
+    // ensure this event handler is attached to current and future elements (after partial renders)
     $(document).on("click", '[data_modal]', function (e) {
         $.ajaxSetup({ cache: false });
         $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
@@ -125,8 +129,29 @@
         return false;
     });
 
+    $(document).on("click", '[data_modal3]', function (e) {
+        $.ajaxSetup({ cache: false });
+        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").removeClass("modal-lg");
+        $('#myModalContent').load($type, function () {
+            $('#myModal').modal({
+                /*backdrop: 'static',*/
+                //keyboard: true
+            }, 'show');
+            bindForm2(this);
+        });
+        return false;
+    });
+
     $(document).ready(function () {
         $("body").on("change", "#ddlMan", function () {
+            $('#buttonPressed').val("TypeChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("change", "#ddlTyp", function () {
             $('#buttonPressed').val("TypeChange");
             $("#modForm").submit();
         })
@@ -159,34 +184,34 @@
         alert("changed");
     });
 
-        function bindForm(dialog) {
-            $('form', dialog).submit(function () {
-                $.ajax({
-                    cache: false,
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindForm(dialog);
-                        }
+    function bindForm(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm(dialog);
                     }
-                });
-                return false;
+                }
             });
-        }
-        function bindForm2(dialog) {
-            $('form', dialog).submit(function () {
-                $.ajax({
-                    cache: false,
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize()
-                })
+            return false;
+        });
+    }
+    function bindForm2(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize()
+            })
                 .done(function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
@@ -200,7 +225,27 @@
 
                 return false;
             });
+        }
+        function bindForm3(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
+                .done(function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm(dialog);
+                    }
+                });
 
+                return false;
+            });
         }
 
 

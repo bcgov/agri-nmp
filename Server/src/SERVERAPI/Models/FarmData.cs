@@ -32,6 +32,7 @@ namespace SERVERAPI.Models
         public decimal area { get; set; }
         public string comment { get; set; }
         public Nutrients nutrients { get; set; }
+        public List<Crop> crops {get; set; }
     }
     public class Nutrients
     {
@@ -62,6 +63,18 @@ namespace SERVERAPI.Models
     public class NutrientOther
     {
         public string id { get; set; }
+    }
+    public class Crop
+    {
+        public int id { get; set; }
+        public string cropId { get; set; }
+        public decimal yield { get; set; }
+        public decimal reqN { get; set; }
+        public decimal reqP2o5 { get; set; }
+        public decimal reqK2o { get; set; }
+        public decimal remN { get; set; }
+        public decimal remP2o5 { get; set; }
+        public decimal remK2o { get; set; }
     }
 }
 

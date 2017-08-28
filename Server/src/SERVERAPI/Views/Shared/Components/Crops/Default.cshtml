@@ -1,0 +1,108 @@
+﻿@model CalcManureViewModel
+<div>
+    @if (Model.manures.Count > 0)
+    {
+        <div class="form-box">
+            <!-- manure grouping -->
+            <div class="panel panel-primary" style="margin-top:0px;">
+
+                <div class="panel-heading btn-primary">
+                    <!-- panel-heading -->
+                    <h4 class="panel-title">
+                        <!-- title 1 -->
+                        <a data-toggle="collapse" href="#accordionCrops">
+                            Crops
+                        </a>
+                    </h4>
+                </div>
+                <!-- panel body -->
+                <div id="accordionCrops" class="panel-collapse collapse in">
+                    <div class="panel-body" style="padding:0px">
+                        <div style="display:inline-block">
+                            <div class="Table">
+                                <div class="Title">
+                                    <p></p>
+                                </div>
+                                <div class="Heading">
+                                    <div class="Cell2" style="vertical-align:bottom; text-align:left; width:200px">
+                                        <p style="clear:both">Crop</p>
+                                    </div>
+                                    <div class="Cell2">
+                                        <p>Crop Requirements (lb/ac)</p>
+                                        <div class="Cell2">
+                                            <p style="width:30px">N</p>
+                                        </div>
+                                        <div class="Cell2">
+                                            <p style="width:30px">P<sub>2</sub>O<sub>5</sub></p>
+                                        </div>
+                                        <div class="Cell2">
+                                            <p style="width:30px">K<sub>2</sub>O</p>
+                                        </div>
+                                    </div>
+                                    <div class="Cell2">
+                                        <p>Nutrient Removal (lb/ac)</p>
+                                        <div class="Cell2">
+                                            <p style="width:30px">N</p>
+                                        </div>
+                                        <div class="Cell2">
+                                            <p style="width:30px">P<sub>2</sub>O<sub>5</sub></p>
+                                        </div>
+                                        <div class="Cell2">
+                                            <p style="width:30px">K<sub>2</sub>O</p>
+                                        </div>
+                                    </div>
+                                    <div class="Cell2">
+
+                                    </div>
+                                    <div class="Cell2">
+
+                                    </div>
+                                </div>
+                                @foreach (var m in Model.manures)
+                                {
+                                    <div class="Row">
+                                        <div class="Cell2">
+                                            <p>@m.cropType</p>
+                                        </div>
+                                        <div class="Cell2">
+                                            <div class="Cell2" style="text-align: center">
+                                                <p style="width:30px">@m.reqN</p>
+                                            </div>
+                                            <div class="Cell2" style="text-align: center">
+                                                <p style="width:30px">@m.reqP</p>
+                                            </div>
+                                            <div class="Cell2" style="text-align: center">
+                                                <p style="width:30px">@m.reqK</p>
+                                            </div>
+                                        </div>
+                                        <div class="Cell2">
+                                            <div class="Cell2" style="text-align: center">
+                                                <p style="width:30px">@m.remN</p>
+                                            </div>
+                                            <div class="Cell2" style="text-align: center">
+                                                <p style="width:30px">@m.remP</p>
+                                            </div>
+                                            <div class="Cell2" style="text-align: center">
+                                                <p style="width:30px">@m.remK</p>
+                                            </div>
+                                        </div>
+                                        <div class="Cell2">
+                                            <button aria-label="edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = m.fldName, id = m.cropId })">
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button aria-label="delete" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("MropDelete", "Nutrients", new { fldName = m.fldName, id = m.cropId })">
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

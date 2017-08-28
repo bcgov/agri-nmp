@@ -719,6 +719,34 @@
             "solid_liquid": "Solid"
           }
         ]
+      },
+      "croptypes": {
+        "croptype": [
+          {
+            "id": "1",
+            "name": "Forage"
+          },
+          {
+            "id": "2",
+            "name": "Cover crops (legumes)"
+          },
+          {
+            "id": "3",
+            "name": "Cover crops (non-legumes)"
+          },
+          {
+            "id": "4",
+            "name": "Grains"
+          },
+          {
+            "id": "5",
+            "name": "Grains and oilseeds, other…"
+          },
+          {
+            "id": "6",
+            "name": "Other (not listed) or none"
+          }
+        ]
       }
     }
   }

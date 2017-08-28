@@ -103,5 +103,16 @@ namespace SERVERAPI.Models
             public decimal value_K2O { get; set; }
             public string solid_liquid { get; set; }
         }
+
+        public class CropTypes
+        {
+            public List<CropType> cropTypes { get; set; }
+        }
+
+        public class CropType
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+        }
     }
 }

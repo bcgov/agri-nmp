@@ -173,7 +173,6 @@ namespace SERVERAPI.Models.Impl
 
             return appls;
         }
-
         public List<Models.StaticData.SelectListItem> GetApplicationsDll()
         {
             Models.StaticData.Season_Applications appls = GetApplications();
@@ -246,7 +245,6 @@ namespace SERVERAPI.Models.Impl
 
             return units;
         }
-
         public List<Models.StaticData.SelectListItem> GetUnitsDll(string unitType)
         {
             Models.StaticData.Units units = GetUnits();
@@ -263,6 +261,38 @@ namespace SERVERAPI.Models.Impl
             }
 
             return unitsOptions;
+        }
+        public Models.StaticData.CropTypes GetCropTypes()
+        {
+            Models.StaticData.CropTypes types = new Models.StaticData.CropTypes();
+            types.cropTypes = new List<Models.StaticData.CropType>();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["croptypes"]["croptype"];
+
+            foreach (var r in array)
+            {
+                Models.StaticData.CropType type = new Models.StaticData.CropType();
+                type.id = Convert.ToInt32(r["id"].ToString());
+                type.name = r["name"].ToString();
+                types.cropTypes.Add(type);
+            }
+
+            return types;
+        }
+        public List<Models.StaticData.SelectListItem> GetCropTypesDll()
+        {
+            Models.StaticData.CropTypes types = GetCropTypes();
+
+            List<Models.StaticData.SelectListItem> typesOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in types.cropTypes)
+            {
+                    Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                    typesOptions.Add(li);
+            }
+
+            return typesOptions;
         }
     }
 }
