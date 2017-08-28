@@ -11,78 +11,61 @@ namespace SERVERAPI.ViewComponents
     public class CalcCrops : ViewComponent
     {
         private Models.Impl.StaticData _sd;
+        private Models.Impl.UserData _ud;
 
-        public CalcCrops(Models.Impl.StaticData sd)
+        public CalcCrops(Models.Impl.StaticData sd, Models.Impl.UserData ud)
         {
             _sd = sd;
+            _ud = ud;
         }
 
 
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
-            return View(await GetManureAsync(fldName));
+            return View(await GetCropAsync(fldName));
         }
 
-        private Task<CalcManureViewModel> GetManureAsync(string fldName)
+        private Task<CalcCropsViewModel> GetCropAsync(string fldName)
         {
-            CalcManureViewModel mvm = new CalcManureViewModel();
-            mvm.manures = new List<DisplayNutrientManure>();
+            CalcCropsViewModel mvm = new CalcCropsViewModel();
+            mvm.crops = new List<DisplayCrop>();
+
+            List<Crop> fldCrops = _ud.GetFieldCrops(fldName);
 
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
-            if (farmData.years != null)
-            {
-                YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.farmDetails.year);
-                if (yd.fields == null)
-                {
-                    yd.fields = new List<Field>();
-                }
-                Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
-                if (fld == null)
-                {
-                    fld = new Field();
-                }
-                if (fld.nutrients == null)
-                {
-                    fld.nutrients = new Nutrients();
-                }
-                List<NutrientManure> fldManures = fld.nutrients.nutrientManures;
-                if (fldManures == null)
-                {
-                    fldManures = new List<NutrientManure>();
-                }
 
-                foreach (var m in fldManures)
+                foreach (var m in fldCrops)
                 {
-                    DisplayNutrientManure dm = new DisplayNutrientManure()
+                    DisplayCrop dm = new DisplayCrop()
                     {
                         fldName = fldName,
-                        manId = m.id,
-                        matType = _sd.GetManure(m.manureId).name,
-                        applType = _sd.GetApplication(m.applicationId).name,
-                        rate = m.rate.ToString() + " " + _sd.GetUnit(m.unitId).name,
-                        yrN = m.yrN.ToString(),
-                        yrP = m.yrP2o5.ToString(),
-                        yrK = m.yrK2o.ToString(),
-                        ltN = m.ltN.ToString(),
-                        ltP = m.ltP2o5.ToString(),
-                        ltK = m.ltK2o.ToString(),
+                        cropId = Convert.ToInt32(m.cropId),
+                        cropName = "xxx",
+                        yield = m.yield.ToString(),
+                        reqN = m.reqN.ToString(),
+                        reqP = m.reqP2o5.ToString(),
+                        reqK = m.reqK2o.ToString(),
+                        remN = m.remN.ToString(),
+                        remP = m.remP2o5.ToString(),
+                        remK = m.remK2o.ToString(),
                     };
-                    mvm.manures.Add(dm);
+                    mvm.crops.Add(dm);
                 }
-            }
 
             return Task.FromResult(mvm);
         }
     }
     public class CalcCropsViewModel
     {
-        public List<DisplayCrop> manures { get; set; }
+        public List<DisplayCrop> crops { get; set; }
     }
     public class DisplayCrop
     {
         public string fldName { get; set; }
         public int cropId { get; set; }
+        public string cropName { get; set; }
+        public string yield { get; set; }
         public string reqN { get; set; }
         public string reqP { get; set; }
         public string reqK { get; set; }

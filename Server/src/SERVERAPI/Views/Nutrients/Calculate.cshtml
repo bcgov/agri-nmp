@@ -73,8 +73,11 @@
                 }
                 <div class="panel-group" id="accordion">
                     <!-- accordion 1 -->
-                    @if(Model.currFld != null)
-                    { 
+                    @if (Model.currFld != null)
+                    {
+                        <div id="crop">
+                            @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
+                        </div>
                         <div id="manure">
                             @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
                         </div>
