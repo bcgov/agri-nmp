@@ -47,21 +47,11 @@ namespace SERVERAPI.Controllers
             if (!string.IsNullOrEmpty(name))
             {
                 Field fld = _ud.GetFieldDetails(name);
-                //var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-                //YearData yd = farmData.years.FirstOrDefault(y => y.year == farmData.farmDetails.year);
-                //Field fld = yd.fields.FirstOrDefault(y => y.fieldName == name);
-                //if (fld != null)
-                //{
                 fvm.currFieldName = fld.fieldName;
                 fvm.fieldName = fld.fieldName;
                 fvm.fieldArea = fld.area.ToString();
                 fvm.fieldComment = fld.comment;
                 fvm.act = "Edit";
-                //}
-                //else
-                //{
-                //    fvm.act = "Add";
-                //}
             }
             else
             {

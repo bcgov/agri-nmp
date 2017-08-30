@@ -1,0 +1,95 @@
+﻿@model SERVERAPI.ViewModels.SoilTestDetailsViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <form asp-action="SoilTestDetails" asp-controller="Soil" id="modForm" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Soil Test Details - @Model.title</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>Sample Month</label>
+                    </div>
+                    <div class="col-md-3">
+                        <input class="form-control" asp-for="sampleDate" id="sampleDt" type="text" />
+                    </div>
+                    <div class="col-md-offset-3 col-md-8">
+                        <span asp-validation-for="sampleDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>NO3-H (ppm)</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" asp-for="dispNO3H" id="sampleDt" type="text" />
+                    </div>
+                    <div class="col-md-offset-3 col-md-8">
+                        <span asp-validation-for="dispNO3H" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>P (ppm)</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" asp-for="dispP" id="sampleDt" type="text" />
+                    </div>
+                    <div class="col-md-offset-3 col-md-8">
+                        <span asp-validation-for="dispP" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>K (ppm)</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" asp-for="dispK" id="sampleDt" type="text" />
+                    </div>
+                    <div class="col-md-offset-3 col-md-8">
+                        <span asp-validation-for="dispK" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        <label>pH</label>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="form-control" asp-for="dispPH" id="sampleDt" type="text" />
+                    </div>
+                    <div class="col-md-offset-3 col-md-8">
+                        <span asp-validation-for="dispPH" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </div>
+        @Html.HiddenFor(x => x.title)
+        @Html.HiddenFor(x => x.id)
+        @Html.HiddenFor(x => x.fieldName)
+        @Html.HiddenFor(x => x.buttonPressed)
+        @Html.HiddenFor(x => x.btnText)
+    </form>
+</div>
+<script>
+        $(document).ready(function () {
+
+            $('#sampleDt').datepicker({
+                format: "mm-yyyy",
+                startView: 1,
+                minViewMode: 1,
+                autoclose: true
+        });
+    });
+</script>

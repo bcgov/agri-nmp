@@ -1,11 +1,11 @@
-﻿@model SERVERAPI.ViewModels.CalculateViewModel
+﻿@model SERVERAPI.ViewModels.SoilTestViewModel
 
 @{
-    ViewBag.Title = "Calculate Nutrients";
+    ViewBag.Title = "Soil Tests";
 }
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
-    <div class="modal-dialog" id="divSize">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div id='myModalContent'></div>
         </div>
@@ -19,13 +19,13 @@
 <div class="step-header">
     <div class="container">
         <div class="col-sm-6">
-            <span class="step-header-circle">4</span>
-            <span class="step-header-name">Calculate Nutrients</span>
+            <span class="step-header-circle">2</span>
+            <span class="step-header-name">Field Soil Tests</span>
         </div>
         <div class="col-sm-6">
             <div class="col-sm-3"></div>
             <div class="col-sm-3 text-right">
-                <span class="step-header-steps">Step 5 of 6</span>
+                <span class="step-header-steps">Step 3 of 6</span>
             </div>
             <div class="col-sm-6 step-header-form">
                 <span>Units</span>
@@ -40,68 +40,50 @@
 <div class="container">
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
-        <form asp-controller="Nutrients" asp-action="Calculate" method="post">
-            <div class="step-forms col-sm-2">
-                @if (Model.fldsFnd)
-                {
-                    <div id="fieldList">
-                        @await Component.InvokeAsync("FieldList", new { cntl = "Nutrients", actn = "Calculate" })
+        <form asp-controller="Soil" asp-action="SoilTest" method="post" id="modForm">
+               <div class="form-group">
+                    <div class="form-group col-sm-4">
+                        <label asp-for="selMthOption">Testing Method</label>
+                        <select class="form-control" asp-for="selMthOption" asp-items="@(new SelectList(Model.mthOptions,"Id","Value"))" id="ddlMth">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selMthOption" class="text-danger"></span>
                     </div>
-                }
-
-                <button class="btn btn-default" type="button" data_modal2="" data-type="@Url.Action("FieldDetail", "Fields", new { target = "#fieldList", cntl = "Nutrients", actn = "Calculate" })">Add field</button>
-            </div>
+                </div>
             <div class="step-forms col-sm-9">
-                @if (Model.fldsFnd)
+                @if (!Model.fldsFnd)
                 {
                     <div class="form-box">
                         <div class="form-box-header clearfix">
-                            <button class="btn btn-success" data_modal3="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
-                            <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
-                            <button class="btn btn-success" disabled="disabled">Add Fertilzer</button>
-                            <button class="btn btn-success" disabled="disabled">Add Other</button>
+                            <h3>To add soil tests please add a field first</h3>
                         </div>
                     </div>
                 }
                 else
                 {
-                    <div class="form-box">
-                        <div class="form-box-header clearfix">
-                            <h3>To add nutrients please add a field first</h3>
-                        </div>
+                    <div id="test">
+                        @await Component.InvokeAsync("SoilTests")
                     </div>
                 }
-                <div class="panel-group" id="accordion">
-                    <!-- accordion 1 -->
-                    @if (Model.currFld != null)
-                    {
-                        <div id="crop">
-                            @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
-                        </div>
-                        <div id="manure">
-                            @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
-                        </div>
-                    }
-                </div>
 
-            
-                </div>
 
-                <br />
-                <br />
-                <br />
-                <br />
-                <div class="form-box-submit">
-                    <input class="form-box-submit-button btn btn-primary btn-lg" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />
-                    <input class="form-box-submit-button btn btn-primary btn-lg" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Report", "Report" )';" />
-                </div>
+            </div>
+
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="form-box-submit">
+                <input class="form-box-submit-button btn btn-primary btn-lg" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />
+                <input class="form-box-submit-button btn btn-primary btn-lg" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Report", "Report" )';" />
+            </div>
             @Html.HiddenFor(x => x.fldsFnd)
-            @Html.HiddenFor(x => x.currFld)
+            @Html.HiddenFor(x => x.buttonPressed)
         </form>
     </div>
 </div>
 @section Scripts {
-<script type="text/javascript">
+    <script type="text/javascript">
 
     // ensure this event handler is attached to current and future elements (after partial renders)
     $(document).on("click", '[data_modal]', function (e) {
@@ -147,51 +129,10 @@
     });
 
     $(document).ready(function () {
-        $("body").on("change", "#ddlMan", function () {
-            $('#buttonPressed').val("TypeChange");
+        $("body").on("change", "#ddlMth", function () {
+            $('#buttonPressed').val("MethodChange");
             $("#modForm").submit();
         })
-    });
-
-    $(document).ready(function () {
-        $("body").on("change", "#ddlTyp", function () {
-            $('#buttonPressed').val("TypeChange");
-            $("#modForm").submit();
-        })
-    });
-
-    $(document).ready(function () {
-        $("body").on("change", "#ddlCrop", function () {
-            $('#buttonPressed').val("CropChange");
-            $("#modForm").submit();
-        })
-    });
-
-    $(document).ready(function () {
-        $("body").on("click", "#rstN", function () {
-            $('#buttonPressed').val("ResetN");
-            $("#modForm").submit();
-        })
-    });
-
-    $(document).ready(function () {
-        $("body").on("click", "#rstA", function () {
-            $('#buttonPressed').val("ResetA");
-            $("#modForm").submit();
-        })
-    });
-
-    $(document).on("onload", "#fieldList", function () {
-        alert("current");
-        current();
-    });
-
-    $(document).ready(function () {
-        current();
-    });
-
-    $(document).on("change", "#fieldList", function () {
-        alert("changed");
     });
 
     function bindForm(dialog) {
@@ -258,51 +199,13 @@
             });
         }
 
+        $(document).ready(function () {
 
-        function current() {
-            $("#fieldList li a").each(function () {
-                if ($(this).text() == $("#currFld").val()) {
-                    $(this).addClass('btn-primary');
-                }
+            $('#sampleDt').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true
             });
-        }
-
-        $(document).on('propertychange input paste', '#rate', function () {
-            NeedRefresh();
         });
-
-        $(document).on('change', '#ddlAppl', function () {
-            NeedRefresh();
-        });
-
-        $(document).on('change', '#ddlRate', function () {
-            NeedRefresh();
-        });
-
-        $(document).on('propertychange input paste', '#avail', function () {
-            NeedRefresh();
-        });
-
-        $(document).on('propertychange input paste', '#nh4', function () {
-            NeedRefresh();
-        });
-
-        $(document).on('change', '#crude', function () {
-            NeedRefresh();
-        });
-
-        $(document).on('change', '#yield', function () {
-            NeedRefresh();
-        });
-
-
-        function NeedRefresh() {
-            $("#ok_button").html('Calculate');
-            $("#ok_button").css('background-color', '#1abbed');
-            $("#btnText").val("Calculate");
-        }
-
-
-</script>
+    </script>
 
 }

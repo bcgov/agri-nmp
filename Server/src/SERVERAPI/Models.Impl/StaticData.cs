@@ -294,5 +294,103 @@ namespace SERVERAPI.Models.Impl
 
             return typesOptions;
         }
+        public Models.StaticData.Crops GetCrops()
+        {
+            Models.StaticData.Crops crops = new Models.StaticData.Crops();
+            crops.crops = new List<Models.StaticData.Crop>();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["crops"]["crop"];
+
+            foreach (var r in array)
+            {
+                
+                Models.StaticData.Crop crop = new Models.StaticData.Crop();
+                crop.cropname = r["cropname"].ToString();
+                crop.cropremovalfactor = r["cropremovalfactor"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor"].ToString());
+                crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
+                crop.id = Convert.ToInt32(r["id"].ToString());
+                crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
+                crop.n_recommcd = Convert.ToDecimal(r["n_recommcd"].ToString());
+                crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
+                crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
+                crop.value_KO5 = r["KO5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["KO5"].ToString());
+                crop.value_P2O5 = r["P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["P2O5"].ToString());
+                crop.yieldcd =  Convert.ToInt32(r["yieldcd"].ToString());
+                crops.crops.Add(crop);
+            }
+
+            return crops;
+        }
+        public List<Models.StaticData.SelectListItem> GetCropsDll(int cropType)
+        {
+            Models.StaticData.Crops crops = GetCrops();
+
+            List<Models.StaticData.SelectListItem> cropsOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in crops.crops)
+            {
+                if (r.croptypeid == cropType)
+                {
+                    Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.cropname };
+                    cropsOptions.Add(li);
+                }
+            }
+
+            return cropsOptions;
+        }
+        public Models.StaticData.Crops GetCrops(int cropType)
+        {
+            Models.StaticData.Crops crops = GetCrops();
+            foreach (var r in crops.crops)
+            {
+                if (r.croptypeid != cropType)
+                {
+                    crops.crops.Remove(r);
+                }
+            }
+
+            return crops;
+        }
+        public Models.StaticData.Crop GetCrop(int cropId)
+        {
+            Models.StaticData.Crops crops = new Models.StaticData.Crops();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JObject r = (JObject)rss["agri"]["nmp"]["crops"]["crop"].FirstOrDefault(x => x["id"].ToString() == cropId.ToString());
+            Models.StaticData.Crop crop = new Models.StaticData.Crop();
+
+                crop.cropname = r["cropname"].ToString();
+                crop.cropremovalfactor = r["cropremovalfactor"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor"].ToString());
+                crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
+                crop.id = Convert.ToInt32(r["id"].ToString());
+                crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
+                crop.n_recommcd = Convert.ToDecimal(r["n_recommcd"].ToString());
+                crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
+                crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
+                crop.value_KO5 = r["KO5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["KO5"].ToString());
+                crop.value_P2O5 = r["P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["P2O5"].ToString());
+                crop.yieldcd =  Convert.ToInt32(r["yieldcd"].ToString());
+
+            return crop;
+        }
+        public Models.StaticData.Yield GetYield(int yieldId)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["yields"]["yield"];
+            Models.StaticData.Yield yield = new Models.StaticData.Yield();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["id"].ToString()) == yieldId)
+                {
+                    yield.id = Convert.ToInt32(r["id"].ToString());
+                    yield.yielddesc = r["yielddesc"].ToString();
+                }
+            }
+
+            return yield;
+        }
     }
 }

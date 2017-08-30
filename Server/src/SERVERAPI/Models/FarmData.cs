@@ -18,6 +18,7 @@ namespace SERVERAPI.Models
         public string farmName { get; set; }
         public int? farmRegion { get; set; }
         public bool? soilTests { get; set; }
+        public string testingMethod { get; set; }
         public bool? manure { get; set; }
     }
     public class YearData
@@ -32,7 +33,8 @@ namespace SERVERAPI.Models
         public decimal area { get; set; }
         public string comment { get; set; }
         public Nutrients nutrients { get; set; }
-        public List<Crop> crops {get; set; }
+        public List<FieldCrop> crops {get; set; }
+        public SoilTest soilTest { get; set; }
     }
     public class Nutrients
     {
@@ -64,7 +66,7 @@ namespace SERVERAPI.Models
     {
         public string id { get; set; }
     }
-    public class Crop
+    public class FieldCrop
     {
         public int id { get; set; }
         public string cropId { get; set; }
@@ -75,6 +77,15 @@ namespace SERVERAPI.Models
         public decimal remN { get; set; }
         public decimal remP2o5 { get; set; }
         public decimal remK2o { get; set; }
+        public int crudeProtien { get; set; }
+    }
+    public class SoilTest
+    {
+        public DateTime sampleDate { get; set; }
+        public decimal valNO3H { get; set; }
+        public decimal ValP { get; set; }
+        public decimal valK { get; set; }
+        public decimal valPH { get; set; }
     }
 }
 

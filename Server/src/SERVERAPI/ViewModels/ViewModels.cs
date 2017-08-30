@@ -136,10 +136,9 @@ namespace SERVERAPI.ViewModels
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selCropOption { get; set; }
         public List<Models.StaticData.SelectListItem> cropOptions { get; set; }
-        public string selPrevOption { get; set; }
-        public List<Models.StaticData.SelectListItem> prevOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         public string yield { get; set; }
+        public string yieldUnit { get; set; }
         public string crude { get; set; }
         public string buttonPressed { get; set; }
         public string reqN { get; set; }
@@ -164,5 +163,33 @@ namespace SERVERAPI.ViewModels
         public string currFld { get; set; }
         public List<Field> fields { get; set; }
     }
+    public class SoilTestViewModel
+    {
+        public bool fldsFnd { get; set; }
+        public string buttonPressed { get; set; }
+        public string selMthOption { get; set; }
+        public List<Models.StaticData.SelectListItem> mthOptions { get; set; }
+    }
+    public class SoilTestDetailsViewModel
+    {
+        public int? id { get; set; }
+        public string title { get; set; }
+        public string btnText { get; set; }
+        public string fieldName { get; set; }
+        public string buttonPressed { get; set; }
+        public string sampleDate { get; set; }
+        public string dispNO3H { get; set; }
+        public string dispP { get; set; }
+        public string dispK { get; set; }
+        public string dispPH { get; set; }
 
+    }
+    public class SoilTestDeleteViewModel
+    {
+        public int? id { get; set; }
+        public string title { get; set; }
+        public string btnText { get; set; }
+        [Display(Name = "Field Name")]
+        public string fieldName { get; set; }
+    }
 }

@@ -3,9 +3,6 @@
     clear:both;
     display:block;
 }
-tr:nth-child(even) {
-    background-color: #d9edf7;
-}
 .modal.modal-wide .modal-dialog {
     width: 70%;
 }

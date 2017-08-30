@@ -114,5 +114,28 @@ namespace SERVERAPI.Models
             public int id { get; set; }
             public string name { get; set; }
         }
+        public class Crops
+        {
+            public List<Crop> crops { get; set; }
+        }
+        public class Crop
+        {
+            public int id { get; set; }
+            public string cropname { get; set; }
+            public int croptypeid { get; set; }
+            public int yieldcd { get; set; }
+            public decimal? cropremovalfactor { get; set; }
+            public decimal? value_P2O5 { get; set; }
+            public decimal? value_KO5 { get; set; }
+            public decimal n_recommcd { get; set; }
+            public decimal? n_recomm_lbperac { get; set; }
+            public decimal? n_high_lbperac { get; set; }
+            public int prevcropcd { get; set; }
+        }
+        public class Yield
+        {
+            public int id { get; set; }
+            public string yielddesc { get; set; }
+        }
     }
 }

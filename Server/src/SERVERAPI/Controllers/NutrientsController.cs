@@ -9,6 +9,7 @@ using SERVERAPI.Models;
 using Newtonsoft.Json;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewComponents;
+using static SERVERAPI.Models.StaticData;
 
 namespace SERVERAPI.Controllers
 {
@@ -259,37 +260,29 @@ namespace SERVERAPI.Controllers
 
             cvm.fieldName = fldName;
             cvm.title = id == null ? "Add" : "Edit";
+            cvm.btnText = id == null ? "Calculate" : "Return";
             cvm.id = id;
-
-            //var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-            CropDetailsSetup(ref cvm);
 
             if (id != null)
             {
-                //Crop cp = _ud.GetFieldNutrientsManure(fldName, id.Value);
+                FieldCrop cp = _ud.GetFieldCrop(fldName, id.Value);
 
-                //mvm.avail = nm.nAvail.ToString();
-                //mvm.selRateOption = nm.unitId;
-                //mvm.selManOption = nm.manureId;
-                //mvm.selApplOption = nm.applicationId;
-                //mvm.rate = nm.rate.ToString();
-                //mvm.nh4 = nm.nh4Retention.ToString();
-                //mvm.yrN = nm.yrN.ToString();
-                //mvm.yrP2o5 = nm.yrP2o5.ToString();
-                //mvm.yrK2o = nm.yrK2o.ToString();
-                //mvm.ltN = nm.ltN.ToString();
-                //mvm.ltP2o5 = nm.ltP2o5.ToString();
-                //mvm.ltK2o = nm.ltK2o.ToString();
-                //Models.StaticData.Manure man = _sd.GetManure(nm.manureId);
-                //mvm.currUnit = man.solid_liquid;
-                //mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
+                Crop crop = _sd.GetCrop(Convert.ToInt32(cp.cropId));
 
-                //mvm.stdN = Convert.ToDecimal(mvm.nh4) != 40 ? false : true;
-                //mvm.stdAvail = Convert.ToDecimal(mvm.avail) != 40 ? false : true;
-
+                cvm.fieldName = fldName;
+                cvm.id = id;
+                cvm.reqN = cp.reqN.ToString();
+                cvm.reqP2o5 = cp.reqP2o5.ToString();
+                cvm.reqK2o = cp.reqK2o.ToString();
+                cvm.remN = cp.remN.ToString();
+                cvm.remP2o5 = cp.remP2o5.ToString();
+                cvm.remK2o = cp.remK2o.ToString();
+                cvm.yield = cp.yield.ToString();
+                cvm.crude = cp.crudeProtien.ToString();
+                cvm.selCropOption = cp.cropId;
+                cvm.selTypOption = crop.croptypeid.ToString();
             }
             else
-
             {
                 cvm.reqN = "  0";
                 cvm.reqP2o5 = "  0";
@@ -298,6 +291,8 @@ namespace SERVERAPI.Controllers
                 cvm.remP2o5 = "  0";
                 cvm.remK2o = "  0";
             }
+
+            CropDetailsSetup(ref cvm);
 
             return PartialView(cvm);
         }
@@ -311,17 +306,61 @@ namespace SERVERAPI.Controllers
                 ModelState.Clear();
                 cvm.buttonPressed = "";
                 cvm.btnText = "Calculate";
+                cvm.crude = "";
+                return View(cvm);
+            }
 
-                if (cvm.selTypOption != "")
+            if (cvm.buttonPressed == "CropChange")
+            {
+                ModelState.Clear();
+                cvm.buttonPressed = "";
+                cvm.btnText = "Calculate";
+
+                if (cvm.selCropOption != "")
                 {
-                    //Models.StaticData.Manure man = _sd.GetCrops(cvm.selTypOption);
-                    cvm.showCrude = (cvm.selTypOption == "1") ? true : false;
+                    Crop cp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
+                    Yield yld = _sd.GetYield(cp.yieldcd);
+
+                    cvm.yieldUnit = "(" + yld.yielddesc + ")";
                 }
                 return View(cvm);
             }
 
             if (ModelState.IsValid)
             {
+                if(!string.IsNullOrEmpty(cvm.crude))
+                {
+                    int crd;
+                    if(int.TryParse(cvm.crude, out crd))
+                    {
+                        if(crd < 0 || crd > 100)
+                        {
+                            ModelState.AddModelError("crude", "Not a valid percentage.");
+                            return View(cvm);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("crude", "Not a valid number.");
+                        return View(cvm);
+                    }
+                }
+
+                int tmp;
+                if (int.TryParse(cvm.yield, out tmp))
+                {
+                    if (tmp <= 0)
+                    {
+                        ModelState.AddModelError("yield", "Not a valid yield.");
+                        return View(cvm);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("yield", "Not a valid number.");
+                    return View(cvm);
+                }
+
                 if (cvm.btnText == "Calculate")
                 {
                     ModelState.Clear();
@@ -339,7 +378,7 @@ namespace SERVERAPI.Controllers
                     if (cvm.id == null)
                     {
 
-                        Crop crp = new Crop()
+                        FieldCrop crp = new FieldCrop()
                         {
                             cropId = cvm.selCropOption,
                             yield = Convert.ToDecimal(cvm.yield),
@@ -348,14 +387,15 @@ namespace SERVERAPI.Controllers
                             reqK2o = Convert.ToDecimal(cvm.reqK2o),
                             remN = Convert.ToDecimal(cvm.remN),
                             remP2o5 = Convert.ToDecimal(cvm.remP2o5),
-                            remK2o = Convert.ToDecimal(cvm.remK2o)
+                            remK2o = Convert.ToDecimal(cvm.remK2o),
+                            crudeProtien = Convert.ToInt32(cvm.crude)
                         };
 
                         _ud.AddFieldCrop(cvm.fieldName, crp);
                     }
                     else
                     {
-                        Crop crp = _ud.GetFieldCrop(cvm.fieldName, cvm.id.Value);
+                        FieldCrop crp = _ud.GetFieldCrop(cvm.fieldName, cvm.id.Value);
                         crp.cropId = cvm.selCropOption;
                         crp.yield = Convert.ToDecimal(cvm.yield);
                         crp.reqN = Convert.ToDecimal(cvm.reqN);
@@ -364,6 +404,7 @@ namespace SERVERAPI.Controllers
                         crp.remN = Convert.ToDecimal(cvm.remN);
                         crp.remP2o5 = Convert.ToDecimal(cvm.remP2o5);
                         crp.remK2o = Convert.ToDecimal(cvm.remK2o);
+                        crp.crudeProtien = Convert.ToInt32(cvm.crude);
 
                         _ud.UpdateFieldCrop(cvm.fieldName, crp);
                     }
@@ -381,10 +422,11 @@ namespace SERVERAPI.Controllers
             cvm.typOptions = _sd.GetCropTypesDll().ToList();
 
             cvm.cropOptions = new List<Models.StaticData.SelectListItem>();
-            //cvm.cropOptions = _sd.GetApplicationsDll().ToList();
-
-            cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
-            //cvm.cropOptions = _sd.GetApplicationsDll().ToList();
+            if (!string.IsNullOrEmpty(cvm.selTypOption))
+            {
+                cvm.cropOptions = _sd.GetCropsDll(Convert.ToInt32(cvm.selTypOption)).ToList();
+                cvm.showCrude = (cvm.selTypOption == "1") ? true : false;
+            }
 
             return;
         }
@@ -428,32 +470,32 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("CalcCrop", new { fldName = fieldName });
         }
-        //[HttpGet]
-        //public ActionResult CropDelete(string fldName, int id)
-        //{
-        //    CropDeleteViewModel dvm = new CropDeleteViewModel();
-        //    dvm.id = id;
-        //    dvm.fldName = fldName;
+        [HttpGet]
+        public ActionResult CropDelete(string fldName, int id)
+        {
+            CropDeleteViewModel dvm = new CropDeleteViewModel();
+            dvm.id = id;
+            dvm.fldName = fldName;
 
-        //    Crop crp = _ud.GetFieldCrop(fldName, id);
-        //    dvm.cropName = _sd.GetCrop(crp.cropId).name;
+            FieldCrop crp = _ud.GetFieldCrop(fldName, id);
+            dvm.cropName = "xxxx"; // _sd.GetCrop(crp.cropId).name;
 
-        //    dvm.act = "Delete";
+            dvm.act = "Delete";
 
-        //    return PartialView("CropDelete", dvm);
-        //}
-        //[HttpPost]
-        //public ActionResult ManureDelete(ManureDeleteViewModel dvm)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _ud.DeleteFieldNutrientsManure(dvm.fldName, dvm.id);
+            return PartialView("CropDelete", dvm);
+        }
+        [HttpPost]
+        public ActionResult CropDelete(CropDeleteViewModel dvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _ud.DeleteFieldCrop(dvm.fldName, dvm.id);
 
-        //        string target = "#manure";
-        //        string url = Url.Action("RefreshManureList", "Nutrients", new { fieldName = dvm.fldName });
-        //        return Json(new { success = true, url = url, target = target });
-        //    }
-        //    return PartialView("ManureDelete", dvm);
-        //}
+                string target = "#crop";
+                string url = Url.Action("RefreshCropList", "Nutrients", new { fieldName = dvm.fldName });
+                return Json(new { success = true, url = url, target = target });
+            }
+            return PartialView("CropDelete", dvm);
+        }
     }
 }

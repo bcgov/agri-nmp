@@ -23,25 +23,22 @@
                     </div>
                     <div class="form-group col-sm-4">
                         <label asp-for="selCropOption">Crop</label>
-                        <select class="form-control" asp-for="selCropOption" asp-items="@(new SelectList(Model.cropOptions,"Id","Value"))" id="ddlAppl">
+                        <select class="form-control" asp-for="selCropOption" asp-items="@(new SelectList(Model.cropOptions,"Id","Value"))" id="ddlCrop">
                             <option>select</option>
                         </select>
                         <span asp-validation-for="selCropOption" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-4">
                         <label>Yield</label>
-                        <input class="form-control" asp-for="yield" id="rate" type="text" />
+                        <div>
+                            <input class="form-control" asp-for="yield" id="yield" type="text" />
+                            <label>tons/ac&nbsp;@Model.yieldUnit</label>
+                        </div>
                         <span asp-validation-for="yield" class="text-danger"></span>
                     </div>
                 </div>
                 <div style="clear:both"></div>
                 <div class="form-group">
-                    <div class="form-group col-sm-2">
-                        <label>Previous Crop</label>
-                        <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlAppl">
-                            <option>select........................</option>
-                        </select>
-                    </div>
                     @if (Model.showCrude)
                     {
                         <div class="form-group col-sm-2">
@@ -52,9 +49,13 @@
                             <span asp-validation-for="crude" class="text-danger"></span>
                         </div>
                     }
+                    else
+                    {
+                        @Html.HiddenFor(x => x.crude)
+                    }
                 </div>
                 <div style="clear:both"></div>
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-4" style="margin:10px">
                     <div class="Table">
                         <div class="Title">
                             <p>Crop Requirement (lb/ac)</p>
@@ -83,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-4" style="margin:10px">
                     <div class="Table">
                         <div class="Title">
                             <p>Nutrient Removal (lb/ac)</p>
@@ -130,5 +131,6 @@
         @Html.HiddenFor(x => x.remN)
         @Html.HiddenFor(x => x.remP2o5)
         @Html.HiddenFor(x => x.remK2o)
+        @Html.HiddenFor(x => x.yieldUnit)
     </form>
 </div>
