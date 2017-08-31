@@ -173,12 +173,24 @@ namespace SERVERAPI.Controllers
                 if (mvm.btnText == "Calculate")
                 {
                     ModelState.Clear();
-                    mvm.yrN = "111";
-                    mvm.yrP2o5 = "222";
-                    mvm.yrK2o = "333";
-                    mvm.ltN = "444";
-                    mvm.ltP2o5 = "555";
-                    mvm.ltK2o = "666";
+                    NutrientInputs nutrientInputs = new NutrientInputs();
+                    CalculateNutrients calculateNutrients = new Utility.CalculateNutrients(_env, _ud, _sd);                   
+
+                    calculateNutrients.manure = mvm.selManOption;
+                    calculateNutrients.applicationSeason = mvm.selApplOption;
+                    calculateNutrients.applicationRate = Convert.ToDecimal(mvm.rate);
+                    calculateNutrients.applicationRateUnits = mvm.selRateOption;
+                    calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(mvm.nh4);
+                    calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(mvm.avail);
+
+                    calculateNutrients.GetNutrientInputs(nutrientInputs);
+
+                    mvm.yrN = nutrientInputs.N_FirstYear.ToString();
+                    mvm.yrP2o5 = nutrientInputs.P2O5_FirstYear.ToString();
+                    mvm.yrK2o = nutrientInputs.K2O_FirstYear.ToString();
+                    mvm.ltN = nutrientInputs.N_LongTerm.ToString();
+                    mvm.ltP2o5 = nutrientInputs.P2O5_LongTerm.ToString();
+                    mvm.ltK2o = nutrientInputs.K2O_LongTerm.ToString();
 
                     mvm.btnText = mvm.id == null ? "Add to Field" : "Update Field";
 

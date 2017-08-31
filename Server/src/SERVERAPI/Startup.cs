@@ -91,6 +91,7 @@ namespace SERVERAPI
 
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
+            services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
