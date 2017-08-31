@@ -45,7 +45,7 @@
                 <div class="form-box-body">
                     <div class="form-box-fields">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-7">
                                 <label asp-for="selMthOption">Testing Method</label>
                                 <p class="form-box-subtext">Different lab methods may affect results. Check with your lab to determine what test was used to analyze your sample. <a href="http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing" target="_blank">Read more on this topic</a></p>
                                 <select class="form-control" asp-for="selMthOption" asp-items="@(new SelectList(Model.mthOptions,"Id","Value"))" id="ddlMth">

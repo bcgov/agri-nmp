@@ -137,5 +137,14 @@ namespace SERVERAPI.Models
             public int id { get; set; }
             public string yielddesc { get; set; }
         }
+        public class SoilTestMethods
+        {
+            public List<SoilTestMethod> methods { get; set; }
+        }
+        public class SoilTestMethod
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+        }
     }
 }
