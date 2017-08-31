@@ -47,23 +47,23 @@ namespace SERVERAPI.Utility
             decimal conversion = myunit.conversion_lbton;
 
             // get potassium first year
-            nutrientInputs.K2O_FirstYear = Convert.ToInt16(decimal.Multiply(applicationRate, mymanure.potassium)
+            nutrientInputs.K2O_FirstYear = Convert.ToInt32(decimal.Multiply(applicationRate, mymanure.potassium)
                                             * Convert.ToDecimal(20) * Convert.ToDecimal(1.2)
                                             * potassiumAvailabilityFirstYear * conversion);
 
             // get potassium long term
-            nutrientInputs.K2O_LongTerm = Convert.ToInt16(decimal.Multiply(applicationRate, mymanure.potassium) 
+            nutrientInputs.K2O_LongTerm = Convert.ToInt32(decimal.Multiply(applicationRate, mymanure.potassium) 
                                             * Convert.ToDecimal(20) * Convert.ToDecimal(1.2) 
                                             * potassiumAvailabilityLongTerm * conversion);
 
 
             // get phosphorous first year
-            nutrientInputs.P2O5_FirstYear = Convert.ToInt16(decimal.Multiply(applicationRate, mymanure.phosphorous) 
+            nutrientInputs.P2O5_FirstYear = Convert.ToInt32(decimal.Multiply(applicationRate, mymanure.phosphorous) 
                                             * Convert.ToDecimal(20) * Convert.ToDecimal(1.2) 
                                             * phosphorousAvailabilityFirstYear * conversion);
 
             // get phosphorous long term
-            nutrientInputs.P2O5_LongTerm = Convert.ToInt16(decimal.Multiply(applicationRate, mymanure.phosphorous) 
+            nutrientInputs.P2O5_LongTerm = Convert.ToInt32(decimal.Multiply(applicationRate, mymanure.phosphorous) 
                                             * Convert.ToDecimal(20) * Convert.ToDecimal(1.2) 
                                             * phosphorousAvailabilityLongTerm * conversion);
 
