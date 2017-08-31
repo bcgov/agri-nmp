@@ -42,7 +42,7 @@ namespace SERVERAPI.ViewComponents
                 dc.fldName = m.fieldName;
                 if (m.soilTest != null)
                 {
-                    dc.sampleDate = m.soilTest.sampleDate.ToString("MM-yyyy");
+                    dc.sampleDate = m.soilTest.sampleDate.ToString("MMM-yyyy");
                     dc.dispNO3H = m.soilTest.valNO3H.ToString();
                     dc.dispP = m.soilTest.ValP.ToString();
                     dc.dispK = m.soilTest.valK.ToString();

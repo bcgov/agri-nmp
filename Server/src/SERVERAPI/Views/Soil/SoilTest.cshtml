@@ -19,7 +19,7 @@
 <div class="step-header">
     <div class="container">
         <div class="col-sm-6">
-            <span class="step-header-circle">2</span>
+            <span class="step-header-circle">3</span>
             <span class="step-header-name">Field Soil Tests</span>
         </div>
         <div class="col-sm-6">
@@ -41,41 +41,49 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
         <form asp-controller="Soil" asp-action="SoilTest" method="post" id="modForm">
-               <div class="form-group">
-                    <div class="form-group col-sm-4">
-                        <label asp-for="selMthOption">Testing Method</label>
-                        <select class="form-control" asp-for="selMthOption" asp-items="@(new SelectList(Model.mthOptions,"Id","Value"))" id="ddlMth">
-                            <option>select</option>
-                        </select>
-                        <span asp-validation-for="selMthOption" class="text-danger"></span>
-                    </div>
-                </div>
-            <div class="step-forms col-sm-9">
-                @if (!Model.fldsFnd)
-                {
-                    <div class="form-box">
-                        <div class="form-box-header clearfix">
-                            <h3>To add soil tests please add a field first</h3>
+            <div class="form-box">
+                <div class="form-box-body">
+                    <div class="form-box-fields">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label asp-for="selMthOption">Testing Method</label>
+                                <p class="form-box-subtext">Different lab methods may affect results. Check with your lab to determine what test was used to analyze your sample. <a href="http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing" target="_blank">Read more on this topic</a></p>
+                                <select class="form-control" asp-for="selMthOption" asp-items="@(new SelectList(Model.mthOptions,"Id","Value"))" id="ddlMth">
+                                    <option>select</option>
+                                </select>
+                                <span asp-validation-for="selMthOption"></span>
+                            </div>
                         </div>
                     </div>
-                }
-                else
-                {
-                    <div id="test">
-                        @await Component.InvokeAsync("SoilTests")
+                    <div class="form-box-fields">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (!Model.fldsFnd)
+                                {
+                                    <div class="form-box">
+                                        <div class="form-box-header clearfix">
+                                            <h3>To add soil tests please add a field first</h3>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div id="test">
+                                        @await Component.InvokeAsync("SoilTests")
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
-                }
-
-
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </div>
             </div>
-
-            <br />
-            <br />
-            <br />
-            <br />
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary btn-lg" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />
-                <input class="form-box-submit-button btn btn-primary btn-lg" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Report", "Report" )';" />
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Fields", "Fields" )';" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />
             </div>
             @Html.HiddenFor(x => x.fldsFnd)
             @Html.HiddenFor(x => x.buttonPressed)
