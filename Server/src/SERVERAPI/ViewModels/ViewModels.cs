@@ -192,4 +192,5 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Field Name")]
         public string fieldName { get; set; }
     }
+
 }
