@@ -186,6 +186,13 @@
     });
 
     $(document).ready(function () {
+        $("body").on("change", "#ddlPrev", function () {
+            $('#buttonPressed').val("PrevChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
         $("body").on("click", "#rstN", function () {
             $('#buttonPressed').val("ResetN");
             $("#modForm").submit();

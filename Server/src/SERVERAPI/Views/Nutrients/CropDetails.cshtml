@@ -39,11 +39,18 @@
                 </div>
                 <div style="clear:both"></div>
                 <div class="form-group">
+                    <div class="form-group col-sm-7">
+                        <label>Previous crop ploughed down</label>
+                        <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlPrev">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selPrevOption" class="text-danger"></span>
+                    </div>
                     @if (Model.showCrude)
                     {
-                        <div class="form-group col-sm-2">
+                        <div class="form-group col-sm-4">
                             <label>Crude Protien (%)</label>
-                            <div class="input-group">
+                            <div class="input-group col-sm-5">
                                 <input class="form-control col-sm-1" asp-for="crude" id="crude" type="text" />
                             </div>
                             <span asp-validation-for="crude" class="text-danger"></span>

@@ -552,5 +552,45 @@ namespace SERVERAPI.Models.Impl
 
             return mthOptions;
         }
+
+        public Models.StaticData.PrevCropTypes GetPrevCropTypes()
+        {
+            Models.StaticData.PrevCropTypes types = new Models.StaticData.PrevCropTypes();
+            types.prevCropTypes = new List<Models.StaticData.PrevCropType>();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["prevcroptypes"]["prevcroptype"];
+
+            foreach (var r in array)
+            {
+                Models.StaticData.PrevCropType type = new Models.StaticData.PrevCropType();
+                type.id = Convert.ToInt32(r["id"].ToString());
+                type.cropType = Convert.ToInt32(r["croptype"].ToString());
+                type.name = r["name"].ToString();
+                type.nCreditMetric = Convert.ToInt32(r["ncreditmetric"].ToString());
+                type.nCreditImperial = Convert.ToInt32(r["ncreditimperial"].ToString());
+                types.prevCropTypes.Add(type);
+            }
+
+            return types;
+        }
+
+        public List<Models.StaticData.SelectListItem> GetPrevCropTypesDll(string cropType)
+        {
+            Models.StaticData.PrevCropTypes types = GetPrevCropTypes();
+
+            List<Models.StaticData.SelectListItem> typesOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in types.prevCropTypes)
+            {
+                if (r.cropType.ToString() == cropType)
+                {
+                    Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                    typesOptions.Add(li);
+                }
+            }
+
+            return typesOptions;
+        }
     }
 }

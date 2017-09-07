@@ -329,6 +329,7 @@ namespace SERVERAPI.Controllers
                 cvm.crude = cp.crudeProtien.ToString();
                 cvm.selCropOption = cp.cropId;
                 cvm.selTypOption = crop.croptypeid.ToString();
+                cvm.selPrevOption = cp.prevCropId.ToString();
             }
             else
             {
@@ -358,6 +359,14 @@ namespace SERVERAPI.Controllers
                 return View(cvm);
             }
 
+            if (cvm.buttonPressed == "PrevChange")
+            {
+                ModelState.Clear();
+                cvm.buttonPressed = "";
+                cvm.btnText = "Calculate";
+                return View(cvm);
+            }
+
             if (cvm.buttonPressed == "CropChange")
             {
                 ModelState.Clear();
@@ -371,6 +380,8 @@ namespace SERVERAPI.Controllers
 
                     cvm.yieldUnit = "(" + yld.yielddesc + ")";
                 }
+                cvm.selPrevOption = string.Empty;
+
                 return View(cvm);
             }
 
@@ -425,6 +436,9 @@ namespace SERVERAPI.Controllers
                 {
                     if (cvm.id == null)
                     {
+                        int prevCrop = 0;
+                        if (cvm.selPrevOption != "select")
+                            prevCrop = Convert.ToInt32(cvm.selPrevOption);
 
                         FieldCrop crp = new FieldCrop()
                         {
@@ -436,13 +450,18 @@ namespace SERVERAPI.Controllers
                             remN = Convert.ToDecimal(cvm.remN),
                             remP2o5 = Convert.ToDecimal(cvm.remP2o5),
                             remK2o = Convert.ToDecimal(cvm.remK2o),
-                            crudeProtien = Convert.ToInt32(cvm.crude)
+                            crudeProtien = Convert.ToInt32(cvm.crude),
+                            prevCropId = prevCrop
                         };
 
                         _ud.AddFieldCrop(cvm.fieldName, crp);
                     }
                     else
                     {
+                        int prevCrop = 0;
+                        if (cvm.selPrevOption != "select")
+                            prevCrop = Convert.ToInt32(cvm.selPrevOption);
+
                         FieldCrop crp = _ud.GetFieldCrop(cvm.fieldName, cvm.id.Value);
                         crp.cropId = cvm.selCropOption;
                         crp.yield = Convert.ToDecimal(cvm.yield);
@@ -453,6 +472,7 @@ namespace SERVERAPI.Controllers
                         crp.remP2o5 = Convert.ToDecimal(cvm.remP2o5);
                         crp.remK2o = Convert.ToDecimal(cvm.remK2o);
                         crp.crudeProtien = Convert.ToInt32(cvm.crude);
+                        crp.prevCropId = prevCrop;
 
                         _ud.UpdateFieldCrop(cvm.fieldName, crp);
                     }
@@ -476,6 +496,13 @@ namespace SERVERAPI.Controllers
             {
                 cvm.cropOptions = _sd.GetCropsDll(Convert.ToInt32(cvm.selTypOption)).ToList();
                 cvm.showCrude = (cvm.selTypOption == "1") ? true : false;
+            }
+
+            cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
+            if (!string.IsNullOrEmpty(cvm.selCropOption))
+            {
+                Crop crp = _sd.GetCrop(Convert.ToInt32(cvm.selTypOption));
+                cvm.prevOptions = _sd.GetPrevCropTypesDll(crp.prevcropcd.ToString()).ToList();
             }
 
             return;
