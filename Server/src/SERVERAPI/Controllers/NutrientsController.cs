@@ -79,8 +79,8 @@ namespace SERVERAPI.Controllers
             mvm.title = id == null ? "Add" : "Edit";
             mvm.btnText = id == null ? "Calculate" : "Return";
             mvm.id = id;
-            mvm.avail = "40";
-            mvm.nh4 = "40";
+            mvm.avail = string.Empty;
+            mvm.nh4 = string.Empty;
             mvm.stdN = true;
             mvm.stdAvail = true;
 
@@ -134,7 +134,10 @@ namespace SERVERAPI.Controllers
                 ModelState.Clear();
                 mvm.buttonPressed = "";
                 mvm.btnText = "Calculate";
+
+                // reset to calculated amount
                 mvm.nh4 = "40";
+
                 mvm.stdN = true;
                 return View(mvm);
             }
@@ -144,7 +147,10 @@ namespace SERVERAPI.Controllers
                 ModelState.Clear();
                 mvm.buttonPressed = "";
                 mvm.btnText = "Calculate";
+
+                // reset to calculated amount
                 mvm.avail = "40";
+
                 mvm.stdAvail = true;
                 return View(mvm);
             }
@@ -164,6 +170,31 @@ namespace SERVERAPI.Controllers
                         mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
                         mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
                     }
+
+                    // if application is present then recalc N and A
+                }
+                else
+                {
+                    mvm.nh4 = string.Empty;
+                    mvm.avail = string.Empty;
+                }
+                return View(mvm);
+            }
+
+            if (mvm.buttonPressed == "ApplChange")
+            {
+                ModelState.Clear();
+                mvm.buttonPressed = "";
+                mvm.btnText = "Calculate";
+
+                if (mvm.selApplOption != "")
+                {
+                    // recalc N and A values
+                }
+                else
+                {
+                    mvm.nh4 = string.Empty;
+                    mvm.avail = string.Empty;
                 }
                 return View(mvm);
             }
@@ -193,6 +224,8 @@ namespace SERVERAPI.Controllers
                     mvm.ltK2o = nutrientInputs.K2O_LongTerm.ToString();
 
                     mvm.btnText = mvm.id == null ? "Add to Field" : "Update Field";
+
+                    // determine if values on screen are book value or not
 
                     if(Convert.ToDecimal(mvm.nh4) != 40)
                     {

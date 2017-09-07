@@ -172,6 +172,13 @@
     });
 
     $(document).ready(function () {
+        $("body").on("change", "#ddlAppl", function () {
+            $('#buttonPressed').val("ApplChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
         $("body").on("change", "#ddlCrop", function () {
             $('#buttonPressed').val("CropChange");
             $("#modForm").submit();
