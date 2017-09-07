@@ -517,7 +517,7 @@ namespace SERVERAPI.Models.Impl
             }
 
             return nmineralization;
-
+        }
         public Models.StaticData.SoilTestMethods GetSoilTestMethods()
         {
             Models.StaticData.SoilTestMethods meths = new Models.StaticData.SoilTestMethods();
