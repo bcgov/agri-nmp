@@ -488,21 +488,34 @@ namespace SERVERAPI.Controllers
         }
         private void CropDetailsSetup(ref CropDetailsViewModel cvm)
         {
+            cvm.showCrude = false;
             cvm.typOptions = new List<Models.StaticData.SelectListItem>();
             cvm.typOptions = _sd.GetCropTypesDll().ToList();
 
             cvm.cropOptions = new List<Models.StaticData.SelectListItem>();
-            if (!string.IsNullOrEmpty(cvm.selTypOption))
+            if (!string.IsNullOrEmpty(cvm.selTypOption) &&
+                cvm.selTypOption != "select")
             {
                 cvm.cropOptions = _sd.GetCropsDll(Convert.ToInt32(cvm.selTypOption)).ToList();
-                cvm.showCrude = (cvm.selTypOption == "1") ? true : false;
+
+                if(cvm.selTypOption != "select")
+                {
+                    int indx = Convert.ToInt32(cvm.selTypOption);
+                    string crpTyp = cvm.typOptions.FirstOrDefault(r => r.Id == indx).Value;
+                    if (crpTyp == "Forage" ||
+                        crpTyp == "Grains")
+                        cvm.showCrude = true;
+                }
             }
 
             cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
             if (!string.IsNullOrEmpty(cvm.selCropOption))
             {
-                Crop crp = _sd.GetCrop(Convert.ToInt32(cvm.selTypOption));
-                cvm.prevOptions = _sd.GetPrevCropTypesDll(crp.prevcropcd.ToString()).ToList();
+                if (cvm.selTypOption != "select")
+                {
+                    Crop crp = _sd.GetCrop(Convert.ToInt32(cvm.selTypOption));
+                    cvm.prevOptions = _sd.GetPrevCropTypesDll(crp.prevcropcd.ToString()).ToList();
+                }
             }
 
             return;

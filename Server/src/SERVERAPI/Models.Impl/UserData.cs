@@ -339,6 +339,7 @@ namespace SERVERAPI.Models.Impl
             crp.remN = updtCrop.remN;
             crp.remP2o5 = updtCrop.remP2o5;
             crp.crudeProtien = updtCrop.crudeProtien;
+            crp.prevCropId = updtCrop.prevCropId;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
