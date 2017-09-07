@@ -32,7 +32,7 @@ namespace SERVERAPI.Models.Impl
 
                 reg.id = Convert.ToInt32(r["id"].ToString());
                 reg.name = r["name"].ToString();
-                reg.location = r["location"].ToString();
+                reg.locationid = Convert.ToInt32(r["locationid"].ToString());
                 reg.soil_test_phospherous_region_cd = Convert.ToInt32(r["soil_test_phospherous_region_cd"].ToString());
                 reg.soil_test_potassium_region_cd = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString());
                 regs.regions.Add(reg);
@@ -55,6 +55,7 @@ namespace SERVERAPI.Models.Impl
 
             return regOptions;
         }
+
         public Models.StaticData.Manure GetManure(string manId )
         {
             Models.StaticData.Manure man = new Models.StaticData.Manure();
@@ -75,11 +76,14 @@ namespace SERVERAPI.Models.Impl
                     man.ammonia = Convert.ToInt32(r["ammonia"].ToString());
                     man.phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
                     man.potassium = Convert.ToDecimal(r["potassium"].ToString());
+                    man.dmid = Convert.ToInt32(r["dmid"].ToString());
+                    man.nminerizationid = Convert.ToInt32(r["nminerizationid"].ToString());
                 }
             }
 
             return man;
         }
+
         public Models.StaticData.Manures GetManures()
         {
             Models.StaticData.Manures mans = new Models.StaticData.Manures();
@@ -101,11 +105,15 @@ namespace SERVERAPI.Models.Impl
                 man.ammonia = Convert.ToInt32(r["ammonia"].ToString());
                 man.phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
                 man.potassium = Convert.ToDecimal(r["potassium"].ToString());
+                man.dmid = Convert.ToInt32(r["dmid"].ToString());
+                man.nminerizationid = Convert.ToInt32(r["nminerizationid"].ToString());
+
                 mans.manures.Add(man);
             }
 
             return mans;
         }
+
         public List<Models.StaticData.SelectListItem> GetManuresDll()
         {
             Models.StaticData.Manures mans = GetManures();
@@ -120,6 +128,7 @@ namespace SERVERAPI.Models.Impl
 
             return manOptions;
         }
+
         public Models.StaticData.Season_Application GetApplication(string applId)
         {
             Models.StaticData.Season_Application appl = new Models.StaticData.Season_Application();
@@ -146,6 +155,7 @@ namespace SERVERAPI.Models.Impl
 
             return appl;
         }
+
         public Models.StaticData.Season_Applications GetApplications()
         {
             Models.StaticData.Season_Applications appls = new Models.StaticData.Season_Applications();
@@ -173,6 +183,7 @@ namespace SERVERAPI.Models.Impl
 
             return appls;
         }
+
         public List<Models.StaticData.SelectListItem> GetApplicationsDll()
         {
             Models.StaticData.Season_Applications appls = GetApplications();
@@ -187,6 +198,7 @@ namespace SERVERAPI.Models.Impl
 
             return applsOptions;
         }
+
         public Models.StaticData.Unit GetUnit(string unitId)
         {
             Models.StaticData.Unit unit = new Models.StaticData.Unit();
@@ -216,6 +228,7 @@ namespace SERVERAPI.Models.Impl
 
             return unit;
         }
+
         public Models.StaticData.Units GetUnits()
         {
             Models.StaticData.Units units = new Models.StaticData.Units();
@@ -245,6 +258,7 @@ namespace SERVERAPI.Models.Impl
 
             return units;
         }
+
         public List<Models.StaticData.SelectListItem> GetUnitsDll(string unitType)
         {
             Models.StaticData.Units units = GetUnits();
@@ -262,6 +276,7 @@ namespace SERVERAPI.Models.Impl
 
             return unitsOptions;
         }
+
         public Models.StaticData.CropTypes GetCropTypes()
         {
             Models.StaticData.CropTypes types = new Models.StaticData.CropTypes();
@@ -280,6 +295,7 @@ namespace SERVERAPI.Models.Impl
 
             return types;
         }
+
         public List<Models.StaticData.SelectListItem> GetCropTypesDll()
         {
             Models.StaticData.CropTypes types = GetCropTypes();
@@ -294,6 +310,7 @@ namespace SERVERAPI.Models.Impl
 
             return typesOptions;
         }
+
         public Models.StaticData.Crops GetCrops()
         {
             Models.StaticData.Crops crops = new Models.StaticData.Crops();
@@ -322,6 +339,7 @@ namespace SERVERAPI.Models.Impl
 
             return crops;
         }
+
         public List<Models.StaticData.SelectListItem> GetCropsDll(int cropType)
         {
             Models.StaticData.Crops crops = GetCrops();
@@ -339,6 +357,7 @@ namespace SERVERAPI.Models.Impl
 
             return cropsOptions;
         }
+
         public Models.StaticData.Crops GetCrops(int cropType)
         {
             Models.StaticData.Crops crops = GetCrops();
@@ -352,6 +371,7 @@ namespace SERVERAPI.Models.Impl
 
             return crops;
         }
+
         public Models.StaticData.Crop GetCrop(int cropId)
         {
             Models.StaticData.Crops crops = new Models.StaticData.Crops();
@@ -374,6 +394,7 @@ namespace SERVERAPI.Models.Impl
 
             return crop;
         }
+
         public Models.StaticData.Yield GetYield(int yieldId)
         {
 
@@ -392,6 +413,111 @@ namespace SERVERAPI.Models.Impl
 
             return yield;
         }
+
+      public Models.StaticData.Crop_STP_RegionCd GetCrop_STP_RegionCd(int cropid, int regionid)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["crop_stp_regioncds"]["crop_stp_regioncd"];
+            Models.StaticData.Crop_STP_RegionCd crop_stp_regioncd = new Models.StaticData.Crop_STP_RegionCd();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["cropid"].ToString()) == cropid &&
+                    Convert.ToInt32(r["regionid"].ToString()) == regionid)
+                {
+                    crop_stp_regioncd.cropid = Convert.ToInt32(r["cropid"].ToString());
+                    crop_stp_regioncd.regionid = Convert.ToInt32(r["regionid"].ToString());
+                    crop_stp_regioncd.regioncd = Convert.ToInt32(r["regioncd"].ToString());
+                }
+            }
+
+            return crop_stp_regioncd;
+        }
+
+        public Models.StaticData.Crop_STK_RegionCd GetCrop_STK_RegionCd(int cropid, int regionid)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["crop_stk_regioncds"]["crop_stk_regioncd"];
+            Models.StaticData.Crop_STK_RegionCd crop_stk_regioncd = new Models.StaticData.Crop_STK_RegionCd();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["cropid"].ToString()) == cropid &&
+                    Convert.ToInt32(r["regionid"].ToString()) == regionid)
+                {
+                    crop_stk_regioncd.cropid = Convert.ToInt32(r["cropid"].ToString());
+                    crop_stk_regioncd.regionid = Convert.ToInt32(r["regionid"].ToString());
+                    crop_stk_regioncd.regioncd = Convert.ToInt32(r["regioncd"].ToString());
+                }
+            }
+
+            return crop_stk_regioncd;
+        }
+
+        public Models.StaticData.DM GetDM(int ID)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["dms"]["dm"];
+            Models.StaticData.DM dm = new Models.StaticData.DM();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["ID"].ToString()) == ID)
+                {
+                    dm.ID = Convert.ToInt32(r["ID"].ToString());
+                    dm.name = r["name"].ToString();
+                }
+            }
+
+            return dm;
+        }
+
+        public Models.StaticData.AmmoniaRetention GetAmmoniaRetention(int seasonApplicatonId, int dm)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["ammoniaretentions"]["ammoniaretention"];
+            Models.StaticData.AmmoniaRetention ammoniaretention = new Models.StaticData.AmmoniaRetention();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["seasonapplicatonid"].ToString()) == seasonApplicatonId &&
+                    Convert.ToInt32(r["dm"].ToString()) == dm)
+                {
+                    ammoniaretention.seasonapplicatonid = Convert.ToInt32(r["seasonapplicatonid"].ToString());
+                    ammoniaretention.dm = Convert.ToInt32(r["dm"].ToString());
+                    ammoniaretention.value = Convert.ToInt32(r["value"].ToString());
+                }
+            }
+
+            return ammoniaretention;
+        }
+
+        public Models.StaticData.NMineralization GetNMineralization(int id, int locationid)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["nmineralizations"]["nmineralization"];
+            Models.StaticData.NMineralization nmineralization = new Models.StaticData.NMineralization();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["id"].ToString()) == id &&
+                    Convert.ToInt32(r["locationid"].ToString()) == locationid)
+                {
+                    nmineralization.id = Convert.ToInt32(r["seasonapplicatonid"].ToString());
+                    nmineralization.name = r["name"].ToString();
+                    nmineralization.locationid = Convert.ToInt32(r["locationid"].ToString());
+                    nmineralization.firstyearvalue = Convert.ToDecimal(r["firstyearvalue"].ToString());
+                    nmineralization.longtermvalue = Convert.ToDecimal(r["longtermvalue"].ToString());
+                }
+            }
+
+            return nmineralization;
+
         public Models.StaticData.SoilTestMethods GetSoilTestMethods()
         {
             Models.StaticData.SoilTestMethods meths = new Models.StaticData.SoilTestMethods();

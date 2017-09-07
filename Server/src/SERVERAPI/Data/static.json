@@ -4,11 +4,11 @@
       "locations": {
         "location": [
           {
-            "id": "0",
+            "id": "1",
             "name": "Interior"
           },
           {
-            "id": "1",
+            "id": "2",
             "name": "Coastal"
           }
         ]
@@ -44,140 +44,140 @@
             "name": "Bulkley-Nechako",
             "soil_test_phospherous_region_cd": "2",
             "soil_test_potassium_region_cd": "3",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "2",
             "name": "Capital Regional District",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "location": "Coastal"
+            "locationid": "2"
           },
           {
             "id": "3",
             "name": "Cariboo",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "4",
             "name": "Central Kootenay",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "5",
             "name": "Central Okanagan",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "6",
             "name": "Columbia Shuswap",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "7",
             "name": "Comox Valley",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "location": "Coastal"
+            "locationid": "2"
           },
           {
             "id": "8",
             "name": "Cowichan Valley",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "location": "Coastal"
+            "locationid": "2"
           },
           {
             "id": "9",
             "name": "East Kootenay",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "10",
             "name": "Fraser Valley",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "location": "Coastal"
+            "locationid": "2"
           },
           {
             "id": "11",
             "name": "Fraser-Fort George",
             "soil_test_phospherous_region_cd": "2",
             "soil_test_potassium_region_cd": "3",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "12",
             "name": "Kitimat-Stikine",
             "soil_test_phospherous_region_cd": "2",
             "soil_test_potassium_region_cd": "3",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "13",
             "name": "Kootenay Boundary",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "14",
             "name": "Metro Vancouver",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "location": "Coastal"
+            "locationid": "2"
           },
           {
             "id": "15",
             "name": "Nanaimo",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "location": "Coastal"
+            "locationid": "2"
           },
           {
             "id": "16",
             "name": "North Okanagan",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "17",
             "name": "Okanagan-Similkameen",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "18",
             "name": "Peace River",
             "soil_test_phospherous_region_cd": "3",
             "soil_test_potassium_region_cd": "3",
-            "location": "Interior"
+            "locationid": "1"
           },
           {
             "id": "19",
             "name": "Squamish-Lilloeet",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Coastal"
+            "locationid": "2"
           },
           {
             "id": "20",
             "name": "Thompson-Nicola",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "location": "Interior"
+            "locationid": "1"
           }
         ]
       },
@@ -192,7 +192,9 @@
             "nitrogen": "0.42",
             "ammonia": "44",
             "phosphorous": "0.13",
-            "potassium": "0.67"
+            "potassium": "0.67",
+            "dmid": "4",
+            "nminerizationid": "11"
           },
           {
             "id": "2",
@@ -203,7 +205,9 @@
             "nitrogen": "0.68",
             "ammonia": "368",
             "phosphorous": "0.15",
-            "potassium": "0.3"
+            "potassium": "0.3",
+            "dmid": "4",
+            "nminerizationid": "11"
           },
           {
             "id": "3",
@@ -214,7 +218,9 @@
             "nitrogen": "0.28",
             "ammonia": "77",
             "phosphorous": "0.09",
-            "potassium": "0.19"
+            "potassium": "0.19",
+            "dmid": "4",
+            "nminerizationid": "2"
           },
           {
             "id": "4",
@@ -225,7 +231,9 @@
             "nitrogen": "0",
             "ammonia": "0",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "dmid": "6",
+            "nminerizationid": "10"
           },
           {
             "id": "5",
@@ -236,7 +244,9 @@
             "nitrogen": "2.26",
             "ammonia": "3423",
             "phosphorous": "0.91",
-            "potassium": "1.14"
+            "potassium": "1.14",
+            "dmid": "4",
+            "nminerizationid": "11"
           },
           {
             "id": "6",
@@ -247,7 +257,9 @@
             "nitrogen": "2.97",
             "ammonia": "4078",
             "phosphorous": "1.05",
-            "potassium": "1.04"
+            "potassium": "1.04",
+            "dmid": "5",
+            "nminerizationid": "5"
           },
           {
             "id": "7",
@@ -258,7 +270,9 @@
             "nitrogen": "1.91",
             "ammonia": "3095",
             "phosphorous": "0.8",
-            "potassium": "1.14"
+            "potassium": "1.14",
+            "dmid": "5",
+            "nminerizationid": "5"
           },
           {
             "id": "8",
@@ -269,7 +283,9 @@
             "nitrogen": "1.07",
             "ammonia": "2858",
             "phosphorous": "0.72",
-            "potassium": "0.8"
+            "potassium": "0.8",
+            "dmid": "5",
+            "nminerizationid": "5"
           },
           {
             "id": "9",
@@ -280,7 +296,9 @@
             "nitrogen": "1.96",
             "ammonia": "4050",
             "phosphorous": "1.31",
-            "potassium": "5.36"
+            "potassium": "5.36",
+            "dmid": "4",
+            "nminerizationid": "1"
           },
           {
             "id": "10",
@@ -291,7 +309,9 @@
             "nitrogen": "2.26",
             "ammonia": "3889",
             "phosphorous": "1.13",
-            "potassium": "1.51"
+            "potassium": "1.51",
+            "dmid": "4",
+            "nminerizationid": "2"
           },
           {
             "id": "11",
@@ -302,7 +322,9 @@
             "nitrogen": "0.76",
             "ammonia": "317",
             "phosphorous": "0.2",
-            "potassium": "0.43"
+            "potassium": "0.43",
+            "dmid": "4",
+            "nminerizationid": "11"
           },
           {
             "id": "12",
@@ -313,7 +335,9 @@
             "nitrogen": "0.39",
             "ammonia": "797",
             "phosphorous": "0.1",
-            "potassium": "0.3"
+            "potassium": "0.3",
+            "dmid": "4",
+            "nminerizationid": "11"
           },
           {
             "id": "13",
@@ -324,7 +348,9 @@
             "nitrogen": "0",
             "ammonia": "0",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "dmid": "4",
+            "nminerizationid": "8"
           },
           {
             "id": "14",
@@ -335,7 +361,9 @@
             "nitrogen": "0.36",
             "ammonia": "1202",
             "phosphorous": "0.1",
-            "potassium": "0.27"
+            "potassium": "0.27",
+            "dmid": "4",
+            "nminerizationid": "2"
           },
           {
             "id": "15",
@@ -346,7 +374,9 @@
             "nitrogen": "0.28",
             "ammonia": "1330",
             "phosphorous": "0.05",
-            "potassium": "0.27"
+            "potassium": "0.27",
+            "dmid": "3",
+            "nminerizationid": "2"
           },
           {
             "id": "16",
@@ -357,7 +387,9 @@
             "nitrogen": "0.23",
             "ammonia": "1394",
             "phosphorous": "0.05",
-            "potassium": "0.2"
+            "potassium": "0.2",
+            "dmid": "2",
+            "nminerizationid": "2"
           },
           {
             "id": "17",
@@ -368,7 +400,9 @@
             "nitrogen": "0.15",
             "ammonia": "757",
             "phosphorous": "0.03",
-            "potassium": "0.14"
+            "potassium": "0.14",
+            "dmid": "2",
+            "nminerizationid": "2"
           },
           {
             "id": "18",
@@ -379,7 +413,9 @@
             "nitrogen": "0.09",
             "ammonia": "497",
             "phosphorous": "0.02",
-            "potassium": "0.12"
+            "potassium": "0.12",
+            "dmid": "2",
+            "nminerizationid": "2"
           },
           {
             "id": "19",
@@ -390,7 +426,9 @@
             "nitrogen": "1.07",
             "ammonia": "2865",
             "phosphorous": "0.28",
-            "potassium": "1.03"
+            "potassium": "1.03",
+            "dmid": "4",
+            "nminerizationid": "11"
           },
           {
             "id": "20",
@@ -401,7 +439,9 @@
             "nitrogen": "0.33",
             "ammonia": "2211",
             "phosphorous": "0.1",
-            "potassium": "0.15"
+            "potassium": "0.15",
+            "dmid": "4",
+            "nminerizationid": "2"
           },
           {
             "id": "21",
@@ -412,7 +452,9 @@
             "nitrogen": "0.86",
             "ammonia": "525",
             "phosphorous": "0.42",
-            "potassium": "0.5"
+            "potassium": "0.5",
+            "dmid": "2",
+            "nminerizationid": "7"
           },
           {
             "id": "22",
@@ -423,7 +465,9 @@
             "nitrogen": "0.32",
             "ammonia": "268",
             "phosphorous": "0.09",
-            "potassium": "0.25"
+            "potassium": "0.25",
+            "dmid": "4",
+            "nminerizationid": "9"
           },
           {
             "id": "23",
@@ -434,7 +478,9 @@
             "nitrogen": "2.97",
             "ammonia": "12465",
             "phosphorous": "1.68",
-            "potassium": "0.7"
+            "potassium": "0.7",
+            "dmid": "4",
+            "nminerizationid": "6"
           },
           {
             "id": "24",
@@ -445,7 +491,9 @@
             "nitrogen": "0.8",
             "ammonia": "2299",
             "phosphorous": "0.28",
-            "potassium": "0.78"
+            "potassium": "0.78",
+            "dmid": "4",
+            "nminerizationid": "11"
           },
           {
             "id": "25",
@@ -456,7 +504,9 @@
             "nitrogen": "0.87",
             "ammonia": "1281",
             "phosphorous": "0.44",
-            "potassium": "0.59"
+            "potassium": "0.59",
+            "dmid": "5",
+            "nminerizationid": "5"
           },
           {
             "id": "26",
@@ -467,7 +517,9 @@
             "nitrogen": "1.79",
             "ammonia": "2518",
             "phosphorous": "0.79",
-            "potassium": "1.31"
+            "potassium": "1.31",
+            "dmid": "5",
+            "nminerizationid": "5"
           },
           {
             "id": "27",
@@ -478,7 +530,9 @@
             "nitrogen": "0",
             "ammonia": "0",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "dmid": "4",
+            "nminerizationid": "11"
           },
           {
             "id": "28",
@@ -489,7 +543,9 @@
             "nitrogen": "0",
             "ammonia": "0",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "dmid": "2",
+            "nminerizationid": "2"
           }
         ]
       },
@@ -3289,982 +3345,1606 @@
       "crop_stk_regioncds": {
         "crop_stk_regioncd": [
           {
-            "-cropid": "1",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "1",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "1",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "1",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "1",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "1",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "2",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "2",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "2",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "2",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "2",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "2",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "3",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "3",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "3",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "3",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "3",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "3",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "4",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "4",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "4",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "4",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "4",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "4",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "5",
-            "-regionid": "1",
-            "-regioncd": "3"
+            "cropid": "5",
+            "regionid": "1",
+            "regioncd": "3"
           },
           {
-            "-cropid": "5",
-            "-regionid": "2",
-            "-regioncd": "3"
+            "cropid": "5",
+            "regionid": "2",
+            "regioncd": "3"
           },
           {
-            "-cropid": "5",
-            "-regionid": "3",
-            "-regioncd": "3"
+            "cropid": "5",
+            "regionid": "3",
+            "regioncd": "3"
           },
           {
-            "-cropid": "6",
-            "-regionid": "1",
-            "-regioncd": "3"
+            "cropid": "6",
+            "regionid": "1",
+            "regioncd": "3"
           },
           {
-            "-cropid": "6",
-            "-regionid": "2",
-            "-regioncd": "3"
+            "cropid": "6",
+            "regionid": "2",
+            "regioncd": "3"
           },
           {
-            "-cropid": "6",
-            "-regionid": "3",
-            "-regioncd": "3"
+            "cropid": "6",
+            "regionid": "3",
+            "regioncd": "3"
           },
           {
-            "-cropid": "7",
-            "-regionid": "1",
-            "-regioncd": "3"
+            "cropid": "7",
+            "regionid": "1",
+            "regioncd": "3"
           },
           {
-            "-cropid": "7",
-            "-regionid": "2",
-            "-regioncd": "3"
+            "cropid": "7",
+            "regionid": "2",
+            "regioncd": "3"
           },
           {
-            "-cropid": "7",
-            "-regionid": "3",
-            "-regioncd": "3"
+            "cropid": "7",
+            "regionid": "3",
+            "regioncd": "3"
           },
           {
-            "-cropid": "8",
-            "-regionid": "1",
-            "-regioncd": "3"
+            "cropid": "8",
+            "regionid": "1",
+            "regioncd": "3"
           },
           {
-            "-cropid": "8",
-            "-regionid": "2",
-            "-regioncd": "3"
+            "cropid": "8",
+            "regionid": "2",
+            "regioncd": "3"
           },
           {
-            "-cropid": "8",
-            "-regionid": "3",
-            "-regioncd": "3"
+            "cropid": "8",
+            "regionid": "3",
+            "regioncd": "3"
           },
           {
-            "-cropid": "9",
-            "-regionid": "1",
-            "-regioncd": "3"
+            "cropid": "9",
+            "regionid": "1",
+            "regioncd": "3"
           },
           {
-            "-cropid": "9",
-            "-regionid": "2",
-            "-regioncd": "3"
+            "cropid": "9",
+            "regionid": "2",
+            "regioncd": "3"
           },
           {
-            "-cropid": "9",
-            "-regionid": "3",
-            "-regioncd": "3"
+            "cropid": "9",
+            "regionid": "3",
+            "regioncd": "3"
           },
           {
-            "-cropid": "10",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "10",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "10",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "10",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "10",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "10",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "11",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "11",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "11",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "11",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "11",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "11",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "12",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "12",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "12",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "12",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "12",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "12",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "13",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "13",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "13",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "13",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "13",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "13",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "14",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "14",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "14",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "14",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "14",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "14",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "15",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "15",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "15",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "15",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "15",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "15",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "16",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "16",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "16",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "16",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "16",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "16",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "17",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "17",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "17",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "17",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "17",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "17",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "18",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "18",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "18",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "18",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "18",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "18",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "19",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "19",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "19",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "19",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "19",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "19",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "20",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "20",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "20",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "20",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "20",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "20",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "21",
-            "-regionid": "1",
-            "-regioncd": "6"
+            "cropid": "21",
+            "regionid": "1",
+            "regioncd": "6"
           },
           {
-            "-cropid": "21",
-            "-regionid": "2",
-            "-regioncd": "6"
+            "cropid": "21",
+            "regionid": "2",
+            "regioncd": "6"
           },
           {
-            "-cropid": "21",
-            "-regionid": "3",
-            "-regioncd": "6"
+            "cropid": "21",
+            "regionid": "3",
+            "regioncd": "6"
           },
           {
-            "-cropid": "22",
-            "-regionid": "1",
-            "-regioncd": "2"
+            "cropid": "22",
+            "regionid": "1",
+            "regioncd": "2"
           },
           {
-            "-cropid": "22",
-            "-regionid": "2",
-            "-regioncd": "2"
+            "cropid": "22",
+            "regionid": "2",
+            "regioncd": "2"
           },
           {
-            "-cropid": "22",
-            "-regionid": "3",
-            "-regioncd": "2"
+            "cropid": "22",
+            "regionid": "3",
+            "regioncd": "2"
           },
           {
-            "-cropid": "23",
-            "-regionid": "1",
-            "-regioncd": "2"
+            "cropid": "23",
+            "regionid": "1",
+            "regioncd": "2"
           },
           {
-            "-cropid": "23",
-            "-regionid": "2",
-            "-regioncd": "2"
+            "cropid": "23",
+            "regionid": "2",
+            "regioncd": "2"
           },
           {
-            "-cropid": "23",
-            "-regionid": "3",
-            "-regioncd": "2"
+            "cropid": "23",
+            "regionid": "3",
+            "regioncd": "2"
           },
           {
-            "-cropid": "24",
-            "-regionid": "1",
-            "-regioncd": "2"
+            "cropid": "24",
+            "regionid": "1",
+            "regioncd": "2"
           },
           {
-            "-cropid": "24",
-            "-regionid": "2",
-            "-regioncd": "2"
+            "cropid": "24",
+            "regionid": "2",
+            "regioncd": "2"
           },
           {
-            "-cropid": "24",
-            "-regionid": "3",
-            "-regioncd": "2"
+            "cropid": "24",
+            "regionid": "3",
+            "regioncd": "2"
           },
           {
-            "-cropid": "25",
-            "-regionid": "1",
-            "-regioncd": "2"
+            "cropid": "25",
+            "regionid": "1",
+            "regioncd": "2"
           },
           {
-            "-cropid": "25",
-            "-regionid": "2",
-            "-regioncd": "2"
+            "cropid": "25",
+            "regionid": "2",
+            "regioncd": "2"
           },
           {
-            "-cropid": "25",
-            "-regionid": "3",
-            "-regioncd": "2"
+            "cropid": "25",
+            "regionid": "3",
+            "regioncd": "2"
           },
           {
-            "-cropid": "26",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "26",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "26",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "26",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "26",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "26",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "27",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "27",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "27",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "27",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "27",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "27",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "28",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "28",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "28",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "28",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "28",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "28",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "29",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "29",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "29",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "29",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "29",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "29",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "30",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "30",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "30",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "30",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "30",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "30",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "31",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "31",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "31",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "31",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "31",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "31",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "32",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "32",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "32",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "32",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "32",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "32",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "33",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "33",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "33",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "33",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "33",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "33",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "34",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "34",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "34",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "34",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "34",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "34",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "35",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "35",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "35",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "35",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "35",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "35",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "36",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "36",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "36",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "36",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "36",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "36",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "37",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "37",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "37",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "37",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "37",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "37",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "38",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "38",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "38",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "38",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "38",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "38",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "39",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "39",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "39",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "39",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "39",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "39",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "40",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "40",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "40",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "40",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "40",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "40",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "41",
-            "-regionid": "1",
-            "-regioncd": "null"
+            "cropid": "41",
+            "regionid": "1",
+            "regioncd": "null"
           },
           {
-            "-cropid": "41",
-            "-regionid": "2",
-            "-regioncd": "null"
+            "cropid": "41",
+            "regionid": "2",
+            "regioncd": "null"
           },
           {
-            "-cropid": "41",
-            "-regionid": "3",
-            "-regioncd": "null"
+            "cropid": "41",
+            "regionid": "3",
+            "regioncd": "null"
           },
           {
-            "-cropid": "42",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "42",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "42",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "42",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "42",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "42",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "43",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "43",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "43",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "43",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "43",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "43",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "44",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "44",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "44",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "44",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "44",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "44",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "45",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "45",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "45",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "45",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "45",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "45",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "46",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "46",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "46",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "46",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "46",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "46",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "47",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "47",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "47",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "47",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "47",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "47",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "48",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "48",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "48",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "48",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "48",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "48",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "49",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "49",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "49",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "49",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "49",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "49",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "50",
-            "-regionid": "1",
-            "-regioncd": "null"
+            "cropid": "50",
+            "regionid": "1",
+            "regioncd": "null"
           },
           {
-            "-cropid": "50",
-            "-regionid": "2",
-            "-regioncd": "null"
+            "cropid": "50",
+            "regionid": "2",
+            "regioncd": "null"
           },
           {
-            "-cropid": "50",
-            "-regionid": "3",
-            "-regioncd": "null"
+            "cropid": "50",
+            "regionid": "3",
+            "regioncd": "null"
           },
           {
-            "-cropid": "51",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "51",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "51",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "51",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "51",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "51",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "52",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "52",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "52",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "52",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "52",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "52",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "53",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "53",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "53",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "53",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "53",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "53",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "54",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "54",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "54",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "54",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "54",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "54",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "55",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "55",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "55",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "55",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "55",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "55",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "56",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "56",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "56",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "56",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "56",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "56",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "57",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "57",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "57",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "57",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "57",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "57",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "58",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "58",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "58",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "58",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "58",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "58",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "59",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "59",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "59",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "59",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "59",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "59",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "60",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "60",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "60",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "60",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "60",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "60",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "61",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "61",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "61",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "61",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "61",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "61",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "62",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "62",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "62",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "62",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "62",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "62",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "63",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "63",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "63",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "63",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "63",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "63",
+            "regionid": "3",
+            "regioncd": "4"
           },
           {
-            "-cropid": "64",
-            "-regionid": "1",
-            "-regioncd": "5"
+            "cropid": "64",
+            "regionid": "1",
+            "regioncd": "5"
           },
           {
-            "-cropid": "64",
-            "-regionid": "2",
-            "-regioncd": "5"
+            "cropid": "64",
+            "regionid": "2",
+            "regioncd": "5"
           },
           {
-            "-cropid": "64",
-            "-regionid": "3",
-            "-regioncd": "5"
+            "cropid": "64",
+            "regionid": "3",
+            "regioncd": "5"
           },
           {
-            "-cropid": "65",
-            "-regionid": "1",
-            "-regioncd": "4"
+            "cropid": "65",
+            "regionid": "1",
+            "regioncd": "4"
           },
           {
-            "-cropid": "65",
-            "-regionid": "2",
-            "-regioncd": "4"
+            "cropid": "65",
+            "regionid": "2",
+            "regioncd": "4"
           },
           {
-            "-cropid": "65",
-            "-regionid": "3",
-            "-regioncd": "4"
+            "cropid": "65",
+            "regionid": "3",
+            "regioncd": "4"
           }
         ]
-      }
-    }
+      },
+      "dms": {
+        "dm": [
+          {
+            "ID": "1",
+            "name": "Lagoon <1% DM"
+          },
+          {
+            "ID": "2",
+            "name": "1-5% DM"
+          },
+          {
+            "ID": "3",
+            "name": "5-10% DM"
+          },
+          {
+            "ID": "4",
+            "name": ">10% DM"
+          },
+          {
+            "ID": "5",
+            "name": "Poultry-solid"
+          },
+          {
+            "ID": "6",
+            "name": "Compost"
+          }
+        ]
+      },
+      "ammoniaretentions": {
+        "ammoniaretention": [
+          {
+            "seasonapplicatonid": "1",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "1",
+            "dm": "2",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "1",
+            "dm": "3",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "1",
+            "dm": "4",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "1",
+            "dm": "5",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "1",
+            "dm": "6",
+            "value": "1"
+          },
+          {
+            "seasonapplicatonid": "2",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "2",
+            "dm": "2",
+            "value": "0.7"
+          },
+          {
+            "seasonapplicatonid": "2",
+            "dm": "3",
+            "value": "0.6"
+          },
+          {
+            "seasonapplicatonid": "2",
+            "dm": "4",
+            "value": "0.5"
+          },
+          {
+            "seasonapplicatonid": "2",
+            "dm": "5",
+            "value": "0.7"
+          },
+          {
+            "seasonapplicatonid": "2",
+            "dm": "6",
+            "value": "1"
+          },
+          {
+            "seasonapplicatonid": "3",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "3",
+            "dm": "2",
+            "value": "0.6"
+          },
+          {
+            "seasonapplicatonid": "3",
+            "dm": "3",
+            "value": "0.45"
+          },
+          {
+            "seasonapplicatonid": "3",
+            "dm": "4",
+            "value": "0.3"
+          },
+          {
+            "seasonapplicatonid": "3",
+            "dm": "5",
+            "value": "0.5"
+          },
+          {
+            "seasonapplicatonid": "3",
+            "dm": "6",
+            "value": "1"
+          },
+          {
+            "seasonapplicatonid": "4",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "4",
+            "dm": "2",
+            "value": "0.55"
+          },
+          {
+            "seasonapplicatonid": "4",
+            "dm": "3",
+            "value": "0.4"
+          },
+          {
+            "seasonapplicatonid": "4",
+            "dm": "4",
+            "value": "0.2"
+          },
+          {
+            "seasonapplicatonid": "4",
+            "dm": "5",
+            "value": "0.4"
+          },
+          {
+            "seasonapplicatonid": "4",
+            "dm": "6",
+            "value": "1"
+          },
+          {
+            "seasonapplicatonid": "5",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "5",
+            "dm": "2",
+            "value": "0.55"
+          },
+          {
+            "seasonapplicatonid": "5",
+            "dm": "3",
+            "value": "0.4"
+          },
+          {
+            "seasonapplicatonid": "5",
+            "dm": "4",
+            "value": "0.2"
+          },
+          {
+            "seasonapplicatonid": "5",
+            "dm": "5",
+            "value": "0.4"
+          },
+          {
+            "seasonapplicatonid": "5",
+            "dm": "6",
+            "value": "1"
+          },
+          {
+            "seasonapplicatonid": "6",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "6",
+            "dm": "2",
+            "value": "0.55"
+          },
+          {
+            "seasonapplicatonid": "6",
+            "dm": "3",
+            "value": "0.4"
+          },
+          {
+            "seasonapplicatonid": "6",
+            "dm": "4",
+            "value": "0.2"
+          },
+          {
+            "seasonapplicatonid": "6",
+            "dm": "5",
+            "value": "0.4"
+          },
+          {
+            "seasonapplicatonid": "6",
+            "dm": "6",
+            "value": "1"
+          },
+          {
+            "seasonapplicatonid": "7",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "7",
+            "dm": "2",
+            "value": "0.55"
+          },
+          {
+            "seasonapplicatonid": "7",
+            "dm": "3",
+            "value": "0.4"
+          },
+          {
+            "seasonapplicatonid": "7",
+            "dm": "4",
+            "value": "0.2"
+          },
+          {
+            "seasonapplicatonid": "7",
+            "dm": "5",
+            "value": "0.34"
+          },
+          {
+            "seasonapplicatonid": "7",
+            "dm": "6",
+            "value": "1"
+          },
+          {
+            "seasonapplicatonid": "8",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "8",
+            "dm": "2",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "8",
+            "dm": "3",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "8",
+            "dm": "4",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "8",
+            "dm": "5",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "8",
+            "dm": "6",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "9",
+            "dm": "1",
+            "value": "0.85"
+          },
+          {
+            "seasonapplicatonid": "9",
+            "dm": "2",
+            "value": "0.85"
+          },
+          {
+            "seasonapplicatonid": "9",
+            "dm": "3",
+            "value": "0.7"
+          },
+          {
+            "seasonapplicatonid": "9",
+            "dm": "4",
+            "value": "0.7"
+          },
+          {
+            "seasonapplicatonid": "9",
+            "dm": "5",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "9",
+            "dm": "6",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "10",
+            "dm": "1",
+            "value": "0.75"
+          },
+          {
+            "seasonapplicatonid": "10",
+            "dm": "2",
+            "value": "0.75"
+          },
+          {
+            "seasonapplicatonid": "10",
+            "dm": "3",
+            "value": "0.6"
+          },
+          {
+            "seasonapplicatonid": "10",
+            "dm": "4",
+            "value": "0.6"
+          },
+          {
+            "seasonapplicatonid": "10",
+            "dm": "5",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "10",
+            "dm": "6",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "11",
+            "dm": "1",
+            "value": "0.34"
+          },
+          {
+            "seasonapplicatonid": "11",
+            "dm": "2",
+            "value": "0.34"
+          },
+          {
+            "seasonapplicatonid": "11",
+            "dm": "3",
+            "value": "0.34"
+          },
+          {
+            "seasonapplicatonid": "11",
+            "dm": "4",
+            "value": "0.2"
+          },
+          {
+            "seasonapplicatonid": "11",
+            "dm": "5",
+            "value": "0.34"
+          },
+          {
+            "seasonapplicatonid": "11",
+            "dm": "6",
+            "value": "1"
+          },
+          {
+            "seasonapplicatonid": "12",
+            "dm": "1",
+            "value": "0.7"
+          },
+          {
+            "seasonapplicatonid": "12",
+            "dm": "2",
+            "value": "0.7"
+          },
+          {
+            "seasonapplicatonid": "12",
+            "dm": "3",
+            "value": "0.7"
+          },
+          {
+            "seasonapplicatonid": "12",
+            "dm": "4",
+            "value": "0.7"
+          },
+          {
+            "seasonapplicatonid": "12",
+            "dm": "5",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "12",
+            "dm": "6",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "13",
+            "dm": "1",
+            "value": "0.5"
+          },
+          {
+            "seasonapplicatonid": "13",
+            "dm": "2",
+            "value": "0.5"
+          },
+          {
+            "seasonapplicatonid": "13",
+            "dm": "3",
+            "value": "0.5"
+          },
+          {
+            "seasonapplicatonid": "13",
+            "dm": "4",
+            "value": "0.5"
+          },
+          {
+            "seasonapplicatonid": "13",
+            "dm": "5",
+            "value": "0.5"
+          },
+          {
+            "seasonapplicatonid": "13",
+            "dm": "6",
+            "value": "1"
+          },
+          {
+            "seasonapplicatonid": "14",
+            "dm": "1",
+            "value": "0.67"
+          },
+          {
+            "seasonapplicatonid": "14",
+            "dm": "2",
+            "value": "0.67"
+          },
+          {
+            "seasonapplicatonid": "14",
+            "dm": "3",
+            "value": "0.67"
+          },
+          {
+            "seasonapplicatonid": "14",
+            "dm": "4",
+            "value": "0.67"
+          },
+          {
+            "seasonapplicatonid": "14",
+            "dm": "5",
+            "value": "0.67"
+          },
+          {
+            "seasonapplicatonid": "14",
+            "dm": "6",
+            "value": "1"
+          }
+        ]
+      },
+      "nmineralizations": {
+          "nmineralization": [
+            {
+              "id": "1",
+              "name": "Liquid - Poultry",
+              "locationid": "1",
+              "firstyearvalue": "0.3",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "1",
+              "name": "Liquid - Poultry",
+              "locationid": "2",
+              "firstyearvalue": "0.5",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "2",
+              "name": "Liquid - Other",
+              "locationid": "1",
+              "firstyearvalue": "0.2",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "2",
+              "name": "Liquid - Other",
+              "locationid": "2",
+              "firstyearvalue": "0.35",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "3",
+              "name": "Liquid - Biosolids",
+              "locationid": "1",
+              "firstyearvalue": "0.25",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "3",
+              "name": "Liquid - Biosolids",
+              "locationid": "2",
+              "firstyearvalue": "0.3",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "4",
+              "name": "Solid - Biosolids",
+              "locationid": "1",
+              "firstyearvalue": "0.25",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "4",
+              "name": "Solid - Biosolids",
+              "locationid": "2",
+              "firstyearvalue": "0.3",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "5",
+              "name": "Solid - Poultry",
+              "locationid": "1",
+              "firstyearvalue": "0.3",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "5",
+              "name": "Solid - Poultry",
+              "locationid": "2",
+              "firstyearvalue": "0.5",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "6",
+              "name": "Solid - Mink",
+              "locationid": "1",
+              "firstyearvalue": "0.3",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "6",
+              "name": "Solid - Mink",
+              "locationid": "2",
+              "firstyearvalue": "0.35",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "7",
+              "name": "Solid - Hog",
+              "locationid": "1",
+              "firstyearvalue": "0.25",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "7",
+              "name": "Solid - Hog",
+              "locationid": "2",
+              "firstyearvalue": "0.3",
+              "longtermvalue": "0.77"
+            },
+            {
+              "id": "8",
+              "name": "Solid - Mechanically Separated Dairy Solids",
+              "locationid": "1",
+              "firstyearvalue": "0.1",
+              "longtermvalue": "0.25"
+            },
+            {
+              "id": "8",
+              "name": "Solid - Mechanically Separated Dairy Solids",
+              "locationid": "2",
+              "firstyearvalue": "0.1",
+              "longtermvalue": "0.25"
+            },
+            {
+              "id": "9",
+              "name": "Solid - Horse",
+              "locationid": "1",
+              "firstyearvalue": "0.1",
+              "longtermvalue": "0.25"
+            },
+            {
+              "id": "9",
+              "name": "Solid - Horse",
+              "locationid": "2",
+              "firstyearvalue": "0.1",
+              "longtermvalue": "0.25"
+            },
+            {
+              "id": "10",
+              "name": "Solid - Compost",
+              "locationid": "1",
+              "firstyearvalue": "0.1",
+              "longtermvalue": "0.25"
+            },
+            {
+              "id": "10",
+              "name": "Solid - Compost",
+              "locationid": "2",
+              "firstyearvalue": "0.1",
+              "longtermvalue": "0.25"
+            },
+            {
+              "id": "11",
+              "name": "Solid - Other (<50%)",
+              "locationid": "1",
+              "firstyearvalue": "0.15",
+              "longtermvalue": "0.25"
+            },
+            {
+              "id": "11",
+              "name": "Solid - Other (<50%)",
+              "locationid": "2",
+              "firstyearvalue": "0.2",
+              "longtermvalue": "0.25"
+            },
+            {
+              "id": "12",
+              "name": "Solid - Other (>50%)",
+              "locationid": "1",
+              "firstyearvalue": "0.05",
+              "longtermvalue": "0.2"
+            },
+            {
+              "id": "12",
+              "name": "Solid - Other (>50%)",
+              "locationid": "2",
+              "firstyearvalue": "0.1",
+              "longtermvalue": "0.15"
+            }
+          ]
+        }
+    }    
   }
 }

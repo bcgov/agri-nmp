@@ -18,7 +18,7 @@ namespace SERVERAPI.Models
             public string name { get; set; }            
             public int soil_test_phospherous_region_cd { get; set; }
             public int soil_test_potassium_region_cd { get; set; }
-            public string location { get; set; }
+            public int locationid { get; set; }
         }
 
         public class SelectListItem
@@ -60,6 +60,8 @@ namespace SERVERAPI.Models
             public int ammonia { get; set; }
             public decimal phosphorous { get; set; }
             public decimal potassium { get; set; }
+            public int dmid { get; set; }
+            public int nminerizationid { get; set; }
         }
 
         public class Season_Applications
@@ -114,10 +116,12 @@ namespace SERVERAPI.Models
             public int id { get; set; }
             public string name { get; set; }
         }
+
         public class Crops
         {
             public List<Crop> crops { get; set; }
         }
+
         public class Crop
         {
             public int id { get; set; }
@@ -132,11 +136,49 @@ namespace SERVERAPI.Models
             public decimal? n_high_lbperac { get; set; }
             public int prevcropcd { get; set; }
         }
+
         public class Yield
         {
             public int id { get; set; }
             public string yielddesc { get; set; }
         }
+
+      public class Crop_STP_RegionCd
+        {
+            public int cropid { get; set; }
+            public int regionid { get; set; }
+            public int regioncd { get; set; }
+        }
+
+        public class Crop_STK_RegionCd
+        {
+            public int cropid { get; set; }
+            public int regionid { get; set; }
+            public int regioncd { get; set; }
+        }
+
+        public class DM
+        {
+            public int ID { get; set; }
+            public string name { get; set; }            
+        }
+
+        public class AmmoniaRetention
+        {
+            public int seasonapplicatonid { get; set; }
+            public int dm { get; set; }
+            public decimal value { get; set; }
+        }
+
+        public class NMineralization
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public int locationid { get; set; }
+            public decimal firstyearvalue { get; set; }
+            public decimal longtermvalue { get; set; }
+        }
+
         public class SoilTestMethods
         {
             public List<SoilTestMethod> methods { get; set; }
