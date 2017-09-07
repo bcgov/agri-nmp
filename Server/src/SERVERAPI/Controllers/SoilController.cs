@@ -31,8 +31,7 @@ namespace SERVERAPI.Controllers
             fvm.selMthOption = fd.testingMethod;
 
             fvm.mthOptions = new List<Models.StaticData.SelectListItem>();
-            fvm.mthOptions.Add(new Models.StaticData.SelectListItem() { Id = 1, Value = "Kelowna" });
-            fvm.mthOptions.Add(new Models.StaticData.SelectListItem() { Id = 2, Value = "Kamloops" });
+            fvm.mthOptions = _sd.GetSoilTestMethodsDll().ToList();
 
             List<Field> fl = _ud.GetFields();
 
@@ -44,10 +43,9 @@ namespace SERVERAPI.Controllers
         public IActionResult SoilTest(SoilTestViewModel fvm)
         {
             fvm.mthOptions = new List<Models.StaticData.SelectListItem>();
-            fvm.mthOptions.Add(new Models.StaticData.SelectListItem() { Id = 1, Value = "Kelowna" });
-            fvm.mthOptions.Add(new Models.StaticData.SelectListItem() { Id = 2, Value = "Kamloops" });
+            fvm.mthOptions = _sd.GetSoilTestMethodsDll().ToList();
 
-            if(fvm.buttonPressed == "MethodChange")
+            if (fvm.buttonPressed == "MethodChange")
             {
                 FarmDetails fd = _ud.FarmDetails();
                 fd.testingMethod = fvm.selMthOption;

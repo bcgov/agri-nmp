@@ -414,7 +414,7 @@ namespace SERVERAPI.Models.Impl
             return yield;
         }
 
-        public Models.StaticData.Crop_STP_RegionCd GetCrop_STP_RegionCd(int cropid, int regionid)
+      public Models.StaticData.Crop_STP_RegionCd GetCrop_STP_RegionCd(int cropid, int regionid)
         {
 
             JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
@@ -517,6 +517,40 @@ namespace SERVERAPI.Models.Impl
             }
 
             return nmineralization;
+
+        public Models.StaticData.SoilTestMethods GetSoilTestMethods()
+        {
+            Models.StaticData.SoilTestMethods meths = new Models.StaticData.SoilTestMethods();
+            meths.methods = new List<Models.StaticData.SoilTestMethod>();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray items = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
+
+            foreach (var r in items)
+            {
+                Models.StaticData.SoilTestMethod rec = new Models.StaticData.SoilTestMethod();
+
+                rec.id = Convert.ToInt32(r["id"].ToString());
+                rec.name = r["name"].ToString();
+                meths.methods.Add(rec);
+            }
+
+            return meths;
+        }
+
+        public List<Models.StaticData.SelectListItem> GetSoilTestMethodsDll()
+        {
+            Models.StaticData.SoilTestMethods meths = GetSoilTestMethods();
+
+            List<Models.StaticData.SelectListItem> mthOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in meths.methods)
+            {
+                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                mthOptions.Add(li);
+            }
+
+            return mthOptions;
         }
     }
 }

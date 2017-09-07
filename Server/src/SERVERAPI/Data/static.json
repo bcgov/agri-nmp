@@ -13,6 +13,30 @@
           }
         ]
       },
+      "soiltestmethods": {
+        "soiltestmethod": [
+          {
+            "id": "1",
+            "name": "Kelowna"
+          },
+          {
+            "id": "2",
+            "name": "Modified Kelowna 95"
+          },
+          {
+            "id": "3",
+            "name": "Mehlich 3"
+          },
+          {
+            "id": "4",
+            "name": "Bray-1 and Ammonium Acetate"
+          },
+          {
+            "id": "5",
+            "name": "Bicarbonate (Olsen) and Ammonium Acetate"
+          }
+        ]
+      },
       "regions": {
         "region": [
           {

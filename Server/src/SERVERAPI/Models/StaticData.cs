@@ -143,7 +143,7 @@ namespace SERVERAPI.Models
             public string yielddesc { get; set; }
         }
 
-        public class Crop_STP_RegionCd
+      public class Crop_STP_RegionCd
         {
             public int cropid { get; set; }
             public int regionid { get; set; }
@@ -179,5 +179,14 @@ namespace SERVERAPI.Models
             public decimal longtermvalue { get; set; }
         }
 
+        public class SoilTestMethods
+        {
+            public List<SoilTestMethod> methods { get; set; }
+        }
+        public class SoilTestMethod
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+        }
     }
 }
