@@ -74,73 +74,21 @@
                 <div class="form-box">
                     <div class="panel-group">
                         <div class="Table">
-                            <div class="TableBody">
-                                <div class="Row">
-                                    <div class="Cell2">&nbsp;</div>
-                                    <div class="Cell2"><b>Are crop requirements met or exceeded?</b></div>
-                                    <div class="Cell2"><b>Will soil nutrients increase or decrease?</b></div>
-                                    <div class="Cell2">&nbsp;</div>
+                            <div class="TableBody" id="heading">
+                                @await Component.InvokeAsync("CalcHeading", new { fldName = Model.currFld })
+                            </div>
+                            @if (Model.currFld != null)
+                            {
+                                <div class="TableBody" id="crop">
+                                    @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
                                 </div>
-                                <div class="Row">
-                                    <div class="Cell2">&nbsp;</div>
-                                    <div class="Cell2">
-                                        <div class="Table">
-                                            <div class="TableBody">
-                                                <div class="Row">
-                                                    <div class="Cell2" style="width:30%; text-align:center">N</div>
-                                                    <div class="Cell2" style="width:30%; text-align:center">P2O5</div>
-                                                    <div class="Cell2" style="width:30%; text-align:center">K2O</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="Cell2">
-                                        <div class="Table">
-                                            <div class="TableBody">
-                                                <div class="Row">
-                                                    <div class="Cell2" style="width:30%; text-align:center">N</div>
-                                                    <div class="Cell2" style="width:30%; text-align:center">P2O5</div>
-                                                    <div class="Cell2" style="width:30%; text-align:center">K2O</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="Cell2">&nbsp;</div>
-                                    <div class="Cell2">&nbsp;</div>
+                                <div class="TableBody" id="manure">
+                                    @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
                                 </div>
-                                <div class="Row">
-                                    <div class="Cell2">&nbsp;</div>
-                                    <div class="Cell2">
-                                        <div class="Table">
-                                            <div class="TableBody">
-                                                <div class="Row">
-                                                    <div class="Cell2" style="text-align:center">(lb/ac)</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="Cell2">
-                                        <div class="Table">
-                                            <div class="TableBody">
-                                                <div class="Row">
-                                                    <div class="Cell2" style="text-align:center">(lb/ac)</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="Cell2">&nbsp;</div>
-                                    <div class="Cell2">&nbsp;</div>
+                                <div class="TableBody" id="summary">
+                                    @await Component.InvokeAsync("CalcSummary", new { fldName = Model.currFld })
                                 </div>
-                                </div>
-                                @if (Model.currFld != null)
-                                {
-                                    <div class="TableBody" id="crop">
-                                        @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
-                                    </div>
-                                    <div class="TableBody" id="manure">
-                                        @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
-                                    </div>
-                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -161,7 +109,11 @@
 </div>
 @section Scripts {
 <script type="text/javascript">
-
+    //
+    // data_modal  -> uses large format modal popup
+    // data_modal2 -> uses small format modal popup and refreshes the entire screen when done
+    // data_modal3 -> uses small format modal popup
+    //
     // ensure this event handler is attached to current and future elements (after partial renders)
     $(document).on("click", '[data_modal]', function (e) {
         $.ajaxSetup({ cache: false });
@@ -263,7 +215,9 @@
                 success: function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
-                        $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        $(result.target).load(result.url);
+                        $('#summary').load(result.urlSumm);
+                        $('#heading').load(result.urlHead);
                     } else {
                         $('#myModalContent').html(result);
                         bindForm(dialog);
@@ -292,74 +246,76 @@
                     }
                 });
 
-                return false;
-            });
-        }
-        function bindForm3(dialog) {
-            $('form', dialog).submit(function () {
-                $.ajax({
-                    cache: false,
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize()
-                })
+            return false;
+        });
+    }
+    function bindForm3(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize()
+            })
                 .done(function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
                         $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        $('#summary').load(result.urlSumm);
+                        $('#heading').load(result.urlHead);
                     } else {
                         $('#myModalContent').html(result);
                         bindForm(dialog);
                     }
                 });
 
-                return false;
-            });
-        }
-
-
-        function current() {
-            $("#fieldList li a").each(function () {
-                if ($(this).text() == $("#currFld").val()) {
-                    $(this).addClass('btn-primary');
-                }
-            });
-        }
-
-        $(document).on('propertychange input paste', '#rate', function () {
-            NeedRefresh();
+            return false;
         });
+    }
 
-        $(document).on('change', '#ddlAppl', function () {
-            NeedRefresh();
+
+    function current() {
+        $("#fieldList li a").each(function () {
+            if ($(this).text() == $("#currFld").val()) {
+                $(this).addClass('btn-primary');
+            }
         });
+    }
 
-        $(document).on('change', '#ddlRate', function () {
-            NeedRefresh();
-        });
+    $(document).on('propertychange input paste', '#rate', function () {
+        NeedRefresh();
+    });
 
-        $(document).on('propertychange input paste', '#avail', function () {
-            NeedRefresh();
-        });
+    $(document).on('change', '#ddlAppl', function () {
+        NeedRefresh();
+    });
 
-        $(document).on('propertychange input paste', '#nh4', function () {
-            NeedRefresh();
-        });
+    $(document).on('change', '#ddlRate', function () {
+        NeedRefresh();
+    });
 
-        $(document).on('change', '#crude', function () {
-            NeedRefresh();
-        });
+    $(document).on('propertychange input paste', '#avail', function () {
+        NeedRefresh();
+    });
 
-        $(document).on('change', '#yield', function () {
-            NeedRefresh();
-        });
+    $(document).on('propertychange input paste', '#nh4', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#crude', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#yield', function () {
+        NeedRefresh();
+    });
 
 
-        function NeedRefresh() {
-            $("#ok_button").html('Calculate');
-            $("#ok_button").css('background-color', '#1abbed');
-            $("#btnText").val("Calculate");
-        }
+    function NeedRefresh() {
+        $("#ok_button").html('Calculate');
+        $("#ok_button").css('background-color', '#1abbed');
+        $("#btnText").val("Calculate");
+    }
 
 
 </script>

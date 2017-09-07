@@ -43,6 +43,14 @@
     padding-left: 5px;
     padding-right: 5px;
 }
+
+.Cell3 {
+    display: table-cell;
+    border: none;
+    color: black;
+    padding-left: 0px;
+    padding-right: 0px;
+}
 .TableHeading {
     background-color: #EEE;
     display: table-header-group;

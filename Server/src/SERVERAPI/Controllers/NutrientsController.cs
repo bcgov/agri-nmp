@@ -246,7 +246,9 @@ namespace SERVERAPI.Controllers
                     }
                     string target = "#manure";
                     string url = Url.Action("RefreshManureList", "Nutrients", new {fieldName = mvm.fieldName });
-                    return Json(new { success = true, url = url, target = target });
+                    string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = mvm.fieldName });
+                    string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = mvm.fieldName });
+                    return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
                 }
             }
 
@@ -423,7 +425,9 @@ namespace SERVERAPI.Controllers
                     }
                     string target = "#crop";
                     string url = Url.Action("RefreshCropList", "Nutrients", new { fieldName = cvm.fieldName });
-                    return Json(new { success = true, url = url, target = target });
+                    string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = cvm.fieldName });
+                    string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = cvm.fieldName });
+                    return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
                 }
             }
 
@@ -452,6 +456,10 @@ namespace SERVERAPI.Controllers
             return RedirectToAction("Calculate", "Nutrients");
             //return ViewComponent("FieldList");
         }
+        public IActionResult RefreshSummary(string fieldName)
+        {
+            return ViewComponent("CalcSummary", new { fldName = fieldName });
+        }
         [HttpGet]
         public ActionResult ManureDelete(string fldName, int id)
         {
@@ -475,7 +483,9 @@ namespace SERVERAPI.Controllers
 
                 string target = "#manure";
                 string url = Url.Action("RefreshManureList", "Nutrients", new { fieldName = dvm.fldName });
-                return Json(new { success = true, url = url, target = target });
+                string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = dvm.fldName });
+                string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = dvm.fldName });
+                return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
             }
             return PartialView("ManureDelete", dvm);
         }
@@ -506,7 +516,9 @@ namespace SERVERAPI.Controllers
 
                 string target = "#crop";
                 string url = Url.Action("RefreshCropList", "Nutrients", new { fieldName = dvm.fldName });
-                return Json(new { success = true, url = url, target = target });
+                string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = dvm.fldName });
+                string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = dvm.fldName });
+                return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
             }
             return PartialView("CropDelete", dvm);
         }
