@@ -78,6 +78,9 @@ namespace SERVERAPI.Controllers
 
         public IActionResult ManureDetails(string fldName, int? id)
         {
+            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+
             ManureDetailsViewModel mvm = new ManureDetailsViewModel();
 
             mvm.fieldName = fldName;
@@ -94,14 +97,18 @@ namespace SERVERAPI.Controllers
 
             if(id != null)
             {
+                int regionid = _ud.FarmDetails().farmRegion.Value;
+                Region region = _sd.GetRegion(regionid);
+                nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
+
                 NutrientManure nm = _ud.GetFieldNutrientsManure(fldName, id.Value);
 
-                mvm.avail = nm.nAvail.ToString();
+                mvm.avail = nm.nAvail.ToString("###");
                 mvm.selRateOption = nm.unitId;
                 mvm.selManOption = nm.manureId;
                 mvm.selApplOption = nm.applicationId;
                 mvm.rate = nm.rate.ToString();
-                mvm.nh4 = nm.nh4Retention.ToString();
+                mvm.nh4 = nm.nh4Retention.ToString("###");
                 mvm.yrN = nm.yrN.ToString();
                 mvm.yrP2o5 = nm.yrP2o5.ToString();
                 mvm.yrK2o = nm.yrK2o.ToString();
@@ -112,8 +119,8 @@ namespace SERVERAPI.Controllers
                 mvm.currUnit = man.solid_liquid;
                 mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
 
-                mvm.stdN = Convert.ToDecimal(mvm.nh4) != 40 ? false : true;
-                mvm.stdAvail = Convert.ToDecimal(mvm.avail) != 40 ? false : true;
+                mvm.stdN = Convert.ToDecimal(mvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100) ? false : true;
+                mvm.stdAvail = Convert.ToDecimal(mvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100) ? false : true;
 
             }
             else
@@ -132,6 +139,9 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult ManureDetails(ManureDetailsViewModel mvm)
         {
+            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+
             ManureDetailsSetup(ref mvm);
 
             if (mvm.buttonPressed == "ResetN")
@@ -141,8 +151,7 @@ namespace SERVERAPI.Controllers
                 mvm.btnText = "Calculate";
 
                 // reset to calculated amount                
-                Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
-                mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption))* 100).ToString();
+                mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption))* 100).ToString("###");
 
                 mvm.stdN = true;
                 return View(mvm);
@@ -155,13 +164,11 @@ namespace SERVERAPI.Controllers
                 mvm.btnText = "Calculate";
 
                 // reset to calculated amount
-                Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
                 int regionid = _ud.FarmDetails().farmRegion.Value;
                 Region region = _sd.GetRegion(regionid);
-                NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
                 nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
 
-                mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString();
+                mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
 
                 mvm.stdAvail = true;
                 return View(mvm);
@@ -184,13 +191,11 @@ namespace SERVERAPI.Controllers
                     }
 
                     // if application is present then recalc N and A
-                    Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
                     int regionid = _ud.FarmDetails().farmRegion.Value;
                     Region region = _sd.GetRegion(regionid);
-                    NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
                     nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
 
-                    mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString();
+                    mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
                 }
                 else
                 {
@@ -209,8 +214,7 @@ namespace SERVERAPI.Controllers
                 if (mvm.selApplOption != "")
                 {
                     // recalc N and A values
-                    Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
-                    mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100).ToString();
+                    mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100).ToString("###");
                 }
                 else
                 {
@@ -226,7 +230,6 @@ namespace SERVERAPI.Controllers
                 {
                     ModelState.Clear();
                     NutrientInputs nutrientInputs = new NutrientInputs();
-                    CalculateNutrients calculateNutrients = new Utility.CalculateNutrients(_env, _ud, _sd);                   
 
                     calculateNutrients.manure = mvm.selManOption;
                     calculateNutrients.applicationSeason = mvm.selApplOption;
@@ -247,12 +250,15 @@ namespace SERVERAPI.Controllers
                     mvm.btnText = mvm.id == null ? "Add to Field" : "Update Field";
 
                     // determine if values on screen are book value or not
+                    int regionid = _ud.FarmDetails().farmRegion.Value;
+                    Region region = _sd.GetRegion(regionid);
+                    nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
 
-                    if(Convert.ToDecimal(mvm.nh4) != 40)
+                    if (Convert.ToDecimal(mvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100))
                     {
                         mvm.stdN = false;
                     }
-                    if (Convert.ToDecimal(mvm.avail) != 40)
+                    if (Convert.ToDecimal(mvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100))
                     {
                         mvm.stdAvail = false;
                     }
