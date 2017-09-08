@@ -132,6 +132,8 @@ namespace SERVERAPI.ViewModels
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selTypOption { get; set; }
         public List<Models.StaticData.SelectListItem> typOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public string selCropOption { get; set; }
         public List<Models.StaticData.SelectListItem> cropOptions { get; set; }
         public string selPrevOption { get; set; }

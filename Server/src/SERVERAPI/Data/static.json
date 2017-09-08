@@ -1804,6 +1804,19 @@
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3"
+          },
+          {
+            "id": "66",
+            "cropname": "Other",
+            "croptypeid": "6",
+            "yieldcd": "1",
+            "cropremovalfactor": "0",
+            "P2O5": "0",
+            "KO5": "0",
+            "n_recommcd": "0",
+            "n_recomm_lbperac": "0",
+            "n_high_lbperac": "0",
+            "prevcropcd": "3"
           }
         ]
       },

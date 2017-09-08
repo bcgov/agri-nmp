@@ -460,13 +460,13 @@ namespace SERVERAPI.Controllers
                     return View(cvm);
                 }
 
-                if((string.IsNullOrEmpty(cvm.selCropOption) ||
-                    cvm.selCropOption == "select") &&
-                    cvm.selTypOption != _settings.OtherCropId)  // none
-                {
-                    ModelState.AddModelError("selCropOption", "Required.");
-                    return View(cvm);
-                }
+                //if((string.IsNullOrEmpty(cvm.selCropOption) ||
+                //    cvm.selCropOption == "select") &&
+                //    cvm.selTypOption != _settings.OtherCropId)  // none
+                //{
+                //    ModelState.AddModelError("selCropOption", "Required.");
+                //    return View(cvm);
+                //}
 
                 if(cvm.manEntry)
                 {
