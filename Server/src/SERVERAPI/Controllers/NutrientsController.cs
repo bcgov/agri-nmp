@@ -731,6 +731,10 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("CalcSummary", new { fldName = fieldName });
         }
+        public IActionResult RefreshHeading(string fieldName)
+        {
+            return ViewComponent("CalcHeading", new { fldName = fieldName });
+        }
         [HttpGet]
         public ActionResult ManureDelete(string fldName, int id)
         {

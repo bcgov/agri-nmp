@@ -229,9 +229,9 @@
                 success: function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
+                        $('#heading').load(result.urlHead);
                         $(result.target).load(result.url);
                         $('#summary').load(result.urlSumm);
-                        $('#heading').load(result.urlHead);
                     } else {
                         $('#myModalContent').html(result);
                         bindForm(dialog);
@@ -274,9 +274,9 @@
                 .done(function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
+                        $('#heading').load(result.urlHead);
                         $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
                         $('#summary').load(result.urlSumm);
-                        $('#heading').load(result.urlHead);
                     } else {
                         $('#myModalContent').html(result);
                         bindForm(dialog);
