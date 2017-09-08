@@ -29,6 +29,7 @@ namespace SERVERAPI.Utility
         public decimal ammoniaNRetentionPct { get; set; }
         public decimal firstYearOrganicNAvailablityPct { get; set; }
         public NutrientInputs nutrientInputs { get; set; }
+        public NOrganicMineralizations nOrganicMineralizations { get; set; }
 
         public NutrientInputs GetNutrientInputs(NutrientInputs nutrientInputs)
         {
@@ -41,6 +42,8 @@ namespace SERVERAPI.Utility
             decimal phosphorousAvailabilityLongTerm = 1;            
             decimal phosphorousPtoP2O5Kconversion = 2.29M;
             decimal lbPerTonConversion = 20;
+            decimal tenThousand = 10000;
+
 
 
             // get conversion factor for selected units to lb/ac
@@ -75,11 +78,65 @@ namespace SERVERAPI.Utility
                                             * phosphorousAvailabilityLongTerm 
                                             * conversion);
 
-            nutrientInputs.N_FirstYear = 0;
-            nutrientInputs.N_LongTerm = 0;
-                        
+            // get N values
+            // Organic N% = Total N% - NH4-N ppm / 10,000
+            decimal organicN = mymanure.nitrogen - (Convert.ToDecimal(mymanure.ammonia) / tenThousand);
+
+            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+
+            int regionid = _ud.FarmDetails().farmRegion.Value;
+            Region region = _sd.GetRegion(regionid);            
+
+            nOrganicMineralizations = GetNMineralization(mymanure.id, region.locationid);
+            nOrganicMineralizations.OrganicN_FirstYear = firstYearOrganicNAvailablityPct / 100; // get data from screen
+
+            //decimal ammoniaRetention = GetAmmoniaRetention(mymanure.id, Convert.ToInt32(applicationSeason));
+            decimal ammoniaRetention = ammoniaNRetentionPct / 100; // get data from screen
+
+            // N 1st year lb/ton = [NH4-N ppm/10,000 * NH4 retention + NO3-N/10,000 + Organic N %  * 1st yr Mineralization] * 20
+
+            decimal a = decimal.Divide(mymanure.ammonia, tenThousand) * ammoniaRetention;
+
+            decimal b1 = decimal.Multiply(organicN, nOrganicMineralizations.OrganicN_FirstYear);
+            decimal c1 = a + 0 + b1;
+            decimal N_Firstyear = decimal.Multiply(c1, lbPerTonConversion);
+            nutrientInputs.N_FirstYear = Convert.ToInt32(applicationRate * N_Firstyear * conversion);
+
+            // same for long term
+            decimal b2 = decimal.Multiply(organicN, nOrganicMineralizations.OrganicN_LongTerm);
+            decimal c2 = a + 0 + b2;
+            decimal N_LongTerm = decimal.Multiply(c2, lbPerTonConversion);
+            nutrientInputs.N_LongTerm = Convert.ToInt32(applicationRate * N_LongTerm * conversion);
 
             return nutrientInputs;
         }
+
+        public decimal GetAmmoniaRetention(int manureid, int seasonapplicationid)
+        {
+            decimal ammoniaRention = 0;
+
+            Manure myManure = _sd.GetManure(manureid.ToString());
+            
+            AmmoniaRetention myAmmoniaRetention = _sd.GetAmmoniaRetention(seasonapplicationid, myManure.dmid);
+
+            ammoniaRention = myAmmoniaRetention.value;
+
+            return ammoniaRention;
+        }
+
+        public NOrganicMineralizations GetNMineralization(int manureid, int locationid)
+        {
+            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();            
+
+            Manure myManure = _sd.GetManure(manureid.ToString());
+
+            NMineralization myNMineralization = _sd.GetNMineralization(myManure.nminerizationid, locationid);            
+
+            nOrganicMineralizations.OrganicN_FirstYear = myNMineralization.firstyearvalue; 
+            nOrganicMineralizations.OrganicN_LongTerm = myNMineralization.longtermvalue;
+
+            return nOrganicMineralizations;
+        }
+
     }
 }

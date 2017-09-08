@@ -140,8 +140,9 @@ namespace SERVERAPI.Controllers
                 mvm.buttonPressed = "";
                 mvm.btnText = "Calculate";
 
-                // reset to calculated amount
-                mvm.nh4 = "40";
+                // reset to calculated amount                
+                Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+                mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption))* 100).ToString();
 
                 mvm.stdN = true;
                 return View(mvm);
@@ -154,7 +155,13 @@ namespace SERVERAPI.Controllers
                 mvm.btnText = "Calculate";
 
                 // reset to calculated amount
-                mvm.avail = "40";
+                Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+                int regionid = _ud.FarmDetails().farmRegion.Value;
+                Region region = _sd.GetRegion(regionid);
+                NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+                nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
+
+                mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString();
 
                 mvm.stdAvail = true;
                 return View(mvm);
@@ -177,6 +184,13 @@ namespace SERVERAPI.Controllers
                     }
 
                     // if application is present then recalc N and A
+                    Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+                    int regionid = _ud.FarmDetails().farmRegion.Value;
+                    Region region = _sd.GetRegion(regionid);
+                    NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+                    nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
+
+                    mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString();
                 }
                 else
                 {
@@ -195,6 +209,8 @@ namespace SERVERAPI.Controllers
                 if (mvm.selApplOption != "")
                 {
                     // recalc N and A values
+                    Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+                    mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100).ToString();
                 }
                 else
                 {
