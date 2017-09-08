@@ -833,103 +833,124 @@
           {
             "id": "1",
             "croptype": "1",
-            "name": "no legumes or established forage < 1/3 legumes",
+            "name": "none",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           },
           {
             "id": "2",
             "croptype": "1",
+            "name": "no legumes or established forage < 1/3 legumes",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "3",
+            "croptype": "1",
             "name": "established forage 1/2 to 1/2 legume",
             "ncreditmetric": "55",
             "ncreditimperial": "50"
           },
           {
-            "id": "3",
+            "id": "4",
             "croptype": "1",
             "name": "established forage >1/2 legume",
             "ncreditmetric": "110",
             "ncreditimperial": "100"
           },
           {
-            "id": "4",
+            "id": "5",
             "croptype": "1",
             "name": "perennial legumes ploughed in seeding year",
             "ncreditmetric": "78",
             "ncreditimperial": "70"
           },
           {
-            "id": "5",
+            "id": "6",
             "croptype": "1",
             "name": "field bean residues",
             "ncreditmetric": "30",
             "ncreditimperial": "27"
           },
           {
-            "id": "6",
-            "croptype": "2",
-            "name": "no legumes or established forage < 1/3 legumes",
-            "ncreditmetric": "0",
-            "ncreditimperial": "0"
-          },
-          {
             "id": "7",
             "croptype": "2",
-            "name": "established forage 1/2 to 1/2 legume",
+            "name": "none",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           },
           {
             "id": "8",
             "croptype": "2",
-            "name": "established forage >1/2 legume",
+            "name": "no legumes or established forage < 1/3 legumes",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           },
           {
             "id": "9",
             "croptype": "2",
-            "name": "perennial legumes ploughed in seeding year",
+            "name": "established forage 1/2 to 1/2 legume",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           },
           {
             "id": "10",
             "croptype": "2",
-            "name": "field bean residues",
+            "name": "established forage >1/2 legume",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           },
           {
             "id": "11",
+            "croptype": "2",
+            "name": "perennial legumes ploughed in seeding year",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "12",
+            "croptype": "2",
+            "name": "field bean residues",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "13",
+            "croptype": "3",
+            "name": "none",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "14",
             "croptype": "3",
             "name": "no legumes or established forage < 1/3 legumes",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           },
           {
-            "id": "12",
+            "id": "15",
             "croptype": "3",
             "name": "established forage 1/2 to 1/2 legume",
             "ncreditmetric": "55",
             "ncreditimperial": "50"
           },
           {
-            "id": "13",
+            "id": "16",
             "croptype": "3",
             "name": "established forage >1/2 legume",
             "ncreditmetric": "110",
             "ncreditimperial": "100"
           },
           {
-            "id": "14",
+            "id": "17",
             "croptype": "3",
             "name": "perennial legumes ploughed in seeding year",
             "ncreditmetric": "45",
             "ncreditimperial": "40"
           },
           {
-            "id": "15",
+            "id": "18",
             "croptype": "3",
             "name": "field bean residues",
             "ncreditmetric": "0",
