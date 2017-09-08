@@ -45,18 +45,18 @@ namespace SERVERAPI.Models.Impl
         {
             Models.StaticData.Regions regs = GetRegions();
 
-            List <Models.StaticData.SelectListItem> regOptions = new List<Models.StaticData.SelectListItem>();
+            List<Models.StaticData.SelectListItem> regOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach(var r in regs.regions)
+            foreach (var r in regs.regions)
             {
-                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name } ;
+                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
                 regOptions.Add(li);
             }
 
             return regOptions;
         }
 
-        public Models.StaticData.Manure GetManure(string manId )
+        public Models.StaticData.Manure GetManure(string manId)
         {
             Models.StaticData.Manure man = new Models.StaticData.Manure();
 
@@ -304,8 +304,8 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var r in types.cropTypes)
             {
-                    Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
-                    typesOptions.Add(li);
+                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                typesOptions.Add(li);
             }
 
             return typesOptions;
@@ -321,7 +321,7 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var r in array)
             {
-                
+
                 Models.StaticData.Crop crop = new Models.StaticData.Crop();
                 crop.cropname = r["cropname"].ToString();
                 crop.cropremovalfactor = r["cropremovalfactor"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor"].ToString());
@@ -333,7 +333,7 @@ namespace SERVERAPI.Models.Impl
                 crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
                 crop.value_KO5 = r["KO5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["KO5"].ToString());
                 crop.value_P2O5 = r["P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["P2O5"].ToString());
-                crop.yieldcd =  Convert.ToInt32(r["yieldcd"].ToString());
+                crop.yieldcd = Convert.ToInt32(r["yieldcd"].ToString());
                 crops.crops.Add(crop);
             }
 
@@ -380,17 +380,17 @@ namespace SERVERAPI.Models.Impl
             JObject r = (JObject)rss["agri"]["nmp"]["crops"]["crop"].FirstOrDefault(x => x["id"].ToString() == cropId.ToString());
             Models.StaticData.Crop crop = new Models.StaticData.Crop();
 
-                crop.cropname = r["cropname"].ToString();
-                crop.cropremovalfactor = r["cropremovalfactor"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor"].ToString());
-                crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
-                crop.id = Convert.ToInt32(r["id"].ToString());
-                crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
-                crop.n_recommcd = Convert.ToDecimal(r["n_recommcd"].ToString());
-                crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
-                crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
-                crop.value_KO5 = r["KO5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["KO5"].ToString());
-                crop.value_P2O5 = r["P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["P2O5"].ToString());
-                crop.yieldcd =  Convert.ToInt32(r["yieldcd"].ToString());
+            crop.cropname = r["cropname"].ToString();
+            crop.cropremovalfactor = r["cropremovalfactor"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor"].ToString());
+            crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
+            crop.id = Convert.ToInt32(r["id"].ToString());
+            crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
+            crop.n_recommcd = Convert.ToDecimal(r["n_recommcd"].ToString());
+            crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
+            crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
+            crop.value_KO5 = r["KO5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["KO5"].ToString());
+            crop.value_P2O5 = r["P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["P2O5"].ToString());
+            crop.yieldcd = Convert.ToInt32(r["yieldcd"].ToString());
 
             return crop;
         }
@@ -414,7 +414,7 @@ namespace SERVERAPI.Models.Impl
             return yield;
         }
 
-      public Models.StaticData.Crop_STP_RegionCd GetCrop_STP_RegionCd(int cropid, int regionid)
+        public Models.StaticData.Crop_STP_RegionCd GetCrop_STP_RegionCd(int cropid, int regionid)
         {
 
             JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
@@ -489,7 +489,7 @@ namespace SERVERAPI.Models.Impl
                 {
                     ammoniaretention.seasonapplicatonid = Convert.ToInt32(r["seasonapplicatonid"].ToString());
                     ammoniaretention.dm = Convert.ToInt32(r["dm"].ToString());
-                    ammoniaretention.value = Convert.ToInt32(r["value"].ToString());
+                    ammoniaretention.value = Convert.ToDecimal(r["value"].ToString());
                 }
             }
 
@@ -508,7 +508,7 @@ namespace SERVERAPI.Models.Impl
                 if (Convert.ToInt32(r["id"].ToString()) == id &&
                     Convert.ToInt32(r["locationid"].ToString()) == locationid)
                 {
-                    nmineralization.id = Convert.ToInt32(r["seasonapplicatonid"].ToString());
+                    nmineralization.id = Convert.ToInt32(r["id"].ToString());
                     nmineralization.name = r["name"].ToString();
                     nmineralization.locationid = Convert.ToInt32(r["locationid"].ToString());
                     nmineralization.firstyearvalue = Convert.ToDecimal(r["firstyearvalue"].ToString());
@@ -551,6 +551,28 @@ namespace SERVERAPI.Models.Impl
             }
 
             return mthOptions;
+        }
+
+        public Models.StaticData.Region GetRegion(int id)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["regions"]["region"];
+            Models.StaticData.Region region = new Models.StaticData.Region();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["id"].ToString()) == id)
+                {
+                    region.id = Convert.ToInt32(r["id"].ToString());
+                    region.name = r["name"].ToString();
+                    region.soil_test_phospherous_region_cd = Convert.ToInt32(r["soil_test_phospherous_region_cd"].ToString());
+                    region.soil_test_potassium_region_cd = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString());
+                    region.locationid = Convert.ToInt32(r["locationid"].ToString());
+                }
+            }
+
+            return region;
         }
     }
 }
