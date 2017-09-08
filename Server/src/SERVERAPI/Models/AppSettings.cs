@@ -8,5 +8,6 @@ namespace SERVERAPI.Models
     public class AppSettings
     {
         public string OtherCropId { get; set; }
+        public string CrudeProteinTypes { get; set; }
     }
 }

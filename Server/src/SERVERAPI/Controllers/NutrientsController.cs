@@ -699,8 +699,7 @@ namespace SERVERAPI.Controllers
                 {
                     int indx = Convert.ToInt32(cvm.selTypOption);
                     string crpTyp = cvm.typOptions.FirstOrDefault(r => r.Id == indx).Value;
-                    if (crpTyp == "Forage" ||
-                        crpTyp == "Grains")
+                    if(_settings.CrudeProteinTypes.IndexOf(crpTyp) > -1)
                         cvm.showCrude = true;
                 }
             }
