@@ -11,6 +11,8 @@ using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewComponents;
 using SERVERAPI.Utility;
 using static SERVERAPI.Models.StaticData;
+using System.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Controllers
 {
@@ -19,12 +21,15 @@ namespace SERVERAPI.Controllers
         private IHostingEnvironment _env;
         private UserData _ud;
         private Models.Impl.StaticData _sd;
+        private readonly AppSettings _settings;
 
-        public NutrientsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
+
+        public NutrientsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd, IOptions<AppSettings> settings)
         {
             _env = env;
             _ud = ud;
             _sd = sd;
+            _settings = settings.Value;
         }
         // GET: /<controller>/
         public IActionResult Calculate(string id)
@@ -331,8 +336,6 @@ namespace SERVERAPI.Controllers
             {
                 FieldCrop cp = _ud.GetFieldCrop(fldName, id.Value);
 
-                Crop crop = _sd.GetCrop(Convert.ToInt32(cp.cropId));
-
                 cvm.fieldName = fldName;
                 cvm.id = id;
                 cvm.reqN = cp.reqN.ToString();
@@ -344,7 +347,23 @@ namespace SERVERAPI.Controllers
                 cvm.yield = cp.yield.ToString();
                 cvm.crude = cp.crudeProtien.ToString();
                 cvm.selCropOption = cp.cropId;
-                cvm.selTypOption = crop.croptypeid.ToString();
+                cvm.selPrevOption = cp.prevCropId.ToString();
+
+                if(!string.IsNullOrEmpty(cp.cropOther))
+                {
+                    cvm.manEntry = true;
+                    Yield yld = _sd.GetYield(1);
+                    cvm.cropDesc = cp.cropOther;
+                    cvm.yieldUnit = "(" + yld.yielddesc + ")";
+                    cvm.selTypOption = _settings.OtherCropId;
+                }
+                else
+                {
+                    Crop crop = _sd.GetCrop(Convert.ToInt32(cp.cropId));
+                    Yield yld = _sd.GetYield(crop.yieldcd);
+                    cvm.yieldUnit = "(" + yld.yielddesc + ")";
+                    cvm.selTypOption = crop.croptypeid.ToString();
+                }
             }
             else
             {
@@ -371,6 +390,36 @@ namespace SERVERAPI.Controllers
                 cvm.buttonPressed = "";
                 cvm.btnText = "Calculate";
                 cvm.crude = "";
+                cvm.cropDesc = "";
+
+                if(cvm.selTypOption == _settings.OtherCropId)
+                {
+                    cvm.manEntry = true;
+                    cvm.reqN = string.Empty;
+                    cvm.reqP2o5 = string.Empty;
+                    cvm.reqK2o = string.Empty;
+                    cvm.remN = string.Empty;
+                    cvm.remP2o5 = string.Empty;
+                    cvm.remK2o = string.Empty;
+                }
+                else
+                {
+                    cvm.manEntry = false;
+                    cvm.reqN = "  0";
+                    cvm.reqP2o5 = "  0";
+                    cvm.reqK2o = "  0";
+                    cvm.remN = "  0";
+                    cvm.remP2o5 = "  0";
+                    cvm.remK2o = "  0";
+                }
+                return View(cvm);
+            }
+
+            if (cvm.buttonPressed == "PrevChange")
+            {
+                ModelState.Clear();
+                cvm.buttonPressed = "";
+                cvm.btnText = "Calculate";
                 return View(cvm);
             }
 
@@ -387,6 +436,8 @@ namespace SERVERAPI.Controllers
 
                     cvm.yieldUnit = "(" + yld.yielddesc + ")";
                 }
+                cvm.selPrevOption = string.Empty;
+
                 return View(cvm);
             }
 
@@ -425,15 +476,162 @@ namespace SERVERAPI.Controllers
                     return View(cvm);
                 }
 
+                //if((string.IsNullOrEmpty(cvm.selCropOption) ||
+                //    cvm.selCropOption == "select") &&
+                //    cvm.selTypOption != _settings.OtherCropId)  // none
+                //{
+                //    ModelState.AddModelError("selCropOption", "Required.");
+                //    return View(cvm);
+                //}
+
+                if(cvm.manEntry)
+                {
+                    if (string.IsNullOrEmpty(cvm.cropDesc))
+                    {
+                        ModelState.AddModelError("cropDesc", "Required.");
+                        return View(cvm);
+                    }
+
+                    if (string.IsNullOrEmpty(cvm.reqN))
+                    {
+                        ModelState.AddModelError("reqN", "Reqd.");
+                        return View(cvm);
+                    }
+                    else
+                    {
+                        if (int.TryParse(cvm.reqN, out tmp))
+                        {
+                            if (tmp <= 0)
+                            {
+                                ModelState.AddModelError("reqN", "Invalid.");
+                                return View(cvm);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("reqN", "Invalid.");
+                            return View(cvm);
+                        }
+                    }
+                    if (string.IsNullOrEmpty(cvm.reqP2o5))
+                    {
+                        ModelState.AddModelError("reqP2o5", "Reqd.");
+                        return View(cvm);
+                    }
+                    else
+                    {
+                        if (int.TryParse(cvm.reqP2o5, out tmp))
+                        {
+                            if (tmp <= 0)
+                            {
+                                ModelState.AddModelError("reqP2o5", "Invalid.");
+                                return View(cvm);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("reqP2o5", "Invalid.");
+                            return View(cvm);
+                        }
+                    }
+                    if (string.IsNullOrEmpty(cvm.reqK2o))
+                    {
+                        ModelState.AddModelError("reqK2o", "Reqd.");
+                        return View(cvm);
+                    }
+                    else
+                    {
+                        if (int.TryParse(cvm.reqK2o, out tmp))
+                        {
+                            if (tmp <= 0)
+                            {
+                                ModelState.AddModelError("reqK2o", "Invalid.");
+                                return View(cvm);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("reqK2o", "Invalid.");
+                            return View(cvm);
+                        }
+                    }
+                    if (string.IsNullOrEmpty(cvm.remN))
+                    {
+                        ModelState.AddModelError("remN", "Reqd.");
+                        return View(cvm);
+                    }
+                    else
+                    {
+                        if (int.TryParse(cvm.remN, out tmp))
+                        {
+                            if (tmp <= 0)
+                            {
+                                ModelState.AddModelError("remN", "Invalid.");
+                                return View(cvm);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("remN", "Invalid.");
+                            return View(cvm);
+                        }
+                    }
+                    if (string.IsNullOrEmpty(cvm.remP2o5))
+                    {
+                        ModelState.AddModelError("remP2o5", "Reqd.");
+                        return View(cvm);
+                    }
+                    else
+                    {
+                        if (int.TryParse(cvm.remP2o5, out tmp))
+                        {
+                            if (tmp <= 0)
+                            {
+                                ModelState.AddModelError("remP2o5", "Invalid.");
+                                return View(cvm);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("remP2o5", "Invalid.");
+                            return View(cvm);
+                        }
+                    }
+                    if (string.IsNullOrEmpty(cvm.remK2o))
+                    {
+                        ModelState.AddModelError("remK2o", "Reqd.");
+                        return View(cvm);
+                    }
+                    else
+                    {
+                        if (int.TryParse(cvm.remK2o, out tmp))
+                        {
+                            if (tmp <= 0)
+                            {
+                                ModelState.AddModelError("remK2o", "Invalid.");
+                                return View(cvm);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("remK2o", "Invalid.");
+                            return View(cvm);
+                        }
+                    }
+                }
+
                 if (cvm.btnText == "Calculate")
                 {
                     ModelState.Clear();
-                    cvm.reqN = "111";
-                    cvm.reqP2o5 = "222";
-                    cvm.reqK2o = "333";
-                    cvm.remN = "444";
-                    cvm.remP2o5 = "555";
-                    cvm.remK2o = "666";
+                    if (!cvm.manEntry)
+                    {
+                        cvm.reqN = "111";
+                        cvm.reqP2o5 = "222";
+                        cvm.reqK2o = "333";
+                        cvm.remN = "444";
+                        cvm.remP2o5 = "555";
+                        cvm.remK2o = "666";
+                    }
 
                     cvm.btnText = cvm.id == null ? "Add to Field" : "Update Field";
                 }
@@ -441,10 +639,18 @@ namespace SERVERAPI.Controllers
                 {
                     if (cvm.id == null)
                     {
+                        int prevCrop = 0;
+                        if (cvm.selPrevOption != "select")
+                            prevCrop = Convert.ToInt32(cvm.selPrevOption);
+
+                        int thisCrop = 0;
+                        if (cvm.selCropOption != "select")
+                            thisCrop = Convert.ToInt32(cvm.selCropOption);
 
                         FieldCrop crp = new FieldCrop()
                         {
-                            cropId = cvm.selCropOption,
+                            cropId = thisCrop.ToString(),
+                            cropOther = cvm.cropDesc,
                             yield = Convert.ToDecimal(cvm.yield),
                             reqN = Convert.ToDecimal(cvm.reqN),
                             reqP2o5 = Convert.ToDecimal(cvm.reqP2o5),
@@ -452,15 +658,25 @@ namespace SERVERAPI.Controllers
                             remN = Convert.ToDecimal(cvm.remN),
                             remP2o5 = Convert.ToDecimal(cvm.remP2o5),
                             remK2o = Convert.ToDecimal(cvm.remK2o),
-                            crudeProtien = Convert.ToInt32(cvm.crude)
+                            crudeProtien = Convert.ToInt32(cvm.crude),
+                            prevCropId = prevCrop
                         };
 
                         _ud.AddFieldCrop(cvm.fieldName, crp);
                     }
                     else
                     {
+                        int prevCrop = 0;
+                        if (cvm.selPrevOption != "select")
+                            prevCrop = Convert.ToInt32(cvm.selPrevOption);
+
+                        int thisCrop = 0;
+                        if (cvm.selCropOption != "select")
+                            thisCrop = Convert.ToInt32(cvm.selCropOption);
+
                         FieldCrop crp = _ud.GetFieldCrop(cvm.fieldName, cvm.id.Value);
-                        crp.cropId = cvm.selCropOption;
+                        crp.cropId = thisCrop.ToString();
+                        crp.cropOther = cvm.cropDesc;
                         crp.yield = Convert.ToDecimal(cvm.yield);
                         crp.reqN = Convert.ToDecimal(cvm.reqN);
                         crp.reqP2o5 = Convert.ToDecimal(cvm.reqP2o5);
@@ -469,6 +685,7 @@ namespace SERVERAPI.Controllers
                         crp.remP2o5 = Convert.ToDecimal(cvm.remP2o5);
                         crp.remK2o = Convert.ToDecimal(cvm.remK2o);
                         crp.crudeProtien = Convert.ToInt32(cvm.crude);
+                        crp.prevCropId = prevCrop;
 
                         _ud.UpdateFieldCrop(cvm.fieldName, crp);
                     }
@@ -484,14 +701,34 @@ namespace SERVERAPI.Controllers
         }
         private void CropDetailsSetup(ref CropDetailsViewModel cvm)
         {
+            cvm.showCrude = false;
             cvm.typOptions = new List<Models.StaticData.SelectListItem>();
             cvm.typOptions = _sd.GetCropTypesDll().ToList();
 
             cvm.cropOptions = new List<Models.StaticData.SelectListItem>();
-            if (!string.IsNullOrEmpty(cvm.selTypOption))
+            if (!string.IsNullOrEmpty(cvm.selTypOption) &&
+                cvm.selTypOption != "select")
             {
                 cvm.cropOptions = _sd.GetCropsDll(Convert.ToInt32(cvm.selTypOption)).ToList();
-                cvm.showCrude = (cvm.selTypOption == "1") ? true : false;
+
+                if(cvm.selTypOption != "select")
+                {
+                    int indx = Convert.ToInt32(cvm.selTypOption);
+                    string crpTyp = cvm.typOptions.FirstOrDefault(r => r.Id == indx).Value;
+                    if(_settings.CrudeProteinTypes.IndexOf(crpTyp) > -1)
+                        cvm.showCrude = true;
+                }
+            }
+
+            cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
+            if (!string.IsNullOrEmpty(cvm.selCropOption))
+            {
+                if (cvm.selCropOption != "select" &&
+                    cvm.selCropOption != "0")
+                {
+                    Crop crp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
+                    cvm.prevOptions = _sd.GetPrevCropTypesDll(crp.prevcropcd.ToString()).ToList();
+                }
             }
 
             return;
@@ -508,6 +745,10 @@ namespace SERVERAPI.Controllers
         public IActionResult RefreshSummary(string fieldName)
         {
             return ViewComponent("CalcSummary", new { fldName = fieldName });
+        }
+        public IActionResult RefreshHeading(string fieldName)
+        {
+            return ViewComponent("CalcHeading", new { fldName = fieldName });
         }
         [HttpGet]
         public ActionResult ManureDelete(string fldName, int id)
@@ -550,7 +791,10 @@ namespace SERVERAPI.Controllers
             dvm.fldName = fldName;
 
             FieldCrop crp = _ud.GetFieldCrop(fldName, id);
-            dvm.cropName = _sd.GetCrop(Convert.ToInt32(crp.cropId)).cropname;
+            if (!string.IsNullOrEmpty(crp.cropOther))
+                dvm.cropName = crp.cropOther;
+            else
+                dvm.cropName = _sd.GetCrop(Convert.ToInt32(crp.cropId)).cropname;
 
             dvm.act = "Delete";
 

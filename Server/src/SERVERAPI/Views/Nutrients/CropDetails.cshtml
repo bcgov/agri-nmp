@@ -39,11 +39,18 @@
                 </div>
                 <div style="clear:both"></div>
                 <div class="form-group">
+                    <div class="form-group col-sm-7">
+                        <label>Previous crop ploughed down</label>
+                        <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlPrev">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selPrevOption" class="text-danger"></span>
+                    </div>
                     @if (Model.showCrude)
                     {
-                        <div class="form-group col-sm-2">
+                        <div class="form-group col-sm-4">
                             <label>Crude Protien (%)</label>
-                            <div class="input-group">
+                            <div class="input-group col-sm-5">
                                 <input class="form-control col-sm-1" asp-for="crude" id="crude" type="text" />
                             </div>
                             <span asp-validation-for="crude" class="text-danger"></span>
@@ -53,66 +60,163 @@
                     {
                         @Html.HiddenFor(x => x.crude)
                     }
+                    @if (Model.manEntry)
+                    {
+                        <div class="form-group col-sm-5">
+                            <label>Crop Description</label>
+                            <div class="input-group col-sm-12">
+                                <input class="form-control col-sm-12" asp-for="cropDesc" id="cropDesc" type="text" />
+                            </div>
+                            <span asp-validation-for="cropDesc" class="text-danger"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.HiddenFor(x => x.cropDesc)
+                    }
                 </div>
                 <div style="clear:both"></div>
-                <div class="form-group col-sm-4" style="margin:10px">
-                    <div class="Table">
-                        <div class="Title">
-                            <p>Crop Requirement (lb/ac)</p>
-                        </div>
-                        <div class="Heading">
-                            <div class="Cell">
-                                <p>N</p>
+                @if (Model.manEntry)
+                {
+                    <div class="form-group col-sm-4" style="margin:10px">
+                        <div class="Table">
+                            <div class="Title">
+                                <p>Crop Requirement (lb/ac)</p>
                             </div>
-                            <div class="Cell">
-                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>N</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
                             </div>
-                            <div class="Cell">
-                                <p>K<sub>2</sub>O</p>
-                            </div>
-                        </div>
-                        <div class="Row">
-                            <div class="Cell">
-                                <p>@Model.reqN</p>
-                            </div>
-                            <div class="Cell">
-                                <p>@Model.reqP2o5</p>
-                            </div>
-                            <div class="Cell">
-                                <p>@Model.reqK2o</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-sm-4" style="margin:10px">
-                    <div class="Table">
-                        <div class="Title">
-                            <p>Nutrient Removal (lb/ac)</p>
-                        </div>
-                        <div class="Heading">
-                            <div class="Cell">
-                                <p>N</p>
-                            </div>
-                            <div class="Cell">
-                                <p>P<sub>2</sub>O<sub>5</sub></p>
-                            </div>
-                            <div class="Cell">
-                                <p>K<sub>2</sub>O</p>
-                            </div>
-                        </div>
-                        <div class="Row">
-                            <div class="Cell">
-                                <p>@Model.remN</p>
-                            </div>
-                            <div class="Cell">
-                                <p>@Model.remP2o5</p>
-                            </div>
-                            <div class="Cell">
-                                <p>@Model.remK2o</p>
+                            <div class="Row">
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="reqN" type="text" id="reqN" />
+                                    </div>
+                                    <span asp-validation-for="reqN" class="text-danger"></span>
+                                </div>
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="reqP2o5" type="text" id="reqP" />
+                                    </div>
+                                    <span asp-validation-for="reqP2o5" class="text-danger"></span>
+                                </div>
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="reqK2o" type="text" id="reqK" />
+                                    </div>
+                                    <span asp-validation-for="reqK2o" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="form-group col-sm-4" style="margin:10px">
+                        <div class="Table">
+                            <div class="Title">
+                                <p>Nutrient Removal (lb/ac)</p>
+                            </div>
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>N</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="remN" type="text" id="remN" />
+                                    </div>
+                                    <span asp-validation-for="remN" class="text-danger"></span>
+                                </div>
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="remP2o5" type="text" id="remP" />
+                                    </div>
+                                    <span asp-validation-for="remP2o5" class="text-danger"></span>
+                                </div>
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="remK2o" type="text" id="remK" />
+                                    </div>
+                                    <span asp-validation-for="remK2o" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group col-sm-4" style="margin:10px">
+                        <div class="Table">
+                            <div class="Title">
+                                <p>Crop Requirement (lb/ac)</p>
+                            </div>
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>N</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="Cell">
+                                    <p>@Model.reqN</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>@Model.reqP2o5</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>@Model.reqK2o</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-4" style="margin:10px">
+                        <div class="Table">
+                            <div class="Title">
+                                <p>Nutrient Removal (lb/ac)</p>
+                            </div>
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>N</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="Cell">
+                                    <p>@Model.remN</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>@Model.remP2o5</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>@Model.remK2o</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
             </div>
         </div>
         <div class="modal-footer">
@@ -132,5 +236,6 @@
         @Html.HiddenFor(x => x.remP2o5)
         @Html.HiddenFor(x => x.remK2o)
         @Html.HiddenFor(x => x.yieldUnit)
+        @Html.HiddenFor(x => x.manEntry)
     </form>
 </div>

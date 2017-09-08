@@ -828,13 +828,143 @@
           }
         ]
       },
+      "prevcroptypes": {
+        "prevcroptype": [
+          {
+            "id": "1",
+            "croptype": "1",
+            "name": "none",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "2",
+            "croptype": "1",
+            "name": "no legumes or established forage < 1/3 legumes",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "3",
+            "croptype": "1",
+            "name": "established forage 1/2 to 1/2 legume",
+            "ncreditmetric": "55",
+            "ncreditimperial": "50"
+          },
+          {
+            "id": "4",
+            "croptype": "1",
+            "name": "established forage >1/2 legume",
+            "ncreditmetric": "110",
+            "ncreditimperial": "100"
+          },
+          {
+            "id": "5",
+            "croptype": "1",
+            "name": "perennial legumes ploughed in seeding year",
+            "ncreditmetric": "78",
+            "ncreditimperial": "70"
+          },
+          {
+            "id": "6",
+            "croptype": "1",
+            "name": "field bean residues",
+            "ncreditmetric": "30",
+            "ncreditimperial": "27"
+          },
+          {
+            "id": "7",
+            "croptype": "2",
+            "name": "none",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "8",
+            "croptype": "2",
+            "name": "no legumes or established forage < 1/3 legumes",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "9",
+            "croptype": "2",
+            "name": "established forage 1/2 to 1/2 legume",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "10",
+            "croptype": "2",
+            "name": "established forage >1/2 legume",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "11",
+            "croptype": "2",
+            "name": "perennial legumes ploughed in seeding year",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "12",
+            "croptype": "2",
+            "name": "field bean residues",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "13",
+            "croptype": "3",
+            "name": "none",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "14",
+            "croptype": "3",
+            "name": "no legumes or established forage < 1/3 legumes",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "15",
+            "croptype": "3",
+            "name": "established forage 1/2 to 1/2 legume",
+            "ncreditmetric": "55",
+            "ncreditimperial": "50"
+          },
+          {
+            "id": "16",
+            "croptype": "3",
+            "name": "established forage >1/2 legume",
+            "ncreditmetric": "110",
+            "ncreditimperial": "100"
+          },
+          {
+            "id": "17",
+            "croptype": "3",
+            "name": "perennial legumes ploughed in seeding year",
+            "ncreditmetric": "45",
+            "ncreditimperial": "40"
+          },
+          {
+            "id": "18",
+            "croptype": "3",
+            "name": "field bean residues",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          }
+        ]
+      },
       "crops": {
         "crop": [
           {
             "id": "1",
             "cropname": "Alfalfa or mixed stand (>40% legumes, 1 cut)",
             "croptypeid": "1",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "64",
             "P2O5": "18.32",
             "KO5": "50.4",
@@ -847,7 +977,7 @@
             "id": "2",
             "cropname": "Alfalfa or mixed stand (>40% legumes, 2 cuts)",
             "croptypeid": "1",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "64",
             "P2O5": "18.32",
             "KO5": "50.4",
@@ -860,7 +990,7 @@
             "id": "3",
             "cropname": "Alfalfa or mixed stand (>40% legumes, 3 cuts)",
             "croptypeid": "1",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "64",
             "P2O5": "18.32",
             "KO5": "50.4",
@@ -873,7 +1003,7 @@
             "id": "4",
             "cropname": "Corn silage",
             "croptypeid": "1",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "25",
             "P2O5": "9.16",
             "KO5": "24",
@@ -886,7 +1016,7 @@
             "id": "5",
             "cropname": "Grass or mixed stand (<40% legumes, 1-2 cuts)",
             "croptypeid": "1",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "32",
             "P2O5": "13.74",
             "KO5": "45.6",
@@ -899,7 +1029,7 @@
             "id": "6",
             "cropname": "Grass or mixed stand (<40% legumes, 2-3 cuts)",
             "croptypeid": "1",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "38",
             "P2O5": "13.74",
             "KO5": "45.6",
@@ -912,7 +1042,7 @@
             "id": "7",
             "cropname": "Grass or mixed stand (<40% legumes, 4-5 cuts)",
             "croptypeid": "1",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "48",
             "P2O5": "16.03",
             "KO5": "45.6",
@@ -925,7 +1055,7 @@
             "id": "8",
             "cropname": "Grass or mixed stand (<40% legumes, 5-6 cuts)",
             "croptypeid": "1",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "58",
             "P2O5": "18.32",
             "KO5": "48",
@@ -938,7 +1068,7 @@
             "id": "9",
             "cropname": "Grass or mixed stand (<40% legumes, 7 cuts)",
             "croptypeid": "1",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "64",
             "P2O5": "18.32",
             "KO5": "48",
@@ -951,7 +1081,7 @@
             "id": "10",
             "cropname": "Austrian winter pea",
             "croptypeid": "2",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "60",
             "P2O5": "null",
             "KO5": "null",
@@ -964,7 +1094,7 @@
             "id": "11",
             "cropname": "Crimson clover",
             "croptypeid": "2",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "37.5",
             "P2O5": "null",
             "KO5": "null",
@@ -977,7 +1107,7 @@
             "id": "12",
             "cropname": "Hairy vetch",
             "croptypeid": "2",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "60",
             "P2O5": "null",
             "KO5": "null",
@@ -990,7 +1120,7 @@
             "id": "13",
             "cropname": "Red clover",
             "croptypeid": "2",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "47.6190476190476",
             "P2O5": "null",
             "KO5": "null",
@@ -1003,7 +1133,7 @@
             "id": "14",
             "cropname": "Annual ryegrass",
             "croptypeid": "3",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "15.3846153846154",
             "P2O5": "null",
             "KO5": "null",
@@ -1016,7 +1146,7 @@
             "id": "15",
             "cropname": "Barley",
             "croptypeid": "3",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "31.25",
             "P2O5": "null",
             "KO5": "null",
@@ -1029,7 +1159,7 @@
             "id": "16",
             "cropname": "Fall rye",
             "croptypeid": "3",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "21.2121212121212",
             "P2O5": "null",
             "KO5": "null",
@@ -1042,7 +1172,7 @@
             "id": "17",
             "cropname": "Italian ryegrass",
             "croptypeid": "3",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "22.7272727272727",
             "P2O5": "null",
             "KO5": "null",
@@ -1055,7 +1185,7 @@
             "id": "18",
             "cropname": "Oats",
             "croptypeid": "3",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "18.5185185185185",
             "P2O5": "null",
             "KO5": "null",
@@ -1068,7 +1198,7 @@
             "id": "19",
             "cropname": "Rapeseed",
             "croptypeid": "3",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "24",
             "P2O5": "null",
             "KO5": "null",
@@ -1081,7 +1211,7 @@
             "id": "20",
             "cropname": "Triticale",
             "croptypeid": "3",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "16.6666666666667",
             "P2O5": "null",
             "KO5": "null",
@@ -1094,7 +1224,7 @@
             "id": "21",
             "cropname": "Winter wheat",
             "croptypeid": "3",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "22.2222222222222",
             "P2O5": "null",
             "KO5": "null",
@@ -1107,7 +1237,7 @@
             "id": "22",
             "cropname": "Spring wheat (straw removed)",
             "croptypeid": "4",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "70.4177170642795",
             "P2O5": "26.6670644503781",
             "KO5": "72.5",
@@ -1120,7 +1250,7 @@
             "id": "23",
             "cropname": "Spring wheat (straw not removed)",
             "croptypeid": "4",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "50.0007458444588",
             "P2O5": "19.5836254557464",
             "KO5": "17.5",
@@ -1133,7 +1263,7 @@
             "id": "24",
             "cropname": "Barley (straw removed)",
             "croptypeid": "4",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "57.8671422546394",
             "P2O5": "23.1989894624455",
             "KO5": "106.5",
@@ -1146,7 +1276,7 @@
             "id": "25",
             "cropname": "Barley (straw not removed)",
             "croptypeid": "4",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "40.4027344570681",
             "P2O5": "17.4644077975714",
             "KO5": "25.5",
@@ -1159,7 +1289,7 @@
             "id": "26",
             "cropname": "Asparagus-establishment year",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "11.015",
             "P2O5": "3.26",
             "KO5": "10",
@@ -1172,7 +1302,7 @@
             "id": "27",
             "cropname": "Asparagus-established plantings",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "11.015",
             "P2O5": "3.26",
             "KO5": "10",
@@ -1185,7 +1315,7 @@
             "id": "28",
             "cropname": "Beans-bush beans",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "7.34",
             "P2O5": "2.8",
             "KO5": "6.78",
@@ -1198,7 +1328,7 @@
             "id": "29",
             "cropname": "Beans-pole beans",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "7.34",
             "P2O5": "2.8",
             "KO5": "6.78",
@@ -1211,7 +1341,7 @@
             "id": "30",
             "cropname": "Beets",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "11.64",
             "P2O5": "3.56",
             "KO5": "8.76",
@@ -1224,7 +1354,7 @@
             "id": "31",
             "cropname": "Broccoli",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "8.6",
             "P2O5": "2.78",
             "KO5": "9.88",
@@ -1237,7 +1367,7 @@
             "id": "32",
             "cropname": "Brussels Sprouts",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "13.34",
             "P2O5": "3.145315",
             "KO5": "10.452",
@@ -1250,7 +1380,7 @@
             "id": "33",
             "cropname": "Cabbage-red",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "4.48",
             "P2O5": "1.9236",
             "KO5": "4.56",
@@ -1263,7 +1393,7 @@
             "id": "34",
             "cropname": "Cabbage-white",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.84",
             "P2O5": "1.5572",
             "KO5": "5.28",
@@ -1276,7 +1406,7 @@
             "id": "35",
             "cropname": "Carrot",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.62",
             "P2O5": "1.8",
             "KO5": "7",
@@ -1289,7 +1419,7 @@
             "id": "36",
             "cropname": "Cauliflower",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "8.07360000004801",
             "P2O5": "2.7754799999978",
             "KO5": "7.04793600000001",
@@ -1302,7 +1432,7 @@
             "id": "37",
             "cropname": "Celery-field",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.815",
             "P2O5": "1.895",
             "KO5": "11.14",
@@ -1315,7 +1445,7 @@
             "id": "38",
             "cropname": "Celery-seed bed",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.815",
             "P2O5": "1.895",
             "KO5": "11.14",
@@ -1328,7 +1458,7 @@
             "id": "39",
             "cropname": "Corn-sweetcorn",
             "croptypeid": "5",
-            "yieldcd": "1",
+            "yieldcd": "2",
             "cropremovalfactor": "10.3475419575343",
             "P2O5": "2.41333333333333",
             "KO5": "5.78",
@@ -1341,7 +1471,7 @@
             "id": "40",
             "cropname": "Cucumber",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "2.26",
             "P2O5": "1.08",
             "KO5": "4.6",
@@ -1354,7 +1484,7 @@
             "id": "41",
             "cropname": "Dill",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "null",
             "P2O5": "null",
             "KO5": "null",
@@ -1367,7 +1497,7 @@
             "id": "42",
             "cropname": "Eggplant",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.52",
             "P2O5": "1",
             "KO5": "5.04",
@@ -1380,7 +1510,7 @@
             "id": "43",
             "cropname": "Garlic",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "20.48",
             "P2O5": "7.86",
             "KO5": "12.96",
@@ -1393,7 +1523,7 @@
             "id": "44",
             "cropname": "Leek",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "4.8",
             "P2O5": "1.6",
             "KO5": "4.32",
@@ -1406,7 +1536,7 @@
             "id": "45",
             "cropname": "Lettuce-western iceberg types (mineral soils)",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.73",
             "P2O5": "1.415",
             "KO5": "5.7",
@@ -1419,7 +1549,7 @@
             "id": "46",
             "cropname": "Lettuce-leaf types (mineral soils)",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "4.69",
             "P2O5": "1.715",
             "KO5": "7.53",
@@ -1432,7 +1562,7 @@
             "id": "47",
             "cropname": "Lettuce-eastern iceberg types (mineral soils)",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.73",
             "P2O5": "1.415",
             "KO5": "5.7",
@@ -1445,7 +1575,7 @@
             "id": "48",
             "cropname": "Onions-green bunching (mineral soils)",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "4.59666666666667",
             "P2O5": "1.6875",
             "KO5": "4.52",
@@ -1458,7 +1588,7 @@
             "id": "49",
             "cropname": "Onions-dry bulb (Interior BC)",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "5.2",
             "P2O5": "1.85",
             "KO5": "5.28",
@@ -1471,7 +1601,7 @@
             "id": "50",
             "cropname": "Parsley",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "null",
             "P2O5": "null",
             "KO5": "null",
@@ -1484,7 +1614,7 @@
             "id": "51",
             "cropname": "Parsnip",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.84",
             "P2O5": "3.16",
             "KO5": "7.92",
@@ -1497,7 +1627,7 @@
             "id": "52",
             "cropname": "Peas",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "18.88",
             "P2O5": "5.04",
             "KO5": "6.24",
@@ -1510,7 +1640,7 @@
             "id": "53",
             "cropname": "Pepper",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.26",
             "P2O5": "1.3",
             "KO5": "3.86",
@@ -1523,7 +1653,7 @@
             "id": "54",
             "cropname": "Potatoes-earlies",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "7.34",
             "P2O5": "2.58",
             "KO5": "10.92",
@@ -1536,7 +1666,7 @@
             "id": "55",
             "cropname": "Potatoes-midseason",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "7.34",
             "P2O5": "2.58",
             "KO5": "10.92",
@@ -1549,7 +1679,7 @@
             "id": "56",
             "cropname": "Potatoes-late",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "7.34",
             "P2O5": "2.58",
             "KO5": "10.92",
@@ -1562,7 +1692,7 @@
             "id": "57",
             "cropname": "Pumpkin",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "4.82",
             "P2O5": "1.68",
             "KO5": "6.22",
@@ -1575,7 +1705,7 @@
             "id": "58",
             "cropname": "Radish-muck",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.52",
             "P2O5": "1.28",
             "KO5": "6.72",
@@ -1588,7 +1718,7 @@
             "id": "59",
             "cropname": "Rhubarb-establishment year",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "2.24",
             "P2O5": "0.92",
             "KO5": "8.64",
@@ -1601,7 +1731,7 @@
             "id": "60",
             "cropname": "Rhubarb-established plantings",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "2.24",
             "P2O5": "0.92",
             "KO5": "8.64",
@@ -1614,7 +1744,7 @@
             "id": "61",
             "cropname": "Rutabagas-turnip",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.06",
             "P2O5": "1.3",
             "KO5": "6.16",
@@ -1627,7 +1757,7 @@
             "id": "62",
             "cropname": "Spinach-mineral",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "9.74",
             "P2O5": "2.38",
             "KO5": "12.72",
@@ -1640,7 +1770,7 @@
             "id": "63",
             "cropname": "Squash-squash",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "4.48",
             "P2O5": "1.74",
             "KO5": "4.56",
@@ -1653,7 +1783,7 @@
             "id": "64",
             "cropname": "Tomatoes",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.06",
             "P2O5": "1.3",
             "KO5": "6.16",
@@ -1666,13 +1796,26 @@
             "id": "65",
             "cropname": "Zucchini",
             "croptypeid": "5",
-            "yieldcd": "2",
+            "yieldcd": "1",
             "cropremovalfactor": "3.84",
             "P2O5": "1.46",
             "KO5": "5.28",
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "98.13970342",
+            "prevcropcd": "3"
+          },
+          {
+            "id": "66",
+            "cropname": "Other",
+            "croptypeid": "6",
+            "yieldcd": "1",
+            "cropremovalfactor": "0",
+            "P2O5": "0",
+            "KO5": "0",
+            "n_recommcd": "0",
+            "n_recomm_lbperac": "0",
+            "n_high_lbperac": "0",
             "prevcropcd": "3"
           }
         ]
@@ -4774,177 +4917,177 @@
         ]
       },
       "nmineralizations": {
-          "nmineralization": [
-            {
-              "id": "1",
-              "name": "Liquid - Poultry",
-              "locationid": "1",
-              "firstyearvalue": "0.3",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "1",
-              "name": "Liquid - Poultry",
-              "locationid": "2",
-              "firstyearvalue": "0.5",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "2",
-              "name": "Liquid - Other",
-              "locationid": "1",
-              "firstyearvalue": "0.2",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "2",
-              "name": "Liquid - Other",
-              "locationid": "2",
-              "firstyearvalue": "0.35",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "3",
-              "name": "Liquid - Biosolids",
-              "locationid": "1",
-              "firstyearvalue": "0.25",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "3",
-              "name": "Liquid - Biosolids",
-              "locationid": "2",
-              "firstyearvalue": "0.3",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "4",
-              "name": "Solid - Biosolids",
-              "locationid": "1",
-              "firstyearvalue": "0.25",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "4",
-              "name": "Solid - Biosolids",
-              "locationid": "2",
-              "firstyearvalue": "0.3",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "5",
-              "name": "Solid - Poultry",
-              "locationid": "1",
-              "firstyearvalue": "0.3",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "5",
-              "name": "Solid - Poultry",
-              "locationid": "2",
-              "firstyearvalue": "0.5",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "6",
-              "name": "Solid - Mink",
-              "locationid": "1",
-              "firstyearvalue": "0.3",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "6",
-              "name": "Solid - Mink",
-              "locationid": "2",
-              "firstyearvalue": "0.35",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "7",
-              "name": "Solid - Hog",
-              "locationid": "1",
-              "firstyearvalue": "0.25",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "7",
-              "name": "Solid - Hog",
-              "locationid": "2",
-              "firstyearvalue": "0.3",
-              "longtermvalue": "0.77"
-            },
-            {
-              "id": "8",
-              "name": "Solid - Mechanically Separated Dairy Solids",
-              "locationid": "1",
-              "firstyearvalue": "0.1",
-              "longtermvalue": "0.25"
-            },
-            {
-              "id": "8",
-              "name": "Solid - Mechanically Separated Dairy Solids",
-              "locationid": "2",
-              "firstyearvalue": "0.1",
-              "longtermvalue": "0.25"
-            },
-            {
-              "id": "9",
-              "name": "Solid - Horse",
-              "locationid": "1",
-              "firstyearvalue": "0.1",
-              "longtermvalue": "0.25"
-            },
-            {
-              "id": "9",
-              "name": "Solid - Horse",
-              "locationid": "2",
-              "firstyearvalue": "0.1",
-              "longtermvalue": "0.25"
-            },
-            {
-              "id": "10",
-              "name": "Solid - Compost",
-              "locationid": "1",
-              "firstyearvalue": "0.1",
-              "longtermvalue": "0.25"
-            },
-            {
-              "id": "10",
-              "name": "Solid - Compost",
-              "locationid": "2",
-              "firstyearvalue": "0.1",
-              "longtermvalue": "0.25"
-            },
-            {
-              "id": "11",
-              "name": "Solid - Other (<50%)",
-              "locationid": "1",
-              "firstyearvalue": "0.15",
-              "longtermvalue": "0.25"
-            },
-            {
-              "id": "11",
-              "name": "Solid - Other (<50%)",
-              "locationid": "2",
-              "firstyearvalue": "0.2",
-              "longtermvalue": "0.25"
-            },
-            {
-              "id": "12",
-              "name": "Solid - Other (>50%)",
-              "locationid": "1",
-              "firstyearvalue": "0.05",
-              "longtermvalue": "0.2"
-            },
-            {
-              "id": "12",
-              "name": "Solid - Other (>50%)",
-              "locationid": "2",
-              "firstyearvalue": "0.1",
-              "longtermvalue": "0.15"
-            }
-          ]
-        }
+        "nmineralization": [
+          {
+            "id": "1",
+            "name": "Liquid - Poultry",
+            "locationid": "1",
+            "firstyearvalue": "0.3",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "1",
+            "name": "Liquid - Poultry",
+            "locationid": "2",
+            "firstyearvalue": "0.5",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "2",
+            "name": "Liquid - Other",
+            "locationid": "1",
+            "firstyearvalue": "0.2",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "2",
+            "name": "Liquid - Other",
+            "locationid": "2",
+            "firstyearvalue": "0.35",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "3",
+            "name": "Liquid - Biosolids",
+            "locationid": "1",
+            "firstyearvalue": "0.25",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "3",
+            "name": "Liquid - Biosolids",
+            "locationid": "2",
+            "firstyearvalue": "0.3",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "4",
+            "name": "Solid - Biosolids",
+            "locationid": "1",
+            "firstyearvalue": "0.25",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "4",
+            "name": "Solid - Biosolids",
+            "locationid": "2",
+            "firstyearvalue": "0.3",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "5",
+            "name": "Solid - Poultry",
+            "locationid": "1",
+            "firstyearvalue": "0.3",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "5",
+            "name": "Solid - Poultry",
+            "locationid": "2",
+            "firstyearvalue": "0.5",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "6",
+            "name": "Solid - Mink",
+            "locationid": "1",
+            "firstyearvalue": "0.3",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "6",
+            "name": "Solid - Mink",
+            "locationid": "2",
+            "firstyearvalue": "0.35",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "7",
+            "name": "Solid - Hog",
+            "locationid": "1",
+            "firstyearvalue": "0.25",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "7",
+            "name": "Solid - Hog",
+            "locationid": "2",
+            "firstyearvalue": "0.3",
+            "longtermvalue": "0.77"
+          },
+          {
+            "id": "8",
+            "name": "Solid - Mechanically Separated Dairy Solids",
+            "locationid": "1",
+            "firstyearvalue": "0.1",
+            "longtermvalue": "0.25"
+          },
+          {
+            "id": "8",
+            "name": "Solid - Mechanically Separated Dairy Solids",
+            "locationid": "2",
+            "firstyearvalue": "0.1",
+            "longtermvalue": "0.25"
+          },
+          {
+            "id": "9",
+            "name": "Solid - Horse",
+            "locationid": "1",
+            "firstyearvalue": "0.1",
+            "longtermvalue": "0.25"
+          },
+          {
+            "id": "9",
+            "name": "Solid - Horse",
+            "locationid": "2",
+            "firstyearvalue": "0.1",
+            "longtermvalue": "0.25"
+          },
+          {
+            "id": "10",
+            "name": "Solid - Compost",
+            "locationid": "1",
+            "firstyearvalue": "0.1",
+            "longtermvalue": "0.25"
+          },
+          {
+            "id": "10",
+            "name": "Solid - Compost",
+            "locationid": "2",
+            "firstyearvalue": "0.1",
+            "longtermvalue": "0.25"
+          },
+          {
+            "id": "11",
+            "name": "Solid - Other (<50%)",
+            "locationid": "1",
+            "firstyearvalue": "0.15",
+            "longtermvalue": "0.25"
+          },
+          {
+            "id": "11",
+            "name": "Solid - Other (<50%)",
+            "locationid": "2",
+            "firstyearvalue": "0.2",
+            "longtermvalue": "0.25"
+          },
+          {
+            "id": "12",
+            "name": "Solid - Other (>50%)",
+            "locationid": "1",
+            "firstyearvalue": "0.05",
+            "longtermvalue": "0.2"
+          },
+          {
+            "id": "12",
+            "name": "Solid - Other (>50%)",
+            "locationid": "2",
+            "firstyearvalue": "0.1",
+            "longtermvalue": "0.15"
+          }
+        ]
+      }
     }    
   }
 }

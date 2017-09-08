@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Http;
 using System.Reflection;
 using System.Runtime.Loader;
 using Microsoft.Extensions.FileProviders;
+using SERVERAPI.Models;
 
 namespace SERVERAPI
 {
@@ -91,7 +92,9 @@ namespace SERVERAPI
 
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
-            services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
+            services.AddOptions();
+            //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

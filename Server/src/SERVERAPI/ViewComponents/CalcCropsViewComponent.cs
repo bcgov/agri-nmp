@@ -35,8 +35,19 @@ namespace SERVERAPI.ViewComponents
 
             foreach (var m in fldCrops)
             {
-                Crop cp = _sd.GetCrop(Convert.ToInt32(m.cropId));
-                Yield yld = _sd.GetYield(cp.yieldcd);
+                Crop cp = new Crop();
+                Yield yld = new Yield();
+
+                if (!string.IsNullOrEmpty(m.cropOther))
+                {
+                    cp.cropname = m.cropOther + "*";
+                    yld = _sd.GetYield(1);
+                }
+                else
+                {
+                    cp = _sd.GetCrop(Convert.ToInt32(m.cropId));
+                    yld = _sd.GetYield(cp.yieldcd);
+                }
 
                 DisplayCrop dm = new DisplayCrop()
                 {

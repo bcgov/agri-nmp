@@ -188,5 +188,18 @@ namespace SERVERAPI.Models
             public int id { get; set; }
             public string name { get; set; }
         }
+
+        public class PrevCropTypes
+        {
+            public List<PrevCropType> prevCropTypes { get; set; }
+        }
+        public class PrevCropType
+        {
+            public int id { get; set; }
+            public int cropType { get; set; }
+            public string name { get; set; }
+            public int nCreditMetric { get; set; }
+            public int nCreditImperial { get; set; }
+        }
     }
 }

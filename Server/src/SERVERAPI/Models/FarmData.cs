@@ -70,6 +70,7 @@ namespace SERVERAPI.Models
     {
         public int id { get; set; }
         public string cropId { get; set; }
+        public string cropOther { get; set; }
         public decimal yield { get; set; }
         public decimal reqN { get; set; }
         public decimal reqP2o5 { get; set; }
@@ -78,6 +79,7 @@ namespace SERVERAPI.Models
         public decimal remP2o5 { get; set; }
         public decimal remK2o { get; set; }
         public int crudeProtien { get; set; }
+        public int prevCropId { get; set; }
     }
     public class SoilTest
     {

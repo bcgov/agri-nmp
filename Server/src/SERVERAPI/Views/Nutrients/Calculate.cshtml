@@ -186,6 +186,13 @@
     });
 
     $(document).ready(function () {
+        $("body").on("change", "#ddlPrev", function () {
+            $('#buttonPressed').val("PrevChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
         $("body").on("click", "#rstN", function () {
             $('#buttonPressed').val("ResetN");
             $("#modForm").submit();
@@ -222,9 +229,9 @@
                 success: function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
+                        $('#heading').load(result.urlHead);
                         $(result.target).load(result.url);
                         $('#summary').load(result.urlSumm);
-                        $('#heading').load(result.urlHead);
                     } else {
                         $('#myModalContent').html(result);
                         bindForm(dialog);
@@ -267,9 +274,9 @@
                 .done(function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
+                        $('#heading').load(result.urlHead);
                         $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
                         $('#summary').load(result.urlSumm);
-                        $('#heading').load(result.urlHead);
                     } else {
                         $('#myModalContent').html(result);
                         bindForm(dialog);
@@ -314,6 +321,34 @@
     });
 
     $(document).on('change', '#yield', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#cropDesc', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#reqN', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#reqP', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#reqK', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#remN', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#remP', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#remK', function () {
         NeedRefresh();
     });
 
