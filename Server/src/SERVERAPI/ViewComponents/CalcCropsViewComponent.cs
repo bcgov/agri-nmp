@@ -40,7 +40,7 @@ namespace SERVERAPI.ViewComponents
 
                 if (!string.IsNullOrEmpty(m.cropOther))
                 {
-                    cp.cropname = m.cropOther;
+                    cp.cropname = m.cropOther + "*";
                     yld = _sd.GetYield(1);
                 }
                 else

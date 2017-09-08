@@ -776,7 +776,10 @@ namespace SERVERAPI.Controllers
             dvm.fldName = fldName;
 
             FieldCrop crp = _ud.GetFieldCrop(fldName, id);
-            dvm.cropName = _sd.GetCrop(Convert.ToInt32(crp.cropId)).cropname;
+            if (!string.IsNullOrEmpty(crp.cropOther))
+                dvm.cropName = crp.cropOther;
+            else
+                dvm.cropName = _sd.GetCrop(Convert.ToInt32(crp.cropId)).cropname;
 
             dvm.act = "Delete";
 
