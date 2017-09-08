@@ -70,6 +70,7 @@ namespace SERVERAPI.Models
     {
         public int id { get; set; }
         public string cropId { get; set; }
+        public string cropOther { get; set; }
         public decimal yield { get; set; }
         public decimal reqN { get; set; }
         public decimal reqP2o5 { get; set; }

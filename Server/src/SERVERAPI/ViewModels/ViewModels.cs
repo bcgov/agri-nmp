@@ -132,8 +132,6 @@ namespace SERVERAPI.ViewModels
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selTypOption { get; set; }
         public List<Models.StaticData.SelectListItem> typOptions { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
         public string selCropOption { get; set; }
         public List<Models.StaticData.SelectListItem> cropOptions { get; set; }
         public string selPrevOption { get; set; }
@@ -149,7 +147,8 @@ namespace SERVERAPI.ViewModels
         public string remN { get; set; }
         public string remP2o5 { get; set; }
         public string remK2o { get; set; }
-
+        public bool manEntry { get; set; }
+        public string cropDesc { get; set; }
     }
     public class CropDeleteViewModel
     {

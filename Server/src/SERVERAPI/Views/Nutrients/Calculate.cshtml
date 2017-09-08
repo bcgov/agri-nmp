@@ -324,6 +324,34 @@
         NeedRefresh();
     });
 
+    $(document).on('change', '#cropDesc', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#reqN', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#reqP', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#reqK', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#remN', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#remP', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#remK', function () {
+        NeedRefresh();
+    });
+
 
     function NeedRefresh() {
         $("#ok_button").html('Calculate');

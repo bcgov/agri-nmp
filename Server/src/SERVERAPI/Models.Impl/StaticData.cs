@@ -380,17 +380,17 @@ namespace SERVERAPI.Models.Impl
             JObject r = (JObject)rss["agri"]["nmp"]["crops"]["crop"].FirstOrDefault(x => x["id"].ToString() == cropId.ToString());
             Models.StaticData.Crop crop = new Models.StaticData.Crop();
 
-                crop.cropname = r["cropname"].ToString();
-                crop.cropremovalfactor = r["cropremovalfactor"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor"].ToString());
-                crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
-                crop.id = Convert.ToInt32(r["id"].ToString());
-                crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
-                crop.n_recommcd = Convert.ToDecimal(r["n_recommcd"].ToString());
-                crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
-                crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
-                crop.value_KO5 = r["KO5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["KO5"].ToString());
-                crop.value_P2O5 = r["P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["P2O5"].ToString());
-                crop.yieldcd =  Convert.ToInt32(r["yieldcd"].ToString());
+            crop.cropname = r["cropname"].ToString();
+            crop.cropremovalfactor = r["cropremovalfactor"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor"].ToString());
+            crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
+            crop.id = Convert.ToInt32(r["id"].ToString());
+            crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
+            crop.n_recommcd = Convert.ToDecimal(r["n_recommcd"].ToString());
+            crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
+            crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
+            crop.value_KO5 = r["KO5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["KO5"].ToString());
+            crop.value_P2O5 = r["P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["P2O5"].ToString());
+            crop.yieldcd =  Convert.ToInt32(r["yieldcd"].ToString());
 
             return crop;
         }
