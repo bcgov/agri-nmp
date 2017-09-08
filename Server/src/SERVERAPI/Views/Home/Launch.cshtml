@@ -26,23 +26,48 @@
                 The Nutrient Management Program uses your production objectives, soil resources, and regional climate to provide farm specific recommendations for fertilizer and manure application rates.  Use the program for one time reference, or incorporate the results into a farm Nutrient Management Plan.
                 <br />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group col-sm-10">
-                    @if (Model.unsavedData)
-                    {
-                        <div class="col-sm-2">
-                            <button class="btn btn-info" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
+                <br />
+                <br />
+                <br />
+                <br />
+                <div class="Table" style="clear:both">
+                    <div class="TableBody">
+                        <div class="Row">
+                            <div class="Cell col-sm-3">
+                            </div>
+                            <div class="Cell col-sm-2" style="text-align:center; vertical-align:bottom">
+                                <p>Start a new Session</p>
+                            </div>
+                            <div class="Cell col-sm-2" style="text-align:center">
+                                <p>or</p>
+                            </div>
+                            <div class="Cell col-sm-2" style="text-align:center; vertical-align:bottom">
+                                <p>Load a previous .nmp file from your desktop</p>
+                            </div>
+                            <div class="Cell col-sm-3">
+                            </div>
                         </div>
-                    }
-                    else
-                    {
-                        <div class="col-sm-2">
-                            <input class="btn btn-info" type="submit" value="New" name="new" />
+                        <div class="Row">
+                            <div class="Cell col-sm-3">
+                            </div>
+                            <div class="Cell col-sm-2" style="text-align:center; vertical-align:bottom">
+                                @if (Model.unsavedData)
+                                {
+                                        <button class="btn btn-info" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
+                                }
+                                else
+                                {
+                                        <input class="btn btn-info" type="submit" value="New" name="new" />
+                                }
+                            </div>
+                            <div class="Cell col-sm-2" style="text-align:center">
+                            </div>
+                            <div class="Cell col-sm-2" style="text-align:center; vertical-align:bottom">
+                                <button class="btn btn-info" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
+                            </div>
+                            <div class="Cell col-sm-3">
+                            </div>
                         </div>
-                    }
-                </div>
-                <div class="form-group col-sm-10">
-                    <div class="col-sm-2">
-                        <button class="btn btn-info" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
                     </div>
                 </div>
             </div>
