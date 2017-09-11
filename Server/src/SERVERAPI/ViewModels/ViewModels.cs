@@ -170,8 +170,9 @@ namespace SERVERAPI.ViewModels
     {
         public bool fldsFnd { get; set; }
         public string buttonPressed { get; set; }
-        public string selMthOption { get; set; }
-        public List<Models.StaticData.SelectListItem> mthOptions { get; set; }
+        public string selTstOption { get; set; }
+        public List<Models.StaticData.SelectListItem> tstOptions { get; set; }
+        public bool testSelected { get; set; }
     }
     public class SoilTestDetailsViewModel
     {

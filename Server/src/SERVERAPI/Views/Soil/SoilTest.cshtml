@@ -46,12 +46,22 @@
                     <div class="form-box-fields">
                         <div class="row">
                             <div class="col-sm-7">
-                                <label asp-for="selMthOption">Testing Method</label>
-                                <p class="form-box-subtext">Different lab methods may affect results. Check with your lab to determine what test was used to analyze your sample. <a href="http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing" target="_blank">Read more on this topic</a></p>
-                                <select class="form-control" asp-for="selMthOption" asp-items="@(new SelectList(Model.mthOptions,"Id","Value"))" id="ddlMth">
-                                    <option>select</option>
-                                </select>
-                                <span asp-validation-for="selMthOption"></span>
+                                <label asp-for="selTstOption">Testing Method</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-horizontal">
+                                <div class="form-group col-sm-7">
+                                    <select class="form-control" asp-for="selTstOption" asp-items="@(new SelectList(Model.tstOptions,"Id","Value"))" id="ddlMth">
+                                        <option>select</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-1" style="padding-left:0px">
+                                    <a href="http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of testing methods" style="font-size:20px; padding-top:5px"></span></a>
+                                </div>
+                            </div>
+                            <div class="col-sm-7">
+                                <span asp-validation-for="selTstOption"></span>
                             </div>
                         </div>
                     </div>
@@ -68,9 +78,20 @@
                                 }
                                 else
                                 {
-                                    <div id="test">
-                                        @await Component.InvokeAsync("SoilTests")
-                                    </div>
+                                    if (Model.testSelected)
+                                    {
+                                        <div id="test">
+                                            @await Component.InvokeAsync("SoilTests")
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-box">
+                                            <div class="form-box-header clearfix">
+                                                <h3>A test method must be selected before soil test results can be entered</h3>
+                                            </div>
+                                        </div>
+                                    }
                                 }
                             </div>
                         </div>

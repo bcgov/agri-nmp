@@ -28,10 +28,13 @@ namespace SERVERAPI.Controllers
             SoilTestViewModel fvm = new SoilTestViewModel();
 
             FarmDetails fd = _ud.FarmDetails();
-            fvm.selMthOption = fd.testingMethod;
+            fvm.selTstOption = fd.testingMethod;
 
-            fvm.mthOptions = new List<Models.StaticData.SelectListItem>();
-            fvm.mthOptions = _sd.GetSoilTestMethodsDll().ToList();
+            if (!string.IsNullOrEmpty(fd.testingMethod))
+                fvm.testSelected = true;
+
+            fvm.tstOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.tstOptions = _sd.GetSoilTestMethodsDll().ToList();
 
             List<Field> fl = _ud.GetFields();
 
@@ -42,14 +45,15 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult SoilTest(SoilTestViewModel fvm)
         {
-            fvm.mthOptions = new List<Models.StaticData.SelectListItem>();
-            fvm.mthOptions = _sd.GetSoilTestMethodsDll().ToList();
+            fvm.tstOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.tstOptions = _sd.GetSoilTestMethodsDll().ToList();
 
             if (fvm.buttonPressed == "MethodChange")
             {
                 FarmDetails fd = _ud.FarmDetails();
-                fd.testingMethod = fvm.selMthOption;
+                fd.testingMethod = fvm.selTstOption == "select" ? string.Empty : fvm.selTstOption;
                 _ud.UpdateFarmDetails(fd);
+                fvm.testSelected = string.IsNullOrEmpty(fd.testingMethod) ? false : true;
                 RedirectToAction("SoilTest", "Soil");
             }
             return View(fvm);
