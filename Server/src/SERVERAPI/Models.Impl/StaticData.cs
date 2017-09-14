@@ -629,7 +629,7 @@ namespace SERVERAPI.Models.Impl
                 {
                     cropYield.cropid = Convert.ToInt32(r["cropid"].ToString());
                     cropYield.locationid = Convert.ToInt32(r["locationid"].ToString());
-                    cropYield.amt = r["amt"].ToString() == "null" ? (Int32?)null : Convert.ToInt32(r["amt"].ToString());
+                    cropYield.amt = r["amt"].ToString() == "null" ? (Decimal?)null : Convert.ToDecimal(r["amt"].ToString());
                 }
             }
 
