@@ -29,6 +29,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using Microsoft.Extensions.FileProviders;
 using SERVERAPI.Models;
+using SERVERAPI.Utility;
 
 namespace SERVERAPI
 {
@@ -58,6 +59,7 @@ namespace SERVERAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddAuthorization();
+            services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
 

@@ -354,6 +354,7 @@ namespace SERVERAPI.Controllers
                 cvm.crude = cp.crudeProtien.ToString();
                 cvm.selCropOption = cp.cropId;
                 cvm.selPrevOption = cp.prevCropId.ToString();
+                cvm.coverCropHarvested = cp.coverCropHarvested;
 
                 if(!string.IsNullOrEmpty(cp.cropOther))
                 {
@@ -665,7 +666,8 @@ namespace SERVERAPI.Controllers
                             remP2o5 = Convert.ToDecimal(cvm.remP2o5),
                             remK2o = Convert.ToDecimal(cvm.remK2o),
                             crudeProtien = Convert.ToInt32(cvm.crude),
-                            prevCropId = prevCrop
+                            prevCropId = prevCrop,
+                            coverCropHarvested =  cvm.coverCropHarvested.Value
                         };
 
                         _ud.AddFieldCrop(cvm.fieldName, crp);
@@ -692,6 +694,7 @@ namespace SERVERAPI.Controllers
                         crp.remK2o = Convert.ToDecimal(cvm.remK2o);
                         crp.crudeProtien = Convert.ToInt32(cvm.crude);
                         crp.prevCropId = prevCrop;
+                        crp.coverCropHarvested = cvm.coverCropHarvested.Value;
 
                         _ud.UpdateFieldCrop(cvm.fieldName, crp);
                     }
@@ -723,6 +726,8 @@ namespace SERVERAPI.Controllers
                     string crpTyp = cvm.typOptions.FirstOrDefault(r => r.Id == indx).Value;
                     if(_settings.CrudeProteinTypes.IndexOf(crpTyp) > -1)
                         cvm.showCrude = true;
+                    if (crpTyp.IndexOf(_settings.CoverCropTypes) > -1)
+                        cvm.coverCrop = true;
                 }
             }
 

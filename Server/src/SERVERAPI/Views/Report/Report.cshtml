@@ -1,4 +1,4 @@
-﻿@model SERVERAPI.ViewModels.FarmViewModel
+﻿@model SERVERAPI.ViewModels.ReportViewModel
 
 @{
     ViewBag.Title = "Nutrient Report";
@@ -41,6 +41,47 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
         <form asp-controller="Report" asp-action="Report" method="post">
+            <div class="form-box">
+                <div class="form-box-header clearfix">
+                    <legend class="form-box-heading">Select the sections you would like on your report</legend>
+                </div>
+                <div class="form-box-body">
+                    <div class="form-box-fields">
+                        <div class="row">
+                            <div class="col-sm-offset-2 col-sm-7" >
+                                <input asp-for="fields" type="checkbox" id="fldschk"/>
+                                <label style="padding-left:10px">Detailed Field Reports</label>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-7">
+                                <input asp-for="nutrientSources" type="checkbox" id="srcchk" />
+                                <label style="padding-left:10px">Your Nutrient Sources</label>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-7">
+                                <input asp-for="nutrientApplicationSchedule" type="checkbox" id="schedchk" />
+                                <label style="padding-left:10px">Nutrient Application Schedule</label>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-7">
+                                <input asp-for="nutrientSourceAnalysis" type="checkbox" id="anlchk" />
+                                <label style="padding-left:10px">Nutrient Source Analysis</label>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-7">
+                                <input asp-for="soilTestSummary" type="checkbox" id="summchk" />
+                                <label style="padding-left:10px">Field Soil Test Summary</label>
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-7">
+                                <input asp-for="recordKeepingSheets" type="checkbox" id="sheetchk" />
+                                <label style="padding-left:10px">Record Keeping Sheets</label>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align:center">
+                            <input class="btn btn-info" type="button" value="Generate Report" style="color:black" onclick="PrintReport()" />
+                            @*<input class="btn btn-info" type="button" value="Generate Report" style="color:black" onclick="window.location.href='@Url.Action("Print", "Report", new { fields = Model.fields, sources = Model.nutrientSources, application = Model.nutrientApplicationSchedule, analysis = Model.nutrientSourceAnalysis, summary = Model.soilTestSummary, sheets = Model.recordKeepingSheets } )';" />*@
+                            @*<input class="btn btn-info" type="submit" value="Generate Report" style="color:black" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <br />
             <br />
             <br />
@@ -52,5 +93,24 @@
     </div>
 </div>
 @section Scripts {
+<script type="text/javascript">
+    
+    function PrintReport() {
+        var flds = $("#fldschk").prop('checked');
+        var src = $("#srcchk").prop('checked');
+        var sched = $("#schedchk").prop('checked');
+        var analysis = $("#anlchk").prop('checked');
+        var summ = $("#summchk").prop('checked');
+        var sheets = $("#sheetchk").prop('checked');
+        var url = '@Html.Raw(Url.Action("Print", "Report", new { fields = -1, sources = -2, application = -3, analysis = -4, summary = -5, sheets = -6 }))';
+        var url = url.replace("-1", flds);
+        var url = url.replace("-2", src);
+        var url = url.replace("-3", sched);
+        var url = url.replace("-4", analysis);
+        var url = url.replace("-5", summ);
+        var url = url.replace("-6", sheets);
+        window.open(url, "_blank");
+    }
 
+</script>
 }

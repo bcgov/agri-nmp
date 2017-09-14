@@ -151,6 +151,8 @@ namespace SERVERAPI.ViewModels
         public string remK2o { get; set; }
         public bool manEntry { get; set; }
         public string cropDesc { get; set; }
+        public bool coverCrop { get; set; }
+        public bool? coverCropHarvested { get; set; }
     }
     public class CropDeleteViewModel
     {
@@ -195,6 +197,15 @@ namespace SERVERAPI.ViewModels
         public string btnText { get; set; }
         [Display(Name = "Field Name")]
         public string fieldName { get; set; }
+    }
+    public class ReportViewModel
+    {
+        public bool fields { get; set; }
+        public bool nutrientSources { get; set; }
+        public bool nutrientApplicationSchedule { get; set; }
+        public bool nutrientSourceAnalysis { get; set; }
+        public bool soilTestSummary { get; set; }
+        public bool recordKeepingSheets { get; set; }
     }
 
 }

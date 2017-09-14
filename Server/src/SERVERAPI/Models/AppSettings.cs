@@ -9,5 +9,6 @@ namespace SERVERAPI.Models
     {
         public string OtherCropId { get; set; }
         public string CrudeProteinTypes { get; set; }
+        public string CoverCropTypes { get; set; }
     }
 }

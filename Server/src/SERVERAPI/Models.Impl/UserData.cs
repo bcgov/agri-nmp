@@ -341,6 +341,7 @@ namespace SERVERAPI.Models.Impl
             crp.crudeProtien = updtCrop.crudeProtien;
             crp.prevCropId = updtCrop.prevCropId;
             crp.cropOther = updtCrop.cropOther;
+            crp.coverCropHarvested = updtCrop.coverCropHarvested;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
