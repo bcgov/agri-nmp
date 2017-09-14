@@ -52,7 +52,7 @@ namespace SERVERAPI.Controllers
             string reportSheets = string.Empty;
 
             FileContentResult result = null;
-            //JSONResponse result = null;
+            //JSONResponse result = null; 
             var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME", EnvironmentVariableTarget.User);
 
             //string pdfHost = "http://localhost:54611"; 
