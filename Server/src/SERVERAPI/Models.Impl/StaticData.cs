@@ -323,17 +323,18 @@ namespace SERVERAPI.Models.Impl
             {
 
                 Models.StaticData.Crop crop = new Models.StaticData.Crop();
-                crop.cropname = r["cropname"].ToString();
-                crop.cropremovalfactor = r["cropremovalfactor"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor"].ToString());
-                crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
                 crop.id = Convert.ToInt32(r["id"].ToString());
-                crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
+                crop.cropname = r["cropname"].ToString();
+                crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
+                crop.yieldcd = Convert.ToInt32(r["yieldcd"].ToString());
+                crop.cropremovalfactor_N = r["cropremovalfactor_N"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor_N"].ToString());
+                crop.cropremovalfactor_P2O5 = r["cropremovalfactor_P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor_P2O5"].ToString());
+                crop.cropremovalfactor_K2O = r["cropremovalfactor_K2O"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor_K2O"].ToString());
                 crop.n_recommcd = Convert.ToDecimal(r["n_recommcd"].ToString());
                 crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
+                crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
                 crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
-                crop.value_KO5 = r["KO5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["KO5"].ToString());
-                crop.value_P2O5 = r["P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["P2O5"].ToString());
-                crop.yieldcd = Convert.ToInt32(r["yieldcd"].ToString());
+                
                 crops.crops.Add(crop);
             }
 
@@ -381,17 +382,15 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.Crop crop = new Models.StaticData.Crop();
 
             crop.cropname = r["cropname"].ToString();
-            crop.cropremovalfactor = r["cropremovalfactor"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor"].ToString());
             crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
-            crop.id = Convert.ToInt32(r["id"].ToString());
-            crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
+            crop.yieldcd = Convert.ToInt32(r["yieldcd"].ToString());
+            crop.cropremovalfactor_N = r["cropremovalfactor_N"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor_N"].ToString());
+            crop.cropremovalfactor_P2O5 = r["cropremovalfactor_P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor_P2O5"].ToString());
+            crop.cropremovalfactor_K2O = r["cropremovalfactor_K2O"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["cropremovalfactor_K2O"].ToString());
             crop.n_recommcd = Convert.ToDecimal(r["n_recommcd"].ToString());
             crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
+            crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
             crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
-            crop.value_KO5 = r["KO5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["KO5"].ToString());
-            crop.value_P2O5 = r["P2O5"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["P2O5"].ToString());
-
-            crop.yieldcd = Convert.ToInt32(r["yieldcd"].ToString());
 
             return crop;
         }
@@ -415,42 +414,42 @@ namespace SERVERAPI.Models.Impl
             return yield;
         }
 
-        public Models.StaticData.Crop_STP_RegionCd GetCrop_STP_RegionCd(int cropid, int regionid)
+        public Models.StaticData.CropSTPRegionCd GetCropSTPRegionCd(int cropid, int soil_test_phosphorous_region_cd)
         {
 
             JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["crop_stp_regioncds"]["crop_stp_regioncd"];
-            Models.StaticData.Crop_STP_RegionCd crop_stp_regioncd = new Models.StaticData.Crop_STP_RegionCd();
+            Models.StaticData.CropSTPRegionCd crop_stp_regioncd = new Models.StaticData.CropSTPRegionCd();
 
             foreach (var r in array)
             {
                 if (Convert.ToInt32(r["cropid"].ToString()) == cropid &&
-                    Convert.ToInt32(r["regionid"].ToString()) == regionid)
+                    Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString()) == soil_test_phosphorous_region_cd)
                 {
                     crop_stp_regioncd.cropid = Convert.ToInt32(r["cropid"].ToString());
-                    crop_stp_regioncd.regionid = Convert.ToInt32(r["regionid"].ToString());
-                    crop_stp_regioncd.regioncd = Convert.ToInt32(r["regioncd"].ToString());
+                    crop_stp_regioncd.soil_test_phosphorous_region_cd = Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString());
+                    crop_stp_regioncd.phosphorous_crop_group_region_cd = Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString());
                 }
             }
 
             return crop_stp_regioncd;
         }
 
-        public Models.StaticData.Crop_STK_RegionCd GetCrop_STK_RegionCd(int cropid, int regionid)
+        public Models.StaticData.CropSTKRegionCd GetCropSTKRegionCd(int cropid, int soil_test_potassium_region_cd)
         {
 
             JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["crop_stk_regioncds"]["crop_stk_regioncd"];
-            Models.StaticData.Crop_STK_RegionCd crop_stk_regioncd = new Models.StaticData.Crop_STK_RegionCd();
+            Models.StaticData.CropSTKRegionCd crop_stk_regioncd = new Models.StaticData.CropSTKRegionCd();
 
             foreach (var r in array)
             {
                 if (Convert.ToInt32(r["cropid"].ToString()) == cropid &&
-                    Convert.ToInt32(r["regionid"].ToString()) == regionid)
+                    Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString()) == soil_test_potassium_region_cd)
                 {
                     crop_stk_regioncd.cropid = Convert.ToInt32(r["cropid"].ToString());
-                    crop_stk_regioncd.regionid = Convert.ToInt32(r["regionid"].ToString());
-                    crop_stk_regioncd.regioncd = Convert.ToInt32(r["regioncd"].ToString());
+                    crop_stk_regioncd.soil_test_potassium_region_cd = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString());
+                    crop_stk_regioncd.potassium_crop_group_region_cd = Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString());
                 }
             }
 
@@ -553,8 +552,7 @@ namespace SERVERAPI.Models.Impl
 
             return mthOptions;
         }
-
-
+        
         public Models.StaticData.Region GetRegion(int id)
         {
 
@@ -615,7 +613,118 @@ namespace SERVERAPI.Models.Impl
             }
 
             return typesOptions;
-
         }
+
+        public Models.StaticData.CropYield GetCropYield(int cropid, int locationid)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["cropyields"]["cropyield"];
+            Models.StaticData.CropYield cropYield = new Models.StaticData.CropYield();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["cropid"].ToString()) == cropid && 
+                    Convert.ToInt32(r["locationid"].ToString()) == locationid)
+                {
+                    cropYield.cropid = Convert.ToInt32(r["cropid"].ToString());
+                    cropYield.locationid = Convert.ToInt32(r["locationid"].ToString());
+                    cropYield.amt = r["amt"].ToString() == "null" ? (Int32?)null : Convert.ToInt32(r["amt"].ToString());
+                }
+            }
+
+            return cropYield;
+        }
+
+        public Models.StaticData.STPRecommend GetSTPRecommend(int stp_kelowna_rangeid, int soil_test_phosphorous_region_cd, int phosphorous_crop_group_region_cd)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["stp_recommends"]["stp_recommend"];
+            Models.StaticData.STPRecommend sTPRecommend = new Models.StaticData.STPRecommend();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["stp_kelowna_rangeid"].ToString()) == stp_kelowna_rangeid &&
+                    Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString()) == soil_test_phosphorous_region_cd &&
+                    Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString()) == phosphorous_crop_group_region_cd)
+                {
+                    sTPRecommend.stp_kelowna_rangeid = Convert.ToInt32(r["stp_kelowna_rangeid"].ToString());
+                    sTPRecommend.soil_test_phosphorous_region_cd = Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString());
+                    sTPRecommend.phosphorous_crop_group_region_cd = Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString());
+                    sTPRecommend.p2o5_recommend_kgperha = Convert.ToInt32(r["p2o5_recommend_kgperha"].ToString());
+                }
+            }
+
+            return sTPRecommend;
+        }
+
+        public Models.StaticData.STPKelownaRange GetSTPKelownaRangeByPpm(int ppm)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["stp_kelowna_ranges"]["stp_kelowna_range"];
+            Models.StaticData.STPKelownaRange sTPKelownaRange = new Models.StaticData.STPKelownaRange();
+
+            foreach (var r in array)
+            {
+                if (ppm >= Convert.ToInt32(r["range_low"].ToString()) &&
+                    ppm <= Convert.ToInt32(r["range_high"].ToString()))
+                {
+                    sTPKelownaRange.id = Convert.ToInt32(r["id"].ToString());
+                    sTPKelownaRange.range = r["range"].ToString();
+                    sTPKelownaRange.range_low = Convert.ToInt32(r["range_low"].ToString());
+                    sTPKelownaRange.range_high = Convert.ToInt32(r["range_high"].ToString());
+                }
+            }
+
+            return sTPKelownaRange;
+        }
+
+        public Models.StaticData.STKRecommend GetSTKRecommend(int stk_kelowna_rangeid, int soil_test_potassium_region_cd, int potassium_crop_group_region_cd)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["stk_recommends"]["stk_recommend"];
+            Models.StaticData.STKRecommend sTKRecommend = new Models.StaticData.STKRecommend();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["stk_kelowna_rangeid"].ToString()) == stk_kelowna_rangeid &&
+                    Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString()) == soil_test_potassium_region_cd &&
+                    Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString()) == potassium_crop_group_region_cd)
+                {
+                    sTKRecommend.stk_kelowna_rangeid = Convert.ToInt32(r["stk_kelowna_rangeid"].ToString());
+                    sTKRecommend.soil_test_potassium_region_cd = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString());
+                    sTKRecommend.potassium_crop_group_region_cd = Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString());
+                    sTKRecommend.k2o_recommend_kgperha = Convert.ToInt32(r["k2o_recommend_kgperha"].ToString());
+                }
+            }
+
+            return sTKRecommend;
+        }
+
+        public Models.StaticData.STKKelownaRange GetSTKKelownaRangeByPpm(int ppm)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["stk_kelowna_ranges"]["stk_kelowna_range"];
+            Models.StaticData.STKKelownaRange sTKKelownaRange = new Models.StaticData.STKKelownaRange();
+
+            foreach (var r in array)
+            {
+                if (ppm >= Convert.ToInt32(r["range_low"].ToString()) &&
+                    ppm <= Convert.ToInt32(r["range_high"].ToString()))
+                {
+                    sTKKelownaRange.id = Convert.ToInt32(r["id"].ToString());
+                    sTKKelownaRange.range = r["range"].ToString();
+                    sTKKelownaRange.range_low = Convert.ToInt32(r["range_low"].ToString());
+                    sTKKelownaRange.range_high = Convert.ToInt32(r["range_high"].ToString());
+                }
+            }
+
+            return sTKKelownaRange;
+        }
+
     }
 }
