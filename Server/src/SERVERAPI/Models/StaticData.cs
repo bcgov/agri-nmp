@@ -128,9 +128,9 @@ namespace SERVERAPI.Models
             public string cropname { get; set; }
             public int croptypeid { get; set; }
             public int yieldcd { get; set; }
-            public decimal? cropremovalfactor { get; set; }
-            public decimal? value_P2O5 { get; set; }
-            public decimal? value_KO5 { get; set; }
+            public decimal? cropremovalfactor_N { get; set; }
+            public decimal? cropremovalfactor_P2O5 { get; set; }
+            public decimal? cropremovalfactor_K2O { get; set; }
             public decimal n_recommcd { get; set; }
             public decimal? n_recomm_lbperac { get; set; }
             public decimal? n_high_lbperac { get; set; }
@@ -143,19 +143,19 @@ namespace SERVERAPI.Models
             public string yielddesc { get; set; }
         }
 
-      public class Crop_STP_RegionCd
-        {
-            public int cropid { get; set; }
-            public int regionid { get; set; }
-            public int regioncd { get; set; }
-        }
+      //public class Crop_STP_RegionCd
+      //  {
+      //      public int cropid { get; set; }
+      //      public int regionid { get; set; }
+      //      public int regioncd { get; set; }
+      //  }
 
-        public class Crop_STK_RegionCd
-        {
-            public int cropid { get; set; }
-            public int regionid { get; set; }
-            public int regioncd { get; set; }
-        }
+        //public class Crop_STK_RegionCd
+        //{
+        //    public int cropid { get; set; }
+        //    public int regionid { get; set; }
+        //    public int regioncd { get; set; }
+        //}
 
         public class DM
         {
@@ -201,5 +201,87 @@ namespace SERVERAPI.Models
             public int nCreditMetric { get; set; }
             public int nCreditImperial { get; set; }
         }
+
+        public class CropYields
+        {
+            public List<CropYield> cropYields { get; set; }
+        }
+        public class CropYield
+        {
+            public int cropid { get; set; }
+            public int locationid { get; set; }
+            public decimal? amt { get; set; }
+        }
+
+        public class CropSTPRegionCds
+        {
+            public List<CropSTPRegionCd> cropSTPRegionCds { get; set; }
+        }
+        public class CropSTPRegionCd
+        {
+            public int cropid { get; set; }
+            public int soil_test_phosphorous_region_cd { get; set; }
+            public int? phosphorous_crop_group_region_cd { get; set; }
+        }
+
+        public class CropSTKRegionCds
+        {
+            public List<CropSTKRegionCd> cropSTKRegionCds { get; set; }
+        }
+        public class CropSTKRegionCd
+        {
+            public int cropid { get; set; }
+            public int soil_test_potassium_region_cd { get; set; }
+            public int? potassium_crop_group_region_cd { get; set; }
+        }
+
+        public class STPRecommends
+        {
+            public List<STPRecommend> sTPRecommends { get; set; }
+        }
+        public class STPRecommend
+        {
+            public int stp_kelowna_rangeid { get; set; }
+            public int soil_test_phosphorous_region_cd { get; set; }
+            public int phosphorous_crop_group_region_cd { get; set; }
+            public int p2o5_recommend_kgperha { get; set; }
+        }
+
+        public class STPKelownaRanges
+        {
+            public List<STPKelownaRange> sTPKelownaRanges { get; set; }
+        }
+        public class STPKelownaRange
+        {
+            public int id { get; set; }
+            public string range { get; set; }
+            public int range_low { get; set; }
+            public int range_high { get; set; }
+        }
+
+        public class STKRecommends
+        {
+            public List<STKRecommend> sTKRecommends { get; set; }
+        }
+        public class STKRecommend
+        {
+            public int stk_kelowna_rangeid { get; set; }
+            public int soil_test_potassium_region_cd { get; set; }
+            public int potassium_crop_group_region_cd { get; set; }
+            public int k2o_recommend_kgperha { get; set; }
+        }
+
+        public class STKKelownaRanges
+        {
+            public List<STKKelownaRange> sTKKelownaRanges { get; set; }
+        }
+        public class STKKelownaRange
+        {
+            public int id { get; set; }
+            public string range { get; set; }
+            public int range_low { get; set; }
+            public int range_high { get; set; }
+        }
+
     }
 }

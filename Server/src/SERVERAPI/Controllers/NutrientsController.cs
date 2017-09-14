@@ -631,12 +631,24 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     if (!cvm.manEntry)
                     {
-                        cvm.reqN = "111";
-                        cvm.reqP2o5 = "222";
-                        cvm.reqK2o = "333";
-                        cvm.remN = "444";
-                        cvm.remP2o5 = "555";
-                        cvm.remK2o = "666";
+                        CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
+                        CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+
+                        calculateCropRequirementRemoval.cropid = Convert.ToInt16(cvm.selCropOption);
+                        calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yield);
+                        if (cvm.crude == null)
+                            calculateCropRequirementRemoval.crudeProtien = null;
+                        else
+                            calculateCropRequirementRemoval.crudeProtien = Convert.ToInt16(cvm.crude);
+
+                        cropRequirementRemoval = calculateCropRequirementRemoval.GetCropRequirementRemoval();
+
+                        cvm.reqN = cropRequirementRemoval.N_Requirement.ToString();
+                        cvm.reqP2o5 = cropRequirementRemoval.P2O5_Requirement.ToString();
+                        cvm.reqK2o = cropRequirementRemoval.K2O_Requirement.ToString();
+                        cvm.remN = cropRequirementRemoval.N_Removal.ToString();
+                        cvm.remP2o5 = cropRequirementRemoval.P2O5_Removal.ToString();
+                        cvm.remK2o = cropRequirementRemoval.K2O_Removal.ToString();
                     }
 
                     cvm.btnText = cvm.id == null ? "Add to Field" : "Update Field";
