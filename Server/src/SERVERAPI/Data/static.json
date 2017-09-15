@@ -804,27 +804,45 @@
         "croptype": [
           {
             "id": "1",
-            "name": "Forage"
+            "name": "Forage",
+            "covercrop": "false",
+            "crudeproteinrequired": "true",
+            "customcrop": "false"
           },
           {
             "id": "2",
-            "name": "Cover crops (legumes)"
+            "name": "Cover crops (legumes)",
+            "covercrop": "true",
+            "crudeproteinrequired": "false",
+            "customcrop": "false"
           },
           {
             "id": "3",
-            "name": "Cover crops (non-legumes)"
+            "name": "Cover crops (non-legumes)",
+            "covercrop": "true",
+            "crudeproteinrequired": "false",
+            "customcrop": "false"
           },
           {
             "id": "4",
-            "name": "Grains"
+            "name": "Grains",
+            "covercrop": "false",
+            "crudeproteinrequired": "true",
+            "customcrop": "false"
           },
           {
             "id": "5",
-            "name": "Field vegetables"
+            "name": "Field vegetables",
+            "covercrop": "false",
+            "crudeproteinrequired": "false",
+            "customcrop": "false"
           },
           {
             "id": "6",
-            "name": "Other (not listed) or none"
+            "name": "Other (not listed) or none",
+            "covercrop": "false",
+            "crudeproteinrequired": "false",
+            "customcrop": "true"
           }
         ]
       },

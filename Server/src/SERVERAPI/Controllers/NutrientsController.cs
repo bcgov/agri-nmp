@@ -398,16 +398,32 @@ namespace SERVERAPI.Controllers
                 cvm.btnText = "Calculate";
                 cvm.crude = "";
                 cvm.cropDesc = "";
+                cvm.coverCropHarvested = null;
 
-                if(cvm.selTypOption == _settings.OtherCropId)
+                if (cvm.selTypOption != "select")
                 {
-                    cvm.manEntry = true;
-                    cvm.reqN = string.Empty;
-                    cvm.reqP2o5 = string.Empty;
-                    cvm.reqK2o = string.Empty;
-                    cvm.remN = string.Empty;
-                    cvm.remP2o5 = string.Empty;
-                    cvm.remK2o = string.Empty;
+                    CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
+
+                    if (crpTyp.customcrop)
+                    {
+                        cvm.manEntry = true;
+                        cvm.reqN = string.Empty;
+                        cvm.reqP2o5 = string.Empty;
+                        cvm.reqK2o = string.Empty;
+                        cvm.remN = string.Empty;
+                        cvm.remP2o5 = string.Empty;
+                        cvm.remK2o = string.Empty;
+                    }
+                    else
+                    {
+                        cvm.manEntry = false;
+                        cvm.reqN = "  0";
+                        cvm.reqP2o5 = "  0";
+                        cvm.reqK2o = "  0";
+                        cvm.remN = "  0";
+                        cvm.remP2o5 = "  0";
+                        cvm.remK2o = "  0";
+                    }
                 }
                 else
                 {
@@ -450,6 +466,15 @@ namespace SERVERAPI.Controllers
 
             if (ModelState.IsValid)
             {
+                if(cvm.coverCrop)
+                {
+                    if(!cvm.coverCropHarvested.HasValue)
+                    {
+                        ModelState.AddModelError("coverCropHarvested", "Required.");
+                        return View(cvm);
+                    }
+                }
+
                 if(!string.IsNullOrEmpty(cvm.crude))
                 {
                     int crd;
@@ -679,7 +704,7 @@ namespace SERVERAPI.Controllers
                             remK2o = Convert.ToDecimal(cvm.remK2o),
                             crudeProtien = Convert.ToInt32(cvm.crude),
                             prevCropId = prevCrop,
-                            coverCropHarvested =  cvm.coverCropHarvested.Value
+                            coverCropHarvested =  cvm.coverCropHarvested
                         };
 
                         _ud.AddFieldCrop(cvm.fieldName, crp);
@@ -706,7 +731,7 @@ namespace SERVERAPI.Controllers
                         crp.remK2o = Convert.ToDecimal(cvm.remK2o);
                         crp.crudeProtien = Convert.ToInt32(cvm.crude);
                         crp.prevCropId = prevCrop;
-                        crp.coverCropHarvested = cvm.coverCropHarvested.Value;
+                        crp.coverCropHarvested = cvm.coverCropHarvested;
 
                         _ud.UpdateFieldCrop(cvm.fieldName, crp);
                     }
@@ -734,12 +759,10 @@ namespace SERVERAPI.Controllers
 
                 if(cvm.selTypOption != "select")
                 {
-                    int indx = Convert.ToInt32(cvm.selTypOption);
-                    string crpTyp = cvm.typOptions.FirstOrDefault(r => r.Id == indx).Value;
-                    if(_settings.CrudeProteinTypes.IndexOf(crpTyp) > -1)
-                        cvm.showCrude = true;
-                    if (crpTyp.IndexOf(_settings.CoverCropTypes) > -1)
-                        cvm.coverCrop = true;
+                    CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
+                    cvm.showCrude = crpTyp.crudeproteinrequired;
+                    cvm.coverCrop = crpTyp.covercrop;
+                    cvm.manEntry = crpTyp.customcrop;
                 }
             }
 

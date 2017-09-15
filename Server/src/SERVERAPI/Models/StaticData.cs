@@ -115,6 +115,9 @@ namespace SERVERAPI.Models
         {
             public int id { get; set; }
             public string name { get; set; }
+            public bool covercrop { get; set; }
+            public bool crudeproteinrequired { get; set; }
+            public bool customcrop { get; set; }
         }
 
         public class Crops

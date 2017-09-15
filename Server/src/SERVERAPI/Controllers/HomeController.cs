@@ -29,6 +29,7 @@ namespace SERVERAPI.Controllers
     public class PDFRequest
     {
         public string html;
+        //public string options;
     }
     public static class SessionExtensions
     {

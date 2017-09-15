@@ -80,7 +80,7 @@ namespace SERVERAPI.Models
         public decimal remK2o { get; set; }
         public int crudeProtien { get; set; }
         public int prevCropId { get; set; }
-        public bool coverCropHarvested { get; set; }
+        public bool? coverCropHarvested { get; set; }
     }
     public class SoilTest
     {

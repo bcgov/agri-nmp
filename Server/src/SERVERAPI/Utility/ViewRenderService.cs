@@ -65,5 +65,30 @@ namespace SERVERAPI.Utility
             }
         }
     }
+    public class PDF_Options
+    {
+        public string type { get; set; }
+        public string quality { get; set; }
+        public PDF_Border border { get; set; }
+        public PDF_Header header { get; set; }
+        public PDF_Footer footer { get; set; }
+    }
+    public class PDF_Border
+    {
+        public string top { get; set; }
+        public string right { get; set; }
+        public string bottom { get; set; }
+        public string left { get; set; }
+    }
+    public class PDF_Header
+    {
+        public string height { get; set; }
+        public string contents { get; set; }
+    }
+    public class PDF_Footer
+    {
+        public string height { get; set; }
+        public string contents { get; set; }
+    }
 }
 

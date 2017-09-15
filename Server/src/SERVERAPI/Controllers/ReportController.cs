@@ -14,17 +14,22 @@ using SERVERAPI.Utility;
 using System.IO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Controllers
 {
     public class ReportController : Controller
     {
         private IHostingEnvironment _env;
+        private UserData _ud;
+        private Models.Impl.StaticData _sd;
         private readonly IViewRenderService _viewRenderService;
 
-        public ReportController(IHostingEnvironment env, IViewRenderService viewRenderService)
+        public ReportController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;
+            _ud = ud;
+            _sd = sd;
             _viewRenderService = viewRenderService;
         }
         [HttpGet]
@@ -44,6 +49,7 @@ namespace SERVERAPI.Controllers
         }
         public async Task<IActionResult> Print(bool fields, bool sources, bool application, bool analysis, bool summary, bool sheets )
         {
+            string reportHeader = string.Empty;
             string reportFields = string.Empty;
             string reportSources = string.Empty;
             string reportAppl = string.Empty;
@@ -53,11 +59,23 @@ namespace SERVERAPI.Controllers
 
             FileContentResult result = null;
             //JSONResponse result = null; 
-            //var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME", EnvironmentVariableTarget.User);
+            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME", EnvironmentVariableTarget.User);
 
-            string pdfHost = "http://localhost:54611";
+            //string pdfHost = "http://localhost:54611";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
+
+            //PDF_Options options = new PDF_Options();
+            //options.type = "pdf";
+            //options.quality = "75";
+            //options.border.top = "0in";
+            //options.border.right = "0in";
+            //options.border.bottom = "0in";
+            //options.border.left = "0in";
+            //options.header.height = "15mm";
+            //options.header.contents = "<div style=\"text-align: center;\">Nutrient Mamangement Report</div>";
+            //options.footer.height = "15mm";
+            //options.footer.contents = "<span style=\"color: #444;\">{{page}}</span>/<span>{{pages}}</span>";
 
             // call the microservice
             try
@@ -66,6 +84,7 @@ namespace SERVERAPI.Controllers
 
                 HttpClient client = new HttpClient();
 
+                reportHeader = await RenderHeader();
                 if (fields)
                     reportFields = await RenderFields();
                 if (sources)
@@ -81,9 +100,7 @@ namespace SERVERAPI.Controllers
 
                 string rawdata = "<!DOCTYPE html>"  +
                     "<html>" + 
-                    "<head>" + 
-                    "<meta charset='utf-8' /><title></title>" + 
-                    "</head>" + 
+                    reportHeader + 
                     "<body>" +
                     "<div style='display: table; width: 100%'>" +
                     "<div style='display: table-row-group; width: 100%'>" +
@@ -98,6 +115,7 @@ namespace SERVERAPI.Controllers
                     "</body></html>";
 
                 req.html = rawdata;
+                //req.options = JsonConvert.SerializeObject(options);
 
                 string payload = JsonConvert.SerializeObject(req);
 
@@ -135,6 +153,14 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+        public async Task<string> RenderHeader()
+        {
+            ReportViewModel rvm = new ReportViewModel();
+
+            var result = await _viewRenderService.RenderToStringAsync("Report/ReportHeader", rvm);
+
+            return result;
+        }
         public async Task<string> RenderFields()
         {
             ReportViewModel rvm = new ReportViewModel();
@@ -145,7 +171,39 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderSources()
         {
-            ReportViewModel rvm = new ReportViewModel();
+            ReportSourcesViewModel rvm = new ReportSourcesViewModel();
+            rvm.details = new List<ReportSourcesDetail>();
+
+            List<Field> fldList = _ud.GetFields();
+            foreach(var f in fldList)
+            {
+                if (f.nutrients != null)
+                {
+                    if (f.nutrients.nutrientManures != null)
+                    {
+                        foreach (var m in f.nutrients.nutrientManures)
+                        {
+                            Models.StaticData.Manure manure = _sd.GetManure(m.manureId);
+                            ReportSourcesDetail rd = rvm.details.FirstOrDefault(d => d.nutrientName == manure.name);
+                            if (rd != null)
+                            {
+                                rd.nutrientAmount = rd.nutrientAmount + (m.rate * f.area);
+                            }
+                            else
+                            {
+                                rd = new ReportSourcesDetail();
+                                rd.nutrientName = manure.name;
+                                rd.nutrientUnit = _sd.GetUnit(m.unitId).name;
+                                int index = rd.nutrientUnit.LastIndexOf("/");
+                                if (index > 0)
+                                    rd.nutrientUnit = rd.nutrientUnit.Substring(0, index);
+                                rd.nutrientAmount = rd.nutrientAmount + (m.rate * f.area);
+                                rvm.details.Add(rd);
+                            }
+                        }
+                    }
+                }
+            }
 
             var result = await _viewRenderService.RenderToStringAsync("Report/ReportSources", rvm);
 

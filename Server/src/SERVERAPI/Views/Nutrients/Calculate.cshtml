@@ -352,6 +352,14 @@
         NeedRefresh();
     });
 
+    $(document).on('change', '#coverYes', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#coverNo', function () {
+        NeedRefresh();
+    });
+
 
     function NeedRefresh() {
         $("#ok_button").html('Calculate');

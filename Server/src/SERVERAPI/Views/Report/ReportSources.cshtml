@@ -1,5 +1,35 @@
-﻿<div style="display: table-row;">
-    <div style="display: table-cell;">
-        Your Nutrient Sources
+﻿@model SERVERAPI.ViewModels.ReportSourcesViewModel
+
+<div class="Row">
+    <div class="Cell">
+        <h2>Your Nutrient Sources</h2>
+    </div>
+</div>
+<div class="Row">
+    <div class="Cell">
+        <div class="Table">
+            <div class="TableBody">
+                <div class="Row">
+                    <div class="Cell2"><b>Material Type</b></div>
+                    <div class="Cell2" style="text-align:center"><b>Total Amount Required</b></div>
+                </div>
+                @foreach (var n in Model.details)
+                {
+                    <div class="Row">
+                        <div class="Cell2" style="width:300px">@n.nutrientName</div>
+                        <div class="Cell2">
+                            <div class="Table">
+                                <div class="TableBody">
+                                    <div class="Row">
+                                        <div class="Cell2" style="width:100px; text-align:right">@n.nutrientAmount</div>
+                                        <div class="Cell2" style="width:100px; text-align:left">@n.nutrientUnit</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
 </div>

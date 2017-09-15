@@ -207,5 +207,14 @@ namespace SERVERAPI.ViewModels
         public bool soilTestSummary { get; set; }
         public bool recordKeepingSheets { get; set; }
     }
-
+    public class ReportSourcesViewModel
+    {
+        public List<ReportSourcesDetail> details { get; set; }
+    }
+    public class ReportSourcesDetail
+    {
+        public string nutrientName { get; set; }
+        public decimal nutrientAmount { get; set; }
+        public string nutrientUnit { get; set; }
+    }
 }

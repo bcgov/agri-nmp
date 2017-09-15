@@ -290,10 +290,30 @@ namespace SERVERAPI.Models.Impl
                 Models.StaticData.CropType type = new Models.StaticData.CropType();
                 type.id = Convert.ToInt32(r["id"].ToString());
                 type.name = r["name"].ToString();
+                type.covercrop = r["covercrop"].ToString() == "true" ? true : false;
+                type.crudeproteinrequired = r["crudeproteinrequired"].ToString() == "true" ? true : false;
+                type.customcrop = r["customcrop"].ToString() == "true" ? true : false;
                 types.cropTypes.Add(type);
             }
 
             return types;
+        }
+
+        public Models.StaticData.CropType GetCropType(int id)
+        {
+            string x = id.ToString();
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["croptypes"]["croptype"];
+            JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
+
+            Models.StaticData.CropType type = new Models.StaticData.CropType();
+            type.id = Convert.ToInt32(rec["id"].ToString());
+            type.name = rec["name"].ToString();
+            type.covercrop = rec["covercrop"].ToString() == "true" ? true : false;
+            type.crudeproteinrequired = rec["crudeproteinrequired"].ToString() == "true" ? true : false;
+            type.customcrop = rec["customcrop"].ToString() == "true" ? true : false;
+
+            return type;
         }
 
         public List<Models.StaticData.SelectListItem> GetCropTypesDll()
