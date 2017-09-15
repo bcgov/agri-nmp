@@ -461,6 +461,12 @@ namespace SERVERAPI.Controllers
                 }
                 cvm.selPrevOption = string.Empty;
 
+                if (cvm.showCrude)
+                {
+                    CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+                    cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString();
+                }
+
                 return View(cvm);
             }
 
@@ -493,10 +499,11 @@ namespace SERVERAPI.Controllers
                     }
                 }
 
+                decimal tmpDec;
                 int tmp;
-                if (int.TryParse(cvm.yield, out tmp))
+                if (decimal.TryParse(cvm.yield, out tmpDec))
                 {
-                    if (tmp <= 0)
+                    if (tmpDec <= 0)
                     {
                         ModelState.AddModelError("yield", "Not a valid yield.");
                         return View(cvm);
