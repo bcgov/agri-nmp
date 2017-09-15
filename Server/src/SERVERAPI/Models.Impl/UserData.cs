@@ -69,6 +69,7 @@ namespace SERVERAPI.Models.Impl
 
         public void AddField(Field newFld)
         {
+            int nextId = 1;
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
@@ -77,7 +78,11 @@ namespace SERVERAPI.Models.Impl
             {
                 yd.fields = new List<Field>();
             }
-
+            foreach (var f in yd.fields)
+            {
+                nextId = nextId <= f.id ? f.id + 1 : nextId;
+            }
+            newFld.id = nextId;
             yd.fields.Add(newFld);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -87,8 +92,9 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
-            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == updtFld.fieldName);
+            Field fld = yd.fields.FirstOrDefault(f => f.id == updtFld.id);
 
+            fld.fieldName = updtFld.fieldName;
             fld.area = updtFld.area;
             fld.comment = updtFld.comment;
 

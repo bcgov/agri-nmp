@@ -21,16 +21,6 @@ using Microsoft.Extensions.FileProviders;
 
 namespace SERVERAPI.Controllers
 {
-    public class JSONResponse
-    {
-        public string type;
-        public byte[] data;
-    }
-    public class PDFRequest
-    {
-        public string html;
-        //public string options;
-    }
     public static class SessionExtensions
     {
         public static void SetObjectAsJson(this ISession session, string key, object value)

@@ -51,6 +51,7 @@ namespace SERVERAPI.Controllers
                 fvm.fieldName = fld.fieldName;
                 fvm.fieldArea = fld.area.ToString();
                 fvm.fieldComment = fld.comment;
+                fvm.fieldId = fld.id;
                 fvm.act = "Edit";
             }
             else
@@ -95,7 +96,7 @@ namespace SERVERAPI.Controllers
                 }
                 else
                 {
-                    fld = _ud.GetFieldDetails(fvm.fieldName);
+                    fld = _ud.GetFieldDetails(fvm.currFieldName);
                     if (fld == null)
                     {
                         fld = new Field();

@@ -62,6 +62,7 @@ namespace SERVERAPI.ViewModels
         public string target { get; set; }
         public string cntl { get; set; }
         public string actn { get; set; }
+        public int fieldId { get; set; }
     }
     public class FieldDeleteViewModel
     {
@@ -216,5 +217,23 @@ namespace SERVERAPI.ViewModels
         public string nutrientName { get; set; }
         public decimal nutrientAmount { get; set; }
         public string nutrientUnit { get; set; }
+    }
+    public class ReportApplicationViewModel
+    {
+        public List<ReportApplicationField> fields { get; set; }
+    }
+    public class ReportApplicationField
+    {
+        public string fieldName { get; set; }
+        public string fieldComment { get; set; }
+        public string fieldCrops { get; set; }
+        public List<ReportApplicationNutrient> nutrients { get; set; }
+    }
+    public class ReportApplicationNutrient
+    {
+        public string nutrientName { get; set; }
+        public decimal nutrientAmount { get; set; }
+        public string nutrientUnit { get; set; }
+        public string nutrientApplication { get; set; }
     }
 }

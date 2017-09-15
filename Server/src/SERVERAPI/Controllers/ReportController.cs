@@ -18,6 +18,17 @@ using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Controllers
 {
+    public class JSONResponse
+    {
+        public string type;
+        public byte[] data;
+    }
+    public class PDFRequest
+    {
+        public string html;
+        public string options;
+    }
+
     public class ReportController : Controller
     {
         private IHostingEnvironment _env;
@@ -59,23 +70,31 @@ namespace SERVERAPI.Controllers
 
             FileContentResult result = null;
             //JSONResponse result = null; 
-            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME", EnvironmentVariableTarget.User);
+            //var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME", EnvironmentVariableTarget.User);
 
-            //string pdfHost = "http://localhost:54611"; 
+            string pdfHost = "http://localhost:54610";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
-            //PDF_Options options = new PDF_Options();
-            //options.type = "pdf";
-            //options.quality = "75";
-            //options.border.top = "0in";
-            //options.border.right = "0in";
-            //options.border.bottom = "0in";
-            //options.border.left = "0in";
-            //options.header.height = "15mm";
-            //options.header.contents = "<div style=\"text-align: center;\">Nutrient Mamangement Report</div>";
-            //options.footer.height = "15mm";
-            //options.footer.contents = "<span style=\"color: #444;\">{{page}}</span>/<span>{{pages}}</span>";
+            PDF_Options options = new PDF_Options();
+            options.border = new PDF_Border();
+            options.header = new PDF_Header();
+            options.footer = new PDF_Footer();
+
+            options.type = "pdf";
+            options.quality = "75";
+            options.format = "letter";
+            options.orientation = "portrait";
+            options.border.top = "0in";
+            options.border.right = "0in";
+            options.border.bottom = "0in";
+            options.border.left = "0in";
+            options.header.height = "25mm";
+            options.header.contents = "<div style=\"text-align: center; width:100%\"><h3>Nutrient Management Report</h3></div><br />" +
+                                      "<div>Farm Name: " + _ud.FarmDetails().farmName + "</div>" +
+                                      "<div>Planning Year: " + _ud.FarmDetails().year + "</div>";
+            options.footer.height = "15mm";
+            options.footer.contents = "<span style=\"color: #444;\">{{page}}</span>/<span>Page {{pages}}</span>";
 
             // call the microservice
             try
@@ -115,7 +134,7 @@ namespace SERVERAPI.Controllers
                     "</body></html>";
 
                 req.html = rawdata;
-                //req.options = JsonConvert.SerializeObject(options);
+                req.options = JsonConvert.SerializeObject(options);
 
                 string payload = JsonConvert.SerializeObject(req);
 
@@ -219,7 +238,34 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderApplication()
         {
-            ReportViewModel rvm = new ReportViewModel();
+            ReportApplicationViewModel rvm = new ReportApplicationViewModel();
+            rvm.fields = new List<ReportApplicationField>();
+
+            List<Field> fldList = _ud.GetFields();
+            foreach(var f in fldList)
+            {
+                ReportApplicationField rf = new ReportApplicationField();
+                rf.fieldName = f.fieldName;
+                rf.fieldComment = f.comment;
+                rf.nutrients = new List<ReportApplicationNutrient>();
+                if (f.nutrients != null)
+                {
+                    if (f.nutrients.nutrientManures != null)
+                    {
+                        foreach (var m in f.nutrients.nutrientManures)
+                        {
+                            Models.StaticData.Manure manure = _sd.GetManure(m.manureId);
+                            ReportApplicationNutrient ran = new ReportApplicationNutrient();
+
+                            ran.nutrientName = manure.name;
+                            ran.nutrientAmount = m.rate;
+                            ran.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).application_method;
+                            ran.nutrientUnit = _sd.GetUnit(m.unitId).name;
+                            rf.nutrients.Add(ran);
+                        }
+                    }
+                }
+            }
 
             var result = await _viewRenderService.RenderToStringAsync("Report/ReportApplication", rvm);
 

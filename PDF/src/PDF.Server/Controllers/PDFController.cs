@@ -11,12 +11,14 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.NodeServices;
+using Newtonsoft.Json.Linq;
 
 namespace PDF.Controllers
 {
     public class PDFRequest
     {
         public string html { get; set; }
+        public string options { get; set; }
     }
     public class JSONResponse
     {
@@ -64,8 +66,9 @@ namespace PDF.Controllers
 
         public async Task<IActionResult> BuildPDF([FromServices] INodeServices nodeServices, [FromBody]  PDFRequest rawdata )
         {
+            JObject options = JObject.Parse(rawdata.options);
             JSONResponse result = null;
-            var options = new { format="letter", orientation= "landscape" };
+            //var options = new { format="letter", orientation= "portrait" };
 
             // execute the Node.js component to generate a PDF
             result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
