@@ -234,6 +234,7 @@ namespace SERVERAPI.ViewModels
         public string nutrientName { get; set; }
         public decimal nutrientAmount { get; set; }
         public string nutrientUnit { get; set; }
+        public string nutrientSeason { get; set; }
         public string nutrientApplication { get; set; }
     }
 }

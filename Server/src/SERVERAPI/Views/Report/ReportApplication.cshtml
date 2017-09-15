@@ -5,34 +5,41 @@
         <h2>Nutrient Application Schedule</h2>
     </div>
 </div>
-<div class="Row">
-    <div class="Cell">
-        <div class="Table">
-            <div class="TableBody">
-                @foreach (var f in Model.fields)
-                {
-                    <div class="Row" style="padding-top:20px">
-                        <div class="Cell2"><b>Field: </b>@f.fieldName</div>
-                        <div class="Cell2"><b>Crops: </b>@f.fieldCrops</div>
-                    </div>
-                    @foreach (var n in f.nutrients)
-                    {
-                        <div class="Row">
-                            <div class="Cell2" style="width:300px">@n.nutrientName</div>
-                            <div class="Cell2">
-                                <div class="Table">
-                                    <div class="TableBody">
-                                        <div class="Row">
-                                            <div class="Cell2" style="width:100px; text-align:right">@n.nutrientAmount</div>
-                                            <div class="Cell2" style="width:100px; text-align:left">@n.nutrientUnit</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-</div>
+<table>
+    @foreach (var f in Model.fields)
+    {
+        <tr style="padding-bottom:20px">
+            <td colspan="2">
+                <b>Field: </b>@f.fieldName
+            </td>
+            <td colspan="3">
+                <b>Crops: </b>@f.fieldCrops
+            </td>
+        </tr>
+        <tr>
+            <td style="width:250px">
+                <b>Nutrient Source</b>
+            </td>
+            <td style="width:250px">
+                <b>Application Timing</b>
+            </td>
+            <td style="width:250px">
+                <b>Method</b>
+            </td>
+            <td colspan="2" style="text-align:center">
+                <b>Rate</b>
+            </td>
+        </tr>
+        @foreach (var n in f.nutrients)
+        {
+            <tr>
+                <td>@n.nutrientName</td>
+                <td>@n.nutrientSeason</td>
+                <td>@n.nutrientApplication</td>
+                <td style="text-align:right">@n.nutrientAmount</td>
+                <td>@n.nutrientUnit</td>
+            </tr>
+        }
+
+    }
+</table>

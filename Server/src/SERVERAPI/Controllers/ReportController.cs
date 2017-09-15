@@ -70,9 +70,9 @@ namespace SERVERAPI.Controllers
 
             FileContentResult result = null;
             //JSONResponse result = null; 
-            //var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME", EnvironmentVariableTarget.User);
+            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME", EnvironmentVariableTarget.User);
 
-            string pdfHost = "http://localhost:54610";
+            //string pdfHost = "http://localhost:54610";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
@@ -84,17 +84,17 @@ namespace SERVERAPI.Controllers
             options.type = "pdf";
             options.quality = "75";
             options.format = "letter";
-            options.orientation = "portrait";
+            options.orientation = "landscape";
             options.border.top = "0in";
             options.border.right = "0in";
             options.border.bottom = "0in";
             options.border.left = "0in";
-            options.header.height = "15mm";
-            options.header.contents = "<div style=\"text-align: center; width:100%\"><h4>Nutrient Management Report</h4></div>" +
-                                      "<div>Farm Name: " + _ud.FarmDetails().farmName + "</div>" +
-                                      "<div>Planning Year: " + _ud.FarmDetails().year + "</div>";
+            options.header.height = "20mm";
+            options.header.contents = "<b>Nutrient Management Report</b><br />" +
+                                      "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
+                                      "Planning Year: " + _ud.FarmDetails().year;
             options.footer.height = "15mm";
-            options.footer.contents = "<span style=\"color: #444;\">{{page}}</span>/<span>Page {{pages}}</span>";
+            options.footer.contents = "<span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span>";
 
             // call the microservice
             try
@@ -259,6 +259,7 @@ namespace SERVERAPI.Controllers
 
                             ran.nutrientName = manure.name;
                             ran.nutrientAmount = m.rate;
+                            ran.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).season;
                             ran.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).application_method;
                             ran.nutrientUnit = _sd.GetUnit(m.unitId).name;
                             rf.nutrients.Add(ran);
