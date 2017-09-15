@@ -9,25 +9,28 @@
     <div class="Cell">
         <div class="Table">
             <div class="TableBody">
-                <div class="Row">
-                    <div class="Cell2"><b>Material Type</b></div>
-                    <div class="Cell2" style="text-align:center"><b>Total Amount Required</b></div>
-                </div>
-                @foreach (var n in Model.fields)
+                @foreach (var f in Model.fields)
                 {
-                    <div class="Row">
-                        <div class="Cell2" style="width:300px">@n.nutrientName</div>
-                        <div class="Cell2">
-                            <div class="Table">
-                                <div class="TableBody">
-                                    <div class="Row">
-                                        <div class="Cell2" style="width:100px; text-align:right">@n.nutrientAmount</div>
-                                        <div class="Cell2" style="width:100px; text-align:left">@n.nutrientUnit</div>
+                    <div class="Row" style="padding-top:20px">
+                        <div class="Cell2"><b>Field: </b>@f.fieldName</div>
+                        <div class="Cell2"><b>Crops: </b>@f.fieldCrops</div>
+                    </div>
+                    @foreach (var n in f.nutrients)
+                    {
+                        <div class="Row">
+                            <div class="Cell2" style="width:300px">@n.nutrientName</div>
+                            <div class="Cell2">
+                                <div class="Table">
+                                    <div class="TableBody">
+                                        <div class="Row">
+                                            <div class="Cell2" style="width:100px; text-align:right">@n.nutrientAmount</div>
+                                            <div class="Cell2" style="width:100px; text-align:left">@n.nutrientUnit</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
             </div>
         </div>

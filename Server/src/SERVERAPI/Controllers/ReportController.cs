@@ -89,8 +89,8 @@ namespace SERVERAPI.Controllers
             options.border.right = "0in";
             options.border.bottom = "0in";
             options.border.left = "0in";
-            options.header.height = "25mm";
-            options.header.contents = "<div style=\"text-align: center; width:100%\"><h3>Nutrient Management Report</h3></div><br />" +
+            options.header.height = "15mm";
+            options.header.contents = "<div style=\"text-align: center; width:100%\"><h4>Nutrient Management Report</h4></div>" +
                                       "<div>Farm Name: " + _ud.FarmDetails().farmName + "</div>" +
                                       "<div>Planning Year: " + _ud.FarmDetails().year + "</div>";
             options.footer.height = "15mm";
@@ -265,6 +265,14 @@ namespace SERVERAPI.Controllers
                         }
                     }
                 }
+                if(f.crops != null)
+                {
+                    foreach(var c in f.crops)
+                    {
+                        rf.fieldCrops = rf.fieldCrops + (string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther) + " ";
+                    }
+                }
+                rvm.fields.Add(rf);
             }
 
             var result = await _viewRenderService.RenderToStringAsync("Report/ReportApplication", rvm);
