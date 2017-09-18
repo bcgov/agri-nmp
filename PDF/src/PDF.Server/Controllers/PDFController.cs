@@ -68,7 +68,7 @@ namespace PDF.Controllers
         {
             JObject options = JObject.Parse(rawdata.options);
             JSONResponse result = null;
-            //var options = new { format="letter", orientation= "portrait" };
+            //var options = new { format="letter", orientation= "portrait" }; 
 
             // execute the Node.js component to generate a PDF
             result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
