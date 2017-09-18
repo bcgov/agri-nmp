@@ -184,7 +184,7 @@ namespace SERVERAPI.Controllers
         {
             ReportViewModel rvm = new ReportViewModel();
 
-            var result = await _viewRenderService.RenderToStringAsync("Report/ReportHeader", rvm);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportHeader.cshtml", rvm);
 
             return result;
         }
@@ -192,7 +192,7 @@ namespace SERVERAPI.Controllers
         {
             ReportViewModel rvm = new ReportViewModel();
 
-            var result = await _viewRenderService.RenderToStringAsync("Report/ReportFields", rvm);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportFields.cshtml", rvm);
 
             return result;
         }
@@ -232,7 +232,7 @@ namespace SERVERAPI.Controllers
                 }
             }
 
-            var result = await _viewRenderService.RenderToStringAsync("Report/ReportSources", rvm);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSources.cshtml", rvm);
 
             return result;
         }
@@ -240,7 +240,7 @@ namespace SERVERAPI.Controllers
         {
             ReportViewModel rvm = new ReportViewModel();
 
-            var result = await _viewRenderService.RenderToStringAsync("Report/ReportAnalysis", rvm);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportAnalysis.cshtml", rvm);
 
             return result;
         }
@@ -284,7 +284,7 @@ namespace SERVERAPI.Controllers
                 rvm.fields.Add(rf);
             }
 
-            var result = await _viewRenderService.RenderToStringAsync("Report/ReportApplication", rvm);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportApplication.cshtml", rvm);
 
             return result;
         }
@@ -292,7 +292,7 @@ namespace SERVERAPI.Controllers
         {
             ReportViewModel rvm = new ReportViewModel();
 
-            var result = await _viewRenderService.RenderToStringAsync("Report/ReportSummary", rvm);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSummary.cshtml", rvm);
 
             return result;
         }
@@ -300,7 +300,7 @@ namespace SERVERAPI.Controllers
         {
             ReportViewModel rvm = new ReportViewModel();
 
-            var result = await _viewRenderService.RenderToStringAsync("Report/ReportSheets", rvm);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSheets.cshtml", rvm);
 
             return result;
         }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Hosting;
 
 namespace SERVERAPI.Utility
 {
@@ -22,14 +23,17 @@ namespace SERVERAPI.Utility
         private readonly IRazorViewEngine _razorViewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IHostingEnvironment _env;
 
         public ViewRenderService(IRazorViewEngine razorViewEngine,
             ITempDataProvider tempDataProvider,
-            IServiceProvider serviceProvider)
+            IServiceProvider serviceProvider,
+            IHostingEnvironment env)
         {
             _razorViewEngine = razorViewEngine;
             _tempDataProvider = tempDataProvider;
             _serviceProvider = serviceProvider;
+            _env = env;
         }
 
         public async Task<string> RenderToStringAsync(string viewName, object model)
@@ -39,18 +43,8 @@ namespace SERVERAPI.Utility
 
             using (var sw = new StringWriter())
             {
-                //var viewResult = _razorViewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage: true);
-
-                //var originalResult = viewResult;
-
-                //if (!viewResult.Success)
-
-                //{
-
-                //    viewResult = _razorViewEngine.FindView(actionContext, viewName, isMainPage: true);
-
-                //}
-                var viewResult = _razorViewEngine.FindView(actionContext, viewName, false);
+                //var viewResult = _razorViewEngine.FindView(actionContext, viewName, false);
+                var viewResult = _razorViewEngine.GetView(_env.WebRootPath, viewName, false);
 
                 if (viewResult.View == null)
                 {
