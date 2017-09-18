@@ -1,6 +1,11 @@
 {
   "name": "pdf",
   "version": "1.0.0",
+  "buildOptions": {
+    "debugType": "portable",
+    "emitEntryPoint": true,
+    "preserveCompilationContext": true
+  },
   "description": "",
   "main": "pdf.js",
   "scripts": {

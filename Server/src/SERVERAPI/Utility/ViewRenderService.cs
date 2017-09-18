@@ -39,6 +39,17 @@ namespace SERVERAPI.Utility
 
             using (var sw = new StringWriter())
             {
+                //var viewResult = _razorViewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage: true);
+
+                //var originalResult = viewResult;
+
+                //if (!viewResult.Success)
+
+                //{
+
+                //    viewResult = _razorViewEngine.FindView(actionContext, viewName, isMainPage: true);
+
+                //}
                 var viewResult = _razorViewEngine.FindView(actionContext, viewName, false);
 
                 if (viewResult.View == null)
