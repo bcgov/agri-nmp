@@ -79,6 +79,9 @@ namespace SERVERAPI
                 options.CookieName = ".NMP.Session";
             });
 
+            // Enable Node Services
+            services.AddNodeServices();
+
             //// Add framework services.
             services.AddMvc()
                 .AddJsonOptions(

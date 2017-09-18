@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <Description>The API server</Description>
     <Copyright>Copyright© 2017, Province of British Columbia.</Copyright>
@@ -8,26 +7,22 @@
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <DebugType>portable</DebugType>
     <AssemblyName>SERVERAPI</AssemblyName>
-    <PackageId>SERVERAPI</PackageId>    
-    <StartupObject>SERVERAPI.Program</StartupObject>    
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>    
-    <UserSecretsId>aspnet-Core2-37757D75-C7BA-4F7A-8B80-0040DB6484EA</UserSecretsId>    
+    <PackageId>SERVERAPI</PackageId>
+    <StartupObject>SERVERAPI.Program</StartupObject>
+    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <UserSecretsId>aspnet-Core2-37757D75-C7BA-4F7A-8B80-0040DB6484EA</UserSecretsId>
   </PropertyGroup>
-
-  <ItemGroup> 
-    <Content Remove="Data\static.json" /> 
-  </ItemGroup> 
-
+  <ItemGroup>
+    <Content Remove="Data\static.json" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Bootstrap.Datepicker" Version="1.6.4" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="2.0.0" />
   </ItemGroup>
-  
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-
-  
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
     <Content Remove="Data\static.json" />
@@ -42,7 +37,6 @@
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0" />
@@ -50,15 +44,12 @@
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Data\static.json" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Mappings\" />
     <Folder Include="Migrations\" />
@@ -66,15 +57,12 @@
     <Folder Include="Services\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
-
   <ItemGroup>
     <None Include="Views\Home\index.cshtml" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\src\Common\Common.csproj" />
   </ItemGroup>
-
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
@@ -90,5 +78,4 @@
     <TypeScriptMapRoot />
     <TypeScriptSourceRoot />
   </PropertyGroup>
-
 </Project>

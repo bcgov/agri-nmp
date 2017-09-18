@@ -15,6 +15,8 @@ using System.IO;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using SERVERAPI.Models.Impl;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.NodeServices;
 
 namespace SERVERAPI.Controllers
 {
@@ -58,7 +60,7 @@ namespace SERVERAPI.Controllers
 
             return View(rvm);
         }
-        public async Task<IActionResult> Print(bool fields, bool sources, bool application, bool analysis, bool summary, bool sheets )
+        public async Task<IActionResult> Print([FromServices] INodeServices nodeServices, bool fields, bool sources, bool application, bool analysis, bool summary, bool sheets )
         {
             string reportHeader = string.Empty;
             string reportFields = string.Empty;
@@ -70,9 +72,9 @@ namespace SERVERAPI.Controllers
 
             FileContentResult result = null;
             //JSONResponse result = null;
-            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
+            //var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            //string pdfHost = "http://localhost:54611";
+            string pdfHost = "http://localhost:54611";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
@@ -89,7 +91,7 @@ namespace SERVERAPI.Controllers
             options.border.right = "0in";
             options.border.bottom = "0in";
             options.border.left = "0in";
-            options.header.height = "25mm";
+            options.header.height = "30mm";
             options.header.contents = "<b>Nutrient Management Report</b><br />" +
                                       "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
                                       "Planning Year: " + _ud.FarmDetails().year;
@@ -136,40 +138,44 @@ namespace SERVERAPI.Controllers
                 req.html = rawdata;
                 req.options = JsonConvert.SerializeObject(options);
 
-                string payload = JsonConvert.SerializeObject(req);
+                FileContentResult res = await BuildPDF(nodeServices, req);
 
-                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+                return res;
 
-                request.Headers.Clear();
-                // transfer over the request headers.
-                foreach (var item in Request.Headers)
-                {
-                    string key = item.Key;
-                    string value = item.Value;
-                    request.Headers.Add(key, value);
-                }
+                //string payload = JsonConvert.SerializeObject(req);
 
-                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
-                responseTask.Wait();
+                //var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
+                //request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = responseTask.Result;
+                //request.Headers.Clear();
+                //// transfer over the request headers.
+                //foreach (var item in Request.Headers)
+                //{
+                //    string key = item.Key;
+                //    string value = item.Value;
+                //    request.Headers.Add(key, value);
+                //}
 
-                ViewBag.StatusCode = response.StatusCode.ToString();
+                //Task<HttpResponseMessage> responseTask = client.SendAsync(request);
+                //responseTask.Wait();
 
-                if (response.StatusCode == HttpStatusCode.OK) // success
-                {
-                    var bytetask = response.Content.ReadAsByteArrayAsync();
-                    bytetask.Wait();
+                //HttpResponseMessage response = responseTask.Result;
 
-                    result = new FileContentResult(bytetask.Result, "application/pdf");
-                }
-                else
-                {
-                    string errorMsg = "Url: " + targetUrl + "\r\n" +
-                                      "Result: " + response.StatusCode.ToString();
-                    result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
-                }
+                //ViewBag.StatusCode = response.StatusCode.ToString();
+
+                //if (response.StatusCode == HttpStatusCode.OK) // success
+                //{
+                //    var bytetask = response.Content.ReadAsByteArrayAsync();
+                //    bytetask.Wait();
+
+                //    result = new FileContentResult(bytetask.Result, "application/pdf");
+                //}
+                //else
+                //{
+                //    string errorMsg = "Url: " + targetUrl + "\r\n" +
+                //                      "Result: " + response.StatusCode.ToString();
+                //    result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
+                //}
             }
             catch (Exception e)
             {
@@ -190,7 +196,43 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderFields()
         {
-            ReportViewModel rvm = new ReportViewModel();
+            ReportFieldsViewModel rvm = new ReportFieldsViewModel();
+            rvm.fields = new List<ReportFieldsField>();
+
+            List<Field> fldList = _ud.GetFields();
+            foreach (var f in fldList)
+            {
+                ReportFieldsField rf = new ReportFieldsField();
+                rf.fieldName = f.fieldName;
+                rf.fieldComment = f.comment;
+                rf.nutrients = new List<ReportFieldNutrient>();
+                if (f.nutrients != null)
+                {
+                    if (f.nutrients.nutrientManures != null)
+                    {
+                        foreach (var m in f.nutrients.nutrientManures)
+                        {
+                            Models.StaticData.Manure manure = _sd.GetManure(m.manureId);
+                            ReportFieldNutrient rfn = new ReportFieldNutrient();
+
+                            rfn.nutrientName = manure.name;
+                            rfn.nutrientAmount = m.rate;
+                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).season;
+                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).application_method;
+                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).name;
+                            rf.nutrients.Add(rfn);
+                        }
+                    }
+                }
+                if (f.crops != null)
+                {
+                    foreach (var c in f.crops)
+                    {
+                        rf.fieldCrops = rf.fieldCrops + (string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther) + " ";
+                    }
+                }
+                rvm.fields.Add(rf);
+            }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportFields.cshtml", rvm);
 
@@ -303,6 +345,16 @@ namespace SERVERAPI.Controllers
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSheets.cshtml", rvm);
 
             return result;
+        }
+        public async Task<FileContentResult> BuildPDF([FromServices] INodeServices nodeServices, [FromBody]  PDFRequest rawdata)
+        {
+            JObject options = JObject.Parse(rawdata.options);
+            JSONResponse result = null;
+
+            // execute the Node.js component to generate a PDF
+            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
+
+            return new FileContentResult(result.data, "application/pdf");
         }
     }
 }

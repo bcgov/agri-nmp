@@ -248,6 +248,15 @@ namespace SERVERAPI.ViewModels
         public string fieldComment { get; set; }
         public string fieldCrops { get; set; }
         public string fieldArea { get; set; }
+        public ReportFieldSoilTest soiltest { get; set; }
         public List<ReportFieldNutrient> nutrients { get; set; }
+    }
+    public class ReportFieldSoilTest
+    {
+        public string sampleDate { get; set; }
+        public string dispNO3H { get; set; }
+        public string dispP { get; set; }
+        public string dispK { get; set; }
+        public string dispPH { get; set; }
     }
 }
