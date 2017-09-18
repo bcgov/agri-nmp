@@ -26,19 +26,21 @@ namespace SERVERAPI.Utility
         public int cropid { get; set; }
         public int previousCropid { get; set; }
         public decimal yield { get; set; }
-        public int? crudeProtien { get; set; }
+        public decimal? crudeProtien { get; set; }
         public CropRequirementRemoval cropRequirementRemoval { get; set; }
+        public bool? coverCropHarvested { get; set; }
+
         decimal n_protien_conversion = 0.625M;
         decimal unit_conversion = 0.5M;
-        int defaultSoilTestKelownaP = 65;
-        int defaultSoilTestKelownaK = 100;
+        int defaultSoilTestKelownaP = 5;
+        int defaultSoilTestKelownaK = 5;
         decimal kgperha_lbperac_conversion = 0.892176122M;
+        
 
         public CropRequirementRemoval GetCropRequirementRemoval()
         {
             decimal n_removal = 0;
             
-
             CropRequirementRemoval crr = new CropRequirementRemoval();
             Crop crop = _sd.GetCrop(cropid);
 
@@ -53,7 +55,13 @@ namespace SERVERAPI.Utility
             //                  N = crop.cropremovalfactor_N * yield
             //           else
             //                  N = crop.cropremovalfactor_N * yield
-
+            //
+            //      Note for Cover crops (only)
+            //          if Cover Crop harvested
+            //              don't change numbers
+            //          if Cover crop not harvested
+            //              set all removal amts to zero
+            
             if (crudeProtien == null)
             { 
                 decimal tmpDec;
@@ -64,10 +72,18 @@ namespace SERVERAPI.Utility
             }
             else
                 n_removal = decimal.Divide(Convert.ToDecimal(crudeProtien), (n_protien_conversion * unit_conversion)) * yield;
-
+            
             crr.P2O5_Removal = Convert.ToInt32(crop.cropremovalfactor_P2O5 * yield);
             crr.K2O_Removal = Convert.ToInt32(crop.cropremovalfactor_K2O * yield);
             crr.N_Removal = Convert.ToInt32(n_removal);
+
+            if (coverCropHarvested.HasValue && coverCropHarvested.Value == false)
+            {
+                crr.P2O5_Removal = 0;
+                crr.K2O_Removal = 0;
+                crr.N_Removal = 0;
+            }
+
 
             //      Crop Requirement
             //          P205
@@ -143,13 +159,13 @@ namespace SERVERAPI.Utility
 
 
         // default for % Crude Protien = crop.cropremovalfactor_N * 0.625 [N to protien conversion] * 0.5 [unit conversion]
-        public int GetCrudeProtienByCropId(int _cropid)
+        public decimal GetCrudeProtienByCropId(int _cropid)
         {
-            int cp = 0;
+            decimal cp = 0;
             decimal crfN = 0;
             Crop crop = _sd.GetCrop(_cropid);
             decimal.TryParse(crop.cropremovalfactor_N.ToString(), out crfN);
-            cp = Convert.ToUInt16(crfN * n_protien_conversion * unit_conversion);
+            cp = crfN * n_protien_conversion * unit_conversion;
 
             return cp;
         }
