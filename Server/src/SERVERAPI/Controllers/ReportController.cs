@@ -69,10 +69,10 @@ namespace SERVERAPI.Controllers
             string reportSheets = string.Empty;
 
             FileContentResult result = null;
-            //JSONResponse result = null; 
+            //JSONResponse result = null;
             var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME", EnvironmentVariableTarget.User);
 
-            //string pdfHost = "http://localhost:54610";
+            //string pdfHost = "http://localhost:54611";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
@@ -89,7 +89,7 @@ namespace SERVERAPI.Controllers
             options.border.right = "0in";
             options.border.bottom = "0in";
             options.border.left = "0in";
-            options.header.height = "20mm";
+            options.header.height = "25mm";
             options.header.contents = "<b>Nutrient Management Report</b><br />" +
                                       "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
                                       "Planning Year: " + _ud.FarmDetails().year;
@@ -164,10 +164,18 @@ namespace SERVERAPI.Controllers
 
                     result = new FileContentResult(bytetask.Result, "application/pdf");
                 }
+                else
+                {
+                    string errorMsg = "Url: " + targetUrl + "\r\n" +
+                                      "Result: " + response.StatusCode.ToString();
+                    result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
+                }
             }
             catch (Exception e)
             {
-                result = null;
+                string errorMsg = "Url: " + targetUrl + "\r\n" +
+                                  "Result: " + e.Message;
+                result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
             }
 
             return result;
