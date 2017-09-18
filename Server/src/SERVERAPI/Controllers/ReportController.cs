@@ -352,7 +352,7 @@ namespace SERVERAPI.Controllers
             JSONResponse result = null;
 
             // execute the Node.js component to generate a PDF
-            result = await nodeServices.InvokeAsync<JSONResponse>("pdf.js", rawdata.html, options);
+            result = await nodeServices.InvokeAsync<JSONResponse>("././pdf.js", rawdata.html, options);
 
             return new FileContentResult(result.data, "application/pdf");
         }
