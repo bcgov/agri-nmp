@@ -70,7 +70,7 @@ namespace SERVERAPI.Controllers
 
             FileContentResult result = null;
             //JSONResponse result = null;
-            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME", EnvironmentVariableTarget.User);
+            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
             //string pdfHost = "http://localhost:54611";
 
@@ -255,7 +255,7 @@ namespace SERVERAPI.Controllers
                 ReportApplicationField rf = new ReportApplicationField();
                 rf.fieldName = f.fieldName;
                 rf.fieldComment = f.comment;
-                rf.nutrients = new List<ReportApplicationNutrient>();
+                rf.nutrients = new List<ReportFieldNutrient>();
                 if (f.nutrients != null)
                 {
                     if (f.nutrients.nutrientManures != null)
@@ -263,14 +263,14 @@ namespace SERVERAPI.Controllers
                         foreach (var m in f.nutrients.nutrientManures)
                         {
                             Models.StaticData.Manure manure = _sd.GetManure(m.manureId);
-                            ReportApplicationNutrient ran = new ReportApplicationNutrient();
+                            ReportFieldNutrient rfn = new ReportFieldNutrient();
 
-                            ran.nutrientName = manure.name;
-                            ran.nutrientAmount = m.rate;
-                            ran.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).season;
-                            ran.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).application_method;
-                            ran.nutrientUnit = _sd.GetUnit(m.unitId).name;
-                            rf.nutrients.Add(ran);
+                            rfn.nutrientName = manure.name;
+                            rfn.nutrientAmount = m.rate;
+                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).season;
+                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).application_method;
+                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).name;
+                            rf.nutrients.Add(rfn);
                         }
                     }
                 }

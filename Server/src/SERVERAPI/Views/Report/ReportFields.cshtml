@@ -1,5 +1,64 @@
-﻿<div style="display: table-row;">
-    <div style="display: table-cell;">
+﻿@model SERVERAPI.ViewModels.ReportFieldsViewModel
+
+<div class="Row">
+    <div class="Cell">
         Detailed Field Reports
+    </div>
+</div>
+<div class="Row">
+    <div class="Cell">
+        <table style="border-collapse: collapse;">
+            @foreach (var f in Model.fields)
+            {
+                <tr style="padding-top:20px; padding-bottom:20px;">
+                    <td colspan="2" style="padding-bottom:20px">
+                        <span style="font-size:medium"><u>Field: @f.fieldName</u></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Area: @f.fieldArea
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        @Model.year crop: @f.fieldCrops
+                    </td>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td style="width:250px; border: 1px solid black; background-color:burlywood; padding:5px">
+                        <b>Nutrient Source</b>
+                    </td>
+                    <td style="width:250px; border: 1px solid black; background-color:burlywood; padding:5px">
+                        <b>Application Timing</b>
+                    </td>
+                    <td style="width:250px; border: 1px solid black; background-color:burlywood; padding:5px">
+                        <b>Method</b>
+                    </td>
+                    <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:burlywood;">
+                        <b>Rate</b>
+                    </td>
+                </tr>
+                @foreach (var n in f.nutrients)
+                {
+                    <tr>
+                        <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientName</td>
+                        <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientSeason</td>
+                        <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientApplication</td>
+                        <td style="text-align:right; width:100px; border: 1px solid black; padding:5px">@n.nutrientAmount</td>
+                        <td style="text-align:left; width:100px; border: 1px solid black; padding:5px">@n.nutrientUnit</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="5"><u>Comments:</u></td>
+                </tr>
+                <tr>
+                    <td colspan="5">@f.fieldComment</td>
+                </tr>
+                <tr>
+                    <td colspan="5">&nbsp;</td>
+                </tr>
+            }
+        </table>
     </div>
 </div>

@@ -227,14 +227,27 @@ namespace SERVERAPI.ViewModels
         public string fieldName { get; set; }
         public string fieldComment { get; set; }
         public string fieldCrops { get; set; }
-        public List<ReportApplicationNutrient> nutrients { get; set; }
+        public List<ReportFieldNutrient> nutrients { get; set; }
     }
-    public class ReportApplicationNutrient
+    public class ReportFieldNutrient
     {
         public string nutrientName { get; set; }
         public decimal nutrientAmount { get; set; }
         public string nutrientUnit { get; set; }
         public string nutrientSeason { get; set; }
         public string nutrientApplication { get; set; }
+    }
+    public class ReportFieldsViewModel
+    {
+        public string year { get; set; }
+        public List<ReportFieldsField> fields { get; set; }
+    }
+    public class ReportFieldsField
+    {
+        public string fieldName { get; set; }
+        public string fieldComment { get; set; }
+        public string fieldCrops { get; set; }
+        public string fieldArea { get; set; }
+        public List<ReportFieldNutrient> nutrients { get; set; }
     }
 }
