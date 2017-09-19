@@ -346,7 +346,7 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
-        public async Task<FileContentResult> BuildPDF([FromServices] INodeServices nodeServices, [FromBody]  PDFRequest rawdata)
+        public async Task<FileContentResult> BuildPDF(INodeServices nodeServices, PDFRequest rawdata)
         {
             JObject options = JObject.Parse(rawdata.options);
             JSONResponse result = null;
