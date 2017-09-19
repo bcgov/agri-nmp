@@ -61,11 +61,15 @@ namespace SERVERAPI.Models
     }
     public class NutrientFertilizer
     {
-        public string id { get; set; }
+        public int id { get; set; }
     }
     public class NutrientOther
     {
-        public string id { get; set; }
+        public int id { get; set; }
+        public string description { get; set; }
+        public decimal nitrogen { get; set; }
+        public decimal potassium { get; set; }
+        public decimal phospherous { get; set; }
     }
     public class FieldCrop
     {

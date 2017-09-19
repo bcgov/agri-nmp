@@ -870,5 +870,142 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("CropDelete", dvm);
         }
+        public IActionResult OtherDetails(string fldName, int? id)
+        {
+            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+
+            OtherDetailsViewModel ovm = new OtherDetailsViewModel();
+
+            ovm.fieldName = fldName;
+            ovm.title = id == null ? "Add" : "Edit";
+            ovm.btnText = id == null ? "Add to Field" : "Update Field";
+            ovm.id = id;
+
+            if (id != null)
+            {
+                ovm.title = "Edit";
+
+                NutrientOther no = _ud.GetFieldNutrientsOther(fldName, id.Value);
+                ovm.source = no.description;
+                ovm.nitrogen = no.nitrogen.ToString();
+                ovm.phospherous = no.phospherous.ToString();
+                ovm.potassium = no.potassium.ToString();
+            }
+            else
+
+            {
+                ovm.title = "Add";
+            }
+
+            return PartialView(ovm);
+        }
+        [HttpPost]
+        public IActionResult OtherDetails(OtherDetailsViewModel ovm)
+        {
+            if(ModelState.IsValid)
+            {
+                decimal tmp = 0;
+                if (decimal.TryParse(ovm.nitrogen, out tmp))
+                {
+                    if (tmp < 0)
+                    {
+                        ModelState.AddModelError("nitrogen", "Must be greater than 0.");
+                        return View(ovm);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("nitrogen", "Not a valid number.");
+                    return View(ovm);
+                }
+                if (decimal.TryParse(ovm.phospherous, out tmp))
+                {
+                    if (tmp < 0)
+                    {
+                        ModelState.AddModelError("phospherous", "Must be greater than 0.");
+                        return View(ovm);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("phospherous", "Not a valid number.");
+                    return View(ovm);
+                }
+                if (decimal.TryParse(ovm.potassium, out tmp))
+                {
+                    if (tmp < 0)
+                    {
+                        ModelState.AddModelError("potassium", "Must be greater than 0.");
+                        return View(ovm);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("potassium", "Not a valid number.");
+                    return View(ovm);
+                }
+                if (ovm.id == null)
+                {
+                    NutrientOther no = new NutrientOther()
+                    {
+                        description = ovm.source,
+                        nitrogen = Convert.ToDecimal(ovm.nitrogen),
+                        phospherous = Convert.ToDecimal(ovm.phospherous),
+                        potassium = Convert.ToDecimal(ovm.potassium)
+                    };
+
+                    _ud.AddFieldNutrientsOther(ovm.fieldName, no);
+                }
+                else
+                {
+                    NutrientOther no = _ud.GetFieldNutrientsOther(ovm.fieldName, ovm.id.Value);
+                    no.description = ovm.source;
+                    no.nitrogen = Convert.ToDecimal(ovm.nitrogen);
+                    no.phospherous = Convert.ToDecimal(ovm.phospherous);
+                    no.potassium = Convert.ToDecimal(ovm.potassium);
+
+                    _ud.UpdateFieldNutrientsOther(ovm.fieldName, no);
+                }
+
+                string target = "#other";
+                string url = Url.Action("RefreshOtherList", "Nutrients", new { fieldName = ovm.fieldName });
+                string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = ovm.fieldName });
+                string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = ovm.fieldName });
+                return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
+
+            }
+
+            return View(ovm);
+        }
+        [HttpGet]
+        public ActionResult OtherDelete(string fldName, int id)
+        {
+            OtherDeleteViewModel ovm = new OtherDeleteViewModel();
+            ovm.id = id;
+            ovm.fldName = fldName;
+
+            NutrientOther no = _ud.GetFieldNutrientsOther(fldName, id);
+            ovm.source = no.description;
+
+            ovm.act = "Delete";
+
+            return PartialView("OtherDelete", ovm);
+        }
+        [HttpPost]
+        public ActionResult OtherDelete(OtherDeleteViewModel ovm)
+        {
+            if (ModelState.IsValid)
+            {
+                _ud.DeleteFieldNutrientsOther(ovm.fldName, ovm.id);
+
+                string target = "#other";
+                string url = Url.Action("RefreshOtherList", "Nutrients", new { fieldName = ovm.fldName });
+                string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = ovm.fldName });
+                string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = ovm.fldName });
+                return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
+            }
+            return PartialView("OtherDelete", ovm);
+        }
     }
 }

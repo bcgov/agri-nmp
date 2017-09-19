@@ -58,6 +58,18 @@ namespace SERVERAPI.ViewComponents
                 totRemK += m.ltK2o;
             }
 
+            List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
+            foreach (var m in others)
+            {
+                cvm.summaryReqd = true;
+                totReqN += m.nitrogen;
+                totReqP += m.phospherous;
+                totReqK += m.potassium;
+                totRemN += m.nitrogen;
+                totRemP += m.phospherous;
+                totRemK += m.potassium;
+            }
+
             cvm.reqN = totReqN.ToString();
             cvm.reqP = totReqP.ToString();
             cvm.reqK = totReqK.ToString();

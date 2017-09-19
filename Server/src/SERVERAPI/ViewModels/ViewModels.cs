@@ -122,6 +122,14 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Material Type")]
         public string matType { get; set; }
     }
+    public class OtherDeleteViewModel
+    {
+        public string act { get; set; }
+        public string fldName { get; set; }
+        public int id { get; set; }
+        [Display(Name = "Nutrient Source")]
+        public string source { get; set; }
+    }
     public class CropDetailsViewModel
     {
         public int? id { get; set; }
@@ -258,5 +266,24 @@ namespace SERVERAPI.ViewModels
         public string dispP { get; set; }
         public string dispK { get; set; }
         public string dispPH { get; set; }
+    }
+    public class OtherDetailsViewModel
+    {
+        public int? id { get; set; }
+        public string title { get; set; }
+        public string btnText { get; set; }
+        public string fieldName { get; set; }
+        [Display(Name = "Nutrient Source")]
+        [Required(ErrorMessage = "Required")]
+        public string source { get; set; }
+        [Display(Name = "N")]
+        [Required(ErrorMessage = "Required")]
+        public string nitrogen { get; set; }
+        [Display(Name = "P2O5")]
+        [Required(ErrorMessage = "Required")]
+        public string phospherous { get; set; }
+        [Display(Name = "K2O")]
+        [Required(ErrorMessage = "Required")]
+        public string potassium { get; set; }
     }
 }
