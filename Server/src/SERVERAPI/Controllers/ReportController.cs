@@ -180,7 +180,7 @@ namespace SERVERAPI.Controllers
             catch (Exception e)
             {
                 string errorMsg = "Url: " + targetUrl + "\r\n" +
-                                  "Result: " + e.Message;
+                                  "Result: " + e.InnerException.Message;
                 result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
             }
 
