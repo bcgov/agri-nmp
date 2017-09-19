@@ -74,7 +74,7 @@ namespace SERVERAPI.Controllers
             //JSONResponse result = null;
             var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            //string pdfHost = "http://localhost:54611";
+            //string pdfHost = "http://localhost:54610";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
@@ -173,13 +173,15 @@ namespace SERVERAPI.Controllers
                 else
                 {
                     string errorMsg = "Url: " + targetUrl + "\r\n" +
-                                      "Result: " + response.StatusCode.ToString();
+                                      "Result: " + response.ToString();
                     result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
                 }
             }
             catch (Exception e)
             {
-                string errorMsg = "Url: " + targetUrl + "\r\n" +
+                string errorMsg = "Exception " + "\r\n" +
+                                  "Url: " + targetUrl + "\r\n" +
+                                  "Result: " + e.Message + "\r\n" +
                                   "Result: " + e.InnerException.Message;
                 result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
             }

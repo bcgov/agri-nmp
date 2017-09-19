@@ -69,6 +69,7 @@ namespace SERVERAPI.Controllers
                 farmData.manure = (fvm.manure == null) ? null : fvm.manure;
 
                 _ud.UpdateFarmDetails(farmData);
+                HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + ", " + _ud.FarmDetails().year);
 
                 fvm.currYear = fvm.year;
                 ModelState.Remove("userData");

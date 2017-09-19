@@ -23,6 +23,10 @@ namespace SERVERAPI.Controllers
 {
     public static class SessionExtensions
     {
+        public static void SetObject(this ISession session, string key, string value)
+        {
+            session.SetString(key, value);
+        }
         public static void SetObjectAsJson(this ISession session, string key, object value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value));
@@ -239,6 +243,7 @@ namespace SERVERAPI.Controllers
 
                         // Returns message that successfully uploaded  
                         _ud.SaveFarmData(fd);
+                        HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + ", " + _ud.FarmDetails().year);
 
                         string url = Url.Action("Farm", "Farm");
                         return Json(new { success = true, url = url, farmdata = fileContents });
