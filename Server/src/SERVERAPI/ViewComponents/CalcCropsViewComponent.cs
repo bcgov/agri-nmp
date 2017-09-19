@@ -49,6 +49,11 @@ namespace SERVERAPI.ViewComponents
                     yld = _sd.GetYield(cp.yieldcd);
                 }
 
+                if(m.coverCropHarvested.HasValue)
+                {
+                    cp.cropname = m.coverCropHarvested.Value ? cp.cropname + "(harvested)" : cp.cropname;
+                }
+
                 DisplayCrop dm = new DisplayCrop()
                 {
 

@@ -10,25 +10,25 @@
         <table  style="border-collapse: collapse;">
             @foreach (var f in Model.fields)
             {
-                <tr style="padding-top:20px; padding-bottom:20px;">
-                    <td colspan="2" style="padding-bottom:20px">
+                <tr style="padding-top:20px; padding-bottom:20px; border: 1px solid black;">
+                    <td colspan="2" style="padding-bottom:20px; font-size:16px">
                         <b>Field: </b>@f.fieldName
                     </td>
-                    <td colspan="3" style="padding-bottom:20px">
+                    <td colspan="3" style="padding-bottom:20px;">
                         <b>Crops: </b>@f.fieldCrops
                     </td>
                 </tr>
                 <tr style="border: 1px solid black;">
-                    <td style="width:250px; border: 1px solid black; background-color:burlywood; padding:5px">
+                    <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
                         <b>Nutrient Source</b>
                     </td>
-                    <td style="width:250px; border: 1px solid black; background-color:burlywood; padding:5px">
+                    <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
                         <b>Application Timing</b>
                     </td>
-                    <td style="width:250px; border: 1px solid black; background-color:burlywood; padding:5px">
+                    <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
                         <b>Method</b>
                     </td>
-                    <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:burlywood;">
+                    <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:skyblue;">
                         <b>Rate</b>
                     </td>
                 </tr>
@@ -42,11 +42,15 @@
                         <td style="text-align:left; width:100px; border: 1px solid black; padding:5px">@n.nutrientUnit</td>
                     </tr>
                 }
-                <tr>
-                    <td colspan="5"><u>Comments:</u></td>
-                </tr>
-                <tr>
-                    <td colspan="5">@f.fieldComment</td>
+                <tr style="border: 1px solid black;">
+                    <td colspan="5">
+                        <u>Comments:</u><br />
+                        @if(string.IsNullOrEmpty(f.fieldComment))
+                        {
+                            @Html.Raw("&nbsp;");
+                        }
+                        @f.fieldComment
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="5">&nbsp;</td>

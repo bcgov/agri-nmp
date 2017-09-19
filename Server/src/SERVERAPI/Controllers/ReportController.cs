@@ -74,7 +74,7 @@ namespace SERVERAPI.Controllers
             //JSONResponse result = null;
             var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            //string pdfHost = "http://localhost:54610";
+            //string pdfHost = "http://localhost:54611";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
@@ -91,9 +91,8 @@ namespace SERVERAPI.Controllers
             options.border.right = "0in";
             options.border.bottom = "0in";
             options.border.left = "0in";
-            options.header.height = "30mm";
-            options.header.contents = "<b>Nutrient Management Report</b><br />" +
-                                      "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
+            options.header.height = "20mm";
+            options.header.contents = "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
                                       "Planning Year: " + _ud.FarmDetails().year;
             options.footer.height = "15mm";
             options.footer.contents = "<span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span>";
