@@ -72,9 +72,9 @@ namespace SERVERAPI.Controllers
 
             FileContentResult result = null;
             //JSONResponse result = null;
-            //var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
+            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            string pdfHost = "http://localhost:54611";
+            //string pdfHost = "http://localhost:54611";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
@@ -138,44 +138,44 @@ namespace SERVERAPI.Controllers
                 req.html = rawdata;
                 req.options = JsonConvert.SerializeObject(options);
 
-                FileContentResult res = await BuildPDF(nodeServices, req);
+                //FileContentResult res = await BuildPDF(nodeServices, req);
 
-                return res;
+                //return res;
 
-                //string payload = JsonConvert.SerializeObject(req);
+                string payload = JsonConvert.SerializeObject(req);
 
-                //var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-                //request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
+                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
 
-                //request.Headers.Clear();
-                //// transfer over the request headers.
-                //foreach (var item in Request.Headers)
-                //{
-                //    string key = item.Key;
-                //    string value = item.Value;
-                //    request.Headers.Add(key, value);
-                //}
+                request.Headers.Clear();
+                // transfer over the request headers.
+                foreach (var item in Request.Headers)
+                {
+                    string key = item.Key;
+                    string value = item.Value;
+                    request.Headers.Add(key, value);
+                }
 
-                //Task<HttpResponseMessage> responseTask = client.SendAsync(request);
-                //responseTask.Wait();
+                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
+                responseTask.Wait();
 
-                //HttpResponseMessage response = responseTask.Result;
+                HttpResponseMessage response = responseTask.Result;
 
-                //ViewBag.StatusCode = response.StatusCode.ToString();
+                ViewBag.StatusCode = response.StatusCode.ToString();
 
-                //if (response.StatusCode == HttpStatusCode.OK) // success
-                //{
-                //    var bytetask = response.Content.ReadAsByteArrayAsync();
-                //    bytetask.Wait();
+                if (response.StatusCode == HttpStatusCode.OK) // success
+                {
+                    var bytetask = response.Content.ReadAsByteArrayAsync();
+                    bytetask.Wait();
 
-                //    result = new FileContentResult(bytetask.Result, "application/pdf");
-                //}
-                //else
-                //{
-                //    string errorMsg = "Url: " + targetUrl + "\r\n" +
-                //                      "Result: " + response.StatusCode.ToString();
-                //    result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
-                //}
+                    result = new FileContentResult(bytetask.Result, "application/pdf");
+                }
+                else
+                {
+                    string errorMsg = "Url: " + targetUrl + "\r\n" +
+                                      "Result: " + response.StatusCode.ToString();
+                    result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
+                }
             }
             catch (Exception e)
             {
