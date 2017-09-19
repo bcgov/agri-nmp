@@ -467,6 +467,11 @@ namespace SERVERAPI.Controllers
                     cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
                 }
 
+                CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+                decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                if (defaultYield.HasValue)
+                    cvm.yield = defaultYield.Value.ToString("#.#"); 
+                
                 return View(cvm);
             }
 

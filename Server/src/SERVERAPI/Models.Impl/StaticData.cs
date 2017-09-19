@@ -13,6 +13,9 @@ namespace SERVERAPI.Models.Impl
     {
         private readonly IHttpContextAccessor _ctx;
 
+        //Constants
+        //public decimal CONST_N_PROTIEN_CONVERSION;
+
         public StaticData(IHttpContextAccessor ctx)
         {
             _ctx = ctx;
@@ -746,5 +749,50 @@ namespace SERVERAPI.Models.Impl
             return sTKKelownaRange;
         }
 
+        public Models.StaticData.ConversionFactor GetConversionFactor()
+        {
+            Models.StaticData.ConversionFactor cf = new Models.StaticData.ConversionFactor();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            
+            cf.n_protein_conversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["n_protein_conversion"]);
+            cf.unit_conversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["unit_conversion"]);
+            cf.defaultSoilTestKelownaP = Convert.ToInt16((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]); 
+            cf.defaultSoilTestKelownaK = Convert.ToInt16((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);
+            cf.kgperha_lbperac_conversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["kgperha_lbperac_conversion"]);
+            cf.potassiumAvailabilityFirstYear = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["potassiumAvailabilityFirstYear"]);
+            cf.potassiumAvailabilityLongTerm = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["potassiumAvailabilityLongTerm"]);
+            cf.potassiumKtoK2Oconversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["potassiumKtoK2Oconversion"]);
+            cf.phosphorousAvailabilityFirstYear = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["phosphorousAvailabilityFirstYear"]);
+            cf.phosphorousAvailabilityLongTerm = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["phosphorousAvailabilityLongTerm"]);
+            cf.phosphorousPtoP2O5Kconversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["phosphorousPtoP2O5Kconversion"]);
+            cf.lbPerTonConversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["lbPerTonConversion"]);
+
+            return cf;
+        }
+
+        public Models.StaticData.Message GetMessageByChemicalBalance(string chemical, int balance)
+        {
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];
+            Models.StaticData.Message message = new Models.StaticData.Message();
+
+            foreach (var r in array)
+            {
+                if (chemical == r["chemical"].ToString() && 
+                    balance >= Convert.ToInt32(r["balance_low"].ToString()) &&
+                    balance <= Convert.ToInt32(r["balance_high"].ToString()))
+                {
+                    message.id = Convert.ToInt32(r["id"].ToString());
+                    message.text = r["text"].ToString();
+                    message.chemical = r["chemical"].ToString();
+                    message.balance_low = Convert.ToInt32(r["balance_low"].ToString());
+                    message.balance_high = Convert.ToInt32(r["balance_high"].ToString());
+                }
+            }
+
+            return message;
+        }
     }
 }

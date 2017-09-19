@@ -35,16 +35,16 @@ namespace SERVERAPI.Utility
         {
             Manure mymanure = _sd.GetManure(manure);
 
-            decimal potassiumAvailabilityFirstYear = 1;
-            decimal potassiumAvailabilityLongTerm = 1;
-            decimal potassiumKtoK2Oconversion = 1.2M;
-            decimal phosphorousAvailabilityFirstYear = 0.7M;
-            decimal phosphorousAvailabilityLongTerm = 1;            
-            decimal phosphorousPtoP2O5Kconversion = 2.29M;
-            decimal lbPerTonConversion = 20;
+            ConversionFactor _cf = _sd.GetConversionFactor();
+
+            decimal potassiumAvailabilityFirstYear = _cf.potassiumAvailabilityFirstYear;
+            decimal potassiumAvailabilityLongTerm = _cf.potassiumAvailabilityLongTerm;
+            decimal potassiumKtoK2Oconversion = _cf.potassiumKtoK2Oconversion;
+            decimal phosphorousAvailabilityFirstYear = _cf.phosphorousAvailabilityFirstYear;
+            decimal phosphorousAvailabilityLongTerm = _cf.phosphorousAvailabilityLongTerm;
+            decimal phosphorousPtoP2O5Kconversion = _cf.phosphorousPtoP2O5Kconversion;
+            decimal lbPerTonConversion = _cf.lbPerTonConversion;
             decimal tenThousand = 10000;
-
-
 
             // get conversion factor for selected units to lb/ac
             Unit myunit = _sd.GetUnit(applicationRateUnits);

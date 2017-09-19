@@ -28,19 +28,15 @@ namespace SERVERAPI.Utility
         public decimal yield { get; set; }
         public decimal? crudeProtien { get; set; }
         public CropRequirementRemoval cropRequirementRemoval { get; set; }
-        public bool? coverCropHarvested { get; set; }
-
-        decimal n_protien_conversion = 0.625M;
-        decimal unit_conversion = 0.5M;
-        int defaultSoilTestKelownaP = 5;
-        int defaultSoilTestKelownaK = 5;
-        decimal kgperha_lbperac_conversion = 0.892176122M;
-        
+        public bool? coverCropHarvested { get; set; }                 
 
         public CropRequirementRemoval GetCropRequirementRemoval()
         {
             decimal n_removal = 0;
-            
+
+            ConversionFactor _cf = _sd.GetConversionFactor();
+
+
             CropRequirementRemoval crr = new CropRequirementRemoval();
             Crop crop = _sd.GetCrop(cropid);
 
@@ -71,7 +67,7 @@ namespace SERVERAPI.Utility
                     n_removal = 0;
             }
             else
-                n_removal = decimal.Divide(Convert.ToDecimal(crudeProtien), (n_protien_conversion * unit_conversion)) * yield;
+                n_removal = decimal.Divide(Convert.ToDecimal(crudeProtien), (_cf.n_protein_conversion * _cf.unit_conversion)) * yield;
             
             crr.P2O5_Removal = Convert.ToInt32(crop.cropremovalfactor_P2O5 * yield);
             crr.K2O_Removal = Convert.ToInt32(crop.cropremovalfactor_K2O * yield);
@@ -110,27 +106,27 @@ namespace SERVERAPI.Utility
             // p2o5 recommend calculations
             CropSTPRegionCd cropSTPRegionCd  = _sd.GetCropSTPRegionCd(cropid, region.soil_test_phospherous_region_cd);
             int? phosphorous_crop_group_region_cd = cropSTPRegionCd.phosphorous_crop_group_region_cd;
-            STPKelownaRange sTPKelownaRange = _sd.GetSTPKelownaRangeByPpm(defaultSoilTestKelownaP);
+            STPKelownaRange sTPKelownaRange = _sd.GetSTPKelownaRangeByPpm(_cf.defaultSoilTestKelownaP);
             int stp_kelowna_range_id = sTPKelownaRange.id;
             if (phosphorous_crop_group_region_cd == null)
                 crr.P2O5_Requirement = 0;
             else
             {
                 STPRecommend sTPRecommend = _sd.GetSTPRecommend(stp_kelowna_range_id, region.soil_test_phospherous_region_cd, Convert.ToInt16(phosphorous_crop_group_region_cd));
-                crr.P2O5_Requirement = Convert.ToInt32(Convert.ToDecimal(sTPRecommend.p2o5_recommend_kgperha) * kgperha_lbperac_conversion);
+                crr.P2O5_Requirement = Convert.ToInt32(Convert.ToDecimal(sTPRecommend.p2o5_recommend_kgperha) * _cf.kgperha_lbperac_conversion);
             }
 
             // k2o recommend calculations
             CropSTKRegionCd cropSTKRegionCd = _sd.GetCropSTKRegionCd(cropid, region.soil_test_potassium_region_cd);
             int? potassium_crop_group_region_cd = cropSTKRegionCd.potassium_crop_group_region_cd;
-            STKKelownaRange sTKKelownaRange = _sd.GetSTKKelownaRangeByPpm(defaultSoilTestKelownaK);
+            STKKelownaRange sTKKelownaRange = _sd.GetSTKKelownaRangeByPpm(_cf.defaultSoilTestKelownaK);
             int stk_kelowna_range_id = sTKKelownaRange.id;
             if (potassium_crop_group_region_cd == null)
                 crr.K2O_Requirement = 0;
             else
             {
                 STKRecommend sTKRecommend = _sd.GetSTKRecommend(stk_kelowna_range_id, region.soil_test_potassium_region_cd, Convert.ToInt16(potassium_crop_group_region_cd));
-                crr.K2O_Requirement = Convert.ToInt32(Convert.ToDecimal(sTKRecommend.k2o_recommend_kgperha) * kgperha_lbperac_conversion);
+                crr.K2O_Requirement = Convert.ToInt32(Convert.ToDecimal(sTKRecommend.k2o_recommend_kgperha) * _cf.kgperha_lbperac_conversion);
             }
 
             // n recommend calculations -note the excel n_recommd are zero based, the statid data is 1 based
@@ -161,14 +157,33 @@ namespace SERVERAPI.Utility
         // default for % Crude Protien = crop.cropremovalfactor_N * 0.625 [N to protien conversion] * 0.5 [unit conversion]
         public decimal GetCrudeProtienByCropId(int _cropid)
         {
+            ConversionFactor _cf = _sd.GetConversionFactor();
+
             decimal cp = 0;
             decimal crfN = 0;
             Crop crop = _sd.GetCrop(_cropid);
             decimal.TryParse(crop.cropremovalfactor_N.ToString(), out crfN);
-            cp = crfN * n_protien_conversion * unit_conversion;
+            cp = crfN * _cf.n_protein_conversion * _cf.unit_conversion;
 
             return cp;
         }
+
+        public decimal? GetDefaultYieldByCropId(int _cropid)
+        {
+            decimal? defaultYield = null;
+            int _locationid;
+            if (_ud.FarmDetails().farmRegion.HasValue)
+            { 
+                _locationid = _sd.GetRegion(_ud.FarmDetails().farmRegion.Value).locationid;
+                CropYield cy = _sd.GetCropYield(_cropid, _locationid);
+                if (cy.amt.HasValue)
+                    defaultYield = cy.amt.Value;
+
+            }            
+
+            return defaultYield;
+        }
+
 
     }
 
