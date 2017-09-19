@@ -1,6 +1,20 @@
 ﻿{
   "agri": {
     "nmp": {
+      "conversions": {
+        "n_protein_conversion": "0.625",
+        "unit_conversion": "0.5",
+        "defaultSoilTestKelownaP": "5",
+        "defaultSoilTestKelownaK": "5",
+        "kgperha_lbperac_conversion": "0.892176122",
+        "potassiumAvailabilityFirstYear": "1",
+        "potassiumAvailabilityLongTerm": "1",
+        "potassiumKtoK2Oconversion": "1.2",
+        "phosphorousAvailabilityFirstYear": "0.7",
+        "phosphorousAvailabilityLongTerm": "1",
+        "phosphorousPtoP2O5Kconversion": "2.29",
+        "lbPerTonConversion": "20"
+      },
       "locations": {
         "location": [
           {
@@ -8085,6 +8099,73 @@
             "k2o_recommend_kgperha": "0"
           }
         ]
+      },
+      "messages": {
+          "message": [
+            {
+              "id": "1",
+              "text": "Crop requirement for N is met, can be reduced by",
+              "chemical": "N",
+              "balance_low": "15",
+              "balance_high": "99999"
+            },
+            {
+              "id": "2",
+              "text": "Crop requirement for N is met",
+              "chemical": "N",
+              "balance_low": "-14",
+              "balance_high": "14"
+            },
+            {
+              "id": "3",
+              "text": "Crop requires more N, an additional",
+              "chemical": "N",
+              "balance_low": "-99999",
+              "balance_high": "-15"
+            },
+            {
+              "id": "4",
+              "text": "Crop requirement for P2O5 is met, can be reduced by",
+              "chemical": "P2O5",
+              "balance_low": "15",
+              "balance_high": "99999"
+            },
+            {
+              "id": "5",
+              "text": "Crop requirement for P2O5 is met",
+              "chemical": "P2O5",
+              "balance_low": "-14",
+              "balance_high": "14"
+            },
+            {
+              "id": "6",
+              "text": "Crop requires more P2O5, an additional",
+              "chemical": "P2O5",
+              "balance_low": "-99999",
+              "balance_high": "-15"
+            },
+            {
+              "id": "7",
+              "text": "Crop requirement for K2O is met, can be reduced by",
+              "chemical": "K2O",
+              "balance_low": "15",
+              "balance_high": "99999"
+            },
+            {
+              "id": "8",
+              "text": "Crop requirement for K2O is met",
+              "chemical": "K2O",
+              "balance_low": "-14",
+              "balance_high": "14"
+            },
+            {
+              "id": "9",
+              "text": "Crop requires more K2O, an additional",
+              "chemical": "K2O",
+              "balance_low": "-99999",
+              "balance_high": "-15"
+            }
+          ]        
       }
     }    
   }
