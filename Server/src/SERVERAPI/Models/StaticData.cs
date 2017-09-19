@@ -7,6 +7,22 @@ namespace SERVERAPI.Models
 {
     public class StaticData
     {
+        public class ConversionFactor
+        {
+            public decimal n_protein_conversion { get; set; }
+            public decimal unit_conversion { get; set; }
+            public int defaultSoilTestKelownaP { get; set; }
+            public int defaultSoilTestKelownaK { get; set; }
+            public decimal kgperha_lbperac_conversion { get; set; }
+            public decimal potassiumAvailabilityFirstYear { get; set; }
+            public decimal potassiumAvailabilityLongTerm { get; set; }
+            public decimal potassiumKtoK2Oconversion { get; set; }
+            public decimal phosphorousAvailabilityFirstYear { get; set; }
+            public decimal phosphorousAvailabilityLongTerm { get; set; }
+            public decimal phosphorousPtoP2O5Kconversion { get; set; }
+            public decimal lbPerTonConversion { get; set; }            
+        }
+
         public class Regions
         {
             public List<Region> regions { get; set; }
@@ -284,6 +300,19 @@ namespace SERVERAPI.Models
             public string range { get; set; }
             public int range_low { get; set; }
             public int range_high { get; set; }
+        }
+
+        public class Messages
+        {
+            public List<Message> messages { get; set; }
+        }
+        public class Message
+        {
+            public int id { get; set; }
+            public string text { get; set; }
+            public string chemical { get; set; }
+            public int balance_low { get; set; }
+            public int balance_high { get; set; }
         }
 
     }
