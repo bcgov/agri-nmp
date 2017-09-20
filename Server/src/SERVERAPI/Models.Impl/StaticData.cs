@@ -771,24 +771,27 @@ namespace SERVERAPI.Models.Impl
             return cf;
         }
 
-        public Models.StaticData.Message GetMessageByChemicalBalance(string chemical, int balance)
+        public string GetMessageByChemicalBalance(string balanceType, int balance, bool legume)
         {
-
             JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
-            JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];
-            Models.StaticData.Message message = new Models.StaticData.Message();
+            JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];            
+            string message = null;
 
             foreach (var r in array)
             {
-                if (chemical == r["chemical"].ToString() && 
+                if (balanceType == r["balanceType"].ToString() && 
                     balance >= Convert.ToInt32(r["balance_low"].ToString()) &&
                     balance <= Convert.ToInt32(r["balance_high"].ToString()))
+                {                    
+                    message = r["text"].ToString();
+                }
+
+                //If legume crop in field never display that more N is required
+                if (balanceType == "AgrN" &&
+                    legume &&
+                    Convert.ToInt32(r["balance_high"].ToString()) == 9999)
                 {
-                    message.id = Convert.ToInt32(r["id"].ToString());
-                    message.text = r["text"].ToString();
-                    message.chemical = r["chemical"].ToString();
-                    message.balance_low = Convert.ToInt32(r["balance_low"].ToString());
-                    message.balance_high = Convert.ToInt32(r["balance_high"].ToString());
+                    message = string.Empty;
                 }
             }
 
