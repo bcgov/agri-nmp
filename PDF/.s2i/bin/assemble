@@ -1,27 +1,116 @@
 #!/bin/bash
-echo "Running upstream assemble"
 
-/usr/libexec/s2i/assemble
+set -e
 
-echo clean up any locks.
-rm /tmp/NuGetScratch/lock/*
+# User settable environment
+DOTNET_CONFIGURATION="${DOTNET_CONFIGURATION:-Release}"
+DOTNET_STARTUP_PROJECT="${DOTNET_STARTUP_PROJECT:-.}"
+DOTNET_ASPNET_STORE="${DOTNET_ASPNET_STORE:-false}"
+if [ "$DOTNET_ASPNET_STORE" != "false" ]; then
+  DOTNET_ASPNET_STORE="true"
+fi
 
-pushd src/PDF.Server
+# Private environment
+DOTNET_FRAMEWORK="netcoreapp2.0"
+DOTNET_RID=rhel.7-x64
+
+# npm
+if [ -n "${DOTNET_NPM_TOOLS}" ]; then
+  echo "---> Installing npm tools ..."
+
+  if [ ! -z $HTTP_PROXY ]; then
+    echo "---> Setting npm http proxy"
+    npm config set proxy $HTTP_PROXY
+  fi
+  if [ ! -z $HTTPS_PROXY ]; then
+    echo "---> Setting npm https proxy"
+    npm config set https-proxy $HTTPS_PROXY
+  fi
+  if [ ! -z $NPM_MIRROR ]; then
+    echo "---> Setting npm mirror"
+    npm config set registry $NPM_MIRROR
+  fi
+
+  pushd $HOME
+  npm install ${DOTNET_NPM_TOOLS}
+  popd
+fi
+
+echo "---> Copying application source ..."
+cp -Rf /tmp/src/. ./
+
+# output assembly name
+if [ -n "$DOTNET_ASSEMBLY_NAME" ]; then
+  APP_DLL_NAME="${DOTNET_ASSEMBLY_NAME}.dll"
+else
+  PROJFILES=(`find "${DOTNET_STARTUP_PROJECT}" -maxdepth 1 -name "*.??proj"`)
+  if [ ${#PROJFILES[@]} -eq 1 ]; then
+    PROJFILE=$(basename ${PROJFILES[0]})
+    APP_DLL_NAME="${PROJFILE: : -7}.dll"
+  elif [ ${#PROJFILES[@]} -eq 0 ]; then
+    echo "error: DOTNET_STARTUP_PROJECT has no project file"
+    exit 1
+  else
+    echo "error: DOTNET_STARTUP_PROJECT contains multiple project files"
+    exit 1
+  fi
+fi
+
+# Build nuget sources list for when doing the restore
+RESTORE_OPTIONS=""
+for SOURCE in $DOTNET_RESTORE_SOURCES; do
+  RESTORE_OPTIONS="$RESTORE_OPTIONS --source $SOURCE"
+done
+
+# run tests
+for TEST_PROJECT in $DOTNET_TEST_PROJECTS; do
+    echo "---> Restoring test project ($TEST_PROJECT) dependencies..."
+    dotnet restore "$TEST_PROJECT" $RESTORE_OPTIONS
+    echo "---> Running test project: $TEST_PROJECT..."
+    dotnet test "$TEST_PROJECT" -f "$DOTNET_FRAMEWORK"
+done
+
+# publish application
+echo "---> Restoring application dependencies..."
+dotnet restore "$DOTNET_STARTUP_PROJECT" $RESTORE_OPTIONS
+echo "---> Publishing application..."
+dotnet publish "$DOTNET_STARTUP_PROJECT" -f "$DOTNET_FRAMEWORK" -c "$DOTNET_CONFIGURATION" \
+       --self-contained false /p:PublishWithAspNetCoreTargetManifest=$DOTNET_ASPNET_STORE -o "$DOTNET_APP_PATH"
+
+# check if the assembly used by the script exists
+if [ ! -f "$DOTNET_APP_PATH/${APP_DLL_NAME}" ]; then
+  echo "error: Build output does not contain entrypoint assembly: ${APP_DLL_NAME}"
+  exit 1
+fi
+
+# Create run script in publish folder
+cat << EOF >"$DOTNET_APP_PATH/$DOTNET_DEFAULT_CMD"
+#!/bin/bash
+
+exec dotnet ${APP_DLL_NAME} \$@
+EOF
+chmod +x "$DOTNET_APP_PATH/$DOTNET_DEFAULT_CMD"
+
 echo Copying Node.js components
-cp pdf.js /opt/app-root/publish
-cp package.json /opt/app-root/publish
+cp pdf.js $DOTNET_APP_PATH
+cp package.json $DOTNET_APP_PATH
 echo Copying templates
-cp -a Templates /opt/app-root/publish
-echo Publishing app
-dotnet publish -o /opt/app-root/publish
+cp -a Templates $DOTNET_APP_PATH
 
-cd /opt/app-root/publish
+
+pushd $DOTNET_APP_PATH
 echo Restoring Node.js packages
 npm install
 popd 
 
+# Fix source directory permissions
 fix-permissions ./
 # set permissions for any installed artifacts
-fix-permissions /opt/app-root
-fix-permissions /opt/app-root/publish
-fix-permissions /tmp/NuGetScratch/lock
+fix-permissions /opt/app-root/src/
+
+if [ "$DOTNET_PACK" == "true" ]; then
+  echo "---> Packing application..."
+  tar -czf /opt/app-root/app.tar.gz -C $DOTNET_APP_PATH .
+  fix-permissions /opt/app-root/app.tar.gz
+fi
+
