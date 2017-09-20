@@ -199,6 +199,7 @@ namespace SERVERAPI.Controllers
         {
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
             rvm.fields = new List<ReportFieldsField>();
+            rvm.year = _ud.FarmDetails().year;
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
