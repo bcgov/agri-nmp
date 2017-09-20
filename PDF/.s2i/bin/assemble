@@ -92,10 +92,10 @@ EOF
 chmod +x "$DOTNET_APP_PATH/$DOTNET_DEFAULT_CMD"
 
 echo Copying Node.js components
-cp pdf.js $DOTNET_APP_PATH
-cp package.json $DOTNET_APP_PATH
+cp /opt/app-root/src/src/PDF.Server/pdf.js $DOTNET_APP_PATH
+cp /opt/app-root/src/src/PDF.Server/package.json $DOTNET_APP_PATH
 echo Copying templates
-cp -a Templates $DOTNET_APP_PATH
+cp -a /opt/app-root/src/src/PDF.Server/Templates $DOTNET_APP_PATH
 
 
 pushd $DOTNET_APP_PATH
