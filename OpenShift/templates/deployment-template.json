@@ -109,6 +109,10 @@
                             {
                                 "name": "ASPNETCORE_ENVIRONMENT",
                                 "value": "Staging"
+                            },
+                            {
+                                "name": "LC_ALL",
+                                "value": "C"
                             }                            
                         ],
                         "resources": {
