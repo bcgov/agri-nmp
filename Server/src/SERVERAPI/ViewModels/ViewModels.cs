@@ -285,5 +285,9 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "K2O")]
         [Required(ErrorMessage = "Required")]
         public string potassium { get; set; }
+        [Display(Name = "Amount")]
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public decimal amount { get; set; }
     }
 }

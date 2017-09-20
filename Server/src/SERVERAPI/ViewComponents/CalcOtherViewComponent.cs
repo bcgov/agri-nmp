@@ -40,7 +40,8 @@ namespace SERVERAPI.ViewComponents
                     description = m.description,
                     nitrogen = m.nitrogen,
                     phospherous = m.phospherous,
-                    potassium = m.potassium 
+                    potassium = m.potassium ,
+                    amount = m.amount
                 };
                 ovm.others.Add(no);
             }
@@ -60,5 +61,6 @@ namespace SERVERAPI.ViewComponents
         public decimal nitrogen { get; set; }
         public decimal phospherous { get; set; }
         public decimal potassium { get; set; }
+        public decimal amount { get; set; }
     }
 }

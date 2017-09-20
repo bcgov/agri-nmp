@@ -70,6 +70,7 @@ namespace SERVERAPI.Models
         public decimal nitrogen { get; set; }
         public decimal potassium { get; set; }
         public decimal phospherous { get; set; }
+        public decimal amount { get; set; }
     }
     public class FieldCrop
     {

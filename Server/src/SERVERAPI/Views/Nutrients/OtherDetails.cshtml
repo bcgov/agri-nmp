@@ -36,6 +36,18 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="form-group col-sm-2">
+                        <label asp-for="amount">Amount</label>
+                        <div>
+                            <input class="form-control" asp-for="amount" id="source" type="text" />
+                            <label>lbs/ac</label>
+                        </div>
+                        <span asp-validation-for="amount" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
