@@ -12,7 +12,7 @@ using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Controllers
 {
-    public class FarmController : Controller
+    public class FarmController : BaseController
     {
         private IHostingEnvironment _env;
         private UserData _ud;

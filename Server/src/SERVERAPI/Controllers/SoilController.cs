@@ -10,7 +10,7 @@ using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Controllers
 {
-    public class SoilController : Controller
+    public class SoilController : BaseController
     {
         private IHostingEnvironment _env;
         private UserData _ud;

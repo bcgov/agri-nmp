@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace SERVERAPI.Controllers
 {
-    public class ManureController : Controller
+    public class ManureController : BaseController
     {
         private IHostingEnvironment _env;
 

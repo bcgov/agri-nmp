@@ -31,7 +31,7 @@ namespace SERVERAPI.Controllers
         public string options;
     }
 
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         private IHostingEnvironment _env;
         private UserData _ud;
@@ -72,9 +72,9 @@ namespace SERVERAPI.Controllers
 
             FileContentResult result = null;
             //JSONResponse result = null;
-            //var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
+            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            string pdfHost = "http://localhost:54611";
+            //string pdfHost = "http://localhost:54611";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
@@ -205,8 +205,19 @@ namespace SERVERAPI.Controllers
             foreach (var f in fldList)
             {
                 ReportFieldsField rf = new ReportFieldsField();
+                rf.fieldArea = f.area.ToString();
                 rf.fieldName = f.fieldName;
                 rf.fieldComment = f.comment;
+
+                if(f.soilTest != null)
+                {
+                    rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
+                    rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString() + " ppm";
+                    rf.soiltest.dispP = f.soilTest.ValP.ToString() + " ppm";
+                    rf.soiltest.dispK = f.soilTest.valK.ToString() + " ppm";
+                    rf.soiltest.dispPH = f.soilTest.valPH.ToString();
+                }
+
                 rf.nutrients = new List<ReportFieldNutrient>();
                 if (f.nutrients != null)
                 {

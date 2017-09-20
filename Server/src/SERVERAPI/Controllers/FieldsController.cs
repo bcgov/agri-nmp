@@ -12,7 +12,7 @@ using SERVERAPI.Models;
 
 namespace SERVERAPI.Controllers
 {
-    public class FieldsController : Controller
+    public class FieldsController : BaseController
     {
         private IHostingEnvironment _env;
         private UserData _ud;

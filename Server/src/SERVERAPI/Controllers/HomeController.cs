@@ -39,7 +39,7 @@ namespace SERVERAPI.Controllers
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private IHostingEnvironment _env;
         private UserData _ud;

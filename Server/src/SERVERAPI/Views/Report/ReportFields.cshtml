@@ -2,65 +2,104 @@
 
 <div class="Row">
     <div class="Cell">
-        Detailed Field Reports
+        <span style="font-size:20px"><b>Detailed Field Reports</b></span>
+        <br />
     </div>
 </div>
 <div class="Row">
     <div class="Cell">
-        <table style="border-collapse: collapse;">
             @foreach (var f in Model.fields)
             {
-                <tr style="padding-top:20px; padding-bottom:20px;">
-                    <td colspan="2" style="padding-bottom:20px">
-                        <span style="font-size:medium"><u>Field: @f.fieldName</u></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        Area: @f.fieldArea
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        @Model.year crop: @f.fieldCrops
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <table style="border-collapse: collapse;">
-                            <tr>
-                                <td colspan="4">
-                                    Nutrient Application Plan: @Model.year
-                                </td>
-                            </tr>
-                            <tr style="border: 1px solid black;">
-                                <td style="width:250px; border: 1px solid black; background-color:burlywood; padding:5px">
-                                    <b>Nutrient Source</b>
-                                </td>
-                                <td style="width:250px; border: 1px solid black; background-color:burlywood; padding:5px">
-                                    <b>Application Timing</b>
-                                </td>
-                                <td style="width:250px; border: 1px solid black; background-color:burlywood; padding:5px">
-                                    <b>Method</b>
-                                </td>
-                                <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:burlywood;">
-                                    <b>Rate</b>
-                                </td>
-                            </tr>
-                            @foreach (var n in f.nutrients)
-                            {
+                <br />
+                <table style="border-collapse: collapse;">
+                    <tr>
+                        <td>
+                            <span style="font-size:large"><u>Field: @f.fieldName</u></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Area: @f.fieldArea ac
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Model.year crop: @f.fieldCrops
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <table style="border-collapse: collapse;">
+                    <tr>
+                        <td style="width:45%; border-bottom: 1px solid black">
+                            <span style="font-size:10px">Soil Test Results: </span>
+                        </td>
+                        <td style="width:10%">
+                            &nbsp;
+                        </td>
+                        <td style="width:45%; border-bottom: 1px solid black">
+                            <span style="font-size:10px">Field Comments:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table>
                                 <tr>
-                                    <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientName</td>
-                                    <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientSeason</td>
-                                    <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientApplication</td>
-                                    <td style="text-align:right; width:100px; border: 1px solid black; padding:5px">@n.nutrientAmount</td>
-                                    <td style="text-align:left; width:100px; border: 1px solid black; padding:5px">@n.nutrientUnit</td>
+                                    <td>
+                                        Nitrogen: @f.soiltest.dispNO3H
+                                    </td>
+                                    <td>
+                                        Phosphorus: @f.soiltest.dispP
+                                    </td>
                                 </tr>
-                            }
-                        </table>
-                    </td>
-                </tr>
+                                <tr>
+                                    <td>
+                                        Potassium: @f.soiltest.dispK
+                                    </td>
+                                    <td>
+                                        pH: @f.soiltest.dispPH
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td></td>
+                        <td>
+                            @f.fieldComment
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <table style="border-collapse: collapse;">
+                    <tr>
+                        <td colspan="4">
+                            <span style="font-size: 16px">Nutrient Application Plan: @Model.year</span>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
+                            <b>Nutrient Source</b>
+                        </td>
+                        <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
+                            <b>Application Timing</b>
+                        </td>
+                        <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
+                            <b>Method</b>
+                        </td>
+                        <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:skyblue;">
+                            <b>Rate</b>
+                        </td>
+                    </tr>
+                    @foreach (var n in f.nutrients)
+                    {
+                        <tr>
+                            <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientName</td>
+                            <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientSeason</td>
+                            <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientApplication</td>
+                            <td style="text-align:right; width:100px; border: 1px solid black; padding:5px">@n.nutrientAmount</td>
+                            <td style="text-align:left; width:100px; border: 1px solid black; padding:5px">@n.nutrientUnit</td>
+                        </tr>
+                    }
+                </table>
             }
-        </table>
     </div>
 </div>

@@ -16,7 +16,7 @@ using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Controllers
 {
-    public class NutrientsController : Controller
+    public class NutrientsController : BaseController
     {
         private IHostingEnvironment _env;
         private UserData _ud;
