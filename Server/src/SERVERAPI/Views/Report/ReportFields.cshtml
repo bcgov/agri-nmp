@@ -29,7 +29,7 @@
                     </tr>
                 </table>
                 <br />
-                <table style="border-collapse: collapse;">
+                <table style="border-collapse: collapse; width: 70%">
                     <tr>
                         <td style="width:45%; border-bottom: 1px solid black">
                             <span style="font-size:10px">Soil Test Results: </span>
@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <table>
+                            <table style="width: 100%">
                                 <tr>
                                     <td>
                                         Nitrogen: @f.soiltest.dispNO3H
@@ -75,7 +75,7 @@
                             <span style="font-size: 16px">Nutrient Application Plan: @Model.year</span>
                         </td>
                     </tr>
-                    <tr style="border: 1px solid black;">
+                    <tr style="border: 1px solid black; background-color:skyblue;">
                         <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
                             <b>Nutrient Source</b>
                         </td>
@@ -100,6 +100,97 @@
                         </tr>
                     }
                 </table>
+                <br />
+                <br />
+                <table style="border-collapse: collapse; width:100%">
+                    <tr style="font-size:12px;">
+                        <td style="width:35%;"></td>
+                        <td colspan="3" style="border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            Agronomic Balance
+                        </td>
+                        <td style="width:5%">
+                            &nbsp;
+                        </td>
+                        <td colspan="3" style="border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            Crop Removal Balance
+                        </td>
+                    </tr>
+                    <tr style="font-size:12px;">
+                        <td style="width:35%;">
+                        </td>
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            <b>N</b>
+                        </td>
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            <b>P<sub>2</sub>O<sub>5</sub></b>
+                        </td>
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            <b>K<sub>2</sub>O</b>
+                        </td>
+                        <td style="width:5%">
+                            &nbsp;
+                        </td>
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            <b>N</b>
+                        </td>
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            <b>P<sub>2</sub>O<sub>5</sub></b>
+                        </td>
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            <b>K<sub>2</sub>O</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:35%; border-bottom: 1px solid black;">
+                        </td>
+                        <td colspan="3" style="border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            <span style="font-size:8px;">(lbs / ac)</span>
+                        </td>
+                        <td style="width:5%">
+                            &nbsp;
+                        </td>
+                        <td colspan="3" style="border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                            <span style="font-size:8px;">(lbs / ac)</span>
+                        </td>
+                    </tr>
+                    @foreach (var c in f.crops)
+                    {
+                        <tr>
+                            <td>@c.cropname</td>
+                            <td style="text-align:center">@c.reqN</td>
+                            <td style="text-align:center">@c.reqP</td>
+                            <td style="text-align:center">@c.reqK</td>
+                            <td></td>
+                            <td style="text-align:center">@c.remN</td>
+                            <td style="text-align:center">@c.remP</td>
+                            <td style="text-align:center">@c.remK</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>N fertility Credits</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var n in f.nutrients)
+                    {
+                        <tr>
+                            <td>@n.nutrientName</td>
+                            <td style="text-align:center">@n.reqN</td>
+                            <td style="text-align:center">@n.reqP</td>
+                            <td style="text-align:center">@n.reqK</td>
+                            <td></td>
+                            <td style="text-align:center">@n.remN</td>
+                            <td style="text-align:center">@n.remP</td>
+                            <td style="text-align:center">@n.remK</td>
+                        </tr>
+                    }
+                </table>
+                <br />
             }
     </div>
 </div>

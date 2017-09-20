@@ -208,6 +208,8 @@ namespace SERVERAPI.Controllers
                 rf.fieldArea = f.area.ToString();
                 rf.fieldName = f.fieldName;
                 rf.fieldComment = f.comment;
+                rf.soiltest = new ReportFieldSoilTest();
+                rf.crops = new List<ReportFieldCrop>();
 
                 if(f.soilTest != null)
                 {
@@ -233,6 +235,12 @@ namespace SERVERAPI.Controllers
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).application_method;
                             rfn.nutrientUnit = _sd.GetUnit(m.unitId).name;
+                            rfn.reqN = m.yrN;
+                            rfn.reqP = m.yrP2o5;
+                            rfn.reqK = m.yrK2o;
+                            rfn.remN = m.ltN;
+                            rfn.remP = m.ltP2o5;
+                            rfn.remK = m.ltK2o;
                             rf.nutrients.Add(rfn);
                         }
                     }
@@ -241,7 +249,19 @@ namespace SERVERAPI.Controllers
                 {
                     foreach (var c in f.crops)
                     {
-                        rf.fieldCrops = rf.fieldCrops + (string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther) + " ";
+                        ReportFieldCrop fc = new ReportFieldCrop();
+
+                        fc.cropname = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther;
+                        fc.reqN =  -c.reqN;
+                        fc.reqP =  -c.reqP2o5;
+                        fc.reqK =  -c.reqK2o;
+                        fc.remN =  -c.remN;
+                        fc.remP =  -c.remP2o5;
+                        fc.remK =  -c.remK2o;
+
+                        rf.fieldCrops = rf.fieldCrops + fc.cropname + " ";
+
+                        rf.crops.Add(fc);
                     }
                 }
                 rvm.fields.Add(rf);

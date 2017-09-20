@@ -957,8 +957,7 @@ namespace SERVERAPI.Controllers
                         description = ovm.source,
                         nitrogen = Convert.ToDecimal(ovm.nitrogen),
                         phospherous = Convert.ToDecimal(ovm.phospherous),
-                        potassium = Convert.ToDecimal(ovm.potassium),
-                        amount = ovm.amount
+                        potassium = Convert.ToDecimal(ovm.potassium)
                     };
 
                     _ud.AddFieldNutrientsOther(ovm.fieldName, no);
@@ -970,7 +969,6 @@ namespace SERVERAPI.Controllers
                     no.nitrogen = Convert.ToDecimal(ovm.nitrogen);
                     no.phospherous = Convert.ToDecimal(ovm.phospherous);
                     no.potassium = Convert.ToDecimal(ovm.potassium);
-                    no.amount = ovm.amount;
 
                     _ud.UpdateFieldNutrientsOther(ovm.fieldName, no);
                 }

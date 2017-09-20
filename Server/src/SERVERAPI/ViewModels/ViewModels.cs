@@ -244,6 +244,12 @@ namespace SERVERAPI.ViewModels
         public string nutrientUnit { get; set; }
         public string nutrientSeason { get; set; }
         public string nutrientApplication { get; set; }
+        public decimal reqN { get; set; }
+        public decimal reqP { get; set; }
+        public decimal reqK { get; set; }
+        public decimal remN { get; set; }
+        public decimal remP { get; set; }
+        public decimal remK { get; set; }
     }
     public class ReportFieldsViewModel
     {
@@ -258,6 +264,7 @@ namespace SERVERAPI.ViewModels
         public string fieldArea { get; set; }
         public ReportFieldSoilTest soiltest { get; set; }
         public List<ReportFieldNutrient> nutrients { get; set; }
+        public List<ReportFieldCrop> crops { get; set; }
     }
     public class ReportFieldSoilTest
     {
@@ -266,6 +273,16 @@ namespace SERVERAPI.ViewModels
         public string dispP { get; set; }
         public string dispK { get; set; }
         public string dispPH { get; set; }
+    }
+    public class ReportFieldCrop
+    {
+        public string cropname { get; set; }
+        public decimal reqN { get; set; }
+        public decimal reqP { get; set; }
+        public decimal reqK { get; set; }
+        public decimal remN { get; set; }
+        public decimal remP { get; set; }
+        public decimal remK { get; set; }
     }
     public class OtherDetailsViewModel
     {
@@ -285,9 +302,5 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "K2O")]
         [Required(ErrorMessage = "Required")]
         public string potassium { get; set; }
-        [Display(Name = "Amount")]
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
-        public decimal amount { get; set; }
     }
 }

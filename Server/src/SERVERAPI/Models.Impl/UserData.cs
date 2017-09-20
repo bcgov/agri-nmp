@@ -332,7 +332,6 @@ namespace SERVERAPI.Models.Impl
             no.nitrogen = updtOther.nitrogen;
             no.phospherous = updtOther.phospherous;
             no.potassium = updtOther.potassium;
-            no.amount = updtOther.amount;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
