@@ -30,14 +30,8 @@ namespace SERVERAPI.ViewComponents
         {
             CalcMessagesViewModel cvm = new CalcMessagesViewModel();
 
-            ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_env, _ud, _sd);
+            ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
             cvm.messages = null;
-
-            cbm.balance_AgrN = 11;
-            cbm.balance_AgrK2O = 22;
-            cbm.balance_AgrP2O5 = 33;
-            cbm.balance_CropK2O = 44;
-            cbm.balance_CropP2O5 = 55;
 
             cvm.messages = cbm.DetermineBalanceMessages(fldName);
 
