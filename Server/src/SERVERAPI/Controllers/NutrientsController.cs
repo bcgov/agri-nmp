@@ -802,6 +802,10 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("CalcHeading", new { fldName = fieldName });
         }
+        public IActionResult RefreshMessages(string fieldName)
+        {
+            return ViewComponent("CalcMessages", new { fldName = fieldName });
+        }
         [HttpGet]
         public ActionResult ManureDelete(string fldName, int id)
         {

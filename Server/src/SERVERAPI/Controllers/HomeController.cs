@@ -248,7 +248,7 @@ namespace SERVERAPI.Controllers
                         HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + ", " + _ud.FarmDetails().year);
 
                         string url = Url.Action("Farm", "Farm");
-                        return Json(new { success = true, url = url, farmdata = fileContents });
+                        return Json(new { success = true, url = url });
                     }
                     catch (Exception ex)
                     {

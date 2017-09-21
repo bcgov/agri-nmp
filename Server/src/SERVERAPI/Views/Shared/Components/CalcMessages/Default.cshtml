@@ -1,10 +1,13 @@
 ﻿@model CalcMessagesViewModel
-@if (Model.messages.Count() > 0)
+@if (Model.displayMsgs)
 {
-    foreach (var msg in Model.messages)
+    @if (Model.messages.Count() > 0)
     {
-        <div>
-            @msg
-        </div>
+        foreach (var msg in Model.messages)
+        {
+            <div>
+                @msg
+            </div>
+        }
     }
 }

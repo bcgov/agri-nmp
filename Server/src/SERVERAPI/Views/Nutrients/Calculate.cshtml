@@ -73,7 +73,7 @@
                 }
                 @if (Model.currFld != null)
                 {    
-                    <div class="form-box">
+                    <div class="form-box" id="message">
                         @await Component.InvokeAsync("CalcMessages", new { fldName = Model.currFld })
                     </div>
                 }
@@ -285,11 +285,12 @@
                     if (result.success) {
                         $('#myModal').modal('hide');
                         $('#heading').load(result.urlHead);
+                        $('#message').load(result.urlMsg);
                         $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
                         $('#summary').load(result.urlSumm);
                     } else {
                         $('#myModalContent').html(result);
-                        bindForm(dialog);
+                        bindForm3(dialog);
                     }
                 });
 
