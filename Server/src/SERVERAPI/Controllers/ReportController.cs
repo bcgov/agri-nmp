@@ -31,8 +31,14 @@ namespace SERVERAPI.Controllers
         public string options;
     }
 
-    public class ReportController : BaseController
+    public class ReportController : Controller
     {
+        public IHostingEnvironment _env { get; set; }
+        public UserData _ud { get; set; }
+        public Models.Impl.StaticData _sd { get; set; }
+        public IViewRenderService _viewRenderService { get; set; }
+        public AppSettings _settings;
+
         public ReportController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;

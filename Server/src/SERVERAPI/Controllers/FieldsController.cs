@@ -12,8 +12,12 @@ using SERVERAPI.Models;
 
 namespace SERVERAPI.Controllers
 {
-    public class FieldsController : BaseController
+    public class FieldsController : Controller
     {
+        public IHostingEnvironment _env { get; set; }
+        public UserData _ud { get; set; }
+        public Models.Impl.StaticData _sd { get; set; }
+
         public FieldsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;

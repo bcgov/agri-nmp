@@ -16,8 +16,14 @@ using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Controllers
 {
-    public class NutrientsController : BaseController
+    public class NutrientsController : Controller
     {
+        public IHostingEnvironment _env { get; set; }
+        public UserData _ud { get; set; }
+        public Models.Impl.StaticData _sd { get; set; }
+        public IViewRenderService _viewRenderService { get; set; }
+        public AppSettings _settings;
+
         public NutrientsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd, IOptions<AppSettings> settings)
         {
             _env = env;

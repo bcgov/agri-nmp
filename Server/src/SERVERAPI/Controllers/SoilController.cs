@@ -10,8 +10,13 @@ using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Controllers
 {
-    public class SoilController : BaseController
+    public class SoilController : Controller
     {
+        public IHostingEnvironment _env { get; set; }
+        public UserData _ud { get; set; }
+        public Models.Impl.StaticData _sd { get; set; }
+        public AppSettings _settings;
+
         public SoilController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;
