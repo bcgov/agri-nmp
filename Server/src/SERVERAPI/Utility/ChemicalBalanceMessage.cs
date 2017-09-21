@@ -39,7 +39,7 @@ namespace SERVERAPI.Utility
 
         public List<string> DetermineBalanceMessages(string fieldName)
         {
-            List<string> messages = null;
+            List<string> messages = new List<string>();
             bool legume = false;
             string message = string.Empty;
 

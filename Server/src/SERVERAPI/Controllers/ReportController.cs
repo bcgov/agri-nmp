@@ -82,14 +82,14 @@ namespace SERVERAPI.Controllers
             options.quality = "75";
             options.format = "letter";
             options.orientation = "landscape";
-            options.border.top = "0in";
-            options.border.right = "0in";
-            options.border.bottom = "0in";
-            options.border.left = "0in";
-            options.header.height = "20mm";
+            options.border.top = ".25in";
+            options.border.right = ".25in";
+            options.border.bottom = ".25in";
+            options.border.left = ".25in";
+            options.header.height = "25mm";
             options.header.contents = "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
                                       "Planning Year: " + _ud.FarmDetails().year;
-            options.footer.height = "15mm";
+            options.footer.height = "20mm";
             options.footer.contents = "<span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span>";
 
             // call the microservice

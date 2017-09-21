@@ -79,6 +79,9 @@
                             </div>
                             @if (Model.currFld != null)
                             {
+                                <div class="TableBody" id="message">
+                                    @await Component.InvokeAsync("CalcMessages", new { fldName = Model.currFld })
+                                </div>
                                 <div class="TableBody" id="crop">
                                     @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
                                 </div>
@@ -233,6 +236,7 @@
                     if (result.success) {
                         $('#myModal').modal('hide');
                         $('#heading').load(result.urlHead);
+                        $('#message').load(result.urlMsg);
                         $(result.target).load(result.url);
                         $('#summary').load(result.urlSumm);
                     } else {

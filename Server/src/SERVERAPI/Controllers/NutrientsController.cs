@@ -298,11 +298,7 @@ namespace SERVERAPI.Controllers
 
                         _ud.UpdateFieldNutrientsManure(mvm.fieldName, nm);
                     }
-                    string target = "#manure";
-                    string url = Url.Action("RefreshManureList", "Nutrients", new {fieldName = mvm.fieldName });
-                    string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = mvm.fieldName });
-                    string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = mvm.fieldName });
-                    return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
+                    return Json(ReDisplay("#manure", mvm.fieldName));
                 }
             }
 
@@ -743,11 +739,7 @@ namespace SERVERAPI.Controllers
 
                         _ud.UpdateFieldCrop(cvm.fieldName, crp);
                     }
-                    string target = "#crop";
-                    string url = Url.Action("RefreshCropList", "Nutrients", new { fieldName = cvm.fieldName });
-                    string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = cvm.fieldName });
-                    string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = cvm.fieldName });
-                    return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
+                    return Json(ReDisplay("#crop", cvm.fieldName));
                 }
             }
 
@@ -825,11 +817,7 @@ namespace SERVERAPI.Controllers
             {
                 _ud.DeleteFieldNutrientsManure(dvm.fldName, dvm.id);
 
-                string target = "#manure";
-                string url = Url.Action("RefreshManureList", "Nutrients", new { fieldName = dvm.fldName });
-                string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = dvm.fldName });
-                string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = dvm.fldName });
-                return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
+                return Json(ReDisplay("#manure", dvm.fldName));
             }
             return PartialView("ManureDelete", dvm);
         }
@@ -861,11 +849,7 @@ namespace SERVERAPI.Controllers
             {
                 _ud.DeleteFieldCrop(dvm.fldName, dvm.id);
 
-                string target = "#crop";
-                string url = Url.Action("RefreshCropList", "Nutrients", new { fieldName = dvm.fldName });
-                string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = dvm.fldName });
-                string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = dvm.fldName });
-                return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
+                return Json(ReDisplay("#crop", dvm.fldName));
             }
             return PartialView("CropDelete", dvm);
         }
@@ -967,12 +951,7 @@ namespace SERVERAPI.Controllers
                     _ud.UpdateFieldNutrientsOther(ovm.fieldName, no);
                 }
 
-                string target = "#other";
-                string url = Url.Action("RefreshOtherList", "Nutrients", new { fieldName = ovm.fieldName });
-                string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = ovm.fieldName });
-                string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = ovm.fieldName });
-                return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
-
+                return Json(ReDisplay("#other", ovm.fieldName));
             }
 
             return View(ovm);
@@ -998,13 +977,19 @@ namespace SERVERAPI.Controllers
             {
                 _ud.DeleteFieldNutrientsOther(ovm.fldName, ovm.id);
 
-                string target = "#other";
-                string url = Url.Action("RefreshOtherList", "Nutrients", new { fieldName = ovm.fldName });
-                string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = ovm.fldName });
-                string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = ovm.fldName });
-                return Json(new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead });
+                return Json(ReDisplay("#other", ovm.fldName));
             }
             return PartialView("OtherDelete", ovm);
+        }
+        public object ReDisplay(string target, string fldName)
+        {
+            string url = Url.Action("RefreshOtherList", "Nutrients", new { fieldName = fldName });
+            string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = fldName });
+            string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = fldName });
+            string urlMsg = Url.Action("RefreshMessages", "Nutrients", new { fieldName = fldName });
+
+            var result = new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead , urlMsg = urlMsg};
+            return result;
         }
     }
 }
