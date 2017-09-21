@@ -41,9 +41,6 @@ namespace SERVERAPI.Controllers
     }
     public class HomeController : BaseController
     {
-        private IHostingEnvironment _env;
-        private UserData _ud;
-
         public HomeController(IHostingEnvironment env, UserData ud)
         {
             _env = env;

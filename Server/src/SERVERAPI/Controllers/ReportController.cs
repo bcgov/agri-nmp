@@ -33,11 +33,6 @@ namespace SERVERAPI.Controllers
 
     public class ReportController : BaseController
     {
-        private IHostingEnvironment _env;
-        private UserData _ud;
-        private Models.Impl.StaticData _sd;
-        private readonly IViewRenderService _viewRenderService;
-
         public ReportController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;

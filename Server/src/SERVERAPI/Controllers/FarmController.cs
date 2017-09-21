@@ -14,16 +14,13 @@ namespace SERVERAPI.Controllers
 {
     public class FarmController : BaseController
     {
-        private IHostingEnvironment _env;
-        private UserData _ud;
-        private Models.Impl.StaticData _sd;
-
         public FarmController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;
             _ud = ud;
             _sd = sd;
         }
+
         [HttpGet]
         public IActionResult Farm()
         {

@@ -12,10 +12,6 @@ namespace SERVERAPI.Controllers
 {
     public class SoilController : BaseController
     {
-        private IHostingEnvironment _env;
-        private UserData _ud;
-        private Models.Impl.StaticData _sd;
-
         public SoilController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;
