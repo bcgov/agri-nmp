@@ -783,7 +783,7 @@ namespace SERVERAPI.Models.Impl
                     balance >= Convert.ToInt32(r["balance_low"].ToString()) &&
                     balance <= Convert.ToInt32(r["balance_high"].ToString()))
                 {                    
-                    message = r["text"].ToString();
+                    message = r["text"].ToString() + " " + balance.ToString();
                 }
 
                 //If legume crop in field never display that more N is required
