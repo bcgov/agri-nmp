@@ -1,1 +1,10 @@
-﻿
+﻿@model CalcMessagesViewModel
+@if (Model.messages.Count() > 0)
+{
+    foreach (var msg in Model.messages)
+    {
+        <div>
+            @msg
+        </div>
+    }
+}
