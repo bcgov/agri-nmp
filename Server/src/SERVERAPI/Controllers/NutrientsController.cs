@@ -989,7 +989,21 @@ namespace SERVERAPI.Controllers
         }
         public object ReDisplay(string target, string fldName)
         {
-            string url = Url.Action("RefreshOtherList", "Nutrients", new { fieldName = fldName });
+            string refresher = "";
+
+            switch (target)
+            {
+                case "#crop":
+                    refresher = "RefreshCropList";
+                    break;
+                case "#manure":
+                    refresher = "RefreshManureList";
+                    break;
+                case "#other":
+                    refresher = "RefreshOtherList";
+                    break;
+            }
+            string url = Url.Action(refresher, "Nutrients", new { fieldName = fldName });
             string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = fldName });
             string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = fldName });
             string urlMsg = Url.Action("RefreshMessages", "Nutrients", new { fieldName = fldName });
