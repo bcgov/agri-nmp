@@ -265,9 +265,18 @@ namespace SERVERAPI.ViewModels
         public ReportFieldSoilTest soiltest { get; set; }
         public List<ReportFieldNutrient> nutrients { get; set; }
         public List<ReportFieldCrop> crops { get; set; }
+        public List<ReportFieldOtherNutrient> otherNutrients { get; set; }
+        public decimal reqN { get; set; }
+        public decimal reqP { get; set; }
+        public decimal reqK { get; set; }
+        public decimal remN { get; set; }
+        public decimal remP { get; set; }
+        public decimal remK { get; set; }
+        public List<string> alertMsgs { get; set; }
     }
     public class ReportFieldSoilTest
     {
+        public string methodName { get; set; }
         public string sampleDate { get; set; }
         public string dispNO3H { get; set; }
         public string dispP { get; set; }
@@ -277,6 +286,17 @@ namespace SERVERAPI.ViewModels
     public class ReportFieldCrop
     {
         public string cropname { get; set; }
+        public decimal yield { get; set; }
+        public decimal reqN { get; set; }
+        public decimal reqP { get; set; }
+        public decimal reqK { get; set; }
+        public decimal remN { get; set; }
+        public decimal remP { get; set; }
+        public decimal remK { get; set; }
+    }
+    public class ReportFieldOtherNutrient
+    {
+        public string otherName { get; set; }
         public decimal reqN { get; set; }
         public decimal reqP { get; set; }
         public decimal reqK { get; set; }

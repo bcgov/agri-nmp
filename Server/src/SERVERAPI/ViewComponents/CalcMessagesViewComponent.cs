@@ -34,12 +34,17 @@ namespace SERVERAPI.ViewComponents
             cvm.messages = null;
 
             cvm.messages = cbm.DetermineBalanceMessages(fldName);
+            cvm.displayMsgs = cbm.displayBalances;
 
             return Task.FromResult(cvm);
         }
     }
     public class CalcMessagesViewModel
     {
+
         public List<BalanceMessages> messages { get; set; }
+
+        public bool displayMsgs { get; set; }
+
     }
 }

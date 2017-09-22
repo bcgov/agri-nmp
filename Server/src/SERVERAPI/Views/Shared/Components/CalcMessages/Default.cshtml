@@ -1,10 +1,13 @@
 ﻿@model CalcMessagesViewModel
-@if (Model.messages.Count() > 0)
+@if (Model.displayMsgs)
 {
-    foreach (var msg in Model.messages)
+    @if (Model.messages.Count() > 0)
     {
-        <div class="gov-alert gov-alert-danger" role="alert" aria-live="assertive">
-            @msg.Message
-        </div>
+        foreach (var msg in Model.messages)
+        {
+          <div class="gov-alert gov-alert-danger" role="alert" aria-live="assertive">
+              @msg.Message
+          </div>
+        }
     }
 }
