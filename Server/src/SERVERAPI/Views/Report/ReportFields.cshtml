@@ -6,15 +6,17 @@
         <br />
     </div>
 </div>
+@{ var currpage = 0;}
 <div class="Row">
     <div class="Cell">
             @foreach (var f in Model.fields)
             {
+                currpage++;
                 <br />
-                <table style="border-collapse: collapse;">
+                <table style="border-collapse: collapse; width: 50%">
                     <tr>
                         <td>
-                            <span style="font-size:large"><u>Field: @f.fieldName</u></span>
+                            <span class="newPage" style="font-size:large"><u>Field: @f.fieldName</u></span>
                         </td>
                     </tr>
                     <tr>
@@ -24,15 +26,46 @@
                     </tr>
                     <tr>
                         <td>
-                            @Model.year crop: @f.fieldCrops
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Model.year Crops:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style="border-collapse: collapse; border-bottom: 1px solid black">
+                                <tr>
+                                    <td style="border: 1px solid black; width:300px; background-color:#a7aecc; padding:5px">
+                                        <b>Crop Name</b>
+                                    </td>
+                                    <td style="border: 1px solid black; width:100px; background-color:#a7aecc;text-align:center; padding:5px">
+                                        <b>Target Yield</b>
+                                    </td>
+                                </tr>
+                                @foreach (var c in f.crops)
+                                {
+                                    <tr>
+                                        <td style="border: 1px solid black; width:300px; padding:5px">
+                                            @c.cropname
+                                        </td>
+                                        <td style="border: 1px solid black; width:100px; padding:5px; text-align:center">
+                                            @c.yield ton/ac
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
                         </td>
                     </tr>
                 </table>
                 <br />
+                <br />
                 <table style="border-collapse: collapse; width: 70%">
                     <tr>
                         <td style="width:45%; border-bottom: 1px solid black">
-                            <span style="font-size:10px">Soil Test Results: </span>
+                            <span style="font-size:10px">Soil Test Results: @f.soiltest.sampleDate</span>
                         </td>
                         <td style="width:10%">
                             &nbsp;
@@ -43,24 +76,35 @@
                     </tr>
                     <tr>
                         <td>
-                            <table style="width: 100%">
-                                <tr>
-                                    <td>
-                                        Nitrogen: @f.soiltest.dispNO3H
-                                    </td>
-                                    <td>
-                                        Phosphorus: @f.soiltest.dispP
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Potassium: @f.soiltest.dispK
-                                    </td>
-                                    <td>
-                                        pH: @f.soiltest.dispPH
-                                    </td>
-                                </tr>
-                            </table>
+                            @if (!string.IsNullOrEmpty(@f.soiltest.sampleDate))
+                            {
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            Nitrogen: @f.soiltest.dispNO3H
+                                        </td>
+                                        <td>
+                                            Phosphorus: @f.soiltest.dispP
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Potassium: @f.soiltest.dispK
+                                        </td>
+                                        <td>
+                                            pH: @f.soiltest.dispPH
+                                        </td>
+                                    </tr>
+                                    @if (!string.IsNullOrEmpty(f.soiltest.methodName))
+                                    {
+                                        <tr>
+                                            <td colspan="2">
+                                                    Soil test P &amp; K Method: @f.soiltest.methodName
+                                            </td>
+                                        </tr>
+                                    }
+                               </table>
+                            }
                         </td>
                         <td></td>
                         <td>
@@ -75,17 +119,17 @@
                             <span style="font-size: 16px">Nutrient Application Plan: @Model.year</span>
                         </td>
                     </tr>
-                    <tr style="border: 1px solid black; background-color:skyblue;">
-                        <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
+                    <tr style="border: 1px solid black; background-color:#a7aecc;">
+                        <td style="width:250px; border: 1px solid black; background-color:#a7aecc; padding:5px">
                             <b>Nutrient Source</b>
                         </td>
-                        <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
+                        <td style="width:250px; border: 1px solid black; background-color:#a7aecc; padding:5px">
                             <b>Application Timing</b>
                         </td>
-                        <td style="width:250px; border: 1px solid black; background-color:skyblue; padding:5px">
+                        <td style="width:250px; border: 1px solid black; background-color:#a7aecc; padding:5px">
                             <b>Method</b>
                         </td>
-                        <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:skyblue;">
+                        <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:#a7aecc;">
                             <b>Rate</b>
                         </td>
                     </tr>
@@ -105,58 +149,48 @@
                 <table style="border-collapse: collapse; width:100%">
                     <tr style="font-size:12px;">
                         <td style="width:35%;"></td>
-                        <td colspan="3" style="border-bottom: 1px solid black; text-align:center; background-color:thistle">
-                            Agronomic Balance
+                        <td style="width:5%;"></td>
+                        <td colspan="3" style="text-align:center; background-color:#5cb85c">
+                            <span style="font-size:10px">Agronomic Balance (lbs / ac)</span>
                         </td>
                         <td style="width:5%">
                             &nbsp;
                         </td>
-                        <td colspan="3" style="border-bottom: 1px solid black; text-align:center; background-color:thistle">
-                            Crop Removal Balance
+                        <td colspan="3" style="text-align:center; background-color:#5cb85c">
+                            <span style="font-size:10px">Crop Removal Balance (lbs / ac)</span>
                         </td>
                     </tr>
                     <tr style="font-size:12px;">
-                        <td style="width:35%;">
+                        <td style=" border-bottom: 1px solid black; width:35%;">
                         </td>
-                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                        <td></td>
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#5cb85c">
                             <b>N</b>
                         </td>
-                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#5cb85c">
                             <b>P<sub>2</sub>O<sub>5</sub></b>
                         </td>
-                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#5cb85c">
                             <b>K<sub>2</sub>O</b>
                         </td>
                         <td style="width:5%">
                             &nbsp;
                         </td>
-                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#5cb85c">
                             <b>N</b>
                         </td>
-                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#5cb85c">
                             <b>P<sub>2</sub>O<sub>5</sub></b>
                         </td>
-                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:thistle">
+                        <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#5cb85c">
                             <b>K<sub>2</sub>O</b>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width:35%; border-bottom: 1px solid black;">
-                        </td>
-                        <td colspan="3" style="border-bottom: 1px solid black; text-align:center; background-color:thistle">
-                            <span style="font-size:8px;">(lbs / ac)</span>
-                        </td>
-                        <td style="width:5%">
-                            &nbsp;
-                        </td>
-                        <td colspan="3" style="border-bottom: 1px solid black; text-align:center; background-color:thistle">
-                            <span style="font-size:8px;">(lbs / ac)</span>
                         </td>
                     </tr>
                     @foreach (var c in f.crops)
                     {
                         <tr>
                             <td>@c.cropname</td>
+                            <td></td>
                             <td style="text-align:center">@c.reqN</td>
                             <td style="text-align:center">@c.reqP</td>
                             <td style="text-align:center">@c.reqK</td>
@@ -166,20 +200,11 @@
                             <td style="text-align:center">@c.remK</td>
                         </tr>
                     }
-                    <tr>
-                        <td>N fertility Credits</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
                     @foreach (var n in f.nutrients)
                     {
                         <tr>
                             <td>@n.nutrientName</td>
+                            <td></td>
                             <td style="text-align:center">@n.reqN</td>
                             <td style="text-align:center">@n.reqP</td>
                             <td style="text-align:center">@n.reqK</td>
@@ -189,8 +214,72 @@
                             <td style="text-align:center">@n.remK</td>
                         </tr>
                     }
+                    @foreach (var n in f.otherNutrients)
+                    {
+                        <tr>
+                            <td>@n.otherName</td>
+                            <td></td>
+                            <td style="text-align:center">@n.reqN</td>
+                            <td style="text-align:center">@n.reqP</td>
+                            <td style="text-align:center">@n.reqK</td>
+                            <td></td>
+                            <td style="text-align:center">@n.remN</td>
+                            <td style="text-align:center">@n.remP</td>
+                            <td style="text-align:center">@n.remK</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td style="border-bottom: 1px solid black;">&nbsp;</td>
+                        <td></td>
+                        <td style="border-bottom: 1px solid black; text-align:center">&nbsp;</td>
+                        <td style="border-bottom: 1px solid black; text-align:center">&nbsp;</td>
+                        <td style="border-bottom: 1px solid black; text-align:center">&nbsp;</td>
+                        <td style="border:none">&nbsp;</td>
+                        <td style="border-bottom: 1px solid black; text-align:center">&nbsp;</td>
+                        <td style="border-bottom: 1px solid black; text-align:center">&nbsp;</td>
+                        <td style="border-bottom: 1px solid black; text-align:center">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: 1px solid black;"><b>Balance</b></td>
+                        <td></td>
+                        <td style="border-top: 1px solid black; text-align:center">@f.reqN</td>
+                        <td style="border-top: 1px solid black; text-align:center">@f.reqP</td>
+                        <td style="border-top: 1px solid black; text-align:center">@f.reqK</td>
+                        <td style="border:none"></td>
+                        <td style="border-top: 1px solid black; text-align:center">@f.remN</td>
+                        <td style="border-top: 1px solid black; text-align:center">@f.remP</td>
+                        <td style="border-top: 1px solid black; text-align:center">@f.remK</td>
+                    </tr>
                 </table>
                 <br />
+                <br />
+                <table style="border-collapse: collapse; width:100%">
+                    <tr>
+                        <td>
+                            <span style="font-size:16px">Considerations:</span>
+                        </td>
+                     </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr> 
+                    @foreach (var a in f.alertMsgs)
+                    {
+                        <tr>
+                            <td>
+                                @a
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+                @if (currpage != Model.fields.Count())
+                {
+                        <div style="page-break-after:always;">
+                            &nbsp;
+                        </div>
+                }
             }
     </div>
 </div>

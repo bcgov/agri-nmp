@@ -70,6 +70,12 @@ namespace SERVERAPI.Controllers
             string reportAnalysis = string.Empty;
             string reportSummary = string.Empty;
             string reportSheets = string.Empty;
+            bool portrait = false;
+
+            if(fields)
+            {
+                portrait = true;
+            }
 
             FileContentResult result = null;
             //JSONResponse result = null;
@@ -87,7 +93,7 @@ namespace SERVERAPI.Controllers
             options.type = "pdf";
             options.quality = "75";
             options.format = "letter";
-            options.orientation = "landscape";
+            options.orientation = (portrait)? "portrait" : "landscape";
             options.border.top = ".25in";
             options.border.right = ".25in";
             options.border.bottom = ".25in";
@@ -211,9 +217,11 @@ namespace SERVERAPI.Controllers
                 rf.fieldComment = f.comment;
                 rf.soiltest = new ReportFieldSoilTest();
                 rf.crops = new List<ReportFieldCrop>();
+                rf.otherNutrients = new List<ReportFieldOtherNutrient>();
 
                 if(f.soilTest != null)
                 {
+                    rf.soiltest.methodName = _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
                     rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
                     rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString() + " ppm";
                     rf.soiltest.dispP = f.soilTest.ValP.ToString() + " ppm";
@@ -243,6 +251,35 @@ namespace SERVERAPI.Controllers
                             rfn.remP = m.ltP2o5;
                             rfn.remK = m.ltK2o;
                             rf.nutrients.Add(rfn);
+
+                            rf.reqN = rf.reqN + rfn.reqN;
+                            rf.reqP = rf.reqP + rfn.reqP;
+                            rf.reqK = rf.reqK + rfn.reqK;
+                            rf.remN = rf.remN + rfn.remN;
+                            rf.remP = rf.remP + rfn.remP;
+                            rf.remK = rf.remK + rfn.remK;
+                        }
+                    }
+                    if(f.nutrients.nutrientOthers != null)
+                    {
+                        foreach(var o in f.nutrients.nutrientOthers)
+                        {
+                            ReportFieldOtherNutrient fon = new ReportFieldOtherNutrient();
+                            fon.otherName = o.description;
+                            fon.reqN = o.nitrogen;
+                            fon.reqP = o.phospherous;
+                            fon.reqK = o.potassium;
+                            fon.remN = o.nitrogen;
+                            fon.remP = o.phospherous;
+                            fon.remK = o.potassium;
+                            rf.otherNutrients.Add(fon);
+
+                            rf.reqN = rf.reqN + fon.reqN;
+                            rf.reqP = rf.reqP + fon.reqP;
+                            rf.reqK = rf.reqK + fon.reqK;
+                            rf.remN = rf.remN + fon.remN;
+                            rf.remP = rf.remP + fon.remP;
+                            rf.remK = rf.remK + fon.remK;
                         }
                     }
                 }
@@ -253,6 +290,12 @@ namespace SERVERAPI.Controllers
                         ReportFieldCrop fc = new ReportFieldCrop();
 
                         fc.cropname = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther;
+                        if (c.coverCropHarvested.HasValue)
+                        {
+                            fc.cropname = c.coverCropHarvested.Value ? fc.cropname + "(harvested)" : fc.cropname;
+                        }
+
+                        fc.yield = c.yield;
                         fc.reqN =  -c.reqN;
                         fc.reqP =  -c.reqP2o5;
                         fc.reqK =  -c.reqK2o;
@@ -260,11 +303,22 @@ namespace SERVERAPI.Controllers
                         fc.remP =  -c.remP2o5;
                         fc.remK =  -c.remK2o;
 
+                        rf.reqN = rf.reqN + fc.reqN;
+                        rf.reqP = rf.reqP + fc.reqP;
+                        rf.reqK = rf.reqK + fc.reqK;
+                        rf.remN = rf.remN + fc.remN;
+                        rf.remP = rf.remP + fc.remP;
+                        rf.remK = rf.remK + fc.remK;
+
                         rf.fieldCrops = rf.fieldCrops + fc.cropname + " ";
 
                         rf.crops.Add(fc);
                     }
                 }
+                ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
+
+                rf.alertMsgs = cbm.DetermineBalanceMessages(f.fieldName);
+
                 rvm.fields.Add(rf);
             }
 

@@ -541,6 +541,17 @@ namespace SERVERAPI.Models.Impl
 
             return nmineralization;
         }
+        public string GetSoilTestMethod(string id)
+        {
+            string method = id.ToString();
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
+            JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
+
+            method = rec["name"].ToString();
+
+            return method;
+        }
         public Models.StaticData.SoilTestMethods GetSoilTestMethods()
         {
             Models.StaticData.SoilTestMethods meths = new Models.StaticData.SoilTestMethods();
