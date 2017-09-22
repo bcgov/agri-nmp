@@ -712,7 +712,7 @@ namespace SERVERAPI.Controllers
                             remN = Convert.ToDecimal(cvm.remN),
                             remP2o5 = Convert.ToDecimal(cvm.remP2o5),
                             remK2o = Convert.ToDecimal(cvm.remK2o),
-                            crudeProtien = Convert.ToDecimal(cvm.crude),
+                            crudeProtien = string.IsNullOrEmpty(cvm.crude)? (decimal?)null: Convert.ToDecimal(cvm.crude),
                             prevCropId = prevCrop,
                             coverCropHarvested =  cvm.coverCropHarvested
                         };
@@ -739,7 +739,7 @@ namespace SERVERAPI.Controllers
                         crp.remN = Convert.ToDecimal(cvm.remN);
                         crp.remP2o5 = Convert.ToDecimal(cvm.remP2o5);
                         crp.remK2o = Convert.ToDecimal(cvm.remK2o);
-                        crp.crudeProtien = Convert.ToDecimal(cvm.crude);
+                        crp.crudeProtien = string.IsNullOrEmpty(cvm.crude) ? (decimal?)null : Convert.ToDecimal(cvm.crude);
                         crp.prevCropId = prevCrop;
                         crp.coverCropHarvested = cvm.coverCropHarvested;
 

@@ -6,6 +6,7 @@ using SERVERAPI.Models;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using SERVERAPI.Utility;
 
 namespace SERVERAPI.ViewModels
 {
@@ -272,7 +273,7 @@ namespace SERVERAPI.ViewModels
         public decimal remN { get; set; }
         public decimal remP { get; set; }
         public decimal remK { get; set; }
-        public List<string> alertMsgs { get; set; }
+        public List<BalanceMessages> alertMsgs { get; set; }
     }
     public class ReportFieldSoilTest
     {

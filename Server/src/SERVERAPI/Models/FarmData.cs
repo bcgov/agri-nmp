@@ -83,7 +83,7 @@ namespace SERVERAPI.Models
         public decimal remN { get; set; }
         public decimal remP2o5 { get; set; }
         public decimal remK2o { get; set; }
-        public decimal crudeProtien { get; set; }
+        public decimal? crudeProtien { get; set; }
         public int prevCropId { get; set; }
         public bool? coverCropHarvested { get; set; }
     }
