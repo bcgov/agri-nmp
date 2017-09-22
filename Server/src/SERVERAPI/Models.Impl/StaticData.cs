@@ -794,7 +794,36 @@ namespace SERVERAPI.Models.Impl
                     balance >= Convert.ToInt32(r["balance_low"].ToString()) &&
                     balance <= Convert.ToInt32(r["balance_high"].ToString()))
                 {                    
-                    message = r["text"].ToString() + " " + balance.ToString();
+                    message = string.Format(r["text"].ToString(), Math.Abs(balance).ToString());
+                }
+
+                //Message is only displayed for Legumes
+                if (balanceType == "CropN" &&
+                    !legume &&
+                    Convert.ToInt32(r["balance_high"].ToString()) == 99999)
+                {
+                    message = string.Empty;
+                }
+            }
+
+            return message;
+        }
+
+        public string GetMessageByChemicalBalance(string balanceType, int balance, bool legume, decimal soilTest)
+        {
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];
+            string message = null;
+
+            foreach (var r in array)
+            {
+                if (balanceType == r["balanceType"].ToString() &&
+                    balance >= Convert.ToInt32(r["balance_low"].ToString()) &&
+                    balance <= Convert.ToInt32(r["balance_high"].ToString()) &&
+                    soilTest >= Convert.ToDecimal(r["soiltest_low"].ToString()) &&
+                    soilTest <= Convert.ToDecimal(r["soiltest_high"].ToString()))
+                {
+                    message = string.Format(r["text"].ToString(), Math.Abs(balance).ToString());
                 }
 
                 //If legume crop in field never display that more N is required

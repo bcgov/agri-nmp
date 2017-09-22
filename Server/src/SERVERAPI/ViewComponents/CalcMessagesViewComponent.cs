@@ -41,7 +41,10 @@ namespace SERVERAPI.ViewComponents
     }
     public class CalcMessagesViewModel
     {
-        public List<string> messages { get; set; }
+
+        public List<BalanceMessages> messages { get; set; }
+
         public bool displayMsgs { get; set; }
+
     }
 }

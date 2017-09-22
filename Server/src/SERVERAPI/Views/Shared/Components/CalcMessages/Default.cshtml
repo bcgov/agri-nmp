@@ -5,9 +5,9 @@
     {
         foreach (var msg in Model.messages)
         {
-            <div>
-                @msg
-            </div>
+          <div class="gov-alert gov-alert-danger" role="alert" aria-live="assertive">
+              @msg.Message
+          </div>
         }
     }
 }

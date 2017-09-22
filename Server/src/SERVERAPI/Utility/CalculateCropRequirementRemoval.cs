@@ -58,7 +58,7 @@ namespace SERVERAPI.Utility
             //          if Cover crop not harvested
             //              set all removal amts to zero
             
-            if (crudeProtien == null)
+            if (!crudeProtien.HasValue || (crudeProtien.HasValue && crudeProtien.Value == 0))
             { 
                 decimal tmpDec;
                 if (decimal.TryParse(crop.cropremovalfactor_N.ToString(), out tmpDec))
