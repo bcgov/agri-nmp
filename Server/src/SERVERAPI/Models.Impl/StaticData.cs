@@ -609,6 +609,23 @@ namespace SERVERAPI.Models.Impl
             return region;
         }
       
+        public Models.StaticData.PrevCropType GetPrevCropType(int id)
+        {
+            Models.StaticData.PrevCropType type = new Models.StaticData.PrevCropType();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["prevcroptypes"]["prevcroptype"];
+            JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
+
+            type.id = Convert.ToInt32(rec["id"].ToString());
+            type.cropType = Convert.ToInt32(rec["croptype"].ToString());
+            type.name = rec["name"].ToString();
+            type.nCreditMetric = Convert.ToInt32(rec["ncreditmetric"].ToString());
+            type.nCreditImperial = Convert.ToInt32(rec["ncreditimperial"].ToString());
+
+            return type;
+        }
+
         public Models.StaticData.PrevCropTypes GetPrevCropTypes()
         {
             Models.StaticData.PrevCropTypes types = new Models.StaticData.PrevCropTypes();

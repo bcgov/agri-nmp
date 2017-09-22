@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using SERVERAPI.Models.Impl;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.NodeServices;
+using static SERVERAPI.Models.StaticData;
 
 namespace SERVERAPI.Controllers
 {
@@ -204,6 +205,9 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderFields()
         {
+            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
             rvm.fields = new List<ReportFieldsField>();
             rvm.year = _ud.FarmDetails().year;
@@ -218,6 +222,7 @@ namespace SERVERAPI.Controllers
                 rf.soiltest = new ReportFieldSoilTest();
                 rf.crops = new List<ReportFieldCrop>();
                 rf.otherNutrients = new List<ReportFieldOtherNutrient>();
+                rf.footnotes = new List<ReportFieldFootnote>();
 
                 if(f.soilTest != null)
                 {
@@ -230,6 +235,53 @@ namespace SERVERAPI.Controllers
                 }
 
                 rf.nutrients = new List<ReportFieldNutrient>();
+                if (f.crops != null)
+                {
+                    foreach (var c in f.crops)
+                    {
+                        ReportFieldCrop fc = new ReportFieldCrop();
+
+                        fc.cropname = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther;
+                        if (c.coverCropHarvested.HasValue)
+                        {
+                            fc.cropname = c.coverCropHarvested.Value ? fc.cropname + "(harvested)" : fc.cropname;
+                        }
+                        if (c.prevCropId > 0)
+                            fc.previousCrop = _sd.GetPrevCropType(c.prevCropId).name;
+
+                        if (_sd.GetCropType(_sd.GetCrop(Convert.ToInt32(c.cropId)).croptypeid).crudeproteinrequired)
+                        {
+                            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+                            if (c.crudeProtien != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt32(c.cropId)))
+                            {
+                                ReportFieldFootnote rff = new ReportFieldFootnote();
+                                rff.id = rf.footnotes.Count() + 1;
+                                rff.message = "Crude protein = " + c.crudeProtien.Value.ToString("#.#");
+                                fc.footnote = rff.id.ToString();
+                                rf.footnotes.Add(rff);
+                            }
+                        }
+
+                        fc.yield = c.yield;
+                        fc.reqN = -c.reqN;
+                        fc.reqP = -c.reqP2o5;
+                        fc.reqK = -c.reqK2o;
+                        fc.remN = -c.remN;
+                        fc.remP = -c.remP2o5;
+                        fc.remK = -c.remK2o;
+
+                        rf.reqN = rf.reqN + fc.reqN;
+                        rf.reqP = rf.reqP + fc.reqP;
+                        rf.reqK = rf.reqK + fc.reqK;
+                        rf.remN = rf.remN + fc.remN;
+                        rf.remP = rf.remP + fc.remP;
+                        rf.remK = rf.remK + fc.remK;
+
+                        rf.fieldCrops = rf.fieldCrops + fc.cropname + " ";
+
+                        rf.crops.Add(fc);
+                    }
+                }
                 if (f.nutrients != null)
                 {
                     if (f.nutrients.nutrientManures != null)
@@ -258,6 +310,30 @@ namespace SERVERAPI.Controllers
                             rf.remN = rf.remN + rfn.remN;
                             rf.remP = rf.remP + rfn.remP;
                             rf.remK = rf.remK + rfn.remK;
+
+                            int regionid = _ud.FarmDetails().farmRegion.Value;
+                            Region region = _sd.GetRegion(regionid);
+                            nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt32(m.manureId), region.locationid);
+
+                            string footNote = "";
+
+                            if(m.nAvail != nOrganicMineralizations.OrganicN_FirstYear * 100)
+                            {
+                                footNote = "1st Yr Organic N Availability  = " + m.nAvail.ToString("###");
+                            }
+                            if(m.nh4Retention != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(m.manureId), Convert.ToInt16(m.applicationId)) * 100))
+                            {
+                                footNote = string.IsNullOrEmpty(footNote) ? "" : footNote + ", ";
+                                footNote = footNote + "Ammonium-N Retention = " + m.nh4Retention.ToString("###");
+                            }
+                            if(!string.IsNullOrEmpty(footNote))
+                            {
+                                ReportFieldFootnote rff = new ReportFieldFootnote();
+                                rff.id = rf.footnotes.Count() + 1;
+                                rff.message = footNote;
+                                rfn.footnote = rff.id.ToString();
+                                rf.footnotes.Add(rff);
+                            }
                         }
                     }
                     if(f.nutrients.nutrientOthers != null)
@@ -283,41 +359,22 @@ namespace SERVERAPI.Controllers
                         }
                     }
                 }
-                if (f.crops != null)
-                {
-                    foreach (var c in f.crops)
-                    {
-                        ReportFieldCrop fc = new ReportFieldCrop();
-
-                        fc.cropname = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther;
-                        if (c.coverCropHarvested.HasValue)
-                        {
-                            fc.cropname = c.coverCropHarvested.Value ? fc.cropname + "(harvested)" : fc.cropname;
-                        }
-
-                        fc.yield = c.yield;
-                        fc.reqN =  -c.reqN;
-                        fc.reqP =  -c.reqP2o5;
-                        fc.reqK =  -c.reqK2o;
-                        fc.remN =  -c.remN;
-                        fc.remP =  -c.remP2o5;
-                        fc.remK =  -c.remK2o;
-
-                        rf.reqN = rf.reqN + fc.reqN;
-                        rf.reqP = rf.reqP + fc.reqP;
-                        rf.reqK = rf.reqK + fc.reqK;
-                        rf.remN = rf.remN + fc.remN;
-                        rf.remP = rf.remP + fc.remP;
-                        rf.remK = rf.remK + fc.remK;
-
-                        rf.fieldCrops = rf.fieldCrops + fc.cropname + " ";
-
-                        rf.crops.Add(fc);
-                    }
-                }
                 ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
 
                 rf.alertMsgs = cbm.DetermineBalanceMessages(f.fieldName);
+                rf.alertMsgs.RemoveAll(r => r.Chemical.Contains("Agr"));
+                if(rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN") != null)
+                {
+                    rf.alertN = true;
+                }
+                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5") != null)
+                {
+                    rf.alertP = true;
+                }
+                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O") != null)
+                {
+                    rf.alertK = true;
+                }
 
                 rvm.fields.Add(rf);
             }

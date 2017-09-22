@@ -251,6 +251,7 @@ namespace SERVERAPI.ViewModels
         public decimal remN { get; set; }
         public decimal remP { get; set; }
         public decimal remK { get; set; }
+        public string footnote { get; set; }
     }
     public class ReportFieldsViewModel
     {
@@ -274,6 +275,10 @@ namespace SERVERAPI.ViewModels
         public decimal remP { get; set; }
         public decimal remK { get; set; }
         public List<BalanceMessages> alertMsgs { get; set; }
+        public bool alertN { get; set; }
+        public bool alertP { get; set; }
+        public bool alertK { get; set; }
+        public List<ReportFieldFootnote> footnotes { get; set; }
     }
     public class ReportFieldSoilTest
     {
@@ -287,6 +292,7 @@ namespace SERVERAPI.ViewModels
     public class ReportFieldCrop
     {
         public string cropname { get; set; }
+        public string previousCrop { get; set; }
         public decimal yield { get; set; }
         public decimal reqN { get; set; }
         public decimal reqP { get; set; }
@@ -294,6 +300,7 @@ namespace SERVERAPI.ViewModels
         public decimal remN { get; set; }
         public decimal remP { get; set; }
         public decimal remK { get; set; }
+        public string footnote { get; set; }
     }
     public class ReportFieldOtherNutrient
     {
@@ -304,6 +311,11 @@ namespace SERVERAPI.ViewModels
         public decimal remN { get; set; }
         public decimal remP { get; set; }
         public decimal remK { get; set; }
+    }
+    public class ReportFieldFootnote
+    {
+        public int id { get; set; }
+        public string message { get; set; }
     }
     public class OtherDetailsViewModel
     {

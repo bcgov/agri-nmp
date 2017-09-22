@@ -13,7 +13,7 @@
             {
                 currpage++;
                 <br />
-                <table style="border-collapse: collapse; width: 50%">
+                <table style="border-collapse: collapse; width: 100%">
                     <tr>
                         <td>
                             <span class="newPage" style="font-size:large"><u>Field: @f.fieldName</u></span>
@@ -36,23 +36,29 @@
                     </tr>
                     <tr>
                         <td>
-                            <table style="border-collapse: collapse; border-bottom: 1px solid black">
+                            <table style="border-collapse: collapse; border-bottom: 1px solid black; width: 100%">
                                 <tr>
-                                    <td style="border: 1px solid black; width:300px; background-color:#a7aecc; padding:5px">
+                                    <td style="border: 1px solid black; width:40%; background-color:#a7aecc; padding:5px">
                                         <b>Crop Name</b>
                                     </td>
-                                    <td style="border: 1px solid black; width:100px; background-color:#a7aecc;text-align:center; padding:5px">
+                                    <td style="border: 1px solid black; width:20%; background-color:#a7aecc;text-align:center; padding:5px">
                                         <b>Target Yield</b>
+                                    </td>
+                                    <td style="border: 1px solid black; width:40%; background-color:#a7aecc; padding:5px">
+                                        <b>Previous Crop Ploughed Down</b>
                                     </td>
                                 </tr>
                                 @foreach (var c in f.crops)
                                 {
                                     <tr>
-                                        <td style="border: 1px solid black; width:300px; padding:5px">
+                                        <td style="border: 1px solid black; padding:5px">
                                             @c.cropname
                                         </td>
-                                        <td style="border: 1px solid black; width:100px; padding:5px; text-align:center">
+                                        <td style="border: 1px solid black; padding:5px; text-align:center">
                                             @c.yield ton/ac
+                                        </td>
+                                        <td style="border: 1px solid black; padding:5px">
+                                            @c.previousCrop
                                         </td>
                                     </tr>
                                 }
@@ -189,7 +195,7 @@
                     @foreach (var c in f.crops)
                     {
                         <tr>
-                            <td>@c.cropname</td>
+                            <td>@c.cropname <sup>@c.footnote</sup></td>
                             <td></td>
                             <td style="text-align:center">@c.reqN</td>
                             <td style="text-align:center">@c.reqP</td>
@@ -203,7 +209,7 @@
                     @foreach (var n in f.nutrients)
                     {
                         <tr>
-                            <td>@n.nutrientName</td>
+                            <td>@n.nutrientName <sup>@n.footnote</sup></td>
                             <td></td>
                             <td style="text-align:center">@n.reqN</td>
                             <td style="text-align:center">@n.reqP</td>
@@ -246,11 +252,14 @@
                         <td style="border-top: 1px solid black; text-align:center">@f.reqP</td>
                         <td style="border-top: 1px solid black; text-align:center">@f.reqK</td>
                         <td style="border:none"></td>
-                        <td style="border-top: 1px solid black; text-align:center">@f.remN</td>
-                        <td style="border-top: 1px solid black; text-align:center">@f.remP</td>
-                        <td style="border-top: 1px solid black; text-align:center">@f.remK</td>
+
+                        <td style="border-top: 1px solid black; text-align:center; @{if (f.alertN) {@Html.Raw("background-color:#ffa007")} } ">@f.remN</td>
+                        <td style="border-top: 1px solid black; text-align:center; @{if (f.alertP) {@Html.Raw("background-color:#ffa007")} } ">@f.remP</td>
+                        <td style="border-top: 1px solid black; text-align:center; @{if (f.alertK) {@Html.Raw("background-color:#ffa007")} } ">@f.remK</td>
                     </tr>
+
                 </table>
+
                 <br />
                 <br />
                 <table style="border-collapse: collapse; width:100%">
@@ -258,7 +267,7 @@
                         <td>
                             <span style="font-size:16px">Considerations:</span>
                         </td>
-                     </tr>
+                    </tr>
                     <tr>
                         <td>
                             &nbsp;
@@ -274,6 +283,32 @@
                     }
 
                 </table>
+                @if(f.footnotes.Count() > 0)
+                {
+                    <br />
+                    <br />
+                    <table>
+                        <tr>
+                            <td>
+                                <span style="font-size:16px">Notes:</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        @foreach (var fn in f.footnotes)
+                        {
+                            <tr>
+                                <td>
+                                    @fn.id.ToString() &nbsp;&nbsp; @fn.message
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+
                 @if (currpage != Model.fields.Count())
                 {
                         <div style="page-break-after:always;">
