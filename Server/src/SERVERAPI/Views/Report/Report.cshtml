@@ -48,36 +48,26 @@
                 <div class="form-box-body">
                     <div class="form-box-fields">
                         <div class="row">
-                            <div class="col-sm-offset-2 col-sm-7" >
-                                <input asp-for="fields" type="checkbox" id="fldschk"/>
-                                <label style="padding-left:10px">Detailed Field Reports</label>
+                            
+                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
+                                    <a href="@Url.Action("PrintFields","Report")" target="_blank">Detailed Field Reports</a>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-7">
-                                <input asp-for="nutrientSources" type="checkbox" id="srcchk" />
-                                <label style="padding-left:10px">Your Nutrient Sources</label>
+                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
+                                    <a href="@Url.Action("PrintSources","Report")" target="_blank">Your Nutrient Sources</a>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-7">
-                                <input asp-for="nutrientApplicationSchedule" type="checkbox" id="schedchk" />
-                                <label style="padding-left:10px">Nutrient Application Schedule</label>
+                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
+                                <a href="@Url.Action("PrintApplication","Report")" target="_blank">Nutrient Application Schedule</a>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-7">
-                                <input asp-for="nutrientSourceAnalysis" type="checkbox" id="anlchk" />
-                                <label style="padding-left:10px">Nutrient Source Analysis</label>
+                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
+                                <a href="#">Nutrient Source Analysis</a>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-7">
-                                <input asp-for="soilTestSummary" type="checkbox" id="summchk" />
-                                <label style="padding-left:10px">Field Soil Test Summary</label>
+                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
+                                <a href="#">Field Soil Test Summary</a>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-7">
-                                <input asp-for="recordKeepingSheets" type="checkbox" id="sheetchk" />
-                                <label style="padding-left:10px">Record Keeping Sheets</label>
+                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
+                                <a href="#">Record Keeping Sheets</a>
                             </div>
-                        </div>
-                        <div class="row" style="text-align:center">
-                            <input class="btn btn-info" type="button" value="Generate Report" style="color:black" onclick="PrintReport()" />
-                            @*<input class="btn btn-info" type="button" value="Generate Report" style="color:black" onclick="window.location.href='@Url.Action("Print", "Report", new { fields = Model.fields, sources = Model.nutrientSources, application = Model.nutrientApplicationSchedule, analysis = Model.nutrientSourceAnalysis, summary = Model.soilTestSummary, sheets = Model.recordKeepingSheets } )';" />*@
-                            @*<input class="btn btn-info" type="submit" value="Generate Report" style="color:black" />*@
-                        </div>
+                         </div>
                     </div>
                 </div>
             </div>

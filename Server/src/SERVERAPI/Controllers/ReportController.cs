@@ -62,139 +62,6 @@ namespace SERVERAPI.Controllers
 
             return View(rvm);
         }
-        public async Task<IActionResult> Print([FromServices] INodeServices nodeServices, bool fields, bool sources, bool application, bool analysis, bool summary, bool sheets )
-        {
-            string reportHeader = string.Empty;
-            string reportFields = string.Empty;
-            string reportSources = string.Empty;
-            string reportAppl = string.Empty;
-            string reportAnalysis = string.Empty;
-            string reportSummary = string.Empty;
-            string reportSheets = string.Empty;
-            bool portrait = false;
-
-            if(fields)
-            {
-                portrait = true;
-            }
-
-            FileContentResult result = null;
-            //JSONResponse result = null;
-            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
-
-            //string pdfHost = "http://localhost:54611";
-
-            string targetUrl = pdfHost + "/api/PDF/BuildPDF";
-
-            PDF_Options options = new PDF_Options();
-            options.border = new PDF_Border();
-            options.header = new PDF_Header();
-            options.footer = new PDF_Footer();
-
-            options.type = "pdf";
-            options.quality = "75";
-            options.format = "letter";
-            options.orientation = (portrait)? "portrait" : "landscape";
-            options.border.top = ".25in";
-            options.border.right = ".25in";
-            options.border.bottom = ".25in";
-            options.border.left = ".25in";
-            options.header.height = "25mm";
-            options.header.contents = "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
-                                      "Planning Year: " + _ud.FarmDetails().year;
-            options.footer.height = "20mm";
-            options.footer.contents = "<span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span>";
-
-            // call the microservice
-            try
-            {
-                PDFRequest req = new PDFRequest();
-
-                HttpClient client = new HttpClient();
-
-                reportHeader = await RenderHeader();
-                if (fields)
-                    reportFields = await RenderFields();
-                if (sources)
-                    reportSources = await RenderSources();
-                if (application)
-                    reportAppl = await RenderApplication();
-                if (analysis)
-                    reportAnalysis = await RenderAnalysis();
-                if (summary)
-                    reportSummary = await RenderSummary();
-                if (sheets)
-                    reportSheets = await RenderSheets();
-
-                string rawdata = "<!DOCTYPE html>"  +
-                    "<html>" + 
-                    reportHeader + 
-                    "<body>" +
-                    "<div style='display: table; width: 100%'>" +
-                    "<div style='display: table-row-group; width: 100%'>" +
-                    reportFields +
-                    reportSources +
-                    reportAppl +
-                    reportAnalysis +
-                    reportSummary +
-                    reportSheets +
-                    "</div>" + 
-                    "</div>" + 
-                    "</body></html>";
-
-                req.html = rawdata;
-                req.options = JsonConvert.SerializeObject(options);
-
-                //FileContentResult res = await BuildPDF(nodeServices, req);
-
-                //return res;
-
-                string payload = JsonConvert.SerializeObject(req);
-
-                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
-
-                request.Headers.Clear();
-                // transfer over the request headers.
-                foreach (var item in Request.Headers)
-                {
-                    string key = item.Key;
-                    string value = item.Value;
-                    request.Headers.Add(key, value);
-                }
-
-                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
-                responseTask.Wait();
-
-                HttpResponseMessage response = responseTask.Result;
-
-                ViewBag.StatusCode = response.StatusCode.ToString();
-
-                if (response.StatusCode == HttpStatusCode.OK) // success
-                {
-                    var bytetask = response.Content.ReadAsByteArrayAsync();
-                    bytetask.Wait();
-
-                    result = new FileContentResult(bytetask.Result, "application/pdf");
-                }
-                else
-                {
-                    string errorMsg = "Url: " + targetUrl + "\r\n" +
-                                      "Result: " + response.ToString();
-                    result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
-                }
-            }
-            catch (Exception e)
-            {
-                string errorMsg = "Exception " + "\r\n" +
-                                  "Url: " + targetUrl + "\r\n" +
-                                  "Result: " + e.Message + "\r\n" +
-                                  "Result: " + e.InnerException.Message;
-                result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
-            }
-
-            return result;
-        }
         public async Task<string> RenderHeader()
         {
             ReportViewModel rvm = new ReportViewModel();
@@ -500,6 +367,140 @@ namespace SERVERAPI.Controllers
             result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
 
             return new FileContentResult(result.data, "application/pdf");
+        }
+        public async Task<IActionResult> PrintFields()
+        {
+            FileContentResult result = null;
+
+            string reportFields = await RenderFields();
+
+            result = await PrintReportAsync(reportFields, true);
+
+            return result;
+        }
+        public async Task<IActionResult> PrintSources()
+        {
+            FileContentResult result = null;
+
+            string reportSources = await RenderSources();
+
+            result = await PrintReportAsync(reportSources, false);
+
+            return result;
+        }
+        public async Task<IActionResult> PrintApplication()
+        {
+            FileContentResult result = null;
+
+            string reportApplication = await RenderApplication();
+
+            result = await PrintReportAsync(reportApplication, false);
+
+            return result;
+        }
+        public async Task<FileContentResult> PrintReportAsync(string content, bool portrait)
+        {
+            string reportHeader = string.Empty;
+
+            FileContentResult result = null;
+            //JSONResponse result = null;
+            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
+
+            //string pdfHost = "http://localhost:54611";
+
+            string targetUrl = pdfHost + "/api/PDF/BuildPDF";
+
+            PDF_Options options = new PDF_Options();
+            options.border = new PDF_Border();
+            options.header = new PDF_Header();
+            options.footer = new PDF_Footer();
+
+            options.type = "pdf";
+            options.quality = "75";
+            options.format = "letter";
+            options.orientation = (portrait) ? "portrait" : "landscape";
+            options.border.top = ".25in";
+            options.border.right = ".25in";
+            options.border.bottom = ".25in";
+            options.border.left = ".25in";
+            options.header.height = "25mm";
+            options.header.contents = "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
+                                      "Planning Year: " + _ud.FarmDetails().year;
+            options.footer.height = "20mm";
+            options.footer.contents = "<span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span>";
+
+            // call the microservice
+            try
+            {
+                PDFRequest req = new PDFRequest();
+
+                HttpClient client = new HttpClient();
+
+                reportHeader = await RenderHeader();
+
+                string rawdata = "<!DOCTYPE html>" +
+                    "<html>" +
+                    reportHeader +
+                    "<body>" +
+                    "<div style='display: table; width: 100%'>" +
+                    "<div style='display: table-row-group; width: 100%'>" +
+                    content +
+                    "</div>" +
+                    "</div>" +
+                    "</body></html>";
+
+                req.html = rawdata;
+                req.options = JsonConvert.SerializeObject(options);
+
+                //FileContentResult res = await BuildPDF(nodeServices, req);
+
+                //return res;
+
+                string payload = JsonConvert.SerializeObject(req);
+
+                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
+                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                request.Headers.Clear();
+                // transfer over the request headers.
+                foreach (var item in Request.Headers)
+                {
+                    string key = item.Key;
+                    string value = item.Value;
+                    request.Headers.Add(key, value);
+                }
+
+                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
+                responseTask.Wait();
+
+                HttpResponseMessage response = responseTask.Result;
+
+                ViewBag.StatusCode = response.StatusCode.ToString();
+
+                if (response.StatusCode == HttpStatusCode.OK) // success
+                {
+                    var bytetask = response.Content.ReadAsByteArrayAsync();
+                    bytetask.Wait();
+
+                    result = new FileContentResult(bytetask.Result, "application/pdf");
+                }
+                else
+                {
+                    string errorMsg = "Url: " + targetUrl + "\r\n" +
+                                      "Result: " + response.ToString();
+                    result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
+                }
+            }
+            catch (Exception e)
+            {
+                string errorMsg = "Exception " + "\r\n" +
+                                  "Url: " + targetUrl + "\r\n" +
+                                  "Result: " + e.Message + "\r\n" +
+                                  "Result: " + e.InnerException.Message;
+                result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
+            }
+
+            return result;
         }
     }
 }
