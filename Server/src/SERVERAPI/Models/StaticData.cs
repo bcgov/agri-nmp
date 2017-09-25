@@ -186,7 +186,7 @@ namespace SERVERAPI.Models
         {
             public int seasonapplicatonid { get; set; }
             public int dm { get; set; }
-            public decimal value { get; set; }
+            public decimal? value { get; set; }
         }
 
         public class NMineralization

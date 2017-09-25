@@ -119,7 +119,7 @@ namespace SERVERAPI.Utility
             
             AmmoniaRetention myAmmoniaRetention = _sd.GetAmmoniaRetention(seasonapplicationid, myManure.dmid);
 
-            ammoniaRention = myAmmoniaRetention.value;
+            ammoniaRention = myAmmoniaRetention.value.HasValue ? myAmmoniaRetention.value.Value : 0;
 
             return ammoniaRention;
         }

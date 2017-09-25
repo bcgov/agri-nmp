@@ -144,168 +144,176 @@ namespace SERVERAPI.Controllers
 
             ManureDetailsSetup(ref mvm);
 
-            if (mvm.buttonPressed == "ResetN")
+            try
             {
-                ModelState.Clear();
-                mvm.buttonPressed = "";
-                mvm.btnText = "Calculate";
 
-                // reset to calculated amount                
-                mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption))* 100).ToString("###");
-
-                mvm.stdN = true;
-                return View(mvm);
-            }
-
-            if (mvm.buttonPressed == "ResetA")
-            {
-                ModelState.Clear();
-                mvm.buttonPressed = "";
-                mvm.btnText = "Calculate";
-
-                // reset to calculated amount
-                int regionid = _ud.FarmDetails().farmRegion.Value;
-                Region region = _sd.GetRegion(regionid);
-                nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
-
-                mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
-
-                mvm.stdAvail = true;
-                return View(mvm);
-            }
-
-            if (mvm.buttonPressed == "TypeChange")
-            {
-                ModelState.Clear();
-                mvm.buttonPressed = "";
-                mvm.btnText = "Calculate";
-
-                if (mvm.selManOption != "")
+                if (mvm.buttonPressed == "ResetN")
                 {
-                    Models.StaticData.Manure man = _sd.GetManure(mvm.selManOption);
-                    if(mvm.currUnit != man.solid_liquid)
-                    {
-                        mvm.currUnit = man.solid_liquid;
-                        mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
-                        mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
-                    }
+                    ModelState.Clear();
+                    mvm.buttonPressed = "";
+                    mvm.btnText = "Calculate";
 
-                    // if application is present then recalc N and A
+                    // reset to calculated amount                
+                    mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100).ToString("###");
+
+                    mvm.stdN = true;
+                    return View(mvm);
+                }
+
+                if (mvm.buttonPressed == "ResetA")
+                {
+                    ModelState.Clear();
+                    mvm.buttonPressed = "";
+                    mvm.btnText = "Calculate";
+
+                    // reset to calculated amount
                     int regionid = _ud.FarmDetails().farmRegion.Value;
                     Region region = _sd.GetRegion(regionid);
                     nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
 
                     mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
-                }
-                else
-                {
-                    mvm.nh4 = string.Empty;
-                    mvm.avail = string.Empty;
-                }
-                return View(mvm);
-            }
 
-            if (mvm.buttonPressed == "ApplChange")
-            {
-                ModelState.Clear();
-                mvm.buttonPressed = "";
-                mvm.btnText = "Calculate";
-
-                if (mvm.selApplOption != "")
-                {
-                    // recalc N and A values
-                    mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100).ToString("###");
+                    mvm.stdAvail = true;
+                    return View(mvm);
                 }
-                else
-                {
-                    mvm.nh4 = string.Empty;
-                    mvm.avail = string.Empty;
-                }
-                return View(mvm);
-            }
 
-            if (ModelState.IsValid)
-            {
-                if (mvm.btnText == "Calculate")
+                if (mvm.buttonPressed == "TypeChange")
                 {
                     ModelState.Clear();
-                    NutrientInputs nutrientInputs = new NutrientInputs();
+                    mvm.buttonPressed = "";
+                    mvm.btnText = "Calculate";
 
-                    calculateNutrients.manure = mvm.selManOption;
-                    calculateNutrients.applicationSeason = mvm.selApplOption;
-                    calculateNutrients.applicationRate = Convert.ToDecimal(mvm.rate);
-                    calculateNutrients.applicationRateUnits = mvm.selRateOption;
-                    calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(mvm.nh4);
-                    calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(mvm.avail);
-
-                    calculateNutrients.GetNutrientInputs(nutrientInputs);
-
-                    mvm.yrN = nutrientInputs.N_FirstYear.ToString();
-                    mvm.yrP2o5 = nutrientInputs.P2O5_FirstYear.ToString();
-                    mvm.yrK2o = nutrientInputs.K2O_FirstYear.ToString();
-                    mvm.ltN = nutrientInputs.N_LongTerm.ToString();
-                    mvm.ltP2o5 = nutrientInputs.P2O5_LongTerm.ToString();
-                    mvm.ltK2o = nutrientInputs.K2O_LongTerm.ToString();
-
-                    mvm.btnText = mvm.id == null ? "Add to Field" : "Update Field";
-
-                    // determine if values on screen are book value or not
-                    int regionid = _ud.FarmDetails().farmRegion.Value;
-                    Region region = _sd.GetRegion(regionid);
-                    nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
-
-                    if (Convert.ToDecimal(mvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100))
+                    if (mvm.selManOption != "")
                     {
-                        mvm.stdN = false;
-                    }
-                    if (Convert.ToDecimal(mvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100))
-                    {
-                        mvm.stdAvail = false;
-                    }
-                }
-                else
-                {
-                    if(mvm.id == null)
-                    {
-
-                        NutrientManure nm = new NutrientManure()
+                        Models.StaticData.Manure man = _sd.GetManure(mvm.selManOption);
+                        if (mvm.currUnit != man.solid_liquid)
                         {
-                            manureId = mvm.selManOption,
-                            applicationId = mvm.selApplOption,
-                            unitId = mvm.selRateOption,
-                            rate = Convert.ToDecimal(mvm.rate),
-                            nh4Retention = Convert.ToDecimal(mvm.nh4),
-                            nAvail = Convert.ToDecimal(mvm.avail),
-                            yrN = Convert.ToDecimal(mvm.yrN),
-                            yrP2o5 = Convert.ToDecimal(mvm.yrP2o5),
-                            yrK2o = Convert.ToDecimal(mvm.yrK2o),
-                            ltN = Convert.ToDecimal(mvm.ltN),
-                            ltP2o5 = Convert.ToDecimal(mvm.ltP2o5),
-                            ltK2o = Convert.ToDecimal(mvm.ltK2o)
-                        };
+                            mvm.currUnit = man.solid_liquid;
+                            mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
+                            mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
+                        }
 
-                        _ud.AddFieldNutrientsManure(mvm.fieldName, nm);
+                        // if application is present then recalc N and A
+                        int regionid = _ud.FarmDetails().farmRegion.Value;
+                        Region region = _sd.GetRegion(regionid);
+                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
+
+                        mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
                     }
                     else
                     {
-                        NutrientManure nm = _ud.GetFieldNutrientsManure(mvm.fieldName, mvm.id.Value);
-                        nm.manureId = mvm.selManOption;
-                        nm.applicationId = mvm.selApplOption;
-                        nm.unitId = mvm.selRateOption;
-                        nm.rate = Convert.ToDecimal(mvm.rate);
-                        nm.nh4Retention = Convert.ToDecimal(mvm.nh4);
-                        nm.nAvail = Convert.ToDecimal(mvm.avail);
-                        nm.yrN = Convert.ToDecimal(mvm.yrN);
-                        nm.yrP2o5 = Convert.ToDecimal(mvm.yrP2o5);
-                        nm.yrK2o = Convert.ToDecimal(mvm.yrK2o);
-                        nm.ltN = Convert.ToDecimal(mvm.ltN);
-                        nm.ltP2o5 = Convert.ToDecimal(mvm.ltP2o5);
-                        nm.ltK2o = Convert.ToDecimal(mvm.ltK2o);
-
-                        _ud.UpdateFieldNutrientsManure(mvm.fieldName, nm);
+                        mvm.nh4 = string.Empty;
+                        mvm.avail = string.Empty;
                     }
-                    return Json(ReDisplay("#manure", mvm.fieldName));
+                    return View(mvm);
                 }
+
+                if (mvm.buttonPressed == "ApplChange")
+                {
+                    ModelState.Clear();
+                    mvm.buttonPressed = "";
+                    mvm.btnText = "Calculate";
+
+                    if (mvm.selApplOption != "")
+                    {
+                        // recalc N and A values
+                        mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100).ToString("###");
+                    }
+                    else
+                    {
+                        mvm.nh4 = string.Empty;
+                        mvm.avail = string.Empty;
+                    }
+                    return View(mvm);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    if (mvm.btnText == "Calculate")
+                    {
+                        ModelState.Clear();
+                        NutrientInputs nutrientInputs = new NutrientInputs();
+
+                        calculateNutrients.manure = mvm.selManOption;
+                        calculateNutrients.applicationSeason = mvm.selApplOption;
+                        calculateNutrients.applicationRate = Convert.ToDecimal(mvm.rate);
+                        calculateNutrients.applicationRateUnits = mvm.selRateOption;
+                        calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(mvm.nh4);
+                        calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(mvm.avail);
+
+                        calculateNutrients.GetNutrientInputs(nutrientInputs);
+
+                        mvm.yrN = nutrientInputs.N_FirstYear.ToString();
+                        mvm.yrP2o5 = nutrientInputs.P2O5_FirstYear.ToString();
+                        mvm.yrK2o = nutrientInputs.K2O_FirstYear.ToString();
+                        mvm.ltN = nutrientInputs.N_LongTerm.ToString();
+                        mvm.ltP2o5 = nutrientInputs.P2O5_LongTerm.ToString();
+                        mvm.ltK2o = nutrientInputs.K2O_LongTerm.ToString();
+
+                        mvm.btnText = mvm.id == null ? "Add to Field" : "Update Field";
+
+                        // determine if values on screen are book value or not
+                        int regionid = _ud.FarmDetails().farmRegion.Value;
+                        Region region = _sd.GetRegion(regionid);
+                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
+
+                        if (Convert.ToDecimal(mvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100))
+                        {
+                            mvm.stdN = false;
+                        }
+                        if (Convert.ToDecimal(mvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100))
+                        {
+                            mvm.stdAvail = false;
+                        }
+                    }
+                    else
+                    {
+                        if (mvm.id == null)
+                        {
+
+                            NutrientManure nm = new NutrientManure()
+                            {
+                                manureId = mvm.selManOption,
+                                applicationId = mvm.selApplOption,
+                                unitId = mvm.selRateOption,
+                                rate = Convert.ToDecimal(mvm.rate),
+                                nh4Retention = Convert.ToDecimal(mvm.nh4),
+                                nAvail = Convert.ToDecimal(mvm.avail),
+                                yrN = Convert.ToDecimal(mvm.yrN),
+                                yrP2o5 = Convert.ToDecimal(mvm.yrP2o5),
+                                yrK2o = Convert.ToDecimal(mvm.yrK2o),
+                                ltN = Convert.ToDecimal(mvm.ltN),
+                                ltP2o5 = Convert.ToDecimal(mvm.ltP2o5),
+                                ltK2o = Convert.ToDecimal(mvm.ltK2o)
+                            };
+
+                            _ud.AddFieldNutrientsManure(mvm.fieldName, nm);
+                        }
+                        else
+                        {
+                            NutrientManure nm = _ud.GetFieldNutrientsManure(mvm.fieldName, mvm.id.Value);
+                            nm.manureId = mvm.selManOption;
+                            nm.applicationId = mvm.selApplOption;
+                            nm.unitId = mvm.selRateOption;
+                            nm.rate = Convert.ToDecimal(mvm.rate);
+                            nm.nh4Retention = Convert.ToDecimal(mvm.nh4);
+                            nm.nAvail = Convert.ToDecimal(mvm.avail);
+                            nm.yrN = Convert.ToDecimal(mvm.yrN);
+                            nm.yrP2o5 = Convert.ToDecimal(mvm.yrP2o5);
+                            nm.yrK2o = Convert.ToDecimal(mvm.yrK2o);
+                            nm.ltN = Convert.ToDecimal(mvm.ltN);
+                            nm.ltP2o5 = Convert.ToDecimal(mvm.ltP2o5);
+                            nm.ltK2o = Convert.ToDecimal(mvm.ltK2o);
+
+                            _ud.UpdateFieldNutrientsManure(mvm.fieldName, nm);
+                        }
+                        return Json(ReDisplay("#manure", mvm.fieldName));
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", "Unexpected system error.");
             }
 
             return PartialView(mvm);
@@ -386,29 +394,41 @@ namespace SERVERAPI.Controllers
         public IActionResult CropDetails(CropDetailsViewModel cvm)
         {
             CropDetailsSetup(ref cvm);
-
-            if (cvm.buttonPressed == "TypeChange")
+            try
             {
-                ModelState.Clear();
-                cvm.buttonPressed = "";
-                cvm.btnText = "Calculate";
-                cvm.crude = "";
-                cvm.cropDesc = "";
-                cvm.coverCropHarvested = null;
-
-                if (cvm.selTypOption != "select")
+                if (cvm.buttonPressed == "TypeChange")
                 {
-                    CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
+                    ModelState.Clear();
+                    cvm.buttonPressed = "";
+                    cvm.btnText = "Calculate";
+                    cvm.crude = "";
+                    cvm.cropDesc = "";
+                    cvm.coverCropHarvested = null;
 
-                    if (crpTyp.customcrop)
+                    if (cvm.selTypOption != "select")
                     {
-                        cvm.manEntry = true;
-                        cvm.reqN = string.Empty;
-                        cvm.reqP2o5 = string.Empty;
-                        cvm.reqK2o = string.Empty;
-                        cvm.remN = string.Empty;
-                        cvm.remP2o5 = string.Empty;
-                        cvm.remK2o = string.Empty;
+                        CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
+
+                        if (crpTyp.customcrop)
+                        {
+                            cvm.manEntry = true;
+                            cvm.reqN = string.Empty;
+                            cvm.reqP2o5 = string.Empty;
+                            cvm.reqK2o = string.Empty;
+                            cvm.remN = string.Empty;
+                            cvm.remP2o5 = string.Empty;
+                            cvm.remK2o = string.Empty;
+                        }
+                        else
+                        {
+                            cvm.manEntry = false;
+                            cvm.reqN = "  0";
+                            cvm.reqP2o5 = "  0";
+                            cvm.reqK2o = "  0";
+                            cvm.remN = "  0";
+                            cvm.remP2o5 = "  0";
+                            cvm.remK2o = "  0";
+                        }
                     }
                     else
                     {
@@ -420,333 +440,327 @@ namespace SERVERAPI.Controllers
                         cvm.remP2o5 = "  0";
                         cvm.remK2o = "  0";
                     }
-                }
-                else
-                {
-                    cvm.manEntry = false;
-                    cvm.reqN = "  0";
-                    cvm.reqP2o5 = "  0";
-                    cvm.reqK2o = "  0";
-                    cvm.remN = "  0";
-                    cvm.remP2o5 = "  0";
-                    cvm.remK2o = "  0";
-                }
-                return View(cvm);
-            }
-
-            if (cvm.buttonPressed == "PrevChange")
-            {
-                ModelState.Clear();
-                cvm.buttonPressed = "";
-                cvm.btnText = "Calculate";
-                return View(cvm);
-            }
-
-            if (cvm.buttonPressed == "CropChange")
-            {
-                ModelState.Clear();
-                cvm.buttonPressed = "";
-                cvm.btnText = "Calculate";
-
-                if (cvm.selCropOption != "")
-                {
-                    Crop cp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
-                    Yield yld = _sd.GetYield(cp.yieldcd);
-
-                    cvm.yieldUnit = "(" + yld.yielddesc + ")";
-                }
-                cvm.selPrevOption = string.Empty;
-
-                if (cvm.showCrude)
-                {
-                    CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
-                    cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
+                    return View(cvm);
                 }
 
-                CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_env, _ud, _sd);
-                decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
-                if (defaultYield.HasValue)
-                    cvm.yield = defaultYield.Value.ToString("#.#"); 
-                
-                return View(cvm);
-            }
-
-            if (ModelState.IsValid)
-            {
-                if(cvm.coverCrop)
+                if (cvm.buttonPressed == "PrevChange")
                 {
-                    if(!cvm.coverCropHarvested.HasValue)
+                    ModelState.Clear();
+                    cvm.buttonPressed = "";
+                    cvm.btnText = "Calculate";
+                    return View(cvm);
+                }
+
+                if (cvm.buttonPressed == "CropChange")
+                {
+                    ModelState.Clear();
+                    cvm.buttonPressed = "";
+                    cvm.btnText = "Calculate";
+
+                    if (cvm.selCropOption != "")
                     {
-                        ModelState.AddModelError("coverCropHarvested", "Required.");
-                        return View(cvm);
+                        Crop cp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
+                        Yield yld = _sd.GetYield(cp.yieldcd);
+
+                        cvm.yieldUnit = "(" + yld.yielddesc + ")";
                     }
+                    cvm.selPrevOption = string.Empty;
+
+                    if (cvm.showCrude)
+                    {
+                        CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+                        cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
+                    }
+
+                    CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+                    decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                    if (defaultYield.HasValue)
+                        cvm.yield = defaultYield.Value.ToString("#.#");
+
+                    return View(cvm);
                 }
 
-                if(!string.IsNullOrEmpty(cvm.crude))
+                if (ModelState.IsValid)
                 {
-                    decimal crd;
-                    if(decimal.TryParse(cvm.crude, out crd))
+                    if (cvm.coverCrop)
                     {
-                        if(crd < 0 || crd > 100)
+                        if (!cvm.coverCropHarvested.HasValue)
                         {
-                            ModelState.AddModelError("crude", "Not a valid percentage.");
+                            ModelState.AddModelError("coverCropHarvested", "Required.");
+                            return View(cvm);
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(cvm.crude))
+                    {
+                        decimal crd;
+                        if (decimal.TryParse(cvm.crude, out crd))
+                        {
+                            if (crd < 0 || crd > 100)
+                            {
+                                ModelState.AddModelError("crude", "Not a valid percentage.");
+                                return View(cvm);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("crude", "Not a valid number.");
+                            return View(cvm);
+                        }
+                    }
+
+                    decimal tmpDec;
+                    int tmp;
+                    if (decimal.TryParse(cvm.yield, out tmpDec))
+                    {
+                        if (tmpDec <= 0)
+                        {
+                            ModelState.AddModelError("yield", "Not a valid yield.");
                             return View(cvm);
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError("crude", "Not a valid number.");
-                        return View(cvm);
-                    }
-                }
-
-                decimal tmpDec;
-                int tmp;
-                if (decimal.TryParse(cvm.yield, out tmpDec))
-                {
-                    if (tmpDec <= 0)
-                    {
-                        ModelState.AddModelError("yield", "Not a valid yield.");
-                        return View(cvm);
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("yield", "Not a valid number.");
-                    return View(cvm);
-                }
-
-                //if((string.IsNullOrEmpty(cvm.selCropOption) ||
-                //    cvm.selCropOption == "select") &&
-                //    cvm.selTypOption != _settings.OtherCropId)  // none
-                //{
-                //    ModelState.AddModelError("selCropOption", "Required.");
-                //    return View(cvm);
-                //}
-
-                if(cvm.manEntry)
-                {
-                    if (string.IsNullOrEmpty(cvm.cropDesc))
-                    {
-                        ModelState.AddModelError("cropDesc", "Required.");
+                        ModelState.AddModelError("yield", "Not a valid number.");
                         return View(cvm);
                     }
 
-                    if (string.IsNullOrEmpty(cvm.reqN))
+                    //if((string.IsNullOrEmpty(cvm.selCropOption) ||
+                    //    cvm.selCropOption == "select") &&
+                    //    cvm.selTypOption != _settings.OtherCropId)  // none
+                    //{
+                    //    ModelState.AddModelError("selCropOption", "Required.");
+                    //    return View(cvm);
+                    //}
+
+                    if (cvm.manEntry)
                     {
-                        ModelState.AddModelError("reqN", "Reqd.");
-                        return View(cvm);
-                    }
-                    else
-                    {
-                        if (int.TryParse(cvm.reqN, out tmp))
+                        if (string.IsNullOrEmpty(cvm.cropDesc))
                         {
-                            if (tmp <= 0)
+                            ModelState.AddModelError("cropDesc", "Required.");
+                            return View(cvm);
+                        }
+
+                        if (string.IsNullOrEmpty(cvm.reqN))
+                        {
+                            ModelState.AddModelError("reqN", "Reqd.");
+                            return View(cvm);
+                        }
+                        else
+                        {
+                            if (int.TryParse(cvm.reqN, out tmp))
+                            {
+                                if (tmp <= 0)
+                                {
+                                    ModelState.AddModelError("reqN", "Invalid.");
+                                    return View(cvm);
+                                }
+                            }
+                            else
                             {
                                 ModelState.AddModelError("reqN", "Invalid.");
                                 return View(cvm);
                             }
                         }
-                        else
+                        if (string.IsNullOrEmpty(cvm.reqP2o5))
                         {
-                            ModelState.AddModelError("reqN", "Invalid.");
+                            ModelState.AddModelError("reqP2o5", "Reqd.");
                             return View(cvm);
                         }
-                    }
-                    if (string.IsNullOrEmpty(cvm.reqP2o5))
-                    {
-                        ModelState.AddModelError("reqP2o5", "Reqd.");
-                        return View(cvm);
-                    }
-                    else
-                    {
-                        if (int.TryParse(cvm.reqP2o5, out tmp))
+                        else
                         {
-                            if (tmp <= 0)
+                            if (int.TryParse(cvm.reqP2o5, out tmp))
+                            {
+                                if (tmp <= 0)
+                                {
+                                    ModelState.AddModelError("reqP2o5", "Invalid.");
+                                    return View(cvm);
+                                }
+                            }
+                            else
                             {
                                 ModelState.AddModelError("reqP2o5", "Invalid.");
                                 return View(cvm);
                             }
                         }
-                        else
+                        if (string.IsNullOrEmpty(cvm.reqK2o))
                         {
-                            ModelState.AddModelError("reqP2o5", "Invalid.");
+                            ModelState.AddModelError("reqK2o", "Reqd.");
                             return View(cvm);
                         }
-                    }
-                    if (string.IsNullOrEmpty(cvm.reqK2o))
-                    {
-                        ModelState.AddModelError("reqK2o", "Reqd.");
-                        return View(cvm);
-                    }
-                    else
-                    {
-                        if (int.TryParse(cvm.reqK2o, out tmp))
+                        else
                         {
-                            if (tmp <= 0)
+                            if (int.TryParse(cvm.reqK2o, out tmp))
+                            {
+                                if (tmp <= 0)
+                                {
+                                    ModelState.AddModelError("reqK2o", "Invalid.");
+                                    return View(cvm);
+                                }
+                            }
+                            else
                             {
                                 ModelState.AddModelError("reqK2o", "Invalid.");
                                 return View(cvm);
                             }
                         }
-                        else
+                        if (string.IsNullOrEmpty(cvm.remN))
                         {
-                            ModelState.AddModelError("reqK2o", "Invalid.");
+                            ModelState.AddModelError("remN", "Reqd.");
                             return View(cvm);
                         }
-                    }
-                    if (string.IsNullOrEmpty(cvm.remN))
-                    {
-                        ModelState.AddModelError("remN", "Reqd.");
-                        return View(cvm);
-                    }
-                    else
-                    {
-                        if (int.TryParse(cvm.remN, out tmp))
+                        else
                         {
-                            if (tmp <= 0)
+                            if (int.TryParse(cvm.remN, out tmp))
+                            {
+                                if (tmp <= 0)
+                                {
+                                    ModelState.AddModelError("remN", "Invalid.");
+                                    return View(cvm);
+                                }
+                            }
+                            else
                             {
                                 ModelState.AddModelError("remN", "Invalid.");
                                 return View(cvm);
                             }
                         }
-                        else
+                        if (string.IsNullOrEmpty(cvm.remP2o5))
                         {
-                            ModelState.AddModelError("remN", "Invalid.");
+                            ModelState.AddModelError("remP2o5", "Reqd.");
                             return View(cvm);
                         }
-                    }
-                    if (string.IsNullOrEmpty(cvm.remP2o5))
-                    {
-                        ModelState.AddModelError("remP2o5", "Reqd.");
-                        return View(cvm);
-                    }
-                    else
-                    {
-                        if (int.TryParse(cvm.remP2o5, out tmp))
+                        else
                         {
-                            if (tmp <= 0)
+                            if (int.TryParse(cvm.remP2o5, out tmp))
+                            {
+                                if (tmp <= 0)
+                                {
+                                    ModelState.AddModelError("remP2o5", "Invalid.");
+                                    return View(cvm);
+                                }
+                            }
+                            else
                             {
                                 ModelState.AddModelError("remP2o5", "Invalid.");
                                 return View(cvm);
                             }
                         }
-                        else
+                        if (string.IsNullOrEmpty(cvm.remK2o))
                         {
-                            ModelState.AddModelError("remP2o5", "Invalid.");
+                            ModelState.AddModelError("remK2o", "Reqd.");
                             return View(cvm);
                         }
-                    }
-                    if (string.IsNullOrEmpty(cvm.remK2o))
-                    {
-                        ModelState.AddModelError("remK2o", "Reqd.");
-                        return View(cvm);
-                    }
-                    else
-                    {
-                        if (int.TryParse(cvm.remK2o, out tmp))
+                        else
                         {
-                            if (tmp <= 0)
+                            if (int.TryParse(cvm.remK2o, out tmp))
+                            {
+                                if (tmp <= 0)
+                                {
+                                    ModelState.AddModelError("remK2o", "Invalid.");
+                                    return View(cvm);
+                                }
+                            }
+                            else
                             {
                                 ModelState.AddModelError("remK2o", "Invalid.");
                                 return View(cvm);
                             }
                         }
-                        else
+                    }
+
+                    if (cvm.btnText == "Calculate")
+                    {
+                        ModelState.Clear();
+                        if (!cvm.manEntry)
                         {
-                            ModelState.AddModelError("remK2o", "Invalid.");
-                            return View(cvm);
+                            CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
+                            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+
+                            calculateCropRequirementRemoval.cropid = Convert.ToInt16(cvm.selCropOption);
+                            calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yield);
+                            if (cvm.crude == null)
+                                calculateCropRequirementRemoval.crudeProtien = null;
+                            else
+                                calculateCropRequirementRemoval.crudeProtien = Convert.ToDecimal(cvm.crude);
+                            calculateCropRequirementRemoval.coverCropHarvested = cvm.coverCropHarvested;
+
+
+                            cropRequirementRemoval = calculateCropRequirementRemoval.GetCropRequirementRemoval();
+
+                            cvm.reqN = cropRequirementRemoval.N_Requirement.ToString();
+                            cvm.reqP2o5 = cropRequirementRemoval.P2O5_Requirement.ToString();
+                            cvm.reqK2o = cropRequirementRemoval.K2O_Requirement.ToString();
+                            cvm.remN = cropRequirementRemoval.N_Removal.ToString();
+                            cvm.remP2o5 = cropRequirementRemoval.P2O5_Removal.ToString();
+                            cvm.remK2o = cropRequirementRemoval.K2O_Removal.ToString();
                         }
-                    }
-                }
 
-                if (cvm.btnText == "Calculate")
-                {
-                    ModelState.Clear();
-                    if (!cvm.manEntry)
-                    {
-                        CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
-                        CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
-
-                        calculateCropRequirementRemoval.cropid = Convert.ToInt16(cvm.selCropOption);
-                        calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yield);
-                        if (cvm.crude == null)
-                            calculateCropRequirementRemoval.crudeProtien = null;
-                        else
-                            calculateCropRequirementRemoval.crudeProtien = Convert.ToDecimal(cvm.crude);
-                        calculateCropRequirementRemoval.coverCropHarvested = cvm.coverCropHarvested;
-                        
-
-                        cropRequirementRemoval = calculateCropRequirementRemoval.GetCropRequirementRemoval();
-
-                        cvm.reqN = cropRequirementRemoval.N_Requirement.ToString();
-                        cvm.reqP2o5 = cropRequirementRemoval.P2O5_Requirement.ToString();
-                        cvm.reqK2o = cropRequirementRemoval.K2O_Requirement.ToString();
-                        cvm.remN = cropRequirementRemoval.N_Removal.ToString();
-                        cvm.remP2o5 = cropRequirementRemoval.P2O5_Removal.ToString();
-                        cvm.remK2o = cropRequirementRemoval.K2O_Removal.ToString();
-                    }
-
-                    cvm.btnText = cvm.id == null ? "Add to Field" : "Update Field";
-                }
-                else
-                {
-                    if (cvm.id == null)
-                    {
-                        int prevCrop = 0;
-                        if (cvm.selPrevOption != "select")
-                            prevCrop = Convert.ToInt32(cvm.selPrevOption);
-
-                        int thisCrop = 0;
-                        if (cvm.selCropOption != "select")
-                            thisCrop = Convert.ToInt32(cvm.selCropOption);
-
-                        FieldCrop crp = new FieldCrop()
-                        {
-                            cropId = thisCrop.ToString(),
-                            cropOther = cvm.cropDesc,
-                            yield = Convert.ToDecimal(cvm.yield),
-                            reqN = Convert.ToDecimal(cvm.reqN),
-                            reqP2o5 = Convert.ToDecimal(cvm.reqP2o5),
-                            reqK2o = Convert.ToDecimal(cvm.reqK2o),
-                            remN = Convert.ToDecimal(cvm.remN),
-                            remP2o5 = Convert.ToDecimal(cvm.remP2o5),
-                            remK2o = Convert.ToDecimal(cvm.remK2o),
-                            crudeProtien = string.IsNullOrEmpty(cvm.crude)? (decimal?)null: Convert.ToDecimal(cvm.crude),
-                            prevCropId = prevCrop,
-                            coverCropHarvested =  cvm.coverCropHarvested
-                        };
-
-                        _ud.AddFieldCrop(cvm.fieldName, crp);
+                        cvm.btnText = cvm.id == null ? "Add to Field" : "Update Field";
                     }
                     else
                     {
-                        int prevCrop = 0;
-                        if (cvm.selPrevOption != "select")
-                            prevCrop = Convert.ToInt32(cvm.selPrevOption);
+                        if (cvm.id == null)
+                        {
+                            int prevCrop = 0;
+                            if (cvm.selPrevOption != "select")
+                                prevCrop = Convert.ToInt32(cvm.selPrevOption);
 
-                        int thisCrop = 0;
-                        if (cvm.selCropOption != "select")
-                            thisCrop = Convert.ToInt32(cvm.selCropOption);
+                            int thisCrop = 0;
+                            if (cvm.selCropOption != "select")
+                                thisCrop = Convert.ToInt32(cvm.selCropOption);
 
-                        FieldCrop crp = _ud.GetFieldCrop(cvm.fieldName, cvm.id.Value);
-                        crp.cropId = thisCrop.ToString();
-                        crp.cropOther = cvm.cropDesc;
-                        crp.yield = Convert.ToDecimal(cvm.yield);
-                        crp.reqN = Convert.ToDecimal(cvm.reqN);
-                        crp.reqP2o5 = Convert.ToDecimal(cvm.reqP2o5);
-                        crp.reqK2o = Convert.ToDecimal(cvm.reqK2o);
-                        crp.remN = Convert.ToDecimal(cvm.remN);
-                        crp.remP2o5 = Convert.ToDecimal(cvm.remP2o5);
-                        crp.remK2o = Convert.ToDecimal(cvm.remK2o);
-                        crp.crudeProtien = string.IsNullOrEmpty(cvm.crude) ? (decimal?)null : Convert.ToDecimal(cvm.crude);
-                        crp.prevCropId = prevCrop;
-                        crp.coverCropHarvested = cvm.coverCropHarvested;
+                            FieldCrop crp = new FieldCrop()
+                            {
+                                cropId = thisCrop.ToString(),
+                                cropOther = cvm.cropDesc,
+                                yield = Convert.ToDecimal(cvm.yield),
+                                reqN = Convert.ToDecimal(cvm.reqN),
+                                reqP2o5 = Convert.ToDecimal(cvm.reqP2o5),
+                                reqK2o = Convert.ToDecimal(cvm.reqK2o),
+                                remN = Convert.ToDecimal(cvm.remN),
+                                remP2o5 = Convert.ToDecimal(cvm.remP2o5),
+                                remK2o = Convert.ToDecimal(cvm.remK2o),
+                                crudeProtien = string.IsNullOrEmpty(cvm.crude) ? (decimal?)null : Convert.ToDecimal(cvm.crude),
+                                prevCropId = prevCrop,
+                                coverCropHarvested = cvm.coverCropHarvested
+                            };
 
-                        _ud.UpdateFieldCrop(cvm.fieldName, crp);
+                            _ud.AddFieldCrop(cvm.fieldName, crp);
+                        }
+                        else
+                        {
+                            int prevCrop = 0;
+                            if (cvm.selPrevOption != "select")
+                                prevCrop = Convert.ToInt32(cvm.selPrevOption);
+
+                            int thisCrop = 0;
+                            if (cvm.selCropOption != "select")
+                                thisCrop = Convert.ToInt32(cvm.selCropOption);
+
+                            FieldCrop crp = _ud.GetFieldCrop(cvm.fieldName, cvm.id.Value);
+                            crp.cropId = thisCrop.ToString();
+                            crp.cropOther = cvm.cropDesc;
+                            crp.yield = Convert.ToDecimal(cvm.yield);
+                            crp.reqN = Convert.ToDecimal(cvm.reqN);
+                            crp.reqP2o5 = Convert.ToDecimal(cvm.reqP2o5);
+                            crp.reqK2o = Convert.ToDecimal(cvm.reqK2o);
+                            crp.remN = Convert.ToDecimal(cvm.remN);
+                            crp.remP2o5 = Convert.ToDecimal(cvm.remP2o5);
+                            crp.remK2o = Convert.ToDecimal(cvm.remK2o);
+                            crp.crudeProtien = string.IsNullOrEmpty(cvm.crude) ? (decimal?)null : Convert.ToDecimal(cvm.crude);
+                            crp.prevCropId = prevCrop;
+                            crp.coverCropHarvested = cvm.coverCropHarvested;
+
+                            _ud.UpdateFieldCrop(cvm.fieldName, crp);
+                        }
+                        return Json(ReDisplay("#crop", cvm.fieldName));
                     }
-                    return Json(ReDisplay("#crop", cvm.fieldName));
                 }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Unexpected system error.");
             }
 
             return PartialView(cvm);

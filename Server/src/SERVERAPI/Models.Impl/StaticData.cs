@@ -451,7 +451,7 @@ namespace SERVERAPI.Models.Impl
                 {
                     crop_stp_regioncd.cropid = Convert.ToInt32(r["cropid"].ToString());
                     crop_stp_regioncd.soil_test_phosphorous_region_cd = Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString());
-                    crop_stp_regioncd.phosphorous_crop_group_region_cd = Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString());
+                    crop_stp_regioncd.phosphorous_crop_group_region_cd = r["phosphorous_crop_group_region_cd"].ToString() == "null" ? (int?)null : Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString());
                 }
             }
 
@@ -472,7 +472,7 @@ namespace SERVERAPI.Models.Impl
                 {
                     crop_stk_regioncd.cropid = Convert.ToInt32(r["cropid"].ToString());
                     crop_stk_regioncd.soil_test_potassium_region_cd = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString());
-                    crop_stk_regioncd.potassium_crop_group_region_cd = Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString());
+                    crop_stk_regioncd.potassium_crop_group_region_cd = r["potassium_crop_group_region_cd"].ToString() == "null" ? (int?)null : Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString());
                 }
             }
 
@@ -512,7 +512,7 @@ namespace SERVERAPI.Models.Impl
                 {
                     ammoniaretention.seasonapplicatonid = Convert.ToInt32(r["seasonapplicatonid"].ToString());
                     ammoniaretention.dm = Convert.ToInt32(r["dm"].ToString());
-                    ammoniaretention.value = Convert.ToDecimal(r["value"].ToString());
+                    ammoniaretention.value = r["value"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["value"].ToString());
                 }
             }
 
@@ -680,7 +680,7 @@ namespace SERVERAPI.Models.Impl
                 {
                     cropYield.cropid = Convert.ToInt32(r["cropid"].ToString());
                     cropYield.locationid = Convert.ToInt32(r["locationid"].ToString());
-                    cropYield.amt = r["amt"].ToString() == "null" ? (Decimal?)null : Convert.ToDecimal(r["amt"].ToString());
+                    cropYield.amt = r["amt"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["amt"].ToString());
                 }
             }
 
