@@ -69,7 +69,6 @@ namespace SERVERAPI
                 options.MultipartBodyLengthLimit = 1073741824; // 1 GB
             });
             services.AddResponseCompression();
-            services.AddNodeServices();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
