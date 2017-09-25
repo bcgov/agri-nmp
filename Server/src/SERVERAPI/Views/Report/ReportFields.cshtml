@@ -260,29 +260,32 @@
 
                 </table>
 
-                <br />
-                <br />
-                <table style="border-collapse: collapse; width:100%">
-                    <tr>
-                        <td>
-                            <span style="font-size:16px">Considerations:</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            &nbsp;
-                        </td>
-                    </tr> 
-                    @foreach (var a in f.alertMsgs)
-                    {
+                @if (f.alertN || f.alertP || f.alertK)
+                {
+                    <br />
+                    <br />
+                    <table style="border-collapse: collapse; width:100%">
                         <tr>
                             <td>
-                                @a.Message
+                                <span style="font-size:16px; background-color:#ffa007">Considerations:</span>
                             </td>
                         </tr>
-                    }
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr> 
+                        @foreach (var a in f.alertMsgs)
+                        {
+                            <tr>
+                                <td>
+                                    @a.Message
+                                </td>
+                            </tr>
+                        }
 
-                </table>
+                    </table>
+                }
                 @if(f.footnotes.Count() > 0)
                 {
                     <br />

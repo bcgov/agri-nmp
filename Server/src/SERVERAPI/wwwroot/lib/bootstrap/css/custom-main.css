@@ -967,3 +967,16 @@ label {
 .remove-padding-right {
   padding-right: 0;
 }
+.gov-slim-alert {
+    padding: 3px;
+    margin-bottom: 9px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4), 0 0 45px rgba(255, 255, 255, 0.7) inset;
+}
+
+.gov-slim-alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #c81212;
+}
