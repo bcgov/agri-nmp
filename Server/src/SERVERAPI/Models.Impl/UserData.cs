@@ -122,6 +122,8 @@ namespace SERVERAPI.Models.Impl
                 fld.soilTest.valK = updtFld.soilTest.valK;
                 fld.soilTest.valNO3H = updtFld.soilTest.valNO3H;
                 fld.soilTest.valPH = updtFld.soilTest.valPH;
+                fld.soilTest.ConvertedKelownaK = updtFld.soilTest.ConvertedKelownaK;
+                fld.soilTest.ConvertedKelownaP = updtFld.soilTest.ConvertedKelownaP;
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);

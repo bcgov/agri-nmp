@@ -83,6 +83,7 @@ namespace SERVERAPI.Controllers
         {
             if(ModelState.IsValid)
             {
+                Utility.SoilTestConversions soilTestConversions = new Utility.SoilTestConversions(_ud, _sd);
                 Field fld = _ud.GetFieldDetails(tvm.fieldName);
                 if(fld.soilTest == null)
                 {
@@ -93,6 +94,8 @@ namespace SERVERAPI.Controllers
                 fld.soilTest.valK = Convert.ToDecimal(tvm.dispK);
                 fld.soilTest.valNO3H = Convert.ToDecimal(tvm.dispNO3H);
                 fld.soilTest.valPH = Convert.ToDecimal(tvm.dispPH);
+                fld.soilTest.ConvertedKelownaK = soilTestConversions.GetConvertedSTK(fld.soilTest);
+                fld.soilTest.ConvertedKelownaP = soilTestConversions.GetConvertedSTP(fld.soilTest);
 
                 _ud.UpdateFieldSoilTest(fld);
 

@@ -684,7 +684,7 @@ namespace SERVERAPI.Controllers
                             else
                                 calculateCropRequirementRemoval.crudeProtien = Convert.ToDecimal(cvm.crude);
                             calculateCropRequirementRemoval.coverCropHarvested = cvm.coverCropHarvested;
-
+                            calculateCropRequirementRemoval.fieldName = cvm.fieldName;
 
                             cropRequirementRemoval = calculateCropRequirementRemoval.GetCropRequirementRemoval();
 
