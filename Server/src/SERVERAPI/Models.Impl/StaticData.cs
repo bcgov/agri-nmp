@@ -639,6 +639,10 @@ namespace SERVERAPI.Models.Impl
 
                 rec.id = Convert.ToInt32(r["id"].ToString());
                 rec.name = r["name"].ToString();
+                rec.ConvertToKelownaPlt72 = Convert.ToDecimal(r["ConvertToKelownaPlt72"].ToString());
+                rec.ConvertToKelownaPge72 = Convert.ToDecimal(r["ConvertToKelownaPge72"].ToString());
+                rec.ConvertToKelownaK = Convert.ToDecimal(r["ConvertToKelownaK"].ToString());
+
                 meths.methods.Add(rec);
             }
 
@@ -1040,6 +1044,55 @@ namespace SERVERAPI.Models.Impl
             }
 
             return typesOptions;
+        public Models.StaticData.SoilTestMethod GetSoilTestMethodByMethod(string _soilTest)
+        {
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray items = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
+            Models.StaticData.SoilTestMethod soilTestMethod = new Models.StaticData.SoilTestMethod();
+            
+            foreach (var r in items)
+            {
+                if (_soilTest == r["name"].ToString())
+                {
+                    soilTestMethod.id = Convert.ToInt32(r["id"].ToString());
+                    soilTestMethod.name = r["name"].ToString();
+                    soilTestMethod.ConvertToKelownaPlt72 = Convert.ToDecimal(r["ConvertToKelownaPlt72"].ToString());
+                    soilTestMethod.ConvertToKelownaPge72 = Convert.ToDecimal(r["ConvertToKelownaPge72"].ToString());
+                    soilTestMethod.ConvertToKelownaK = Convert.ToDecimal(r["ConvertToKelownaK"].ToString());
+                }
+            }
+
+            return soilTestMethod;
+        }
+
+        public Models.StaticData.SoilTestMethod GetSoilTestMethodById(string _id)
+        {            
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray items = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
+            Models.StaticData.SoilTestMethod soilTestMethod = new Models.StaticData.SoilTestMethod();
+            int id = 0;
+            int.TryParse(_id, out id);
+
+            try
+            { 
+                foreach (var r in items)
+                {
+                    if (id == Convert.ToInt16(r["id"].ToString()))
+                    {
+                        soilTestMethod.id = Convert.ToInt32(r["id"].ToString());
+                        soilTestMethod.name = r["name"].ToString();
+                        soilTestMethod.ConvertToKelownaPlt72 = Convert.ToDecimal(r["ConvertToKelownaPlt72"].ToString());
+                        soilTestMethod.ConvertToKelownaPge72 = Convert.ToDecimal(r["ConvertToKelownaPge72"].ToString());
+                        soilTestMethod.ConvertToKelownaK = Convert.ToDecimal(r["ConvertToKelownaK"].ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle error
+            }
+
+            return soilTestMethod;
         }
     }
 }

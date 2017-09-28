@@ -11,14 +11,12 @@ namespace SERVERAPI.Utility
 {
     public class CalculateCropRequirementRemoval
     { 
-
-    private IHostingEnvironment _env;
+    
     private UserData _ud;
     private Models.Impl.StaticData _sd;
 
-        public CalculateCropRequirementRemoval(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
-        {
-            _env = env;
+        public CalculateCropRequirementRemoval(UserData ud, Models.Impl.StaticData sd)
+        {            
             _ud = ud;
             _sd = sd;
         }
@@ -28,14 +26,14 @@ namespace SERVERAPI.Utility
         public decimal yield { get; set; }
         public decimal? crudeProtien { get; set; }
         public CropRequirementRemoval cropRequirementRemoval { get; set; }
-        public bool? coverCropHarvested { get; set; }                 
+        public bool? coverCropHarvested { get; set; }   
+        public string fieldName { get; set; }
 
         public CropRequirementRemoval GetCropRequirementRemoval()
         {
             decimal n_removal = 0;
 
             ConversionFactor _cf = _sd.GetConversionFactor();
-
 
             CropRequirementRemoval crr = new CropRequirementRemoval();
             Crop crop = _sd.GetCrop(cropid);
@@ -103,10 +101,19 @@ namespace SERVERAPI.Utility
             int regionid = _ud.FarmDetails().farmRegion.Value;
             Region region = _sd.GetRegion(regionid);
 
+            Field fld = _ud.GetFieldDetails(fieldName);
+            int _STP = fld.soilTest.ConvertedKelownaP;
+            if (_STP == 0)
+                _STP = _cf.defaultSoilTestKelownaP;
+
+            int _STK = fld.soilTest.ConvertedKelownaK;
+            if (fld.soilTest.ConvertedKelownaK == 0)
+                _STK = _cf.defaultSoilTestKelownaK;
+
             // p2o5 recommend calculations
             CropSTPRegionCd cropSTPRegionCd  = _sd.GetCropSTPRegionCd(cropid, region.soil_test_phospherous_region_cd);
             int? phosphorous_crop_group_region_cd = cropSTPRegionCd.phosphorous_crop_group_region_cd;
-            STPKelownaRange sTPKelownaRange = _sd.GetSTPKelownaRangeByPpm(_cf.defaultSoilTestKelownaP);
+            STPKelownaRange sTPKelownaRange = _sd.GetSTPKelownaRangeByPpm(_STP);
             int stp_kelowna_range_id = sTPKelownaRange.id;
             if (phosphorous_crop_group_region_cd == null)
                 crr.P2O5_Requirement = 0;
@@ -119,7 +126,7 @@ namespace SERVERAPI.Utility
             // k2o recommend calculations
             CropSTKRegionCd cropSTKRegionCd = _sd.GetCropSTKRegionCd(cropid, region.soil_test_potassium_region_cd);
             int? potassium_crop_group_region_cd = cropSTKRegionCd.potassium_crop_group_region_cd;
-            STKKelownaRange sTKKelownaRange = _sd.GetSTKKelownaRangeByPpm(_cf.defaultSoilTestKelownaK);
+            STKKelownaRange sTKKelownaRange = _sd.GetSTKKelownaRangeByPpm(_STK);
             int stk_kelowna_range_id = sTKKelownaRange.id;
             if (potassium_crop_group_region_cd == null)
                 crr.K2O_Requirement = 0;
@@ -129,7 +136,7 @@ namespace SERVERAPI.Utility
                 crr.K2O_Requirement = Convert.ToInt32(Convert.ToDecimal(sTKRecommend.k2o_recommend_kgperha) * _cf.kgperha_lbperac_conversion);
             }
 
-            // n recommend calculations -note the excel n_recommd are zero based, the statid data is 1 based
+            // n recommend calculations -note the excel n_recommd are zero based, the static data is 1 based
             switch (crop.n_recommcd)
             {
                 case 1:

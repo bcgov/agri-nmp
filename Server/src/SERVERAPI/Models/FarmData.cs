@@ -35,7 +35,7 @@ namespace SERVERAPI.Models
         public string comment { get; set; }
         public Nutrients nutrients { get; set; }
         public List<FieldCrop> crops {get; set; }
-        public SoilTest soilTest { get; set; }
+        public SoilTest soilTest { get; set; }       
     }
     public class Nutrients
     {
@@ -103,6 +103,8 @@ namespace SERVERAPI.Models
         public decimal ValP { get; set; }
         public decimal valK { get; set; }
         public decimal valPH { get; set; }
+        public int ConvertedKelownaP { get; set; }
+        public int ConvertedKelownaK { get; set; }
     }
 }
 

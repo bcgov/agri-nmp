@@ -31,23 +31,38 @@
         "soiltestmethod": [
           {
             "id": "1",
-            "name": "Kelowna"
+            "name": "Kelowna",
+            "ConvertToKelownaPlt72": "1",
+            "ConvertToKelownaPge72": "1",
+            "ConvertToKelownaK":  "1"
           },
           {
             "id": "2",
-            "name": "Modified Kelowna 95"
+            "name": "Modified Kelowna 95",
+            "ConvertToKelownaPlt72": "1.24",
+            "ConvertToKelownaPge72": "1.24",
+            "ConvertToKelownaK": "0.76"
           },
           {
             "id": "3",
-            "name": "Mehlich 3"
+            "name": "Mehlich 3",
+            "ConvertToKelownaPlt72": "0.72",
+            "ConvertToKelownaPge72": "0.72",
+            "ConvertToKelownaK": "0.75"
           },
           {
             "id": "4",
-            "name": "Bray-1 and Ammonium Acetate"
+            "name": "Bray-1 and Ammonium Acetate",
+            "ConvertToKelownaPlt72": "0.74",
+            "ConvertToKelownaPge72": "1",
+            "ConvertToKelownaK": "0.8"
           },
           {
             "id": "5",
-            "name": "Bicarbonate (Olsen) and Ammonium Acetate"
+            "name": "Bicarbonate (Olsen) and Ammonium Acetate",
+            "ConvertToKelownaPlt72": "2",
+            "ConvertToKelownaPge72": "2",
+            "ConvertToKelownaK": "0.8"
           }
         ]
       },

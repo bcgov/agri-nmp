@@ -255,6 +255,9 @@ namespace SERVERAPI.Models
         {
             public int id { get; set; }
             public string name { get; set; }
+            public decimal ConvertToKelownaPlt72 { get; set; }
+            public decimal ConvertToKelownaPge72 { get; set; }
+            public decimal ConvertToKelownaK { get; set; }
         }
 
         public class PrevCropTypes

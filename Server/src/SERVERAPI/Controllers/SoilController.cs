@@ -51,10 +51,21 @@ namespace SERVERAPI.Controllers
 
             if (fvm.buttonPressed == "MethodChange")
             {
+                ModelState.Clear();
                 FarmDetails fd = _ud.FarmDetails();
                 fd.testingMethod = fvm.selTstOption == "select" ? string.Empty : fvm.selTstOption;
                 _ud.UpdateFarmDetails(fd);
                 fvm.testSelected = string.IsNullOrEmpty(fd.testingMethod) ? false : true;
+                Utility.SoilTestConversions soilTestConversions = new Utility.SoilTestConversions(_ud, _sd);
+                List<Field> fl = _ud.GetFields();
+                
+                //update fields with convert STP and STK
+                soilTestConversions.UpdateSTPSTK(fl);
+                
+                //update the Nutrient calculations with the new/changed soil test data
+                Utility.ChemicalBalanceMessage cbm = new Utility.ChemicalBalanceMessage(_ud, _sd);
+                cbm.RecalcCropsSoilTestMessagesByFarm();
+
                 RedirectToAction("SoilTest", "Soil");
             }
             return View(fvm);
@@ -68,7 +79,7 @@ namespace SERVERAPI.Controllers
             Field fld = _ud.GetFieldDetails(fldName);
             tvm.fieldName = fldName;
             if (fld.soilTest != null)
-            {
+            {                
                 tvm.sampleDate = fld.soilTest.sampleDate.ToString("MMM-yyyy");
                 tvm.dispK = fld.soilTest.valK.ToString();
                 tvm.dispNO3H = fld.soilTest.valNO3H.ToString();
@@ -83,6 +94,7 @@ namespace SERVERAPI.Controllers
         {
             if(ModelState.IsValid)
             {
+                Utility.SoilTestConversions soilTestConversions = new Utility.SoilTestConversions(_ud, _sd);
                 Field fld = _ud.GetFieldDetails(tvm.fieldName);
                 if(fld.soilTest == null)
                 {
@@ -93,8 +105,14 @@ namespace SERVERAPI.Controllers
                 fld.soilTest.valK = Convert.ToDecimal(tvm.dispK);
                 fld.soilTest.valNO3H = Convert.ToDecimal(tvm.dispNO3H);
                 fld.soilTest.valPH = Convert.ToDecimal(tvm.dispPH);
+                fld.soilTest.ConvertedKelownaK = soilTestConversions.GetConvertedSTK(fld.soilTest);
+                fld.soilTest.ConvertedKelownaP = soilTestConversions.GetConvertedSTP(fld.soilTest);
 
                 _ud.UpdateFieldSoilTest(fld);
+
+                //update the Nutrient calculations with the new/changed soil test data
+                Utility.ChemicalBalanceMessage cbm = new Utility.ChemicalBalanceMessage(_ud, _sd);
+                cbm.RecalcCropsSoilTestMessagesByField(tvm.fieldName);
 
                 string target = "#test";
                 string url = Url.Action("RefreshTestList", "Soil");
