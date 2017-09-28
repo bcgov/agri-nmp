@@ -404,9 +404,9 @@ namespace SERVERAPI.Controllers
 
             FileContentResult result = null;
             //JSONResponse result = null;
-            //var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
+            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
 
-            string pdfHost = "http://localhost:54611";
+            //string pdfHost = "http://localhost:54611";
 
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 

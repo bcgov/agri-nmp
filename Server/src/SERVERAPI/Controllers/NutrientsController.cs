@@ -399,18 +399,17 @@ namespace SERVERAPI.Controllers
             //try
             //{
 
-            //    if (fvm.buttonPressed == "ResetN")
-            //    {
-            //        ModelState.Clear();
-            //        fvm.buttonPressed = "";
-            //        fvm.btnText = "Calculate";
+            if (fvm.buttonPressed == "ResetDensity")
+            {
+                ModelState.Clear();
+                fvm.buttonPressed = "";
 
-            //        // reset to calculated amount                
-            //        fvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(fvm.selManOption), Convert.ToInt16(fvm.selApplOption)) * 100).ToString("###");
+                // reset to calculated amount                
+                //fvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(fvm.selManOption), Convert.ToInt16(fvm.selApplOption)) * 100).ToString("###");
 
-            //        fvm.stdN = true;
-            //        return View(fvm);
-            //    }
+                fvm.stdN = true;
+                return View(fvm);
+            }
 
             //    if (fvm.buttonPressed == "ResetA")
             //    {
@@ -449,6 +448,10 @@ namespace SERVERAPI.Controllers
                     {
                         fvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
                         fvm.selFertOption = "1";
+                    }
+                    if(fvm.selFertOption != "" && fvm.selFertOption != "select" && fvm.selDenOption != "" & fvm.selRateOption != "select")
+                    {
+                        fvm.density = _sd.GetLiquidFertilizerDensity(Convert.ToInt32(fvm.selFertOption), Convert.ToInt32(fvm.selRateOption)).value.ToString();
                     }
 
                 }

@@ -107,6 +107,14 @@ namespace SERVERAPI.Models
             public decimal potassium { get; set; }
         }
 
+        public class LiquidFertilizerDensity
+        {
+            public int id { get; set; }
+            public int fertilizerId { get; set; }
+            public int densityUnitId { get; set; }
+            public decimal value { get; set; }
+        }
+
         public class Season_Applications
         {
             public List<Season_Application> season_applications { get; set; }

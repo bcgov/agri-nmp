@@ -34,7 +34,7 @@
             "name": "Kelowna",
             "ConvertToKelownaPlt72": "1",
             "ConvertToKelownaPge72": "1",
-            "ConvertToKelownaK":  "1"
+            "ConvertToKelownaK": "1"
           },
           {
             "id": "2",
@@ -884,6 +884,202 @@
             "id": "4",
             "name": "lb/US gallon",
             "convfactor": "1.20"
+          }
+        ]
+      },
+      "liquidfertilizerdensitys": {
+        "liquidfertilizerdensity": [
+          {
+            "id": "1",
+            "fertilizerid": "26",
+            "densityunitid": "1",
+            "value": "5.2843511105"
+          },
+          {
+            "id": "2",
+            "fertilizerid": "26",
+            "densityunitid": "2",
+            "value": "1.39597787971696"
+          },
+          {
+            "id": "3",
+            "fertilizerid": "26",
+            "densityunitid": "3",
+            "value": "13.9910724227868"
+          },
+          {
+            "id": "4",
+            "fertilizerid": "26",
+            "densityunitid": "4",
+            "value": "11.65"
+          },
+          {
+            "id": "5",
+            "fertilizerid": "27",
+            "densityunitid": "1",
+            "value": "5.0167316122"
+          },
+          {
+            "id": "6",
+            "fertilizerid": "27",
+            "densityunitid": "2",
+            "value": "1.32528028752528"
+          },
+          {
+            "id": "7",
+            "fertilizerid": "27",
+            "densityunitid": "3",
+            "value": "13.2825116734783"
+          },
+          {
+            "id": "8",
+            "fertilizerid": "27",
+            "densityunitid": "4",
+            "value": "11.06"
+          },
+          {
+            "id": "9",
+            "fertilizerid": "28",
+            "densityunitid": "1",
+            "value": "4.8398305879"
+          },
+          {
+            "id": "10",
+            "fertilizerid": "28",
+            "densityunitid": "2",
+            "value": "1.27854798082231"
+          },
+          {
+            "id": "11",
+            "fertilizerid": "28",
+            "densityunitid": "3",
+            "value": "12.8141410086811"
+          },
+          {
+            "id": "12",
+            "fertilizerid": "28",
+            "densityunitid": "4",
+            "value": "10.67"
+          },
+          {
+            "id": "13",
+            "fertilizerid": "29",
+            "densityunitid": "1",
+            "value": "5.384"
+          },
+          {
+            "id": "14",
+            "fertilizerid": "29",
+            "densityunitid": "2",
+            "value": "1.4223023313992"
+          },
+          {
+            "id": "15",
+            "fertilizerid": "29",
+            "densityunitid": "3",
+            "value": "14.2549070546444"
+          },
+          {
+            "id": "16",
+            "fertilizerid": "29",
+            "densityunitid": "4",
+            "value": "11.8696881960338"
+          },
+          {
+            "id": "17",
+            "fertilizerid": "30",
+            "densityunitid": "1",
+            "value": "5.0076597648"
+          },
+          {
+            "id": "18",
+            "fertilizerid": "30",
+            "densityunitid": "2",
+            "value": "1.32288375897641"
+          },
+          {
+            "id": "19",
+            "fertilizerid": "30",
+            "densityunitid": "3",
+            "value": "13.2584926650272"
+          },
+          {
+            "id": "20",
+            "fertilizerid": "30",
+            "densityunitid": "4",
+            "value": "11.04"
+          },
+          {
+            "id": "21",
+            "fertilizerid": "31",
+            "densityunitid": "1",
+            "value": "4.456"
+          },
+          {
+            "id": "22",
+            "fertilizerid": "31",
+            "densityunitid": "2",
+            "value": "1.17715066655179"
+          },
+          {
+            "id": "23",
+            "fertilizerid": "31",
+            "densityunitid": "3",
+            "value": "11.7978948431455"
+          },
+          {
+            "id": "24",
+            "fertilizerid": "31",
+            "densityunitid": "4",
+            "value": "9.82379840295815"
+          },
+          {
+            "id": "25",
+            "fertilizerid": "32",
+            "densityunitid": "1",
+            "value": "4.836"
+          },
+          {
+            "id": "26",
+            "fertilizerid": "32",
+            "densityunitid": "2",
+            "value": "1.27753604655396"
+          },
+          {
+            "id": "27",
+            "fertilizerid": "32",
+            "densityunitid": "3",
+            "value": "12.8039989814748"
+          },
+          {
+            "id": "28",
+            "fertilizerid": "32",
+            "densityunitid": "4",
+            "value": "10.6615549992607"
+          },
+          {
+            "id": "29",
+            "fertilizerid": "33",
+            "densityunitid": "1",
+            "value": "5.9647396655"
+          },
+          {
+            "id": "30",
+            "fertilizerid": "33",
+            "densityunitid": "2",
+            "value": "1.579"
+          },
+          {
+            "id": "31",
+            "fertilizerid": "33",
+            "densityunitid": "3",
+            "value": "15.8"
+          },
+          {
+            "id": "32",
+            "fertilizerid": "33",
+            "densityunitid": "4",
+            "value": "13.15"
           }
         ]
       },

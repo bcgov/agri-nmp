@@ -1096,5 +1096,19 @@ namespace SERVERAPI.Models.Impl
 
             return soilTestMethod;
         }
+
+        public Models.StaticData.LiquidFertilizerDensity GetLiquidFertilizerDensity(int fertilizerId, int densityId)
+        {
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["liquidfertilizerdensitys"]["liquidfertilizerdensity"];
+            JObject rec = array.Children<JObject>().FirstOrDefault(o => o["fertilizerid"] != null && o["fertilizerid"].ToString() == fertilizerId.ToString() &&  o["densityunitid"] != null && o["densityunitid"].ToString() == densityId.ToString());
+
+            Models.StaticData.LiquidFertilizerDensity density = new Models.StaticData.LiquidFertilizerDensity();
+            density.id = Convert.ToInt32(rec["id"].ToString());
+            density.value = Convert.ToDecimal(rec["value"].ToString());
+
+            return density;
+        }
+
     }
 }
