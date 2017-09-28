@@ -468,11 +468,11 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.showCrude)
                     {
-                        CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+                        CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
                         cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
                     }
 
-                    CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+                    CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
                     decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
                     if (defaultYield.HasValue)
                         cvm.yield = defaultYield.Value.ToString("#.#");
@@ -675,7 +675,7 @@ namespace SERVERAPI.Controllers
                         if (!cvm.manEntry)
                         {
                             CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
-                            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+                            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
 
                             calculateCropRequirementRemoval.cropid = Convert.ToInt16(cvm.selCropOption);
                             calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yield);

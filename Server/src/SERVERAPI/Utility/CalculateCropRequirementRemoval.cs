@@ -11,14 +11,12 @@ namespace SERVERAPI.Utility
 {
     public class CalculateCropRequirementRemoval
     { 
-
-    private IHostingEnvironment _env;
+    
     private UserData _ud;
     private Models.Impl.StaticData _sd;
 
-        public CalculateCropRequirementRemoval(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
-        {
-            _env = env;
+        public CalculateCropRequirementRemoval(UserData ud, Models.Impl.StaticData sd)
+        {            
             _ud = ud;
             _sd = sd;
         }

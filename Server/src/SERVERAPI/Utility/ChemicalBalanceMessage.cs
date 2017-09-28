@@ -13,32 +13,17 @@ namespace SERVERAPI.Utility
 {
     public class ChemicalBalanceMessage
     {
-        //private IHostingEnvironment _env;
         private UserData _ud;
         private Models.Impl.StaticData _sd;
 
-        //public int balance_AgrN { get; set; }
-        //public int balance_AgrP2O5 { get; set; }
-        //public int balance_AgrK2O { get; set; }
-        //public int balance_CropN { get; set; }
-        //public int balance_CropP2O5 { get; set; }
-        //public int balance_CropK2O { get; set; }
         public ChemicalBalances chemicalBalances = new ChemicalBalances();
         public bool displayBalances { get; set; }
 
         public ChemicalBalanceMessage(UserData ud, Models.Impl.StaticData sd)
         {
-            //_env = env;
             _ud = ud;
             _sd = sd;
         }
-
-        //public string DetermineBalanceMessage(string balanceType, int balance, bool legume)
-        //{ 
-        //    string message = null;
-        //    message = _sd.GetMessageByChemicalBalance(balanceType, balance, legume);
-        //    return message;
-        //}
 
         public List<BalanceMessages> DetermineBalanceMessages(string fieldName)
         {
@@ -54,7 +39,7 @@ namespace SERVERAPI.Utility
 
             //determine if a legume is included in the crops
             List<FieldCrop> fieldCrops = _ud.GetFieldCrops(fieldName);
-            
+
             if (fieldCrops.Count > 0)
             {
                 foreach (var _crop in fieldCrops)
@@ -139,10 +124,57 @@ namespace SERVERAPI.Utility
 
             if (crps.Count > 0 && (manures.Count > 0 || others.Count > 0))
                 displayBalances = true;
-            
+
             return chemicalBalances;
         }
 
+        // This routine will typically be triggered after soil tests for a particular field have been updated
+        // This routine will recalculate for all crops in a field the nutrients all that are dependant on the soil tests
+        public void RecalcCropsSoilTestMessagesByField(string fieldName)
+        {
+            CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
 
+            //iterate through the crops and update the crop requirements
+            List<FieldCrop> fieldCrops = _ud.GetFieldCrops(fieldName);
+
+            if (fieldCrops.Count > 0)
+            {
+                foreach (var _crop in fieldCrops)
+                {
+                    FieldCrop cf = _ud.GetFieldCrop(fieldName, _crop.id);
+                    CropRequirementRemoval crr = new CropRequirementRemoval();
+                    ccrr.cropid = Convert.ToInt16(_crop.cropId);
+                    ccrr.previousCropid = _crop.prevCropId;
+                    ccrr.yield = _crop.yield;
+                    ccrr.crudeProtien = _crop.crudeProtien;
+                    ccrr.coverCropHarvested = _crop.coverCropHarvested;
+                    ccrr.fieldName = fieldName;
+
+                    crr = ccrr.GetCropRequirementRemoval();
+
+                    cf.reqN = crr.N_Requirement;
+                    cf.reqP2o5 = crr.P2O5_Requirement;
+                    cf.reqK2o = crr.K2O_Requirement;
+                    cf.remN = crr.N_Removal;
+                    cf.remP2o5 = crr.P2O5_Removal;
+                    cf.remK2o = crr.K2O_Removal;
+
+                    _ud.UpdateFieldCrop(fieldName, cf);
+                }
+
+            }
+
+        }
+
+        public void RecalcCropsSoilTestMessagesByFarm()
+        {
+            List<Field> fields = _ud.GetFields();
+
+            foreach (Field field in fields)
+            {
+                RecalcCropsSoilTestMessagesByField(field.fieldName);
+            }
+        }
     }
+
 }

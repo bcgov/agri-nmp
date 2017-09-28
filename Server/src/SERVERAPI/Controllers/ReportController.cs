@@ -118,7 +118,7 @@ namespace SERVERAPI.Controllers
 
                         if (_sd.GetCropType(_sd.GetCrop(Convert.ToInt32(c.cropId)).croptypeid).crudeproteinrequired)
                         {
-                            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_env, _ud, _sd);
+                            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
                             if (c.crudeProtien != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt32(c.cropId)))
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();

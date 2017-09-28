@@ -71,5 +71,22 @@ namespace SERVERAPI.Utility
 
             return convertedK;
         }
+
+        internal void UpdateSTPSTK(List<Field> fields)
+        {
+            if (fields.Count > 0)
+            {
+                foreach (Field field in fields)
+                {
+                    if (field.soilTest != null)
+                    {
+                        field.soilTest.ConvertedKelownaP = GetConvertedSTP(field.soilTest);
+                        field.soilTest.ConvertedKelownaK = GetConvertedSTK(field.soilTest);
+                        _ud.UpdateFieldSoilTest(field);
+                    }
+                }
+            }
+            
+        }
     }
 }
