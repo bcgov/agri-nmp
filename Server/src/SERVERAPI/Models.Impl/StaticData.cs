@@ -280,6 +280,79 @@ namespace SERVERAPI.Models.Impl
             return unitsOptions;
         }
 
+        public Models.StaticData.FertilizerUnits GetFertilizerUnits()
+        {
+            Models.StaticData.FertilizerUnits units = new Models.StaticData.FertilizerUnits();
+            units.fertilizerUnits = new List<Models.StaticData.FertilizerUnit>();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["fertilizerunits"]["fertilizerunit"];
+
+            foreach (var r in array)
+            {
+                Models.StaticData.FertilizerUnit unit = new Models.StaticData.FertilizerUnit();
+                unit.id = Convert.ToInt32(r["id"].ToString());
+                unit.name = r["name"].ToString();
+                unit.dry_liquid = r["dry_liquid"].ToString();
+                units.fertilizerUnits.Add(unit);
+            }
+
+            return units;
+        }
+
+        public List<Models.StaticData.SelectListItem> GetFertilizerUnitsDll(string unitType)
+        {
+            Models.StaticData.FertilizerUnits units = GetFertilizerUnits();
+
+            List<Models.StaticData.SelectListItem> unitsOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in units.fertilizerUnits)
+            {
+                if (r.dry_liquid == unitType)
+                {
+                    Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                    unitsOptions.Add(li);
+                }
+            }
+
+            return unitsOptions;
+        }
+
+        public Models.StaticData.DensityUnits GetDensityUnits()
+        {
+            Models.StaticData.DensityUnits units = new Models.StaticData.DensityUnits();
+            units.densityUnits = new List<Models.StaticData.DensityUnit>();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["densityunits"]["densityunit"];
+
+            foreach (var r in array)
+            {
+                Models.StaticData.DensityUnit unit = new Models.StaticData.DensityUnit();
+                unit.id = Convert.ToInt32(r["id"].ToString());
+                unit.name = r["name"].ToString();
+                unit.convfactor = Convert.ToDecimal(r["convfactor"].ToString());
+                units.densityUnits.Add(unit);
+            }
+
+            return units;
+        }
+
+        public List<Models.StaticData.SelectListItem> GetDensityUnitsDll()
+        {
+            Models.StaticData.DensityUnits units = GetDensityUnits();
+
+            List<Models.StaticData.SelectListItem> unitsOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in units.densityUnits)
+            {
+                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                unitsOptions.Add(li);
+            }
+
+            return unitsOptions;
+        }
+
         public Models.StaticData.CropTypes GetCropTypes()
         {
             Models.StaticData.CropTypes types = new Models.StaticData.CropTypes();
@@ -853,6 +926,120 @@ namespace SERVERAPI.Models.Impl
             }
 
             return message;
+        }
+
+
+        public Models.StaticData.FertilizerType GetFertilizerType(string id)
+        {
+            string x = id.ToString();
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
+            JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
+
+            Models.StaticData.FertilizerType type = new Models.StaticData.FertilizerType();
+            type.id = Convert.ToInt32(rec["id"].ToString());
+            type.name = rec["name"].ToString();
+            type.dry_liquid = rec["dry_liquid"].ToString();
+            type.custom = rec["customfertilizer"].ToString() == "true" ? true : false;
+
+            return type;
+        }
+
+        public Models.StaticData.FertilizerTypes GetFertilizerTypes()
+        {
+            Models.StaticData.FertilizerTypes types = new Models.StaticData.FertilizerTypes();
+            types.fertilizerTypes = new List<Models.StaticData.FertilizerType>();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
+
+            foreach (var r in array)
+            {
+                Models.StaticData.FertilizerType type = new Models.StaticData.FertilizerType();
+                type.id = Convert.ToInt32(r["id"].ToString());
+                type.name = r["name"].ToString();
+                type.dry_liquid = r["dry_liquid"].ToString();
+                type.custom = r["customfertilizer"].ToString() == "true" ? true : false;
+                types.fertilizerTypes.Add(type);
+            }
+
+            return types;
+        }
+
+        public List<Models.StaticData.SelectListItem> GetFertilizerTypesDll()
+        {
+            Models.StaticData.FertilizerTypes types = GetFertilizerTypes();
+
+            List<Models.StaticData.SelectListItem> typesOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in types.fertilizerTypes)
+            {
+                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                typesOptions.Add(li);
+            }
+
+            return typesOptions;
+        }
+
+        public Models.StaticData.Fertilizer GetFertilizer(string id)
+        {
+            string x = id.ToString();
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["fertilizers"]["fertilizer"];
+            JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
+
+            Models.StaticData.Fertilizer fertilizer = new Models.StaticData.Fertilizer();
+            fertilizer.id = Convert.ToInt32(rec["id"].ToString());
+            fertilizer.name = rec["name"].ToString();
+            fertilizer.dry_liquid = rec["dry_liquid"].ToString();
+            fertilizer.nitrogen = Convert.ToDecimal(rec["nitrogen"].ToString());
+            fertilizer.phosphorous = Convert.ToDecimal(rec["phosphorous"].ToString());
+            fertilizer.potassium = Convert.ToDecimal(rec["potassium"].ToString());
+
+            return fertilizer;
+        }
+
+        public Models.StaticData.Fertilizers GetFertilizers()
+        {
+            Models.StaticData.Fertilizers fertilizers = new Models.StaticData.Fertilizers();
+            fertilizers.fertilizers = new List<Models.StaticData.Fertilizer>();
+
+            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["fertilizers"]["fertilizer"];
+
+            foreach (var r in array)
+            {
+
+                Models.StaticData.Fertilizer fertilizer = new Models.StaticData.Fertilizer();
+                fertilizer.id = Convert.ToInt32(r["id"].ToString());
+                fertilizer.name = r["name"].ToString();
+                fertilizer.dry_liquid = r["dry_liquid"].ToString();
+                fertilizer.nitrogen = Convert.ToDecimal(r["nitrogen"].ToString());
+                fertilizer.phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
+                fertilizer.potassium = Convert.ToDecimal(r["potassium"].ToString());
+
+                fertilizers.fertilizers.Add(fertilizer);
+            }
+
+            return fertilizers;
+        }
+
+        public List<Models.StaticData.SelectListItem> GetFertilizersDll(string fertilizerType)
+        {
+            Models.StaticData.Fertilizers types = GetFertilizers();
+
+            List<Models.StaticData.SelectListItem> typesOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in types.fertilizers)
+            {
+                if (r.dry_liquid.ToString() == fertilizerType)
+                {
+                    Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                    typesOptions.Add(li);
+                }
+            }
+
+            return typesOptions;
         }
     }
 }

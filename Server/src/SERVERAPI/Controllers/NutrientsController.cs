@@ -333,6 +333,266 @@ namespace SERVERAPI.Controllers
             return;
         }
 
+        public IActionResult FertilizerDetails(string fldName, int? id)
+        {
+            //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+
+            FertilizerDetailsViewModel fvm = new FertilizerDetailsViewModel();
+
+            fvm.fieldName = fldName;
+            fvm.title = id == null ? "Add" : "Edit";
+            fvm.btnText = id == null ? "Add to Field" : "Return";
+            fvm.id = id;
+            fvm.applMethod = string.Empty;
+            fvm.nh4 = string.Empty;
+            fvm.stdN = true;
+            fvm.stdAvail = true;
+
+            FertilizerDetailsSetup(ref fvm);
+
+            if (id != null)
+            {
+                //int regionid = _ud.FarmDetails().farmRegion.Value;
+                //Region region = _sd.GetRegion(regionid);
+                //nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(fvm.selManOption), region.locationid);
+
+                //NutrientManure nm = _ud.GetFieldNutrientsManure(fldName, id.Value);
+
+                //fvm.selRateOption = nm.unitId;
+                //fvm.selTypOption = nm.manureId;
+                //fvm.selApplOption = nm.applicationId;
+                //fvm.rate = nm.rate.ToString();
+                //fvm.nh4 = nm.nh4Retention.ToString("###");
+                //fvm.yrN = nm.yrN.ToString();
+                //fvm.yrP2o5 = nm.yrP2o5.ToString();
+                //fvm.yrK2o = nm.yrK2o.ToString();
+                //fvm.ltN = nm.ltN.ToString();
+                //fvm.ltP2o5 = nm.ltP2o5.ToString();
+                //fvm.ltK2o = nm.ltK2o.ToString();
+                //Models.StaticData.Manure man = _sd.GetManure(nm.manureId);
+                //fvm.currUnit = man.solid_liquid;
+                //fvm.rateOptions = _sd.GetUnitsDll(fvm.currUnit).ToList();
+
+                //fvm.stdN = Convert.ToDecimal(fvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(fvm.selManOption), Convert.ToInt16(fvm.selApplOption)) * 100) ? false : true;
+                //fvm.stdAvail = Convert.ToDecimal(fvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100) ? false : true;
+
+            }
+            else
+
+            {
+                fvm.yrN = "  ";
+                fvm.yrP2o5 = "  ";
+                fvm.yrK2o = "  ";
+            }
+
+            return PartialView(fvm);
+        }
+        [HttpPost]
+        public IActionResult FertilizerDetails(FertilizerDetailsViewModel fvm)
+        {
+            //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+
+            FertilizerDetailsSetup(ref fvm);
+
+            //try
+            //{
+
+            //    if (fvm.buttonPressed == "ResetN")
+            //    {
+            //        ModelState.Clear();
+            //        fvm.buttonPressed = "";
+            //        fvm.btnText = "Calculate";
+
+            //        // reset to calculated amount                
+            //        fvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(fvm.selManOption), Convert.ToInt16(fvm.selApplOption)) * 100).ToString("###");
+
+            //        fvm.stdN = true;
+            //        return View(fvm);
+            //    }
+
+            //    if (fvm.buttonPressed == "ResetA")
+            //    {
+            //        ModelState.Clear();
+            //        fvm.buttonPressed = "";
+            //        fvm.btnText = "Calculate";
+
+            //        // reset to calculated amount
+            //        int regionid = _ud.FarmDetails().farmRegion.Value;
+            //        Region region = _sd.GetRegion(regionid);
+            //        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(fvm.selManOption), region.locationid);
+
+            //        fvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
+
+            //        fvm.stdAvail = true;
+            //        return View(fvm);
+            //    }
+
+            if (fvm.buttonPressed == "TypeChange")
+            {
+                ModelState.Clear();
+                fvm.buttonPressed = "";
+
+                if (fvm.selTypOption != "")
+                {
+                    Models.StaticData.FertilizerType typ = _sd.GetFertilizerType(fvm.selTypOption);
+                    if (fvm.currUnit != typ.dry_liquid)
+                    {
+                        fvm.currUnit = typ.dry_liquid;
+                        fvm.rateOptions = _sd.GetFertilizerUnitsDll(fvm.currUnit).ToList();
+                        fvm.selRateOption = fvm.rateOptions[0].Id.ToString();
+                        fvm.fertilizerType = typ.dry_liquid;
+                    }
+                    fvm.manEntry = typ.custom;
+                    if(fvm.manEntry)
+                    {
+                        fvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
+                        fvm.selFertOption = "1";
+                    }
+
+                }
+                return View(fvm);
+            }
+
+            if (fvm.buttonPressed == "FertilizerChange")
+            {
+                ModelState.Clear();
+                fvm.buttonPressed = "";
+                if(fvm.selFertOption != "select")
+                {
+                    Fertilizer ft = _sd.GetFertilizer(fvm.selFertOption);
+                    fvm.yrN = ft.nitrogen.ToString();
+                    fvm.yrP2o5 = ft.phosphorous.ToString();
+                    fvm.yrK2o = ft.potassium.ToString();
+                }
+                return View(fvm);
+            }
+
+            //    if (ModelState.IsValid)
+            //    {
+            //        if (fvm.btnText == "Calculate")
+            //        {
+            //            ModelState.Clear();
+            //            NutrientInputs nutrientInputs = new NutrientInputs();
+
+            //            calculateNutrients.manure = fvm.selManOption;
+            //            calculateNutrients.applicationSeason = fvm.selApplOption;
+            //            calculateNutrients.applicationRate = Convert.ToDecimal(fvm.rate);
+            //            calculateNutrients.applicationRateUnits = fvm.selRateOption;
+            //            calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(fvm.nh4);
+            //            calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(fvm.avail);
+
+            //            calculateNutrients.GetNutrientInputs(nutrientInputs);
+
+            //            fvm.yrN = nutrientInputs.N_FirstYear.ToString();
+            //            fvm.yrP2o5 = nutrientInputs.P2O5_FirstYear.ToString();
+            //            fvm.yrK2o = nutrientInputs.K2O_FirstYear.ToString();
+            //            fvm.ltN = nutrientInputs.N_LongTerm.ToString();
+            //            fvm.ltP2o5 = nutrientInputs.P2O5_LongTerm.ToString();
+            //            fvm.ltK2o = nutrientInputs.K2O_LongTerm.ToString();
+
+            //            fvm.btnText = fvm.id == null ? "Add to Field" : "Update Field";
+
+            //            // determine if values on screen are book value or not
+            //            int regionid = _ud.FarmDetails().farmRegion.Value;
+            //            Region region = _sd.GetRegion(regionid);
+            //            nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(fvm.selManOption), region.locationid);
+
+            //            if (Convert.ToDecimal(fvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(fvm.selManOption), Convert.ToInt16(fvm.selApplOption)) * 100))
+            //            {
+            //                fvm.stdN = false;
+            //            }
+            //            if (Convert.ToDecimal(fvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100))
+            //            {
+            //                fvm.stdAvail = false;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            if (fvm.id == null)
+            //            {
+
+            //                NutrientManure nm = new NutrientManure()
+            //                {
+            //                    manureId = fvm.selManOption,
+            //                    applicationId = fvm.selApplOption,
+            //                    unitId = fvm.selRateOption,
+            //                    rate = Convert.ToDecimal(fvm.rate),
+            //                    nh4Retention = Convert.ToDecimal(fvm.nh4),
+            //                    nAvail = Convert.ToDecimal(fvm.avail),
+            //                    yrN = Convert.ToDecimal(fvm.yrN),
+            //                    yrP2o5 = Convert.ToDecimal(fvm.yrP2o5),
+            //                    yrK2o = Convert.ToDecimal(fvm.yrK2o),
+            //                    ltN = Convert.ToDecimal(fvm.ltN),
+            //                    ltP2o5 = Convert.ToDecimal(fvm.ltP2o5),
+            //                    ltK2o = Convert.ToDecimal(fvm.ltK2o)
+            //                };
+
+            //                _ud.AddFieldNutrientsManure(fvm.fieldName, nm);
+            //            }
+            //            else
+            //            {
+            //                NutrientManure nm = _ud.GetFieldNutrientsManure(fvm.fieldName, fvm.id.Value);
+            //                nm.manureId = fvm.selManOption;
+            //                nm.applicationId = fvm.selApplOption;
+            //                nm.unitId = fvm.selRateOption;
+            //                nm.rate = Convert.ToDecimal(fvm.rate);
+            //                nm.nh4Retention = Convert.ToDecimal(fvm.nh4);
+            //                nm.nAvail = Convert.ToDecimal(fvm.avail);
+            //                nm.yrN = Convert.ToDecimal(fvm.yrN);
+            //                nm.yrP2o5 = Convert.ToDecimal(fvm.yrP2o5);
+            //                nm.yrK2o = Convert.ToDecimal(fvm.yrK2o);
+            //                nm.ltN = Convert.ToDecimal(fvm.ltN);
+            //                nm.ltP2o5 = Convert.ToDecimal(fvm.ltP2o5);
+            //                nm.ltK2o = Convert.ToDecimal(fvm.ltK2o);
+
+            //                _ud.UpdateFieldNutrientsManure(fvm.fieldName, nm);
+            //            }
+            //            return Json(ReDisplay("#manure", fvm.fieldName));
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    ModelState.AddModelError("", "Unexpected system error.");
+            //}
+            fvm.btnText = "Add to Field";
+
+            return PartialView(fvm);
+        }
+        private void FertilizerDetailsSetup(ref FertilizerDetailsViewModel fvm)
+        {
+            fvm.typOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.typOptions = _sd.GetFertilizerTypesDll().ToList();
+
+            fvm.denOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.denOptions = _sd.GetDensityUnitsDll().ToList();
+
+            fvm.fertOptions = new List<Models.StaticData.SelectListItem>();
+            if(fvm.selTypOption != null &&
+               fvm.selTypOption != "select")
+            {
+                FertilizerType ft = _sd.GetFertilizerType(fvm.selTypOption);
+                if(!ft.custom)
+                {
+                    fvm.fertOptions = _sd.GetFertilizersDll(ft.dry_liquid).ToList();
+                }
+                else
+                {
+                    fvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
+                    fvm.selFertOption = "1";
+                }
+            }
+
+            //fvm.rateOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.rateOptions = _sd.GetFertilizerUnitsDll(fvm.currUnit).ToList();
+
+            //fvm.rateOptions = _sd.GetUnitsDll(fvm.currUnit).ToList();
+
+            return;
+        }
+
         public IActionResult CropDetails(string fldName, int? id)
         {
             CropDetailsViewModel cvm = new CropDetailsViewModel();

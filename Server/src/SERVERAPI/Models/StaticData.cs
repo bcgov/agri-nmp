@@ -79,6 +79,33 @@ namespace SERVERAPI.Models
             public int dmid { get; set; }
             public int nminerizationid { get; set; }
         }
+        public class FertilizerTypes
+        {
+            public List<FertilizerType> fertilizerTypes { get; set; }
+        }
+
+        public class FertilizerType
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public string dry_liquid { get; set; }
+            public bool custom { get; set; }
+        }
+
+        public class Fertilizers
+        {
+            public List<Fertilizer> fertilizers { get; set; }
+        }
+
+        public class Fertilizer
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public string dry_liquid { get; set; }
+            public decimal nitrogen { get; set; }
+            public decimal phosphorous { get; set; }
+            public decimal potassium { get; set; }
+        }
 
         public class Season_Applications
         {
@@ -120,6 +147,28 @@ namespace SERVERAPI.Models
             public decimal value_P2O5 { get; set; }
             public decimal value_K2O { get; set; }
             public string solid_liquid { get; set; }
+        }
+        public class FertilizerUnits
+        {
+            public List<FertilizerUnit> fertilizerUnits { get; set; }
+        }
+
+        public class FertilizerUnit
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public string dry_liquid { get; set; }
+        }
+        public class DensityUnits
+        {
+            public List<DensityUnit> densityUnits { get; set; }
+        }
+
+        public class DensityUnit
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public decimal convfactor { get; set; }
         }
 
         public class CropTypes

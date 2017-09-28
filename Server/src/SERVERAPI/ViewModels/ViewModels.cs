@@ -172,6 +172,48 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Crop")]
         public string cropName { get; set; }
     }
+    public class FertilizerDetailsViewModel
+    {
+        public int? id { get; set; }
+        public string title { get; set; }
+        public string btnText { get; set; }
+        public string fieldName { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selTypOption { get; set; }
+        public List<Models.StaticData.SelectListItem> typOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selFertOption { get; set; }
+        public List<Models.StaticData.SelectListItem> fertOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selRateOption { get; set; }
+        public string selRateOptionText { get; set; }
+        public List<Models.StaticData.SelectListItem> rateOptions { get; set; }
+        public string selDenOption { get; set; }
+        public List<Models.StaticData.SelectListItem> denOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string applRate { get; set; }
+        public string currUnit { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string nh4 { get; set; }
+        public string applMethod { get; set; }
+        public string applDate { get; set; }
+        public string buttonPressed { get; set; }
+        public string yrN { get; set; }
+        public string yrP2o5 { get; set; }
+        public string yrK2o { get; set; }
+        public string ltN { get; set; }
+        public string ltP2o5 { get; set; }
+        public string ltK2o { get; set; }
+        public bool stdN { get; set; }
+        public bool stdAvail { get; set; }
+        public bool manEntry { get; set; }
+        public string fertilizerType { get; set; }
+        public string density { get; set; }
+        public bool stdDensity { get; set; }
+    }
     public class CalculateViewModel
     {
         public bool fldsFnd { get; set; }

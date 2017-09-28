@@ -814,6 +814,64 @@
           }
         ]
       },
+      "fertilizerunits": {
+        "fertilizerunit": [
+          {
+            "id": "1",
+            "name": "lb/ac",
+            "dry_liquid": "dry"
+          },
+          {
+            "id": "2",
+            "name": "kg/ha",
+            "dry_liquid": "dry"
+          },
+          {
+            "id": "3",
+            "name": "L/ac",
+            "dry_liquid": "liquid"
+          },
+          {
+            "id": "4",
+            "name": "imp. gallons/ac",
+            "dry_liquid": "liquid"
+          },
+          {
+            "id": "5",
+            "name": "US gallons/ac",
+            "dry_liquid": "liquid"
+          },
+          {
+            "id": "6",
+            "name": "L/ha",
+            "dry_liquid": "liquid"
+          }
+        ]
+      },
+      "densityunits": {
+        "densityunit": [
+          {
+            "id": "1",
+            "name": "kg/US Gallon",
+            "convfactor": "2.65"
+          },
+          {
+            "id": "2",
+            "name": "kg/L",
+            "convfactor": "10.02"
+          },
+          {
+            "id": "3",
+            "name": "lb/imp. gallon",
+            "convfactor": "1.00"
+          },
+          {
+            "id": "4",
+            "name": "lb/US gallon",
+            "convfactor": "1.20"
+          }
+        ]
+      },
       "croptypes": {
         "croptype": [
           {
@@ -1849,6 +1907,302 @@
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
             "prevcropcd": "3"
+          }
+        ]
+      },
+      "fertilizertypes": {
+        "fertilizertype": [
+          {
+            "id": "1",
+            "name": "Dry Fertilizer",
+            "dry_liquid": "dry",
+            "customfertilizer": "false"
+          },
+          {
+            "id": "2",
+            "name": "Dry Fertilizer (Custom)",
+            "dry_liquid": "dry",
+            "customfertilizer": "true"
+          },
+          {
+            "id": "3",
+            "name": "Liquid Fertilizer",
+            "dry_liquid": "liquid",
+            "customfertilizer": "false"
+          },
+          {
+            "id": "4",
+            "name": "Liquid Fertilizer (Custom)",
+            "dry_liquid": "liquid",
+            "customfertilizer": "true"
+          }
+        ]
+      },
+      "fertilizers": {
+        "fertilizer": [
+          {
+            "id": "1",
+            "name": "0-0-20-21S-10.6Mg",
+            "dry_liquid": "dry",
+            "nitrogen": "0",
+            "phosphorous": "0",
+            "potassium": "20"
+          },
+          {
+            "id": "2",
+            "name": "0-0-50-17S",
+            "dry_liquid": "dry",
+            "nitrogen": "0",
+            "phosphorous": "0",
+            "potassium": "50"
+          },
+          {
+            "id": "3",
+            "name": "0-0-60",
+            "dry_liquid": "dry",
+            "nitrogen": "0",
+            "phosphorous": "0",
+            "potassium": "50"
+          },
+          {
+            "id": "4",
+            "name": "10-16-18",
+            "dry_liquid": "dry",
+            "nitrogen": "10",
+            "phosphorous": "16",
+            "potassium": "18"
+          },
+          {
+            "id": "5",
+            "name": "10-34-0-3S",
+            "dry_liquid": "dry",
+            "nitrogen": "10",
+            "phosphorous": "34",
+            "potassium": "0"
+          },
+          {
+            "id": "6",
+            "name": "11-18-14-9S",
+            "dry_liquid": "dry",
+            "nitrogen": "11",
+            "phosphorous": "18",
+            "potassium": "14"
+          },
+          {
+            "id": "7",
+            "name": "11-52-0",
+            "dry_liquid": "dry",
+            "nitrogen": "11",
+            "phosphorous": "52",
+            "potassium": "0"
+          },
+          {
+            "id": "8",
+            "name": "12-10-20-12S",
+            "dry_liquid": "dry",
+            "nitrogen": "12",
+            "phosphorous": "10",
+            "potassium": "20"
+          },
+          {
+            "id": "9",
+            "name": "13-6-10-11S",
+            "dry_liquid": "dry",
+            "nitrogen": "13",
+            "phosphorous": "16",
+            "potassium": "10"
+          },
+          {
+            "id": "10",
+            "name": "14-28-6-7S",
+            "dry_liquid": "dry",
+            "nitrogen": "14",
+            "phosphorous": "28",
+            "potassium": "6"
+          },
+          {
+            "id": "11",
+            "name": "14-7-14-16S-3Mg-0.2B",
+            "dry_liquid": "dry",
+            "nitrogen": "14",
+            "phosphorous": "7",
+            "potassium": "14"
+          },
+          {
+            "id": "12",
+            "name": "15-8-11",
+            "dry_liquid": "dry",
+            "nitrogen": "15",
+            "phosphorous": "8",
+            "potassium": "11"
+          },
+          {
+            "id": "13",
+            "name": "18-9-9",
+            "dry_liquid": "dry",
+            "nitrogen": "18",
+            "phosphorous": "9",
+            "potassium": "9"
+          },
+          {
+            "id": "14",
+            "name": "30-10-0-7S",
+            "dry_liquid": "dry",
+            "nitrogen": "30",
+            "phosphorous": "10",
+            "potassium": "0"
+          },
+          {
+            "id": "15",
+            "name": "34-0-0-11S",
+            "dry_liquid": "dry",
+            "nitrogen": "34",
+            "phosphorous": "0",
+            "potassium": "0"
+          },
+          {
+            "id": "16",
+            "name": "Ammonium nitrate",
+            "dry_liquid": "dry",
+            "nitrogen": "34",
+            "phosphorous": "0",
+            "potassium": "0"
+          },
+          {
+            "id": "17",
+            "name": "Ammonium nitrate-sulfate",
+            "dry_liquid": "dry",
+            "nitrogen": "30",
+            "phosphorous": "0",
+            "potassium": "0"
+          },
+          {
+            "id": "18",
+            "name": "Ammonium phosphate-nitrate",
+            "dry_liquid": "dry",
+            "nitrogen": "27",
+            "phosphorous": "11.91",
+            "potassium": "0"
+          },
+          {
+            "id": "19",
+            "name": "Ammonium phosphate-sulfate",
+            "dry_liquid": "dry",
+            "nitrogen": "16",
+            "phosphorous": "19.92",
+            "potassium": "0"
+          },
+          {
+            "id": "20",
+            "name": "Ammonium polyphosphate-dry",
+            "dry_liquid": "dry",
+            "nitrogen": "11",
+            "phosphorous": "57.25",
+            "potassium": "0"
+          },
+          {
+            "id": "21",
+            "name": "Ammonium sulfate (21-0-0-24S)",
+            "dry_liquid": "dry",
+            "nitrogen": "21",
+            "phosphorous": "0",
+            "potassium": "0"
+          },
+          {
+            "id": "22",
+            "name": "Diammonium phosphate (DAP)",
+            "dry_liquid": "dry",
+            "nitrogen": "18",
+            "phosphorous": "45.8",
+            "potassium": "0"
+          },
+          {
+            "id": "23",
+            "name": "Monoammonium phosphate (MAP)",
+            "dry_liquid": "dry",
+            "nitrogen": "11",
+            "phosphorous": "52.67",
+            "potassium": "0"
+          },
+          {
+            "id": "24",
+            "name": "Urea (46-0-0)",
+            "dry_liquid": "dry",
+            "nitrogen": "46",
+            "phosphorous": "0",
+            "potassium": "0"
+          },
+          {
+            "id": "25",
+            "name": "Urea-ammonium nitrate (UAN)",
+            "dry_liquid": "dry",
+            "nitrogen": "28",
+            "phosphorous": "0",
+            "potassium": "0"
+          },
+          {
+            "id": "26",
+            "name": "10-34-0",
+            "dry_liquid": "liquid",
+            "nitrogen": "10",
+            "phosphorous": "34",
+            "potassium": "0"
+          },
+          {
+            "id": "27",
+            "name": "32-0-0",
+            "dry_liquid": "liquid",
+            "nitrogen": "32",
+            "phosphorous": "0",
+            "potassium": "0"
+          },
+          {
+            "id": "28",
+            "name": "28-0-0",
+            "dry_liquid": "liquid",
+            "nitrogen": "28",
+            "phosphorous": "0",
+            "potassium": "0"
+          },
+          {
+            "id": "29",
+            "name": "3-18-18",
+            "dry_liquid": "liquid",
+            "nitrogen": "3",
+            "phosphorous": "18",
+            "potassium": "18"
+          },
+          {
+            "id": "30",
+            "name": "12-0-0-26S",
+            "dry_liquid": "liquid",
+            "nitrogen": "12",
+            "phosphorous": "0",
+            "potassium": "0"
+          },
+          {
+            "id": "31",
+            "name": "20.5-5-0",
+            "dry_liquid": "liquid",
+            "nitrogen": "20.5",
+            "phosphorous": "5",
+            "potassium": "0"
+          },
+          {
+            "id": "32",
+            "name": "0-0-15-9.7S",
+            "dry_liquid": "liquid",
+            "nitrogen": "0",
+            "phosphorous": "0",
+            "potassium": "15"
+          },
+          {
+            "id": "33",
+            "name": "Phosphoric Acid (0-54-0)",
+            "dry_liquid": "liquid",
+            "nitrogen": "0",
+            "phosphorous": "54.29",
+            "potassium": "0"
           }
         ]
       },
@@ -8107,7 +8461,7 @@
             "text": "Crop requirement for N is met, can be reduced by {0}",
             "balanceType": "AgrN",
             "balance_low": "15",
-            "balance_high": "99999"            
+            "balance_high": "99999"
           },
           {
             "id": "2",

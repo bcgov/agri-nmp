@@ -1,0 +1,173 @@
+﻿@model SERVERAPI.ViewModels.FertilizerDetailsViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <form asp-action="FertilizerDetails" asp-controller="Nutrients" id="modForm" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Fertilizer Details - @Model.title</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-4">
+                        <label asp-for="selTypOption">Fertilizer Type</label>
+                        <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selTypOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label asp-for="selFertOption">Fertilizer</label>
+                        <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions,"Id","Value"))" id="ddlFert">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selFertOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label asp-for="selFertOption"> Application Rate</label>
+                        <input class="form-control" asp-for="applRate" id="applrate" type="text" />
+                        <span asp-validation-for="applRate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label>Units</label>
+                        <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selRateOption" class="text-danger"></span>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-3">
+                        <label>Method (optional)</label>
+                        <div class="input-group">
+                            <input class="form-control" asp-for="applMethod" type="text" />
+                        </div>
+                        <span asp-validation-for="applMethod" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label>Date (optional)</label>
+                        <div class="input-group">
+                            <input class="form-control" asp-for="applDate" id="applDate" type="text" />
+                        </div>
+                        <span asp-validation-for="applDate" class="text-danger"></span>
+                    </div>
+                    @if (Model.fertilizerType == "liquid")
+                    {
+                        <div class="form-group col-sm-2">
+                            <label>Density</label>
+                            <div class="input-group">
+                                <input class="form-control" asp-for="density" id="density" type="text" />
+                                @if (!Model.stdDensity)
+                                {
+                                    <span class="input-group-btn" title="Reset to standard value">
+                                        <button class="btn btn-default" type="button" id="rstDensity" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                    </span>
+                                }
+                            </div>
+                            <span asp-validation-for="density" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
+                <div style="clear:both"></div>
+                @if (Model.manEntry)
+                {
+                    <div class="form-group col-sm-4" style="margin:10px">
+                        <div class="Table">
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>N</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="yrN" type="text" id="reqN" />
+                                    </div>
+                                    <span asp-validation-for="yrN" class="text-danger"></span>
+                                </div>
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="yrP2o5" type="text" id="reqP" />
+                                    </div>
+                                    <span asp-validation-for="yrP2o5" class="text-danger"></span>
+                                </div>
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="yrK2o" type="text" id="reqK" />
+                                    </div>
+                                    <span asp-validation-for="yrK2o" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group col-sm-4" style="margin:10px">
+                        <div class="Table">
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>N</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="Cell">
+                                    <p>@Model.yrN</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>@Model.yrP2o5</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>@Model.yrK2o</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
+        </div>
+        @Html.HiddenFor(x => x.buttonPressed)
+        @Html.HiddenFor(x => x.currUnit)
+        @Html.HiddenFor(x => x.fertilizerType)
+        @Html.HiddenFor(x => x.manEntry)
+        @Html.HiddenFor(x => x.btnText)
+        @Html.HiddenFor(x => x.yrN)
+        @Html.HiddenFor(x => x.yrP2o5)
+        @Html.HiddenFor(x => x.yrK2o)
+    </form>
+</div>
+<script>
+        $(document).ready(function () {
+
+            $('#applDate').datepicker({
+                useCurrent: false,
+                autoPick: false,
+                format: "M-yyyy",
+                startView: 1,
+                minViewMode: 1,
+                autoclose: true
+        });
+    });
+</script>
