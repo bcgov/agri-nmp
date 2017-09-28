@@ -47,6 +47,8 @@ namespace SERVERAPI.ViewComponents
                     dc.dispP = m.soilTest.ValP.ToString();
                     dc.dispK = m.soilTest.valK.ToString();
                     dc.dispPH = m.soilTest.valPH.ToString();
+                    dc.dispSTK = m.soilTest.ConvertedKelownaK.ToString();
+                    dc.dispSTP = m.soilTest.ConvertedKelownaP.ToString();
                 }
                 svm.tests.Add(dc);
             }
@@ -62,10 +64,12 @@ namespace SERVERAPI.ViewComponents
     public class DisplaySoilTest
     {
         public string fldName { get; set; }
+        public string dispSTP { get; set; }
+        public string dispSTK { get; set; }
         public string sampleDate { get; set; }
         public string dispNO3H { get; set; }
         public string dispP { get; set; }
         public string dispK { get; set; }
-        public string dispPH { get; set; }
+        public string dispPH { get; set; }        
     }
 }
