@@ -1044,6 +1044,8 @@ namespace SERVERAPI.Models.Impl
             }
 
             return typesOptions;
+        }
+
         public Models.StaticData.SoilTestMethod GetSoilTestMethodByMethod(string _soilTest)
         {
             JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
