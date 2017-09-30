@@ -184,20 +184,18 @@ namespace SERVERAPI.ViewModels
         public List<Models.StaticData.SelectListItem> typOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
-        public string selFertOption { get; set; }
+        public int selFertOption { get; set; }
         public List<Models.StaticData.SelectListItem> fertOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selRateOption { get; set; }
         public string selRateOptionText { get; set; }
         public List<Models.StaticData.SelectListItem> rateOptions { get; set; }
-        public string selDenOption { get; set; }
+        public int selDenOption { get; set; }
         public List<Models.StaticData.SelectListItem> denOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         public string applRate { get; set; }
         public string currUnit { get; set; }
-        [Required(ErrorMessage = "Required")]
-        public string nh4 { get; set; }
         public string applMethod { get; set; }
         public string applDate { get; set; }
         public string buttonPressed { get; set; }

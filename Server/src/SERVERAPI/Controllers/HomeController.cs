@@ -65,7 +65,7 @@ namespace SERVERAPI.Controllers
             }
 
             ViewBag.Title = "NMP";
-            LoadStatic();
+            //LoadStatic();
 
             return View(lvm);
 

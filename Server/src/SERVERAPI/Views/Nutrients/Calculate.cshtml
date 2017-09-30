@@ -188,6 +188,13 @@
     });
 
     $(document).ready(function () {
+        $("body").on("change", "#ddlDensity", function () {
+            $('#buttonPressed').val("DensityChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
         $("body").on("change", "#ddlAppl", function () {
             $('#buttonPressed').val("ApplChange");
             $("#modForm").submit();

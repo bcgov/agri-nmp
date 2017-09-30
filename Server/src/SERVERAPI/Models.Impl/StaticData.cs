@@ -6,19 +6,28 @@ using SERVERAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
+using System.IO;
+using System.Text;
 
 namespace SERVERAPI.Models.Impl
 {
     public partial class StaticData
     {
         private readonly IHttpContextAccessor _ctx;
-
+        private JObject rss;
         //Constants
         //public decimal CONST_N_PROTIEN_CONVERSION;
 
         public StaticData(IHttpContextAccessor ctx)
         {
             _ctx = ctx;
+            var assembly = Assembly.GetEntryAssembly();
+            var resourceStream = assembly.GetManifestResourceStream("SERVERAPI.Data.static.json");
+            using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
+            {
+                rss = JObject.Parse(reader.ReadToEnd());
+            }
         }
 
         public Models.StaticData.Regions GetRegions()
@@ -26,7 +35,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.Regions regs = new Models.StaticData.Regions();
             regs.regions = new List<Models.StaticData.Region>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray regions = (JArray)rss["agri"]["nmp"]["regions"]["region"];
 
             foreach (var r in regions)
@@ -63,7 +72,7 @@ namespace SERVERAPI.Models.Impl
         {
             Models.StaticData.Manure man = new Models.StaticData.Manure();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray manures = (JArray)rss["agri"]["nmp"]["manures"]["manure"];
 
             foreach (var r in manures)
@@ -92,7 +101,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.Manures mans = new Models.StaticData.Manures();
             mans.manures = new List<Models.StaticData.Manure>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray manures = (JArray)rss["agri"]["nmp"]["manures"]["manure"];
 
             foreach (var r in manures)
@@ -136,7 +145,7 @@ namespace SERVERAPI.Models.Impl
         {
             Models.StaticData.Season_Application appl = new Models.StaticData.Season_Application();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-applicaton"];
 
             foreach (var r in applications)
@@ -164,7 +173,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.Season_Applications appls = new Models.StaticData.Season_Applications();
             appls.season_applications = new List<Models.StaticData.Season_Application>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-applicaton"];
 
             foreach (var r in applications)
@@ -206,7 +215,7 @@ namespace SERVERAPI.Models.Impl
         {
             Models.StaticData.Unit unit = new Models.StaticData.Unit();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray units = (JArray)rss["agri"]["nmp"]["units"]["unit"];
 
             foreach (var r in units)
@@ -237,7 +246,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.Units units = new Models.StaticData.Units();
             units.units = new List<Models.StaticData.Unit>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["units"]["unit"];
 
             foreach (var r in array)
@@ -285,7 +294,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.FertilizerUnits units = new Models.StaticData.FertilizerUnits();
             units.fertilizerUnits = new List<Models.StaticData.FertilizerUnit>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizerunits"]["fertilizerunit"];
 
             foreach (var r in array)
@@ -323,7 +332,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.DensityUnits units = new Models.StaticData.DensityUnits();
             units.densityUnits = new List<Models.StaticData.DensityUnit>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["densityunits"]["densityunit"];
 
             foreach (var r in array)
@@ -358,7 +367,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.CropTypes types = new Models.StaticData.CropTypes();
             types.cropTypes = new List<Models.StaticData.CropType>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["croptypes"]["croptype"];
 
             foreach (var r in array)
@@ -378,7 +387,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.CropType GetCropType(int id)
         {
             string x = id.ToString();
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["croptypes"]["croptype"];
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
 
@@ -412,7 +421,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.Crops crops = new Models.StaticData.Crops();
             crops.crops = new List<Models.StaticData.Crop>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["crops"]["crop"];
 
             foreach (var r in array)
@@ -473,7 +482,7 @@ namespace SERVERAPI.Models.Impl
         {
             Models.StaticData.Crops crops = new Models.StaticData.Crops();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JObject r = (JObject)rss["agri"]["nmp"]["crops"]["crop"].FirstOrDefault(x => x["id"].ToString() == cropId.ToString());
             Models.StaticData.Crop crop = new Models.StaticData.Crop();
 
@@ -494,7 +503,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.Yield GetYield(int yieldId)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["yields"]["yield"];
             Models.StaticData.Yield yield = new Models.StaticData.Yield();
 
@@ -534,7 +543,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.CropSTKRegionCd GetCropSTKRegionCd(int cropid, int soil_test_potassium_region_cd)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["crop_stk_regioncds"]["crop_stk_regioncd"];
             Models.StaticData.CropSTKRegionCd crop_stk_regioncd = new Models.StaticData.CropSTKRegionCd();
 
@@ -555,7 +564,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.DM GetDM(int ID)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["dms"]["dm"];
             Models.StaticData.DM dm = new Models.StaticData.DM();
 
@@ -574,7 +583,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.AmmoniaRetention GetAmmoniaRetention(int seasonApplicatonId, int dm)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["ammoniaretentions"]["ammoniaretention"];
             Models.StaticData.AmmoniaRetention ammoniaretention = new Models.StaticData.AmmoniaRetention();
 
@@ -595,7 +604,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.NMineralization GetNMineralization(int id, int locationid)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["nmineralizations"]["nmineralization"];
             Models.StaticData.NMineralization nmineralization = new Models.StaticData.NMineralization();
 
@@ -617,7 +626,7 @@ namespace SERVERAPI.Models.Impl
         public string GetSoilTestMethod(string id)
         {
             string method = id.ToString();
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
 
@@ -630,7 +639,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.SoilTestMethods meths = new Models.StaticData.SoilTestMethods();
             meths.methods = new List<Models.StaticData.SoilTestMethod>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray items = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
 
             foreach (var r in items)
@@ -667,7 +676,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.Region GetRegion(int id)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["regions"]["region"];
             Models.StaticData.Region region = new Models.StaticData.Region();
 
@@ -690,7 +699,7 @@ namespace SERVERAPI.Models.Impl
         {
             Models.StaticData.PrevCropType type = new Models.StaticData.PrevCropType();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["prevcroptypes"]["prevcroptype"];
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
 
@@ -708,7 +717,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.PrevCropTypes types = new Models.StaticData.PrevCropTypes();
             types.prevCropTypes = new List<Models.StaticData.PrevCropType>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["prevcroptypes"]["prevcroptype"];
 
             foreach (var r in array)
@@ -746,7 +755,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.CropYield GetCropYield(int cropid, int locationid)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["cropyields"]["cropyield"];
             Models.StaticData.CropYield cropYield = new Models.StaticData.CropYield();
 
@@ -767,7 +776,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.STPRecommend GetSTPRecommend(int stp_kelowna_rangeid, int soil_test_phosphorous_region_cd, int phosphorous_crop_group_region_cd)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["stp_recommends"]["stp_recommend"];
             Models.StaticData.STPRecommend sTPRecommend = new Models.StaticData.STPRecommend();
 
@@ -790,7 +799,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.STPKelownaRange GetSTPKelownaRangeByPpm(int ppm)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["stp_kelowna_ranges"]["stp_kelowna_range"];
             Models.StaticData.STPKelownaRange sTPKelownaRange = new Models.StaticData.STPKelownaRange();
 
@@ -812,7 +821,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.STKRecommend GetSTKRecommend(int stk_kelowna_rangeid, int soil_test_potassium_region_cd, int potassium_crop_group_region_cd)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["stk_recommends"]["stk_recommend"];
             Models.StaticData.STKRecommend sTKRecommend = new Models.StaticData.STKRecommend();
 
@@ -835,7 +844,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.STKKelownaRange GetSTKKelownaRangeByPpm(int ppm)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["stk_kelowna_ranges"]["stk_kelowna_range"];
             Models.StaticData.STKKelownaRange sTKKelownaRange = new Models.StaticData.STKKelownaRange();
 
@@ -858,7 +867,7 @@ namespace SERVERAPI.Models.Impl
         {
             Models.StaticData.ConversionFactor cf = new Models.StaticData.ConversionFactor();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             
             cf.n_protein_conversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["n_protein_conversion"]);
             cf.unit_conversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["unit_conversion"]);
@@ -878,7 +887,7 @@ namespace SERVERAPI.Models.Impl
 
         public string GetMessageByChemicalBalance(string balanceType, int balance, bool legume)
         {
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];            
             string message = null;
 
@@ -905,7 +914,7 @@ namespace SERVERAPI.Models.Impl
 
         public string GetMessageByChemicalBalance(string balanceType, int balance, bool legume, decimal soilTest)
         {
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];
             string message = null;
 
@@ -936,7 +945,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.FertilizerType GetFertilizerType(string id)
         {
             string x = id.ToString();
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
 
@@ -954,7 +963,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.FertilizerTypes types = new Models.StaticData.FertilizerTypes();
             types.fertilizerTypes = new List<Models.StaticData.FertilizerType>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
 
             foreach (var r in array)
@@ -988,7 +997,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.Fertilizer GetFertilizer(string id)
         {
             string x = id.ToString();
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizers"]["fertilizer"];
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
 
@@ -1008,7 +1017,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.Fertilizers fertilizers = new Models.StaticData.Fertilizers();
             fertilizers.fertilizers = new List<Models.StaticData.Fertilizer>();
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizers"]["fertilizer"];
 
             foreach (var r in array)
@@ -1048,7 +1057,7 @@ namespace SERVERAPI.Models.Impl
 
         public Models.StaticData.SoilTestMethod GetSoilTestMethodByMethod(string _soilTest)
         {
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray items = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
             Models.StaticData.SoilTestMethod soilTestMethod = new Models.StaticData.SoilTestMethod();
             
@@ -1069,7 +1078,7 @@ namespace SERVERAPI.Models.Impl
 
         public Models.StaticData.SoilTestMethod GetSoilTestMethodById(string _id)
         {            
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray items = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
             Models.StaticData.SoilTestMethod soilTestMethod = new Models.StaticData.SoilTestMethod();
             int id = 0;
@@ -1099,7 +1108,7 @@ namespace SERVERAPI.Models.Impl
 
         public Models.StaticData.LiquidFertilizerDensity GetLiquidFertilizerDensity(int fertilizerId, int densityId)
         {
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["liquidfertilizerdensitys"]["liquidfertilizerdensity"];
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["fertilizerid"] != null && o["fertilizerid"].ToString() == fertilizerId.ToString() &&  o["densityunitid"] != null && o["densityunitid"].ToString() == densityId.ToString());
 
