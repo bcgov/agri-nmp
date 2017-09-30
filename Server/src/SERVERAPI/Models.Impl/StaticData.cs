@@ -522,7 +522,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.CropSTPRegionCd GetCropSTPRegionCd(int cropid, int soil_test_phosphorous_region_cd)
         {
 
-            JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["crop_stp_regioncds"]["crop_stp_regioncd"];
             Models.StaticData.CropSTPRegionCd crop_stp_regioncd = new Models.StaticData.CropSTPRegionCd();
 
@@ -1117,6 +1117,22 @@ namespace SERVERAPI.Models.Impl
             density.value = Convert.ToDecimal(rec["value"].ToString());
 
             return density;
+        }
+
+        public Models.StaticData.DefaultSoilTest GetDefaultSoilTest()
+        {
+            Models.StaticData.DefaultSoilTest dt = new Models.StaticData.DefaultSoilTest();
+
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+
+            dt.nitrogen = Convert.ToDecimal((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["nitrogen"]);
+            dt.phosphorous = Convert.ToDecimal((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["phosphorous"]);
+            dt.potassium = Convert.ToDecimal((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["potassium"]);
+            dt.pH = Convert.ToDecimal((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["ph"]);
+            dt.convertedKelownaP = Convert.ToInt32((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["convertedkelownap"]);
+            dt.convertedKelownaK = Convert.ToInt32((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["convertedkelownak"]);
+
+            return dt;
         }
 
     }

@@ -102,6 +102,19 @@ namespace SERVERAPI.Utility
             Region region = _sd.GetRegion(regionid);
 
             Field fld = _ud.GetFieldDetails(fieldName);
+
+            if(fld.soilTest == null)
+            {
+                fld.soilTest = new SoilTest();
+                DefaultSoilTest dt = _sd.GetDefaultSoilTest();
+                fld.soilTest.valNO3H = dt.nitrogen;
+                fld.soilTest.ValP = dt.phosphorous;
+                fld.soilTest.valK = dt.potassium;
+                fld.soilTest.valPH = dt.pH;
+                fld.soilTest.ConvertedKelownaK = dt.convertedKelownaK;
+                fld.soilTest.ConvertedKelownaP = dt.convertedKelownaP;
+            }
+
             int _STP = fld.soilTest.ConvertedKelownaP;
             if (_STP == 0)
                 _STP = _cf.defaultSoilTestKelownaP;
