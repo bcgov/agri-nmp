@@ -8667,12 +8667,12 @@
       },
       "defaults": {
         "soiltest": {
-          "nitrogen": "20",
-          "phosphorous": "20",
-          "potassium": "20",
-          "ph": "20",
-          "convertedkelownap": "20",
-          "convertedkelownak": "20"
+          "nitrogen": "0",
+          "phosphorous": "250",
+          "potassium": "500",
+          "ph": "6.0",
+          "convertedkelownap": "250",
+          "convertedkelownak": "500"
         }
       },
       "messages": {
