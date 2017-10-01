@@ -2,7 +2,7 @@
 
 <div class="Row">
     <div class="Cell">
-        <span style="font-size:20px"><b>Detailed Field Reports</b></span>
+        <span style="font-size:16px"><b>Detailed Field Reports</b></span>
         <br />
     </div>
 </div>
@@ -16,7 +16,7 @@
                 <table style="border-collapse: collapse; width: 100%;">
                     <tr>
                         <td>
-                            <span class="newPage" style="font-size:14px"><u>Field: @f.fieldName</u></span>
+                            <span class="newPage" style="font-size:12px"><u>Field: @f.fieldName</u></span>
                         </td>
                     </tr>
                     <tr>
@@ -38,26 +38,26 @@
                         <td>
                             <table style="border-collapse: collapse; border-bottom: 1px solid black; width: 100%">
                                 <tr>
-                                    <td style="border: 1px solid black; width:40%; background-color:#a7aecc; padding:5px">
+                                    <td style="border: 1px solid black; width:40%; background-color:#a7aecc; padding:4px">
                                         <b>Crop Name</b>
                                     </td>
-                                    <td style="border: 1px solid black; width:20%; background-color:#a7aecc;text-align:center; padding:5px">
+                                    <td style="border: 1px solid black; width:20%; background-color:#a7aecc;text-align:center; padding:4px">
                                         <b>Target Yield</b>
                                     </td>
-                                    <td style="border: 1px solid black; width:40%; background-color:#a7aecc; padding:5px">
+                                    <td style="border: 1px solid black; width:40%; background-color:#a7aecc; padding:4px">
                                         <b>Previous Crop Ploughed Down</b>
                                     </td>
                                 </tr>
                                 @foreach (var c in f.crops)
                                 {
                                     <tr>
-                                        <td style="border: 1px solid black; padding:5px">
+                                        <td style="border: 1px solid black; padding:4px">
                                             @c.cropname
                                         </td>
-                                        <td style="border: 1px solid black; padding:5px; text-align:center">
+                                        <td style="border: 1px solid black; padding:4px; text-align:center">
                                             @c.yield ton/ac
                                         </td>
-                                        <td style="border: 1px solid black; padding:5px">
+                                        <td style="border: 1px solid black; padding:4px">
                                             @c.previousCrop
                                         </td>
                                     </tr>
@@ -71,13 +71,13 @@
                 <table style="border-collapse: collapse; width: 70%">
                     <tr>
                         <td style="width:45%; border-bottom: 1px solid black">
-                            <span style="font-size:10px">Soil Test Results: @f.soiltest.sampleDate</span>
+                            Soil Test Results: @f.soiltest.sampleDate
                         </td>
                         <td style="width:10%">
                             &nbsp;
                         </td>
                         <td style="width:45%; border-bottom: 1px solid black">
-                            <span style="font-size:10px">Field Comments:</span>
+                           Field Comments:
                         </td>
                     </tr>
                     <tr>
@@ -122,17 +122,17 @@
                 <table style="border-collapse: collapse;">
                     <tr>
                         <td colspan="4">
-                            <span style="font-size: 16px">Nutrient Application Plan: @Model.year</span>
+                            <span style="font-size: 12px">Nutrient Application Plan: @Model.year</span>
                         </td>
                     </tr>
                     <tr style="border: 1px solid black; background-color:#a7aecc;">
-                        <td style="width:250px; border: 1px solid black; background-color:#a7aecc; padding:5px">
+                        <td style="width:250px; border: 1px solid black; background-color:#a7aecc; padding:4px">
                             <b>Nutrient Source</b>
                         </td>
-                        <td style="width:250px; border: 1px solid black; background-color:#a7aecc; padding:5px">
+                        <td style="width:250px; border: 1px solid black; background-color:#a7aecc; padding:4px">
                             <b>Application Timing</b>
                         </td>
-                        <td style="width:250px; border: 1px solid black; background-color:#a7aecc; padding:5px">
+                        <td style="width:250px; border: 1px solid black; background-color:#a7aecc; padding:4px">
                             <b>Method</b>
                         </td>
                         <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:#a7aecc;">
@@ -153,7 +153,7 @@
                 <br />
                 <br />
                 <table style="border-collapse: collapse; width:100%">
-                    <tr style="font-size:12px;">
+                    <tr style="font-size:10px;">
                         <td style="width:35%;"></td>
                         <td style="width:5%;"></td>
                         <td colspan="3" style="text-align:center; background-color:#5cb85c">
@@ -166,7 +166,7 @@
                             <span style="font-size:10px">Crop Removal Balance (lbs / ac)</span>
                         </td>
                     </tr>
-                    <tr style="font-size:12px;">
+                    <tr style="font-size:10px;">
                         <td style=" border-bottom: 1px solid black; width:35%;">
                         </td>
                         <td></td>
@@ -267,7 +267,7 @@
                     <table style="border-collapse: collapse; width:100%">
                         <tr>
                             <td>
-                                <span style="font-size:16px; background-color:#ffa007">Considerations:</span>
+                                <span style="font-size:12px; background-color:#ffa007">Considerations:</span>
                             </td>
                         </tr>
                         <tr>
@@ -293,7 +293,7 @@
                     <table>
                         <tr>
                             <td>
-                                <span style="font-size:16px">Notes:</span>
+                                <span style="font-size:12px">Notes:</span>
                             </td>
                         </tr>
                         <tr>
