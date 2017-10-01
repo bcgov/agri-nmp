@@ -520,12 +520,12 @@ namespace SERVERAPI.Controllers
                 string rawdata = "<!DOCTYPE html>" +
                     "<html>" +
                     reportHeader +
-                    "<body>" +
-                    "<div style='display: table; width: 100%'>" +
-                    "<div style='display: table-row-group; width: 100%'>" +
+                    //"<body>" +
+                    //"<div style='display: table; width: 100%'>" +
+                    //"<div style='display: table-row-group; width: 100%'>" +
                     content +
-                    "</div>" +
-                    "</div>" +
+                    //"</div>" +
+                    //"</div>" +
                     "</body></html>";
 
                 req.html = rawdata;
