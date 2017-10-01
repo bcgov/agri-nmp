@@ -73,7 +73,15 @@ namespace SERVERAPI.ViewModels
         public string userDataField { get; set; }
         public string target { get; set; }
     }
-    public class FileLoadViewModel
+    public class ManureDetailViewModel
+    {
+        [Display(Name = "Material Name")]
+        [Required]
+        public string materialName { get; set; }
+        [Display(Name = "Comments")]
+        public string act { get; set; }
+    }
+        public class FileLoadViewModel
     {
         [Display(Name = "File Name")]
         public string fileName { get; set; }
