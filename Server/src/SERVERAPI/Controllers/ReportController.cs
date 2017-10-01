@@ -418,6 +418,14 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+        public async Task<string> RenderFonts()
+        {
+            ReportFontsViewModel rvm = new ReportFontsViewModel();
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportFonts.cshtml", rvm);
+
+            return result;
+        }
         public async Task<FileContentResult> BuildPDF(INodeServices nodeServices, PDFRequest rawdata)
         {
             JObject options = JObject.Parse(rawdata.options);
@@ -455,6 +463,16 @@ namespace SERVERAPI.Controllers
             string reportApplication = await RenderApplication();
 
             result = await PrintReportAsync(reportApplication, false);
+
+            return result;
+        }
+        public async Task<IActionResult> PrintFonts()
+        {
+            FileContentResult result = null;
+
+            string reportFonts = await RenderFonts();
+
+            result = await PrintReportAsync(reportFonts, false);
 
             return result;
         }

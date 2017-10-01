@@ -309,6 +309,10 @@ namespace SERVERAPI.ViewModels
         public string year { get; set; }
         public List<ReportFieldsField> fields { get; set; }
     }
+    public class ReportFontsViewModel
+    {
+        public string year { get; set; }
+    }
     public class ReportFieldsField
     {
         public string fieldName { get; set; }
