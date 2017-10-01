@@ -203,7 +203,64 @@ namespace SERVERAPI.Controllers
                             }
                         }
                     }
-                    if(f.nutrients.nutrientOthers != null)
+                    if (f.nutrients.nutrientFertilizers != null)
+                    {
+                        foreach (var ft in f.nutrients.nutrientFertilizers)
+                        {
+                            string fertilizerName = string.Empty;
+                            ReportFieldNutrient rfn = new ReportFieldNutrient();
+                            FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
+
+                            if (ftyp.custom)
+                            {
+                                fertilizerName = ftyp.dry_liquid == "dry" ? "Custom (Dry)" : "Custom (Liquid)";
+                                rfn.reqN = ft.fertN.Value;
+                                rfn.reqP = ft.fertP2o5.Value;
+                                rfn.reqK = ft.fertK2o.Value;
+                                rfn.remN = ft.fertN.Value;
+                                rfn.remP = ft.fertP2o5.Value;
+                                rfn.remK = ft.fertK2o.Value;
+                            }
+                            else
+                            {
+                                Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
+                                fertilizerName = ff.name;
+                                rfn.reqN = ff.nitrogen;
+                                rfn.reqP = ff.phosphorous;
+                                rfn.reqK = ff.potassium;
+                                rfn.remN = ff.nitrogen;
+                                rfn.remP = ff.phosphorous;
+                                rfn.remK = ff.potassium;
+                            }
+
+                            rfn.nutrientName = fertilizerName;
+                            rfn.nutrientAmount = ft.applRate;
+                            rf.nutrients.Add(rfn);
+
+                            rf.reqN = rf.reqN + rfn.reqN;
+                            rf.reqP = rf.reqP + rfn.reqP;
+                            rf.reqK = rf.reqK + rfn.reqK;
+                            rf.remN = rf.remN + rfn.remN;
+                            rf.remP = rf.remP + rfn.remP;
+                            rf.remK = rf.remK + rfn.remK;
+
+                            string footNote = "";
+
+                            if (ft.liquidDensity.ToString("#.##") != _sd.GetLiquidFertilizerDensity(ft.fertilizerId, ft.liquidDensityUnitId).value.ToString("#.##"))
+                            {
+                                footNote = "Liquid density = " + ft.liquidDensity.ToString("#.##");
+                            }
+                            if (!string.IsNullOrEmpty(footNote))
+                            {
+                                ReportFieldFootnote rff = new ReportFieldFootnote();
+                                rff.id = rf.footnotes.Count() + 1;
+                                rff.message = footNote;
+                                rfn.footnote = rff.id.ToString();
+                                rf.footnotes.Add(rff);
+                            }
+                        }
+                    }
+                    if (f.nutrients.nutrientOthers != null)
                     {
                         foreach(var o in f.nutrients.nutrientOthers)
                         {

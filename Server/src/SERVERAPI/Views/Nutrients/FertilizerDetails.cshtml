@@ -101,21 +101,21 @@
                             <div class="Row">
                                 <div class="Cell2">
                                     <div class="input-group col-sm-12">
-                                        <input class="form-control col-sm-12" asp-for="yrN" type="text" id="reqN" />
+                                        <input class="form-control col-sm-12" asp-for="valN" type="text" />
                                     </div>
-                                    <span asp-validation-for="yrN" class="text-danger"></span>
+                                    <span asp-validation-for="valN" class="text-danger"></span>
                                 </div>
                                 <div class="Cell2">
                                     <div class="input-group col-sm-12">
-                                        <input class="form-control col-sm-12" asp-for="yrP2o5" type="text" id="reqP" />
+                                        <input class="form-control col-sm-12" asp-for="valP2o5" type="text" />
                                     </div>
-                                    <span asp-validation-for="yrP2o5" class="text-danger"></span>
+                                    <span asp-validation-for="valP2o5" class="text-danger"></span>
                                 </div>
                                 <div class="Cell2">
                                     <div class="input-group col-sm-12">
-                                        <input class="form-control col-sm-12" asp-for="yrK2o" type="text" id="reqK" />
+                                        <input class="form-control col-sm-12" asp-for="valK2o" type="text" />
                                     </div>
-                                    <span asp-validation-for="yrK2o" class="text-danger"></span>
+                                    <span asp-validation-for="valK2o" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
@@ -138,13 +138,13 @@
                             </div>
                             <div class="Row">
                                 <div class="Cell">
-                                    <p>@Model.yrN</p>
+                                    <p>@Model.valN</p>
                                 </div>
                                 <div class="Cell">
-                                    <p>@Model.yrP2o5</p>
+                                    <p>@Model.valP2o5</p>
                                 </div>
                                 <div class="Cell">
-                                    <p>@Model.yrK2o</p>
+                                    <p>@Model.valK2o</p>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
+            <button type="submit" class="btn btn-primary" id="ok_button">@Model.btnText</button>
         </div>
         @Html.HiddenFor(x => x.fieldName)
         @Html.HiddenFor(x => x.buttonPressed)
@@ -162,9 +162,10 @@
         @Html.HiddenFor(x => x.fertilizerType)
         @Html.HiddenFor(x => x.manEntry)
         @Html.HiddenFor(x => x.btnText)
-        @Html.HiddenFor(x => x.yrN)
-        @Html.HiddenFor(x => x.yrP2o5)
-        @Html.HiddenFor(x => x.yrK2o)
+        @Html.HiddenFor(x => x.valN)
+        @Html.HiddenFor(x => x.valP2o5)
+        @Html.HiddenFor(x => x.valK2o)
+        @Html.HiddenFor(x => x.stdDensity)
     </form>
 </div>
 <script>

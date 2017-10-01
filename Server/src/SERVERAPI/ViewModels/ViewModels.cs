@@ -123,6 +123,14 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Material Type")]
         public string matType { get; set; }
     }
+    public class FertilizerDeleteViewModel
+    {
+        public string act { get; set; }
+        public string fldName { get; set; }
+        public int id { get; set; }
+        [Display(Name = "Fertilizer")]
+        public string fertilizerName { get; set; }
+    }
     public class OtherDeleteViewModel
     {
         public string act { get; set; }
@@ -199,14 +207,9 @@ namespace SERVERAPI.ViewModels
         public string applMethod { get; set; }
         public string applDate { get; set; }
         public string buttonPressed { get; set; }
-        public string yrN { get; set; }
-        public string yrP2o5 { get; set; }
-        public string yrK2o { get; set; }
-        public string ltN { get; set; }
-        public string ltP2o5 { get; set; }
-        public string ltK2o { get; set; }
-        public bool stdN { get; set; }
-        public bool stdAvail { get; set; }
+        public string valN { get; set; }
+        public string valP2o5 { get; set; }
+        public string valK2o { get; set; }
         public bool manEntry { get; set; }
         public string fertilizerType { get; set; }
         public string density { get; set; }

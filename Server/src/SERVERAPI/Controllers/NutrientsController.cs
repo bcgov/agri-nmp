@@ -342,52 +342,79 @@ namespace SERVERAPI.Controllers
 
             fvm.fieldName = fldName;
             fvm.title = id == null ? "Add" : "Edit";
-            fvm.btnText = id == null ? "Add to Field" : "Return";
+            fvm.btnText = id == null ? "Add to Field" : "Update Field";
             fvm.id = id;
             fvm.applMethod = string.Empty;
 
-            FertilizerDetailsSetup(ref fvm);
-
             if (id != null)
             {
-                //int regionid = _ud.FarmDetails().farmRegion.Value;
-                //Region region = _sd.GetRegion(regionid);
-                //nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(fvm.selManOption), region.locationid);
+                NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id.Value);
 
-                //NutrientManure nm = _ud.GetFieldNutrientsManure(fldName, id.Value);
+                fvm.selTypOption = nf.fertilizerTypeId.ToString();
+                FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
 
-                //fvm.selRateOption = nm.unitId;
-                //fvm.selTypOption = nm.manureId;
-                //fvm.selApplOption = nm.applicationId;
-                //fvm.rate = nm.rate.ToString();
-                //fvm.nh4 = nm.nh4Retention.ToString("###");
-                //fvm.yrN = nm.yrN.ToString();
-                //fvm.yrP2o5 = nm.yrP2o5.ToString();
-                //fvm.yrK2o = nm.yrK2o.ToString();
-                //fvm.ltN = nm.ltN.ToString();
-                //fvm.ltP2o5 = nm.ltP2o5.ToString();
-                //fvm.ltK2o = nm.ltK2o.ToString();
-                //Models.StaticData.Manure man = _sd.GetManure(nm.manureId);
-                //fvm.currUnit = man.solid_liquid;
-                //fvm.rateOptions = _sd.GetUnitsDll(fvm.currUnit).ToList();
-
-                //fvm.stdN = Convert.ToDecimal(fvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(fvm.selManOption), Convert.ToInt16(fvm.selApplOption)) * 100) ? false : true;
-                //fvm.stdAvail = Convert.ToDecimal(fvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100) ? false : true;
-
+                fvm.currUnit = ft.dry_liquid;
+                fvm.selFertOption = ft.custom ? 1 : nf.fertilizerId;
+                fvm.applRate = nf.applRate.ToString("#.##");
+                fvm.selRateOption = nf.applUnitId.ToString();
+                fvm.applMethod = nf.applMethod;
+                fvm.fertilizerType = ft.dry_liquid;
+                if (nf.applDate.HasValue)
+                {
+                    fvm.applDate = nf.applDate.HasValue ? nf.applDate.Value.ToString("MMM-yyyy") : "";
+                }
+                if(ft.dry_liquid == "liquid")
+                {
+                    fvm.density = nf.liquidDensity.ToString("#.##");
+                    fvm.selDenOption = nf.liquidDensityUnitId;
+                    if (!ft.custom)
+                    {
+                        if (fvm.density != _sd.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).value.ToString("#.##"))
+                        {
+                            fvm.stdDensity = false;
+                        }
+                        else
+                        {
+                            fvm.stdDensity = true;
+                        }
+                    }
+                }
+                if(ft.custom)
+                {
+                    fvm.valN = nf.fertN.Value.ToString();
+                    fvm.valP2o5 = nf.fertP2o5.Value.ToString();
+                    fvm.valK2o = nf.fertK2o.Value.ToString();
+                    fvm.manEntry = true;
+                }
+                else
+                {
+                    Fertilizer ff = _sd.GetFertilizer(nf.fertilizerId.ToString());
+                    fvm.valN = ff.nitrogen.ToString();
+                    fvm.valP2o5 = ff.phosphorous.ToString();
+                    fvm.valK2o = ff.potassium.ToString();
+                    fvm.manEntry = false;
+                }
             }
             else
 
             {
-                fvm.yrN = "  ";
-                fvm.yrP2o5 = "  ";
-                fvm.yrK2o = "  ";
+                fvm.valN = "  ";
+                fvm.valP2o5 = "  ";
+                fvm.valK2o = "  ";
             }
+
+            FertilizerDetailsSetup(ref fvm);
 
             return PartialView(fvm);
         }
         [HttpPost]
         public IActionResult FertilizerDetails(FertilizerDetailsViewModel fvm)
         {
+            decimal nmbrDensity = 0;
+            decimal nmbrN = 0;
+            decimal nmbrP = 0;
+            decimal nmbrK = 0;
+
             //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
@@ -401,10 +428,11 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     fvm.buttonPressed = "";
 
-                    // reset to calculated amount                
-                    //fvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(fvm.selManOption), Convert.ToInt16(fvm.selApplOption)) * 100).ToString("###");
+                    NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fvm.fieldName, fvm.id.Value);
 
-                    fvm.stdN = true;
+                    fvm.density = _sd.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).value.ToString("#.##");
+
+                    fvm.stdDensity = true;
                     return View(fvm);
                 }
 
@@ -437,9 +465,9 @@ namespace SERVERAPI.Controllers
                         FertilizerDetailSetup_DefaultDensity(ref fvm);
                     }
 
-                    fvm.yrN = "";
-                    fvm.yrP2o5 = "";
-                    fvm.yrK2o = "";
+                    fvm.valN = "";
+                    fvm.valP2o5 = "";
+                    fvm.valK2o = "";
 
                     return View(fvm);
                 }
@@ -452,17 +480,17 @@ namespace SERVERAPI.Controllers
                        !fvm.manEntry)
                     {
                         Fertilizer ft = _sd.GetFertilizer(fvm.selFertOption.ToString());
-                        fvm.yrN = ft.nitrogen.ToString();
-                        fvm.yrP2o5 = ft.phosphorous.ToString();
-                        fvm.yrK2o = ft.potassium.ToString();
+                        fvm.valN = ft.nitrogen.ToString();
+                        fvm.valP2o5 = ft.phosphorous.ToString();
+                        fvm.valK2o = ft.potassium.ToString();
 
                         FertilizerDetailSetup_DefaultDensity(ref fvm);
                     }
                     else
                     {
-                        fvm.yrN = "";
-                        fvm.yrP2o5 = "";
-                        fvm.yrK2o = "";
+                        fvm.valN = "";
+                        fvm.valP2o5 = "";
+                        fvm.valK2o = "";
                     }
                     return View(fvm);
                 }
@@ -489,12 +517,58 @@ namespace SERVERAPI.Controllers
                         ModelState.AddModelError("density", "Required");
                         return View(fvm);
                     }
-                    if (fvm.manEntry &&
-                        fvm.fertilizerType == "liquid" &&
-                        fvm.selDenOption == 0)
+                    if(fvm.fertilizerType == "liquid")
                     {
-                        ModelState.AddModelError("selDenOption", "Required");
-                        return View(fvm);
+                        if (string.IsNullOrEmpty(fvm.density))
+                        {
+                            ModelState.AddModelError("density", "Required");
+                            return View(fvm);
+                        }
+                        if (!Decimal.TryParse(fvm.density, out nmbrDensity))
+                        {
+                            ModelState.AddModelError("density", "Invalid");
+                            return View(fvm);
+                        }
+                        if (fvm.selDenOption == 0)
+                        {
+                            ModelState.AddModelError("selDenOption", "Required");
+                            return View(fvm);
+                        }
+                    }
+
+
+                    if (fvm.manEntry)
+                    {
+                        if (string.IsNullOrEmpty(fvm.valN))
+                        {
+                            ModelState.AddModelError("valN", "Required");
+                            return View(fvm);
+                        }
+                        if (!Decimal.TryParse(fvm.valN, out nmbrN))
+                        {
+                            ModelState.AddModelError("valN", "Invalid");
+                            return View(fvm);
+                        }
+                        if (string.IsNullOrEmpty(fvm.valP2o5))
+                        {
+                            ModelState.AddModelError("valP2o5", "Required");
+                            return View(fvm);
+                        }
+                        if (!Decimal.TryParse(fvm.valP2o5, out nmbrP))
+                        {
+                            ModelState.AddModelError("valP2o5", "Invalid");
+                            return View(fvm);
+                        }
+                        if (string.IsNullOrEmpty(fvm.valK2o))
+                        {
+                            ModelState.AddModelError("valK2o", "Required");
+                            return View(fvm);
+                        }
+                        if (!Decimal.TryParse(fvm.valK2o, out nmbrK))
+                        {
+                            ModelState.AddModelError("valK2o", "Invalid");
+                            return View(fvm);
+                        }
                     }
 
                     if (fvm.id == null)
@@ -506,11 +580,11 @@ namespace SERVERAPI.Controllers
                             fertilizerId = fvm.selFertOption,
                             applUnitId = Convert.ToInt32(fvm.selRateOption),
                             applRate = Convert.ToDecimal(fvm.applRate),
-                            applDate = Convert.ToDateTime(fvm.applDate),
+                            applDate = string.IsNullOrEmpty(fvm.applDate)? (DateTime?)null :  Convert.ToDateTime(fvm.applDate),
                             applMethod = fvm.applMethod,
-                            fertN = fvm.manEntry? Convert.ToDecimal(fvm.yrN) : (decimal?)null,
-                            fertP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.yrP2o5) : (decimal?)null,
-                            fertK2o = fvm.manEntry ? Convert.ToDecimal(fvm.yrK2o) : (decimal?)null,
+                            fertN = fvm.manEntry? Convert.ToDecimal(fvm.valN) : (decimal?)null,
+                            fertP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null,
+                            fertK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null,
                             liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0,
                             liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0
                         };
@@ -524,11 +598,11 @@ namespace SERVERAPI.Controllers
                         nf.fertilizerId = fvm.selFertOption;
                         nf.applUnitId = Convert.ToInt32(fvm.selRateOption);
                         nf.applRate = Convert.ToDecimal(fvm.applRate);
-                        nf.applDate = Convert.ToDateTime(fvm.applDate);
+                        nf.applDate = string.IsNullOrEmpty(fvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fvm.applDate);
                         nf.applMethod = fvm.applMethod;
-                        nf.fertN = fvm.manEntry ? Convert.ToDecimal(fvm.yrN) : (decimal?)null;
-                        nf.fertP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.yrP2o5) : (decimal?)null;
-                        nf.fertK2o = fvm.manEntry ? Convert.ToDecimal(fvm.yrK2o) : (decimal?)null;
+                        nf.fertN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null;
+                        nf.fertP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null;
+                        nf.fertK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null;
                         nf.liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0;
                         nf.liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0;
 
@@ -614,6 +688,45 @@ namespace SERVERAPI.Controllers
             }
 
             return;
+        }
+        [HttpGet]
+        public ActionResult FertilizerDelete(string fldName, int id)
+        {
+            string fertilizerName = string.Empty;
+
+            FertilizerDeleteViewModel fvm = new FertilizerDeleteViewModel();
+            fvm.id = id;
+            fvm.fldName = fldName;
+
+            NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id);
+            FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
+
+            if(ft.custom)
+            {
+                fertilizerName = ft.dry_liquid == "dry" ? "Custom (Dry)" : "Custom (Liquid)";
+            }
+            else
+            {
+                Fertilizer ff = _sd.GetFertilizer(nf.fertilizerId.ToString());
+                fertilizerName = ff.name;
+            }
+
+            fvm.fertilizerName = fertilizerName;
+
+            fvm.act = "Delete";
+
+            return PartialView("FertilizerDelete", fvm);
+        }
+        [HttpPost]
+        public ActionResult FertilizerDelete(FertilizerDeleteViewModel dvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _ud.DeleteFieldNutrientsFertilizer(dvm.fldName, dvm.id);
+
+                return Json(ReDisplay("#fertilizer", dvm.fldName));
+            }
+            return PartialView("FertilizerDelete", dvm);
         }
 
         public IActionResult CropDetails(string fldName, int? id)

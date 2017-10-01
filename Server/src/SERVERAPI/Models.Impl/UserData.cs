@@ -215,6 +215,28 @@ namespace SERVERAPI.Models.Impl
             }
             return fldManures;
         }
+        public List<NutrientFertilizer> GetFieldNutrientsFertilizers(string fldName)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            Field fld = yd.fields.FirstOrDefault(f => f.fieldName == fldName);
+
+            if (fld == null)
+            {
+                fld = new Field();
+            }
+
+            if (fld.nutrients == null)
+            {
+                fld.nutrients = new Nutrients();
+            }
+            List<NutrientFertilizer> fldFertilizers = fld.nutrients.nutrientFertilizers;
+            if (fldFertilizers == null)
+            {
+                fldFertilizers = new List<NutrientFertilizer>();
+            }
+            return fldFertilizers;
+        }
 
         public NutrientManure GetFieldNutrientsManure(string fldName, int manId)
         {

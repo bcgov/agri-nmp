@@ -66,13 +66,13 @@ namespace SERVERAPI.Models
         public int fertilizerId { get; set; }
         public int applUnitId { get; set; }
         public decimal applRate { get; set; }
-        public DateTime applDate { get; set; }
+        public DateTime? applDate { get; set; }
         public string applMethod { get; set; }
         public decimal? fertN { get; set; }
         public decimal? fertP2o5 { get; set; }
         public decimal? fertK2o { get; set; }
         public decimal liquidDensity { get; set; }
-        public decimal liquidDensityUnitId { get; set; }
+        public int liquidDensityUnitId { get; set; }
     }
     public class NutrientOther
     {

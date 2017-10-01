@@ -91,6 +91,9 @@
                                 <div class="TableBody" id="manure">
                                     @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
                                 </div>
+                                <div class="TableBody" id="fertilizer">
+                                    @await Component.InvokeAsync("CalcFertilizer", new { fldName = Model.currFld })
+                                </div>
                                 <div class="TableBody" id="other">
                                     @await Component.InvokeAsync("CalcOther", new { fldName = Model.currFld })
                                 </div>

@@ -66,7 +66,7 @@ namespace SERVERAPI.ViewComponents
                     reqK = (m.reqK2o * -1).ToString(),
                     remN = (m.remN * -1).ToString(),
                     remP = (m.remP2o5 * -1).ToString(),
-                    remK = (m.remK2o * -1).ToString(),
+                    remK = (m.remK2o * -1).ToString()
                 };
                 mvm.cropList.Add(dm);
             }
