@@ -246,17 +246,20 @@ namespace SERVERAPI.Controllers
 
                             string footNote = "";
 
-                            if (ft.liquidDensity.ToString("#.##") != _sd.GetLiquidFertilizerDensity(ft.fertilizerId, ft.liquidDensityUnitId).value.ToString("#.##"))
+                            if (ftyp.dry_liquid == "liquid")
                             {
-                                footNote = "Liquid density = " + ft.liquidDensity.ToString("#.##");
-                            }
-                            if (!string.IsNullOrEmpty(footNote))
-                            {
-                                ReportFieldFootnote rff = new ReportFieldFootnote();
-                                rff.id = rf.footnotes.Count() + 1;
-                                rff.message = footNote;
-                                rfn.footnote = rff.id.ToString();
-                                rf.footnotes.Add(rff);
+                                if (ft.liquidDensity.ToString("#.##") != _sd.GetLiquidFertilizerDensity(ft.fertilizerId, ft.liquidDensityUnitId).value.ToString("#.##"))
+                                {
+                                    footNote = "Liquid density = " + ft.liquidDensity.ToString("#.##");
+                                }
+                                if (!string.IsNullOrEmpty(footNote))
+                                {
+                                    ReportFieldFootnote rff = new ReportFieldFootnote();
+                                    rff.id = rf.footnotes.Count() + 1;
+                                    rff.message = footNote;
+                                    rfn.footnote = rff.id.ToString();
+                                    rf.footnotes.Add(rff);
+                                }
                             }
                         }
                     }
