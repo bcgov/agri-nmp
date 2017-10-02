@@ -56,7 +56,7 @@
                 {
                     <div class="form-box">
                         <div class="form-box-header clearfix">
-                            <button class="btn btn-success" data_modal3="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
+                            <button class="btn btn-success" data_modal="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
                             <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
                             <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertilizerDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertilzer</button>
                             <button class="btn btn-success" type="button" data_modal3="" data-type="@Url.Action("OtherDetails", "Nutrients", new { fldName = Model.currFld })">Add Other</button>
@@ -164,10 +164,81 @@
                 /*backdrop: 'static',*/
                 //keyboard: true
             }, 'show');
-            bindForm2(this);
+            bindForm(this);
         });
         return false;
     });
+
+    function bindForm(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        $('#heading').load(result.urlHead);
+                        $('#message').load(result.urlMsg);
+                        $(result.target).load(result.url);
+                        $('#summary').load(result.urlSumm);
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm(dialog);
+                    }
+                }
+            });
+            return false;
+        });
+    }
+    function bindForm2(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize()
+            })
+                .done(function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        window.location.href = '@Url.Action("Calculate","Nutrients")';
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm2(dialog);
+                    }
+                });
+
+            return false;
+        });
+    }
+    //function bindForm3(dialog) {
+    //    $('form', dialog).submit(function () {
+    //        $.ajax({
+    //            cache: false,
+    //            url: this.action,
+    //            type: this.method,
+    //            data: $(this).serialize()
+    //        })
+    //            .done(function (result) {
+    //                if (result.success) {
+    //                    alert(result);
+    //                    $('#myModal').modal('hide');
+    //                    $('#heading').load(result.urlHead);
+    //                    $('#message').load(result.urlMsg);
+    //                    $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+    //                    $('#summary').load(result.urlSumm);
+    //                } else {
+    //                    $('#myModalContent').html(result);
+    //                    bindForm3(dialog);
+    //                }
+    //            });
+
+    //        return false;
+    //    });
+    //}
 
     $(document).ready(function () {
         $("body").on("change", "#ddlMan", function () {
@@ -233,6 +304,13 @@
     });
 
     $(document).ready(function () {
+        $("body").on("click", "#rstCrude", function () {
+            $('#buttonPressed').val("ResetCrude");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
         $("body").on("click", "#rstDensity", function () {
             $('#buttonPressed').val("ResetDensity");
             $("#modForm").submit();
@@ -251,77 +329,6 @@
     $(document).on("change", "#fieldList", function () {
         alert("changed");
     });
-
-    function bindForm(dialog) {
-        $('form', dialog).submit(function () {
-            $.ajax({
-                cache: false,
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize(),
-                success: function (result) {
-                    if (result.success) {
-                        $('#myModal').modal('hide');
-                        $('#heading').load(result.urlHead);
-                        $('#message').load(result.urlMsg);
-                        $(result.target).load(result.url);
-                        $('#summary').load(result.urlSumm);
-                    } else {
-                        $('#myModalContent').html(result);
-                        bindForm(dialog);
-                    }
-                }
-            });
-            return false;
-        });
-    }
-    function bindForm2(dialog) {
-        $('form', dialog).submit(function () {
-            $.ajax({
-                cache: false,
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize()
-            })
-                .done(function (result) {
-                    if (result.success) {
-                        $('#myModal').modal('hide');
-                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                        window.location.href = '@Url.Action("Calculate","Nutrients")';
-                    } else {
-                        $('#myModalContent').html(result);
-                        bindForm2(dialog);
-                    }
-                });
-
-            return false;
-        });
-    }
-    function bindForm3(dialog) {
-        $('form', dialog).submit(function () {
-            $.ajax({
-                cache: false,
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize()
-            })
-                .done(function (result) {
-                    if (result.success) {
-                        alert(result);
-                        $('#myModal').modal('hide');
-                        $('#heading').load(result.urlHead);
-                        $('#message').load(result.urlMsg);
-                        $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                        $('#summary').load(result.urlSumm);
-                    } else {
-                        $('#myModalContent').html(result);
-                        bindForm3(dialog);
-                    }
-                });
-
-            return false;
-        });
-    }
 
 
     function current() {

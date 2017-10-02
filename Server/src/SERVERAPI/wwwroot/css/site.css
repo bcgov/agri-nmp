@@ -6,6 +6,9 @@
 .modal.modal-wide .modal-dialog {
     width: 70%;
 }
+.modal-medium {
+    width: 55%;
+}
 .Table {
     display: table;
     width: 100%

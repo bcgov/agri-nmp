@@ -28,7 +28,7 @@
                         </select>
                         <span asp-validation-for="selCropOption" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-2">
                         <label>Yield</label>
                         <div>
                             <input class="form-control" asp-for="yield" id="yield" type="text" />
@@ -36,22 +36,18 @@
                         </div>
                         <span asp-validation-for="yield" class="text-danger"></span>
                     </div>
-                </div>
-                <div style="clear:both"></div>
-                <div class="form-group">
-                    <div class="form-group col-sm-7">
-                        <label>Previous crop ploughed down</label>
-                        <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlPrev">
-                            <option>select</option>
-                        </select>
-                        <span asp-validation-for="selPrevOption" class="text-danger"></span>
-                    </div>
                     @if (Model.showCrude)
                     {
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-2">
                             <label>Crude Protein (%)</label>
-                            <div class="input-group col-sm-5">
-                                <input class="form-control col-sm-1" asp-for="crude" id="crude" type="text" />
+                            <div class="input-group col-sm-12">
+                                <input class="form-control" asp-for="crude" id="crude" type="text" />
+                                @if (!Model.stdCrude)
+                                {
+                                    <span class="input-group-btn" title="Reset to standard value">
+                                        <button class="btn btn-default" type="button" id="rstCrude" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                    </span>
+                                }
                             </div>
                             <span asp-validation-for="crude" class="text-danger"></span>
                         </div>
@@ -60,6 +56,24 @@
                     {
                         @Html.HiddenFor(x => x.crude)
                     }
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-5">
+                        <label>Previous crop ploughed down</label>
+                        <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlPrev">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selPrevOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <div style="text-align:center">
+                            <label>N credit (lb/ac)</label>
+                        </div>
+                        <div style="text-align:center; padding-top:10px">
+                            <label>@Model.nCredit</label>
+                        </div>
+                    </div>
                     @if (Model.manEntry)
                     {
                         <div class="form-group col-sm-5">
@@ -256,5 +270,7 @@
         @Html.HiddenFor(x => x.remK2o)
         @Html.HiddenFor(x => x.yieldUnit)
         @Html.HiddenFor(x => x.manEntry)
+        @Html.HiddenFor(x => x.stdCrude)
+        @Html.HiddenFor(x => x.nCredit)
     </form>
 </div>

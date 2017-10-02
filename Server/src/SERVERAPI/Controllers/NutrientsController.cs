@@ -731,12 +731,15 @@ namespace SERVERAPI.Controllers
 
         public IActionResult CropDetails(string fldName, int? id)
         {
+            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
             CropDetailsViewModel cvm = new CropDetailsViewModel();
 
             cvm.fieldName = fldName;
             cvm.title = id == null ? "Add" : "Edit";
             cvm.btnText = id == null ? "Calculate" : "Return";
             cvm.id = id;
+            cvm.stdCrude = true;
+            cvm.nCredit = "0";
 
             if (id != null)
             {
@@ -755,8 +758,10 @@ namespace SERVERAPI.Controllers
                 cvm.selCropOption = cp.cropId;
                 cvm.selPrevOption = cp.prevCropId.ToString();
                 cvm.coverCropHarvested = cp.coverCropHarvested;
+                cvm.nCredit = cvm.selPrevOption != "0" ? _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).nCreditImperial.ToString() : "0";
 
-                if(!string.IsNullOrEmpty(cp.cropOther))
+
+                if (!string.IsNullOrEmpty(cp.cropOther))
                 {
                     cvm.manEntry = true;
                     Yield yld = _sd.GetYield(1);
@@ -771,6 +776,20 @@ namespace SERVERAPI.Controllers
                     cvm.yieldUnit = "(" + yld.yielddesc + ")";
                     cvm.selTypOption = crop.croptypeid.ToString();
                 }
+
+                CropDetailsSetup(ref cvm);
+
+                if (!cvm.manEntry)
+                {
+                    if (cvm.showCrude)
+                    {
+                        if (cvm.crude != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
+                        {
+                            cvm.stdCrude = false;
+                        }
+                    }
+                }
+
             }
             else
             {
@@ -780,15 +799,17 @@ namespace SERVERAPI.Controllers
                 cvm.remN = "  0";
                 cvm.remP2o5 = "  0";
                 cvm.remK2o = "  0";
+
+                CropDetailsSetup(ref cvm);
             }
 
-            CropDetailsSetup(ref cvm);
 
             return PartialView(cvm);
         }
         [HttpPost]
         public IActionResult CropDetails(CropDetailsViewModel cvm)
         {
+            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
             CropDetailsSetup(ref cvm);
             try
             {
@@ -844,9 +865,22 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     cvm.buttonPressed = "";
                     cvm.btnText = "Calculate";
+
+                    cvm.nCredit = _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).nCreditImperial.ToString();
                     return View(cvm);
                 }
 
+                if (cvm.buttonPressed == "ResetCrude")
+                {
+                    ModelState.Clear();
+                    cvm.buttonPressed = "";
+                    cvm.btnText = "Calculate";
+
+                    cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
+
+                    cvm.stdCrude = true;
+                    return View(cvm);
+                }
                 if (cvm.buttonPressed == "CropChange")
                 {
                     ModelState.Clear();
@@ -864,8 +898,8 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.showCrude)
                     {
-                        CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
                         cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
+                        cvm.stdCrude = true;
                     }
 
                     CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
@@ -1071,7 +1105,6 @@ namespace SERVERAPI.Controllers
                         if (!cvm.manEntry)
                         {
                             CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
-                            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
 
                             calculateCropRequirementRemoval.cropid = Convert.ToInt16(cvm.selCropOption);
                             calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yield);
@@ -1090,6 +1123,10 @@ namespace SERVERAPI.Controllers
                             cvm.remN = cropRequirementRemoval.N_Removal.ToString();
                             cvm.remP2o5 = cropRequirementRemoval.P2O5_Removal.ToString();
                             cvm.remK2o = cropRequirementRemoval.K2O_Removal.ToString();
+                            if (cvm.crude != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
+                            {
+                                cvm.stdCrude = false;
+                            }
                         }
 
                         cvm.btnText = cvm.id == null ? "Add to Field" : "Update Field";
@@ -1247,7 +1284,7 @@ namespace SERVERAPI.Controllers
         }
         public IActionResult RefreshCropList(string fieldName)
         {
-            return ViewComponent("CalcCrop", new { fldName = fieldName });
+            return ViewComponent("CalcCrops", new { fldName = fieldName });
         }
         [HttpGet]
         public ActionResult CropDelete(string fldName, int id)

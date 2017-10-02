@@ -154,6 +154,7 @@ namespace SERVERAPI.ViewModels
         public string btnText { get; set; }
         public string fieldName { get; set; }
         public bool showCrude { get; set; }
+        public bool stdCrude { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selTypOption { get; set; }
@@ -177,6 +178,7 @@ namespace SERVERAPI.ViewModels
         public string remK2o { get; set; }
         public bool manEntry { get; set; }
         public string cropDesc { get; set; }
+        public string nCredit { get; set; }
         public bool coverCrop { get; set; }
         public bool? coverCropHarvested { get; set; }
     }
