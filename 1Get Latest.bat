@@ -1,3 +1,3 @@
-git fetch upstream1
-git rebase upstream1/master
+git fetch upstream
+git rebase upstream/master
 pause
