@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.IO;
 using System.Text;
+using static SERVERAPI.Models.StaticData;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -1135,5 +1136,33 @@ namespace SERVERAPI.Models.Impl
             return dt;
         }
 
+        public string SoilTestRating(string chem, decimal value)
+        {
+            string results = "Ukn";
+
+            Models.StaticData.Fertilizers fertilizers = new Models.StaticData.Fertilizers();
+            List<SoilTestRange> ranges = new List<SoilTestRange>();
+
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray array = (JArray)rss["agri"]["nmp"]["soiltestranges"][chem];
+
+            foreach (var r in array)
+            {
+                Models.StaticData.SoilTestRange range = new Models.StaticData.SoilTestRange();
+                range.upperLimit = Convert.ToInt32(r["upperlimit"].ToString());
+                range.rating = r["rating"].ToString();
+                ranges.Add(range);
+            }
+            for(int i=0; i < ranges.Count(); i++)
+            {
+                if(value < ranges[i].upperLimit)
+                {
+                    results = ranges[i].rating;
+                    break;
+                }
+            }
+
+            return results;
+        }
     }
 }

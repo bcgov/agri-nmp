@@ -8675,6 +8675,44 @@
           "convertedkelownak": "500"
         }
       },
+      "soiltestranges": {
+        "phosphorous": [
+          {
+            "upperlimit": "20",
+            "rating": "Low"
+          },
+          {
+            "upperlimit": "50",
+            "rating": "Med"
+          },
+          {
+            "upperlimit": "100",
+            "rating": "High"
+          },
+          {
+            "upperlimit": "99999",
+            "rating": "Very High"
+          }
+        ],
+        "potassium": [
+          {
+            "upperlimit": "80",
+            "rating": "Low"
+          },
+          {
+            "upperlimit": "175",
+            "rating": "Med"
+          },
+          {
+            "upperlimit": "250",
+            "rating": "High"
+          },
+          {
+            "upperlimit": "99999",
+            "rating": "Very High"
+          }
+        ]
+      },
       "messages": {
         "message": [
           {

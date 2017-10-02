@@ -431,8 +431,8 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = m.soilTest.ValP.ToString();
                     dc.potassium = m.soilTest.valK.ToString();
                     dc.pH = m.soilTest.valPH.ToString();
-                    dc.phosphorousRange = "???";
-                    dc.potassiumRange = "???"; ;
+                    dc.phosphorousRange = _sd.SoilTestRating("phosphorous", m.soilTest.ValP);
+                    dc.potassiumRange = _sd.SoilTestRating("potassium", m.soilTest.valK);
                 }
                 else
                 {
@@ -443,8 +443,8 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = dt.phosphorous.ToString();
                     dc.potassium = dt.potassium.ToString();
                     dc.pH = dt.pH.ToString();
-                    dc.phosphorousRange = "???";
-                    dc.potassiumRange = "???"; ;
+                    dc.phosphorousRange = _sd.SoilTestRating("phosphorous", dt.phosphorous);
+                    dc.potassiumRange = _sd.SoilTestRating("potassium", dt.potassium);
                 }
                 dc.fieldCrops = null;
 

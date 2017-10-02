@@ -383,5 +383,10 @@ namespace SERVERAPI.Models
             public int convertedKelownaP { get; set; }
             public int convertedKelownaK { get; set; }
         }
+        public class SoilTestRange
+        {
+            public int upperLimit { get; set; }
+            public string rating  { get; set; }
+        }
     }
 }
