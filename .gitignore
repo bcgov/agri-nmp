@@ -279,3 +279,4 @@ __pycache__/
 functional-tests/build/*
 !PDF/.s2i/*
 !.s2i/*
+1Get Latest.bat
