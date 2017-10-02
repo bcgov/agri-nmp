@@ -1,5 +1,80 @@
-﻿<div style="display: table-row;">
-    <div style="display: table-cell;">
-        Field Soil Test Summary
+﻿@model SERVERAPI.ViewModels.ReportSummaryViewModel
+
+<div class="Row">
+    <div class="Cell">
+        <h2>Field Soil Test Results</h2>
+    </div>
+</div>
+<div class="Row">
+    <div class="Cell">
+        <table style="border-collapse: collapse; width: 400px">
+            <tr style="width: 150px;">
+                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef;">
+                    <b>Soil Test Method</b>
+                </td>
+                <td style="border: 1px solid black; padding:5px; font-size:9px; width: 250px">
+                    <b>@Model.testMethod</b>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+        <table style="border-collapse: collapse; width: 100%">
+            <tr>
+                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; width:200px">
+                    <b>Field</b>
+                </td>
+                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; width: 100px">
+                    <b>Sampling Date</b>
+                </td>
+                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef;">
+                    <b>@Model.year Crops</b>
+                </td>
+                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; text-align:center; width: 80px">
+                    <b>pH</b>
+                </td>
+                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; text-align:center; width: 100px">
+                    <b>NO<sub>3</sub>-N (ppm)</b>
+                </td>
+                <td colspan="2" style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; text-align:center; width: 120px">
+                    <b>P<sub>2</sub>O<sub>5</sub> (ppm)</b>
+                </td>
+                <td colspan="2" style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; text-align:center; width: 120px">
+                    <b>K<sub>2</sub>O (ppm)</b>
+                </td>
+            </tr>
+            @foreach (var test in Model.tests)
+            {
+                <tr>
+                    <td style="border: 1px solid black; padding:5px; font-size:9px; vertical-align:top">
+                        @test.fieldName
+                    </td>
+                    <td style="border: 1px solid black; padding:5px; font-size:9px; vertical-align:top">
+                        @test.sampleDate
+                    </td>
+                    <td style="border: 1px solid black; padding:5px; font-size:9px; vertical-align:top;">
+                        <span style="white-space: pre-line">@test.fieldCrops</span>
+                    </td>
+                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                        @test.pH
+                    </td>
+                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                        @test.nitrogen
+                    </td>
+                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                        @test.phosphorous
+                    </td>
+                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                        @test.phosphorousRange
+                    </td>
+                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                        @test.potassium
+                    </td>
+                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                        @test.potassiumRange
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
 </div>

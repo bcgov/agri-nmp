@@ -404,7 +404,59 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderSummary()
         {
-            ReportViewModel rvm = new ReportViewModel();
+            string crpName = string.Empty;
+
+            ReportSummaryViewModel rvm = new ReportSummaryViewModel();
+
+            rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "Not Specified" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
+            rvm.year = _ud.FarmDetails().year;
+
+            FarmDetails fd = _ud.FarmDetails();
+
+            rvm.tests = new List<ReportSummaryTest>();
+
+            List<Field> flds = _ud.GetFields();
+
+            foreach (var m in flds)
+            {
+                ReportSummaryTest dc = new ReportSummaryTest();
+                dc.fieldName = m.fieldName;
+                if (m.soilTest != null)
+                {
+                    dc.sampleDate = m.soilTest.sampleDate.ToString("MMM-yyyy");
+                    dc.nitrogen = m.soilTest.valNO3H.ToString();
+                    dc.phosphorous = m.soilTest.ValP.ToString();
+                    dc.potassium = m.soilTest.valK.ToString();
+                    dc.pH = m.soilTest.valPH.ToString();
+                    dc.phosphorousRange = "???";
+                    dc.potassiumRange = "???"; ;
+                }
+                else
+                {
+                    DefaultSoilTest dt = _sd.GetDefaultSoilTest();
+
+                    dc.sampleDate = "Default Values";
+                    dc.nitrogen = dt.nitrogen.ToString();
+                    dc.phosphorous = dt.phosphorous.ToString();
+                    dc.potassium = dt.potassium.ToString();
+                    dc.pH = dt.pH.ToString();
+                    dc.phosphorousRange = "???";
+                    dc.potassiumRange = "???"; ;
+                }
+                dc.fieldCrops = null;
+
+                List<FieldCrop> crps = _ud.GetFieldCrops(m.fieldName);
+                if(crps != null)
+                {
+                    foreach(var c in crps)
+                    {
+                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther;
+                        dc.fieldCrops = string.IsNullOrEmpty(dc.fieldCrops) ? crpName : dc.fieldCrops + "\n" + crpName;
+                    }
+                }
+                rvm.tests.Add(dc);
+            }
+
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSummary.cshtml", rvm);
 
@@ -466,6 +518,16 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+        public async Task<IActionResult> PrintSummary()
+        {
+            FileContentResult result = null;
+
+            string reportSummary = await RenderSummary();
+
+            result = await PrintReportAsync(reportSummary, false);
+
+            return result;
+        }
         public async Task<IActionResult> PrintFonts()
         {
             FileContentResult result = null;
@@ -520,7 +582,7 @@ namespace SERVERAPI.Controllers
                 string rawdata = "<!DOCTYPE html>" +
                     "<html>" +
                     reportHeader +
-                    //"<body>" +
+                    "<body>" +
                     //"<div style='display: table; width: 100%'>" +
                     //"<div style='display: table-row-group; width: 100%'>" +
                     content +
