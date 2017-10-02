@@ -351,6 +351,10 @@
         NeedRefresh();
     });
 
+    $(document).on('change', '#ddlFertRate', function () {
+        NeedRefresh();
+    });
+
     $(document).on('propertychange input paste', '#avail', function () {
         NeedRefresh();
     });
@@ -400,6 +404,10 @@
     });
 
     $(document).on('change', '#coverNo', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#density', function () {
         NeedRefresh();
     });
 

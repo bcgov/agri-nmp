@@ -41,10 +41,9 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
         <form asp-controller="Manure" asp-action="Manure" method="post">
-            <br />
-            <br />
-            <br />
-            <br />
+            <div id="compost">
+                @await Component.InvokeAsync("Compost")
+            </div>
             <div class="form-box-submit">
                 <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("SoilTest", "Soil" )';" />
                 <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';" />

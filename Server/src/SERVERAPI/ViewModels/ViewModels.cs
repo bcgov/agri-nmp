@@ -78,10 +78,23 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Material Name")]
         [Required]
         public string materialName { get; set; }
-        [Display(Name = "Comments")]
+        public int selManOption { get; set; }
+        public List<Models.StaticData.SelectListItem> manOptions { get; set; }
         public string act { get; set; }
+        [Display(Name = "Material Name")]
+        public string manureName { get; set; }
+        [Display(Name = "Moisture (%)")]
+        public string moisture { get; set; }
+        [Display(Name = "N (%)")]
+        public string nitrogen { get; set; }
+        [Display(Name = "NH4-N (ppm)")]
+        public string ammonia { get; set; }
+        [Display(Name = "P (%)")]
+        public string phosphorous { get; set; }
+        [Display(Name = "K (%)")]
+        public string potassium { get; set; }
     }
-        public class FileLoadViewModel
+    public class FileLoadViewModel
     {
         [Display(Name = "File Name")]
         public string fileName { get; set; }

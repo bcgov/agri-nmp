@@ -25,6 +25,7 @@ namespace SERVERAPI.Models
     {
         public string year { get; set; }
         public List<Field> fields { get; set; }
+        public List<FarmManure> farmManures { get; set; }
 
     }
     public class Field
@@ -46,6 +47,7 @@ namespace SERVERAPI.Models
     public class NutrientManure
     {
         public int id { get; set; }
+        public bool custom { get; set; }
         public string manureId { get; set; }
         public string applicationId { get; set; }
         public string unitId { get; set; }
@@ -107,6 +109,21 @@ namespace SERVERAPI.Models
         public decimal valPH { get; set; }
         public int ConvertedKelownaP { get; set; }
         public int ConvertedKelownaK { get; set; }
+    }
+    public class FarmManure
+    {
+        public int id { get; set; }
+        public int manureId { get; set; }
+        public string name { get; set; }
+        public string manure_class { get; set; }
+        public string solid_liquid { get; set; }
+        public string moisture { get; set; }
+        public decimal nitrogen { get; set; }
+        public int ammonia { get; set; }
+        public decimal phosphorous { get; set; }
+        public decimal potassium { get; set; }
+        public int dmid { get; set; }
+        public int nminerizationid { get; set; }
     }
 }
 
