@@ -14,11 +14,13 @@ namespace SERVERAPI.ViewComponents
     {
         private IHostingEnvironment _env;
         private UserData _ud;
+        private Models.Impl.StaticData _sd;
 
-        public Compost(IHostingEnvironment env, UserData ud)
+        public Compost(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;
             _ud = ud;
+            _sd = sd;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -26,21 +28,31 @@ namespace SERVERAPI.ViewComponents
             return View(await GetCompostAsync());
         }
 
-        private Task<FieldsViewModel> GetCompostAsync()
+        private Task<CompostViewModel> GetCompostAsync()
         {
-            FieldsViewModel fvm = new FieldsViewModel();
-            fvm.fields = new List<Field>();
+            CompostViewModel fvm = new CompostViewModel();
+            fvm.composts = new List<FarmManure>();
 
-            //List<FarmManure> compostList = _ud.GetFields();
+            List<FarmManure> compostList = _ud.GetFarmManures();
 
-            //foreach (var f in fldList)
-            //{
-            //    Field nf = new Field();
-            //    nf.fieldName = f.fieldName;
-            //    nf.area = f.area;
-            //    nf.comment = f.comment;
-            //    fvm.fields.Add(nf);
-            //}
+            foreach (var f in compostList)
+            {
+                if (f.manureId.HasValue)
+                {
+                    Models.StaticData.Manure man = _sd.GetManure(f.manureId.Value.ToString());
+                    f.ammonia = man.ammonia;
+                    f.dmid = man.dmid;
+                    f.manure_class = man.manure_class;
+                    f.moisture = man.moisture;
+                    f.name = man.name;
+                    f.nitrogen = man.nitrogen;
+                    f.nminerizationid = man.nminerizationid;
+                    f.phosphorous = man.phosphorous;
+                    f.potassium = man.potassium;
+                    f.solid_liquid = man.solid_liquid;
+                }
+                fvm.composts.Add(f);
+            }
 
             return Task.FromResult(fvm);
         }

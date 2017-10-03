@@ -554,5 +554,58 @@ namespace SERVERAPI.Models.Impl
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
+        public FarmManure GetFarmManure(int id)
+        {
+            FarmManure fm = new FarmManure();
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+
+            if (yd.farmManures == null)
+            {
+                yd.farmManures = new List<FarmManure>();
+            }
+
+            fm = yd.farmManures.FirstOrDefault(c => c.id == id);
+
+            return fm;
+        }
+
+        public List<FarmManure> GetFarmManures()
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+
+            if (yd.farmManures == null)
+            {
+                yd.farmManures = new List<FarmManure>();
+            }
+
+            return yd.farmManures;
+        }
+
+        public void AddFarmManure(FarmManure newManure)
+        {
+            int nextId = 1;
+
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+
+            if (yd.farmManures == null)
+            {
+                yd.farmManures = new List<FarmManure>();
+            }
+
+            foreach (var f in yd.farmManures)
+            {
+                nextId = nextId <= f.id ? f.id + 1 : nextId;
+            }
+            newManure.id = nextId;
+
+            yd.farmManures.Add(newManure);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
     }
 }

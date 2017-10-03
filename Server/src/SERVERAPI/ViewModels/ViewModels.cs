@@ -73,15 +73,14 @@ namespace SERVERAPI.ViewModels
         public string userDataField { get; set; }
         public string target { get; set; }
     }
-    public class ManureDetailViewModel
+    public class CompostDetailViewModel
     {
-        [Display(Name = "Material Name")]
-        [Required]
-        public string materialName { get; set; }
+        public string title { get; set; }
+        public int? id { get; set; }
         public int selManOption { get; set; }
         public List<Models.StaticData.SelectListItem> manOptions { get; set; }
         public string act { get; set; }
-        [Display(Name = "Material Name")]
+        [Display(Name = "Material Type")]
         public string manureName { get; set; }
         [Display(Name = "Moisture (%)")]
         public string moisture { get; set; }
@@ -93,6 +92,12 @@ namespace SERVERAPI.ViewModels
         public string phosphorous { get; set; }
         [Display(Name = "K (%)")]
         public string potassium { get; set; }
+        [Display(Name = "NO3-N (ppm)")]
+        public string nitrate { get; set; }
+        public bool bookValue { get; set; }
+        public bool onlyCustom { get; set; }
+        public bool compost { get; set; }
+        public string buttonPressed { get; set; }
     }
     public class FileLoadViewModel
     {

@@ -113,7 +113,7 @@ namespace SERVERAPI.Models
     public class FarmManure
     {
         public int id { get; set; }
-        public int manureId { get; set; }
+        public int? manureId { get; set; }
         public string name { get; set; }
         public string manure_class { get; set; }
         public string solid_liquid { get; set; }
