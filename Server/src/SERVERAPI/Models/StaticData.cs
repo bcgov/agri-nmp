@@ -166,7 +166,9 @@ namespace SERVERAPI.Models
             public int id { get; set; }
             public string name { get; set; }
             public string dry_liquid { get; set; }
+            public decimal conv_to_impgalperac { get; set; }
         }
+
         public class DensityUnits
         {
             public List<DensityUnit> densityUnits { get; set; }

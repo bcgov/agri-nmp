@@ -295,7 +295,6 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.FertilizerUnits units = new Models.StaticData.FertilizerUnits();
             units.fertilizerUnits = new List<Models.StaticData.FertilizerUnit>();
 
-            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizerunits"]["fertilizerunit"];
 
             foreach (var r in array)
@@ -303,7 +302,9 @@ namespace SERVERAPI.Models.Impl
                 Models.StaticData.FertilizerUnit unit = new Models.StaticData.FertilizerUnit();
                 unit.id = Convert.ToInt32(r["id"].ToString());
                 unit.name = r["name"].ToString();
-                unit.dry_liquid = r["dry_liquid"].ToString();
+                unit.dry_liquid = r["dry_liquid"].ToString();                
+                if (r["conv_to_impgalperac"] != null)
+                    unit.conv_to_impgalperac = Convert.ToDecimal(r["conv_to_impgalperac"].ToString());
                 units.fertilizerUnits.Add(unit);
             }
 
@@ -326,6 +327,26 @@ namespace SERVERAPI.Models.Impl
             }
 
             return unitsOptions;
+        }
+
+        public Models.StaticData.FertilizerUnit GetFertilizerUnit(int Id)
+        {
+            Models.StaticData.FertilizerUnit fertilizerUnit = new Models.StaticData.FertilizerUnit();
+            
+            JArray fertilizerUnits = (JArray)rss["agri"]["nmp"]["fertilizerunits"]["fertilizerunit"];
+
+            foreach (var r in fertilizerUnits)
+            {
+                if (r["id"].ToString() == Id.ToString())
+                {
+                    fertilizerUnit.id = Convert.ToInt32(r["id"].ToString());
+                    fertilizerUnit.name = r["name"].ToString();
+                    fertilizerUnit.dry_liquid = r["dry_liquid"].ToString();
+                    fertilizerUnit.conv_to_impgalperac = Convert.ToDecimal(r["conv_to_impgalperac"].ToString());
+                }
+            }
+
+            return fertilizerUnit;
         }
 
         public Models.StaticData.DensityUnits GetDensityUnits()
@@ -361,6 +382,25 @@ namespace SERVERAPI.Models.Impl
             }
 
             return unitsOptions;
+        }
+
+        public Models.StaticData.DensityUnit GetDensityUnit(int Id)
+        {
+            Models.StaticData.DensityUnit densityUnit = new Models.StaticData.DensityUnit();
+
+            JArray densityUnits = (JArray)rss["agri"]["nmp"]["densityunits"]["densityunit"];
+
+            foreach (var r in densityUnits)
+            {
+                if (r["id"].ToString() == Id.ToString())
+                {
+                    densityUnit.id = Convert.ToInt32(r["id"].ToString());
+                    densityUnit.name = r["name"].ToString();
+                    densityUnit.convfactor = Convert.ToDecimal(r["convfactor"].ToString());
+                }
+            }
+
+            return densityUnit;
         }
 
         public Models.StaticData.CropTypes GetCropTypes()

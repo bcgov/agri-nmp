@@ -844,22 +844,26 @@
           {
             "id": "3",
             "name": "L/ac",
-            "dry_liquid": "liquid"
+            "dry_liquid": "liquid",
+            "conv_to_impgalperac": "0.219969157"
           },
           {
             "id": "4",
             "name": "imp. gallons/ac",
-            "dry_liquid": "liquid"
+            "dry_liquid": "liquid",
+            "conv_to_impgalperac": "1"
           },
           {
             "id": "5",
             "name": "US gallons/ac",
-            "dry_liquid": "liquid"
+            "dry_liquid": "liquid",
+            "conv_to_impgalperac": "0.83267384"
           },
           {
             "id": "6",
             "name": "L/ha",
-            "dry_liquid": "liquid"
+            "dry_liquid": "liquid",
+            "conv_to_impgalperac": "0.0890183597"
           }
         ]
       },
