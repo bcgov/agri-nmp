@@ -597,6 +597,25 @@ namespace SERVERAPI.Controllers
                             }
                         }
 
+                        CalculateFertilizerNutrients calculateFertilizerNutrients = new CalculateFertilizerNutrients(_ud, _sd);
+                        calculateFertilizerNutrients.FertilizerId = fvm.selFertOption;
+                        calculateFertilizerNutrients.FertilizerType = fvm.fertilizerType;
+                        calculateFertilizerNutrients.ApplicationRate = Convert.ToDecimal(fvm.applRate);
+                        calculateFertilizerNutrients.ApplicationRateUnits = Convert.ToInt32(fvm.selRateOption);
+                        if (fvm.density != null)
+                            calculateFertilizerNutrients.Density = Convert.ToDecimal(fvm.density);
+                        calculateFertilizerNutrients.DensityUnits = Convert.ToInt16(fvm.selDenOption);
+                        calculateFertilizerNutrients.userN = Convert.ToInt16(fvm.valN);
+                        calculateFertilizerNutrients.userP2o5 = Convert.ToInt16(fvm.valP2o5);
+                        calculateFertilizerNutrients.userK2o = Convert.ToInt16(fvm.valK2o);
+                        calculateFertilizerNutrients.CustomFertilizer = fvm.manEntry;
+
+                        FertilizerNutrients fertilizerNutrients = calculateFertilizerNutrients.GetFertilizerNutrients();
+
+                        fvm.valN = fertilizerNutrients.fertilizer_N.ToString("#.##");
+                        fvm.valP2o5 = fertilizerNutrients.fertilizer_P2O5.ToString("#.##");
+                        fvm.valK2o = fertilizerNutrients.fertilizer_K2O.ToString("#.##");
+
                         fvm.btnText = fvm.id == null ? "Add to Field" : "Update Field";
                     }
                     else
