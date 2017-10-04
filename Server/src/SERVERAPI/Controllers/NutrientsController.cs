@@ -1173,6 +1173,8 @@ namespace SERVERAPI.Controllers
                                 calculateCropRequirementRemoval.crudeProtien = Convert.ToDecimal(cvm.crude);
                             calculateCropRequirementRemoval.coverCropHarvested = cvm.coverCropHarvested;
                             calculateCropRequirementRemoval.fieldName = cvm.fieldName;
+                            if (!string.IsNullOrEmpty(cvm.nCredit))
+                                calculateCropRequirementRemoval.nCredit = Convert.ToInt16(cvm.nCredit);
 
                             cropRequirementRemoval = calculateCropRequirementRemoval.GetCropRequirementRemoval();
 

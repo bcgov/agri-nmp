@@ -111,6 +111,17 @@ namespace SERVERAPI.Utility
                 chemicalBalances.balance_CropK2O += Convert.ToInt16(m.ltK2o);
             }
 
+            List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
+            foreach (var f in fertilizers)
+            {
+                chemicalBalances.balance_AgrN += Convert.ToInt16(f.fertN);
+                chemicalBalances.balance_AgrP2O5 += Convert.ToInt16(f.fertP2o5);
+                chemicalBalances.balance_AgrK2O += Convert.ToInt16(f.fertK2o);
+                chemicalBalances.balance_CropN += Convert.ToInt16(f.fertN);
+                chemicalBalances.balance_CropP2O5 += Convert.ToInt16(f.fertP2o5);
+                chemicalBalances.balance_CropK2O += Convert.ToInt16(f.fertK2o);
+            }
+
             List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
             foreach (var m in others)
             {

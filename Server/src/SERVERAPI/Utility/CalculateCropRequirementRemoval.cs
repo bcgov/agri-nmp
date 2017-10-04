@@ -28,6 +28,7 @@ namespace SERVERAPI.Utility
         public CropRequirementRemoval cropRequirementRemoval { get; set; }
         public bool? coverCropHarvested { get; set; }   
         public string fieldName { get; set; }
+        public int nCredit { get; set; }        
 
         public CropRequirementRemoval GetCropRequirementRemoval()
         {
@@ -169,6 +170,9 @@ namespace SERVERAPI.Utility
                         crr.N_Requirement = 0;
                     break;
             }
+
+            // if a previous crop has been ploughed dowm account for the N in the field (passed in as a credit)
+            crr.N_Requirement = crr.N_Requirement - nCredit;
 
             return crr;
         }
