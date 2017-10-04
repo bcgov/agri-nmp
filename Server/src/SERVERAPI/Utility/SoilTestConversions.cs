@@ -29,6 +29,9 @@ namespace SERVERAPI.Utility
                 //get soil test method selected by user
                 FarmDetails fd = _ud.FarmDetails();
 
+                if (fd.testingMethod == null)
+                    fd.testingMethod = _sd.GetDefaultSoilTestMethod();
+
                 SoilTestMethod soilTestMethod = _sd.GetSoilTestMethodById(fd.testingMethod);
 
                 if (soilTest.valPH >= 7.2M) //ph of 7.2 is a constant boundary
@@ -58,6 +61,9 @@ namespace SERVERAPI.Utility
             {
                 //get soil test method selected by user
                 FarmDetails fd = _ud.FarmDetails();
+
+                if (fd.testingMethod == null)
+                    fd.testingMethod = _sd.GetDefaultSoilTestMethod();
 
                 SoilTestMethod soilTestMethod = _sd.GetSoilTestMethodById(fd.testingMethod);
                 

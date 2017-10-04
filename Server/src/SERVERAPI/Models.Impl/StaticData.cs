@@ -1166,14 +1166,23 @@ namespace SERVERAPI.Models.Impl
 
             //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
 
-            dt.nitrogen = Convert.ToDecimal((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["nitrogen"]);
-            dt.phosphorous = Convert.ToDecimal((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["phosphorous"]);
-            dt.potassium = Convert.ToDecimal((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["potassium"]);
-            dt.pH = Convert.ToDecimal((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["ph"]);
-            dt.convertedKelownaP = Convert.ToInt32((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["convertedkelownap"]);
-            dt.convertedKelownaK = Convert.ToInt32((string)rss["agri"]["nmp"]["defaults"]["soiltest"]["convertedkelownak"]);
+            dt.nitrogen = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestNitrogen"]);
+            dt.phosphorous = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
+            dt.potassium = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);
+            dt.pH = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestpH"]);
+            dt.convertedKelownaP = Convert.ToInt32((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
+            dt.convertedKelownaK = Convert.ToInt32((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);
 
             return dt;
+        }
+
+        public string GetDefaultSoilTestMethod()
+        {
+            Models.StaticData.DefaultSoilTest dt = new Models.StaticData.DefaultSoilTest();
+
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+
+            return (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMethodId"];
         }
 
         public string SoilTestRating(string chem, decimal value)
