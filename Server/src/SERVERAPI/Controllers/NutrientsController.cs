@@ -614,9 +614,9 @@ namespace SERVERAPI.Controllers
 
                         FertilizerNutrients fertilizerNutrients = calculateFertilizerNutrients.GetFertilizerNutrients();
 
-                        fvm.calcN = fertilizerNutrients.fertilizer_N.ToString("#.##");
-                        fvm.calcP2o5 = fertilizerNutrients.fertilizer_P2O5.ToString("#.##");
-                        fvm.calcK2o = fertilizerNutrients.fertilizer_K2O.ToString("#.##");
+                        fvm.valN = Convert.ToInt32(fertilizerNutrients.fertilizer_N).ToString();
+                        fvm.valP2o5 = Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5).ToString();
+                        fvm.valK2o = Convert.ToInt32(fertilizerNutrients.fertilizer_K2O).ToString();
 
                         fvm.btnText = fvm.id == null ? "Add to Field" : "Update Field";
                     }
