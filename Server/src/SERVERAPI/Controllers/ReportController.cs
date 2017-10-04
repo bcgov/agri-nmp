@@ -214,6 +214,7 @@ namespace SERVERAPI.Controllers
                             if (ftyp.custom)
                             {
                                 fertilizerName = ftyp.dry_liquid == "dry" ? "Custom (Dry)" : "Custom (Liquid)";
+                                fertilizerName = fertilizerName + ft.customN.ToString() + "-" + ft.customP2o5.ToString() + "-" + ft.customK2o.ToString();
                                 rfn.reqN = ft.fertN;
                                 rfn.reqP = ft.fertP2o5;
                                 rfn.reqK = ft.fertK2o;

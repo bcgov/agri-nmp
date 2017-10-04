@@ -614,9 +614,9 @@ namespace SERVERAPI.Controllers
 
                         FertilizerNutrients fertilizerNutrients = calculateFertilizerNutrients.GetFertilizerNutrients();
 
-                        fvm.valN = Convert.ToInt32(fertilizerNutrients.fertilizer_N).ToString();
-                        fvm.valP2o5 = Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5).ToString();
-                        fvm.valK2o = Convert.ToInt32(fertilizerNutrients.fertilizer_K2O).ToString();
+                        fvm.calcN = Convert.ToInt32(fertilizerNutrients.fertilizer_N).ToString();
+                        fvm.calcP2o5 = Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5).ToString();
+                        fvm.calcK2o = Convert.ToInt32(fertilizerNutrients.fertilizer_K2O).ToString();
 
                         fvm.btnText = fvm.id == null ? "Add to Field" : "Update Field";
                     }
@@ -639,7 +639,7 @@ namespace SERVERAPI.Controllers
                                 customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null,
                                 fertN = Convert.ToDecimal(fvm.calcN),
                                 fertP2o5 = Convert.ToDecimal(fvm.calcP2o5),
-                                fertK2o = Convert.ToDecimal(fvm.calcP2o5),
+                                fertK2o = Convert.ToDecimal(fvm.calcK2o),
                                 liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0,
                                 liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0
                             };
@@ -660,7 +660,7 @@ namespace SERVERAPI.Controllers
                             nf.customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null;
                             nf.fertN = Convert.ToDecimal(fvm.calcN);
                             nf.fertP2o5 = Convert.ToDecimal(fvm.calcP2o5);
-                            nf.fertK2o = Convert.ToDecimal(fvm.calcP2o5);
+                            nf.fertK2o = Convert.ToDecimal(fvm.calcK2o);
                             nf.liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0;
                             nf.liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0;
 

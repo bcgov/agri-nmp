@@ -203,75 +203,98 @@ namespace SERVERAPI.Controllers
                 {
                     if(!cvm.bookValue)
                     {
-                        if(string.IsNullOrEmpty(cvm.moisture))
+                        if (string.IsNullOrEmpty(cvm.moisture))
                         {
                             ModelState.AddModelError("moisture", "Required.");
-                            return View(cvm);
                         }
-                        if (!Decimal.TryParse(cvm.moisture, out userMoisture))
+                        else
                         {
-                            ModelState.AddModelError("moisture", "Invalid.");
-                            return View(cvm);
-                        }
-                        if (userMoisture < 0 || userMoisture > 100)
-                        {
-                            ModelState.AddModelError("moisture", "Invalid.");
-                            return View(cvm);
+                            if (!Decimal.TryParse(cvm.moisture, out userMoisture))
+                            {
+                                ModelState.AddModelError("moisture", "Invalid.");
+                            }
+                            else
+                            {
+                                if (userMoisture < 0 || userMoisture > 100)
+                                {
+                                    ModelState.AddModelError("moisture", "Invalid.");
+                                }
+                            }
                         }
                         if (string.IsNullOrEmpty(cvm.nitrogen))
                         {
                             ModelState.AddModelError("nitrogen", "Required.");
-                            return View(cvm);
                         }
-                        if (!Decimal.TryParse(cvm.nitrogen, out userNitrogen))
+                        else
                         {
-                            ModelState.AddModelError("nitrogen", "Invalid.");
-                            return View(cvm);
+                            if (!Decimal.TryParse(cvm.nitrogen, out userNitrogen))
+                            {
+                                ModelState.AddModelError("nitrogen", "Invalid.");
+                            }
                         }
                         if (string.IsNullOrEmpty(cvm.ammonia))
                         {
                             ModelState.AddModelError("ammonia", "Required.");
-                            return View(cvm);
                         }
-                        if (!Decimal.TryParse(cvm.ammonia, out userAmmonia))
+                        else
                         {
-                            ModelState.AddModelError("ammonia", "Invalid.");
-                            return View(cvm);
+                            if (!Decimal.TryParse(cvm.ammonia, out userAmmonia))
+                            {
+                                ModelState.AddModelError("ammonia", "Invalid.");
+                            }
                         }
                         if (string.IsNullOrEmpty(cvm.phosphorous))
                         {
                             ModelState.AddModelError("phosphorous", "Required.");
-                            return View(cvm);
                         }
-                        if (!Decimal.TryParse(cvm.phosphorous, out userPhosphorous))
+                        else
                         {
-                            ModelState.AddModelError("phosphorous", "Invalid.");
-                            return View(cvm);
+                            if (!Decimal.TryParse(cvm.phosphorous, out userPhosphorous))
+                            {
+                                ModelState.AddModelError("phosphorous", "Invalid.");
+                            }
                         }
                         if (string.IsNullOrEmpty(cvm.potassium))
                         {
                             ModelState.AddModelError("potassium", "Required.");
-                            return View(cvm);
                         }
-                        if (!Decimal.TryParse(cvm.potassium, out userPotassium))
+                        else
                         {
-                            ModelState.AddModelError("potassium", "Invalid.");
-                            return View(cvm);
+                            if (!Decimal.TryParse(cvm.potassium, out userPotassium))
+                            {
+                                ModelState.AddModelError("potassium", "Invalid.");
+                            }
                         }
                         if(cvm.compost)
                         {
                             if (string.IsNullOrEmpty(cvm.nitrate))
                             {
                                 ModelState.AddModelError("nitrate", "Required.");
-                                return View(cvm);
                             }
-                            if (!Decimal.TryParse(cvm.nitrate, out userNitrate))
+                            else
                             {
-                                ModelState.AddModelError("nitrate", "Invalid.");
-                                return View(cvm);
+                                if (!Decimal.TryParse(cvm.nitrate, out userNitrate))
+                                {
+                                    ModelState.AddModelError("nitrate", "Invalid.");
+                                }
                             }
                         }
                     }
+
+                    List<FarmManure> manures = _ud.GetFarmManures();
+                    foreach(var m in manures)
+                    {
+                        if(m.customized &&
+                           m.name == cvm.manureName)
+                        {
+                            ModelState.AddModelError("manureName", "Descriptions must be unique.");
+                            break;
+                        }
+                    }
+
+                    if (!ModelState.IsValid)
+                        return View(cvm);
+
                     if (cvm.id == null)
                     {
                         FarmManure fm = new FarmManure();

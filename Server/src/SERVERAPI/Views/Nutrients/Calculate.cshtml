@@ -411,6 +411,18 @@
         NeedRefresh();
     });
 
+    $(document).on('change', '#valN', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#valP', function () {
+        NeedRefresh();
+    });
+
+    $(document).on('change', '#valK', function () {
+        NeedRefresh();
+    });
+
 
     function NeedRefresh() {
         $("#ok_button").html('Calculate');
