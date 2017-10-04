@@ -318,7 +318,7 @@ namespace SERVERAPI.Controllers
                             fm.nminerizationid = man.nminerizationid;
                             fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
                             fm.potassium = Convert.ToDecimal(cvm.potassium);
-                            fm.nitrate = Convert.ToDecimal(cvm.nitrate);
+                            fm.nitrate = cvm.compost ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                             fm.solid_liquid = man.solid_liquid;
                         }
 
@@ -351,6 +351,7 @@ namespace SERVERAPI.Controllers
                             fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
                             fm.potassium = Convert.ToDecimal(cvm.potassium);
                             fm.solid_liquid = man.solid_liquid;
+                            fm.nitrate = cvm.compost ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                         }
 
                         _ud.UpdateFarmManure(fm);

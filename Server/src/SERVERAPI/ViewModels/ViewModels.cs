@@ -307,8 +307,23 @@ namespace SERVERAPI.ViewModels
     public class ReportSourcesDetail
     {
         public string nutrientName { get; set; }
-        public decimal nutrientAmount { get; set; }
+        public string nutrientAmount { get; set; }
         public string nutrientUnit { get; set; }
+    }
+    public class ReportAnalysisViewModel
+    {
+        public List<ReportAnalysisDetail> details { get; set; }
+    }
+    public class ReportAnalysisDetail
+    {
+        public string manureName { get; set; }
+        public string sampleDate { get; set; }
+        public string moisture { get; set; }
+        public string ammonia { get; set; }
+        public string nitrogen { get; set; }
+        public string phosphorous { get; set; }
+        public string potassium { get; set; }
+        public string nitrate { get; set; }
     }
     public class ReportSummaryViewModel
     {

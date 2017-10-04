@@ -1,5 +1,52 @@
-﻿<div style="display: table-row;">
-    <div style="display: table-cell;">
-        Nutrient Source Analysis
+﻿@model SERVERAPI.ViewModels.ReportAnalysisViewModel
+
+<div class="Row">
+    <div class="Cell">
+        <h2>Nutrient Source Analysis</h2>
+    </div>
+</div>
+<div class="Row">
+    <div class="Cell">
+        <table style="border-collapse: collapse;">
+            <tr style="padding-top:20px; padding-bottom:20px">
+                <td style="padding-top:10px; padding-bottom:10px; background-color:#efefef; border: 1px solid black;">
+                    <b>Material Type</b>
+                </td>
+                <td style="padding-top:10px; padding-bottom:10px; background-color:#efefef; text-align:center; border: 1px solid black">
+                    <b>Sampling Date</b>
+                </td>
+                <td style="padding-top:10px; padding-bottom:10px; background-color:#efefef; text-align:center; border: 1px solid black">
+                    <b>Moisture (%)</b>
+                </td>
+                <td style="padding-top:10px; padding-bottom:10px; background-color:#efefef; text-align:center; border: 1px solid black">
+                    <b>NH<sub>4</sub>-N (ppm)</b>
+                </td>
+                <td style="padding-top:10px; padding-bottom:10px; background-color:#efefef; text-align:center; border: 1px solid black">
+                    <b>Total N (%)</b>
+                </td>
+                <td style="padding-top:10px; padding-bottom:10px; background-color:#efefef; text-align:center; border: 1px solid black">
+                    <b>P (%)</b>
+                </td>
+                <td style="padding-top:10px; padding-bottom:10px; background-color:#efefef; text-align:center; border: 1px solid black">
+                    <b>K (%)</b>
+                </td>
+                <td style="padding-top:10px; padding-bottom:10px; background-color:#efefef; text-align:center; border: 1px solid black">
+                    <b>NO<sub>3</sub>N (ppm)</b>
+                </td>
+            </tr>
+            @foreach (var n in Model.details)
+            {
+                <tr>
+                    <td style="width:300px; border: 1px solid black; padding:5px">@n.manureName</td>
+                    <td style="text-align:right; width:80px; border: 1px solid black; padding:5px"></td>
+                    <td style="text-align:center; width:80px; border: 1px solid black; padding:5px">@n.moisture</td>
+                    <td style="text-align:center; width:80px; border: 1px solid black; padding:5px">@n.ammonia</td>
+                    <td style="text-align:center; width:80px; border: 1px solid black; padding:5px">@n.nitrogen</td>
+                    <td style="text-align:center; width:80px; border: 1px solid black; padding:5px">@n.phosphorous</td>
+                    <td style="text-align:center; width:80px; border: 1px solid black; padding:5px">@n.potassium</td>
+                    <td style="text-align:center; width:80px; border: 1px solid black; padding:5px">@n.nitrate</td>
+                </tr>
+            }
+        </table>
     </div>
 </div>

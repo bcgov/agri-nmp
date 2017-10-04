@@ -213,7 +213,7 @@ namespace SERVERAPI.Controllers
 
                             if (ftyp.custom)
                             {
-                                fertilizerName = ftyp.dry_liquid == "dry" ? "Custom (Dry)" : "Custom (Liquid)";
+                                fertilizerName = ftyp.dry_liquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
                                 fertilizerName = fertilizerName + ft.customN.ToString() + "-" + ft.customP2o5.ToString() + "-" + ft.customK2o.ToString();
                                 rfn.reqN = ft.fertN;
                                 rfn.reqP = ft.fertP2o5;
@@ -356,7 +356,38 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderAnalysis()
         {
-            ReportViewModel rvm = new ReportViewModel();
+            ReportAnalysisViewModel rvm = new ReportAnalysisViewModel();
+            rvm.details = new List<ReportAnalysisDetail>();
+
+            List<FarmManure> manures = _ud.GetFarmManures();
+
+            foreach(var m in manures)
+            {
+                ReportAnalysisDetail rd = new ReportAnalysisDetail();
+
+                if (m.customized)
+                {
+                    rd.manureName = m.name;
+                    rd.moisture = m.moisture.ToString();
+                    rd.ammonia = m.ammonia.ToString();
+                    rd.nitrogen = m.nitrogen.ToString();
+                    rd.phosphorous = m.phosphorous.ToString();
+                    rd.potassium = m.potassium.ToString();
+                    rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString() : "n/a";
+                }
+                else
+                {
+                    Manure man = _sd.GetManure(m.manureId.ToString());
+                    rd.manureName = man.name;
+                    rd.moisture = man.moisture;
+                    rd.ammonia = man.ammonia.ToString();
+                    rd.nitrogen = man.nitrogen.ToString();
+                    rd.phosphorous = man.phosphorous.ToString();
+                    rd.potassium = man.potassium.ToString();
+                    rd.nitrate = "n/a";
+                }
+                rvm.details.Add(rd);
+            }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportAnalysis.cshtml", rvm);
 
@@ -517,6 +548,16 @@ namespace SERVERAPI.Controllers
             string reportSources = await RenderSources();
 
             result = await PrintReportAsync(reportSources, false);
+
+            return result;
+        }
+        public async Task<IActionResult> PrintAnalysis()
+        {
+            FileContentResult result = null;
+
+            string reportAnalysis = await RenderAnalysis();
+
+            result = await PrintReportAsync(reportAnalysis, false);
 
             return result;
         }

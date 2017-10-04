@@ -128,7 +128,7 @@ namespace SERVERAPI.Models
         public decimal potassium { get; set; }
         public int dmid { get; set; }
         public int nminerizationid { get; set; }
-        public decimal nitrate { get; set; }
+        public decimal? nitrate { get; set; }
     }
 }
 
