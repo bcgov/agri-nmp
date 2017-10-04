@@ -92,7 +92,6 @@ namespace SERVERAPI.Controllers
             mvm.stdN = true;
             mvm.stdAvail = true;
 
-            //var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             ManureDetailsSetup(ref mvm);
 
             if(id != null)

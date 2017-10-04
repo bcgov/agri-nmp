@@ -97,6 +97,12 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult CompostDetails(CompostDetailViewModel cvm)
         {
+            decimal userNitrogen = 0;
+            decimal userAmmonia = 0;
+            decimal userPhosphorous = 0;
+            decimal userPotassium = 0;
+            decimal userMoisture = 0;
+            decimal userNitrate = 0;
 
             CompostDetailsSetup(ref cvm);
 
@@ -195,6 +201,77 @@ namespace SERVERAPI.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    if(!cvm.bookValue)
+                    {
+                        if(string.IsNullOrEmpty(cvm.moisture))
+                        {
+                            ModelState.AddModelError("moisture", "Required.");
+                            return View(cvm);
+                        }
+                        if (!Decimal.TryParse(cvm.moisture, out userMoisture))
+                        {
+                            ModelState.AddModelError("moisture", "Invalid.");
+                            return View(cvm);
+                        }
+                        if (userMoisture < 0 || userMoisture > 100)
+                        {
+                            ModelState.AddModelError("moisture", "Invalid.");
+                            return View(cvm);
+                        }
+                        if (string.IsNullOrEmpty(cvm.nitrogen))
+                        {
+                            ModelState.AddModelError("nitrogen", "Required.");
+                            return View(cvm);
+                        }
+                        if (!Decimal.TryParse(cvm.nitrogen, out userNitrogen))
+                        {
+                            ModelState.AddModelError("nitrogen", "Invalid.");
+                            return View(cvm);
+                        }
+                        if (string.IsNullOrEmpty(cvm.ammonia))
+                        {
+                            ModelState.AddModelError("ammonia", "Required.");
+                            return View(cvm);
+                        }
+                        if (!Decimal.TryParse(cvm.ammonia, out userAmmonia))
+                        {
+                            ModelState.AddModelError("ammonia", "Invalid.");
+                            return View(cvm);
+                        }
+                        if (string.IsNullOrEmpty(cvm.phosphorous))
+                        {
+                            ModelState.AddModelError("phosphorous", "Required.");
+                            return View(cvm);
+                        }
+                        if (!Decimal.TryParse(cvm.phosphorous, out userPhosphorous))
+                        {
+                            ModelState.AddModelError("phosphorous", "Invalid.");
+                            return View(cvm);
+                        }
+                        if (string.IsNullOrEmpty(cvm.potassium))
+                        {
+                            ModelState.AddModelError("potassium", "Required.");
+                            return View(cvm);
+                        }
+                        if (!Decimal.TryParse(cvm.potassium, out userPotassium))
+                        {
+                            ModelState.AddModelError("potassium", "Invalid.");
+                            return View(cvm);
+                        }
+                        if(cvm.compost)
+                        {
+                            if (string.IsNullOrEmpty(cvm.nitrate))
+                            {
+                                ModelState.AddModelError("nitrate", "Required.");
+                                return View(cvm);
+                            }
+                            if (!Decimal.TryParse(cvm.nitrate, out userNitrate))
+                            {
+                                ModelState.AddModelError("nitrate", "Invalid.");
+                                return View(cvm);
+                            }
+                        }
+                    }
                     if (cvm.id == null)
                     {
                         FarmManure fm = new FarmManure();
