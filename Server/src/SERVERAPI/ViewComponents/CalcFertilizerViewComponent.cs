@@ -23,10 +23,10 @@ namespace SERVERAPI.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
-            return View(await GetCropAsync(fldName));
+            return View(await GetFertilizerAsync(fldName));
         }
 
-        private Task<CalcFertilizerViewModel> GetCropAsync(string fldName)
+        private Task<CalcFertilizerViewModel> GetFertilizerAsync(string fldName)
         {
             string fertilizerName = string.Empty;
             CalcFertilizerViewModel fvm = new CalcFertilizerViewModel();
@@ -41,23 +41,21 @@ namespace SERVERAPI.ViewComponents
 
                 if(ft.custom)
                 {
-                    fertilizerName = ft.dry_liquid == "dry" ? "Custom (Dry)" : "Custom (Liquid)";
-                    dm.valN = f.fertN.Value.ToString();
-                    dm.valP = f.fertP2o5.Value.ToString();
-                    dm.valK = f.fertK2o.Value.ToString();
+                    fertilizerName = ft.dry_liquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
+                    fertilizerName = fertilizerName + f.customN.ToString() + "-" + f.customP2o5.ToString() + "-" + f.customK2o.ToString();
                 }
                 else
                 {
                     Fertilizer ff = _sd.GetFertilizer(f.fertilizerId.ToString());
                     fertilizerName = ff.name;
-                    dm.valN = ff.nitrogen.ToString();
-                    dm.valP = ff.phosphorous.ToString();
-                    dm.valK = ff.potassium.ToString();
                 }
 
                 dm.fldName = fldName;
                 dm.fertilizerId = f.id;
                 dm.fertilizerName = fertilizerName;
+                dm.valN = f.fertN.ToString();
+                dm.valP = f.fertP2o5.ToString();
+                dm.valK = f.fertK2o.ToString();
 
                 fvm.fldFertilizers.Add(dm);
             }

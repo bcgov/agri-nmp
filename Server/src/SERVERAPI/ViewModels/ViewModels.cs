@@ -77,6 +77,7 @@ namespace SERVERAPI.ViewModels
     {
         public string title { get; set; }
         public int? id { get; set; }
+        public string target { get; set; }
         public int selManOption { get; set; }
         public List<Models.StaticData.SelectListItem> manOptions { get; set; }
         public string act { get; set; }
@@ -208,6 +209,14 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Crop")]
         public string cropName { get; set; }
     }
+    public class CompostDeleteViewModel
+    {
+        public string act { get; set; }
+        public int id { get; set; }
+        public string target { get; set; }
+        [Display(Name = "Compost/Manure")]
+        public string manureName { get; set; }
+    }
     public class FertilizerDetailsViewModel
     {
         public int? id { get; set; }
@@ -238,6 +247,9 @@ namespace SERVERAPI.ViewModels
         public string valN { get; set; }
         public string valP2o5 { get; set; }
         public string valK2o { get; set; }
+        public string calcN { get; set; }
+        public string calcP2o5 { get; set; }
+        public string calcK2o { get; set; }
         public bool manEntry { get; set; }
         public string fertilizerType { get; set; }
         public string density { get; set; }

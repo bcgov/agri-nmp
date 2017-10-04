@@ -70,9 +70,12 @@ namespace SERVERAPI.Models
         public decimal applRate { get; set; }
         public DateTime? applDate { get; set; }
         public string applMethod { get; set; }
-        public decimal? fertN { get; set; }
-        public decimal? fertP2o5 { get; set; }
-        public decimal? fertK2o { get; set; }
+        public decimal? customN { get; set; }
+        public decimal? customP2o5 { get; set; }
+        public decimal? customK2o { get; set; }
+        public decimal fertN { get; set; }
+        public decimal fertP2o5 { get; set; }
+        public decimal fertK2o { get; set; }
         public decimal liquidDensity { get; set; }
         public int liquidDensityUnitId { get; set; }
     }
@@ -113,7 +116,8 @@ namespace SERVERAPI.Models
     public class FarmManure
     {
         public int id { get; set; }
-        public int? manureId { get; set; }
+        public bool customized { get; set; }
+        public int manureId { get; set; }
         public string name { get; set; }
         public string manure_class { get; set; }
         public string solid_liquid { get; set; }
@@ -124,6 +128,7 @@ namespace SERVERAPI.Models
         public decimal potassium { get; set; }
         public int dmid { get; set; }
         public int nminerizationid { get; set; }
+        public decimal nitrate { get; set; }
     }
 }
 

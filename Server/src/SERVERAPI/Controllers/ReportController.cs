@@ -214,12 +214,12 @@ namespace SERVERAPI.Controllers
                             if (ftyp.custom)
                             {
                                 fertilizerName = ftyp.dry_liquid == "dry" ? "Custom (Dry)" : "Custom (Liquid)";
-                                rfn.reqN = ft.fertN.Value;
-                                rfn.reqP = ft.fertP2o5.Value;
-                                rfn.reqK = ft.fertK2o.Value;
-                                rfn.remN = ft.fertN.Value;
-                                rfn.remP = ft.fertP2o5.Value;
-                                rfn.remK = ft.fertK2o.Value;
+                                rfn.reqN = ft.fertN;
+                                rfn.reqP = ft.fertP2o5;
+                                rfn.reqK = ft.fertK2o;
+                                rfn.remN = ft.fertN;
+                                rfn.remP = ft.fertP2o5;
+                                rfn.remK = ft.fertK2o;
                             }
                             else
                             {

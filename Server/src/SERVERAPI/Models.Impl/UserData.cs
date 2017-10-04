@@ -418,6 +418,9 @@ namespace SERVERAPI.Models.Impl
             nf.fertK2o = updtFert.fertK2o;
             nf.fertN = updtFert.fertN;
             nf.fertP2o5 = updtFert.fertP2o5;
+            nf.customN = updtFert.customN;
+            nf.customP2o5 = updtFert.customP2o5;
+            nf.customK2o = updtFert.customK2o;
             nf.liquidDensity = updtFert.liquidDensity;
             nf.liquidDensityUnitId = updtFert.liquidDensityUnitId;
 
@@ -605,6 +608,41 @@ namespace SERVERAPI.Models.Impl
             newManure.id = nextId;
 
             yd.farmManures.Add(newManure);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void UpdateFarmManure(FarmManure updtMan)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            FarmManure frm = yd.farmManures.FirstOrDefault(f => f.id == updtMan.id);
+
+            frm.ammonia = updtMan.ammonia;
+            frm.customized = updtMan.customized;
+            frm.dmid = updtMan.dmid;
+            frm.manureId = updtMan.manureId;
+            frm.manure_class = updtMan.manure_class;
+            frm.moisture = updtMan.moisture;
+            frm.name = updtMan.name;
+            frm.nitrate = updtMan.nitrate;
+            frm.nitrogen = updtMan.nitrogen;
+            frm.nminerizationid = updtMan.nminerizationid;
+            frm.phosphorous = updtMan.phosphorous;
+            frm.potassium = updtMan.potassium;
+            frm.solid_liquid = updtMan.solid_liquid;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+        public void DeleteFarmManure(int id)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            FarmManure fm = yd.farmManures.FirstOrDefault(f => f.id == id);
+
+            yd.farmManures.Remove(fm);
+
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
     }
