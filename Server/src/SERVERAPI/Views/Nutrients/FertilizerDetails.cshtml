@@ -87,6 +87,9 @@
                 {
                     <div class="form-group col-sm-4" style="margin:10px">
                         <div class="Table">
+                            <div class="Title">
+                                <p>Fertilizer Contents</p>
+                            </div>
                             <div class="Heading">
                                 <div class="Cell">
                                     <p>N</p>
@@ -125,6 +128,9 @@
                 {
                     <div class="form-group col-sm-4" style="margin:10px">
                         <div class="Table">
+                            <div class="Title">
+                                <p>Fertilizer Contents (%)</p>
+                            </div>
                             <div class="Heading">
                                 <div class="Cell">
                                     <p>N</p>
@@ -150,6 +156,36 @@
                         </div>
                     </div>
                 }
+                <div class="form-group col-sm-4" style="margin:10px">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Available Long Term (lb/ac)</p>
+                        </div>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
+                        </div>
+                        <div class="Row">
+                            <div class="Cell">
+                                <p>@Model.calcN</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.calcP2o5</p>
+                            </div>
+                            <div class="Cell">
+                                <p>@Model.calcK2o</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
         <div class="modal-footer">
@@ -165,6 +201,9 @@
         @Html.HiddenFor(x => x.valN)
         @Html.HiddenFor(x => x.valP2o5)
         @Html.HiddenFor(x => x.valK2o)
+        @Html.HiddenFor(x => x.calcN)
+        @Html.HiddenFor(x => x.calcP2o5)
+        @Html.HiddenFor(x => x.calcK2o)
         @Html.HiddenFor(x => x.stdDensity)
     </form>
 </div>

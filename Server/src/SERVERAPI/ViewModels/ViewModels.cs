@@ -247,6 +247,9 @@ namespace SERVERAPI.ViewModels
         public string valN { get; set; }
         public string valP2o5 { get; set; }
         public string valK2o { get; set; }
+        public string calcN { get; set; }
+        public string calcP2o5 { get; set; }
+        public string calcK2o { get; set; }
         public bool manEntry { get; set; }
         public string fertilizerType { get; set; }
         public string density { get; set; }

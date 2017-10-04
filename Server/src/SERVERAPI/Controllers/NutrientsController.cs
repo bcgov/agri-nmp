@@ -359,6 +359,9 @@ namespace SERVERAPI.Controllers
                 fvm.selRateOption = nf.applUnitId.ToString();
                 fvm.applMethod = nf.applMethod;
                 fvm.fertilizerType = ft.dry_liquid;
+                fvm.calcN = nf.fertN.ToString();
+                fvm.calcP2o5 = nf.fertP2o5.ToString();
+                fvm.calcK2o = nf.fertK2o.ToString();
                 if (nf.applDate.HasValue)
                 {
                     fvm.applDate = nf.applDate.HasValue ? nf.applDate.Value.ToString("MMM-yyyy") : "";
@@ -381,9 +384,9 @@ namespace SERVERAPI.Controllers
                 }
                 if(ft.custom)
                 {
-                    fvm.valN = nf.fertN.Value.ToString();
-                    fvm.valP2o5 = nf.fertP2o5.Value.ToString();
-                    fvm.valK2o = nf.fertK2o.Value.ToString();
+                    fvm.valN = nf.customN.Value.ToString();
+                    fvm.valP2o5 = nf.customP2o5.Value.ToString();
+                    fvm.valK2o = nf.customK2o.Value.ToString();
                     fvm.manEntry = true;
                 }
                 else
@@ -612,9 +615,9 @@ namespace SERVERAPI.Controllers
 
                         FertilizerNutrients fertilizerNutrients = calculateFertilizerNutrients.GetFertilizerNutrients();
 
-                        fvm.valN = fertilizerNutrients.fertilizer_N.ToString("#.##");
-                        fvm.valP2o5 = fertilizerNutrients.fertilizer_P2O5.ToString("#.##");
-                        fvm.valK2o = fertilizerNutrients.fertilizer_K2O.ToString("#.##");
+                        fvm.calcN = fertilizerNutrients.fertilizer_N.ToString("#.##");
+                        fvm.calcP2o5 = fertilizerNutrients.fertilizer_P2O5.ToString("#.##");
+                        fvm.calcK2o = fertilizerNutrients.fertilizer_K2O.ToString("#.##");
 
                         fvm.btnText = fvm.id == null ? "Add to Field" : "Update Field";
                     }
@@ -632,9 +635,12 @@ namespace SERVERAPI.Controllers
                                 applRate = Convert.ToDecimal(fvm.applRate),
                                 applDate = string.IsNullOrEmpty(fvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fvm.applDate),
                                 applMethod = fvm.applMethod,
-                                fertN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null,
-                                fertP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null,
-                                fertK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null,
+                                customN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null,
+                                customP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null,
+                                customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null,
+                                fertN = Convert.ToDecimal(fvm.calcN),
+                                fertP2o5 = Convert.ToDecimal(fvm.calcP2o5),
+                                fertK2o = Convert.ToDecimal(fvm.calcP2o5),
                                 liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0,
                                 liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0
                             };
@@ -650,9 +656,12 @@ namespace SERVERAPI.Controllers
                             nf.applRate = Convert.ToDecimal(fvm.applRate);
                             nf.applDate = string.IsNullOrEmpty(fvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fvm.applDate);
                             nf.applMethod = fvm.applMethod;
-                            nf.fertN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null;
-                            nf.fertP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null;
-                            nf.fertK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null;
+                            nf.customN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null;
+                            nf.customP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null;
+                            nf.customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null;
+                            nf.fertN = Convert.ToDecimal(fvm.calcN);
+                            nf.fertP2o5 = Convert.ToDecimal(fvm.calcP2o5);
+                            nf.fertK2o = Convert.ToDecimal(fvm.calcP2o5);
                             nf.liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0;
                             nf.liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0;
 

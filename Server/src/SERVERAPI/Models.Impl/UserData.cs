@@ -418,6 +418,9 @@ namespace SERVERAPI.Models.Impl
             nf.fertK2o = updtFert.fertK2o;
             nf.fertN = updtFert.fertN;
             nf.fertP2o5 = updtFert.fertP2o5;
+            nf.customN = updtFert.customN;
+            nf.customP2o5 = updtFert.customP2o5;
+            nf.customK2o = updtFert.customK2o;
             nf.liquidDensity = updtFert.liquidDensity;
             nf.liquidDensityUnitId = updtFert.liquidDensityUnitId;
 

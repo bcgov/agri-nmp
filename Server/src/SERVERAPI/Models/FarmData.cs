@@ -70,9 +70,12 @@ namespace SERVERAPI.Models
         public decimal applRate { get; set; }
         public DateTime? applDate { get; set; }
         public string applMethod { get; set; }
-        public decimal? fertN { get; set; }
-        public decimal? fertP2o5 { get; set; }
-        public decimal? fertK2o { get; set; }
+        public decimal? customN { get; set; }
+        public decimal? customP2o5 { get; set; }
+        public decimal? customK2o { get; set; }
+        public decimal fertN { get; set; }
+        public decimal fertP2o5 { get; set; }
+        public decimal fertK2o { get; set; }
         public decimal liquidDensity { get; set; }
         public int liquidDensityUnitId { get; set; }
     }
