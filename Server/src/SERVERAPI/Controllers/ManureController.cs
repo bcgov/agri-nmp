@@ -27,7 +27,7 @@ namespace SERVERAPI.Controllers
         {           
             return View();
         }
-        public IActionResult CompostDetails(int? id)
+        public IActionResult CompostDetails(int? id, string target)
         {
             //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
@@ -38,55 +38,38 @@ namespace SERVERAPI.Controllers
 
             if (id != null)
             {
-                //NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id.Value);
+                FarmManure fm = _ud.GetFarmManure(id.Value);
+                Models.StaticData.Manure man = _sd.GetManure(fm.manureId.ToString());
 
-                //mvm.selTypOption = nf.fertilizerTypeId.ToString();
-                //FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
-
-                //mvm.currUnit = ft.dry_liquid;
-                //mvm.selFertOption = ft.custom ? 1 : nf.fertilizerId;
-                //mvm.applRate = nf.applRate.ToString("#.##");
-                //mvm.selRateOption = nf.applUnitId.ToString();
-                //mvm.applMethod = nf.applMethod;
-                //mvm.fertilizerType = ft.dry_liquid;
-                //if (nf.applDate.HasValue)
-                //{
-                //    mvm.applDate = nf.applDate.HasValue ? nf.applDate.Value.ToString("MMM-yyyy") : "";
-                //}
-                //if (ft.dry_liquid == "liquid")
-                //{
-                //    mvm.density = nf.liquidDensity.ToString("#.##");
-                //    mvm.selDenOption = nf.liquidDensityUnitId;
-                //    if (!ft.custom)
-                //    {
-                //        if (mvm.density != _sd.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).value.ToString("#.##"))
-                //        {
-                //            mvm.stdDensity = false;
-                //        }
-                //        else
-                //        {
-                //            mvm.stdDensity = true;
-                //        }
-                //    }
-                //}
-                //if (ft.custom)
-                //{
-                //    mvm.valN = nf.fertN.Value.ToString();
-                //    mvm.valP2o5 = nf.fertP2o5.Value.ToString();
-                //    mvm.valK2o = nf.fertK2o.Value.ToString();
-                //    mvm.manEntry = true;
-                //}
-                //else
-                //{
-                //    Fertilizer ff = _sd.GetFertilizer(nf.fertilizerId.ToString());
-                //    mvm.valN = ff.nitrogen.ToString();
-                //    mvm.valP2o5 = ff.phosphorous.ToString();
-                //    mvm.valK2o = ff.potassium.ToString();
-                //    mvm.manEntry = false;
-                //}
+                if (!fm.customized)
+                {
+                    mvm.selManOption = man.id;
+                    mvm.ammonia = man.ammonia.ToString();
+                    mvm.manureName = man.name;
+                    mvm.moisture = man.moisture;
+                    mvm.nitrogen = man.nitrogen.ToString();
+                    mvm.phosphorous = man.phosphorous.ToString();
+                    mvm.potassium = man.potassium.ToString();
+                    mvm.bookValue = true;
+                    mvm.compost = false;
+                    mvm.onlyCustom = false;
+                }
+                else
+                {
+                    mvm.selManOption = man.id;
+                    mvm.ammonia = fm.ammonia.ToString();
+                    mvm.manureName = fm.name;
+                    mvm.moisture = fm.moisture;
+                    mvm.nitrogen = fm.nitrogen.ToString();
+                    mvm.phosphorous = fm.phosphorous.ToString();
+                    mvm.potassium = fm.potassium.ToString();
+                    mvm.nitrate = fm.nitrate.ToString();
+                    mvm.bookValue = false;
+                    mvm.compost = man.manure_class == "Compost" ? true : false;
+                    mvm.onlyCustom = (fm.manure_class == "Other" || fm.manure_class == "Compost") ? true : false;
+                }
             }
             else
-
             {
                 mvm.bookValue = true;
                 mvm.manureName = "  ";
@@ -96,6 +79,8 @@ namespace SERVERAPI.Controllers
                 mvm.phosphorous = "  ";
                 mvm.potassium = "  ";
                 mvm.nitrate = "  ";
+                mvm.compost = false;
+                mvm.onlyCustom = false;
             }
 
             CompostDetailsSetup(ref mvm);
@@ -174,16 +159,36 @@ namespace SERVERAPI.Controllers
                     {
                         Models.StaticData.Manure man = _sd.GetManure(cvm.selManOption.ToString());
                         cvm.onlyCustom = false;
-                        cvm.moisture = cvm.bookValue ? man.moisture.ToString() : "";
-                        cvm.nitrogen = man.nitrogen.ToString();
-                        cvm.ammonia = man.ammonia.ToString();
-                        cvm.nitrate = string.Empty;
-                        cvm.phosphorous = man.phosphorous.ToString();
-                        cvm.potassium = man.potassium.ToString();
-                        cvm.manureName = cvm.bookValue ? man.name : "Custom - " + man.name;
+                        if (cvm.bookValue)
+                        {
+                            cvm.moisture = cvm.bookValue ? man.moisture.ToString() : "";
+                            cvm.nitrogen = man.nitrogen.ToString();
+                            cvm.ammonia = man.ammonia.ToString();
+                            cvm.nitrate = string.Empty;
+                            cvm.phosphorous = man.phosphorous.ToString();
+                            cvm.potassium = man.potassium.ToString();
+                            cvm.manureName = man.name;
+                        }
+                        else
+                        {
+                            cvm.nitrogen = string.Empty;
+                            cvm.moisture = string.Empty;
+                            cvm.ammonia = string.Empty;
+                            cvm.nitrate = string.Empty;
+                            cvm.phosphorous = string.Empty;
+                            cvm.potassium = string.Empty;
+                            cvm.manureName = (!cvm.compost) ? "Custom - " + man.name + " - " : "Custom - " + man.solid_liquid + " - ";
+                        }
                     }
                     else
                     {
+                        cvm.nitrogen = string.Empty;
+                        cvm.moisture = string.Empty;
+                        cvm.ammonia = string.Empty;
+                        cvm.nitrate = string.Empty;
+                        cvm.phosphorous = string.Empty;
+                        cvm.potassium = string.Empty;
+                        cvm.manureName = string.Empty;
                     }
                     return View(cvm);
                 }
@@ -196,12 +201,46 @@ namespace SERVERAPI.Controllers
                         if (cvm.bookValue)
                         {
                             fm.manureId = cvm.selManOption;
+                            fm.customized = false;
                         }
                         else
                         {
                             Models.StaticData.Manure man = _sd.GetManure(cvm.selManOption.ToString());
 
-                            fm.manureId = (int?)null;
+                            fm.customized = true;
+                            fm.manureId = cvm.selManOption;
+                            fm.ammonia = Convert.ToInt32(cvm.ammonia);
+                            fm.dmid = man.dmid;
+                            fm.manure_class = man.manure_class;
+                            fm.moisture = cvm.moisture;
+                            fm.name = cvm.manureName;
+                            fm.nitrogen = Convert.ToDecimal(cvm.nitrogen);
+                            fm.nminerizationid = man.nminerizationid;
+                            fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
+                            fm.potassium = Convert.ToDecimal(cvm.potassium);
+                            fm.nitrate = Convert.ToDecimal(cvm.nitrate);
+                            fm.solid_liquid = man.solid_liquid;
+                        }
+
+
+                        _ud.AddFarmManure(fm);
+                    }
+                    else
+                    {
+                        FarmManure fm = _ud.GetFarmManure(cvm.id.Value);
+                        if (cvm.bookValue)
+                        {
+                            fm = new FarmManure();
+                            fm.id = cvm.id.Value;
+                            fm.manureId = cvm.selManOption;
+                            fm.customized = false;
+                        }
+                        else
+                        {
+                            Models.StaticData.Manure man = _sd.GetManure(cvm.selManOption.ToString());
+
+                            fm.customized = true;
+                            fm.manureId = cvm.selManOption;
                             fm.ammonia = Convert.ToInt32(cvm.ammonia);
                             fm.dmid = man.dmid;
                             fm.manure_class = man.manure_class;
@@ -214,30 +253,11 @@ namespace SERVERAPI.Controllers
                             fm.solid_liquid = man.solid_liquid;
                         }
 
-
-                        _ud.AddFarmManure(fm);
-                    }
-                    else
-                    {
-                        //NutrientManure nm = _ud.GetFieldNutrientsManure(cvm.fieldName, cvm.id.Value);
-                        //nm.manureId = cvm.selManOption;
-                        //nm.applicationId = cvm.selApplOption;
-                        //nm.unitId = cvm.selRateOption;
-                        //nm.rate = Convert.ToDecimal(cvm.rate);
-                        //nm.nh4Retention = Convert.ToDecimal(cvm.nh4);
-                        //nm.nAvail = Convert.ToDecimal(cvm.avail);
-                        //nm.yrN = Convert.ToDecimal(cvm.yrN);
-                        //nm.yrP2o5 = Convert.ToDecimal(cvm.yrP2o5);
-                        //nm.yrK2o = Convert.ToDecimal(cvm.yrK2o);
-                        //nm.ltN = Convert.ToDecimal(cvm.ltN);
-                        //nm.ltP2o5 = Convert.ToDecimal(cvm.ltP2o5);
-                        //nm.ltK2o = Convert.ToDecimal(cvm.ltK2o);
-
-                        //_ud.UpdateFieldNutrientsManure(cvm.fieldName, nm);
+                        _ud.UpdateFarmManure(fm);
                     }
 
                     string url = Url.Action("RefreshCompostList", "Manure");
-                    return Json(new { success = true, url = url, target = "#compost" });
+                    return Json(new { success = true, url = url, target = cvm.target });
                 }
             }
             catch (Exception ex)
@@ -246,6 +266,32 @@ namespace SERVERAPI.Controllers
             }
 
             return PartialView(cvm);
+        }
+        public ActionResult CompostDelete(int id, string target)
+        {
+            CompostDeleteViewModel dvm = new CompostDeleteViewModel();
+            dvm.id = id;
+            dvm.target = target;
+
+            FarmManure nm = _ud.GetFarmManure(id);
+
+            dvm.manureName = nm.customized ? nm.name : _sd.GetManure(nm.manureId.ToString()).name;
+
+            dvm.act = "Delete";
+
+            return PartialView("CompostDelete", dvm);
+        }
+        [HttpPost]
+        public ActionResult CompostDelete(CompostDeleteViewModel dvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _ud.DeleteFarmManure(dvm.id);
+
+                string url = Url.Action("RefreshCompostList", "Manure");
+                return Json(new { success = true, url = url, target = dvm.target });
+            }
+            return PartialView("CompostDelete", dvm);
         }
         public IActionResult RefreshCompostList()
         {

@@ -37,9 +37,9 @@ namespace SERVERAPI.ViewComponents
 
             foreach (var f in compostList)
             {
-                if (f.manureId.HasValue)
+                if (!f.customized)
                 {
-                    Models.StaticData.Manure man = _sd.GetManure(f.manureId.Value.ToString());
+                    Models.StaticData.Manure man = _sd.GetManure(f.manureId.ToString());
                     f.ammonia = man.ammonia;
                     f.dmid = man.dmid;
                     f.manure_class = man.manure_class;
