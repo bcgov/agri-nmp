@@ -28,6 +28,7 @@ namespace SERVERAPI.ViewComponents
         private Task<SoilTestsViewModel> GetSoilTestAsync()
         {
             SoilTestsViewModel svm = new SoilTestsViewModel();
+            svm.missingTests = false;
 
             FarmDetails fd = _ud.FarmDetails();
             svm.testingMethod = fd.testingMethod;
@@ -50,6 +51,10 @@ namespace SERVERAPI.ViewComponents
                     dc.dispSTK = m.soilTest.ConvertedKelownaK.ToString();
                     dc.dispSTP = m.soilTest.ConvertedKelownaP.ToString();
                 }
+                else
+                {
+                    svm.missingTests = true;
+                }
                 svm.tests.Add(dc);
             }
 
@@ -59,6 +64,7 @@ namespace SERVERAPI.ViewComponents
     public class SoilTestsViewModel
     {
         public string testingMethod { get; set; }
+        public bool missingTests { get; set; }
         public List<DisplaySoilTest> tests { get; set; }
     }
     public class DisplaySoilTest

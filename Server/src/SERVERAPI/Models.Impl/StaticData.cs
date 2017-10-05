@@ -1247,5 +1247,16 @@ namespace SERVERAPI.Models.Impl
             return methodsOptions;
         }
 
+        public string GetSoilTestWarning()
+        {
+            string template = (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMethodId"];
+            decimal pH = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestpH"]);
+            decimal phosphorous = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
+            decimal potassium = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);
+
+            string msg = string.Format("");
+
+            return msg;
+        }
     }
 }

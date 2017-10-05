@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SERVERAPI.ViewModels.MissingTestsViewModel
+
+@{
     Layout = null;
 }
 <div id="target">
@@ -11,13 +13,15 @@
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <p class="text-danger">Before entering soil test results you must first select a testing method.</p>
+                <p class="text-danger">@Model.msg</p>
             </div>
             <br />
             <br />
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="submit" value="Continue" />
         </div>
+        @Html.HiddenFor(x => x.target)
     </form>
 </div>

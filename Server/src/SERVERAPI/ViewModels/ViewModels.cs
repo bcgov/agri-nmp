@@ -292,6 +292,11 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Field Name")]
         public string fieldName { get; set; }
     }
+    public class MissingTestsViewModel
+    {
+        public string target { get; set; }
+        public string msg { get; set; }
+    }
     public class ReportViewModel
     {
         public bool fields { get; set; }

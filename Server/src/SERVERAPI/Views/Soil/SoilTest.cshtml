@@ -104,79 +104,51 @@
             </div>
             <div class="form-box-submit">
                 <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Fields", "Fields" )';" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />
+                @*<input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />*@
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="Intercept('@Url.Action("Manure", "Manure" )');" />
             </div>
             @Html.HiddenFor(x => x.fldsFnd)
             @Html.HiddenFor(x => x.buttonPressed)
+            @Html.HiddenFor(x => x.testSelected)
         </form>
     </div>
 </div>
 @section Scripts {
     <script type="text/javascript">
 
-    // ensure this event handler is attached to current and future elements (after partial renders)
-    $(document).on("click", '[data_modal]', function (e) {
-        $.ajaxSetup({ cache: false });
-        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-        $("#divSize").addClass("modal-lg");
-        $('#myModalContent').load($type, function () {
-            $('#myModal').modal({
-                /*backdrop: 'static',*/
-                //keyboard: true
-            }, 'show');
-            bindForm(this);
+        // ensure this event handler is attached to current and future elements (after partial renders)
+        $(document).on("click", '[data_modal]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").addClass("modal-lg");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
         });
-        return false;
-    });
 
-    $(document).on("click", '[data_modal2]', function (e) {
-        $.ajaxSetup({ cache: false });
-        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-        $("#divSize").removeClass("modal-lg");
-        $('#myModalContent').load($type, function () {
-            $('#myModal').modal({
-                /*backdrop: 'static',*/
-                //keyboard: true
-            }, 'show');
-            bindForm2(this);
+        $(document).ready(function () {
+            $("body").on("change", "#ddlMth", function () {
+                $('#buttonPressed').val("MethodChange");
+                $("#modForm").submit();
+            })
         });
-        return false;
-    });
 
-    $(document).on("click", '[data_modal3]', function (e) {
-        $.ajaxSetup({ cache: false });
-        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-        $("#divSize").removeClass("modal-lg");
-        $('#myModalContent').load($type, function () {
-            $('#myModal').modal({
-                /*backdrop: 'static',*/
-                //keyboard: true
-            }, 'show');
-            bindForm2(this);
-        });
-        return false;
-    });
-
-    $(document).ready(function () {
-        $("body").on("change", "#ddlMth", function () {
-            $('#buttonPressed').val("MethodChange");
-            $("#modForm").submit();
-        })
-    });
-
-    function bindForm(dialog) {
-        $('form', dialog).submit(function () {
-            alert("url=" + this.action);
-            alert("type=" + this.method);
-            $.ajax({
-                cache: false,
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize(),
-                success: function (result) {
-                    if (result.success) {
-                        $('#myModal').modal('hide');
-                        $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+        function bindForm(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            window.location.href = '@Url.Action("SoilTest","Soil")';
                     } else {
                         $('#myModalContent').html(result);
                         bindForm(dialog);
@@ -186,58 +158,36 @@
             return false;
         });
     }
-    function bindForm2(dialog) {
-        $('form', dialog).submit(function () {
-            $.ajax({
-                cache: false,
-                url: this.action,
-                type: this.method,
-                data: $(this).serialize()
-            })
-                .done(function (result) {
-                    if (result.success) {
-                        $('#myModal').modal('hide');
-                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                        window.location.href = '@Url.Action("Calculate","Nutrients")';
-                    } else {
-                        $('#myModalContent').html(result);
-                        bindForm2(dialog);
-                    }
-                });
 
-                return false;
-            });
-        }
-        function bindForm3(dialog) {
-            $('form', dialog).submit(function () {
-                $.ajax({
-                    cache: false,
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize()
-                })
-                .done(function (result) {
-                    if (result.success) {
-                        $('#myModal').modal('hide');
-                        $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                    } else {
-                        $('#myModalContent').html(result);
-                        bindForm(dialog);
-                    }
-                });
+    $(document).ready(function () {
 
-                return false;
-            });
-        }
-
-        $(document).ready(function () {
-
-            $('#sampleDt').datepicker({
-                format: "dd/mm/yyyy",
-                autoclose: true
-            });
+        $('#sampleDt').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
         });
+    });
 
+    function Intercept(x) {
+        if ($("#testSelected").val() == "False" ||
+            $("#missingTests").val() == "True")
+        {
+            $.ajaxSetup({ cache: false });
+            $type = '@Url.Action("NewWarning", "Home")';
+            $("#divSize").addClass("modal-lg");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        }
+        else
+        {
+            window.location.href = x;
+        }
+    }
 
     </script>
 

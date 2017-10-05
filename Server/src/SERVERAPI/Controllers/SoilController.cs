@@ -157,5 +157,13 @@ namespace SERVERAPI.Controllers
         {
             return View();
         }
+        public IActionResult MissingTests(string target)
+        {
+            MissingTestsViewModel mvm = new MissingTestsViewModel();
+            mvm.target = target;
+
+
+            return View(mvm);
+        }
     }
 }

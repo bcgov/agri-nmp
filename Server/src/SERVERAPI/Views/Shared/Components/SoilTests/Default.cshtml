@@ -1,5 +1,6 @@
 ﻿@model SoilTestsViewModel
 <div>
+    @Html.HiddenFor(x => x.missingTests)
     @if (Model.tests.Count > 0)
     {
         <div class="form-box">
