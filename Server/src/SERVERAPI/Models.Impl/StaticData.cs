@@ -1213,5 +1213,39 @@ namespace SERVERAPI.Models.Impl
 
             return results;
         }
+
+        public Models.StaticData.FertilizerMethods GetFertilizerMethods()
+        {
+            Models.StaticData.FertilizerMethods fertilizerMethods = new Models.StaticData.FertilizerMethods();
+            fertilizerMethods.fertilizerMethod = new List<Models.StaticData.FertilizerMethod>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["fertilizermethods"]["fertilizermethod"];
+
+            foreach (var r in array)
+            {
+                Models.StaticData.FertilizerMethod fertilizerMethod = new Models.StaticData.FertilizerMethod();
+                fertilizerMethod.id = Convert.ToInt32(r["id"].ToString());
+                fertilizerMethod.name = r["name"].ToString();
+                fertilizerMethods.fertilizerMethod.Add(fertilizerMethod);
+            }
+
+            return fertilizerMethods;
+        }
+
+        public List<Models.StaticData.SelectListItem> GetFertilizerMethodsDll()
+        {
+            Models.StaticData.FertilizerMethods methods = GetFertilizerMethods();
+
+            List<Models.StaticData.SelectListItem> methodsOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in methods.fertilizerMethod)
+            {
+                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                methodsOptions.Add(li);
+            }
+
+            return methodsOptions;
+        }
+
     }
 }
