@@ -381,7 +381,7 @@ namespace SERVERAPI.Models
 
         public class FertilizerMethods
         {
-            public List<FertilizerMethod> fertilizerMethod { get; set; }
+            public List<FertilizerMethod> fertilizerMethods { get; set; }
         }
         public class FertilizerMethod
         {

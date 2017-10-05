@@ -1217,7 +1217,7 @@ namespace SERVERAPI.Models.Impl
         public Models.StaticData.FertilizerMethods GetFertilizerMethods()
         {
             Models.StaticData.FertilizerMethods fertilizerMethods = new Models.StaticData.FertilizerMethods();
-            fertilizerMethods.fertilizerMethod = new List<Models.StaticData.FertilizerMethod>();
+            fertilizerMethods.fertilizerMethods = new List<Models.StaticData.FertilizerMethod>();
 
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizermethods"]["fertilizermethod"];
 
@@ -1226,7 +1226,7 @@ namespace SERVERAPI.Models.Impl
                 Models.StaticData.FertilizerMethod fertilizerMethod = new Models.StaticData.FertilizerMethod();
                 fertilizerMethod.id = Convert.ToInt32(r["id"].ToString());
                 fertilizerMethod.name = r["name"].ToString();
-                fertilizerMethods.fertilizerMethod.Add(fertilizerMethod);
+                fertilizerMethods.fertilizerMethods.Add(fertilizerMethod);
             }
 
             return fertilizerMethods;
@@ -1238,7 +1238,7 @@ namespace SERVERAPI.Models.Impl
 
             List<Models.StaticData.SelectListItem> methodsOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in methods.fertilizerMethod)
+            foreach (var r in methods.fertilizerMethods)
             {
                 Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
                 methodsOptions.Add(li);

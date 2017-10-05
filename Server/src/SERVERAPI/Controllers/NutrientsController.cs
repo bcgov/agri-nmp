@@ -344,7 +344,7 @@ namespace SERVERAPI.Controllers
             fvm.title = id == null ? "Add" : "Edit";
             fvm.btnText = id == null ? "Add to Field" : "Update Field";
             fvm.id = id;
-            fvm.applMethod = string.Empty;
+            fvm.selMethOption = 0;
 
             if (id != null)
             {
@@ -357,7 +357,7 @@ namespace SERVERAPI.Controllers
                 fvm.selFertOption = ft.custom ? 1 : nf.fertilizerId;
                 fvm.applRate = nf.applRate.ToString("#.##");
                 fvm.selRateOption = nf.applUnitId.ToString();
-                fvm.applMethod = nf.applMethod;
+                fvm.selMethOption = nf.applMethodId;
                 fvm.fertilizerType = ft.dry_liquid;
                 fvm.calcN = nf.fertN.ToString();
                 fvm.calcP2o5 = nf.fertP2o5.ToString();
@@ -634,7 +634,7 @@ namespace SERVERAPI.Controllers
                                 applUnitId = Convert.ToInt32(fvm.selRateOption),
                                 applRate = Convert.ToDecimal(fvm.applRate),
                                 applDate = string.IsNullOrEmpty(fvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fvm.applDate),
-                                applMethod = fvm.applMethod,
+                                applMethodId = fvm.selMethOption,
                                 customN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null,
                                 customP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null,
                                 customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null,
@@ -655,7 +655,7 @@ namespace SERVERAPI.Controllers
                             nf.applUnitId = Convert.ToInt32(fvm.selRateOption);
                             nf.applRate = Convert.ToDecimal(fvm.applRate);
                             nf.applDate = string.IsNullOrEmpty(fvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fvm.applDate);
-                            nf.applMethod = fvm.applMethod;
+                            nf.applMethodId = fvm.selMethOption;
                             nf.customN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null;
                             nf.customP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null;
                             nf.customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null;
@@ -685,6 +685,9 @@ namespace SERVERAPI.Controllers
 
             fvm.denOptions = new List<Models.StaticData.SelectListItem>();
             fvm.denOptions = _sd.GetDensityUnitsDll().ToList();
+
+            fvm.methOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.methOptions = _sd.GetFertilizerMethodsDll().ToList();
 
             FertilizerDetailSetup_Fertilizer(ref fvm);
 

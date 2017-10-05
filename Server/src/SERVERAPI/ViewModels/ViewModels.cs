@@ -238,10 +238,11 @@ namespace SERVERAPI.ViewModels
         public List<Models.StaticData.SelectListItem> rateOptions { get; set; }
         public int selDenOption { get; set; }
         public List<Models.StaticData.SelectListItem> denOptions { get; set; }
+        public int selMethOption { get; set; }
+        public List<Models.StaticData.SelectListItem> methOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         public string applRate { get; set; }
         public string currUnit { get; set; }
-        public string applMethod { get; set; }
         public string applDate { get; set; }
         public string buttonPressed { get; set; }
         public string valN { get; set; }

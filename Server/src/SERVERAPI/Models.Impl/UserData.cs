@@ -413,7 +413,7 @@ namespace SERVERAPI.Models.Impl
             NutrientFertilizer nf = fld.nutrients.nutrientFertilizers.FirstOrDefault(m => m.id == updtFert.id);
 
             nf.applDate = updtFert.applDate;
-            nf.applMethod = updtFert.applMethod;
+            nf.applMethodId = updtFert.applMethodId;
             nf.applRate = updtFert.applRate;
             nf.applUnitId = updtFert.applUnitId;
             nf.fertilizerId = updtFert.fertilizerId;
