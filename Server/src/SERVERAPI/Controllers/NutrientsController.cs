@@ -691,6 +691,7 @@ namespace SERVERAPI.Controllers
             fvm.rateOptions = _sd.GetFertilizerUnitsDll(fvm.currUnit).ToList();
 
             //fvm.rateOptions = _sd.GetUnitsDll(fvm.currUnit).ToList();
+            
 
             return;
         }
