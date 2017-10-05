@@ -2421,6 +2421,14 @@
             "nitrogen": "0",
             "phosphorous": "54.29",
             "potassium": "0"
+          },
+          {
+            "id": "34",
+            "name": "18-18-18",
+            "dry_liquid": "dry",
+            "nitrogen": "18",
+            "phosphorous": "18",
+            "potassium": "18"
           }
         ]
       },
