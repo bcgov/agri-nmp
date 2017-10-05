@@ -221,20 +221,6 @@ namespace SERVERAPI.Models
             public string yielddesc { get; set; }
         }
 
-      //public class Crop_STP_RegionCd
-      //  {
-      //      public int cropid { get; set; }
-      //      public int regionid { get; set; }
-      //      public int regioncd { get; set; }
-      //  }
-
-        //public class Crop_STK_RegionCd
-        //{
-        //    public int cropid { get; set; }
-        //    public int regionid { get; set; }
-        //    public int regioncd { get; set; }
-        //}
-
         public class DM
         {
             public int ID { get; set; }
@@ -376,6 +362,7 @@ namespace SERVERAPI.Models
             public int balance_low { get; set; }
             public int balance_high { get; set; }
         }
+
         public class DefaultSoilTest
         {
             public decimal nitrogen { get; set; }
@@ -385,10 +372,21 @@ namespace SERVERAPI.Models
             public int convertedKelownaP { get; set; }
             public int convertedKelownaK { get; set; }
         }
+
         public class SoilTestRange
         {
             public int upperLimit { get; set; }
             public string rating  { get; set; }
+        }
+
+        public class FertilizerMethods
+        {
+            public List<FertilizerMethod> fertilizerMethod { get; set; }
+        }
+        public class FertilizerMethod
+        {
+            public int id { get; set; }
+            public string name { get; set; }
         }
     }
 }
