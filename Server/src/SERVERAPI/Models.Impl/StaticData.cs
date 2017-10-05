@@ -1249,12 +1249,12 @@ namespace SERVERAPI.Models.Impl
 
         public string GetSoilTestWarning()
         {
-            string template = (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMethodId"];
+            string template = (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMessage"];
             decimal pH = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestpH"]);
             decimal phosphorous = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
             decimal potassium = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);
 
-            string msg = string.Format("");
+            string msg = string.Format(template, phosphorous, potassium, pH);
 
             return msg;
         }

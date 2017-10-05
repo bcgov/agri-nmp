@@ -103,7 +103,8 @@
                 </div>
             </div>
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Fields", "Fields" )';" />
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="Intercept('@Url.Action("Fields", "Fields" )');" />
+                @*<input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Fields", "Fields" )';" />*@
                 @*<input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />*@
                 <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="Intercept('@Url.Action("Manure", "Manure" )');" />
             </div>
@@ -167,12 +168,13 @@
         });
     });
 
-    function Intercept(x) {
+        function Intercept(x) {
         if ($("#testSelected").val() == "False" ||
             $("#missingTests").val() == "True")
         {
             $.ajaxSetup({ cache: false });
-            $type = '@Url.Action("NewWarning", "Home")';
+            var url = '@Url.Action("MissingTests", "Soil", new { target = "zzz" })';
+            $type = url.replace('zzz',x);
             $("#divSize").addClass("modal-lg");
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({

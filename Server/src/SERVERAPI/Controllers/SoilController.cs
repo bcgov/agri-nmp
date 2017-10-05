@@ -161,7 +161,13 @@ namespace SERVERAPI.Controllers
         {
             MissingTestsViewModel mvm = new MissingTestsViewModel();
             mvm.target = target;
+            mvm.msg = _sd.GetSoilTestWarning();
 
+            return View(mvm);
+        }
+        [HttpPost]
+        public IActionResult MissingTests(MissingTestsViewModel mvm)
+        {
 
             return View(mvm);
         }

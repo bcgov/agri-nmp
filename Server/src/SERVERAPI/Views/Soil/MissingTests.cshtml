@@ -20,7 +20,7 @@
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-primary" type="submit" value="Continue" />
+            <input class="btn btn-primary" type="button" value="Continue" onclick="window.location.href = '@Model.target'" />
         </div>
         @Html.HiddenFor(x => x.target)
     </form>
