@@ -39,7 +39,7 @@ namespace SERVERAPI.Controllers
             if (id != null)
             {
                 FarmManure fm = _ud.GetFarmManure(id.Value);
-                mvm.selManOption = fm.id;
+                mvm.selManOption = fm.manureId;
 
                 if (!fm.customized)
                 {
@@ -53,6 +53,13 @@ namespace SERVERAPI.Controllers
                     mvm.compost = fm.manure_class == "Compost" ? true : false;
                     mvm.onlyCustom = (fm.manure_class == "Other" || fm.manure_class == "Compost") ? true : false;
                 }
+                mvm.manureName = fm.name;
+                mvm.moisture = fm.moisture;
+                mvm.nitrogen = fm.nitrogen.ToString("##");
+                mvm.ammonia = fm.ammonia.ToString("##");
+                mvm.phosphorous = fm.phosphorous.ToString("##");
+                mvm.potassium = fm.potassium.ToString("##");
+                mvm.nitrate = fm.nitrate.HasValue ? fm.nitrate.Value.ToString("##") : "";
             }
             else
             {
@@ -270,7 +277,8 @@ namespace SERVERAPI.Controllers
                     foreach(var m in manures)
                     {
                         if(m.customized &&
-                           m.name == cvm.manureName)
+                           m.name == cvm.manureName &&
+                           m.id != cvm.id)
                         {
                             ModelState.AddModelError("manureName", "Descriptions must be unique.");
                             break;
