@@ -33,7 +33,7 @@ namespace SERVERAPI.Utility
 
         public NutrientInputs GetNutrientInputs(NutrientInputs nutrientInputs)
         {
-            Manure mymanure = _sd.GetManure(manure);
+            FarmManure mymanure = _ud.GetFarmManure(Convert.ToInt32(manure));
 
             ConversionFactor _cf = _sd.GetConversionFactor();
 
@@ -115,7 +115,7 @@ namespace SERVERAPI.Utility
         {
             decimal ammoniaRention = 0;
 
-            Manure myManure = _sd.GetManure(manureid.ToString());
+            FarmManure myManure = _ud.GetFarmManure(manureid);
             
             AmmoniaRetention myAmmoniaRetention = _sd.GetAmmoniaRetention(seasonapplicationid, myManure.dmid);
 
@@ -128,7 +128,7 @@ namespace SERVERAPI.Utility
         {
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();            
 
-            Manure myManure = _sd.GetManure(manureid.ToString());
+            FarmManure myManure = _ud.GetFarmManure(manureid);
 
             NMineralization myNMineralization = _sd.GetNMineralization(myManure.nminerizationid, locationid);            
 

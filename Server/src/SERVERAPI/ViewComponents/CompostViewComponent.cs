@@ -37,20 +37,6 @@ namespace SERVERAPI.ViewComponents
 
             foreach (var f in compostList)
             {
-                if (!f.customized)
-                {
-                    Models.StaticData.Manure man = _sd.GetManure(f.manureId.ToString());
-                    f.ammonia = man.ammonia;
-                    f.dmid = man.dmid;
-                    f.manure_class = man.manure_class;
-                    f.moisture = man.moisture;
-                    f.name = man.name;
-                    f.nitrogen = man.nitrogen;
-                    f.nminerizationid = man.nminerizationid;
-                    f.phosphorous = man.phosphorous;
-                    f.potassium = man.potassium;
-                    f.solid_liquid = man.solid_liquid;
-                }
                 fvm.composts.Add(f);
             }
 

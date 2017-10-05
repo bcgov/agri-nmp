@@ -36,7 +36,7 @@ namespace SERVERAPI.ViewComponents
                 {
                     fldName = fldName,
                     manId = m.id,
-                    matType = _sd.GetManure(m.manureId).name,
+                    matType = _ud.GetFarmManure(Convert.ToInt32(m.manureId)).name,
                     applType = _sd.GetApplication(m.applicationId).name,
                     rate = m.rate.ToString() + " " + _sd.GetUnit(m.unitId).name,
                     yrN = m.yrN.ToString(),

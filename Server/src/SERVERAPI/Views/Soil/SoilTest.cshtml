@@ -166,6 +166,8 @@
 
     function bindForm(dialog) {
         $('form', dialog).submit(function () {
+            alert("url=" + this.action);
+            alert("type=" + this.method);
             $.ajax({
                 cache: false,
                 url: this.action,
@@ -235,6 +237,8 @@
                 autoclose: true
             });
         });
+
+
     </script>
 
 }

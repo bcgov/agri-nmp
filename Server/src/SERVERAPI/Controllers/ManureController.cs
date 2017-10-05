@@ -39,33 +39,18 @@ namespace SERVERAPI.Controllers
             if (id != null)
             {
                 FarmManure fm = _ud.GetFarmManure(id.Value);
-                Models.StaticData.Manure man = _sd.GetManure(fm.manureId.ToString());
+                mvm.selManOption = fm.id;
 
                 if (!fm.customized)
                 {
-                    mvm.selManOption = man.id;
-                    mvm.ammonia = man.ammonia.ToString();
-                    mvm.manureName = man.name;
-                    mvm.moisture = man.moisture;
-                    mvm.nitrogen = man.nitrogen.ToString();
-                    mvm.phosphorous = man.phosphorous.ToString();
-                    mvm.potassium = man.potassium.ToString();
                     mvm.bookValue = true;
                     mvm.compost = false;
                     mvm.onlyCustom = false;
                 }
                 else
                 {
-                    mvm.selManOption = man.id;
-                    mvm.ammonia = fm.ammonia.ToString();
-                    mvm.manureName = fm.name;
-                    mvm.moisture = fm.moisture;
-                    mvm.nitrogen = fm.nitrogen.ToString();
-                    mvm.phosphorous = fm.phosphorous.ToString();
-                    mvm.potassium = fm.potassium.ToString();
-                    mvm.nitrate = fm.nitrate.ToString();
                     mvm.bookValue = false;
-                    mvm.compost = man.manure_class == "Compost" ? true : false;
+                    mvm.compost = fm.manure_class == "Compost" ? true : false;
                     mvm.onlyCustom = (fm.manure_class == "Other" || fm.manure_class == "Compost") ? true : false;
                 }
             }
@@ -376,7 +361,7 @@ namespace SERVERAPI.Controllers
 
             FarmManure nm = _ud.GetFarmManure(id);
 
-            dvm.manureName = nm.customized ? nm.name : _sd.GetManure(nm.manureId.ToString()).name;
+            dvm.manureName = nm.name;
 
             dvm.act = "Delete";
 

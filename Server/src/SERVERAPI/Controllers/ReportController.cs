@@ -155,7 +155,7 @@ namespace SERVERAPI.Controllers
                     {
                         foreach (var m in f.nutrients.nutrientManures)
                         {
-                            Models.StaticData.Manure manure = _sd.GetManure(m.manureId);
+                            FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
                             rfn.nutrientName = manure.name;
@@ -328,7 +328,7 @@ namespace SERVERAPI.Controllers
                     {
                         foreach (var m in f.nutrients.nutrientManures)
                         {
-                            Models.StaticData.Manure manure = _sd.GetManure(m.manureId);
+                            FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportSourcesDetail rd = rvm.details.FirstOrDefault(d => d.nutrientName == manure.name);
                             if (rd != null)
                             {
@@ -365,27 +365,14 @@ namespace SERVERAPI.Controllers
             {
                 ReportAnalysisDetail rd = new ReportAnalysisDetail();
 
-                if (m.customized)
-                {
-                    rd.manureName = m.name;
-                    rd.moisture = m.moisture.ToString();
-                    rd.ammonia = m.ammonia.ToString();
-                    rd.nitrogen = m.nitrogen.ToString();
-                    rd.phosphorous = m.phosphorous.ToString();
-                    rd.potassium = m.potassium.ToString();
-                    rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString() : "n/a";
-                }
-                else
-                {
-                    Manure man = _sd.GetManure(m.manureId.ToString());
-                    rd.manureName = man.name;
-                    rd.moisture = man.moisture;
-                    rd.ammonia = man.ammonia.ToString();
-                    rd.nitrogen = man.nitrogen.ToString();
-                    rd.phosphorous = man.phosphorous.ToString();
-                    rd.potassium = man.potassium.ToString();
-                    rd.nitrate = "n/a";
-                }
+                rd.manureName = m.name;
+                rd.moisture = m.moisture.ToString();
+                rd.ammonia = m.ammonia.ToString();
+                rd.nitrogen = m.nitrogen.ToString();
+                rd.phosphorous = m.phosphorous.ToString();
+                rd.potassium = m.potassium.ToString();
+                rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString() : "n/a";
+
                 rvm.details.Add(rd);
             }
 
@@ -411,7 +398,7 @@ namespace SERVERAPI.Controllers
                     {
                         foreach (var m in f.nutrients.nutrientManures)
                         {
-                            Models.StaticData.Manure manure = _sd.GetManure(m.manureId);
+                            FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
                             rfn.nutrientName = manure.name;

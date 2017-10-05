@@ -5,16 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static SERVERAPI.Models.StaticData;
 
 namespace SERVERAPI.Models.Impl
 {
     public class UserData
     {
         private readonly IHttpContextAccessor _ctx;
+        public Models.Impl.StaticData _sd { get; set; }
 
-        public UserData(IHttpContextAccessor ctx)
+        public UserData(IHttpContextAccessor ctx, Models.Impl.StaticData sd)
         {
             _ctx = ctx;
+            _sd = sd;
         }
 
         public void NewFarm()
@@ -570,6 +573,21 @@ namespace SERVERAPI.Models.Impl
             }
 
             fm = yd.farmManures.FirstOrDefault(c => c.id == id);
+            if(!fm.customized)
+            {
+                Manure man = _sd.GetManure(fm.manureId.ToString());
+                fm.ammonia = man.ammonia;
+                fm.dmid = man.dmid;
+                fm.manure_class = man.manure_class;
+                fm.moisture = man.moisture;
+                fm.name = man.name;
+                fm.nitrate = (decimal?)null;
+                fm.nitrogen = man.nitrogen;
+                fm.nminerizationid = man.nminerizationid;
+                fm.phosphorous = man.phosphorous;
+                fm.potassium = man.potassium;
+                fm.solid_liquid = man.solid_liquid;
+            }
 
             return fm;
         }
@@ -583,6 +601,24 @@ namespace SERVERAPI.Models.Impl
             if (yd.farmManures == null)
             {
                 yd.farmManures = new List<FarmManure>();
+            }
+            foreach(var fm in yd.farmManures)
+            {
+                if (!fm.customized)
+                {
+                    Manure man = _sd.GetManure(fm.manureId.ToString());
+                    fm.ammonia = man.ammonia;
+                    fm.dmid = man.dmid;
+                    fm.manure_class = man.manure_class;
+                    fm.moisture = man.moisture;
+                    fm.name = man.name;
+                    fm.nitrate = (decimal?)null;
+                    fm.nitrogen = man.nitrogen;
+                    fm.nminerizationid = man.nminerizationid;
+                    fm.phosphorous = man.phosphorous;
+                    fm.potassium = man.potassium;
+                    fm.solid_liquid = man.solid_liquid;
+                }
             }
 
             return yd.farmManures;
@@ -644,6 +680,24 @@ namespace SERVERAPI.Models.Impl
             yd.farmManures.Remove(fm);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public List<Models.StaticData.SelectListItem> GetFarmManuresDll()
+        {
+            List<FarmManure> manures = GetFarmManures();
+
+            manures.Sort(delegate (FarmManure f1, FarmManure f2) { return f1.customized.CompareTo(f2.customized); });
+            manures.Reverse();
+
+            List<Models.StaticData.SelectListItem> manOptions = new List<Models.StaticData.SelectListItem>();
+
+            foreach (var r in manures)
+            {
+                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                manOptions.Add(li);
+            }
+
+            return manOptions;
         }
     }
 }
