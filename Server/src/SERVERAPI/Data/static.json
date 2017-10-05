@@ -1,14 +1,14 @@
-﻿{
+{
   "agri": {
     "nmp": {
       "conversions": {
         "n_protein_conversion": "0.625",
         "unit_conversion": "0.5",
         "defaultSoilTestpH": "6.0",
-        "defaultSoilTestNitrogen":  "0",
+        "defaultSoilTestNitrogen": "0",
         "defaultSoilTestKelownaP": "250",
         "defaultSoilTestKelownaK": "500",
-        "defaultSoilTestMethodId":  "1",
+        "defaultSoilTestMethodId": "1",
         "kgperha_lbperac_conversion": "0.892176122",
         "potassiumAvailabilityFirstYear": "1",
         "potassiumAvailabilityLongTerm": "1",
@@ -2180,7 +2180,7 @@
             "dry_liquid": "dry",
             "nitrogen": "0",
             "phosphorous": "0",
-            "potassium": "50"
+            "potassium": "60"
           },
           {
             "id": "4",
@@ -8820,6 +8820,6 @@
           }
         ]
       }
-    }    
+    }
   }
 }
