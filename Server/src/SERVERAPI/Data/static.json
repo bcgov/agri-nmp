@@ -9,7 +9,6 @@
         "defaultSoilTestKelownaP": "250",
         "defaultSoilTestKelownaK": "500",
         "defaultSoilTestMethodId": "1",
-        "defaultSoilTestMessage": "If you continue to the next step, blanks will be filled in with default soil test values. Default soil test values will assume very high P ({0}) and K ({1}) fertility with a PH of {2}.",
         "kgperha_lbperac_conversion": "0.892176122",
         "potassiumAvailabilityFirstYear": "1",
         "potassiumAvailabilityLongTerm": "1",
@@ -137,7 +136,7 @@
           },
           {
             "id": "10",
-            "name": "Fraser Valley",
+            "name": "Fraser Valley, East (including Abbotsford/Mission)",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
             "locationid": "2"
@@ -165,7 +164,7 @@
           },
           {
             "id": "14",
-            "name": "Metro Vancouver",
+            "name": "Fraser Valley, West (Delta to Langley/Maple Ridge)",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
             "locationid": "2"
@@ -2157,38 +2156,6 @@
           }
         ]
       },
-      "fertilizermethods": {
-        "fertilizermethod": [
-          {
-            "id": "1",
-            "name": "Placed with planter"
-          },
-          {
-            "id": "2",
-            "name": "Incorp. within 1 day"
-          },
-          {
-            "id": "3",
-            "name": "Incorp. within 1 to 14 days"
-          },
-          {
-            "id": "4",
-            "name": "Incorp. 14+ days after"
-          },
-          {
-            "id": "5",
-            "name": "Not incorp. - bare soil"
-          },
-          {
-            "id": "6",
-            "name": "Not incorp. - crop residue"
-          },
-          {
-            "id": "7",
-            "name": "Not incorp. - standing crop"
-          }
-        ]
-      },
       "fertilizers": {
         "fertilizer": [
           {
@@ -2454,6 +2421,14 @@
             "nitrogen": "0",
             "phosphorous": "54.29",
             "potassium": "0"
+          },
+          {
+            "id": "34",
+            "name": "18-18-18",
+            "dry_liquid": "dry",
+            "nitrogen": "18",
+            "phosphorous": "18",
+            "potassium": "18"
           }
         ]
       },
