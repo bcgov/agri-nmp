@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Reflection;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SERVERAPI.Controllers
 {
@@ -39,6 +40,7 @@ namespace SERVERAPI.Controllers
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
+
     public class HomeController : Controller
     {
         public IHostingEnvironment _env { get; set; }

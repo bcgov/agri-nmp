@@ -34,7 +34,7 @@
                         <span asp-validation-for="applRate" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
-                        <label>Units</label>
+                        <label>Appl Units</label>
                         <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlFertRate">
                             <option>select</option>
                         </select>
@@ -73,7 +73,7 @@
                             <span asp-validation-for="density" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label>Units</label>
+                            <label>Density Units</label>
                             <select class="form-control" asp-for="selDenOption" asp-items="@(new SelectList(Model.denOptions,"Id","Value"))" id="ddlDensity">
                                 <option id="0" value="0"></option>
                             </select>

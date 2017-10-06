@@ -133,7 +133,7 @@ namespace SERVERAPI.Utility
                 chemicalBalances.balance_CropK2O += Convert.ToInt16(m.potassium);
             }
 
-            if (crps.Count > 0 && (manures.Count > 0 || others.Count > 0))
+            if (crps.Count > 0 && (manures.Count > 0 || others.Count > 0 || fertilizers.Count > 0))
                 displayBalances = true;
 
             return chemicalBalances;
