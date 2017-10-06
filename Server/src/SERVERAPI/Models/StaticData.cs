@@ -388,5 +388,16 @@ namespace SERVERAPI.Models
             public int id { get; set; }
             public string name { get; set; }
         }
+
+        public class ExternalLinks
+        {
+            public List<ExternalLink> externalLinks { get; set; }
+        }
+        public class ExternalLink
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public string url { get; set; }
+        }
     }
 }

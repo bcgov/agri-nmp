@@ -1298,5 +1298,18 @@ namespace SERVERAPI.Models.Impl
 
             return msg;
         }
+
+        public string GetExternalLink(string name)
+        {
+            string result = string.Empty;
+
+            JArray array = (JArray)rss["agri"]["nmp"]["externallinks"]["externallink"];
+            JObject rec = array.Children<JObject>().FirstOrDefault(o => o["name"].ToString() == name);
+
+            if(rec != null)
+                result = (string)rec["url"];
+
+            return result;
+        }
     }
 }
