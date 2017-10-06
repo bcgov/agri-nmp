@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+}
+@{
+    ViewBag.Title = "Welcome";
+}
+
+<head>
+    <script>
+        if (typeof (Storage) !== "undefined") {
+            var nmp = localStorage.getItem("nmp");
+            if (nmp != null) {
+                window.location.href = '@Url.Action("Launch", "Home", new { id = "true" })';
+            } else {
+                window.location.href = '@Url.Action("Launch", "Home", new { id = "false" })';
+            }
+
+        } else {
+                window.location.href = '@Url.Action("Launch", "Home", new { id = "false" })';
+        }
+    </script>
+</head>
+<body>
+    <h1>Index</h1>
+</body>

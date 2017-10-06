@@ -57,7 +57,7 @@
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Views\Home\index.cshtml" />
+    <None Include="Views\Home\temp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\src\Common\Common.csproj" />

@@ -51,11 +51,11 @@ namespace SERVERAPI.Controllers
             _env = env;
             _ud = ud;
         }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
         public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Launch()
         {
             LaunchViewModel lvm = new LaunchViewModel();
             FarmData fd = _ud.FarmData();
@@ -71,7 +71,7 @@ namespace SERVERAPI.Controllers
 
         }
         [HttpPost]
-        public IActionResult Launch(LaunchViewModel lvm)
+        public IActionResult Index(LaunchViewModel lvm)
         {
             _ud.NewFarm();
             return RedirectToAction("Farm","Farm");
