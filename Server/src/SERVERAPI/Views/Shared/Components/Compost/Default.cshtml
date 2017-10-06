@@ -82,16 +82,16 @@
                                 @item.moisture
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
-                                @item.nitrogen.ToString("#.00")
+                                @item.nitrogen.ToString("#0.00")
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
-                                @item.ammonia
+                                @item.ammonia.ToString("#0")
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
-                                @item.phosphorous.ToString("#.00")
+                                @item.phosphorous.ToString("#0.00")
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
-                                @item.potassium.ToString("#.00")
+                                @item.potassium.ToString("#0.00")
                             </div>
                             <div class="col-sm-2 form-box-table-cell text-center">
                                 <button aria-label="edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("CompostDetails", "Manure", new { id = item.id, target = "#compostmanure" } )">

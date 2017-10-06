@@ -55,10 +55,10 @@ namespace SERVERAPI.Controllers
                 }
                 mvm.manureName = fm.name;
                 mvm.moisture = fm.moisture;
-                mvm.nitrogen = fm.nitrogen.ToString("##.00");
+                mvm.nitrogen = fm.nitrogen.ToString("#0.00");
                 mvm.ammonia = fm.ammonia.ToString("#0");
-                mvm.phosphorous = fm.phosphorous.ToString("##.00");
-                mvm.potassium = fm.potassium.ToString("##.00");
+                mvm.phosphorous = fm.phosphorous.ToString("#0.00");
+                mvm.potassium = fm.potassium.ToString("#0.00");
                 mvm.nitrate = fm.nitrate.HasValue ? fm.nitrate.Value.ToString("#0") : "";
             }
             else

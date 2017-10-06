@@ -370,11 +370,11 @@ namespace SERVERAPI.Controllers
 
                 rd.manureName = m.name;
                 rd.moisture = m.moisture.ToString();
-                rd.ammonia = m.ammonia.ToString();
-                rd.nitrogen = m.nitrogen.ToString();
-                rd.phosphorous = m.phosphorous.ToString();
-                rd.potassium = m.potassium.ToString();
-                rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString() : "n/a";
+                rd.ammonia = m.ammonia.ToString("#0");
+                rd.nitrogen = m.nitrogen.ToString("#0.00");
+                rd.phosphorous = m.phosphorous.ToString("#0.00");
+                rd.potassium = m.potassium.ToString("#0.00");
+                rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString("#0") : "n/a";
 
                 rvm.details.Add(rd);
             }
