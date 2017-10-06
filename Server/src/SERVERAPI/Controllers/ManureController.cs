@@ -55,11 +55,11 @@ namespace SERVERAPI.Controllers
                 }
                 mvm.manureName = fm.name;
                 mvm.moisture = fm.moisture;
-                mvm.nitrogen = fm.nitrogen.ToString("##");
-                mvm.ammonia = fm.ammonia.ToString("##");
-                mvm.phosphorous = fm.phosphorous.ToString("##");
-                mvm.potassium = fm.potassium.ToString("##");
-                mvm.nitrate = fm.nitrate.HasValue ? fm.nitrate.Value.ToString("##") : "";
+                mvm.nitrogen = fm.nitrogen.ToString("##.00");
+                mvm.ammonia = fm.ammonia.ToString("#0");
+                mvm.phosphorous = fm.phosphorous.ToString("##.00");
+                mvm.potassium = fm.potassium.ToString("##.00");
+                mvm.nitrate = fm.nitrate.HasValue ? fm.nitrate.Value.ToString("#0") : "";
             }
             else
             {
@@ -209,7 +209,7 @@ namespace SERVERAPI.Controllers
                             {
                                 if (userMoisture < 0 || userMoisture > 100)
                                 {
-                                    ModelState.AddModelError("moisture", "Invalid.");
+                                    ModelState.AddModelError("moisture", "Invalid %.");
                                 }
                             }
                         }
@@ -222,6 +222,13 @@ namespace SERVERAPI.Controllers
                             if (!Decimal.TryParse(cvm.nitrogen, out userNitrogen))
                             {
                                 ModelState.AddModelError("nitrogen", "Invalid.");
+                            }
+                            else
+                            {
+                                if (userNitrogen < 0 || userNitrogen > 100)
+                                {
+                                    ModelState.AddModelError("nitrogen", "Invalid %.");
+                                }
                             }
                         }
                         if (string.IsNullOrEmpty(cvm.ammonia))
@@ -245,6 +252,13 @@ namespace SERVERAPI.Controllers
                             {
                                 ModelState.AddModelError("phosphorous", "Invalid.");
                             }
+                            else
+                            {
+                                if (userPhosphorous < 0 || userPhosphorous > 100)
+                                {
+                                    ModelState.AddModelError("phosphorous", "Invalid %.");
+                                }
+                            }
                         }
                         if (string.IsNullOrEmpty(cvm.potassium))
                         {
@@ -256,8 +270,15 @@ namespace SERVERAPI.Controllers
                             {
                                 ModelState.AddModelError("potassium", "Invalid.");
                             }
+                            else
+                            {
+                                if (userPotassium < 0 || userPotassium > 100)
+                                {
+                                    ModelState.AddModelError("potassium", "Invalid %.");
+                                }
+                            }
                         }
-                        if(cvm.compost)
+                        if (cvm.compost)
                         {
                             if (string.IsNullOrEmpty(cvm.nitrate))
                             {

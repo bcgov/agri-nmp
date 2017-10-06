@@ -21,7 +21,7 @@
                             <strong>N(%)</strong>
                         </div>
                         <div class="col-sm-1 form-box-table-cell">
-                            <strong>NH4-N(%)</strong>
+                            <strong>NH4-N(ppm)</strong>
                         </div>
                         <div class="col-sm-1 form-box-table-cell">
                             <strong>P(%)</strong>
@@ -61,7 +61,7 @@
                             <strong>N(%)</strong>
                         </div>
                         <div class="col-sm-1 form-box-table-cell">
-                            <strong>NH4-N(%)</strong>
+                            <strong>NH4-N(ppm)</strong>
                         </div>
                         <div class="col-sm-1 form-box-table-cell">
                             <strong>P(%)</strong>
@@ -82,16 +82,16 @@
                                 @item.moisture
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
-                                @item.nitrogen
+                                @item.nitrogen.ToString("#.00")
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
                                 @item.ammonia
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
-                                @item.phosphorous
+                                @item.phosphorous.ToString("#.00")
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
-                                @item.potassium
+                                @item.potassium.ToString("#.00")
                             </div>
                             <div class="col-sm-2 form-box-table-cell text-center">
                                 <button aria-label="edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("CompostDetails", "Manure", new { id = item.id, target = "#compostmanure" } )">
