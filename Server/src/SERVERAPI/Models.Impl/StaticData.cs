@@ -97,6 +97,33 @@ namespace SERVERAPI.Models.Impl
             return man;
         }
 
+        public Models.StaticData.Manure GetManureByName(string manureName)
+        {
+            Models.StaticData.Manure man = null;
+
+            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+            JArray manures = (JArray)rss["agri"]["nmp"]["manures"]["manure"];
+            JObject r = manures.Children<JObject>().FirstOrDefault(o => o["name"].ToString() == manureName);
+
+            if (r != null)
+            {
+                man = new Manure();
+                man.id = Convert.ToInt32(r["id"].ToString());
+                man.name = r["name"].ToString();
+                man.manure_class = r["manure_class"].ToString();
+                man.solid_liquid = r["solid_liquid"].ToString();
+                man.moisture = r["moisture"].ToString();
+                man.nitrogen = Convert.ToDecimal(r["nitrogen"].ToString());
+                man.ammonia = Convert.ToInt32(r["ammonia"].ToString());
+                man.phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
+                man.potassium = Convert.ToDecimal(r["potassium"].ToString());
+                man.dmid = Convert.ToInt32(r["dmid"].ToString());
+                man.nminerizationid = Convert.ToInt32(r["nminerizationid"].ToString());
+            }
+
+            return man;
+        }
+
         public Models.StaticData.Manures GetManures()
         {
             Models.StaticData.Manures mans = new Models.StaticData.Manures();
