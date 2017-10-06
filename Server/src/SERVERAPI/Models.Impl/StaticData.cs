@@ -103,7 +103,7 @@ namespace SERVERAPI.Models.Impl
 
             //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
             JArray manures = (JArray)rss["agri"]["nmp"]["manures"]["manure"];
-            JObject r = manures.Children<JObject>().FirstOrDefault(o => o["name"].ToString() == manureName);
+            JObject r = manures.Children<JObject>().FirstOrDefault(o => o["name"].ToString() == manureName.Trim());
 
             if (r != null)
             {
