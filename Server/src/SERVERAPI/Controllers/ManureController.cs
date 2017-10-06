@@ -292,6 +292,10 @@ namespace SERVERAPI.Controllers
                                 }
                             }
                         }
+                        if (_sd.GetManureByName(cvm.manureName) != null)
+                        {
+                            ModelState.AddModelError("manureName", "Description cannot match predefined entries.");
+                        }
                     }
 
                     List<FarmManure> manures = _ud.GetFarmManures();
@@ -306,10 +310,6 @@ namespace SERVERAPI.Controllers
                         }
                     }
 
-                    if(_sd.GetManureByName(cvm.manureName) != null)
-                    {
-                        ModelState.AddModelError("manureName", "Description cannot match predefined entries.");
-                    }
 
                     if (!ModelState.IsValid)
                         return View(cvm);
