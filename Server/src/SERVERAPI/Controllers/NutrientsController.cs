@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Controllers
 {
+    [RedirectingAction]
     public class NutrientsController : Controller
     {
         public IHostingEnvironment _env { get; set; }

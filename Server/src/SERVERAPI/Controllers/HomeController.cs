@@ -19,6 +19,7 @@ using System.Reflection;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Routing;
 
 namespace SERVERAPI.Controllers
 {
@@ -40,7 +41,25 @@ namespace SERVERAPI.Controllers
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
+    public class RedirectingAction : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
 
+            string x = context.HttpContext.Session.GetString("active");
+            if (x == null)
+            {
+                context.HttpContext.Session.SetString("active", "active");
+                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new
+                {
+                    controller = "Home",
+                    action = "Index"
+                }));
+            }
+        }
+    }
+    [RedirectingAction]
     public class HomeController : Controller
     {
         public IHostingEnvironment _env { get; set; }

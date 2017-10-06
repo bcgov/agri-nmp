@@ -121,7 +121,18 @@ namespace SERVERAPI
             app.UseResponseCompression();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                  name: "default",
+                  template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                  name: "catchall",
+                  template: "Home/Index");
+
+            });
         }
     }    
 }

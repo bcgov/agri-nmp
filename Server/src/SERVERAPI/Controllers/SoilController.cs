@@ -10,6 +10,7 @@ using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Controllers
 {
+    [RedirectingAction]
     public class SoilController : Controller
     {
         public IHostingEnvironment _env { get; set; }

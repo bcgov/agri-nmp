@@ -32,6 +32,7 @@ namespace SERVERAPI.Controllers
         public string options;
     }
 
+    [RedirectingAction]
     public class ReportController : Controller
     {
         public IHostingEnvironment _env { get; set; }

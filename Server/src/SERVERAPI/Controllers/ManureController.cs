@@ -10,6 +10,7 @@ using SERVERAPI.Models;
 
 namespace SERVERAPI.Controllers
 {
+    [RedirectingAction]
     public class ManureController : Controller
     {
         public IHostingEnvironment _env { get; set; }

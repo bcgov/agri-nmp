@@ -12,6 +12,7 @@ using SERVERAPI.Models;
 
 namespace SERVERAPI.Controllers
 {
+    [RedirectingAction]
     public class FieldsController : Controller
     {
         public IHostingEnvironment _env { get; set; }

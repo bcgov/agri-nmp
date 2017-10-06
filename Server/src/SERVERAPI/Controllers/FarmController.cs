@@ -12,6 +12,7 @@ using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Controllers
 {
+    [RedirectingAction]
     public class FarmController : Controller
     {
         public IHostingEnvironment _env { get; set; }
