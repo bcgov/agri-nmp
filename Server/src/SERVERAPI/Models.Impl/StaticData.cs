@@ -342,7 +342,7 @@ namespace SERVERAPI.Models.Impl
                     fertilizerUnit.id = Convert.ToInt32(r["id"].ToString());
                     fertilizerUnit.name = r["name"].ToString();
                     fertilizerUnit.dry_liquid = r["dry_liquid"].ToString();
-                    fertilizerUnit.conv_to_impgalperac = Convert.ToDecimal(r["conv_to_impgalperac"].ToString());
+                    fertilizerUnit.conv_to_impgalperac = r["conv_to_impgalperac"] == null ? 0 : Convert.ToDecimal(r["conv_to_impgalperac"].ToString());
                 }
             }
 
@@ -1214,6 +1214,19 @@ namespace SERVERAPI.Models.Impl
             return results;
         }
 
+
+        public Models.StaticData.FertilizerMethod GetFertilizerMethod(string id)
+        {
+            JArray array = (JArray)rss["agri"]["nmp"]["fertilizermethods"]["fertilizermethod"];
+            JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
+
+            Models.StaticData.FertilizerMethod fertilizerMethod = new Models.StaticData.FertilizerMethod();
+            fertilizerMethod.id = Convert.ToInt32((string)rec["id"]);
+            fertilizerMethod.name = (string)rec["name"];
+
+            return fertilizerMethod;
+        }
+
         public Models.StaticData.FertilizerMethods GetFertilizerMethods()
         {
             Models.StaticData.FertilizerMethods fertilizerMethods = new Models.StaticData.FertilizerMethods();
@@ -1249,7 +1262,7 @@ namespace SERVERAPI.Models.Impl
 
         public string GetSoilTestWarning()
         {
-            string template = (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMessage"];
+            string template = (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMessage`"];
             decimal pH = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestpH"]);
             decimal phosphorous = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
             decimal potassium = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.ViewModels;
 using SERVERAPI.Models;
-using Newtonsoft.Json;
 using SERVERAPI.Models.Impl;
-using SERVERAPI.ViewComponents;
 using SERVERAPI.Utility;
 using static SERVERAPI.Models.StaticData;
-using System.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Controllers

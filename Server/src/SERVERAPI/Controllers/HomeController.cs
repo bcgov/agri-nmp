@@ -151,7 +151,7 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
-        private static async Task<JSONResponse> BuildReport(INodeServices nodeServices)
+        private async Task<JSONResponse> BuildReport(INodeServices nodeServices)
         {
             JSONResponse result = null;
             var options = new { format = "letter", orientation = "landscape" };

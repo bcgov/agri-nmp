@@ -235,6 +235,9 @@ namespace SERVERAPI.Controllers
                             }
 
                             rfn.nutrientName = fertilizerName;
+                            rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).name : "";
+                            rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).name;
+
                             rfn.nutrientAmount = ft.applRate;
                             rf.nutrients.Add(rfn);
 
