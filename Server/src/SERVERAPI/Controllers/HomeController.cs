@@ -58,7 +58,7 @@ namespace SERVERAPI.Controllers
             base.OnActionExecuting(context);
         }
     }
-    [SessionTimeout]
+    ////[SessionTimeout]
     public class HomeController : Controller
     {
         public IHostingEnvironment _env { get; set; }
