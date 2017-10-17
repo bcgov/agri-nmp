@@ -41,25 +41,24 @@ namespace SERVERAPI.Controllers
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
     }
-    //public class RedirectingAction : ActionFilterAttribute
-    //{
-    //    public override void OnActionExecuting(ActionExecutingContext context)
-    //    {
-    //        base.OnActionExecuting(context);
-
-    //        string x = context.HttpContext.Session.GetString("active");
-    //        if (x == null)
-    //        {
-    //            context.HttpContext.Session.SetString("active", "active");
-    //            context.Result = new RedirectToRouteResult(new RouteValueDictionary(new
-    //            {
-    //                controller = "Home",
-    //                action = "Index"
-    //            }));
-    //        }
-    //    }
-    //}
-    //[RedirectingAction]
+    public class SessionTimeoutAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            string x = context.HttpContext.Session.GetString("active");
+            if (x == null)
+            {
+                context.HttpContext.Session.SetString("active", "active");
+                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new
+                {
+                    controller = "Home",
+                    action = "Index"
+                }));
+            }
+            base.OnActionExecuting(context);
+        }
+    }
+    [SessionTimeout]
     public class HomeController : Controller
     {
         public IHostingEnvironment _env { get; set; }
