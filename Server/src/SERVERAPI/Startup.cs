@@ -76,6 +76,7 @@ namespace SERVERAPI
                 options.IdleTimeout = TimeSpan.FromSeconds(1000000);
                 options.CookieHttpOnly = true;
                 options.CookieName = ".NMP.Session";
+                options.IdleTimeout = TimeSpan.FromHours(4);
             });
 
             // Enable Node Services

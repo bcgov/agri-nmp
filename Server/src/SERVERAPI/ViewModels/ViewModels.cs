@@ -283,7 +283,7 @@ namespace SERVERAPI.ViewModels
         public string dispP { get; set; }
         public string dispK { get; set; }
         public string dispPH { get; set; }
-
+        public string url { get; set; }
     }
     public class SoilTestDeleteViewModel
     {

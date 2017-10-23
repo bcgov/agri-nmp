@@ -13,74 +13,97 @@
         <div class="modal-body">
             <div class="form-horizontal">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>Sample Month</label>
-                    </div>
-                    <div class="col-md-3">
-                        <input class="form-control" asp-for="sampleDate" id="sampleDt" type="text" />
-                    </div>
-                    <div class="col-md-offset-3 col-md-8">
-                        <span asp-validation-for="sampleDate" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>NO3-H (ppm)</label>
-                    </div>
-                    <div class="col-md-2">
-                        <input class="form-control" asp-for="dispNO3H" id="sampleDt" type="text" />
-                    </div>
-                    <div class="col-md-offset-3 col-md-8">
-                        <span asp-validation-for="dispNO3H" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>P (ppm)</label>
-                    </div>
-                    <div class="col-md-2">
-                        <input class="form-control" asp-for="dispP" id="sampleDt" type="text" />
-                    </div>
-                    <div class="col-md-offset-3 col-md-8">
-                        <span asp-validation-for="dispP" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>K (ppm)</label>
-                    </div>
-                    <div class="col-md-2">
-                        <input class="form-control" asp-for="dispK" id="sampleDt" type="text" />
-                    </div>
-                    <div class="col-md-offset-3 col-md-8">
-                        <span asp-validation-for="dispK" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <label>pH</label>
-                    </div>
-                    <div class="col-md-2">
-                        <input class="form-control" asp-for="dispPH" id="sampleDt" type="text" />
-                    </div>
-                    <div class="col-md-offset-3 col-md-8">
-                        <span asp-validation-for="dispPH" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
+                <div class="row">
+                    <div class="form-horizontal">
 
-        </div>
-        <div class="modal-footer">
-            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-primary" type="submit" value="Save" />
-        </div>
-        @Html.HiddenFor(x => x.title)
-        @Html.HiddenFor(x => x.id)
-        @Html.HiddenFor(x => x.fieldName)
-        @Html.HiddenFor(x => x.buttonPressed)
-        @Html.HiddenFor(x => x.btnText)
-    </form>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <label style="font-size:14px">Soil test values (top 6 inches of soil)&nbsp;&nbsp;</label>
+                                <span>
+                                    <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of testing values" style="font-size:20px; padding-top:5px"></span></a>
+                                </span>
+                            </div>
+                        </div>                 
+                    </div>
+                </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>Sample Month</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" asp-for="sampleDate" id="sampleDt" type="text" />
+                            </div>
+                            <div class="col-md-offset-3 col-md-8">
+                                <span asp-validation-for="sampleDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>NO3-H (ppm)</label>
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" asp-for="dispNO3H" id="sampleDt" type="text" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Nitrate-Nitrogen</label>
+                            </div>
+                            <div class="col-md-offset-3 col-md-8">
+                                <span asp-validation-for="dispNO3H" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>P (ppm)</label>
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" asp-for="dispP" id="sampleDt" type="text" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Phosphorus</label>
+                            </div>
+                            <div class="col-md-offset-3 col-md-8">
+                                <span asp-validation-for="dispP" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>K (ppm)</label>
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" asp-for="dispK" id="sampleDt" type="text" />
+                            </div>
+                            <div class="col-md-4">
+                                <label>Potassium</label>
+                            </div>
+                            <div class="col-md-offset-3 col-md-8">
+                                <span asp-validation-for="dispK" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>pH</label>
+                            </div>
+                            <div class="col-md-2">
+                                <input class="form-control" asp-for="dispPH" id="sampleDt" type="text" />
+                            </div>
+                            <div class="col-md-offset-3 col-md-8">
+                                <span asp-validation-for="dispPH" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+                    <input class="btn btn-primary" type="submit" value="Save" />
+                </div>
+                @Html.HiddenFor(x => x.title)
+                @Html.HiddenFor(x => x.id)
+                @Html.HiddenFor(x => x.fieldName)
+                @Html.HiddenFor(x => x.buttonPressed)
+                @Html.HiddenFor(x => x.btnText)
+                @Html.HiddenFor(x => x.url)
+</form>
 </div>
 <script>
         $(document).ready(function () {

@@ -90,6 +90,8 @@ namespace SERVERAPI.Controllers
                 tvm.dispPH = fld.soilTest.valPH.ToString();
             }
 
+            tvm.url = _sd.GetExternalLink("soiltestvaluesexplanation");
+
             return View(tvm);
         }
         [HttpPost]

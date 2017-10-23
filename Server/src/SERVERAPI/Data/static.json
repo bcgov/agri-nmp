@@ -8757,6 +8757,11 @@
             "id": "1",
             "name": "soiltestexplanation",
             "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
+          },
+          {
+            "id": "2",
+            "name": "soiltestvaluesexplanation",
+            "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
           }
         ]
       },
