@@ -446,6 +446,7 @@ namespace SERVERAPI.Models.Impl
                 type.covercrop = r["covercrop"].ToString() == "true" ? true : false;
                 type.crudeproteinrequired = r["crudeproteinrequired"].ToString() == "true" ? true : false;
                 type.customcrop = r["customcrop"].ToString() == "true" ? true : false;
+                type.modifynitrogen = r["modifynitrogen"].ToString() == "true" ? true : false;
                 types.cropTypes.Add(type);
             }
 
@@ -465,6 +466,7 @@ namespace SERVERAPI.Models.Impl
             type.covercrop = rec["covercrop"].ToString() == "true" ? true : false;
             type.crudeproteinrequired = rec["crudeproteinrequired"].ToString() == "true" ? true : false;
             type.customcrop = rec["customcrop"].ToString() == "true" ? true : false;
+            type.modifynitrogen = rec["modifynitrogen"].ToString() == "true" ? true : false;
 
             return type;
         }

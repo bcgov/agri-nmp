@@ -1098,42 +1098,48 @@
             "name": "Forage",
             "covercrop": "false",
             "crudeproteinrequired": "true",
-            "customcrop": "false"
+            "customcrop": "false",
+            "modifynitrogen": "false"
           },
           {
             "id": "2",
             "name": "Cover crops (legumes)",
             "covercrop": "true",
             "crudeproteinrequired": "false",
-            "customcrop": "false"
+            "customcrop": "false",
+            "modifynitrogen": "false"
           },
           {
             "id": "3",
             "name": "Cover crops (non-legumes)",
             "covercrop": "true",
             "crudeproteinrequired": "false",
-            "customcrop": "false"
+            "customcrop": "false",
+            "modifynitrogen": "false"
           },
           {
             "id": "4",
             "name": "Grains",
             "covercrop": "false",
             "crudeproteinrequired": "true",
-            "customcrop": "false"
+            "customcrop": "false",
+            "modifynitrogen": "false"
           },
           {
             "id": "5",
             "name": "Field vegetables",
             "covercrop": "false",
             "crudeproteinrequired": "false",
-            "customcrop": "false"
+            "customcrop": "false",
+            "modifynitrogen": "true"
           },
           {
             "id": "6",
             "name": "Other (not listed) or none",
             "covercrop": "false",
             "crudeproteinrequired": "false",
-            "customcrop": "true"
+            "customcrop": "true",
+            "modifynitrogen": "false"
           }
         ]
       },

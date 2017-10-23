@@ -193,6 +193,7 @@ namespace SERVERAPI.Models
             public bool covercrop { get; set; }
             public bool crudeproteinrequired { get; set; }
             public bool customcrop { get; set; }
+            public bool modifynitrogen { get; set; }
         }
 
         public class Crops

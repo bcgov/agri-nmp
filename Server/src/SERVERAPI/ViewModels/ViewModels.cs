@@ -200,6 +200,8 @@ namespace SERVERAPI.ViewModels
         public string nCredit { get; set; }
         public bool coverCrop { get; set; }
         public bool? coverCropHarvested { get; set; }
+        public bool modNitrogen { get; set; }
+        public bool stdN { get; set; }
     }
     public class CropDeleteViewModel
     {

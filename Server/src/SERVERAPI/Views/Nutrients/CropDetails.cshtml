@@ -207,13 +207,32 @@
                                 </div>
                             </div>
                             <div class="Row">
-                                <div class="Cell">
-                                    <p>@Model.reqN</p>
-                                </div>
-                                <div class="Cell">
+                                @if (Model.modNitrogen)
+                                {
+                                    <div class="Cell2" style="vertical-align:middle">
+                                        <div class="input-group col-sm-12">
+                                            <input class="form-control col-sm-8" asp-for="reqN" type="text" id="reqN" />
+                                            @if (!Model.stdN)
+                                            {
+                                                <span class="input-group-btn" title="Reset to standard value">
+                                                    <button class="btn btn-default" type="button" id="rstN" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                                </span>
+                                            }
+
+                                        </div>
+                                        <span asp-validation-for="reqN" class="text-danger"></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px">
+                                        <p>@Model.reqN</p>
+                                    </div>
+                                }
+                                <div class="Cell" style="vertical-align:middle;padding-top:8px">
                                     <p>@Model.reqP2o5</p>
                                 </div>
-                                <div class="Cell">
+                                <div class="Cell" style="vertical-align:middle;padding-top:8px">
                                     <p>@Model.reqK2o</p>
                                 </div>
                             </div>

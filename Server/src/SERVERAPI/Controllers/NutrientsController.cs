@@ -836,6 +836,13 @@ namespace SERVERAPI.Controllers
                     Yield yld = _sd.GetYield(crop.yieldcd);
                     cvm.yieldUnit = "(" + yld.yielddesc + ")";
                     cvm.selTypOption = crop.croptypeid.ToString();
+
+                    CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
+                    if(crpTyp.modifynitrogen)
+                    {
+                        cvm.modNitrogen = true;
+                        cvm.stdN = false;
+                    }
                 }
 
                 CropDetailsSetup(ref cvm);
