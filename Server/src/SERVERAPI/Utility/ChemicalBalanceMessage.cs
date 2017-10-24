@@ -49,7 +49,18 @@ namespace SERVERAPI.Utility
                         legume = true;
                 }
 
-                message = _sd.GetMessageByChemicalBalance("AgrN", chemicalBalances.balance_AgrN, legume);
+                if (legume)
+                {
+                    // get sum of agronomic N for manure, fertilizer and other for field
+                    // sum the above number with the crop removal N
+                    // use the resulting number to determine message
+                    int LegumeAgronomicN = GetLegumeAgronomicN(fieldName);
+                    int LegumeRemovalN = GetLegumeRemovalN(fieldName);
+                    message = _sd.GetMessageByChemicalBalance("AgrN", LegumeAgronomicN + LegumeRemovalN, legume);
+                }
+                else
+                    message = _sd.GetMessageByChemicalBalance("AgrN", chemicalBalances.balance_AgrN, legume);
+
                 if (!string.IsNullOrEmpty(message))
                     messages.Add(new BalanceMessages { Message = message, Chemical = "AgrN" });
 
@@ -65,20 +76,24 @@ namespace SERVERAPI.Utility
                 if (!string.IsNullOrEmpty(message))
                     messages.Add(new BalanceMessages { Message = message, Chemical = "CropN" });
 
-                message = _sd.GetMessageByChemicalBalance("CropP2O5", chemicalBalances.balance_CropP2O5, legume, _cf.defaultSoilTestKelownaP);
+                message = _sd.GetMessageByChemicalBalance("CropP2O5", chemicalBalances.balance_CropP2O5, legume);
                 if (!string.IsNullOrEmpty(message))
                     messages.Add(new BalanceMessages { Message = message, Chemical = "CropP2O5" });
 
-                message = _sd.GetMessageByChemicalBalance("CropK2O", chemicalBalances.balance_CropK2O, legume, _cf.defaultSoilTestKelownaK);
+                message = _sd.GetMessageByChemicalBalance("CropK2O", chemicalBalances.balance_CropK2O, legume);
                 if (!string.IsNullOrEmpty(message))
                     messages.Add(new BalanceMessages { Message = message, Chemical = "CropK2O" });
+
+                message = _sd.GetMessageByChemicalBalance("AgrP2O5CropP2O5", chemicalBalances.balance_AgrP2O5, chemicalBalances.balance_CropP2O5);
+                if (!string.IsNullOrEmpty(message))
+                    messages.Add(new BalanceMessages { Message = message, Chemical = "AgrP2O5CropP2O5" });
+
             }
             return messages;
         }
 
         public ChemicalBalances GetChemicalBalances(string fldName)
-        {
-            //ChemicalBalances cb = new ChemicalBalances();
+        {            
             displayBalances = false;
 
             chemicalBalances.balance_AgrN = 0;
@@ -91,7 +106,6 @@ namespace SERVERAPI.Utility
             List<FieldCrop> crps = _ud.GetFieldCrops(fldName);
             foreach (var c in crps)
             {
-
                 chemicalBalances.balance_AgrN -= Convert.ToInt16(c.reqN);
                 chemicalBalances.balance_AgrP2O5 -= Convert.ToInt16(c.reqP2o5);
                 chemicalBalances.balance_AgrK2O -= Convert.ToInt16(c.reqK2o);
@@ -172,9 +186,7 @@ namespace SERVERAPI.Utility
 
                     _ud.UpdateFieldCrop(fieldName, cf);
                 }
-
             }
-
         }
 
         public void RecalcCropsSoilTestMessagesByFarm()
@@ -186,6 +198,45 @@ namespace SERVERAPI.Utility
                 RecalcCropsSoilTestMessagesByField(field.fieldName);
             }
         }
+
+        public int GetLegumeAgronomicN(string fldName)
+        {
+            int LegumeAgronomicN = 0;
+
+            List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName);
+            foreach (var m in manures)
+            {
+                LegumeAgronomicN += Convert.ToInt16(m.yrN);
+            }
+
+            List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
+            foreach (var f in fertilizers)
+            {
+                LegumeAgronomicN += Convert.ToInt16(f.fertN);
+            }
+
+            List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
+            foreach (var m in others)
+            {
+                LegumeAgronomicN += Convert.ToInt16(m.nitrogen);
+            }
+
+            return LegumeAgronomicN;
+        }
+
+        public int GetLegumeRemovalN(string fldName)
+        {
+            int LegumeRemovalN = 0;
+
+            List<FieldCrop> crps = _ud.GetFieldCrops(fldName);
+            foreach (var c in crps)
+            {
+                LegumeRemovalN -= Convert.ToInt16(c.remN);
+            }
+
+            return LegumeRemovalN;
+        }
+
     }
 
 }
