@@ -381,26 +381,24 @@ namespace SERVERAPI.Controllers
                 }
                 if(ft.custom)
                 {
-                    fvm.valN = nf.customN.Value.ToString("#");
-                    fvm.valP2o5 = nf.customP2o5.Value.ToString("#");
-                    fvm.valK2o = nf.customK2o.Value.ToString("#");
+                    fvm.valN = nf.customN.Value.ToString("0");
+                    fvm.valP2o5 = nf.customP2o5.Value.ToString("0");
+                    fvm.valK2o = nf.customK2o.Value.ToString("0");
                     fvm.manEntry = true;
                 }
                 else
                 {
                     Fertilizer ff = _sd.GetFertilizer(nf.fertilizerId.ToString());
-                    fvm.valN = ff.nitrogen.ToString("#");
-                    fvm.valP2o5 = ff.phosphorous.ToString("#");
-                    fvm.valK2o = ff.potassium.ToString("#");
+                    fvm.valN = ff.nitrogen.ToString("0");
+                    fvm.valP2o5 = ff.phosphorous.ToString("0");
+                    fvm.valK2o = ff.potassium.ToString("0");
                     fvm.manEntry = false;
                 }
             }
             else
 
             {
-                fvm.valN = "  ";
-                fvm.valP2o5 = "  ";
-                fvm.valK2o = "  ";
+                FertilizerDetail_Reset(ref fvm);
             }
 
             FertilizerDetailsSetup(ref fvm);
@@ -467,9 +465,7 @@ namespace SERVERAPI.Controllers
                         FertilizerDetailSetup_DefaultDensity(ref fvm);
                     }
 
-                    fvm.valN = "";
-                    fvm.valP2o5 = "";
-                    fvm.valK2o = "";
+                    FertilizerDetail_Reset(ref fvm);
 
                     return View(fvm);
                 }
@@ -484,17 +480,15 @@ namespace SERVERAPI.Controllers
                        !fvm.manEntry)
                     {
                         Fertilizer ft = _sd.GetFertilizer(fvm.selFertOption.ToString());
-                        fvm.valN = ft.nitrogen.ToString("#");
-                        fvm.valP2o5 = ft.phosphorous.ToString("#");
-                        fvm.valK2o = ft.potassium.ToString("#");
+                        fvm.valN = ft.nitrogen.ToString("0");
+                        fvm.valP2o5 = ft.phosphorous.ToString("0");
+                        fvm.valK2o = ft.potassium.ToString("0");
 
                         FertilizerDetailSetup_DefaultDensity(ref fvm);
                     }
                     else
                     {
-                        fvm.valN = "";
-                        fvm.valP2o5 = "";
-                        fvm.valK2o = "";
+                        FertilizerDetail_Reset(ref fvm);
                     }
                     return View(fvm);
                 }
@@ -747,6 +741,18 @@ namespace SERVERAPI.Controllers
                 fvm.density = _sd.GetLiquidFertilizerDensity(Convert.ToInt32(fvm.selFertOption), Convert.ToInt32(fvm.selDenOption)).value.ToString("#.##");
                 fvm.stdDensity = true;
             }
+
+            return;
+        }
+
+        private void FertilizerDetail_Reset(ref FertilizerDetailsViewModel fvm)
+        {
+            fvm.calcN = "0";
+            fvm.calcK2o = "0";
+            fvm.calcP2o5 = "0";
+            fvm.valN = "0";
+            fvm.valP2o5 = "0";
+            fvm.valK2o = "0";
 
             return;
         }
