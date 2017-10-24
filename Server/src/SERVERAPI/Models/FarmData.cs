@@ -94,6 +94,7 @@ namespace SERVERAPI.Models
         public string cropOther { get; set; }
         public decimal yield { get; set; }
         public decimal reqN { get; set; }
+        public decimal stdN { get; set; }
         public decimal reqP2o5 { get; set; }
         public decimal reqK2o { get; set; }
         public decimal remN { get; set; }

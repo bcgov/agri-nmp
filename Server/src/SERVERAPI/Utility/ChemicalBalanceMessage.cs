@@ -166,7 +166,18 @@ namespace SERVERAPI.Utility
             {
                 foreach (var _crop in fieldCrops)
                 {
+                    CropType crpTyp = new CropType();
                     FieldCrop cf = _ud.GetFieldCrop(fieldName, _crop.id);
+                    if (cf.cropId != null)
+                    {
+                        Crop cp = _sd.GetCrop(Convert.ToInt32(cf.cropId));
+                        crpTyp = _sd.GetCropType(cp.croptypeid);
+                    }
+                    else
+                    {
+                        crpTyp.modifynitrogen = false;
+                    }
+
                     CropRequirementRemoval crr = new CropRequirementRemoval();
                     ccrr.cropid = Convert.ToInt16(_crop.cropId);
                     ccrr.previousCropid = _crop.prevCropId;
@@ -177,7 +188,10 @@ namespace SERVERAPI.Utility
 
                     crr = ccrr.GetCropRequirementRemoval();
 
-                    cf.reqN = crr.N_Requirement;
+                    if (!crpTyp.modifynitrogen)
+                    {
+                        cf.reqN = crr.N_Requirement;
+                    }
                     cf.reqP2o5 = crr.P2O5_Requirement;
                     cf.reqK2o = crr.K2O_Requirement;
                     cf.remN = crr.N_Removal;

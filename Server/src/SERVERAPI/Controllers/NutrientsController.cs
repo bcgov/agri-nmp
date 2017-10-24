@@ -841,7 +841,26 @@ namespace SERVERAPI.Controllers
                     if(crpTyp.modifynitrogen)
                     {
                         cvm.modNitrogen = true;
-                        cvm.stdN = false;
+
+                        // check for standard
+                        CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
+
+                        calculateCropRequirementRemoval.cropid = Convert.ToInt16(cvm.selCropOption);
+                        calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yield);
+                        if (string.IsNullOrEmpty(cvm.crude))
+                            calculateCropRequirementRemoval.crudeProtien = null;
+                        else
+                            calculateCropRequirementRemoval.crudeProtien = Convert.ToDecimal(cvm.crude);
+                        calculateCropRequirementRemoval.coverCropHarvested = cvm.coverCropHarvested;
+                        calculateCropRequirementRemoval.fieldName = cvm.fieldName;
+                        if (!string.IsNullOrEmpty(cvm.nCredit))
+                            calculateCropRequirementRemoval.nCredit = Convert.ToInt16(cvm.nCredit);
+
+                        cropRequirementRemoval = calculateCropRequirementRemoval.GetCropRequirementRemoval();
+
+                        cvm.stdNAmt = cropRequirementRemoval.N_Requirement.ToString();
+
+                        cvm.stdN = (cvm.reqN == cropRequirementRemoval.N_Requirement.ToString()) ? true : false;
                     }
                 }
 
@@ -861,12 +880,7 @@ namespace SERVERAPI.Controllers
             }
             else
             {
-                cvm.reqN = "  0";
-                cvm.reqP2o5 = "  0";
-                cvm.reqK2o = "  0";
-                cvm.remN = "  0";
-                cvm.remP2o5 = "  0";
-                cvm.remK2o = "  0";
+                CropDetailsReset(ref cvm);
 
                 CropDetailsSetup(ref cvm);
             }
@@ -907,23 +921,13 @@ namespace SERVERAPI.Controllers
                         else
                         {
                             cvm.manEntry = false;
-                            cvm.reqN = "  0";
-                            cvm.reqP2o5 = "  0";
-                            cvm.reqK2o = "  0";
-                            cvm.remN = "  0";
-                            cvm.remP2o5 = "  0";
-                            cvm.remK2o = "  0";
+                            CropDetailsReset(ref cvm);
                         }
                     }
                     else
                     {
                         cvm.manEntry = false;
-                        cvm.reqN = "  0";
-                        cvm.reqP2o5 = "  0";
-                        cvm.reqK2o = "  0";
-                        cvm.remN = "  0";
-                        cvm.remP2o5 = "  0";
-                        cvm.remK2o = "  0";
+                        CropDetailsReset(ref cvm);
                     }
                     return View(cvm);
                 }
@@ -949,11 +953,26 @@ namespace SERVERAPI.Controllers
                     cvm.stdCrude = true;
                     return View(cvm);
                 }
+
+                if (cvm.buttonPressed == "ResetN")
+                {
+                    ModelState.Clear();
+                    cvm.buttonPressed = "";
+                    cvm.btnText = "Calculate";
+
+                    cvm.reqN = cvm.stdNAmt;
+
+                    cvm.stdN = true;
+                    return View(cvm);
+                }
+
                 if (cvm.buttonPressed == "CropChange")
                 {
                     ModelState.Clear();
                     cvm.buttonPressed = "";
                     cvm.btnText = "Calculate";
+
+                    CropDetailsReset(ref cvm);
 
                     if (cvm.selCropOption != "")
                     {
@@ -1167,6 +1186,23 @@ namespace SERVERAPI.Controllers
                         }
                     }
 
+                    if(cvm.modNitrogen)
+                    {
+                        if (Int32.TryParse(cvm.reqN, out tmp))
+                        {
+                            if (tmp <= 0)
+                            {
+                                ModelState.AddModelError("reqN", "Not a valid amount.");
+                                return View(cvm);
+                            }
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("reqN", "Not a valid number.");
+                            return View(cvm);
+                        }
+                    }
+
                     if (cvm.btnText == "Calculate")
                     {
                         ModelState.Clear();
@@ -1187,7 +1223,18 @@ namespace SERVERAPI.Controllers
 
                             cropRequirementRemoval = calculateCropRequirementRemoval.GetCropRequirementRemoval();
 
-                            cvm.reqN = cropRequirementRemoval.N_Requirement.ToString();
+                            if (!cvm.modNitrogen)
+                            {
+                                cvm.reqN = cropRequirementRemoval.N_Requirement.ToString();
+                            }
+                            else
+                            {
+                                if(cvm.reqN != cropRequirementRemoval.N_Requirement.ToString())
+                                {
+                                    cvm.stdN = false;
+                                }
+                            }
+                            cvm.stdNAmt = cropRequirementRemoval.N_Requirement.ToString();
                             cvm.reqP2o5 = cropRequirementRemoval.P2O5_Requirement.ToString();
                             cvm.reqK2o = cropRequirementRemoval.K2O_Requirement.ToString();
                             cvm.remN = cropRequirementRemoval.N_Removal.ToString();
@@ -1196,6 +1243,16 @@ namespace SERVERAPI.Controllers
                             if (cvm.crude != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
                             {
                                 cvm.stdCrude = false;
+                            }
+
+                            if (!cvm.modNitrogen)
+                            {
+                                CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
+                                if (crpTyp.modifynitrogen)
+                                {
+                                    cvm.modNitrogen = true;
+                                    cvm.stdN = true;
+                                }
                             }
                         }
 
@@ -1299,6 +1356,20 @@ namespace SERVERAPI.Controllers
                     cvm.prevOptions = _sd.GetPrevCropTypesDll(crp.prevcropcd.ToString()).ToList();
                 }
             }
+
+            return;
+        }
+        private void CropDetailsReset(ref CropDetailsViewModel cvm)
+        {
+            cvm.reqN = "  0";
+            cvm.reqP2o5 = "  0";
+            cvm.reqK2o = "  0";
+            cvm.remN = "  0";
+            cvm.remP2o5 = "  0";
+            cvm.remK2o = "  0";
+
+            cvm.modNitrogen = false;
+            cvm.stdN = true;
 
             return;
         }

@@ -220,7 +220,6 @@
                                             }
 
                                         </div>
-                                        <span asp-validation-for="reqN" class="text-danger"></span>
                                     </div>
                                 }
                                 else
@@ -235,6 +234,14 @@
                                 <div class="Cell" style="vertical-align:middle;padding-top:8px">
                                     <p>@Model.reqK2o</p>
                                 </div>
+                            </div>
+                            <div class="Row">
+                                @if (Model.modNitrogen)
+                                {
+                                    <div class="Cell2">
+                                        <span asp-validation-for="reqN" class="text-danger"></span>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -255,13 +262,13 @@
                                 </div>
                             </div>
                             <div class="Row">
-                                <div class="Cell">
+                                <div class="Cell" style="vertical-align:middle;padding-top:8px">
                                     <p>@Model.remN</p>
                                 </div>
-                                <div class="Cell">
+                                <div class="Cell" style="vertical-align:middle;padding-top:8px">
                                     <p>@Model.remP2o5</p>
                                 </div>
-                                <div class="Cell">
+                                <div class="Cell" style="vertical-align:middle;padding-top:8px">
                                     <p>@Model.remK2o</p>
                                 </div>
                             </div>
@@ -291,5 +298,8 @@
         @Html.HiddenFor(x => x.manEntry)
         @Html.HiddenFor(x => x.stdCrude)
         @Html.HiddenFor(x => x.nCredit)
+        @Html.HiddenFor(x => x.modNitrogen)
+        @Html.HiddenFor(x => x.stdN)
+        @Html.HiddenFor(x => x.stdNAmt)
     </form>
 </div>

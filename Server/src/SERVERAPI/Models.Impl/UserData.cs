@@ -536,6 +536,7 @@ namespace SERVERAPI.Models.Impl
             crp.yield = updtCrop.yield;
             crp.reqK2o = updtCrop.reqK2o;
             crp.reqN = updtCrop.reqN;
+            crp.stdN = updtCrop.stdN;
             crp.reqP2o5 = updtCrop.reqP2o5;
             crp.remK2o = updtCrop.remK2o;
             crp.remN = updtCrop.remN;
