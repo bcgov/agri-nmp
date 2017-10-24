@@ -60,6 +60,9 @@
                     @if (Model.fertilizerType == "liquid")
                     {
                         <div class="form-group col-sm-2">
+                            &nbsp;
+                        </div>
+                        <div class="form-group col-sm-2">
                             <label>Density</label>
                             <div class="input-group">
                                 <input class="form-control" asp-for="density" id="density" type="text" />
@@ -75,7 +78,6 @@
                         <div class="form-group col-sm-2">
                             <label>Density Units</label>
                             <select class="form-control" asp-for="selDenOption" asp-items="@(new SelectList(Model.denOptions,"Id","Value"))" id="ddlDensity">
-                                <option id="0" value="0"></option>
                             </select>
                             <span asp-validation-for="selDenOption" class="text-danger"></span>
                         </div>
@@ -88,7 +90,7 @@
                     <div class="form-group col-sm-4" style="margin:10px">
                         <div class="Table">
                             <div class="Title">
-                                <p>Fertilizer Contents</p>
+                                <p>Nutrient Analysis (%)</p>
                             </div>
                             <div class="Heading">
                                 <div class="Cell">
@@ -129,7 +131,7 @@
                     <div class="form-group col-sm-4" style="margin:10px">
                         <div class="Table">
                             <div class="Title">
-                                <p>Fertilizer Contents (%)</p>
+                                <p>Nutrient Analysis (%)</p>
                             </div>
                             <div class="Heading">
                                 <div class="Cell">
@@ -156,10 +158,11 @@
                         </div>
                     </div>
                 }
+                <div style="clear:both"></div>
                 <div class="form-group col-sm-4" style="margin:10px">
                     <div class="Table">
                         <div class="Title">
-                            <p>Available Long Term (lb/ac)</p>
+                            <p>Available Nutrients (lb/ac)</p>
                         </div>
                         <div class="Heading">
                             <div class="Cell">
