@@ -1011,6 +1011,25 @@ namespace SERVERAPI.Models.Impl
             return message;
         }
 
+        public string GetMessageByChemicalBalance(string balanceType, int balance1, int balance2)
+        {            
+            JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];
+            string message = null;
+
+            foreach (var r in array)
+            {
+                if (balanceType == r["balanceType"].ToString() &&
+                    balance1 >= Convert.ToInt32(r["balance_low"].ToString()) &&
+                    balance1 <= Convert.ToInt32(r["balance_high"].ToString()) &&
+                    balance2 >= Convert.ToInt32(r["balance1_low"].ToString()) &&
+                    balance2 <= Convert.ToInt32(r["balance1_high"].ToString()))
+                {
+                    message = r["text"].ToString();
+                }
+            }
+
+            return message;
+        }
 
         public Models.StaticData.FertilizerType GetFertilizerType(string id)
         {
