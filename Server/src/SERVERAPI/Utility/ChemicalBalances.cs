@@ -7,7 +7,7 @@ namespace SERVERAPI.Utility
 {
     public class ChemicalBalances
     {
-        public int balance_AgrN { get; set; }
+        public int balance_AgrN { get; set; }        
         public int balance_AgrP2O5 { get; set; }
         public int balance_AgrK2O { get; set; }
         public int balance_CropN { get; set; }

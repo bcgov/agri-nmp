@@ -955,19 +955,21 @@ namespace SERVERAPI.Models.Impl
             return cf;
         }
 
-        public string GetMessageByChemicalBalance(string balanceType, int balance, bool legume)
-        {
-            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+        public Utility.BalanceMessages GetMessageByChemicalBalance(string balanceType, int balance, bool legume)
+        {            
             JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];            
-            string message = null;
+            Utility.BalanceMessages bm = new Utility.BalanceMessages();
 
             foreach (var r in array)
             {
                 if (balanceType == r["balanceType"].ToString() && 
                     balance >= Convert.ToInt32(r["balance_low"].ToString()) &&
                     balance <= Convert.ToInt32(r["balance_high"].ToString()))
-                {                    
-                    message = string.Format(r["text"].ToString(), Math.Abs(balance).ToString());
+                {
+                    bm.Chemical = balanceType;
+                    if (r["displayMessage"].ToString() == "Yes")
+                        bm.Message = string.Format(r["text"].ToString(), Math.Abs(balance).ToString());
+                    bm.Icon = r["icon"].ToString();
                 }
 
                 //Message is only displayed for Legumes
@@ -975,16 +977,15 @@ namespace SERVERAPI.Models.Impl
                     !legume &&
                     Convert.ToInt32(r["balance_high"].ToString()) == 99999)
                 {
-                    message = string.Empty;
+                    bm = null;
                 }
             }
 
-            return message;
+            return bm;
         }
 
         public string GetMessageByChemicalBalance(string balanceType, int balance, bool legume, decimal soilTest)
-        {
-            //JObject rss = JObject.Parse(System.Text.Encoding.UTF8.GetString(_ctx.HttpContext.Session.Get("Static")));
+        {            
             JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];
             string message = null;
 
@@ -1011,10 +1012,10 @@ namespace SERVERAPI.Models.Impl
             return message;
         }
 
-        public string GetMessageByChemicalBalance(string balanceType, int balance1, int balance2)
+        public Utility.BalanceMessages GetMessageByChemicalBalance(string balanceType, int balance1, int balance2, string assignedChemical)
         {            
-            JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];
-            string message = null;
+            JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];            
+            Utility.BalanceMessages bm = new Utility.BalanceMessages();
 
             foreach (var r in array)
             {
@@ -1023,12 +1024,15 @@ namespace SERVERAPI.Models.Impl
                     balance1 <= Convert.ToInt32(r["balance_high"].ToString()) &&
                     balance2 >= Convert.ToInt32(r["balance1_low"].ToString()) &&
                     balance2 <= Convert.ToInt32(r["balance1_high"].ToString()))
-                {
-                    message = r["text"].ToString();
+                {                    
+                    bm.Chemical = assignedChemical;
+                    if (r["displayMessage"].ToString() == "Yes")
+                        bm.Message = r["text"].ToString();
+                    bm.Icon = r["icon"].ToString();
                 }
             }
-
-            return message;
+            
+            return bm;
         }
 
         public Models.StaticData.FertilizerType GetFertilizerType(string id)

@@ -8784,6 +8784,8 @@
           {
             "id": "1",
             "text": "Reduce N input by {0} lb/ac",
+            "displayMessage": "Yes",
+            "icon":  "Warning",
             "balanceType": "AgrN",
             "balance_low": "15",
             "balance_high": "99999"
@@ -8791,6 +8793,8 @@
           {
             "id": "2",
             "text": "Crop requirement for N is met",
+            "displayMessage": "No",
+            "icon": "Good",
             "balanceType": "AgrN",
             "balance_low": "-14",
             "balance_high": "14"
@@ -8798,13 +8802,17 @@
           {
             "id": "3",
             "text": "Crop requires more N, an additional {0} lb/ac",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "AgrN",
             "balance_low": "-99999",
             "balance_high": "-15"
           },
           {
             "id": "4",
-            "text": "Crop requirement for P2O5 is met, can be reduced by {0}",
+            "text": "Crop requirement for P2O5 is met, can be reduced by {0} lb/ac",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "AgrP2O5",
             "balance_low": "15",
             "balance_high": "99999"
@@ -8812,20 +8820,26 @@
           {
             "id": "5",
             "text": "Crop requirement for P2O5 is met",
+            "displayMessage": "No",
+            "icon": "Good",
             "balanceType": "AgrP2O5",
             "balance_low": "-14",
             "balance_high": "14"
           },
           {
             "id": "6",
-            "text": "Crop requires more P2O5, an additional {0}",
+            "text": "Crop requires more P2O5, an additional {0} lb/ac",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "AgrP2O5",
             "balance_low": "-99999",
             "balance_high": "-15"
           },
           {
             "id": "7",
-            "text": "Crop requirement for K2O is met, can be reduced by {0}",
+            "text": "Crop requirement for K2O is met, can be reduced by {0} lb/ac",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "AgrK2O",
             "balance_low": "15",
             "balance_high": "99999"
@@ -8833,13 +8847,17 @@
           {
             "id": "8",
             "text": "Crop requirement for K2O is met",
+            "displayMessage": "No",
+            "icon": "Good",
             "balanceType": "AgrK2O",
             "balance_low": "-14",
             "balance_high": "14"
           },
           {
             "id": "9",
-            "text": "Crop requires more K2O, an additional {0}",
+            "text": "Crop requires more K2O, an additional {0} lb/ac",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "AgrK2O",
             "balance_low": "-99999",
             "balance_high": "-15"
@@ -8847,6 +8865,8 @@
           {
             "id": "10",
             "text": "Excess N is a concern",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "CropN",
             "balance_low": "15",
             "balance_high": "99999"
@@ -8854,6 +8874,8 @@
           {
             "id": "11",
             "text": "Reduce P2O5 inputs in the long term",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "CropP2O5",
             "balance_low": "35",
             "balance_high": "99999",
@@ -8863,6 +8885,8 @@
           {
             "id": "12",
             "text": "Excess P is not yet a concern but expect P buildup in soil",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "CropP2O5",
             "balance_low": "35",
             "balance_high": "99999",
@@ -8872,6 +8896,8 @@
           {
             "id": "13",
             "text": "Excess K is an animal health concern",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "CropK2O",
             "balance_low": "20",
             "balance_high": "99999",
@@ -8881,6 +8907,8 @@
           {
             "id": "14",
             "text": "Excess K is not yet a concern but expect K buildup in soil",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "CropK2O",
             "balance_low": "20",
             "balance_high": "99999",
@@ -8890,10 +8918,12 @@
           {
             "id": "15",
             "text": "Reduce P2O5 inputs in the long term",
+            "displayMessage": "Yes",
+            "icon": "Warning",
             "balanceType": "AgrP2O5CropP2O5",
             "balance_low": "15",
             "balance_high": "99999",
-            "balance1_low": "55",
+            "balance1_low": "35",
             "balance1_high": "99999"
           }
         ]
