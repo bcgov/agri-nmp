@@ -977,6 +977,7 @@ namespace SERVERAPI.Controllers
                     cvm.buttonPressed = "";
                     cvm.btnText = "Calculate";
 
+                    PreviousCropSetup(ref cvm);
                     CropDetailsReset(ref cvm);
 
                     if (cvm.selCropOption != "")
@@ -1351,16 +1352,7 @@ namespace SERVERAPI.Controllers
                 }
             }
 
-            cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
-            if (!string.IsNullOrEmpty(cvm.selCropOption))
-            {
-                if (cvm.selCropOption != "select" &&
-                    cvm.selCropOption != "0")
-                {
-                    Crop crp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
-                    cvm.prevOptions = _sd.GetPrevCropTypesDll(crp.prevcropcd.ToString()).ToList();
-                }
-            }
+            PreviousCropSetup(ref cvm);
 
             return;
         }
@@ -1377,6 +1369,19 @@ namespace SERVERAPI.Controllers
             cvm.stdN = true;
 
             return;
+        }
+        private void PreviousCropSetup(ref CropDetailsViewModel cvm)
+        {
+            cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
+            if (!string.IsNullOrEmpty(cvm.selCropOption))
+            {
+                if (cvm.selCropOption != "select" &&
+                    cvm.selCropOption != "0")
+                {
+                    Crop crp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
+                    cvm.prevOptions = _sd.GetPrevCropTypesDll(crp.prevcropcd.ToString()).ToList();
+                }
+            }
         }
         public IActionResult RefreshManureList(string fieldName)
         {

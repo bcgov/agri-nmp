@@ -774,7 +774,7 @@ namespace SERVERAPI.Models.Impl
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
 
             type.id = Convert.ToInt32(rec["id"].ToString());
-            type.cropType = Convert.ToInt32(rec["croptype"].ToString());
+            type.prevcropcd = Convert.ToInt32(rec["prevcropcd"].ToString());
             type.name = rec["name"].ToString();
             type.nCreditMetric = Convert.ToInt32(rec["ncreditmetric"].ToString());
             type.nCreditImperial = Convert.ToInt32(rec["ncreditimperial"].ToString());
@@ -794,7 +794,7 @@ namespace SERVERAPI.Models.Impl
             {
                 Models.StaticData.PrevCropType type = new Models.StaticData.PrevCropType();
                 type.id = Convert.ToInt32(r["id"].ToString());
-                type.cropType = Convert.ToInt32(r["croptype"].ToString());
+                type.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
                 type.name = r["name"].ToString();
                 type.nCreditMetric = Convert.ToInt32(r["ncreditmetric"].ToString());
                 type.nCreditImperial = Convert.ToInt32(r["ncreditimperial"].ToString());
@@ -804,7 +804,7 @@ namespace SERVERAPI.Models.Impl
             return types;
         }
 
-        public List<Models.StaticData.SelectListItem> GetPrevCropTypesDll(string cropType)
+        public List<Models.StaticData.SelectListItem> GetPrevCropTypesDll(string prevCropCd)
         {
             Models.StaticData.PrevCropTypes types = GetPrevCropTypes();
 
@@ -812,7 +812,7 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var r in types.prevCropTypes)
             {
-                if (r.cropType.ToString() == cropType)
+                if (r.prevcropcd.ToString() == prevCropCd)
                 {
                     Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
                     typesOptions.Add(li);
