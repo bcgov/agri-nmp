@@ -20,6 +20,13 @@
                 </div>
             </div>
             <br />
+            @if (!string.IsNullOrEmpty(Model.warning))
+            {
+                <div class="form-group">
+                    <label class="text-danger">@Model.warning</label>
+                </div>
+                <br />
+            }
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>

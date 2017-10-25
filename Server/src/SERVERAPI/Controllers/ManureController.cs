@@ -391,12 +391,35 @@ namespace SERVERAPI.Controllers
         public ActionResult CompostDelete(int id, string target)
         {
             CompostDeleteViewModel dvm = new CompostDeleteViewModel();
+            bool manureUsed = false;
+
             dvm.id = id;
             dvm.target = target;
 
             FarmManure nm = _ud.GetFarmManure(id);
 
             dvm.manureName = nm.name;
+
+            // determine if the selected manure is currently being used on any of the fields
+            List<Field> flds = _ud.GetFields();
+
+            foreach (var fld in flds)
+            {
+                List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.fieldName);
+
+                foreach (var man in mans)
+                {
+                    if (id.ToString() == man.manureId)
+                    {
+                        manureUsed = true;
+                    }
+                }
+            }
+
+            if (manureUsed)
+            {
+                dvm.warning = _sd.GetUserPrompt("manuredeletewarning");
+            }
 
             dvm.act = "Delete";
 

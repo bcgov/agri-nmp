@@ -1200,34 +1200,6 @@
             "name": "none",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
-          },
-          {
-            "id": "10",
-            "prevcropcd": "4",
-            "name": "none",
-            "ncreditmetric": "0",
-            "ncreditimperial": "0"
-          },
-          {
-            "id": "14",
-            "prevcropcd": "4",
-            "name": "no legumes or established forage < 1/3 legumes",
-            "ncreditmetric": "0",
-            "ncreditimperial": "0"
-          },
-          {
-            "id": "15",
-            "prevcropcd": "4",
-            "name": "established forage 1/2 to 1/2 legume",
-            "ncreditmetric": "55",
-            "ncreditimperial": "50"
-          },
-          {
-            "id": "16",
-            "prevcropcd": "4",
-            "name": "established forage >1/2 legume",
-            "ncreditmetric": "110",
-            "ncreditimperial": "100"
           }
         ]
       },
@@ -8737,13 +8709,22 @@
           }
         ]
       },
+      "userprompts": {
+        "userprompt": [
+          {
+            "id": "1",
+            "name": "manuredeletewarning",
+            "text": "This manure has already been added to specific field(s) - deleting it will result in the deletion of it from the affected field(s)."
+          }
+        ]
+      },
       "messages": {
         "message": [
           {
             "id": "1",
             "text": "Reduce N input by {0} lb/ac",
             "displayMessage": "Yes",
-            "icon":  "Warning",
+            "icon": "Warning",
             "balanceType": "AgrN",
             "balance_low": "15",
             "balance_high": "99999"

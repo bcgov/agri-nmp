@@ -219,6 +219,7 @@ namespace SERVERAPI.ViewModels
         public string target { get; set; }
         [Display(Name = "Compost/Manure")]
         public string manureName { get; set; }
+        public string warning { get; set; }
     }
     public class FertilizerDetailsViewModel
     {

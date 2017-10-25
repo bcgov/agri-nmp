@@ -1336,5 +1336,18 @@ namespace SERVERAPI.Models.Impl
 
             return result;
         }
+
+        public string GetUserPrompt(string name)
+        {
+            string result = string.Empty;
+
+            JArray array = (JArray)rss["agri"]["nmp"]["userprompts"]["userprompt"];
+            JObject rec = array.Children<JObject>().FirstOrDefault(o => o["name"].ToString() == name);
+
+            if (rec != null)
+                result = (string)rec["text"];
+
+            return result;
+        }
     }
 }
