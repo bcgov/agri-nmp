@@ -174,6 +174,9 @@ namespace SERVERAPI.Utility
             // if a previous crop has been ploughed dowm account for the N in the field (passed in as a credit)
             crr.N_Requirement = crr.N_Requirement - nCredit;
 
+            // only reduce to 0
+            crr.N_Requirement = (crr.N_Requirement < 0) ? 0 : crr.N_Requirement;
+
             return crr;
         }
 

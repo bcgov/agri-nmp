@@ -941,8 +941,9 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     cvm.buttonPressed = "";
                     cvm.btnText = "Calculate";
-
                     cvm.nCredit = _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).nCreditImperial.ToString();
+                    CropDetailsReset(ref cvm);
+
                     return View(cvm);
                 }
 
