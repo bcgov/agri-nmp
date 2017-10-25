@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Controllers;
 using SERVERAPI.Models;
+using SERVERAPI.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace SERVERAPI.ViewComponents
         private Task<SoilTestsViewModel> GetSoilTestAsync()
         {
             SoilTestsViewModel svm = new SoilTestsViewModel();
+            Utility.SoilTestConversions stc = new SoilTestConversions(_ud, _sd);
+
             svm.missingTests = false;
 
             FarmDetails fd = _ud.FarmDetails();
@@ -48,8 +51,9 @@ namespace SERVERAPI.ViewComponents
                     dc.dispP = m.soilTest.ValP.ToString();
                     dc.dispK = m.soilTest.valK.ToString();
                     dc.dispPH = m.soilTest.valPH.ToString();
-                    dc.dispSTK = m.soilTest.ConvertedKelownaK.ToString();
-                    dc.dispSTP = m.soilTest.ConvertedKelownaP.ToString();
+                    dc.dispPRating = _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(m.soilTest));
+                    dc.dispKRating = _sd.SoilTestRating("potassium", stc.GetConvertedSTK(m.soilTest));
+
                 }
                 else
                 {
@@ -75,7 +79,9 @@ namespace SERVERAPI.ViewComponents
         public string sampleDate { get; set; }
         public string dispNO3H { get; set; }
         public string dispP { get; set; }
+        public string dispPRating { get; set; }
         public string dispK { get; set; }
+        public string dispKRating { get; set; }
         public string dispPH { get; set; }        
     }
 }
