@@ -16,7 +16,11 @@ namespace SERVERAPI.Utility
         private UserData _ud;
         private Models.Impl.StaticData _sd;
 
-        public ChemicalBalances chemicalBalances = new ChemicalBalances();
+        private const string MESSAGE_ICON_NONE = "none";
+        private const string MESSAGE_ICON_GOOD = "good";
+        private const string MESSAGE_ICON_WARNING = "warning";
+
+        public ChemicalBalances chemicalBalances = new ChemicalBalances();        
         public bool displayBalances { get; set; }
 
         public ChemicalBalanceMessage(UserData ud, Models.Impl.StaticData sd)
@@ -30,6 +34,8 @@ namespace SERVERAPI.Utility
             List<BalanceMessages> messages = new List<BalanceMessages>();
             bool legume = false;
             string message = string.Empty;
+            BalanceMessages bm = new BalanceMessages();
+
 
             //get soil test values
             ConversionFactor _cf = _sd.GetConversionFactor();
@@ -56,37 +62,38 @@ namespace SERVERAPI.Utility
                     // use the resulting number to determine message
                     int LegumeAgronomicN = GetLegumeAgronomicN(fieldName);
                     int LegumeRemovalN = GetLegumeRemovalN(fieldName);
-                    message = _sd.GetMessageByChemicalBalance("AgrN", LegumeAgronomicN + LegumeRemovalN, legume);
+                    bm = _sd.GetMessageByChemicalBalance("AgrN", LegumeAgronomicN + LegumeRemovalN, legume);
+                    if (!string.IsNullOrEmpty(bm.Chemical))
+                        messages.Add(bm);
                 }
-                else
-                    message = _sd.GetMessageByChemicalBalance("AgrN", chemicalBalances.balance_AgrN, legume);
+                
+                bm = _sd.GetMessageByChemicalBalance("AgrN", chemicalBalances.balance_AgrN, legume);
+                if (!string.IsNullOrEmpty(bm.Chemical))
+                    messages.Add(bm);
 
-                if (!string.IsNullOrEmpty(message))
-                    messages.Add(new BalanceMessages { Message = message, Chemical = "AgrN" });
+                bm = _sd.GetMessageByChemicalBalance("AgrP2O5", chemicalBalances.balance_AgrP2O5, legume);
+                if (!string.IsNullOrEmpty(bm.Chemical))
+                    messages.Add(bm);
 
-                message = _sd.GetMessageByChemicalBalance("AgrP2O5", chemicalBalances.balance_AgrP2O5, legume);
-                if (!string.IsNullOrEmpty(message))
-                    messages.Add(new BalanceMessages { Message = message, Chemical = "AgrP2O5" });
+                bm = _sd.GetMessageByChemicalBalance("AgrK2O", chemicalBalances.balance_AgrK2O, legume);
+                if (!string.IsNullOrEmpty(bm.Chemical))
+                    messages.Add(bm);
 
-                message = _sd.GetMessageByChemicalBalance("AgrK2O", chemicalBalances.balance_AgrK2O, legume);
-                if (!string.IsNullOrEmpty(message))
-                    messages.Add(new BalanceMessages { Message = message, Chemical = "AgrK2O" });
+                bm = _sd.GetMessageByChemicalBalance("CropN", chemicalBalances.balance_CropN, legume);
+                if (!string.IsNullOrEmpty(bm.Chemical))
+                    messages.Add(bm);
 
-                message = _sd.GetMessageByChemicalBalance("CropN", chemicalBalances.balance_CropN, legume);
-                if (!string.IsNullOrEmpty(message))
-                    messages.Add(new BalanceMessages { Message = message, Chemical = "CropN" });
+                bm = _sd.GetMessageByChemicalBalance("CropP2O5", chemicalBalances.balance_CropP2O5, legume);
+                if (!string.IsNullOrEmpty(bm.Chemical))
+                    messages.Add(bm);
 
-                message = _sd.GetMessageByChemicalBalance("CropP2O5", chemicalBalances.balance_CropP2O5, legume);
-                if (!string.IsNullOrEmpty(message))
-                    messages.Add(new BalanceMessages { Message = message, Chemical = "CropP2O5" });
+                bm = _sd.GetMessageByChemicalBalance("CropK2O", chemicalBalances.balance_CropK2O, legume);
+                if (!string.IsNullOrEmpty(bm.Chemical))
+                    messages.Add(bm);
 
-                message = _sd.GetMessageByChemicalBalance("CropK2O", chemicalBalances.balance_CropK2O, legume);
-                if (!string.IsNullOrEmpty(message))
-                    messages.Add(new BalanceMessages { Message = message, Chemical = "CropK2O" });
-
-                message = _sd.GetMessageByChemicalBalance("AgrP2O5CropP2O5", chemicalBalances.balance_AgrP2O5, chemicalBalances.balance_CropP2O5);
-                if (!string.IsNullOrEmpty(message))
-                    messages.Add(new BalanceMessages { Message = message, Chemical = "AgrP2O5CropP2O5" });
+                bm = _sd.GetMessageByChemicalBalance("AgrP2O5CropP2O5", chemicalBalances.balance_AgrP2O5, chemicalBalances.balance_CropP2O5, "CropP2O5");
+                if (!string.IsNullOrEmpty(bm.Chemical))
+                    messages.Add(bm);
 
             }
             return messages;
