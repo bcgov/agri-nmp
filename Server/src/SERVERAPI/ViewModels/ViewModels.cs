@@ -55,7 +55,7 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Area")]
         [Required]
         public string fieldArea { get; set; }
-        [Display(Name = "Comments")]
+        [Display(Name = "Comments (optional)")]
         public string fieldComment { get; set; }
         public string act { get; set; }
         public string userDataField { get; set; }
