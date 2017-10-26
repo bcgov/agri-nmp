@@ -978,6 +978,7 @@ namespace SERVERAPI.Models.Impl
                     Convert.ToInt32(r["balance_high"].ToString()) == 99999)
                 {
                     bm = null;
+                    return bm;
                 }
             }
 
