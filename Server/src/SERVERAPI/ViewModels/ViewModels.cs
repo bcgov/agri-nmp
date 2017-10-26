@@ -93,7 +93,7 @@ namespace SERVERAPI.ViewModels
         public string phosphorous { get; set; }
         [Display(Name = "K (%)")]
         public string potassium { get; set; }
-        [Display(Name = "NO3-N (ppm)")]
+        [Display(Name = "NO<sub>3</sub>-N (ppm)")]
         public string nitrate { get; set; }
         public bool bookValue { get; set; }
         public bool onlyCustom { get; set; }
