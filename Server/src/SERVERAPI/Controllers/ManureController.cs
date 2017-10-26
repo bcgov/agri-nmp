@@ -430,6 +430,26 @@ namespace SERVERAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+                // first remove manure from all fields that had it applied
+                if(!string.IsNullOrEmpty(dvm.warning))
+                {
+                    List<Field> flds = _ud.GetFields();
+
+                    foreach (var fld in flds)
+                    {
+                        List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.fieldName);
+
+                        foreach (var man in mans)
+                        {
+                            if (dvm.id.ToString() == man.manureId)
+                            {
+                                _ud.DeleteFieldNutrientsManure(fld.fieldName, man.id);
+                            }
+                        }
+                    }
+                }
+
+                // delete the actual manure
                 _ud.DeleteFarmManure(dvm.id);
 
                 string url = Url.Action("RefreshCompostList", "Manure");

@@ -196,6 +196,13 @@ namespace SERVERAPI.Controllers
                         nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
 
                         mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
+
+                        if (mvm.selApplOption != "" &&
+                            mvm.selApplOption != "select")
+                        {
+                            // recalc N and A values
+                            mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100).ToString("###");
+                        }
                     }
                     else
                     {
