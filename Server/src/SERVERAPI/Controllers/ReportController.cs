@@ -301,14 +301,17 @@ namespace SERVERAPI.Controllers
                 if(rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN") != null)
                 {
                     rf.alertN = true;
+                    rf.iconN = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN").Icon;
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5") != null)
                 {
                     rf.alertP = true;
+                    rf.iconP = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5").Icon;
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O") != null)
                 {
                     rf.alertK = true;
+                    rf.iconK = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon;
                 }
 
                 rvm.fields.Add(rf);
@@ -538,7 +541,7 @@ namespace SERVERAPI.Controllers
 
             string reportSources = await RenderSources();
 
-            result = await PrintReportAsync(reportSources, false);
+            result = await PrintReportAsync(reportSources, true);
 
             return result;
         }
