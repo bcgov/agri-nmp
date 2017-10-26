@@ -1200,6 +1200,27 @@
             "name": "none",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
+          },
+          {
+            "id": "9",
+            "prevcropcd": "3",
+            "name": "no legumes or established forage < 1/3 legumes",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "10",
+            "prevcropcd": "3",
+            "name": "established forage 1/2 to 1/2 legume",
+            "ncreditmetric": "55",
+            "ncreditimperial": "50"
+          },
+          {
+            "id": "11",
+            "prevcropcd": "3",
+            "name": "established forage >1/2 legume",
+            "ncreditmetric": "110",
+            "ncreditimperial": "100"
           }
         ]
       },
