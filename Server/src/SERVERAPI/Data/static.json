@@ -8756,7 +8756,7 @@
             "displayMessage": "No",
             "icon": "Good",
             "balanceType": "AgrN",
-            "balance_low": "-14",
+            "balance_low": "0",
             "balance_high": "14"
           },
           {
@@ -8766,7 +8766,7 @@
             "icon": "Warning",
             "balanceType": "AgrN",
             "balance_low": "-99999",
-            "balance_high": "-15"
+            "balance_high": "-1"
           },
           {
             "id": "4",
@@ -8783,7 +8783,7 @@
             "displayMessage": "No",
             "icon": "Good",
             "balanceType": "AgrP2O5",
-            "balance_low": "-14",
+            "balance_low": "0",
             "balance_high": "14"
           },
           {
@@ -8793,7 +8793,7 @@
             "icon": "Warning",
             "balanceType": "AgrP2O5",
             "balance_low": "-99999",
-            "balance_high": "-15"
+            "balance_high": "-1"
           },
           {
             "id": "7",
@@ -8810,7 +8810,7 @@
             "displayMessage": "No",
             "icon": "Good",
             "balanceType": "AgrK2O",
-            "balance_low": "-14",
+            "balance_low": "0",
             "balance_high": "14"
           },
           {
@@ -8820,63 +8820,10 @@
             "icon": "Warning",
             "balanceType": "AgrK2O",
             "balance_low": "-99999",
-            "balance_high": "-15"
+            "balance_high": "-1"
           },
           {
             "id": "10",
-            "text": "Excess N is a concern",
-            "displayMessage": "Yes",
-            "icon": "Warning",
-            "balanceType": "CropN",
-            "balance_low": "15",
-            "balance_high": "99999"
-          },
-          {
-            "id": "11",
-            "text": "Reduce P2O5 inputs in the long term",
-            "displayMessage": "Yes",
-            "icon": "Warning",
-            "balanceType": "CropP2O5",
-            "balance_low": "35",
-            "balance_high": "99999",
-            "soiltest_low": "100.5",
-            "soiltest_high": "99999"
-          },
-          {
-            "id": "12",
-            "text": "Excess P is not yet a concern but expect P buildup in soil",
-            "displayMessage": "Yes",
-            "icon": "Warning",
-            "balanceType": "CropP2O5",
-            "balance_low": "35",
-            "balance_high": "99999",
-            "soiltest_low": "80.5",
-            "soiltest_high": "100.4"
-          },
-          {
-            "id": "13",
-            "text": "Excess K is an animal health concern",
-            "displayMessage": "Yes",
-            "icon": "Warning",
-            "balanceType": "CropK2O",
-            "balance_low": "20",
-            "balance_high": "99999",
-            "soiltest_low": "250.5",
-            "soiltest_high": "99999"
-          },
-          {
-            "id": "14",
-            "text": "Excess K is not yet a concern but expect K buildup in soil",
-            "displayMessage": "Yes",
-            "icon": "Warning",
-            "balanceType": "CropK2O",
-            "balance_low": "20",
-            "balance_high": "99999",
-            "soiltest_low": "200.5",
-            "soiltest_high": "250.4"
-          },
-          {
-            "id": "15",
             "text": "Reduce P2O5 inputs in the long term",
             "displayMessage": "Yes",
             "icon": "Warning",
