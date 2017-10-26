@@ -5,9 +5,12 @@
     {
         foreach (var msg in Model.messages)
         {
-          <div class="gov-slim-alert gov-slim-alert-danger" role="alert" aria-live="assertive">
-              @msg.Message
-          </div>
+            if (!string.IsNullOrEmpty(msg.Message))
+            {
+              <div class="gov-slim-alert gov-slim-alert-danger" role="alert" aria-live="assertive">
+                  @msg.Message
+              </div>
+             }
         }
     }
 }
