@@ -8,14 +8,14 @@ stage('build') {
 }
 
 stage('deploy-test') {
-	input "Deploy to test?"		
+	timeout(time: 4, unit: 'HOURS') { input "Deploy to test?"}
 	node('master') {  
 		openshiftTag destStream: 'pdf', verbose: 'true', destTag: 'test', srcStream: 'pdf', srcTag: '$BUILD_ID'
 	}
 }
 
 stage('deploy-prod') {
-	input "Deploy to prod?"	
+	timeout(time: 24, unit: 'HOURS') { input "Deploy to prod?"}
 	node('master') {  
 		openshiftTag destStream: 'pdf', verbose: 'true', destTag: 'prod', srcStream: 'pdf', srcTag: '$BUILD_ID'  
 	}

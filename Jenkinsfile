@@ -25,7 +25,7 @@ node('maven') {
 
 
 stage('deploy-test') {
-  input "Deploy to test?"
+  timeout(time: 4, unit: 'HOURS') { input "Deploy to test?"}
   
   node('master'){
      openshiftTag destStream: 'nmp', verbose: 'true', destTag: 'test', srcStream: 'nmp', srcTag: '$BUILD_ID'
@@ -33,7 +33,7 @@ stage('deploy-test') {
 }
 
 stage('deploy-prod') {
-  input "Deploy to prod?"
+  timeout(time: 24, unit: 'HOURS') { input "Deployment to prod?"}
   node('master'){
      openshiftTag destStream: 'nmp', verbose: 'true', destTag: 'prod', srcStream: 'nmp', srcTag: '$BUILD_ID'
   }
