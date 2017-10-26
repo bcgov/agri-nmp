@@ -33,6 +33,33 @@ namespace SERVERAPI.ViewComponents
 
             chemicalBalances = cbm.GetChemicalBalances(fldName);
 
+            List<BalanceMessages> msgs = cbm.DetermineBalanceMessages(fldName);
+
+            foreach(var m in msgs)
+            {
+                switch (m.Chemical)
+                {
+                    case "CropN":
+                        cvm.reqNIcon = m.Icon;
+                        break;
+                    case "CropP2O5":
+                        cvm.reqPIcon = m.Icon;
+                        break;
+                    case "CropK2O":
+                        cvm.reqKIcon = m.Icon;
+                        break;
+                    case "AgrN":
+                        cvm.remNIcon = m.Icon;
+                        break;
+                    case "AgrP2O5":
+                        cvm.remPIcon = m.Icon;
+                        break;
+                    case "AgrK2O":
+                        cvm.remKIcon = m.Icon;
+                        break;
+                }
+            }
+
             cvm.reqN = chemicalBalances.balance_AgrN.ToString();
             cvm.reqP = chemicalBalances.balance_AgrP2O5.ToString();
             cvm.reqK = chemicalBalances.balance_AgrK2O.ToString();
@@ -48,10 +75,16 @@ namespace SERVERAPI.ViewComponents
     {
         public bool summaryReqd { get; set; }
         public string reqN { get; set; }
+        public string reqNIcon { get; set; }
         public string reqP { get; set; }
+        public string reqPIcon { get; set; }
         public string reqK { get; set; }
+        public string reqKIcon { get; set; }
         public string remN { get; set; }
+        public string remNIcon { get; set; }
         public string remP { get; set; }
+        public string remPIcon { get; set; }
         public string remK { get; set; }
+        public string remKIcon { get; set; }
     }
 }

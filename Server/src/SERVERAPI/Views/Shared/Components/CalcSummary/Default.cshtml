@@ -27,9 +27,27 @@
             <div class="Table">
                 <div class="TableBody">
                     <div class="Row">
-                        <div class="Cell2" style="width:30%; text-align:center">@Model.reqN</div>
-                        <div class="Cell2" style="width:30%; text-align:center">@Model.reqP</div>
-                        <div class="Cell2" style="width:30%; text-align:center">@Model.reqK</div>
+                        <div class="Cell2" style="width:30%; text-align:center">
+                            @Model.reqN
+                            @if (!string.IsNullOrEmpty(Model.reqNIcon))
+                            {
+                                <img src="~/images/@(Model.reqNIcon).svg" />
+                            }
+                        </div>
+                        <div class="Cell2" style="width:30%; text-align:center">
+                            @Model.reqP
+                            @if (!string.IsNullOrEmpty(Model.reqPIcon))
+                            {
+                                <img src="~/images/@(Model.reqPIcon).svg" />
+                            }
+                        </div>
+                        <div class="Cell2" style="width:30%; text-align:center">
+                            @Model.reqK
+                            @if (!string.IsNullOrEmpty(Model.reqKIcon))
+                            {
+                                <img src="~/images/@(Model.reqKIcon).svg" />
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -38,9 +56,27 @@
             <div class="Table">
                 <div class="TableBody">
                     <div class="Row">
-                        <div class="Cell2" style="width:30%; text-align:center">@Model.remN</div>
-                        <div class="Cell2" style="width:30%; text-align:center">@Model.remP</div>
-                        <div class="Cell2" style="width:30%; text-align:center">@Model.remK</div>
+                        <div class="Cell2" style="width:30%; text-align:center">
+                            @Model.remN
+                            @if (!string.IsNullOrEmpty(Model.remNIcon))
+                            {
+                                <img src="~/images/@(Model.remNIcon).svg" />
+                            }
+                        </div>
+                        <div class="Cell2" style="width:30%; text-align:center">
+                            @Model.remP
+                            @if (!string.IsNullOrEmpty(Model.remPIcon))
+                            {
+                                <img src="~/images/@(Model.remPIcon).svg" />
+                            }
+                        </div>
+                        <div class="Cell2" style="width:30%; text-align:center">
+                            @Model.remK
+                            @if (!string.IsNullOrEmpty(Model.remKIcon))
+                            {
+                                <img src="~/images/@(Model.remKIcon).svg" />
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

@@ -54,7 +54,6 @@
     <Folder Include="Migrations\" />
     <Folder Include="Services.Impl\" />
     <Folder Include="Services\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Home\temp.cshtml" />
