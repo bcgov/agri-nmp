@@ -302,21 +302,35 @@ namespace SERVERAPI.Controllers
                 string imgLoc = scheme + "://" + host + "/images/{0}.svg"; 
 
                 rf.alertMsgs = cbm.DetermineBalanceMessages(f.fieldName);
-                rf.alertMsgs.RemoveAll(r => r.Chemical.Contains("Agr"));
-                if(rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN") != null)
+                if(rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriN") != null)
                 {
                     rf.alertN = true;
-                    rf.iconN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN").Icon);
+                    rf.iconAgriN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriN").Icon);
+                }
+                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriP2O5") != null)
+                {
+                    rf.alertP = true;
+                    rf.iconAgriP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriP2O5").Icon);
+                }
+                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriK2O") != null)
+                {
+                    rf.alertK = true;
+                    rf.iconAgriK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriK2O").Icon);
+                }
+                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN") != null)
+                {
+                    rf.alertN = true;
+                    rf.iconCropN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN").Icon);
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5") != null)
                 {
                     rf.alertP = true;
-                    rf.iconP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5").Icon);
+                    rf.iconCropP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5").Icon);
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O") != null)
                 {
                     rf.alertK = true;
-                    rf.iconK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon);
+                    rf.iconCropK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon);
                 }
 
                 rvm.fields.Add(rf);

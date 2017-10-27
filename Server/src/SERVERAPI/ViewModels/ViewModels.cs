@@ -409,9 +409,12 @@ namespace SERVERAPI.ViewModels
         public bool alertN { get; set; }
         public bool alertP { get; set; }
         public bool alertK { get; set; }
-        public string iconN { get; set; }
-        public string iconP { get; set; }
-        public string iconK { get; set; }
+        public string iconAgriN { get; set; }
+        public string iconAgriP { get; set; }
+        public string iconAgriK { get; set; }
+        public string iconCropN { get; set; }
+        public string iconCropP { get; set; }
+        public string iconCropK { get; set; }
         public List<ReportFieldFootnote> footnotes { get; set; }
     }
     public class ReportFieldSoilTest

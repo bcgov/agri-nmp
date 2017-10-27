@@ -248,20 +248,50 @@
                     <tr>
                         <td style="border-top: 1px solid black;"><b>Balance</b></td>
                         <td></td>
-                        <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">@f.reqN</td>
-                        <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">@f.reqP</td>
-                        <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">@f.reqK</td>
+                        <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            @if (!string.IsNullOrEmpty(f.iconAgriN))
+                            {
+                                <img src="@Html.Raw(f.iconAgriN)" height="10" width="10" />
+                            }
+                            @f.reqN
+                        </td>
+                        <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            @if (!string.IsNullOrEmpty(f.iconAgriP))
+                            {
+                                <img src="@Html.Raw(f.iconAgriP)" height="10" width="10"  />
+                            }
+                            @f.reqP
+                        </td>
+                        <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            @if (!string.IsNullOrEmpty(f.iconAgriK))
+                            {
+                                <img src="@Html.Raw(f.iconAgriK)" height="10" width="10" />
+                            }
+                            @f.reqK
+                        </td>
                         <td style="border:none"></td>
 
-                        <td style="border-top: 1px solid black; text-align:center">
-                            @f.remN 
-                            @if (!string.IsNullOrEmpty(f.iconN))
+                        <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            @if (!string.IsNullOrEmpty(f.iconCropN))
                             {
-                                <img src="@Html.Raw(f.iconN)" />
+                                <img src="@Html.Raw(f.iconCropN)" height="10" width="10" />
                             }
+                            @f.remN
                        </td>
-                        <td style="border-top: 1px solid black; text-align:center; @{if (f.alertP) {@Html.Raw("background-color:#ffa007")} else {@Html.Raw("background-color:#efefef")} } ">@f.remP</td>
-                        <td style="border-top: 1px solid black; text-align:center; @{if (f.alertK) {@Html.Raw("background-color:#ffa007")} else {@Html.Raw("background-color:#efefef")} } ">@f.remK</td>
+                        <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            @if (!string.IsNullOrEmpty(f.iconCropP))
+                            {
+                                <img src="@Html.Raw(f.iconCropP)" height="10" width="10" />
+                            }
+                            @f.remP
+                        </td>
+                        <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            @if (!string.IsNullOrEmpty(f.iconCropK))
+                            {
+                                <img src="@Html.Raw(f.iconCropK)" height="10" width="10" />
+                            }
+                            @f.remK
+                        </td>
                     </tr>
 
                 </table>
@@ -317,7 +347,6 @@
                         }
                     </table>
                 }
-                 <p>@f.iconN</p>
 
                 @if (currpage != Model.fields.Count())
                 {
