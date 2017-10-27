@@ -299,7 +299,7 @@ namespace SERVERAPI.Controllers
                 var request = HttpContext.Request;
                 string scheme = request.Scheme;
                 string host = request.Host.ToString();
-                string imgLoc = scheme + "://" + host + "/images/{0}.svg";
+                string imgLoc = scheme + "://" + host + "/images/{0}.svg"; 
 
                 rf.alertMsgs = cbm.DetermineBalanceMessages(f.fieldName);
                 rf.alertMsgs.RemoveAll(r => r.Chemical.Contains("Agr"));
