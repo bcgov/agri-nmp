@@ -257,7 +257,7 @@
                             @f.remN 
                             @if (!string.IsNullOrEmpty(f.iconN))
                             {
-                                <img src="/wwwroot/images/down-arrow.png" />
+                                <img src="@Html.Raw(f.iconN)" />
                             }
                        </td>
                         <td style="border-top: 1px solid black; text-align:center; @{if (f.alertP) {@Html.Raw("background-color:#ffa007")} else {@Html.Raw("background-color:#efefef")} } ">@f.remP</td>
