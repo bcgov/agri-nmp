@@ -409,6 +409,9 @@ namespace SERVERAPI.ViewModels
         public bool alertN { get; set; }
         public bool alertP { get; set; }
         public bool alertK { get; set; }
+        public string iconN { get; set; }
+        public string iconP { get; set; }
+        public string iconK { get; set; }
         public List<ReportFieldFootnote> footnotes { get; set; }
     }
     public class ReportFieldSoilTest

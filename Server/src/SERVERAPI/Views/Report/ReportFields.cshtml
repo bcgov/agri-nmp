@@ -253,7 +253,13 @@
                         <td style="border-top: 1px solid black; text-align:center; background-color:#efefef">@f.reqK</td>
                         <td style="border:none"></td>
 
-                        <td style="border-top: 1px solid black; text-align:center; @{if (f.alertN) {@Html.Raw("background-color:#ffa007")} else {@Html.Raw("background-color:#efefef")} } ">@f.remN</td>
+                        <td style="border-top: 1px solid black; text-align:center">
+                            @f.remN 
+                            @if (!string.IsNullOrEmpty(f.iconN))
+                            {
+                                <img src="/wwwroot/images/down-arrow.png" />
+                            }
+                       </td>
                         <td style="border-top: 1px solid black; text-align:center; @{if (f.alertP) {@Html.Raw("background-color:#ffa007")} else {@Html.Raw("background-color:#efefef")} } ">@f.remP</td>
                         <td style="border-top: 1px solid black; text-align:center; @{if (f.alertK) {@Html.Raw("background-color:#ffa007")} else {@Html.Raw("background-color:#efefef")} } ">@f.remK</td>
                     </tr>
