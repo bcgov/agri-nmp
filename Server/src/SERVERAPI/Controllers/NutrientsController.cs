@@ -1333,7 +1333,7 @@ namespace SERVERAPI.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "Unexpected system error.");
+                ModelState.AddModelError("", "Unexpected system error -" + ex.Message);
             }
 
             return PartialView(cvm);
@@ -1630,6 +1630,22 @@ namespace SERVERAPI.Controllers
 
             var result = new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead , urlMsg = urlMsg};
             return result;
+        }
+        [HttpGet]
+        public ActionResult InfoMessage(string type)
+        {
+            InfoAgriViewModel ivm = new InfoAgriViewModel();
+
+            switch (type)
+            {
+                case "agri":
+                    ivm.text = _sd.GetUserPrompt("agriinfomessage");
+                    break;
+                case "crop":
+                    ivm.text = _sd.GetUserPrompt("cropinfomessage");
+                    break;
+            }
+            return PartialView("InfoMessage", ivm);
         }
     }
 }

@@ -8736,6 +8736,16 @@
             "id": "1",
             "name": "manuredeletewarning",
             "text": "This manure has already been added to specific field(s) - deleting it will result in the deletion of it from the affected field(s)."
+          },
+          {
+            "id": "2",
+            "name": "agriinfomessage",
+            "text": "<h1>Agronomic</h1><p>Sample text</p><ul><li>point 1</li><li>point 2</li></ul>"
+          },
+          {
+            "id": "2",
+            "name": "cropinfomessage",
+            "text": "<h1>Crop Removal</h1><p>Sample text</p><ul><li>point 1</li><li>point 2</li></ul>"
           }
         ]
       },
