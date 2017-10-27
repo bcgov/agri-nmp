@@ -35,7 +35,7 @@ namespace SERVERAPI.Controllers
             cvm.fields = new List<Field>();
 
             // not id entered so default to the first one for the farm
-            if(id == null)
+            if (id == null)
             {
                 List<Field> fldLst = _ud.GetFields();
 

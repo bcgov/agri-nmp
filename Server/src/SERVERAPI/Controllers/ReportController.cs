@@ -296,22 +296,27 @@ namespace SERVERAPI.Controllers
                 }
                 ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
 
+                var request = HttpContext.Request;
+                string scheme = request.Scheme;
+                string host = request.Host.ToString();
+                string imgLoc = scheme + "://" + host + "/images/{0}.svg"; 
+
                 rf.alertMsgs = cbm.DetermineBalanceMessages(f.fieldName);
                 rf.alertMsgs.RemoveAll(r => r.Chemical.Contains("Agr"));
                 if(rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN") != null)
                 {
                     rf.alertN = true;
-                    rf.iconN = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN").Icon;
+                    rf.iconN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN").Icon);
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5") != null)
                 {
                     rf.alertP = true;
-                    rf.iconP = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5").Icon;
+                    rf.iconP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5").Icon);
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O") != null)
                 {
                     rf.alertK = true;
-                    rf.iconK = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon;
+                    rf.iconK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon);
                 }
 
                 rvm.fields.Add(rf);
