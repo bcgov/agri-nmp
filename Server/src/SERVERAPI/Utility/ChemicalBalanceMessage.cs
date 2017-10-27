@@ -63,28 +63,30 @@ namespace SERVERAPI.Utility
                     int LegumeAgronomicN = GetLegumeAgronomicN(fieldName);
                     int LegumeRemovalN = GetLegumeRemovalN(fieldName);
                     bm = _sd.GetMessageByChemicalBalance("AgrN", LegumeAgronomicN + LegumeRemovalN, legume);
-                    if (!string.IsNullOrEmpty(bm.Chemical))
+                    if (bm != null)
                         messages.Add(bm);
                 }
-                
-                bm = _sd.GetMessageByChemicalBalance("AgrN", chemicalBalances.balance_AgrN, legume);
-                if (!string.IsNullOrEmpty(bm.Chemical))
-                    messages.Add(bm);
+                else
+                {
+                    bm = _sd.GetMessageByChemicalBalance("AgrN", chemicalBalances.balance_AgrN, legume);
+                    if (bm != null)
+                        messages.Add(bm);
+                }
 
                 bm = _sd.GetMessageByChemicalBalance("AgrP2O5", chemicalBalances.balance_AgrP2O5, legume);
-                if (!string.IsNullOrEmpty(bm.Chemical))
+                if (bm != null)
                     messages.Add(bm);
 
                 bm = _sd.GetMessageByChemicalBalance("AgrK2O", chemicalBalances.balance_AgrK2O, legume);
-                if (!string.IsNullOrEmpty(bm.Chemical))
+                if (bm != null)
                     messages.Add(bm);
 
                 bm = _sd.GetMessageByChemicalBalance("CropN", chemicalBalances.balance_CropN, legume);
-                if (!string.IsNullOrEmpty(bm.Chemical))
+                if (bm != null)
                     messages.Add(bm);
 
                 bm = _sd.GetMessageByChemicalBalance("CropP2O5", chemicalBalances.balance_CropP2O5, legume);
-                if (!string.IsNullOrEmpty(bm.Chemical))
+                if (bm != null)
                     messages.Add(bm);
 
                 bm = _sd.GetMessageByChemicalBalance("CropK2O", chemicalBalances.balance_CropK2O, legume);
@@ -92,7 +94,7 @@ namespace SERVERAPI.Utility
                     messages.Add(bm);
 
                 bm = _sd.GetMessageByChemicalBalance("AgrP2O5CropP2O5", chemicalBalances.balance_AgrP2O5, chemicalBalances.balance_CropP2O5, "CropP2O5");
-                if (!string.IsNullOrEmpty(bm.Chemical))
+                if (bm != null)
                     messages.Add(bm);
 
             }
