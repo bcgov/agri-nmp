@@ -8740,12 +8740,12 @@
           {
             "id": "2",
             "name": "agriinfomessage",
-            "text": "<h1>Agronomic</h1><p>Sample text</p><ul><li>point 1</li><li>point 2</li></ul>"
+            "text": "<h1>Agronomic Balance</h1><ul><li>considers whether the crop can reach optimal yield and quality</li><li>soil test values affect crop nutrient requirements</li><li>considers the nutrients available in the year of application</li><li>can show if too much N will be applied</li></ul>"
           },
           {
             "id": "2",
             "name": "cropinfomessage",
-            "text": "<h1>Crop Removal</h1><p>Sample text</p><ul><li>point 1</li><li>point 2</li></ul>"
+            "text": "<h1>Crop Removal Balance</h1><ul><li>considers the portion of the crop removed from the field</li><li>soil test values do not affect crop nutrient removal</li><li>considers the nutrients available in the long term</li><li>can show if too much P2O5 will be applied</li><li>shows potential for soil P or soil K to increase or decrease</li></ul>"
           }
         ]
       },
