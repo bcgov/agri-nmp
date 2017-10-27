@@ -970,14 +970,15 @@ namespace SERVERAPI.Models.Impl
                     if (r["displayMessage"].ToString() == "Yes")
                         bm.Message = string.Format(r["text"].ToString(), Math.Abs(balance).ToString());
                     bm.Icon = r["icon"].ToString();
-                }
+                
+                    //Message is removed for AgrN Legumes
+                    if (balanceType == "AgrN" &&
+                        legume &&
+                        Convert.ToInt32(r["balance_low"].ToString()) == -99999)
+                    {
+                        bm = null;                        
+                    }
 
-                //Message is only displayed for Legumes
-                if (balanceType == "CropN" &&
-                    !legume &&
-                    Convert.ToInt32(r["balance_high"].ToString()) == 99999)
-                {
-                    bm = null;
                     return bm;
                 }
             }

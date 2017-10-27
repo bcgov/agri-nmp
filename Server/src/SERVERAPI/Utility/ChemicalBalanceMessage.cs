@@ -46,7 +46,7 @@ namespace SERVERAPI.Utility
             //determine if a legume is included in the crops
             List<FieldCrop> fieldCrops = _ud.GetFieldCrops(fieldName);
 
-            if (fieldCrops.Count > 0)
+            if (fieldCrops.Count > 0) 
             {
                 foreach (var _crop in fieldCrops)
                 {
