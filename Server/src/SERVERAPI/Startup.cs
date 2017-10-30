@@ -73,9 +73,9 @@ namespace SERVERAPI
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(1000000);
-                options.CookieHttpOnly = true;
-                options.CookieName = ".NMP.Session";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Name = ".NMP.Session";
+                options.Cookie.Expiration = TimeSpan.FromHours(4);
                 options.IdleTimeout = TimeSpan.FromHours(4);
             });
 
