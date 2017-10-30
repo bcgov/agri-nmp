@@ -75,7 +75,6 @@ namespace SERVERAPI
                 // Set a short timeout for easy testing.
                 options.Cookie.HttpOnly = true;
                 options.Cookie.Name = ".NMP.Session";
-                options.Cookie.Expiration = TimeSpan.FromHours(4);
                 options.IdleTimeout = TimeSpan.FromHours(4);
             });
 

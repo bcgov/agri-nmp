@@ -37,7 +37,9 @@ namespace SERVERAPI.ViewModels
     }
     public class IndexViewModel
     {
+        public bool unsavedData { get; set; }
         public string userData { get; set; }
+        public string welcomeMsg { get; set; }
     }
     public class LaunchViewModel
     {

@@ -66,10 +66,11 @@ namespace SERVERAPI.Controllers
         public Models.Impl.StaticData _sd { get; set; }
         public AppSettings _settings;
 
-        public HomeController(IHostingEnvironment env, UserData ud)
+        public HomeController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;
             _ud = ud;
+            _sd = sd;
         }
         //public IActionResult Index()
         //{
@@ -77,12 +78,15 @@ namespace SERVERAPI.Controllers
         //}
         public IActionResult Index()
         {
-            LaunchViewModel lvm = new LaunchViewModel();
+            IndexViewModel lvm = new IndexViewModel();
             FarmData fd = _ud.FarmData();
             if(fd != null && fd.unsaved)
             {
                 lvm.unsavedData = true;
             }
+
+            lvm.welcomeMsg = _sd.GetUserPrompt("welcome");
+
 
             ViewBag.Title = "NMP";
             //LoadStatic();
