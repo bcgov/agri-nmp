@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.392"
+        "staticDataVersion": "2017.413"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8743,17 +8743,17 @@
           {
             "id": "1",
             "name": "manuredeletewarning",
-            "text": "This manure has already been added to specific field(s) - deleting it will result in the deletion of it from the affected field(s)."
+            "text": "This manure has already been added to specific field(s) - deleting it will remove it from the affected field(s)."
           },
           {
             "id": "2",
             "name": "welcome",
-            "text": "This is the <b>Welcome</b> massage. This is the <b>Welcome</b> massage. This is the <b>Welcome</b> massage. This is the <b>Welcome</b> massage."
+            "text": "<h1>Why Use the Nutrient Management Calculator</h1><ul><li>Optimize crop production</li><li>Use manure and compost efficiently</li><li>Pay only for the fertilizer you need</li><li>Interpret soil tests</li><li>Generate Reports</li><li>Download your work</ul>"
           },
           {
             "id": "3",
             "name": "disclaimer",
-            "text": "This is the <b>Disclaimer</b> massage. This is the <b>Disclaimer</b> massage. This is the <b>Disclaimer</b> massage. This is the <b>Disclaimer</b> massage."
+            "text": "The Province of British Columbia assumes no liability for inaccurate or incomplete information in this web application. Advice provided in this web application does not relieve anyone of their obligations under any legislation."
           },
           {
             "id": "4",
@@ -8768,17 +8768,17 @@
           {
             "id": "6",
             "name": "fileoverwritewarning",
-            "text": "There is currently an active file open that has changes that have not been downloaded - to continue without downloading the current file please select Continue."
+            "text": "There are unsaved changes that have not been downloaded - to continue without downloading the current file, please select Continue."
           },
           {
             "id": "7",
             "name": "finishwithoutsaving",
-            "text": "There is currently an active file open that has changes that have not been downloaded - to continue without downloading the current file please select Continue."
+            "text": "There are unsaved changes that have not been downloaded - to finish without downloading the current file, please select Finish."
           },
           {
             "id": "8",
             "name": "fieldcommentplaceholder",
-            "text": "Optional"
+            "text": "Optional: clay loam soil texture, problem with salt in southwest corner  "
           }
         ]
       },
@@ -8804,7 +8804,7 @@
           },
           {
             "id": "3",
-            "text": "Crop requires more N, an additional {0} lb/ac",
+            "text": "Add N to meet crop requirements, an additional {0} lb/ac",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrN",
@@ -8831,7 +8831,7 @@
           },
           {
             "id": "6",
-            "text": "Crop requires more P2O5, an additional {0} lb/ac",
+            "text": "Add P2O5 to meet crop requirements, an additional {0} lb/ac",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrP2O5",
@@ -8858,7 +8858,7 @@
           },
           {
             "id": "9",
-            "text": "Crop requires more K2O, an additional {0} lb/ac",
+            "text": "Add K2O to meet crop requirements, an additional {0} lb/ac",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrK2O",
@@ -8867,7 +8867,7 @@
           },
           {
             "id": "10",
-            "text": "Reduce P2O5 inputs in the long term",
+            "text": "Reduce P2O5 inputs this year or in the long term",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrP2O5CropP2O5",
