@@ -62,7 +62,10 @@
                     <div class="form-group col-sm-5">
                         <label>Previous crop ploughed down</label>
                         <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlPrev">
+                            @if (Model.prevOptions.Count() > 1)
+                            {
                             <option>select</option>
+                            }
                         </select>
                         <span asp-validation-for="selPrevOption" class="text-danger"></span>
                     </div>
