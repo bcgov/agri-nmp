@@ -751,7 +751,8 @@ label {
 .form-box {
   border: 1px solid #ccc;
   border-radius: 2px;
-  max-width: 640px;
+  /*max-width: 640px;*/
+  max-width: 880px;
   margin: 0 auto 30px;
 }
 
