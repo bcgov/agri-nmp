@@ -49,6 +49,9 @@ namespace SERVERAPI.ViewModels
     public class NewWarningViewModel
     {
     }
+    public class FinishWarningViewModel
+    {
+    }
     public class FieldDetailViewModel
     {
         [Display(Name = "Field Name")]
@@ -312,6 +315,8 @@ namespace SERVERAPI.ViewModels
         public bool nutrientSourceAnalysis { get; set; }
         public bool soilTestSummary { get; set; }
         public bool recordKeepingSheets { get; set; }
+        public bool unsavedData { get; set; }
+        public string url { get; set; }
     }
     public class ReportSourcesViewModel
     {

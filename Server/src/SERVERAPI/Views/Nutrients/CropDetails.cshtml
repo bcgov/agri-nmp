@@ -60,7 +60,7 @@
                 <div style="clear:both"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-5">
-                        <label>Previous crop ploughed down</label>
+                        <label>N credit for previous crop ploughed down</label>
                         <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlPrev">
                             @if (Model.prevOptions.Count() > 1)
                             {
@@ -71,7 +71,7 @@
                     </div>
                     <div class="form-group col-sm-2">
                         <div style="text-align:center">
-                            <label>N credit for previous crop ploughed down (lb/ac)</label>
+                            <label>N credit (lb/ac)</label>
                         </div>
                         <div style="text-align:center; padding-top:10px;">
                             <label>@Model.nCredit</label>

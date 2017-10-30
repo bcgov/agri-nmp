@@ -81,8 +81,16 @@
             <br />
             <div class="form-box-submit">
                 <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Save Your Data" onclick="window.location.href='@Url.Action("Download", "Home" )';" />
+                @if (Model.unsavedData)
+                {
+                    <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" data_modal2="" data-type="@Url.Action("FinishWarning", "Report")" />
+                }
+                else
+                {
+                    <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="window.location.href='@Model.url'" />
+                }
             </div>
+            @Html.HiddenFor(x => x.unsavedData)
         </form>
     </div>
 </div>
@@ -106,5 +114,45 @@
         window.open(url, "_blank");
     }
 
+    $(document).on("click", '[data_modal2]', function (e) {
+        $.ajaxSetup({ cache: false });
+        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $('#myModalContent').load($type, function () {
+            $('#myModal').modal({
+                /*backdrop: 'static',*/
+                //keyboard: true
+            }, 'show');
+            bindForm2(this);
+        });
+        return false;
+    });
+
+    function bindForm2(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize()
+            })
+                .done(function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        window.location.href = result.url;
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm2(dialog);
+                    }
+                });
+
+            return false;
+        });
+
+    }
+
+    $(document).ready(function () {
+        $.ajaxSetup({ cache: false });
+    });
 </script>
 }

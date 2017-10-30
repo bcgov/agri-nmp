@@ -54,6 +54,8 @@ namespace SERVERAPI.Controllers
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
             ReportViewModel rvm = new ReportViewModel();
+            rvm.unsavedData = farmData.unsaved;
+            rvm.url = _sd.GetExternalLink("finishpagetarget");
 
             return View(rvm);
         }
@@ -706,6 +708,17 @@ namespace SERVERAPI.Controllers
             }
 
             return result;
+        }
+        public IActionResult FinishWarning()
+        {
+            FinishWarningViewModel fvm = new FinishWarningViewModel();
+            return View(fvm);
+        }
+        [HttpPost]
+        public IActionResult FinishWarning(FinishWarningViewModel fvm)
+        {
+            string url = _sd.GetExternalLink("finishpagetarget");
+            return Json(new { success = true, url = url });
         }
     }
 }
