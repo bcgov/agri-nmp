@@ -40,6 +40,8 @@ namespace SERVERAPI.ViewModels
         public bool unsavedData { get; set; }
         public string userData { get; set; }
         public string welcomeMsg { get; set; }
+        public string disclaimerMsg { get; set; }
+        public string staticDataVersionMsg { get; set; }
     }
     public class LaunchViewModel
     {

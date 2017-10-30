@@ -1365,11 +1365,7 @@ namespace SERVERAPI.Models.Impl
         {
             string result = string.Empty;
 
-            JArray array = (JArray)rss["agri"]["nmp"]["version"]["staticDataVersion"];
-            JObject rec = array.Children<JObject>().FirstOrDefault();
-
-            if (rec != null)
-                result = (string)rec["staticDataVersion"];
+            result = rss["agri"]["nmp"]["versions"]["staticDataVersion"].ToString();
 
             return result;
         }

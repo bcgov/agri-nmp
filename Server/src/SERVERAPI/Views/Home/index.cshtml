@@ -20,15 +20,15 @@
     <!-- PAGE CONTENT -->
     <form asp-controller="Home" method="post">
         <div class="row">
-            <div id="main-content" class="contentPageMainColumn col-xs-12">
-                <h3>Welcome to the Nutrient Management Program</h3>
-                <br />
-                @Html.Raw(Model.welcomeMsg)
+            <div id="main-content" class="contentPageMainColumn col-xs-12">                
+                <p>
+                    @Html.Raw(Model.welcomeMsg)
+                </p>   
+                
+
                 @*The Nutrient Management Program uses your production objectives, soil resources, and regional climate to provide farm specific recommendations for fertilizer and manure application rates.  Use the program for one time reference, or incorporate the results into a farm Nutrient Management Plan.*@
                 <br />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <br />
-                <br />
                 <br />
                 <br />
                 <div class="Table" style="clear:both">
@@ -68,6 +68,15 @@
                             </div>
                             <div class="Cell col-sm-3">
                             </div>
+                        </div>  
+                        <p>&nbsp;</p>
+                        <div class="small">                            
+                            <p>
+                                @Html.Raw(Model.disclaimerMsg)
+                            </p>
+                            <p>
+                                Static Data Version: @Html.Raw(Model.staticDataVersionMsg)
+                            </p>
                         </div>
                     </div>
                 </div>
