@@ -8774,6 +8774,11 @@
             "id": "7",
             "name": "finishwithoutsaving",
             "text": "There is currently an active file open that has changes that have not been downloaded - to continue without downloading the current file please select Continue."
+          },
+          {
+            "id": "8",
+            "name": "fieldcommentplaceholder",
+            "text": "Optional"
           }
         ]
       },

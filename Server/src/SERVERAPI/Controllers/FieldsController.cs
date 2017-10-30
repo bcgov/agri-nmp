@@ -44,6 +44,7 @@ namespace SERVERAPI.Controllers
             fvm.target = target;
             fvm.actn = actn;
             fvm.cntl = cntl;
+            fvm.placehldr = _sd.GetUserPrompt("fieldcommentplaceholder");
 
             if (!string.IsNullOrEmpty(name))
             {

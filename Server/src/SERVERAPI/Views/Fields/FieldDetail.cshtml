@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label asp-for="fieldComment"></label>
                 <div>
-                    <textarea asp-for="fieldComment" rows="2" cols="80" style="resize:none"></textarea>
+                    <textarea asp-for="fieldComment" rows="2" cols="80" style="resize:none" placeholder="@Model.placehldr"></textarea>
                     <span asp-validation-for="fieldComment"></span>
                 </div>
             </div>
@@ -47,5 +47,6 @@
         @Html.HiddenFor(x => x.target)
         @Html.HiddenFor(x => x.cntl)
         @Html.HiddenFor(x => x.actn)
+        @Html.HiddenFor(x => x.placehldr)
     </form>
 </div>

@@ -73,6 +73,7 @@ namespace SERVERAPI.ViewModels
         public string cntl { get; set; }
         public string actn { get; set; }
         public int fieldId { get; set; }
+        public string placehldr { get; set; }
     }
     public class FieldDeleteViewModel
     {
