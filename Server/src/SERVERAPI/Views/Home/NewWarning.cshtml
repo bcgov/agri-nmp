@@ -13,7 +13,7 @@
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <p class="text-danger">There is currently an active file open that has changes that have not been downloaded - to continue without downloading the current file please select Continue.</p>
+                <p class="text-danger">@Model.msg</p>
             </div>
             <br />
             <br />
@@ -23,5 +23,6 @@
             <input class="btn btn-primary" type="button" value="Save Changes" onclick="location.href='@Url.Action("Download", "Home")'" />
             <input class="btn btn-primary" type="submit" value="Continue" />
         </div>
-    </form>
+        @Html.HiddenFor(x => x.msg)
+  </form>
 </div>

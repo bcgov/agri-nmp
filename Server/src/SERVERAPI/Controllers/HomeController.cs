@@ -103,6 +103,7 @@ namespace SERVERAPI.Controllers
         public IActionResult NewWarning()
         {
             NewWarningViewModel nvm = new NewWarningViewModel();
+            nvm.msg = _sd.GetUserPrompt("fileoverwritewarning");
             return View(nvm);
         }
         [HttpPost]

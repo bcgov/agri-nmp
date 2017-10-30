@@ -572,7 +572,7 @@ namespace SERVERAPI.Controllers
 
             string reportAnalysis = await RenderAnalysis();
 
-            result = await PrintReportAsync(reportAnalysis, false);
+            result = await PrintReportAsync(reportAnalysis, true);
 
             return result;
         }
@@ -582,7 +582,7 @@ namespace SERVERAPI.Controllers
 
             string reportApplication = await RenderApplication();
 
-            result = await PrintReportAsync(reportApplication, false);
+            result = await PrintReportAsync(reportApplication, true);
 
             return result;
         }
@@ -592,7 +592,7 @@ namespace SERVERAPI.Controllers
 
             string reportSummary = await RenderSummary();
 
-            result = await PrintReportAsync(reportSummary, false);
+            result = await PrintReportAsync(reportSummary, true);
 
             return result;
         }
@@ -603,6 +603,22 @@ namespace SERVERAPI.Controllers
             string reportFonts = await RenderFonts();
 
             result = await PrintReportAsync(reportFonts, false);
+
+            return result;
+        }
+        public async Task<IActionResult> PrintComplete()
+        {
+            FileContentResult result = null;
+
+            string reportApplication = await RenderApplication();
+            string reportSources = await RenderSources();
+            string reportFields = await RenderFields();
+            string reportAnalysis = await RenderAnalysis();
+            string reportSummary = await RenderSummary();
+
+            string report = reportApplication + reportSources + reportFields + reportAnalysis + reportSummary;
+
+            result = await PrintReportAsync(report, true);
 
             return result;
         }
@@ -712,6 +728,7 @@ namespace SERVERAPI.Controllers
         public IActionResult FinishWarning()
         {
             FinishWarningViewModel fvm = new FinishWarningViewModel();
+            fvm.msg = _sd.GetUserPrompt("finishwithoutsaving");
             return View(fvm);
         }
         [HttpPost]

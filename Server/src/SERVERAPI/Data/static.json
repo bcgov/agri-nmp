@@ -8764,6 +8764,16 @@
             "id": "5",
             "name": "cropinfomessage",
             "text": "<h1>Crop Removal Balance</h1><ul><li>considers the portion of the crop removed from the field</li><li>soil test values do not affect crop nutrient removal</li><li>considers the nutrients available in the long term</li><li>can show if too much P2O5 will be applied</li><li>shows potential for soil P or soil K to increase or decrease</li></ul>"
+          },
+          {
+            "id": "6",
+            "name": "fileoverwritewarning",
+            "text": "There is currently an active file open that has changes that have not been downloaded - to continue without downloading the current file please select Continue."
+          },
+          {
+            "id": "7",
+            "name": "finishwithoutsaving",
+            "text": "There is currently an active file open that has changes that have not been downloaded - to continue without downloading the current file please select Continue."
           }
         ]
       },

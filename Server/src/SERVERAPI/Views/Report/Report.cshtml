@@ -42,13 +42,14 @@
         <!-- PAGE CONTENT -->
         <form asp-controller="Report" asp-action="Report" method="post">
             <div class="form-box">
-                <div class="form-box-header clearfix">
-                    <legend class="form-box-heading">Select the sections you would like on your report</legend>
+                <div class="form-box-header clearfix" style="text-align:center">
+                    <legend class="form-box-heading">PDF Report</legend>
                 </div>
                 <div class="form-box-body">
                     <div class="form-box-fields">
-                        <div class="row">
-                            
+                        <div class="row" style="text-align:center">
+                            <a href="@Url.Action("PrintComplete", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Complete Report" /></span></a>
+
                             <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
                                     <a href="@Url.Action("PrintFields","Report")" target="_blank">Detailed Field Reports</a>
                             </div>

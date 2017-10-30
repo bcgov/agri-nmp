@@ -48,9 +48,11 @@ namespace SERVERAPI.ViewModels
     }
     public class NewWarningViewModel
     {
+        public string msg { get; set; }
     }
     public class FinishWarningViewModel
     {
+        public string msg { get; set; }
     }
     public class FieldDetailViewModel
     {
