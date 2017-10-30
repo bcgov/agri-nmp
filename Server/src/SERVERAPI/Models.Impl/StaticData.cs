@@ -1351,5 +1351,27 @@ namespace SERVERAPI.Models.Impl
 
             return result;
         }
+
+        public Models.StaticData.Version GetVersionData()
+        {
+            Models.StaticData.Version version = new Models.StaticData.Version();
+
+            version.staticDataVersion = (string)rss["agri"]["nmp"]["version"]["staticDataVersion"];
+
+            return version;
+        }
+
+        public string GetStaticDataVersion()
+        {
+            string result = string.Empty;
+
+            JArray array = (JArray)rss["agri"]["nmp"]["version"]["staticDataVersion"];
+            JObject rec = array.Children<JObject>().FirstOrDefault();
+
+            if (rec != null)
+                result = (string)rec["staticDataVersion"];
+
+            return result;
+        }
     }
 }
