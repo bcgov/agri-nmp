@@ -1148,79 +1148,79 @@
           {
             "id": "1",
             "prevcropcd": "1",
-            "name": "none",
+            "name": "established forage: 0-30% legumes",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           },
           {
             "id": "2",
             "prevcropcd": "1",
-            "name": "no legumes or established forage < 1/3 legumes",
-            "ncreditmetric": "0",
-            "ncreditimperial": "0"
-          },
-          {
-            "id": "3",
-            "prevcropcd": "1",
-            "name": "established forage 1/2 to 1/2 legume",
+            "name": "established forage: 30-50% legumes",
             "ncreditmetric": "55",
             "ncreditimperial": "50"
           },
           {
-            "id": "4",
+            "id": "3",
             "prevcropcd": "1",
-            "name": "established forage >1/2 legume",
+            "name": "established forage: 50-100% legumes",
             "ncreditmetric": "110",
             "ncreditimperial": "100"
           },
           {
-            "id": "5",
+            "id": "4",
             "prevcropcd": "1",
-            "name": "perennial legumes ploughed in seeding year",
+            "name": "legume cover crop",
             "ncreditmetric": "78",
             "ncreditimperial": "70"
           },
           {
-            "id": "6",
+            "id": "5",
             "prevcropcd": "1",
-            "name": "field bean residues",
-            "ncreditmetric": "30",
-            "ncreditimperial": "27"
+            "name": "other (no credit)",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "6",
+            "prevcropcd": "2",
+            "name": "not applicable",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
           },
           {
             "id": "7",
-            "prevcropcd": "2",
-            "name": "none",
+            "prevcropcd": "3",
+            "name": "established forage: 0-30% legumes",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           },
           {
             "id": "8",
             "prevcropcd": "3",
-            "name": "none",
-            "ncreditmetric": "0",
-            "ncreditimperial": "0"
-          },
-          {
-            "id": "9",
-            "prevcropcd": "3",
-            "name": "no legumes or established forage < 1/3 legumes",
-            "ncreditmetric": "0",
-            "ncreditimperial": "0"
-          },
-          {
-            "id": "10",
-            "prevcropcd": "3",
-            "name": "established forage 1/2 to 1/2 legume",
+            "name": "established forage: 30-50% legumes",
             "ncreditmetric": "55",
             "ncreditimperial": "50"
           },
           {
-            "id": "11",
+            "id": "9",
             "prevcropcd": "3",
-            "name": "established forage >1/2 legume",
+            "name": "established forage: 50-100% legumes",
             "ncreditmetric": "110",
             "ncreditimperial": "100"
+          },
+          {
+            "id": "10",
+            "prevcropcd": "3",
+            "name": "legume cover crop",
+            "ncreditmetric": "45",
+            "ncreditimperial": "40"
+          },
+          {
+            "id": "11",
+            "prevcropcd": "3",
+            "name": "other (none)",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
           }
         ]
       },
