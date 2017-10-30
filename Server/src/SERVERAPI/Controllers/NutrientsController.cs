@@ -987,25 +987,26 @@ namespace SERVERAPI.Controllers
                     PreviousCropSetup(ref cvm);
                     CropDetailsReset(ref cvm);
 
-                    if (cvm.selCropOption != "")
+                    if (cvm.selCropOption != "" &&
+                        cvm.selCropOption != "select")
                     {
                         Crop cp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
                         Yield yld = _sd.GetYield(cp.yieldcd);
 
                         cvm.yieldUnit = "(" + yld.yielddesc + ")";
+
+                        if (cvm.showCrude)
+                        {
+                            cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
+                            cvm.stdCrude = true;
+                        }
+
+                        CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
+                        decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                        if (defaultYield.HasValue)
+                            cvm.yield = defaultYield.Value.ToString("#.#");
                     }
                     cvm.selPrevOption = string.Empty;
-
-                    if (cvm.showCrude)
-                    {
-                        cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
-                        cvm.stdCrude = true;
-                    }
-
-                    CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
-                    decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
-                    if (defaultYield.HasValue)
-                        cvm.yield = defaultYield.Value.ToString("#.#");
 
                     return View(cvm);
                 }
@@ -1333,7 +1334,7 @@ namespace SERVERAPI.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "Unexpected system error.");
+                ModelState.AddModelError("", "Unexpected system error -" + ex.Message);
             }
 
             return PartialView(cvm);
@@ -1630,6 +1631,22 @@ namespace SERVERAPI.Controllers
 
             var result = new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead , urlMsg = urlMsg};
             return result;
+        }
+        [HttpGet]
+        public ActionResult InfoMessage(string type)
+        {
+            InfoAgriViewModel ivm = new InfoAgriViewModel();
+
+            switch (type)
+            {
+                case "agri":
+                    ivm.text = _sd.GetUserPrompt("agriinfomessage");
+                    break;
+                case "crop":
+                    ivm.text = _sd.GetUserPrompt("cropinfomessage");
+                    break;
+            }
+            return PartialView("InfoMessage", ivm);
         }
     }
 }

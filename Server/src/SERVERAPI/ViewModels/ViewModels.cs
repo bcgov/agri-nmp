@@ -473,4 +473,9 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         public string potassium { get; set; }
     }
+    public class InfoAgriViewModel
+    {
+        public string title { get; set; }
+        public string text { get; set; }
+    }
 }

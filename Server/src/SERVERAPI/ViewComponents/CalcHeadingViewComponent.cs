@@ -45,5 +45,7 @@ namespace SERVERAPI.ViewComponents
     public class CalcHeadingViewModel
     {
         public bool headingReqd { get; set; }
+        public string urlAgri { get; set; }
+        public string urlCrop { get; set; }
     }
 }
