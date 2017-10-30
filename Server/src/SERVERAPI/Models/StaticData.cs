@@ -7,6 +7,11 @@ namespace SERVERAPI.Models
 {
     public class StaticData
     {
+        public class Version
+        {
+            public string staticDataVersion { get; set; }            
+        }
+
         public class ConversionFactor
         {
             public decimal n_protein_conversion { get; set; }
