@@ -650,7 +650,7 @@ namespace SERVERAPI.Controllers
             options.header.contents = "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
                                       "Planning Year: " + _ud.FarmDetails().year;
             options.footer.height = "20mm";
-            options.footer.contents = "<span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span>";
+            options.footer.contents = "<div><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span></div><div style=\"float:right\">Static Data Version " + _sd.GetStaticDataVersion() + "</div>";
 
             // call the microservice
             try
