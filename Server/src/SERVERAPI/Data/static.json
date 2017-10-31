@@ -8779,6 +8779,11 @@
             "id": "8",
             "name": "fieldcommentplaceholder",
             "text": "Optional: clay loam soil texture, problem with salt in southwest corner  "
+          },
+          {
+            "id": "9",
+            "name": "ncreditlabel",
+            "text": "Previous crop ploughed down (N credit)"
           }
         ]
       },

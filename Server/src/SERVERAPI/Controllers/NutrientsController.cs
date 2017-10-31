@@ -813,6 +813,7 @@ namespace SERVERAPI.Controllers
             cvm.id = id;
             cvm.stdCrude = true;
             cvm.nCredit = "0";
+            cvm.nCreditLabel = _sd.GetUserPrompt("ncreditlabel");
 
             if (id != null)
             {

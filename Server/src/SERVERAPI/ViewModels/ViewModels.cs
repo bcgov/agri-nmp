@@ -208,6 +208,7 @@ namespace SERVERAPI.ViewModels
         public bool manEntry { get; set; }
         public string cropDesc { get; set; }
         public string nCredit { get; set; }
+        public string nCreditLabel { get; set; }
         public bool coverCrop { get; set; }
         public bool? coverCropHarvested { get; set; }
         public bool modNitrogen { get; set; }

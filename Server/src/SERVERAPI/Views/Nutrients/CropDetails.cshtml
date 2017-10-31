@@ -60,7 +60,7 @@
                 <div style="clear:both"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-5">
-                        <label>N credit for previous crop ploughed down</label>
+                        <label>@Model.nCreditLabel</label>
                         <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlPrev">
                             @if (Model.prevOptions.Count() > 1)
                             {
@@ -304,5 +304,6 @@
         @Html.HiddenFor(x => x.modNitrogen)
         @Html.HiddenFor(x => x.stdN)
         @Html.HiddenFor(x => x.stdNAmt)
+        @Html.HiddenFor(x => x.nCreditLabel)
     </form>
 </div>
