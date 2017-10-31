@@ -609,6 +609,7 @@ namespace SERVERAPI.Controllers
         public async Task<IActionResult> PrintComplete()
         {
             FileContentResult result = null;
+            string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
 
             string reportApplication = await RenderApplication();
             string reportSources = await RenderSources();
@@ -616,7 +617,7 @@ namespace SERVERAPI.Controllers
             string reportAnalysis = await RenderAnalysis();
             string reportSummary = await RenderSummary();
 
-            string report = reportApplication + reportSources + reportFields + reportAnalysis + reportSummary;
+            string report = reportApplication + pageBreak + reportSources + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
 
             result = await PrintReportAsync(report, true);
 

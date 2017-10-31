@@ -43,35 +43,24 @@
         <form asp-controller="Report" asp-action="Report" method="post">
             <div class="form-box">
                 <div class="form-box-header clearfix" style="text-align:center">
-                    <legend class="form-box-heading">PDF Report</legend>
+                    <legend class="form-box-heading">PDF Reports</legend>
                 </div>
                 <div class="form-box-body">
                     <div class="form-box-fields">
                         <div class="row" style="text-align:center">
-                            <a href="@Url.Action("PrintComplete", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Complete Report" /></span></a>
-
-                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
-                                    <a href="@Url.Action("PrintFields","Report")" target="_blank">Detailed Field Reports</a>
+                            <div style="margin-top:10px">
+                                <a href="@Url.Action("PrintComplete", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Complete Report" /></span></a>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
-                                    <a href="@Url.Action("PrintSources","Report")" target="_blank">Your Nutrient Sources</a>
+                            <div style="margin-top:10px">
+                                <a href="@Url.Action("PrintFields", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Field Summaries" /></span></a>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
-                                <a href="@Url.Action("PrintApplication","Report")" target="_blank">Nutrient Application Schedule</a>
+                            <div style="margin-top:10px">
+                                <a href="@Url.Action("PrintApplication", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Application Schedule" /></span></a>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
-                                <a href="@Url.Action("PrintAnalysis","Report")" target="_blank">Nutrient Source Analysis</a>
+                            <div style="margin-top:10px">
+                                <a href="#"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Record Keeping Sheets" /></span></a>
                             </div>
-                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
-                                <a href="@Url.Action("PrintSummary","Report")" target="_blank">Field Soil Test Summary</a>
-                            </div>
-                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
-                                <a href="#">Record Keeping Sheets</a>
-                            </div>
-                            <div class="col-sm-offset-2 col-sm-7" style="margin-top:10px">
-                                <a href="@Url.Action("PrintFonts","Report")" target="_blank">Fonts</a>
-                            </div>
-                         </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -98,23 +87,6 @@
 @section Scripts {
 <script type="text/javascript">
     
-    function PrintReport() {
-        var flds = $("#fldschk").prop('checked');
-        var src = $("#srcchk").prop('checked');
-        var sched = $("#schedchk").prop('checked');
-        var analysis = $("#anlchk").prop('checked');
-        var summ = $("#summchk").prop('checked');
-        var sheets = $("#sheetchk").prop('checked');
-        var url = '@Html.Raw(Url.Action("Print", "Report", new { fields = -1, sources = -2, application = -3, analysis = -4, summary = -5, sheets = -6 }))';
-        var url = url.replace("-1", flds);
-        var url = url.replace("-2", src);
-        var url = url.replace("-3", sched);
-        var url = url.replace("-4", analysis);
-        var url = url.replace("-5", summ);
-        var url = url.replace("-6", sheets);
-        window.open(url, "_blank");
-    }
-
     $(document).on("click", '[data_modal2]', function (e) {
         $.ajaxSetup({ cache: false });
         $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
