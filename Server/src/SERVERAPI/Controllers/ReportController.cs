@@ -304,20 +304,20 @@ namespace SERVERAPI.Controllers
                 string imgLoc = scheme + "://" + host + "/images/{0}.svg"; 
 
                 rf.alertMsgs = cbm.DetermineBalanceMessages(f.fieldName);
-                if(rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriN") != null)
+                if(rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN") != null)
                 {
                     rf.alertN = true;
-                    rf.iconAgriN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriN").Icon);
+                    rf.iconAgriN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN").Icon);
                 }
-                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriP2O5") != null)
+                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrP2O5") != null)
                 {
                     rf.alertP = true;
-                    rf.iconAgriP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriP2O5").Icon);
+                    rf.iconAgriP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrP2O5").Icon);
                 }
-                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriK2O") != null)
+                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrK2O") != null)
                 {
                     rf.alertK = true;
-                    rf.iconAgriK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgriK2O").Icon);
+                    rf.iconAgriK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrK2O").Icon);
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN") != null)
                 {

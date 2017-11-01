@@ -40,22 +40,22 @@ namespace SERVERAPI.ViewComponents
                 switch (m.Chemical)
                 {
                     case "CropN":
-                        cvm.reqNIcon = m.Icon;
-                        break;
-                    case "CropP2O5":
-                        cvm.reqPIcon = m.Icon;
-                        break;
-                    case "CropK2O":
-                        cvm.reqKIcon = m.Icon;
-                        break;
-                    case "AgrN":
                         cvm.remNIcon = m.Icon;
                         break;
-                    case "AgrP2O5":
+                    case "CropP2O5":
                         cvm.remPIcon = m.Icon;
                         break;
-                    case "AgrK2O":
+                    case "CropK2O":
                         cvm.remKIcon = m.Icon;
+                        break;
+                    case "AgrN":
+                        cvm.reqNIcon = m.Icon;
+                        break;
+                    case "AgrP2O5":
+                        cvm.reqPIcon = m.Icon;
+                        break;
+                    case "AgrK2O":
+                        cvm.reqKIcon = m.Icon;
                         break;
                 }
             }
