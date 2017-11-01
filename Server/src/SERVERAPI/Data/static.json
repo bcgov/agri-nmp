@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.413"
+        "staticDataVersion": "2017.424"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8784,11 +8784,6 @@
             "id": "9",
             "name": "ncreditlabel",
             "text": "Previous crop ploughed down (N credit)"
-          },
-          {
-            "id": "10",
-            "name": "nonutrientitems",
-            "text": "<ul><li>Add a crop to determine crop needs</li><li>Add nutrient inputs (manure/compost, fertilizer, other)</li><li>Automatically get feedback on whether crop needs are met or exceeded</li></ul>"
           }
         ]
       },
@@ -8806,7 +8801,7 @@
           {
             "id": "2",
             "text": "Crop requirement for N is met",
-            "displayMessage": "No",
+            "displayMessage": "Yes",
             "icon": "good",
             "balanceType": "AgrN",
             "balance_low": "0",
@@ -8833,7 +8828,7 @@
           {
             "id": "5",
             "text": "Crop requirement for P2O5 is met",
-            "displayMessage": "No",
+            "displayMessage": "Yes",
             "icon": "good",
             "balanceType": "AgrP2O5",
             "balance_low": "0",
@@ -8860,7 +8855,7 @@
           {
             "id": "8",
             "text": "Crop requirement for K2O is met",
-            "displayMessage": "No",
+            "displayMessage": "Yes",
             "icon": "good",
             "balanceType": "AgrK2O",
             "balance_low": "0",
