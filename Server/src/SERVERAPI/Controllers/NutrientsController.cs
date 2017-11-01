@@ -916,6 +916,7 @@ namespace SERVERAPI.Controllers
                     cvm.crude = "";
                     cvm.cropDesc = "";
                     cvm.coverCropHarvested = null;
+                    cvm.nCredit = "0";
 
                     if (cvm.selTypOption != "select")
                     {
@@ -985,6 +986,7 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     cvm.buttonPressed = "";
                     cvm.btnText = "Calculate";
+                    cvm.nCredit = "0";
 
                     PreviousCropSetup(ref cvm);
                     CropDetailsReset(ref cvm);
