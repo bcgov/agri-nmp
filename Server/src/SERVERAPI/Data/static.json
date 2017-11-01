@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.424"
+        "staticDataVersion": "2017.425"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8801,7 +8801,7 @@
           {
             "id": "2",
             "text": "Crop requirement for N is met",
-            "displayMessage": "Yes",
+            "displayMessage": "No",
             "icon": "good",
             "balanceType": "AgrN",
             "balance_low": "0",
@@ -8828,7 +8828,7 @@
           {
             "id": "5",
             "text": "Crop requirement for P2O5 is met",
-            "displayMessage": "Yes",
+            "displayMessage": "No",
             "icon": "good",
             "balanceType": "AgrP2O5",
             "balance_low": "0",
@@ -8855,7 +8855,7 @@
           {
             "id": "8",
             "text": "Crop requirement for K2O is met",
-            "displayMessage": "Yes",
+            "displayMessage": "No",
             "icon": "good",
             "balanceType": "AgrK2O",
             "balance_low": "0",
@@ -8872,7 +8872,7 @@
           },
           {
             "id": "10",
-            "text": "Reduce P2O5 inputs this year or in the long term",
+            "text": "Reduce P2O5 inputs this year or in the long term. Crop P2O5 removal balance should not exceed 35 lb/ac.",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrP2O5CropP2O5",
