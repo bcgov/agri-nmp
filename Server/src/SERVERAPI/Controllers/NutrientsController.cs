@@ -917,6 +917,7 @@ namespace SERVERAPI.Controllers
                     cvm.cropDesc = "";
                     cvm.coverCropHarvested = null;
                     cvm.nCredit = "0";
+                    cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
 
                     if (cvm.selTypOption != "select")
                     {
@@ -951,7 +952,15 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     cvm.buttonPressed = "";
                     cvm.btnText = "Calculate";
-                    cvm.nCredit = _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).nCreditImperial.ToString();
+                    if (cvm.selPrevOption != "select" &&
+                        cvm.selPrevOption != "")
+                    {
+                        cvm.nCredit = _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).nCreditImperial.ToString();
+                    }
+                    else
+                    {
+                        cvm.nCredit = "0";
+                    }
                     CropDetailsReset(ref cvm);
 
                     return View(cvm);
