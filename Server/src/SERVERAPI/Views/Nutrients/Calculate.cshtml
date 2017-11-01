@@ -56,10 +56,14 @@
                 {
                     <div class="form-box">
                         <div class="form-box-header clearfix">
-                            <button class="btn btn-success" data_modal="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
-                            <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
-                            <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertilizerDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertilizer</button>
-                            <button class="btn btn-success" type="button" data_modal3="" data-type="@Url.Action("OtherDetails", "Nutrients", new { fldName = Model.currFld })">Add Other</button>
+                            <span>
+                                <button class="btn btn-success" data_modal="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
+                            </span>                        
+                            <span style="float:right;">
+                                <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
+                                <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertilizerDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertilizer</button>
+                                <button class="btn btn-success" type="button" data_modal3="" data-type="@Url.Action("OtherDetails", "Nutrients", new { fldName = Model.currFld })">Add Other</button>
+                            </span>
                         </div>
                     </div>
                 }
