@@ -158,6 +158,8 @@ namespace SERVERAPI.Models.Impl
         {
             Models.StaticData.Manures mans = GetManures();
 
+            mans.manures = mans.manures.OrderBy(n => n.name).ToList();
+
             List<Models.StaticData.SelectListItem> manOptions = new List<Models.StaticData.SelectListItem>();
 
             foreach (var r in mans.manures)
@@ -165,6 +167,7 @@ namespace SERVERAPI.Models.Impl
                 Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
                 manOptions.Add(li);
             }
+
 
             return manOptions;
         }

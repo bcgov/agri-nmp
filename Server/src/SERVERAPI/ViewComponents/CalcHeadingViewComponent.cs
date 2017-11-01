@@ -35,6 +35,10 @@ namespace SERVERAPI.ViewComponents
             if (manures.Count() > 0)
                 cvm.headingReqd = true;
 
+            List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
+            if (fertilizers.Count() > 0)
+                cvm.headingReqd = true;
+
             List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
             if (others.Count() > 0)
                 cvm.headingReqd = true;

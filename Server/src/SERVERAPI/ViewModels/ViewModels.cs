@@ -275,6 +275,8 @@ namespace SERVERAPI.ViewModels
     {
         public bool fldsFnd { get; set; }
         public string currFld { get; set; }
+        public bool itemsPresent { get; set; }
+        public string noData { get; set; }
         public List<Field> fields { get; set; }
     }
     public class SoilTestViewModel

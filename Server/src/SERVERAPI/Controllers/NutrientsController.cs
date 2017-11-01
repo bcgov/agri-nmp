@@ -30,13 +30,13 @@ namespace SERVERAPI.Controllers
             _settings = settings.Value;
         }
         // GET: /<controller>/
-        public IActionResult Calculate(string id)
+        public IActionResult Calculate(string nme)
         {
             CalculateViewModel cvm = new CalculateViewModel();
             cvm.fields = new List<Field>();
 
-            // not id entered so default to the first one for the farm
-            if (id == null)
+            // no name entered so default to the first one for the farm
+            if (nme == null)
             {
                 List<Field> fldLst = _ud.GetFields();
 
@@ -56,12 +56,38 @@ namespace SERVERAPI.Controllers
             }
             else
             {
-                cvm.currFld = id;
+                cvm.currFld = nme;
                 List<Field> fldLst = _ud.GetFields();
                 cvm.fldsFnd = true;
                 foreach (var f in fldLst)
                 {
                     cvm.fields.Add(f);
+                }
+            }
+
+            if (cvm.fldsFnd)
+            {
+                cvm.itemsPresent = false;
+
+                List<FieldCrop> crps = _ud.GetFieldCrops(cvm.currFld);
+                if (crps.Count() > 0)
+                    cvm.itemsPresent = true;
+
+                List<NutrientManure> manures = _ud.GetFieldNutrientsManures(cvm.currFld);
+                if (manures.Count() > 0)
+                    cvm.itemsPresent = true;
+
+                List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(cvm.currFld);
+                if (fertilizers.Count() > 0)
+                    cvm.itemsPresent = true;
+
+                List<NutrientOther> others = _ud.GetFieldNutrientsOthers(cvm.currFld);
+                if (others.Count() > 0)
+                    cvm.itemsPresent = true;
+
+                if(!cvm.itemsPresent)
+                {
+                    cvm.noData = _sd.GetUserPrompt("nonutrientitems");
                 }
             }
 

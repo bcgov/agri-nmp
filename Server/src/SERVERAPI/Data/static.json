@@ -8784,6 +8784,11 @@
             "id": "9",
             "name": "ncreditlabel",
             "text": "Previous crop ploughed down (N credit)"
+          },
+          {
+            "id": "10",
+            "name": "nonutrientitems",
+            "text": "No information yet entered."
           }
         ]
       },

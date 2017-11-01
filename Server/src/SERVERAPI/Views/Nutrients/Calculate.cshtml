@@ -71,34 +71,44 @@
                         </div>
                     </div>
                 }
-               
-                <div class="form-box">
-                    <div class="panel-group">
-                        <div class="Table">
-                            <div class="TableBody" id="heading">
-                                @await Component.InvokeAsync("CalcHeading", new { fldName = Model.currFld })
+                @if (Model.itemsPresent)
+                {
+                    <div class="form-box">
+                        <div class="panel-group">
+                            <div class="Table">
+                                <div class="TableBody" id="heading">
+                                    @await Component.InvokeAsync("CalcHeading", new { fldName = Model.currFld })
+                                </div>
+                                @if (Model.currFld != null)
+                                {
+                                    <div class="TableBody" id="crop">
+                                        @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
+                                    </div>
+                                    <div class="TableBody" id="manure">
+                                        @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
+                                    </div>
+                                    <div class="TableBody" id="fertilizer">
+                                        @await Component.InvokeAsync("CalcFertilizer", new { fldName = Model.currFld })
+                                    </div>
+                                    <div class="TableBody" id="other">
+                                        @await Component.InvokeAsync("CalcOther", new { fldName = Model.currFld })
+                                    </div>
+                                    <div class="TableBody" id="summary">
+                                        @await Component.InvokeAsync("CalcSummary", new { fldName = Model.currFld })
+                                    </div>
+                                }
                             </div>
-                            @if (Model.currFld != null)
-                            {
-                                <div class="TableBody" id="crop">
-                                    @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
-                                </div>
-                                <div class="TableBody" id="manure">
-                                    @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
-                                </div>
-                                <div class="TableBody" id="fertilizer">
-                                    @await Component.InvokeAsync("CalcFertilizer", new { fldName = Model.currFld })
-                                </div>
-                                <div class="TableBody" id="other">
-                                    @await Component.InvokeAsync("CalcOther", new { fldName = Model.currFld })
-                                </div>
-                                <div class="TableBody" id="summary">
-                                    @await Component.InvokeAsync("CalcSummary", new { fldName = Model.currFld })
-                                </div>
-                            }
                         </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div class="form-box">
+                        <div class="form-box-header clearfix">
+                            <h4>@Model.noData</h4>
+                        </div>
+                    </div>
+                }
                 @if (Model.currFld != null)
                 {
                     <div class="form-box" id="message">
@@ -117,6 +127,8 @@
             </div>
             @Html.HiddenFor(x => x.fldsFnd)
             @Html.HiddenFor(x => x.currFld)
+            @Html.HiddenFor(x => x.itemsPresent)
+            @Html.HiddenFor(x => x.noData)
         </form>
     </div>
 </div>
