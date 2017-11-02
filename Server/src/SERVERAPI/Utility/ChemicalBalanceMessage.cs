@@ -156,7 +156,7 @@ namespace SERVERAPI.Utility
                 chemicalBalances.balance_CropK2O += Convert.ToInt16(m.potassium);
             }
 
-            if (crps.Count > 0) //display balance messages when at least one crop has been added
+            if (crps.Count > 0) //display balance messages when at least one Crop has been added
                 displayBalances = true;
 
             return chemicalBalances;
