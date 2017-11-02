@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.425"
+        "staticDataVersion": "2017.435"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8748,7 +8748,7 @@
           {
             "id": "2",
             "name": "welcome",
-            "text": "<h1>Why Use the Nutrient Management Calculator</h1><ul><li>Optimize crop production</li><li>Use manure and compost efficiently</li><li>Pay only for the fertilizer you need</li><li>Interpret soil tests</li><li>Generate Reports</li><li>Download your work</ul>"
+            "text": "<h2>How Farmers and Consultants are Using the NMP Calculator</h2><ul><li>Use manures, composts, and fertilizer efficiently</li><li>Find nutrient requirements for crops (forage, vegetables, and grains)</li><li>Enter and download your information confidentially</li><li>Create pdf reports for nutrient management planning</li></ul>"
           },
           {
             "id": "3",
@@ -8773,7 +8773,7 @@
           {
             "id": "7",
             "name": "finishwithoutsaving",
-            "text": "There are unsaved changes that have not been downloaded - to finish without downloading the current file, please select Finish."
+            "text": "There are unsaved changes that have not been downloaded - to finish without downloading the current file, please select Continue."
           },
           {
             "id": "8",
