@@ -522,7 +522,47 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderSheets()
         {
-            ReportViewModel rvm = new ReportViewModel();
+            string crpName = string.Empty;
+            ReportSheetsViewModel rvm = new ReportSheetsViewModel();
+            rvm.year = _ud.FarmDetails().year;
+
+            rvm.fields = new List<ReportSheetsField>();
+
+            List<Field> fldList = _ud.GetFields();
+            foreach (var f in fldList)
+            {
+                ReportSheetsField rf = new ReportSheetsField();
+                rf.fieldName = f.fieldName;
+                rf.fieldArea = f.area.ToString();
+                rf.nutrients = new List<ReportFieldNutrient>();
+                if (f.nutrients != null)
+                {
+                    if (f.nutrients.nutrientManures != null)
+                    {
+                        foreach (var m in f.nutrients.nutrientManures)
+                        {
+                            FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
+                            ReportFieldNutrient rfn = new ReportFieldNutrient();
+
+                            rfn.nutrientName = manure.name;
+                            rfn.nutrientAmount = m.rate;
+                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).season;
+                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).application_method;
+                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).name;
+                            rf.nutrients.Add(rfn);
+                        }
+                    }
+                }
+                if (f.crops != null)
+                {
+                    foreach (var c in f.crops)
+                    {
+                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther;
+                        rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
+                    }
+                }
+                rvm.fields.Add(rf);
+            }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSheets.cshtml", rvm);
 
@@ -563,6 +603,16 @@ namespace SERVERAPI.Controllers
             string reportSources = await RenderSources();
 
             result = await PrintReportAsync(reportSources, true);
+
+            return result;
+        }
+        public async Task<IActionResult> PrintSheets()
+        {
+            FileContentResult result = null;
+
+            string reportSheets = await RenderSheets();
+
+            result = await PrintReportAsync(reportSheets, false);
 
             return result;
         }
@@ -646,10 +696,10 @@ namespace SERVERAPI.Controllers
             options.border.right = ".25in";
             options.border.bottom = ".25in";
             options.border.left = ".25in";
-            options.header.height = "25mm";
-            options.header.contents = "Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
-                                      "Planning Year: " + _ud.FarmDetails().year;
-            options.footer.height = "20mm";
+            options.header.height = "20mm";
+            options.header.contents = "<span style=\"font-size:14px\">Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
+                                      "Planning Year: " + _ud.FarmDetails().year + "</span>";
+            options.footer.height = "15mm";
             options.footer.contents = "<div><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span></div><div style=\"float:right\">Static Data Version " + _sd.GetStaticDataVersion() + "</div>";
 
             // call the microservice

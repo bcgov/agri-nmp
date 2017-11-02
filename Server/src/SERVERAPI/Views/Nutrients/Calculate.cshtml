@@ -195,11 +195,16 @@
                 data: $(this).serialize(),
                 success: function (result) {
                     if (result.success) {
-                        $('#myModal').modal('hide');
-                        $('#heading').load(result.urlHead);
-                        $('#message').load(result.urlMsg);
-                        $(result.target).load(result.url);
-                        $('#summary').load(result.urlSumm);
+                        if (result.reload) {
+                            window.location.href = '@Url.Action("Calculate","Nutrients", new { nme = Model.currFld })';
+                        }
+                        else {
+                            $('#myModal').modal('hide');
+                            $('#heading').load(result.urlHead);
+                            $('#message').load(result.urlMsg);
+                            $(result.target).load(result.url);
+                            $('#summary').load(result.urlSumm);
+                        }
                     } else {
                         $('#myModalContent').html(result);
                         bindForm(dialog);
@@ -221,7 +226,7 @@
                     if (result.success) {
                         $('#myModal').modal('hide');
                         //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                        window.location.href = '@Url.Action("Calculate","Nutrients")';
+                        window.location.href = '@Url.Action("Calculate","Nutrients", new { nme = Model.currFld })';
                     } else {
                         $('#myModalContent').html(result);
                         bindForm2(dialog);

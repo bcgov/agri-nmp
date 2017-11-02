@@ -67,23 +67,7 @@ namespace SERVERAPI.Controllers
 
             if (cvm.fldsFnd)
             {
-                cvm.itemsPresent = false;
-
-                List<FieldCrop> crps = _ud.GetFieldCrops(cvm.currFld);
-                if (crps.Count() > 0)
-                    cvm.itemsPresent = true;
-
-                List<NutrientManure> manures = _ud.GetFieldNutrientsManures(cvm.currFld);
-                if (manures.Count() > 0)
-                    cvm.itemsPresent = true;
-
-                List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(cvm.currFld);
-                if (fertilizers.Count() > 0)
-                    cvm.itemsPresent = true;
-
-                List<NutrientOther> others = _ud.GetFieldNutrientsOthers(cvm.currFld);
-                if (others.Count() > 0)
-                    cvm.itemsPresent = true;
+                cvm.itemsPresent = ItemCount(cvm.currFld) > 0 ? true : false;
 
                 if(!cvm.itemsPresent)
                 {
@@ -98,6 +82,25 @@ namespace SERVERAPI.Controllers
         {
 
             return View(cvm);
+        }
+
+        private int ItemCount(string fldname)
+        {
+            int items = 0;
+
+            List<FieldCrop> crps = _ud.GetFieldCrops(fldname);
+            items = items + crps.Count();
+
+            List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldname);
+            items = items + manures.Count();
+
+            List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldname);
+            items = items + fertilizers.Count();
+
+            List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldname);
+            items = items + others.Count();
+
+            return items;
         }
 
         public IActionResult ManureDetails(string fldName, int? id)
@@ -1647,6 +1650,12 @@ namespace SERVERAPI.Controllers
         public object ReDisplay(string target, string fldName)
         {
             string refresher = "";
+            bool reload = false;
+
+            if(ItemCount(fldName) < 2)
+            {
+                reload = true;
+            }
 
             switch (target)
             {
@@ -1668,7 +1677,7 @@ namespace SERVERAPI.Controllers
             string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = fldName });
             string urlMsg = Url.Action("RefreshMessages", "Nutrients", new { fieldName = fldName });
 
-            var result = new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead , urlMsg = urlMsg};
+            var result = new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead , urlMsg = urlMsg, reload = reload};
             return result;
         }
         [HttpGet]

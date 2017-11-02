@@ -8784,6 +8784,11 @@
             "id": "9",
             "name": "ncreditlabel",
             "text": "Previous crop ploughed down (N credit)"
+          },
+          {
+            "id": "10",
+            "name": "nonutrientitems",
+            "text": "<ul><li>Add a crop to determine crop needs</li><li>Add nutrient inputs (manure/compost, fertilizer, other)</li><li>Automatically get feedback on whether crop needs are met or exceeded</li></ul>"
           }
         ]
       },

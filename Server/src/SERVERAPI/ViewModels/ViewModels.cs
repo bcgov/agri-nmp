@@ -400,6 +400,11 @@ namespace SERVERAPI.ViewModels
         public string year { get; set; }
         public List<ReportFieldsField> fields { get; set; }
     }
+    public class ReportSheetsViewModel
+    {
+        public string year { get; set; }
+        public List<ReportSheetsField> fields { get; set; }
+    }
     public class ReportFontsViewModel
     {
         public string year { get; set; }
@@ -431,6 +436,14 @@ namespace SERVERAPI.ViewModels
         public string iconCropP { get; set; }
         public string iconCropK { get; set; }
         public List<ReportFieldFootnote> footnotes { get; set; }
+    }
+    public class ReportSheetsField
+    {
+        public string fieldName { get; set; }
+        public string fieldCrops { get; set; }
+        public string fieldArea { get; set; }
+        public List<ReportFieldNutrient> nutrients { get; set; }
+        public List<ReportFieldOtherNutrient> otherNutrients { get; set; }
     }
     public class ReportFieldSoilTest
     {
