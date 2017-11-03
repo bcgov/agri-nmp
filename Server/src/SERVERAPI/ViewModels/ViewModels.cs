@@ -13,6 +13,10 @@ namespace SERVERAPI.ViewModels
     public class ViewModels
     {
     }
+    public class AboutViewModel
+    {
+        public string aboutMsg { get; set; }
+    }
     public class FarmViewModel
     {
         [Display(Name = "Year")]

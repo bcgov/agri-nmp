@@ -552,6 +552,34 @@ namespace SERVERAPI.Controllers
                             rf.nutrients.Add(rfn);
                         }
                     }
+                    if (f.nutrients.nutrientFertilizers != null)
+                    {
+                        foreach (var ft in f.nutrients.nutrientFertilizers)
+                        {
+                            string fertilizerName = string.Empty;
+                            ReportFieldNutrient rfn = new ReportFieldNutrient();
+                            FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
+
+                            if (ftyp.custom)
+                            {
+                                fertilizerName = ftyp.dry_liquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
+                                fertilizerName = fertilizerName + ft.customN.ToString() + "-" + ft.customP2o5.ToString() + "-" + ft.customK2o.ToString();
+                            }
+                            else
+                            {
+                                Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
+                                fertilizerName = ff.name;
+                            }
+
+                            rfn.nutrientName = fertilizerName;
+                            rfn.nutrientAmount = ft.applRate;
+                            rfn.nutrientSeason = ft.applDate != null ? ft.applDate.Value.ToString("MMM-yyyy") : "";
+                            rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).name : "";
+                            rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).name;
+
+                            rf.nutrients.Add(rfn);
+                        }
+                    }
                 }
                 if (f.crops != null)
                 {

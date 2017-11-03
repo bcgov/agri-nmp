@@ -236,7 +236,6 @@ namespace SERVERAPI.Controllers
                     }
                     else
                     {
-                        mvm.nh4 = string.Empty;
                         mvm.avail = string.Empty;
                     }
                     return View(mvm);
@@ -248,7 +247,8 @@ namespace SERVERAPI.Controllers
                     mvm.buttonPressed = "";
                     mvm.btnText = "Calculate";
 
-                    if (mvm.selApplOption != "")
+                    if (mvm.selApplOption != "" &&
+                        mvm.selApplOption != "select")
                     {
                         // recalc N and A values
                         mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100).ToString("###");
@@ -256,7 +256,6 @@ namespace SERVERAPI.Controllers
                     else
                     {
                         mvm.nh4 = string.Empty;
-                        mvm.avail = string.Empty;
                     }
                     return View(mvm);
                 }
