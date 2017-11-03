@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.435"
+        "staticDataVersion": "2017.439"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -2093,31 +2093,27 @@
         "fertilizermethod": [
           {
             "id": "1",
-            "name": "Placed with planter"
+            "name": "Broadcast"
           },
           {
             "id": "2",
-            "name": "Incorp. within 1 day"
+            "name": "Banded"
           },
           {
             "id": "3",
-            "name": "Incorp. within 1 to 14 days"
+            "name": "With planter"
           },
           {
             "id": "4",
-            "name": "Incorp. 14+ days after"
+            "name": "Sidedress"
           },
           {
             "id": "5",
-            "name": "Not incorp. - bare soil"
+            "name": "Fertigation"
           },
           {
             "id": "6",
-            "name": "Not incorp. - crop residue"
-          },
-          {
-            "id": "7",
-            "name": "Not incorp. - standing crop"
+            "name": "Foliar"
           }
         ]
       },
