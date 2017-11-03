@@ -17,21 +17,18 @@
 <div class="header-height"></div>
 
 <div class="step-header">
-    <div class="container">
-        <div class="col-sm-6">
+    <div class="container">        
+        <div class="col-sm-2">
             <span class="step-header-circle">1</span>
             <span class="step-header-name">Farm Details</span>
         </div>
-        <div class="col-sm-6">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-3 text-right">
+        <div class="col-sm-10">
+            <div class="col-sm-4 text-left ">
                 <span class="step-header-steps">Step 1 of 6</span>
             </div>
-            <div class="col-sm-6 step-header-form">
-                <span>Units</span>
-                <select class="form-control" id="select" disabled="disabled" title="Not Implemented" style="width:80px">
-                    <option>lb/ac</option>
-                </select>
+            <div class="col-sm-6 text-right">
+                @*<a><button class="btn btn-primary" type="submit" title="Download data to your local drive">Download file</button></a>*@
+                <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
             </div>
         </div>
     </div>

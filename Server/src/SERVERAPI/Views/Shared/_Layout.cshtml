@@ -12,24 +12,7 @@
     <meta name="author" content="Ministry of Environment" />
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
     <META HTTP-EQUIV="Expires" CONTENT="-1">
-    @*<link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png" />
-        <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="icons/android-icon-192x192.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
-        <link rel="manifest" href="icons/manifest.json" />
-        <link rel="icon" type="image/png" href="images/favicon.ico" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png" />
-        <meta name="theme-color" content="#ffffff" />*@
+    
 
     <title>@ViewBag.Title</title>
 
@@ -88,7 +71,7 @@
                             <a href="http://gov.bc.ca"><img src="~/images/gov3_bc_logo.png" alt="Government of B.C." title="Government of B.C." /></a>
                         </div>
                         <div>
-                            <span style="padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Program</span>
+                            <span style="padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Calculator</span>
                         </div>
                         <div id="access">
                             <ul>
@@ -123,26 +106,18 @@
                 <div class="level2Navigation">
                     <div class="container">
                         <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">                            
-                            <a href='@Url.Action("Index", "Home" )'>
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
-                                <g stroke-width="2" transform="translate(0, 0)">
-                                <polyline data-cap="butt" fill="none" stroke="white" stroke-width="2" stroke-miterlimit="10" points="4,9.3 4,22 10,22 10,17 14,17 14,22 20,22 20,9.3 " stroke-linejoin="miter" stroke-linecap="butt"></polyline>
-                                <polyline data-cap="butt" data-color="color-2" fill="none" stroke="white" stroke-width="2" stroke-miterlimit="10" points="1,12 12,2 23,12 " stroke-linejoin="miter" stroke-linecap="butt"></polyline>
-                                <rect data-color="color-2" x="10" y="9" fill="none" stroke="white" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" width="4" height="4" stroke-linejoin="miter"></rect>
-                                </g> 
-                            </svg>
-                            </a>
-                            <a asp-action="Download" asp-controller="Home" asp->
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve"><g stroke-width="2" transform="translate(0, 0)">
-                                    <polyline data-color="color-2" fill="none" stroke="white" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="
-	                                    15,1 15,8 5,8 5,1 " stroke-linejoin="miter"></polyline>
-                                    <polyline data-color="color-2" fill="none" stroke="white" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="
-	                                    5,23 5,13 19,13 19,23 " stroke-linejoin="miter"></polyline>
-                                    <polygon fill="none" stroke="white" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="23,23 1,23 1,1
-	                                    18,1 23,8 " stroke-linejoin="miter"></polygon>
-                                    <line fill="none" stroke="white" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9" y1="18" x2="15" y2="18" stroke-linejoin="miter"></line></g></svg>
-                                <span style="padding-left:20px; font-size: 20px;font-weight: 700;color: #fff;position: relative;white-space: nowrap;" role="banner">@Context.Session.GetString("Farm")</span>
-                            </a>                                         
+                            <span>
+                                <a href='@Url.Action("Index", "Home" )'>
+                                    Home
+                                </a>
+                            </span>
+                            <span>
+                                <a href='@Url.Action("About", "Home" )'>
+                                    About
+                                </a>
+                            </span>
+                            <span class="text-center" style="padding-left:20px; font-size: 20px;font-weight: 700;color: #fff;position: relative;white-space: nowrap;" role="banner">@Context.Session.GetString("Farm")</span>
+                            @*</a>*@                                         
                         </div>                            
                     </div>
                 </div>
@@ -167,7 +142,7 @@
                             </svg>
                         </div>
                     </div>
-                    <span class="wizard-name">Farm Details</span>
+                    <span class="wizard-name">Farm Info</span>
                 </a>
             </li>
             <li class="wizard-item">
@@ -185,7 +160,7 @@
                             </svg>
                         </div>
                     </div>
-                    <span class="wizard-name">Field Details</span>
+                    <span class="wizard-name">Field List</span>
                 </a>
             </li>
             <li class="wizard-item">
@@ -207,7 +182,7 @@
                             </svg>
                         </div>
                     </div>
-                    <span class="wizard-name">Field Soil Tests</span>
+                    <span class="wizard-name">Soil Tests</span>
                 </a>
             </li>
             <li class="wizard-item">
