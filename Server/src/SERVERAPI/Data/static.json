@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.447"
+        "staticDataVersion": "2017.448"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -38,77 +38,35 @@
         "soiltestmethod": [
           {
             "id": "1",
-            "name": "AGAT (Bray-1 and Amm Acetate)",
-            "ConvertToKelownaPlt72": "0.74",
+            "name": "Kelowna",
+            "ConvertToKelownaPlt72": "1",
             "ConvertToKelownaPge72": "1",
-            "ConvertToKelownaK": "0.8"
+            "ConvertToKelownaK": "1"
           },
           {
             "id": "2",
-            "name": "A and L Canada (Bray-1 and Amm Acetate)",
-            "ConvertToKelownaPlt72": "0.74",
-            "ConvertToKelownaPge72": "1",
-            "ConvertToKelownaK": "0.8"
+            "name": "Modified Kelowna 95",
+            "ConvertToKelownaPlt72": "1.24",
+            "ConvertToKelownaPge72": "1.24",
+            "ConvertToKelownaK": "0.76"
           },
           {
             "id": "3",
-            "name": "ALS (Mod Kelowna 94)",
-            "ConvertToKelownaPlt72": "1.24",
-            "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.76"
-          },
-          {
-            "id": "4",
-            "name": "Brookside (Mehlich 3)",
+            "name": "Mehlich 3",
             "ConvertToKelownaPlt72": "0.72",
             "ConvertToKelownaPge72": "0.72",
             "ConvertToKelownaK": "0.75"
           },
           {
-            "id": "5",
-            "name": "Down to Earth (Mod Kelowna and Amm Acetate)",
-            "ConvertToKelownaPlt72": "1.24",
-            "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.8"
-          },
-          {
-            "id": "6",
-            "name": "Exova (Mod Kelowna 95)”,
-            "ConvertToKelownaPlt72": "1.24",
-            "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.76"
-          },
-          {
-            "id": "7",
-            "name": "MB Laboratories (Mod Kelowna 94)",
-            "ConvertToKelownaPlt72": "1.24",
-            "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.76"
-          },
-          {
-            "id": "8",
-            "name": "Pacific Soil Analysis (Bray-1 and Amm Acetate)",
+            "id": "4",
+            "name": "Bray-1 and Ammonium Acetate",
             "ConvertToKelownaPlt72": "0.74",
             "ConvertToKelownaPge72": "1",
             "ConvertToKelownaK": "0.8"
           },
           {
-            "id": "9",
-            "name": "Plant Science Lab/Terralink (Mehlich 3)",
-            "ConvertToKelownaPlt72": "0.72",
-            "ConvertToKelownaPge72": "0.72",
-            "ConvertToKelownaK": "0.75"
-          },
-          {
-            "id": "10",
-            "name": "Soil Foodweb Canada (Mehlich 1)",
-            "ConvertToKelownaPlt72": "0.72",
-            "ConvertToKelownaPge72": "0.72",
-            "ConvertToKelownaK": "0.75"
-          },
-          {
-            "id": "11",
-            "name": "Other (Bicarbonate and Amm Acetate)",
+            "id": "5",
+            "name": "Bicarbonate (Olsen) and Ammonium Acetate",
             "ConvertToKelownaPlt72": "2",
             "ConvertToKelownaPge72": "2",
             "ConvertToKelownaK": "0.8"
