@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.439"
+        "staticDataVersion": "2017.446"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8779,7 +8779,7 @@
           {
             "id": "8",
             "name": "fieldcommentplaceholder",
-            "text": "poor drainage in southwest corner<p><i>no need to specify crop here</i></p>"
+            "text": "poor drainage in southwest corner (no need to specify crop here)"
           },
           {
             "id": "9",
@@ -8789,7 +8789,7 @@
           {
             "id": "10",
             "name": "nonutrientitems",
-            "text": "Calculate Nutrient Balances<ul><li>Add crops to estimate their annual nutrient requirements</li><li>Add nutrient inputs (manure/compost, fertilizer, other) for those crops</li><li>See recommendations to add more or less nutrients</li></ul>"
+            "text": "Calculate Nutrient Balances<br><ul><li>Add crops to estimate their annual nutrient requirements</li><li>Add nutrient inputs (manure/compost, fertilizer, other) for those crops</li><li>See recommendations to add more or less nutrients</li></ul>"
           }
         ]
       },
