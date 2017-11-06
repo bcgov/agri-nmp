@@ -32,8 +32,10 @@ namespace SERVERAPI.Controllers
         // GET: /<controller>/
         public IActionResult Calculate(string nme)
         {
-            CalculateViewModel cvm = new CalculateViewModel();
-            cvm.fields = new List<Field>();
+            CalculateViewModel cvm = new CalculateViewModel
+            {
+                fields = new List<Field>()
+            };
 
             // no name entered so default to the first one for the farm
             if (nme == null)
@@ -371,13 +373,14 @@ namespace SERVERAPI.Controllers
             //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
-            FertilizerDetailsViewModel fvm = new FertilizerDetailsViewModel();
-
-            fvm.fieldName = fldName;
-            fvm.title = id == null ? "Add" : "Edit";
-            fvm.btnText = id == null ? "Add to Field" : "Update Field";
-            fvm.id = id;
-            fvm.selMethOption = 0;
+            FertilizerDetailsViewModel fvm = new FertilizerDetailsViewModel
+            {
+                fieldName = fldName,
+                title = id == null ? "Add" : "Edit",
+                btnText = id == null ? "Add to Field" : "Update Field",
+                id = id,
+                selMethOption = 0
+            };
 
             if (id != null)
             {

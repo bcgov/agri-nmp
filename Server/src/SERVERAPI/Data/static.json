@@ -41,77 +41,88 @@
             "name": "AGAT (Bray-1 and Amm Acetate)",
             "ConvertToKelownaPlt72": "0.74",
             "ConvertToKelownaPge72": "1",
-            "ConvertToKelownaK": "0.8"
+            "ConvertToKelownaK": "0.8",
+            "sortNum":  "100"
           },
           {
             "id": "2",
             "name": "A and L Canada (Bray-1 and Amm Acetate)",
             "ConvertToKelownaPlt72": "0.74",
             "ConvertToKelownaPge72": "1",
-            "ConvertToKelownaK": "0.8"
+            "ConvertToKelownaK": "0.8",
+            "sortNum": "110"
           },
           {
             "id": "3",
             "name": "ALS (Mod Kelowna 94)",
             "ConvertToKelownaPlt72": "1.24",
             "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.76"
+            "ConvertToKelownaK": "0.76",
+            "sortNum": "120"
           },
           {
             "id": "4",
             "name": "Brookside (Mehlich 3)",
             "ConvertToKelownaPlt72": "0.72",
             "ConvertToKelownaPge72": "0.72",
-            "ConvertToKelownaK": "0.75"
+            "ConvertToKelownaK": "0.75",
+            "sortNum": "140"
           },
           {
             "id": "5",
             "name": "Down to Earth (Mod Kelowna and Amm Acetate)",
             "ConvertToKelownaPlt72": "1.24",
             "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.8"
+            "ConvertToKelownaK": "0.8",
+            "sortNum": "150"
           },
           {
             "id": "6",
             "name": "Exova (Mod Kelowna 95)",
             "ConvertToKelownaPlt72": "1.24",
             "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.76"
+            "ConvertToKelownaK": "0.76",
+            "sortNum": "160"
           },
           {
             "id": "7",
             "name": "MB Laboratories (Mod Kelowna 94)",
             "ConvertToKelownaPlt72": "1.24",
             "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.76"
+            "ConvertToKelownaK": "0.76",
+            "sortNum": "170"
           },
           {
             "id": "8",
             "name": "Pacific Soil Analysis (Bray-1 and Amm Acetate)",
             "ConvertToKelownaPlt72": "0.74",
             "ConvertToKelownaPge72": "1",
-            "ConvertToKelownaK": "0.8"
+            "ConvertToKelownaK": "0.8",
+            "sortNum": "180"
           },
           {
             "id": "9",
             "name": "Plant Science Lab/Terralink (Mehlich 3)",
             "ConvertToKelownaPlt72": "0.72",
             "ConvertToKelownaPge72": "0.72",
-            "ConvertToKelownaK": "0.75"
+            "ConvertToKelownaK": "0.75",
+            "sortNum": "190"
           },
           {
             "id": "10",
             "name": "Soil Foodweb Canada (Mehlich 1)",
             "ConvertToKelownaPlt72": "0.72",
             "ConvertToKelownaPge72": "0.72",
-            "ConvertToKelownaK": "0.75"
+            "ConvertToKelownaK": "0.75",
+            "sortNum": "200"
           },
           {
             "id": "11",
             "name": "‘Other’ (Bicarbonate and Amm Acetate)",
             "ConvertToKelownaPlt72": "2",
             "ConvertToKelownaPge72": "2",
-            "ConvertToKelownaK": "0.8"
+            "ConvertToKelownaK": "0.8",
+            "sortNum": "210"
           }
         ]
       },
@@ -122,140 +133,160 @@
             "name": "Bulkley-Nechako",
             "soil_test_phospherous_region_cd": "2",
             "soil_test_potassium_region_cd": "3",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "2",
             "name": "Capital Regional District",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "locationid": "2"
+            "locationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "3",
             "name": "Cariboo",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "4",
             "name": "Central Kootenay",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "5",
             "name": "Central Okanagan",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "6",
             "name": "Columbia Shuswap",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "7",
             "name": "Comox Valley",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "locationid": "2"
+            "locationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "8",
             "name": "Cowichan Valley",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "locationid": "2"
+            "locationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "9",
             "name": "East Kootenay",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "10",
             "name": "Fraser Valley, East (including Abbotsford/Mission)",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "locationid": "2"
+            "locationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "11",
             "name": "Fraser-Fort George",
             "soil_test_phospherous_region_cd": "2",
             "soil_test_potassium_region_cd": "3",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "12",
             "name": "Kitimat-Stikine",
             "soil_test_phospherous_region_cd": "2",
             "soil_test_potassium_region_cd": "3",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "13",
             "name": "Kootenay Boundary",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "14",
             "name": "Fraser Valley, West (Delta to Langley/Maple Ridge)",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "locationid": "2"
+            "locationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "15",
             "name": "Nanaimo",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "1",
-            "locationid": "2"
+            "locationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "16",
             "name": "North Okanagan",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "17",
             "name": "Okanagan-Similkameen",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "18",
             "name": "Peace River",
             "soil_test_phospherous_region_cd": "3",
             "soil_test_potassium_region_cd": "3",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "19",
             "name": "Squamish-Lilloeet",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "2"
+            "locationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "20",
             "name": "Thompson-Nicola",
             "soil_test_phospherous_region_cd": "1",
             "soil_test_potassium_region_cd": "2",
-            "locationid": "1"
+            "locationid": "1",
+            "sortNum": "100"
           }
         ]
       },
@@ -272,7 +303,8 @@
             "phosphorous": "0.13",
             "potassium": "0.67",
             "dmid": "4",
-            "nminerizationid": "11"
+            "nminerizationid": "11",
+            "sortNum": "100"
           },
           {
             "id": "2",
@@ -285,7 +317,8 @@
             "phosphorous": "0.15",
             "potassium": "0.3",
             "dmid": "4",
-            "nminerizationid": "11"
+            "nminerizationid": "11",
+            "sortNum": "100"
           },
           {
             "id": "3",
@@ -298,7 +331,8 @@
             "phosphorous": "0.09",
             "potassium": "0.19",
             "dmid": "4",
-            "nminerizationid": "2"
+            "nminerizationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "4",
@@ -311,7 +345,8 @@
             "phosphorous": "0",
             "potassium": "0",
             "dmid": "6",
-            "nminerizationid": "10"
+            "nminerizationid": "10",
+            "sortNum": "100"
           },
           {
             "id": "5",
@@ -324,7 +359,8 @@
             "phosphorous": "0.91",
             "potassium": "1.14",
             "dmid": "4",
-            "nminerizationid": "11"
+            "nminerizationid": "11",
+            "sortNum": "100"
           },
           {
             "id": "6",
@@ -337,7 +373,8 @@
             "phosphorous": "1.05",
             "potassium": "1.04",
             "dmid": "5",
-            "nminerizationid": "5"
+            "nminerizationid": "5",
+            "sortNum": "100"
           },
           {
             "id": "7",
@@ -350,7 +387,8 @@
             "phosphorous": "0.8",
             "potassium": "1.14",
             "dmid": "5",
-            "nminerizationid": "5"
+            "nminerizationid": "5",
+            "sortNum": "100"
           },
           {
             "id": "8",
@@ -363,7 +401,8 @@
             "phosphorous": "0.72",
             "potassium": "0.8",
             "dmid": "5",
-            "nminerizationid": "5"
+            "nminerizationid": "5",
+            "sortNum": "100"
           },
           {
             "id": "9",
@@ -376,7 +415,8 @@
             "phosphorous": "1.31",
             "potassium": "5.36",
             "dmid": "4",
-            "nminerizationid": "1"
+            "nminerizationid": "1",
+            "sortNum": "100"
           },
           {
             "id": "10",
@@ -389,7 +429,8 @@
             "phosphorous": "1.13",
             "potassium": "1.51",
             "dmid": "4",
-            "nminerizationid": "2"
+            "nminerizationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "11",
@@ -402,7 +443,8 @@
             "phosphorous": "0.2",
             "potassium": "0.43",
             "dmid": "4",
-            "nminerizationid": "11"
+            "nminerizationid": "11",
+            "sortNum": "100"
           },
           {
             "id": "12",
@@ -415,7 +457,8 @@
             "phosphorous": "0.1",
             "potassium": "0.3",
             "dmid": "4",
-            "nminerizationid": "11"
+            "nminerizationid": "11",
+            "sortNum": "100"
           },
           {
             "id": "13",
@@ -428,7 +471,8 @@
             "phosphorous": "0",
             "potassium": "0",
             "dmid": "4",
-            "nminerizationid": "8"
+            "nminerizationid": "8",
+            "sortNum": "100"
           },
           {
             "id": "14",
@@ -441,7 +485,8 @@
             "phosphorous": "0.1",
             "potassium": "0.27",
             "dmid": "4",
-            "nminerizationid": "2"
+            "nminerizationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "15",
@@ -454,7 +499,8 @@
             "phosphorous": "0.05",
             "potassium": "0.27",
             "dmid": "3",
-            "nminerizationid": "2"
+            "nminerizationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "16",
@@ -467,7 +513,8 @@
             "phosphorous": "0.05",
             "potassium": "0.2",
             "dmid": "2",
-            "nminerizationid": "2"
+            "nminerizationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "17",
@@ -480,7 +527,8 @@
             "phosphorous": "0.03",
             "potassium": "0.14",
             "dmid": "2",
-            "nminerizationid": "2"
+            "nminerizationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "18",
@@ -493,7 +541,8 @@
             "phosphorous": "0.02",
             "potassium": "0.12",
             "dmid": "2",
-            "nminerizationid": "2"
+            "nminerizationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "19",
@@ -506,7 +555,8 @@
             "phosphorous": "0.28",
             "potassium": "1.03",
             "dmid": "4",
-            "nminerizationid": "11"
+            "nminerizationid": "11",
+            "sortNum": "100"
           },
           {
             "id": "20",
@@ -519,7 +569,8 @@
             "phosphorous": "0.1",
             "potassium": "0.15",
             "dmid": "4",
-            "nminerizationid": "2"
+            "nminerizationid": "2",
+            "sortNum": "100"
           },
           {
             "id": "21",
@@ -532,7 +583,8 @@
             "phosphorous": "0.42",
             "potassium": "0.5",
             "dmid": "2",
-            "nminerizationid": "7"
+            "nminerizationid": "7",
+            "sortNum": "100"
           },
           {
             "id": "22",
@@ -545,7 +597,8 @@
             "phosphorous": "0.09",
             "potassium": "0.25",
             "dmid": "4",
-            "nminerizationid": "9"
+            "nminerizationid": "9",
+            "sortNum": "100"
           },
           {
             "id": "23",
@@ -558,7 +611,8 @@
             "phosphorous": "1.68",
             "potassium": "0.7",
             "dmid": "4",
-            "nminerizationid": "6"
+            "nminerizationid": "6",
+            "sortNum": "100"
           },
           {
             "id": "24",
@@ -571,7 +625,8 @@
             "phosphorous": "0.28",
             "potassium": "0.78",
             "dmid": "4",
-            "nminerizationid": "11"
+            "nminerizationid": "11",
+            "sortNum": "100"
           },
           {
             "id": "25",
@@ -584,7 +639,8 @@
             "phosphorous": "0.44",
             "potassium": "0.59",
             "dmid": "5",
-            "nminerizationid": "5"
+            "nminerizationid": "5",
+            "sortNum": "100"
           },
           {
             "id": "26",
@@ -597,7 +653,8 @@
             "phosphorous": "0.79",
             "potassium": "1.31",
             "dmid": "5",
-            "nminerizationid": "5"
+            "nminerizationid": "5",
+            "sortNum": "100"
           },
           {
             "id": "27",
@@ -610,7 +667,8 @@
             "phosphorous": "0",
             "potassium": "0",
             "dmid": "4",
-            "nminerizationid": "11"
+            "nminerizationid": "11",
+            "sortNum": "100"
           },
           {
             "id": "28",
@@ -623,7 +681,8 @@
             "phosphorous": "0",
             "potassium": "0",
             "dmid": "2",
-            "nminerizationid": "2"
+            "nminerizationid": "2",
+            "sortNum": "100"
           }
         ]
       },
@@ -639,7 +698,8 @@
             "dm_5_10": "0.95",
             "dm_gt10": "0.95",
             "poultry_solid": "0.95",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           },
           {
             "id": "2",
@@ -651,7 +711,8 @@
             "dm_5_10": "0.6",
             "dm_gt10": "0.5",
             "poultry_solid": "0.7",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           },
           {
             "id": "3",
@@ -663,7 +724,8 @@
             "dm_5_10": "0.45",
             "dm_gt10": "0.3",
             "poultry_solid": "0.5",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           },
           {
             "id": "4",
@@ -675,7 +737,8 @@
             "dm_5_10": "0.4",
             "dm_gt10": "0.2",
             "poultry_solid": "0.4",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           },
           {
             "id": "5",
@@ -687,7 +750,8 @@
             "dm_5_10": "0.4",
             "dm_gt10": "0.2",
             "poultry_solid": "0.4",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           },
           {
             "id": "6",
@@ -699,7 +763,8 @@
             "dm_5_10": "0.4",
             "dm_gt10": "0.2",
             "poultry_solid": "0.4",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           },
           {
             "id": "7",
@@ -711,7 +776,8 @@
             "dm_5_10": "0.4",
             "dm_gt10": "0.2",
             "poultry_solid": "0.34",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           },
           {
             "id": "8",
@@ -723,7 +789,8 @@
             "dm_5_10": "0.95",
             "dm_gt10": "0.95",
             "poultry_solid": "reselect",
-            "compost": "reselect"
+            "compost": "reselect",
+            "sortNum": "100"
           },
           {
             "id": "9",
@@ -735,7 +802,8 @@
             "dm_5_10": "0.7",
             "dm_gt10": "0.7",
             "poultry_solid": "reselect",
-            "compost": "reselect"
+            "compost": "reselect",
+            "sortNum": "100"
           },
           {
             "id": "10",
@@ -747,7 +815,8 @@
             "dm_5_10": "0.6",
             "dm_gt10": "0.6",
             "poultry_solid": "reselect",
-            "compost": "reselect"
+            "compost": "reselect",
+            "sortNum": "100"
           },
           {
             "id": "11",
@@ -759,7 +828,8 @@
             "dm_5_10": "0.34",
             "dm_gt10": "0.2",
             "poultry_solid": "0.34",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           },
           {
             "id": "12",
@@ -771,7 +841,8 @@
             "dm_5_10": "0.7",
             "dm_gt10": "0.7",
             "poultry_solid": "reselect",
-            "compost": "reselect"
+            "compost": "reselect",
+            "sortNum": "100"
           },
           {
             "id": "13",
@@ -783,7 +854,8 @@
             "dm_5_10": "0.5",
             "dm_gt10": "0.5",
             "poultry_solid": "0.5",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           },
           {
             "id": "14",
@@ -795,7 +867,8 @@
             "dm_5_10": "0.67",
             "dm_gt10": "0.67",
             "poultry_solid": "0.67",
-            "compost": "1"
+            "compost": "1",
+            "sortNum": "100"
           }
         ]
       },
@@ -1282,7 +1355,8 @@
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "null",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "2",
@@ -1295,7 +1369,8 @@
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "null",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "3",
@@ -1308,7 +1383,8 @@
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "null",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "4",
@@ -1321,7 +1397,8 @@
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
-            "prevcropcd": "1"
+            "prevcropcd": "1",
+            "sortNum": "100"
           },
           {
             "id": "5",
@@ -1334,7 +1411,8 @@
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "6",
@@ -1347,7 +1425,8 @@
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "7",
@@ -1360,7 +1439,8 @@
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "8",
@@ -1373,7 +1453,8 @@
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "9",
@@ -1386,7 +1467,8 @@
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "10",
@@ -1399,7 +1481,8 @@
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "11",
@@ -1412,7 +1495,8 @@
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "12",
@@ -1425,7 +1509,8 @@
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "13",
@@ -1438,7 +1523,8 @@
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "14",
@@ -1451,7 +1537,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "15",
@@ -1464,7 +1551,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "16",
@@ -1477,7 +1565,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "17",
@@ -1490,7 +1579,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "18",
@@ -1503,7 +1593,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "19",
@@ -1516,7 +1607,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "20",
@@ -1529,7 +1621,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "21",
@@ -1542,7 +1635,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "2"
+            "prevcropcd": "2",
+            "sortNum": "100"
           },
           {
             "id": "22",
@@ -1555,7 +1649,8 @@
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "23",
@@ -1568,7 +1663,8 @@
             "n_recommcd": "4",
             "n_recomm_lbperac": "84.5",
             "n_high_lbperac": "178",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "24",
@@ -1581,7 +1677,8 @@
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "25",
@@ -1594,7 +1691,8 @@
             "n_recommcd": "4",
             "n_recomm_lbperac": "111",
             "n_high_lbperac": "178",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "26",
@@ -1607,7 +1705,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "62.45253854",
             "n_high_lbperac": "66.91343415",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "27",
@@ -1620,7 +1719,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "107.06149464",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "28",
@@ -1633,7 +1733,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "35.68716488",
             "n_high_lbperac": "35.68716488",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "29",
@@ -1646,7 +1747,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "30",
@@ -1659,7 +1761,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "49.06985171",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "31",
@@ -1672,7 +1775,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "115.98328586",
             "n_high_lbperac": "165.05313757",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "32",
@@ -1685,7 +1789,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "107.06149464",
             "n_high_lbperac": "115.98328586",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "33",
@@ -1698,7 +1803,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "107.06149464",
             "n_high_lbperac": "151.67045074",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "34",
@@ -1711,7 +1817,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "107.06149464",
             "n_high_lbperac": "151.67045074",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "35",
@@ -1724,7 +1831,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "62.45253854",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "36",
@@ -1737,7 +1845,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "115.98328586",
             "n_high_lbperac": "165.05313757",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "37",
@@ -1750,7 +1859,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "62.45253854",
             "n_high_lbperac": "62.45253854",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "38",
@@ -1763,7 +1873,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "173.97492879",
             "n_high_lbperac": "187.35761562",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "39",
@@ -1776,7 +1887,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "80.29612098",
             "n_high_lbperac": "147.20955513",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "40",
@@ -1789,7 +1901,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "41",
@@ -1802,7 +1915,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "35.68716488",
             "n_high_lbperac": "35.68716488",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "42",
@@ -1815,7 +1929,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "62.45253854",
             "n_high_lbperac": "124.90507708",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "43",
@@ -1828,7 +1943,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "44",
@@ -1841,7 +1957,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "151.67045074",
             "n_high_lbperac": "178.4358244",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "45",
@@ -1854,7 +1971,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "156.13134635",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "46",
@@ -1867,7 +1985,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "178.4358244",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "47",
@@ -1880,7 +1999,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "178.4358244",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "48",
@@ -1893,7 +2013,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "80.29612098",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "49",
@@ -1906,7 +2027,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "89.2179122",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "50",
@@ -1919,7 +2041,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "51",
@@ -1932,7 +2055,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "84.75701659",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "52",
@@ -1945,7 +2069,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "13.38268683",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "53",
@@ -1958,7 +2083,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "62.45253854",
             "n_high_lbperac": "124.90507708",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "54",
@@ -1971,7 +2097,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "120.44418147",
             "n_high_lbperac": "120.44418147",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "55",
@@ -1984,7 +2111,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "142.74865952",
             "n_high_lbperac": "160.59224196",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "56",
@@ -1997,7 +2125,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "160.59224196",
             "n_high_lbperac": "178.4358244",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "57",
@@ -2010,7 +2139,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "58",
@@ -2023,7 +2153,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "44.6089561",
             "n_high_lbperac": "62.45253854",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "59",
@@ -2036,7 +2167,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "71.37432976",
             "n_high_lbperac": "71.37432976",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "60",
@@ -2049,7 +2181,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "151.67045074",
             "n_high_lbperac": "178.4358244",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "61",
@@ -2062,7 +2195,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "31.22626927",
             "n_high_lbperac": "40.14806049",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "62",
@@ -2075,7 +2209,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "62.45253854",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "63",
@@ -2088,7 +2223,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "64",
@@ -2101,7 +2237,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "62.45253854",
             "n_high_lbperac": "160.59224196",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "65",
@@ -2114,7 +2251,8 @@
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           },
           {
             "id": "66",
@@ -2127,7 +2265,8 @@
             "n_recommcd": "0",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
-            "prevcropcd": "3"
+            "prevcropcd": "3",
+            "sortNum": "100"
           }
         ]
       },
@@ -2195,7 +2334,8 @@
             "dry_liquid": "dry",
             "nitrogen": "0",
             "phosphorous": "0",
-            "potassium": "20"
+            "potassium": "20",
+            "sortNum": "100"
           },
           {
             "id": "2",
@@ -2203,7 +2343,8 @@
             "dry_liquid": "dry",
             "nitrogen": "0",
             "phosphorous": "0",
-            "potassium": "50"
+            "potassium": "50",
+            "sortNum": "100"
           },
           {
             "id": "3",
@@ -2211,7 +2352,8 @@
             "dry_liquid": "dry",
             "nitrogen": "0",
             "phosphorous": "0",
-            "potassium": "60"
+            "potassium": "60",
+            "sortNum": "100"
           },
           {
             "id": "4",
@@ -2219,7 +2361,8 @@
             "dry_liquid": "dry",
             "nitrogen": "10",
             "phosphorous": "16",
-            "potassium": "18"
+            "potassium": "18",
+            "sortNum": "100"
           },
           {
             "id": "5",
@@ -2227,7 +2370,8 @@
             "dry_liquid": "dry",
             "nitrogen": "10",
             "phosphorous": "34",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "6",
@@ -2235,7 +2379,8 @@
             "dry_liquid": "dry",
             "nitrogen": "11",
             "phosphorous": "18",
-            "potassium": "14"
+            "potassium": "14",
+            "sortNum": "100"
           },
           {
             "id": "7",
@@ -2243,7 +2388,8 @@
             "dry_liquid": "dry",
             "nitrogen": "11",
             "phosphorous": "52",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "8",
@@ -2251,7 +2397,8 @@
             "dry_liquid": "dry",
             "nitrogen": "12",
             "phosphorous": "10",
-            "potassium": "20"
+            "potassium": "20",
+            "sortNum": "100"
           },
           {
             "id": "9",
@@ -2259,7 +2406,8 @@
             "dry_liquid": "dry",
             "nitrogen": "13",
             "phosphorous": "16",
-            "potassium": "10"
+            "potassium": "10",
+            "sortNum": "100"
           },
           {
             "id": "10",
@@ -2267,7 +2415,8 @@
             "dry_liquid": "dry",
             "nitrogen": "14",
             "phosphorous": "28",
-            "potassium": "6"
+            "potassium": "6",
+            "sortNum": "100"
           },
           {
             "id": "11",
@@ -2275,7 +2424,8 @@
             "dry_liquid": "dry",
             "nitrogen": "14",
             "phosphorous": "7",
-            "potassium": "14"
+            "potassium": "14",
+            "sortNum": "100"
           },
           {
             "id": "12",
@@ -2283,7 +2433,8 @@
             "dry_liquid": "dry",
             "nitrogen": "15",
             "phosphorous": "8",
-            "potassium": "11"
+            "potassium": "11",
+            "sortNum": "100"
           },
           {
             "id": "13",
@@ -2291,7 +2442,8 @@
             "dry_liquid": "dry",
             "nitrogen": "18",
             "phosphorous": "9",
-            "potassium": "9"
+            "potassium": "9",
+            "sortNum": "100"
           },
           {
             "id": "14",
@@ -2299,7 +2451,8 @@
             "dry_liquid": "dry",
             "nitrogen": "30",
             "phosphorous": "10",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "15",
@@ -2307,7 +2460,8 @@
             "dry_liquid": "dry",
             "nitrogen": "34",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "16",
@@ -2315,7 +2469,8 @@
             "dry_liquid": "dry",
             "nitrogen": "34",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "17",
@@ -2323,7 +2478,8 @@
             "dry_liquid": "dry",
             "nitrogen": "30",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "18",
@@ -2331,7 +2487,8 @@
             "dry_liquid": "dry",
             "nitrogen": "27",
             "phosphorous": "11.91",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "19",
@@ -2339,7 +2496,8 @@
             "dry_liquid": "dry",
             "nitrogen": "16",
             "phosphorous": "19.92",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "20",
@@ -2347,7 +2505,8 @@
             "dry_liquid": "dry",
             "nitrogen": "11",
             "phosphorous": "57.25",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "21",
@@ -2355,7 +2514,8 @@
             "dry_liquid": "dry",
             "nitrogen": "21",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "22",
@@ -2363,7 +2523,8 @@
             "dry_liquid": "dry",
             "nitrogen": "18",
             "phosphorous": "45.8",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "23",
@@ -2371,7 +2532,8 @@
             "dry_liquid": "dry",
             "nitrogen": "11",
             "phosphorous": "52.67",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "24",
@@ -2379,7 +2541,8 @@
             "dry_liquid": "dry",
             "nitrogen": "46",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "25",
@@ -2387,7 +2550,8 @@
             "dry_liquid": "dry",
             "nitrogen": "28",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "26",
@@ -2395,7 +2559,8 @@
             "dry_liquid": "liquid",
             "nitrogen": "10",
             "phosphorous": "34",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "27",
@@ -2403,7 +2568,8 @@
             "dry_liquid": "liquid",
             "nitrogen": "32",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "28",
@@ -2411,7 +2577,8 @@
             "dry_liquid": "liquid",
             "nitrogen": "28",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "29",
@@ -2419,7 +2586,8 @@
             "dry_liquid": "liquid",
             "nitrogen": "3",
             "phosphorous": "18",
-            "potassium": "18"
+            "potassium": "18",
+            "sortNum": "100"
           },
           {
             "id": "30",
@@ -2427,7 +2595,8 @@
             "dry_liquid": "liquid",
             "nitrogen": "12",
             "phosphorous": "0",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "31",
@@ -2435,7 +2604,8 @@
             "dry_liquid": "liquid",
             "nitrogen": "20.5",
             "phosphorous": "5",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "32",
@@ -2443,7 +2613,8 @@
             "dry_liquid": "liquid",
             "nitrogen": "0",
             "phosphorous": "0",
-            "potassium": "15"
+            "potassium": "15",
+            "sortNum": "100"
           },
           {
             "id": "33",
@@ -2451,7 +2622,8 @@
             "dry_liquid": "liquid",
             "nitrogen": "0",
             "phosphorous": "54.29",
-            "potassium": "0"
+            "potassium": "0",
+            "sortNum": "100"
           },
           {
             "id": "34",
@@ -2459,7 +2631,8 @@
             "dry_liquid": "dry",
             "nitrogen": "18",
             "phosphorous": "18",
-            "potassium": "18"
+            "potassium": "18",
+            "sortNum": "100"
           },
           {
             "id": "35",
@@ -2467,7 +2640,8 @@
             "dry_liquid": "dry",
             "nitrogen": "13",
             "phosphorous": "16",
-            "potassium": "10"
+            "potassium": "10",
+            "sortNum": "100"
           }
         ]
       },
