@@ -40,15 +40,6 @@ namespace SERVERAPI.Controllers
             fvm.currYear = farmData.year;
             fvm.farmName = farmData.farmName;
 
-            if (farmData.soilTests != null)
-            {
-                fvm.soilTests = farmData.soilTests.Value;
-            }
-            if (farmData.manure != null)
-            {
-                fvm.manure = farmData.manure.Value;
-            }
-
             fvm.selRegOption = farmData.farmRegion;
 
             return View(fvm);
@@ -67,8 +58,6 @@ namespace SERVERAPI.Controllers
                 farmData.year = fvm.year;
                 farmData.farmName = fvm.farmName;
                 farmData.farmRegion = fvm.selRegOption;
-                farmData.soilTests = (fvm.soilTests == null) ? null : fvm.soilTests;
-                farmData.manure = (fvm.manure == null) ? null : fvm.manure;
 
                 _ud.UpdateFarmDetails(farmData);
                 HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + ", " + _ud.FarmDetails().year);

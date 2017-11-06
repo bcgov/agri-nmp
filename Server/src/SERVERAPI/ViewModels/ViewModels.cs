@@ -24,10 +24,6 @@ namespace SERVERAPI.ViewModels
         public string year { get; set; }
         [Display(Name = "Farm Name")]
         public string farmName { get; set; }
-        [Display(Name = "Do you have soil tests for for fields?")]
-        public bool? soilTests { get; set; }
-        [Display(Name = "Do you use manure or compost?")]
-        public bool? manure { get; set; }
         public List<Models.StaticData.SelectListItem> regOptions { get; set; }
         [Display(Name = "Region")]
         public int? selRegOption { get; set; }
@@ -36,8 +32,6 @@ namespace SERVERAPI.ViewModels
     }
     public class FieldPageViewModel
     {
-        public bool? soilTests { get; set; }
-        public bool? manure { get; set; }
     }
     public class IndexViewModel
     {

@@ -31,8 +31,6 @@ namespace SERVERAPI.Controllers
             FieldPageViewModel fvm = new FieldPageViewModel();
 
             FarmDetails fd = _ud.FarmDetails();
-            fvm.manure = fd.manure;
-            fvm.soilTests = fd.soilTests;
 
             return View(fvm);
         }
