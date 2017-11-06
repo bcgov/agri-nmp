@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.439"
+        "staticDataVersion": "2017.448"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8744,12 +8744,12 @@
           {
             "id": "1",
             "name": "manuredeletewarning",
-            "text": "This manure has already been added to specific field(s) - deleting it will remove it from the affected field(s)."
+            "text": "This manure has been added to one or more fields. Deleting it will remove this manure from those field(s)."
           },
           {
             "id": "2",
             "name": "welcome",
-            "text": "<h2>How Farmers and Consultants are Using the NMP Calculator</h2><ul><li>Use manures, composts, and fertilizer efficiently</li><li>Find nutrient requirements for crops (forage, vegetables, and grains)</li><li>Enter and download your information confidentially</li><li>Create pdf reports for nutrient management planning</li></ul>"
+            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops (forage, vegetables, and grains)</li><li>Get feedback on how closely fertilizer and manure applications meet requirements</li><li>Enter and download your work confidentially</li><li>Create pdf reports for farm use</li></ul>"
           },
           {
             "id": "3",
@@ -8759,27 +8759,27 @@
           {
             "id": "4",
             "name": "agriinfomessage",
-            "text": "<h1>Agronomic Balance</h1><ul><li>considers whether the crop can reach optimal yield and quality</li><li>soil test values affect crop nutrient requirements</li><li>considers the nutrients available in the year of application</li><li>can show if too much N will be applied</li></ul>"
+            "text": "<h1>Agronomic Balance</h1><ul><li>considers whether the crop can reach optimal yield and quality</li><li>soil test values affect crop nutrient requirements</li><li>considers the nutrients available from manure in the year of application</li><li>can show if too much N will be applied</li></ul>"
           },
           {
             "id": "5",
             "name": "cropinfomessage",
-            "text": "<h1>Crop Removal Balance</h1><ul><li>considers the portion of the crop removed from the field</li><li>soil test values do not affect crop nutrient removal</li><li>considers the nutrients available in the long term</li><li>can show if too much P2O5 will be applied</li><li>shows potential for soil P or soil K to increase or decrease</li></ul>"
+            "text": "<h1>Crop Removal Balance</h1><ul><li>considers the nutrients removed in the harvested portion of the crop</li><li>soil test values do not affect crop nutrient removal</li><li>considers the nutrients available from manure in the long term</li><li>can show if too much P2O5 will be applied</li><li>shows potential for soil P or soil K to increase or decrease</li></ul>"
           },
           {
             "id": "6",
             "name": "fileoverwritewarning",
-            "text": "There are unsaved changes that have not been downloaded - to continue without downloading the current file, please select Continue."
+            "text": "Do you want to save (download) the changes you made? If not, select Continue."
           },
           {
             "id": "7",
             "name": "finishwithoutsaving",
-            "text": "There are unsaved changes that have not been downloaded - to finish without downloading the current file, please select Continue."
+            "text": "Do you want to save (download) the changes you made? If not, select Continue."
           },
           {
             "id": "8",
             "name": "fieldcommentplaceholder",
-            "text": "Optional: clay loam soil texture, problem with salt in southwest corner  "
+            "text": "poor drainage in southwest corner (no need to specify crop here)"
           },
           {
             "id": "9",
@@ -8789,7 +8789,7 @@
           {
             "id": "10",
             "name": "nonutrientitems",
-            "text": "<ul><li>Add a crop to determine crop needs</li><li>Add nutrient inputs (manure/compost, fertilizer, other)</li><li>Automatically get feedback on whether crop needs are met or exceeded</li></ul>"
+            "text": "Calculate Nutrient Balances<br><ul><li>Add crops to estimate their annual nutrient requirements</li><li>Add nutrient inputs (manure/compost, fertilizer, other) for those crops</li><li>See recommendations to add more or less nutrients</li></ul>"
           }
         ]
       },
@@ -8878,7 +8878,7 @@
           },
           {
             "id": "10",
-            "text": "Reduce P2O5 inputs this year or in the long term. Crop P2O5 removal balance should not exceed 35 lb/ac.",
+            "text": "Reduce P2O5 inputs this year or in future years. Crop P2O5 removal balance should not exceed 35 lb/ac per year.",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrP2O5CropP2O5",
