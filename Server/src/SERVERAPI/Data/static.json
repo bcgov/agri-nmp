@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.448"
+        "staticDataVersion": "2017.452"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -12,7 +12,7 @@
         "defaultSoilTestKelownaP": "250",
         "defaultSoilTestKelownaK": "500",
         "defaultSoilTestMethodId": "1",
-        "defaultSoilTestMessage": "If you continue to the next step, blanks will be filled in with default soil test values. Default soil test values will assume very high P ({0}) and K ({1}) fertility with a pH of {2}.",
+        "defaultSoilTestMessage": "Without a soil test, it will be assumed that soil P and K fertility are very high and that pH is 6.0.",
         "kgperha_lbperac_conversion": "0.892176122",
         "potassiumAvailabilityFirstYear": "1",
         "potassiumAvailabilityLongTerm": "1",
@@ -38,35 +38,77 @@
         "soiltestmethod": [
           {
             "id": "1",
-            "name": "Kelowna",
-            "ConvertToKelownaPlt72": "1",
-            "ConvertToKelownaPge72": "1",
-            "ConvertToKelownaK": "1"
-          },
-          {
-            "id": "2",
-            "name": "Modified Kelowna 95",
-            "ConvertToKelownaPlt72": "1.24",
-            "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.76"
-          },
-          {
-            "id": "3",
-            "name": "Mehlich 3",
-            "ConvertToKelownaPlt72": "0.72",
-            "ConvertToKelownaPge72": "0.72",
-            "ConvertToKelownaK": "0.75"
-          },
-          {
-            "id": "4",
-            "name": "Bray-1 and Ammonium Acetate",
+            "name": "AGAT (Bray-1 and Amm Acetate)",
             "ConvertToKelownaPlt72": "0.74",
             "ConvertToKelownaPge72": "1",
             "ConvertToKelownaK": "0.8"
           },
           {
+            "id": "2",
+            "name": "A and L Canada (Bray-1 and Amm Acetate)",
+            "ConvertToKelownaPlt72": "0.74",
+            "ConvertToKelownaPge72": "1",
+            "ConvertToKelownaK": "0.8"
+          },
+          {
+            "id": "3",
+            "name": "ALS (Mod Kelowna 94)",
+            "ConvertToKelownaPlt72": "1.24",
+            "ConvertToKelownaPge72": "1.24",
+            "ConvertToKelownaK": "0.76"
+          },
+          {
+            "id": "4",
+            "name": "Brookside (Mehlich 3)",
+            "ConvertToKelownaPlt72": "0.72",
+            "ConvertToKelownaPge72": "0.72",
+            "ConvertToKelownaK": "0.75"
+          },
+          {
             "id": "5",
-            "name": "Bicarbonate (Olsen) and Ammonium Acetate",
+            "name": "Down to Earth (Mod Kelowna and Amm Acetate)",
+            "ConvertToKelownaPlt72": "1.24",
+            "ConvertToKelownaPge72": "1.24",
+            "ConvertToKelownaK": "0.8"
+          },
+          {
+            "id": "6",
+            "name": "Exova (Mod Kelowna 95)",
+            "ConvertToKelownaPlt72": "1.24",
+            "ConvertToKelownaPge72": "1.24",
+            "ConvertToKelownaK": "0.76"
+          },
+          {
+            "id": "7",
+            "name": "MB Laboratories (Mod Kelowna 94)",
+            "ConvertToKelownaPlt72": "1.24",
+            "ConvertToKelownaPge72": "1.24",
+            "ConvertToKelownaK": "0.76"
+          },
+          {
+            "id": "8",
+            "name": "Pacific Soil Analysis (Bray-1 and Amm Acetate)",
+            "ConvertToKelownaPlt72": "0.74",
+            "ConvertToKelownaPge72": "1",
+            "ConvertToKelownaK": "0.8"
+          },
+          {
+            "id": "9",
+            "name": "Plant Science Lab/Terralink (Mehlich 3)",
+            "ConvertToKelownaPlt72": "0.72",
+            "ConvertToKelownaPge72": "0.72",
+            "ConvertToKelownaK": "0.75"
+          },
+          {
+            "id": "10",
+            "name": "Soil Foodweb Canada (Mehlich 1)",
+            "ConvertToKelownaPlt72": "0.72",
+            "ConvertToKelownaPge72": "0.72",
+            "ConvertToKelownaK": "0.75"
+          },
+          {
+            "id": "11",
+            "name": "‘Other’ (Bicarbonate and Amm Acetate)",
             "ConvertToKelownaPlt72": "2",
             "ConvertToKelownaPge72": "2",
             "ConvertToKelownaK": "0.8"
