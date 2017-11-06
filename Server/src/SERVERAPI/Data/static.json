@@ -8832,6 +8832,11 @@
             "id": "10",
             "name": "nonutrientitems",
             "text": "Calculate Nutrient Balances<br><ul><li>Add crops to estimate their annual nutrient requirements</li><li>Add nutrient inputs (manure/compost, fertilizer, other) for those crops</li><li>See recommendations to add more or less nutrients</li></ul>"
+          },
+          {
+            "id": "11",
+            "name": "soiltestwarning",
+            "text": "A testing method must be selected before soil test results can be entered (changing)"
           }
         ]
       },

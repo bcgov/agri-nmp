@@ -43,6 +43,7 @@ namespace SERVERAPI.Controllers
             fvm.fldsFnd = (fl.Count() > 0) ? true : false;
 
             fvm.url = _sd.GetExternalLink("soiltestexplanation");
+            fvm.warningMsg = _sd.GetUserPrompt("soiltestwarning");
 
             return View(fvm);
         }

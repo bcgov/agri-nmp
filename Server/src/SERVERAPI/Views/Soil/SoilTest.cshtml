@@ -84,7 +84,7 @@
                                     {
                                         <div class="form-box">
                                             <div class="form-box-header clearfix">
-                                                <h3>A testing method must be selected before soil test results can be entered</h3>
+                                                <h3>@Model.warningMsg</h3>
                                             </div>
                                         </div>
                                     }
@@ -105,6 +105,7 @@
             @Html.HiddenFor(x => x.fldsFnd)
             @Html.HiddenFor(x => x.buttonPressed)
             @Html.HiddenFor(x => x.testSelected)
+            @Html.HiddenFor(x => x.warningMsg)
         </form>
     </div>
 </div>
