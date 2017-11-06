@@ -387,7 +387,7 @@ namespace SERVERAPI.ViewModels
     public class ReportFieldNutrient
     {
         public string nutrientName { get; set; }
-        public decimal nutrientAmount { get; set; }
+        public string nutrientAmount { get; set; }
         public string nutrientUnit { get; set; }
         public string nutrientSeason { get; set; }
         public string nutrientApplication { get; set; }
