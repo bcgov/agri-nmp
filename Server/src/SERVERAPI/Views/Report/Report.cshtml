@@ -67,14 +67,7 @@
             <br />
             <div class="form-box-submit">
                 <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';" />
-                @if (Model.unsavedData)
-                {
-                    <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" data_modal2="" data-type="@Url.Action("FinishWarning", "Report")" />
-                }
-                else
-                {
-                    <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="window.location.href='@Model.url'" />
-                }
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick = "Intercept('@Model.url');"  />
             </div>
             @Html.HiddenFor(x => x.unsavedData)
         </form>
@@ -82,7 +75,7 @@
 </div>
 @section Scripts {
 <script type="text/javascript">
-    
+
     $(document).on("click", '[data_modal2]', function (e) {
         $.ajaxSetup({ cache: false });
         $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
@@ -123,5 +116,27 @@
     $(document).ready(function () {
         $.ajaxSetup({ cache: false });
     });
+
+
+    function Intercept(x) {
+        if ($("#unsavedData").val() == "True")
+        {
+            $.ajaxSetup({ cache: false });
+            var url = '@Url.Action("SaveWarning", "Nutrients", new { target = "zzz" })';
+            $type = url.replace('zzz', x);
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm2(this);
+            });
+            return false;
+        }
+        else
+        {
+            window.location.href = x;
+        }
+    }
 </script>
 }

@@ -123,7 +123,7 @@
             <br />
             <div class="form-box-submit">
                 <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Report", "Report" )';" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next"  onclick="Intercept('@Url.Action("Report", "Report" )');" />
             </div>
             @Html.HiddenFor(x => x.fldsFnd)
             @Html.HiddenFor(x => x.currFld)
@@ -182,6 +182,10 @@
         return false;
     });
 
+    $(".modal").on("hidden.bs.modal", function () {
+        $(".myModalContent").html("");
+    });
+
     function bindForm(dialog) {
         $('form', dialog).submit(function () {
             $.ajax({
@@ -232,6 +236,28 @@
             return false;
         });
     }
+
+    function bindFormW(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        window.location.href = '@Url.Action("Report","Report")';
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindFormW(dialog);
+                    }
+                }
+            });
+            return false;
+        });
+    }
+
     //function bindForm3(dialog) {
     //    $('form', dialog).submit(function () {
     //        $.ajax({
@@ -446,6 +472,44 @@
         $("#ok_button").html('Calculate');
         $("#ok_button").css('background-color', '#1abbed');
         $("#btnText").val("Calculate");
+    }
+
+    function Intercept(x) {
+        var unsaved = "False";
+        var jqxhr = $.ajax({
+            type: "GET",
+            url: '@Url.Action("CheckUnsaved", "Nutrients")',
+            data: '{}',
+            async: false,
+            cache: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+            })
+            .done(function (result) {
+                unsaved = result.unsaved;
+            })
+            .fail(function (result) {
+                unsaved = "False";
+            });
+
+        if (unsaved == "True")
+        {
+            $.ajaxSetup({ cache: false });
+            var url = '@Url.Action("SaveWarning", "Nutrients", new { target = "zzz" })';
+            $type = url.replace('zzz', x);
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindFormW(this);
+            });
+            return false;
+        }
+        else
+        {
+            window.location.href = x;
+        }
     }
 
 

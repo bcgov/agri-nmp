@@ -1,4 +1,4 @@
-﻿@model SERVERAPI.ViewModels.FinishWarningViewModel
+﻿@model SERVERAPI.ViewModels.SaveWarningViewModel
 
 @{
     Layout = null;
@@ -6,10 +6,10 @@
 <div id="target">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Warning - Unsaved Data</h4>
+        <h4 class="modal-title" id="myModalLabel">Warning</h4>
     </div>
 
-    <form asp-action="FinishWarning" asp-controller="Report" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target" id="warnForm">
+    <form asp-action="SaveWarning" asp-controller="Nutrients" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target" id="warnForm">
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -20,9 +20,9 @@
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-primary" type="button" value="Save Changes" onclick="location.href='@Url.Action("Download", "Home")'" />
-            <input class="btn btn-primary" type="submit" value="Continue" />
+            <input class="btn btn-primary" type="button" value="Download file" onclick="location.href='@Url.Action("Download", "Home")'" />
+            <input class="btn btn-primary" type="button" value="Continue" onclick="window.location.href = '@Model.target'" />
         </div>
-        @Html.HiddenFor(x => x.msg)
+        @Html.HiddenFor(x => x.target)
     </form>
 </div>

@@ -816,17 +816,5 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
-        public IActionResult FinishWarning()
-        {
-            FinishWarningViewModel fvm = new FinishWarningViewModel();
-            fvm.msg = _sd.GetUserPrompt("finishwithoutsaving");
-            return View(fvm);
-        }
-        [HttpPost]
-        public IActionResult FinishWarning(FinishWarningViewModel fvm)
-        {
-            string url = _sd.GetExternalLink("finishpagetarget");
-            return Json(new { success = true, url = url });
-        }
     }
 }

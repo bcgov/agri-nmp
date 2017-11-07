@@ -1698,5 +1698,19 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("InfoMessage", ivm);
         }
+        public IActionResult SaveWarning(string target)
+        {
+            SaveWarningViewModel svm = new SaveWarningViewModel();
+            svm.target = target;
+            svm.msg = _sd.GetUserPrompt("finishwithoutsaving");
+
+            return PartialView("SaveWarning", svm);
+        }
+        [HttpGet]
+        public object CheckUnsaved()
+        {
+            var result = new { unsaved = _ud.FarmData().unsaved.ToString() };
+            return result;
+        }
     }
 }

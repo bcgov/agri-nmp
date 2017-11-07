@@ -43,6 +43,8 @@ namespace SERVERAPI.ViewComponents
             if (others.Count() > 0)
                 cvm.headingReqd = true;
 
+            cvm.unsavedData = _ud.FarmData().unsaved;
+
             return Task.FromResult(cvm);
         }
     }
@@ -51,5 +53,6 @@ namespace SERVERAPI.ViewComponents
         public bool headingReqd { get; set; }
         public string urlAgri { get; set; }
         public string urlCrop { get; set; }
+        public bool unsavedData { get; set; }
     }
 }

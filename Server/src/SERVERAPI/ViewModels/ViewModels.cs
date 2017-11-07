@@ -314,6 +314,11 @@ namespace SERVERAPI.ViewModels
         public string target { get; set; }
         public string msg { get; set; }
     }
+    public class SaveWarningViewModel
+    {
+        public string target { get; set; }
+        public string msg { get; set; }
+    }
     public class ReportViewModel
     {
         public bool fields { get; set; }
