@@ -40,6 +40,7 @@ namespace SERVERAPI.Models
             public int soil_test_phospherous_region_cd { get; set; }
             public int soil_test_potassium_region_cd { get; set; }
             public int locationid { get; set; }
+            public int sortNum { get; set; }
         }
 
         public class SelectListItem
@@ -83,6 +84,7 @@ namespace SERVERAPI.Models
             public decimal potassium { get; set; }
             public int dmid { get; set; }
             public int nminerizationid { get; set; }
+            public int sortNum { get; set; }
         }
         public class FertilizerTypes
         {
@@ -110,6 +112,7 @@ namespace SERVERAPI.Models
             public decimal nitrogen { get; set; }
             public decimal phosphorous { get; set; }
             public decimal potassium { get; set; }
+            public int sortNum { get; set; }
         }
 
         public class LiquidFertilizerDensity
@@ -138,6 +141,7 @@ namespace SERVERAPI.Models
             public decimal dm_gt10 { get; set; }            
             public string poultry_solid { get; set; }
             public string compost { get; set; }
+            public int sortNum { get; set; }
         }
 
         public class Units
@@ -219,6 +223,7 @@ namespace SERVERAPI.Models
             public decimal? n_recomm_lbperac { get; set; }
             public decimal? n_high_lbperac { get; set; }
             public int prevcropcd { get; set; }
+            public int sortNum { get; set; }
         }
 
         public class Yield
@@ -260,6 +265,7 @@ namespace SERVERAPI.Models
             public decimal ConvertToKelownaPlt72 { get; set; }
             public decimal ConvertToKelownaPge72 { get; set; }
             public decimal ConvertToKelownaK { get; set; }
+            public int sortNum { get; set; }
         }
 
         public class PrevCropTypes

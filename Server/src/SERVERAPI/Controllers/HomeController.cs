@@ -292,7 +292,7 @@ namespace SERVERAPI.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "A file hs not been selected.");
+                ModelState.AddModelError("", "A file has not been selected.");
             }
             return View(lvm);
         }
