@@ -148,12 +148,12 @@ namespace SERVERAPI.Utility
             List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
             foreach (var m in others)
             {
-                chemicalBalances.balance_AgrN += Convert.ToInt16(m.nitrogen);
-                chemicalBalances.balance_AgrP2O5 += Convert.ToInt16(m.phospherous);
-                chemicalBalances.balance_AgrK2O += Convert.ToInt16(m.potassium);
-                chemicalBalances.balance_CropN += Convert.ToInt16(m.nitrogen);
-                chemicalBalances.balance_CropP2O5 += Convert.ToInt16(m.phospherous);
-                chemicalBalances.balance_CropK2O += Convert.ToInt16(m.potassium);
+                chemicalBalances.balance_AgrN += Convert.ToInt16(m.ltN);
+                chemicalBalances.balance_AgrP2O5 += Convert.ToInt16(m.ltP2o5);
+                chemicalBalances.balance_AgrK2O += Convert.ToInt16(m.ltK);
+                chemicalBalances.balance_CropN += Convert.ToInt16(m.yrN);
+                chemicalBalances.balance_CropP2O5 += Convert.ToInt16(m.yrP2o5);
+                chemicalBalances.balance_CropK2O += Convert.ToInt16(m.yrK);
             }
 
             if (crps.Count > 0) //display balance messages when at least one Crop has been added
@@ -241,7 +241,7 @@ namespace SERVERAPI.Utility
             List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
             foreach (var m in others)
             {
-                LegumeAgronomicN += Convert.ToInt16(m.nitrogen);
+                LegumeAgronomicN += Convert.ToInt16(m.yrN);
             }
 
             return LegumeAgronomicN;

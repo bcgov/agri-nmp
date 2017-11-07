@@ -497,13 +497,23 @@ namespace SERVERAPI.ViewModels
         public string source { get; set; }
         [Display(Name = "N")]
         [Required(ErrorMessage = "Required")]
-        public string nitrogen { get; set; }
+        public string yrN { get; set; }
         [Display(Name = "P2O5")]
         [Required(ErrorMessage = "Required")]
-        public string phospherous { get; set; }
+        public string yrP { get; set; }
         [Display(Name = "K2O")]
         [Required(ErrorMessage = "Required")]
-        public string potassium { get; set; }
+        public string yrK { get; set; }
+        [Display(Name = "N")]
+        [Required(ErrorMessage = "Required")]
+        public string ltN { get; set; }
+        [Display(Name = "P2O5")]
+        [Required(ErrorMessage = "Required")]
+        public string ltP { get; set; }
+        [Display(Name = "K2O")]
+        [Required(ErrorMessage = "Required")]
+        public string ltK { get; set; }
+        public string url { get; set; }
     }
     public class InfoAgriViewModel
     {

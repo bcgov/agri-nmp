@@ -1532,6 +1532,7 @@ namespace SERVERAPI.Controllers
             ovm.title = id == null ? "Add" : "Edit";
             ovm.btnText = id == null ? "Add to Field" : "Update Field";
             ovm.id = id;
+            ovm.url = _sd.GetExternalLink("othernutrientexplanation");
 
             if (id != null)
             {
@@ -1539,9 +1540,12 @@ namespace SERVERAPI.Controllers
 
                 NutrientOther no = _ud.GetFieldNutrientsOther(fldName, id.Value);
                 ovm.source = no.description;
-                ovm.nitrogen = no.nitrogen.ToString();
-                ovm.phospherous = no.phospherous.ToString();
-                ovm.potassium = no.potassium.ToString();
+                ovm.yrN = no.yrN.ToString();
+                ovm.yrP = no.yrP2o5.ToString();
+                ovm.yrK = no.yrK.ToString();
+                ovm.ltN = no.ltN.ToString();
+                ovm.ltP = no.ltP2o5.ToString();
+                ovm.ltK = no.ltK.ToString();
             }
             else
 
@@ -1557,43 +1561,82 @@ namespace SERVERAPI.Controllers
             if(ModelState.IsValid)
             {
                 decimal tmp = 0;
-                if (decimal.TryParse(ovm.nitrogen, out tmp))
+                if (decimal.TryParse(ovm.yrN, out tmp))
                 {
                     if (tmp < 0)
                     {
-                        ModelState.AddModelError("nitrogen", "Must be greater than 0.");
+                        ModelState.AddModelError("yrN", "Must be greater than 0.");
                         return View(ovm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("nitrogen", "Not a valid number.");
+                    ModelState.AddModelError("yrN", "Not a valid number.");
                     return View(ovm);
                 }
-                if (decimal.TryParse(ovm.phospherous, out tmp))
+                if (decimal.TryParse(ovm.yrP, out tmp))
                 {
                     if (tmp < 0)
                     {
-                        ModelState.AddModelError("phospherous", "Must be greater than 0.");
+                        ModelState.AddModelError("yrP", "Must be greater than 0.");
                         return View(ovm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("phospherous", "Not a valid number.");
+                    ModelState.AddModelError("yrP", "Not a valid number.");
                     return View(ovm);
                 }
-                if (decimal.TryParse(ovm.potassium, out tmp))
+                if (decimal.TryParse(ovm.yrK, out tmp))
                 {
                     if (tmp < 0)
                     {
-                        ModelState.AddModelError("potassium", "Must be greater than 0.");
+                        ModelState.AddModelError("yrK", "Must be greater than 0.");
                         return View(ovm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("potassium", "Not a valid number.");
+                    ModelState.AddModelError("yrK", "Not a valid number.");
+                    return View(ovm);
+                }
+                if (decimal.TryParse(ovm.ltN, out tmp))
+                {
+                    if (tmp < 0)
+                    {
+                        ModelState.AddModelError("ltN", "Must be greater than 0.");
+                        return View(ovm);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("ltN", "Not a valid number.");
+                    return View(ovm);
+                }
+                if (decimal.TryParse(ovm.ltP, out tmp))
+                {
+                    if (tmp < 0)
+                    {
+                        ModelState.AddModelError("ltP", "Must be greater than 0.");
+                        return View(ovm);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("ltP", "Not a valid number.");
+                    return View(ovm);
+                }
+                if (decimal.TryParse(ovm.ltK, out tmp))
+                {
+                    if (tmp < 0)
+                    {
+                        ModelState.AddModelError("ltK", "Must be greater than 0.");
+                        return View(ovm);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("ltK", "Not a valid number.");
                     return View(ovm);
                 }
                 if (ovm.id == null)
@@ -1601,9 +1644,12 @@ namespace SERVERAPI.Controllers
                     NutrientOther no = new NutrientOther()
                     {
                         description = ovm.source,
-                        nitrogen = Convert.ToDecimal(ovm.nitrogen),
-                        phospherous = Convert.ToDecimal(ovm.phospherous),
-                        potassium = Convert.ToDecimal(ovm.potassium)
+                        ltN = Convert.ToDecimal(ovm.ltN),
+                        ltP2o5 = Convert.ToDecimal(ovm.ltP),
+                        ltK = Convert.ToDecimal(ovm.ltK),
+                        yrN = Convert.ToDecimal(ovm.yrN),
+                        yrP2o5 = Convert.ToDecimal(ovm.yrP),
+                        yrK = Convert.ToDecimal(ovm.yrK)
                     };
 
                     _ud.AddFieldNutrientsOther(ovm.fieldName, no);
@@ -1612,9 +1658,12 @@ namespace SERVERAPI.Controllers
                 {
                     NutrientOther no = _ud.GetFieldNutrientsOther(ovm.fieldName, ovm.id.Value);
                     no.description = ovm.source;
-                    no.nitrogen = Convert.ToDecimal(ovm.nitrogen);
-                    no.phospherous = Convert.ToDecimal(ovm.phospherous);
-                    no.potassium = Convert.ToDecimal(ovm.potassium);
+                    no.ltN = Convert.ToDecimal(ovm.ltN);
+                    no.ltP2o5 = Convert.ToDecimal(ovm.ltP);
+                    no.ltK = Convert.ToDecimal(ovm.ltK);
+                    no.yrN = Convert.ToDecimal(ovm.yrN);
+                    no.yrP2o5 = Convert.ToDecimal(ovm.yrP);
+                    no.yrK = Convert.ToDecimal(ovm.yrK);
 
                     _ud.UpdateFieldNutrientsOther(ovm.fieldName, no);
                 }

@@ -38,9 +38,12 @@ namespace SERVERAPI.ViewComponents
                 {
                     otherId = m.id,
                     description = m.description,
-                    nitrogen = m.nitrogen,
-                    phospherous = m.phospherous,
-                    potassium = m.potassium
+                    ltN = m.ltN,
+                    ltP = m.ltP2o5,
+                    ltK = m.ltK,
+                    yrN = m.yrN,
+                    yrP = m.yrP2o5,
+                    yrK = m.yrK
                 };
                 ovm.others.Add(no);
             }
@@ -57,8 +60,11 @@ namespace SERVERAPI.ViewComponents
     {
         public int otherId { get; set; }
         public string description { get; set; }
-        public decimal nitrogen { get; set; }
-        public decimal phospherous { get; set; }
-        public decimal potassium { get; set; }
+        public decimal yrN { get; set; }
+        public decimal yrP { get; set; }
+        public decimal yrK { get; set; }
+        public decimal ltN { get; set; }
+        public decimal ltP { get; set; }
+        public decimal ltK { get; set; }
     }
 }

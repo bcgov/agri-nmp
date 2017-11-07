@@ -83,9 +83,12 @@ namespace SERVERAPI.Models
     {
         public int id { get; set; }
         public string description { get; set; }
-        public decimal nitrogen { get; set; }
-        public decimal potassium { get; set; }
-        public decimal phospherous { get; set; }
+        public decimal yrN { get; set; }
+        public decimal yrP2o5 { get; set; }
+        public decimal yrK { get; set; }
+        public decimal ltN { get; set; }
+        public decimal ltP2o5 { get; set; }
+        public decimal ltK { get; set; }
     }
     public class FieldCrop
     {

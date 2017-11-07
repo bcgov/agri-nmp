@@ -398,9 +398,12 @@ namespace SERVERAPI.Models.Impl
             NutrientOther no = fld.nutrients.nutrientOthers.FirstOrDefault(m => m.id == updtOther.id);
 
             no.description = updtOther.description;
-            no.nitrogen = updtOther.nitrogen;
-            no.phospherous = updtOther.phospherous;
-            no.potassium = updtOther.potassium;
+            no.yrN = updtOther.yrN;
+            no.yrP2o5 = updtOther.yrP2o5;
+            no.yrK = updtOther.yrK;
+            no.ltN = updtOther.ltN;
+            no.ltP2o5 = updtOther.ltP2o5;
+            no.ltK = updtOther.ltK;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

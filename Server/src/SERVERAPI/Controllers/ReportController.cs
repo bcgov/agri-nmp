@@ -279,12 +279,12 @@ namespace SERVERAPI.Controllers
                         {
                             ReportFieldOtherNutrient fon = new ReportFieldOtherNutrient();
                             fon.otherName = o.description;
-                            fon.reqN = o.nitrogen;
-                            fon.reqP = o.phospherous;
-                            fon.reqK = o.potassium;
-                            fon.remN = o.nitrogen;
-                            fon.remP = o.phospherous;
-                            fon.remK = o.potassium;
+                            fon.reqN = o.ltN;
+                            fon.reqP = o.ltP2o5;
+                            fon.reqK = o.ltK;
+                            fon.remN = o.yrN;
+                            fon.remP = o.yrP2o5;
+                            fon.remK = o.yrK;
                             rf.otherNutrients.Add(fon);
 
                             rf.reqN = rf.reqN + fon.reqN;
