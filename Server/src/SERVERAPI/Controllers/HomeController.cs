@@ -78,9 +78,11 @@ namespace SERVERAPI.Controllers
         //}
         public IActionResult About()
         {
-            AboutViewModel avm = new AboutViewModel();
-
             return Redirect(_sd.GetExternalLink("aboutmessage"));
+        }
+        public IActionResult Help()
+        {
+            return Redirect(_sd.GetExternalLink("helpmessage"));
         }
 
         public IActionResult Index()

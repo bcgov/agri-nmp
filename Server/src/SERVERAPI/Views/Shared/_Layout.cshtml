@@ -96,6 +96,7 @@
                         <ul class="nav navbar-nav">
                             <li><a href='@Url.Action("Index", "Home" )'>Home Page</a></li>
                             <li><a href='@Url.Action("About", "Home" )' target="_blank">About</a></li>
+                            <li><a href='@Url.Action("Help", "Home" )' target="_blank">Help</a></li>
                         </ul>
                     </div>
                     <!-- /COLLAPSING NAVBAR -->
@@ -114,6 +115,11 @@
                             <span>
                                 <a href='@Url.Action("About", "Home" )' target="_blank">
                                     About
+                                </a>
+                            </span>
+                            <span>
+                                <a href='@Url.Action("Help", "Home" )' target="_blank">
+                                    Help
                                 </a>
                             </span>
                             @*<span class="text-center" style="padding-left:20px; font-size: 20px;font-weight: 700;color: #fff;position: relative;white-space: nowrap;" role="banner">@Context.Session.GetString("Farm")</span>*@
