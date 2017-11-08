@@ -9020,7 +9020,7 @@
           {
             "id": "11",
             "name": "soiltestwarning",
-            "text": "Do you have soil tests? | Yes - Select the lab used (soil test methods) | No - Click Next"
+            "text": "Do you have soil tests?<br />Yes - Select the lab used (soil test methods)<br />No - Click Next"
           }
         ]
       },
