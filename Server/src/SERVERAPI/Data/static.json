@@ -699,7 +699,8 @@
             "dm_gt10": "0.95",
             "poultry_solid": "0.95",
             "compost": "1",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type" :  "Solid/Liquid"
           },
           {
             "id": "2",
@@ -712,7 +713,8 @@
             "dm_gt10": "0.5",
             "poultry_solid": "0.7",
             "compost": "1",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Solid/Liquid"
           },
           {
             "id": "3",
@@ -725,7 +727,8 @@
             "dm_gt10": "0.3",
             "poultry_solid": "0.5",
             "compost": "1",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Solid/Liquid"
           },
           {
             "id": "4",
@@ -738,7 +741,8 @@
             "dm_gt10": "0.2",
             "poultry_solid": "0.4",
             "compost": "1",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Solid/Liquid"
           },
           {
             "id": "5",
@@ -751,7 +755,8 @@
             "dm_gt10": "0.2",
             "poultry_solid": "0.4",
             "compost": "1",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Solid/Liquid"
           },
           {
             "id": "6",
@@ -764,7 +769,8 @@
             "dm_gt10": "0.2",
             "poultry_solid": "0.4",
             "compost": "1",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Solid/Liquid"
           },
           {
             "id": "7",
@@ -777,7 +783,8 @@
             "dm_gt10": "0.2",
             "poultry_solid": "0.34",
             "compost": "1",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Solid/Liquid"
           },
           {
             "id": "8",
@@ -790,7 +797,8 @@
             "dm_gt10": "0.95",
             "poultry_solid": "reselect",
             "compost": "reselect",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Liquid"
           },
           {
             "id": "9",
@@ -803,7 +811,8 @@
             "dm_gt10": "0.7",
             "poultry_solid": "reselect",
             "compost": "reselect",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Liquid"
           },
           {
             "id": "10",
@@ -816,7 +825,8 @@
             "dm_gt10": "0.6",
             "poultry_solid": "reselect",
             "compost": "reselect",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Liquid"
           },
           {
             "id": "11",
@@ -829,7 +839,8 @@
             "dm_gt10": "0.2",
             "poultry_solid": "0.34",
             "compost": "1",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Solid/Liquid"
           },
           {
             "id": "12",
@@ -842,7 +853,8 @@
             "dm_gt10": "0.7",
             "poultry_solid": "reselect",
             "compost": "reselect",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Liquid"
           },
           {
             "id": "13",
@@ -855,7 +867,8 @@
             "dm_gt10": "0.5",
             "poultry_solid": "0.5",
             "compost": "1",
-            "sortNum": "100"
+            "sortNum": "100",
+            "manure_type": "Solid/Liquid"
           },
           {
             "id": "14",
@@ -868,7 +881,8 @@
             "dm_gt10": "0.67",
             "poultry_solid": "0.67",
             "compost": "1",
-            "sortNum": "10"
+            "sortNum": "10",
+            "manure_type": "Solid/Liquid"
           }
         ]
       },

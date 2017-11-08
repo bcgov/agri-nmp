@@ -142,6 +142,7 @@ namespace SERVERAPI.Models
             public string poultry_solid { get; set; }
             public string compost { get; set; }
             public int sortNum { get; set; }
+            public string manure_type { get; set; }
         }
 
         public class Units

@@ -359,7 +359,13 @@ namespace SERVERAPI.Controllers
             mvm.manOptions = _ud.GetFarmManuresDll().ToList();
 
             mvm.applOptions = new List<Models.StaticData.SelectListItem>();
-            mvm.applOptions = _sd.GetApplicationsDll().ToList();
+            if (mvm.selManOption != null &&
+                mvm.selManOption != "select" &&
+                mvm.selManOption != "")
+            {
+                FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.selManOption));
+                mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.manureId.ToString()).solid_liquid).ToList();
+            }
 
             mvm.rateOptions = new List<Models.StaticData.SelectListItem>();
             mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();

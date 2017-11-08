@@ -188,6 +188,7 @@ namespace SERVERAPI.Models.Impl
                     appl.dm_gt10 = Convert.ToDecimal(r["dm_gt10"].ToString());
                     appl.poultry_solid = r["poultry_solid"].ToString();
                     appl.compost = r["season"].ToString();
+                    appl.manure_type = r["manure_type"].ToString();
                 }
             }
 
@@ -216,6 +217,7 @@ namespace SERVERAPI.Models.Impl
                 appl.poultry_solid = r["poultry_solid"].ToString();
                 appl.compost = r["season"].ToString();
                 appl.sortNum = Convert.ToInt32(r["sortNum"].ToString());
+                appl.manure_type = r["manure_type"].ToString();
 
                 appls.season_applications.Add(appl);
             }
@@ -223,7 +225,7 @@ namespace SERVERAPI.Models.Impl
             return appls;
         }
 
-        public List<Models.StaticData.SelectListItem> GetApplicationsDll()
+        public List<Models.StaticData.SelectListItem> GetApplicationsDll(string manureType)
         {
             Models.StaticData.Season_Applications appls = GetApplications();
 
@@ -233,8 +235,11 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var r in appls.season_applications)
             {
-                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
-                applsOptions.Add(li);
+                if (r.manure_type.Contains(manureType))
+                {
+                    Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                    applsOptions.Add(li);
+                }
             }
 
             return applsOptions;
