@@ -42,7 +42,7 @@
                     <div class="form-box-fields">
                         <div class="row">
                             <div class="col-sm-7">
-                                <label asp-for="selTstOption">Testing Method</label>
+                                <label asp-for="selTstOption">Lab (Soil Test Methods)</label>
                             </div>
                         </div>
                         <div class="row">
@@ -84,7 +84,7 @@
                                     {
                                         <div class="form-box">
                                             <div class="form-box-header clearfix">
-                                                <h3>@Model.warningMsg</h3>
+                                                <h3>@Html.Raw(Model.warningMsg)</h3>
                                             </div>
                                         </div>
                                     }

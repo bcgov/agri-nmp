@@ -9020,7 +9020,7 @@
           {
             "id": "11",
             "name": "soiltestwarning",
-            "text": "A testing method must be selected before soil test results can be entered (changing)"
+            "text": "Do you have soil tests?<br />Yes - Select the lab used (soil test methods)<br />No - Click Next"
           }
         ]
       },
