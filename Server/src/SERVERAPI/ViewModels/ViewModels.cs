@@ -516,4 +516,9 @@ namespace SERVERAPI.ViewModels
         public string title { get; set; }
         public string text { get; set; }
     }
+
+    public class ValidateStaticDataViewModel
+    {
+        public string staticDataErrors { get; set; }
+    }
 }
