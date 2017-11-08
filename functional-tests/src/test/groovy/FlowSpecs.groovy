@@ -14,4 +14,14 @@ class FlowSpecs extends GebReportingSpec {
 	then:
 			at HomePage    
     }
+	
+	@Unroll
+	def "Validate Static Data"(){
+	given:
+			to ValidateStaticData
+	when:
+		$("a","id":"Explore").click()
+	then:
+			at ValidateStaticData
+    }
 }

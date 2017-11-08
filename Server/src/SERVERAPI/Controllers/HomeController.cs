@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.NodeServices;
+using Microsoft.AspNetCore.Routing;
+using Newtonsoft.Json;
 using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http;
-using System.Text;
-using System.Net;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Hosting;
-using System.Reflection;
+using System;
 using System.IO;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Routing;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.Controllers
 {
@@ -327,6 +322,17 @@ namespace SERVERAPI.Controllers
         {
 
             return View(fvm);
+        }
+
+        [HttpGet]
+        public IActionResult ValidateStaticData()
+        {
+            
+            ValidateStaticDataViewModel vvm = new ValidateStaticDataViewModel();
+
+            vvm.staticDataErrors = "No Errors";
+
+            return View(vvm);
         }
     }
 }
