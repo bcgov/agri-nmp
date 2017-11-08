@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.452"
+        "staticDataVersion": "2017.463"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9020,7 +9020,7 @@
           {
             "id": "11",
             "name": "soiltestwarning",
-            "text": "Do you have soil tests?<br />Yes - Select the lab used (soil test methods)<br />No - Click Next"
+            "text": "Do you have soil tests? | Yes - Select the lab used (soil test methods) | No - Click Next"
           }
         ]
       },
