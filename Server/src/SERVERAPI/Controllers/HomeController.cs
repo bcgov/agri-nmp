@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace SERVERAPI.Controllers
 {
@@ -326,11 +327,25 @@ namespace SERVERAPI.Controllers
 
         [HttpGet]
         public IActionResult ValidateStaticData()
-        {
-            
+        {            
             ValidateStaticDataViewModel vvm = new ValidateStaticDataViewModel();
+            Utility.ValidateStaticData validate = new Utility.ValidateStaticData(_sd);
+            StringBuilder sb = new StringBuilder("");
 
-            vvm.staticDataErrors = "No Errors";
+            List<Utility.StaticDataValidationMessages>  messages = validate.PerformValidation();
+
+            if (messages.Count > 0)
+            {
+                foreach (Utility.StaticDataValidationMessages message in messages)
+                {
+                    sb.Append(String.Format("Validate error: {0} value of {1} does not exist in {2}. <br/>", message.Child, message.LinkData, message.Parent));
+                }
+                vvm.staticDataErrors = sb.ToString();
+            }
+            else
+            {
+                vvm.staticDataErrors = "No Errors";
+            }
 
             return View(vvm);
         }
