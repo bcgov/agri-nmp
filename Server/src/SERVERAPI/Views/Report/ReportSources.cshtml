@@ -2,26 +2,30 @@
 
 <div class="Row">
     <div class="Cell">
-        <h2>Your Nutrient Sources</h2>
+        <span style="font-size:20px"><b>Manure and Fertilizer Required</b></span>
+        <br />
+        <br />
+        <br />
     </div>
 </div>
 <div class="Row">
     <div class="Cell">
-        <table style="border-collapse: collapse;">
-                <tr style="padding-top:20px; padding-bottom:20px">
-                    <td style="padding-top:10px; padding-bottom:10px; background-color:#efefef; border: 1px solid black;">
-                        <b>Material Type</b>
+        <table style="border-collapse: collapse; width:100%">
+                <tr>
+                    <td style="padding:4px; background-color:#a4cdd8; border: 1px solid black; width:70%">
+                        <span style="font-size:13px">Material Type</span>
                     </td>
-                    <td colspan="2" style="padding-top:10px; padding-bottom:10px; background-color:#efefef; text-align:center; border: 1px solid black">
-                        <b>Total Ammount Required</b>
+                    <td style="padding:4px; background-color:#a4cdd8; text-align:center; border: 1px solid black; width:30%">
+                        <span style="font-size:13px">Total Ammount Required in @Model.year</span>
                     </td>
                 </tr>
                 @foreach (var n in Model.details)
                 {
                     <tr>
-                        <td style="width:300px; border: 1px solid black; padding:5px">@n.nutrientName</td>
-                        <td style="text-align:right; width:80px; border: 1px solid black; padding:5px">@n.nutrientAmount</td>
-                        <td style="text-align:left; width:80px; border: 1px solid black; padding:5px">@n.nutrientUnit</td>
+                        <td style="border: 1px solid black; padding:5px; font-size:13px">@n.nutrientName</td>
+                        <td style="text-align:center; border: 1px solid black; padding:4px; font-size:13px">
+                            @n.nutrientAmount @n.nutrientUnit
+                        </td>
                     </tr>
                 }
         </table>

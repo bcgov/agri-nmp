@@ -345,6 +345,7 @@ namespace SERVERAPI.Controllers
         public async Task<string> RenderSources()
         {
             ReportSourcesViewModel rvm = new ReportSourcesViewModel();
+            rvm.year = _ud.FarmDetails().year;
             rvm.details = new List<ReportSourcesDetail>();
 
             List<Field> fldList = _ud.GetFields();
@@ -385,6 +386,8 @@ namespace SERVERAPI.Controllers
         public async Task<string> RenderAnalysis()
         {
             ReportAnalysisViewModel rvm = new ReportAnalysisViewModel();
+            rvm.nitratePresent = false;
+
             rvm.details = new List<ReportAnalysisDetail>();
 
             List<FarmManure> manures = _ud.GetFarmManures();
@@ -399,8 +402,12 @@ namespace SERVERAPI.Controllers
                 rd.nitrogen = m.nitrogen.ToString("#0.00");
                 rd.phosphorous = m.phosphorous.ToString("#0.00");
                 rd.potassium = m.potassium.ToString("#0.00");
-                rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString("#0") : "n/a";
+                rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString("#0"): "n/a";
 
+                if(m.nitrate.HasValue)
+                {
+                    rvm.nitratePresent = true;
+                }
                 rvm.details.Add(rd);
             }
 
@@ -412,6 +419,7 @@ namespace SERVERAPI.Controllers
         {
             ReportApplicationViewModel rvm = new ReportApplicationViewModel();
             rvm.fields = new List<ReportApplicationField>();
+            rvm.year = _ud.FarmDetails().year;
 
             List<Field> fldList = _ud.GetFields();
             foreach(var f in fldList)
@@ -438,7 +446,15 @@ namespace SERVERAPI.Controllers
                         }
                     }
                 }
-                if(f.crops != null)
+                if (rf.nutrients.Count() == 0)
+                {
+                    ReportFieldNutrient rfn = new ReportFieldNutrient();
+                    rfn.nutrientName = "None planned";
+                    rfn.nutrientAmount = "";
+                    rf.nutrients.Add(rfn);
+                }
+
+                if (f.crops != null)
                 {
                     foreach(var c in f.crops)
                     {

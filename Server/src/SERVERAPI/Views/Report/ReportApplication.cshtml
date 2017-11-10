@@ -2,60 +2,68 @@
 
 <div class="Row">
     <div class="Cell">
-        <h2>Nutrient Application Schedule</h2>
+        <span style="font-size:20px"><b>Application Schedule</b></span>
+        <br />
+        <br />
+        <br />
     </div>
 </div>
 <div class="Row">
     <div class="Cell">
-        <table  style="border-collapse: collapse;">
-            @foreach (var f in Model.fields)
-            {
-                <tr style="padding-top:20px; padding-bottom:20px; border: 1px solid black;">
-                    <td colspan="2" style="padding-bottom:5px; font-size:16px">
-                        <b>Field: </b>@f.fieldName
-                    </td>
-                    <td colspan="3" style="padding-bottom:5px;">
-                        <b>Crops: </b>@f.fieldCrops
-                    </td>
-                </tr>
+        @foreach (var f in Model.fields)
+        {
+            <table style="border-collapse: collapse; border: 2px solid black; width: 100%;">
                 <tr style="border: 1px solid black;">
-                    <td style="width:250px; border: 1px solid black; background-color:#efefef; padding:5px">
-                        <b>Nutrient Source</b>
-                    </td>
-                    <td style="width:250px; border: 1px solid black; background-color:#efefef; padding:5px">
-                        <b>Application Timing</b>
-                    </td>
-                    <td style="width:250px; border: 1px solid black; background-color:#efefef; padding:5px">
-                        <b>Method</b>
-                    </td>
-                    <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:#efefef;">
-                        <b>Rate</b>
+                    <td colspan="3">
+                        <table style="width: 100%; border: none;">
+                            <tr>
+                                <td style="width:20%; vertical-align: top">
+                                    <span style="padding:4px; font-size:15px">Field: @f.fieldName</span>
+                                </td>
+                                <td style="width:15%; vertical-align: top">
+                                    <span style="padding:4px; font-size:13px">Area: @f.fieldArea ac</span>
+                                </td>
+                                <td style="width:10%; vertical-align: top">
+                                    <span style="padding:4px; font-size:13px">@Model.year Crops:</span>
+                                </td>
+                                <td style="width:35%; vertical-align: top; text-align: left">
+                                    <span style="white-space: pre-line; font-size:13px; padding:4px; ">@f.fieldCrops</span>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
-                @foreach (var n in f.nutrients)
+                <tr style="border: 1px solid black; padding:4px; ">
+                    <td style="padding:4px; border: 1px solid black; background-color:#a4cdd8; width:45%">
+                        <span style="font-size:13px">Nutrient Source</span>
+                    </td>
+                    <td style="padding:4px; border: 1px solid black; background-color:#a4cdd8; width:35%">
+                        <span style="font-size:13px">Application Timing</span>
+                    </td>
+                    <td style="padding:4px; border: 1px solid black; background-color:#a4cdd8;text-align:center; width:20%">
+                        <span style="font-size:13px">Rate</span>
+                    </td>
+                </tr>
+                @foreach (var m in f.nutrients)
                 {
-                    <tr>
-                        <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientName</td>
-                        <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientSeason</td>
-                        <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientApplication</td>
-                        <td style="text-align:right; width:100px; border: 1px solid black; padding:5px">@n.nutrientAmount</td>
-                        <td style="text-align:left; width:100px; border: 1px solid black; padding:5px">@n.nutrientUnit</td>
+                    <tr style="border: 1px solid black;">
+                        <td style="padding:4px; width:45%; border-right: 1px solid black;">
+                            <span style="font-size:13px"> @m.nutrientName</span>
+                        </td>
+                        <td style="padding:4px; width:35%; border-right: 1px solid black;">
+                            <span style="font-size:13px">@m.nutrientSeason</span>
+                        </td>
+                        <td style="padding:4px; width:20%; border-right: 1px solid black; text-align:center">
+                            <span style="font-size:13px">@m.nutrientAmount @m.nutrientUnit</span>
+                        </td>
                     </tr>
                 }
-                <tr style="border: 1px solid black;">
-                    <td colspan="5">
-                        <u>Comments:</u><br />
-                        @if(string.IsNullOrEmpty(f.fieldComment))
-                        {
-                            @Html.Raw("&nbsp;");
-                        }
-                        @f.fieldComment
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5">&nbsp;</td>
-                </tr>
-            }
-        </table>
+            </table>
+            <br />
+            <br />
+            <br />
+            <br />
+        }
     </div>
 </div>
+

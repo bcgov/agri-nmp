@@ -328,6 +328,7 @@ namespace SERVERAPI.ViewModels
     }
     public class ReportSourcesViewModel
     {
+        public string year { get; set; }
         public List<ReportSourcesDetail> details { get; set; }
     }
     public class ReportSourcesDetail
@@ -338,6 +339,7 @@ namespace SERVERAPI.ViewModels
     }
     public class ReportAnalysisViewModel
     {
+        public bool nitratePresent { get; set; }
         public List<ReportAnalysisDetail> details { get; set; }
     }
     public class ReportAnalysisDetail
@@ -371,11 +373,13 @@ namespace SERVERAPI.ViewModels
     }
     public class ReportApplicationViewModel
     {
+        public string year { get; set; }
         public List<ReportApplicationField> fields { get; set; }
     }
     public class ReportApplicationField
     {
         public string fieldName { get; set; }
+        public string fieldArea { get; set; }
         public string fieldComment { get; set; }
         public string fieldCrops { get; set; }
         public List<ReportFieldNutrient> nutrients { get; set; }

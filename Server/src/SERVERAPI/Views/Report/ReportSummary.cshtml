@@ -2,18 +2,21 @@
 
 <div class="Row">
     <div class="Cell">
-        <h2>Field Soil Test Results</h2>
+        <span style="font-size:20px"><b>Soil Test Results</b></span>
+        <br />
+        <br />
+        <br />
     </div>
 </div>
 <div class="Row">
     <div class="Cell">
-        <table style="border-collapse: collapse; width: 400px">
-            <tr style="width: 150px;">
-                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef;">
-                    <b>Soil Test Method</b>
+        <table style="border-collapse: collapse; width: 100%">
+            <tr>
+                <td style="border: 1px solid black; padding:4px; font-size:13px; background-color:#a4cdd8; width: 30%">
+                    Soil Test P and K Method
                 </td>
-                <td style="border: 1px solid black; padding:5px; font-size:9px; width: 250px">
-                    <b>@Model.testMethod</b>
+                <td style="border: 1px solid black; padding:4px; font-size:13px; width: 70%">
+                    @Model.testMethod
                 </td>
             </tr>
         </table>
@@ -21,56 +24,56 @@
         <br />
         <table style="border-collapse: collapse; width: 100%">
             <tr>
-                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; width:200px">
-                    <b>Field</b>
+                <td style="border: 1px solid black; padding:4px; font-size:13px; background-color:#a4cdd8; width:200px">
+                    Field
                 </td>
-                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; width: 100px">
-                    <b>Sampling Date</b>
+                <td style="border: 1px solid black; padding:4px; font-size:13px; background-color:#a4cdd8; width: 100px">
+                    Sampling Date
                 </td>
-                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; width:250px">
-                    <b>@Model.year Crops</b>
+                <td style="border: 1px solid black; padding:4px; font-size:13px; background-color:#a4cdd8; width:250px">
+                    @Model.year Crops
                 </td>
-                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; text-align:center; width: 80px">
-                    <b>pH</b>
+                <td style="border: 1px solid black; padding:4px; font-size:13px; background-color:#a4cdd8; text-align:center; width: 80px">
+                    pH
                 </td>
-                <td style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; text-align:center; width: 100px">
-                    <b>NO<sub>3</sub>-N (ppm)</b>
+                <td style="border: 1px solid black; padding:4px; font-size:13px; background-color:#a4cdd8; text-align:center; width: 100px">
+                    NO<sub>3</sub>-N (ppm)
                 </td>
-                <td colspan="2" style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; text-align:center; width: 120px">
-                    <b>P<sub>2</sub>O<sub>5</sub> (ppm)</b>
+                <td colspan="2" style="border: 1px solid black; padding:4px; font-size:13px; background-color:#a4cdd8; text-align:center; width: 120px">
+                    P<sub>2</sub>O<sub>5</sub> (ppm)
                 </td>
-                <td colspan="2" style="border: 1px solid black; padding:5px; font-size:9px; background-color:#efefef; text-align:center; width: 120px">
-                    <b>K<sub>2</sub>O (ppm)</b>
+                <td colspan="2" style="border: 1px solid black; padding:4px; font-size:13px; background-color:#a4cdd8; text-align:center; width: 120px">
+                    K<sub>2</sub>O (ppm)
                 </td>
             </tr>
             @foreach (var test in Model.tests)
             {
                 <tr>
-                    <td style="border: 1px solid black; padding:5px; font-size:9px; vertical-align:top">
+                    <td style="border: 1px solid black; padding:4px; font-size:13px; vertical-align:top">
                         @test.fieldName
                     </td>
-                    <td style="border: 1px solid black; padding:5px; font-size:9px; vertical-align:top">
+                    <td style="border: 1px solid black; padding:4px; font-size:13px; vertical-align:top">
                         @test.sampleDate
                     </td>
-                    <td style="border: 1px solid black; padding:5px; font-size:9px; vertical-align:top;">
+                    <td style="border: 1px solid black; padding:4px; font-size:13px; vertical-align:top;">
                         <span style="white-space: pre-line">@test.fieldCrops</span>
                     </td>
-                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                    <td style="border: 1px solid black; padding:4px; font-size:13px; text-align:center; vertical-align:top">
                         @test.pH
                     </td>
-                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                    <td style="border: 1px solid black; padding:4px; font-size:13px; text-align:center; vertical-align:top">
                         @test.nitrogen
                     </td>
-                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                    <td style="border: 1px solid black; padding:4px; font-size:13px; text-align:center; vertical-align:top">
                         @test.phosphorous
                     </td>
-                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                    <td style="border: 1px solid black; padding:4px; font-size:13px; text-align:center; vertical-align:top">
                         @test.phosphorousRange
                     </td>
-                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                    <td style="border: 1px solid black; padding:4px; font-size:13px; text-align:center; vertical-align:top">
                         @test.potassium
                     </td>
-                    <td style="border: 1px solid black; padding:5px; font-size:9px; text-align:center; vertical-align:top">
+                    <td style="border: 1px solid black; padding:4px; font-size:13px; text-align:center; vertical-align:top">
                         @test.potassiumRange
                     </td>
                 </tr>
