@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.463"
+        "staticDataVersion": "2017.463"      
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -687,7 +687,7 @@
         ]
       },
       "season-applications": {
-        "season-applicaton": [
+        "season-application": [
           {
             "id": "1",
             "name": "Spring - Immediately incorporated (1 h)",
@@ -2262,7 +2262,7 @@
             "cropremovalfactor_N": "0",
             "cropremovalfactor_P2O5": "0",
             "cropremovalfactor_K2O": "0",
-            "n_recommcd": "0",
+            "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
             "prevcropcd": "3",

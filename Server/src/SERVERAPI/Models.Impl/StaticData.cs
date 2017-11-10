@@ -20,9 +20,17 @@ namespace SERVERAPI.Models.Impl
             _ctx = ctx;
             var assembly = Assembly.GetEntryAssembly();
             var resourceStream = assembly.GetManifestResourceStream("SERVERAPI.Data.static.json");
-            using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
+            try
+            { 
+                using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
+                {
+                    rss = JObject.Parse(reader.ReadToEnd());
+                }
+            }
+            catch (Exception ex)
             {
-                rss = JObject.Parse(reader.ReadToEnd());
+                ctx.HttpContext.Response.WriteAsync(ex.Message);
+                throw; //TOM PREECE TO DO -bubble Static Data Validation error to user
             }
         }
 
@@ -172,7 +180,7 @@ namespace SERVERAPI.Models.Impl
         {
             Models.StaticData.Season_Application appl = new Models.StaticData.Season_Application();
 
-            JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-applicaton"];
+            JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-application"];
 
             foreach (var r in applications)
             {
@@ -199,7 +207,7 @@ namespace SERVERAPI.Models.Impl
             Models.StaticData.Season_Applications appls = new Models.StaticData.Season_Applications();
             appls.season_applications = new List<Models.StaticData.Season_Application>();
 
-            JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-applicaton"];
+            JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-application"];
 
             foreach (var r in applications)
             {
@@ -1341,6 +1349,47 @@ namespace SERVERAPI.Models.Impl
             result = rss["agri"]["nmp"]["versions"]["staticDataVersion"].ToString();
 
             return result;
+        }
+
+        public List<Utility.StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield, string parentNode, string parentfield)
+        {            
+            List<Utility.StaticDataValidationMessages> messages = new List<Utility.StaticDataValidationMessages>();
+
+            JArray childArray = (JArray)rss.SelectToken(childNode);
+            JArray parentArray = (JArray)rss.SelectToken(parentNode);            
+
+            string matchP = string.Empty;
+            string matchC = string.Empty;
+            bool relationshipOK = false;
+
+            // iterate over children
+            foreach (var c in childArray)
+            {
+                relationshipOK = false;
+                //get the child relationship field
+                matchC = c.SelectToken(childfield).ToString();
+
+                //look for matching parent
+                foreach (var p in parentArray)
+                {
+                    matchP = p.SelectToken(parentfield).ToString();
+                    //if (rel == c.SelectToken(childfield).ToString())
+                    if (matchP == matchC || matchC == "null")
+                        relationshipOK = true;
+                }
+                                              
+                if (!relationshipOK)
+                {
+                    Utility.StaticDataValidationMessages message = new Utility.StaticDataValidationMessages();
+                    message.Child = childNode;
+                    message.LinkData = matchC;
+                    message.Parent = parentNode;
+                    messages.Add(message);
+                    message = null;
+                }                
+            }
+
+            return messages;
         }
     }
 }
