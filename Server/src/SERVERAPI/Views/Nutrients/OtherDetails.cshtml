@@ -14,16 +14,19 @@
             <div class="Table">
                 <div class="TableBody">
                     <div class="Row">
-                        <div class="Cell2" style="width:30%; text-align:center"></div>
+                        <div class="Cell2" style="width:25%; text-align:center"></div>
                         <div class="Cell2" style="width:30%; text-align:center">
                             <label>Available in 1st Yr (lb/ac)</label><br />
+                        </div>
+                        <div class="Cell2" style="width:5%">
+                            &nbsp;
                         </div>
                         <div class="Cell2" style="width:30%; text-align:center">
                             <label>Available Long Term (lb/ac)</label><br />
                         </div>
                     </div>
                     <div class="Row">
-                        <div class="Cell2" style="width:30%;">
+                        <div class="Cell2" style="width:25%;">
                             <div class="form-group col-sm-12">
                                 <label asp-for="source" style="padding-right:5px">Nutrient Source</label>
                                 <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About other nutrient sources" style="font-size:20px; padding-top:5px"></span></a>
@@ -38,15 +41,18 @@
                                 <span asp-validation-for="ltN" class="text-danger"></span>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label asp-for="ltP">P2O5</label>
+                                <label asp-for="ltP">P<sub>2</sub>O<sub>5</sub></label>
                                 <input class="form-control" asp-for="ltP" id="phospherous" type="text" />
                                 <span asp-validation-for="ltP" class="text-danger"></span>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label asp-for="ltK">K2O</label>
+                                <label asp-for="ltK">K<sub>2</sub>O</label>
                                 <input class="form-control" asp-for="ltK" id="source" type="text" />
                                 <span asp-validation-for="ltK" class="text-danger"></span>
                             </div>
+                        </div>
+                        <div style="width:5%;">
+                            &nbsp;
                         </div>
                         <div class="Cell2" style="width:30%; text-align:center">
                             <div class="form-group col-sm-4">
@@ -55,12 +61,12 @@
                                 <span asp-validation-for="yrN" class="text-danger"></span>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label asp-for="yrP">P2O5</label>
+                                <label asp-for="yrP">P<sub>2</sub>O<sub>5</sub></label>
                                 <input class="form-control" asp-for="yrP" id="phospherous" type="text" />
                                 <span asp-validation-for="yrP" class="text-danger"></span>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label asp-for="yrK">K2O</label>
+                                <label asp-for="yrK">K<sub>2</sub>O</label>
                                 <input class="form-control" asp-for="yrK" id="source" type="text" />
                                 <span asp-validation-for="yrK" class="text-danger"></span>
                             </div>

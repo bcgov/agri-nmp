@@ -17,17 +17,17 @@
                     <td colspan="3">
                         <table style="width: 100%; border: none;">
                             <tr>
-                                <td style="width:20%; vertical-align: top">
-                                    <span style="padding:4px; font-size:15px">Field: @f.fieldName</span>
+                                <td style="width:20%; vertical-align: top; padding:4px;">
+                                    <span style="font-size:15px">Field: @f.fieldName</span>
                                 </td>
-                                <td style="width:15%; vertical-align: top">
-                                    <span style="padding:4px; font-size:13px">Area: @f.fieldArea ac</span>
+                                <td style="width:15%; vertical-align: top; padding:4px;">
+                                    <span style="font-size:13px">Area: @f.fieldArea ac</span>
                                 </td>
-                                <td style="width:10%; vertical-align: top">
-                                    <span style="padding:4px; font-size:13px">@Model.year Crops:</span>
+                                <td style="width:10%; vertical-align: top; padding:4px;">
+                                    <span style="font-size:13px">@Model.year Crops:</span>
                                 </td>
-                                <td style="width:35%; vertical-align: top; text-align: left">
-                                    <span style="white-space: pre-line; font-size:13px; padding:4px; ">@f.fieldCrops</span>
+                                <td style="width:35%; vertical-align: top; text-align: left; padding:4px;">
+                                    <span style="white-space: pre-line; font-size:13px">@f.fieldCrops</span>
                                 </td>
                             </tr>
                         </table>
@@ -47,17 +47,31 @@
                 @foreach (var m in f.nutrients)
                 {
                     <tr style="border: 1px solid black;">
-                        <td style="padding:4px; width:45%; border-right: 1px solid black;">
+                        <td style="padding:4px; border-right: 1px solid black;">
                             <span style="font-size:13px"> @m.nutrientName</span>
                         </td>
-                        <td style="padding:4px; width:35%; border-right: 1px solid black;">
+                        <td style="padding:4px; border-right: 1px solid black;">
                             <span style="font-size:13px">@m.nutrientSeason</span>
                         </td>
-                        <td style="padding:4px; width:20%; border-right: 1px solid black; text-align:center">
+                        <td style="padding:4px; border-right: 1px solid black; text-align:center">
                             <span style="font-size:13px">@m.nutrientAmount @m.nutrientUnit</span>
                         </td>
                     </tr>
                 }
+            </table>
+            <br />
+            <table style="border-collapse: collapse; border: none; width: 100%;">
+                <tr>
+                    <td style="padding:4px; border: none;border-bottom: 1px solid black; width:45%">
+                        <span style="font-size:13px">Comments:</span>
+                    </td>
+                    <td colspan="2" style="width:55%"></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <span style="font-size:13px">@f.fieldComment</span>
+                    </td>
+                </tr>
             </table>
             <br />
             <br />

@@ -18,71 +18,61 @@
                 <table style="border-collapse: collapse; width: 100%;">
                     <tr>
                         <td>
-                            <span class="newPage" style="font-size:12px"><u>Field: @f.fieldName</u></span>
+                            <span class="newPage" style="font-size:15px"><u>@f.fieldName</u></span>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            Area: @f.fieldArea ac
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            &nbsp;
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            @Model.year Crops:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table style="border-collapse: collapse; border-bottom: 1px solid black; width: 100%">
-                                <tr>
-                                    <td style="border: 1px solid black; width:40%; background-color:#efefef; padding:4px">
-                                        <b>Crop Name</b>
-                                    </td>
-                                    <td style="border: 1px solid black; width:20%; background-color:#efefef;text-align:center; padding:4px">
-                                        <b>Target Yield</b>
-                                    </td>
-                                    <td style="border: 1px solid black; width:40%; background-color:#efefef; padding:4px">
-                                        <b>Previous Crop Ploughed Down</b>
-                                    </td>
-                                </tr>
-                                @foreach (var c in f.crops)
-                                {
-                                    <tr>
-                                        <td style="border: 1px solid black; padding:4px">
-                                            @c.cropname
-                                        </td>
-                                        <td style="border: 1px solid black; padding:4px; text-align:center">
-                                            @c.yield ton/ac
-                                        </td>
-                                        <td style="border: 1px solid black; padding:4px">
-                                            @c.previousCrop
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
+                            <span style="font-size:13px">Area: @f.fieldArea ac</span>
                         </td>
                     </tr>
                 </table>
                 <br />
-                <br />
-                <table style="border-collapse: collapse; width: 70%">
+                <table style="border-collapse: collapse; width: 100%;">
                     <tr>
-                        <td style="width:45%; border-bottom: 1px solid black">
-                            Soil Test Results: @f.soiltest.sampleDate
+                        <td class="CellHdg" style="width:40%">
+                            Crop
                         </td>
-                        <td style="width:10%">
-                            &nbsp;
+                        <td class="CellHdg" style="width:20%; text-align:center">
+                            Yield
                         </td>
-                        <td style="width:45%; border-bottom: 1px solid black">
-                           Field Comments:
+                        <td class="CellHdg" style="width:40%">
+                            Previous Crop Ploughed Down
+                        </td>
+                    </tr> 
+                    @foreach (var c in f.crops)
+                    {
+                        <tr>
+                            <td style="border: 1px solid black; padding:4px">
+                                @c.cropname
+                            </td>
+                            <td style="border: 1px solid black; padding:4px; text-align:center">
+                                @c.yield ton/ac
+                            </td>
+                            <td style="border: 1px solid black; padding:4px">
+                                @c.previousCrop
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <br />
+                <br />
+                <table style="border-collapse: collapse; width: 100%">
+                    <tr>
+                        <td class="CellHdg" style="width:20%;">
+                            Soil Test Results: 
+                        </td>
+                        <td style="width:20%; border: 1px solid black;">
+                            @f.soiltest.sampleDate
+                        </td>
+                        <td class="CellHdg" style="width:20%;">
+                          Soil test P &amp; K Method
+                        </td>
+                        <td style="width:40%; border: 1px solid black;">
+                            @Model.methodName
                         </td>
                     </tr>
-                    <tr>
+                    @*<tr>
                         <td>
                             @if (!string.IsNullOrEmpty(@f.soiltest.sampleDate))
                             {
@@ -118,7 +108,7 @@
                         <td style="vertical-align:top">
                             @f.fieldComment
                         </td>
-                    </tr>
+                    </tr>*@
                 </table>
                 <br />
                 <table style="border-collapse: collapse;">

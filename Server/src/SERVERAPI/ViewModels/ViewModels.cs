@@ -402,6 +402,7 @@ namespace SERVERAPI.ViewModels
     public class ReportFieldsViewModel
     {
         public string year { get; set; }
+        public string methodName { get; set; }
         public List<ReportFieldsField> fields { get; set; }
     }
     public class ReportSheetsViewModel
@@ -451,7 +452,6 @@ namespace SERVERAPI.ViewModels
     }
     public class ReportFieldSoilTest
     {
-        public string methodName { get; set; }
         public string sampleDate { get; set; }
         public string dispNO3H { get; set; }
         public string dispP { get; set; }

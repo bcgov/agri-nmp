@@ -81,6 +81,7 @@ namespace SERVERAPI.Controllers
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
             rvm.fields = new List<ReportFieldsField>();
             rvm.year = _ud.FarmDetails().year;
+            rvm.methodName = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "not selected" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
@@ -96,7 +97,6 @@ namespace SERVERAPI.Controllers
 
                 if(f.soilTest != null)
                 {
-                    rf.soiltest.methodName = _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
                     rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
                     rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString() + " ppm";
                     rf.soiltest.dispP = f.soilTest.ValP.ToString() + " ppm";
@@ -417,6 +417,8 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderApplication()
         {
+            string crpName = string.Empty;
+
             ReportApplicationViewModel rvm = new ReportApplicationViewModel();
             rvm.fields = new List<ReportApplicationField>();
             rvm.year = _ud.FarmDetails().year;
@@ -426,6 +428,7 @@ namespace SERVERAPI.Controllers
             {
                 ReportApplicationField rf = new ReportApplicationField();
                 rf.fieldName = f.fieldName;
+                rf.fieldArea = f.area.ToString();
                 rf.fieldComment = f.comment;
                 rf.nutrients = new List<ReportFieldNutrient>();
                 if (f.nutrients != null)
@@ -458,7 +461,8 @@ namespace SERVERAPI.Controllers
                 {
                     foreach(var c in f.crops)
                     {
-                        rf.fieldCrops = rf.fieldCrops + (string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther) + " ";
+                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).cropname : c.cropOther;
+                        rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
                     }
                 }
                 rvm.fields.Add(rf);
