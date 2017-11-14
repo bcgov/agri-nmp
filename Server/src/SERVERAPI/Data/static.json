@@ -118,11 +118,19 @@
           },
           {
             "id": "11",
-            "name": "‘Other’ (Bicarbonate and Amm Acetate)",
+            "name": "Not listed (Bicarbonate and Amm Acetate)",
             "ConvertToKelownaPlt72": "2",
             "ConvertToKelownaPge72": "2",
             "ConvertToKelownaK": "0.8",
-            "sortNum": "210"
+            "sortNum": "10"
+          },
+          {
+            "id": "12",
+            "name": "Not listed (Kelowna)",
+            "ConvertToKelownaPlt72": "1",
+            "ConvertToKelownaPge72": "1",
+            "ConvertToKelownaK": "1",
+            "sortNum": "10"
           }
         ]
       },
@@ -881,7 +889,7 @@
             "dm_gt10": "0.67",
             "poultry_solid": "0.67",
             "compost": "1",
-            "sortNum": "10",
+            "sortNum": "100",
             "manure_type": "Solid/Liquid"
           }
         ]
@@ -2498,7 +2506,7 @@
             "nitrogen": "34",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "17",
@@ -2507,7 +2515,7 @@
             "nitrogen": "30",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "18",
@@ -2516,7 +2524,7 @@
             "nitrogen": "27",
             "phosphorous": "11.91",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "19",
@@ -2525,7 +2533,7 @@
             "nitrogen": "16",
             "phosphorous": "19.92",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "20",
@@ -2534,7 +2542,7 @@
             "nitrogen": "11",
             "phosphorous": "57.25",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "21",
@@ -2543,7 +2551,7 @@
             "nitrogen": "21",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "22",
@@ -2552,7 +2560,7 @@
             "nitrogen": "18",
             "phosphorous": "45.8",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "23",
@@ -2561,7 +2569,7 @@
             "nitrogen": "11",
             "phosphorous": "52.67",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "24",
@@ -2570,7 +2578,7 @@
             "nitrogen": "46",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "25",
@@ -2579,7 +2587,7 @@
             "nitrogen": "28",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "10"
           },
           {
             "id": "26",
