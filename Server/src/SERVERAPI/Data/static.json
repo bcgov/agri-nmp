@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.463"
+        "staticDataVersion": "2017.476"      
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -38,7 +38,7 @@
         "soiltestmethod": [
           {
             "id": "1",
-            "name": "AGAT (Bray-1 and Amm Acetate)",
+            "name": "AGAT (Mod Bray-1 and Amm Acetate)",
             "ConvertToKelownaPlt72": "0.74",
             "ConvertToKelownaPge72": "1",
             "ConvertToKelownaK": "0.8",
@@ -687,7 +687,7 @@
         ]
       },
       "season-applications": {
-        "season-applicaton": [
+        "season-application": [
           {
             "id": "1",
             "name": "Spring - Immediately incorporated (1 h)",
@@ -1251,7 +1251,7 @@
           },
           {
             "id": "4",
-            "name": "Grains",
+            "name": "Grains and oilseeds",
             "covercrop": "false",
             "crudeproteinrequired": "true",
             "customcrop": "false",
@@ -1267,7 +1267,7 @@
           },
           {
             "id": "6",
-            "name": "Other (not listed) or none",
+            "name": "Other (not listed)",
             "covercrop": "false",
             "crudeproteinrequired": "false",
             "customcrop": "true",
@@ -1301,14 +1301,14 @@
           {
             "id": "4",
             "prevcropcd": "1",
-            "name": "legume cover crop",
+            "name": "legume cover crop (red clover, austrian winter pea, etc.)",
             "ncreditmetric": "79",
             "ncreditimperial": "70"
           },
           {
             "id": "5",
             "prevcropcd": "1",
-            "name": "other (no N credit)",
+            "name": "non-legume cover crop (winter wheat, fall rye, etc.)",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           },
@@ -1343,14 +1343,28 @@
           {
             "id": "10",
             "prevcropcd": "3",
-            "name": "legume cover crop",
+            "name": "legume cover crop (vetch, clover, etc.)",
             "ncreditmetric": "45",
             "ncreditimperial": "40"
           },
           {
             "id": "11",
             "prevcropcd": "3",
-            "name": "other (no N credit)",
+            "name": "non-legume cover crop (barley, radish, etc.)",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "12",
+            "prevcropcd": "1",
+            "name": "none (no N credit)",
+            "ncreditmetric": "0",
+            "ncreditimperial": "0"
+          },
+          {
+            "id": "13",
+            "prevcropcd": "3",
+            "name": "none (no N credit)",
             "ncreditmetric": "0",
             "ncreditimperial": "0"
           }
@@ -2276,7 +2290,7 @@
             "cropremovalfactor_N": "0",
             "cropremovalfactor_P2O5": "0",
             "cropremovalfactor_K2O": "0",
-            "n_recommcd": "0",
+            "n_recommcd": "2",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
             "prevcropcd": "3",
@@ -8989,7 +9003,7 @@
           {
             "id": "2",
             "name": "welcome",
-            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops (forage, vegetables, and grains)</li><li>Get feedback on how closely fertilizer and manure applications meet requirements</li><li>Enter and download your work confidentially</li><li>Create pdf reports for farm use</li></ul>"
+            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Get feedback on how closely fertilizer and manure applications meet the requirements</li><li>Enter and download your work confidentially</li><li>Create pdf reports for farm use</li><li>Nutrients include nitrogen, phosphorus, and potassium (NPK)</li><li>Crops include forages, field vegetables, and grains and oilseeds</li></ul>"
           },
           {
             "id": "3",
@@ -9019,7 +9033,7 @@
           {
             "id": "8",
             "name": "fieldcommentplaceholder",
-            "text": "poor drainage in southwest corner (no need to specify crop here)"
+            "text": "poor drainage in southwest corner <i>(no need to specify crop here)</i>"
           },
           {
             "id": "9",
@@ -9029,12 +9043,12 @@
           {
             "id": "10",
             "name": "nonutrientitems",
-            "text": "Calculate Nutrient Balances<br><ul><li>Add crops to estimate their annual nutrient requirements</li><li>Add nutrient inputs (manure/compost, fertilizer, other) for those crops</li><li>See recommendations to add more or less nutrients</li></ul>"
+            "text": "Calculate Nutrient Balances<br><ul><li>Add a crop (and the following cover crop, if any) to estimate their nutrient requirements</li><li>Add nutrient inputs (manure/compost, fertilizer, other) for those crops</li><li>See recommendations to add more or less nutrients</li></ul>"
           },
           {
             "id": "11",
             "name": "soiltestwarning",
-            "text": "Do you have soil tests?<br />Yes - Select the lab used (soil test methods)<br />No - Click Next"
+            "text": "Do you have soil tests from within the past 3 years?<br />Yes - Select the lab used (soil test methods)<br />No - Click Next"
           }
         ]
       },
@@ -9123,7 +9137,7 @@
           },
           {
             "id": "10",
-            "text": "Reduce P2O5 inputs this year or in future years. Crop P2O5 removal balance should not exceed 35 lb/ac per year.",
+            "text": "Reduce P2O5 inputs in the long term. Crop P2O5 removal balance should not exceed 35 lb/ac per year to limit soil P buildup.",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrP2O5CropP2O5",
