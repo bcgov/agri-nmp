@@ -29,8 +29,7 @@ namespace SERVERAPI.Models.Impl
             }
             catch (Exception ex)
             {
-                ctx.HttpContext.Response.WriteAsync(ex.Message);
-                throw; //TOM PREECE TO DO -bubble Static Data Validation error to user
+                throw new Exception("Static Data json file structure error!");
             }
         }
 

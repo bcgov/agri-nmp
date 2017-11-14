@@ -30,6 +30,7 @@ using System.Runtime.Loader;
 using Microsoft.Extensions.FileProviders;
 using SERVERAPI.Models;
 using SERVERAPI.Utility;
+using SERVERAPI.Controllers;
 
 namespace SERVERAPI
 {
@@ -104,35 +105,16 @@ namespace SERVERAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
             app.UseSession();
             app.UseResponseCompression();
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //      name: "default",
-            //      template: "{controller=Home}/{action=Index}/{id?}");
-
-            //    routes.MapRoute(
-            //      name: "catchall",
-            //      template: "Home/Index");
-
-            //});
         }
     }    
 }
