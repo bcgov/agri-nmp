@@ -14,5 +14,4 @@ class FlowSpecs extends GebReportingSpec {
 	then:
 			at HomePage    
     }
-	
 }
