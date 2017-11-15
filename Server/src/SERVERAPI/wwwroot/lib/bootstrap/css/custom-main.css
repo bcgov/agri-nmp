@@ -981,3 +981,11 @@ label {
     background-color: #f2dede;
     border-color: #c81212;
 }
+
+.form-box-no-border {
+    border: 0px solid #ccc;
+    border-radius: 2px;
+    /*max-width: 640px;*/
+    max-width: 880px;
+    margin: 0 auto 30px;
+}

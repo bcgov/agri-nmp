@@ -60,7 +60,7 @@ namespace SERVERAPI.Controllers
                 farmData.farmRegion = fvm.selRegOption;
 
                 _ud.UpdateFarmDetails(farmData);
-                HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + ", " + _ud.FarmDetails().year);
+                HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
 
                 fvm.currYear = fvm.year;
                 ModelState.Remove("userData");
