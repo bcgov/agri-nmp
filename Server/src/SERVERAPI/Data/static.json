@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.476"      
+        "staticDataVersion": "2017.484"      
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -2371,7 +2371,7 @@
             "nitrogen": "0",
             "phosphorous": "0",
             "potassium": "20",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "2",
@@ -2380,7 +2380,7 @@
             "nitrogen": "0",
             "phosphorous": "0",
             "potassium": "50",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "3",
@@ -2389,7 +2389,7 @@
             "nitrogen": "0",
             "phosphorous": "0",
             "potassium": "60",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "4",
@@ -2398,7 +2398,7 @@
             "nitrogen": "10",
             "phosphorous": "16",
             "potassium": "18",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "5",
@@ -2407,7 +2407,7 @@
             "nitrogen": "10",
             "phosphorous": "34",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "6",
@@ -2416,7 +2416,7 @@
             "nitrogen": "11",
             "phosphorous": "18",
             "potassium": "14",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "7",
@@ -2425,7 +2425,7 @@
             "nitrogen": "11",
             "phosphorous": "52",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "8",
@@ -2434,7 +2434,7 @@
             "nitrogen": "12",
             "phosphorous": "10",
             "potassium": "20",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "9",
@@ -2443,7 +2443,7 @@
             "nitrogen": "13",
             "phosphorous": "16",
             "potassium": "10",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "10",
@@ -2452,7 +2452,7 @@
             "nitrogen": "14",
             "phosphorous": "28",
             "potassium": "6",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "11",
@@ -2461,7 +2461,7 @@
             "nitrogen": "14",
             "phosphorous": "7",
             "potassium": "14",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "12",
@@ -2470,7 +2470,7 @@
             "nitrogen": "15",
             "phosphorous": "8",
             "potassium": "11",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "13",
@@ -2479,7 +2479,7 @@
             "nitrogen": "18",
             "phosphorous": "9",
             "potassium": "9",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "14",
@@ -2488,7 +2488,7 @@
             "nitrogen": "30",
             "phosphorous": "10",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "15",
@@ -2497,7 +2497,7 @@
             "nitrogen": "34",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "16",
@@ -2506,7 +2506,7 @@
             "nitrogen": "34",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "17",
@@ -2515,7 +2515,7 @@
             "nitrogen": "30",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "18",
@@ -2524,7 +2524,7 @@
             "nitrogen": "27",
             "phosphorous": "11.91",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "19",
@@ -2533,7 +2533,7 @@
             "nitrogen": "16",
             "phosphorous": "19.92",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "20",
@@ -2542,7 +2542,7 @@
             "nitrogen": "11",
             "phosphorous": "57.25",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "21",
@@ -2551,7 +2551,7 @@
             "nitrogen": "21",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "22",
@@ -2560,7 +2560,7 @@
             "nitrogen": "18",
             "phosphorous": "45.8",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "23",
@@ -2569,7 +2569,7 @@
             "nitrogen": "11",
             "phosphorous": "52.67",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "24",
@@ -2578,7 +2578,7 @@
             "nitrogen": "46",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "25",
@@ -2587,7 +2587,7 @@
             "nitrogen": "28",
             "phosphorous": "0",
             "potassium": "0",
-            "sortNum": "10"
+            "sortNum": "100"
           },
           {
             "id": "26",
@@ -2668,7 +2668,7 @@
             "nitrogen": "18",
             "phosphorous": "18",
             "potassium": "18",
-            "sortNum": "100"
+            "sortNum": "200"
           },
           {
             "id": "35",
@@ -2677,7 +2677,7 @@
             "nitrogen": "13",
             "phosphorous": "16",
             "potassium": "10",
-            "sortNum": "100"
+            "sortNum": "200"
           }
         ]
       },
