@@ -1116,6 +1116,7 @@ namespace SERVERAPI.Models.Impl
                 fertilizer.nitrogen = Convert.ToDecimal(r["nitrogen"].ToString());
                 fertilizer.phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
                 fertilizer.potassium = Convert.ToDecimal(r["potassium"].ToString());
+                fertilizer.sortNum = Convert.ToInt32(r["sortNum"].ToString());
 
                 fertilizers.fertilizers.Add(fertilizer);
             }

@@ -109,6 +109,7 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "File Name")]
         public string fileName { get; set; }
         public bool unsavedData { get; set; }
+        public bool badFile { get; set; }
     }
     public class ManureDetailsViewModel
     {

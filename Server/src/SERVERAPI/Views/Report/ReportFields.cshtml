@@ -2,9 +2,7 @@
 
 <div class="Row">
     <div class="Cell">
-        <span style="font-size:20px"><b>Detailed Field Reports</b></span>
-        <br />
-        <br />
+        <span style="font-size:20px"><b>Field Summary:</b></span>
         <br />
     </div>
 </div>
@@ -31,13 +29,13 @@
                 <table style="border-collapse: collapse; width: 100%;">
                     <tr>
                         <td class="CellHdg" style="width:40%">
-                            Crop
+                            <b>Crop</b>
                         </td>
                         <td class="CellHdg" style="width:20%; text-align:center">
-                            Yield
+                            <b>Yield</b>
                         </td>
                         <td class="CellHdg" style="width:40%">
-                            Previous Crop Ploughed Down
+                            <b>Previous Crop Ploughed Down</b>
                         </td>
                     </tr> 
                     @foreach (var c in f.crops)
@@ -59,86 +57,74 @@
                 <br />
                 <table style="border-collapse: collapse; width: 100%">
                     <tr>
-                        <td class="CellHdg" style="width:20%;">
-                            Soil Test Results: 
-                        </td>
-                        <td style="width:20%; border: 1px solid black;">
-                            @f.soiltest.sampleDate
-                        </td>
-                        <td class="CellHdg" style="width:20%;">
-                          Soil test P &amp; K Method
-                        </td>
-                        <td style="width:40%; border: 1px solid black;">
-                            @Model.methodName
+                        <td class="CellHdg" colspan="3" style="font-weight:normal">
+                            <table style="border-collapse: collapse; width: 100%">
+                                <tr>
+                                    <td style="width:30%;">
+                                        <b>Soil Test Results: </b> @f.soiltest.sampleDate
+                                    </td>
+                                    <td style="width:70%;">
+                                        <b>Soil test P &amp; K Method: </b> @Model.methodName
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                    @*<tr>
-                        <td>
-                            @if (!string.IsNullOrEmpty(@f.soiltest.sampleDate))
-                            {
-                                <table style="width: 100%">
-                                    <tr>
-                                        <td>
-                                            Nitrogen: @f.soiltest.dispNO3H
-                                        </td>
-                                        <td>
-                                            Phosphorus: @f.soiltest.dispP
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            Potassium: @f.soiltest.dispK
-                                        </td>
-                                        <td>
-                                            pH: @f.soiltest.dispPH
-                                        </td>
-                                    </tr>
-                                    @if (!string.IsNullOrEmpty(f.soiltest.methodName))
-                                    {
-                                        <tr>
-                                            <td colspan="2">
-                                                    Soil test P &amp; K Method: @f.soiltest.methodName
-                                            </td>
-                                        </tr>
-                                    }
-                               </table>
-                            }
-                        </td>
-                        <td></td>
-                        <td style="vertical-align:top">
+                    @if (!string.IsNullOrEmpty(@f.soiltest.sampleDate))
+                    {
+                        <tr style="width:33%">
+                            <td class="CellDtl">
+                                Nitrate-N: @f.soiltest.dispNO3H
+                            </td>
+                            <td class="CellDtl" style="width:33%">
+                                Potassium: @f.soiltest.dispK
+                            </td>
+                            <td class="CellDtl" style="width:34%">
+                                Phosphorus: @f.soiltest.dispP
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="CellDtl" colspan="3">
+                                pH: @f.soiltest.dispPH
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="CellDtl" style="vertical-align:top" colspan="3">
+                            <b>Field Comments:</b><br />
                             @f.fieldComment
                         </td>
-                    </tr>*@
+                    </tr>
                 </table>
                 <br />
                 <table style="border-collapse: collapse;">
                     <tr>
                         <td colspan="5">
-                            <span style="font-size: 12px">Nutrient Application Plan: @Model.year</span>
+                            <b>Nutrient Application Plan: @Model.year</b>
                         </td>
                     </tr>
                     <tr style="border: 1px solid black; background-color:#efefef;">
-                        <td style="width:250px; border: 1px solid black; background-color:#efefef; padding:4px">
+                        <td class="CellHdg" style="width:250px">
                             <b>Nutrient Source</b>
                         </td>
-                        <td style="width:250px; border: 1px solid black; background-color:#efefef; padding:4px">
+                        <td class="CellHdg" style="width:250px">
                             <b>Application Timing</b>
                         </td>
-                        <td style="width:250px; border: 1px solid black; background-color:#efefef; padding:4px">
+                        <td class="CellHdg" style="width:250px">
                             <b>Method</b>
                         </td>
-                        <td colspan="2" style="text-align:center; width:200px; border: 1px solid black; background-color:#efefef;">
+                        <td class="CellHdg" colspan="2" style="text-align:center; width:200px">
                             <b>Rate</b>
                         </td>
                     </tr>
                     @foreach (var n in f.nutrients)
                     {
-                        <tr>
-                            <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientName</td>
-                            <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientSeason</td>
-                            <td style="width:250px; border: 1px solid black; padding:5px">@n.nutrientApplication</td>
-                            <td style="text-align:right; width:100px; border: 1px solid black; padding:5px">@n.nutrientAmount</td>
-                            <td style="text-align:left; width:100px; border: 1px solid black; padding:5px">@n.nutrientUnit</td>
+                        <tr style="border: 1px solid black;">
+                            <td class="CellDtl" style="width:250px">@n.nutrientName</td>
+                            <td class="CellDtl" style="width:250px">@n.nutrientSeason</td>
+                            <td class="CellDtl" style="width:250px">@n.nutrientApplication</td>
+                            <td style="text-align:right; width:100px; padding:5px">@n.nutrientAmount</td>
+                            <td style="text-align:left; width:150px; padding:5px">@n.nutrientUnit</td>
                         </tr>
                     }
                 </table>
@@ -295,7 +281,7 @@
                     <table style="border-collapse: collapse; width:100%">
                         <tr>
                             <td>
-                                <span style="font-size:12px; background-color:#ffa007">Considerations:</span>
+                                <span style="font-size:12px">Considerations:</span>
                             </td>
                         </tr>
                         <tr>
@@ -305,11 +291,15 @@
                         </tr> 
                         @foreach (var a in f.alertMsgs)
                         {
-                            <tr>
-                                <td>
-                                    @a.Message
-                                </td>
-                            </tr>
+                            if (!string.IsNullOrEmpty(a.Message))
+                            { 
+                                <tr>
+                                    <td>
+                                        <img src="@Html.Raw(a.Icon)" height="10" width="10" />
+                                        @a.Message
+                                    </td>
+                                </tr>
+                            }
                         }
 
                     </table>

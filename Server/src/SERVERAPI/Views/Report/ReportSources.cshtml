@@ -12,18 +12,18 @@
     <div class="Cell">
         <table style="border-collapse: collapse; width:100%">
                 <tr>
-                    <td style="padding:4px; background-color:#a4cdd8; border: 1px solid black; width:70%">
+                    <td class="CellHdg" style="width:70%">
                         <span style="font-size:13px">Material Type</span>
                     </td>
-                    <td style="padding:4px; background-color:#a4cdd8; text-align:center; border: 1px solid black; width:30%">
+                    <td class="CellHdg" style="text-align:center; width:30%">
                         <span style="font-size:13px">Total Ammount Required in @Model.year</span>
                     </td>
                 </tr>
                 @foreach (var n in Model.details)
                 {
                     <tr>
-                        <td style="border: 1px solid black; padding:5px; font-size:13px">@n.nutrientName</td>
-                        <td style="text-align:center; border: 1px solid black; padding:4px; font-size:13px">
+                        <td class="CellDtl">@n.nutrientName</td>
+                        <td class="CellDtl" style="text-align:center">
                             @n.nutrientAmount @n.nutrientUnit
                         </td>
                     </tr>

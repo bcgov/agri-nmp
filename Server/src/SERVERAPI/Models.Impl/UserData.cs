@@ -34,7 +34,15 @@ namespace SERVERAPI.Models.Impl
 
         public FarmData FarmData()
         {
-            FarmData farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            FarmData farmData = null;
+            try
+            {
+                farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            }
+            catch(Exception ex)
+            {
+
+            }
             return farmData;
         }
 

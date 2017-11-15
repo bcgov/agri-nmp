@@ -77,6 +77,7 @@ namespace SERVERAPI.Controllers
         {
             Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+            Utility.SoilTestConversions stc = new SoilTestConversions(_ud, _sd);
 
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
             rvm.fields = new List<ReportFieldsField>();
@@ -99,8 +100,8 @@ namespace SERVERAPI.Controllers
                 {
                     rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
                     rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString() + " ppm";
-                    rf.soiltest.dispP = f.soilTest.ValP.ToString() + " ppm";
-                    rf.soiltest.dispK = f.soilTest.valK.ToString() + " ppm";
+                    rf.soiltest.dispP = f.soilTest.ValP.ToString() + " ppm (" + _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(f.soilTest)) + ")";
+                    rf.soiltest.dispK = f.soilTest.valK.ToString() + " ppm (" + _sd.SoilTestRating("potassium", stc.GetConvertedSTK(f.soilTest)) + ")";
                     rf.soiltest.dispPH = f.soilTest.valPH.ToString();
                 }
 
@@ -304,7 +305,8 @@ namespace SERVERAPI.Controllers
                 string imgLoc = scheme + "://" + host + "/images/{0}.svg"; 
 
                 rf.alertMsgs = cbm.DetermineBalanceMessages(f.fieldName);
-                if(rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN") != null)
+
+                if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN") != null)
                 {
                     rf.alertN = true;
                     rf.iconAgriN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN").Icon);
@@ -335,6 +337,12 @@ namespace SERVERAPI.Controllers
                     rf.iconCropK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon);
                 }
 
+                //replace icon type with actual icon url for screen processing
+                foreach(var i in rf.alertMsgs)
+                {
+                    i.Icon = string.Format(imgLoc, i.Icon);
+                }
+
                 rvm.fields.Add(rf);
             }
 
@@ -361,7 +369,7 @@ namespace SERVERAPI.Controllers
                             ReportSourcesDetail rd = rvm.details.FirstOrDefault(d => d.nutrientName == manure.name);
                             if (rd != null)
                             {
-                                rd.nutrientAmount = rd.nutrientAmount + (m.rate * f.area);
+                                rd.nutrientAmount = String.Format((m.rate * f.area) % 1 == 0 ? "{0:N0}" : "{0:N2}", (m.rate * f.area));
                             }
                             else
                             {
@@ -371,7 +379,7 @@ namespace SERVERAPI.Controllers
                                 int index = rd.nutrientUnit.LastIndexOf("/");
                                 if (index > 0)
                                     rd.nutrientUnit = rd.nutrientUnit.Substring(0, index);
-                                rd.nutrientAmount = rd.nutrientAmount + (m.rate * f.area);
+                                rd.nutrientAmount = String.Format((m.rate * f.area) % 1 == 0 ? "{0:N0}" : "{0:N2}", (m.rate * f.area));
                                 rvm.details.Add(rd);
                             }
                         }

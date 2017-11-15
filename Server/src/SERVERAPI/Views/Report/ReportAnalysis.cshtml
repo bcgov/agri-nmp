@@ -12,27 +12,27 @@
     <div class="Cell">
         <table style="border-collapse: collapse;">
             <tr style="padding-top:20px; padding-bottom:20px">
-                <td style="padding:4px; background-color:#a4cdd8; border: 1px solid black;">
+                <td class="CellHdg">
                     <span style="font-size:13px">Material Type</span>
                 </td>
-                <td style="padding:4px; background-color:#a4cdd8; text-align:center; border: 1px solid black">
+                <td class="CellHdg" style="text-align:center">
                     <span style="font-size:13px">Moisture (%)</span>
                 </td>
-                <td style="padding:4px; background-color:#a4cdd8; text-align:center; border: 1px solid black">
+                <td class="CellHdg" style="text-align:center">
                     <span style="font-size:13px">Total N (%)</span>
                 </td>
-                <td style="padding:4px; background-color:#a4cdd8; text-align:center; border: 1px solid black">
+                <td class="CellHdg" style="text-align:center">
                     <span style="font-size:13px">NH<sub>4</sub>-N (ppm)</span>
                 </td>
-                <td style="padding:4px; background-color:#a4cdd8; text-align:center; border: 1px solid black">
+                <td class="CellHdg" style="text-align:center">
                     <span style="font-size:13px">P (%)</span>
                 </td>
-                <td style="padding:4px; background-color:#a4cdd8; text-align:center; border: 1px solid black">
+                <td class="CellHdg" style="text-align:center">
                     <span style="font-size:13px">K (%)</span>
                 </td>
                 @if (Model.nitratePresent)
                 {
-                    <td style="padding:4px; background-color:#a4cdd8; text-align:center; border: 1px solid black">
+                    <td class="CellHdg" style="text-align:center">
                         <span style="font-size:13px">NO<sub>3</sub>N (ppm)</span>
                     </td>
                 }
@@ -40,15 +40,15 @@
             @foreach (var n in Model.details)
             {
                 <tr>
-                    <td style="width:300px; border: 1px solid black; padding:4px; font-size:13px">@n.manureName</td>
-                    <td style="text-align:center; width:80px; border: 1px solid black; padding:4px; font-size:13px">@n.moisture</td>
-                    <td style="text-align:center; width:80px; border: 1px solid black; padding:4px; font-size:13px">@n.nitrogen</td>
-                    <td style="text-align:center; width:80px; border: 1px solid black; padding:4px; font-size:13px">@n.ammonia</td>
-                    <td style="text-align:center; width:80px; border: 1px solid black; padding:4px; font-size:13px">@n.phosphorous</td>
-                    <td style="text-align:center; width:80px; border: 1px solid black; padding:4px; font-size:13px">@n.potassium</td>
+                    <td class="CellDtl" style="width:300px; border: 1px solid black; padding:4px; font-size:13px">@n.manureName</td>
+                    <td class="CellDtl" style="text-align:center; width:80px">@n.moisture</td>
+                    <td class="CellDtl" style="text-align:center; width:80px">@n.nitrogen</td>
+                    <td class="CellDtl" style="text-align:center; width:80px">@n.ammonia</td>
+                    <td class="CellDtl" style="text-align:center; width:80px">@n.phosphorous</td>
+                    <td class="CellDtl" style="text-align:center; width:80px">@n.potassium</td>
                     @if (Model.nitratePresent)
                     {
-                        <td style="text-align:center; width:80px; border: 1px solid black; padding:4px">@n.nitrate</td>
+                        <td class="CellDtl" style="text-align:center; width:80px">@n.nitrate</td>
                     }
                 </tr>
             }
