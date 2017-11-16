@@ -2,8 +2,7 @@
 
 <div class="Row">
     <div class="Cell">
-        <span style="font-size:20px"><b>Manure and Compost Analysis</b></span>
-        <br />
+        <span style="font-size:16px"><b>Manure and Compost Analysis</b></span>
         <br />
         <br />
     </div>
@@ -13,34 +12,34 @@
         <table style="border-collapse: collapse;">
             <tr style="padding-top:20px; padding-bottom:20px">
                 <td class="CellHdg">
-                    <span style="font-size:13px">Material Type</span>
+                    Material Type
                 </td>
                 <td class="CellHdg" style="text-align:center">
-                    <span style="font-size:13px">Moisture (%)</span>
+                    Moisture (%)
                 </td>
                 <td class="CellHdg" style="text-align:center">
-                    <span style="font-size:13px">Total N (%)</span>
+                    Total N (%)
                 </td>
                 <td class="CellHdg" style="text-align:center">
-                    <span style="font-size:13px">NH<sub>4</sub>-N (ppm)</span>
+                    NH<sub>4</sub>-N (ppm)
                 </td>
                 <td class="CellHdg" style="text-align:center">
-                    <span style="font-size:13px">P (%)</span>
+                    P (%)
                 </td>
                 <td class="CellHdg" style="text-align:center">
-                    <span style="font-size:13px">K (%)</span>
+                    K (%)
                 </td>
                 @if (Model.nitratePresent)
                 {
                     <td class="CellHdg" style="text-align:center">
-                        <span style="font-size:13px">NO<sub>3</sub>N (ppm)</span>
+                        NO<sub>3</sub>N (ppm)
                     </td>
                 }
             </tr>
             @foreach (var n in Model.details)
             {
                 <tr>
-                    <td class="CellDtl" style="width:300px; border: 1px solid black; padding:4px; font-size:13px">@n.manureName</td>
+                    <td class="CellDtl" style="width:300px;">@n.manureName</td>
                     <td class="CellDtl" style="text-align:center; width:80px">@n.moisture</td>
                     <td class="CellDtl" style="text-align:center; width:80px">@n.nitrogen</td>
                     <td class="CellDtl" style="text-align:center; width:80px">@n.ammonia</td>

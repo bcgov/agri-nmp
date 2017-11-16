@@ -404,6 +404,7 @@ namespace SERVERAPI.ViewModels
     {
         public string year { get; set; }
         public string methodName { get; set; }
+        public string prevHdg { get; set; }
         public List<ReportFieldsField> fields { get; set; }
     }
     public class ReportSheetsViewModel

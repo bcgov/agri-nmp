@@ -83,6 +83,7 @@ namespace SERVERAPI.Controllers
             rvm.fields = new List<ReportFieldsField>();
             rvm.year = _ud.FarmDetails().year;
             rvm.methodName = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "not selected" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
+            rvm.prevHdg = _sd.GetUserPrompt("ncreditlabel");
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
