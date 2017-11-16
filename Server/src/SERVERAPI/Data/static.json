@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.484"      
+        "staticDataVersion": "2017.501"      
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -1039,195 +1039,219 @@
         "liquidfertilizerdensity": [
           {
             "id": "1",
-            "fertilizerid": "26",
+            "fertilizerid": "18",
             "densityunitid": "1",
             "value": "5.2843511105"
           },
           {
             "id": "2",
-            "fertilizerid": "26",
+            "fertilizerid": "18",
             "densityunitid": "2",
             "value": "1.39597787971696"
           },
           {
             "id": "3",
-            "fertilizerid": "26",
+            "fertilizerid": "18",
             "densityunitid": "3",
             "value": "13.9910724227868"
           },
           {
             "id": "4",
-            "fertilizerid": "26",
+            "fertilizerid": "18",
             "densityunitid": "4",
             "value": "11.65"
           },
           {
             "id": "5",
-            "fertilizerid": "27",
+            "fertilizerid": "19",
             "densityunitid": "1",
             "value": "5.0167316122"
           },
           {
             "id": "6",
-            "fertilizerid": "27",
+            "fertilizerid": "19",
             "densityunitid": "2",
             "value": "1.32528028752528"
           },
           {
             "id": "7",
-            "fertilizerid": "27",
+            "fertilizerid": "19",
             "densityunitid": "3",
             "value": "13.2825116734783"
           },
           {
             "id": "8",
-            "fertilizerid": "27",
+            "fertilizerid": "19",
             "densityunitid": "4",
             "value": "11.06"
           },
           {
             "id": "9",
-            "fertilizerid": "28",
+            "fertilizerid": "21",
             "densityunitid": "1",
             "value": "4.8398305879"
           },
           {
             "id": "10",
-            "fertilizerid": "28",
+            "fertilizerid": "21",
             "densityunitid": "2",
             "value": "1.27854798082231"
           },
           {
             "id": "11",
-            "fertilizerid": "28",
+            "fertilizerid": "21",
             "densityunitid": "3",
             "value": "12.8141410086811"
           },
           {
             "id": "12",
-            "fertilizerid": "28",
+            "fertilizerid": "21",
             "densityunitid": "4",
             "value": "10.67"
           },
           {
             "id": "13",
-            "fertilizerid": "29",
+            "fertilizerid": "22",
             "densityunitid": "1",
             "value": "5.384"
           },
           {
             "id": "14",
-            "fertilizerid": "29",
+            "fertilizerid": "22",
             "densityunitid": "2",
             "value": "1.4223023313992"
           },
           {
             "id": "15",
-            "fertilizerid": "29",
+            "fertilizerid": "22",
             "densityunitid": "3",
             "value": "14.2549070546444"
           },
           {
             "id": "16",
-            "fertilizerid": "29",
+            "fertilizerid": "22",
             "densityunitid": "4",
             "value": "11.8696881960338"
           },
           {
             "id": "17",
-            "fertilizerid": "30",
+            "fertilizerid": "23",
             "densityunitid": "1",
             "value": "5.0076597648"
           },
           {
             "id": "18",
-            "fertilizerid": "30",
+            "fertilizerid": "23",
             "densityunitid": "2",
             "value": "1.32288375897641"
           },
           {
             "id": "19",
-            "fertilizerid": "30",
+            "fertilizerid": "23",
             "densityunitid": "3",
             "value": "13.2584926650272"
           },
           {
             "id": "20",
-            "fertilizerid": "30",
+            "fertilizerid": "23",
             "densityunitid": "4",
             "value": "11.04"
           },
           {
             "id": "21",
-            "fertilizerid": "31",
+            "fertilizerid": "24",
             "densityunitid": "1",
             "value": "4.456"
           },
           {
             "id": "22",
-            "fertilizerid": "31",
+            "fertilizerid": "24",
             "densityunitid": "2",
             "value": "1.17715066655179"
           },
           {
             "id": "23",
-            "fertilizerid": "31",
+            "fertilizerid": "24",
             "densityunitid": "3",
             "value": "11.7978948431455"
           },
           {
             "id": "24",
-            "fertilizerid": "31",
+            "fertilizerid": "24",
             "densityunitid": "4",
             "value": "9.82379840295815"
           },
           {
             "id": "25",
-            "fertilizerid": "32",
+            "fertilizerid": "25",
             "densityunitid": "1",
             "value": "4.836"
           },
           {
             "id": "26",
-            "fertilizerid": "32",
+            "fertilizerid": "25",
             "densityunitid": "2",
             "value": "1.27753604655396"
           },
           {
             "id": "27",
-            "fertilizerid": "32",
+            "fertilizerid": "25",
             "densityunitid": "3",
             "value": "12.8039989814748"
           },
           {
             "id": "28",
-            "fertilizerid": "32",
+            "fertilizerid": "25",
             "densityunitid": "4",
             "value": "10.6615549992607"
           },
           {
             "id": "29",
-            "fertilizerid": "33",
+            "fertilizerid": "26",
             "densityunitid": "1",
             "value": "5.9647396655"
           },
           {
             "id": "30",
-            "fertilizerid": "33",
+            "fertilizerid": "26",
             "densityunitid": "2",
             "value": "1.579"
           },
           {
             "id": "31",
-            "fertilizerid": "33",
+            "fertilizerid": "26",
             "densityunitid": "3",
             "value": "15.8"
           },
           {
             "id": "32",
-            "fertilizerid": "33",
+            "fertilizerid": "26",
             "densityunitid": "4",
             "value": "13.15"
+          },
+          {
+            "id": "33",
+            "fertilizerid": "27",
+            "densityunitid": "1",
+            "value": "4.315"
+          },
+          {
+            "id": "34",
+            "fertilizerid": "27",
+            "densityunitid": "2",
+            "value": "1.14"
+          },
+          {
+            "id": "35",
+            "fertilizerid": "27",
+            "densityunitid": "3",
+            "value": "11.42"
+          },
+          {
+            "id": "36",
+            "fertilizerid": "27",
+            "densityunitid": "4",
+            "value": "9.51"
           }
         ]
       },
@@ -2366,33 +2390,15 @@
         "fertilizer": [
           {
             "id": "1",
-            "name": "0-0-20-21S-10.6Mg",
+            "name": "Urea (46-0-0)",
             "dry_liquid": "dry",
-            "nitrogen": "0",
+            "nitrogen": "46",
             "phosphorous": "0",
-            "potassium": "20",
-            "sortNum": "200"
+            "potassium": "0",
+            "sortNum": "10"
           },
           {
             "id": "2",
-            "name": "0-0-50-17S",
-            "dry_liquid": "dry",
-            "nitrogen": "0",
-            "phosphorous": "0",
-            "potassium": "50",
-            "sortNum": "200"
-          },
-          {
-            "id": "3",
-            "name": "0-0-60",
-            "dry_liquid": "dry",
-            "nitrogen": "0",
-            "phosphorous": "0",
-            "potassium": "60",
-            "sortNum": "200"
-          },
-          {
-            "id": "4",
             "name": "10-16-18",
             "dry_liquid": "dry",
             "nitrogen": "10",
@@ -2401,268 +2407,7 @@
             "sortNum": "200"
           },
           {
-            "id": "5",
-            "name": "10-34-0-3S",
-            "dry_liquid": "dry",
-            "nitrogen": "10",
-            "phosphorous": "34",
-            "potassium": "0",
-            "sortNum": "200"
-          },
-          {
-            "id": "6",
-            "name": "11-18-14-9S",
-            "dry_liquid": "dry",
-            "nitrogen": "11",
-            "phosphorous": "18",
-            "potassium": "14",
-            "sortNum": "200"
-          },
-          {
-            "id": "7",
-            "name": "11-52-0",
-            "dry_liquid": "dry",
-            "nitrogen": "11",
-            "phosphorous": "52",
-            "potassium": "0",
-            "sortNum": "200"
-          },
-          {
-            "id": "8",
-            "name": "12-10-20-12S",
-            "dry_liquid": "dry",
-            "nitrogen": "12",
-            "phosphorous": "10",
-            "potassium": "20",
-            "sortNum": "200"
-          },
-          {
-            "id": "9",
-            "name": "13-6-10-11S",
-            "dry_liquid": "dry",
-            "nitrogen": "13",
-            "phosphorous": "16",
-            "potassium": "10",
-            "sortNum": "200"
-          },
-          {
-            "id": "10",
-            "name": "14-28-6-7S",
-            "dry_liquid": "dry",
-            "nitrogen": "14",
-            "phosphorous": "28",
-            "potassium": "6",
-            "sortNum": "200"
-          },
-          {
-            "id": "11",
-            "name": "14-7-14-16S-3Mg-0.2B",
-            "dry_liquid": "dry",
-            "nitrogen": "14",
-            "phosphorous": "7",
-            "potassium": "14",
-            "sortNum": "200"
-          },
-          {
-            "id": "12",
-            "name": "15-8-11",
-            "dry_liquid": "dry",
-            "nitrogen": "15",
-            "phosphorous": "8",
-            "potassium": "11",
-            "sortNum": "200"
-          },
-          {
-            "id": "13",
-            "name": "18-9-9",
-            "dry_liquid": "dry",
-            "nitrogen": "18",
-            "phosphorous": "9",
-            "potassium": "9",
-            "sortNum": "200"
-          },
-          {
-            "id": "14",
-            "name": "30-10-0-7S",
-            "dry_liquid": "dry",
-            "nitrogen": "30",
-            "phosphorous": "10",
-            "potassium": "0",
-            "sortNum": "200"
-          },
-          {
-            "id": "15",
-            "name": "34-0-0-11S",
-            "dry_liquid": "dry",
-            "nitrogen": "34",
-            "phosphorous": "0",
-            "potassium": "0",
-            "sortNum": "200"
-          },
-          {
-            "id": "16",
-            "name": "Ammonium nitrate",
-            "dry_liquid": "dry",
-            "nitrogen": "34",
-            "phosphorous": "0",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "17",
-            "name": "Ammonium nitrate-sulfate",
-            "dry_liquid": "dry",
-            "nitrogen": "30",
-            "phosphorous": "0",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "18",
-            "name": "Ammonium phosphate-nitrate",
-            "dry_liquid": "dry",
-            "nitrogen": "27",
-            "phosphorous": "11.91",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "19",
-            "name": "Ammonium phosphate-sulfate",
-            "dry_liquid": "dry",
-            "nitrogen": "16",
-            "phosphorous": "19.92",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "20",
-            "name": "Ammonium polyphosphate-dry",
-            "dry_liquid": "dry",
-            "nitrogen": "11",
-            "phosphorous": "57.25",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "21",
-            "name": "Ammonium sulfate (21-0-0-24S)",
-            "dry_liquid": "dry",
-            "nitrogen": "21",
-            "phosphorous": "0",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "22",
-            "name": "Diammonium phosphate (DAP)",
-            "dry_liquid": "dry",
-            "nitrogen": "18",
-            "phosphorous": "45.8",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "23",
-            "name": "Monoammonium phosphate (MAP)",
-            "dry_liquid": "dry",
-            "nitrogen": "11",
-            "phosphorous": "52.67",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "24",
-            "name": "Urea (46-0-0)",
-            "dry_liquid": "dry",
-            "nitrogen": "46",
-            "phosphorous": "0",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "25",
-            "name": "Urea-ammonium nitrate (UAN)",
-            "dry_liquid": "dry",
-            "nitrogen": "28",
-            "phosphorous": "0",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "26",
-            "name": "10-34-0",
-            "dry_liquid": "liquid",
-            "nitrogen": "10",
-            "phosphorous": "34",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "27",
-            "name": "32-0-0",
-            "dry_liquid": "liquid",
-            "nitrogen": "32",
-            "phosphorous": "0",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "28",
-            "name": "28-0-0",
-            "dry_liquid": "liquid",
-            "nitrogen": "28",
-            "phosphorous": "0",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "29",
-            "name": "3-18-18",
-            "dry_liquid": "liquid",
-            "nitrogen": "3",
-            "phosphorous": "18",
-            "potassium": "18",
-            "sortNum": "100"
-          },
-          {
-            "id": "30",
-            "name": "12-0-0-26S",
-            "dry_liquid": "liquid",
-            "nitrogen": "12",
-            "phosphorous": "0",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "31",
-            "name": "20.5-5-0",
-            "dry_liquid": "liquid",
-            "nitrogen": "20.5",
-            "phosphorous": "5",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "32",
-            "name": "0-0-15-9.7S",
-            "dry_liquid": "liquid",
-            "nitrogen": "0",
-            "phosphorous": "0",
-            "potassium": "15",
-            "sortNum": "100"
-          },
-          {
-            "id": "33",
-            "name": "Phosphoric Acid (0-54-0)",
-            "dry_liquid": "liquid",
-            "nitrogen": "0",
-            "phosphorous": "54.29",
-            "potassium": "0",
-            "sortNum": "100"
-          },
-          {
-            "id": "34",
+            "id": "3",
             "name": "18-18-18",
             "dry_liquid": "dry",
             "nitrogen": "18",
@@ -2671,14 +2416,230 @@
             "sortNum": "200"
           },
           {
-            "id": "35",
-            "name": "13-16-10",
+            "id": "4",
+            "name": "18-9-9",
             "dry_liquid": "dry",
-            "nitrogen": "13",
-            "phosphorous": "16",
-            "potassium": "10",
+            "nitrogen": "18",
+            "phosphorous": "9",
+            "potassium": "9",
             "sortNum": "200"
-          }
+          },
+          {
+            "id": "5",
+            "name": "30-10-0-7S",
+            "dry_liquid": "dry",
+            "nitrogen": "30",
+            "phosphorous": "10",
+            "potassium": "0",
+            "sortNum": "200"
+          },
+          {
+            "id": "6",
+            "name": "Ammonium nitrate (34-0-0)",
+            "dry_liquid": "dry",
+            "nitrogen": "34",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "7",
+            "name": "Ammonium sulphate (21-0-0-24S)",
+            "dry_liquid": "dry",
+            "nitrogen": "21",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "8",
+            "name": "Blood meal (12-1-1)",
+            "dry_liquid": "dry",
+            "nitrogen": "12",
+            "phosphorous": "1",
+            "potassium": "1",
+            "sortNum": "300"
+          },
+          {
+            "id": "9",
+            "name": "Bone meal (3-20-0)",
+            "dry_liquid": "dry",
+            "nitrogen": "3",
+            "phosphorous": "20",
+            "potassium": "0",
+            "sortNum": "300"
+          },
+          {
+            "id": "10",
+            "name": "Diammonium phosphate (DAP)",
+            "dry_liquid": "dry",
+            "nitrogen": "18",
+            "phosphorous": "46",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "11",
+            "name": "Feather meal (12-0-0)",
+            "dry_liquid": "dry",
+            "nitrogen": "12",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "300"
+          },
+          {
+            "id": "12",
+            "name": "Fish meal (10-6-2)",
+            "dry_liquid": "dry",
+            "nitrogen": "10",
+            "phosphorous": "6",
+            "potassium": "2",
+            "sortNum": "300"
+          },
+          {
+            "id": "13",
+            "name": "Greensand (0-1-6)",
+            "dry_liquid": "dry",
+            "nitrogen": "0",
+            "phosphorous": "1",
+            "potassium": "6",
+            "sortNum": "300"
+          },
+          {
+            "id": "14",
+            "name": "Monoammonium phosphate (MAP)",
+            "dry_liquid": "dry",
+            "nitrogen": "11",
+            "phosphorous": "52",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "15",
+            "name": "Muriate of potash (0-0-62)",
+            "dry_liquid": "dry",
+            "nitrogen": "0",
+            "phosphorous": "0",
+            "potassium": "62",
+            "sortNum": "100"
+          },
+          {
+            "id": "16",
+            "name": "Sulphate of potash (0-0-50-17S)",
+            "dry_liquid": "dry",
+            "nitrogen": "0",
+            "phosphorous": "0",
+            "potassium": "50",
+            "sortNum": "100"
+          },
+          {
+            "id": "17",
+            "name": "Anhydrous ammonia (82-0-0)",
+            "dry_liquid": "dry",
+            "nitrogen": "82",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "18",
+            "name": "Ammonium polyphosphate (10-34-0)",
+            "dry_liquid": "liquid",
+            "nitrogen": "10",
+            "phosphorous": "34",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "19",
+            "name": "Urea ammonium nitrate (UAN 32-0-0)",
+            "dry_liquid": "liquid",
+            "nitrogen": "32",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "20",
+            "name": "Urea ammonium nitrate (UAN 30-0-0)",
+            "dry_liquid": "liquid",
+            "nitrogen": "30",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "21",
+            "name": "Urea ammonium nitrate (UAN 28-0-0)",
+            "dry_liquid": "liquid",
+            "nitrogen": "28",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "22",
+            "name": "3-18-18",
+            "dry_liquid": "liquid",
+            "nitrogen": "3",
+            "phosphorous": "18",
+            "potassium": "18",
+            "sortNum": "200"
+          },
+          {
+            "id": "23",
+            "name": "12-0-0-26S",
+            "dry_liquid": "liquid",
+            "nitrogen": "12",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "200"
+          },
+          {
+            "id": "24",
+            "name": "20.5-5-0",
+            "dry_liquid": "liquid",
+            "nitrogen": "20.5",
+            "phosphorous": "5",
+            "potassium": "0",
+            "sortNum": "200"
+          },
+          {
+            "id": "25",
+            "name": "0-0-15-9.7S",
+            "dry_liquid": "liquid",
+            "nitrogen": "0",
+            "phosphorous": "0",
+            "potassium": "15",
+            "sortNum": "200"
+          },
+          {
+            "id": "26",
+            "name": "Phosphoric acid (0-54-0)",
+            "dry_liquid": "liquid",
+            "nitrogen": "0",
+            "phosphorous": "54",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "27",
+            "name": "Liquid urea (23-0-0)",
+            "dry_liquid": "liquid",
+            "nitrogen": "23",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "28",
+            "name": "Ammonium phosphate-sulfate (16-20-0)",
+            "dry_liquid": "dry",
+            "nitrogen": "16",
+            "phosphorous": "20",
+            "potassium": "0",
+            "sortNum": "100"
+          }          
         ]
       },
       "n_recommcds": {
@@ -9041,7 +9002,7 @@
           {
             "id": "8",
             "name": "fieldcommentplaceholder",
-            "text": "poor drainage in southwest corner <i>(no need to specify crop here)</i>"
+            "text": "e.g., poor drainage in southwest corner (no need to specify crop here)"
           },
           {
             "id": "9",
