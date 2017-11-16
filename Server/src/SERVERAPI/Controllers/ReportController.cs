@@ -789,7 +789,7 @@ namespace SERVERAPI.Controllers
             options.quality = "75";
             options.format = "letter";
             options.orientation = (portrait) ? "portrait" : "landscape";
-            options.fontbase = "file:///usr/share/fonts";
+            options.fontbase = "/usr/share/fonts/dejavu";
             options.border.top = ".25in";
             options.border.right = ".25in";
             options.border.bottom = ".25in";
