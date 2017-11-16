@@ -75,7 +75,6 @@ namespace SERVERAPI.Utility
         public string type { get; set; }
         public string quality { get; set; }
         public string format { get; set; }
-        public string fontbase { get; set; }
         public string orientation { get; set; }
         public PDF_Border border { get; set; }
         public PDF_Header header { get; set; }
