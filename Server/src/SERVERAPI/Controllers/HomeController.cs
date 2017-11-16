@@ -278,7 +278,7 @@ namespace SERVERAPI.Controllers
 
                         // Returns message that successfully uploaded  
                         _ud.SaveFarmData(fd);
-                        HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + ", " + _ud.FarmDetails().year);
+                        HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
 
                         string url = Url.Action("Farm", "Farm");
                         return Json(new { success = true, url = url });

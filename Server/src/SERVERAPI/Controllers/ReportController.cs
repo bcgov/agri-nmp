@@ -128,7 +128,7 @@ namespace SERVERAPI.Controllers
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
                                 rff.id = rf.footnotes.Count() + 1;
-                                rff.message = "Crude protein = " + c.crudeProtien.Value.ToString("#.#");
+                                rff.message = "Crude protein adjusted to " + c.crudeProtien.Value.ToString("#.#");
                                 fc.footnote = rff.id.ToString();
                                 rf.footnotes.Add(rff);
                             }
@@ -191,12 +191,12 @@ namespace SERVERAPI.Controllers
 
                             if(m.nAvail != nOrganicMineralizations.OrganicN_FirstYear * 100)
                             {
-                                footNote = "1st Yr Organic N Availability  = " + m.nAvail.ToString("###");
+                                footNote = "1st Yr Organic N Availability adjusted to " + m.nAvail.ToString("###");
                             }
                             if(m.nh4Retention != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(m.manureId), Convert.ToInt16(m.applicationId)) * 100))
                             {
                                 footNote = string.IsNullOrEmpty(footNote) ? "" : footNote + ", ";
-                                footNote = footNote + "Ammonium-N Retention = " + m.nh4Retention.ToString("###");
+                                footNote = footNote + "Ammonium-N Retention adjusted to " + m.nh4Retention.ToString("###");
                             }
                             if(!string.IsNullOrEmpty(footNote))
                             {
@@ -261,7 +261,7 @@ namespace SERVERAPI.Controllers
                                 {
                                     if (ft.liquidDensity.ToString("#.##") != _sd.GetLiquidFertilizerDensity(ft.fertilizerId, ft.liquidDensityUnitId).value.ToString("#.##"))
                                     {
-                                        footNote = "Liquid density = " + ft.liquidDensity.ToString("#.##");
+                                        footNote = "Liquid density adjusted to " + ft.liquidDensity.ToString("#.##");
                                     }
                                     if (!string.IsNullOrEmpty(footNote))
                                     {
@@ -457,6 +457,35 @@ namespace SERVERAPI.Controllers
                             rf.nutrients.Add(rfn);
                         }
                     }
+                    if (f.nutrients.nutrientFertilizers != null)
+                    {
+                        foreach (var ft in f.nutrients.nutrientFertilizers)
+                        {
+                            string fertilizerName = string.Empty;
+                            ReportFieldNutrient rfn = new ReportFieldNutrient();
+                            FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
+
+                            if (ftyp.custom)
+                            {
+                                fertilizerName = ftyp.dry_liquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
+                                fertilizerName = fertilizerName + ft.customN.ToString() + "-" + ft.customP2o5.ToString() + "-" + ft.customK2o.ToString();
+                            }
+                            else
+                            {
+                                Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
+                                fertilizerName = ff.name;
+                            }
+
+                            rfn.nutrientName = fertilizerName;
+                            rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:N0}" : "{0:N2}", (ft.applRate));
+                            rfn.nutrientSeason = ft.applDate != null ? ft.applDate.Value.ToString("MMM-yyyy") : "";
+                            rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).name : "";
+                            rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).name;
+
+                            rf.nutrients.Add(rfn);
+                        }
+                    }
+
                 }
                 if (rf.nutrients.Count() == 0)
                 {
@@ -760,7 +789,7 @@ namespace SERVERAPI.Controllers
             options.quality = "75";
             options.format = "letter";
             options.orientation = (portrait) ? "portrait" : "landscape";
-            options.fontbase = "file:///usr/share/fonts/gnu-free";
+            options.fontbase = "file:///usr/share/fonts";
             options.border.top = ".25in";
             options.border.right = ".25in";
             options.border.bottom = ".25in";
