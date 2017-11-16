@@ -1,82 +1,83 @@
 ﻿@model SERVERAPI.ViewModels.ReportSheetsViewModel
 
-<div style="display: table-row;">
-    <div style="display: table-cell;">
-        <span style="font-size:16px"><b>Record Keeping Sheets</b></span>
-        <br />
-        <br />
-        <br />
-        <br />
+
+    <div style="display: table-row;font-family:Liberation Sans;">
+        <div style="display: table-cell;">
+            <span style="font-size:16px"><b>Record Keeping Sheets</b></span>
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
     </div>
-</div>
-<div class="Row">
-    <div class="Cell">
-        @foreach (var f in Model.fields)
-        {
-            <table style="border-collapse: collapse; border: 2px solid black; width: 100%;">
-                <tr style="border: 1px solid black;">
-                    <td>
-                        <table style="width: 100%; border: none;">
-                            <tr>
-                                <td style="width:20%; vertical-align: top">
-                                    <span style="font-size:11px;">Field: @f.fieldName</span>
-                                </td>
-                                <td style="width:15%; vertical-align: top">
-                                    <span style="font-size:11px;">Area: @f.fieldArea ac</span>
-                                </td>
-                                <td style="width:10%; vertical-align: top">
-                                    <span style="font-size:11px;">@Model.year Crops:</span>
-                                </td>
-                                <td style="width:30%; vertical-align: top; text-align: left">
-                                    <span style="white-space: pre-line; font-size:11px;">@f.fieldCrops</span>
-                                </td>
-                                <td style="width:25%; vertical-align: top; text-align: left">
-                                    <span style="font-size:11px;">Actual Yield:</span>
-                                </td>
-                                <td></td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr style="border: 1px solid black;">
-                    <td class="CellHdg" style="text-align:center; padding:0px">
-                        <table style="width: 100%; border: none; border-collapse: collapse;">
-                            <tr>
-                                <td style="width:55%; border-right: 1px solid black;" colspan="3">
-                                    <span style="font-size:11px">@Model.year Plan</span>
-                                </td>
-                                <td style="width:45%" colspan="3">
-                                    <span style="font-size:11px">@Model.year Records</span>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr style="border: 1px solid black;">
-                    <td style="background-color:#a4cdd8; border-collapse: collapse;">
-                        <table style="width: 100%; border: none; border-collapse: collapse;">
-                            <tr>
-                                <td style="padding:4px; width:20%; border-right: 1px solid black;">
-                                    <span style="font-size:11px; font-weight:bold;">Application</span>
-                                </td>
-                                <td style="padding:4px; width:15%; border-right: 1px solid black;">
-                                    <span style="font-size:11px; font-weight:bold;">Timing</span>
-                                </td>
-                                <td style="padding:4px; width:20%;text-align:center; border-right: 1px solid black;">
-                                    <span style="font-size:11px; font-weight:bold;">Rate</span>
-                                </td>
-                                <td style="width:45%;text-align:center;" colspan="3">
-                                    <span style="font-size:11px; font-weight:bold;">Notes or modifications to plan</span>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                @foreach (var m in f.nutrients)
-                {
+    <div class="Row" style="font-family:Liberation Sans;">
+        <div class="Cell">
+            @foreach (var f in Model.fields)
+            {
+                <table style="border-collapse: collapse; border: 2px solid black; width: 100%;">
                     <tr style="border: 1px solid black;">
                         <td>
-                            <table style="width: 100%; border-collapse: collapse;">
+                            <table style="width: 100%; border: none;">
+                                <tr>
+                                    <td style="width:20%; vertical-align: top">
+                                        <span style="font-size:11px;">Field: @f.fieldName</span>
+                                    </td>
+                                    <td style="width:15%; vertical-align: top">
+                                        <span style="font-size:11px;">Area: @f.fieldArea ac</span>
+                                    </td>
+                                    <td style="width:10%; vertical-align: top">
+                                        <span style="font-size:11px;">@Model.year Crops:</span>
+                                    </td>
+                                    <td style="width:30%; vertical-align: top; text-align: left">
+                                        <span style="white-space: pre-line; font-size:11px;">@f.fieldCrops</span>
+                                    </td>
+                                    <td style="width:25%; vertical-align: top; text-align: left">
+                                        <span style="font-size:11px;">Actual Yield:</span>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <td class="CellHdg" style="text-align:center; padding:0px">
+                            <table style="width: 100%; border: none; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width:55%; border-right: 1px solid black;" colspan="3">
+                                        <span style="font-size:11px">@Model.year Plan</span>
+                                    </td>
+                                    <td style="width:45%" colspan="3">
+                                        <span style="font-size:11px">@Model.year Records</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid black;">
+                        <td style="background-color:#a4cdd8; border-collapse: collapse;">
+                            <table style="width: 100%; border: none; border-collapse: collapse;">
+                                <tr>
+                                    <td style="padding:4px; width:20%; border-right: 1px solid black;">
+                                        <span style="font-size:11px; font-weight:bold;">Application</span>
+                                    </td>
+                                    <td style="padding:4px; width:15%; border-right: 1px solid black;">
+                                        <span style="font-size:11px; font-weight:bold;">Timing</span>
+                                    </td>
+                                    <td style="padding:4px; width:20%;text-align:center; border-right: 1px solid black;">
+                                        <span style="font-size:11px; font-weight:bold;">Rate</span>
+                                    </td>
+                                    <td style="width:45%;text-align:center;" colspan="3">
+                                        <span style="font-size:11px; font-weight:bold;">Notes or modifications to plan</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    @foreach (var m in f.nutrients)
+                {
+                        <tr style="border: 1px solid black;">
+                            <td>
+                                <table style="width: 100%; border-collapse: collapse;">
                                     <tr>
                                         <td style="padding:4px; width:20%; border-right: 1px solid black;">
                                             <span style="font-size:10px"> @m.nutrientName</span>
@@ -92,20 +93,17 @@
                                                 </tr>
                                             </table>
                                         </td>
-                                        <td style="width:45%;">
-
-                                        </td>
+                                        <td style="width:45%;"></td>
                                     </tr>
-                            </table>
-                        </td>
-                    </tr>
-                }
-            </table>
-            <br />
-            <br />
-            <br />
-            <br />
-        }
+                                </table>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <br />
+                <br />
+                <br />
+                <br />
+            }
+        </div>
     </div>
-</div>
-
