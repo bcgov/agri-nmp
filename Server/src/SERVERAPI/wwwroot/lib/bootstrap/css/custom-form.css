@@ -556,3 +556,13 @@ fieldset[disabled] a.btn {
     padding:5px;
     border-radius:3px;
 }
+
+.btn-field {
+    color: #333;
+    background-color: #ffffff;
+}
+
+.btn-field-selected {
+    color: #333;
+    background-color: #d1d1d1;    
+}
