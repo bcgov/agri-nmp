@@ -121,8 +121,6 @@ namespace SERVERAPI.Controllers
             mvm.stdN = true;
             mvm.stdAvail = true;
 
-            ManureDetailsSetup(ref mvm);
-
             if(id != null)
             {
 
@@ -162,6 +160,8 @@ namespace SERVERAPI.Controllers
                 mvm.ltP2o5 = "  0";
                 mvm.ltK2o = "  0";
             }
+
+            ManureDetailsSetup(ref mvm);
 
             return PartialView(mvm);
         }
