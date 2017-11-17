@@ -85,6 +85,7 @@ namespace SERVERAPI.Models
             public int dmid { get; set; }
             public int nminerizationid { get; set; }
             public int sortNum { get; set; }
+            public decimal cubic_Yard_Conversion { get; set; }
         }
         public class FertilizerTypes
         {
