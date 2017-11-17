@@ -120,6 +120,7 @@ namespace SERVERAPI.Controllers
             mvm.nh4 = string.Empty;
             mvm.stdN = true;
             mvm.stdAvail = true;
+            mvm.url = _sd.GetExternalLink("manureunitexplanation");
 
             ManureDetailsSetup(ref mvm);
 

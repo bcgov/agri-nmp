@@ -38,6 +38,7 @@
                         <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate">
                             <option>select</option>
                         </select>
+                        <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About other nutrient sources" style="font-size:20px; padding-top:5px"></span></a>
                         <span asp-validation-for="selRateOption" class="text-danger"></span>
                     </div>
                 </div>
