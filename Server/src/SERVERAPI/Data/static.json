@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.501"      
+        "staticDataVersion": "2017.523"      
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8933,7 +8933,7 @@
           {
             "id": "1",
             "name": "soiltestexplanation",
-            "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
+            "url": "https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/600-series/631500-8_nutrient_testing_labs_factsheetno1_may2015.pdf"
           },
           {
             "id": "2",
