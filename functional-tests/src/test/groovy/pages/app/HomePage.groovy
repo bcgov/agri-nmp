@@ -5,5 +5,5 @@ import geb.Page
 class HomePage extends Page {
 
     static at = { title=="Welcome" }
-    static url = "/"
+    static url = ""
 }
