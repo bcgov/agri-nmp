@@ -135,7 +135,7 @@
     <!--WIZARD-->
     <div class="wizard">
         <ul class="wrapper wizard-list clearfix">
-            <li class="wizard-item ">@*wizard-item-done*@
+            <li id="wizard-farm" class="wizard-item ">@*wizard-item-done*@
                 <a href='@Url.Action("Farm", "Farm" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
@@ -151,7 +151,7 @@
                     <span class="wizard-name">Farm Info</span>
                 </a>
             </li>
-            <li class="wizard-item">
+            <li id="wizard-field" class="wizard-item">
                 <a href='@Url.Action("Fields", "Fields" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
@@ -169,7 +169,7 @@
                     <span class="wizard-name">Field List</span>
                 </a>
             </li>
-            <li class="wizard-item">
+            <li id="wizard-soiltest" class="wizard-item">
                 <a href='@Url.Action("SoilTest", "Soil" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
@@ -191,7 +191,7 @@
                     <span class="wizard-name">Soil Tests</span>
                 </a>
             </li>
-            <li class="wizard-item">
+            <li id="wizard-manure" class="wizard-item">
                 <a href='@Url.Action("Manure", "Manure" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
@@ -209,7 +209,7 @@
                     <span class="wizard-name">Manure/Compost Analysis</span>
                 </a>
             </li>
-            <li class="wizard-item">
+            <li id="wizard-nutrient" class="wizard-item">
                 <a href='@Url.Action("Calculate", "Nutrients" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
@@ -245,7 +245,7 @@
                     <span class="wizard-name">Calculate Nutrients</span>
                 </a>
             </li>
-            <li class="wizard-item">
+            <li id="wizard-report" class="wizard-item">
                 <a href='@Url.Action("Report", "Report" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
