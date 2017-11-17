@@ -21,7 +21,7 @@
                         </select>
                         <span asp-validation-for="selManOption" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-4">
+                    <div class="form-group col-sm-3">
                         <label asp-for="selApplOption">Application Season/Method</label>
                         <select class="form-control" asp-for="selApplOption" asp-items="@(new SelectList(Model.applOptions,"Id","Value"))" id="ddlAppl">
                             <option>select</option>
@@ -30,16 +30,26 @@
                     </div>
                     <div class="form-group col-sm-2">
                         <label asp-for="selApplOption"> Application Rate</label>
-                        <input class="form-control" asp-for="rate" id="rate" type="text" />
-                        <span asp-validation-for="rate" class="text-danger"></span>
+                        <div>
+                            <input class="form-control" asp-for="rate" id="rate" type="text" />
+                            <span asp-validation-for="rate" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="form-group col-sm-2">
-                        <label>Units</label>
-                        <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate">
-                            <option>select</option>
-                        </select>
-                        <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About other nutrient sources" style="font-size:20px; padding-top:5px"></span></a>
-                        <span asp-validation-for="selRateOption" class="text-danger"></span>
+                    <div class="form-group col-sm-3" style="padding-right:0px">
+                        <div style="display:table; width:100%">
+                            <div style="display:table-row">
+                                <label>Units</label>
+                            </div>
+                            <div style="display:table-row">
+                                <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
+                                    <option>select</option>
+                                </select>
+                                <div style="display:inline;">
+                                    <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About units" style="font-size:20px; padding-top:5px"></span></a>
+                                </div>
+                            </div>
+                            <span asp-validation-for="selRateOption" class="text-danger"></span>
+                        </div>
                     </div>
                 </div>
                 <div style="clear:both"></div>
@@ -150,5 +160,6 @@
         @Html.HiddenFor(x => x.ltK2o)
         @Html.HiddenFor(x => x.stdN)
         @Html.HiddenFor(x => x.stdAvail)
+        @Html.HiddenFor(x => x.url)
     </form>
 </div>

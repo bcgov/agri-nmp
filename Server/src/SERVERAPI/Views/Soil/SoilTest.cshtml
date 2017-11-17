@@ -122,7 +122,7 @@
         $(document).on("click", '[data_modal]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-            $("#divSize").addClass("modal-lg");
+            $("#divSize").addClass("modal-large");
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({
                     /*backdrop: 'static',*/
@@ -176,7 +176,7 @@
             $.ajaxSetup({ cache: false });
             var url = '@Url.Action("MissingTests", "Soil", new { target = "zzz" })';
             $type = url.replace('zzz',x);
-            $("#divSize").addClass("modal-lg");
+            $("#divSize").addClass("modal-large");
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({
                     /*backdrop: 'static',*/
