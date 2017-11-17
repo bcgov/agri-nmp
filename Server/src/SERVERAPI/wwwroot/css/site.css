@@ -70,3 +70,6 @@
     display: table-row-group;
     width: 100%;
 }
+.modal-lg {
+    width: 950px;
+}

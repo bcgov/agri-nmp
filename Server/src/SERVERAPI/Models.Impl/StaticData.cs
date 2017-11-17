@@ -95,6 +95,10 @@ namespace SERVERAPI.Models.Impl
                     man.potassium = Convert.ToDecimal(r["potassium"].ToString());
                     man.dmid = Convert.ToInt32(r["dmid"].ToString());
                     man.nminerizationid = Convert.ToInt32(r["nminerizationid"].ToString());
+                    if (man.solid_liquid.ToUpper() == "SOLID")
+                        man.cubic_Yard_Conversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
+                    else
+                        man.cubic_Yard_Conversion = 0;                    
                 }
             }
 
@@ -122,6 +126,10 @@ namespace SERVERAPI.Models.Impl
                 man.potassium = Convert.ToDecimal(r["potassium"].ToString());
                 man.dmid = Convert.ToInt32(r["dmid"].ToString());
                 man.nminerizationid = Convert.ToInt32(r["nminerizationid"].ToString());
+                if (man.solid_liquid.ToUpper() == "SOLID")
+                    man.cubic_Yard_Conversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
+                else
+                    man.cubic_Yard_Conversion = 0;                
             }
 
             return man;
@@ -149,6 +157,10 @@ namespace SERVERAPI.Models.Impl
                 man.potassium = Convert.ToDecimal(r["potassium"].ToString());
                 man.dmid = Convert.ToInt32(r["dmid"].ToString());
                 man.nminerizationid = Convert.ToInt32(r["nminerizationid"].ToString());
+                if (man.solid_liquid.ToUpper() == "SOLID")
+                    man.cubic_Yard_Conversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
+                else
+                    man.cubic_Yard_Conversion = 0;
                 man.sortNum = Convert.ToInt32(r["sortNum"].ToString());
 
                 mans.manures.Add(man);

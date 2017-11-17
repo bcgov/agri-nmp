@@ -312,7 +312,8 @@
             "potassium": "0.67",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.51"
           },
           {
             "id": "2",
@@ -326,7 +327,8 @@
             "potassium": "0.3",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.7"
           },
           {
             "id": "3",
@@ -354,7 +356,8 @@
             "potassium": "0",
             "dmid": "6",
             "nminerizationid": "10",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.5"
           },
           {
             "id": "5",
@@ -368,7 +371,8 @@
             "potassium": "1.14",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.39"
           },
           {
             "id": "6",
@@ -382,7 +386,8 @@
             "potassium": "1.04",
             "dmid": "5",
             "nminerizationid": "5",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.4"
           },
           {
             "id": "7",
@@ -396,7 +401,8 @@
             "potassium": "1.14",
             "dmid": "5",
             "nminerizationid": "5",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.5"
           },
           {
             "id": "8",
@@ -410,7 +416,8 @@
             "potassium": "0.8",
             "dmid": "5",
             "nminerizationid": "5",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.4"
           },
           {
             "id": "9",
@@ -452,7 +459,8 @@
             "potassium": "0.43",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.59"
           },
           {
             "id": "12",
@@ -466,7 +474,8 @@
             "potassium": "0.3",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.7"
           },
           {
             "id": "13",
@@ -480,7 +489,8 @@
             "potassium": "0",
             "dmid": "4",
             "nminerizationid": "8",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.5"
           },
           {
             "id": "14",
@@ -564,7 +574,8 @@
             "potassium": "1.03",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.7"
           },
           {
             "id": "20",
@@ -578,7 +589,8 @@
             "potassium": "0.15",
             "dmid": "4",
             "nminerizationid": "2",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.7"
           },
           {
             "id": "21",
@@ -592,7 +604,8 @@
             "potassium": "0.5",
             "dmid": "2",
             "nminerizationid": "7",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.7"
           },
           {
             "id": "22",
@@ -606,7 +619,8 @@
             "potassium": "0.25",
             "dmid": "4",
             "nminerizationid": "9",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.7"
           },
           {
             "id": "23",
@@ -620,7 +634,8 @@
             "potassium": "0.7",
             "dmid": "4",
             "nminerizationid": "6",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.5"
           },
           {
             "id": "24",
@@ -634,7 +649,8 @@
             "potassium": "0.78",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.7"
           },
           {
             "id": "25",
@@ -648,7 +664,8 @@
             "potassium": "0.59",
             "dmid": "5",
             "nminerizationid": "5",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.33"
           },
           {
             "id": "26",
@@ -662,7 +679,8 @@
             "potassium": "1.31",
             "dmid": "5",
             "nminerizationid": "5",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.33"
           },
           {
             "id": "27",
@@ -676,7 +694,8 @@
             "potassium": "0",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100"
+            "sortNum": "100",
+            "cubic_yard_conversion": "0.5"
           },
           {
             "id": "28",
@@ -969,6 +988,21 @@
             "value_N": "1.54",
             "value_P2O5": "1.65",
             "value_K2O": "1.32",
+            "solid_liquid": "Solid"
+          },
+          {
+            "id": "6",
+            "name": "yards³/ac",
+            "nutrient_content_units": "nutrient_content_units",
+            "conversion_lbton": "1",
+            "nutrient_rate_units": "nutrient_rate_units",
+            "cost_units": "cost_units",
+            "cost_applications": "0",
+            "dollar_unit_area": "dollar_unit_area",
+            "value_material_units": "value_material_units",
+            "value_N": "0",
+            "value_P2O5": "0",
+            "value_K2O": "0",
             "solid_liquid": "Solid"
           }
         ]
@@ -8958,6 +8992,11 @@
           {
             "id": "6",
             "name": "helpmessage",
+            "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
+          },
+          {
+            "id": "7",
+            "name": "manureunitexplanation",
             "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
           }
         ]

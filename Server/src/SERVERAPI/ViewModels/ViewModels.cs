@@ -146,6 +146,7 @@ namespace SERVERAPI.ViewModels
         public string ltK2o { get; set; }
         public bool stdN { get; set; }
         public bool stdAvail { get; set; }
+        public string url { get; set; }
     }
     public class ManureDeleteViewModel
     {

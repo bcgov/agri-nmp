@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using SERVERAPI.Models.Impl;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.Models;
+using SERVERAPI.Models.Impl;
+using System;
 using static SERVERAPI.Models.StaticData;
 
 namespace SERVERAPI.Utility
@@ -49,6 +46,14 @@ namespace SERVERAPI.Utility
             // get conversion factor for selected units to lb/ac
             Unit myunit = _sd.GetUnit(applicationRateUnits);
             decimal conversion = myunit.conversion_lbton;
+
+            // for solid manures specified in cubic yards per ac, convert application rate to tons/ac
+            if (myunit.id == 6 && mymanure.solid_liquid.ToUpper() == "SOLID")
+            {
+                Manure manure = _sd.GetManure(mymanure.manureId.ToString());
+                applicationRate = applicationRate * manure.cubic_Yard_Conversion;
+            }
+
 
             // get potassium first year
             nutrientInputs.K2O_FirstYear = Convert.ToInt32(decimal.Multiply(applicationRate, mymanure.potassium)
