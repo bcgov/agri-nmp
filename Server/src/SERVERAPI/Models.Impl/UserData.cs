@@ -68,12 +68,18 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.testingMethod = fd.testingMethod;
             userData.farmDetails.manure = fd.manure;
             userData.farmDetails.year = fd.year;
-            YearData yd = userData.years.FirstOrDefault(y => y.year == fd.year);
-            if(yd == null)
+
+            //change the year associated with the array
+            YearData yd = userData.years.FirstOrDefault();
+            if (yd == null)
             {
                 YearData ny = new YearData();
                 ny.year = fd.year;
                 userData.years.Add(ny);
+            }
+            else
+            {
+                yd.year = fd.year;
             }
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

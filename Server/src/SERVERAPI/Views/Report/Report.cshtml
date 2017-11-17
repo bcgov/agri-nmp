@@ -78,6 +78,7 @@
                 <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick = "Intercept('@Model.url');"  />
             </div>
             @Html.HiddenFor(x => x.unsavedData)
+            @Html.HiddenFor(x => x.url)
         </form>
     </div>
 </div>
