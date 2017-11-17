@@ -15,13 +15,13 @@
         <div class="Cell">
                     <table style="border-collapse: collapse; width: 100%;">
                         <tr>
-                            <td>
-                                <span class="newPage" style="font-size:.8em"><u>@f.fieldName</u></span>
+                            <td class="CellHdgNBd">
+                                <span><u>@f.fieldName</u></span>
                             </td>
                         </tr>
                         <tr>
-                            <td>
-                                <span style="font-size:.8em">Area: @f.fieldArea ac</span>
+                            <td class="CellHdgNBd">
+                                <span>Area: @f.fieldArea ac</span>
                             </td>
                         </tr>
                     </table>
@@ -131,7 +131,7 @@
                     <br />
                     <br />
                     <table style="border-collapse: collapse; width:100%">
-                        <tr style="font-size:.8em;">
+                        <tr style="font-size:80%;">
                             <td style="width:35%;"></td>
                             <td style="width:5%;"></td>
                             <td colspan="3" style="text-align:center; background-color:#efefef">
@@ -173,46 +173,46 @@
                         @foreach (var c in f.crops)
                         {
                             <tr>
-                                <td style="font-size:.8em;">@c.cropname <sup>@c.footnote</sup></td>
+                                <td class="CellDtlNBd">@c.cropname <sup>@c.footnote</sup></td>
                                 <td></td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@c.reqN</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@c.reqP</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@c.reqK</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqN</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqP</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqK</td>
                                 <td></td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@c.remN</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@c.remP</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@c.remK</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remN</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remP</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remK</td>
                             </tr>
                         }
                         @foreach (var n in f.nutrients)
                         {
                             <tr>
-                                <td style="font-size:.8em;">@n.nutrientName <sup>@n.footnote</sup></td>
+                                <td class="CellDtlNBd">@n.nutrientName <sup>@n.footnote</sup></td>
                                 <td></td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.reqN</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.reqP</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.reqK</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqN</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqP</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqK</td>
                                 <td></td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.remN</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.remP</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.remK</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remN</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remP</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remK</td>
                             </tr>
                         }
                         @foreach (var n in f.otherNutrients)
                         {
                             <tr>
-                                <td style="font-size:.8em;">@n.otherName</td>
+                                <td class="CellDtlNBd">@n.otherName</td>
                                 <td></td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.reqN</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.reqP</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.reqK</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqN</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqP</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqK</td>
                                 <td></td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.remN</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.remP</td>
-                                <td style="font-size:.8em;text-align:center; background-color:#efefef">@n.remK</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remN</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remP</td>
+                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remK</td>
                             </tr>
                         }
-                        <tr style="font-size:.8em;">
+                        <tr style="font-size:80%;">
                             <td style="border-bottom: 1px solid black;">&nbsp;</td>
                             <td></td>
                             <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
@@ -224,23 +224,23 @@
                             <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
                         </tr>
                         <tr>
-                            <td style="font-size:.8em;border-top: 1px solid black;"><b>Balance</b></td>
+                            <td class="CellDtlNBd" style="border-top: 1px solid black;"><b>Balance</b></td>
                             <td></td>
-                            <td style="font-size:.8em;border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriN))
                                 {
                                     <img src="@Html.Raw(f.iconAgriN)" height="10" width="10" />
                                 }
                                 @f.reqN
                             </td>
-                            <td style="font-size:.8em;border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriP))
                                 {
                                     <img src="@Html.Raw(f.iconAgriP)" height="10" width="10"  />
                                 }
                                 @f.reqP
                             </td>
-                            <td style="font-size:.8em;border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriK))
                                 {
                                     <img src="@Html.Raw(f.iconAgriK)" height="10" width="10" />
@@ -249,21 +249,21 @@
                             </td>
                             <td style="border:none"></td>
 
-                            <td style="font-size:.8em;border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconCropN))
                                 {
                                     <img src="@Html.Raw(f.iconCropN)" height="10" width="10" />
                                 }
                                 @f.remN
                            </td>
-                            <td style="font-size:.8em;border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconCropP))
                                 {
                                     <img src="@Html.Raw(f.iconCropP)" height="10" width="10" />
                                 }
                                 @f.remP
                             </td>
-                            <td style="font-size:.8em;border-top: 1px solid black; text-align:center; background-color:#efefef">
+                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconCropK))
                                 {
                                     <img src="@Html.Raw(f.iconCropK)" height="10" width="10" />
@@ -281,7 +281,7 @@
                         <table style="border-collapse: collapse; width:100%">
                             <tr>
                                 <td>
-                                    <span style="font-size:.8em">Considerations:</span>
+                                    <span class="CellDtlNBd">Considerations:</span>
                                 </td>
                             </tr>
                             <tr>
@@ -294,7 +294,7 @@
                                 if (!string.IsNullOrEmpty(a.Message))
                                 { 
                                     <tr>
-                                        <td style="font-size:.8em;">
+                                        <td class="CellDtlNBd">
                                             <img src="@Html.Raw(a.Icon)" height="10" width="10" />
                                             @a.Message
                                         </td>
@@ -311,7 +311,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <span style="font-size:1.8em">Assumptions:</span>
+                                    <span class="CellDtlNBd">Assumptions:</span>
                                 </td>
                             </tr>
                             <tr>
@@ -322,7 +322,7 @@
                             @foreach (var fn in f.footnotes)
                             {
                                 <tr>
-                                    <td style="font-size:.8em;">
+                                    <td class="CellDtlNBd">
                                         @fn.id.ToString() &nbsp;&nbsp; @fn.message
                                     </td>
                                 </tr>
