@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.533"
+        "staticDataVersion": "2017.534"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8869,7 +8869,7 @@
           {
             "id": "7",
             "name": "manureunitexplanation",
-            "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
+            "url": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/manure-application"
           }
         ]
       },
