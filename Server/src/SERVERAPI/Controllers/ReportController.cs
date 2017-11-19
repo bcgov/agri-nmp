@@ -450,7 +450,7 @@ namespace SERVERAPI.Controllers
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
                             rfn.nutrientName = manure.name;
-                            rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
+                            rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", m.rate);
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).application_method;
                             rfn.nutrientUnit = _sd.GetUnit(m.unitId).name;
@@ -477,7 +477,7 @@ namespace SERVERAPI.Controllers
                             }
 
                             rfn.nutrientName = fertilizerName;
-                            rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (ft.applRate));
+                            rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", ft.applRate);
                             rfn.nutrientSeason = ft.applDate != null ? ft.applDate.Value.ToString("MMM-yyyy") : "";
                             rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).name : "";
                             rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).name;

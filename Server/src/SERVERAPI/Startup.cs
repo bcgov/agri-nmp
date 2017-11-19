@@ -31,6 +31,8 @@ using Microsoft.Extensions.FileProviders;
 using SERVERAPI.Models;
 using SERVERAPI.Utility;
 using SERVERAPI.Controllers;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 namespace SERVERAPI
 {
@@ -106,6 +108,11 @@ namespace SERVERAPI
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+            var cultureInfo = new CultureInfo("en-US");
+            cultureInfo.NumberFormat.CurrencySymbol = "$";
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
