@@ -789,6 +789,7 @@ namespace SERVERAPI.Controllers
             options.quality = "75";
             options.format = "letter";
             options.orientation = (portrait) ? "portrait" : "landscape";
+            options.fontbase = "file:///usr/share/fonts/liberation";
             options.border.top = ".25in";
             options.border.right = ".25in";
             options.border.bottom = ".25in";
@@ -797,7 +798,7 @@ namespace SERVERAPI.Controllers
             options.header.contents = "<span style=\"font-size:14px\">Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
                                       "Planning Year: " + _ud.FarmDetails().year + "</span>";
             options.footer.height = "15mm";
-            options.footer.contents = "<div><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span></div><div style=\"float:right\">Static Data Version " + _sd.GetStaticDataVersion() + "</div>";
+            options.footer.contents = "<div><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span></div><div style=\"float:right\">Static Data Version " + _sd.GetStaticDataVersion() + "</div>";
 
             // call the microservice
             try
@@ -821,6 +822,7 @@ namespace SERVERAPI.Controllers
 
                 req.html = rawdata;
                 req.options = JsonConvert.SerializeObject(options);
+                req.options = req.options.Replace("fontbase", "base");
 
                 //FileContentResult res = await BuildPDF(nodeServices, req);
 
