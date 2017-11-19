@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.523"      
+        "staticDataVersion": "2017.535"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -42,7 +42,7 @@
             "ConvertToKelownaPlt72": "0.74",
             "ConvertToKelownaPge72": "1",
             "ConvertToKelownaK": "0.8",
-            "sortNum":  "100"
+            "sortNum": "100"
           },
           {
             "id": "2",
@@ -727,7 +727,7 @@
             "poultry_solid": "0.95",
             "compost": "1",
             "sortNum": "100",
-            "manure_type" :  "Solid/Liquid"
+            "manure_type": "Solid/Liquid"
           },
           {
             "id": "2",
@@ -1301,15 +1301,7 @@
           },
           {
             "id": "2",
-            "name": "Cover crops (legumes)",
-            "covercrop": "true",
-            "crudeproteinrequired": "false",
-            "customcrop": "false",
-            "modifynitrogen": "false"
-          },
-          {
-            "id": "3",
-            "name": "Cover crops (non-legumes)",
+            "name": "Cover crops",
             "covercrop": "true",
             "crudeproteinrequired": "false",
             "customcrop": "false",
@@ -1570,8 +1562,8 @@
             "croptypeid": "2",
             "yieldcd": "2",
             "cropremovalfactor_N": "60",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
+            "cropremovalfactor_P2O5": "20",
+            "cropremovalfactor_K2O": "60",
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
@@ -1583,9 +1575,9 @@
             "cropname": "Crimson clover",
             "croptypeid": "2",
             "yieldcd": "2",
-            "cropremovalfactor_N": "37.5",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
+            "cropremovalfactor_N": "54.8",
+            "cropremovalfactor_P2O5": "12.6",
+            "cropremovalfactor_K2O": "74.4",
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
@@ -1597,9 +1589,9 @@
             "cropname": "Hairy vetch",
             "croptypeid": "2",
             "yieldcd": "2",
-            "cropremovalfactor_N": "60",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
+            "cropremovalfactor_N": "61",
+            "cropremovalfactor_P2O5": "18",
+            "cropremovalfactor_K2O": "60",
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
@@ -1611,9 +1603,9 @@
             "cropname": "Red clover",
             "croptypeid": "2",
             "yieldcd": "2",
-            "cropremovalfactor_N": "47.6190476190476",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
+            "cropremovalfactor_N": "35",
+            "cropremovalfactor_P2O5": "18",
+            "cropremovalfactor_K2O": "60",
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
@@ -1623,12 +1615,12 @@
           {
             "id": "14",
             "cropname": "Annual ryegrass",
-            "croptypeid": "3",
+            "croptypeid": "2",
             "yieldcd": "2",
-            "cropremovalfactor_N": "15.3846153846154",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
+            "cropremovalfactor_N": "35",
+            "cropremovalfactor_P2O5": "7",
+            "cropremovalfactor_K2O": "35",
+            "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
             "prevcropcd": "2",
@@ -1636,13 +1628,13 @@
           },
           {
             "id": "15",
-            "cropname": "Barley",
-            "croptypeid": "3",
+            "cropname": "Cereal (barley, oats, wheat, etc.)",
+            "croptypeid": "2",
             "yieldcd": "2",
-            "cropremovalfactor_N": "31.25",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
+            "cropremovalfactor_N": "44",
+            "cropremovalfactor_P2O5": "16",
+            "cropremovalfactor_K2O": "40",
+            "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
             "prevcropcd": "2",
@@ -1651,82 +1643,12 @@
           {
             "id": "16",
             "cropname": "Fall rye",
-            "croptypeid": "3",
+            "croptypeid": "2",
             "yieldcd": "2",
-            "cropremovalfactor_N": "21.2121212121212",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "0",
-            "n_high_lbperac": "0",
-            "prevcropcd": "2",
-            "sortNum": "100"
-          },
-          {
-            "id": "17",
-            "cropname": "Italian ryegrass",
-            "croptypeid": "3",
-            "yieldcd": "2",
-            "cropremovalfactor_N": "22.7272727272727",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "0",
-            "n_high_lbperac": "0",
-            "prevcropcd": "2",
-            "sortNum": "100"
-          },
-          {
-            "id": "18",
-            "cropname": "Oats",
-            "croptypeid": "3",
-            "yieldcd": "2",
-            "cropremovalfactor_N": "18.5185185185185",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "0",
-            "n_high_lbperac": "0",
-            "prevcropcd": "2",
-            "sortNum": "100"
-          },
-          {
-            "id": "19",
-            "cropname": "Rapeseed",
-            "croptypeid": "3",
-            "yieldcd": "2",
-            "cropremovalfactor_N": "24",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "0",
-            "n_high_lbperac": "0",
-            "prevcropcd": "2",
-            "sortNum": "100"
-          },
-          {
-            "id": "20",
-            "cropname": "Triticale",
-            "croptypeid": "3",
-            "yieldcd": "2",
-            "cropremovalfactor_N": "16.6666666666667",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "0",
-            "n_high_lbperac": "0",
-            "prevcropcd": "2",
-            "sortNum": "100"
-          },
-          {
-            "id": "21",
-            "cropname": "Winter wheat",
-            "croptypeid": "3",
-            "yieldcd": "2",
-            "cropremovalfactor_N": "22.2222222222222",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
+            "cropremovalfactor_N": "56.8",
+            "cropremovalfactor_P2O5": "17.2",
+            "cropremovalfactor_K2O": "74.8",
+            "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
             "prevcropcd": "2",
@@ -2360,7 +2282,7 @@
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
             "prevcropcd": "3",
-            "sortNum": "100"
+            "sortNum": "10"
           }
         ]
       },
@@ -2673,7 +2595,7 @@
             "phosphorous": "20",
             "potassium": "0",
             "sortNum": "100"
-          }          
+          }
         ]
       },
       "n_recommcds": {
@@ -2718,7 +2640,7 @@
           {
             "cropid": "1",
             "locationid": "2",
-            "amt": "5.6"
+            "amt": "2.5"
           },
           {
             "cropid": "2",
@@ -2728,7 +2650,7 @@
           {
             "cropid": "2",
             "locationid": "2",
-            "amt": "9"
+            "amt": "4"
           },
           {
             "cropid": "3",
@@ -2793,7 +2715,7 @@
           {
             "cropid": "9",
             "locationid": "1",
-            "amt": "null"
+            "amt": "7"
           },
           {
             "cropid": "9",
@@ -2808,7 +2730,7 @@
           {
             "cropid": "10",
             "locationid": "2",
-            "amt": "2"
+            "amt": "1.7"
           },
           {
             "cropid": "11",
@@ -2817,108 +2739,58 @@
           },
           {
             "cropid": "11",
-            "locationid": "2",
-            "amt": "3.2"
-          },
-          {
-            "cropid": "12",
-            "locationid": "1",
-            "amt": "1"
-          },
-          {
-            "cropid": "12",
-            "locationid": "2",
-            "amt": "2.5"
-          },
-          {
-            "cropid": "13",
-            "locationid": "1",
-            "amt": "1"
-          },
-          {
-            "cropid": "13",
-            "locationid": "2",
-            "amt": "2.1"
-          },
-          {
-            "cropid": "14",
-            "locationid": "1",
-            "amt": "1.5"
-          },
-          {
-            "cropid": "14",
-            "locationid": "2",
-            "amt": "2.6"
-          },
-          {
-            "cropid": "15",
-            "locationid": "1",
-            "amt": "1.5"
-          },
-          {
-            "cropid": "15",
-            "locationid": "2",
-            "amt": "1.6"
-          },
-          {
-            "cropid": "16",
-            "locationid": "1",
-            "amt": "1.5"
-          },
-          {
-            "cropid": "16",
-            "locationid": "2",
-            "amt": "3.3"
-          },
-          {
-            "cropid": "17",
-            "locationid": "1",
-            "amt": "1.5"
-          },
-          {
-            "cropid": "17",
             "locationid": "2",
             "amt": "2.2"
           },
           {
-            "cropid": "18",
+            "cropid": "12",
             "locationid": "1",
-            "amt": "1.5"
+            "amt": "1"
           },
           {
-            "cropid": "18",
+            "cropid": "12",
             "locationid": "2",
-            "amt": "2.7"
+            "amt": "2.2"
           },
           {
-            "cropid": "19",
+            "cropid": "13",
             "locationid": "1",
-            "amt": "1.5"
+            "amt": "1"
           },
           {
-            "cropid": "19",
+            "cropid": "13",
             "locationid": "2",
-            "amt": "2.5"
+            "amt": "1.7"
           },
           {
-            "cropid": "20",
+            "cropid": "14",
             "locationid": "1",
-            "amt": "1.5"
+            "amt": "1"
           },
           {
-            "cropid": "20",
+            "cropid": "14",
             "locationid": "2",
-            "amt": "3.6"
+            "amt": "2.2"
           },
           {
-            "cropid": "21",
+            "cropid": "15",
             "locationid": "1",
-            "amt": "1.5"
+            "amt": "1"
           },
           {
-            "cropid": "21",
+            "cropid": "15",
             "locationid": "2",
-            "amt": "2.7"
+            "amt": "2"
+          },
+          {
+            "cropid": "16",
+            "locationid": "1",
+            "amt": "1"
+          },
+          {
+            "cropid": "16",
+            "locationid": "2",
+            "amt": "2.2"
           },
           {
             "cropid": "22",
@@ -3601,81 +3473,6 @@
           },
           {
             "cropid": "16",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "17",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "17",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "17",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "18",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "18",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "18",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "19",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "19",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "19",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "20",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "20",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "20",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "21",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "21",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "6"
-          },
-          {
-            "cropid": "21",
             "soil_test_phosphorous_region_cd": "3",
             "phosphorous_crop_group_region_cd": "6"
           },
@@ -8997,7 +8794,7 @@
           {
             "id": "7",
             "name": "manureunitexplanation",
-            "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
+            "url": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/manure-application"
           }
         ]
       },
