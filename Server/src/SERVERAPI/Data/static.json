@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.558"
+        "staticDataVersion": "2017.561"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -476,7 +476,7 @@
             "potassium": "0.3",
             "dmid": "4",
             "nminerizationid": "2",
-            "sortNum": "100"
+            "sortNum": "110"
           },
           {
             "id": "15",
@@ -490,7 +490,7 @@
             "potassium": "0.25",
             "dmid": "3",
             "nminerizationid": "2",
-            "sortNum": "100"
+            "sortNum": "111"
           },
           {
             "id": "16",
@@ -504,7 +504,7 @@
             "potassium": "0.16",
             "dmid": "2",
             "nminerizationid": "2",
-            "sortNum": "100"
+            "sortNum": "112"
           },
           {
             "id": "17",
@@ -518,7 +518,7 @@
             "potassium": "0.12",
             "dmid": "2",
             "nminerizationid": "2",
-            "sortNum": "100"
+            "sortNum": "113"
           },
           {
             "id": "18",
@@ -532,7 +532,7 @@
             "potassium": "0.03",
             "dmid": "4",
             "nminerizationid": "4",
-            "sortNum": "200",
+            "sortNum": "300",
             "cubic_yard_conversion": "0.7"
           },
           {
@@ -547,7 +547,7 @@
             "potassium": "1.03",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100",
+            "sortNum": "200",
             "cubic_yard_conversion": "0.7"
           },
           {
@@ -562,7 +562,7 @@
             "potassium": "0.15",
             "dmid": "4",
             "nminerizationid": "2",
-            "sortNum": "100",
+            "sortNum": "200",
             "cubic_yard_conversion": "0.7"
           },
           {
@@ -577,7 +577,7 @@
             "potassium": "0.5",
             "dmid": "2",
             "nminerizationid": "7",
-            "sortNum": "100",
+            "sortNum": "200",
             "cubic_yard_conversion": "0.7"
           },
           {
@@ -592,7 +592,7 @@
             "potassium": "0.25",
             "dmid": "4",
             "nminerizationid": "9",
-            "sortNum": "100",
+            "sortNum": "200",
             "cubic_yard_conversion": "0.7"
           },
           {
@@ -607,7 +607,7 @@
             "potassium": "0.79",
             "dmid": "4",
             "nminerizationid": "6",
-            "sortNum": "100",
+            "sortNum": "200",
             "cubic_yard_conversion": "0.5"
           },
           {
@@ -622,7 +622,7 @@
             "potassium": "0.76",
             "dmid": "4",
             "nminerizationid": "11",
-            "sortNum": "100",
+            "sortNum": "200",
             "cubic_yard_conversion": "0.7"
           },
           {
@@ -637,7 +637,7 @@
             "potassium": "0.59",
             "dmid": "5",
             "nminerizationid": "5",
-            "sortNum": "100",
+            "sortNum": "200",
             "cubic_yard_conversion": "0.33"
           },
           {
@@ -652,7 +652,7 @@
             "potassium": "1.31",
             "dmid": "5",
             "nminerizationid": "5",
-            "sortNum": "100",
+            "sortNum": "200",
             "cubic_yard_conversion": "0.33"
           },
           {
@@ -2594,6 +2594,15 @@
             "dry_liquid": "dry",
             "nitrogen": "16",
             "phosphorous": "20",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "29",
+            "name": "Calcium nitrate (15.5-0-0-18Ca)",
+            "dry_liquid": "dry",
+            "nitrogen": "15.5",
+            "phosphorous": "0",
             "potassium": "0",
             "sortNum": "100"
           }
@@ -5256,7 +5265,7 @@
           {
             "seasonapplicatonid": "4",
             "dm": "4",
-            "value": "0.2"
+            "value": "0.28"
           },
           {
             "seasonapplicatonid": "4",
@@ -5269,66 +5278,6 @@
             "value": "1"
           },
           {
-            "seasonapplicatonid": "5",
-            "dm": "1",
-            "value": "0.95"
-          },
-          {
-            "seasonapplicatonid": "5",
-            "dm": "2",
-            "value": "0.55"
-          },
-          {
-            "seasonapplicatonid": "5",
-            "dm": "3",
-            "value": "0.4"
-          },
-          {
-            "seasonapplicatonid": "5",
-            "dm": "4",
-            "value": "0.2"
-          },
-          {
-            "seasonapplicatonid": "5",
-            "dm": "5",
-            "value": "0.4"
-          },
-          {
-            "seasonapplicatonid": "5",
-            "dm": "6",
-            "value": "1"
-          },
-          {
-            "seasonapplicatonid": "6",
-            "dm": "1",
-            "value": "0.95"
-          },
-          {
-            "seasonapplicatonid": "6",
-            "dm": "2",
-            "value": "0.55"
-          },
-          {
-            "seasonapplicatonid": "6",
-            "dm": "3",
-            "value": "0.4"
-          },
-          {
-            "seasonapplicatonid": "6",
-            "dm": "4",
-            "value": "0.2"
-          },
-          {
-            "seasonapplicatonid": "6",
-            "dm": "5",
-            "value": "0.4"
-          },
-          {
-            "seasonapplicatonid": "6",
-            "dm": "6",
-            "value": "1"
-          },
-          {
             "seasonapplicatonid": "7",
             "dm": "1",
             "value": "0.95"
@@ -5346,12 +5295,12 @@
           {
             "seasonapplicatonid": "7",
             "dm": "4",
-            "value": "0.2"
+            "value": "0.28"
           },
           {
             "seasonapplicatonid": "7",
             "dm": "5",
-            "value": "0.34"
+            "value": "0.40"
           },
           {
             "seasonapplicatonid": "7",
@@ -5391,7 +5340,7 @@
           {
             "seasonapplicatonid": "9",
             "dm": "1",
-            "value": "0.85"
+            "value": "0.95"
           },
           {
             "seasonapplicatonid": "9",
@@ -5421,7 +5370,7 @@
           {
             "seasonapplicatonid": "10",
             "dm": "1",
-            "value": "0.75"
+            "value": "0.95"
           },
           {
             "seasonapplicatonid": "10",
@@ -5431,7 +5380,7 @@
           {
             "seasonapplicatonid": "10",
             "dm": "3",
-            "value": "0.6"
+            "value": "0.65"
           },
           {
             "seasonapplicatonid": "10",
@@ -5451,17 +5400,17 @@
           {
             "seasonapplicatonid": "11",
             "dm": "1",
-            "value": "0.34"
+            "value": "0.95"
           },
           {
             "seasonapplicatonid": "11",
             "dm": "2",
-            "value": "0.34"
+            "value": "0.38"
           },
           {
             "seasonapplicatonid": "11",
             "dm": "3",
-            "value": "0.34"
+            "value": "0.30"
           },
           {
             "seasonapplicatonid": "11",
@@ -5481,22 +5430,22 @@
           {
             "seasonapplicatonid": "12",
             "dm": "1",
-            "value": "0.7"
+            "value": "0.95"
           },
           {
             "seasonapplicatonid": "12",
             "dm": "2",
-            "value": "0.7"
+            "value": "0.95"
           },
           {
             "seasonapplicatonid": "12",
             "dm": "3",
-            "value": "0.7"
+            "value": "0.95"
           },
           {
             "seasonapplicatonid": "12",
             "dm": "4",
-            "value": "0.7"
+            "value": "0.95"
           },
           {
             "seasonapplicatonid": "12",
@@ -5511,62 +5460,182 @@
           {
             "seasonapplicatonid": "13",
             "dm": "1",
-            "value": "0.5"
+            "value": "0.95"
           },
           {
             "seasonapplicatonid": "13",
             "dm": "2",
-            "value": "0.5"
+            "value": "0.65"
           },
           {
             "seasonapplicatonid": "13",
             "dm": "3",
-            "value": "0.5"
+            "value": "0.56"
           },
           {
             "seasonapplicatonid": "13",
             "dm": "4",
-            "value": "0.5"
+            "value": "0.49"
           },
           {
             "seasonapplicatonid": "13",
             "dm": "5",
-            "value": "0.5"
+            "value": "null"
           },
           {
             "seasonapplicatonid": "13",
             "dm": "6",
-            "value": "1"
+            "value": "null"
           },
           {
             "seasonapplicatonid": "14",
             "dm": "1",
-            "value": "0.67"
+            "value": "0.95"
           },
           {
             "seasonapplicatonid": "14",
             "dm": "2",
-            "value": "0.67"
+            "value": "0.60"
           },
           {
             "seasonapplicatonid": "14",
             "dm": "3",
-            "value": "0.67"
+            "value": "0.50"
           },
           {
             "seasonapplicatonid": "14",
             "dm": "4",
-            "value": "0.67"
+            "value": "0.40"
           },
           {
             "seasonapplicatonid": "14",
             "dm": "5",
-            "value": "0.67"
+            "value": "null"
           },
           {
             "seasonapplicatonid": "14",
             "dm": "6",
-            "value": "1"
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "15",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "15",
+            "dm": "2",
+            "value": "0.55"
+          },
+          {
+            "seasonapplicatonid": "15",
+            "dm": "3",
+            "value": "0.40"
+          },
+                    {
+            "seasonapplicatonid": "15",
+            "dm": "4",
+            "value": "0.28"
+          },
+                    {
+            "seasonapplicatonid": "15",
+            "dm": "5",
+            "value": "0.4"
+          },
+          {
+            "seasonapplicatonid": "15",
+            "dm": "6",
+            "value": "1.0"
+          },
+          {
+            "seasonapplicatonid": "16",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "16",
+            "dm": "2",
+            "value": "0.55"
+          },
+          {
+            "seasonapplicatonid": "16",
+            "dm": "3",
+            "value": "0.40"
+          },
+                    {
+            "seasonapplicatonid": "16",
+            "dm": "4",
+            "value": "0.28"
+          },
+                    {
+            "seasonapplicatonid": "16",
+            "dm": "5",
+            "value": "0.4"
+          },
+          {
+            "seasonapplicatonid": "16",
+            "dm": "6",
+            "value": "1.0"
+          },
+          {
+            "seasonapplicatonid": "17",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "17",
+            "dm": "2",
+            "value": "0.85"
+          },
+          {
+            "seasonapplicatonid": "17",
+            "dm": "3",
+            "value": "0.70"
+          },
+                    {
+            "seasonapplicatonid": "17",
+            "dm": "4",
+            "value": "0.70"
+          },
+                    {
+            "seasonapplicatonid": "17",
+            "dm": "5",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "17",
+            "dm": "6",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "18",
+            "dm": "1",
+            "value": "0.95"
+          },
+          {
+            "seasonapplicatonid": "18",
+            "dm": "2",
+            "value": "0.75"
+          },
+          {
+            "seasonapplicatonid": "18",
+            "dm": "3",
+            "value": "0.65"
+          },
+                    {
+            "seasonapplicatonid": "18",
+            "dm": "4",
+            "value": "0.60"
+          },
+                    {
+            "seasonapplicatonid": "18",
+            "dm": "5",
+            "value": "null"
+          },
+          {
+            "seasonapplicatonid": "18",
+            "dm": "6",
+            "value": "null"
           }
         ]
       },
@@ -8860,11 +8929,6 @@
             "id": "11",
             "name": "soiltestwarning",
             "text": "Do you have soil tests from within the past 3 years?<br />Yes - Select the lab used (soil test methods)<br />No - Click Next"
-          },
-          {
-            "id": "12",
-            "name": "compostmessage",
-            "text": "Enter your Manure/Compost"
           }
         ]
       },
