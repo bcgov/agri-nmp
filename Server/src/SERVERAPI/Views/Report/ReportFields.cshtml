@@ -60,10 +60,10 @@
                             <td class="CellHdg" colspan="3" style="font-weight:normal">
                                 <table style="border-collapse: collapse; width: 100%">
                                     <tr>
-                                        <td class="CellHdg" style="width:30%;">
+                                        <td class="CellHdg" style="width:30%; border:none">
                                             <b>Soil Test Results: </b> @f.soiltest.sampleDate
                                         </td>
-                                        <td class="CellHdg" style="width:70%;">
+                                        <td class="CellHdg" style="width:70%; border:none">
                                             <b>Soil test P &amp; K Method: </b> @Model.methodName
                                         </td>
                                     </tr>
@@ -294,7 +294,7 @@
                                 if (!string.IsNullOrEmpty(a.Message))
                                 { 
                                     <tr>
-                                        <td class="CellDtlNBd">
+                                        <td class="CellDtlNBd" style="padding:0px">
                                             <img src="@Html.Raw(a.Icon)" height="10" width="10" />
                                             @a.Message
                                         </td>
@@ -322,7 +322,7 @@
                             @foreach (var fn in f.footnotes)
                             {
                                 <tr>
-                                    <td class="CellDtlNBd">
+                                    <td class="CellDtlNBd" style="padding:0px">
                                         @fn.id.ToString() &nbsp;&nbsp; @fn.message
                                     </td>
                                 </tr>
