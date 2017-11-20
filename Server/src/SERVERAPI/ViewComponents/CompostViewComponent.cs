@@ -32,6 +32,7 @@ namespace SERVERAPI.ViewComponents
         {
             CompostViewModel fvm = new CompostViewModel();
             fvm.composts = new List<FarmManure>();
+            fvm.compostMsg = _sd.GetUserPrompt("compostmessage");
 
             List<FarmManure> compostList = _ud.GetFarmManures();
 
@@ -47,5 +48,6 @@ namespace SERVERAPI.ViewComponents
     public class CompostViewModel
     {
         public List<FarmManure> composts { get; set; }
+        public string compostMsg { get; set; }
     }
 }

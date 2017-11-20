@@ -8860,6 +8860,11 @@
             "id": "11",
             "name": "soiltestwarning",
             "text": "Do you have soil tests from within the past 3 years?<br />Yes - Select the lab used (soil test methods)<br />No - Click Next"
+          },
+          {
+            "id": "12",
+            "name": "compostmessage",
+            "text": "Enter your Manure/Compost"
           }
         ]
       },
