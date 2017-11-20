@@ -104,6 +104,12 @@ namespace SERVERAPI.ViewModels
         public bool compost { get; set; }
         public string buttonPressed { get; set; }
         public string url { get; set; }
+        public string moistureBook { get; set; }
+        public string nitrogenBook { get; set; }
+        public string ammoniaBook { get; set; }
+        public string nitrateBook { get; set; }
+        public string phosphorousBook { get; set; }
+        public string potassiumBook { get; set; }
     }
     public class FileLoadViewModel
     {

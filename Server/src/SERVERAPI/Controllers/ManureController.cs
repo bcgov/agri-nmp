@@ -181,6 +181,13 @@ namespace SERVERAPI.Controllers
                             cvm.phosphorous = string.Empty;
                             cvm.potassium = string.Empty;
                             cvm.manureName = (!cvm.compost) ? "Custom - " + man.name + " - " : "Custom - " + man.solid_liquid + " - ";
+
+                            cvm.moistureBook = man.moisture.ToString();
+                            cvm.nitrogenBook = man.nitrogen.ToString();
+                            cvm.ammoniaBook = man.ammonia.ToString();
+                            cvm.nitrateBook = string.Empty;
+                            cvm.phosphorousBook = man.phosphorous.ToString();
+                            cvm.potassiumBook = man.potassium.ToString();
                         }
                     }
                     else

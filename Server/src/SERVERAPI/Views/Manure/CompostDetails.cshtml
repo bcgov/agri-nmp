@@ -51,7 +51,7 @@
                                 </label>
                             }
                             &nbsp;
-                            <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About units" style="font-size:20px; padding-top:5px"></span></a>
+                            <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About manure analysis reports" style="font-size:20px; padding-top:5px"></span></a>
                         </div>
                         <span asp-validation-for="bookValue"></span>
                     </div>
@@ -117,35 +117,35 @@
                         <div class="form-group col-sm-2">
                             <label>Moisture&nbsp;(%)</label>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="moisture" id="avail" type="text" />
+                                <input class="form-control" asp-for="moisture" id="avail" type="text" placeholder="@Model.moistureBook" />
                             </div>
                             <span asp-validation-for="moisture" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-2">
                             <label>N&nbsp;(%)</label>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="nitrogen" id="avail" type="text" />
+                                <input class="form-control" asp-for="nitrogen" id="avail" type="text" placeholder="@Model.nitrogenBook" />
                             </div>
                             <span asp-validation-for="nitrogen" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-2">
                             <label>NH<sub>4</sub>-N&nbsp;(ppm)</label>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="ammonia" id="avail" type="text" />
+                                <input class="form-control" asp-for="ammonia" id="avail" type="text" placeholder="@Model.ammoniaBook" />
                             </div>
                             <span asp-validation-for="ammonia" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-2">
                             <label>P&nbsp;(%)</label>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="phosphorous" id="avail" type="text" />
+                                <input class="form-control" asp-for="phosphorous" id="avail" type="text" placeholder="@Model.phosphorousBook" />
                             </div>
                             <span asp-validation-for="phosphorous" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-2">
                             <label>K&nbsp;(%)</label>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="potassium" id="avail" type="text" />
+                                <input class="form-control" asp-for="potassium" id="avail" type="text" placeholder="@Model.potassiumBook" />
                             </div>
                             <span asp-validation-for="potassium" class="text-danger"></span>
                         </div>
@@ -154,7 +154,7 @@
                             <div class="form-group col-sm-2">
                                 <label>NO<sub>3</sub>-N&nbsp;(ppm)</label>
                                 <div class="input-group col-sm-6">
-                                    <input class="form-control" asp-for="nitrate" id="avail" type="text" />
+                                    <input class="form-control" asp-for="nitrate" id="avail" type="text" placeholder="@Model.nitrateBook" />
                                 </div>
                                 <span asp-validation-for="nitrate" class="text-danger"></span>
                             </div>
