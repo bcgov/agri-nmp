@@ -850,6 +850,7 @@ namespace SERVERAPI.Controllers
             cvm.btnText = id == null ? "Calculate" : "Return";
             cvm.id = id;
             cvm.stdCrude = true;
+            cvm.stdYield = true;
             cvm.nCredit = "0";
             cvm.nCreditLabel = _sd.GetUserPrompt("ncreditlabel");
 
@@ -865,13 +866,23 @@ namespace SERVERAPI.Controllers
                 cvm.remN = cp.remN.ToString();
                 cvm.remP2o5 = cp.remP2o5.ToString();
                 cvm.remK2o = cp.remK2o.ToString();
-                cvm.yield = cp.yield.ToString();
+                cvm.yield = cp.yield.ToString("#.#");
                 cvm.crude = cp.crudeProtien.ToString();
                 cvm.selCropOption = cp.cropId;
                 cvm.selPrevOption = cp.prevCropId.ToString();
                 cvm.coverCropHarvested = cp.coverCropHarvested;
                 cvm.nCredit = cvm.selPrevOption != "0" ? _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).nCreditImperial.ToString() : "0";
 
+                CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
+                decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                cvm.stdYield = true;
+                if (defaultYield.HasValue)
+                {
+                    if(cvm.yield != defaultYield.Value.ToString("#.#"))
+                    {
+                        cvm.stdYield = false;
+                    }                   
+                }
 
                 if (!string.IsNullOrEmpty(cp.cropOther))
                 {
@@ -955,6 +966,8 @@ namespace SERVERAPI.Controllers
                     cvm.cropDesc = "";
                     cvm.coverCropHarvested = null;
                     cvm.nCredit = "0";
+                    cvm.stdYield = true;
+                    cvm.yield = "";
                     cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
 
                     if (cvm.selTypOption != "select")
@@ -1028,12 +1041,30 @@ namespace SERVERAPI.Controllers
                     return View(cvm);
                 }
 
+                if (cvm.buttonPressed == "ResetYield")
+                {
+                    ModelState.Clear();
+                    cvm.buttonPressed = "";
+                    cvm.btnText = "Calculate";
+
+                    CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
+                    decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                    if (defaultYield.HasValue)
+                        cvm.yield = defaultYield.Value.ToString("#.#");
+
+                    cvm.reqN = cvm.stdNAmt;
+
+                    cvm.stdYield = true;
+                    return View(cvm);
+                }
+
                 if (cvm.buttonPressed == "CropChange")
                 {
                     ModelState.Clear();
                     cvm.buttonPressed = "";
                     cvm.btnText = "Calculate";
                     cvm.nCredit = "0";
+                    cvm.stdYield = true;
 
                     PreviousCropSetup(ref cvm);
                     CropDetailsReset(ref cvm);
@@ -1320,6 +1351,18 @@ namespace SERVERAPI.Controllers
                                     cvm.stdN = true;
                                 }
                             }
+
+                            CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
+                            decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                            cvm.stdYield = true;
+                            if (defaultYield.HasValue)
+                            {
+                                if (cvm.yield != defaultYield.Value.ToString("#.#"))
+                                {
+                                    cvm.stdYield = false;
+                                }
+                            }
+
                         }
 
                         cvm.btnText = cvm.id == null ? "Add to Field" : "Update Field";

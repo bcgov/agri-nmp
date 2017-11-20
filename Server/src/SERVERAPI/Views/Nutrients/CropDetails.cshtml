@@ -29,10 +29,16 @@
                     </div>
                     <div class="form-group col-sm-2">
                         <label>Yield</label>
-                        <div>
+                        <div class="input-group">
                             <input class="form-control" asp-for="yield" id="yield" type="text" />
-                            <label>tons/ac&nbsp;@Model.yieldUnit</label>
+                            @if (!Model.stdYield)
+                            {
+                                <span class="input-group-btn" title="Reset to standard value">
+                                    <button class="btn btn-default" type="button" id="rstYield" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                </span>
+                            }
                         </div>
+                        <label>tons/ac&nbsp;@Model.yieldUnit</label>
                         <span asp-validation-for="yield" class="text-danger"></span>
                     </div>
                     @if (Model.showCrude)

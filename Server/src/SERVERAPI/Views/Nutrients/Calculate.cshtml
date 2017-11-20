@@ -366,6 +366,13 @@
         })
     });
 
+    $(document).ready(function () {
+        $("body").on("click", "#rstYield", function () {
+            $('#buttonPressed').val("ResetYield");
+            $("#modForm").submit();
+        })
+    });
+
     $(document).on("onload", "#fieldList", function () {
         alert("current");
         current();
