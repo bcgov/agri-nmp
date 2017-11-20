@@ -91,7 +91,7 @@ namespace SERVERAPI.ViewModels
         public string moisture { get; set; }
         [Display(Name = "N (%)")]
         public string nitrogen { get; set; }
-        [Display(Name = "NH4-N (ppm)")]
+        [Display(Name = "NH<sub>4</sub>-N (ppm)")]
         public string ammonia { get; set; }
         [Display(Name = "P (%)")]
         public string phosphorous { get; set; }
