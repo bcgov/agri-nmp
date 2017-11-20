@@ -133,21 +133,19 @@
                     <table style="border-collapse: collapse; width:100%">
                         <tr>
                             <td style="width:35%;"></td>
-                            <td style="width:5%;"></td>
-                            <td colspan="3" style="text-align:center; background-color:#efefef">
+                            <td colspan="3" style="text-align:center; background-color:#efefef; width:30%">
                                 <span style="font-size:6pt"><b>Agronomic Balance (lb/ac)</b></span>
                             </td>
                             <td style="width:5%">
                                 &nbsp;
                             </td>
-                            <td colspan="3" style="text-align:center; background-color:#efefef">
+                            <td colspan="3" style="text-align:center; background-color:#efefef; width:30%">
                                 <span style="font-size:6pt"><b>Crop Removal Balance (lb/ac)</b></span>
                             </td>
                         </tr>
                         <tr style="font-size:6pt;">
                             <td style=" border-bottom: 1px solid black; width:35%;">
                             </td>
-                            <td></td>
                             <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
                                 <b>N</b>
                             </td>
@@ -174,7 +172,6 @@
                         {
                             <tr>
                                 <td class="CellDtlNBd">@c.cropname <sup>@c.footnote</sup></td>
-                                <td></td>
                                 <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqN</td>
                                 <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqP</td>
                                 <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqK</td>
@@ -188,7 +185,6 @@
                         {
                             <tr>
                                 <td class="CellDtlNBd">@n.nutrientName <sup>@n.footnote</sup></td>
-                                <td></td>
                                 <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqN</td>
                                 <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqP</td>
                                 <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqK</td>
@@ -202,7 +198,6 @@
                         {
                             <tr>
                                 <td class="CellDtlNBd">@n.otherName</td>
-                                <td></td>
                                 <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqN</td>
                                 <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqP</td>
                                 <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqK</td>
@@ -214,7 +209,6 @@
                         }
                         <tr style="font-size:7pt">
                             <td style="border-bottom: 1px solid black;">&nbsp;</td>
-                            <td></td>
                             <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
                             <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
                             <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
@@ -225,7 +219,6 @@
                         </tr>
                         <tr>
                             <td class="CellDtlNBd" style="border-top: 1px solid black;"><b>Balance</b></td>
-                            <td></td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriN))
                                 {
