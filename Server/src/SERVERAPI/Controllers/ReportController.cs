@@ -78,6 +78,7 @@ namespace SERVERAPI.Controllers
             Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
             Utility.SoilTestConversions stc = new SoilTestConversions(_ud, _sd);
+            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
 
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
             rvm.fields = new List<ReportFieldsField>();
@@ -123,12 +124,43 @@ namespace SERVERAPI.Controllers
 
                         if (_sd.GetCropType(_sd.GetCrop(Convert.ToInt32(c.cropId)).croptypeid).crudeproteinrequired)
                         {
-                            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
                             if (c.crudeProtien != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt32(c.cropId)))
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
                                 rff.id = rf.footnotes.Count() + 1;
                                 rff.message = "Crude protein adjusted to " + c.crudeProtien.Value.ToString("#.#");
+                                fc.footnote = rff.id.ToString();
+                                rf.footnotes.Add(rff);
+                            }
+                        }
+
+                        if (_sd.GetCropType(_sd.GetCrop(Convert.ToInt32(c.cropId)).croptypeid).modifynitrogen)
+                        {
+                            // check for standard
+                            CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
+
+                            calculateCropRequirementRemoval.cropid = Convert.ToInt16(c.cropId);
+                            calculateCropRequirementRemoval.yield = Convert.ToDecimal(c.yield);
+                            if (c.crudeProtien == (decimal?)null)
+                                calculateCropRequirementRemoval.crudeProtien = null;
+                            else
+                                calculateCropRequirementRemoval.crudeProtien = Convert.ToDecimal(c.crudeProtien);
+                            calculateCropRequirementRemoval.coverCropHarvested = c.coverCropHarvested;
+                            calculateCropRequirementRemoval.fieldName = f.fieldName;
+                            string nCredit = c.prevCropId != 0 ? _sd.GetPrevCropType(Convert.ToInt32(c.prevCropId)).nCreditImperial.ToString() : "0";
+
+                            if (!string.IsNullOrEmpty(nCredit))
+                                calculateCropRequirementRemoval.nCredit = Convert.ToInt16(nCredit);
+
+                            cropRequirementRemoval = calculateCropRequirementRemoval.GetCropRequirementRemoval();
+
+                            string stdNAmt = cropRequirementRemoval.N_Requirement.ToString();
+
+                            if(c.reqN.ToString() != cropRequirementRemoval.N_Requirement.ToString())
+                            {
+                                ReportFieldFootnote rff = new ReportFieldFootnote();
+                                rff.id = rf.footnotes.Count() + 1;
+                                rff.message = "Crop required nitrogen adjusted to " + c.reqN.ToString();
                                 fc.footnote = rff.id.ToString();
                                 rf.footnotes.Add(rff);
                             }
