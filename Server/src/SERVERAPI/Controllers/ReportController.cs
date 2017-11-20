@@ -124,7 +124,7 @@ namespace SERVERAPI.Controllers
 
                         if (_sd.GetCropType(_sd.GetCrop(Convert.ToInt32(c.cropId)).croptypeid).crudeproteinrequired)
                         {
-                            if (c.crudeProtien != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt32(c.cropId)))
+                            if (c.crudeProtien.Value.ToString("#.#") != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt32(c.cropId)).ToString("#.#"))
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
                                 rff.id = rf.footnotes.Count() + 1;
