@@ -517,7 +517,6 @@ namespace SERVERAPI.Controllers
                             rf.nutrients.Add(rfn);
                         }
                     }
-
                 }
                 if (rf.nutrients.Count() == 0)
                 {

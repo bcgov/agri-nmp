@@ -57,7 +57,7 @@
                     <br />
                     <table style="border-collapse: collapse; width: 100%">
                         <tr>
-                            <td class="CellHdg" colspan="3" style="font-weight:normal">
+                            <td class="CellHdg" colspan="4" style="font-weight:normal">
                                 <table style="border-collapse: collapse; width: 100%">
                                     <tr>
                                         <td class="CellHdg" style="width:30%; border:none">
@@ -72,25 +72,23 @@
                         </tr>
                         @if (!string.IsNullOrEmpty(@f.soiltest.sampleDate))
                         {
-                            <tr style="width:33%">
+                            <tr style="width:30%">
                                 <td class="CellDtl">
                                     Nitrate-N: @f.soiltest.dispNO3H
                                 </td>
-                                <td class="CellDtl" style="width:33%">
-                                    Potassium: @f.soiltest.dispK
-                                </td>
-                                <td class="CellDtl" style="width:34%">
+                                <td class="CellDtl" style="width:30%">
                                     Phosphorus: @f.soiltest.dispP
                                 </td>
-                            </tr>
-                            <tr>
-                                <td class="CellDtl" colspan="3">
+                                <td class="CellDtl" style="width:30%">
+                                    Potassium: @f.soiltest.dispK
+                                </td>
+                                <td class="CellDtl" style="width:10%">
                                     pH: @f.soiltest.dispPH
                                 </td>
                             </tr>
                         }
                         <tr>
-                            <td class="CellDtl" style="vertical-align:top" colspan="3">
+                            <td class="CellDtl" style="vertical-align:top" colspan="4">
                                 <b>Field Comments:</b><br />
                                 @f.fieldComment
                             </td>

@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group col-sm-6">
                         <label>&nbsp;</label>
-                        <div class="radio">
+                        <div class="radio" style="margin-top:0px">
                             @if (Model.onlyCustom)
                             {
                                 <label style="padding-right:20px">
@@ -50,6 +50,8 @@
                                     <input asp-for="bookValue" type="radio" value="false" id="lab" disabled="disabled" /> Lab Analysis
                                 </label>
                             }
+                            &nbsp;
+                            <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About units" style="font-size:20px; padding-top:5px"></span></a>
                         </div>
                         <span asp-validation-for="bookValue"></span>
                     </div>
@@ -170,5 +172,6 @@
         @Html.HiddenFor(x => x.compost)
         @Html.HiddenFor(x => x.target)
         @Html.HiddenFor(x => x.manureName)
+        @Html.HiddenFor(x => x.url)
     </form>
 </div>

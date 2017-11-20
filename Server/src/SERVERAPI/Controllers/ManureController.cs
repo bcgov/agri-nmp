@@ -38,6 +38,8 @@ namespace SERVERAPI.Controllers
             CompostDetailViewModel mvm = new CompostDetailViewModel();
 
             mvm.act = id == null ? "Add" : "Edit";
+            mvm.url = _sd.GetExternalLink("labanalysisexplanation");
+
 
             if (id != null)
             {

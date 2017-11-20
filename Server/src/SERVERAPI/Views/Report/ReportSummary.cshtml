@@ -24,26 +24,26 @@
         <br />
         <table style="border-collapse: collapse; width: 100%">
             <tr>
-                <td class="CellHdg" style="width:200px">
+                <td class="CellHdg" style="width:20%">
                     Field
                 </td>
-                <td class="CellHdg" style="width: 100px">
+                <td class="CellHdg" style="width: 10%">
                     Sampling Date
                 </td>
-                <td class="CellHdg" style="width:250px">
+                <td class="CellHdg" style="width:30%">
                     @Model.year Crops
                 </td>
-                <td class="CellHdg" style="width: 80px; text-align:center">
+                <td class="CellHdg" style="width: 10%; text-align:center">
                     pH
                 </td>
-                <td class="CellHdg" style="width: 100px; text-align:center">
+                <td class="CellHdg" style="width: 10%; text-align:center">
                     NO<sub>3</sub>-N (ppm)
                 </td>
-                <td class="CellHdg" colspan="2" style="width: 120px; text-align:center">
-                    P<sub>2</sub>O<sub>5</sub> (ppm)
+                <td class="CellHdg" colspan="2" style="width: 10%" text-align:center">
+                    Soil Test P (ppm)
                 </td>
-                <td class="CellHdg" colspan="2" style="width: 120px; text-align:center">
-                    K<sub>2</sub>O (ppm)
+                <td class="CellHdg" colspan="2" style="width: 10%; text-align:center">
+                    Soil Test K (ppm)
                 </td>
             </tr>
             @foreach (var test in Model.tests)
@@ -64,16 +64,16 @@
                     <td class="CellDtl" style="text-align:center; vertical-align:top">
                         @test.nitrogen
                     </td>
-                    <td class="CellDtl" style="text-align:center; vertical-align:top">
+                    <td class="CellDtl" style="text-align:right; vertical-align:top; border-right:none">
                         @test.phosphorous
                     </td>
-                    <td class="CellDtl" style="text-align:center; vertical-align:top">
+                    <td class="CellDtl" style="text-align:left; vertical-align:top; border-left:none">
                         @test.phosphorousRange
                     </td>
-                    <td class="CellDtl" style="text-align:center; vertical-align:top">
+                    <td class="CellDtl" style="text-align:right; vertical-align:top; border-right:none">
                         @test.potassium
                     </td>
-                    <td class="CellDtl" style="text-align:center; vertical-align:top">
+                    <td class="CellDtl" style="text-align:left; vertical-align:top; border-left:none">
                         @test.potassiumRange
                     </td>
                 </tr>

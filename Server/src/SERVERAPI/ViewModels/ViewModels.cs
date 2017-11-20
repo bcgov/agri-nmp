@@ -103,6 +103,7 @@ namespace SERVERAPI.ViewModels
         public bool onlyCustom { get; set; }
         public bool compost { get; set; }
         public string buttonPressed { get; set; }
+        public string url { get; set; }
     }
     public class FileLoadViewModel
     {
