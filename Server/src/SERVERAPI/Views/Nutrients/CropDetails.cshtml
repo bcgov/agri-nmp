@@ -24,7 +24,6 @@
                     <div class="form-group col-sm-4">
                         <label asp-for="selCropOption">Crop</label>
                         <select class="form-control" asp-for="selCropOption" asp-items="@(new SelectList(Model.cropOptions,"Id","Value"))" id="ddlCrop">
-                            <option>select</option>
                         </select>
                         <span asp-validation-for="selCropOption" class="text-danger"></span>
                     </div>

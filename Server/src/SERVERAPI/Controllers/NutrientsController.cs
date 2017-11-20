@@ -1039,6 +1039,7 @@ namespace SERVERAPI.Controllers
                     CropDetailsReset(ref cvm);
 
                     if (cvm.selCropOption != "" &&
+                        cvm.selCropOption != "0" &&
                         cvm.selCropOption != "select")
                     {
                         Crop cp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
@@ -1132,7 +1133,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (int.TryParse(cvm.reqN, out tmp))
                             {
-                                if (tmp <= 0)
+                                if (tmp < 0)
                                 {
                                     ModelState.AddModelError("reqN", "Invalid.");
                                     return View(cvm);
@@ -1153,7 +1154,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (int.TryParse(cvm.reqP2o5, out tmp))
                             {
-                                if (tmp <= 0)
+                                if (tmp < 0)
                                 {
                                     ModelState.AddModelError("reqP2o5", "Invalid.");
                                     return View(cvm);
@@ -1174,7 +1175,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (int.TryParse(cvm.reqK2o, out tmp))
                             {
-                                if (tmp <= 0)
+                                if (tmp < 0)
                                 {
                                     ModelState.AddModelError("reqK2o", "Invalid.");
                                     return View(cvm);
@@ -1195,7 +1196,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (int.TryParse(cvm.remN, out tmp))
                             {
-                                if (tmp <= 0)
+                                if (tmp < 0)
                                 {
                                     ModelState.AddModelError("remN", "Invalid.");
                                     return View(cvm);
@@ -1216,7 +1217,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (int.TryParse(cvm.remP2o5, out tmp))
                             {
-                                if (tmp <= 0)
+                                if (tmp < 0)
                                 {
                                     ModelState.AddModelError("remP2o5", "Invalid.");
                                     return View(cvm);
@@ -1237,7 +1238,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (int.TryParse(cvm.remK2o, out tmp))
                             {
-                                if (tmp <= 0)
+                                if (tmp < 0)
                                 {
                                     ModelState.AddModelError("remK2o", "Invalid.");
                                     return View(cvm);
@@ -1255,7 +1256,7 @@ namespace SERVERAPI.Controllers
                     {
                         if (Int32.TryParse(cvm.reqN, out tmp))
                         {
-                            if (tmp <= 0)
+                            if (tmp < 0)
                             {
                                 ModelState.AddModelError("reqN", "Not a valid amount.");
                                 return View(cvm);
@@ -1408,6 +1409,10 @@ namespace SERVERAPI.Controllers
                     cvm.showCrude = crpTyp.crudeproteinrequired;
                     cvm.coverCrop = crpTyp.covercrop;
                     cvm.manEntry = crpTyp.customcrop;
+                    if(!crpTyp.customcrop)
+                    {
+                        cvm.cropOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select" });
+                    }
                 }
             }
 
