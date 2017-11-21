@@ -98,8 +98,60 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult SoilTestDetails(SoilTestDetailsViewModel tvm)
         {
+            decimal nmbr;
+
             if(ModelState.IsValid)
             {
+                if (!Decimal.TryParse(tvm.dispNO3H, out nmbr))
+                {
+                    ModelState.AddModelError("dispNO3H", "Numbers only.");
+                }
+                else
+                {
+                    if(nmbr < 0)
+                    {
+                        ModelState.AddModelError("dispNO3H", "Invalid.");
+                    }
+                }
+                if (!Decimal.TryParse(tvm.dispP, out nmbr))
+                {
+                    ModelState.AddModelError("dispP", "Numbers only.");
+                }
+                else
+                {
+                    if (nmbr < 0)
+                    {
+                        ModelState.AddModelError("dispP", "Invalid.");
+                    }
+                }
+                if (!Decimal.TryParse(tvm.dispK, out nmbr))
+                {
+                    ModelState.AddModelError("dispK", "Numbers only.");
+                }
+                else
+                {
+                    if (nmbr < 0)
+                    {
+                        ModelState.AddModelError("dispK", "Invalid.");
+                    }
+                }
+                if (!Decimal.TryParse(tvm.dispPH, out nmbr))
+                {
+                    ModelState.AddModelError("dispPH", "Numbers only.");
+                }
+                else
+                {
+                    if (nmbr < 0 ||
+                        nmbr > 14)
+                    {
+                        ModelState.AddModelError("dispPH", "Invalid.");
+                    }
+                }
+                if(!ModelState.IsValid)
+                {
+                    return View(tvm);
+                }
+
                 Utility.SoilTestConversions soilTestConversions = new Utility.SoilTestConversions(_ud, _sd);
                 Field fld = _ud.GetFieldDetails(tvm.fieldName);
                 if(fld.soilTest == null)

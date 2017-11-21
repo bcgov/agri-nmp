@@ -100,6 +100,7 @@ namespace SERVERAPI.Controllers
             decimal userPotassium = 0;
             decimal userMoisture = 0;
             decimal userNitrate = 0;
+            Models.StaticData.Manure man;
 
             CompostDetailsSetup(ref cvm);
 
@@ -113,7 +114,7 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.selManOption != 0)
                     {
-                        Models.StaticData.Manure man = _sd.GetManure(cvm.selManOption.ToString());
+                        man = _sd.GetManure(cvm.selManOption.ToString());
                         if(man.manure_class == "Other" ||
                            man.manure_class == "Compost")
                         {
@@ -160,7 +161,7 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.selManOption != 0)
                     {
-                        Models.StaticData.Manure man = _sd.GetManure(cvm.selManOption.ToString());
+                        man = _sd.GetManure(cvm.selManOption.ToString());
                         cvm.onlyCustom = false;
                         if (cvm.bookValue)
                         {
@@ -205,7 +206,9 @@ namespace SERVERAPI.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    if(!cvm.bookValue)
+                    man = _sd.GetManure(cvm.selManOption.ToString());
+
+                    if (!cvm.bookValue)
                     {
                         if (string.IsNullOrEmpty(cvm.moisture))
                         {
@@ -215,13 +218,30 @@ namespace SERVERAPI.Controllers
                         {
                             if (!Decimal.TryParse(cvm.moisture, out userMoisture))
                             {
-                                ModelState.AddModelError("moisture", "Invalid.");
+                                ModelState.AddModelError("moisture", "Numbers only.");
                             }
                             else
                             {
                                 if (userMoisture < 0 || userMoisture > 100)
                                 {
                                     ModelState.AddModelError("moisture", "Invalid %.");
+                                }
+                                else
+                                {
+                                    if(man.solid_liquid.ToUpper() == "SOLID")
+                                    {
+                                        if(userMoisture > 80)
+                                        {
+                                            ModelState.AddModelError("moisture", "Invalid % for solid.");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if(userMoisture <= 80)
+                                        {
+                                            ModelState.AddModelError("moisture", "Invalid % for liquid.");
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -233,7 +253,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (!Decimal.TryParse(cvm.nitrogen, out userNitrogen))
                             {
-                                ModelState.AddModelError("nitrogen", "Invalid.");
+                                ModelState.AddModelError("nitrogen", "Numbers only.");
                             }
                             else
                             {
@@ -251,7 +271,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (!Decimal.TryParse(cvm.ammonia, out userAmmonia))
                             {
-                                ModelState.AddModelError("ammonia", "Invalid.");
+                                ModelState.AddModelError("ammonia", "Numbers only.");
                             }
                         }
                         if (string.IsNullOrEmpty(cvm.phosphorous))
@@ -262,7 +282,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (!Decimal.TryParse(cvm.phosphorous, out userPhosphorous))
                             {
-                                ModelState.AddModelError("phosphorous", "Invalid.");
+                                ModelState.AddModelError("phosphorous", "Numbers only.");
                             }
                             else
                             {
@@ -280,7 +300,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (!Decimal.TryParse(cvm.potassium, out userPotassium))
                             {
-                                ModelState.AddModelError("potassium", "Invalid.");
+                                ModelState.AddModelError("potassium", "Numbers only.");
                             }
                             else
                             {
@@ -300,7 +320,7 @@ namespace SERVERAPI.Controllers
                             {
                                 if (!Decimal.TryParse(cvm.nitrate, out userNitrate))
                                 {
-                                    ModelState.AddModelError("nitrate", "Invalid.");
+                                    ModelState.AddModelError("nitrate", "Numbers only.");
                                 }
                             }
                         }
@@ -336,7 +356,7 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            Models.StaticData.Manure man = _sd.GetManure(cvm.selManOption.ToString());
+                            man = _sd.GetManure(cvm.selManOption.ToString());
 
                             fm.customized = true;
                             fm.manureId = cvm.selManOption;
@@ -368,7 +388,7 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            Models.StaticData.Manure man = _sd.GetManure(cvm.selManOption.ToString());
+                            man = _sd.GetManure(cvm.selManOption.ToString());
 
                             fm.customized = true;
                             fm.manureId = cvm.selManOption;

@@ -169,6 +169,8 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult ManureDetails(ManureDetailsViewModel mvm)
         {
+            decimal nmbr;
+
             Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
@@ -265,6 +267,34 @@ namespace SERVERAPI.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    if (!Decimal.TryParse(mvm.avail, out nmbr))
+                    {
+                        ModelState.AddModelError("avail", "Numbers only.");
+                    }
+                    else
+                    {
+                        if(nmbr < 0 ||
+                           nmbr > 100)
+                        {
+                            ModelState.AddModelError("avail", "Invalid.");
+                        }
+                    }
+                    if (!Decimal.TryParse(mvm.nh4, out nmbr))
+                    {
+                        ModelState.AddModelError("nh4", "Numbers only.");
+                    }
+                    else
+                    {
+                        if (nmbr < 0 ||
+                           nmbr > 100)
+                        {
+                            ModelState.AddModelError("nh4", "Invalid.");
+                        }
+                    }
+                    if(!ModelState.IsValid)
+                    {
+                        return View(mvm);
+                    }
                     if (mvm.btnText == "Calculate")
                     {
                         ModelState.Clear();
@@ -593,6 +623,11 @@ namespace SERVERAPI.Controllers
                             ModelState.AddModelError("valN", "Invalid");
                             return View(fvm);
                         }
+                        if (nmbrN < 0 || nmbrN > 100)
+                        {
+                            ModelState.AddModelError("valN", "Invalid");
+                            return View(fvm);
+                        }
                         if (string.IsNullOrEmpty(fvm.valP2o5))
                         {
                             ModelState.AddModelError("valP2o5", "Required");
@@ -603,12 +638,22 @@ namespace SERVERAPI.Controllers
                             ModelState.AddModelError("valP2o5", "Invalid");
                             return View(fvm);
                         }
+                        if (nmbrP < 0 || nmbrP > 100)
+                        {
+                            ModelState.AddModelError("valP2o5", "Invalid");
+                            return View(fvm);
+                        }
                         if (string.IsNullOrEmpty(fvm.valK2o))
                         {
                             ModelState.AddModelError("valK2o", "Required");
                             return View(fvm);
                         }
                         if (!Decimal.TryParse(fvm.valK2o, out nmbrK))
+                        {
+                            ModelState.AddModelError("valK2o", "Invalid");
+                            return View(fvm);
+                        }
+                        if (nmbrK < 0 || nmbrK > 100)
                         {
                             ModelState.AddModelError("valK2o", "Invalid");
                             return View(fvm);
