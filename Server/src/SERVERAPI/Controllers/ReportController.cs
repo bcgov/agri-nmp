@@ -128,7 +128,7 @@ namespace SERVERAPI.Controllers
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
                                 rff.id = rf.footnotes.Count() + 1;
-                                rff.message = "Crude protein adjusted to " + c.crudeProtien.Value.ToString("#.#");
+                                rff.message = "Crude protein adjusted to " + c.crudeProtien.Value.ToString("#.#") + "%";
                                 fc.footnote = rff.id.ToString();
                                 rf.footnotes.Add(rff);
                             }
