@@ -16,7 +16,7 @@
 
 
 <!-- BODY CONTENT -->
-<div id="topicTemplate" class="template container">
+<div id="topicTemplate" style="padding-top:0px" class="template container">
     <!-- PAGE CONTENT -->
     <form asp-controller="Home" method="post">
         <div class="row">
@@ -30,28 +30,27 @@
                 <br />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <br />
-                <br />
                 <div class="Table" style="clear:both">
                     <div class="TableBody">
                         <div class="Row">
-                            <div class="Cell col-sm-3">
+                            <div class="Cell col-xs-3">
                             </div>
-                            <div class="Cell col-sm-2" style="text-align:center; vertical-align:bottom">
-                                <p>Start a new Session</p>
+                            <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
+                                <p>Start a new file</p>
                             </div>
-                            <div class="Cell col-sm-2" style="text-align:center">
+                            <div class="Cell col-xs-2" style="text-align:center">
                                 <p>or</p>
                             </div>
-                            <div class="Cell col-sm-2" style="text-align:center; vertical-align:bottom">
-                                <p>Load a previous .nmp file from your desktop</p>
+                            <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
+                                <p>Load an existing file</p>
                             </div>
-                            <div class="Cell col-sm-3">
+                            <div class="Cell col-xs-3">
                             </div>
                         </div>
                         <div class="Row">
-                            <div class="Cell col-sm-3">
+                            <div class="Cell col-xs-3">
                             </div>
-                            <div class="Cell col-sm-2" style="text-align:center; vertical-align:bottom">
+                            <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
                                 @if (Model.unsavedData)
                                 {
                                         <button class="btn btn-info" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
@@ -61,12 +60,12 @@
                                         <input class="btn btn-info" type="submit" value="New" name="new" />
                                 }
                             </div>
-                            <div class="Cell col-sm-2" style="text-align:center">
+                            <div class="Cell col-xs-2" style="text-align:center">
                             </div>
-                            <div class="Cell col-sm-2" style="text-align:center; vertical-align:bottom">
+                            <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
                                 <button class="btn btn-info" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
                             </div>
-                            <div class="Cell col-sm-3">
+                            <div class="Cell col-xs-3">
                             </div>
                         </div>  
                         <p>&nbsp;</p>
@@ -198,6 +197,8 @@
 
         $(document).ready(function () {
             $.ajaxSetup({ cache: false });
+            $("#themeTemplate, #subthemeTemplate, #topicTemplate").css("padding-top", 5);	
+
         });
 
 </script>

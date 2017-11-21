@@ -117,6 +117,7 @@ namespace SERVERAPI.ViewModels
         public string fileName { get; set; }
         public bool unsavedData { get; set; }
         public bool badFile { get; set; }
+        public string warningMsg { get; set; }
     }
     public class ManureDetailsViewModel
     {

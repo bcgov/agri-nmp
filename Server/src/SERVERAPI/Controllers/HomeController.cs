@@ -225,6 +225,7 @@ namespace SERVERAPI.Controllers
         public IActionResult FileLoad()
         {
             FileLoadViewModel lvm = new FileLoadViewModel();
+            lvm.warningMsg = _sd.GetUserPrompt("fileoverwritewarning");
             FarmData farmData = _ud.FarmData();
 
             if(farmData != null && farmData.unsaved)

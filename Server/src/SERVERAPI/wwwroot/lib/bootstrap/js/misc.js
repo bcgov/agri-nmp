@@ -420,7 +420,7 @@ $(window).on("scroll", function() {
 
 // When page is resized
 $(window).on("resize", function() {
-	adjustContentPadding();
+	//adjustContentPadding();
 	addScrollableBurgerMenu();
 });
 
