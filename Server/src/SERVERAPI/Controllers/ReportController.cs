@@ -223,12 +223,12 @@ namespace SERVERAPI.Controllers
 
                             if(m.nAvail != nOrganicMineralizations.OrganicN_FirstYear * 100)
                             {
-                                footNote = "1st Yr Organic N Availability adjusted to " + m.nAvail.ToString("###");
+                                footNote = "1st Yr Organic N Availability adjusted to " + m.nAvail.ToString("###") + "%";
                             }
                             if(m.nh4Retention != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(m.manureId), Convert.ToInt16(m.applicationId)) * 100))
                             {
                                 footNote = string.IsNullOrEmpty(footNote) ? "" : footNote + ", ";
-                                footNote = footNote + "Ammonium-N Retention adjusted to " + m.nh4Retention.ToString("###");
+                                footNote = footNote + "Ammonium-N Retention adjusted to " + m.nh4Retention.ToString("###") + "%";
                             }
                             if(!string.IsNullOrEmpty(footNote))
                             {
@@ -329,6 +329,14 @@ namespace SERVERAPI.Controllers
                             rf.remK = rf.remK + fon.remK;
                         }
                     }
+                }
+
+                if (rf.nutrients.Count() == 0)
+                {
+                    ReportFieldNutrient rfn = new ReportFieldNutrient();
+                    rfn.nutrientName = "None planned";
+                    rfn.nutrientAmount = "";
+                    rf.nutrients.Add(rfn);
                 }
                 ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
 
@@ -826,10 +834,10 @@ namespace SERVERAPI.Controllers
             options.border.bottom = ".25in";
             options.border.left = ".25in";
             options.header.height = "20mm";
-            options.header.contents = "<span style=\"font-size:14px\">Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
-                                      "Planning Year: " + _ud.FarmDetails().year + "</span>";
+            options.header.contents = "<div><span style=\"font-size:14px\">Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
+                                      "Planning Year: " + _ud.FarmDetails().year + "</span></div><div style=\"float:right; vertical-align:top\">Printed: " + DateTime.Now.ToShortDateString() + "</div>";
             options.footer.height = "15mm";
-            options.footer.contents = "<div><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span></div><div style=\"float:right\">Static Data Version " + _sd.GetStaticDataVersion() + "</div>";
+            options.footer.contents = "<div><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
 
             // call the microservice
             try
