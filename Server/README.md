@@ -1,4 +1,4 @@
-#  ASP.NET Core 1.1 API Server
+#  ASP.NET Core 2.0 API Server
 
 Starter App 
 
