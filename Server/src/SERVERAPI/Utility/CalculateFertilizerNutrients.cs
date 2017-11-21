@@ -55,12 +55,16 @@ namespace SERVERAPI.Utility
             {
                 densityUnitConversion = 1;
                 switch (ApplicationRateUnits)
-                { case 1:
+                { case 1: // application rate in lb/ac no conversion required
                         applicationRateConversion = 1;
                         break;
-                  case 2:
+                  case 2: // application rate in kg/ha, convert to lb/ac
                         ConversionFactor _cf = _sd.GetConversionFactor();
                         applicationRateConversion = _cf.kgperha_lbperac_conversion;
+                        break;
+                  case 7: // application rate in lb/100 ft squared, convert to lb/ac
+                        ConversionFactor _cf1 = _sd.GetConversionFactor();
+                        applicationRateConversion = _cf1.lbper1000ftsquared_lbperac_conversion;
                         break;
                 }
             }
