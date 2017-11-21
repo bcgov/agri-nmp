@@ -20,7 +20,8 @@
         "phosphorousAvailabilityFirstYear": "0.7",
         "phosphorousAvailabilityLongTerm": "1",
         "phosphorousPtoP2O5Kconversion": "2.29",
-        "lbPerTonConversion": "20"
+        "lbPerTonConversion": "20",
+        "lbper1000ftsquared_lbperac_conversion": "0.02295684"
       },
       "locations": {
         "location": [
@@ -1043,6 +1044,11 @@
             "name": "L/ha",
             "dry_liquid": "liquid",
             "conv_to_impgalperac": "0.0890183597"
+          },
+          {
+            "id": "7",
+            "name": "lb/1000ft²",
+            "dry_liquid": "dry"            
           }
         ]
       },
