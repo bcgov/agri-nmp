@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using SERVERAPI.Models;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,12 +19,15 @@ namespace SERVERAPI.Controllers
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public Models.Impl.StaticData _sd { get; set; }
+        private readonly IOptions<AppSettings> _appSettings;
 
-        public FieldsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
+
+        public FieldsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd, IOptions<AppSettings> appSettings)
         {
             _env = env;
             _ud = ud;
             _sd = sd;
+            _appSettings = appSettings;
         }
 
         public ActionResult Fields()
@@ -68,6 +72,11 @@ namespace SERVERAPI.Controllers
 
             if (ModelState.IsValid)
             {
+                if(fvm.fieldComment.Length > Convert.ToInt32(_appSettings.Value.CommentLength) )
+                {
+                    ModelState.AddModelError("fieldComment", "Comment length of " + fvm.fieldComment.Length.ToString() + " exceeds maximum of " + _appSettings.Value.CommentLength);
+                    return PartialView("FieldDetail", fvm);
+                }
                 try
                 {
                     area = decimal.Parse(fvm.fieldArea);

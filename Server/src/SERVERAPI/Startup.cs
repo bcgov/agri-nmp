@@ -65,6 +65,8 @@ namespace SERVERAPI
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
 
             //// allow for large files to be uploaded
             services.Configure<FormOptions>(options =>

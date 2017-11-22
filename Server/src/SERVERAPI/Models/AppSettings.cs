@@ -8,7 +8,6 @@ namespace SERVERAPI.Models
     public class AppSettings
     {
         public string OtherCropId { get; set; }
-        public string CrudeProteinTypes { get; set; }
-        public string CoverCropTypes { get; set; }
+        public string CommentLength { get; set; }
     }
 }
