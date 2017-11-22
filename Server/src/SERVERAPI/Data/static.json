@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.562"
+        "staticDataVersion": "2017.575"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -21,7 +21,7 @@
         "phosphorousAvailabilityLongTerm": "1",
         "phosphorousPtoP2O5Kconversion": "2.29",
         "lbPerTonConversion": "20",
-        "lbper1000ftsquared_lbperac_conversion": "0.02295684"
+        "lbper1000ftsquared_lbperac_conversion": "43.5600021606"
       },
       "locations": {
         "location": [
@@ -1048,7 +1048,7 @@
           {
             "id": "7",
             "name": "lb/1000ft²",
-            "dry_liquid": "dry"            
+            "dry_liquid": "dry"
           }
         ]
       },
@@ -5538,12 +5538,12 @@
             "dm": "3",
             "value": "0.40"
           },
-                    {
+          {
             "seasonapplicatonid": "15",
             "dm": "4",
             "value": "0.28"
           },
-                    {
+          {
             "seasonapplicatonid": "15",
             "dm": "5",
             "value": "0.4"
@@ -5568,12 +5568,12 @@
             "dm": "3",
             "value": "0.40"
           },
-                    {
+          {
             "seasonapplicatonid": "16",
             "dm": "4",
             "value": "0.28"
           },
-                    {
+          {
             "seasonapplicatonid": "16",
             "dm": "5",
             "value": "0.4"
@@ -5598,12 +5598,12 @@
             "dm": "3",
             "value": "0.70"
           },
-                    {
+          {
             "seasonapplicatonid": "17",
             "dm": "4",
             "value": "0.70"
           },
-                    {
+          {
             "seasonapplicatonid": "17",
             "dm": "5",
             "value": "null"
@@ -5628,12 +5628,12 @@
             "dm": "3",
             "value": "0.65"
           },
-                    {
+          {
             "seasonapplicatonid": "18",
             "dm": "4",
             "value": "0.60"
           },
-                    {
+          {
             "seasonapplicatonid": "18",
             "dm": "5",
             "value": "null"
@@ -8855,7 +8855,7 @@
           {
             "id": "4",
             "name": "aboutmessage",
-            "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
+            "url": "https://www2.qa.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-mangement-calculator-app/about.pdf"
           },
           {
             "id": "5",
@@ -8865,7 +8865,7 @@
           {
             "id": "6",
             "name": "helpmessage",
-            "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
+            "url": "https://www2.qa.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-mangement-calculator-app/help_-_nmp_calculator.pdf"
           },
           {
             "id": "7",
@@ -8875,7 +8875,7 @@
           {
             "id": "8",
             "name": "labanalysisexplanation",
-            "url": "https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/600-series/631500-3_manure_sampling_factsheet_no5_sep2010.pdf"
+            "url": "https://www2.qa.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-mangement-calculator-app/using_a_manure_analysis.pdf"
           }
         ]
       },
