@@ -50,7 +50,7 @@
                     </div>
                 }
 
-                <button class="btn btn-default" type="button" data_modal2="" data-type="@Url.Action("FieldDetail", "Fields", new { target = "#fieldList", cntl = "Nutrients", actn = "Calculate" })">Add field</button>
+                <button class="btn btn-default" type="button" data_modal2="" data-type="@Url.Action("FieldDetail", "Fields", new { target = "#fieldList", cntl = "Nutrients", actn = "Calculate", currFld = Model.currFld })">Add field</button>
             </div>
             <div class="step-forms col-sm-9">
                 @if (Model.fldsFnd)
@@ -374,7 +374,6 @@
     });
 
     $(document).on("onload", "#fieldList", function () {
-        alert("current");
         current();
     });
 
@@ -382,14 +381,12 @@
         current();
     });
 
-    $(document).on("change", "#fieldList", function () {
-        alert("changed");
-    });
-
-
     function current() {
         $("#fieldList li a").each(function () {
             if ($(this).text() == $("#currFld").val()) {
+                $(this).addClass('btn-field-selected');
+            }
+            if ($(this).text() == "*" + $("#currFld").val()) {
                 $(this).addClass('btn-field-selected');
             }
         });

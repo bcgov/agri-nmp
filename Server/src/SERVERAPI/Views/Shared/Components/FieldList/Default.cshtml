@@ -6,7 +6,7 @@
             @foreach (var f in Model.fields)
             {
                 @*<li style="display:block; float:left; clear:both; width:100%; padding-bottom:3px;"><a href="@Url.Action(Model.actn,Model.cntl, new { nme = f.fieldName })" class="btn btn-default" style="width:100%; text-align:left">@f.fieldName</a></li>*@
-                <li style="display:block; float:left; clear:both; width:100%; padding-bottom:3px;"><a href="@Url.Action(Model.actn,Model.cntl, new { nme = f.fieldName })" class="btn " style="width:100%; text-align:left; color:black;">@f.fieldName</a></li>
+                <li style="display:block; float:left; clear:both; width:100%; padding-bottom:3px;"><a href="@Url.Action(Model.actn,Model.cntl, new { nme = f.fieldName })" class="btn " style="width:100%; text-align:left; color:black;">@if (f.crops == null) { @Html.Raw("<span>*</span>"); }@f.fieldName</a></li>
             }
         </ul>
     }

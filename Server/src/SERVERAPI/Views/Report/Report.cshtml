@@ -47,6 +47,20 @@
                     <legend class="form-box-heading">PDF Reports</legend>
                 </div>
                 <div class="form-box-body">
+                    @if (!string.IsNullOrEmpty(Model.noCropsMsg))
+                    {
+                        <div class="form-box-fields">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-box">
+                                        <div class="form-box-header clearfix">
+                                            <h3>@Html.Raw(Model.noCropsMsg)</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                     <div class="form-box-fields">
                         <div class="row" style="text-align:center">
                             <div style="margin-top:10px">

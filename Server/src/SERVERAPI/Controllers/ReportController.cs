@@ -51,11 +51,36 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public IActionResult Report()
         {
+            bool cropFound = true;
+
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
             ReportViewModel rvm = new ReportViewModel();
             rvm.unsavedData = farmData.unsaved;
             rvm.url = _sd.GetExternalLink("finishpagetarget");
+
+            List<Field> fldLst = _ud.GetFields();
+
+            if (fldLst.Count() == 0)
+            {
+                cropFound = false;
+            }
+            else
+            {
+                foreach (var f in fldLst)
+                {
+                    if(f.crops == null)
+                    {
+                        cropFound = false;
+                        break;
+                    }
+                }
+            }
+
+            if(!cropFound)
+            {
+                rvm.noCropsMsg = _sd.GetUserPrompt("nocropmessage");
+            }
 
             return View(rvm);
         }

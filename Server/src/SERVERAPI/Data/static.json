@@ -8940,6 +8940,11 @@
             "id": "12",
             "name": "compostmessage",
             "text": "Nutrient content of manures/composts"
+          },
+          {
+            "id": "13",
+            "name": "nocropmessage",
+            "text": "Did you forget to add something? Return to the previous step to find fields without a crop (*)."
           }
         ]
       },

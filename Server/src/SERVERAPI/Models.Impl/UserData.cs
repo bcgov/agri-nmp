@@ -575,6 +575,10 @@ namespace SERVERAPI.Models.Impl
             FieldCrop crp = fld.crops.FirstOrDefault(m => m.id == id);
 
             fld.crops.Remove(crp);
+            if(fld.crops.Count() == 0)
+            {
+                fld.crops = null;
+            }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

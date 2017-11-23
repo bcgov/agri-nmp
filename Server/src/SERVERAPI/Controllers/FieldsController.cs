@@ -40,12 +40,13 @@ namespace SERVERAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult FieldDetail(string name, string target, string cntl, string actn)
+        public ActionResult FieldDetail(string name, string target, string cntl, string actn, string currFld)
         {
             FieldDetailViewModel fvm = new FieldDetailViewModel();
             fvm.target = target;
             fvm.actn = actn;
             fvm.cntl = cntl;
+            fvm.currFld = currFld;
             fvm.placehldr = _sd.GetUserPrompt("fieldcommentplaceholder");
 
             if (!string.IsNullOrEmpty(name))
@@ -72,10 +73,13 @@ namespace SERVERAPI.Controllers
 
             if (ModelState.IsValid)
             {
-                if(fvm.fieldComment.Length > Convert.ToInt32(_appSettings.Value.CommentLength) )
+                if (!string.IsNullOrEmpty(fvm.fieldComment))
                 {
-                    ModelState.AddModelError("fieldComment", "Comment length of " + fvm.fieldComment.Length.ToString() + " exceeds maximum of " + _appSettings.Value.CommentLength);
-                    return PartialView("FieldDetail", fvm);
+                    if (fvm.fieldComment.Length > Convert.ToInt32(_appSettings.Value.CommentLength))
+                    {
+                        ModelState.AddModelError("fieldComment", "Comment length of " + fvm.fieldComment.Length.ToString() + " exceeds maximum of " + _appSettings.Value.CommentLength);
+                        return PartialView("FieldDetail", fvm);
+                    }
                 }
                 try
                 {
@@ -130,7 +134,7 @@ namespace SERVERAPI.Controllers
                 }
                 else
                 {
-                    url = Url.Action("RefreshList", "Fields", new { cntl = fvm.cntl, actn = fvm.actn });
+                    url = Url.Action("RefreshList", "Fields", new { cntl = fvm.cntl, actn = fvm.actn, currFld = fvm.currFld });
                 }
                 return Json(new { success = true, url = url, target = fvm.target });
             }
@@ -140,10 +144,10 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("Fields");
         }
-        public IActionResult RefreshList(string actn, string cntl)
+        public IActionResult RefreshList(string actn, string cntl, string currFld)
         {
             //return ViewComponent("FieldList", new { actn = actn, cntl = cntl });
-            return RedirectToAction(actn, cntl);
+            return RedirectToAction(actn, cntl, new { nme = currFld });
         }
         [HttpGet]
         public ActionResult FieldDelete(string name, string target)

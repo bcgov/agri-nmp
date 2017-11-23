@@ -42,6 +42,8 @@ namespace SERVERAPI.ViewComponents
                 nf.fieldName = f.fieldName;
                 nf.area = f.area;
                 nf.comment = f.comment;
+                nf.crops = f.crops;
+
                 fvm.fields.Add(nf);
             }
 

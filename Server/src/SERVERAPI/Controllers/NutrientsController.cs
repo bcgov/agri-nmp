@@ -1545,7 +1545,7 @@ namespace SERVERAPI.Controllers
         }
         public IActionResult RefreshFieldList(string fieldName)
         {
-            return RedirectToAction("Calculate", "Nutrients");
+            return RedirectToAction("Calculate", "Nutrients", new { nme = fieldName });
             //return ViewComponent("FieldList");
         }
         public IActionResult RefreshSummary(string fieldName)
@@ -1808,10 +1808,13 @@ namespace SERVERAPI.Controllers
                 reload = true;
             }
 
+            string urlFields = string.Empty;
+
             switch (target)
             {
                 case "#crop":
                     refresher = "RefreshCropList";
+                    reload = true;
                     break;
                 case "#manure":
                     refresher = "RefreshManureList";

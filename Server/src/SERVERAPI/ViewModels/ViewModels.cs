@@ -66,6 +66,7 @@ namespace SERVERAPI.ViewModels
         public string target { get; set; }
         public string cntl { get; set; }
         public string actn { get; set; }
+        public string currFld { get; set; }
         public int fieldId { get; set; }
         public string placehldr { get; set; }
     }
@@ -336,6 +337,7 @@ namespace SERVERAPI.ViewModels
         public bool recordKeepingSheets { get; set; }
         public bool unsavedData { get; set; }
         public string url { get; set; }
+        public string noCropsMsg { get; set; }
     }
     public class ReportSourcesViewModel
     {
