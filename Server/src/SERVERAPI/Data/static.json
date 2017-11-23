@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.575"
+        "staticDataVersion": "2017.585"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -12,7 +12,7 @@
         "defaultSoilTestKelownaP": "250",
         "defaultSoilTestKelownaK": "500",
         "defaultSoilTestMethodId": "1",
-        "defaultSoilTestMessage": "Without a soil test, it will be assumed that soil P and K fertility are very high and that pH is 6.0.",
+        "defaultSoilTestMessage": "For fields without a soil test, very high soil P and K fertility will be assumed, with a soil pH of 6.0.",
         "kgperha_lbperac_conversion": "0.892176122",
         "potassiumAvailabilityFirstYear": "1",
         "potassiumAvailabilityLongTerm": "1",
@@ -646,7 +646,7 @@
             "name": "Turkey (manure fresh from barn, <7 weeks)",
             "manure_class": "Turkeys",
             "solid_liquid": "Solid",
-            "moisture": "Fresh (<7 weeks old)",
+            "moisture": "33%",
             "nitrogen": "1.79",
             "ammonia": "2518",
             "phosphorous": "0.79",
@@ -8889,7 +8889,7 @@
           {
             "id": "2",
             "name": "welcome",
-            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Get feedback on how closely fertilizer and manure applications meet the requirements</li><li>Enter and download your work confidentially</li><li>Create pdf reports for farm use</li><li>Nutrients include nitrogen, phosphorus, and potassium (NPK)</li><li>Crops include forages, field vegetables, and grains and oilseeds</li></ul>"
+            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Compare your manure and fertilizer applications with crop nutrient needs</li><li>Enter your information confidentially</li></ul><br />Current Features<br /><ul><li>Create pdf reports for farm use</li><li>Crops include forages, field vegetables, and grains and oilseeds</li><li>Nutrients include nitrogen, phosphorus, and potassium (NPK)</li></ul>"
           },
           {
             "id": "3",
