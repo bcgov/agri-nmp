@@ -232,14 +232,14 @@ namespace SERVERAPI.Controllers
                                     {
                                         if(userMoisture > 80)
                                         {
-                                            ModelState.AddModelError("moisture", "Invalid % for solid.");
+                                            ModelState.AddModelError("moisture", "must be \u2264 80%.");
                                         }
                                     }
                                     else
                                     {
                                         if(userMoisture <= 80)
                                         {
-                                            ModelState.AddModelError("moisture", "Invalid % for liquid.");
+                                            ModelState.AddModelError("moisture", "Must be > 80%.");
                                         }
                                     }
                                 }
