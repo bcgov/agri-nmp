@@ -228,16 +228,18 @@ namespace SERVERAPI.Controllers
                                 }
                                 else
                                 {
-                                    if(man.solid_liquid.ToUpper() == "SOLID")
+                                    if(man.solid_liquid.ToUpper() == "SOLID" &&
+                                       man.manure_class.ToUpper() == "OTHER")
                                     {
                                         if(userMoisture > 80)
                                         {
                                             ModelState.AddModelError("moisture", "must be \u2264 80%.");
                                         }
                                     }
-                                    else
+                                    if (man.solid_liquid.ToUpper() == "LIQUID" &&
+                                       man.manure_class.ToUpper() == "OTHER")
                                     {
-                                        if(userMoisture <= 80)
+                                        if (userMoisture <= 80)
                                         {
                                             ModelState.AddModelError("moisture", "Must be > 80%.");
                                         }
