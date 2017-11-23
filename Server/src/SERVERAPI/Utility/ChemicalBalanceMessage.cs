@@ -60,7 +60,7 @@ namespace SERVERAPI.Utility
                     // get sum of agronomic N for manure, fertilizer and other for field
                     // sum the above number with the crop removal N
                     // use the resulting number to determine message
-                    int LegumeAgronomicN = GetLegumeAgronomicN(fieldName);
+                    long LegumeAgronomicN = GetLegumeAgronomicN(fieldName);
                     int LegumeRemovalN = GetLegumeRemovalN(fieldName);
                     bm = _sd.GetMessageByChemicalBalance("AgrN", LegumeAgronomicN + LegumeRemovalN, legume);
                     if (bm != null)
@@ -115,45 +115,45 @@ namespace SERVERAPI.Utility
             List<FieldCrop> crps = _ud.GetFieldCrops(fldName);
             foreach (var c in crps)
             {
-                chemicalBalances.balance_AgrN -= Convert.ToInt16(c.reqN);
-                chemicalBalances.balance_AgrP2O5 -= Convert.ToInt16(c.reqP2o5);
-                chemicalBalances.balance_AgrK2O -= Convert.ToInt16(c.reqK2o);
-                chemicalBalances.balance_CropN -= Convert.ToInt16(c.remN);
-                chemicalBalances.balance_CropP2O5 -= Convert.ToInt16(c.remP2o5);
-                chemicalBalances.balance_CropK2O -= Convert.ToInt16(c.remK2o);
+                chemicalBalances.balance_AgrN -= Convert.ToInt64(c.reqN);
+                chemicalBalances.balance_AgrP2O5 -= Convert.ToInt64(c.reqP2o5);
+                chemicalBalances.balance_AgrK2O -= Convert.ToInt64(c.reqK2o);
+                chemicalBalances.balance_CropN -= Convert.ToInt64(c.remN);
+                chemicalBalances.balance_CropP2O5 -= Convert.ToInt64(c.remP2o5);
+                chemicalBalances.balance_CropK2O -= Convert.ToInt64(c.remK2o);
             }
 
             List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName);
             foreach (var m in manures)
             {
-                chemicalBalances.balance_AgrN += Convert.ToInt16(m.yrN);
-                chemicalBalances.balance_AgrP2O5 += Convert.ToInt16(m.yrP2o5);
-                chemicalBalances.balance_AgrK2O += Convert.ToInt16(m.yrK2o);
-                chemicalBalances.balance_CropN += Convert.ToInt16(m.ltN);
-                chemicalBalances.balance_CropP2O5 += Convert.ToInt16(m.ltP2o5);
-                chemicalBalances.balance_CropK2O += Convert.ToInt16(m.ltK2o);
+                chemicalBalances.balance_AgrN += Convert.ToInt64(m.yrN);
+                chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.yrP2o5);
+                chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.yrK2o);
+                chemicalBalances.balance_CropN += Convert.ToInt64(m.ltN);
+                chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.ltP2o5);
+                chemicalBalances.balance_CropK2O += Convert.ToInt64(m.ltK2o);
             }
 
             List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
             foreach (var f in fertilizers)
             {
-                chemicalBalances.balance_AgrN += Convert.ToInt16(f.fertN);
-                chemicalBalances.balance_AgrP2O5 += Convert.ToInt16(f.fertP2o5);
-                chemicalBalances.balance_AgrK2O += Convert.ToInt16(f.fertK2o);
-                chemicalBalances.balance_CropN += Convert.ToInt16(f.fertN);
-                chemicalBalances.balance_CropP2O5 += Convert.ToInt16(f.fertP2o5);
-                chemicalBalances.balance_CropK2O += Convert.ToInt16(f.fertK2o);
+                chemicalBalances.balance_AgrN += Convert.ToInt64(f.fertN);
+                chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(f.fertP2o5);
+                chemicalBalances.balance_AgrK2O += Convert.ToInt64(f.fertK2o);
+                chemicalBalances.balance_CropN += Convert.ToInt64(f.fertN);
+                chemicalBalances.balance_CropP2O5 += Convert.ToInt64(f.fertP2o5);
+                chemicalBalances.balance_CropK2O += Convert.ToInt64(f.fertK2o);
             }
 
             List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
             foreach (var m in others)
             {
-                chemicalBalances.balance_AgrN += Convert.ToInt16(m.ltN);
-                chemicalBalances.balance_AgrP2O5 += Convert.ToInt16(m.ltP2o5);
-                chemicalBalances.balance_AgrK2O += Convert.ToInt16(m.ltK);
-                chemicalBalances.balance_CropN += Convert.ToInt16(m.yrN);
-                chemicalBalances.balance_CropP2O5 += Convert.ToInt16(m.yrP2o5);
-                chemicalBalances.balance_CropK2O += Convert.ToInt16(m.yrK);
+                chemicalBalances.balance_AgrN += Convert.ToInt64(m.ltN);
+                chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.ltP2o5);
+                chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.ltK);
+                chemicalBalances.balance_CropN += Convert.ToInt64(m.yrN);
+                chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.yrP2o5);
+                chemicalBalances.balance_CropK2O += Convert.ToInt64(m.yrK);
             }
 
             if (crps.Count > 0) //display balance messages when at least one Crop has been added
@@ -222,26 +222,26 @@ namespace SERVERAPI.Utility
             }
         }
 
-        public int GetLegumeAgronomicN(string fldName)
+        public long GetLegumeAgronomicN(string fldName)
         {
-            int LegumeAgronomicN = 0;
+            long LegumeAgronomicN = 0;
 
             List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName);
             foreach (var m in manures)
             {
-                LegumeAgronomicN += Convert.ToInt16(m.yrN);
+                LegumeAgronomicN += Convert.ToInt64(m.yrN);
             }
 
             List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
             foreach (var f in fertilizers)
             {
-                LegumeAgronomicN += Convert.ToInt16(f.fertN);
+                LegumeAgronomicN += Convert.ToInt64(f.fertN);
             }
 
             List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
             foreach (var m in others)
             {
-                LegumeAgronomicN += Convert.ToInt16(m.yrN);
+                LegumeAgronomicN += Convert.ToInt64(m.yrN);
             }
 
             return LegumeAgronomicN;

@@ -603,6 +603,15 @@ namespace SERVERAPI.Controllers
                             ModelState.AddModelError("density", "Invalid");
                             return View(fvm);
                         }
+                        else
+                        {
+                            if(nmbrDensity < 0 ||
+                                nmbrDensity > 100)
+                            {
+                                ModelState.AddModelError("density", "Invalid");
+                                return View(fvm);
+                            }
+                        }
                         if (fvm.selDenOption == 0)
                         {
                             ModelState.AddModelError("selDenOption", "Required");
@@ -688,9 +697,9 @@ namespace SERVERAPI.Controllers
                         if (fvm.density != null)
                             calculateFertilizerNutrients.Density = Convert.ToDecimal(fvm.density);
                         calculateFertilizerNutrients.DensityUnits = Convert.ToInt16(fvm.selDenOption);
-                        calculateFertilizerNutrients.userN = Convert.ToInt16(fvm.valN);
-                        calculateFertilizerNutrients.userP2o5 = Convert.ToInt16(fvm.valP2o5);
-                        calculateFertilizerNutrients.userK2o = Convert.ToInt16(fvm.valK2o);
+                        calculateFertilizerNutrients.userN = Convert.ToDecimal(fvm.valN);
+                        calculateFertilizerNutrients.userP2o5 = Convert.ToDecimal(fvm.valP2o5);
+                        calculateFertilizerNutrients.userK2o = Convert.ToDecimal(fvm.valK2o);
                         calculateFertilizerNutrients.CustomFertilizer = fvm.manEntry;
 
                         FertilizerNutrients fertilizerNutrients = calculateFertilizerNutrients.GetFertilizerNutrients();
@@ -1169,10 +1178,10 @@ namespace SERVERAPI.Controllers
                     }
 
                     decimal tmpDec;
-                    int tmp;
                     if (decimal.TryParse(cvm.yield, out tmpDec))
                     {
-                        if (tmpDec <= 0)
+                        if (tmpDec <= 0 ||
+                            tmpDec > 99999)
                         {
                             ModelState.AddModelError("yield", "Not a valid yield.");
                             return View(cvm);
@@ -1207,9 +1216,10 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            if (int.TryParse(cvm.reqN, out tmp))
+                            if (decimal.TryParse(cvm.reqN, out tmpDec))
                             {
-                                if (tmp < 0)
+                                if (tmpDec < 0 ||
+                                    tmpDec > 1000)
                                 {
                                     ModelState.AddModelError("reqN", "Invalid.");
                                     return View(cvm);
@@ -1228,9 +1238,10 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            if (int.TryParse(cvm.reqP2o5, out tmp))
+                            if (decimal.TryParse(cvm.reqP2o5, out tmpDec))
                             {
-                                if (tmp < 0)
+                                if (tmpDec < 0 ||
+                                    tmpDec > 1000)
                                 {
                                     ModelState.AddModelError("reqP2o5", "Invalid.");
                                     return View(cvm);
@@ -1249,9 +1260,10 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            if (int.TryParse(cvm.reqK2o, out tmp))
+                            if (decimal.TryParse(cvm.reqK2o, out tmpDec))
                             {
-                                if (tmp < 0)
+                                if (tmpDec < 0 ||
+                                    tmpDec > 1000)
                                 {
                                     ModelState.AddModelError("reqK2o", "Invalid.");
                                     return View(cvm);
@@ -1270,9 +1282,10 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            if (int.TryParse(cvm.remN, out tmp))
+                            if (decimal.TryParse(cvm.remN, out tmpDec))
                             {
-                                if (tmp < 0)
+                                if (tmpDec < 0 ||
+                                    tmpDec > 1000)
                                 {
                                     ModelState.AddModelError("remN", "Invalid.");
                                     return View(cvm);
@@ -1291,9 +1304,10 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            if (int.TryParse(cvm.remP2o5, out tmp))
+                            if (decimal.TryParse(cvm.remP2o5, out tmpDec))
                             {
-                                if (tmp < 0)
+                                if (tmpDec < 0 ||
+                                    tmpDec > 1000)
                                 {
                                     ModelState.AddModelError("remP2o5", "Invalid.");
                                     return View(cvm);
@@ -1312,9 +1326,10 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            if (int.TryParse(cvm.remK2o, out tmp))
+                            if (decimal.TryParse(cvm.remK2o, out tmpDec))
                             {
-                                if (tmp < 0)
+                                if (tmpDec < 0 ||
+                                    tmpDec > 1000)
                                 {
                                     ModelState.AddModelError("remK2o", "Invalid.");
                                     return View(cvm);
@@ -1330,9 +1345,10 @@ namespace SERVERAPI.Controllers
 
                     if(cvm.modNitrogen)
                     {
-                        if (Int32.TryParse(cvm.reqN, out tmp))
+                        if (decimal.TryParse(cvm.reqN, out tmpDec))
                         {
-                            if (tmp < 0)
+                            if (tmpDec < 0 ||
+                                tmpDec > 1000)
                             {
                                 ModelState.AddModelError("reqN", "Not a valid amount.");
                                 return View(cvm);
@@ -1663,9 +1679,10 @@ namespace SERVERAPI.Controllers
                 decimal tmp = 0;
                 if (decimal.TryParse(ovm.yrN, out tmp))
                 {
-                    if (tmp < 0)
+                    if (tmp < 0 ||
+                        tmp > 1000)
                     {
-                        ModelState.AddModelError("yrN", "Must be greater than 0.");
+                        ModelState.AddModelError("yrN", "Invalid.");
                         return View(ovm);
                     }
                 }
@@ -1676,9 +1693,10 @@ namespace SERVERAPI.Controllers
                 }
                 if (decimal.TryParse(ovm.yrP, out tmp))
                 {
-                    if (tmp < 0)
+                    if (tmp < 0 ||
+                        tmp > 1000)
                     {
-                        ModelState.AddModelError("yrP", "Must be greater than 0.");
+                        ModelState.AddModelError("yrP", "Invalid.");
                         return View(ovm);
                     }
                 }
@@ -1689,9 +1707,10 @@ namespace SERVERAPI.Controllers
                 }
                 if (decimal.TryParse(ovm.yrK, out tmp))
                 {
-                    if (tmp < 0)
+                    if (tmp < 0 ||
+                        tmp > 1000)
                     {
-                        ModelState.AddModelError("yrK", "Must be greater than 0.");
+                        ModelState.AddModelError("yrK", "Invalid.");
                         return View(ovm);
                     }
                 }
@@ -1702,9 +1721,10 @@ namespace SERVERAPI.Controllers
                 }
                 if (decimal.TryParse(ovm.ltN, out tmp))
                 {
-                    if (tmp < 0)
+                    if (tmp < 0 ||
+                        tmp > 1000)
                     {
-                        ModelState.AddModelError("ltN", "Must be greater than 0.");
+                        ModelState.AddModelError("ltN", "Invalid.");
                         return View(ovm);
                     }
                 }
@@ -1715,9 +1735,10 @@ namespace SERVERAPI.Controllers
                 }
                 if (decimal.TryParse(ovm.ltP, out tmp))
                 {
-                    if (tmp < 0)
+                    if (tmp < 0 ||
+                        tmp > 1000)
                     {
-                        ModelState.AddModelError("ltP", "Must be greater than 0.");
+                        ModelState.AddModelError("ltP", "Invalid.");
                         return View(ovm);
                     }
                 }
@@ -1728,9 +1749,10 @@ namespace SERVERAPI.Controllers
                 }
                 if (decimal.TryParse(ovm.ltK, out tmp))
                 {
-                    if (tmp < 0)
+                    if (tmp < 0 ||
+                        tmp > 1000)
                     {
-                        ModelState.AddModelError("ltK", "Must be greater than 0.");
+                        ModelState.AddModelError("ltK", "Invalid.");
                         return View(ovm);
                     }
                 }

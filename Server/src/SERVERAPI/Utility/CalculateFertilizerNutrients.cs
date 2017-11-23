@@ -27,9 +27,9 @@ namespace SERVERAPI.Utility
         public int ApplicationRateUnits { get; set; }
         public decimal Density { get; set; }
         public int DensityUnits { get; set; }
-        public int userN { get; set; }
-        public int userP2o5 { get; set; }
-        public int userK2o { get; set; }
+        public decimal userN { get; set; }
+        public decimal userP2o5 { get; set; }
+        public decimal userK2o { get; set; }
         public bool CustomFertilizer { get; set; }
 
         // This processing detemines the N P K values in lb per acre for the fertilizer select and appricatio rate/density etc.

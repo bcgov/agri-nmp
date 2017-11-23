@@ -962,7 +962,7 @@ namespace SERVERAPI.Models.Impl
             return cf;
         }
 
-        public Utility.BalanceMessages GetMessageByChemicalBalance(string balanceType, int balance, bool legume)
+        public Utility.BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance, bool legume)
         {            
             JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];            
             Utility.BalanceMessages bm = new Utility.BalanceMessages();
@@ -993,7 +993,7 @@ namespace SERVERAPI.Models.Impl
             return bm;
         }
 
-        public string GetMessageByChemicalBalance(string balanceType, int balance, bool legume, decimal soilTest)
+        public string GetMessageByChemicalBalance(string balanceType, long balance, bool legume, decimal soilTest)
         {            
             JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];
             string message = null;
@@ -1021,7 +1021,7 @@ namespace SERVERAPI.Models.Impl
             return message;
         }
 
-        public Utility.BalanceMessages GetMessageByChemicalBalance(string balanceType, int balance1, int balance2, string assignedChemical)
+        public Utility.BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance1, long balance2, string assignedChemical)
         {            
             JArray array = (JArray)rss["agri"]["nmp"]["messages"]["message"];            
             Utility.BalanceMessages bm = new Utility.BalanceMessages();
