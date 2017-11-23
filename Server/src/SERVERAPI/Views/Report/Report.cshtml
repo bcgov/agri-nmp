@@ -42,25 +42,28 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
         <form asp-controller="Report" asp-action="Report" method="post">
+            @if (!string.IsNullOrEmpty(Model.noCropsMsg))
+            {
+                <div class="form-box-fields">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-box">
+                                <div class="form-box-header clearfix">
+                                    <div>
+                                        <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
+                                        <span style="display:inline; font-size:17px">@Html.Raw(Model.noCropsMsg)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
             <div class="form-box">
                 <div class="form-box-header clearfix" style="text-align:center">
                     <legend class="form-box-heading">PDF Reports</legend>
                 </div>
                 <div class="form-box-body">
-                    @if (!string.IsNullOrEmpty(Model.noCropsMsg))
-                    {
-                        <div class="form-box-fields">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-box">
-                                        <div class="form-box-header clearfix">
-                                            <h3>@Html.Raw(Model.noCropsMsg)</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
                     <div class="form-box-fields">
                         <div class="row" style="text-align:center">
                             <div style="margin-top:10px">
