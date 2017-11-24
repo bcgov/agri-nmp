@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.585"
+        "staticDataVersion": "2017.586"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -541,7 +541,7 @@
             "name": "Goat (dairy)",
             "manure_class": "Goats (dairy)",
             "solid_liquid": "Solid",
-            "moisture": "65% moisture",
+            "moisture": "65%",
             "nitrogen": "1.04",
             "ammonia": "2818",
             "phosphorous": "0.28",
@@ -8889,7 +8889,7 @@
           {
             "id": "2",
             "name": "welcome",
-            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Compare your manure and fertilizer applications with crop nutrient needs</li><li>Enter your information confidentially</li></ul><br />Current Features<br /><ul><li>Create pdf reports for farm use</li><li>Crops include forages, field vegetables, and grains and oilseeds</li><li>Nutrients include nitrogen, phosphorus, and potassium (NPK)</li></ul>"
+            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Compare your manure and fertilizer applications with crop nutrient needs</li><li>Enter your information confidentially</li><li>Create pdf reports for farm use</li></ul><br />Current Features<br /><ul><li>Crops include forages, field vegetables, and grains and oilseeds</li><li>Nutrients include nitrogen, phosphorus, and potassium (NPK)</li></ul>"
           },
           {
             "id": "3",
