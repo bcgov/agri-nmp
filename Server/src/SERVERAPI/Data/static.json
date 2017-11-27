@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.586"
+        "staticDataVersion": "2017.589"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -1318,7 +1318,7 @@
             "id": "4",
             "name": "Grains and oilseeds",
             "covercrop": "false",
-            "crudeproteinrequired": "true",
+            "crudeproteinrequired": "false",
             "customcrop": "false",
             "modifynitrogen": "false"
           },
@@ -1665,10 +1665,10 @@
             "id": "22",
             "cropname": "Spring wheat (straw removed)",
             "croptypeid": "4",
-            "yieldcd": "2",
-            "cropremovalfactor_N": "70.4177170642795",
-            "cropremovalfactor_P2O5": "26.6670644503781",
-            "cropremovalfactor_K2O": "72.5",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "70.59",
+            "cropremovalfactor_P2O5": "26.732",
+            "cropremovalfactor_K2O": "60.566",
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
@@ -1677,15 +1677,15 @@
           },
           {
             "id": "23",
-            "cropname": "Spring wheat (straw not removed)",
+            "cropname": "Spring wheat",
             "croptypeid": "4",
-            "yieldcd": "2",
-            "cropremovalfactor_N": "50.0007458444588",
-            "cropremovalfactor_P2O5": "19.5836254557464",
-            "cropremovalfactor_K2O": "17.5",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "50.123",
+            "cropremovalfactor_P2O5": "19.632",
+            "cropremovalfactor_K2O": "14.619",
             "n_recommcd": "4",
             "n_recomm_lbperac": "84.5",
-            "n_high_lbperac": "178",
+            "n_high_lbperac": "null",
             "prevcropcd": "3",
             "sortNum": "100"
           },
@@ -1693,10 +1693,10 @@
             "id": "24",
             "cropname": "Barley (straw removed)",
             "croptypeid": "4",
-            "yieldcd": "2",
-            "cropremovalfactor_N": "57.8671422546394",
-            "cropremovalfactor_P2O5": "23.1989894624455",
-            "cropremovalfactor_K2O": "106.5",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "58.009",
+            "cropremovalfactor_P2O5": "23.256",
+            "cropremovalfactor_K2O": "55.657",
             "n_recommcd": "3",
             "n_recomm_lbperac": "null",
             "n_high_lbperac": "null",
@@ -1705,15 +1705,15 @@
           },
           {
             "id": "25",
-            "cropname": "Barley (straw not removed)",
+            "cropname": "Barley",
             "croptypeid": "4",
-            "yieldcd": "2",
-            "cropremovalfactor_N": "40.4027344570681",
-            "cropremovalfactor_P2O5": "17.4644077975714",
-            "cropremovalfactor_K2O": "25.5",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "40.502",
+            "cropremovalfactor_P2O5": "17.507",
+            "cropremovalfactor_K2O": "13.326",
             "n_recommcd": "4",
             "n_recomm_lbperac": "111",
-            "n_high_lbperac": "178",
+            "n_high_lbperac": "null",
             "prevcropcd": "3",
             "sortNum": "100"
           },
@@ -2290,6 +2290,76 @@
             "n_high_lbperac": "0",
             "prevcropcd": "3",
             "sortNum": "10"
+          },
+          {
+            "id": "67",
+            "cropname": "Oats (straw removed)",
+            "croptypeid": "4",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "66.776",
+            "cropremovalfactor_P2O5": "25.394",
+            "cropremovalfactor_K2O": "91.229",
+            "n_recommcd": "3",
+            "n_recomm_lbperac": "null",
+            "n_high_lbperac": "null",
+            "prevcropcd": "3",
+            "sortNum": "100"
+          },
+          {
+            "id": "68",
+            "cropname": "Oats",
+            "croptypeid": "4",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "38.561",
+            "cropremovalfactor_P2O5": "15.989",
+            "cropremovalfactor_K2O": "11.6",
+            "n_recommcd": "4",
+            "n_recomm_lbperac": "107",
+            "n_high_lbperac": "null",
+            "prevcropcd": "3",
+            "sortNum": "100"
+          },
+          {
+            "id": "69",
+            "cropname": "Rye (straw removed)",
+            "croptypeid": "4",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "59.925",
+            "cropremovalfactor_P2O5": "29.963",
+            "cropremovalfactor_K2O": "85.002",
+            "n_recommcd": "3",
+            "n_recomm_lbperac": "null",
+            "n_high_lbperac": "null",
+            "prevcropcd": "3",
+            "sortNum": "100"
+          },
+          {
+            "id": "70",
+            "cropname": "Rye",
+            "croptypeid": "4",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "38.105",
+            "cropremovalfactor_P2O5": "15.958",
+            "cropremovalfactor_K2O": "13.027",
+            "n_recommcd": "4",
+            "n_recomm_lbperac": "92",
+            "n_high_lbperac": "null",
+            "prevcropcd": "3",
+            "sortNum": "100"
+          },
+          {
+            "id": "71",
+            "cropname": "Canola",
+            "croptypeid": "4",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "77.391",
+            "cropremovalfactor_P2O5": "41.848",
+            "cropremovalfactor_K2O": "20.637",
+            "n_recommcd": "4",
+            "n_recomm_lbperac": "125",
+            "n_high_lbperac": "null",
+            "prevcropcd": "3",
+            "sortNum": "100"
           }
         ]
       },
@@ -2816,7 +2886,7 @@
           {
             "cropid": "22",
             "locationid": "2",
-            "amt": "1.1999821"
+            "amt": "null"
           },
           {
             "cropid": "23",
@@ -2826,7 +2896,7 @@
           {
             "cropid": "23",
             "locationid": "2",
-            "amt": "1.1999821"
+            "amt": "null"
           },
           {
             "cropid": "24",
@@ -2836,7 +2906,7 @@
           {
             "cropid": "24",
             "locationid": "2",
-            "amt": "1.918187"
+            "amt": "null"
           },
           {
             "cropid": "25",
@@ -2846,7 +2916,7 @@
           {
             "cropid": "25",
             "locationid": "2",
-            "amt": "1.918187"
+            "amt": "null"
           },
           {
             "cropid": "26",
@@ -3247,6 +3317,56 @@
             "cropid": "65",
             "locationid": "2",
             "amt": "5.4"
+          },
+          {
+            "cropid": "67",
+            "locationid": "1",
+            "amt": "1.6"
+          },
+          {
+            "cropid": "67",
+            "locationid": "2",
+            "amt": "null"
+          },
+          {
+            "cropid": "68",
+            "locationid": "1",
+            "amt": "1.6"
+          },
+          {
+            "cropid": "68",
+            "locationid": "2",
+            "amt": "null"
+          },
+          {
+            "cropid": "69",
+            "locationid": "1",
+            "amt": "1.54"
+          },
+          {
+            "cropid": "69",
+            "locationid": "2",
+            "amt": "null"
+          },
+          {
+            "cropid": "70",
+            "locationid": "1",
+            "amt": "1.54"
+          },
+          {
+            "cropid": "70",
+            "locationid": "2",
+            "amt": "null"
+          },
+          {
+            "cropid": "71",
+            "locationid": "1",
+            "amt": "0.87"
+          },
+          {
+            "cropid": "71",
+            "locationid": "2",
+            "amt": "null"
           }
         ]
       },
@@ -4151,6 +4271,81 @@
             "cropid": "65",
             "soil_test_phosphorous_region_cd": "3",
             "phosphorous_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "67",
+            "soil_test_phosphorous_region_cd": "1",
+            "phosphorous_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "67",
+            "soil_test_phosphorous_region_cd": "2",
+            "phosphorous_crop_group_region_cd": "1"
+          },
+          {
+            "cropid": "67",
+            "soil_test_phosphorous_region_cd": "3",
+            "phosphorous_crop_group_region_cd": "1"
+          },
+          {
+            "cropid": "68",
+            "soil_test_phosphorous_region_cd": "1",
+            "phosphorous_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "68",
+            "soil_test_phosphorous_region_cd": "2",
+            "phosphorous_crop_group_region_cd": "1"
+          },
+          {
+            "cropid": "68",
+            "soil_test_phosphorous_region_cd": "3",
+            "phosphorous_crop_group_region_cd": "1"
+          },
+          {
+            "cropid": "69",
+            "soil_test_phosphorous_region_cd": "1",
+            "phosphorous_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "69",
+            "soil_test_phosphorous_region_cd": "2",
+            "phosphorous_crop_group_region_cd": "1"
+          },
+          {
+            "cropid": "69",
+            "soil_test_phosphorous_region_cd": "3",
+            "phosphorous_crop_group_region_cd": "1"
+          },
+          {
+            "cropid": "70",
+            "soil_test_phosphorous_region_cd": "1",
+            "phosphorous_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "70",
+            "soil_test_phosphorous_region_cd": "2",
+            "phosphorous_crop_group_region_cd": "1"
+          },
+          {
+            "cropid": "70",
+            "soil_test_phosphorous_region_cd": "3",
+            "phosphorous_crop_group_region_cd": "1"
+          },
+          {
+            "cropid": "71",
+            "soil_test_phosphorous_region_cd": "1",
+            "phosphorous_crop_group_region_cd": "3"
+          },
+          {
+            "cropid": "71",
+            "soil_test_phosphorous_region_cd": "2",
+            "phosphorous_crop_group_region_cd": "3"
+          },
+          {
+            "cropid": "71",
+            "soil_test_phosphorous_region_cd": "3",
+            "phosphorous_crop_group_region_cd": "2"
           }
         ]
       },
@@ -5130,6 +5325,81 @@
             "cropid": "65",
             "soil_test_potassium_region_cd": "3",
             "potassium_crop_group_region_cd": "5"
+          },
+          {
+            "cropid": "67",
+            "soil_test_potassium_region_cd": "1",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "67",
+            "soil_test_potassium_region_cd": "2",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "67",
+            "soil_test_potassium_region_cd": "3",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "68",
+            "soil_test_potassium_region_cd": "1",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "68",
+            "soil_test_potassium_region_cd": "2",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "68",
+            "soil_test_potassium_region_cd": "3",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "69",
+            "soil_test_potassium_region_cd": "1",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "69",
+            "soil_test_potassium_region_cd": "2",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "69",
+            "soil_test_potassium_region_cd": "3",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "70",
+            "soil_test_potassium_region_cd": "1",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "70",
+            "soil_test_potassium_region_cd": "2",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "70",
+            "soil_test_potassium_region_cd": "3",
+            "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "71",
+            "soil_test_potassium_region_cd": "1",
+            "potassium_crop_group_region_cd": "3"
+          },
+          {
+            "cropid": "71",
+            "soil_test_potassium_region_cd": "2",
+            "potassium_crop_group_region_cd": "3"
+          },
+          {
+            "cropid": "71",
+            "soil_test_potassium_region_cd": "3",
+            "potassium_crop_group_region_cd": "2"
           }
         ]
       },
