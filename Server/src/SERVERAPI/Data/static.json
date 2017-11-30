@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.590"
+        "staticDataVersion": "2017.591"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9125,7 +9125,7 @@
           {
             "id": "4",
             "name": "aboutmessage",
-            "url": "https://www2.qa.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-mangement-calculator-app/about.pdf"
+            "url": "https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-mangement-calculator-app/about_nmp_calculator.pdf"
           },
           {
             "id": "5",
