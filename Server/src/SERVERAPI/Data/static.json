@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.591"
+        "staticDataVersion": "2017.592"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9154,17 +9154,17 @@
           {
             "id": "1",
             "name": "manuredeletewarning",
-            "text": "This manure has been added to one or more fields. Deleting it will remove this manure from those field(s)."
+            "text": "This manure/compost has been added to one or more fields. Deleting it will remove this manure/compost from those field(s)."
           },
           {
             "id": "2",
             "name": "welcome",
-            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Compare your manure and fertilizer applications with crop nutrient needs</li><li>Enter your information confidentially</li><li>Create pdf reports for farm use</li></ul><br />Current Features<br /><ul><li>Crops include forages, field vegetables, and grains and oilseeds</li><li>Nutrients include nitrogen, phosphorus, and potassium (NPK)</li></ul>"
+            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Compare your manure and fertilizer applications with crop nutrient needs</li><li>Enter and download information confidentially</li><li>Create pdf reports for farm use</li></ul><br />This is a beta version that is being tested by farmers and consultants before its release in March 2018."
           },
           {
             "id": "3",
             "name": "disclaimer",
-            "text": "The Province of British Columbia assumes no liability for inaccurate or incomplete information in this web application. Advice provided in this web application does not relieve anyone of their obligations under any legislation."
+            "text": "Although every effort has been made to ensure that the information in the Nutrient Management Calculator is correct, the Governments of Canada and British Columbia will not be liable for any claims, damages or losses of any kind arising out of the use of, or reliance upon, the information provided through the use of this calculator."
           },
           {
             "id": "4",
