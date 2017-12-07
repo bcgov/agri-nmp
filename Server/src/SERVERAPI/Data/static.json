@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.594"
+        "staticDataVersion": "2017.595"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -1610,7 +1610,7 @@
             "cropname": "Red clover",
             "croptypeid": "2",
             "yieldcd": "2",
-            "cropremovalfactor_N": "35",
+            "cropremovalfactor_N": "58",
             "cropremovalfactor_P2O5": "18",
             "cropremovalfactor_K2O": "60",
             "n_recommcd": "1",
@@ -1722,9 +1722,9 @@
             "cropname": "Asparagus-establishment year",
             "croptypeid": "5",
             "yieldcd": "1",
-            "cropremovalfactor_N": "11.015",
-            "cropremovalfactor_P2O5": "3.26",
-            "cropremovalfactor_K2O": "10",
+            "cropremovalfactor_N": "9.2",
+            "cropremovalfactor_P2O5": "3.1",
+            "cropremovalfactor_K2O": "6.8",
             "n_recommcd": "2",
             "n_recomm_lbperac": "62.45253854",
             "n_high_lbperac": "66.91343415",
@@ -1736,9 +1736,9 @@
             "cropname": "Asparagus-established plantings",
             "croptypeid": "5",
             "yieldcd": "1",
-            "cropremovalfactor_N": "11.015",
-            "cropremovalfactor_P2O5": "3.26",
-            "cropremovalfactor_K2O": "10",
+            "cropremovalfactor_N": "9.2",
+            "cropremovalfactor_P2O5": "3.1",
+            "cropremovalfactor_K2O": "6.8",
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "107.06149464",
@@ -1747,7 +1747,7 @@
           },
           {
             "id": "28",
-            "cropname": "Beans-bush beans",
+            "cropname": "Beans-green, wax",
             "croptypeid": "5",
             "yieldcd": "1",
             "cropremovalfactor_N": "7.34",
@@ -1778,9 +1778,9 @@
             "cropname": "Broccoli",
             "croptypeid": "5",
             "yieldcd": "1",
-            "cropremovalfactor_N": "8.6",
-            "cropremovalfactor_P2O5": "2.78",
-            "cropremovalfactor_K2O": "9.88",
+            "cropremovalfactor_N": "10",
+            "cropremovalfactor_P2O5": "2.5",
+            "cropremovalfactor_K2O": "13.8",
             "n_recommcd": "2",
             "n_recomm_lbperac": "115.98328586",
             "n_high_lbperac": "165.05313757",
@@ -1803,12 +1803,12 @@
           },
           {
             "id": "33",
-            "cropname": "Cabbage-red",
+            "cropname": "Cabbage-regular",
             "croptypeid": "5",
             "yieldcd": "1",
-            "cropremovalfactor_N": "4.48",
-            "cropremovalfactor_P2O5": "1.9236",
-            "cropremovalfactor_K2O": "4.56",
+            "cropremovalfactor_N": "4.2",
+            "cropremovalfactor_P2O5": "1.7",
+            "cropremovalfactor_K2O": "5.0",
             "n_recommcd": "2",
             "n_recomm_lbperac": "107.06149464",
             "n_high_lbperac": "151.67045074",
@@ -1817,12 +1817,12 @@
           },
           {
             "id": "34",
-            "cropname": "Cabbage-white",
+            "cropname": "Cabbage-Chinese",
             "croptypeid": "5",
             "yieldcd": "1",
-            "cropremovalfactor_N": "3.84",
-            "cropremovalfactor_P2O5": "1.5572",
-            "cropremovalfactor_K2O": "5.28",
+            "cropremovalfactor_N": "3.5",
+            "cropremovalfactor_P2O5": "1.8",
+            "cropremovalfactor_K2O": "5.0",
             "n_recommcd": "2",
             "n_recomm_lbperac": "107.06149464",
             "n_high_lbperac": "151.67045074",
@@ -1872,20 +1872,6 @@
             "sortNum": "100"
           },
           {
-            "id": "38",
-            "cropname": "Celery-seed bed",
-            "croptypeid": "5",
-            "yieldcd": "1",
-            "cropremovalfactor_N": "3.815",
-            "cropremovalfactor_P2O5": "1.895",
-            "cropremovalfactor_K2O": "11.14",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "173.97492879",
-            "n_high_lbperac": "187.35761562",
-            "prevcropcd": "3",
-            "sortNum": "100"
-          },
-          {
             "id": "39",
             "cropname": "Corn-sweetcorn",
             "croptypeid": "5",
@@ -1914,34 +1900,6 @@
             "sortNum": "100"
           },
           {
-            "id": "41",
-            "cropname": "Dill",
-            "croptypeid": "5",
-            "yieldcd": "1",
-            "cropremovalfactor_N": "null",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "35.68716488",
-            "n_high_lbperac": "35.68716488",
-            "prevcropcd": "3",
-            "sortNum": "100"
-          },
-          {
-            "id": "42",
-            "cropname": "Eggplant",
-            "croptypeid": "5",
-            "yieldcd": "1",
-            "cropremovalfactor_N": "3.52",
-            "cropremovalfactor_P2O5": "1",
-            "cropremovalfactor_K2O": "5.04",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "62.45253854",
-            "n_high_lbperac": "124.90507708",
-            "prevcropcd": "3",
-            "sortNum": "100"
-          },
-          {
             "id": "43",
             "cropname": "Garlic",
             "croptypeid": "5",
@@ -1956,27 +1914,13 @@
             "sortNum": "100"
           },
           {
-            "id": "44",
-            "cropname": "Leek",
-            "croptypeid": "5",
-            "yieldcd": "1",
-            "cropremovalfactor_N": "4.8",
-            "cropremovalfactor_P2O5": "1.6",
-            "cropremovalfactor_K2O": "4.32",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "151.67045074",
-            "n_high_lbperac": "178.4358244",
-            "prevcropcd": "3",
-            "sortNum": "100"
-          },
-          {
             "id": "45",
-            "cropname": "Lettuce-western iceberg types (mineral soils)",
+            "cropname": "Lettuce-head (western iceberg)",
             "croptypeid": "5",
             "yieldcd": "1",
-            "cropremovalfactor_N": "3.73",
-            "cropremovalfactor_P2O5": "1.415",
-            "cropremovalfactor_K2O": "5.7",
+            "cropremovalfactor_N": "4.6",
+            "cropremovalfactor_P2O5": "1.8",
+            "cropremovalfactor_K2O": "6.4",
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "156.13134635",
@@ -1985,26 +1929,12 @@
           },
           {
             "id": "46",
-            "cropname": "Lettuce-leaf types (mineral soils)",
+            "cropname": "Lettuce-leaf and eastern iceberg",
             "croptypeid": "5",
             "yieldcd": "1",
             "cropremovalfactor_N": "4.69",
             "cropremovalfactor_P2O5": "1.715",
-            "cropremovalfactor_K2O": "7.53",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "98.13970342",
-            "n_high_lbperac": "178.4358244",
-            "prevcropcd": "3",
-            "sortNum": "100"
-          },
-          {
-            "id": "47",
-            "cropname": "Lettuce-eastern iceberg types (mineral soils)",
-            "croptypeid": "5",
-            "yieldcd": "1",
-            "cropremovalfactor_N": "3.73",
-            "cropremovalfactor_P2O5": "1.415",
-            "cropremovalfactor_K2O": "5.7",
+            "cropremovalfactor_K2O": "6.4",
             "n_recommcd": "2",
             "n_recomm_lbperac": "98.13970342",
             "n_high_lbperac": "178.4358244",
@@ -2013,12 +1943,12 @@
           },
           {
             "id": "48",
-            "cropname": "Onions-green bunching (mineral soils)",
+            "cropname": "Onions-green ",
             "croptypeid": "5",
             "yieldcd": "1",
-            "cropremovalfactor_N": "4.59666666666667",
-            "cropremovalfactor_P2O5": "1.6875",
-            "cropremovalfactor_K2O": "4.52",
+            "cropremovalfactor_N": "4.0",
+            "cropremovalfactor_P2O5": "2.3",
+            "cropremovalfactor_K2O": "2.8",
             "n_recommcd": "2",
             "n_recomm_lbperac": "80.29612098",
             "n_high_lbperac": "98.13970342",
@@ -2027,42 +1957,14 @@
           },
           {
             "id": "49",
-            "cropname": "Onions-dry bulb (Interior BC)",
+            "cropname": "Onions-dry",
             "croptypeid": "5",
             "yieldcd": "1",
-            "cropremovalfactor_N": "5.2",
-            "cropremovalfactor_P2O5": "1.85",
-            "cropremovalfactor_K2O": "5.28",
+            "cropremovalfactor_N": "5.0",
+            "cropremovalfactor_P2O5": "2.3",
+            "cropremovalfactor_K2O": "4.5",
             "n_recommcd": "2",
             "n_recomm_lbperac": "89.2179122",
-            "n_high_lbperac": "98.13970342",
-            "prevcropcd": "3",
-            "sortNum": "100"
-          },
-          {
-            "id": "50",
-            "cropname": "Parsley",
-            "croptypeid": "5",
-            "yieldcd": "1",
-            "cropremovalfactor_N": "null",
-            "cropremovalfactor_P2O5": "null",
-            "cropremovalfactor_K2O": "null",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "null",
-            "n_high_lbperac": "null",
-            "prevcropcd": "3",
-            "sortNum": "100"
-          },
-          {
-            "id": "51",
-            "cropname": "Parsnip",
-            "croptypeid": "5",
-            "yieldcd": "1",
-            "cropremovalfactor_N": "3.84",
-            "cropremovalfactor_P2O5": "3.16",
-            "cropremovalfactor_K2O": "7.92",
-            "n_recommcd": "2",
-            "n_recomm_lbperac": "84.75701659",
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "sortNum": "100"
@@ -2195,7 +2097,7 @@
           },
           {
             "id": "61",
-            "cropname": "Rutabagas-turnip",
+            "cropname": "Rutabagas and turnip",
             "croptypeid": "5",
             "yieldcd": "1",
             "cropremovalfactor_N": "3.06",
@@ -2223,7 +2125,7 @@
           },
           {
             "id": "63",
-            "cropname": "Squash-squash",
+            "cropname": "Squash-pumpkins",
             "croptypeid": "5",
             "yieldcd": "1",
             "cropremovalfactor_N": "4.48",
@@ -2251,7 +2153,7 @@
           },
           {
             "id": "65",
-            "cropname": "Zucchini",
+            "cropname": "Squash - zucchini, other",
             "croptypeid": "5",
             "yieldcd": "1",
             "cropremovalfactor_N": "3.84",
@@ -2867,22 +2769,22 @@
           {
             "cropid": "22",
             "locationid": "1",
-            "amt": "1.1999821"
+            "amt": "1.41"
           },
           {
             "cropid": "22",
             "locationid": "2",
-            "amt": "null"
+            "amt": "1.41"
           },
           {
             "cropid": "23",
             "locationid": "1",
-            "amt": "1.1999821"
+            "amt": "1.41"
           },
           {
             "cropid": "23",
             "locationid": "2",
-            "amt": "null"
+            "amt": "1.41"
           },
           {
             "cropid": "24",
@@ -2892,17 +2794,17 @@
           {
             "cropid": "24",
             "locationid": "2",
-            "amt": "null"
+            "amt": "1.918"
           },
           {
             "cropid": "25",
-            "locationid": "1",
+            "locationid": "1.92",
             "amt": "1.918187"
           },
           {
             "cropid": "25",
             "locationid": "2",
-            "amt": "null"
+            "amt": "1.92"
           },
           {
             "cropid": "26",
@@ -2917,267 +2819,197 @@
           {
             "cropid": "27",
             "locationid": "1",
-            "amt": "1.3"
+            "amt": "4.0"
           },
           {
             "cropid": "27",
             "locationid": "2",
-            "amt": "2.25"
+            "amt": "4.0"
           },
           {
             "cropid": "28",
             "locationid": "1",
-            "amt": "null"
+            "amt": "2.9"
           },
           {
             "cropid": "28",
             "locationid": "2",
-            "amt": "null"
+            "amt": "2.9"
           },
           {
             "cropid": "30",
             "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "30",
-            "locationid": "2",
             "amt": "9.9"
           },
           {
+            "cropid": "30",
+            "locationid": "2",
+            "amt": "11.4"
+          },
+          {
             "cropid": "31",
             "locationid": "1",
-            "amt": "null"
+            "amt": "2.7"
           },
           {
             "cropid": "31",
             "locationid": "2",
-            "amt": "3.9"
+            "amt": "2.7"
           },
           {
             "cropid": "32",
             "locationid": "1",
-            "amt": "null"
+            "amt": "5.2"
           },
           {
             "cropid": "32",
             "locationid": "2",
-            "amt": "5.3"
+            "amt": "5.2"
           },
           {
             "cropid": "33",
             "locationid": "1",
-            "amt": "null"
+            "amt": "13"
           },
           {
             "cropid": "33",
             "locationid": "2",
-            "amt": "16"
+            "amt": "13"
           },
           {
             "cropid": "34",
             "locationid": "1",
-            "amt": "null"
+            "amt": "5.9"
           },
           {
             "cropid": "34",
             "locationid": "2",
-            "amt": "16"
+            "amt": "5.9"
           },
           {
             "cropid": "35",
             "locationid": "1",
-            "amt": "null"
+            "amt": "14.4"
           },
           {
             "cropid": "35",
             "locationid": "2",
-            "amt": "16.8"
+            "amt": "14.4"
           },
           {
             "cropid": "36",
             "locationid": "1",
-            "amt": "null"
+            "amt": "4.4"
           },
           {
             "cropid": "36",
             "locationid": "2",
-            "amt": "4"
+            "amt": "4.4"
           },
           {
             "cropid": "37",
             "locationid": "1",
-            "amt": "null"
+            "amt": "26.7"
           },
           {
             "cropid": "37",
             "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "38",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "38",
-            "locationid": "2",
-            "amt": "null"
+            "amt": "26.7"
           },
           {
             "cropid": "39",
             "locationid": "1",
-            "amt": "null"
+            "amt": "6.7"
           },
           {
             "cropid": "39",
-            "locationid": "2",
-            "amt": "6.3"
-          },
-          {
-            "cropid": "40",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "40",
             "locationid": "2",
             "amt": "7.3"
           },
           {
-            "cropid": "41",
+            "cropid": "40",
             "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "41",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "42",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "42",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "43",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "43",
-            "locationid": "2",
-            "amt": "4.7"
-          },
-          {
-            "cropid": "44",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "44",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "45",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "45",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "46",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "46",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "47",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "47",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "48",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "48",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "49",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "49",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "50",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "50",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "51",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "51",
-            "locationid": "2",
-            "amt": "null"
-          },
-          {
-            "cropid": "52",
-            "locationid": "1",
-            "amt": "null"
-          },
-          {
-            "cropid": "52",
-            "locationid": "2",
             "amt": "5.1"
           },
           {
-            "cropid": "53",
+            "cropid": "40",
+            "locationid": "2",
+            "amt": "6.4"
+          },
+          {
+            "cropid": "43",
+            "locationid": "1",
+            "amt": "4.7"
+          },
+          {
+            "cropid": "43",
+            "locationid": "2",
+            "amt": "4.7"
+          },
+          {
+            "cropid": "45",
+            "locationid": "1",
+            "amt": "11.5"
+          },
+          {
+            "cropid": "45",
+            "locationid": "2",
+            "amt": "11.5"
+          },
+          {
+            "cropid": "46",
+            "locationid": "1",
+            "amt": "15.0"
+          },
+          {
+            "cropid": "46",
+            "locationid": "2",
+            "amt": "12.1"
+          },
+          {
+            "cropid": "48",
             "locationid": "1",
             "amt": "null"
           },
           {
+            "cropid": "48",
+            "locationid": "2",
+            "amt": "null"
+          },
+          {
+            "cropid": "49",
+            "locationid": "1",
+            "amt": "15.6"
+          },
+          {
+            "cropid": "49",
+            "locationid": "2",
+            "amt": "15.6"
+          },
+          {
+            "cropid": "52",
+            "locationid": "1",
+            "amt": "2.3"
+          },
+          {
+            "cropid": "52",
+            "locationid": "2",
+            "amt": "2.3"
+          },
+          {
+            "cropid": "53",
+            "locationid": "1",
+            "amt": "8.5"
+          },
+          {
             "cropid": "53",
             "locationid": "2",
-            "amt": "4.7"
+            "amt": "8.5"
           },
           {
             "cropid": "54",
             "locationid": "1",
-            "amt": "null"
+            "amt": "5"
           },
           {
             "cropid": "54",
@@ -3187,7 +3019,7 @@
           {
             "cropid": "55",
             "locationid": "1",
-            "amt": "null"
+            "amt": "13"
           },
           {
             "cropid": "55",
@@ -3197,7 +3029,7 @@
           {
             "cropid": "56",
             "locationid": "1",
-            "amt": "null"
+            "amt": "17"
           },
           {
             "cropid": "56",
@@ -3207,7 +3039,7 @@
           {
             "cropid": "57",
             "locationid": "1",
-            "amt": "null"
+            "amt": "15.1"
           },
           {
             "cropid": "57",
@@ -3217,12 +3049,12 @@
           {
             "cropid": "58",
             "locationid": "1",
-            "amt": "null"
+            "amt": "6.6"
           },
           {
             "cropid": "58",
             "locationid": "2",
-            "amt": "null"
+            "amt": "6.6"
           },
           {
             "cropid": "59",
@@ -3237,62 +3069,62 @@
           {
             "cropid": "60",
             "locationid": "1",
-            "amt": "null"
+            "amt": "7.5"
           },
           {
             "cropid": "60",
             "locationid": "2",
-            "amt": "null"
+            "amt": "7.5"
           },
           {
             "cropid": "61",
             "locationid": "1",
-            "amt": "null"
+            "amt": "14"
           },
           {
             "cropid": "61",
             "locationid": "2",
-            "amt": "18.9"
+            "amt": "14"
           },
           {
             "cropid": "62",
             "locationid": "1",
-            "amt": "null"
+            "amt": "5.6"
           },
           {
             "cropid": "62",
             "locationid": "2",
-            "amt": "6.5"
+            "amt": "5.6"
           },
           {
             "cropid": "63",
             "locationid": "1",
-            "amt": "null"
+            "amt": "14"
           },
           {
             "cropid": "63",
             "locationid": "2",
-            "amt": "15.1"
+            "amt": "14"
           },
           {
             "cropid": "64",
             "locationid": "1",
-            "amt": "11.5"
+            "amt": "9.5"
           },
           {
             "cropid": "64",
             "locationid": "2",
-            "amt": "11.5"
+            "amt": "9.5"
           },
           {
             "cropid": "65",
             "locationid": "1",
-            "amt": "null"
+            "amt": "6.2"
           },
           {
             "cropid": "65",
             "locationid": "2",
-            "amt": "5.4"
+            "amt": "6.2"
           },
           {
             "cropid": "67",
@@ -3302,7 +3134,7 @@
           {
             "cropid": "67",
             "locationid": "2",
-            "amt": "null"
+            "amt": "1.6"
           },
           {
             "cropid": "68",
@@ -3312,7 +3144,7 @@
           {
             "cropid": "68",
             "locationid": "2",
-            "amt": "null"
+            "amt": "1.6"
           },
           {
             "cropid": "69",
@@ -3322,7 +3154,7 @@
           {
             "cropid": "69",
             "locationid": "2",
-            "amt": "null"
+            "amt": "1.54"
           },
           {
             "cropid": "70",
@@ -3332,7 +3164,7 @@
           {
             "cropid": "70",
             "locationid": "2",
-            "amt": "null"
+            "amt": "1.54"
           },
           {
             "cropid": "71",
@@ -3342,7 +3174,7 @@
           {
             "cropid": "71",
             "locationid": "2",
-            "amt": "null"
+            "amt": "0.87"
           }
         ]
       },
@@ -3814,21 +3646,6 @@
             "phosphorous_crop_group_region_cd": "5"
           },
           {
-            "cropid": "38",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "38",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "38",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "5"
-          },
-          {
             "cropid": "39",
             "soil_test_phosphorous_region_cd": "1",
             "phosphorous_crop_group_region_cd": "5"
@@ -3859,36 +3676,6 @@
             "phosphorous_crop_group_region_cd": "4"
           },
           {
-            "cropid": "41",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "41",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "41",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "42",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "4"
-          },
-          {
-            "cropid": "42",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "4"
-          },
-          {
-            "cropid": "42",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "4"
-          },
-          {
             "cropid": "43",
             "soil_test_phosphorous_region_cd": "1",
             "phosphorous_crop_group_region_cd": "5"
@@ -3900,21 +3687,6 @@
           },
           {
             "cropid": "43",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "44",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "44",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "44",
             "soil_test_phosphorous_region_cd": "3",
             "phosphorous_crop_group_region_cd": "5"
           },
@@ -3949,21 +3721,6 @@
             "phosphorous_crop_group_region_cd": "4"
           },
           {
-            "cropid": "47",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "4"
-          },
-          {
-            "cropid": "47",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "4"
-          },
-          {
-            "cropid": "47",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "4"
-          },
-          {
             "cropid": "48",
             "soil_test_phosphorous_region_cd": "1",
             "phosphorous_crop_group_region_cd": "5"
@@ -3990,36 +3747,6 @@
           },
           {
             "cropid": "49",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "50",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "50",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "50",
-            "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "51",
-            "soil_test_phosphorous_region_cd": "1",
-            "phosphorous_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "51",
-            "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "51",
             "soil_test_phosphorous_region_cd": "3",
             "phosphorous_crop_group_region_cd": "5"
           },
@@ -4853,21 +4580,6 @@
             "potassium_crop_group_region_cd": "5"
           },
           {
-            "cropid": "38",
-            "soil_test_potassium_region_cd": "1",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "38",
-            "soil_test_potassium_region_cd": "2",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "38",
-            "soil_test_potassium_region_cd": "3",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
             "cropid": "39",
             "soil_test_potassium_region_cd": "1",
             "potassium_crop_group_region_cd": "4"
@@ -4898,36 +4610,6 @@
             "potassium_crop_group_region_cd": "5"
           },
           {
-            "cropid": "41",
-            "soil_test_potassium_region_cd": "1",
-            "potassium_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "41",
-            "soil_test_potassium_region_cd": "2",
-            "potassium_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "41",
-            "soil_test_potassium_region_cd": "3",
-            "potassium_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "42",
-            "soil_test_potassium_region_cd": "1",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "42",
-            "soil_test_potassium_region_cd": "2",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "42",
-            "soil_test_potassium_region_cd": "3",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
             "cropid": "43",
             "soil_test_potassium_region_cd": "1",
             "potassium_crop_group_region_cd": "5"
@@ -4939,21 +4621,6 @@
           },
           {
             "cropid": "43",
-            "soil_test_potassium_region_cd": "3",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "44",
-            "soil_test_potassium_region_cd": "1",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "44",
-            "soil_test_potassium_region_cd": "2",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "44",
             "soil_test_potassium_region_cd": "3",
             "potassium_crop_group_region_cd": "5"
           },
@@ -4988,21 +4655,6 @@
             "potassium_crop_group_region_cd": "4"
           },
           {
-            "cropid": "47",
-            "soil_test_potassium_region_cd": "1",
-            "potassium_crop_group_region_cd": "4"
-          },
-          {
-            "cropid": "47",
-            "soil_test_potassium_region_cd": "2",
-            "potassium_crop_group_region_cd": "4"
-          },
-          {
-            "cropid": "47",
-            "soil_test_potassium_region_cd": "3",
-            "potassium_crop_group_region_cd": "4"
-          },
-          {
             "cropid": "48",
             "soil_test_potassium_region_cd": "1",
             "potassium_crop_group_region_cd": "5"
@@ -5029,36 +4681,6 @@
           },
           {
             "cropid": "49",
-            "soil_test_potassium_region_cd": "3",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "50",
-            "soil_test_potassium_region_cd": "1",
-            "potassium_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "50",
-            "soil_test_potassium_region_cd": "2",
-            "potassium_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "50",
-            "soil_test_potassium_region_cd": "3",
-            "potassium_crop_group_region_cd": "null"
-          },
-          {
-            "cropid": "51",
-            "soil_test_potassium_region_cd": "1",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "51",
-            "soil_test_potassium_region_cd": "2",
-            "potassium_crop_group_region_cd": "5"
-          },
-          {
-            "cropid": "51",
             "soil_test_potassium_region_cd": "3",
             "potassium_crop_group_region_cd": "5"
           },
