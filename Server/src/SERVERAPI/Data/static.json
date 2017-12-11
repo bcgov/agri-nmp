@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.594"
+        "staticDataVersion": "2017.593"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -1760,6 +1760,20 @@
             "sortNum": "100"
           },
           {
+            "id": "29",
+            "cropname": "Beans-pole beans",
+            "croptypeid": "5",
+            "yieldcd": "1",
+            "cropremovalfactor_N": "7.34",
+            "cropremovalfactor_P2O5": "2.8",
+            "cropremovalfactor_K2O": "6.78",
+            "n_recommcd": "2",
+            "n_recomm_lbperac": "98.13970342",
+            "n_high_lbperac": "98.13970342",
+            "prevcropcd": "3",
+            "sortNum": "100"
+          },
+          {
             "id": "30",
             "cropname": "Beets",
             "croptypeid": "5",
@@ -2935,6 +2949,16 @@
             "amt": "null"
           },
           {
+            "cropid": "29",
+            "locationid": "1",
+            "amt": "null"
+          },
+          {
+            "cropid": "29",
+            "locationid": "2",
+            "amt": "null"
+          },
+          {
             "cropid": "30",
             "locationid": "1",
             "amt": "null"
@@ -3690,6 +3714,21 @@
           },
           {
             "cropid": "28",
+            "soil_test_phosphorous_region_cd": "3",
+            "phosphorous_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "29",
+            "soil_test_phosphorous_region_cd": "1",
+            "phosphorous_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "29",
+            "soil_test_phosphorous_region_cd": "2",
+            "phosphorous_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "29",
             "soil_test_phosphorous_region_cd": "3",
             "phosphorous_crop_group_region_cd": "4"
           },
@@ -4729,6 +4768,21 @@
           },
           {
             "cropid": "28",
+            "soil_test_potassium_region_cd": "3",
+            "potassium_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "29",
+            "soil_test_potassium_region_cd": "1",
+            "potassium_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "29",
+            "soil_test_potassium_region_cd": "2",
+            "potassium_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "29",
             "soil_test_potassium_region_cd": "3",
             "potassium_crop_group_region_cd": "4"
           },
