@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.593"
+        "staticDataVersion": "2017.592"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -1625,8 +1625,8 @@
             "croptypeid": "2",
             "yieldcd": "2",
             "cropremovalfactor_N": "35",
-            "cropremovalfactor_P2O5": "13.7",
-            "cropremovalfactor_K2O": "45.8",
+            "cropremovalfactor_P2O5": "7",
+            "cropremovalfactor_K2O": "35",
             "n_recommcd": "1",
             "n_recomm_lbperac": "0",
             "n_high_lbperac": "0",
