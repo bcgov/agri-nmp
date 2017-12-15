@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2017.601"
+        "staticDataVersion": "2017.602"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8678,12 +8678,12 @@
           {
             "id": "1",
             "name": "soiltestexplanation",
-            "url": "https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/600-series/631500-8_nutrient_testing_labs_factsheetno1_may2015.pdf"
+            "url": "https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view"
           },
           {
             "id": "2",
             "name": "soiltestvaluesexplanation",
-            "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
+            "url": "https://drive.google.com/open?id=1V3OUxM1Z16S8WVEE2Xg-8dHUFUier6N9"
           },
           {
             "id": "3",
@@ -8698,22 +8698,22 @@
           {
             "id": "5",
             "name": "othernutrientexplanation",
-            "url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
+            "url": "https://drive.google.com/open?id=10uyFSFJAW5a5issWonCOxMsGnmfmVS_B"
           },
           {
             "id": "6",
             "name": "helpmessage",
-            "url": "https://www2.qa.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-mangement-calculator-app/help_-_nmp_calculator.pdf"
+            "url": "https://drive.google.com/open?id=17Tkzf0ocjThU5mqAo7I4b-yFyrJ-FUix"
           },
           {
             "id": "7",
             "name": "manureunitexplanation",
-            "url": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/manure-application"
+            "url": "https://drive.google.com/open?id=11Z3IGb2DhkugxnoOrj0OhCm3yQkBdsWY"
           },
           {
             "id": "8",
             "name": "labanalysisexplanation",
-            "url": "https://www2.qa.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-mangement-calculator-app/using_a_manure_analysis.pdf"
+            "url": "https://drive.google.com/open?id=18ozkZnq5ngQ6D0ALrK1aR4rZasF6GoLM "
           }
         ]
       },
