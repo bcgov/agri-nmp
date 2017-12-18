@@ -26,5 +26,7 @@ const DEFAULT_PDF_OPTIONS = {
 		{					
 			callback (null, buffer.toJSON());
 		}
-	});	    
+    });
+
+    pdf = null;
 };
