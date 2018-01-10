@@ -1,5 +1,5 @@
 // https://www.npmjs.com/package/html-pdf
-var pdf = require('html-pdf');
+//var pdf = require('html-pdf');
 
 module.exports = function (callback, rawdata, pdfOptions) {
 
@@ -11,13 +11,8 @@ const DEFAULT_PDF_OPTIONS = {
 	// https://www.npmjs.com/package/html-pdf
 	var pdf = require('html-pdf');
 	
-			
-	// PDF options
-    var options = Object.assign({}, DEFAULT_PDF_OPTIONS, pdfOptions);
-
-			
 	// export as PDF
-	pdf.create(rawdata, options).toBuffer(function(err, buffer){
+    pdf.create(rawdata, pdfOptions).toBuffer(function(err, buffer){
 		if (err)
 		{
 			callback (err, null);
