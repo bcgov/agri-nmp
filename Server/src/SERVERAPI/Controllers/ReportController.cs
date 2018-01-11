@@ -288,12 +288,12 @@ namespace SERVERAPI.Controllers
                             {
                                 Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
                                 fertilizerName = ff.name;
-                                rfn.reqN = ff.nitrogen;
-                                rfn.reqP = ff.phosphorous;
-                                rfn.reqK = ff.potassium;
-                                rfn.remN = ff.nitrogen;
-                                rfn.remP = ff.phosphorous;
-                                rfn.remK = ff.potassium;
+                                rfn.reqN = ft.fertN;
+                                rfn.reqP = ft.fertP2o5;
+                                rfn.reqK = ft.fertK2o;
+                                rfn.remN = ft.fertN;
+                                rfn.remP = ft.fertP2o5;
+                                rfn.remK = ft.fertK2o;
                             }
 
                             rfn.nutrientName = fertilizerName;
