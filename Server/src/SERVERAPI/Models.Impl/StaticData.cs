@@ -1409,5 +1409,25 @@ namespace SERVERAPI.Models.Impl
 
             return messages;
         }
+
+        public List<SelectListItem> GetPrevManureApplicationInPrevYears()
+        {
+            Models.StaticData.Regions regs = GetRegions();
+
+            regs.regions = regs.regions.OrderBy(n => n.sortNum).ThenBy(n => n.name).ToList();
+
+            List<Models.StaticData.SelectListItem> regOptions = new List<Models.StaticData.SelectListItem>();
+
+
+            foreach (var r in regs.regions)
+            {
+                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                regOptions.Add(li);
+            }
+
+            return regOptions;
+
+        }
+
     }
 }
