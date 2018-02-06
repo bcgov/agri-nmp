@@ -58,8 +58,14 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Area")]
         [Required]
         public string fieldArea { get; set; }
-        [Display(Name = "Comments (optional)")]
+        [Display(Name = "Comments (optional)")]     
         public string fieldComment { get; set; }
+
+        public List<Models.StaticData.SelectListItem> selPrevYrManureOptions { get; set; }
+        [Display(Name = "Manure application in previous years")]
+        [Required]
+        public int? selPrevYrManureOption { get; set; }
+
         public string act { get; set; }
         public string userDataField { get; set; }
         public string currFieldName { get; set; }

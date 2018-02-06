@@ -43,6 +43,9 @@ namespace SERVERAPI.Controllers
         public ActionResult FieldDetail(string name, string target, string cntl, string actn, string currFld)
         {
             FieldDetailViewModel fvm = new FieldDetailViewModel();
+
+            fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears().ToList();
+
             fvm.target = target;
             fvm.actn = actn;
             fvm.cntl = cntl;
