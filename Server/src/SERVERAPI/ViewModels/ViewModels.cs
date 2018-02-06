@@ -276,6 +276,13 @@ namespace SERVERAPI.ViewModels
         public string fertilizerType { get; set; }
         public string density { get; set; }
         public bool stdDensity { get; set; }
+        public string totNIcon { get; set; }
+        public string totPIcon { get; set; }
+        public string totKIcon { get; set; }
+        public string totN { get; set; }
+        public string totP2o5 { get; set; }
+        public string totK2o { get; set; }
+
     }
     public class CalculateViewModel
     {

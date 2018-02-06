@@ -160,7 +160,7 @@
                     </div>
                 }*@
                 <div style="clear:both"></div>
-                <div class="form-group col-sm-4" style="margin:10px">
+                <div class="form-group col-sm-4" style="margin:5px">
                     <div class="Table">
                         <div class="Title">
                             <p>Available Nutrients (lb/ac)</p>
@@ -190,8 +190,8 @@
                     </div>
                 </div>
                 <div style="clear:both"></div>
-                <hr style="height:1px;border:none;color:blue;background-color:blue;padding:0" />
-                <div class="form-group col-sm-4" style="margin:10px">
+                <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0" />
+                <div class="form-group col-sm-4" style="margin:5px">
                     <div class="Table">
                         <div class="Title">
                             <p>Crop Requires (lb/ac)</p>
@@ -209,25 +209,25 @@
                         </div>
                         <div class="Row">
                             <div class="Cell" style="text-align:center">
-                                @*@if (!string.IsNullOrEmpty(Model.reqNIcon))
+                                @if (!string.IsNullOrEmpty(Model.totNIcon))
                                 {
-                                    <img src="~/images/@(Model.reqNIcon).svg" />
-                                }*@
-                                <p>@Model.calcN</p>
+                                    <img src="~/images/@(Model.totNIcon).svg" />
+                                }
+                                @Model.totN
                             </div>
                             <div class="Cell" style="text-align:center">
-                                @*@if (!string.IsNullOrEmpty(Model.reqNIcon))
+                                @if (!string.IsNullOrEmpty(Model.totPIcon))
                                 {
-                                    <img src="~/images/@(Model.reqNIcon).svg" />
-                                }*@
-                                <p>@Model.calcP2o5</p>
+                                    <img src="~/images/@(Model.totPIcon).svg" />
+                                }
+                                @Model.totP2o5
                             </div>
                             <div class="Cell" style="text-align:center">
-                                @*@if (!string.IsNullOrEmpty(Model.reqNIcon))
+                                @if (!string.IsNullOrEmpty(Model.totKIcon))
                                 {
-                                    <img src="~/images/@(Model.reqNIcon).svg" />
-                                }*@
-                                <p>@Model.calcK2o</p>
+                                    <img src="~/images/@(Model.totKIcon).svg" />
+                                }
+                                @Model.totK2o
                             </div>
                         </div>
                     </div>
@@ -252,6 +252,12 @@
         @Html.HiddenFor(x => x.calcP2o5)
         @Html.HiddenFor(x => x.calcK2o)
         @Html.HiddenFor(x => x.stdDensity)
+        @Html.HiddenFor(x => x.totK2o)
+        @Html.HiddenFor(x => x.totKIcon)
+        @Html.HiddenFor(x => x.totN)
+        @Html.HiddenFor(x => x.totNIcon)
+        @Html.HiddenFor(x => x.totP2o5)
+        @Html.HiddenFor(x => x.totPIcon)
     </form>
 </div>
 <script>

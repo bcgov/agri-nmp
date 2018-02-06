@@ -419,6 +419,13 @@ namespace SERVERAPI.Controllers
                 selMethOption = 0
             };
 
+            fvm.totN = "0";
+            fvm.totP2o5 = "0";
+            fvm.totK2o = "0";
+            fvm.totNIcon = "";
+            fvm.totPIcon = "";
+            fvm.totKIcon = "";
+
             if (id != null)
             {
                 NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id.Value);
@@ -479,6 +486,33 @@ namespace SERVERAPI.Controllers
 
             FertilizerDetailsSetup(ref fvm);
 
+            //recalc totals for display
+            ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
+            ChemicalBalances chemicalBalances = new ChemicalBalances();
+
+            chemicalBalances = cbm.GetChemicalBalances(fldName);
+
+            List<BalanceMessages> msgs = cbm.DetermineBalanceMessages(fldName);
+
+            foreach (var m in msgs)
+            {
+                switch (m.Chemical)
+                {
+                    case "AgrN":
+                        fvm.totNIcon = (chemicalBalances.balance_AgrN > 0) ? "" : m.Icon;
+                        break;
+                    case "AgrP2O5":
+                        fvm.totPIcon = (chemicalBalances.balance_AgrP2O5 > 0) ? "" : m.Icon;
+                        break;
+                    case "AgrK2O":
+                        fvm.totKIcon = (chemicalBalances.balance_AgrK2O > 0) ? "" : m.Icon;
+                        break;
+                }
+            }
+
+            fvm.totN = (chemicalBalances.balance_AgrN > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrN).ToString();
+            fvm.totP2o5 = (chemicalBalances.balance_AgrP2O5 > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrP2O5).ToString();
+            fvm.totK2o = (chemicalBalances.balance_AgrK2O > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrK2O).ToString();
             return PartialView(fvm);
         }
         [HttpPost]
@@ -784,7 +818,6 @@ namespace SERVERAPI.Controllers
             fvm.rateOptions = _sd.GetFertilizerUnitsDll(fvm.currUnit).ToList();
 
             //fvm.rateOptions = _sd.GetUnitsDll(fvm.currUnit).ToList();
-            
 
             return;
         }
