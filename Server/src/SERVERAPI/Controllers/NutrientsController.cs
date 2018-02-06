@@ -122,7 +122,14 @@ namespace SERVERAPI.Controllers
             mvm.stdAvail = true;
             mvm.url = _sd.GetExternalLink("manureunitexplanation");
 
-            if(id != null)
+            mvm.totN = "0";
+            mvm.totP2o5 = "0";
+            mvm.totK2o = "0";
+            mvm.totNIcon = "";
+            mvm.totPIcon = "";
+            mvm.totKIcon = "";
+
+            if (id != null)
             {
 
                 NutrientManure nm = _ud.GetFieldNutrientsManure(fldName, id.Value);
@@ -163,6 +170,34 @@ namespace SERVERAPI.Controllers
             }
 
             ManureDetailsSetup(ref mvm);
+
+            //recalc totals for display
+            ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
+            ChemicalBalances chemicalBalances = new ChemicalBalances();
+
+            chemicalBalances = cbm.GetChemicalBalances(fldName);
+
+            List<BalanceMessages> msgs = cbm.DetermineBalanceMessages(fldName);
+
+            foreach (var m in msgs)
+            {
+                switch (m.Chemical)
+                {
+                    case "AgrN":
+                        mvm.totNIcon = (chemicalBalances.balance_AgrN > 0) ? "" : m.Icon;
+                        break;
+                    case "AgrP2O5":
+                        mvm.totPIcon = (chemicalBalances.balance_AgrP2O5 > 0) ? "" : m.Icon;
+                        break;
+                    case "AgrK2O":
+                        mvm.totKIcon = (chemicalBalances.balance_AgrK2O > 0) ? "" : m.Icon;
+                        break;
+                }
+            }
+
+            mvm.totN = (chemicalBalances.balance_AgrN > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrN).ToString();
+            mvm.totP2o5 = (chemicalBalances.balance_AgrP2O5 > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrP2O5).ToString();
+            mvm.totK2o = (chemicalBalances.balance_AgrK2O > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrK2O).ToString();
 
             return PartialView(mvm);
         }

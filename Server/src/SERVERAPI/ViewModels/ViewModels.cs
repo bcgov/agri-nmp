@@ -156,6 +156,12 @@ namespace SERVERAPI.ViewModels
         public bool stdN { get; set; }
         public bool stdAvail { get; set; }
         public string url { get; set; }
+        public string totNIcon { get; set; }
+        public string totPIcon { get; set; }
+        public string totKIcon { get; set; }
+        public string totN { get; set; }
+        public string totP2o5 { get; set; }
+        public string totK2o { get; set; }
     }
     public class ManureDeleteViewModel
     {
