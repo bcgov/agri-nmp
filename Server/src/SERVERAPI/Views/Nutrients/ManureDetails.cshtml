@@ -140,6 +140,50 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0" />
+                <div class="form-group col-sm-4" style="margin:5px">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Crop Requires (lb/ac)</p>
+                        </div>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
+                        </div>
+                        <div class="Row">
+                            <div class="Cell" style="text-align:center">
+                                @if (!string.IsNullOrEmpty(Model.totNIcon))
+                            {
+                                    <img src="~/images/@(Model.totNIcon).svg" />
+                            }
+                                @Model.totN
+                            </div>
+                            <div class="Cell" style="text-align:center">
+                                @if (!string.IsNullOrEmpty(Model.totPIcon))
+                            {
+                                    <img src="~/images/@(Model.totPIcon).svg" />
+                            }
+                                @Model.totP2o5
+                            </div>
+                            <div class="Cell" style="text-align:center">
+                                @if (!string.IsNullOrEmpty(Model.totKIcon))
+                            {
+                                    <img src="~/images/@(Model.totKIcon).svg" />
+                            }
+                                @Model.totK2o
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
@@ -161,5 +205,11 @@
         @Html.HiddenFor(x => x.stdN)
         @Html.HiddenFor(x => x.stdAvail)
         @Html.HiddenFor(x => x.url)
+        @Html.HiddenFor(x => x.totK2o)
+        @Html.HiddenFor(x => x.totKIcon)
+        @Html.HiddenFor(x => x.totN)
+        @Html.HiddenFor(x => x.totNIcon)
+        @Html.HiddenFor(x => x.totP2o5)
+        @Html.HiddenFor(x => x.totPIcon)
     </form>
 </div>
