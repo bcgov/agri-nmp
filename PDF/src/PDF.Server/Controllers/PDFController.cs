@@ -44,21 +44,7 @@ namespace PDF.Controllers
 
             _httpContextAccessor = httpContextAccessor;
 
-            userId = getFromHeaders("SM_UNIVERSALID");
-            guid = getFromHeaders("SMGOV_USERGUID");
-            directory = getFromHeaders("SM_AUTHDIRNAME");
-
             _logger = loggerFactory.CreateLogger(typeof(PDFController));
-        }
-
-        private string getFromHeaders(string key)
-        {
-            string result = null;
-            if (Request.Headers.ContainsKey(key))
-            {
-                result = Request.Headers[key];
-            }
-            return result;
         }
 
         [HttpPost]
@@ -66,13 +52,11 @@ namespace PDF.Controllers
 
         public async Task<IActionResult> BuildPDF([FromServices] INodeServices nodeServices, [FromBody]  PDFRequest rawdata )
         {
-            JObject options = JObject.Parse(rawdata.options);
-            JSONResponse result = null;
-            //var options = new { format="letter", orientation= "portrait" }; 
+            //JObject options = JObject.Parse(rawdata.options);
 
             // execute the Node.js component to generate a PDF
-            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
-            options = null;
+            JSONResponse result = await nodeServices.InvokeAsync<JSONResponse>("./pdf", rawdata.html, JObject.Parse(rawdata.options));
+            //options = null;
 
             return new FileContentResult(result.data, "application/pdf");
         }
