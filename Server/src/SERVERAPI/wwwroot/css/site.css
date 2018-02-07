@@ -73,4 +73,58 @@
 .modal-large {
     width: 950px;
 }
+.rnd-table {
+    border: solid 1px #DDEEEE;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font: normal 13px Arial, sans-serif;
+}
 
+    .rnd-table thead th {
+        background-color:deepskyblue;
+        border: solid 1px #DDEEEE;
+        color: #000000;
+        padding: 10px;
+        text-align: left;
+        text-shadow: 1px 1px 1px #fff;
+    }
+
+    .rnd-table tbody td {
+        border: solid 1px #DDEEEE;
+        color: #333;
+        padding: 10px;
+        text-shadow: 1px 1px 1px #fff;
+    }
+
+.rnd-table-rounded {
+    border: none;
+}
+
+    .rnd-table-rounded thead th {
+        background-color: #CFAD70;
+        border: none;
+        text-shadow: 1px 1px 1px #ccc;
+        color: #333;
+    }
+
+        .rnd-table-rounded thead th:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        .rnd-table-rounded thead th:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+    .rnd-table-rounded tbody td {
+        border: none;
+        border-top: solid 1px #957030;
+        background-color: #EED592;
+    }
+
+    .rnd-table-rounded tbody tr:last-child td:first-child {
+        border-radius: 0 0 0 10px;
+    }
+
+    .rnd-table-rounded tbody tr:last-child td:last-child {
+        border-radius: 0 0 10px 0;
+    }
