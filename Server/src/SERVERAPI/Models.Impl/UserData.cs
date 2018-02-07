@@ -115,6 +115,8 @@ namespace SERVERAPI.Models.Impl
             fld.area = updtFld.area;
             fld.comment = updtFld.comment;
 
+            fld.prevManureApplicationYears = updtFld.prevManureApplicationYears;
+
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 

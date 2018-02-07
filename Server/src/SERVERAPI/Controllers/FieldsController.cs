@@ -44,7 +44,7 @@ namespace SERVERAPI.Controllers
         {
             FieldDetailViewModel fvm = new FieldDetailViewModel();
 
-            fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears().ToList();
+            fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
 
             fvm.target = target;
             fvm.actn = actn;
@@ -60,6 +60,7 @@ namespace SERVERAPI.Controllers
                 fvm.fieldArea = fld.area.ToString();
                 fvm.fieldComment = fld.comment;
                 fvm.fieldId = fld.id;
+                fvm.selPrevYrManureOption = fld.prevManureApplicationYears;
                 fvm.act = "Edit";
             }
             else
@@ -73,6 +74,8 @@ namespace SERVERAPI.Controllers
         {
             decimal area = 0;
             string url;
+
+            fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
 
             if (ModelState.IsValid)
             {
@@ -91,6 +94,11 @@ namespace SERVERAPI.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("fieldArea", "Invalid amount for area.");
+                    return PartialView("FieldDetail", fvm);
+                }
+                if (fvm.selPrevYrManureOption == "select")
+                {
+                    ModelState.AddModelError("selPrevYrManureOption", "Manure application in previous years must be selected");
                     return PartialView("FieldDetail", fvm);
                 }
 
@@ -122,7 +130,8 @@ namespace SERVERAPI.Controllers
                 fld.fieldName = fvm.fieldName;
                 fld.area = Math.Round(area, 1);
                 fld.comment = fvm.fieldComment;
-
+                fld.prevManureApplicationYears = fvm.selPrevYrManureOption;       
+        
                 if (fvm.act == "Add")
                 {
                     _ud.AddField(fld);

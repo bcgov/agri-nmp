@@ -1410,22 +1410,26 @@ namespace SERVERAPI.Models.Impl
             return messages;
         }
 
-        public List<SelectListItem> GetPrevManureApplicationInPrevYears()
+        public JArray GetPrevYearManureText()
         {
-            Models.StaticData.Regions regs = GetRegions();
+            return  (JArray)rss["agri"]["nmp"]["manureprevyears"]["manureprevyear"];
+        }
 
-            regs.regions = regs.regions.OrderBy(n => n.sortNum).ThenBy(n => n.name).ToList();
+        public List<SERVERAPI.Models.StaticData.SelectListItem> GetPrevManureApplicationInPrevYears()
+        {
+            List<SERVERAPI.Models.StaticData.SelectListItem> selections = new List<SERVERAPI.Models.StaticData.SelectListItem>();
+            SelectListItem sel; 
 
-            List<Models.StaticData.SelectListItem> regOptions = new List<Models.StaticData.SelectListItem>();
+            JArray jsonPrevYearManure = GetPrevYearManureText();
 
 
-            foreach (var r in regs.regions)
+            foreach (var r in jsonPrevYearManure)
             {
-                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
-                regOptions.Add(li);
+                sel = new SERVERAPI.Models.StaticData.SelectListItem() { Id = Convert.ToInt32(r["id"].ToString()), Value = r["name"].ToString() };
+                selections.Add(sel);
             }
 
-            return regOptions;
+            return selections;
 
         }
 

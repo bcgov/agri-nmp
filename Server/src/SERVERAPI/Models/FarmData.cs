@@ -36,7 +36,8 @@ namespace SERVERAPI.Models
         public string comment { get; set; }
         public Nutrients nutrients { get; set; }
         public List<FieldCrop> crops {get; set; }
-        public SoilTest soilTest { get; set; }       
+        public SoilTest soilTest { get; set; }   
+        public string prevManureApplicationYears { get; set;  }
     }
     public class Nutrients
     {
