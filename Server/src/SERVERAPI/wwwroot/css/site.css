@@ -101,10 +101,11 @@
 }
 
     .rnd-table-rounded thead th {
-        background-color: #CFAD70;
+        background-color: green;
         border: none;
-        text-shadow: 1px 1px 1px #ccc;
-        color: #333;
+        color: #fff;
+        font-family:'Script MT';
+        font-size:larger;
     }
 
         .rnd-table-rounded thead th:first-child {
