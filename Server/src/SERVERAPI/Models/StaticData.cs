@@ -9,7 +9,7 @@ namespace SERVERAPI.Models
     {
         public class Version
         {
-            public string staticDataVersion { get; set; }            
+            public string staticDataVersion { get; set; }
         }
 
         public class ConversionFactor
@@ -37,7 +37,7 @@ namespace SERVERAPI.Models
         public class Region
         {
             public int id { get; set; }
-            public string name { get; set; }            
+            public string name { get; set; }
             public int soil_test_phospherous_region_cd { get; set; }
             public int soil_test_potassium_region_cd { get; set; }
             public int locationid { get; set; }
@@ -140,7 +140,7 @@ namespace SERVERAPI.Models
             public decimal dm_lt1 { get; set; }
             public decimal dm_1_5 { get; set; }
             public decimal dm_5_10 { get; set; }
-            public decimal dm_gt10 { get; set; }            
+            public decimal dm_gt10 { get; set; }
             public string poultry_solid { get; set; }
             public string compost { get; set; }
             public int sortNum { get; set; }
@@ -238,7 +238,7 @@ namespace SERVERAPI.Models
         public class DM
         {
             public int ID { get; set; }
-            public string name { get; set; }            
+            public string name { get; set; }
         }
 
         public class AmmoniaRetention
@@ -397,7 +397,7 @@ namespace SERVERAPI.Models
         public class SoilTestRange
         {
             public int upperLimit { get; set; }
-            public string rating  { get; set; }
+            public string rating { get; set; }
         }
 
         public class FertilizerMethods
@@ -420,5 +420,12 @@ namespace SERVERAPI.Models
             public string name { get; set; }
             public string url { get; set; }
         }
+
+        public class PrevManureApplicationYears
+        {
+            public string id { get; set; }
+            public string name { get; set; }
+        }
+
     }
 }
