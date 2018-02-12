@@ -99,6 +99,7 @@ namespace SERVERAPI.Models.Impl
             {
                 nextId = nextId <= f.id ? f.id + 1 : nextId;
             }
+
             newFld.id = nextId;
             yd.fields.Add(newFld);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -115,7 +116,8 @@ namespace SERVERAPI.Models.Impl
             fld.area = updtFld.area;
             fld.comment = updtFld.comment;
 
-            fld.prevManureApplicationYears = updtFld.prevManureApplicationYears;
+            fld.prevYearManureApplicationFrequency = updtFld.prevYearManureApplicationFrequency;
+            fld.prevYearManureApplicationNitrogenCredit = updtFld.prevYearManureApplicationNitrogenCredit;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -564,6 +566,8 @@ namespace SERVERAPI.Models.Impl
             crp.prevCropId = updtCrop.prevCropId;
             crp.cropOther = updtCrop.cropOther;
             crp.coverCropHarvested = updtCrop.coverCropHarvested;
+            // cannot be modified in the UI
+            crp.prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(Convert.ToInt32(crp.cropId)); 
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

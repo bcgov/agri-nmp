@@ -1,0 +1,77 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Controllers;
+using SERVERAPI.Models;
+using static SERVERAPI.Models.StaticData;
+
+namespace SERVERAPI.ViewComponents
+{
+    public class CalcPrevYearManure : ViewComponent
+    {
+
+        private Models.Impl.StaticData _sd;
+        private Models.Impl.UserData _ud;
+
+        public CalcPrevYearManure(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        {
+            _sd = sd;
+            _ud = ud;
+        }
+
+
+        public async Task<IViewComponentResult> InvokeAsync(string fldName)
+        {
+            return View(await GetPrevYearManureAsync(fldName));
+        }
+
+
+        private Task<PrevYearManureApplViewModel> GetPrevYearManureAsync(string fldName)
+        {
+            PrevYearManureApplViewModel manureVM = new PrevYearManureApplViewModel();
+            // get the current associated value for nitrogen credit.  Note, can be null
+            SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
+
+            Field fld = _ud.GetFieldDetails(fldName);
+            if (fld.crops != null) 
+            {
+                if (fld.crops.Count() > 0)
+                {
+                    manureVM.display = true;    // only display when there is at least one crop
+                    manureVM.fldName = fldName;
+                    if (fld.prevYearManureApplicationNitrogenCredit != null)
+                        manureVM.nitrogen = fld.prevYearManureApplicationNitrogenCredit;
+                    else
+                        // lookup default Nitrogen credit.
+                        manureVM.nitrogen = calculator.calcPrevYearManureApplDefault(fldName);
+                }
+                else
+                {
+                    manureVM.display = false;
+                    //reset the nitrogen credit to null
+                    fld.prevYearManureApplicationNitrogenCredit = null;
+                    _ud.UpdateField(fld);
+                }
+            }
+            else
+            {
+                manureVM.display = false;
+                //reset the nitrogen credit to null
+                fld.prevYearManureApplicationNitrogenCredit = null;
+                _ud.UpdateField(fld);
+            }
+            return Task.FromResult(manureVM);
+        }
+    }
+
+    public class PrevYearManureApplViewModel
+    {
+        public string fldName { get; set; }
+        public bool display { get; set; }
+        public int? nitrogen { get; set; }
+    }
+
+
+}

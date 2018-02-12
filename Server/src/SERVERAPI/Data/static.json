@@ -21,10 +21,11 @@
         "phosphorousAvailabilityLongTerm": "1",
         "phosphorousPtoP2O5Kconversion": "2.29",
         "lbPerTonConversion": "20",
-        "lbper1000ftsquared_lbperac_conversion": "43.5600021606"
+        "lbper1000ftsquared_lbperac_conversion": "43.5600021606",
+        "defaultApplicationOfManureInPrevYears":  "1"
       },
-      "manureprevyears": {
-        "manureprevyear": [
+      "manureprevyearscd": {
+        "manureprevyearcd": [
           {
             "id": "1",
             "name": "No manure in the last 2 years"
@@ -36,6 +37,22 @@
           {
             "id": "3",
             "name": "Manure applied in each of the last 2 years"
+          }
+        ]
+      },
+      "defaultprevyearmanureapplfrequency": {
+        "defprevyearmanurenitrogen": [
+          {
+            "prevYearManureAppFrequency": "1",
+            "defaultNitrogenCredit": [ "0", "0", "0" ]
+          },
+          {
+            "prevYearManureAppFrequency": "2",
+            "defaultNitrogenCredit": [ "22", "30", "45" ]
+          },
+          {
+            "prevYearManureAppFrequency": "3",
+            "defaultNitrogenCredit": [ "45", "60", "90" ]
           }
         ]
       },
@@ -1465,6 +1482,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "null",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd":  "0",
               "sortNum": "100"
             },
             {
@@ -1479,6 +1497,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "null",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "1",
               "sortNum": "100"
             },
             {
@@ -1493,6 +1512,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "null",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "2",
               "sortNum": "100"
             },
             {
@@ -1507,6 +1527,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "1",
+              "prevyearmanureappl_volcatcd": "1",
               "sortNum": "100"
             },
             {
@@ -1521,6 +1542,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1535,6 +1557,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1549,6 +1572,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "1",
               "sortNum": "100"
             },
             {
@@ -1563,6 +1587,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "2",
               "sortNum": "100"
             },
             {
@@ -1577,6 +1602,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "2",
               "sortNum": "100"
             },
             {
@@ -1591,6 +1617,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "0",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1605,6 +1632,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "0",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1619,6 +1647,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "0",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1633,6 +1662,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "0",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1647,6 +1677,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "0",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1661,6 +1692,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "0",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1675,6 +1707,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "0",
               "prevcropcd": "2",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1689,6 +1722,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1703,6 +1737,7 @@
               "n_recomm_lbperac": "84.5",
               "n_high_lbperac": "null",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1717,6 +1752,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1731,6 +1767,7 @@
               "n_recomm_lbperac": "111",
               "n_high_lbperac": "null",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1745,6 +1782,7 @@
               "n_recomm_lbperac": "62.45253854",
               "n_high_lbperac": "66.91343415",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1759,6 +1797,7 @@
               "n_recomm_lbperac": "98.13970342",
               "n_high_lbperac": "107.06149464",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1773,6 +1812,7 @@
               "n_recomm_lbperac": "35.68716488",
               "n_high_lbperac": "35.68716488",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1787,6 +1827,7 @@
               "n_recomm_lbperac": "49.06985171",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1801,6 +1842,7 @@
               "n_recomm_lbperac": "115.98328586",
               "n_high_lbperac": "165.05313757",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1815,6 +1857,7 @@
               "n_recomm_lbperac": "107.06149464",
               "n_high_lbperac": "115.98328586",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1829,6 +1872,7 @@
               "n_recomm_lbperac": "107.06149464",
               "n_high_lbperac": "151.67045074",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1843,6 +1887,7 @@
               "n_recomm_lbperac": "107.06149464",
               "n_high_lbperac": "151.67045074",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1857,6 +1902,7 @@
               "n_recomm_lbperac": "62.45253854",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1871,6 +1917,7 @@
               "n_recomm_lbperac": "115.98328586",
               "n_high_lbperac": "165.05313757",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1885,6 +1932,7 @@
               "n_recomm_lbperac": "62.45253854",
               "n_high_lbperac": "62.45253854",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1899,6 +1947,7 @@
               "n_recomm_lbperac": "80.29612098",
               "n_high_lbperac": "147.20955513",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1913,6 +1962,7 @@
               "n_recomm_lbperac": "98.13970342",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1927,6 +1977,7 @@
               "n_recomm_lbperac": "98.13970342",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1941,6 +1992,7 @@
               "n_recomm_lbperac": "98.13970342",
               "n_high_lbperac": "156.13134635",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1955,6 +2007,7 @@
               "n_recomm_lbperac": "98.13970342",
               "n_high_lbperac": "178.4358244",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1969,6 +2022,7 @@
               "n_recomm_lbperac": "80.29612098",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1983,6 +2037,7 @@
               "n_recomm_lbperac": "89.2179122",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -1997,6 +2052,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "13.38268683",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2011,6 +2067,7 @@
               "n_recomm_lbperac": "62.45253854",
               "n_high_lbperac": "124.90507708",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2025,6 +2082,7 @@
               "n_recomm_lbperac": "120.44418147",
               "n_high_lbperac": "120.44418147",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2039,6 +2097,7 @@
               "n_recomm_lbperac": "142.74865952",
               "n_high_lbperac": "160.59224196",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2053,6 +2112,7 @@
               "n_recomm_lbperac": "160.59224196",
               "n_high_lbperac": "178.4358244",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2067,6 +2127,7 @@
               "n_recomm_lbperac": "98.13970342",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2081,6 +2142,7 @@
               "n_recomm_lbperac": "44.6089561",
               "n_high_lbperac": "62.45253854",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2095,6 +2157,7 @@
               "n_recomm_lbperac": "71.37432976",
               "n_high_lbperac": "71.37432976",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2109,6 +2172,7 @@
               "n_recomm_lbperac": "151.67045074",
               "n_high_lbperac": "178.4358244",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2123,6 +2187,7 @@
               "n_recomm_lbperac": "31.22626927",
               "n_high_lbperac": "40.14806049",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2137,6 +2202,7 @@
               "n_recomm_lbperac": "62.45253854",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2151,6 +2217,7 @@
               "n_recomm_lbperac": "98.13970342",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2165,6 +2232,7 @@
               "n_recomm_lbperac": "62.45253854",
               "n_high_lbperac": "160.59224196",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2179,6 +2247,7 @@
               "n_recomm_lbperac": "98.13970342",
               "n_high_lbperac": "98.13970342",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2193,6 +2262,7 @@
               "n_recomm_lbperac": "0",
               "n_high_lbperac": "0",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "10"
             },
             {
@@ -2207,6 +2277,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2221,6 +2292,7 @@
               "n_recomm_lbperac": "107",
               "n_high_lbperac": "null",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2235,6 +2307,7 @@
               "n_recomm_lbperac": "null",
               "n_high_lbperac": "null",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2249,6 +2322,7 @@
               "n_recomm_lbperac": "92",
               "n_high_lbperac": "null",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             },
             {
@@ -2263,6 +2337,7 @@
               "n_recomm_lbperac": "125",
               "n_high_lbperac": "null",
               "prevcropcd": "3",
+              "prevyearmanureappl_volcatcd": "0",
               "sortNum": "100"
             }
           ]

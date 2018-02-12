@@ -1,0 +1,43 @@
+﻿@model PrevYearManureApplViewModel
+@if (Model.display)
+{
+<div class="Row">
+    <div class="Cell2">
+        <div class="Table">
+            <div class="TableBody">
+                <div class="Row">
+                    <div class="Cell2"><b>Previous year's manure</b></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Cell2">
+        <div class="Table">
+            <div class="TableBody">
+                <div class="Row">
+                    <div class="Cell2" style="width:30%; text-align:center">@Model.nitrogen</div>
+                    <div class="Cell2" style="width:30%; text-align:center">0</div>
+                    <div class="Cell2" style="width:30%; text-align:center">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div></div>
+    <div class="Cell2">
+        <div class="Table">
+            <div class="TableBody">
+                <div class="Row">
+                    <div class="Cell2" style="width:30%; text-align:center">0</div>
+                    <div class="Cell2" style="width:30%; text-align:center">0</div>
+                    <div class="Cell2" style="width:30%; text-align:center">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Cell2">
+        <button aria-label="edit" class="form-box-table-button" type="button" data_modal2="" data-type="@Url.Action("PrevYearManureApplicationDetails", "Nutrients", new { fldName = Model.fldName })">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
+        </button>
+    </div>
+</div>
+}

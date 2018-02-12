@@ -62,8 +62,6 @@ namespace SERVERAPI.ViewModels
         public string fieldComment { get; set; }
 
         public List<SERVERAPI.Models.StaticData.SelectListItem> selPrevYrManureOptions { get; set; }
-
-        //[Required(ErrorMessage = "Please enter an email address.")]
         [Display(Name = "Manure application in previous years")]
         [Required]
         public string selPrevYrManureOption { get; set; }
@@ -559,5 +557,13 @@ namespace SERVERAPI.ViewModels
     public class ValidateStaticDataViewModel
     {
         public string staticDataErrors { get; set; }
+    }
+
+    public class PrevYearManureApplicationViewModel
+    {
+        public string fldName { get; set; }
+        public int id { get; set; }
+        public string nitrogen { get; set; }
+        public string defaultNitrogenCredit { get; set; }
     }
 }

@@ -28,15 +28,13 @@
                     <span asp-validation-for="fieldArea"></span>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="max-width:350px">
                 <label asp-for="selPrevYrManureOption">Manure application in previous years</label>
-                <select class="form-control" asp-for="selPrevYrManureOption" asp-items="@(new SelectList(Model.selPrevYrManureOptions,"Id","Value"))" >
+                <select class="form-control" asp-for="selPrevYrManureOption" asp-items="@(new SelectList(Model.selPrevYrManureOptions,"Id","Value"))">
                     <option>select</option>
                 </select>
-                <br />
                 <span asp-validation-for="selPrevYrManureOption"></span>
             </div>
-
             <br />
             <div class="form-group">
                 <label asp-for="fieldComment"></label>

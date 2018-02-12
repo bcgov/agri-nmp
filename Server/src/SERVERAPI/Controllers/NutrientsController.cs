@@ -42,14 +42,14 @@ namespace SERVERAPI.Controllers
             {
                 List<Field> fldLst = _ud.GetFields();
 
-                if(fldLst.Count() == 0)
+                if (fldLst.Count() == 0)
                 {
                     cvm.fldsFnd = false;
                 }
                 else
                 {
                     cvm.fldsFnd = true;
-                    foreach(var f in fldLst)
+                    foreach (var f in fldLst)
                     {
                         cvm.fields.Add(f);
                     }
@@ -71,7 +71,7 @@ namespace SERVERAPI.Controllers
             {
                 cvm.itemsPresent = ItemCount(cvm.currFld) > 0 ? true : false;
 
-                if(!cvm.itemsPresent)
+                if (!cvm.itemsPresent)
                 {
                     cvm.noData = _sd.GetUserPrompt("nonutrientitems");
                 }
@@ -308,7 +308,7 @@ namespace SERVERAPI.Controllers
                     }
                     else
                     {
-                        if(nmbr < 0 ||
+                        if (nmbr < 0 ||
                            nmbr > 100)
                         {
                             ModelState.AddModelError("avail", "Invalid.");
@@ -326,7 +326,7 @@ namespace SERVERAPI.Controllers
                             ModelState.AddModelError("nh4", "Invalid.");
                         }
                     }
-                    if(!ModelState.IsValid)
+                    if (!ModelState.IsValid)
                     {
                         return View(mvm);
                     }
@@ -412,7 +412,7 @@ namespace SERVERAPI.Controllers
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ModelState.AddModelError("", "Unexpected system error.");
             }
@@ -481,7 +481,7 @@ namespace SERVERAPI.Controllers
                 {
                     fvm.applDate = nf.applDate.HasValue ? nf.applDate.Value.ToString("MMM-yyyy") : "";
                 }
-                if(ft.dry_liquid == "liquid")
+                if (ft.dry_liquid == "liquid")
                 {
                     fvm.density = nf.liquidDensity.ToString("#.##");
                     fvm.selDenOption = nf.liquidDensityUnitId;
@@ -497,7 +497,7 @@ namespace SERVERAPI.Controllers
                         }
                     }
                 }
-                if(ft.custom)
+                if (ft.custom)
                 {
                     fvm.valN = nf.customN.Value.ToString("0");
                     fvm.valP2o5 = nf.customP2o5.Value.ToString("0");
@@ -650,9 +650,9 @@ namespace SERVERAPI.Controllers
                     return View(fvm);
                 }
 
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
- 
+
                     if (fvm.manEntry &&
                     fvm.fertilizerType == "liquid" &&
                     string.IsNullOrEmpty(fvm.density))
@@ -674,7 +674,7 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            if(nmbrDensity < 0 ||
+                            if (nmbrDensity < 0 ||
                                 nmbrDensity > 100)
                             {
                                 ModelState.AddModelError("density", "Invalid");
@@ -886,14 +886,14 @@ namespace SERVERAPI.Controllers
 
         private void FertilizerDetailSetup_DefaultDensity(ref FertilizerDetailsViewModel fvm)
         {
-            if(fvm.selDenOption == 0)
+            if (fvm.selDenOption == 0)
             {
                 fvm.density = "";
                 fvm.stdDensity = true;
                 return;
             }
 
-            if(fvm.selFertOption == 0)
+            if (fvm.selFertOption == 0)
             {
                 fvm.density = "";
                 fvm.stdDensity = true;
@@ -902,7 +902,7 @@ namespace SERVERAPI.Controllers
             if (!fvm.manEntry &&
                 fvm.fertilizerType == "liquid" &&
                 fvm.selFertOption != 0 &&
-                fvm.selDenOption != 0 )
+                fvm.selDenOption != 0)
             {
                 fvm.density = _sd.GetLiquidFertilizerDensity(Convert.ToInt32(fvm.selFertOption), Convert.ToInt32(fvm.selDenOption)).value.ToString("#.##");
                 fvm.stdDensity = true;
@@ -934,7 +934,7 @@ namespace SERVERAPI.Controllers
             NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id);
             FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
 
-            if(ft.custom)
+            if (ft.custom)
             {
                 fertilizerName = ft.dry_liquid == "dry" ? "Custom (Dry)" : "Custom (Liquid)";
             }
@@ -1000,10 +1000,10 @@ namespace SERVERAPI.Controllers
                 cvm.stdYield = true;
                 if (defaultYield.HasValue)
                 {
-                    if(cvm.yield != defaultYield.Value.ToString("#.#"))
+                    if (cvm.yield != defaultYield.Value.ToString("#.#"))
                     {
                         cvm.stdYield = false;
-                    }                   
+                    }
                 }
 
                 if (!string.IsNullOrEmpty(cp.cropOther))
@@ -1022,7 +1022,7 @@ namespace SERVERAPI.Controllers
                     cvm.selTypOption = crop.croptypeid.ToString();
 
                     CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
-                    if(crpTyp.modifynitrogen)
+                    if (crpTyp.modifynitrogen)
                     {
                         cvm.modNitrogen = true;
 
@@ -1411,7 +1411,7 @@ namespace SERVERAPI.Controllers
                         }
                     }
 
-                    if(cvm.modNitrogen)
+                    if (cvm.modNitrogen)
                     {
                         if (decimal.TryParse(cvm.reqN, out tmpDec))
                         {
@@ -1455,7 +1455,7 @@ namespace SERVERAPI.Controllers
                             }
                             else
                             {
-                                if(cvm.reqN != cropRequirementRemoval.N_Requirement.ToString())
+                                if (cvm.reqN != cropRequirementRemoval.N_Requirement.ToString())
                                 {
                                     cvm.stdN = false;
                                 }
@@ -1549,6 +1549,7 @@ namespace SERVERAPI.Controllers
                             crp.crudeProtien = string.IsNullOrEmpty(cvm.crude) ? (decimal?)null : Convert.ToDecimal(cvm.crude);
                             crp.prevCropId = prevCrop;
                             crp.coverCropHarvested = cvm.coverCropHarvested;
+                            crp.prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(Convert.ToInt32(crp.cropId));
 
                             _ud.UpdateFieldCrop(cvm.fieldName, crp);
                         }
@@ -1575,13 +1576,13 @@ namespace SERVERAPI.Controllers
             {
                 cvm.cropOptions = _sd.GetCropsDll(Convert.ToInt32(cvm.selTypOption)).ToList();
 
-                if(cvm.selTypOption != "select")
+                if (cvm.selTypOption != "select")
                 {
                     CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
                     cvm.showCrude = crpTyp.crudeproteinrequired;
                     cvm.coverCrop = crpTyp.covercrop;
                     cvm.manEntry = crpTyp.customcrop;
-                    if(!crpTyp.customcrop)
+                    if (!crpTyp.customcrop)
                     {
                         cvm.cropOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select" });
                     }
@@ -1742,7 +1743,7 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult OtherDetails(OtherDetailsViewModel ovm)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 decimal tmp = 0;
                 if (decimal.TryParse(ovm.yrN, out tmp))
@@ -1892,8 +1893,8 @@ namespace SERVERAPI.Controllers
         {
             string refresher = "";
             bool reload = false;
-
-            if(ItemCount(fldName) < 2)
+            // refactor - impact of adding Nitrogen credit?
+            if (ItemCount(fldName) < 2)
             {
                 reload = true;
             }
@@ -1915,13 +1916,18 @@ namespace SERVERAPI.Controllers
                 case "#fertilizer":
                     refresher = "RefreshFertilizerList";
                     break;
+                case "#prevYearManure":
+                    refresher = "RefreshNitrogenCredit";
+                    break;
+                   
             }
             string url = Url.Action(refresher, "Nutrients", new { fieldName = fldName });
             string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = fldName });
             string urlHead = Url.Action("RefreshHeading", "Nutrients", new { fieldName = fldName });
             string urlMsg = Url.Action("RefreshMessages", "Nutrients", new { fieldName = fldName });
+            string urlPrevManureNitrogenCredit = Url.Action("RefreshNitrogenCredit", "Nutrients", new { fieldName = fldName });
 
-            var result = new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead , urlMsg = urlMsg, reload = reload};
+            var result = new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead, urlMsg = urlMsg, reload = reload, urlPrevManureNitrogenCredit = urlPrevManureNitrogenCredit };
             return result;
         }
         [HttpGet]
@@ -1954,5 +1960,73 @@ namespace SERVERAPI.Controllers
             var result = new { unsaved = _ud.FarmData().unsaved.ToString() };
             return result;
         }
+
+        public IActionResult RefreshNitrogenCredit(string fieldName)
+        {
+            return ViewComponent("CalcPrevYearManure", new { fldName = fieldName });
+        }
+        private bool SaveNitrogenCreditToField(string fldName, int nitrogenCredit)
+        {
+            try
+            {
+                Field fld;
+                fld = _ud.GetFieldDetails(fldName);
+                fld.prevYearManureApplicationNitrogenCredit = nitrogenCredit;
+                _ud.UpdateField(fld);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+
+        }
+        [HttpGet]
+        public IActionResult PrevYearManureApplicationDetails(string fldName)
+        {
+            PrevYearManureApplicationViewModel model = new PrevYearManureApplicationViewModel();
+            SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
+            model.defaultNitrogenCredit = calculator.calcPrevYearManureApplDefault(fldName).ToString();
+            model.fldName = fldName;
+            Field field = _ud.GetFieldDetails(fldName);
+            if (field.prevYearManureApplicationNitrogenCredit != null)
+                model.nitrogen = Convert.ToInt32(field.prevYearManureApplicationNitrogenCredit).ToString();
+            else
+                model.nitrogen = model.defaultNitrogenCredit;
+
+            return PartialView(model);
+        }
+        [HttpPost]
+        public IActionResult PrevYearManureApplicationDetails(PrevYearManureApplicationViewModel model)
+        {
+            int nitrogenCredit = 0;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    nitrogenCredit = Convert.ToInt32(model.nitrogen); 
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Nitrogen", "An invalid Nitrogen Credit value was entered.");
+                    return PartialView(model);
+                }
+                if (nitrogenCredit >= 0) {
+                    if (SaveNitrogenCreditToField(model.fldName, nitrogenCredit))
+                    {
+                        //var result = new { success = true, urlSumm = urlSumm, };
+                        return Json(ReDisplay("#prevYearManure", model.fldName));
+                    }
+                    else
+                        ModelState.AddModelError("Nitrogen", "Unable to save changes made to the Nitrogen credit.");
+                }
+                else
+                    ModelState.AddModelError("Nitrogen", "Nitrogen Credit cannot be a negative value. It must be greater than or equal to 0");
+            } // ...modelstate
+            return PartialView(model);
+
+        }
+
     }
 }
