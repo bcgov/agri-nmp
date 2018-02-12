@@ -2009,7 +2009,7 @@ namespace SERVERAPI.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Nitrogen", "An invalid Nitrogen Credit value was entered.");
+                    ModelState.AddModelError("Nitrogen", "An invalid Nitrogen Credit value was entered. Nitrogen credit must be a integer value which is greater than or equal to zero");
                     return PartialView(model);
                 }
                 if (nitrogenCredit >= 0) {
@@ -2022,7 +2022,7 @@ namespace SERVERAPI.Controllers
                         ModelState.AddModelError("Nitrogen", "Unable to save changes made to the Nitrogen credit.");
                 }
                 else
-                    ModelState.AddModelError("Nitrogen", "Nitrogen Credit cannot be a negative value. It must be greater than or equal to 0");
+                    ModelState.AddModelError("Nitrogen", "Nitrogen Credit cannot be a negative value. It must be greater than or equal to zero");
             } // ...modelstate
             return PartialView(model);
 
