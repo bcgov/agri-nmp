@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using static SERVERAPI.Models.StaticData;
+using Newtonsoft.Json;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -587,8 +588,17 @@ namespace SERVERAPI.Models.Impl
             crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
             crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
             crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
-
+            crop.prevYearManureAppl_volCatCd = Convert.ToInt32(r["prevyearmanureappl_volcatcd"].ToString());
             return crop;
+        }
+
+        public int GetCropPrevYearManureApplVolCatCd(int cropId)
+        {
+            Models.StaticData.Crops crops = new Models.StaticData.Crops();
+
+            JObject r = (JObject)rss["agri"]["nmp"]["crops"]["crop"].FirstOrDefault(x => x["id"].ToString() == cropId.ToString());
+
+            return Convert.ToInt32(r["prevyearmanureappl_volcatcd"].ToString());
         }
 
         public Models.StaticData.Yield GetYield(int yieldId)
@@ -958,6 +968,7 @@ namespace SERVERAPI.Models.Impl
             cf.phosphorousPtoP2O5Kconversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["phosphorousPtoP2O5Kconversion"]);
             cf.lbPerTonConversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["lbPerTonConversion"]);
             cf.lbper1000ftsquared_lbperac_conversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["lbper1000ftsquared_lbperac_conversion"]);
+            cf.defaultApplicationOfManureInPrevYears = (rss["agri"]["nmp"]["conversions"]["lbper1000ftsquared_lbperac_conversion"]).ToString();
 
             return cf;
         }
@@ -1412,16 +1423,14 @@ namespace SERVERAPI.Models.Impl
 
         public JArray GetPrevYearManureText()
         {
-            return  (JArray)rss["agri"]["nmp"]["manureprevyears"]["manureprevyear"];
+            return  (JArray)rss["agri"]["nmp"]["manureprevyearscd"]["manureprevyearcd"];
         }
 
         public List<SERVERAPI.Models.StaticData.SelectListItem> GetPrevManureApplicationInPrevYears()
         {
             List<SERVERAPI.Models.StaticData.SelectListItem> selections = new List<SERVERAPI.Models.StaticData.SelectListItem>();
             SelectListItem sel; 
-
             JArray jsonPrevYearManure = GetPrevYearManureText();
-
 
             foreach (var r in jsonPrevYearManure)
             {
@@ -1430,8 +1439,23 @@ namespace SERVERAPI.Models.Impl
             }
 
             return selections;
-
         }
+
+        public List<PrevYearManureApplDefaultNitrogen> GetPrevYearManureNitrogenCreditDefaults()
+        {
+            JArray jsonPrevYearManureDefaultNitrogren = (JArray)rss["agri"]["nmp"]["defaultprevyearmanureapplfrequency"]["defprevyearmanurenitrogen"];
+            List<PrevYearManureApplDefaultNitrogen> result = new List<PrevYearManureApplDefaultNitrogen>();
+            PrevYearManureApplDefaultNitrogen defaultNitrogen;
+
+            foreach( var r in jsonPrevYearManureDefaultNitrogren)
+            {
+                defaultNitrogen = new PrevYearManureApplDefaultNitrogen();
+                defaultNitrogen = JsonConvert.DeserializeObject<PrevYearManureApplDefaultNitrogen>(r.ToString());
+                result.Add(defaultNitrogen);
+            }
+            return result;
+        }
+        
 
     }
 }

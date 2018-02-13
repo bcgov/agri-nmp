@@ -37,7 +37,8 @@ namespace SERVERAPI.Models
         public Nutrients nutrients { get; set; }
         public List<FieldCrop> crops {get; set; }
         public SoilTest soilTest { get; set; }   
-        public string prevManureApplicationYears { get; set;  }
+        public string prevYearManureApplicationFrequency { get; set; }  // prevManureApplicationYears
+        public int? prevYearManureApplicationNitrogenCredit { get; set; } //prevManureApplicationNitrogenCredit
     }
     public class Nutrients
     {
@@ -107,6 +108,7 @@ namespace SERVERAPI.Models
         public decimal? crudeProtien { get; set; }
         public int prevCropId { get; set; }
         public bool? coverCropHarvested { get; set; }
+        public int prevYearManureAppl_volCatCd { get; set; }
     }
     public class SoilTest
     {

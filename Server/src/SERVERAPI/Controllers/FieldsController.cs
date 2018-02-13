@@ -44,6 +44,8 @@ namespace SERVERAPI.Controllers
         {
             FieldDetailViewModel fvm = new FieldDetailViewModel();
 
+            Models.StaticData.ConversionFactor cf = _sd.GetConversionFactor();
+
             fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
 
             fvm.target = target;
@@ -60,7 +62,12 @@ namespace SERVERAPI.Controllers
                 fvm.fieldArea = fld.area.ToString();
                 fvm.fieldComment = fld.comment;
                 fvm.fieldId = fld.id;
-                fvm.selPrevYrManureOption = fld.prevManureApplicationYears;
+                // retrofit old saved NMP files
+                if (String.IsNullOrEmpty(fld.prevYearManureApplicationFrequency))
+                    // set to default (no manure applied in the last two years)
+                    fvm.selPrevYrManureOption = cf.defaultApplicationOfManureInPrevYears;
+                else
+                    fvm.selPrevYrManureOption = fld.prevYearManureApplicationFrequency;
                 fvm.act = "Edit";
             }
             else
@@ -74,7 +81,7 @@ namespace SERVERAPI.Controllers
         {
             decimal area = 0;
             string url;
-
+            // required to populate o/w validation messages are suppressed
             fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
 
             if (ModelState.IsValid)
@@ -130,7 +137,7 @@ namespace SERVERAPI.Controllers
                 fld.fieldName = fvm.fieldName;
                 fld.area = Math.Round(area, 1);
                 fld.comment = fvm.fieldComment;
-                fld.prevManureApplicationYears = fvm.selPrevYrManureOption;       
+                fld.prevYearManureApplicationFrequency = fvm.selPrevYrManureOption;       
         
                 if (fvm.act == "Add")
                 {

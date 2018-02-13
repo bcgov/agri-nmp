@@ -27,6 +27,7 @@ namespace SERVERAPI.Models
             public decimal phosphorousPtoP2O5Kconversion { get; set; }
             public decimal lbPerTonConversion { get; set; }
             public decimal lbper1000ftsquared_lbperac_conversion { get; set; }
+            public string defaultApplicationOfManureInPrevYears { get; set; }
         }
 
         public class Regions
@@ -227,6 +228,7 @@ namespace SERVERAPI.Models
             public decimal? n_high_lbperac { get; set; }
             public int prevcropcd { get; set; }
             public int sortNum { get; set; }
+            public int prevYearManureAppl_volCatCd { get; set; }
         }
 
         public class Yield
@@ -427,5 +429,10 @@ namespace SERVERAPI.Models
             public string name { get; set; }
         }
 
+        public class PrevYearManureApplDefaultNitrogen
+        {
+            public string prevYearManureAppFrequency { get; set; }
+            public int[] defaultNitrogenCredit { get; set; }
+        }
     }
 }

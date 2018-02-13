@@ -156,6 +156,17 @@ namespace SERVERAPI.Utility
                 chemicalBalances.balance_CropK2O += Convert.ToInt64(m.yrK);
             }
 
+            // include the Nitrogren credit as a result of adding manure in previous years
+            // lookup default Nitrogen credit.
+            Field fld = _ud.GetFieldDetails(fldName);
+            if (fld.crops != null)
+                if ( (fld.prevYearManureApplicationNitrogenCredit != null) && (fld.crops.Count() > 0) )
+                        chemicalBalances.balance_AgrN += Convert.ToInt64(fld.prevYearManureApplicationNitrogenCredit);
+                else
+                    // accomodate previous version of farm data - lookup default Nitrogen credit.
+                    chemicalBalances.balance_AgrN += calcPrevYearManureApplDefault(fldName);
+
+
             if (crps.Count > 0) //display balance messages when at least one Crop has been added
                 displayBalances = true;
 
@@ -258,6 +269,39 @@ namespace SERVERAPI.Utility
             }
 
             return LegumeRemovalN;
+        }
+
+        private int prevYearManureDefaultLookup(string prevYearManureAppl_volcatcd, string prevManureApplicationYearsFrequency)
+        {
+            List<PrevYearManureApplDefaultNitrogen> defaultNitrogen = new List<PrevYearManureApplDefaultNitrogen>();
+            defaultNitrogen = _sd.GetPrevYearManureNitrogenCreditDefaults(); 
+            // loop through to find the default nitrogen credit
+            foreach (var item in defaultNitrogen)
+                if (item.prevYearManureAppFrequency == prevManureApplicationYearsFrequency)
+                    // refactor - check to make sure it can handle additional volCatCd 
+                    return item.defaultNitrogenCredit[Convert.ToInt16(prevYearManureAppl_volcatcd)];
+            return 0;
+        }
+
+        public int calcPrevYearManureApplDefault(string fldName)
+        {
+            Field fld = _ud.GetFieldDetails(fldName);
+            if (fld != null)
+            {
+                string prevYearManureApplFrequency = fld.prevYearManureApplicationFrequency;
+                int largestPrevYearManureVolumeCategory = 0;
+                if (fld.crops != null)
+                {
+                    if (fld.crops.Count() > 0)
+                    {
+                        foreach (FieldCrop crop in fld.crops)
+                            if (crop.prevYearManureAppl_volCatCd > largestPrevYearManureVolumeCategory)
+                                largestPrevYearManureVolumeCategory = crop.prevYearManureAppl_volCatCd;
+                    }
+                    return prevYearManureDefaultLookup(largestPrevYearManureVolumeCategory.ToString(), prevYearManureApplFrequency);
+                }
+            }
+            return 0;  // no Nitrogen credit as there are no crops
         }
 
     }

@@ -85,23 +85,26 @@
                                     @await Component.InvokeAsync("CalcHeading", new { fldName = Model.currFld })
                                 </div>
                                 @if (Model.currFld != null)
-                                {
-                                    <div class="TableBody" id="crop">
-                                        @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
-                                    </div>
-                                    <div class="TableBody" id="manure">
-                                        @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
-                                    </div>
-                                    <div class="TableBody" id="fertilizer">
-                                        @await Component.InvokeAsync("CalcFertilizer", new { fldName = Model.currFld })
-                                    </div>
-                                    <div class="TableBody" id="other">
-                                        @await Component.InvokeAsync("CalcOther", new { fldName = Model.currFld })
-                                    </div>
-                                    <div class="TableBody" id="summary">
-                                        @await Component.InvokeAsync("CalcSummary", new { fldName = Model.currFld })
-                                    </div>
-                                }
+    {
+                            <div class="TableBody" id="crop">
+                                @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
+                            </div>
+                            <div class="TableBody" id="manure">
+                                @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
+                            </div>
+                            <div class="TableBody" id="fertilizer">
+                                @await Component.InvokeAsync("CalcFertilizer", new { fldName = Model.currFld })
+                            </div>
+                            <div class="TableBody" id="other">
+                                @await Component.InvokeAsync("CalcOther", new { fldName = Model.currFld })
+                            </div>
+                            <div class="TableBody" id="prevYearManure">
+                                @await Component.InvokeAsync("CalcPrevYearManure", new { fldName = Model.currFld })
+                            </div>
+                            <div class="TableBody" id="summary">
+                                @await Component.InvokeAsync("CalcSummary", new { fldName = Model.currFld })
+                            </div>
+}
                             </div>
                         </div>
                     </div>
@@ -207,6 +210,7 @@
                             $('#myModal').modal('hide');
                             $('#heading').load(result.urlHead);
                             $('#message').load(result.urlMsg);
+                            //$('#prevYearManure').load(result.urlPrevManureNitrogenCredit);
                             $(result.target).load(result.url);
                             $('#summary').load(result.urlSumm);
                         }
@@ -230,8 +234,11 @@
                 .done(function (result) {
                     if (result.success) {
                         $('#myModal').modal('hide');
-                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                        window.location.href = '@Url.Action("Calculate","Nutrients", new { nme = Model.currFld })';
+                        if (result.url != '') {
+                            $(result.target).load(result.url);
+                            //$('#prevYearManure').load(result.urlPrevManureNitrogenCredit);
+                            $('#summary').load(result.urlSumm);
+                        }
                     } else {
                         $('#myModalContent').html(result);
                         bindForm2(dialog);
