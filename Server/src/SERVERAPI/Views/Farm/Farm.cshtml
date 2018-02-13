@@ -14,13 +14,12 @@
         </div>
     </div>
 </div>
-<form asp-controller="Farm" asp-action="Farm" method="post">
+<form asp-controller="Farm" asp-action="Farm" method="post" id="FarmForm">
     <!--WIZARD-->
     <div class="wizard">
         <ul class="wrapper wizard-list clearfix">
             <li id="wizard-farm" class="wizard-item ">
                 @*wizard-item-done*@
-                <a href='@Url.Action("Farm", "Farm" )'>
                     <div class="wizard-circle">
                         <div class="wizard-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
@@ -33,10 +32,9 @@
                         </div>
                     </div>
                     <span class="wizard-name">Farm Info</span>
-                </a>
             </li>
             <li id="wizard-field" class="wizard-item">
-                <a href='@Url.Action("Fields", "Fields" )'>
+                <a href='#' onclick="Dest('Fields')">
                     <div class="wizard-circle">
                         <div class="wizard-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve" stroke-width="2">
@@ -233,6 +231,14 @@
     $(document).ready(function () {
         $("#wizard-farm").addClass('wizard-item-done');
     });
+
+    function Dest(x) {
+            var input = $("<dest>")
+                .attr("type", "input")
+                .attr("name", "dest").val(x);
+            $('#FarmForm').append($(input));
+            $('#FarmForm').submit();
+    };
 
 </script>    
 }
