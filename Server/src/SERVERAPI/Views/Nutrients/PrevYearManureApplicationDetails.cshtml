@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-12">
-                    <b>N  Credit: </b>
+                    <b>N  Credit: &nbsp; &nbsp;</b>
                     <div class="input-group">
                         <input class="form-control" asp-for="nitrogen" id="tbNitrogen" type="text" />
                         <span class="input-group-btn" title="Reset to standard value">
@@ -41,13 +41,10 @@
     </form>
 </div>
 
-@section Scripts {
-    <script type="text/javascript">
-       $(document).ready(function () {
-           $("body").on("click", "#rstNitrogen", function () {
-               alert('default nitrogen value: ') //
-                $('#tbNitrogen').val("@Model.defaultNitrogenCredit");
-            })
+<script type="text/javascript">
+
+        $("#rstNitrogen").click(function () {
+            $('#tbNitrogen').val("@Model.defaultNitrogenCredit");
         });
-    </script> 
-}
+
+</script>

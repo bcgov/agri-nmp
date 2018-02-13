@@ -210,7 +210,6 @@
                             $('#myModal').modal('hide');
                             $('#heading').load(result.urlHead);
                             $('#message').load(result.urlMsg);
-                            //$('#prevYearManure').load(result.urlPrevManureNitrogenCredit);
                             $(result.target).load(result.url);
                             $('#summary').load(result.urlSumm);
                         }
@@ -236,7 +235,6 @@
                         $('#myModal').modal('hide');
                         if (result.url != '') {
                             $(result.target).load(result.url);
-                            //$('#prevYearManure').load(result.urlPrevManureNitrogenCredit);
                             $('#summary').load(result.urlSumm);
                         }
                     } else {
@@ -380,6 +378,7 @@
         })
     });
 
+    
     $(document).on("onload", "#fieldList", function () {
         current();
     });
@@ -399,8 +398,8 @@
         });
     }
 
-    
- 
+
+
     $(document).on('propertychange input paste', '#rate', function () {
         NeedRefresh();
     });
