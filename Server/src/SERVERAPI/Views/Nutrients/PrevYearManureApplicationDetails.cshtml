@@ -21,14 +21,14 @@
             <div class="row">
                 <div class="form-group col-md-12">
                     <b>N  Credit: &nbsp; &nbsp;</b>
-                    <div class="input-group">
-                        <input class="form-control" asp-for="nitrogen" id="tbNitrogen" type="text" />
-                        <span class="input-group-btn" title="Reset to standard value">
-                            <button class="btn btn-default" type="button" id="rstNitrogen" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                        </span>
+                        <div class="input-group">
+                            <input class="form-control" asp-for="nitrogen" id="tbNitrogen" type="text" />
+                            <span class="input-group-btn" title="Reset to standard value">
+                                <button class="btn btn-default" type="button" id="rstNitrogen" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
             <div class="row">
                 <span asp-validation-for="nitrogen"></span>
             </div>
@@ -43,8 +43,29 @@
 
 <script type="text/javascript">
 
-        $("#rstNitrogen").click(function () {
-            $('#tbNitrogen').val("@Model.defaultNitrogenCredit");
-        });
+
+    showResetButtion();
+
+    function showResetButtion() {
+        var curNitroCredit;
+        try {
+            curNitroCredit = parseInt($("#tbNitrogen").val());
+            if (curNitroCredit != parseInt("@Model.defaultNitrogenCredit"))
+                $("#rstNitrogen").show();
+            else
+                $("#rstNitrogen").hide();
+        }
+        catch (err) {
+            $("#rstNitrogen").show();
+        }
+    }
+
+    $("#tbNitrogen").keyup(function () {
+        showResetButtion();
+     });
+
+    $("#rstNitrogen").click(function () {
+        $('#tbNitrogen').val("@Model.defaultNitrogenCredit");
+    });
 
 </script>
