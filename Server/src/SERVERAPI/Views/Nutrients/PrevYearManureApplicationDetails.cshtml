@@ -13,11 +13,11 @@
         <div class="modal-body">
             <div class="row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group col-md-12">
-                        <label asp-for="nitrogen" style="padding-right:5px">Nitrogen available from previous year's manure applications</label>
-                        <a href="~/Controllers/Calculate" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About other nutrient sources" style="font-size:20px; padding-top:5px"></span></a>
-                    </div>
-            </div>  
+                <div class="form-group col-md-12">
+                    <label asp-for="nitrogen" style="padding-right:5px">Nitrogen available from previous year's manure applications</label>
+                    <a href="~/Controllers/Calculate" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About other nutrient sources" style="font-size:20px; padding-top:5px"></span></a>
+                </div>
+            </div>
             <div class="row">
                 <div class="form-group col-md-12">
                     <b>N  Credit: </b>
@@ -41,4 +41,13 @@
     </form>
 </div>
 
-
+@section Scripts {
+    <script type="text/javascript">
+       $(document).ready(function () {
+           $("body").on("click", "#rstNitrogen", function () {
+               alert('default nitrogen value: ') //
+                $('#tbNitrogen').val("@Model.defaultNitrogenCredit");
+            })
+        });
+    </script> 
+}
