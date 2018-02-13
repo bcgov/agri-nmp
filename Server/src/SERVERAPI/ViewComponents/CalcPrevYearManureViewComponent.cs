@@ -35,6 +35,7 @@ namespace SERVERAPI.ViewComponents
             SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
 
             Field fld = _ud.GetFieldDetails(fldName);
+            manureVM.display = false;
             if (fld.crops != null) 
             {
                 if (fld.crops.Count() > 0)
@@ -49,7 +50,6 @@ namespace SERVERAPI.ViewComponents
                 }
                 else
                 {
-                    manureVM.display = false;
                     //reset the nitrogen credit to null
                     fld.prevYearManureApplicationNitrogenCredit = null;
                     _ud.UpdateField(fld);
@@ -57,7 +57,6 @@ namespace SERVERAPI.ViewComponents
             }
             else
             {
-                manureVM.display = false;
                 //reset the nitrogen credit to null
                 fld.prevYearManureApplicationNitrogenCredit = null;
                 _ud.UpdateField(fld);
