@@ -45,12 +45,16 @@ namespace SERVERAPI.ViewComponents
                     if (fld.prevYearManureApplicationNitrogenCredit != null)
                         manureVM.nitrogen = fld.prevYearManureApplicationNitrogenCredit;
                     else
-                        // lookup default Nitrogen credit.
+                    {
+                        // lookup default Nitrogen credit and assign to user
                         manureVM.nitrogen = calculator.calcPrevYearManureApplDefault(fldName);
+                        fld.prevYearManureApplicationNitrogenCredit = manureVM.nitrogen;
+                        _ud.UpdateField(fld);
+
+                    }
                 }
                 else
                 {
-                    //reset the nitrogen credit to null
                     fld.prevYearManureApplicationNitrogenCredit = null;
                     _ud.UpdateField(fld);
                 }

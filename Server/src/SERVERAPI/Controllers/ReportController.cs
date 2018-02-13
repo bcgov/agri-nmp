@@ -125,6 +125,7 @@ namespace SERVERAPI.Controllers
                 rf.crops = new List<ReportFieldCrop>();
                 rf.otherNutrients = new List<ReportFieldOtherNutrient>();
                 rf.footnotes = new List<ReportFieldFootnote>();
+                rf.showNitrogenCredit = false;
 
                 if(f.soilTest != null)
                 {
@@ -212,6 +213,17 @@ namespace SERVERAPI.Controllers
                         rf.fieldCrops = rf.fieldCrops + fc.cropname + " ";
 
                         rf.crops.Add(fc);
+                    }
+                    if (f.crops.Count() > 0)
+                    {
+                        rf.showNitrogenCredit = f.crops.Count() > 0 ? true : false;
+                        if (f.prevYearManureApplicationNitrogenCredit == null)
+                        {   // special case when user navigates with PRINT report using old version of saved data
+                            rf.nitrogenCredit = 0;
+                        }
+                        else
+                            rf.nitrogenCredit = f.prevYearManureApplicationNitrogenCredit;
+                        rf.reqN +=  Convert.ToDecimal(rf.nitrogenCredit);
                     }
                 }
                 if (f.nutrients != null)

@@ -478,6 +478,10 @@ namespace SERVERAPI.ViewModels
         public string iconCropP { get; set; }
         public string iconCropK { get; set; }
         public List<ReportFieldFootnote> footnotes { get; set; }
+
+        public bool showNitrogenCredit { get; set; }
+        public int? nitrogenCredit { get; set; }  // prev manure application
+
     }
     public class ReportSheetsField
     {
