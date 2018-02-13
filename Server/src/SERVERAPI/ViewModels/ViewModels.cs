@@ -36,6 +36,8 @@ namespace SERVERAPI.ViewModels
         public string welcomeMsg { get; set; }
         public string disclaimerMsg { get; set; }
         public string staticDataVersionMsg { get; set; }
+        public string newMsg { get; set; }
+        public string loadMsg { get; set; }
     }
     public class LaunchViewModel
     {
@@ -357,6 +359,8 @@ namespace SERVERAPI.ViewModels
         public bool unsavedData { get; set; }
         public string url { get; set; }
         public string noCropsMsg { get; set; }
+        public string downloadMsg { get; set; }
+        public string loadMsg { get; set; }
     }
     public class ReportSourcesViewModel
     {
