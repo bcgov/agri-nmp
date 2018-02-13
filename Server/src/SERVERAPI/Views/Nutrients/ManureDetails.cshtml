@@ -68,7 +68,7 @@
                         <span asp-validation-for="nh4"class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
-                        <label asp-for="selApplOption">1st Yr Organic N Availability (%)</label>
+                        <label asp-for="selApplOption">Organic N Available This Year (%)</label>
                         <div class="input-group">
                             <input class="form-control col-sm-1" asp-for="avail" id="avail" type="text" />
                             @if (!Model.stdAvail)
@@ -84,7 +84,7 @@
                 <div class="form-group col-sm-4">
                     <div class="Table">
                         <div class="Title">
-                            <p>Available in 1st Yr (lb/ac)</p>
+                            <p>Available This Year (lb/ac)</p>
                         </div>
                         <div class="Heading">
                             <div class="Cell">
@@ -98,13 +98,13 @@
                             </div>
                         </div>
                         <div class="Row">
-                            <div class="Cell">
+                            <div class="Cell" style="text-align:center">
                                 <p>@Model.yrN</p>
                             </div>
-                            <div class="Cell">
+                            <div class="Cell" style="text-align:center">
                                 <p>@Model.yrP2o5</p>
                             </div>
-                            <div class="Cell">
+                            <div class="Cell" style="text-align:center">
                                 <p>@Model.yrK2o</p>
                             </div>
                         </div>
@@ -127,13 +127,13 @@
                             </div>
                         </div>
                         <div class="Row">
-                            <div class="Cell">
+                            <div class="Cell" style="text-align:center">
                                 <p>@Model.ltN</p>
                             </div>
-                            <div class="Cell">
+                            <div class="Cell" style="text-align:center">
                                 <p>@Model.ltP2o5</p>
                             </div>
-                            <div class="Cell">
+                            <div class="Cell" style="text-align:center">
                                 <p>@Model.ltK2o</p>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                 <div class="form-group col-sm-4" style="margin:5px">
                     <div class="Table">
                         <div class="Title">
-                            <p>Additional Nutrients Required (lb/ac)</p>
+                            <p>Still Requried This Year (lb/ac)</p>
                         </div>
                         <div class="Heading">
                             <div class="Cell">

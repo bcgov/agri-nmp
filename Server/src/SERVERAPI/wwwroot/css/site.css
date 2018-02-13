@@ -81,19 +81,17 @@
 }
 
     .rnd-table thead th {
-        background-color:deepskyblue;
+        background-color:olivedrab;
         border: solid 1px #DDEEEE;
         color: #000000;
         padding: 10px;
         text-align: left;
-        text-shadow: 1px 1px 1px #fff;
     }
 
     .rnd-table tbody td {
         border: solid 1px #DDEEEE;
         color: #333;
         padding: 10px;
-        text-shadow: 1px 1px 1px #fff;
     }
 
 .rnd-table-rounded {
@@ -101,11 +99,9 @@
 }
 
     .rnd-table-rounded thead th {
-        background-color: green;
         border: none;
         color: #fff;
-        font-family:'Script MT';
-        font-size:larger;
+        font-size:x-large;
     }
 
         .rnd-table-rounded thead th:first-child {
@@ -118,14 +114,13 @@
 
     .rnd-table-rounded tbody td {
         border: none;
-        border-top: solid 1px #957030;
-        background-color: #EED592;
+        background-color:palegoldenrod;
     }
 
     .rnd-table-rounded tbody tr:last-child td:first-child {
-        border-radius: 0 0 0 10px;
+        border-radius: 0 0 10px 10px;
     }
 
     .rnd-table-rounded tbody tr:last-child td:last-child {
-        border-radius: 0 0 10px 0;
+        border-radius: 0 0 10px 10px;
     }
