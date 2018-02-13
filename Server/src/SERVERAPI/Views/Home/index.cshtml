@@ -30,8 +30,32 @@
                 <br />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <br />
+
                 <div class="Table" style="clear:both">
                     <div class="TableBody">
+                        @*<div class="Row">
+                            <div style="width:100%; text-align:center">
+                                <div style="width:19%; display:inline-block">
+                                </div>
+                                <div style="width:20%; display:inline-block">
+                                    <div>
+                                        <img src="~/images/Money.png" />
+                                    </div>
+                                    <span style="display:inline-block">Make the most of manure and fertilizer to grow crops</span>
+                                </div>
+                                <div style="width:20%; display:inline-block">
+                                </div>
+                                <div style="width:20%; display:inline-block">
+                                    <div>
+                                        <img src="~/images/Water.png" />
+                                    </div>
+
+                                    Keep nutrient losses to the environment to a minimum
+                                </div>
+                                <div style="width:19%; display:inline-block">
+                                </div>
+                            </div>
+                        </div>*@
                         <div class="Row">
                             <div style="width:100%; text-align:center">
                                 <div style="display:inline-block">
@@ -41,14 +65,10 @@
                                                 <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new plan</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody style="vertical-align:top">
                                             <tr style="height:200px">
                                                 <td style="text-align:left; color:black">
-                                                    <p>With this option you can:</p>
-                                                    <ul>
-                                                        <li>Begin planning</li>
-                                                        <li>Start over</li>
-                                                    </ul>
+                                                    @Html.Raw(Model.newMsg)
                                                 </td>
                                             </tr>
                                             <tr style="text-align:center">
@@ -80,15 +100,10 @@
                                                 <th style="border-radius: 10px 10px 0 0; text-align:center">Update my plan</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody style="vertical-align:top">
                                             <tr style="height:200px">
                                                 <td style="text-align:left; color:black">
-                                                    <p>With this option you can:</p>
-                                                    <ul>
-                                                        <li>Pick up where you left off</li>
-                                                        <li>Copy last year's plan</li>
-                                                        <li>Take a look at someone else's plan</li>
-                                                    </ul>
+                                                    @Html.Raw(Model.loadMsg)
                                                 </td>
                                             </tr>
                                             <tr>
@@ -224,6 +239,8 @@
             </div>
         </div>
         @Html.HiddenFor(x => x.unsavedData)
+        @Html.HiddenFor(x => x.newMsg)
+        @Html.HiddenFor(x => x.loadMsg)
     </form>
 
     <!-- PAGE CONTENT -->
