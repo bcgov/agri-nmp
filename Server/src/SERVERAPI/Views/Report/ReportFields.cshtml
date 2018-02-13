@@ -149,8 +149,7 @@
                             </td>
                         </tr>
                         <tr style="font-size:6pt;">
-                            <td style=" border-bottom: 1px solid black;">
-                            </td>
+                            <td style=" border-bottom: 1px solid black;"></td>
                             <td></td>
                             <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
                                 <b>N</b>
@@ -175,47 +174,62 @@
                             </td>
                         </tr>
                         @foreach (var c in f.crops)
-                        {
-                            <tr>
-                                <td class="CellDtlNBd">@c.cropname <sup>@c.footnote</sup></td>
-                                <td></td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqN</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqP</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqK</td>
-                                <td></td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remN</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remP</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remK</td>
-                            </tr>
-                        }
+    {
+                    <tr>
+                        <td class="CellDtlNBd">@c.cropname <sup>@c.footnote</sup></td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqN</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqP</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqK</td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remN</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remP</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remK</td>
+                    </tr>
+}
+                        @if (f.showNitrogenCredit)
+    {
+                    <tr>
+                        <td class="CellDtlNBd">Previous year&apos;s manure application </td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@f.nitrogenCredit</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                    </tr>
+}
+
                         @foreach (var n in f.nutrients)
-                        {
-                            <tr>
-                                <td class="CellDtlNBd">@n.nutrientName <sup>@n.footnote</sup></td>
-                                <td></td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqN</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqP</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqK</td>
-                                <td></td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remN</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remP</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remK</td>
-                            </tr>
-                        }
+    {
+                    <tr>
+                        <td class="CellDtlNBd">@n.nutrientName <sup>@n.footnote</sup></td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqN</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqP</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqK</td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remN</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remP</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remK</td>
+                    </tr>
+}
                         @foreach (var n in f.otherNutrients)
-                        {
-                            <tr>
-                                <td class="CellDtlNBd">@n.otherName</td>
-                                <td></td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqN</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqP</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqK</td>
-                                <td></td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remN</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remP</td>
-                                <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remK</td>
-                            </tr>
-                        }
+    {
+                    <tr>
+                        <td class="CellDtlNBd">@n.otherName</td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqN</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqP</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.reqK</td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remN</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remP</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remK</td>
+                    </tr>
+}
                         <tr style="font-size:7pt">
                             <td style="border-bottom: 1px solid black;">&nbsp;</td>
                             <td></td>
@@ -232,46 +246,46 @@
                             <td></td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriN))
-                                {
-                                    <img src="@Html.Raw(f.iconAgriN)" height="10" width="10" />
-                                }
+            {
+                    <img src="@Html.Raw(f.iconAgriN)" height="10" width="10" />
+}
                                 @f.reqN
                             </td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriP))
-                                {
-                                    <img src="@Html.Raw(f.iconAgriP)" height="10" width="10"  />
-                                }
+            {
+                    <img src="@Html.Raw(f.iconAgriP)" height="10" width="10" />
+}
                                 @f.reqP
                             </td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriK))
-                                {
-                                    <img src="@Html.Raw(f.iconAgriK)" height="10" width="10" />
-                                }
+            {
+                    <img src="@Html.Raw(f.iconAgriK)" height="10" width="10" />
+}
                                 @f.reqK
                             </td>
                             <td style="border:none"></td>
 
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconCropN))
-                                {
-                                    <img src="@Html.Raw(f.iconCropN)" height="10" width="10" />
-                                }
+            {
+                    <img src="@Html.Raw(f.iconCropN)" height="10" width="10" />
+}
                                 @f.remN
-                           </td>
+                            </td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconCropP))
-                                {
-                                    <img src="@Html.Raw(f.iconCropP)" height="10" width="10" />
-                                }
+            {
+                    <img src="@Html.Raw(f.iconCropP)" height="10" width="10" />
+}
                                 @f.remP
                             </td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconCropK))
-                                {
-                                    <img src="@Html.Raw(f.iconCropK)" height="10" width="10" />
-                                }
+            {
+                    <img src="@Html.Raw(f.iconCropK)" height="10" width="10" />
+}
                                 @f.remK
                             </td>
                         </tr>
