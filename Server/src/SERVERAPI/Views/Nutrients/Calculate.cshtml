@@ -188,6 +188,21 @@
         return false;
     });
 
+    $(document).on("click", '[data_modal4]', function (e) {
+        $.ajaxSetup({ cache: false });
+        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").removeClass("modal-large");
+        $('#myModalContent').load($type, function () {
+            $('#myModal').modal({
+                /*backdrop: 'static',*/
+                //keyboard: true
+            }, 'show');
+            bindForm4(this);
+        });
+        return false;
+    });
+
+
     $(".modal").on("hidden.bs.modal", function () {
         $(".myModalContent").html("");
     });
@@ -260,6 +275,32 @@
                     }
                 }
             });
+            return false;
+        });
+    }
+
+    function bindForm4(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize()
+            })
+                .done(function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                        if (result.url != '') {
+                            $(result.target).load(result.url);
+                            $('#summary').load(result.urlSumm);
+                            $('#message').load(result.urlMsg);
+                        }
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm4(dialog);
+                    }
+                });
+
             return false;
         });
     }
