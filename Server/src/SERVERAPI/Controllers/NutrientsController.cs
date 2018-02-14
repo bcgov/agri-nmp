@@ -2015,7 +2015,6 @@ namespace SERVERAPI.Controllers
                 if (nitrogenCredit >= 0) {
                     if (SaveNitrogenCreditToField(model.fldName, nitrogenCredit))
                     {
-                        //var result = new { success = true, urlSumm = urlSumm, };
                         return Json(ReDisplay("#prevYearManure", model.fldName));
                     }
                     else
