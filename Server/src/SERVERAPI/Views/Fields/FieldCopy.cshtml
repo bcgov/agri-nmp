@@ -1,0 +1,35 @@
+﻿@model SERVERAPI.ViewModels.FieldCopyViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Field Copy</h4>
+    </div>
+
+    <form asp-action="FieldCopy" asp-controller="Fields" data-ajax="true"  data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-body row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                Copy all items (crops, fertilizers, etc) from <b>@Model.fldName</b> to the following fields:
+            </div>
+            <div class="form-group pre-scrollable">
+                @{for (int i = 0; i < Model.fieldList.Count(); i++)
+                    {
+                        <div class="checkbox col-sm-offset-2 col-sm-9">
+                            <input asp-for="@Model.fieldList[i].fieldSelected" type="checkbox" />
+                            <label asp-for="@Model.fieldList[i].fieldName">@Model.fieldList[i].fieldName</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </div>
+
+    </form>
+</div>

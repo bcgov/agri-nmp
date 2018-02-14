@@ -8894,6 +8894,16 @@
             "id": "17",
             "name": "launchLoad",
             "text": "<p>With this option you can:</p><ul><li>Pick up where you left off</li><li>Copy last year's plan</li><li>Take a look at someone else's plan</li></ul>"
+          },
+          {
+            "id": "18",
+            "name": "launchMsg1",
+            "text": "Make the most of manure and fertilizer to grow crops"
+          },
+          {
+            "id": "19",
+            "name": "launchMsg2",
+            "text": "Keep nutrient losses to the environment to a minimum"
           }
         ]
       },
