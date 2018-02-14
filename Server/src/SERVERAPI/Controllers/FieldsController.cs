@@ -40,6 +40,29 @@ namespace SERVERAPI.Controllers
         }
 
         [HttpGet]
+        public ActionResult FieldCopy(string currFld)
+        {
+            FieldCopyViewModel fvm = new FieldCopyViewModel();
+            fvm.fldName = currFld;
+            fvm.fieldList = new List<FieldListItem>();
+
+            List<Field> fldList = _ud.GetFields();
+
+            foreach (var f in fldList)
+            {
+                FieldListItem fli = new FieldListItem();
+                if(!(f.fieldName == currFld))
+                {
+                    fli.fieldName = f.fieldName;
+                    fli.fieldSelected = false;
+                    fvm.fieldList.Add(fli);
+                }
+            }
+
+            return PartialView("FieldCopy", fvm);
+        }
+
+        [HttpGet]
         public ActionResult FieldDetail(string name, string target, string cntl, string actn, string currFld)
         {
             FieldDetailViewModel fvm = new FieldDetailViewModel();
@@ -153,7 +176,9 @@ namespace SERVERAPI.Controllers
                 }
                 else
                 {
-                    url = Url.Action("RefreshList", "Fields", new { cntl = fvm.cntl, actn = fvm.actn, currFld = fvm.currFld });
+                    url = Url.Action(fvm.actn, fvm.cntl, new { currFld = fvm.currFld });
+
+                    //url = Url.Action("RefreshList", "Fields", new { cntl = fvm.cntl, actn = fvm.actn, currFld = fvm.currFld });
                 }
                 return Json(new { success = true, url = url, target = fvm.target });
             }

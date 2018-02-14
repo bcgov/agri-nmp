@@ -82,6 +82,9 @@ namespace SERVERAPI.Controllers
                 rvm.noCropsMsg = _sd.GetUserPrompt("nocropmessage");
             }
 
+            rvm.downloadMsg = _sd.GetUserPrompt("reportdownload");
+            rvm.loadMsg = _sd.GetUserPrompt("reportload");
+
             return View(rvm);
         }
         [HttpPost]
@@ -949,6 +952,22 @@ namespace SERVERAPI.Controllers
             }
 
             return result;
+        }
+        [HttpGet]
+        public ActionResult InfoMessage(string type)
+        {
+            InfoAgriViewModel ivm = new InfoAgriViewModel();
+
+            switch (type)
+            {
+                case "download":
+                    ivm.text = _sd.GetUserPrompt("agriinfomessage");
+                    break;
+                case "load":
+                    ivm.text = _sd.GetUserPrompt("cropinfomessage");
+                    break;
+            }
+            return PartialView("InfoMessage", ivm);
         }
     }
 }

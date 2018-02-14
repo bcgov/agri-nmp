@@ -99,6 +99,11 @@ namespace SERVERAPI.Controllers
             ViewBag.Title = "NMP";
             //LoadStatic();
 
+            lvm.newMsg = _sd.GetUserPrompt("launchNew");
+            lvm.loadMsg = _sd.GetUserPrompt("launchLoad");
+            lvm.pageMsg1 = _sd.GetUserPrompt("launchMsg1");
+            lvm.pageMsg2 = _sd.GetUserPrompt("launchMsg2");
+
             return View(lvm);
 
         }

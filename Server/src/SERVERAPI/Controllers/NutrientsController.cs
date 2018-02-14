@@ -44,11 +44,11 @@ namespace SERVERAPI.Controllers
 
                 if (fldLst.Count() == 0)
                 {
-                    cvm.fldsFnd = false;
+                    cvm.fldsFnd = 0;
                 }
                 else
                 {
-                    cvm.fldsFnd = true;
+                    cvm.fldsFnd = fldLst.Count();
                     foreach (var f in fldLst)
                     {
                         cvm.fields.Add(f);
@@ -60,14 +60,14 @@ namespace SERVERAPI.Controllers
             {
                 cvm.currFld = nme;
                 List<Field> fldLst = _ud.GetFields();
-                cvm.fldsFnd = true;
+                cvm.fldsFnd = fldLst.Count();
                 foreach (var f in fldLst)
                 {
                     cvm.fields.Add(f);
                 }
             }
 
-            if (cvm.fldsFnd)
+            if (cvm.fldsFnd > 0)
             {
                 cvm.itemsPresent = ItemCount(cvm.currFld) > 0 ? true : false;
 

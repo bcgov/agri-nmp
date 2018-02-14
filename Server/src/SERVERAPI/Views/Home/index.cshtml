@@ -21,17 +21,28 @@
     <form asp-controller="Home" method="post">
         <div class="row">
             <div id="main-content" class="contentPageMainColumn col-xs-12">                
-                @*<p>
-                    @Html.Raw(Model.welcomeMsg)
-                </p>*@   
-                
-
-                @*The Nutrient Management Program uses your production objectives, soil resources, and regional climate to provide farm specific recommendations for fertilizer and manure application rates.  Use the program for one time reference, or incorporate the results into a farm Nutrient Management Plan.*@
                 <br />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <br />
-                <div class="Table" style="clear:both">
+
+                <div class="Table" style="clear:both; width:100%">
                     <div class="TableBody">
+                        <div class="Row">
+                            <div class="Table">
+                                <div class="TableBody">
+                                    <div class="Row">
+                                        <div class="Cell3" style="min-width:15%">&nbsp;</div>
+                                        <div class="Cell3"><img src="~/images/Money.png" height="30" width="30" /></div>
+                                        <div class="Cell3" style="padding-left:10px">@Model.pageMsg1</div>
+                                        <div class="Cell3" style="min-width:10%">&nbsp;</div>
+                                        <div class="Cell3"><img src="~/images/Water.png" height="30" width="30" /></div>
+                                        <div class="Cell3" style="padding-left:10px">@Model.pageMsg2</div>
+                                        <div class="Cell3" style="min-width:15%">&nbsp;</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
                         <div class="Row">
                             <div style="width:100%; text-align:center">
                                 <div style="display:inline-block">
@@ -41,25 +52,21 @@
                                                 <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new plan</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody style="vertical-align:top">
                                             <tr style="height:200px">
                                                 <td style="text-align:left; color:black">
-                                                    <p>With this option you can:</p>
-                                                    <ul>
-                                                        <li>Begin planning</li>
-                                                        <li>Start over</li>
-                                                    </ul>
+                                                    @Html.Raw(Model.newMsg)
                                                 </td>
                                             </tr>
                                             <tr style="text-align:center">
                                                 <td>
                                                     @if (Model.unsavedData)
                                                     {
-                                                        <button class="btn" style="background-color:olivedrab; color:white; font-weight:bold" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Begin</button>
+                                                        <button class="btn" style="background-color:#446b59; color:white; font-weight:bold" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
                                                     }
                                                     else
                                                     {
-                                                        <input class="btn" style="background-color:olivedrab; color:white; font-weight:bold" type="submit" value="Begin" name="new" />
+                                                        <input class="btn" style="background-color:#446b59; color:white; font-weight:bold" type="submit" value="Begin" name="new" />
                                                     }
                                                 </td>
                                             </tr>
@@ -80,20 +87,15 @@
                                                 <th style="border-radius: 10px 10px 0 0; text-align:center">Update my plan</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody style="vertical-align:top">
                                             <tr style="height:200px">
                                                 <td style="text-align:left; color:black">
-                                                    <p>With this option you can:</p>
-                                                    <ul>
-                                                        <li>Pick up where you left off</li>
-                                                        <li>Copy last year's plan</li>
-                                                        <li>Take a look at someone else's plan</li>
-                                                    </ul>
+                                                    @Html.Raw(Model.loadMsg)
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <button class="btn" style="background-color:olivedrab; color:white; font-weight:bold" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Begin</button>
+                                                    <button class="btn" style="background-color:#446b59; color:white; font-weight:bold" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -224,6 +226,8 @@
             </div>
         </div>
         @Html.HiddenFor(x => x.unsavedData)
+        @Html.HiddenFor(x => x.newMsg)
+        @Html.HiddenFor(x => x.loadMsg)
     </form>
 
     <!-- PAGE CONTENT -->

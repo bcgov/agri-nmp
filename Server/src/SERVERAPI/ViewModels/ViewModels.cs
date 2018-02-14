@@ -36,6 +36,10 @@ namespace SERVERAPI.ViewModels
         public string welcomeMsg { get; set; }
         public string disclaimerMsg { get; set; }
         public string staticDataVersionMsg { get; set; }
+        public string newMsg { get; set; }
+        public string loadMsg { get; set; }
+        public string pageMsg1 { get; set; }
+        public string pageMsg2 { get; set; }
     }
     public class LaunchViewModel
     {
@@ -49,6 +53,16 @@ namespace SERVERAPI.ViewModels
     public class FinishWarningViewModel
     {
         public string msg { get; set; }
+    }
+    public class FieldCopyViewModel
+    {
+        public string fldName { get; set; }
+        public List<FieldListItem> fieldList { get; set; }
+    }
+    public class FieldListItem
+    {
+        public string fieldName { get; set; }
+        public bool fieldSelected { get; set; }
     }
     public class FieldDetailViewModel
     {
@@ -298,7 +312,7 @@ namespace SERVERAPI.ViewModels
     }
     public class CalculateViewModel
     {
-        public bool fldsFnd { get; set; }
+        public int fldsFnd { get; set; }
         public string currFld { get; set; }
         public bool itemsPresent { get; set; }
         public string noData { get; set; }
@@ -357,6 +371,8 @@ namespace SERVERAPI.ViewModels
         public bool unsavedData { get; set; }
         public string url { get; set; }
         public string noCropsMsg { get; set; }
+        public string downloadMsg { get; set; }
+        public string loadMsg { get; set; }
     }
     public class ReportSourcesViewModel
     {

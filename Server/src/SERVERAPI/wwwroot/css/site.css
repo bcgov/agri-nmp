@@ -13,7 +13,9 @@
     display: table;
     width: 100%
 }
-
+.TableBody {
+    display: table-row-group;
+}
 .Title {
     display: table-caption;
     text-align: center;
@@ -81,7 +83,7 @@
 }
 
     .rnd-table thead th {
-        background-color:olivedrab;
+        background-color: #446b59;
         border: solid 1px #DDEEEE;
         color: #000000;
         padding: 10px;
@@ -114,7 +116,7 @@
 
     .rnd-table-rounded tbody td {
         border: none;
-        background-color:palegoldenrod;
+        background-color:#e8e8e8;
     }
 
     .rnd-table-rounded tbody tr:last-child td:first-child {
