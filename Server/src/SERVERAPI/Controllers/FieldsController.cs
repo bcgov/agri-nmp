@@ -61,6 +61,56 @@ namespace SERVERAPI.Controllers
 
             return PartialView("FieldCopy", fvm);
         }
+        [HttpPost]
+        public ActionResult FieldCopy(FieldCopyViewModel fvm)
+        {
+            string url;
+            int numSel = 0;
+
+            if (ModelState.IsValid)
+            {
+                foreach(var fld in fvm.fieldList)
+                {
+                    if(fld.fieldSelected)
+                    {
+                        List<FieldCrop> fromCrops = _ud.GetFieldCrops(fvm.fldName);
+                        foreach(var c in fromCrops)
+                        {
+                            _ud.AddFieldCrop(fld.fieldName, c);
+                        }
+
+                        List<NutrientFertilizer> fromFert = _ud.GetFieldNutrientsFertilizers(fvm.fldName);
+                        foreach(var f in fromFert)
+                        {
+                            _ud.AddFieldNutrientsFertilizer(fld.fieldName, f);
+                        }
+
+                        List<NutrientManure> fromMan = _ud.GetFieldNutrientsManures(fvm.fldName);
+                        foreach(var m in fromMan)
+                        {
+                            _ud.AddFieldNutrientsManure(fld.fieldName, m);
+                        }
+
+                        List<NutrientOther> fromOther = _ud.GetFieldNutrientsOthers(fvm.fldName);
+                        foreach(var o in fromOther)
+                        {
+                            _ud.AddFieldNutrientsOther(fld.fieldName, o);
+                        }
+
+                        numSel++;
+                    }
+                }
+
+                if(numSel == 0)
+                {
+                    ModelState.AddModelError("", "No fields selected for copying of information.");
+                    return PartialView("FieldCopy", fvm);
+                }
+
+                return Json(new { success = true, reload = true });
+            }
+            return PartialView("FieldCopy", fvm);
+        }
 
         [HttpGet]
         public ActionResult FieldDetail(string name, string target, string cntl, string actn, string currFld)
