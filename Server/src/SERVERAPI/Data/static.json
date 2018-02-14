@@ -8874,6 +8874,36 @@
               "id": "13",
               "name": "nocropmessage",
               "text": "Did you forget to add something? Return to the previous step to find fields without a crop (*)."
+            },
+            {
+              "id": "14",
+              "name": "reportdownload",
+              "text": "<ul><li>Continue later</li><li>Save data for next year</li><li>Share work with someone else</li></ul>"
+            },
+            {
+              "id": "15",
+              "name": "reportload",
+              "text": "<ul><li>Load data file from your comupter</li></ul>"
+            },
+            {
+              "id": "16",
+              "name": "launchNew",
+              "text": "<p>With this option you can:</p><ul><li>Begin planning</li><li>Start over</li></ul>"
+            },
+            {
+              "id": "17",
+              "name": "launchLoad",
+              "text": "<p>With this option you can:</p><ul><li>Pick up where you left off</li><li>Copy last year's plan</li><li>Take a look at someone else's plan</li></ul>"
+            },
+            {
+              "id": "18",
+              "name": "launchMsg1",
+              "text": "Make the most of manure and fertilizer to grow crops"
+            },
+            {
+              "id": "19",
+              "name": "launchMsg2",
+              "text": "Keep nutrient losses to the environment to a minimum"
             }
           ]
         },
