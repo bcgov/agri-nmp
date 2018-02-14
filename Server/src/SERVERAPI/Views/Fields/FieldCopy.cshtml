@@ -21,6 +21,8 @@
                         <div class="checkbox col-sm-offset-2 col-sm-9">
                             <input asp-for="@Model.fieldList[i].fieldSelected" type="checkbox" />
                             <label asp-for="@Model.fieldList[i].fieldName">@Model.fieldList[i].fieldName</label>
+                            @Html.HiddenFor(x => x.fieldList[i].fieldName)
+                            @Html.HiddenFor(x => x.fieldList[i].fieldSelected)
                         </div>
                     }
                 }
@@ -30,6 +32,6 @@
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
             <input class="btn btn-primary" type="submit" value="Save" />
         </div>
-
+        @Html.HiddenFor(x => x.fldName)
     </form>
 </div>
