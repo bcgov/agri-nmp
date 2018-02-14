@@ -22,10 +22,12 @@
         <div class="col-sm-9">
         </div>
         <div class="col-sm-3" style="text-align:right">
-            <p style="margin:0px">Need to leave?</p>
-            <a href='@Url.Action("Download", "Home")' style="text-decoration: underline">
-                Continue later
-            </a>
+            <p style="margin:0px">Need to continue later?</p>
+            <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
+            &nbsp;
+            <div style="display:inline;margin-top:7px">
+                <a href="#" data_modalI="" data-type="@Url.Action("InfoMessage", "Report", new { type = "download" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of downloading" style="font-size:20px"></span></a>
+            </div>
         </div>
     </div>
 </div>
@@ -264,5 +266,42 @@
         $("#wizard-report").addClass('wizard-item-done');
     });
 
+    $(document).on("click", '[data_modalI]', function (e) {
+        $.ajaxSetup({ cache: false });
+        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").removeClass("modal-large");
+        $('#myModalContent').load($type, function () {
+            $('#myModal').modal({
+                /*backdrop: 'static',*/
+                //keyboard: true
+            }, 'show');
+            bindFormI(this);
+        });
+        return false;
+    });
+
+    $(".modal").on("hidden.bs.modal", function () {
+        $(".myModalContent").html("");
+    });
+
+    function bindFormI(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        $('#myModal').modal('hide');
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindFormI(dialog);
+                    }
+                }
+            });
+            return false;
+        });
+    }
 </script>
 }

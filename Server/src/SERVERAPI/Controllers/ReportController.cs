@@ -961,7 +961,7 @@ namespace SERVERAPI.Controllers
             switch (type)
             {
                 case "download":
-                    ivm.text = _sd.GetUserPrompt("agriinfomessage");
+                    ivm.text = _sd.GetUserPrompt("downloadinfomessage");
                     break;
                 case "load":
                     ivm.text = _sd.GetUserPrompt("cropinfomessage");
