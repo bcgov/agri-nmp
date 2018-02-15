@@ -1456,6 +1456,11 @@ namespace SERVERAPI.Models.Impl
             return result;
         }
         
-
+        public bool wasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
+        {
+            string noManureFromPreviousYearsCd = (string) rss["agri"]["nmp"]["manureprevyearscd"]["manureprevyearcd"][0]["id"];
+            // assumes first element (id=1) denotes no manure added in previous years.
+            return (userSelectedPrevYearsManureAdded != noManureFromPreviousYearsCd);
+        }
     }
 }

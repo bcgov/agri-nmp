@@ -1965,13 +1965,16 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("CalcPrevYearManure", new { fldName = fieldName });
         }
-        private bool SaveNitrogenCreditToField(string fldName, int nitrogenCredit)
+        private bool SaveNitrogenCreditToField(string fldName, int nitrogenCredit, int nitrogenCreditDefault)
         {
             try
             {
                 Field fld;
                 fld = _ud.GetFieldDetails(fldName);
-                fld.prevYearManureApplicationNitrogenCredit = nitrogenCredit;
+                if (nitrogenCredit != nitrogenCreditDefault)
+                    fld.prevYearManureApplicationNitrogenCredit = nitrogenCredit;
+                else // only save non-defaulted value (ie. over-ride)
+                    fld.prevYearManureApplicationNitrogenCredit = null;
                 _ud.UpdateField(fld);
             }
             catch (Exception e)
@@ -2009,11 +2012,11 @@ namespace SERVERAPI.Controllers
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Nitrogen", "An invalid Nitrogen Credit value was entered. Nitrogen credit must be a integer value which is greater than or equal to zero");
+                    ModelState.AddModelError("Nitrogen", "An invalid Nitrogen Credit value was entered. Nitrogen credit must be an integer with a value which is greater than or equal to zero");
                     return PartialView(model);
                 }
-                if (nitrogenCredit >= 0) {
-                    if (SaveNitrogenCreditToField(model.fldName, nitrogenCredit))
+                if  (nitrogenCredit >= 0)  {
+                    if (SaveNitrogenCreditToField(model.fldName, nitrogenCredit, Convert.ToInt32(model.defaultNitrogenCredit)) )
                     {
                         return Json(ReDisplay("#prevYearManure", model.fldName));
                     }
