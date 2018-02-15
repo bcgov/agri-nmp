@@ -53,16 +53,16 @@
                 <div class="form-box-body">
                     <div style="padding:20px">
                             <div style="margin-top:10px">
-                                <a href="@Url.Action("PrintComplete", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:220px; padding:5px; font-size:large" type="button" value="Complete Report" /></span></a>
+                                <a href="@Url.Action("PrintComplete", "Report")" id="prtComplete" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:220px; padding:5px; font-size:large" type="button" value="Complete Report" onclick="document.getElementById('prtComplete').click(); return false;" /></span></a>
                             </div>
                             <div style="margin-top:10px">
-                                <a href="@Url.Action("PrintFields", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:160px" type="button" value="Field Summaries" /></span></a>
+                                <a href="@Url.Action("PrintFields", "Report")" id="prtFields" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:160px" type="button" value="Field Summaries" onclick="document.getElementById('prtFields').click(); return false;" /></span></a>
                             </div>
                             <div style="margin-top:10px">
-                                <a href="@Url.Action("PrintApplication", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:160px" type="button" value="Application Schedule" /></span></a>
+                                <a href="@Url.Action("PrintApplication", "Report")" id="prtAppl" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:160px" type="button" value="Application Schedule" onclick="document.getElementById('prtAppl').click(); return false;" /></span></a>
                             </div>
                             <div style="margin-top:10px">
-                                <a href="@Url.Action("PrintSheets", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:220px; padding:5px; font-size:large" type="button" value="Record Keeping Sheets" /></span></a>
+                                <a href="@Url.Action("PrintSheets", "Report")" id="prtSheets" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:220px; padding:5px; font-size:large" type="button" value="Record Keeping Sheets" onclick="document.getElementById('prtSheets').click(); return false;" /></span></a>
                         </div>
                     </div>
                 </div>
