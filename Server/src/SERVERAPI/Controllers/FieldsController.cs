@@ -73,6 +73,29 @@ namespace SERVERAPI.Controllers
                 {
                     if(fld.fieldSelected)
                     {
+                        List<FieldCrop> toCrops = _ud.GetFieldCrops(fld.fieldName);
+                        foreach (var c in toCrops)
+                        {
+                            _ud.DeleteFieldCrop(fld.fieldName, c.id);
+                        }
+
+                        List<NutrientFertilizer> toFert = _ud.GetFieldNutrientsFertilizers(fld.fieldName);
+                        foreach (var f in toFert)
+                        {
+                            _ud.DeleteFieldNutrientsFertilizer(fld.fieldName, f.id);
+                        }
+
+                        List<NutrientManure> toMan = _ud.GetFieldNutrientsManures(fld.fieldName);
+                        foreach (var m in toMan)
+                        {
+                            _ud.DeleteFieldNutrientsManure(fld.fieldName, m.id);
+                        }
+
+                        List<NutrientOther> toOther = _ud.GetFieldNutrientsOthers(fld.fieldName);
+                        foreach (var o in toOther)
+                        {
+                            _ud.DeleteFieldNutrientsOther(fld.fieldName, o.id);
+                        }
                         List<FieldCrop> fromCrops = _ud.GetFieldCrops(fvm.fldName);
                         foreach(var c in fromCrops)
                         {
