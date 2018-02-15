@@ -1521,8 +1521,10 @@ namespace SERVERAPI.Controllers
                                 remK2o = Convert.ToDecimal(cvm.remK2o),
                                 crudeProtien = string.IsNullOrEmpty(cvm.crude) ? (decimal?)null : Convert.ToDecimal(cvm.crude),
                                 prevCropId = prevCrop,
-                                coverCropHarvested = cvm.coverCropHarvested
-                            };
+                                coverCropHarvested = cvm.coverCropHarvested,
+                                prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(thisCrop)
+
+                        };
 
                             _ud.AddFieldCrop(cvm.fieldName, crp);
                         }
