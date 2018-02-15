@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.611"
+        "staticDataVersion": "2018.683"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8900,12 +8900,12 @@
           {
             "id": "16",
             "name": "launchNew",
-            "text": "<p>With this option you can:</p><ul><li>Begin planning</li><li>Start over</li></ul>"
+            "text": "<ul><li>Begin calculations</li><li>Start over</li></ul>"
           },
           {
             "id": "17",
             "name": "launchLoad",
-            "text": "<p>With this option you can:</p><ul><li>Pick up where you left off</li><li>Copy last year's plan</li><li>Take a look at someone else's plan</li></ul>"
+            "text": "<ul><li>Continue a file in progress</li><li>Copy and edit data from a previous year</li></ul>"
           },
           {
             "id": "18",
