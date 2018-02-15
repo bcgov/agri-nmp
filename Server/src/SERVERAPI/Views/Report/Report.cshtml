@@ -21,14 +21,6 @@
     <div class="container">
         <div class="col-sm-9">
         </div>
-        <div class="col-sm-3" style="text-align:right">
-            <p style="margin:0px">Need to continue later?</p>
-            <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
-            &nbsp;
-            <div style="display:inline;margin-top:7px">
-                <a href="#" data_modalI="" data-type="@Url.Action("InfoMessage", "Report", new { type = "download" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of downloading" style="font-size:20px"></span></a>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -56,27 +48,27 @@
 
             <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
                 <div class="form-box-header clearfix" style="text-align:center">
-                    PDF Reports
+                    PDFs
                 </div>
                 <div class="form-box-body">
                     <div style="padding:20px">
                             <div style="margin-top:10px">
-                                <a href="@Url.Action("PrintComplete", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Complete Report" /></span></a>
+                                <a href="@Url.Action("PrintComplete", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:220px; padding:5px; font-size:large" type="button" value="Complete Report" /></span></a>
                             </div>
                             <div style="margin-top:10px">
-                                <a href="@Url.Action("PrintFields", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Field Summaries" /></span></a>
+                                <a href="@Url.Action("PrintFields", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:160px" type="button" value="Field Summaries" /></span></a>
                             </div>
                             <div style="margin-top:10px">
-                                <a href="@Url.Action("PrintApplication", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Application Schedule" /></span></a>
+                                <a href="@Url.Action("PrintApplication", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:160px" type="button" value="Application Schedule" /></span></a>
                             </div>
                             <div style="margin-top:10px">
-                                <a href="@Url.Action("PrintSheets", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:200px" type="button" value="Record Keeping Sheets" /></span></a>
+                                <a href="@Url.Action("PrintSheets", "Report")" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" style="width:220px; padding:5px; font-size:large" type="button" value="Record Keeping Sheets" /></span></a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-box"  style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
-                <div class="form-box-header clearfix" style="text-align:center; min-width:400px">
+                <div class="form-box-header clearfix" style="text-align:center">
                    Data File
                 </div>
                 <div class="form-box-body">
@@ -86,9 +78,6 @@
                         <div class="Cell" style="text-align:left">
                             @Html.Raw(Model.downloadMsg)
                         </div>
-                        <div class="Cell" style="text-align:left">
-                            @Html.Raw(Model.loadMsg)
-                        </div>
                     </div>
                     <div class="Row" style="padding-bottom:30px">
                         &nbsp;
@@ -97,12 +86,9 @@
                         <div class="Cell">
                             <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
                             &nbsp;
-                            <a href="#" data_modal3="" data-type="@Url.Action("InfoMessage", "Report", new { type = "download" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Agronomic" style="font-size:20px; padding-top:5px"></span></a>
-                        </div>
-                        <div class="Cell">
-                            <input class="btn btn-primary" type="button" value="Load file" title="Load data from your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
-                            &nbsp;
-                            <a href="#" data_modal3="" data-type="@Url.Action("InfoMessage", "Report", new { type = "load" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Agronomic" style="font-size:20px; padding-top:5px"></span></a>
+                            <div style="display:inline;margin-top:7px">
+                                <a href="#" data_modalI="" data-type="@Url.Action("InfoMessage", "Report", new { type = "download" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of downloading" style="font-size:20px"></span></a>
+                            </div>
                         </div>
                     </div>
                     <div class="Row" style="padding-bottom:30px">
