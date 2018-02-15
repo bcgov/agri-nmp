@@ -40,17 +40,14 @@ namespace SERVERAPI.ViewComponents
             {
                 if (fld.crops.Count() > 0)
                 {
-                    manureVM.display = true;    // only display when there is at least one crop
+                    manureVM.display = _sd.wasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
                     manureVM.fldName = fldName;
                     if (fld.prevYearManureApplicationNitrogenCredit != null)
                         manureVM.nitrogen = fld.prevYearManureApplicationNitrogenCredit;
                     else
                     {
-                        // lookup default Nitrogen credit and assign to user
+                        // lookup default Nitrogen credit 
                         manureVM.nitrogen = calculator.calcPrevYearManureApplDefault(fldName);
-                        fld.prevYearManureApplicationNitrogenCredit = manureVM.nitrogen;
-                        _ud.UpdateField(fld);
-
                     }
                 }
                 else
