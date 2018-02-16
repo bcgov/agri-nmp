@@ -13,6 +13,8 @@
                     <div class="Cell2" style="vertical-align:bottom; text-align:left; width:100px">
                         <p style="clear:both">Field</p>
                     </div>
+                    @if (Model.tests[0].sampleDate != null)
+                    {
                     <div class="Cell2" style="vertical-align:bottom; text-align:left; width:80px">
                         <p>Sampling Month</p>
                     </div>
@@ -28,6 +30,15 @@
                     <div class="Cell2" style="vertical-align:bottom">
                         <p>pH</p>
                     </div>
+                    }
+                    else
+                    {
+                    <div class="Cell2" style="vertical-align:bottom; text-align:left; width:110px" ><p/></div>
+                    <div class="Cell2" style="vertical-align:bottom; text-align:left; width:110px" ><p/></div>
+                    <div class="Cell2" style="vertical-align:bottom; text-align:left; width:110px" ><p/></div>
+                    <div class="Cell2" style="vertical-align:bottom; text-align:left; width:110px" ><p/></div>
+                    <div class="Cell2" style="vertical-align:bottom; text-align:left; width:110px" ><p/></div>
+                    }
                     <div class="Cell2" style="vertical-align:bottom">
 
                     </div>
