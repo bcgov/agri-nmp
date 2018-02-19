@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.683"
+        "staticDataVersion": "2018.689"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -3112,32 +3112,32 @@
           {
             "cropid": "54",
             "locationid": "1",
-            "amt": "5"
+            "amt": "15"
           },
           {
             "cropid": "54",
             "locationid": "2",
-            "amt": "5"
+            "amt": "15"
           },
           {
             "cropid": "55",
             "locationid": "1",
-            "amt": "13"
+            "amt": "20"
           },
           {
             "cropid": "55",
             "locationid": "2",
-            "amt": "13"
+            "amt": "20"
           },
           {
             "cropid": "56",
             "locationid": "1",
-            "amt": "17"
+            "amt": "25"
           },
           {
             "cropid": "56",
             "locationid": "2",
-            "amt": "17"
+            "amt": "25"
           },
           {
             "cropid": "57",
