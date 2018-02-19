@@ -52,6 +52,7 @@
   <ItemGroup>
     <Folder Include="Mappings\" />
     <Folder Include="Migrations\" />
+    <Folder Include="UserAgent\" />
     <Folder Include="Services.Impl\" />
     <Folder Include="Services\" />
   </ItemGroup>
