@@ -8921,6 +8921,16 @@
             "id": "20",
             "name": "downloadinfomessage",
             "text": "<h1>Downloading Files</h1>"
+          },
+          {
+            "id": "21",
+            "name": "browseroutofdate",
+            "text": "The version of browser you are using is out of date - to ensure proper functioning of this website please update to a newer version."
+          },
+          {
+            "id": "22",
+            "name": "unknownbrowser",
+            "text": "The browser you are using cannot be determined or is not a supported one.  Please refer to the Help screen for a list of browsers."
           }
         ]
       },
@@ -9017,6 +9027,35 @@
             "balance_high": "99999",
             "balance1_low": "35",
             "balance1_high": "99999"
+          }
+        ]
+      },
+      "browsers": {
+        "browser": [
+          {
+            "id": "1",
+            "name": "IE",
+            "minversion": "11.0"
+          },
+          {
+            "id": "2",
+            "name": "Chrome",
+            "minversion": "49.0"
+          },
+          {
+            "id": "3",
+            "name": "Firefox",
+            "minversion": "49.0"
+          },
+          {
+            "id": "4",
+            "name": "Safari",
+            "minversion": "9.0"
+          },
+          {
+            "id": "5",
+            "name": "Edge",
+            "minversion": "40.0"
           }
         ]
       }
