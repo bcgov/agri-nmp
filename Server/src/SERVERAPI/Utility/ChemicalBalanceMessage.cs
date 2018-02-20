@@ -160,12 +160,19 @@ namespace SERVERAPI.Utility
             // lookup default Nitrogen credit.
             Field fld = _ud.GetFieldDetails(fldName);
             if (fld.crops != null)
-                if ( (fld.prevYearManureApplicationNitrogenCredit != null) && (fld.crops.Count() > 0) )
-                        chemicalBalances.balance_AgrN += Convert.ToInt64(fld.prevYearManureApplicationNitrogenCredit);
+            {
+                if ((fld.prevYearManureApplicationNitrogenCredit != null) && (fld.crops.Count() > 0))
+                    chemicalBalances.balance_AgrN += Convert.ToInt64(fld.prevYearManureApplicationNitrogenCredit);
                 else
                     // accomodate previous version of farm data - lookup default Nitrogen credit.
                     chemicalBalances.balance_AgrN += calcPrevYearManureApplDefault(fldName);
 
+                if ((fld.SoilTestNitrateOverrideNitrogenCredit != null) && (fld.crops.Count() > 0))
+                    chemicalBalances.balance_AgrN += Convert.ToInt64(fld.SoilTestNitrateOverrideNitrogenCredit);
+                else
+                    // accomodate previous version of farm data - lookup default Nitrogen credit.
+                    chemicalBalances.balance_AgrN += calcSoitTestNitrateDefault(fldName);
+            }
 
             if (crps.Count > 0) //display balance messages when at least one Crop has been added
                 displayBalances = true;
@@ -299,6 +306,22 @@ namespace SERVERAPI.Utility
                                 largestPrevYearManureVolumeCategory = crop.prevYearManureAppl_volCatCd;
                     }
                     return prevYearManureDefaultLookup(largestPrevYearManureVolumeCategory.ToString(), prevYearManureApplFrequency);
+                }
+            }
+            return 0;  // no Nitrogen credit as there are no crops
+        }
+
+        public int calcSoitTestNitrateDefault(string fldName)
+        {
+            Field fld = _ud.GetFieldDetails(fldName);
+            if (fld != null)
+            {
+                if (fld.crops != null)
+                {
+                    if ( (fld.crops.Count() > 0) && (fld.soilTest != null) )
+                    {
+                        return Convert.ToInt32(Math.Round(fld.soilTest.valNO3H * _sd.GetSoilTestNitratePPMToPoundPerAcreConversionFactor()));
+                    }
                 }
             }
             return 0;  // no Nitrogen credit as there are no crops

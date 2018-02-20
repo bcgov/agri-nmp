@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.689"
+        "staticDataVersion": "2018.683"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -23,6 +23,17 @@
         "lbPerTonConversion": "20",
         "lbper1000ftsquared_lbperac_conversion": "43.5600021606",
         "defaultApplicationOfManureInPrevYears": "1"
+      },
+      "interiorBCSampleDtForNitrateCredit": {
+        "fromDateMonth": "08",
+        "toDateMonth": "05"
+      },
+      "coastalBCSampleDtForNitrateCredit": {
+        "fromDateMonth": "03",
+        "toDateMonth": "05"
+      },
+      "soilTestPPMToPoundPerAcreConversionFactor": {
+        "ppmToPoundPerAcre":  "1.7"
       },
       "manureprevyearscd": {
         "manureprevyearcd": [
@@ -3112,32 +3123,32 @@
           {
             "cropid": "54",
             "locationid": "1",
-            "amt": "15"
+            "amt": "5"
           },
           {
             "cropid": "54",
             "locationid": "2",
-            "amt": "15"
+            "amt": "5"
           },
           {
             "cropid": "55",
             "locationid": "1",
-            "amt": "20"
+            "amt": "13"
           },
           {
             "cropid": "55",
             "locationid": "2",
-            "amt": "20"
+            "amt": "13"
           },
           {
             "cropid": "56",
             "locationid": "1",
-            "amt": "25"
+            "amt": "17"
           },
           {
             "cropid": "56",
             "locationid": "2",
-            "amt": "25"
+            "amt": "17"
           },
           {
             "cropid": "57",

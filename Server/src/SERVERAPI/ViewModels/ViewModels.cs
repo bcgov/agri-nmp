@@ -495,6 +495,9 @@ namespace SERVERAPI.ViewModels
         public bool showNitrogenCredit { get; set; }
         public int? nitrogenCredit { get; set; }  // prev manure application
 
+        public bool showSoilTestNitrogenCredit { get; set; }
+        public int? soilTestNitrogenCredit { get; set; }
+
     }
     public class ReportSheetsField
     {
@@ -584,6 +587,13 @@ namespace SERVERAPI.ViewModels
     {
         public string fldName { get; set; }
         public int id { get; set; }
+        public string nitrogen { get; set; }
+        public string defaultNitrogenCredit { get; set; }
+    }
+
+    public class SoilTestNitrateOverrideViewModel
+    {
+        public string fldName { get; set; }
         public string nitrogen { get; set; }
         public string defaultNitrogenCredit { get; set; }
     }

@@ -1,0 +1,72 @@
+﻿@model SERVERAPI.ViewModels.SoilTestNitrateOverrideViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <form asp-action="SoilTestNitrateOverrideDetails" asp-controller="Nutrients" class="form-horizontal" id="modForm" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Soil Test Nitrate Override - Edit</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-group">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group col-md-offset-2">
+                    <label asp-for="nitrogen" style="padding-right:5px">Nitrogen available from soil test</label>
+                    <a href="~/Controllers/Calculate" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About other nutrient sources" style="font-size:20px; padding-top:5px"></span></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2" for="pwd">N Credit:</label>
+                <div class="input-group col-md-4">
+                    <input class="form-control" asp-for="nitrogen" id="tbNitrogen" type="text" />
+                    <span class="input-group-btn" title="Reset to standard value">
+                        <button class="btn btn-default" type="button" id="rstNitrogen" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                    </span>
+                    <label class="control-label col-md-1" for="concentration">lb/ac</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <span asp-validation-for="nitrogen"></span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="ok_button">Save Changes</button>
+        </div>
+        @Html.HiddenFor(x => x.fldName)
+        @Html.HiddenFor(x => x.defaultNitrogenCredit)
+    </form>
+</div>
+
+<script type="text/javascript">
+
+
+    showResetButtion();
+
+    function showResetButtion() {
+        var curNitroCredit;
+        try {
+            curNitroCredit = parseInt($("#tbNitrogen").val());
+            if (curNitroCredit != parseInt("@Model.defaultNitrogenCredit"))
+                $("#rstNitrogen").show();
+            else
+                $("#rstNitrogen").hide();
+        }
+        catch (err) {
+            $("#rstNitrogen").show();
+        }
+    }
+
+    $("#tbNitrogen").keyup(function () {
+        showResetButtion();
+     });
+
+    $("#rstNitrogen").click(function () {
+        $('#tbNitrogen').val("@Model.defaultNitrogenCredit");
+        $("#rstNitrogen").hide();
+    });
+
+</script>

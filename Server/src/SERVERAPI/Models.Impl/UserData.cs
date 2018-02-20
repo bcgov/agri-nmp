@@ -118,6 +118,7 @@ namespace SERVERAPI.Models.Impl
 
             fld.prevYearManureApplicationFrequency = updtFld.prevYearManureApplicationFrequency;
             fld.prevYearManureApplicationNitrogenCredit = updtFld.prevYearManureApplicationNitrogenCredit;
+            fld.SoilTestNitrateOverrideNitrogenCredit = updtFld.SoilTestNitrateOverrideNitrogenCredit;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
