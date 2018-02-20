@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Diagnostics;
+using System.Linq;
 
 namespace SERVERAPI.Controllers
 {
@@ -372,10 +373,21 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public IActionResult DownloadMessage()
         {
+            var pathToFiles = _env.WebRootPath + @"\images\DownloadHelp\" + _bd.BrowserName;
 
-            FileLoadViewModel fvm = new FileLoadViewModel();
+            var sortedFiles = new DirectoryInfo(pathToFiles).GetFiles()
+                                                  .OrderBy(f => f.Name)
+                                                  .ToList();
 
-            return View(fvm);
+            DownLoadViewModel dvm = new DownLoadViewModel();
+            dvm.images = new List<string>();
+
+            foreach(var h in sortedFiles)
+            {
+                dvm.images.Add(_bd.BrowserName.Trim() + @"/" + h.Name);
+            }
+
+            return View(dvm);
         }
     }
 }

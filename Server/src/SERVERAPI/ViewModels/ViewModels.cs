@@ -141,6 +141,10 @@ namespace SERVERAPI.ViewModels
         public bool badFile { get; set; }
         public string warningMsg { get; set; }
     }
+    public class DownLoadViewModel
+    {
+        public List<string> images { get; set; }
+    }
     public class ManureDetailsViewModel
     {
         public int? id { get; set; }

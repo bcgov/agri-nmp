@@ -31,6 +31,7 @@ namespace SERVERAPI.Models.Impl
                 if(indx < 0)
                 {
                     BrowserValid = false;
+                    BrowserName = "Unknown";
                 }
                 else
                 {
@@ -49,6 +50,7 @@ namespace SERVERAPI.Models.Impl
             }
             catch (Exception ex)
             {
+                BrowserName = "Unknown";
                 throw new Exception("Could not retrieve browser type.!");
             }
         }
