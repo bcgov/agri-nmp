@@ -1523,6 +1523,7 @@ namespace SERVERAPI.Models.Impl
         {
             string conversionFactor = (string)rss["agri"]["nmp"]["soilTestPPMToPoundPerAcreConversionFactor"]["ppmToPoundPerAcre"];
             return Convert.ToDecimal(conversionFactor);
+        }
 
         public Browsers GetAllowableBrowsers()
         {
