@@ -187,8 +187,8 @@
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remK</td>
                     </tr>
 }
-                        @if (f.showNitrogenCredit)
-    {
+                @if (f.showNitrogenCredit)
+                {
                     <tr>
                         <td class="CellDtlNBd">Previous year&apos;s manure application </td>
                         <td></td>
@@ -200,8 +200,21 @@
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
                     </tr>
-}
-
+                }
+                @if (f.showSoilTestNitrogenCredit)
+                {
+                    <tr>
+                        <td class="CellDtlNBd">Soil nitrate </td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@f.soilTestNitrogenCredit</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td></td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                    </tr>
+                }
                         @foreach (var n in f.nutrients)
     {
                     <tr>

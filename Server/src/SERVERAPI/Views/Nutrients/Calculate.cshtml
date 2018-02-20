@@ -102,6 +102,9 @@
                             <div class="TableBody" id="prevYearManure">
                                 @await Component.InvokeAsync("CalcPrevYearManure", new { fldName = Model.currFld })
                             </div>
+                            <div class="TableBody" id="soilTestNitrogenCredit">
+                                @await Component.InvokeAsync("SoilTestNitrateOverride", new { fldName = Model.currFld })
+                            </div>
                             <div class="TableBody" id="summary">
                                 @await Component.InvokeAsync("CalcSummary", new { fldName = Model.currFld })
                             </div>
