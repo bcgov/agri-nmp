@@ -434,5 +434,15 @@ namespace SERVERAPI.Models
             public string prevYearManureAppFrequency { get; set; }
             public int[] defaultNitrogenCredit { get; set; }
         }
+        public class Browsers
+        {
+            public List<Browser> known { get; set; }
+        }
+        public class Browser
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public string minVersion { get; set; }
+        }
     }
 }

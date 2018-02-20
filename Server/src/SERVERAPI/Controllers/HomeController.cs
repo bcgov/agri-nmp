@@ -62,12 +62,14 @@ namespace SERVERAPI.Controllers
         public UserData _ud { get; set; }
         public Models.Impl.StaticData _sd { get; set; }
         public AppSettings _settings;
+        public BrowserData _bd { get; set; }
 
-        public HomeController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
+        public HomeController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd, BrowserData bd)
         {
             _env = env;
             _ud = ud;
             _sd = sd;
+            _bd = bd;
         }
         //public IActionResult Index()
         //{
@@ -95,6 +97,17 @@ namespace SERVERAPI.Controllers
             lvm.disclaimerMsg = _sd.GetUserPrompt("disclaimer");
             lvm.staticDataVersionMsg = _sd.GetStaticDataVersion();
 
+            if(_bd.BrowserValid)
+            {
+                if(_bd.BrowserOutofdate)
+                {
+                    lvm.browserMsg = _sd.GetUserPrompt("browseroutofdate");
+                }
+            }
+            else
+            {
+                lvm.browserMsg = _sd.GetUserPrompt("unknownbrowser");
+            }
 
             ViewBag.Title = "NMP";
             //LoadStatic();
@@ -355,6 +368,14 @@ namespace SERVERAPI.Controllers
             }
 
             return View(vvm);
+        }
+        [HttpGet]
+        public IActionResult DownloadMessage()
+        {
+
+            FileLoadViewModel fvm = new FileLoadViewModel();
+
+            return View(fvm);
         }
     }
 }

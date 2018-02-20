@@ -101,6 +101,7 @@ namespace SERVERAPI
 
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
+            services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
             services.AddOptions();
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));

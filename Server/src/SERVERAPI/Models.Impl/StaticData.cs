@@ -1523,6 +1523,24 @@ namespace SERVERAPI.Models.Impl
         {
             string conversionFactor = (string)rss["agri"]["nmp"]["soilTestPPMToPoundPerAcreConversionFactor"]["ppmToPoundPerAcre"];
             return Convert.ToDecimal(conversionFactor);
+
+        public Browsers GetAllowableBrowsers()
+        {
+            Models.StaticData.Browsers browsers = new Models.StaticData.Browsers();
+            browsers.known = new List<Browser>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["browsers"]["browser"];
+
+            foreach (var r in array)
+            {
+                Models.StaticData.Browser browser = new Models.StaticData.Browser();
+                browser.id = Convert.ToInt32(r["id"].ToString());
+                browser.name = r["name"].ToString();
+                browser.minVersion = r["minversion"].ToString();
+                browsers.known.Add(browser);
+            }
+
+            return browsers;
         }
     }
 }
