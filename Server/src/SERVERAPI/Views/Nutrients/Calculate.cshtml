@@ -26,7 +26,7 @@
             <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
             &nbsp;
             <div style="display:inline;margin-top:7px">
-                <a href="#" data_modalI="" data-type="@Url.Action("InfoMessage", "Report", new { type = "download" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of downloading" style="font-size:20px"></span></a>
+                <a href="#" data_modalI="" data-type="@Url.Action("DownloadMessage", "Home")"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of downloading" style="font-size:20px"></span></a>
             </div>
         </div>
     </div>
@@ -152,6 +152,7 @@
     $(document).on("click", '[data_modal]', function (e) {
         $.ajaxSetup({ cache: false });
         $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").removeClass("modal-carousel");
         $("#divSize").addClass("modal-large");
         $('#myModalContent').load($type, function () {
             $('#myModal').modal({
@@ -166,6 +167,7 @@
     $(document).on("click", '[data_modal2]', function (e) {
         $.ajaxSetup({ cache: false });
         $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").removeClass("modal-carousel");
         $("#divSize").removeClass("modal-large");
         $('#myModalContent').load($type, function () {
             $('#myModal').modal({
@@ -180,6 +182,7 @@
     $(document).on("click", '[data_modal3]', function (e) {
         $.ajaxSetup({ cache: false });
         $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").removeClass("modal-carousel");
         $("#divSize").removeClass("modal-large");
         $('#myModalContent').load($type, function () {
             $('#myModal').modal({
@@ -194,6 +197,7 @@
     $(document).on("click", '[data_modal4]', function (e) {
         $.ajaxSetup({ cache: false });
         $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $("#divSize").removeClass("modal-carousel");
         $("#divSize").removeClass("modal-large");
         $('#myModalContent').load($type, function () {
             $('#myModal').modal({
@@ -577,6 +581,7 @@
         $.ajaxSetup({ cache: false });
         $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
         $("#divSize").removeClass("modal-large");
+        $("#divSize").addClass("modal-carousel");
         $('#myModalContent').load($type, function () {
             $('#myModal').modal({
                 /*backdrop: 'static',*/
