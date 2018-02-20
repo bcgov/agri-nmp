@@ -297,8 +297,6 @@
                     if (result.success) {
                         $('#myModal').modal('hide');
                         if (result.url != '') {
-                            alert('result.target: ' + result.target);
-                            alert('result.url: ' + result.url);
                             $(result.target).load(result.url);
                             $('#summary').load(result.urlSumm);
                             $('#message').load(result.urlMsg);
