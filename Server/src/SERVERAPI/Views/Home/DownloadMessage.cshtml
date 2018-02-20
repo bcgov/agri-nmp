@@ -1,7 +1,10 @@
-﻿@model SERVERAPI.ViewModels.FileLoadViewModel
+﻿@model SERVERAPI.ViewModels.DownLoadViewModel
 
 @{
     Layout = null;
+}
+@{ 
+    var i = 0;
 }
 <div id="target">
     <div class="modal-header">
@@ -14,24 +17,24 @@
             <div id="myCarousel" class="carousel slide" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    @foreach (var img in Model.images)
+                    {
+                        <li data-target="#myCarousel" data-slide-to="@i.ToString()" @( i == 0 ? Html.Raw(" class='active'") : Html.Raw(""))></li>
+                        i = i + 1;
+                    }
                 </ol>
 
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="~/images/Help 1.png" />
-                    </div>
-
-                    <div class="item">
-                        <img src="~/images/Help 2.png" />
-                    </div>
-
-                    <div class="item">
-                        <img src="~/images/Help 3.png" />
-                    </div>
+                    @{ i = 0;}
+                    @foreach (var img in Model.images)
+                    {
+                        <div class="item @( i == 0 ? Html.Raw(" active") : Html.Raw(""))">
+                            <img src="~/images/DownloadHelp/@Html.Raw(img)" />
+                            @{i = i + 1;
+                            }
+                        </div>
+                    }
                 </div>
 
                 <!-- Left and right controls -->
@@ -48,7 +51,5 @@
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Close</button>
         </div>
-        @Html.HiddenFor(x => x.unsavedData)
-        @Html.HiddenFor(x => x.warningMsg)
     </form>
 </div>

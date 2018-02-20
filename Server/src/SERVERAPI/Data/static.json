@@ -24,6 +24,17 @@
         "lbper1000ftsquared_lbperac_conversion": "43.5600021606",
         "defaultApplicationOfManureInPrevYears": "1"
       },
+      "interiorBCSampleDtForNitrateCredit": {
+        "fromDateMonth": "08",
+        "toDateMonth": "05"
+      },
+      "coastalBCSampleDtForNitrateCredit": {
+        "fromDateMonth": "03",
+        "toDateMonth": "05"
+      },
+      "soilTestPPMToPoundPerAcreConversionFactor": {
+        "ppmToPoundPerAcre":  "1.7"
+      },
       "manureprevyearscd": {
         "manureprevyearcd": [
           {
