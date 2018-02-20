@@ -1501,7 +1501,7 @@ namespace SERVERAPI.Models.Impl
         private DateTime GetCoastalNitrateSampleFromDt(int yearOfAnalysis)
         {
             string fromDtMonth = (string)rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"]["fromDateMonth"]; // assumes first element is interior
-            return new DateTime(yearOfAnalysis-1, Convert.ToInt16(fromDtMonth), 01);
+            return new DateTime(yearOfAnalysis, Convert.ToInt16(fromDtMonth), 01);
         }
 
         private DateTime GetCoastalNitrateSampleToDt(int yearOfAnalysis)
