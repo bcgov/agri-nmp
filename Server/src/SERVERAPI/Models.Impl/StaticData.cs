@@ -1476,45 +1476,48 @@ namespace SERVERAPI.Models.Impl
             {
                 foreach (var r in regs.regions)
                 {
-                    if ((r.id == region) && (r.locationid == GetInteriorId()))
-                        return true;
+                    if (r.id == region)
+                        if (r.locationid == GetInteriorId())
+                            return true;
+                        else
+                            return false;
                 }
             }
             return false;
         }
 
-        private DateTime GetInteriorNitrateSampleFromDt(DateTime sampleDate)
+        private DateTime GetInteriorNitrateSampleFromDt(int yearOfAnalysis)
         {
             string fromDtMonth = (string)rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"]["fromDateMonth"]; // assumes first element is interior
-            return  new DateTime(sampleDate.AddYears(-1).Year, Convert.ToInt16(fromDtMonth), 01);
+            return  new DateTime(yearOfAnalysis - 1, Convert.ToInt16(fromDtMonth), 01);
         }
 
-        private DateTime GetInteriorNitrateSampleToDt(DateTime sampleDate)
+        private DateTime GetInteriorNitrateSampleToDt(int yearOfAnalysis)
         {
             string toDtMonth = (string)rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"]["toDateMonth"]; 
-            return new DateTime(sampleDate.Year, Convert.ToInt16(toDtMonth), DateTime.DaysInMonth(sampleDate.Year, sampleDate.Month));
+            return new DateTime(yearOfAnalysis, Convert.ToInt16(toDtMonth), DateTime.DaysInMonth(yearOfAnalysis, Convert.ToInt16(toDtMonth)));
         }
 
-        private DateTime GetCoastalNitrateSampleFromDt(DateTime sampleDate)
+        private DateTime GetCoastalNitrateSampleFromDt(int yearOfAnalysis)
         {
             string fromDtMonth = (string)rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"]["fromDateMonth"]; // assumes first element is interior
-            return new DateTime(sampleDate.AddYears(-1).Year, Convert.ToInt16(fromDtMonth), 01);
+            return new DateTime(yearOfAnalysis-1, Convert.ToInt16(fromDtMonth), 01);
         }
 
-        private DateTime GetCoastalNitrateSampleToDt(DateTime sampleDate)
+        private DateTime GetCoastalNitrateSampleToDt(int yearOfAnalysis)
         {
             string toDtMonth = (string)rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"]["toDateMonth"];
-            return new DateTime(sampleDate.Year, Convert.ToInt16(toDtMonth), DateTime.DaysInMonth(sampleDate.Year, sampleDate.Month));
+            return new DateTime(yearOfAnalysis, Convert.ToInt16(toDtMonth), DateTime.DaysInMonth(yearOfAnalysis, Convert.ToInt16(toDtMonth)));
         }
 
-        public bool IsNitrateCreditApplicable(int? region, DateTime sampleDate) 
+        public bool IsNitrateCreditApplicable(int? region, DateTime sampleDate, int yearOfAnalysis) 
         {
             if ((region != null) && (sampleDate != null))
             {
                 if (IsRegionInteriorBC(region))
-                    return ((sampleDate >= GetInteriorNitrateSampleFromDt(sampleDate)) && (sampleDate <= GetInteriorNitrateSampleToDt(sampleDate)));
+                    return ((sampleDate >= GetInteriorNitrateSampleFromDt(yearOfAnalysis)) && (sampleDate <= GetInteriorNitrateSampleToDt(yearOfAnalysis)));
                 else  // coastal farm
-                    return ((sampleDate >= GetCoastalNitrateSampleFromDt(sampleDate)) && (sampleDate <= GetCoastalNitrateSampleToDt(sampleDate)));
+                    return ((sampleDate >= GetCoastalNitrateSampleFromDt(yearOfAnalysis)) && (sampleDate <= GetCoastalNitrateSampleToDt(yearOfAnalysis)));
              }
             return false;
         }
