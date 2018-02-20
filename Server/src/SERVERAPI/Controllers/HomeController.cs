@@ -373,7 +373,7 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public IActionResult DownloadMessage()
         {
-            var pathToFiles = _env.WebRootPath + @"\images\DownloadHelp\" + _bd.BrowserName;
+            var pathToFiles = _env.WebRootPath + @"/images/download/" + _bd.BrowserName;
 
             var sortedFiles = new DirectoryInfo(pathToFiles).GetFiles()
                                                   .OrderBy(f => f.Name)
