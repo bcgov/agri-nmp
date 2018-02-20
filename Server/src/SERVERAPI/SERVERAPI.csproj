@@ -55,6 +55,12 @@
     <Folder Include="UserAgent\" />
     <Folder Include="Services.Impl\" />
     <Folder Include="Services\" />
+    <Folder Include="wwwroot\images\DownloadHelp\IE\" />
+    <Folder Include="wwwroot\images\DownloadHelp\Chrome\" />
+    <Folder Include="wwwroot\images\DownloadHelp\Firefox\" />
+    <Folder Include="wwwroot\images\DownloadHelp\Edge\" />
+    <Folder Include="wwwroot\images\DownloadHelp\Unknown\" />
+    <Folder Include="wwwroot\images\DownloadHelp\Safari\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Home\temp.cshtml" />
