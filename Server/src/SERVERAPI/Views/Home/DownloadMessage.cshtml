@@ -35,6 +35,11 @@
                             @{i = i + 1;
                             }
                         </div>
+                        if(Model.browserName == "Unknown")
+                        {
+                            <p>@Html.Raw(Model.browserAgent)</p>
+
+                        }
                     }
                 </div>
                 @*@<ol class="carousel-indicators">
