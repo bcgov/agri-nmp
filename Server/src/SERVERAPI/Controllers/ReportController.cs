@@ -126,8 +126,9 @@ namespace SERVERAPI.Controllers
                 rf.otherNutrients = new List<ReportFieldOtherNutrient>();
                 rf.footnotes = new List<ReportFieldFootnote>();
                 rf.showNitrogenCredit = false;
+                rf.showSoilTestNitrogenCredit = false;
 
-                if(f.soilTest != null)
+                if (f.soilTest != null)
                 {
                     rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
                     rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString() + " ppm";
@@ -216,15 +217,32 @@ namespace SERVERAPI.Controllers
                     }
                     if (f.crops.Count() > 0)
                     {
-                        rf.showNitrogenCredit = f.crops.Count() > 0 ? true : false;
-                        if (f.prevYearManureApplicationNitrogenCredit == null)
-                        {   // special case when user navigates with PRINT report using old version of saved data
-                            rf.nitrogenCredit = 0;
+                        rf.showNitrogenCredit = f.prevYearManureApplicationFrequency != null ? true : false;
+                        rf.showSoilTestNitrogenCredit = _sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, f.soilTest.sampleDate);
+                        if ( rf.showNitrogenCredit )
+                        {
+                            if (f.prevYearManureApplicationNitrogenCredit == null)
+                            {   // calculate default value.
+                                SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
+                                rf.nitrogenCredit = calculator.calcPrevYearManureApplDefault(f.fieldName);
+                            }
+                            else
+                                rf.nitrogenCredit = f.prevYearManureApplicationNitrogenCredit;
+                            rf.reqN += Convert.ToDecimal(rf.nitrogenCredit);
                         }
-                        else
-                            rf.nitrogenCredit = f.prevYearManureApplicationNitrogenCredit;
-                        rf.reqN +=  Convert.ToDecimal(rf.nitrogenCredit);
-                    }
+
+                        if (rf.showSoilTestNitrogenCredit)
+                        {
+                            if (f.SoilTestNitrateOverrideNitrogenCredit == null)
+                            {   // calculate default value
+                                SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
+                                rf.soilTestNitrogenCredit = calculator.calcSoitTestNitrateDefault(f.fieldName);
+                            }
+                            else
+                                rf.soilTestNitrogenCredit = f.SoilTestNitrateOverrideNitrogenCredit;
+                            rf.reqN += Convert.ToDecimal(rf.soilTestNitrogenCredit);
+                        }                      
+                    } // f.crops.Count() > 0
                 }
                 if (f.nutrients != null)
                 {

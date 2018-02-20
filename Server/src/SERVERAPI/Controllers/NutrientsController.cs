@@ -1921,7 +1921,10 @@ namespace SERVERAPI.Controllers
                 case "#prevYearManure":
                     refresher = "RefreshNitrogenCredit";
                     break;
-                   
+                case "#soilTestNitrogenCredit":
+                    refresher = "RefreshSoilTestNitrogenCredit";
+                    break;
+
             }
             string url = Url.Action(refresher, "Nutrients", new { fieldName = fldName });
             string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = fldName });
@@ -1984,7 +1987,6 @@ namespace SERVERAPI.Controllers
                 return false;
             }
             return true;
-
         }
         [HttpGet]
         public IActionResult PrevYearManureApplicationDetails(string fldName)
@@ -2021,6 +2023,76 @@ namespace SERVERAPI.Controllers
                     if (SaveNitrogenCreditToField(model.fldName, nitrogenCredit, Convert.ToInt32(model.defaultNitrogenCredit)) )
                     {
                         return Json(ReDisplay("#prevYearManure", model.fldName));
+                    }
+                    else
+                        ModelState.AddModelError("Nitrogen", "Unable to save changes made to the Nitrogen credit.");
+                }
+                else
+                    ModelState.AddModelError("Nitrogen", "Nitrogen Credit cannot be a negative value. It must be greater than or equal to zero");
+            } // ...modelstate
+            return PartialView(model);
+
+        }
+
+        private bool SaveSoilTestNitrogenCreditToField(string fldName, int nitrogenCredit, int nitrogenCreditDefault)
+        {
+            try
+            {
+                Field fld;
+                fld = _ud.GetFieldDetails(fldName);
+                if (nitrogenCredit != nitrogenCreditDefault)
+                    fld.SoilTestNitrateOverrideNitrogenCredit = nitrogenCredit;
+                else // only save non-defaulted value (ie. over-ride)
+                    fld.SoilTestNitrateOverrideNitrogenCredit = null;
+                _ud.UpdateField(fld);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public IActionResult RefreshSoilTestNitrogenCredit(string fieldName)
+        {
+            return ViewComponent("SoilTestNitrateOverride", new { fldName = fieldName });
+        }
+        [HttpGet]
+        public IActionResult SoilTestNitrateOverrideDetails(string fldName)
+        {
+            SoilTestNitrateOverrideViewModel model = new SoilTestNitrateOverrideViewModel();
+            SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
+            model.defaultNitrogenCredit = calculator.calcSoitTestNitrateDefault(fldName).ToString();
+            model.fldName = fldName;
+            Field field = _ud.GetFieldDetails(fldName);
+            if (field.SoilTestNitrateOverrideNitrogenCredit != null)
+                model.nitrogen = Convert.ToInt32(field.SoilTestNitrateOverrideNitrogenCredit).ToString();
+            else
+                model.nitrogen = model.defaultNitrogenCredit;
+
+            return PartialView(model);
+        }
+        [HttpPost]
+        public IActionResult SoilTestNitrateOverrideDetails(SoilTestNitrateOverrideViewModel model)
+        {
+            int nitrogenCredit = 0;
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    nitrogenCredit = Convert.ToInt32(model.nitrogen);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Nitrogen", "An invalid Nitrogen Credit value was entered. Nitrogen credit must be an integer with a value which is greater than or equal to zero");
+                    return PartialView(model);
+                }
+                if (nitrogenCredit >= 0)
+                {
+                    if (SaveSoilTestNitrogenCreditToField(model.fldName, nitrogenCredit, Convert.ToInt32(model.defaultNitrogenCredit)))
+                    {
+                        return Json(ReDisplay("#soilTestNitrogenCredit", model.fldName));
                     }
                     else
                         ModelState.AddModelError("Nitrogen", "Unable to save changes made to the Nitrogen credit.");
