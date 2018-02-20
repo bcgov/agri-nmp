@@ -14,6 +14,7 @@ namespace SERVERAPI.Models.Impl
         public string BrowserVersion { get; }
         public bool BrowserValid { get; }
         public bool BrowserOutofdate { get; }
+        public string BrowserAgent { get; }
 
         public BrowserData(IHttpContextAccessor ctx, StaticData sd)
         {
@@ -25,6 +26,7 @@ namespace SERVERAPI.Models.Impl
                 UserAgent.UserAgent ua = new UserAgent.UserAgent(_ctx.HttpContext.Request.Headers["User-Agent"]);
                 BrowserName = ua.Browser.Name;
                 BrowserVersion = ua.Browser.Version;
+                BrowserAgent = _ctx.HttpContext.Request.Headers["User-Agent"].ToString();
 
                 Models.StaticData.Browsers ab = _sd.GetAllowableBrowsers();
                 int indx = ab.known.FindIndex(r => r.name == BrowserName);

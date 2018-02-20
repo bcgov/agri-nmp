@@ -381,6 +381,8 @@ namespace SERVERAPI.Controllers
 
             DownLoadViewModel dvm = new DownLoadViewModel();
             dvm.images = new List<string>();
+            dvm.browserAgent = _bd.BrowserAgent;
+            dvm.browserName = _bd.BrowserName;
 
             foreach(var h in sortedFiles)
             {

@@ -144,6 +144,8 @@ namespace SERVERAPI.ViewModels
     public class DownLoadViewModel
     {
         public List<string> images { get; set; }
+        public string browserAgent { get; set; }
+        public string browserName { get; set; }
     }
     public class ManureDetailsViewModel
     {
