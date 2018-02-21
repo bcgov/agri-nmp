@@ -166,14 +166,16 @@ namespace SERVERAPI.Utility
                 else
                     // accomodate previous version of farm data - lookup default Nitrogen credit.
                     chemicalBalances.balance_AgrN += calcPrevYearManureApplDefault(fldName);
-
-                if (_sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, fld.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year)))
+                if (fld.soilTest != null)  
                 {
-                    if ((fld.SoilTestNitrateOverrideNitrogenCredit != null) && (fld.crops.Count() > 0))
-                        chemicalBalances.balance_AgrN += Convert.ToInt32(fld.SoilTestNitrateOverrideNitrogenCredit);
-                    else
-                        // accomodate previous version of farm data - lookup default Nitrogen credit.
-                        chemicalBalances.balance_AgrN += calcSoitTestNitrateDefault(fldName);
+                    if (_sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, fld.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year)))
+                    {
+                        if ((fld.SoilTestNitrateOverrideNitrogenCredit != null) && (fld.crops.Count() > 0))
+                            chemicalBalances.balance_AgrN += Convert.ToInt32(fld.SoilTestNitrateOverrideNitrogenCredit);
+                        else
+                            // accomodate previous version of farm data - lookup default Nitrogen credit.
+                            chemicalBalances.balance_AgrN += calcSoitTestNitrateDefault(fldName);
+                    }
                 }
             }
 
