@@ -33,7 +33,7 @@
         "toDateMonth": "05"
       },
       "soilTestPPMToPoundPerAcreConversionFactor": {
-        "ppmToPoundPerAcre":  "1.7"
+        "ppmToPoundPerAcre":  "1.74"
       },
       "manureprevyearscd": {
         "manureprevyearcd": [
