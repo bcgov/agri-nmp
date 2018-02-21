@@ -851,15 +851,21 @@ namespace SERVERAPI.Models.Impl
             JArray array = (JArray)rss["agri"]["nmp"]["cropyields"]["cropyield"];
             Models.StaticData.CropYield cropYield = new Models.StaticData.CropYield();
 
-            foreach (var r in array)
+            try
             {
-                if (Convert.ToInt32(r["cropid"].ToString()) == cropid && 
-                    Convert.ToInt32(r["locationid"].ToString()) == locationid)
+                foreach (var r in array)
                 {
-                    cropYield.cropid = Convert.ToInt32(r["cropid"].ToString());
-                    cropYield.locationid = Convert.ToInt32(r["locationid"].ToString());
-                    cropYield.amt = r["amt"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["amt"].ToString());
+                    if (Convert.ToInt32(r["cropid"].ToString()) == cropid &&
+                        Convert.ToInt32(r["locationid"].ToString()) == locationid)
+                    {
+                        cropYield.cropid = Convert.ToInt32(r["cropid"].ToString());
+                        cropYield.locationid = Convert.ToInt32(r["locationid"].ToString());
+                        cropYield.amt = r["amt"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["amt"].ToString());
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
             }
 
             return cropYield;
