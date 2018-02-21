@@ -218,7 +218,6 @@ namespace SERVERAPI.Controllers
                     if (f.crops.Count() > 0)
                     {
                         rf.showNitrogenCredit = f.prevYearManureApplicationFrequency != null ? true : false;
-                        rf.showSoilTestNitrogenCredit = _sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, f.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year));
                         if ( rf.showNitrogenCredit )
                         {
                             if (f.prevYearManureApplicationNitrogenCredit == null)
@@ -230,18 +229,21 @@ namespace SERVERAPI.Controllers
                                 rf.nitrogenCredit = f.prevYearManureApplicationNitrogenCredit;
                             rf.reqN += Convert.ToDecimal(rf.nitrogenCredit);
                         }
-
-                        if (rf.showSoilTestNitrogenCredit)
+                        if (f.soilTest != null)
                         {
-                            if (f.SoilTestNitrateOverrideNitrogenCredit == null)
-                            {   // calculate default value
-                                SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
-                                rf.soilTestNitrogenCredit = calculator.calcSoitTestNitrateDefault(f.fieldName);
+                            rf.showSoilTestNitrogenCredit = _sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, f.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year));
+                            if (rf.showSoilTestNitrogenCredit)
+                            {
+                                if (f.SoilTestNitrateOverrideNitrogenCredit == null)
+                                {   // calculate default value
+                                    SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
+                                    rf.soilTestNitrogenCredit = calculator.calcSoitTestNitrateDefault(f.fieldName);
+                                }
+                                else
+                                    rf.soilTestNitrogenCredit = f.SoilTestNitrateOverrideNitrogenCredit;
+                                rf.reqN += Convert.ToDecimal(rf.soilTestNitrogenCredit);
                             }
-                            else
-                                rf.soilTestNitrogenCredit = f.SoilTestNitrateOverrideNitrogenCredit;
-                            rf.reqN += Convert.ToDecimal(rf.soilTestNitrogenCredit);
-                        }                      
+                        }
                     } // f.crops.Count() > 0
                 }
                 if (f.nutrients != null)
