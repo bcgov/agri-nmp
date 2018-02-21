@@ -327,7 +327,7 @@ namespace SERVERAPI.UserAgent
             },
             new MatchExpression{
                 Regexes = new List<Regex>{
-                    new Regex(@"safari\/([\w\.]+)([\w\.]+)+?)",RegexOptions.IgnoreCase)// Safari & Safari Mobile
+                    new Regex(@"safari\/([\w\.]+)([\w\.]+)+?",RegexOptions.IgnoreCase)// Safari & Safari Mobile
                 },
                 Action = (Match match,Object obj) =>{
                     ClientBrowser current = obj as ClientBrowser;

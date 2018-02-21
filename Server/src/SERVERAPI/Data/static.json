@@ -9055,13 +9055,13 @@
           },
           {
             "id": "3",
-            "name": "Firefoxy",
+            "name": "Firefox",
             "minversion": "49.0"
           },
           {
             "id": "4",
             "name": "Safari",
-            "minversion": "9.0"
+            "minversion": "500.0"
           },
           {
             "id": "5",
