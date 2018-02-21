@@ -620,7 +620,7 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     fvm.buttonPressed = "";
                     fvm.btnText = "Calculate";
-                    FertilizerDetail_Reset(ref fvm);
+                    //FertilizerDetail_Reset(ref fvm);
 
                     if (fvm.selFertOption != 0 &&
                        !fvm.manEntry)
