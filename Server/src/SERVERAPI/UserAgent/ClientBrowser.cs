@@ -21,6 +21,8 @@ namespace SERVERAPI.UserAgent
 
         public ClientBrowser(string userAgent)
         {
+            userAgent = userAgent.ToLower();
+
             foreach (var matchItem in _matchs)
             {
                 foreach (var regexItem in matchItem.Regexes)
@@ -312,15 +314,28 @@ namespace SERVERAPI.UserAgent
             },
             new MatchExpression{
                 Regexes = new List<Regex>{
-                    new Regex(@"version\/([\w\.]+).+?(mobile\s?safari|safari)",RegexOptions.IgnoreCase)// Safari & Safari Mobile
+                    new Regex(@"version\/([\w\.]+).+?mobile\/\w+\s(safari)",RegexOptions.IgnoreCase)// Mobile Safari
                 },
                 Action = (Match match,Object obj) =>{
                     ClientBrowser current = obj as ClientBrowser;
 
                     var nameAndVersion = match.Value.Split('/');
 
-                    current.Name = nameAndVersion[1];
-                    current.Version = nameAndVersion[0];
+                    current.Name = "Mobile Safari";
+                    current.Version = nameAndVersion[1];
+                }
+            },
+            new MatchExpression{
+                Regexes = new List<Regex>{
+                    new Regex(@"safari\/([\w\.]+)([\w\.]+)+?)",RegexOptions.IgnoreCase)// Safari & Safari Mobile
+                },
+                Action = (Match match,Object obj) =>{
+                    ClientBrowser current = obj as ClientBrowser;
+
+                    var nameAndVersion = match.Value.Split('/');
+
+                    current.Name = nameAndVersion[0];
+                    current.Version = nameAndVersion[1];
                 }
             },
             new MatchExpression{
