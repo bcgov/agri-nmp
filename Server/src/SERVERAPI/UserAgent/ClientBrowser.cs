@@ -21,8 +21,6 @@ namespace SERVERAPI.UserAgent
 
         public ClientBrowser(string userAgent)
         {
-            userAgent = userAgent.ToLower();
-
             foreach (var matchItem in _matchs)
             {
                 foreach (var regexItem in matchItem.Regexes)
