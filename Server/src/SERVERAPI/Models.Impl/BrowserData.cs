@@ -23,10 +23,7 @@ namespace SERVERAPI.Models.Impl
 
             try
             {
-                string fake = "Mozilla/5.0 (Macintosh; Itenl Mac OS X 10.12.3 AppleWebKit/602.4.8 (KHTML, like Gecko) Version/10.0.3 Safari/602.4.8";
-
-                UserAgent.UserAgent ua = new UserAgent.UserAgent(fake);
-                //UserAgent.UserAgent ua = new UserAgent.UserAgent(_ctx.HttpContext.Request.Headers["User-Agent"]);
+                UserAgent.UserAgent ua = new UserAgent.UserAgent(_ctx.HttpContext.Request.Headers["User-Agent"]);
                 BrowserName = ua.Browser.Name;
                 BrowserVersion = ua.Browser.Version;
                 BrowserAgent = _ctx.HttpContext.Request.Headers["User-Agent"].ToString();
