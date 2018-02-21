@@ -33,21 +33,41 @@
                             {
                                 <img src="~/images/@(Model.reqNIcon).svg" />
                             }
-                            @Model.reqN
+                            @if (@Model.reqN.Contains("-"))
+                            {
+                                <i>@Model.reqN</i>
+                            }
+                            else {
+                                 @Model.reqN
+                            }
                         </div>
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:baseline; height:15px">
                             @if (!string.IsNullOrEmpty(Model.reqPIcon))
                             {
                                 <img src="~/images/@(Model.reqPIcon).svg" />
                             }
-                            @Model.reqP
+                            @if (Model.reqP.Contains("-"))
+                            {
+                                <i>@Model.reqP</i>
+                            }
+                            else
+                            {
+                                @Model.reqP
+                            }
                         </div>
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:baseline; height:15px">
                             @if (!string.IsNullOrEmpty(Model.reqKIcon))
                             {
                                 <img src="~/images/@(Model.reqKIcon).svg" />
                             }
-                            @Model.reqK
+                            @if (Model.reqK.Contains("-"))
+                            {
+                                <i>@Model.reqK</i>
+                            }
+                            else
+                            {
+                                @Model.reqK
+                            }
                        </div>
                     </div>
                 </div>
@@ -63,21 +83,42 @@
                             {
                                 <img src="~/images/@(Model.remNIcon).svg" />
                             }
-                            <span style="padding-top:4px">@Model.remN</span>
+                            @if (Model.remN.Contains("-"))
+                            {
+                            <span style="padding-top:4px"><i>@Model.remN </i></span>
+                            }
+                            else
+                            {
+                                <span style="padding-top:4px">@Model.remN</span>
+                            }
                         </div>
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:text-bottom; height:15px">
                             @if (!string.IsNullOrEmpty(Model.remPIcon))
                             {
                                 <img src="~/images/@(Model.remPIcon).svg" />
                             }
-                            @Model.remP
+                            @if (Model.remP.Contains("-"))
+                            {
+                                <i>@Model.remP </i>
+                            }
+                            else
+                            {
+                                @Model.remP 
+                            }
                        </div>
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:text-bottom; height:15px">
                             @if (!string.IsNullOrEmpty(Model.remKIcon))
                             {
                                 <img src="~/images/@(Model.remKIcon).svg" />
                             }
-                            @Model.remK
+                            @if (Model.remK.Contains("-"))
+                            {
+                                <i>@Model.remK </i>
+                            }
+                            else
+                            {
+                                @Model.remK
+                            }
                        </div>
                     </div>
                 </div>

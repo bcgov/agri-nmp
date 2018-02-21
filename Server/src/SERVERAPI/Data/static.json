@@ -8951,7 +8951,7 @@
             "id": "1",
             "text": "Reduce N input by {0} lb/ac ",
             "displayMessage": "Yes",
-            "icon": "warning",
+            "icon": "stop",
             "balanceType": "AgrN",
             "balance_low": "15",
             "balance_high": "99999"
@@ -9032,7 +9032,7 @@
             "id": "10",
             "text": "Reduce P2O5 inputs in the long term. Crop P2O5 removal balance should not exceed 35 lb/ac per year to limit soil P buildup.",
             "displayMessage": "Yes",
-            "icon": "warning",
+            "icon": "stop",
             "balanceType": "AgrP2O5CropP2O5",
             "balance_low": "15",
             "balance_high": "99999",

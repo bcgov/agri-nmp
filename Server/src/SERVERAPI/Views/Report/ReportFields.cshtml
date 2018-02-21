@@ -259,47 +259,89 @@
                             <td></td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriN))
-            {
-                    <img src="@Html.Raw(f.iconAgriN)" height="10" width="10" />
-}
-                                @f.reqN
+                                {
+                                    <img src="@Html.Raw(f.iconAgriN)" height="10" width="10" />
+                                }           
+                                @if (f.reqN < 0)
+                                {
+                                    <i> @f.reqN </i>
+                                }
+                                else
+                                {
+                                    @f.reqN
+                                }
                             </td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriP))
-            {
-                    <img src="@Html.Raw(f.iconAgriP)" height="10" width="10" />
-}
-                                @f.reqP
+                                {
+                                    <img src="@Html.Raw(f.iconAgriP)" height="10" width="10" />
+                                }
+                                @if (f.reqP < 0)
+                                {
+                                   <i> @f.reqP </i>
+                                }
+                                else
+                                {
+                                    @f.reqP
+                                }
                             </td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconAgriK))
-            {
-                    <img src="@Html.Raw(f.iconAgriK)" height="10" width="10" />
-}
-                                @f.reqK
+                                {
+                                    <img src="@Html.Raw(f.iconAgriK)" height="10" width="10" />
+                                }
+                                @if (f.reqK < 0)
+                                {
+                                    <i> @f.reqK </i>
+                                }
+                                else
+                                {
+                                    @f.reqK
+                                }
                             </td>
                             <td style="border:none"></td>
 
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconCropN))
-            {
-                    <img src="@Html.Raw(f.iconCropN)" height="10" width="10" />
-}
-                                @f.remN
+                                {
+                                    <img src="@Html.Raw(f.iconCropN)" height="10" width="10" />
+                                }
+                                @if (f.remN < 0 )
+                                {
+                                    <i> @f.remN </i>
+                                }
+                                else
+                                {
+                                    @f.remN
+                                }
                             </td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconCropP))
-            {
-                    <img src="@Html.Raw(f.iconCropP)" height="10" width="10" />
-}
-                                @f.remP
+                                {
+                                    <img src="@Html.Raw(f.iconCropP)" height="10" width="10" />
+                                }
+                                @if (f.remP < 0)
+                                {
+                                    <i> @f.remP </i>
+                                }
+                                else
+                                {
+                                    @f.remP
+                                }
                             </td>
                             <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
                                 @if (!string.IsNullOrEmpty(f.iconCropK))
-            {
-                    <img src="@Html.Raw(f.iconCropK)" height="10" width="10" />
-}
-                                @f.remK
+                                {
+                                    <img src="@Html.Raw(f.iconCropK)" height="10" width="10" />
+                                }
+                                @if (f.remK < 0)
+                                {
+                                    <i> @f.remK </i>
+                                }
+                                else
+                                {
+                                    @f.remK
+                                }
                             </td>
                         </tr>
 
