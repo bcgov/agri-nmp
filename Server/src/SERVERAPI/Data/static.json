@@ -8881,7 +8881,7 @@
           {
             "id": "10",
             "name": "nonutrientitems",
-            "text": "Calculate Nutrient Balances<br><ul><li>Add a crop (and the following cover crop, if any) to estimate their nutrient requirements</li><li>Add nutrient inputs (manure/compost, fertilizer, other) for those crops</li><li>See recommendations to add more or less nutrients</li></ul>"
+            "text": "<h4>Add a Crop to Start Calculating Nutrients</h4><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Optimal</span></div><div style='padding-top:10px'><img src='../images/warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirements not met OR nutrients can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce nitrogen or phosphorus application</span></div>",
           },
           {
             "id": "11",
@@ -8942,6 +8942,21 @@
             "id": "22",
             "name": "unknownbrowser",
             "text": "The browser you are using cannot be determined or is not a supported one.  Please refer to the Help screen for a list of browsers."
+          },
+          {
+            "id": "23",
+            "name": "goodmsg",
+            "text": "Optimal"
+          },
+          {
+            "id": "24",
+            "name": "warnmsg",
+            "text": "Crop requirements not met OR nutrients can be reduced"
+          },
+          {
+            "id": "25",
+            "name": "stopmsg",
+            "text": "Reduce nitrogen or phosphorus application"
           }
         ]
       },
