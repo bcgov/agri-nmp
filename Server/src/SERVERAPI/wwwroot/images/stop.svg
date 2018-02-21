@@ -1,8 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-  <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="18px" height="18px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
-    <g transform="translate(0, 0)">
-      <path fill="#449d44" d="M12,0C5.4,0,0,5.4,0,12s5.4,12,12,12s12-5.4,12-12S18.6,0,12,0z M18.7,8.7l-8,8C10.5,16.9,10.3,17,10,17
-	s-0.5-0.1-0.7-0.3l-4-4c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l3.3,3.3l7.3-7.3c0.4-0.4,1-0.4,1.4,0S19.1,8.3,18.7,8.7z"></path>
-    </g>
-  </svg>
+<svg width="17.999999928000033" height="17.999999928000033" xmlns="http://www.w3.org/2000/svg">
+  <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+
+  <g>
+    <title>background</title>
+    <rect height="4.25" width="4.25" y="-1" x="-1" fill="none" id="canvas_background"/>
+  </g>
+  <g>
+    <title>Layer 1</title>
+    <path d="m0.062504,5.678955l5.253724,-4.729069l7.430023,0l5.253749,4.729069l0,6.688031l-5.253749,4.729135l-7.430023,0l-5.253724,-4.729135l0,-6.688031z" stroke-width="1.5" fill="#ff0f3f" id="svg_1"/>
+    <text xml:space="preserve" y="-5.4204" x="-26.0936" text-anchor="start" stroke-width="0" stroke-opacity="null" stroke="null" fill-opacity="null" fill="#ffffff" font-size="24px" font-family="Helvetica,Arial,sans-serif" id="svg_3">!</text>
+    <text xml:space="preserve" y="14.8919" x="6.9688" text-anchor="start" stroke-width="0" stroke-opacity="null" stroke="null" fill-opacity="null" fill="#ffffff" style="cursor: move; pointer-events: inherit;" font-weight="bold" font-size="NaN" font-family="Helvetica,Arial,sans-serif" id="svg_2">!</text>
+  </g>
+</svg>
