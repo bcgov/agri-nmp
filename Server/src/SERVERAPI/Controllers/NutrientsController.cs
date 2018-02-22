@@ -2034,7 +2034,7 @@ namespace SERVERAPI.Controllers
 
         }
 
-        private bool SaveSoilTestNitrogenCreditToField(string fldName, int nitrogenCredit, int nitrogenCreditDefault)
+        private bool SaveSoilTestNitrogenCreditToField(string fldName, decimal nitrogenCredit, decimal nitrogenCreditDefault)
         {
             try
             {
@@ -2066,7 +2066,7 @@ namespace SERVERAPI.Controllers
             model.fldName = fldName;
             Field field = _ud.GetFieldDetails(fldName);
             if (field.SoilTestNitrateOverrideNitrogenCredit != null)
-                model.nitrogen = Convert.ToInt32(field.SoilTestNitrateOverrideNitrogenCredit).ToString();
+                model.nitrogen = field.SoilTestNitrateOverrideNitrogenCredit.ToString();
             else
                 model.nitrogen = model.defaultNitrogenCredit;
 
@@ -2075,22 +2075,22 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult SoilTestNitrateOverrideDetails(SoilTestNitrateOverrideViewModel model)
         {
-            int nitrogenCredit = 0;
+            decimal nitrogenCredit = 0;
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    nitrogenCredit = Convert.ToInt32(model.nitrogen);
+                    nitrogenCredit = Convert.ToDecimal(model.nitrogen);
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("Nitrogen", "An invalid Nitrogen Credit value was entered. Nitrogen credit must be an integer with a value which is greater than or equal to zero");
+                    ModelState.AddModelError("Nitrogen", "An invalid value was entered. Nitrogen credit must be greater than or equal to zero");
                     return PartialView(model);
                 }
                 if (nitrogenCredit >= 0)
                 {
-                    if (SaveSoilTestNitrogenCreditToField(model.fldName, nitrogenCredit, Convert.ToInt32(model.defaultNitrogenCredit)))
+                    if (SaveSoilTestNitrogenCreditToField(model.fldName, nitrogenCredit, Convert.ToDecimal(model.defaultNitrogenCredit)))
                     {
                         return Json(ReDisplay("#soilTestNitrogenCredit", model.fldName));
                     }
@@ -2098,7 +2098,7 @@ namespace SERVERAPI.Controllers
                         ModelState.AddModelError("Nitrogen", "Unable to save changes made to the Nitrogen credit.");
                 }
                 else
-                    ModelState.AddModelError("Nitrogen", "Nitrogen Credit cannot be a negative value. It must be greater than or equal to zero");
+                    ModelState.AddModelError("Nitrogen", "An invalid value was entered.  Nitrogen Credit must be greater than or equal to zero");
             } // ...modelstate
             return PartialView(model);
 

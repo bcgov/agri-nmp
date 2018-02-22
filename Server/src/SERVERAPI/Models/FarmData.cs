@@ -39,7 +39,7 @@ namespace SERVERAPI.Models
         public SoilTest soilTest { get; set; }   
         public string prevYearManureApplicationFrequency { get; set; }  
         public int? prevYearManureApplicationNitrogenCredit { get; set; } 
-        public int? SoilTestNitrateOverrideNitrogenCredit { get; set; }
+        public decimal? SoilTestNitrateOverrideNitrogenCredit { get; set; }
     }
     public class Nutrients
     {

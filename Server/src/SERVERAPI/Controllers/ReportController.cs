@@ -237,11 +237,12 @@ namespace SERVERAPI.Controllers
                                 if (f.SoilTestNitrateOverrideNitrogenCredit == null)
                                 {   // calculate default value
                                     SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
-                                    rf.soilTestNitrogenCredit = calculator.calcSoitTestNitrateDefault(f.fieldName);
+                                    rf.soilTestNitrogenCredit = Math.Round(calculator.calcSoitTestNitrateDefault(f.fieldName));
                                 }
                                 else
-                                    rf.soilTestNitrogenCredit = f.SoilTestNitrateOverrideNitrogenCredit;
-                                rf.reqN += Convert.ToDecimal(rf.soilTestNitrogenCredit);
+                                    rf.soilTestNitrogenCredit = Math.Round(Convert.ToDecimal(f.SoilTestNitrateOverrideNitrogenCredit));
+                                
+                                rf.reqN += rf.soilTestNitrogenCredit;
                             }
                         }
                     } // f.crops.Count() > 0

@@ -14,7 +14,7 @@
             <div class="form-group">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group col-md-offset-2">
-                    <label asp-for="nitrogen" style="padding-right:5px">Nitrogen available from soil test</label>
+                    <label asp-for="nitrogen" style="padding-right:5px">Available nitrogen at the start of the growing season</label>
                     <a href="~/Controllers/Calculate" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About other nutrient sources" style="font-size:20px; padding-top:5px"></span></a>
                 </div>
             </div>
@@ -49,8 +49,8 @@
     function showResetButtion() {
         var curNitroCredit;
         try {
-            curNitroCredit = parseInt($("#tbNitrogen").val());
-            if (curNitroCredit != parseInt("@Model.defaultNitrogenCredit"))
+            curNitroCredit = parseFloat($("#tbNitrogen").val());
+            if (curNitroCredit != parseFloat("@Model.defaultNitrogenCredit"))
                 $("#rstNitrogen").show();
             else
                 $("#rstNitrogen").hide();

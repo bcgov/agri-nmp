@@ -171,10 +171,10 @@ namespace SERVERAPI.Utility
                     if (_sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, fld.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year)))
                     {
                         if ((fld.SoilTestNitrateOverrideNitrogenCredit != null) && (fld.crops.Count() > 0))
-                            chemicalBalances.balance_AgrN += Convert.ToInt32(fld.SoilTestNitrateOverrideNitrogenCredit);
+                            chemicalBalances.balance_AgrN += Convert.ToInt32(Math.Round(Convert.ToDecimal(fld.SoilTestNitrateOverrideNitrogenCredit)));
                         else
                             // accomodate previous version of farm data - lookup default Nitrogen credit.
-                            chemicalBalances.balance_AgrN += calcSoitTestNitrateDefault(fldName);
+                            chemicalBalances.balance_AgrN += Convert.ToInt32(Math.Round(calcSoitTestNitrateDefault(fldName)));
                     }
                 }
             }
@@ -316,7 +316,7 @@ namespace SERVERAPI.Utility
             return 0;  // no Nitrogen credit as there are no crops
         }
 
-        public int calcSoitTestNitrateDefault(string fldName)
+        public decimal calcSoitTestNitrateDefault(string fldName)
         {
             Field fld = _ud.GetFieldDetails(fldName);
             if (fld != null)
@@ -325,7 +325,7 @@ namespace SERVERAPI.Utility
                 {
                     if ( (fld.crops.Count() > 0) && (fld.soilTest != null) )
                     {
-                        return Convert.ToInt32(Math.Round(fld.soilTest.valNO3H * _sd.GetSoilTestNitratePPMToPoundPerAcreConversionFactor()));
+                        return (fld.soilTest.valNO3H * _sd.GetSoilTestNitratePPMToPoundPerAcreConversionFactor());
                     }
                 }
             }
