@@ -102,7 +102,7 @@ namespace SERVERAPI.Controllers
             {
                 if(_bd.BrowserOutofdate)
                 {
-                    lvm.browserMsg = string.Format(_sd.GetUserPrompt("browseroutofdate"), _bd.BrowserUpdate);
+                    lvm.browserMsg = string.Format(_sd.GetUserPrompt("browseroutofdate"), _bd.BrowserUpdate); 
                 }
             }
             else
