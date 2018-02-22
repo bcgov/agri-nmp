@@ -47,11 +47,11 @@ namespace SERVERAPI.ViewComponents
                     {
                         soilvm.fldName = fldName;
                         if (fld.SoilTestNitrateOverrideNitrogenCredit != null)
-                            soilvm.nitrogen = fld.SoilTestNitrateOverrideNitrogenCredit;
+                            soilvm.nitrogen = Math.Round(Convert.ToDecimal(fld.SoilTestNitrateOverrideNitrogenCredit));
                         else
                         {
                             // lookup default Nitrogen credit 
-                            soilvm.nitrogen = Convert.ToInt32(Math.Round(fld.soilTest.valNO3H * _sd.GetSoilTestNitratePPMToPoundPerAcreConversionFactor()));
+                            soilvm.nitrogen = Math.Round(fld.soilTest.valNO3H * _sd.GetSoilTestNitratePPMToPoundPerAcreConversionFactor());
                         }
                     }
                     else
@@ -80,7 +80,7 @@ namespace SERVERAPI.ViewComponents
     {
         public string fldName { get; set; }
         public bool display { get; set; }
-        public int? nitrogen { get; set; }
+        public decimal? nitrogen { get; set; }
     }
 
 

@@ -502,7 +502,7 @@ namespace SERVERAPI.ViewModels
         public int? nitrogenCredit { get; set; }  // prev manure application
 
         public bool showSoilTestNitrogenCredit { get; set; }
-        public int? soilTestNitrogenCredit { get; set; }
+        public decimal soilTestNitrogenCredit { get; set; }
 
     }
     public class ReportSheetsField
