@@ -31,6 +31,7 @@ namespace SERVERAPI.ViewComponents
         private Task<PrevYearManureApplViewModel> GetPrevYearManureAsync(string fldName)
         {
             PrevYearManureApplViewModel manureVM = new PrevYearManureApplViewModel();
+
             // get the current associated value for nitrogen credit.  Note, can be null
             SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
 
@@ -80,6 +81,8 @@ namespace SERVERAPI.ViewComponents
         public string fldName { get; set; }
         public bool display { get; set; }
         public int? nitrogen { get; set; }
+        public string url { get; set; }
+        public string urlText { get; set; }
     }
 
 

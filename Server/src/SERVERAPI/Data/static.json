@@ -8828,6 +8828,16 @@
             "id": "8",
             "name": "labanalysisexplanation",
             "url": "https://drive.google.com/open?id=18ozkZnq5ngQ6D0ALrK1aR4rZasF6GoLM "
+          },
+          {
+            "id": "9",
+            "name": "prevmanureexplanation",
+            "url": "https://drive.google.com/open?id=18ozkZnq5ngQ6D0ALrK1aR4rZasF6GoLM "
+          },
+          {
+            "id": "10",
+            "name": "soilnitrateexplanation",
+            "url": "https://drive.google.com/open?id=18ozkZnq5ngQ6D0ALrK1aR4rZasF6GoLM "
           }
         ]
       },
@@ -8945,18 +8955,8 @@
           },
           {
             "id": "23",
-            "name": "goodmsg",
-            "text": "Optimal"
-          },
-          {
-            "id": "24",
-            "name": "warnmsg",
-            "text": "Crop requirements not met OR nutrients can be reduced"
-          },
-          {
-            "id": "25",
-            "name": "stopmsg",
-            "text": "Reduce nitrogen or phosphorus application"
+            "name": "moreinfo",
+            "text": "More Information"
           }
         ]
       },
