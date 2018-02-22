@@ -121,6 +121,7 @@ namespace SERVERAPI.Controllers
             mvm.stdN = true;
             mvm.stdAvail = true;
             mvm.url = _sd.GetExternalLink("manureunitexplanation");
+            mvm.urlText = _sd.GetUserPrompt("moreinfo");
 
             mvm.totN = "0";
             mvm.totP2o5 = "0";
@@ -1992,6 +1993,10 @@ namespace SERVERAPI.Controllers
         public IActionResult PrevYearManureApplicationDetails(string fldName)
         {
             PrevYearManureApplicationViewModel model = new PrevYearManureApplicationViewModel();
+
+            model.url = _sd.GetExternalLink("prevmanureexplanation");
+            model.urlText = _sd.GetUserPrompt("moreinfo");
+
             SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
             model.defaultNitrogenCredit = calculator.calcPrevYearManureApplDefault(fldName).ToString();
             model.fldName = fldName;
@@ -2061,6 +2066,10 @@ namespace SERVERAPI.Controllers
         public IActionResult SoilTestNitrateOverrideDetails(string fldName)
         {
             SoilTestNitrateOverrideViewModel model = new SoilTestNitrateOverrideViewModel();
+
+            model.url = _sd.GetExternalLink("soilnitrateexplanation");
+            model.urlText = _sd.GetUserPrompt("moreinfo");
+
             SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
             model.defaultNitrogenCredit = calculator.calcSoitTestNitrateDefault(fldName).ToString();
             model.fldName = fldName;

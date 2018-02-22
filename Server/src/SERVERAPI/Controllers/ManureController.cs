@@ -39,6 +39,7 @@ namespace SERVERAPI.Controllers
 
             mvm.act = id == null ? "Add" : "Edit";
             mvm.url = _sd.GetExternalLink("labanalysisexplanation");
+            mvm.urlText = _sd.GetUserPrompt("moreinfo");
 
 
             if (id != null)

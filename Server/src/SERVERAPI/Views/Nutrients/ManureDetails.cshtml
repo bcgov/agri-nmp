@@ -44,8 +44,9 @@
                                 <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
                                     <option>select</option>
                                 </select>
+                                <br />
                                 <div style="display:inline;">
-                                    <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="About units" style="font-size:20px; padding-top:5px"></span></a>
+                                    <a href="@Model.url" target="_blank">@Model.urlText</a>
                                 </div>
                             </div>
                             <span asp-validation-for="selRateOption" class="text-danger"></span>
@@ -205,6 +206,7 @@
         @Html.HiddenFor(x => x.stdN)
         @Html.HiddenFor(x => x.stdAvail)
         @Html.HiddenFor(x => x.url)
+        @Html.HiddenFor(x => x.urlText)
         @Html.HiddenFor(x => x.totK2o)
         @Html.HiddenFor(x => x.totKIcon)
         @Html.HiddenFor(x => x.totN)

@@ -80,7 +80,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-sm-1" style="padding-left:0px">
-                                        <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of testing methods" style="font-size:20px; padding-top:5px"></span></a>
+                                        <a href="@Model.url" target="_blank">@Model.urlText</a>
                                     </div>
                                 </div>
                                 <div class="col-sm-7">
@@ -116,6 +116,7 @@
             @Html.HiddenFor(x => x.testSelected)
             @Html.HiddenFor(x => x.warningMsg)
             @Html.HiddenFor(x => x.url)
+            @Html.HiddenFor(x => x.urlText)
         </form>
     </div>
 </div>

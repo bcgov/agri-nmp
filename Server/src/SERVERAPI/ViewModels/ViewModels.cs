@@ -126,6 +126,7 @@ namespace SERVERAPI.ViewModels
         public bool compost { get; set; }
         public string buttonPressed { get; set; }
         public string url { get; set; }
+        public string urlText { get; set; }
         public string moistureBook { get; set; }
         public string nitrogenBook { get; set; }
         public string ammoniaBook { get; set; }
@@ -183,6 +184,7 @@ namespace SERVERAPI.ViewModels
         public bool stdN { get; set; }
         public bool stdAvail { get; set; }
         public string url { get; set; }
+        public string urlText { get; set; }
         public string totNIcon { get; set; }
         public string totPIcon { get; set; }
         public string totKIcon { get; set; }
@@ -333,6 +335,7 @@ namespace SERVERAPI.ViewModels
         public List<Models.StaticData.SelectListItem> tstOptions { get; set; }
         public bool testSelected { get; set; }
         public string url { get; set; }
+        public string urlText { get; set; }
         public string warningMsg { get; set; }
     }
     public class SoilTestDetailsViewModel
@@ -348,6 +351,7 @@ namespace SERVERAPI.ViewModels
         public string dispK { get; set; }
         public string dispPH { get; set; }
         public string url { get; set; }
+        public string urlText { get; set; }
     }
     public class SoilTestDeleteViewModel
     {
@@ -595,6 +599,8 @@ namespace SERVERAPI.ViewModels
         public int id { get; set; }
         public string nitrogen { get; set; }
         public string defaultNitrogenCredit { get; set; }
+        public string url { get; set; }
+        public string urlText { get; set; }
     }
 
     public class SoilTestNitrateOverrideViewModel
@@ -602,5 +608,7 @@ namespace SERVERAPI.ViewModels
         public string fldName { get; set; }
         public string nitrogen { get; set; }
         public string defaultNitrogenCredit { get; set; }
+        public string url { get; set; }
+        public string urlText { get; set; }
     }
 }

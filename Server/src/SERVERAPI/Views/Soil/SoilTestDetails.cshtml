@@ -20,7 +20,7 @@
                             <div class="col-md-8">
                                 <label style="font-size:14px">Soil test values (top 6 inches of soil)&nbsp;&nbsp;</label>
                                 <span>
-                                    <a href="@Model.url" target="_blank"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of testing values" style="font-size:20px; padding-top:5px"></span></a>
+                                    <a href="@Model.url" target="_blank">@Model.urlText</a>
                                 </span>
                             </div>
                         </div>                 
@@ -103,6 +103,7 @@
                 @Html.HiddenFor(x => x.buttonPressed)
                 @Html.HiddenFor(x => x.btnText)
                 @Html.HiddenFor(x => x.url)
+                @Html.HiddenFor(x => x.urlText)
 </form>
 </div>
 <script>
