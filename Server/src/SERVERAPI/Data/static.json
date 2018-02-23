@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.706"
+        "staticDataVersion": "2018.744"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8891,7 +8891,7 @@
           {
             "id": "10",
             "name": "nonutrientitems",
-            "text": "<h4>Add a Crop to Start Calculating Nutrients</h4><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Optimal</span></div><div style='padding-top:10px'><img src='../images/warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirements not met OR nutrients can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce nitrogen or phosphorus application</span></div>",
+            "text": "<h4>Add a Crop to Start Calculating Nutrients</h4><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Optimal</span></div><div style='padding-top:10px'><img src='../images/warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirements not met OR nutrients can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce nitrogen or phosphorus application</span></div>"
           },
           {
             "id": "11",
@@ -8946,7 +8946,7 @@
           {
             "id": "21",
             "name": "browseroutofdate",
-            "text": "The version of browser you are using is out of date - to ensure proper functioning of this website please update to a newer version."
+            "text": "<a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Update your browser for best performance with this website.</a>"
           },
           {
             "id": "22",
