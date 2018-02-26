@@ -8947,6 +8947,7 @@
             "id": "21",
             "name": "browseroutofdate",
             "text": "<a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Update your browser for best performance with this website.</a>"
+
           },
           {
             "id": "22",
@@ -9061,27 +9062,32 @@
           {
             "id": "1",
             "name": "IE",
-            "minversion": "11.0"
+            "minversion": "11.0",
+            "update": "https://www.microsoft.com/en-ca/download/internet-explorer.aspx"
           },
           {
             "id": "2",
             "name": "Chrome",
-            "minversion": "49.0"
+            "minversion": "49.0",
+            "update": "https://support.google.com/chrome/answer/95414?co=GENIE.Platform%3DDesktop&hl=en"
           },
           {
             "id": "3",
             "name": "Firefox",
-            "minversion": "49.0"
+            "minversion": "49.0",
+            "update": "https://support.mozilla.org/en-US/kb/update-firefox-latest-version"
           },
           {
             "id": "4",
             "name": "Safari",
-            "minversion": "500.0"
+            "minversion": "500.0",
+            "update": "https://support.apple.com/en-ca/HT204416"
           },
           {
             "id": "5",
             "name": "Edge",
-            "minversion": "40.0"
+            "minversion": "40.0",
+            "update": "https://www.microsoft.com/en-ca/windows/microsoft-edge"
           }
         ]
       }

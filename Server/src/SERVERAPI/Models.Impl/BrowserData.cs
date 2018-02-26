@@ -15,6 +15,7 @@ namespace SERVERAPI.Models.Impl
         public bool BrowserValid { get; }
         public bool BrowserOutofdate { get; }
         public string BrowserAgent { get; }
+        public string BrowserUpdate { get; }
 
         public BrowserData(IHttpContextAccessor ctx, StaticData sd)
         {
@@ -43,6 +44,7 @@ namespace SERVERAPI.Models.Impl
                     if(thisVer < minVer)
                     {
                         BrowserOutofdate = true;
+                        BrowserUpdate = ab.known[indx].updateUrl; 
                     }
                     else
                     {
