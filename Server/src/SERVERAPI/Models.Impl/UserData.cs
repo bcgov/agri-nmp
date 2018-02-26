@@ -610,7 +610,7 @@ namespace SERVERAPI.Models.Impl
                 fm.manure_class = man.manure_class;
                 fm.moisture = man.moisture;
                 fm.name = man.name;
-                fm.nitrate = (decimal?)null;
+                fm.nitrate = man.nitrate; 
                 fm.nitrogen = man.nitrogen;
                 fm.nminerizationid = man.nminerizationid;
                 fm.phosphorous = man.phosphorous;

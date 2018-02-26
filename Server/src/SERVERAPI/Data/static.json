@@ -371,7 +371,7 @@
             "nminerizationid": "11",
             "sortNum": "100",
             "cubic_yard_conversion": "0.51",
-            "nitrate":  "0.0"
+            "nitrate": "0.0"
           },
           {
             "id": "2",
@@ -765,6 +765,22 @@
             "dmid": "2",
             "nminerizationid": "2",
             "sortNum": "10",
+            "nitrate": "0.0"
+          },
+          {
+            "id": "29",
+            "name": "Chicken Compost",
+            "manure_class": "Compost_Book",
+            "solid_liquid": "Solid",
+            "moisture": "70%",
+            "nitrogen": "1.91",
+            "ammonia": "3095",
+            "phosphorous": "0.8",
+            "potassium": "1.14",
+            "dmid": "5",
+            "nminerizationid": "5",
+            "sortNum": "60",
+            "cubic_yard_conversion": "0.5",
             "nitrate": "0.0"
           }
         ]
