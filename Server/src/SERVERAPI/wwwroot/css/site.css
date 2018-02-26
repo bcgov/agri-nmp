@@ -157,3 +157,11 @@ body.loading {
     background-color: yellow;
     font-size:large;
 }
+.loading {
+    position: absolute;
+    background: white url('../images/ajax-loader.gif') no-repeat center center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

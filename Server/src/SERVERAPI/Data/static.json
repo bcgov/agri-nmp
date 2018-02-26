@@ -9000,6 +9000,11 @@
             "id": "23",
             "name": "moreinfo",
             "text": "More Information"
+          },
+          {
+            "id": "24",
+            "name": "soiltest",
+            "text": "<h1>Soil Test</h1><ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">More Information</a></p>"
           }
         ]
       },
