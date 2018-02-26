@@ -1552,6 +1552,7 @@ namespace SERVERAPI.Models.Impl
                 browser.id = Convert.ToInt32(r["id"].ToString());
                 browser.name = r["name"].ToString();
                 browser.minVersion = r["minversion"].ToString();
+                browser.updateUrl = r["update"].ToString();
                 browsers.known.Add(browser);
             }
 

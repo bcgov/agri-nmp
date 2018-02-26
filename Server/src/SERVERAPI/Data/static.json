@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.706"
+        "staticDataVersion": "2018.744"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8933,7 +8933,7 @@
           {
             "id": "10",
             "name": "nonutrientitems",
-            "text": "<h4>Add a Crop to Start Calculating Nutrients</h4><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Optimal</span></div><div style='padding-top:10px'><img src='../images/warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirements not met OR nutrients can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce nitrogen or phosphorus application</span></div>",
+            "text": "<h4>Add a Crop to Start Calculating Nutrients</h4><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Optimal</span></div><div style='padding-top:10px'><img src='../images/warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirements not met OR nutrients can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce nitrogen or phosphorus application</span></div>"
           },
           {
             "id": "11",
@@ -8988,7 +8988,8 @@
           {
             "id": "21",
             "name": "browseroutofdate",
-            "text": "The version of browser you are using is out of date - to ensure proper functioning of this website please update to a newer version."
+            "text": "<a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Update your browser for best performance with this website.</a>"
+
           },
           {
             "id": "22",
@@ -9103,27 +9104,32 @@
           {
             "id": "1",
             "name": "IE",
-            "minversion": "11.0"
+            "minversion": "11.0",
+            "update": "https://www.microsoft.com/en-ca/download/internet-explorer.aspx"
           },
           {
             "id": "2",
             "name": "Chrome",
-            "minversion": "49.0"
+            "minversion": "49.0",
+            "update": "https://support.google.com/chrome/answer/95414?co=GENIE.Platform%3DDesktop&hl=en"
           },
           {
             "id": "3",
             "name": "Firefox",
-            "minversion": "49.0"
+            "minversion": "49.0",
+            "update": "https://support.mozilla.org/en-US/kb/update-firefox-latest-version"
           },
           {
             "id": "4",
             "name": "Safari",
-            "minversion": "500.0"
+            "minversion": "500.0",
+            "update": "https://support.apple.com/en-ca/HT204416"
           },
           {
             "id": "5",
             "name": "Edge",
-            "minversion": "40.0"
+            "minversion": "40.0",
+            "update": "https://www.microsoft.com/en-ca/windows/microsoft-edge"
           }
         ]
       }
