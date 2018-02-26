@@ -335,8 +335,6 @@ namespace SERVERAPI.ViewModels
         public string selTstOption { get; set; }
         public List<Models.StaticData.SelectListItem> tstOptions { get; set; }
         public bool testSelected { get; set; }
-        public string url { get; set; }
-        public string urlText { get; set; }
         public string warningMsg { get; set; }
     }
     public class SoilTestDetailsViewModel

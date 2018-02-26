@@ -1949,6 +1949,15 @@ namespace SERVERAPI.Controllers
                 case "crop":
                     ivm.text = _sd.GetUserPrompt("cropinfomessage");
                     break;
+                case "download":
+                    ivm.text = _sd.GetUserPrompt("downloadinfomessage");
+                    break;
+                case "load":
+                    ivm.text = _sd.GetUserPrompt("cropinfomessage");
+                    break;
+                case "soiltest":
+                    ivm.text = _sd.GetUserPrompt("soiltest");
+                    break;
             }
             return PartialView("InfoMessage", ivm);
         }
