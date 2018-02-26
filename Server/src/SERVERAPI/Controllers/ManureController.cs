@@ -52,12 +52,14 @@ namespace SERVERAPI.Controllers
                     mvm.bookValue = true;
                     mvm.compost = false;
                     mvm.onlyCustom = false;
+                    mvm.showNitrate = false;
                 }
                 else
                 {
                     mvm.bookValue = false;
-                    mvm.compost = fm.manure_class == "Compost" ? true : false;
-                    mvm.onlyCustom = (fm.manure_class == "Other" || fm.manure_class == "Compost") ? true : false;
+                    mvm.compost = _sd.IsManureClassCompostType(fm.manure_class);
+                    mvm.onlyCustom = ( _sd.IsManureClassOtherType(fm.manure_class) || _sd.IsManureClassCompostType(fm.manure_class) || _sd.IsManureClassCompostClassType(fm.manure_class));
+                    mvm.showNitrate = ( _sd.IsManureClassCompostType(fm.manure_class) || _sd.IsManureClassCompostClassType(fm.manure_class));
                 }
                 mvm.manureName = fm.name;
                 mvm.moisture = fm.moisture;
@@ -65,7 +67,7 @@ namespace SERVERAPI.Controllers
                 mvm.ammonia = fm.ammonia.ToString("#0");
                 mvm.phosphorous = fm.phosphorous.ToString("#0.00");
                 mvm.potassium = fm.potassium.ToString("#0.00");
-                mvm.nitrate = fm.nitrate.HasValue ? fm.nitrate.Value.ToString("#0") : "";
+                mvm.nitrate = fm.nitrate.HasValue ? fm.nitrate.Value.ToString("#0") : ""; // old version of datafile
             }
             else
             {
@@ -79,6 +81,7 @@ namespace SERVERAPI.Controllers
                 mvm.nitrate = "  ";
                 mvm.compost = false;
                 mvm.onlyCustom = false;
+                mvm.showNitrate = false;
             }
 
             CompostDetailsSetup(ref mvm);
@@ -116,8 +119,8 @@ namespace SERVERAPI.Controllers
                     if (cvm.selManOption != 0)
                     {
                         man = _sd.GetManure(cvm.selManOption.ToString());
-                        if(man.manure_class == "Other" ||
-                           man.manure_class == "Compost")
+                        if( _sd.IsManureClassOtherType(man.manure_class) ||
+                           _sd.IsManureClassCompostType(man.manure_class))
                         {
                             cvm.bookValue = false;
                             cvm.onlyCustom = true;
@@ -127,24 +130,48 @@ namespace SERVERAPI.Controllers
                             cvm.nitrate = string.Empty;
                             cvm.phosphorous = string.Empty;
                             cvm.potassium = string.Empty;
-                            cvm.compost = man.manure_class == "Compost" ? true : false;
+                            cvm.compost = _sd.IsManureClassCompostType(man.manure_class);
+                            cvm.showNitrate = cvm.compost;
                             cvm.manureName = cvm.compost ? "Custom - " + man.name + " - " : "Custom - " + man.solid_liquid + " - ";
                         }
                         else
                         {
-                            cvm.bookValue = true;
-                            cvm.nitrogen = man.nitrogen.ToString();
-                            cvm.moisture = man.moisture.ToString();
-                            cvm.ammonia = man.ammonia.ToString();
-                            cvm.nitrate = string.Empty;
-                            cvm.phosphorous = man.phosphorous.ToString();
-                            cvm.potassium = man.potassium.ToString();
-                            cvm.manureName = man.name;
+                            cvm.showNitrate = _sd.IsManureClassCompostClassType(man.manure_class);
+                            cvm.bookValue = !cvm.showNitrate;
+                            cvm.compost = false;
+                            if (cvm.showNitrate)
+                            {
+                                cvm.moistureBook = man.moisture.ToString();
+                                cvm.nitrogenBook = man.nitrogen.ToString();
+                                cvm.ammoniaBook = man.ammonia.ToString();
+                                cvm.nitrateBook = man.nitrate.ToString();
+                                cvm.phosphorousBook = man.phosphorous.ToString();
+                                cvm.potassiumBook = man.potassium.ToString();
+                                cvm.nitrateBook = man.nitrate.ToString();
+                                cvm.manureName = "Custom - " + man.name + " - ";
+                                cvm.onlyCustom = cvm.showNitrate;
+                                cvm.bookValue = false;
+                            }
+                            else
+                            {
+                                cvm.bookValue = true;
+                                cvm.nitrogen = man.nitrogen.ToString();
+                                cvm.moisture = man.moisture.ToString();
+                                cvm.ammonia = man.ammonia.ToString();
+                                cvm.nitrate = man.nitrate.ToString();
+                                cvm.phosphorous = man.phosphorous.ToString();
+                                cvm.potassium = man.potassium.ToString();
+                                cvm.manureName = man.name;
+                                cvm.onlyCustom = false;
+                            }
                         }
                     }
                     else
                     {
                         cvm.bookValue = true;
+                        cvm.showNitrate = false;
+                        cvm.compost = false;
+                        cvm.onlyCustom = false;
                         cvm.nitrogen = string.Empty;
                         cvm.moisture = string.Empty;
                         cvm.ammonia = string.Empty;
@@ -152,6 +179,7 @@ namespace SERVERAPI.Controllers
                         cvm.phosphorous = string.Empty;
                         cvm.potassium = string.Empty;
                         cvm.manureName = string.Empty;
+                        cvm.nitrate = String.Empty;
                     }
                     return View(cvm);
                 }
@@ -164,15 +192,20 @@ namespace SERVERAPI.Controllers
                     {
                         man = _sd.GetManure(cvm.selManOption.ToString());
                         cvm.onlyCustom = false;
+                        //skwong
+                        //cvm.compost = false;    // don't show Nitrate edit box if not COMPOST_CATEGORY
                         if (cvm.bookValue)
                         {
                             cvm.moisture = cvm.bookValue ? man.moisture.ToString() : "";
                             cvm.nitrogen = man.nitrogen.ToString();
                             cvm.ammonia = man.ammonia.ToString();
-                            cvm.nitrate = string.Empty;
+                            cvm.nitrate = man.nitrate.ToString();
                             cvm.phosphorous = man.phosphorous.ToString();
                             cvm.potassium = man.potassium.ToString();
                             cvm.manureName = man.name;
+                            cvm.showNitrate = false;
+                            cvm.compost = false;
+                            
                         }
                         else
                         {
@@ -187,9 +220,13 @@ namespace SERVERAPI.Controllers
                             cvm.moistureBook = man.moisture.ToString();
                             cvm.nitrogenBook = man.nitrogen.ToString();
                             cvm.ammoniaBook = man.ammonia.ToString();
-                            cvm.nitrateBook = string.Empty;
+                            cvm.nitrateBook = man.nitrate.ToString();
                             cvm.phosphorousBook = man.phosphorous.ToString();
                             cvm.potassiumBook = man.potassium.ToString();
+                            cvm.nitrateBook = man.nitrate.ToString();
+                            // only show  NITRATE when MANURE_CLASS = COMPOST or COMPOSTBOOK
+                            cvm.compost = _sd.IsManureClassCompostType(man.manure_class);
+                            cvm.showNitrate = _sd.IsManureClassCompostClassType(man.manure_class) || _sd.IsManureClassCompostType(man.manure_class);
                         }
                     }
                     else
@@ -313,7 +350,7 @@ namespace SERVERAPI.Controllers
                                 }
                             }
                         }
-                        if (cvm.compost)
+                        if (cvm.showNitrate)
                         {
                             if (string.IsNullOrEmpty(cvm.nitrate))
                             {
@@ -327,6 +364,9 @@ namespace SERVERAPI.Controllers
                                 }
                             }
                         }
+                        else
+                            userNitrate = Convert.ToDecimal(cvm.nitrate);
+
                         if (_sd.GetManureByName(cvm.manureName) != null)
                         {
                             ModelState.AddModelError("manureName", "Description cannot match predefined entries.");
@@ -372,6 +412,8 @@ namespace SERVERAPI.Controllers
                             fm.nminerizationid = man.nminerizationid;
                             fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
                             fm.potassium = Convert.ToDecimal(cvm.potassium);
+                            //skwong - need to determine if adding a COMPOST category of material
+                            //  if ( COMPOST_CAT) then get value from CVM, otherwise, get it from man.nitrate;
                             fm.nitrate = cvm.compost ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                             fm.solid_liquid = man.solid_liquid;
                         }
@@ -405,7 +447,8 @@ namespace SERVERAPI.Controllers
                             fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
                             fm.potassium = Convert.ToDecimal(cvm.potassium);
                             fm.solid_liquid = man.solid_liquid;
-                            fm.nitrate = cvm.compost ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
+                            // skwong - need to check if COMPOST_CAT, then get cvm.nitrate value
+                            fm.nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                         }
 
                         _ud.UpdateFarmManure(fm);

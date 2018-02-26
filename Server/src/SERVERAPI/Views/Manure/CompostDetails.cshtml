@@ -27,29 +27,29 @@
                         <label>&nbsp;</label>
                         <div class="radio" style="margin-top:0px">
                             @if (Model.onlyCustom)
-                            {
-                                <label style="padding-right:20px">
-                                    <input asp-for="bookValue" type="radio" value="true" id="book" disabled="disabled" /> Book Value
-                                </label>
-                            }
-                            else
-                            {
-                                <label style="padding-right:20px">
-                                    <input asp-for="bookValue" type="radio" value="true" id="book" /> Book Value
-                                </label>
-                            }
+                        {
+                            <label style="padding-right:20px">
+                                <input asp-for="bookValue" type="radio" value="true" id="book" disabled="disabled" /> Book Value
+                            </label>
+                    }
+                    else
+                    {
+                        <label style="padding-right:20px">
+                            <input asp-for="bookValue" type="radio" value="true" id="book" /> Book Value
+                        </label>
+                }
                             @if (Model.selManOption != 0)
-                            {
-                                <label>
-                                    <input asp-for="bookValue" type="radio" value="false" id="lab" /> Lab Analysis
-                                </label>
-                            }
-                            else
-                            {
-                                <label>
-                                    <input asp-for="bookValue" type="radio" value="false" id="lab" disabled="disabled" /> Lab Analysis
-                                </label>
-                            }
+                        {
+                            <label>
+                                <input asp-for="bookValue" type="radio" value="false" id="lab" /> Lab Analysis
+                            </label>
+                    }
+                    else
+                    {
+                        <label>
+                            <input asp-for="bookValue" type="radio" value="false" id="lab" disabled="disabled" /> Lab Analysis
+                        </label>
+                }
                             &nbsp;
                             <a href="@Model.url" target="_blank">@Model.urlText</a>
                         </div>
@@ -58,108 +58,108 @@
                 </div>
                 <div style="clear:both"></div>
                 @if (Model.bookValue)
-                {
-                    <div class="form-group">
-                        <div class="form-group col-sm-6">
-                            <label asp-for="manureName"></label>
-                            <div class="input-group col-sm-12">
-                                @Model.manureName
-                            </div>
+            {
+                <div class="form-group">
+                    <div class="form-group col-sm-6">
+                        <label asp-for="manureName"></label>
+                        <div class="input-group col-sm-12">
+                            @Model.manureName
                         </div>
                     </div>
-                    <div style="clear:both"></div>
-                    <div class="form-group">
-                        <div class="form-group col-sm-2">
-                            <label>Moisture&nbsp;(%)</label>
-                            <div class="input-group col-sm-6">
-                                @Model.moisture
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <label>N&nbsp;(%)</label>
-                            <div class="input-group col-sm-6">
-                                @Model.nitrogen
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <label>NH<sub>4</sub>-N&nbsp;(ppm)</label>
-                            <div class="input-group col-sm-6">
-                                @Model.ammonia
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <label>P&nbsp;(%)</label>
-                            <div class="input-group col-sm-6">
-                                @Model.phosphorous
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <label>K&nbsp;(%)</label>
-                            <div class="input-group col-sm-6">
-                                @Model.potassium
-                            </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-2">
+                        <label>Moisture&nbsp;(%)</label>
+                        <div class="input-group col-sm-6">
+                            @Model.moisture
                         </div>
                     </div>
-                }
-                else
-                {
-                    <div class="form-group">
-                        <div class="form-group col-sm-6">
-                            <label asp-for="manureName"></label>
-                            <div class="input-group col-sm-12">
-                                <input class="form-control" asp-for="manureName" id="manureName" type="text" />
-                            </div>
-                            <span asp-validation-for="manureName" class="text-danger"></span>
+                    <div class="form-group col-sm-2">
+                        <label>N&nbsp;(%)</label>
+                        <div class="input-group col-sm-6">
+                            @Model.nitrogen
                         </div>
                     </div>
-                    <div style="clear:both"></div>
-                    <div class="form-group">
-                        <div class="form-group col-sm-2">
-                            <label>Moisture&nbsp;(%)</label>
-                            <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="moisture" id="avail" type="text" placeholder="@Model.moistureBook" />
-                            </div>
-                            <span asp-validation-for="moisture" class="text-danger"></span>
+                    <div class="form-group col-sm-2">
+                        <label>NH<sub>4</sub>-N&nbsp;(ppm)</label>
+                        <div class="input-group col-sm-6">
+                            @Model.ammonia
                         </div>
-                        <div class="form-group col-sm-2">
-                            <label>N&nbsp;(%)</label>
-                            <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="nitrogen" id="avail" type="text" placeholder="@Model.nitrogenBook" />
-                            </div>
-                            <span asp-validation-for="nitrogen" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label>P&nbsp;(%)</label>
+                        <div class="input-group col-sm-6">
+                            @Model.phosphorous
                         </div>
-                        <div class="form-group col-sm-2">
-                            <label>NH<sub>4</sub>-N&nbsp;(ppm)</label>
-                            <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="ammonia" id="avail" type="text" placeholder="@Model.ammoniaBook" />
-                            </div>
-                            <span asp-validation-for="ammonia" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label>K&nbsp;(%)</label>
+                        <div class="input-group col-sm-6">
+                            @Model.potassium
                         </div>
-                        <div class="form-group col-sm-2">
-                            <label>P&nbsp;(%)</label>
-                            <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="phosphorous" id="avail" type="text" placeholder="@Model.phosphorousBook" />
-                            </div>
-                            <span asp-validation-for="phosphorous" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <label>K&nbsp;(%)</label>
-                            <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="potassium" id="avail" type="text" placeholder="@Model.potassiumBook" />
-                            </div>
-                            <span asp-validation-for="potassium" class="text-danger"></span>
-                        </div>
-                        @if (Model.compost)
-                        {
-                            <div class="form-group col-sm-2">
-                                <label>NO<sub>3</sub>-N&nbsp;(ppm)</label>
-                                <div class="input-group col-sm-6">
-                                    <input class="form-control" asp-for="nitrate" id="avail" type="text" placeholder="@Model.nitrateBook" />
-                                </div>
-                                <span asp-validation-for="nitrate" class="text-danger"></span>
-                            </div>
-                        }
-                    </div>                }
+                    </div>
+                </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <div class="form-group col-sm-6">
+                    <label asp-for="manureName"></label>
+                    <div class="input-group col-sm-12">
+                        <input class="form-control" asp-for="manureName" id="manureName" type="text" />
+                    </div>
+                    <span asp-validation-for="manureName" class="text-danger"></span>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+            <div class="form-group">
+                <div class="form-group col-sm-2">
+                    <label>Moisture&nbsp;(%)</label>
+                    <div class="input-group col-sm-6">
+                        <input class="form-control" asp-for="moisture" id="avail" type="text" placeholder="@Model.moistureBook" />
+                    </div>
+                    <span asp-validation-for="moisture" class="text-danger"></span>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>N&nbsp;(%)</label>
+                    <div class="input-group col-sm-6">
+                        <input class="form-control" asp-for="nitrogen" id="avail" type="text" placeholder="@Model.nitrogenBook" />
+                    </div>
+                    <span asp-validation-for="nitrogen" class="text-danger"></span>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>NH<sub>4</sub>-N&nbsp;(ppm)</label>
+                    <div class="input-group col-sm-6">
+                        <input class="form-control" asp-for="ammonia" id="avail" type="text" placeholder="@Model.ammoniaBook" />
+                    </div>
+                    <span asp-validation-for="ammonia" class="text-danger"></span>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>P&nbsp;(%)</label>
+                    <div class="input-group col-sm-6">
+                        <input class="form-control" asp-for="phosphorous" id="avail" type="text" placeholder="@Model.phosphorousBook" />
+                    </div>
+                    <span asp-validation-for="phosphorous" class="text-danger"></span>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>K&nbsp;(%)</label>
+                    <div class="input-group col-sm-6">
+                        <input class="form-control" asp-for="potassium" id="avail" type="text" placeholder="@Model.potassiumBook" />
+                    </div>
+                    <span asp-validation-for="potassium" class="text-danger"></span>
+                </div>
+                @if (Model.showNitrate)
+            {
+                <div class="form-group col-sm-2">
+                    <label>NO<sub>3</sub>-N&nbsp;(ppm)</label>
+                    <div class="input-group col-sm-6">
+                        <input class="form-control" asp-for="nitrate" id="avail" type="text" placeholder="@Model.nitrateBook" />
+                    </div>
+                    <span asp-validation-for="nitrate" class="text-danger"></span>
+                </div>
+        }
+            </div>}
 
             </div>
         </div>
@@ -174,5 +174,7 @@
         @Html.HiddenFor(x => x.manureName)
         @Html.HiddenFor(x => x.url)
         @Html.HiddenFor(x => x.urlText)
+        @Html.HiddenFor(x => x.onlyCustom)
+        @Html.HiddenFor(x => x.showNitrate)
     </form>
 </div>

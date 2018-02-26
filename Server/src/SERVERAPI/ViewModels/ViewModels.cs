@@ -133,6 +133,7 @@ namespace SERVERAPI.ViewModels
         public string nitrateBook { get; set; }
         public string phosphorousBook { get; set; }
         public string potassiumBook { get; set; }
+        public bool showNitrate { get; set; }
     }
     public class FileLoadViewModel
     {

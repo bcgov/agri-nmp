@@ -88,6 +88,7 @@ namespace SERVERAPI.Models
             public int nminerizationid { get; set; }
             public int sortNum { get; set; }
             public decimal cubic_Yard_Conversion { get; set; }
+            public decimal nitrate { get; set; }
         }
         public class FertilizerTypes
         {

@@ -370,7 +370,8 @@
             "dmid": "4",
             "nminerizationid": "11",
             "sortNum": "100",
-            "cubic_yard_conversion": "0.51"
+            "cubic_yard_conversion": "0.51",
+            "nitrate": "0.0"
           },
           {
             "id": "2",
@@ -385,7 +386,8 @@
             "dmid": "4",
             "nminerizationid": "11",
             "sortNum": "100",
-            "cubic_yard_conversion": "0.7"
+            "cubic_yard_conversion": "0.7",
+            "nitrate": "0.0"
           },
           {
             "id": "3",
@@ -399,7 +401,8 @@
             "potassium": "0.19",
             "dmid": "4",
             "nminerizationid": "2",
-            "sortNum": "100"
+            "sortNum": "100",
+            "nitrate": "0.0"
           },
           {
             "id": "4",
@@ -414,7 +417,8 @@
             "dmid": "6",
             "nminerizationid": "10",
             "sortNum": "50",
-            "cubic_yard_conversion": "0.5"
+            "cubic_yard_conversion": "0.5",
+            "nitrate": "0.0"
           },
           {
             "id": "5",
@@ -429,7 +433,8 @@
             "dmid": "5",
             "nminerizationid": "5",
             "sortNum": "100",
-            "cubic_yard_conversion": "0.45"
+            "cubic_yard_conversion": "0.45",
+            "nitrate": "0.0"
           },
           {
             "id": "6",
@@ -444,7 +449,8 @@
             "dmid": "5",
             "nminerizationid": "5",
             "sortNum": "100",
-            "cubic_yard_conversion": "0.4"
+            "cubic_yard_conversion": "0.4",
+            "nitrate": "0.0"
           },
           {
             "id": "7",
@@ -459,7 +465,8 @@
             "dmid": "5",
             "nminerizationid": "5",
             "sortNum": "100",
-            "cubic_yard_conversion": "0.5"
+            "cubic_yard_conversion": "0.5",
+            "nitrate": "0.0"
           },
           {
             "id": "8",
@@ -474,7 +481,8 @@
             "dmid": "5",
             "nminerizationid": "5",
             "sortNum": "100",
-            "cubic_yard_conversion": "0.4"
+            "cubic_yard_conversion": "0.4",
+            "nitrate": "0.0"
           },
           {
             "id": "10",
@@ -489,7 +497,8 @@
             "dmid": "5",
             "nminerizationid": "5",
             "sortNum": "100",
-            "cubic_yard_conversion": "0.4"
+            "cubic_yard_conversion": "0.4",
+            "nitrate": "0.0"
           },
           {
             "id": "11",
@@ -504,7 +513,8 @@
             "dmid": "4",
             "nminerizationid": "11",
             "sortNum": "100",
-            "cubic_yard_conversion": "0.59"
+            "cubic_yard_conversion": "0.59",
+            "nitrate": "0.0"
           },
           {
             "id": "12",
@@ -519,7 +529,8 @@
             "dmid": "4",
             "nminerizationid": "11",
             "sortNum": "100",
-            "cubic_yard_conversion": "0.7"
+            "cubic_yard_conversion": "0.7",
+            "nitrate": "0.0"
           },
           {
             "id": "14",
@@ -533,7 +544,8 @@
             "potassium": "0.3",
             "dmid": "4",
             "nminerizationid": "2",
-            "sortNum": "110"
+            "sortNum": "110",
+            "nitrate": "0.0"
           },
           {
             "id": "15",
@@ -547,7 +559,8 @@
             "potassium": "0.25",
             "dmid": "3",
             "nminerizationid": "2",
-            "sortNum": "111"
+            "sortNum": "111",
+            "nitrate": "0.0"
           },
           {
             "id": "16",
@@ -561,7 +574,8 @@
             "potassium": "0.16",
             "dmid": "2",
             "nminerizationid": "2",
-            "sortNum": "112"
+            "sortNum": "112",
+            "nitrate": "0.0"
           },
           {
             "id": "17",
@@ -575,7 +589,8 @@
             "potassium": "0.12",
             "dmid": "2",
             "nminerizationid": "2",
-            "sortNum": "113"
+            "sortNum": "113",
+            "nitrate": "0.0"
           },
           {
             "id": "18",
@@ -590,7 +605,8 @@
             "dmid": "4",
             "nminerizationid": "4",
             "sortNum": "300",
-            "cubic_yard_conversion": "0.7"
+            "cubic_yard_conversion": "0.7",
+            "nitrate": "0.0"
           },
           {
             "id": "19",
@@ -605,7 +621,8 @@
             "dmid": "4",
             "nminerizationid": "11",
             "sortNum": "200",
-            "cubic_yard_conversion": "0.7"
+            "cubic_yard_conversion": "0.7",
+            "nitrate": "0.0"
           },
           {
             "id": "20",
@@ -620,7 +637,8 @@
             "dmid": "4",
             "nminerizationid": "2",
             "sortNum": "200",
-            "cubic_yard_conversion": "0.7"
+            "cubic_yard_conversion": "0.7",
+            "nitrate": "0.0"
           },
           {
             "id": "21",
@@ -635,7 +653,8 @@
             "dmid": "2",
             "nminerizationid": "7",
             "sortNum": "200",
-            "cubic_yard_conversion": "0.7"
+            "cubic_yard_conversion": "0.7",
+            "nitrate": "0.0"
           },
           {
             "id": "22",
@@ -650,7 +669,8 @@
             "dmid": "4",
             "nminerizationid": "9",
             "sortNum": "200",
-            "cubic_yard_conversion": "0.7"
+            "cubic_yard_conversion": "0.7",
+            "nitrate": "0.0"
           },
           {
             "id": "23",
@@ -665,7 +685,8 @@
             "dmid": "4",
             "nminerizationid": "6",
             "sortNum": "200",
-            "cubic_yard_conversion": "0.5"
+            "cubic_yard_conversion": "0.5",
+            "nitrate": "0.0"
           },
           {
             "id": "24",
@@ -680,7 +701,8 @@
             "dmid": "4",
             "nminerizationid": "11",
             "sortNum": "200",
-            "cubic_yard_conversion": "0.7"
+            "cubic_yard_conversion": "0.7",
+            "nitrate": "0.0"
           },
           {
             "id": "25",
@@ -695,7 +717,8 @@
             "dmid": "5",
             "nminerizationid": "5",
             "sortNum": "200",
-            "cubic_yard_conversion": "0.33"
+            "cubic_yard_conversion": "0.33",
+            "nitrate": "0.0"
           },
           {
             "id": "26",
@@ -710,7 +733,8 @@
             "dmid": "5",
             "nminerizationid": "5",
             "sortNum": "200",
-            "cubic_yard_conversion": "0.33"
+            "cubic_yard_conversion": "0.33",
+            "nitrate": "0.0"
           },
           {
             "id": "27",
@@ -725,7 +749,8 @@
             "dmid": "4",
             "nminerizationid": "11",
             "sortNum": "10",
-            "cubic_yard_conversion": "0.5"
+            "cubic_yard_conversion": "0.5",
+            "nitrate": "0.0"
           },
           {
             "id": "28",
@@ -739,7 +764,24 @@
             "potassium": "0",
             "dmid": "2",
             "nminerizationid": "2",
-            "sortNum": "10"
+            "sortNum": "10",
+            "nitrate": "0.0"
+          },
+          {
+            "id": "29",
+            "name": "Chicken Compost",
+            "manure_class": "Compost_Book",
+            "solid_liquid": "Solid",
+            "moisture": "70%",
+            "nitrogen": "1.91",
+            "ammonia": "3095",
+            "phosphorous": "0.8",
+            "potassium": "1.14",
+            "dmid": "5",
+            "nminerizationid": "5",
+            "sortNum": "60",
+            "cubic_yard_conversion": "0.5",
+            "nitrate": "0.0"
           }
         ]
       },
