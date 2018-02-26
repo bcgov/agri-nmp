@@ -19,7 +19,7 @@ namespace SERVERAPI.UserAgent
             {"?","/" }
         };
 
-        public ClientBrowser(string userAgent) 
+        public ClientBrowser(string userAgent)
         {
             foreach (var matchItem in _matchs)
             {
