@@ -13,6 +13,7 @@ namespace SERVERAPI.Models.Impl
         public string BrowserName { get; }
         public string BrowserVersion { get; }
         public bool BrowserValid { get; }
+        public bool OSValid { get; }
         public bool BrowserOutofdate { get; }
         public string BrowserAgent { get; }
         public string BrowserUpdate { get; }
@@ -41,16 +42,24 @@ namespace SERVERAPI.Models.Impl
                 else
                 {
                     BrowserValid = true;
-                    var minVer = Version.Parse(ab.known[indx].minVersion);
-                    var thisVer = Version.Parse(BrowserVersion);
-                    if(thisVer < minVer)
+                    if (BrowserOs == "iOS")
                     {
-                        BrowserOutofdate = true;
-                        BrowserUpdate = ab.known[indx].updateUrl; 
+                        OSValid = false;
                     }
                     else
                     {
-                        BrowserOutofdate = false;
+                        OSValid = true;
+                        var minVer = Version.Parse(ab.known[indx].minVersion);
+                        var thisVer = Version.Parse(BrowserVersion);
+                        if (thisVer < minVer)
+                        {
+                            BrowserOutofdate = true;
+                            BrowserUpdate = ab.known[indx].updateUrl;
+                        }
+                        else
+                        {
+                            BrowserOutofdate = false;
+                        }
                     }
                 }
             }
