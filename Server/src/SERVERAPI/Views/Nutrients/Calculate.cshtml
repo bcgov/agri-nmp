@@ -308,9 +308,14 @@
                     if (result.success) {
                         $('#myModal').modal('hide');
                         if (result.url != '') {
-                            $(result.target).load(result.url);
+                            document.getElementById("overlay").style.display = "block";
                             $('#summary').load(result.urlSumm);
                             $('#message').load(result.urlMsg);
+                            $(result.target).load(result.url, function (response, status, xhr) {
+                                if (status != "error") {
+                                    document.getElementById("overlay").style.display = "none";
+                                }
+                            });
                         }
                     } else {
                         $('#myModalContent').html(result);
