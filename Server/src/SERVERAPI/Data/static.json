@@ -1391,6 +1391,30 @@
             "fertilizerid": "27",
             "densityunitid": "4",
             "value": "9.51"
+          },
+          {
+            "id": "37",
+            "fertilizerid": "20",
+            "densityunitid": "1",
+            "value": "4.315"
+          },
+          {
+            "id": "38",
+            "fertilizerid": "20",
+            "densityunitid": "2",
+            "value": "1.14"
+          },
+          {
+            "id": "39",
+            "fertilizerid": "20",
+            "densityunitid": "3",
+            "value": "11.42"
+          },
+          {
+            "id": "40",
+            "fertilizerid": "20",
+            "densityunitid": "4",
+            "value": "9.51"
           }
         ]
       },
