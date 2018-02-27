@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.744"
+        "staticDataVersion": "2018.761"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8903,22 +8903,22 @@
           {
             "id": "4",
             "name": "agriinfomessage",
-            "text": "<h1>Agronomic Balance</h1><ul><li>considers whether the crop can reach optimal yield and quality</li><li>soil test values affect crop nutrient requirements</li><li>considers the nutrients available from manure in the year of application</li><li>can show if too much N will be applied</li></ul>"
+            "text": "<h1>Agronomic Balance</h1><ul><li>positive balances indicate crop requirements are met</li><li>negative balances indicate crop requirements are not met</li><li>positive nitrogen (N) balances are acceptable for legumes (e.g., alfalfa) if plant-available N does not exceed crop N removal</li></ul>"
           },
           {
             "id": "5",
             "name": "cropinfomessage",
-            "text": "<h1>Crop Removal Balance</h1><ul><li>considers the nutrients removed in the harvested portion of the crop</li><li>soil test values do not affect crop nutrient removal</li><li>considers the nutrients available from manure in the long term</li><li>can show if too much P2O5 will be applied</li><li>shows potential for soil P or soil K to increase or decrease</li></ul>"
+            "text": "<h1>Crop Removal Balance</h1><ul><li>positive P2O5 or K2O balances indicate phosphorus (P) or potassium (K) will increase in soil</li><li>negative P2O5 or K2O balances indicate P or K will decrease in soil</li><li>if soil test P is high, aim to limit crop P removal balance to 35 lb P2O5/ac or less</ul>"
           },
           {
             "id": "6",
             "name": "fileoverwritewarning",
-            "text": "Do you want to save (download) the changes you made? If not, select Continue."
+            "text": "Download file to save the changes you made, or Continue to proceed without saving."
           },
           {
             "id": "7",
             "name": "finishwithoutsaving",
-            "text": "Do you want to save (download) the changes you made? If not, select Continue."
+            "text": "Download file to save the changes you made, or Continue to proceed without saving."
           },
           {
             "id": "8",
@@ -8953,7 +8953,7 @@
           {
             "id": "14",
             "name": "reportdownload",
-            "text": "<ul><li>Continue later</li><li>Save data for next year</li><li>Share work with someone else</li></ul>"
+            "text": "<ul><li>Continue later</li><li>Save data for next year</li><li>Save data to send to someone else</li></ul>"
           },
           {
             "id": "15",
@@ -8994,17 +8994,17 @@
           {
             "id": "22",
             "name": "unknownbrowser",
-            "text": "The browser you are using cannot be determined or is not a supported one.  Please refer to the Help screen for a list of browsers."
+            "text": "<a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Click to download a supported browser.</a>"
           },
           {
             "id": "23",
             "name": "moreinfo",
-            "text": "More Information"
+            "text": "Learn more"
           },
           {
             "id": "24",
             "name": "soiltest",
-            "text": "<h1>Soil Test</h1><ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">More Information</a></p>"
+            "text": "<h1>Lab (Soil Test Methods)</h1><ul><li>Different laboratories use different soil test methods for phosphorus (P) and potassium (K)</li><li>Different methods give different values for the same soil sample</li><li>Choose the lab (methods) used for the Calculator to convert values to a rating <li><a href=\"https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view\" target=\"_blank\">More Information</a></li></ul>"
           }
         ]
       },
@@ -9052,7 +9052,7 @@
             "displayMessage": "No",
             "icon": "good",
             "balanceType": "AgrP2O5",
-            "balance_low": "0",
+            "balance_low": "-5",
             "balance_high": "14"
           },
           {
@@ -9062,7 +9062,7 @@
             "icon": "warning",
             "balanceType": "AgrP2O5",
             "balance_low": "-99999",
-            "balance_high": "-1"
+            "balance_high": "-6"
           },
           {
             "id": "7",
@@ -9079,7 +9079,7 @@
             "displayMessage": "No",
             "icon": "good",
             "balanceType": "AgrK2O",
-            "balance_low": "0",
+            "balance_low": "-5",
             "balance_high": "14"
           },
           {
@@ -9089,7 +9089,7 @@
             "icon": "warning",
             "balanceType": "AgrK2O",
             "balance_low": "-99999",
-            "balance_high": "-1"
+            "balance_high": "-6"
           },
           {
             "id": "10",
