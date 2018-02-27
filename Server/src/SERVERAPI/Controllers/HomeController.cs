@@ -383,6 +383,7 @@ namespace SERVERAPI.Controllers
             dvm.images = new List<string>();
             dvm.browserAgent = _bd.BrowserAgent;
             dvm.browserName = _bd.BrowserName;
+            dvm.os = _bd.BrowserOs;
 
             foreach(var h in sortedFiles)
             {
