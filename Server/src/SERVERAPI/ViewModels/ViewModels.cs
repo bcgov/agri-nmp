@@ -148,6 +148,7 @@ namespace SERVERAPI.ViewModels
         public List<string> images { get; set; }
         public string browserAgent { get; set; }
         public string browserName { get; set; }
+        public string os { get; set; }
     }
     public class ManureDetailsViewModel
     {

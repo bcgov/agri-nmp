@@ -16,6 +16,7 @@ namespace SERVERAPI.Models.Impl
         public bool BrowserOutofdate { get; }
         public string BrowserAgent { get; }
         public string BrowserUpdate { get; }
+        public string BrowserOs { get; }
 
         public BrowserData(IHttpContextAccessor ctx, StaticData sd)
         {
@@ -27,6 +28,7 @@ namespace SERVERAPI.Models.Impl
                 UserAgent.UserAgent ua = new UserAgent.UserAgent(_ctx.HttpContext.Request.Headers["User-Agent"]);
                 BrowserName = ua.Browser.Name;
                 BrowserVersion = ua.Browser.Version;
+                BrowserOs = ua.OS.Name;
                 BrowserAgent = _ctx.HttpContext.Request.Headers["User-Agent"].ToString();
 
                 Models.StaticData.Browsers ab = _sd.GetAllowableBrowsers();
