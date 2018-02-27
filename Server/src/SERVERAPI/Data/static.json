@@ -9005,6 +9005,11 @@
             "id": "24",
             "name": "soiltest",
             "text": "<h1>Lab (Soil Test Methods)</h1><ul><li>Different laboratories use different soil test methods for phosphorus (P) and potassium (K)</li><li>Different methods give different values for the same soil sample</li><li>Choose the lab (methods) used for the Calculator to convert values to a rating</li></ul><p><a href=\"https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view\" target=\"_blank\">Learn more(opens in a new tab)</a></p>"
+          },
+          {
+            "id": "25",
+            "name": "invaliddevice",
+            "text": "The device you are using is unable to save or load any data you may enter."
           }
         ]
       },

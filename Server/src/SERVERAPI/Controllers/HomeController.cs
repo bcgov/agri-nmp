@@ -98,16 +98,23 @@ namespace SERVERAPI.Controllers
             lvm.disclaimerMsg = _sd.GetUserPrompt("disclaimer");
             lvm.staticDataVersionMsg = _sd.GetStaticDataVersion();
 
-            if(_bd.BrowserValid)
+            if (_bd.OSValid)
             {
-                if(_bd.BrowserOutofdate)
+                if (_bd.BrowserValid)
                 {
-                    lvm.browserMsg = string.Format(_sd.GetUserPrompt("browseroutofdate"), _bd.BrowserUpdate); 
+                    if (_bd.BrowserOutofdate)
+                    {
+                        lvm.browserMsg = string.Format(_sd.GetUserPrompt("browseroutofdate"), _bd.BrowserUpdate);
+                    }
+                }
+                else
+                {
+                    lvm.browserMsg = _sd.GetUserPrompt("unknownbrowser");
                 }
             }
             else
             {
-                lvm.browserMsg = _sd.GetUserPrompt("unknownbrowser");
+                lvm.browserMsg = _sd.GetUserPrompt("invaliddevice");
             }
 
             ViewBag.Title = "NMP";
