@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.761"
+        "staticDataVersion": "2018.762"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -8903,12 +8903,12 @@
           {
             "id": "4",
             "name": "agriinfomessage",
-            "text": "<h1>Agronomic Balance</h1><ul><li>positive balances indicate crop requirements are met</li><li>negative balances indicate crop requirements are not met</li><li>positive nitrogen (N) balances are acceptable for legumes (e.g., alfalfa) if plant-available N does not exceed crop N removal</li></ul>"
+            "text": "<h1>Agronomic Balance</h1><ul><li>positive balances indicate crop requirements are met</li><li>negative balances indicate crop requirements are not met</li><li>positive nitrogen (N) balances are acceptable for legumes (e.g., alfalfa) if agronomic N does not exceed crop N removal</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in a new tab)</a></p>"
           },
           {
             "id": "5",
             "name": "cropinfomessage",
-            "text": "<h1>Crop Removal Balance</h1><ul><li>positive P2O5 or K2O balances indicate phosphorus (P) or potassium (K) will increase in soil</li><li>negative P2O5 or K2O balances indicate P or K will decrease in soil</li><li>if soil test P is high, aim to limit crop P removal balance to 35 lb P2O5/ac or less</ul>"
+            "text": "<h1>Crop Removal Balance</h1><ul><li>positive P2O5 or K2O balances indicate phosphorus (P) or potassium (K) will increase in soil</li><li>negative P2O5 or K2O balances indicate P or K will decrease in soil</li><li>if soil test P is high, aim to limit crop P removal balance to 35 lb P2O5/ac or less</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in a new tab)</a></p>"
           },
           {
             "id": "6",
@@ -9004,7 +9004,7 @@
           {
             "id": "24",
             "name": "soiltest",
-            "text": "<h1>Lab (Soil Test Methods)</h1><ul><li>Different laboratories use different soil test methods for phosphorus (P) and potassium (K)</li><li>Different methods give different values for the same soil sample</li><li>Choose the lab (methods) used for the Calculator to convert values to a rating <li><a href=\"https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view\" target=\"_blank\">More Information</a></li></ul>"
+            "text": "<h1>Lab (Soil Test Methods)</h1><ul><li>Different laboratories use different soil test methods for phosphorus (P) and potassium (K)</li><li>Different methods give different values for the same soil sample</li><li>Choose the lab (methods) used for the Calculator to convert values to a rating</li></ul><p><a href=\"https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view\" target=\"_blank\">Learn more(opens in a new tab)</a></p>"
           }
         ]
       },
