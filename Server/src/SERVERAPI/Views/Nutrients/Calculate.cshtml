@@ -53,7 +53,7 @@
                     <button class="btn btn-default" type="button" style="width:90px" data_modal3="" data-type="@Url.Action("FieldCopy", "Fields", new { currFld = Model.currFld })">Copy field</button>
                 }
             </div>
-            <div class="step-forms col-sm-9">
+            <div class="step-forms col-sm-9" id="scrContents">
                 @if (Model.fldsFnd > 0)
                 {
                     <div class="form-box">
@@ -135,7 +135,7 @@
             <br />
             <div class="form-box-submit">
                 <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next"  onclick="Intercept('@Url.Action("Report", "Report" )');" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next"  onclick="window.location.href='@Url.Action("Report", "Report" )';" />
             </div>
             @Html.HiddenFor(x => x.fldsFnd)
             @Html.HiddenFor(x => x.currFld)
@@ -230,6 +230,7 @@
                             window.location.href = '@Url.Action("Calculate","Nutrients", new { nme = Model.currFld })';
                         }
                         else {
+                            $("#scrContents").addClass("loading");
                             $('#myModal').modal('hide');
                             $('#heading').load(result.urlHead);
                             $('#message').load(result.urlMsg);

@@ -974,21 +974,5 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
-        [HttpGet]
-        public ActionResult InfoMessage(string type)
-        {
-            InfoAgriViewModel ivm = new InfoAgriViewModel();
-
-            switch (type)
-            {
-                case "download":
-                    ivm.text = _sd.GetUserPrompt("downloadinfomessage");
-                    break;
-                case "load":
-                    ivm.text = _sd.GetUserPrompt("cropinfomessage");
-                    break;
-            }
-            return PartialView("InfoMessage", ivm);
-        }
     }
 }
