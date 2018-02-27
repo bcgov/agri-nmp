@@ -9,6 +9,10 @@
                 <li style="display:block; float:left; clear:both; width:100%; padding-bottom:3px;"><a href="@Url.Action(Model.actn,Model.cntl, new { nme = f.fieldName })" class="btn " style="width:100%; text-align:left; color:black;">@if (f.crops == null) { @Html.Raw("<span>*</span>"); }@f.fieldName</a></li>
             }
         </ul>
+        @if(Model.noCrops)
+        {
+            <p>*No crop yet</p>
+        }
     }
     <br />
 </div>

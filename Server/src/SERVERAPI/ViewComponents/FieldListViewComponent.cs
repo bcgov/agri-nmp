@@ -32,6 +32,7 @@ namespace SERVERAPI.ViewComponents
             FieldListViewModel fvm = new FieldListViewModel();
             fvm.actn = actn;
             fvm.cntl = cntl;
+            fvm.noCrops = false;
             fvm.fields = new List<Field>();
 
             List<Field> fldList = _ud.GetFields();
@@ -45,6 +46,10 @@ namespace SERVERAPI.ViewComponents
                 nf.crops = f.crops;
 
                 fvm.fields.Add(nf);
+                if(f.crops == null)
+                {
+                    fvm.noCrops = true;
+                }
             }
 
             return Task.FromResult(fvm);
@@ -55,6 +60,7 @@ namespace SERVERAPI.ViewComponents
     {
         public string cntl { get; set; }
         public string actn { get; set; }
+        public bool noCrops { get; set; }
         public List<Field> fields { get; set; }
     }
 }
