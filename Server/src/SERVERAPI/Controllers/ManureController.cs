@@ -192,8 +192,6 @@ namespace SERVERAPI.Controllers
                     {
                         man = _sd.GetManure(cvm.selManOption.ToString());
                         cvm.onlyCustom = false;
-                        //skwong
-                        //cvm.compost = false;    // don't show Nitrate edit box if not COMPOST_CATEGORY
                         if (cvm.bookValue)
                         {
                             cvm.moisture = cvm.bookValue ? man.moisture.ToString() : "";

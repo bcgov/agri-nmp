@@ -103,13 +103,15 @@ namespace SERVERAPI.Utility
             decimal a = decimal.Divide(mymanure.ammonia, tenThousand) * ammoniaRetention;
 
             decimal b1 = decimal.Multiply(organicN, nOrganicMineralizations.OrganicN_FirstYear);
-            decimal c1 = a + 0 + b1;
+            //E07US20
+            decimal c1 = a + b1 + Convert.ToDecimal(mymanure.nitrate) / tenThousand;
             decimal N_Firstyear = decimal.Multiply(c1, lbPerTonConversion);
             nutrientInputs.N_FirstYear = Convert.ToInt32(applicationRate * N_Firstyear * conversion);
 
             // same for long term
             decimal b2 = decimal.Multiply(organicN, nOrganicMineralizations.OrganicN_LongTerm);
-            decimal c2 = a + 0 + b2;
+            //E07US20
+            decimal c2 = a + b2 + Convert.ToDecimal(mymanure.nitrate) / tenThousand;
             decimal N_LongTerm = decimal.Multiply(c2, lbPerTonConversion);
             nutrientInputs.N_LongTerm = Convert.ToInt32(applicationRate * N_LongTerm * conversion);
 
