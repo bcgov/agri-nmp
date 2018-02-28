@@ -172,13 +172,19 @@ namespace SERVERAPI.Controllers
 
             ManureDetailsSetup(ref mvm);
 
+            MaunureStillRequired(ref mvm);
+
+            return PartialView(mvm);
+        }
+        private void MaunureStillRequired(ref ManureDetailsViewModel mvm)
+        {
             //recalc totals for display
             ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
             ChemicalBalances chemicalBalances = new ChemicalBalances();
 
-            chemicalBalances = cbm.GetChemicalBalances(fldName);
+            chemicalBalances = cbm.GetChemicalBalances(mvm.fieldName);
 
-            List<BalanceMessages> msgs = cbm.DetermineBalanceMessages(fldName);
+            List<BalanceMessages> msgs = cbm.DetermineBalanceMessages(mvm.fieldName);
 
             foreach (var m in msgs)
             {
@@ -199,13 +205,13 @@ namespace SERVERAPI.Controllers
             mvm.totN = (chemicalBalances.balance_AgrN > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrN).ToString();
             mvm.totP2o5 = (chemicalBalances.balance_AgrP2O5 > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrP2O5).ToString();
             mvm.totK2o = (chemicalBalances.balance_AgrK2O > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrK2O).ToString();
-
-            return PartialView(mvm);
         }
         [HttpPost]
         public IActionResult ManureDetails(ManureDetailsViewModel mvm)
         {
             decimal nmbr;
+            int addedId = 0;
+            NutrientManure origManure = new NutrientManure();
 
             Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
@@ -367,47 +373,37 @@ namespace SERVERAPI.Controllers
                         {
                             mvm.stdAvail = false;
                         }
+
+                        // temporarily update the farm data so as to recalc the Still Required amounts
+                        if (mvm.id == null)
+                        {
+                            addedId = ManureInsert(mvm);
+                        }
+                        else
+                        {
+                            origManure = _ud.GetFieldNutrientsManure(mvm.fieldName, mvm.id.Value);
+                            ManureUpdate(mvm);
+                        }
+
+                        MaunureStillRequired(ref mvm);
+                        if (mvm.id == null)
+                        {
+                            _ud.DeleteFieldNutrientsManure(mvm.fieldName, addedId);
+                        }
+                        else
+                        {
+                            _ud.UpdateFieldNutrientsManure(mvm.fieldName, origManure);
+                        }
                     }
                     else
                     {
                         if (mvm.id == null)
                         {
-
-                            NutrientManure nm = new NutrientManure()
-                            {
-                                manureId = mvm.selManOption,
-                                applicationId = mvm.selApplOption,
-                                unitId = mvm.selRateOption,
-                                rate = Convert.ToDecimal(mvm.rate),
-                                nh4Retention = Convert.ToDecimal(mvm.nh4),
-                                nAvail = Convert.ToDecimal(mvm.avail),
-                                yrN = Convert.ToDecimal(mvm.yrN),
-                                yrP2o5 = Convert.ToDecimal(mvm.yrP2o5),
-                                yrK2o = Convert.ToDecimal(mvm.yrK2o),
-                                ltN = Convert.ToDecimal(mvm.ltN),
-                                ltP2o5 = Convert.ToDecimal(mvm.ltP2o5),
-                                ltK2o = Convert.ToDecimal(mvm.ltK2o)
-                            };
-
-                            _ud.AddFieldNutrientsManure(mvm.fieldName, nm);
+                            ManureInsert(mvm);
                         }
                         else
                         {
-                            NutrientManure nm = _ud.GetFieldNutrientsManure(mvm.fieldName, mvm.id.Value);
-                            nm.manureId = mvm.selManOption;
-                            nm.applicationId = mvm.selApplOption;
-                            nm.unitId = mvm.selRateOption;
-                            nm.rate = Convert.ToDecimal(mvm.rate);
-                            nm.nh4Retention = Convert.ToDecimal(mvm.nh4);
-                            nm.nAvail = Convert.ToDecimal(mvm.avail);
-                            nm.yrN = Convert.ToDecimal(mvm.yrN);
-                            nm.yrP2o5 = Convert.ToDecimal(mvm.yrP2o5);
-                            nm.yrK2o = Convert.ToDecimal(mvm.yrK2o);
-                            nm.ltN = Convert.ToDecimal(mvm.ltN);
-                            nm.ltP2o5 = Convert.ToDecimal(mvm.ltP2o5);
-                            nm.ltK2o = Convert.ToDecimal(mvm.ltK2o);
-
-                            _ud.UpdateFieldNutrientsManure(mvm.fieldName, nm);
+                            ManureUpdate(mvm);
                         }
                         return Json(ReDisplay("#manure", mvm.fieldName));
                     }
@@ -419,6 +415,44 @@ namespace SERVERAPI.Controllers
             }
 
             return PartialView(mvm);
+        }
+        private int ManureInsert(ManureDetailsViewModel mvm)
+        {
+            NutrientManure nm = new NutrientManure()
+            {
+                manureId = mvm.selManOption,
+                applicationId = mvm.selApplOption,
+                unitId = mvm.selRateOption,
+                rate = Convert.ToDecimal(mvm.rate),
+                nh4Retention = Convert.ToDecimal(mvm.nh4),
+                nAvail = Convert.ToDecimal(mvm.avail),
+                yrN = Convert.ToDecimal(mvm.yrN),
+                yrP2o5 = Convert.ToDecimal(mvm.yrP2o5),
+                yrK2o = Convert.ToDecimal(mvm.yrK2o),
+                ltN = Convert.ToDecimal(mvm.ltN),
+                ltP2o5 = Convert.ToDecimal(mvm.ltP2o5),
+                ltK2o = Convert.ToDecimal(mvm.ltK2o)
+            };
+          
+            return _ud.AddFieldNutrientsManure(mvm.fieldName, nm);
+        }
+        private void ManureUpdate(ManureDetailsViewModel mvm)
+        {
+            NutrientManure nm = _ud.GetFieldNutrientsManure(mvm.fieldName, mvm.id.Value);
+            nm.manureId = mvm.selManOption;
+            nm.applicationId = mvm.selApplOption;
+            nm.unitId = mvm.selRateOption;
+            nm.rate = Convert.ToDecimal(mvm.rate);
+            nm.nh4Retention = Convert.ToDecimal(mvm.nh4);
+            nm.nAvail = Convert.ToDecimal(mvm.avail);
+            nm.yrN = Convert.ToDecimal(mvm.yrN);
+            nm.yrP2o5 = Convert.ToDecimal(mvm.yrP2o5);
+            nm.yrK2o = Convert.ToDecimal(mvm.yrK2o);
+            nm.ltN = Convert.ToDecimal(mvm.ltN);
+            nm.ltP2o5 = Convert.ToDecimal(mvm.ltP2o5);
+            nm.ltK2o = Convert.ToDecimal(mvm.ltK2o);
+
+            _ud.UpdateFieldNutrientsManure(mvm.fieldName, nm);
         }
         private void ManureDetailsSetup(ref ManureDetailsViewModel mvm)
         {
@@ -520,15 +554,21 @@ namespace SERVERAPI.Controllers
                 FertilizerDetail_Reset(ref fvm);
             }
 
+            FertilizerStillRequired(ref fvm);
+
             FertilizerDetailsSetup(ref fvm);
 
+            return PartialView(fvm);
+        }
+        private void FertilizerStillRequired(ref FertilizerDetailsViewModel fvm)
+        {
             //recalc totals for display
             ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
             ChemicalBalances chemicalBalances = new ChemicalBalances();
 
-            chemicalBalances = cbm.GetChemicalBalances(fldName);
+            chemicalBalances = cbm.GetChemicalBalances(fvm.fieldName);
 
-            List<BalanceMessages> msgs = cbm.DetermineBalanceMessages(fldName);
+            List<BalanceMessages> msgs = cbm.DetermineBalanceMessages(fvm.fieldName);
 
             foreach (var m in msgs)
             {
@@ -549,7 +589,6 @@ namespace SERVERAPI.Controllers
             fvm.totN = (chemicalBalances.balance_AgrN > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrN).ToString();
             fvm.totP2o5 = (chemicalBalances.balance_AgrP2O5 > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrP2O5).ToString();
             fvm.totK2o = (chemicalBalances.balance_AgrK2O > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrK2O).ToString();
-            return PartialView(fvm);
         }
         [HttpPost]
         public IActionResult FertilizerDetails(FertilizerDetailsViewModel fvm)
@@ -558,6 +597,8 @@ namespace SERVERAPI.Controllers
             decimal nmbrN = 0;
             decimal nmbrP = 0;
             decimal nmbrK = 0;
+            int addedId = 0;
+            NutrientFertilizer origFertilizer = new NutrientFertilizer();
 
             //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
@@ -779,52 +820,39 @@ namespace SERVERAPI.Controllers
                         fvm.calcK2o = Convert.ToInt32(fertilizerNutrients.fertilizer_K2O).ToString();
 
                         fvm.btnText = fvm.id == null ? "Add to Field" : "Update Field";
+
+                        // temporarily update the farm data so as to recalc the Still Required amounts
+                        if (fvm.id == null)
+                        {
+                            addedId = FertilizerInsert(fvm);
+                        }
+                        else
+                        {
+                            origFertilizer = _ud.GetFieldNutrientsFertilizer(fvm.fieldName, fvm.id.Value);
+                            FertilizerUpdate(fvm);
+                        }
+
+                        FertilizerStillRequired(ref fvm);
+                        if (fvm.id == null)
+                        {
+                            _ud.DeleteFieldNutrientsFertilizer(fvm.fieldName, addedId);
+                        }
+                        else
+                        {
+                            _ud.UpdateFieldNutrientsFertilizer(fvm.fieldName, origFertilizer);
+                        }
+
                     }
                     else
                     {
 
                         if (fvm.id == null)
                         {
-
-                            NutrientFertilizer nf = new NutrientFertilizer()
-                            {
-                                fertilizerTypeId = Convert.ToInt32(fvm.selTypOption),
-                                fertilizerId = fvm.selFertOption,
-                                applUnitId = Convert.ToInt32(fvm.selRateOption),
-                                applRate = Convert.ToDecimal(fvm.applRate),
-                                applDate = string.IsNullOrEmpty(fvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fvm.applDate),
-                                applMethodId = fvm.selMethOption,
-                                customN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null,
-                                customP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null,
-                                customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null,
-                                fertN = Convert.ToDecimal(fvm.calcN),
-                                fertP2o5 = Convert.ToDecimal(fvm.calcP2o5),
-                                fertK2o = Convert.ToDecimal(fvm.calcK2o),
-                                liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0,
-                                liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0
-                            };
-
-                            _ud.AddFieldNutrientsFertilizer(fvm.fieldName, nf);
+                            FertilizerInsert(fvm);
                         }
                         else
                         {
-                            NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fvm.fieldName, fvm.id.Value);
-                            nf.fertilizerTypeId = Convert.ToInt32(fvm.selTypOption);
-                            nf.fertilizerId = fvm.selFertOption;
-                            nf.applUnitId = Convert.ToInt32(fvm.selRateOption);
-                            nf.applRate = Convert.ToDecimal(fvm.applRate);
-                            nf.applDate = string.IsNullOrEmpty(fvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fvm.applDate);
-                            nf.applMethodId = fvm.selMethOption;
-                            nf.customN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null;
-                            nf.customP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null;
-                            nf.customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null;
-                            nf.fertN = Convert.ToDecimal(fvm.calcN);
-                            nf.fertP2o5 = Convert.ToDecimal(fvm.calcP2o5);
-                            nf.fertK2o = Convert.ToDecimal(fvm.calcK2o);
-                            nf.liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0;
-                            nf.liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0;
-
-                            _ud.UpdateFieldNutrientsFertilizer(fvm.fieldName, nf);
+                            FertilizerUpdate(fvm);
                         }
                         return Json(ReDisplay("#fertilizer", fvm.fieldName));
                     }
@@ -836,6 +864,48 @@ namespace SERVERAPI.Controllers
             }
 
             return PartialView(fvm);
+        }
+        private int FertilizerInsert(FertilizerDetailsViewModel fvm)
+        {
+            NutrientFertilizer nf = new NutrientFertilizer()
+            {
+                fertilizerTypeId = Convert.ToInt32(fvm.selTypOption),
+                fertilizerId = fvm.selFertOption,
+                applUnitId = Convert.ToInt32(fvm.selRateOption),
+                applRate = Convert.ToDecimal(fvm.applRate),
+                applDate = string.IsNullOrEmpty(fvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fvm.applDate),
+                applMethodId = fvm.selMethOption,
+                customN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null,
+                customP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null,
+                customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null,
+                fertN = Convert.ToDecimal(fvm.calcN),
+                fertP2o5 = Convert.ToDecimal(fvm.calcP2o5),
+                fertK2o = Convert.ToDecimal(fvm.calcK2o),
+                liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0,
+                liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0
+            };
+
+            return _ud.AddFieldNutrientsFertilizer(fvm.fieldName, nf);
+        }
+        private void FertilizerUpdate(FertilizerDetailsViewModel fvm)
+        {
+            NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fvm.fieldName, fvm.id.Value);
+            nf.fertilizerTypeId = Convert.ToInt32(fvm.selTypOption);
+            nf.fertilizerId = fvm.selFertOption;
+            nf.applUnitId = Convert.ToInt32(fvm.selRateOption);
+            nf.applRate = Convert.ToDecimal(fvm.applRate);
+            nf.applDate = string.IsNullOrEmpty(fvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fvm.applDate);
+            nf.applMethodId = fvm.selMethOption;
+            nf.customN = fvm.manEntry ? Convert.ToDecimal(fvm.valN) : (decimal?)null;
+            nf.customP2o5 = fvm.manEntry ? Convert.ToDecimal(fvm.valP2o5) : (decimal?)null;
+            nf.customK2o = fvm.manEntry ? Convert.ToDecimal(fvm.valK2o) : (decimal?)null;
+            nf.fertN = Convert.ToDecimal(fvm.calcN);
+            nf.fertP2o5 = Convert.ToDecimal(fvm.calcP2o5);
+            nf.fertK2o = Convert.ToDecimal(fvm.calcK2o);
+            nf.liquidDensity = fvm.fertilizerType == "liquid" ? Convert.ToDecimal(fvm.density) : 0;
+            nf.liquidDensityUnitId = fvm.fertilizerType == "liquid" ? Convert.ToInt32(fvm.selDenOption) : 0;
+
+            _ud.UpdateFieldNutrientsFertilizer(fvm.fieldName, nf);
         }
         private void FertilizerDetailsSetup(ref FertilizerDetailsViewModel fvm)
         {
