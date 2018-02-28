@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.779"
+        "staticDataVersion": "2018.780"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -12,7 +12,7 @@
         "defaultSoilTestKelownaP": "250",
         "defaultSoilTestKelownaK": "500",
         "defaultSoilTestMethodId": "1",
-        "defaultSoilTestMessage": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<p />Crop P and K requirements will be 0 on fields without a soil test.",
+        "defaultSoilTestMessage": "<li>For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.</li><li>Crop P and K requirements will be 0 on fields without a soil test.</li>",
         "kgperha_lbperac_conversion": "0.892176122",
         "potassiumAvailabilityFirstYear": "1",
         "potassiumAvailabilityLongTerm": "1",
@@ -781,7 +781,7 @@
             "nminerizationid": "10",
             "sortNum": "60",
             "cubic_yard_conversion": "0.5",
-            "nitrate": "0.0"
+            "nitrate": "449"
           }
         ]
       },
