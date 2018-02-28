@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.778"
+        "staticDataVersion": "2018.779"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -12,7 +12,7 @@
         "defaultSoilTestKelownaP": "250",
         "defaultSoilTestKelownaK": "500",
         "defaultSoilTestMethodId": "1",
-        "defaultSoilTestMessage": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<p>Crop P and K requirements will be 0 on fields without a soil test.",
+        "defaultSoilTestMessage": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<p />Crop P and K requirements will be 0 on fields without a soil test.",
         "kgperha_lbperac_conversion": "0.892176122",
         "potassiumAvailabilityFirstYear": "1",
         "potassiumAvailabilityLongTerm": "1",
@@ -769,16 +769,16 @@
           },
           {
             "id": "29",
-            "name": "Chicken Compost",
+            "name": "Yard Trimmings Compost",
             "manure_class": "Compost_Book",
             "solid_liquid": "Solid",
             "moisture": "70%",
-            "nitrogen": "1.91",
-            "ammonia": "3095",
-            "phosphorous": "0.8",
-            "potassium": "1.14",
-            "dmid": "5",
-            "nminerizationid": "5",
+            "nitrogen": "1.25",
+            "ammonia": "34",
+            "phosphorous": "0.3",
+            "potassium": "1.0",
+            "dmid": "6",
+            "nminerizationid": "10",
             "sortNum": "60",
             "cubic_yard_conversion": "0.5",
             "nitrate": "0.0"
@@ -8962,7 +8962,7 @@
           {
             "id": "11",
             "name": "soiltestwarning",
-            "text": "Do you have soil tests from within the past 3 years?<p />Yes - Select the lab used (soil test methods)<p />No - Click Next"
+            "text": "Do you have soil tests from within the past 3 years?<p /><ul><li>Yes - Select the lab used (soil test methods)</li><li>No - Click Next</li></ul>"
           },
           {
             "id": "12",
