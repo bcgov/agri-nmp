@@ -51,8 +51,8 @@ namespace SERVERAPI.Utility
                 foreach (var _crop in fieldCrops)
                 {
                     Crop crop = _sd.GetCrop(Convert.ToInt16(_crop.cropId));
-                    if (crop.n_recommcd == 1) //is a legume
-                        legume = true;
+                    if (crop.n_recommcd == 1) // no nitrogen need to be added
+                        legume = true;  
                 }
 
                 if (legume)
@@ -266,6 +266,18 @@ namespace SERVERAPI.Utility
             {
                 LegumeAgronomicN += Convert.ToInt64(m.yrN);
             }
+
+            Field fld =  _ud.GetFieldDetails(fldName);
+
+            if (fld.prevYearManureApplicationNitrogenCredit != null)
+                LegumeAgronomicN += Convert.ToInt64(fld.prevYearManureApplicationNitrogenCredit);
+            else
+                LegumeAgronomicN += Convert.ToInt64(calcPrevYearManureApplDefault(fldName));
+
+            if (fld.SoilTestNitrateOverrideNitrogenCredit != null)
+                LegumeAgronomicN += Convert.ToInt64(fld.SoilTestNitrateOverrideNitrogenCredit);
+            else
+                LegumeAgronomicN += Convert.ToInt64(calcSoitTestNitrateDefault(fldName));
 
             return LegumeAgronomicN;
         }

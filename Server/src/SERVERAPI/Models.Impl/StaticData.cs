@@ -1000,12 +1000,10 @@ namespace SERVERAPI.Models.Impl
                         bm.Message = string.Format(r["text"].ToString(), Math.Abs(balance).ToString());
                     bm.Icon = r["icon"].ToString();
 
-                    //Message is removed for AgrN Legumes
-                    if (balanceType == "AgrN" &&
-                        legume &&
-                        Convert.ToInt32(r["balance_low"].ToString()) == -99999)
-                    {
-                        bm = null;
+                    if (balanceType == "AgrN" &&  legume  && bm.Icon != "stop")
+                    {   // nitrogen does not need to be added even if there is a deficiency
+                        bm.Icon = "good";
+                        bm.Message = ""; 
                     }
 
                     return bm;
