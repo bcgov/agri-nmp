@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.762"
+        "staticDataVersion": "2018.778"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -12,7 +12,7 @@
         "defaultSoilTestKelownaP": "250",
         "defaultSoilTestKelownaK": "500",
         "defaultSoilTestMethodId": "1",
-        "defaultSoilTestMessage": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.\nCrop P and K requirements will be 0 on fields without a soil test.",
+        "defaultSoilTestMessage": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<p>Crop P and K requirements will be 0 on fields without a soil test.",
         "kgperha_lbperac_conversion": "0.892176122",
         "potassiumAvailabilityFirstYear": "1",
         "potassiumAvailabilityLongTerm": "1",
@@ -8917,7 +8917,7 @@
           {
             "id": "2",
             "name": "welcome",
-            "text": "<h2>How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Compare your manure and fertilizer applications with crop nutrient needs</li><li>Enter and download information confidentially</li><li>Create pdf reports for farm use</li></ul><br />This is a beta version that is being tested by farmers and consultants before its release in March 2018."
+            "text": "<h2>This is an archived message: How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Compare your manure and fertilizer applications with crop nutrient needs</li><li>Enter and download information confidentially</li><li>Create pdf reports for farm use</li></ul><br />This is a beta version that is being tested by farmers and consultants before its release in March 2018."
           },
           {
             "id": "3",
@@ -8927,12 +8927,12 @@
           {
             "id": "4",
             "name": "agriinfomessage",
-            "text": "<h1>Agronomic Balance</h1><ul><li>positive balances indicate crop requirements are met</li><li>negative balances indicate crop requirements are not met</li><li>positive nitrogen (N) balances are acceptable for legumes (e.g., alfalfa) if agronomic N does not exceed crop N removal</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in a new tab)</a></p>"
+            "text": "<h1>Agronomic Balance</h1><ul><li>positive balances indicate crop requirements are met</li><li>negative balances indicate crop requirements are not met</li><li>positive nitrogen (N) balances are acceptable for alfalfa forages if plant-available N does not exceed crop N removal</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (pop up)</a></p>"
           },
           {
             "id": "5",
             "name": "cropinfomessage",
-            "text": "<h1>Crop Removal Balance</h1><ul><li>positive P2O5 or K2O balances indicate phosphorus (P) or potassium (K) will increase in soil</li><li>negative P2O5 or K2O balances indicate P or K will decrease in soil</li><li>if soil test P is high, aim to limit crop P removal balance to 35 lb P2O5/ac or less</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in a new tab)</a></p>"
+            "text": "<h1>Crop Removal Balance</h1><ul><li>positive P2O5 or K2O balances indicate phosphorus (P) or potassium (K) will increase in soil</li><li>negative P2O5 or K2O balances indicate P or K will decrease in soil</li><li>if soil test P is high, aim to limit crop P removal balance to 35 lb P2O5/ac or less</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (pop up)</a></p>"
           },
           {
             "id": "6",
@@ -8942,7 +8942,7 @@
           {
             "id": "7",
             "name": "finishwithoutsaving",
-            "text": "Download file to save the changes you made, or Continue to proceed without saving."
+            "text": "Download file to save the changes you made, or Continue to close this session without saving."
           },
           {
             "id": "8",
@@ -8962,7 +8962,7 @@
           {
             "id": "11",
             "name": "soiltestwarning",
-            "text": "Do you have soil tests from within the past 3 years?<br />Yes - Select the lab used (soil test methods)<br />No - Click Next"
+            "text": "Do you have soil tests from within the past 3 years?<p />Yes - Select the lab used (soil test methods)<p />No - Click Next"
           },
           {
             "id": "12",
@@ -9023,12 +9023,12 @@
           {
             "id": "23",
             "name": "moreinfo",
-            "text": "Learn more"
+            "text": "Learn more (pop up)"
           },
           {
             "id": "24",
             "name": "soiltest",
-            "text": "<h1>Lab (Soil Test Methods)</h1><ul><li>Different laboratories use different soil test methods for phosphorus (P) and potassium (K)</li><li>Different methods give different values for the same soil sample</li><li>Choose the lab (methods) used for the Calculator to convert values to a rating</li></ul><p><a href=\"https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view\" target=\"_blank\">Learn more(opens in a new tab)</a></p>"
+            "text": "<h1>Lab (Soil Test Methods)</h1><ul><li>Different laboratories use different soil test methods for phosphorus (P) and potassium (K)</li><li>Different methods give different values for the same soil sample</li><li>Choose the lab (methods) used for the Calculator to convert values to a rating</li></ul><p><a href=\"https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view\" target=\"_blank\">Learn more (pop up)</a></p>"
           },
           {
             "id": "25",
