@@ -410,7 +410,7 @@ namespace SERVERAPI.Controllers
                             fm.nminerizationid = man.nminerizationid;
                             fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
                             fm.potassium = Convert.ToDecimal(cvm.potassium);
-                            fm.nitrate = cvm.compost ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
+                            fm.nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                             fm.solid_liquid = man.solid_liquid;
                         }
 
