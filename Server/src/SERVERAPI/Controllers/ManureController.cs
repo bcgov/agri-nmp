@@ -410,9 +410,7 @@ namespace SERVERAPI.Controllers
                             fm.nminerizationid = man.nminerizationid;
                             fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
                             fm.potassium = Convert.ToDecimal(cvm.potassium);
-                            //skwong - need to determine if adding a COMPOST category of material
-                            //  if ( COMPOST_CAT) then get value from CVM, otherwise, get it from man.nitrate;
-                            fm.nitrate = cvm.compost ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
+                            fm.nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                             fm.solid_liquid = man.solid_liquid;
                         }
 
@@ -445,7 +443,6 @@ namespace SERVERAPI.Controllers
                             fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
                             fm.potassium = Convert.ToDecimal(cvm.potassium);
                             fm.solid_liquid = man.solid_liquid;
-                            // skwong - need to check if COMPOST_CAT, then get cvm.nitrate value
                             fm.nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                         }
 
