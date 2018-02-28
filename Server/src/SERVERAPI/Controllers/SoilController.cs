@@ -78,6 +78,8 @@ namespace SERVERAPI.Controllers
         {
             SoilTestDetailsViewModel tvm = new SoilTestDetailsViewModel();
             tvm.title = "Update";
+            tvm.url = _sd.GetExternalLink("soiltestexplanation");
+            tvm.urlText = _sd.GetUserPrompt("moreinfo");
 
             Field fld = _ud.GetFieldDetails(fldName);
             tvm.fieldName = fldName;
