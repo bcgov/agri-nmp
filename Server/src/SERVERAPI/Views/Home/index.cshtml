@@ -20,11 +20,16 @@
     <!-- PAGE CONTENT -->
     <form asp-controller="Home" method="post">
         <div class="row">
-            <div id="main-content" class="contentPageMainColumn col-xs-12">                
+            <div id="main-content" class="contentPageMainColumn col-xs-12">
+                @if (!string.IsNullOrEmpty(Model.browserMsg))
+                {
+                    <div class="browserWarning" style="width:100%">
+                        @Html.Raw(Model.browserMsg)
+                    </div>
+                }
                 <br />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <br />
-
                 <div class="Table" style="clear:both; width:100%">
                     <div class="TableBody">
                         <div class="Row">
@@ -47,36 +52,36 @@
                                 <div class="TableBody">
                                     <div class="Row">
                                         <div class="Cell3" style="text-align:right">
-                                                <table class="rnd-table rnd-table-rounded" style="width:250px; margin-right:0; margin-left:auto">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new file</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody style="vertical-align:top">
-                                                        <tr style="height:200px">
-                                                            <td style="text-align:left; color:black">
-                                                                @Html.Raw(Model.newMsg)
-                                                            </td>
-                                                        </tr>
-                                                        <tr style="text-align:center">
-                                                            <td>
-                                                                @if (Model.unsavedData)
-                                                                {
-                                                                    <button class="form-box-submit-button btn btn-primary" style="width:90px" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <input class="form-box-submit-button btn btn-primary" style="width:90px"  type="submit" value="Start" name="new" />
-                                                                }
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                    </tbody>
+                                            <table class="rnd-table rnd-table-rounded" style="width:250px; margin-right:0; margin-left:auto">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new file</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody style="vertical-align:top">
+                                                    <tr style="height:200px">
+                                                        <td style="text-align:left; color:black">
+                                                            @Html.Raw(Model.newMsg)
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="text-align:center">
+                                                        <td>
+                                                            @if (Model.unsavedData)
+                                                {
+                                                    <button class="form-box-submit-button btn btn-primary" style="width:90px" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
+                                    }
+                                    else
+                                    {
+                                        <input class="form-box-submit-button btn btn-primary" style="width:90px" type="submit" value="Start" name="new" />
+                        }
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                    </tr>
+                                                </tbody>
 
-                                                </table>
+                                            </table>
                                         </div>
                                         <div class="Cell3" style="padding:30px; vertical-align:middle; text-align:center; font-size:large; font-weight:bold">OR</div>
                                         <div class="Cell3">
@@ -110,105 +115,105 @@
                         </div>
                         <br />
                         @*<div class="Row">
-                            <div style="width:100%; text-align:center">
-                                <div style="display:inline-block">
-                                    <table class="rnd-table rnd-table-rounded" style="width:250px">
-                                        <thead>
-                                            <tr>
-                                                <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new plan</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="vertical-align:top">
-                                            <tr style="height:200px">
-                                                <td style="text-align:left; color:black">
-                                                    @Html.Raw(Model.newMsg)
-                                                </td>
-                                            </tr>
-                                            <tr style="text-align:center">
-                                                <td>
-                                                    @if (Model.unsavedData)
-                                                    {
-                                                        <button class="btn" style="background-color:#446b59; color:white; font-weight:bold" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
-                                                    }
-                                                    else
-                                                    {
-                                                        <input class="btn" style="background-color:#446b59; color:white; font-weight:bold" type="submit" value="Begin" name="new" />
-                                                    }
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                        </tbody>
+                    <div style="width:100%; text-align:center">
+                        <div style="display:inline-block">
+                            <table class="rnd-table rnd-table-rounded" style="width:250px">
+                                <thead>
+                                    <tr>
+                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new plan</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="vertical-align:top">
+                                    <tr style="height:200px">
+                                        <td style="text-align:left; color:black">
+                                            @Html.Raw(Model.newMsg)
+                                        </td>
+                                    </tr>
+                                    <tr style="text-align:center">
+                                        <td>
+                                            @if (Model.unsavedData)
+                                            {
+                                                <button class="btn" style="background-color:#446b59; color:white; font-weight:bold" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
+                                            }
+                                            else
+                                            {
+                                                <input class="btn" style="background-color:#446b59; color:white; font-weight:bold" type="submit" value="Begin" name="new" />
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
 
-                                    </table>
-                                </div>
-                                <div style="width:50px; display:inline-block; vertical-align:middle">
-                                    <b>OR</b>
-                                </div>
-                                <div style="display:inline-block">
-                                    <table class="rnd-table rnd-table-rounded" style="width:250px">
-                                        <thead>
-                                            <tr>
-                                                <th style="border-radius: 10px 10px 0 0; text-align:center">Update my plan</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style="vertical-align:top">
-                                            <tr style="height:200px">
-                                                <td style="text-align:left; color:black">
-                                                    @Html.Raw(Model.loadMsg)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <button class="btn" style="background-color:#446b59; color:white; font-weight:bold" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                        </tbody>
+                            </table>
+                        </div>
+                        <div style="width:50px; display:inline-block; vertical-align:middle">
+                            <b>OR</b>
+                        </div>
+                        <div style="display:inline-block">
+                            <table class="rnd-table rnd-table-rounded" style="width:250px">
+                                <thead>
+                                    <tr>
+                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Update my plan</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="vertical-align:top">
+                                    <tr style="height:200px">
+                                        <td style="text-align:left; color:black">
+                                            @Html.Raw(Model.loadMsg)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button class="btn" style="background-color:#446b59; color:white; font-weight:bold" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
 
-                                    </table>
-                                </div>
-                            </div>
-                            @*<div class="Cell col-xs-3">
-                            </div>
-                            <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
-                                <p>Start a new file</p>
-                            </div>
-                            <div class="Cell col-xs-2" style="text-align:center">
-                                <p>or</p>
-                            </div>
-                            <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
-                                <p>Load an existing file</p>
-                            </div>
-                            <div class="Cell col-xs-3">
-                            </div>
-                        </div>*@
+                            </table>
+                        </div>
+                    </div>
+                    @*<div class="Cell col-xs-3">
+                    </div>
+                    <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
+                        <p>Start a new file</p>
+                    </div>
+                    <div class="Cell col-xs-2" style="text-align:center">
+                        <p>or</p>
+                    </div>
+                    <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
+                        <p>Load an existing file</p>
+                    </div>
+                    <div class="Cell col-xs-3">
+                    </div>
+                </div>*@
                         @*<div class="Row">
-                            <div class="Cell col-xs-3">
-                            </div>
-                            <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
-                                @if (Model.unsavedData)
-                                {
-                                        <button class="btn btn-info" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
-                                }
-                                else
-                                {
-                                        <input class="btn btn-info" type="submit" value="New" name="new" />
-                                }
-                            </div>
-                            <div class="Cell col-xs-2" style="text-align:center">
-                            </div>
-                            <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
-                                <button class="btn btn-info" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
-                            </div>
-                            <div class="Cell col-xs-3">
-                            </div>
-                        </div>*@  
+                    <div class="Cell col-xs-3">
+                    </div>
+                    <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
+                        @if (Model.unsavedData)
+                        {
+                                <button class="btn btn-info" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
+                        }
+                        else
+                        {
+                                <input class="btn btn-info" type="submit" value="New" name="new" />
+                        }
+                    </div>
+                    <div class="Cell col-xs-2" style="text-align:center">
+                    </div>
+                    <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
+                        <button class="btn btn-info" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
+                    </div>
+                    <div class="Cell col-xs-3">
+                    </div>
+                </div>*@
                         <p>&nbsp;</p>
-                        <div class="small">                            
+                        <div class="small">
                             <p>
                                 @Html.Raw(Model.disclaimerMsg)
                             </p>
@@ -216,82 +221,79 @@
                                 Static Data Version: @Html.Raw(Model.staticDataVersionMsg)
                             </p>
                         </div>
-                        <div>
-                            <p class="browserWarning">@Html.Raw(Model.browserMsg)</p>
-                        </div>
                     </div>
                 </div>
                 @*<div style="width:100%; text-align:center">
-                    <div style="display:inline-block">
-                        <table class="rnd-table rnd-table-rounded" style="width:250px">
-                            <thead>
-                                <tr>
-                                    <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new plan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="height:200px">
-                                    <td style="text-align:left; color:black">
-                                        <p>With this option you can:</p>
-                                        <ul>
-                                            <li>Begin planning</li>
-                                            <li>Start over</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr style="text-align:center">
-                                    <td>
-                                        @if (Model.unsavedData)
-                                        {
-                                            <button class="btn" style="background-color:olivedrab; color:white; font-weight:bold" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
-                                        }
-                                        else
-                                        {
-                                            <input class="btn" style="background-color:olivedrab; color:white; font-weight:bold" type="submit" value="New" name="new" />
-                                        }
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                </tr>
-                            </tbody>
+            <div style="display:inline-block">
+                <table class="rnd-table rnd-table-rounded" style="width:250px">
+                    <thead>
+                        <tr>
+                            <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new plan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="height:200px">
+                            <td style="text-align:left; color:black">
+                                <p>With this option you can:</p>
+                                <ul>
+                                    <li>Begin planning</li>
+                                    <li>Start over</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr style="text-align:center">
+                            <td>
+                                @if (Model.unsavedData)
+                                {
+                                    <button class="btn" style="background-color:olivedrab; color:white; font-weight:bold" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
+                                }
+                                else
+                                {
+                                    <input class="btn" style="background-color:olivedrab; color:white; font-weight:bold" type="submit" value="New" name="new" />
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
 
-                        </table>
-                    </div>
-                    <div style="width:50px; display:inline-block">
-                        &nbsp;
-                    </div>
-                    <div style="display:inline-block">
-                        <table class="rnd-table rnd-table-rounded" style="width:250px">
-                            <thead>
-                                <tr>
-                                    <th style="border-radius: 10px 10px 0 0; text-align:center">Update my plan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="height:200px">
-                                    <td style="text-align:left; color:black">
-                                        <p>With this option you can:</p>
-                                        <ul>
-                                            <li>Pick up where you left off</li>
-                                            <li>Copy last year's plan</li>
-                                            <li>Take a look at someone else's plan</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button class="btn" style="background-color:olivedrab; color:white" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>&nbsp;</td>
-                                </tr>
-                            </tbody>
+                </table>
+            </div>
+            <div style="width:50px; display:inline-block">
+                &nbsp;
+            </div>
+            <div style="display:inline-block">
+                <table class="rnd-table rnd-table-rounded" style="width:250px">
+                    <thead>
+                        <tr>
+                            <th style="border-radius: 10px 10px 0 0; text-align:center">Update my plan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="height:200px">
+                            <td style="text-align:left; color:black">
+                                <p>With this option you can:</p>
+                                <ul>
+                                    <li>Pick up where you left off</li>
+                                    <li>Copy last year's plan</li>
+                                    <li>Take a look at someone else's plan</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn" style="background-color:olivedrab; color:white" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
 
-                        </table>
-                    </div>
-                </div>*@
+                </table>
+            </div>
+        </div>*@
             </div>
         </div>
         @Html.HiddenFor(x => x.unsavedData)
