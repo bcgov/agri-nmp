@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.781"
+        "staticDataVersion": "2018.782"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -1396,25 +1396,25 @@
             "id": "37",
             "fertilizerid": "20",
             "densityunitid": "1",
-            "value": "4.315"
+            "value": "4.93"
           },
           {
             "id": "38",
             "fertilizerid": "20",
             "densityunitid": "2",
-            "value": "1.14"
+            "value": "1.30"
           },
           {
             "id": "39",
             "fertilizerid": "20",
             "densityunitid": "3",
-            "value": "11.42"
+            "value": "13.04"
           },
           {
             "id": "40",
             "fertilizerid": "20",
             "densityunitid": "4",
-            "value": "9.51"
+            "value": "10.86"
           }
         ]
       },
@@ -9033,7 +9033,7 @@
           {
             "id": "25",
             "name": "invaliddevice",
-            "text": "The device you are using is unable to save or load any data you may enter."
+            "text": "Use another device for best performance. This site has not been designed for iPhones or iPads."
           }
         ]
       },
