@@ -290,7 +290,7 @@ namespace SERVERAPI.Models.Impl
             return nf;
         }
 
-        public void AddFieldNutrientsManure(string fldName, NutrientManure newMan)
+        public int AddFieldNutrientsManure(string fldName, NutrientManure newMan)
         {
             int nextId = 1;
 
@@ -320,9 +320,11 @@ namespace SERVERAPI.Models.Impl
 
             fld.nutrients.nutrientManures.Add(newMan);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+
+            return newMan.id;
         }
 
-        public void AddFieldNutrientsFertilizer(string fldName, NutrientFertilizer newFert)
+        public int AddFieldNutrientsFertilizer(string fldName, NutrientFertilizer newFert)
         {
             int nextId = 1;
 
@@ -352,6 +354,8 @@ namespace SERVERAPI.Models.Impl
 
             fld.nutrients.nutrientFertilizers.Add(newFert);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+
+            return newFert.id;
         }
         public void AddFieldNutrientsOther(string fldName, NutrientOther newOther)
         {
