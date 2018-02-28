@@ -1337,7 +1337,7 @@ namespace SERVERAPI.Models.Impl
 
         public string GetSoilTestWarning()
         {
-            string template = (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMessage"];
+            string template = GetUserPrompt("defaultsoiltest");
             decimal pH = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestpH"]);
             decimal phosphorous = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
             decimal potassium = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);

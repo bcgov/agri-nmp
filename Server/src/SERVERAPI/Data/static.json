@@ -12,7 +12,6 @@
         "defaultSoilTestKelownaP": "250",
         "defaultSoilTestKelownaK": "500",
         "defaultSoilTestMethodId": "1",
-        "defaultSoilTestMessage": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed. Crop P and K requirements will be 0 on fields without a soil test.",
         "kgperha_lbperac_conversion": "0.892176122",
         "potassiumAvailabilityFirstYear": "1",
         "potassiumAvailabilityLongTerm": "1",
@@ -9034,6 +9033,11 @@
             "id": "25",
             "name": "invaliddevice",
             "text": "Use another device for best performance. This site has not been designed for iPhones or iPads."
+          },
+          {
+            "id": "26",
+            "name": "defaultsoiltest",
+            "text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<br /> Crop P and K requirements will be 0 on fields without a soil test."
           }
         ]
       },

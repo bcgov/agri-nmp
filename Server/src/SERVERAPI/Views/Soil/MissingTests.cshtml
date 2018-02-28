@@ -13,7 +13,7 @@
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <p class="text-danger">@Model.msg</p>
+                <p class="text-danger">@Html.Raw(Model.msg)</p>
             </div>
             <br />
             <br />
