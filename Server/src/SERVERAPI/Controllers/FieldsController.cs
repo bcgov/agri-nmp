@@ -249,7 +249,7 @@ namespace SERVERAPI.Controllers
                 }
                 else
                 {
-                    url = Url.Action(fvm.actn, fvm.cntl, new { currFld = fvm.currFld });
+                    url = Url.Action(fvm.actn, fvm.cntl, new { nme = fld.fieldName });
 
                     //url = Url.Action("RefreshList", "Fields", new { cntl = fvm.cntl, actn = fvm.actn, currFld = fvm.currFld });
                 }
