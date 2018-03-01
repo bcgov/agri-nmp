@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.782"
+        "staticDataVersion": "2018.794"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -174,7 +174,7 @@
           },
           {
             "id": "11",
-            "name": "Lab not listed (Bicarbonate and Amm Acetate)",
+            "name": "Other lab (Bicarbonate and Amm Acetate)",
             "ConvertToKelownaPlt72": "2",
             "ConvertToKelownaPge72": "2",
             "ConvertToKelownaK": "0.8",
@@ -182,7 +182,7 @@
           },
           {
             "id": "12",
-            "name": "Lab not listed (Kelowna method)",
+            "name": "Other lab (Original Kelowna method)",
             "ConvertToKelownaPlt72": "1",
             "ConvertToKelownaPge72": "1",
             "ConvertToKelownaK": "1",
@@ -765,22 +765,6 @@
             "nminerizationid": "2",
             "sortNum": "10",
             "nitrate": "0.0"
-          },
-          {
-            "id": "29",
-            "name": "Yard Trimmings Compost",
-            "manure_class": "Compost_Book",
-            "solid_liquid": "Solid",
-            "moisture": "70%",
-            "nitrogen": "1.25",
-            "ammonia": "34",
-            "phosphorous": "0.3",
-            "potassium": "1.0",
-            "dmid": "6",
-            "nminerizationid": "10",
-            "sortNum": "60",
-            "cubic_yard_conversion": "0.5",
-            "nitrate": "449"
           }
         ]
       },
@@ -2571,7 +2555,7 @@
           },
           {
             "id": "10",
-            "name": "Diammonium phosphate (DAP)",
+            "name": "Diammonium phosphate (DAP, 18-46-0)",
             "dry_liquid": "dry",
             "nitrogen": "18",
             "phosphorous": "46",
@@ -2607,7 +2591,7 @@
           },
           {
             "id": "14",
-            "name": "Monoammonium phosphate (MAP)",
+            "name": "Monoammonium phosphate (MAP, 11-52-0)",
             "dry_liquid": "dry",
             "nitrogen": "11",
             "phosphorous": "52",
@@ -8926,12 +8910,12 @@
           {
             "id": "4",
             "name": "agriinfomessage",
-            "text": "<h1>Agronomic Balance</h1><ul><li>positive balances indicate crop requirements are met</li><li>negative balances indicate crop requirements are not met</li><li>positive nitrogen (N) balances are acceptable for alfalfa forages if plant-available N does not exceed crop N removal</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
+            "text": "<h1>Agronomic Balance</h1><ul><li>positive balances indicate crop requirements are met</li><li>negative balances indicate crop requirements are not met</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
           },
           {
             "id": "5",
             "name": "cropinfomessage",
-            "text": "<h1>Crop Removal Balance</h1><ul><li>positive P2O5 or K2O balances indicate phosphorus (P) or potassium (K) will increase in soil</li><li>negative P2O5 or K2O balances indicate P or K will decrease in soil</li><li>if soil test P is high, aim to limit crop P removal balance to 35 lb P2O5/ac or less</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
+            "text": "<h1>Crop Removal Balance</h1><ul><li>positive P2O5 balances indicate soil phosphorus (P) buildup, a possible water quality concern</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
           },
           {
             "id": "6",
@@ -8956,7 +8940,7 @@
           {
             "id": "10",
             "name": "nonutrientitems",
-            "text": "<h4>Add a Crop to Start Calculating Nutrients</h4><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Optimal</span></div><div style='padding-top:10px'><img src='../images/warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirements not met OR nutrients can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce nitrogen or phosphorus application</span></div>"
+            "text": "Add a Crop to Start Calculations<p /><h1>Guide to Interpreting Calculations</h1><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Good</span></div><div style='padding-top:10px'><img src='../images/warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirement not met OR nutrient application can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce N or P2O5 application</span></div>"
           },
           {
             "id": "11",
@@ -9027,7 +9011,7 @@
           {
             "id": "24",
             "name": "soiltest",
-            "text": "<h1>Lab (Soil Test Methods)</h1><ul><li>Different laboratories use different soil test methods for phosphorus (P) and potassium (K)</li><li>Different methods give different values for the same soil sample</li><li>Choose the lab (methods) used for the Calculator to convert values to a rating</li></ul><p><a href=\"https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
+            "text": "<h1>Lab (Soil Test Methods)</h1><ul><li>Different labs use different soil test methods for phosphorus (P) and potassium (K)</li><li>Different methods give different values for the same soil sample</li><li>This website converts lab report values to standard ('Kelowna' method-equivalent) values</li><li>Lab not listed? Click Learn more below</ul><p><a href=\"https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
           },
           {
             "id": "25",
@@ -9045,7 +9029,7 @@
         "message": [
           {
             "id": "1",
-            "text": "Reduce N input by {0} lb/ac ",
+            "text": "Reduce N input by {0} lb/ac",
             "displayMessage": "Yes",
             "icon": "stop",
             "balanceType": "AgrN",
@@ -9063,7 +9047,7 @@
           },
           {
             "id": "3",
-            "text": "Add N to meet crop requirements, an additional {0} lb/ac",
+            "text": "Add {0} lb N/ac to meet crop requirements",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrN",
@@ -9072,7 +9056,7 @@
           },
           {
             "id": "4",
-            "text": "Crop requirement for P2O5 is met, can be reduced by {0} lb/ac",
+            "text": "Crop requirement for P2O5 is met, application can be reduced by {0} lb/ac",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrP2O5",
@@ -9090,7 +9074,7 @@
           },
           {
             "id": "6",
-            "text": "Add P2O5 to meet crop requirements, an additional {0} lb/ac",
+            "text": "Add {0} lb P2O5/ac to meet crop requirements",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrP2O5",
@@ -9099,7 +9083,7 @@
           },
           {
             "id": "7",
-            "text": "Crop requirement for K2O is met, can be reduced by {0} lb/ac",
+            "text": "Crop requirement for K2O is met, application can be reduced by {0} lb/ac",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrK2O",
@@ -9117,7 +9101,7 @@
           },
           {
             "id": "9",
-            "text": "Add K2O to meet crop requirements, an additional {0} lb/ac",
+            "text": "Add {0} lb K2O/ac to meet crop requirements",
             "displayMessage": "Yes",
             "icon": "warning",
             "balanceType": "AgrK2O",
