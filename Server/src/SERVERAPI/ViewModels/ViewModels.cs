@@ -581,6 +581,7 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         public string ltK { get; set; }
         public string url { get; set; }
+        public string urlText { get; set; }
     }
     public class InfoAgriViewModel
     {

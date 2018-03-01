@@ -1791,6 +1791,7 @@ namespace SERVERAPI.Controllers
             ovm.btnText = id == null ? "Add to Field" : "Update Field";
             ovm.id = id;
             ovm.url = _sd.GetExternalLink("othernutrientexplanation");
+            ovm.urlText = _sd.GetUserPrompt("moreinfo");
 
             if (id != null)
             {

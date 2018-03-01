@@ -54,7 +54,6 @@ namespace SERVERAPI.Models.Impl
                         if (thisVer < minVer)
                         {
                             BrowserOutofdate = true;
-                            BrowserUpdate = ab.known[indx].updateUrl;
                         }
                         else
                         {
