@@ -444,7 +444,6 @@ namespace SERVERAPI.Models
             public int id { get; set; }
             public string name { get; set; }
             public string minVersion { get; set; }
-            public string updateUrl { get; set; }
         }
     }
 }
