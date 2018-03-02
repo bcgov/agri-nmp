@@ -41,6 +41,7 @@ namespace SERVERAPI.ViewModels
         public string pageMsg1 { get; set; }
         public string pageMsg2 { get; set; }
         public string browserMsg { get; set; }
+        public string browserAgent { get; set; }
     }
     public class LaunchViewModel
     {
