@@ -32,7 +32,7 @@
         "toDateMonth": "05"
       },
       "soilTestPPMToPoundPerAcreConversionFactor": {
-        "ppmToPoundPerAcre":  "1.74"
+        "ppmToPoundPerAcre": "1.74"
       },
       "manureprevyearscd": {
         "manureprevyearcd": [
@@ -77,6 +77,14 @@
             ]
           }
         ]
+      },
+      "RptCompletedManureRequired_StdUnit": {
+        "solid_unit_id": "4",
+        "liquid_unit_id": "3"
+      },
+      "RptCompletedFertilizerRequired_StdUnit": {
+        "solid_unit_id": "2",
+        "liquid_unit_id": "5"
       },
       "locations": {
         "location": [
@@ -1011,6 +1019,8 @@
             "value_N": "0.7",
             "value_P2O5": "0.75",
             "value_K2O": "0.6",
+            "farm_reqd_nutrients_std_units_conversion": "1.2009499255",
+            "farm_reqd_nutrients_std_units_area_conversion": "1",
             "solid_liquid": "Liquid"
           },
           {
@@ -1026,6 +1036,8 @@
             "value_N": "1.54",
             "value_P2O5": "1.65",
             "value_K2O": "1.32",
+            "farm_reqd_nutrients_std_units_conversion": "264.1720523607",
+            "farm_reqd_nutrients_std_units_area_conversion": "0.4046856422",
             "solid_liquid": "Liquid"
           },
           {
@@ -1041,6 +1053,8 @@
             "value_N": "0.7",
             "value_P2O5": "0.75",
             "value_K2O": "0.6",
+            "farm_reqd_nutrients_std_units_conversion": "1",
+            "farm_reqd_nutrients_std_units_area_conversion": "1",
             "solid_liquid": "Liquid"
           },
           {
@@ -1056,6 +1070,8 @@
             "value_N": "0.7",
             "value_P2O5": "0.75",
             "value_K2O": "0.6",
+            "farm_reqd_nutrients_std_units_conversion": "1",
+            "farm_reqd_nutrients_std_units_area_conversion": "1",
             "solid_liquid": "Solid"
           },
           {
@@ -1071,6 +1087,8 @@
             "value_N": "1.54",
             "value_P2O5": "1.65",
             "value_K2O": "1.32",
+            "farm_reqd_nutrients_std_units_conversion": "1.1023113109",
+            "farm_reqd_nutrients_std_units_area_conversion": "0.4046856422",
             "solid_liquid": "Solid"
           },
           {
@@ -1086,6 +1104,8 @@
             "value_N": "0",
             "value_P2O5": "0",
             "value_K2O": "0",
+            "farm_reqd_nutrients_std_units_conversion": "-1",
+            "farm_reqd_nutrients_std_units_area_conversion": "1",
             "solid_liquid": "Solid"
           }
         ]
@@ -1095,41 +1115,55 @@
           {
             "id": "1",
             "name": "lb/ac",
-            "dry_liquid": "dry"
+            "dry_liquid": "dry",
+            "farm_reqd_nutrients_std_units_conversion": "0.4535923700",
+            "farm_reqd_nutrients_std_units_area_conversion": "1"
           },
           {
             "id": "2",
             "name": "kg/ha",
-            "dry_liquid": "dry"
+            "dry_liquid": "dry",
+            "farm_reqd_nutrients_std_units_conversion": "1",
+            "farm_reqd_nutrients_std_units_area_conversion": "0.4046856422"
           },
           {
             "id": "3",
             "name": "L/ac",
             "dry_liquid": "liquid",
-            "conv_to_impgalperac": "0.219969157"
+            "conv_to_impgalperac": "0.219969157",
+            "farm_reqd_nutrients_std_units_conversion": "0.2641720523",
+            "farm_reqd_nutrients_std_units_area_conversion": "1"
           },
           {
             "id": "4",
             "name": "imp. gallons/ac",
             "dry_liquid": "liquid",
-            "conv_to_impgalperac": "1"
+            "conv_to_impgalperac": "1",
+            "farm_reqd_nutrients_std_units_conversion": "1.2009499255",
+            "farm_reqd_nutrients_std_units_area_conversion": "1"
           },
           {
             "id": "5",
             "name": "US gallons/ac",
             "dry_liquid": "liquid",
-            "conv_to_impgalperac": "0.83267384"
+            "conv_to_impgalperac": "0.83267384",
+            "farm_reqd_nutrients_std_units_conversion": "1",
+            "farm_reqd_nutrients_std_units_area_conversion": "1"
           },
           {
             "id": "6",
             "name": "L/ha",
             "dry_liquid": "liquid",
-            "conv_to_impgalperac": "0.0890183597"
+            "conv_to_impgalperac": "0.0890183597",
+            "farm_reqd_nutrients_std_units_conversion": "0.2641720523",
+            "farm_reqd_nutrients_std_units_area_conversion": "0.4046856422" 
           },
           {
             "id": "7",
             "name": "lb/1000ft²",
-            "dry_liquid": "dry"
+            "dry_liquid": "dry",
+            "farm_reqd_nutrients_std_units_conversion": "0.4535923700",
+            "farm_reqd_nutrients_std_units_area_conversion": "43.56000000001"
           }
         ]
       },
