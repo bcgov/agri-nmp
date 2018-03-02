@@ -97,6 +97,7 @@ namespace SERVERAPI.Controllers
             lvm.welcomeMsg = _sd.GetUserPrompt("welcome");
             lvm.disclaimerMsg = _sd.GetUserPrompt("disclaimer");
             lvm.staticDataVersionMsg = _sd.GetStaticDataVersion();
+            lvm.browserAgent = _bd.BrowserAgent;
 
             if (_bd.OSValid)
             {
