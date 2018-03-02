@@ -34,22 +34,21 @@ namespace SERVERAPI.Models.Impl
 
                 Models.StaticData.Browsers ab = _sd.GetAllowableBrowsers();
                 int indx = ab.known.FindIndex(r => r.name == BrowserName);
-                if(indx < 0)
+                if (BrowserOs == "iOS")
                 {
-                    OSValid = true;
-                    BrowserValid = false;
-                    BrowserName = "Unknown";
+                    OSValid = false;
                 }
                 else
                 {
-                    BrowserValid = true;
-                    if (BrowserOs == "iOS")
+                    OSValid = true;
+                    if (indx < 0)
                     {
-                        OSValid = false;
+                        BrowserValid = false;
+                        BrowserName = "Unknown";
                     }
                     else
                     {
-                        OSValid = true;
+                        BrowserValid = true;
                         var minVer = Version.Parse(ab.known[indx].minVersion);
                         var thisVer = Version.Parse(BrowserVersion);
                         if (thisVer < minVer)
