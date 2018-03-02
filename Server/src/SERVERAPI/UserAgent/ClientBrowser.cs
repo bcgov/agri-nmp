@@ -99,7 +99,7 @@ namespace SERVERAPI.UserAgent
                     new Regex(@"(lunascape|maxthon|netfront|jasmine|blazer)[\/\s]?([\w\.]+)*",RegexOptions.IgnoreCase),// Lunascape/Maxthon/Netfront/Jasmine/Blazer
                     
                     new Regex(@"(avant\s|iemobile|slim|baidu)(?:browser)?[\/\s]?([\w\.]*)",RegexOptions.IgnoreCase), // Avant/IEMobile/SlimBrowser/Baidu
-                    new Regex(@"(?:ms|\()(ie)\s([\w\.]+)",RegexOptions.IgnoreCase),// Internet Explorer
+                    //new Regex(@"(?:ms|\()(ie)\s([\w\.]+)",RegexOptions.IgnoreCase),// Internet Explorer
                     
                     new Regex(@"(rekonq)\/([\w\.]+)*",RegexOptions.IgnoreCase),// Rekonq
                     new Regex(@"(chromium|flock|rockmelt|midori|epiphany|silk|skyfire|ovibrowser|bolt|iron|vivaldi|iridium|phantomjs)\/([\w\.-]+)",RegexOptions.IgnoreCase), // Chromium/Flock/RockMelt/Midori/Epiphany/Silk/Skyfire/Bolt/Iron/Iridium/PhantomJS
@@ -109,6 +109,38 @@ namespace SERVERAPI.UserAgent
             new MatchExpression{
                 Regexes = new List<Regex>{
                     new Regex(@"(trident).+rv[:\s]([\w\.]+).+like\sgecko",RegexOptions.IgnoreCase)// IE11
+                },
+                Action = (Match match,Object obj) =>{
+                    ClientBrowser current = obj as ClientBrowser;
+
+                    current.Name = "IE";
+                    if (match.Value.IndexOf("Trident/7.0") > -1) {
+                    current.Version = "11.0";                      // IE 11
+                    }
+                    else if (match.Value.IndexOf("Trident/6.0") > -1) {
+                                if (match.Value.IndexOf("MSIE 7.0") > -1) {
+                                    current.Version = "10.0";                   // IE 10
+                                }
+                    }
+                    else if (match.Value.IndexOf("Trident/5.0") > -1) {
+                                if (match.Value.IndexOf("MSIE 7.0") > -1) {
+                                    current.Version = "9.0";                      // IE 9
+                                }
+                    }
+                    else if (match.Value.IndexOf("Trident/4.0") > -1) {
+                                if (match.Value.IndexOf("MSIE 7.0") > -1) {
+                                    current.Version = "8.0";                      // IE 8
+                                }
+                    }
+                    else if (match.Value.IndexOf("MSIE 7.0") > -1)
+                                current.Version = "7.0";                          // IE 7
+                    else
+                                current.Version = "6.0";                          // IE 6
+                }
+            },
+            new MatchExpression{
+                Regexes = new List<Regex>{
+                    new Regex(@"compatible; MSIE.+(Trident).+[:\s]([\w\.]+)",RegexOptions.IgnoreCase)// IE11
                 },
                 Action = (Match match,Object obj) =>{
                     ClientBrowser current = obj as ClientBrowser;
