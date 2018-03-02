@@ -36,6 +36,7 @@ namespace SERVERAPI.Models.Impl
                 int indx = ab.known.FindIndex(r => r.name == BrowserName);
                 if(indx < 0)
                 {
+                    OSValid = true;
                     BrowserValid = false;
                     BrowserName = "Unknown";
                 }
