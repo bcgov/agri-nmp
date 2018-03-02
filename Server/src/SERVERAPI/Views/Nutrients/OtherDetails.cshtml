@@ -27,28 +27,24 @@
                     </div>
                     <div class="Row">
                         <div class="Cell2" style="width:25%;">
-                            <div class="form-group col-sm-12">
+                            <div class="form-group col-sm-12" style="margin-bottom:0px">
                                 <label asp-for="source" style="padding-right:5px">Nutrient Source</label>
                                 <input class="form-control" asp-for="source" id="source" type="text" />
-                                <div>
-                                    <a href="@Model.url" target="_blank">@Model.urlText</a>
-                                </div>
-
                                 <span asp-validation-for="source" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="Cell2" style="width:30%; text-align:center">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="ltN">N</label>
                                 <input class="form-control" asp-for="ltN" id="source" type="text" />
                                 <span asp-validation-for="ltN" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="ltP">P<sub>2</sub>O<sub>5</sub></label>
                                 <input class="form-control" asp-for="ltP" id="phospherous" type="text" />
                                 <span asp-validation-for="ltP" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="ltK">K<sub>2</sub>O</label>
                                 <input class="form-control" asp-for="ltK" id="source" type="text" />
                                 <span asp-validation-for="ltK" class="text-danger"></span>
@@ -58,20 +54,27 @@
                             &nbsp;
                         </div>
                         <div class="Cell2" style="width:30%; text-align:center">
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="yrN">N</label>
                                 <input class="form-control" asp-for="yrN" id="source" type="text" />
                                 <span asp-validation-for="yrN" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="yrP">P<sub>2</sub>O<sub>5</sub></label>
                                 <input class="form-control" asp-for="yrP" id="phospherous" type="text" />
                                 <span asp-validation-for="yrP" class="text-danger"></span>
                             </div>
-                            <div class="form-group col-sm-4">
+                            <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="yrK">K<sub>2</sub>O</label>
                                 <input class="form-control" asp-for="yrK" id="source" type="text" />
                                 <span asp-validation-for="yrK" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Row">
+                        <div class="Cell2" style="width:25%;">
+                            <div class="form-group col-sm-12">
+                                    <a href="@Model.url" target="_blank">@Model.urlText</a>
                             </div>
                         </div>
                     </div>
