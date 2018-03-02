@@ -293,6 +293,8 @@ namespace SERVERAPI.Models.Impl
                     unit.value_P2O5 = Convert.ToDecimal(r["value_P2O5"].ToString());
                     unit.value_K2O = Convert.ToDecimal(r["value_K2O"].ToString());
                     unit.solid_liquid = r["solid_liquid"].ToString();
+                    unit.farm_reqd_nutrients_std_units_conversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString());
+                    unit.farm_reqd_nutrients_std_units_area_conversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString());
                 }
             }
 
@@ -322,6 +324,8 @@ namespace SERVERAPI.Models.Impl
                 unit.value_P2O5 = Convert.ToDecimal(r["value_P2O5"].ToString());
                 unit.value_K2O = Convert.ToDecimal(r["value_K2O"].ToString());
                 unit.solid_liquid = r["solid_liquid"].ToString();
+                unit.farm_reqd_nutrients_std_units_conversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString());
+                unit.farm_reqd_nutrients_std_units_area_conversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString());
                 units.units.Add(unit);
             }
 
@@ -361,6 +365,8 @@ namespace SERVERAPI.Models.Impl
                 unit.dry_liquid = r["dry_liquid"].ToString();
                 if (r["conv_to_impgalperac"] != null)
                     unit.conv_to_impgalperac = Convert.ToDecimal(r["conv_to_impgalperac"].ToString());
+                unit.farm_reqd_nutrients_std_units_conversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString());
+                unit.farm_reqd_nutrients_std_units_area_conversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString());
                 units.fertilizerUnits.Add(unit);
             }
 
@@ -399,6 +405,8 @@ namespace SERVERAPI.Models.Impl
                     fertilizerUnit.name = r["name"].ToString();
                     fertilizerUnit.dry_liquid = r["dry_liquid"].ToString();
                     fertilizerUnit.conv_to_impgalperac = r["conv_to_impgalperac"] == null ? 0 : Convert.ToDecimal(r["conv_to_impgalperac"].ToString());
+                    fertilizerUnit.farm_reqd_nutrients_std_units_conversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString());
+                    fertilizerUnit.farm_reqd_nutrients_std_units_area_conversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString());
                 }
             }
 
@@ -1570,6 +1578,39 @@ namespace SERVERAPI.Models.Impl
         public bool IsManureClassOtherType(string manure_class)
         {
             return (manure_class == MANURE_CLASS_OTHER);
+        }
+
+        private string ParseStdUnit(string stdUnit)
+        {
+            int idx = stdUnit.LastIndexOf("/");
+            if (idx > 0)
+                stdUnit = stdUnit.Substring(0, idx);
+
+            return stdUnit;
+        }
+
+        public string GetManureRptStdUnit(string solidLiquid)
+        {
+            string stdUnit;
+
+            if (solidLiquid.ToUpper() == "SOLID")
+                stdUnit = GetUnit((string)rss["agri"]["nmp"]["RptCompletedManureRequired_StdUnit"]["solid_unit_id"]).name;
+            else
+                stdUnit = GetUnit((string)rss["agri"]["nmp"]["RptCompletedManureRequired_StdUnit"]["liquid_unit_id"]).name;
+
+            return (ParseStdUnit(stdUnit));
+        }
+
+        public string GetFertilizerRptStdUnit(string dryLiquid)
+        {
+            string stdUnit;
+
+            if ( dryLiquid.ToUpper() == "DRY")
+                stdUnit = GetFertilizerUnit(Convert.ToInt32(rss["agri"]["nmp"]["RptCompletedFertilizerRequired_StdUnit"]["solid_unit_id"].ToString())).name;
+            else
+                stdUnit = GetFertilizerUnit(Convert.ToInt16(rss["agri"]["nmp"]["RptCompletedFertilizerRequired_StdUnit"]["liquid_unit_id"].ToString())).name;
+
+            return (ParseStdUnit(stdUnit));
         }
     }
 }

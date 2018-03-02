@@ -455,8 +455,12 @@ namespace SERVERAPI.Controllers
         public async Task<string> RenderSources()
         {
             ReportSourcesViewModel rvm = new ReportSourcesViewModel();
+            List<ReportSourcesDetail> manureRequired = new List<ReportSourcesDetail>();
+            List<ReportSourcesDetail> fertilizerRequired = new List<ReportSourcesDetail>();
+
             rvm.year = _ud.FarmDetails().year;
             rvm.details = new List<ReportSourcesDetail>();
+
 
             List<Field> fldList = _ud.GetFields();
             foreach(var f in fldList)
@@ -464,39 +468,65 @@ namespace SERVERAPI.Controllers
                 if (f.nutrients != null)
                 {
                     if (f.nutrients.nutrientManures != null)
-                    {
-                        rvm.details = BuildManureRequiredList(rvm.details, f.nutrients.nutrientManures, f.area);
-                    }
+                        manureRequired = BuildManureRequiredList(manureRequired, f.nutrients.nutrientManures, f.area);
                     if (f.nutrients.nutrientFertilizers != null)
-                        rvm.details = BuildFertilizerRequiredList(rvm.details, f.nutrients.nutrientFertilizers, f.area);
+                        fertilizerRequired = BuildFertilizerRequiredList(fertilizerRequired, f.nutrients.nutrientFertilizers, f.area);
                 }
             }
+            if (manureRequired.Count > 0)
+                rvm.details.AddRange(manureRequired);
+            if (fertilizerRequired.Count > 0)
+                rvm.details.AddRange(fertilizerRequired);
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSources.cshtml", rvm);
 
             return result;
         }
 
+        // standard units for reporting
+        private decimal ConvertManureToStdUnits(FarmManure manure, decimal fieldSize, decimal applicationRate, string unitId)
+        {
+            decimal result = 0;
+            Unit unit = _sd.GetUnit(unitId);
+
+            if ( unit.farm_reqd_nutrients_std_units_conversion > 0)
+                result = unit.farm_reqd_nutrients_std_units_area_conversion * fieldSize * applicationRate * unit.farm_reqd_nutrients_std_units_conversion;
+            else
+            {
+                Manure man = _sd.GetManure(manure.manureId.ToString());
+                result = unit.farm_reqd_nutrients_std_units_area_conversion * fieldSize * applicationRate * man.cubic_Yard_Conversion;
+            }
+            return result;
+        }
+
+        // standard units for reporting
+        private decimal ConvertFertilizerToStdUnits(Models.StaticData.Fertilizer fertilizer, decimal fieldSize, decimal applicationRate, int unitId)
+        {
+            FertilizerUnit unit = _sd.GetFertilizerUnit(unitId);
+            return (unit.farm_reqd_nutrients_std_units_area_conversion * fieldSize * applicationRate * unit.farm_reqd_nutrients_std_units_conversion);
+        }
+
         private List<ReportSourcesDetail> BuildManureRequiredList(List<ReportSourcesDetail> details, List<NutrientManure> nutrientManures, decimal fieldArea)
         {
             List<ReportSourcesDetail> result = new List<ReportSourcesDetail>();
+            decimal nutrientAmount = 0;
+
             foreach (var m in nutrientManures)
             {
-                FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId)); 
+                FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
+                nutrientAmount = ConvertManureToStdUnits(manure, fieldArea, m.rate, m.unitId);
                 ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == manure.name);
                 if (rd != null)
                 {
-                    rd.nutrientAmount = String.Format((m.rate * fieldArea) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate * fieldArea));
+                    nutrientAmount += Convert.ToDecimal(rd.nutrientAmount);
+                    rd.nutrientAmount = String.Format((nutrientAmount) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", nutrientAmount);
                 }
                 else
                 {
                     rd = new ReportSourcesDetail();
                     rd.nutrientName = manure.name;
-                    rd.nutrientUnit = _sd.GetUnit(m.unitId).name;
-                    int index = rd.nutrientUnit.LastIndexOf("/");
-                    if (index > 0)
-                        rd.nutrientUnit = rd.nutrientUnit.Substring(0, index);
-                    rd.nutrientAmount = String.Format((m.rate * fieldArea) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate * fieldArea));
+                    rd.nutrientUnit = _sd.GetManureRptStdUnit(manure.solid_liquid);
+                    rd.nutrientAmount = String.Format((nutrientAmount) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", nutrientAmount );
                     details.Add(rd);
                 }
             }
@@ -506,24 +536,26 @@ namespace SERVERAPI.Controllers
 
         private List<ReportSourcesDetail> BuildFertilizerRequiredList(List<ReportSourcesDetail> details, List<NutrientFertilizer> nutrientFertilizers, decimal fieldArea)
         {
+            decimal nutrientAmount = 0;
             List<ReportSourcesDetail> result = new List<ReportSourcesDetail>();
+
             foreach (var m in nutrientFertilizers)
             {
                 Models.StaticData.Fertilizer fert = _sd.GetFertilizer(m.fertilizerId.ToString());
+                nutrientAmount = ConvertFertilizerToStdUnits(fert, fieldArea, m.applRate, m.applUnitId);
+
                 ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == fert.name);
                 if (rd != null)
                 {
-                    rd.nutrientAmount = String.Format((m.applRate * fieldArea) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.applRate * fieldArea));
+                    nutrientAmount += Convert.ToDecimal(rd.nutrientAmount);
+                    rd.nutrientAmount = String.Format((nutrientAmount) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", nutrientAmount);
                 }
                 else
                 {
                     rd = new ReportSourcesDetail();
                     rd.nutrientName = fert.name;
-                    rd.nutrientUnit = _sd.GetUnit(m.applUnitId.ToString()).name;
-                    int index = rd.nutrientUnit.LastIndexOf("/");
-                    if (index > 0)
-                        rd.nutrientUnit = rd.nutrientUnit.Substring(0, index);
-                    rd.nutrientAmount = String.Format((m.applRate * fieldArea) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.applRate * fieldArea));
+                    rd.nutrientUnit = _sd.GetFertilizerRptStdUnit(fert.dry_liquid);
+                    rd.nutrientAmount = String.Format((nutrientAmount) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", nutrientAmount);
                     details.Add(rd);
                 }
             }
