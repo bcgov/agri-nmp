@@ -1027,7 +1027,7 @@
             "id": "2",
             "name": "m3/ha",
             "nutrient_content_units": "kg/m3",
-            "conversion_lbton": "498.881657",
+            "conversion_lbton": "0.4450917983",
             "nutrient_rate_units": "kg/ha",
             "cost_units": "$/m3",
             "cost_applications": "0.003",
