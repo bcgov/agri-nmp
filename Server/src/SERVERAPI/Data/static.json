@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.794"
+        "staticDataVersion": "2018.843"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -1156,7 +1156,7 @@
             "dry_liquid": "liquid",
             "conv_to_impgalperac": "0.0890183597",
             "farm_reqd_nutrients_std_units_conversion": "0.2641720523",
-            "farm_reqd_nutrients_std_units_area_conversion": "0.4046856422" 
+            "farm_reqd_nutrients_std_units_area_conversion": "0.4046856422"
           },
           {
             "id": "7",
@@ -1578,7 +1578,7 @@
         "crop": [
           {
             "id": "1",
-            "cropname": "Alfalfa or mixed stand (>40% legumes, 1 cut)",
+            "cropname": "Alfalfa or legume dominant stand (1 cut)",
             "croptypeid": "1",
             "yieldcd": "2",
             "cropremovalfactor_N": "64",
@@ -1593,7 +1593,7 @@
           },
           {
             "id": "2",
-            "cropname": "Alfalfa or mixed stand (>40% legumes, 2 cuts)",
+            "cropname": "Alfalfa or legume dominant stand (2 cuts)",
             "croptypeid": "1",
             "yieldcd": "2",
             "cropremovalfactor_N": "64",
@@ -1608,7 +1608,7 @@
           },
           {
             "id": "3",
-            "cropname": "Alfalfa or mixed stand (>40% legumes, 3 cuts)",
+            "cropname": "Alfalfa or legume dominant stand (3 cuts)",
             "croptypeid": "1",
             "yieldcd": "2",
             "cropremovalfactor_N": "64",
@@ -1638,7 +1638,7 @@
           },
           {
             "id": "5",
-            "cropname": "Grass or mixed stand (<40% legumes, 1-2 cuts)",
+            "cropname": "Grass or mixed stand (1-2 cuts)",
             "croptypeid": "1",
             "yieldcd": "2",
             "cropremovalfactor_N": "32",
@@ -1653,7 +1653,7 @@
           },
           {
             "id": "6",
-            "cropname": "Grass or mixed stand (<40% legumes, 2-3 cuts)",
+            "cropname": "Grass or mixed stand (2-3 cuts)",
             "croptypeid": "1",
             "yieldcd": "2",
             "cropremovalfactor_N": "38",
@@ -1668,7 +1668,7 @@
           },
           {
             "id": "7",
-            "cropname": "Grass or mixed stand (<40% legumes, 4-5 cuts)",
+            "cropname": "Grass or mixed stand (4-5 cuts)",
             "croptypeid": "1",
             "yieldcd": "2",
             "cropremovalfactor_N": "48",
@@ -1683,7 +1683,7 @@
           },
           {
             "id": "8",
-            "cropname": "Grass or mixed stand (<40% legumes, 5-6 cuts)",
+            "cropname": "Grass or mixed stand (5-6 cuts)",
             "croptypeid": "1",
             "yieldcd": "2",
             "cropremovalfactor_N": "58",
@@ -1698,7 +1698,7 @@
           },
           {
             "id": "9",
-            "cropname": "Grass or mixed stand (<40% legumes, 7 cuts)",
+            "cropname": "Grass or mixed stand (7 cuts)",
             "croptypeid": "1",
             "yieldcd": "2",
             "cropremovalfactor_N": "64",
@@ -2765,6 +2765,33 @@
             "nitrogen": "15.5",
             "phosphorous": "0",
             "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "30",
+            "name": "Sulphur coated urea (40-0-0)",
+            "dry_liquid": "dry",
+            "nitrogen": "40",
+            "phosphorous": "0",
+            "potassium": "0",
+            "sortNum": "100"
+          },
+          {
+            "id": "31",
+            "name": "8-18-22",
+            "dry_liquid": "dry",
+            "nitrogen": "8",
+            "phosphorous": "18",
+            "potassium": "22",
+            "sortNum": "100"
+          },
+          {
+            "id": "32",
+            "name": "8-24-24",
+            "dry_liquid": "dry",
+            "nitrogen": "8",
+            "phosphorous": "24",
+            "potassium": "24",
             "sortNum": "100"
           }
         ]
@@ -9030,7 +9057,6 @@
             "id": "21",
             "name": "browseroutofdate",
             "text": "<a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Update your browser for best performance with this website.</a>"
-
           },
           {
             "id": "22",
