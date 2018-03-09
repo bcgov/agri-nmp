@@ -1,8 +1,8 @@
-<svg width="19" height="19" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 0 19 19">
+<svg width="21" height="21" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 0 21 21">
   <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
   <g>
     <title>Layer 1</title>
-    <ellipse stroke="#ffff00" ry="6.791266" rx="7.116626" id="svg_2" cy="9.291266" cx="9.616626" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#ffff00"/>
-    <text stroke="#000000" transform="matrix(0.7163094168212364,0,0,0.5172781229922546,-46.76238372122347,-48.20106571915592) " font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_4" y="119.814032" x="79.048997" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">$</text>
+    <ellipse stroke="#e8bf0b" ry="8" rx="8" id="svg_2" cy="10.5" cx="10.5" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="5" fill="#e8bf0b"/>
+    <text stroke="#000000" transform="matrix(1.0635289025196357,0,0,0.7675392623715951,-73.34570528908733,-71.75840187177488) " font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_4" y="115.506416" x="79.02201" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">$</text>
   </g>
 </svg>
