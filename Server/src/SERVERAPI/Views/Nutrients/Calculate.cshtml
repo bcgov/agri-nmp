@@ -33,7 +33,11 @@
                     </div>
                 }
 
-                <button class="btn btn-default" type="button" style="width:90px" data_modal2="" data-type="@Url.Action("FieldDetail", "Fields", new { target = "#fieldList", cntl = "Nutrients", actn = "Calculate", currFld = Model.currFld })">Add field</button>
+                @if (Model.regionFnd)
+                {
+                    <button class="btn btn-default" type="button" style="width:90px" data_modal2="" data-type="@Url.Action("FieldDetail", "Fields", new { target = "#fieldList", cntl = "Nutrients", actn = "Calculate", currFld = Model.currFld })">Add field</button>
+                }
+
                 @if (Model.fldsFnd > 1 &&
                    Model.itemsPresent)
                 {
