@@ -630,7 +630,11 @@ label {
   margin: 0 auto;
   padding: 0 15px;
 }
-
+.wrapper-large {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
 .wizard {
   padding: 37px 0;
   border-bottom: 1px solid #ccc;
