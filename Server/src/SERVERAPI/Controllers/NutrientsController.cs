@@ -1796,6 +1796,7 @@ namespace SERVERAPI.Controllers
             ovm.id = id;
             ovm.url = _sd.GetExternalLink("othernutrientexplanation");
             ovm.urlText = _sd.GetUserPrompt("moreinfo");
+            ovm.placehldr = _sd.GetUserPrompt("othernutrientplaceholder");
 
             if (id != null)
             {
@@ -1824,89 +1825,136 @@ namespace SERVERAPI.Controllers
             if (ModelState.IsValid)
             {
                 decimal tmp = 0;
-                if (decimal.TryParse(ovm.yrN, out tmp))
+
+                if (!(string.IsNullOrEmpty(ovm.ltN)))
                 {
-                    if (tmp < 0 ||
-                        tmp > 1000)
+                    if (decimal.TryParse(ovm.ltN, out tmp))
                     {
-                        ModelState.AddModelError("yrN", "Invalid.");
+                        if (tmp < 0 ||
+                            tmp > 1000)
+                        {
+                            ModelState.AddModelError("ltN", "Invalid.");
+                            return View(ovm);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ltN", "Not a valid number.");
                         return View(ovm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("yrN", "Not a valid number.");
-                    return View(ovm);
+                    ovm.ltN = "0";
                 }
-                if (decimal.TryParse(ovm.yrP, out tmp))
+
+                if (!(string.IsNullOrEmpty(ovm.ltP)))
                 {
-                    if (tmp < 0 ||
-                        tmp > 1000)
+                    if (decimal.TryParse(ovm.ltP, out tmp))
                     {
-                        ModelState.AddModelError("yrP", "Invalid.");
+                        if (tmp < 0 ||
+                            tmp > 1000)
+                        {
+                            ModelState.AddModelError("ltP", "Invalid.");
+                            return View(ovm);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ltP", "Not a valid number.");
                         return View(ovm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("yrP", "Not a valid number.");
-                    return View(ovm);
+                    ovm.ltP = "0";
                 }
-                if (decimal.TryParse(ovm.yrK, out tmp))
+
+                if (!(string.IsNullOrEmpty(ovm.ltK)))
                 {
-                    if (tmp < 0 ||
-                        tmp > 1000)
+                    if (decimal.TryParse(ovm.ltK, out tmp))
                     {
-                        ModelState.AddModelError("yrK", "Invalid.");
+                        if (tmp < 0 ||
+                            tmp > 1000)
+                        {
+                            ModelState.AddModelError("ltK", "Invalid.");
+                            return View(ovm);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ltK", "Not a valid number.");
                         return View(ovm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("yrK", "Not a valid number.");
-                    return View(ovm);
+                    ovm.ltK = "0";
                 }
-                if (decimal.TryParse(ovm.ltN, out tmp))
+                if (!(string.IsNullOrEmpty(ovm.yrN)))
                 {
-                    if (tmp < 0 ||
-                        tmp > 1000)
+                    if (decimal.TryParse(ovm.yrN, out tmp))
                     {
-                        ModelState.AddModelError("ltN", "Invalid.");
+                        if (tmp < 0 ||
+                            tmp > 1000)
+                        {
+                            ModelState.AddModelError("yrN", "Invalid.");
+                            return View(ovm);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("yrN", "Not a valid number.");
                         return View(ovm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("ltN", "Not a valid number.");
-                    return View(ovm);
+                    ovm.yrN = "0";
                 }
-                if (decimal.TryParse(ovm.ltP, out tmp))
+
+                if (!(string.IsNullOrEmpty(ovm.yrP)))
                 {
-                    if (tmp < 0 ||
-                        tmp > 1000)
+                    if (decimal.TryParse(ovm.yrP, out tmp))
                     {
-                        ModelState.AddModelError("ltP", "Invalid.");
+                        if (tmp < 0 ||
+                            tmp > 1000)
+                        {
+                            ModelState.AddModelError("yrP", "Invalid.");
+                            return View(ovm);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("yrP", "Not a valid number.");
                         return View(ovm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("ltP", "Not a valid number.");
-                    return View(ovm);
+                    ovm.yrP = "0";
                 }
-                if (decimal.TryParse(ovm.ltK, out tmp))
+
+                if (!(string.IsNullOrEmpty(ovm.yrK)))
                 {
-                    if (tmp < 0 ||
-                        tmp > 1000)
+                    if (decimal.TryParse(ovm.yrK, out tmp))
                     {
-                        ModelState.AddModelError("ltK", "Invalid.");
+                        if (tmp < 0 ||
+                            tmp > 1000)
+                        {
+                            ModelState.AddModelError("yrK", "Invalid.");
+                            return View(ovm);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("yrK", "Not a valid number.");
                         return View(ovm);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("ltK", "Not a valid number.");
-                    return View(ovm);
+                    ovm.yrK = "0";
                 }
                 if (ovm.id == null)
                 {
@@ -1939,7 +1987,21 @@ namespace SERVERAPI.Controllers
 
                 return Json(ReDisplay("#other", ovm.fieldName));
             }
-
+            else
+            {
+                ModelState.Remove("yrN");
+                ModelState.Remove("yrP");
+                ModelState.Remove("yrK");
+                ModelState.Remove("ltN");
+                ModelState.Remove("ltP");
+                ModelState.Remove("ltK");
+                ovm.yrN = string.IsNullOrEmpty(ovm.yrN) ? "0" : ovm.yrN;
+                ovm.yrP = string.IsNullOrEmpty(ovm.yrP) ? "0" : ovm.yrP;
+                ovm.yrK = string.IsNullOrEmpty(ovm.yrK) ? "0" : ovm.yrK;
+                ovm.ltN = string.IsNullOrEmpty(ovm.ltN) ? "0" : ovm.ltN;
+                ovm.ltP = string.IsNullOrEmpty(ovm.ltP) ? "0" : ovm.ltP;
+                ovm.ltK = string.IsNullOrEmpty(ovm.ltK) ? "0" : ovm.ltK;
+            }
             return View(ovm);
         }
         [HttpGet]
