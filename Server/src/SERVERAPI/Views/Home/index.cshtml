@@ -36,13 +36,22 @@
                             <div class="Table">
                                 <div class="TableBody">
                                     <div class="Row">
-                                        <div class="Cell3" style="min-width:15%">&nbsp;</div>
-                                        <div class="Cell3"><img src="~/images/Money.png" height="30" width="30" /></div>
+                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
+                                        <div class="Cell3"><img src="~/images/dollar-sign.png" height="30" width="30" /></div>
                                         <div class="Cell3" style="padding-left:10px">@Model.pageMsg1</div>
-                                        <div class="Cell3" style="min-width:10%">&nbsp;</div>
+                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
+                                    </div>
+                                    <div class="Row">
+                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
+                                        <div class="Cell3">&nbsp;</div>
+                                        <div class="Cell3" style="padding-left:10px">&nbsp;</div>
+                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
+                                    </div>
+                                    <div class="Row">
+                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
                                         <div class="Cell3"><img src="~/images/Water.png" height="30" width="30" /></div>
                                         <div class="Cell3" style="padding-left:10px">@Model.pageMsg2</div>
-                                        <div class="Cell3" style="min-width:15%">&nbsp;</div>
+                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
                                     </div>
                                 </div>
                             </div>
@@ -55,11 +64,11 @@
                                             <table class="rnd-table rnd-table-rounded" style="width:250px; margin-right:0; margin-left:auto">
                                                 <thead>
                                                     <tr>
-                                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new file</th>
+                                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Start a file</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody style="vertical-align:top">
-                                                    <tr style="height:200px">
+                                                    <tr style="height:100px">
                                                         <td style="text-align:left; color:black">
                                                             @Html.Raw(Model.newMsg)
                                                         </td>
@@ -88,11 +97,11 @@
                                             <table class="rnd-table rnd-table-rounded" style="width:250px">
                                                 <thead>
                                                     <tr>
-                                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Continue a data file</th>
+                                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Continue a file</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody style="vertical-align:top">
-                                                    <tr style="height:200px">
+                                                    <tr style="height:100px">
                                                         <td style="text-align:left; color:black">
                                                             @Html.Raw(Model.loadMsg)
                                                         </td>
