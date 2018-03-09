@@ -9087,6 +9087,11 @@
             "id": "27",
             "name": "missingregion",
             "text": "Before adding a field you must specify a region under Farm Information."
+          },
+          {
+            "id": "28",
+            "name": "othernutrientplaceholder",
+            "text": "e.g. irrigation water"
           }
         ]
       },
