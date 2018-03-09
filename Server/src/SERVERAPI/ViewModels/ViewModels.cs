@@ -324,6 +324,7 @@ namespace SERVERAPI.ViewModels
     }
     public class CalculateViewModel
     {
+        public bool regionFnd { get; set; }
         public int fldsFnd { get; set; }
         public string currFld { get; set; }
         public bool itemsPresent { get; set; }

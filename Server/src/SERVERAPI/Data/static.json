@@ -9082,6 +9082,11 @@
             "id": "26",
             "name": "defaultsoiltest",
             "text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<br /> Crop P and K requirements will be 0 on fields without a soil test."
+          },
+          {
+            "id": "27",
+            "name": "missingregion",
+            "text": "Before adding a field you must specify a region under Farm Information."
           }
         ]
       },

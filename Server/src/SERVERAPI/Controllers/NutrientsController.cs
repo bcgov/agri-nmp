@@ -32,10 +32,14 @@ namespace SERVERAPI.Controllers
         // GET: /<controller>/
         public IActionResult Calculate(string nme)
         {
+            FarmDetails fd =_ud.FarmDetails();
+
             CalculateViewModel cvm = new CalculateViewModel
             {
                 fields = new List<Field>()
             };
+
+            cvm.regionFnd = (fd.farmRegion.HasValue) ? true : false;
 
             // no name entered so default to the first one for the farm
             if (nme == null)
