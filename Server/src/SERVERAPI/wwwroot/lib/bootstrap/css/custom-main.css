@@ -979,8 +979,8 @@ label {
 }
 
 .gov-slim-alert-danger {
-    color: #a94442;
-    background-color: #f2dede;
+    color: black;
+    background-color: white;
     border-color: #c81212;
 }
 
