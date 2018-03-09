@@ -36,192 +36,91 @@
                             <div class="Table">
                                 <div class="TableBody">
                                     <div class="Row">
-                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
-                                        <div class="Cell3"><img src="~/images/dollar-sign.png" height="30" width="30" /></div>
-                                        <div class="Cell3" style="padding-left:10px">@Model.pageMsg1</div>
-                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
+                                        <div class="Cell3" style="text-align:center"><img src="~/images/dollar-sign.png" height="30" width="30" /></div>
+                                        <div class="Cell3" style="padding-left:5px">@Model.pageMsg1</div>
                                     </div>
                                     <div class="Row">
-                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
                                         <div class="Cell3">&nbsp;</div>
                                         <div class="Cell3" style="padding-left:10px">&nbsp;</div>
-                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
                                     </div>
                                     <div class="Row">
-                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
-                                        <div class="Cell3"><img src="~/images/Water.png" height="30" width="30" /></div>
-                                        <div class="Cell3" style="padding-left:10px">@Model.pageMsg2</div>
-                                        <div class="Cell3" style="min-width:30%">&nbsp;</div>
+                                        <div class="Cell3" style="text-align:center"><img src="~/images/Water.png" height="20" width="20" /></div>
+                                        <div class="Cell3" style="padding-left:5px">@Model.pageMsg2</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <hr />
                         <div class="Row">
                             <div class="Table">
                                 <div class="TableBody">
                                     <div class="Row">
-                                        <div class="Cell3" style="text-align:right">
-                                            <table class="rnd-table rnd-table-rounded" style="width:250px; margin-right:0; margin-left:auto">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Start a file</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody style="vertical-align:top">
-                                                    <tr style="height:100px">
-                                                        <td style="text-align:left; color:black">
-                                                            @Html.Raw(Model.newMsg)
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="text-align:center">
-                                                        <td>
-                                                            @if (Model.unsavedData)
-                                                {
-                                                    <button class="form-box-submit-button btn btn-primary" style="width:90px" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
-                                    }
-                                    else
-                                    {
-                                        <input class="form-box-submit-button btn btn-primary" style="width:90px" type="submit" value="Start" name="new" />
-                        }
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>&nbsp;</td>
-                                                    </tr>
-                                                </tbody>
+                                        <div style="display: table">
+                                            <div style="display:table-cell">
+                                                <table class="rnd-table rnd-table-rounded" style="width:250px; margin-right:0; margin-left:auto">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="border-radius: 10px 10px 0 0; text-align:center">Start a file</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody style="vertical-align:top">
+                                                        <tr style="height:100px">
+                                                            <td style="text-align:left; color:black">
+                                                                @Html.Raw(Model.newMsg)
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="text-align:center">
+                                                            <td>
+                                                                @if (Model.unsavedData)
+                                                                {
+                                                                    <button class="form-box-submit-button btn btn-primary" style="width:90px" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input class="form-box-submit-button btn btn-primary" style="width:90px" type="submit" value="Start" name="new" />
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
 
-                                            </table>
-                                        </div>
-                                        <div class="Cell3" style="padding:30px; vertical-align:middle; text-align:center; font-size:large; font-weight:bold">OR</div>
-                                        <div class="Cell3">
-                                            <table class="rnd-table rnd-table-rounded" style="width:250px">
-                                                <thead>
-                                                    <tr>
-                                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Continue a file</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody style="vertical-align:top">
-                                                    <tr style="height:100px">
-                                                        <td style="text-align:left; color:black">
-                                                            @Html.Raw(Model.loadMsg)
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="text-align:center">
-                                                        <td>
-                                                            <button class="form-box-submit-button btn btn-primary" style="width:90px" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load file</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>&nbsp;</td>
-                                                    </tr>
-                                                </tbody>
+                                                </table>
+                                            </div>
+                                            <div style="display:table-cell; padding:70px; vertical-align:middle; height:100px; text-align:center; font-size:large; font-weight:bold;">OR</div>
+                                            <div style="display:table-cell">
+                                                <table class="rnd-table rnd-table-rounded" style="width:250px">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="border-radius: 10px 10px 0 0; text-align:center">Continue a file</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody style="vertical-align:top">
+                                                        <tr style="height:100px">
+                                                            <td style="text-align:left; color:black">
+                                                                @Html.Raw(Model.loadMsg)
+                                                            </td>
+                                                        </tr>
+                                                        <tr style="text-align:center">
+                                                            <td>
+                                                                <button class="form-box-submit-button btn btn-primary" style="width:90px" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load file</button>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                    </tbody>
 
-                                            </table>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br />
-                        @*<div class="Row">
-                    <div style="width:100%; text-align:center">
-                        <div style="display:inline-block">
-                            <table class="rnd-table rnd-table-rounded" style="width:250px">
-                                <thead>
-                                    <tr>
-                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new plan</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="vertical-align:top">
-                                    <tr style="height:200px">
-                                        <td style="text-align:left; color:black">
-                                            @Html.Raw(Model.newMsg)
-                                        </td>
-                                    </tr>
-                                    <tr style="text-align:center">
-                                        <td>
-                                            @if (Model.unsavedData)
-                                            {
-                                                <button class="btn" style="background-color:#446b59; color:white; font-weight:bold" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
-                                            }
-                                            else
-                                            {
-                                                <input class="btn" style="background-color:#446b59; color:white; font-weight:bold" type="submit" value="Begin" name="new" />
-                                            }
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                        <div style="width:50px; display:inline-block; vertical-align:middle">
-                            <b>OR</b>
-                        </div>
-                        <div style="display:inline-block">
-                            <table class="rnd-table rnd-table-rounded" style="width:250px">
-                                <thead>
-                                    <tr>
-                                        <th style="border-radius: 10px 10px 0 0; text-align:center">Update my plan</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="vertical-align:top">
-                                    <tr style="height:200px">
-                                        <td style="text-align:left; color:black">
-                                            @Html.Raw(Model.loadMsg)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <button class="btn" style="background-color:#446b59; color:white; font-weight:bold" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
-                    </div>
-                    @*<div class="Cell col-xs-3">
-                    </div>
-                    <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
-                        <p>Start a new file</p>
-                    </div>
-                    <div class="Cell col-xs-2" style="text-align:center">
-                        <p>or</p>
-                    </div>
-                    <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
-                        <p>Load an existing file</p>
-                    </div>
-                    <div class="Cell col-xs-3">
-                    </div>
-                </div>*@
-                        @*<div class="Row">
-                    <div class="Cell col-xs-3">
-                    </div>
-                    <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
-                        @if (Model.unsavedData)
-                        {
-                                <button class="btn btn-info" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
-                        }
-                        else
-                        {
-                                <input class="btn btn-info" type="submit" value="New" name="new" />
-                        }
-                    </div>
-                    <div class="Cell col-xs-2" style="text-align:center">
-                    </div>
-                    <div class="Cell col-xs-2" style="text-align:center; vertical-align:bottom">
-                        <button class="btn btn-info" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
-                    </div>
-                    <div class="Cell col-xs-3">
-                    </div>
-                </div>*@
-                        <p>&nbsp;</p>
+                        <hr />
                         <div class="small">
                             <p>
                                 @Html.Raw(Model.disclaimerMsg)
