@@ -18,6 +18,7 @@
 <div class="header-height"></div>
 
 <br />
+<br />
 
 <div class="container">
     <div class="step-forms col-sm-12">
@@ -78,12 +79,12 @@
                     <div class="form-box-fields">
                         <div class="row">
                             <div class="col-sm-12">
-                            @if (Model.testSelected)
-                            {
-                                <div id="test">
-                                    @await Component.InvokeAsync("SoilTests")
-                                </div>
-                            }
+                                @if (Model.testSelected)
+                                {
+                                    <div id="test">
+                                        @await Component.InvokeAsync("SoilTests")
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
