@@ -484,7 +484,7 @@ namespace SERVERAPI.Controllers
         }
 
         // standard units for reporting
-        private decimal ConvertManureToStdUnits(FarmManure manure, decimal fieldSize, decimal applicationRate, string unitId)
+        private decimal ConvertManureToStdRptUnits(FarmManure manure, decimal fieldSize, decimal applicationRate, string unitId)
         {
             decimal result = 0;
             Unit unit = _sd.GetUnit(unitId);
@@ -500,7 +500,7 @@ namespace SERVERAPI.Controllers
         }
 
         // standard units for reporting
-        private decimal ConvertFertilizerToStdUnits(Models.StaticData.Fertilizer fertilizer, decimal fieldSize, decimal applicationRate, int unitId)
+        private decimal ConvertFertilizerToStdRptUnits(decimal fieldSize, decimal applicationRate, int unitId)
         {
             FertilizerUnit unit = _sd.GetFertilizerUnit(unitId);
             return (unit.farm_reqd_nutrients_std_units_area_conversion * fieldSize * applicationRate * unit.farm_reqd_nutrients_std_units_conversion);
@@ -514,7 +514,7 @@ namespace SERVERAPI.Controllers
             foreach (var m in nutrientManures)
             {
                 FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
-                nutrientAmount = ConvertManureToStdUnits(manure, fieldArea, m.rate, m.unitId);
+                nutrientAmount = ConvertManureToStdRptUnits(manure, fieldArea, m.rate, m.unitId);
                 ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == manure.name);
                 if (rd != null)
                 {
@@ -533,16 +533,40 @@ namespace SERVERAPI.Controllers
             return details;
         }
 
+        private Models.StaticData.Fertilizer ConvertCustomFertilizerToStdFertilizer(NutrientFertilizer nf)
+        {
+            Models.StaticData.Fertilizer fert = new Fertilizer();
+            FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId);
+            fert.id = nf.id;
+            if (_sd.IsFertilizerTypeDry(nf.fertilizerTypeId)) {
+                fert.name = "Custom (Dry) " + nf.customN.ToString() + "-" + nf.customP2o5 + "-" + nf.customK2o.ToString();
+                fert.dry_liquid = ft.dry_liquid;
+            }
+            else {
+                fert.name = "Custom (Liquid) " + nf.customN.ToString() + "-" + nf.customP2o5 + "-" + nf.customK2o.ToString();
+                fert.dry_liquid = ft.dry_liquid;
+            }
+            fert.nitrogen = Convert.ToDecimal(nf.customN);
+            fert.phosphorous = Convert.ToDecimal( nf.customP2o5 );
+            fert.potassium = Convert.ToDecimal(nf.customK2o);
+
+            return fert;
+        }
 
         private List<ReportSourcesDetail> BuildFertilizerRequiredList(List<ReportSourcesDetail> details, List<NutrientFertilizer> nutrientFertilizers, decimal fieldArea)
         {
             decimal nutrientAmount = 0;
             List<ReportSourcesDetail> result = new List<ReportSourcesDetail>();
+            Models.StaticData.Fertilizer fert;
 
             foreach (var m in nutrientFertilizers)
             {
-                Models.StaticData.Fertilizer fert = _sd.GetFertilizer(m.fertilizerId.ToString());
-                nutrientAmount = ConvertFertilizerToStdUnits(fert, fieldArea, m.applRate, m.applUnitId);
+                if (_sd.IsCustomFertilizer(m.fertilizerTypeId))
+                    fert = ConvertCustomFertilizerToStdFertilizer(m);
+                else
+                    fert = _sd.GetFertilizer(m.fertilizerId.ToString());
+
+                nutrientAmount = ConvertFertilizerToStdRptUnits(fieldArea, m.applRate, m.applUnitId);
 
                 ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == fert.name);
                 if (rd != null)

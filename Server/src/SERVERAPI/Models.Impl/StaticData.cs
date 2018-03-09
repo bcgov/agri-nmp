@@ -1605,11 +1605,63 @@ namespace SERVERAPI.Models.Impl
             string stdUnit;
 
             if ( dryLiquid.ToUpper() == "DRY")
-                stdUnit = GetFertilizerUnit(Convert.ToInt32(rss["agri"]["nmp"]["RptCompletedFertilizerRequired_StdUnit"]["solid_unit_id"].ToString())).name;
+                stdUnit = GetFertilizerUnit(Convert.ToInt16(rss["agri"]["nmp"]["RptCompletedFertilizerRequired_StdUnit"]["solid_unit_id"].ToString())).name;
             else
                 stdUnit = GetFertilizerUnit(Convert.ToInt16(rss["agri"]["nmp"]["RptCompletedFertilizerRequired_StdUnit"]["liquid_unit_id"].ToString())).name;
 
             return (ParseStdUnit(stdUnit));
         }
+
+        public bool IsCustomFertilizer(int fertilizerTypeID)
+        {
+            JArray fertTypes = (JArray)rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
+            foreach (var r in fertTypes)
+            {
+                if (Convert.ToInt16(r["id"].ToString()) == fertilizerTypeID)
+                    return Convert.ToBoolean(r["customfertilizer"].ToString());
+            }
+            return false;
+        }
+
+        public bool IsFertilizerTypeDry(int fertilizerTypeID)
+        {
+            JArray fertTypes = (JArray)rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
+            foreach (var r in fertTypes)
+            {
+                if (Convert.ToInt16(r["id"].ToString()) == fertilizerTypeID)
+                    return (r["dry_liquid"].ToString().ToUpper() == "DRY");
+            }
+            return false;
+        }
+
+        public bool IsFertilizerTypeLiquid(int fertilizerTypeID)
+        {
+            JArray fertTypes = (JArray)rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
+            foreach (var r in fertTypes)
+            {
+                if (Convert.ToInt16(r["id"].ToString()) == fertilizerTypeID)
+                    return (r["dry_liquid"].ToString().ToUpper() == "LIQUID");
+            }
+            return false;
+        }
+
+        public FertilizerType GetFertilizerType(int fertilizerTypeID)
+        {
+            JArray fertTypes = (JArray)rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
+           
+            foreach (var r in fertTypes)
+            {
+                if (Convert.ToInt16(r["id"].ToString()) == fertilizerTypeID)
+                {
+                    return new FertilizerType() { id = Convert.ToInt16(r["id"].ToString())
+                        , custom = Convert.ToBoolean(r["customfertilizer"].ToString())
+                        , dry_liquid= r["dry_liquid"].ToString()
+                        , name = r["name"].ToString() };
+                }
+            }
+            return null;
+        }
     }
+
 }
+
