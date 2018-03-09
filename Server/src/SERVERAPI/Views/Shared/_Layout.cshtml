@@ -103,7 +103,6 @@
                     <!-- COLLAPSING NAVBAR -->
                     <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li><a href='@Url.Action("Index", "Home" )'>Home Page</a></li>
                             <li><a href='@Url.Action("About", "Home" )' target="_blank">About</a></li>
                             <li><a href='@Url.Action("Help", "Home" )' target="_blank">Help</a></li>
                         </ul>
@@ -144,143 +143,155 @@
     <!--WIZARD-->
     <div class="wizard">
         <div class="wrapper wizard-list clearfix" style="text-align:right">
-            <a href="#"><u>Continue later</u></a>
+            <a href='@Url.Action("Report", "Report" )'><u>Continue later</u></a>
         </div>
         <ul class="wrapper wizard-list clearfix">
-            <li id="wizard-farm" class="wizard-item ">@*wizard-item-done*@
-                <a href='@Url.Action("Farm", "Farm" )'>
-                    <div class="wizard-circle">
-                        <div class="wizard-icon">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
-                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-                            <g stroke-width="2" transform="translate(0, 0)">
-                            <polygon fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="12,27 2,17 6,13
+            <li id="wizard-home" class="wizard-item ">
+                @*wizard-item-done*@
+            <a href='@Url.Action("Index", "Home" )'>
+                <div class="wizard-circle">
+                    <div class="wizard-icon">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32" width="32" height="32"><defs><path d="M21.31 2.91L21.31 2.87L21.32 2.83L21.32 2.79L21.33 2.75L21.33 2.71L21.34 2.67L21.35 2.64L21.36 2.6L21.37 2.56L21.39 2.53L21.4 2.49L21.42 2.46L21.44 2.43L21.46 2.4L21.48 2.36L21.5 2.33L21.52 2.3L21.55 2.28L21.57 2.25L21.6 2.22L21.62 2.2L21.65 2.17L21.68 2.15L21.71 2.12L21.74 2.1L21.77 2.08L21.8 2.06L21.84 2.05L21.87 2.03L21.9 2.01L21.94 2L21.98 1.99L22.01 1.98L22.05 1.97L22.09 1.96L22.12 1.95L22.16 1.94L22.2 1.94L22.24 1.94L22.28 1.94L26.16 1.94L26.2 1.94L26.24 1.94L26.27 1.94L26.31 1.95L26.35 1.96L26.39 1.97L26.43 1.98L26.46 1.99L26.5 2L26.53 2.01L26.57 2.03L26.6 2.05L26.63 2.06L26.67 2.08L26.7 2.1L26.73 2.12L26.76 2.15L26.79 2.17L26.81 2.2L26.84 2.22L26.87 2.25L26.89 2.28L26.92 2.3L26.94 2.33L26.96 2.36L26.98 2.4L27 2.43L27.02 2.46L27.03 2.49L27.05 2.53L27.06 2.56L27.08 2.6L27.09 2.64L27.1 2.67L27.11 2.71L27.11 2.75L27.12 2.79L27.12 2.83L27.12 2.87L27.12 2.91L27.12 13.08L31 17.44L27.12 17.44L27.12 31L18.5 31L18.5 31L18.5 30.95L18.5 21.55L18.5 21.5L18.5 21.46L18.49 21.42L18.49 21.38L18.48 21.33L18.47 21.29L18.46 21.25L18.45 21.22L18.44 21.18L18.42 21.14L18.41 21.1L18.39 21.07L18.37 21.03L18.35 20.99L18.33 20.96L18.31 20.93L18.28 20.9L18.26 20.87L18.23 20.84L18.21 20.81L18.18 20.78L18.15 20.75L18.12 20.73L18.09 20.7L18.06 20.68L18.03 20.66L17.99 20.64L17.96 20.62L17.92 20.6L17.89 20.58L17.85 20.57L17.82 20.55L17.78 20.54L17.74 20.53L17.7 20.52L17.66 20.51L17.62 20.51L17.58 20.5L17.54 20.5L17.5 20.5L13.5 20.5L13.46 20.5L13.42 20.5L13.38 20.51L13.34 20.51L13.3 20.52L13.26 20.53L13.22 20.54L13.18 20.55L13.15 20.57L13.11 20.58L13.08 20.6L13.04 20.62L13.01 20.64L12.97 20.66L12.94 20.68L12.91 20.7L12.88 20.73L12.85 20.75L12.82 20.78L12.79 20.81L12.77 20.84L12.74 20.87L12.72 20.9L12.69 20.93L12.67 20.96L12.65 20.99L12.63 21.03L12.61 21.07L12.59 21.1L12.58 21.14L12.56 21.18L12.55 21.22L12.54 21.25L12.53 21.29L12.52 21.33L12.51 21.38L12.51 21.42L12.5 21.46L12.5 21.5L12.5 21.55L12.5 30.95L12.5 31L12.5 31L3.88 31L3.88 17.44L0 17.44L15.5 0L21.31 6.54L21.31 2.91Z" id="gwslVsAVj"></path></defs><g><g><g><use xlink:href="#gwslVsAVj" opacity="1" fill="#f7f7f9" fill-opacity="1"></use><g><use xlink:href="#gwslVsAVj" opacity="1" fill-opacity="0" stroke="#000501" stroke-width="1" stroke-opacity="1"></use></g></g></g></g></svg>
+                    </div>
+                </div>
+                <span class="wizard-name">Home</span>
+            </a>
+        </li>
+        <li id="wizard-farm" class="wizard-item">
+            @*wizard-item-done*@
+        <a href='@Url.Action("Farm", "Farm" )'>
+            <div class="wizard-circle">
+                <div class="wizard-icon">
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                         height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                    <g stroke-width="2" transform="translate(0, 0)">
+                    <polygon fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="12,27 2,17 6,13
 	                            12,19 26,5 30,9 " stroke-linejoin="miter"></polygon>
                             </g>
                             </svg>
-                        </div>
-                    </div>
-                    <span class="wizard-name">Farm Info</span>
-                </a>
-            </li>
-            <li id="wizard-field" class="wizard-item">
-                <a href='@Url.Action("Fields", "Fields" )'>
-                    <div class="wizard-circle">
-                        <div class="wizard-icon">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve" stroke-width="2">
-                                <g stroke-width="2" transform="translate(0, 0)">
-                                <path data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d=" M22.784,25.563c0,0-2.397,3.704-6.306,4.388C13.475,30.477,10,26.622,10,26.622s2.342-2.617,5.345-3.143 C18.872,22.862,22.784,25.563,22.784,25.563z" stroke-linejoin="miter"></path> 
-                                <path data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M2,17.582 c0,0,2.721-2.265,5.879-1.856c2.426,0.314,4.168,4.097,4.168,4.097s-2.419,1.446-4.846,1.131C4.352,20.586,2,17.582,2,17.582z" stroke-linejoin="miter"></path> 
-                                <path data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M15.344,15 c0,0-2.598-2.825-2.324-6.267c0.211-2.644,4.213-4.732,4.213-4.732s1.695,2.542,1.484,5.186C18.471,12.293,15.344,15,15.344,15z" stroke-linejoin="miter"></path> 
-                                <path data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d=" M23.252,13.756c0,0-2.267,3.756-1.176,7.549c0.838,2.914,5.797,4.342,5.797,4.342s1.32-3.234,0.482-6.147 C27.37,16.077,23.252,13.756,23.252,13.756z" stroke-linejoin="miter"></path> 
-                                <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M30,26C17,26,8,16,8,3" stroke-linejoin="miter"></path>
+                </div>
+            </div>
+            <span class="wizard-name">Farm Info</span>
+        </a>
+        </li>
+        <li id="wizard-field" class="wizard-item">
+            <a href='@Url.Action("Fields", "Fields" )'>
+                <div class="wizard-circle">
+                    <div class="wizard-icon">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve" stroke-width="2">
+                        <g stroke-width="2" transform="translate(0, 0)">
+                        <path data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d=" M22.784,25.563c0,0-2.397,3.704-6.306,4.388C13.475,30.477,10,26.622,10,26.622s2.342-2.617,5.345-3.143 C18.872,22.862,22.784,25.563,22.784,25.563z" stroke-linejoin="miter"></path> 
+                        <path data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M2,17.582 c0,0,2.721-2.265,5.879-1.856c2.426,0.314,4.168,4.097,4.168,4.097s-2.419,1.446-4.846,1.131C4.352,20.586,2,17.582,2,17.582z" stroke-linejoin="miter"></path> 
+                        <path data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M15.344,15 c0,0-2.598-2.825-2.324-6.267c0.211-2.644,4.213-4.732,4.213-4.732s1.695,2.542,1.484,5.186C18.471,12.293,15.344,15,15.344,15z" stroke-linejoin="miter"></path> 
+                        <path data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d=" M23.252,13.756c0,0-2.267,3.756-1.176,7.549c0.838,2.914,5.797,4.342,5.797,4.342s1.32-3.234,0.482-6.147 C27.37,16.077,23.252,13.756,23.252,13.756z" stroke-linejoin="miter"></path> 
+                        <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M30,26C17,26,8,16,8,3" stroke-linejoin="miter"></path>
                                 </g>
                             </svg>
-                        </div>
                     </div>
-                    <span class="wizard-name">Field List</span>
-                </a>
-            </li>
-            <li id="wizard-soiltest" class="wizard-item">
-                <a href='@Url.Action("SoilTest", "Soil" )'>
-                    <div class="wizard-circle">
-                        <div class="wizard-icon">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
-                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-                            <g stroke-width="2" transform="translate(0, 0)">
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
-                                  y1="13" x2="15" y2="13" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
-                                  y1="18" x2="15" y2="18" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
-                                  y1="23" x2="15" y2="23" stroke-linejoin="miter"></line>
-                            <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,1v4h3v21
+                </div>
+                <span class="wizard-name">Field List</span>
+            </a>
+        </li>
+        <li id="wizard-soiltest" class="wizard-item">
+            <a href='@Url.Action("SoilTest", "Soil" )'>
+                <div class="wizard-circle">
+                    <div class="wizard-icon">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                             height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                        <g stroke-width="2" transform="translate(0, 0)">
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
+                              y1="13" x2="15" y2="13" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
+                              y1="18" x2="15" y2="18" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="11"
+                              y1="23" x2="15" y2="23" stroke-linejoin="miter"></line>
+                        <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,1v4h3v21
 	    c0,2.761,2.239,5,5,5h0c2.761,0,5-2.239,5-5V5h3V1H8z" stroke-linejoin="miter"></path>
                             </g>
                             </svg>
-                        </div>
                     </div>
-                    <span class="wizard-name">Soil Tests</span>
-                </a>
-            </li>
-            <li id="wizard-manure" class="wizard-item">
-                <a href='@Url.Action("Manure", "Manure" )'>
-                    <div class="wizard-circle">
-                        <div class="wizard-icon">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
-                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-                            <g stroke-width="2" transform="translate(0, 0)">
-                            <polyline data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" points="1,16 7.8,16 11.9,7.8
+                </div>
+                <span class="wizard-name">Soil Tests</span>
+            </a>
+        </li>
+        <li id="wizard-manure" class="wizard-item">
+            <a href='@Url.Action("Manure", "Manure" )'>
+                <div class="wizard-circle">
+                    <div class="wizard-icon">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                             height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                        <g stroke-width="2" transform="translate(0, 0)">
+                        <polyline data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" points="1,16 7.8,16 11.9,7.8
 	20.1,24.2 24.2,16 31,16 " stroke-linejoin="miter" stroke-linecap="butt"></polyline>
-                            <circle fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" cx="16" cy="16" r="15"
-                                    stroke-linejoin="miter"></circle>
+                        <circle fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" cx="16" cy="16" r="15"
+                                stroke-linejoin="miter"></circle>
                             </g>
                             </svg>
-                        </div>
                     </div>
-                    <span class="wizard-name">Manure/Compost Analysis</span>
-                </a>
-            </li>
-            <li id="wizard-nutrient" class="wizard-item">
-                <a href='@Url.Action("Calculate", "Nutrients" )'>
-                    <div class="wizard-circle">
-                        <div class="wizard-icon">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
-                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-                            <g stroke-width="2" transform="translate(0, 0)">
-                            <rect x="3" y="1" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" width="26"
-                                  height="30" stroke-linejoin="miter"></rect>
-                            <rect data-color="color-2" x="7" y="5" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10"
-                                  width="18" height="6" stroke-linejoin="miter"></rect>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
-                                  y1="16" x2="10" y2="16" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
-                                  y1="16" x2="18" y2="16" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
-                                  y1="21" x2="10" y2="21" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
-                                  y1="21" x2="18" y2="21" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
-                                  y1="26" x2="10" y2="26" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
-                                  y1="26" x2="18" y2="26" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
-                                  y1="16" x2="25" y2="16" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
-                                  y1="21" x2="25" y2="21" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
-                                  y1="26" x2="25" y2="26" stroke-linejoin="miter"></line>
+                </div>
+                <span class="wizard-name">Manure/Compost Analysis</span>
+            </a>
+        </li>
+        <li id="wizard-nutrient" class="wizard-item">
+            <a href='@Url.Action("Calculate", "Nutrients" )'>
+                <div class="wizard-circle">
+                    <div class="wizard-icon">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                             height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                        <g stroke-width="2" transform="translate(0, 0)">
+                        <rect x="3" y="1" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" width="26"
+                              height="30" stroke-linejoin="miter"></rect>
+                        <rect data-color="color-2" x="7" y="5" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10"
+                              width="18" height="6" stroke-linejoin="miter"></rect>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
+                              y1="16" x2="10" y2="16" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
+                              y1="16" x2="18" y2="16" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
+                              y1="21" x2="10" y2="21" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
+                              y1="21" x2="18" y2="21" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="7"
+                              y1="26" x2="10" y2="26" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="14"
+                              y1="26" x2="18" y2="26" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
+                              y1="16" x2="25" y2="16" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
+                              y1="21" x2="25" y2="21" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="22"
+                              y1="26" x2="25" y2="26" stroke-linejoin="miter"></line>
                             </g>
                             </svg>
-                        </div>
                     </div>
-                    <span class="wizard-name">Calculate Nutrients</span>
-                </a>
-            </li>
-            <li id="wizard-report" class="wizard-item">
-                <a href='@Url.Action("Report", "Report" )'>
-                    <div class="wizard-circle">
-                        <div class="wizard-icon">
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
-                                 height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-                            <g stroke-width="2" transform="translate(0, 0)">
-                            <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M26,22V1H3v27
+                </div>
+                <span class="wizard-name">Calculate Nutrients</span>
+            </a>
+        </li>
+        <li id="wizard-report" class="wizard-item">
+            <a href='@Url.Action("Report", "Report" )'>
+                <div class="wizard-circle">
+                    <div class="wizard-icon">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px"
+                             height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+                        <g stroke-width="2" transform="translate(0, 0)">
+                        <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M26,22V1H3v27
 	c0,1.657,1.343,3,3,3h2" stroke-linejoin="miter"></path>
-                            <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,28c0,1.657-1.343,3-3,3
+                        <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,28c0,1.657-1.343,3-3,3
 	h21c1.657,0,3-1.343,3-3v-2H9V28z" stroke-linejoin="miter"></path>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
-                                  y1="7" x2="20" y2="7" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
-                                  y1="13" x2="20" y2="13" stroke-linejoin="miter"></line>
-                            <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
-                                  y1="19" x2="20" y2="19" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
+                              y1="7" x2="20" y2="7" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
+                              y1="13" x2="20" y2="13" stroke-linejoin="miter"></line>
+                        <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="9"
+                              y1="19" x2="20" y2="19" stroke-linejoin="miter"></line>
                             </g>
                             </svg>
-                        </div>
                     </div>
-                    <span class="wizard-name">Wrap Up</span>
-                </a>
-            </li>
+                </div>
+                <span class="wizard-name">Wrap Up</span>
+            </a>
+        </li>
         </ul>
     </div>
     <!-- /WIZARD -->

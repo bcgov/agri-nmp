@@ -643,7 +643,7 @@ label {
 
 .wizard-item {
   float: left;
-  width: 16.667%;
+  width: 14.286%;
   position: relative;
 }
 
@@ -657,9 +657,11 @@ label {
   background: #959595;
   z-index: 1;
 }
-
-.wizard-item:first-child:before {
-  display: none;
+    .wizard-item:first-child:before {
+        display: none;
+    }
+.wizard-item:nth-child(2):before {
+    display: none;
 }
 
 .wizard-circle {
