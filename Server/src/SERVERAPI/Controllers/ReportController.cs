@@ -186,7 +186,7 @@ namespace SERVERAPI.Controllers
 
                             string stdNAmt = cropRequirementRemoval.N_Requirement.ToString();
 
-                            if(c.reqN.ToString() != cropRequirementRemoval.N_Requirement.ToString())
+                            if (c.reqN.ToString() != cropRequirementRemoval.N_Requirement.ToString())
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
                                 rff.id = rf.footnotes.Count() + 1;
@@ -195,8 +195,18 @@ namespace SERVERAPI.Controllers
                                 rf.footnotes.Add(rff);
                             }
                         }
-
-                        fc.yield = c.yield;
+                        //E07US18
+                        if (c.yieldHarvestUnit.HasValue)
+                        {
+                            fc.yield = c.yieldByHarvestUnit;
+                            fc.yieldInUnit = _sd.GetHarvestYieldUnitName(c.yieldHarvestUnit.ToString());
+                        }
+                        else
+                        {
+                            fc.yield = c.yield;  // retrofit old versio data (E07US18)
+                            fc.yieldInUnit = _sd.GetHarvestYieldDefaultUnitName(); 
+                        }
+                        
                         fc.reqN = -c.reqN;
                         fc.reqP = -c.reqP2o5;
                         fc.reqK = -c.reqK2o;

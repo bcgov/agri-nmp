@@ -1685,6 +1685,25 @@ namespace SERVERAPI.Models.Impl
             return harvestUnitsOptions;
         }
 
+
+        public string GetHarvestYieldUnitName(string yieldUnit)
+        {
+            JArray fertTypes = (JArray)rss["agri"]["nmp"]["harvestunits"]["harvestunit"];
+
+            List<Models.StaticData.SelectListItem> harvestUnitsOptions = new List<Models.StaticData.SelectListItem>();
+            foreach (var r in fertTypes)
+            {
+                if (r["id"].ToString() == yieldUnit)
+                    return r["name"].ToString();
+            }
+            return "unit measure not found";
+        }
+
+        public string GetHarvestYieldDefaultUnitName()
+        {
+            return GetHarvestYieldUnitName(CROP_YIELD_DEFAULT_UNIT.ToString());
+        }
+
         public bool IsCropHarvestYieldDefaultUnit(int selectedCropYieldUnit)
         {
             return (selectedCropYieldUnit == CROP_YIELD_DEFAULT_UNIT);
