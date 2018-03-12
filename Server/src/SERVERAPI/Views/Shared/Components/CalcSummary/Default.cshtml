@@ -31,7 +31,7 @@
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:baseline; height:15px">
                             @if (!string.IsNullOrEmpty(Model.reqNIcon))
                             {
-                                <img src="~/images/@(Model.reqNIcon).svg" />
+                                <img src="~/images/@(Model.reqNIcon).svg" title="@Html.Raw(Model.reqNIconText)" />
                             }
                             @if (@Model.reqN.Contains("-"))
                             {
@@ -44,7 +44,7 @@
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:baseline; height:15px">
                             @if (!string.IsNullOrEmpty(Model.reqPIcon))
                             {
-                                <img src="~/images/@(Model.reqPIcon).svg" />
+                                <img src="~/images/@(Model.reqPIcon).svg"  title="@Html.Raw(Model.reqPIconText)" />
                             }
                             @if (Model.reqP.Contains("-"))
                             {
@@ -58,7 +58,7 @@
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:baseline; height:15px">
                             @if (!string.IsNullOrEmpty(Model.reqKIcon))
                             {
-                                <img src="~/images/@(Model.reqKIcon).svg" />
+                                <img src="~/images/@(Model.reqKIcon).svg" title="@Html.Raw(Model.reqKIconText)"  />
                             }
                             @if (Model.reqK.Contains("-"))
                             {
@@ -81,7 +81,7 @@
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:text-bottom; height:15px">
                             @if (!string.IsNullOrEmpty(Model.remNIcon))
                             {
-                                <img src="~/images/@(Model.remNIcon).svg" />
+                                <img src="~/images/@(Model.remNIcon).svg"  title="@Html.Raw(Model.remNIconText)" />
                             }
                             @if (Model.remN.Contains("-"))
                             {
@@ -95,7 +95,7 @@
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:text-bottom; height:15px">
                             @if (!string.IsNullOrEmpty(Model.remPIcon))
                             {
-                                <img src="~/images/@(Model.remPIcon).svg" />
+                                <img src="~/images/@(Model.remPIcon).svg" title="@Html.Raw(Model.remPIconText)" />
                             }
                             @if (Model.remP.Contains("-"))
                             {
@@ -109,7 +109,7 @@
                         <div class="Cell2" style="width:30%; text-align:center; vertical-align:text-bottom; height:15px">
                             @if (!string.IsNullOrEmpty(Model.remKIcon))
                             {
-                                <img src="~/images/@(Model.remKIcon).svg" />
+                                <img src="~/images/@(Model.remKIcon).svg" title="@Html.Raw(Model.remKIconText)" />
                             }
                             @if (Model.remK.Contains("-"))
                             {

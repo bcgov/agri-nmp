@@ -77,7 +77,7 @@ namespace SERVERAPI.Controllers
 
                 if (!cvm.itemsPresent)
                 {
-                    cvm.noData = _sd.GetUserPrompt("nonutrientitems");
+                    cvm.icons = _sd.GetNutrientIcons();
                 }
             }
 
@@ -86,6 +86,11 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult Calculate(CalculateViewModel cvm)
         {
+
+            if (!cvm.itemsPresent)
+            {
+                cvm.icons = _sd.GetNutrientIcons();
+            }
 
             return View(cvm);
         }
@@ -196,12 +201,15 @@ namespace SERVERAPI.Controllers
                 {
                     case "AgrN":
                         mvm.totNIcon = (chemicalBalances.balance_AgrN > 0) ? "" : m.Icon;
+                        mvm.totNIconText = m.IconText;
                         break;
                     case "AgrP2O5":
                         mvm.totPIcon = (chemicalBalances.balance_AgrP2O5 > 0) ? "" : m.Icon;
+                        mvm.totPIconText = m.IconText;
                         break;
                     case "AgrK2O":
                         mvm.totKIcon = (chemicalBalances.balance_AgrK2O > 0) ? "" : m.Icon;
+                        mvm.totKIconText = m.IconText;
                         break;
                 }
             }
@@ -580,12 +588,15 @@ namespace SERVERAPI.Controllers
                 {
                     case "AgrN":
                         fvm.totNIcon = (chemicalBalances.balance_AgrN > 0) ? "" : m.Icon;
+                        fvm.totNIconText = m.IconText;
                         break;
                     case "AgrP2O5":
                         fvm.totPIcon = (chemicalBalances.balance_AgrP2O5 > 0) ? "" : m.Icon;
+                        fvm.totPIconText = m.IconText;
                         break;
                     case "AgrK2O":
                         fvm.totKIcon = (chemicalBalances.balance_AgrK2O > 0) ? "" : m.Icon;
+                        fvm.totKIconText = m.IconText;
                         break;
                 }
             }

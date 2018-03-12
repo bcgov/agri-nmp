@@ -9289,6 +9289,25 @@
             "name": "bu/ac"
           }
         ]
+      },
+      "nutrienticons": {
+        "nutrienticon": [
+          {
+            "id": "1",
+            "name": "good",
+            "definition": "Good"
+          },
+          {
+            "id": "2",
+            "name": "dollar warning",
+            "definition": "Crop requirement not met OR nutrient application can be reduced"
+          },
+          {
+            "id": "3",
+            "name": "stop",
+            "definition": "Reduce N or P2O5 application"
+          }
+        ]
       }
     }
   }

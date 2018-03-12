@@ -1019,6 +1019,7 @@ namespace SERVERAPI.Models.Impl
                         bm.Message = ""; 
                     }
 
+                    bm.IconText = GetNutrientIcon(bm.Icon).definition;
                     return bm;
                 }
             }
@@ -1720,6 +1721,44 @@ namespace SERVERAPI.Models.Impl
             if (crop.harvestBushelsPerTon.HasValue)
                 return (yield / Convert.ToDecimal(crop.harvestBushelsPerTon));
             return -1;  
+        }
+
+        public Models.StaticData.NutrientIcons GetNutrientIcons()
+        {
+            Models.StaticData.NutrientIcons icons = new Models.StaticData.NutrientIcons();
+            icons.nutrientIcons = new List<Models.StaticData.NutrientIcon>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["nutrienticons"]["nutrienticon"];
+
+            foreach (var r in array)
+            {
+                Models.StaticData.NutrientIcon icon = new Models.StaticData.NutrientIcon();
+                icon.id = Convert.ToInt32(r["id"].ToString());
+                icon.name = r["name"].ToString();
+                icon.definition = r["definition"].ToString();
+                icons.nutrientIcons.Add(icon);
+            }
+
+            return icons;
+        }
+
+        public Models.StaticData.NutrientIcon GetNutrientIcon(string name)
+        {
+            Models.StaticData.NutrientIcon icon = new Models.StaticData.NutrientIcon();
+
+            JArray icons = (JArray)rss["agri"]["nmp"]["nutrienticons"]["nutrienticon"];
+
+            foreach (var r in icons)
+            {
+                if (r["name"].ToString() == name)
+                {
+                    icon.id = Convert.ToInt32(r["id"].ToString());
+                    icon.name = r["name"].ToString();
+                    icon.definition = r["definition"].ToString();
+                }
+            }
+
+            return icon;
         }
     }
 

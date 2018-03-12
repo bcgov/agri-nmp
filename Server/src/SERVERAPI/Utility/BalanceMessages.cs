@@ -10,5 +10,6 @@ namespace SERVERAPI.Utility
         public string Message { get; set; }
         public string Chemical { get; set; }
         public string Icon { get; set; }
+        public string IconText { get; set; }
     }
 }
