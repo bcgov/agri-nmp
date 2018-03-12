@@ -191,6 +191,9 @@ namespace SERVERAPI.ViewModels
         public string totNIcon { get; set; }
         public string totPIcon { get; set; }
         public string totKIcon { get; set; }
+        public string totNIconText { get; set; }
+        public string totPIconText { get; set; }
+        public string totKIconText { get; set; }
         public string totN { get; set; }
         public string totP2o5 { get; set; }
         public string totK2o { get; set; }
@@ -321,6 +324,9 @@ namespace SERVERAPI.ViewModels
         public string totNIcon { get; set; }
         public string totPIcon { get; set; }
         public string totKIcon { get; set; }
+        public string totNIconText { get; set; }
+        public string totPIconText { get; set; }
+        public string totKIconText { get; set; }
         public string totN { get; set; }
         public string totP2o5 { get; set; }
         public string totK2o { get; set; }
@@ -334,6 +340,7 @@ namespace SERVERAPI.ViewModels
         public bool itemsPresent { get; set; }
         public string noData { get; set; }
         public List<Field> fields { get; set; }
+        public StaticData.NutrientIcons icons { get; set; }
     }
     public class SoilTestViewModel
     {

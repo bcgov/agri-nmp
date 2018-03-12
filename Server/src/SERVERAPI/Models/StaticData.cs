@@ -174,6 +174,16 @@ namespace SERVERAPI.Models
             public decimal farm_reqd_nutrients_std_units_area_conversion { get; set; }
             public string solid_liquid { get; set; }
         }
+        public class NutrientIcons
+        {
+            public List<NutrientIcon> nutrientIcons { get; set; }
+        }
+        public class NutrientIcon
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public string definition { get; set; }
+        }
         public class FertilizerUnits
         {
             public List<FertilizerUnit> fertilizerUnits { get; set; }

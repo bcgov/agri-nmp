@@ -127,8 +127,8 @@
             <br />
             <br />
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="Intercept('@Model.url');ResetWarning();" />
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';"  title="Previous"  aria-label="Previous"/>
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="Intercept('@Model.url');ResetWarning();" title="Finish"  aria-label="Finish" />
             </div>
             @Html.HiddenFor(x => x.unsavedData)
             @Html.HiddenFor(x => x.url)

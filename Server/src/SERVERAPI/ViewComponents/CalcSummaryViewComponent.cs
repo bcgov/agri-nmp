@@ -41,21 +41,27 @@ namespace SERVERAPI.ViewComponents
                 {
                     case "CropN":
                         cvm.remNIcon = m.Icon;
+                        cvm.remNIconText = _sd.GetNutrientIcon(m.Icon).definition;
                         break;
                     case "CropP2O5":
                         cvm.remPIcon = m.Icon;
+                        cvm.remPIconText = _sd.GetNutrientIcon(m.Icon).definition;
                         break;
                     case "CropK2O":
                         cvm.remKIcon = m.Icon;
+                        cvm.remKIconText = _sd.GetNutrientIcon(m.Icon).definition;
                         break;
                     case "AgrN":
                         cvm.reqNIcon = m.Icon;
+                        cvm.reqNIconText = _sd.GetNutrientIcon(m.Icon).definition;
                         break;
                     case "AgrP2O5":
                         cvm.reqPIcon = m.Icon;
+                        cvm.reqPIconText = _sd.GetNutrientIcon(m.Icon).definition;
                         break;
                     case "AgrK2O":
                         cvm.reqKIcon = m.Icon;
+                        cvm.reqKIconText = _sd.GetNutrientIcon(m.Icon).definition;
                         break;
                 }
             }
@@ -76,15 +82,21 @@ namespace SERVERAPI.ViewComponents
         public bool summaryReqd { get; set; }
         public string reqN { get; set; }
         public string reqNIcon { get; set; }
+        public string reqNIconText { get; set; }
         public string reqP { get; set; }
         public string reqPIcon { get; set; }
+        public string reqPIconText { get; set; }
         public string reqK { get; set; }
         public string reqKIcon { get; set; }
+        public string reqKIconText { get; set; }
         public string remN { get; set; }
         public string remNIcon { get; set; }
+        public string remNIconText { get; set; }
         public string remP { get; set; }
         public string remPIcon { get; set; }
+        public string remPIconText { get; set; }
         public string remK { get; set; }
         public string remKIcon { get; set; }
+        public string remKIconText { get; set; }
     }
 }

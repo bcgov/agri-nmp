@@ -22,54 +22,54 @@
                         <span asp-validation-for="selTypOption" class="text-danger"></span>
                     </div>
                     @if (Model.manEntry)
-                    {
-                        <div class="form-group col-sm-4">
-                            <div class="Table">
-                                <div class="Heading">
-                                    <div class="Cell">
-                                        <p style="margin-bottom:5px">N&nbsp;(%)</p>
-                                    </div>
-                                    <div class="Cell">
-                                        <p style="margin-bottom:5px">P<sub>2</sub>O<sub>5</sub>&nbsp;(%)</p>
-                                    </div>
-                                    <div class="Cell">
-                                        <p style="margin-bottom:5px">K<sub>2</sub>O&nbsp;(%)</p>
-                                    </div>
+                {
+                    <div class="form-group col-sm-4">
+                        <div class="Table">
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p style="margin-bottom:5px">N&nbsp;(%)</p>
                                 </div>
-                                <div class="Row">
-                                    <div class="Cell2">
-                                        <div class="input-group col-sm-12">
-                                            <input class="form-control col-sm-12" asp-for="valN" type="text" id="valN" />
-                                        </div>
-                                        <span asp-validation-for="valN" class="text-danger"></span>
+                                <div class="Cell">
+                                    <p style="margin-bottom:5px">P<sub>2</sub>O<sub>5</sub>&nbsp;(%)</p>
+                                </div>
+                                <div class="Cell">
+                                    <p style="margin-bottom:5px">K<sub>2</sub>O&nbsp;(%)</p>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="valN" type="text" id="valN" />
                                     </div>
-                                    <div class="Cell2">
-                                        <div class="input-group col-sm-12">
-                                            <input class="form-control col-sm-12" asp-for="valP2o5" type="text" id="valP" />
-                                        </div>
-                                        <span asp-validation-for="valP2o5" class="text-danger"></span>
+                                    <span asp-validation-for="valN" class="text-danger"></span>
+                                </div>
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="valP2o5" type="text" id="valP" />
                                     </div>
-                                    <div class="Cell2">
-                                        <div class="input-group col-sm-12">
-                                            <input class="form-control col-sm-12" asp-for="valK2o" type="text" id="valK" />
-                                        </div>
-                                        <span asp-validation-for="valK2o" class="text-danger"></span>
+                                    <span asp-validation-for="valP2o5" class="text-danger"></span>
+                                </div>
+                                <div class="Cell2">
+                                    <div class="input-group col-sm-12">
+                                        <input class="form-control col-sm-12" asp-for="valK2o" type="text" id="valK" />
                                     </div>
+                                    <span asp-validation-for="valK2o" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
-                        @Html.HiddenFor(x => x.selFertOption)
-                    }
-                    else
-                    {
-                        <div class="form-group col-sm-4">
-                            <label asp-for="selFertOption">Fertilizer</label>
-                            <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions, "Id", "Value"))" id="ddlFert">
-                                <option>select</option>
-                            </select>
-                            <span asp-validation-for="selFertOption" class="text-danger"></span>
-                        </div>
-                    }
+                    </div>
+                    @Html.HiddenFor(x => x.selFertOption)
+            }
+            else
+            {
+                <div class="form-group col-sm-4">
+                    <label asp-for="selFertOption">Fertilizer</label>
+                    <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions, "Id", "Value"))" id="ddlFert">
+                        <option>select</option>
+                    </select>
+                    <span asp-validation-for="selFertOption" class="text-danger"></span>
+                </div>
+        }
                     <div class="form-group col-sm-2">
                         <label asp-for="selFertOption"> Application Rate</label>
                         <input class="form-control" asp-for="applRate" id="rate" type="text" />
@@ -100,31 +100,30 @@
                         <span asp-validation-for="applDate" class="text-danger"></span>
                     </div>
                     @if (Model.fertilizerType == "liquid")
-                    {
-                        <div class="form-group col-sm-2">
-                            &nbsp;
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <label>Density</label>
-                            <div class="input-group">
-                                <input class="form-control" asp-for="density" id="density" type="text" />
-                                @if (!Model.stdDensity)
-                                {
-                                    <span class="input-group-btn" title="Reset to standard value">
-                                        <button class="btn btn-default" type="button" id="rstDensity" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                                    </span>
-                                }
-                            </div>
-                            <span asp-validation-for="density" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-sm-2">
-                            <label>Density Units</label>
-                            <select class="form-control" asp-for="selDenOption" asp-items="@(new SelectList(Model.denOptions,"Id","Value"))" id="ddlDensity">
-                            </select>
-                            <span asp-validation-for="selDenOption" class="text-danger"></span>
-                        </div>
-
+                {
+                    <div class="form-group col-sm-2">
+                        &nbsp;
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label>Density</label>
+                        <div class="input-group">
+                            <input class="form-control" asp-for="density" id="density" type="text" />
+                            @if (!Model.stdDensity)
+                        {
+                            <span class="input-group-btn" title="Reset to standard value">
+                                <button class="btn btn-default" type="button" id="rstDensity" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                            </span>
                     }
+                        </div>
+                        <span asp-validation-for="density" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label>Density Units</label>
+                        <select class="form-control" asp-for="selDenOption" asp-items="@(new SelectList(Model.denOptions,"Id","Value"))" id="ddlDensity"></select>
+                        <span asp-validation-for="selDenOption" class="text-danger"></span>
+                    </div>
+
+            }
                 </div>
                 <div style="clear:both"></div>
                 @*else
@@ -208,25 +207,25 @@
                             </div>
                         </div>
                         <div class="Row">
-                            <div class="Cell" style="text-align:center">
+                            <div class="Cell2" style="text-align:center">
                                 @if (!string.IsNullOrEmpty(Model.totNIcon))
-                                {
-                                    <img src="~/images/@(Model.totNIcon).svg" />
-                                }
+                            {
+                                <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText"/>
+                        }
                                 @Model.totN
                             </div>
-                            <div class="Cell" style="text-align:center">
+                            <div class="Cell2" style="text-align:center">
                                 @if (!string.IsNullOrEmpty(Model.totPIcon))
-                                {
-                                    <img src="~/images/@(Model.totPIcon).svg" />
-                                }
+                            {
+                                <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
+                        }
                                 @Model.totP2o5
                             </div>
-                            <div class="Cell" style="text-align:center">
+                            <div class="Cell2" style="text-align:center">
                                 @if (!string.IsNullOrEmpty(Model.totKIcon))
-                                {
-                                    <img src="~/images/@(Model.totKIcon).svg" />
-                                }
+                            {
+                                <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
+                        }
                                 @Model.totK2o
                             </div>
                         </div>
@@ -254,10 +253,13 @@
         @Html.HiddenFor(x => x.stdDensity)
         @Html.HiddenFor(x => x.totK2o)
         @Html.HiddenFor(x => x.totKIcon)
+        @Html.HiddenFor(x => x.totKIconText)
         @Html.HiddenFor(x => x.totN)
         @Html.HiddenFor(x => x.totNIcon)
+        @Html.HiddenFor(x => x.totNIconText)
         @Html.HiddenFor(x => x.totP2o5)
         @Html.HiddenFor(x => x.totPIcon)
+        @Html.HiddenFor(x => x.totPIconText)
     </form>
 </div>
 <script>
