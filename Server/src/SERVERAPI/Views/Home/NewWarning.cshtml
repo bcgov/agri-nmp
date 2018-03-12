@@ -19,10 +19,12 @@
             <br />
         </div>
         <div class="modal-footer">
-            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-primary" type="button" value="Save Changes" onclick="location.href='@Url.Action("Download", "Home")'" />
+            <div style="display:inline-block">
+                <button id="canBtn" class="btn" type="button" data-dismiss="modal">Cancel</button>
+                <input id="download" class="btn btn-primary" type="button" value="Download file" onclick="location.href='@Url.Action("Download", "Home")';this.style.display = 'none';document.getElementById('canBtn').style.display = 'none';" />
+            </div>
             <input class="btn btn-primary" type="submit" value="Continue" />
         </div>
         @Html.HiddenFor(x => x.msg)
-  </form>
+    </form>
 </div>
