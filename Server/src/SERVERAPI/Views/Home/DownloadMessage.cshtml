@@ -1,9 +1,9 @@
 ﻿@model SERVERAPI.ViewModels.DownLoadViewModel
 
 @{
-    Layout = null;
+    Layout = "_LayoutBare";
 }
-@{ 
+@{
     var i = 0;
 }
 <div id="target">
@@ -14,9 +14,9 @@
 
     <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="FileLoad">
         <div class="modal-body">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
                 <!-- Indicators -->
-                
+
                 <ol class="carousel-indicators">
                     @foreach (var img in Model.images)
                     {
@@ -35,7 +35,7 @@
                             @{i = i + 1;
                             }
                         </div>
-                        if(Model.browserName == "Unknown")
+                        if (Model.browserName == "Unknown")
                         {
                             <p>@Html.Raw(Model.browserAgent)</p>
 
@@ -58,3 +58,14 @@
         </div>
     </form>
 </div>
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myCarousel').carousel({
+                interval: 3000,
+                cycle: true
+            });
+        });
+    </script>
+ }
