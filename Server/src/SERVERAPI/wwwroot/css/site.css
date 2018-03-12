@@ -178,3 +178,6 @@ body.loading {
     cursor: pointer;
     background: rgba(255,255,255,0.8) url('../images/ajax-loader.gif') no-repeat center center;
 }
+.hideElement {
+    display: none;
+}
