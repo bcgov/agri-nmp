@@ -9021,7 +9021,7 @@
           {
             "id": "14",
             "name": "reportdownload",
-            "text": "<ul><li>Continue later</li><li>Save data for next year</li><li>Save data to send to someone else</li></ul>"
+            "text": "<div style='text-align: center; width: 300px'><p>Save your work to a local drive</p><p>Load the file from the homepage to return to your calculations at any time</p><p><a href='#' data_modalI='' data-type='{0}'>more info on using the NMP data file</a></p></div>"
           },
           {
             "id": "15",
