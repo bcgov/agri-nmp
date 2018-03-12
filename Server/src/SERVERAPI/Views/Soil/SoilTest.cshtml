@@ -17,21 +17,8 @@
 
 <div class="header-height"></div>
 
-<div class="step-header">
-    <div class="container">
-        <div class="col-sm-9">
-        </div>
-        <div class="col-sm-3" style="text-align:right">
-            <p style="margin:0px">Need to continue later?</p>
-            <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
-            &nbsp;
-            <div style="display:inline;margin-top:7px">
-                <a href="#" data_modalI="" data-type="@Url.Action("DownloadMessage", "Home")"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of downloading" style="font-size:20px"></span></a>
-            </div>
-        </div>
-    </div>
-</div>
-
+<br />
+<br />
 
 <div class="container">
     <div class="step-forms col-sm-12">
@@ -92,12 +79,12 @@
                     <div class="form-box-fields">
                         <div class="row">
                             <div class="col-sm-12">
-                            @if (Model.testSelected)
-                            {
-                                <div id="test">
-                                    @await Component.InvokeAsync("SoilTests")
-                                </div>
-                            }
+                                @if (Model.testSelected)
+                                {
+                                    <div id="test">
+                                        @await Component.InvokeAsync("SoilTests")
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>

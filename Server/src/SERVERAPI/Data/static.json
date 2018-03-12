@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.842"
+        "staticDataVersion": "2018.843"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9059,7 +9059,7 @@
           {
             "id": "10",
             "name": "nonutrientitems",
-            "text": "<p>Add a Crop to Start Calculations</p><h1>Guide to Interpreting Calculations</h1><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Good</span></div><div style='padding-top:10px'><img src='../images/warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirement not met OR nutrient application can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce N or P2O5 application</span></div>"
+            "text": "<p>Add a Crop to Start Calculations</p><h1>Guide to Interpreting Calculations</h1><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Good</span></div><div style='padding-top:10px'><img src='../images/dollar warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirement not met OR nutrient application can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce N or P2O5 application</span></div>"
           },
           {
             "id": "11",
@@ -9079,7 +9079,7 @@
           {
             "id": "14",
             "name": "reportdownload",
-            "text": "<ul><li>Continue later</li><li>Save data for next year</li><li>Save data to send to someone else</li></ul>"
+            "text": "<div style='text-align: center; width: 300px'><p>Save your work to a local drive</p><p>Load the file from the homepage to return to your calculations at any time</p><p><a href='#' data_modalI='' data-type='{0}'>more info on using the NMP data file</a></p></div>"
           },
           {
             "id": "15",
@@ -9140,6 +9140,16 @@
             "id": "26",
             "name": "defaultsoiltest",
             "text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<br /> Crop P and K requirements will be 0 on fields without a soil test."
+          },
+          {
+            "id": "27",
+            "name": "missingregion",
+            "text": "Before adding a field you must specify a region under Farm Information."
+          },
+          {
+            "id": "28",
+            "name": "othernutrientplaceholder",
+            "text": "e.g. irrigation water"
           }
         ]
       },
@@ -9167,7 +9177,7 @@
             "id": "3",
             "text": "Add {0} lb N/ac to meet crop requirements",
             "displayMessage": "Yes",
-            "icon": "warning",
+            "icon": "dollar warning",
             "balanceType": "AgrN",
             "balance_low": "-99999",
             "balance_high": "-6"
@@ -9176,7 +9186,7 @@
             "id": "4",
             "text": "Crop requirement for P2O5 is met, application can be reduced by {0} lb/ac",
             "displayMessage": "Yes",
-            "icon": "warning",
+            "icon": "dollar warning",
             "balanceType": "AgrP2O5",
             "balance_low": "15",
             "balance_high": "99999"
@@ -9194,7 +9204,7 @@
             "id": "6",
             "text": "Add {0} lb P2O5/ac to meet crop requirements",
             "displayMessage": "Yes",
-            "icon": "warning",
+            "icon": "dollar warning",
             "balanceType": "AgrP2O5",
             "balance_low": "-99999",
             "balance_high": "-6"
@@ -9203,7 +9213,7 @@
             "id": "7",
             "text": "Crop requirement for K2O is met, application can be reduced by {0} lb/ac",
             "displayMessage": "Yes",
-            "icon": "warning",
+            "icon": "dollar warning",
             "balanceType": "AgrK2O",
             "balance_low": "15",
             "balance_high": "99999"
@@ -9221,7 +9231,7 @@
             "id": "9",
             "text": "Add {0} lb K2O/ac to meet crop requirements",
             "displayMessage": "Yes",
-            "icon": "warning",
+            "icon": "dollar warning",
             "balanceType": "AgrK2O",
             "balance_low": "-99999",
             "balance_high": "-6"

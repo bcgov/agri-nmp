@@ -14,11 +14,13 @@ namespace SERVERAPI.ViewComponents
     {
         private IHostingEnvironment _env;
         private UserData _ud;
+        private Models.Impl.StaticData _sd;
 
-        public Fields(IHostingEnvironment env, UserData ud)
+        public Fields(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
         {
             _env = env;
             _ud = ud;
+            _sd = sd;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -29,6 +31,18 @@ namespace SERVERAPI.ViewComponents
         private Task<FieldsViewModel> GetFieldsAsync()
         {
             FieldsViewModel fvm = new FieldsViewModel();
+            FarmDetails fd = _ud.FarmDetails();
+
+            if(fd.farmRegion.HasValue)
+            {
+                fvm.regionFnd = true;
+            }
+            else
+            {
+                fvm.regionFnd = false;
+                fvm.noRegion = _sd.GetUserPrompt("missingregion");
+            }
+
             fvm.fields = new List<Field>();
 
             List<Field> fldList = _ud.GetFields();
@@ -48,6 +62,8 @@ namespace SERVERAPI.ViewComponents
 
     public class FieldsViewModel
     {
+        public bool regionFnd { get; set; }
+        public string noRegion { get; set; }
         public List<Field> fields { get; set; }
     }
 }

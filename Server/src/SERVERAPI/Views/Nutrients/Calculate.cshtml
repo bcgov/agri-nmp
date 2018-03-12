@@ -17,20 +17,8 @@
 
 <div class="header-height"></div>
 
-<div class="step-header">
-    <div class="container">
-        <div class="col-sm-9">
-        </div>
-        <div class="col-sm-3" style="text-align:right">
-            <p style="margin:0px">Need to continue later?</p>
-            <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
-            &nbsp;
-            <div style="display:inline;margin-top:7px">
-                <a href="#" data_modalI="" data-type="@Url.Action("DownloadMessage", "Home")"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of downloading" style="font-size:20px"></span></a>
-            </div>
-        </div>
-    </div>
-</div>
+<br />
+<br />
 
 <div id="overlay" style="display: none;"></div>
 <div class="container">
@@ -45,9 +33,13 @@
                     </div>
                 }
 
-                <button class="btn btn-default" type="button" style="width:90px" data_modal2="" data-type="@Url.Action("FieldDetail", "Fields", new { target = "#fieldList", cntl = "Nutrients", actn = "Calculate", currFld = Model.currFld })">Add field</button>
-                @if(Model.fldsFnd > 1 &&
-                    Model.itemsPresent)
+                @if (Model.regionFnd)
+                {
+                    <button class="btn btn-default" type="button" style="width:90px" data_modal2="" data-type="@Url.Action("FieldDetail", "Fields", new { target = "#fieldList", cntl = "Nutrients", actn = "Calculate", currFld = Model.currFld })">Add field</button>
+                }
+
+                @if (Model.fldsFnd > 1 &&
+                   Model.itemsPresent)
                 {
                     <div>&nbsp;</div>
                     <button class="btn btn-default" type="button" style="width:90px" data_modal3="" data-type="@Url.Action("FieldCopy", "Fields", new { currFld = Model.currFld })">Copy field</button>
@@ -57,77 +49,77 @@
                 <div id="scrContents">
                     @if (Model.fldsFnd > 0)
                     {
-                <div class="form-box">
-                    <div class="form-box-header clearfix">
-                        <span>
-                            <button class="btn btn-success" data_modal="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
-                        </span>
-                        <span style="float:right;">
-                            <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
-                            <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertilizerDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertilizer</button>
-                            <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("OtherDetails", "Nutrients", new { fldName = Model.currFld })">Add Other</button>
-                        </span>
-                    </div>
-                </div>
+                        <div class="form-box">
+                            <div class="form-box-header clearfix">
+                                <span>
+                                    <button class="btn btn-success" data_modal="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
+                                </span>
+                                <span style="float:right;">
+                                    <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
+                                    <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertilizerDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertilizer</button>
+                                    <button class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("OtherDetails", "Nutrients", new { fldName = Model.currFld })">Add Other</button>
+                                </span>
+                            </div>
+                        </div>
                     }
                     else
                     {
-                <div class="form-box">
-                    <div class="form-box-header clearfix">
-                        <h3>To add nutrients please add a field first</h3>
-                    </div>
-                </div>
+                        <div class="form-box">
+                            <div class="form-box-header clearfix">
+                                <h3>To add nutrients please add a field first</h3>
+                            </div>
+                        </div>
                     }
                     @if (Model.itemsPresent)
                     {
-                <div class="form-box">
-                    <div class="panel-group">
-                        <div class="Table">
-                            <div class="TableBody" id="heading">
-                                @await Component.InvokeAsync("CalcHeading", new { fldName = Model.currFld })
+                        <div class="form-box">
+                            <div class="panel-group">
+                                <div class="Table">
+                                    <div class="TableBody" id="heading">
+                                        @await Component.InvokeAsync("CalcHeading", new { fldName = Model.currFld })
+                                    </div>
+                                    @if (Model.currFld != null)
+                                    {
+                                        <div class="TableBody" id="crop">
+                                            @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
+                                        </div>
+                                        <div class="TableBody" id="manure">
+                                            @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
+                                        </div>
+                                        <div class="TableBody" id="fertilizer">
+                                            @await Component.InvokeAsync("CalcFertilizer", new { fldName = Model.currFld })
+                                        </div>
+                                        <div class="TableBody" id="other">
+                                            @await Component.InvokeAsync("CalcOther", new { fldName = Model.currFld })
+                                        </div>
+                                        <div class="TableBody" id="prevYearManure">
+                                            @await Component.InvokeAsync("CalcPrevYearManure", new { fldName = Model.currFld })
+                                        </div>
+                                        <div class="TableBody" id="soilTestNitrogenCredit">
+                                            @await Component.InvokeAsync("SoilTestNitrateOverride", new { fldName = Model.currFld })
+                                        </div>
+                                        <div class="TableBody" id="summary">
+                                            @await Component.InvokeAsync("CalcSummary", new { fldName = Model.currFld })
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                            @if (Model.currFld != null)
-                    {
-                <div class="TableBody" id="crop">
-                    @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
-                </div>
-                <div class="TableBody" id="manure">
-                    @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
-                </div>
-                <div class="TableBody" id="fertilizer">
-                    @await Component.InvokeAsync("CalcFertilizer", new { fldName = Model.currFld })
-                </div>
-                <div class="TableBody" id="other">
-                    @await Component.InvokeAsync("CalcOther", new { fldName = Model.currFld })
-                </div>
-                <div class="TableBody" id="prevYearManure">
-                    @await Component.InvokeAsync("CalcPrevYearManure", new { fldName = Model.currFld })
-                </div>
-                <div class="TableBody" id="soilTestNitrogenCredit">
-                    @await Component.InvokeAsync("SoilTestNitrateOverride", new { fldName = Model.currFld })
-                </div>
-                <div class="TableBody" id="summary">
-                    @await Component.InvokeAsync("CalcSummary", new { fldName = Model.currFld })
-                </div>
-                    }
                         </div>
-                    </div>
-                </div>
-                }
-                else
-                {
-                <div class="form-box">
-                    <div class="form-box-header clearfix">
-                        @Html.Raw(Model.noData)
-                    </div>
-                </div>
-}
+                    }
+                    else
+                    {
+                        <div class="form-box">
+                            <div class="form-box-header clearfix">
+                                @Html.Raw(Model.noData)
+                            </div>
+                        </div>
+                    }
                     @if (Model.currFld != null)
-    {
-                <div class="form-box" id="message">
-                    @await Component.InvokeAsync("CalcMessages", new { fldName = Model.currFld })
-                </div>
-}
+                    {
+                        <div class="form-box" id="message">
+                            @await Component.InvokeAsync("CalcMessages", new { fldName = Model.currFld })
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -137,7 +129,7 @@
             <br />
             <div class="form-box-submit">
                 <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Manure", "Manure" )';" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next"  onclick="window.location.href='@Url.Action("Report", "Report" )';" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Report", "Report" )';" />
             </div>
             @Html.HiddenFor(x => x.fldsFnd)
             @Html.HiddenFor(x => x.currFld)
@@ -147,7 +139,7 @@
     </div>
 </div>
 @section Scripts {
-<script type="text/javascript">
+    <script type="text/javascript">
     //
     // data_modal  -> uses large format modal popup
     // data_modal2 -> uses small format modal popup and refreshes the entire screen when done
@@ -638,6 +630,6 @@
             return false;
         });
     }
-</script>
+    </script>
 
 }

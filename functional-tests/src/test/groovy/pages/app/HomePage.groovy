@@ -4,6 +4,6 @@ import geb.Page
 
 class HomePage extends Page {
 
-    static at = { title=="Welcome" }
+    static at = { title=="Nutrient Management Calculator" }
     static url = ""
 }

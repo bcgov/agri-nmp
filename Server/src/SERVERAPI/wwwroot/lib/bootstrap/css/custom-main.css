@@ -630,7 +630,11 @@ label {
   margin: 0 auto;
   padding: 0 15px;
 }
-
+.wrapper-large {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
 .wizard {
   padding: 37px 0;
   border-bottom: 1px solid #ccc;
@@ -643,7 +647,7 @@ label {
 
 .wizard-item {
   float: left;
-  width: 16.667%;
+  width: 14.286%;
   position: relative;
 }
 
@@ -657,9 +661,11 @@ label {
   background: #959595;
   z-index: 1;
 }
-
-.wizard-item:first-child:before {
-  display: none;
+    .wizard-item:first-child:before {
+        display: none;
+    }
+.wizard-item:nth-child(2):before {
+    display: none;
 }
 
 .wizard-circle {
@@ -977,8 +983,8 @@ label {
 }
 
 .gov-slim-alert-danger {
-    color: #a94442;
-    background-color: #f2dede;
+    color: black;
+    background-color: white;
     border-color: #c81212;
 }
 

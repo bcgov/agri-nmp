@@ -328,6 +328,7 @@ namespace SERVERAPI.ViewModels
     }
     public class CalculateViewModel
     {
+        public bool regionFnd { get; set; }
         public int fldsFnd { get; set; }
         public string currFld { get; set; }
         public bool itemsPresent { get; set; }
@@ -569,25 +570,20 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         public string source { get; set; }
         [Display(Name = "N")]
-        [Required(ErrorMessage = "Required")]
         public string yrN { get; set; }
         [Display(Name = "P2O5")]
-        [Required(ErrorMessage = "Required")]
         public string yrP { get; set; }
         [Display(Name = "K2O")]
-        [Required(ErrorMessage = "Required")]
         public string yrK { get; set; }
         [Display(Name = "N")]
-        [Required(ErrorMessage = "Required")]
         public string ltN { get; set; }
         [Display(Name = "P2O5")]
-        [Required(ErrorMessage = "Required")]
         public string ltP { get; set; }
         [Display(Name = "K2O")]
-        [Required(ErrorMessage = "Required")]
         public string ltK { get; set; }
         public string url { get; set; }
         public string urlText { get; set; }
+        public string placehldr { get; set; }
     }
     public class InfoAgriViewModel
     {

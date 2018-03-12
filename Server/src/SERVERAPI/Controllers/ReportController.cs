@@ -82,7 +82,7 @@ namespace SERVERAPI.Controllers
                 rvm.noCropsMsg = _sd.GetUserPrompt("nocropmessage");
             }
 
-            rvm.downloadMsg = _sd.GetUserPrompt("reportdownload");
+            rvm.downloadMsg = string.Format(_sd.GetUserPrompt("reportdownload"), Url.Action("DownloadMessage", "Home"));
             rvm.loadMsg = _sd.GetUserPrompt("reportload");
 
             return View(rvm);
@@ -999,10 +999,10 @@ namespace SERVERAPI.Controllers
             options.border.bottom = ".25in";
             options.border.left = ".25in";
             options.header.height = "20mm";
-            options.header.contents = "<div><span style=\"font-size:14px\">Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
-                                      "Planning Year: " + _ud.FarmDetails().year + "</span></div><div style=\"float:right; vertical-align:top\">Printed: " + DateTime.Now.ToShortDateString() + "</div>";
+            options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
+                                      "Planning Year: " + _ud.FarmDetails().year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
             options.footer.height = "15mm";
-            options.footer.contents = "<div><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
+            options.footer.contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
 
             // call the microservice
             try
