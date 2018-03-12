@@ -1344,17 +1344,20 @@ namespace SERVERAPI.Controllers
                     cvm.buttonPressed = "";
                     cvm.btnText = "Calculate";
 
-                    Crop crop = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
+                    if (Convert.ToInt32(cvm.selCropOption) > 0)
+                    {
+                        Crop crop = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
 
-                    if (cvm.selHarvestUnits == _sd.GetHarvestYieldDefaultUnit().ToString())
-                    {
-                        if (crop.harvestBushelsPerTon.HasValue)
-                            cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) / Convert.ToDecimal(crop.harvestBushelsPerTon)).ToString("#.##");
-                    }
-                    else
-                    {
-                        if (crop.harvestBushelsPerTon.HasValue)
-                            cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) * Convert.ToDecimal(crop.harvestBushelsPerTon)).ToString("#.##");
+                        if (cvm.selHarvestUnits == _sd.GetHarvestYieldDefaultUnit().ToString())
+                        {
+                            if (crop.harvestBushelsPerTon.HasValue)
+                                cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) / Convert.ToDecimal(crop.harvestBushelsPerTon)).ToString("#.##");
+                        }
+                        else
+                        {
+                            if (crop.harvestBushelsPerTon.HasValue)
+                                cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) * Convert.ToDecimal(crop.harvestBushelsPerTon)).ToString("#.##");
+                        }
                     }
                     return View(cvm);
                 }
