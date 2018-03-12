@@ -9057,11 +9057,6 @@
             "text": "Previous crop ploughed down (N credit)"
           },
           {
-            "id": "10",
-            "name": "nonutrientitems",
-            "text": "<p>Add a Crop to Start Calculations</p><h1>Guide to Interpreting Calculations</h1><div style='padding-top:10px'><img src='../images/good.svg' height='30' width='30' /><span style='margin-left:30px'>Good</span></div><div style='padding-top:10px'><img src='../images/dollar warning.svg' height='30' width='30' /><span style='margin-left:30px'>Crop requirement not met OR nutrient application can be reduced</span></div><div style='padding-top:10px'><img src='../images/stop.svg' height='30' width='30' /><span style='margin-left:30px'>Reduce N or P2O5 application</span></div>"
-          },
-          {
             "id": "11",
             "name": "soiltestwarning",
             "text": "Do you have soil tests from within the past 3 years?<p /><ul><li>Yes - Select the lab used (soil test methods)</li><li>No - Click Next</li></ul>"
