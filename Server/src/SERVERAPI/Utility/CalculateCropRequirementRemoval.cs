@@ -195,7 +195,7 @@ namespace SERVERAPI.Utility
             return cp;
         }
 
-        public decimal? GetDefaultYieldByCropId(int _cropid)
+        public decimal? GetDefaultYieldByCropId(int _cropid, bool useBushelPerAcreUnits)
         {
             decimal? defaultYield = null;
             int _locationid;
@@ -204,8 +204,14 @@ namespace SERVERAPI.Utility
                 _locationid = _sd.GetRegion(_ud.FarmDetails().farmRegion.Value).locationid;
                 CropYield cy = _sd.GetCropYield(_cropid, _locationid);
                 if (cy.amt.HasValue)
-                    defaultYield = cy.amt.Value;
-
+                        defaultYield = cy.amt.Value;
+                if (useBushelPerAcreUnits && defaultYield.HasValue)
+                {
+                    //E07US18 - convert to bushels per acre
+                    Crop crop = _sd.GetCrop(_cropid);
+                    if  (crop.harvestBushelsPerTon.HasValue) 
+                        defaultYield = defaultYield * crop.harvestBushelsPerTon;
+                }
             }            
 
             return defaultYield;

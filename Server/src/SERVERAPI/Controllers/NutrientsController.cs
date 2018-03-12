@@ -1063,19 +1063,36 @@ namespace SERVERAPI.Controllers
                 cvm.remN = cp.remN.ToString();
                 cvm.remP2o5 = cp.remP2o5.ToString();
                 cvm.remK2o = cp.remK2o.ToString();
-                cvm.yield = cp.yield.ToString("#.#");
+                
                 cvm.crude = cp.crudeProtien.ToString();
                 cvm.selCropOption = cp.cropId;
                 cvm.selPrevOption = cp.prevCropId.ToString();
                 cvm.coverCropHarvested = cp.coverCropHarvested;
                 cvm.nCredit = cvm.selPrevOption != "0" ? _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).nCreditImperial.ToString() : "0";
+                //E07US18 
+                cvm.showHarvestUnitsDDL = false; 
+
+                if (!cp.yieldHarvestUnit.HasValue)
+                {   // retrofit old version of data
+                    cp.yieldHarvestUnit = _sd.GetHarvestYieldDefaultUnit();
+                    cvm.selHarvestUnits = cp.yieldHarvestUnit.ToString();
+                    cp.yieldByHarvestUnit = cp.yield; // retrofit old version of data
+                    cvm.yield = cp.yield.ToString();
+                    cvm.yieldByHarvestUnit = cp.yieldByHarvestUnit.ToString("#.##");
+                }
+                else
+                {
+                    cvm.selHarvestUnits = cp.yieldHarvestUnit.ToString();
+                    cvm.yieldByHarvestUnit = cp.yieldByHarvestUnit.ToString("#.##");
+                    cvm.yield = cp.yield.ToString("#.##");
+                }
 
                 CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
-                decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), cp.yieldHarvestUnit != _sd.GetHarvestYieldDefaultUnit());
                 cvm.stdYield = true;
                 if (defaultYield.HasValue)
-                {
-                    if (cvm.yield != defaultYield.Value.ToString("#.#"))
+                {   // E07US18 
+                    if (cvm.yieldByHarvestUnit != defaultYield.Value.ToString("#.##"))
                     {
                         cvm.stdYield = false;
                     }
@@ -1095,6 +1112,8 @@ namespace SERVERAPI.Controllers
                     Yield yld = _sd.GetYield(crop.yieldcd);
                     cvm.yieldUnit = "(" + yld.yielddesc + ")";
                     cvm.selTypOption = crop.croptypeid.ToString();
+                    //E07US18
+                    cvm.showHarvestUnitsDDL = _sd.IsCropGrainsAndOilseeds(Convert.ToInt16(crop.croptypeid));
 
                     CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
                     if (crpTyp.modifynitrogen)
@@ -1105,7 +1124,12 @@ namespace SERVERAPI.Controllers
                         CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
 
                         calculateCropRequirementRemoval.cropid = Convert.ToInt16(cvm.selCropOption);
-                        calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yield);
+
+                        // E07US18 - need to convert cvm.yield before assigning to caclculateCropRequirement
+                        if (cvm.showHarvestUnitsDDL && (cp.yieldHarvestUnit != _sd.GetHarvestYieldDefaultUnit() ) )
+                            calculateCropRequirementRemoval.yield  = _sd.ConvertYieldFromBushelToTonsPerAcre(Convert.ToInt16(cvm.selCropOption), Convert.ToDecimal(cvm.yieldByHarvestUnit));
+                        else 
+                            calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yieldByHarvestUnit);
                         if (string.IsNullOrEmpty(cvm.crude))
                             calculateCropRequirementRemoval.crudeProtien = null;
                         else
@@ -1165,6 +1189,7 @@ namespace SERVERAPI.Controllers
                     cvm.nCredit = "0";
                     cvm.stdYield = true;
                     cvm.yield = "";
+                    cvm.yieldByHarvestUnit = "";
                     cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
 
                     if (cvm.selTypOption != "select")
@@ -1180,9 +1205,14 @@ namespace SERVERAPI.Controllers
                             cvm.remN = string.Empty;
                             cvm.remP2o5 = string.Empty;
                             cvm.remK2o = string.Empty;
+                            cvm.showHarvestUnitsDDL = false;
                         }
                         else
                         {
+                            if (_sd.IsCropGrainsAndOilseeds(crpTyp.id))
+                                cvm.showHarvestUnitsDDL = true;
+                            else
+                                cvm.showHarvestUnitsDDL = false;
                             cvm.manEntry = false;
                             CropDetailsReset(ref cvm);
                         }
@@ -1190,6 +1220,7 @@ namespace SERVERAPI.Controllers
                     else
                     {
                         cvm.manEntry = false;
+                        cvm.showHarvestUnitsDDL = false;
                         CropDetailsReset(ref cvm);
                     }
                     return View(cvm);
@@ -1245,9 +1276,14 @@ namespace SERVERAPI.Controllers
                     cvm.btnText = "Calculate";
 
                     CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
-                    decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                    decimal? defaultYield;
+                    // E07US18 - convert defaultYield to bu/ac if required
+                    if (cvm.showHarvestUnitsDDL)
+                        defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), cvm.selHarvestUnits != _sd.GetHarvestYieldDefaultUnit().ToString());
+                    else
+                        defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), false);
                     if (defaultYield.HasValue)
-                        cvm.yield = defaultYield.Value.ToString("#.#");
+                        cvm.yieldByHarvestUnit = defaultYield.Value.ToString("#.##");
 
                     cvm.reqN = cvm.stdNAmt;
 
@@ -1274,7 +1310,11 @@ namespace SERVERAPI.Controllers
                         Yield yld = _sd.GetYield(cp.yieldcd);
 
                         cvm.yieldUnit = "(" + yld.yielddesc + ")";
-
+                        // E07US18
+                        if (cvm.showHarvestUnitsDDL)
+                        {
+                            cvm.harvestUnitsOptions = _sd.GetCropHarvestUnitsDll();
+                        }
                         if (cvm.showCrude)
                         {
                             cvm.crude = calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
@@ -1282,12 +1322,40 @@ namespace SERVERAPI.Controllers
                         }
 
                         CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
-                        decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                        decimal? defaultYield;
+                        // E07US18
+                        if (cvm.showHarvestUnitsDDL)
+                            defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), cvm.selHarvestUnits != _sd.GetHarvestYieldDefaultUnit().ToString());
+                        else
+                            defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), false); 
+                       
                         if (defaultYield.HasValue)
-                            cvm.yield = defaultYield.Value.ToString("#.#");
+                            cvm.yieldByHarvestUnit = defaultYield.Value.ToString("#.##");
+
                     }
                     cvm.selPrevOption = string.Empty;
 
+                    return View(cvm);
+                }
+
+                if (cvm.buttonPressed == "HarvestUnitChange")
+                {
+                    ModelState.Clear();
+                    cvm.buttonPressed = "";
+                    cvm.btnText = "Calculate";
+
+                    Crop crop = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
+
+                    if (cvm.selHarvestUnits == _sd.GetHarvestYieldDefaultUnit().ToString())
+                    {
+                        if (crop.harvestBushelsPerTon.HasValue)
+                            cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) / Convert.ToDecimal(crop.harvestBushelsPerTon)).ToString("#.##");
+                    }
+                    else
+                    {
+                        if (crop.harvestBushelsPerTon.HasValue)
+                            cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) * Convert.ToDecimal(crop.harvestBushelsPerTon)).ToString("#.##");
+                    }
                     return View(cvm);
                 }
 
@@ -1321,18 +1389,18 @@ namespace SERVERAPI.Controllers
                     }
 
                     decimal tmpDec;
-                    if (decimal.TryParse(cvm.yield, out tmpDec))
+                    if (decimal.TryParse(cvm.yieldByHarvestUnit, out tmpDec))
                     {
                         if (tmpDec <= 0 ||
                             tmpDec > 99999)
                         {
-                            ModelState.AddModelError("yield", "Not a valid yield.");
+                            ModelState.AddModelError("yieldByHarvestUnit", "Not a valid yield.");
                             return View(cvm);
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError("yield", "Not a valid number.");
+                        ModelState.AddModelError("yieldByHarvestUnit", "Not a valid number.");
                         return View(cvm);
                     }
 
@@ -1512,7 +1580,17 @@ namespace SERVERAPI.Controllers
                             CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
 
                             calculateCropRequirementRemoval.cropid = Convert.ToInt16(cvm.selCropOption);
-                            calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yield);
+                            // E07US18 - need to convert cvm.yield to tons/acre before passing to calculateCrop
+                            if (cvm.showHarvestUnitsDDL && !_sd.IsCropHarvestYieldDefaultUnit(Convert.ToInt16(cvm.selHarvestUnits)))
+                            {
+                                calculateCropRequirementRemoval.yield = _sd.ConvertYieldFromBushelToTonsPerAcre(Convert.ToInt16(cvm.selCropOption), Convert.ToDecimal(cvm.yieldByHarvestUnit));
+                                cvm.yield = calculateCropRequirementRemoval.yield.ToString();
+                            }
+                            else
+                            {
+                                calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yieldByHarvestUnit);
+                                cvm.yield = calculateCropRequirementRemoval.yield.ToString();
+                            }
                             if (cvm.crude == null)
                                 calculateCropRequirementRemoval.crudeProtien = null;
                             else
@@ -1557,11 +1635,15 @@ namespace SERVERAPI.Controllers
                             }
 
                             CalculateCropRequirementRemoval ccrr = new CalculateCropRequirementRemoval(_ud, _sd);
-                            decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption));
+                            decimal? defaultYield;
+                            if (cvm.showHarvestUnitsDDL)
+                                defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), cvm.selHarvestUnits != _sd.GetHarvestYieldDefaultUnit().ToString());
+                            else
+                                defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), false);
                             cvm.stdYield = true;
                             if (defaultYield.HasValue)
                             {
-                                if (cvm.yield != defaultYield.Value.ToString("#.#"))
+                                if (cvm.yieldByHarvestUnit != defaultYield.Value.ToString("#.##"))
                                 {
                                     cvm.stdYield = false;
                                 }
@@ -1582,12 +1664,13 @@ namespace SERVERAPI.Controllers
                             int thisCrop = 0;
                             if (cvm.selCropOption != "select")
                                 thisCrop = Convert.ToInt32(cvm.selCropOption);
-
+                            // E07US18 - convert cvm.yield
                             FieldCrop crp = new FieldCrop()
                             {
                                 cropId = thisCrop.ToString(),
                                 cropOther = cvm.cropDesc,
-                                yield = Convert.ToDecimal(cvm.yield),
+                                yield = Convert.ToDecimal(cvm.yieldByHarvestUnit),
+                                yieldByHarvestUnit =Convert.ToDecimal(cvm.yieldByHarvestUnit),
                                 reqN = Convert.ToDecimal(cvm.reqN),
                                 reqP2o5 = Convert.ToDecimal(cvm.reqP2o5),
                                 reqK2o = Convert.ToDecimal(cvm.reqK2o),
@@ -1597,9 +1680,11 @@ namespace SERVERAPI.Controllers
                                 crudeProtien = string.IsNullOrEmpty(cvm.crude) ? (decimal?)null : Convert.ToDecimal(cvm.crude),
                                 prevCropId = prevCrop,
                                 coverCropHarvested = cvm.coverCropHarvested,
-                                prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(thisCrop)
-
-                        };
+                                prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(thisCrop),
+                                yieldHarvestUnit = (cvm.showHarvestUnitsDDL) ? Convert.ToInt16(cvm.selHarvestUnits) : _sd.GetHarvestYieldDefaultUnit()
+                            };
+                            if (cvm.showHarvestUnitsDDL && (cvm.selHarvestUnits != _sd.GetHarvestYieldDefaultUnit().ToString()))
+                                crp.yield = _sd.ConvertYieldFromBushelToTonsPerAcre(Convert.ToInt16(crp.cropId), Convert.ToDecimal(cvm.yieldByHarvestUnit));
 
                             _ud.AddFieldCrop(cvm.fieldName, crp);
                         }
@@ -1616,7 +1701,13 @@ namespace SERVERAPI.Controllers
                             FieldCrop crp = _ud.GetFieldCrop(cvm.fieldName, cvm.id.Value);
                             crp.cropId = thisCrop.ToString();
                             crp.cropOther = cvm.cropDesc;
-                            crp.yield = Convert.ToDecimal(cvm.yield);
+                            //E07US18 - need to convert cvm.yield to TONS/acre before assigin to crp.yield
+                            crp.yieldByHarvestUnit = Convert.ToDecimal(cvm.yieldByHarvestUnit);
+                            if (cvm.showHarvestUnitsDDL && (cvm.selHarvestUnits != _sd.GetHarvestYieldDefaultUnit().ToString()))
+                                crp.yield = _sd.ConvertYieldFromBushelToTonsPerAcre(Convert.ToInt16(crp.cropId), Convert.ToDecimal(cvm.yieldByHarvestUnit));
+                            else
+                                crp.yield = crp.yieldByHarvestUnit;
+
                             crp.reqN = Convert.ToDecimal(cvm.reqN);
                             crp.reqP2o5 = Convert.ToDecimal(cvm.reqP2o5);
                             crp.reqK2o = Convert.ToDecimal(cvm.reqK2o);
@@ -1627,6 +1718,7 @@ namespace SERVERAPI.Controllers
                             crp.prevCropId = prevCrop;
                             crp.coverCropHarvested = cvm.coverCropHarvested;
                             crp.prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(Convert.ToInt32(crp.cropId));
+                            crp.yieldHarvestUnit = (cvm.showHarvestUnitsDDL) ? Convert.ToInt16(cvm.selHarvestUnits) : _sd.GetHarvestYieldDefaultUnit();
 
                             _ud.UpdateFieldCrop(cvm.fieldName, crp);
                         }
@@ -1648,10 +1740,12 @@ namespace SERVERAPI.Controllers
             cvm.typOptions = _sd.GetCropTypesDll().ToList();
 
             cvm.cropOptions = new List<Models.StaticData.SelectListItem>();
+            cvm.harvestUnitsOptions = new List<Models.StaticData.SelectListItem>();
             if (!string.IsNullOrEmpty(cvm.selTypOption) &&
                 cvm.selTypOption != "select")
             {
                 cvm.cropOptions = _sd.GetCropsDll(Convert.ToInt32(cvm.selTypOption)).ToList();
+                cvm.harvestUnitsOptions = _sd.GetCropHarvestUnitsDll().ToList();
 
                 if (cvm.selTypOption != "select")
                 {

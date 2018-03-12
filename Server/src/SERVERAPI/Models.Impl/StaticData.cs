@@ -16,6 +16,9 @@ namespace SERVERAPI.Models.Impl
         private const string MANURE_CLASS_COMPOST = "Compost";
         private const string MANURE_CLASS_COMPOST_BOOK = "Compost_Book";
         private const string MANURE_CLASS_OTHER = "Other";
+        private const int CROPTYPE_GRAINS_OILSEEDS_ID = 4;
+        private const int CROP_YIELD_DEFAULT_UNIT = 1; 
+
 
         private readonly IHttpContextAccessor _ctx;
         private JObject rss;
@@ -543,6 +546,7 @@ namespace SERVERAPI.Models.Impl
                 crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
                 crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
                 crop.sortNum = Convert.ToInt32(r["sortNum"].ToString());
+                crop.harvestBushelsPerTon = r["bushelsperton"].ToString() == "" ? (decimal?)null : Convert.ToDecimal(r["bushelsperton"].ToString());
 
                 crops.crops.Add(crop);
             }
@@ -602,6 +606,7 @@ namespace SERVERAPI.Models.Impl
             crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null" ? (decimal?)null : Convert.ToDecimal(r["n_high_lbperac"].ToString());
             crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
             crop.prevYearManureAppl_volCatCd = Convert.ToInt32(r["prevyearmanureappl_volcatcd"].ToString());
+            crop.harvestBushelsPerTon = r["bushelsperton"].ToString() == "" ? (decimal?)null : Convert.ToDecimal(r["bushelsperton"].ToString());
             return crop;
         }
 
@@ -1660,6 +1665,42 @@ namespace SERVERAPI.Models.Impl
                 }
             }
             return null;
+        }
+
+        public bool IsCropGrainsAndOilseeds(int cropType)
+        {
+            return (cropType == CROPTYPE_GRAINS_OILSEEDS_ID);
+        }
+
+        public List<Models.StaticData.SelectListItem> GetCropHarvestUnitsDll()
+        {
+            JArray fertTypes = (JArray)rss["agri"]["nmp"]["harvestunits"]["harvestunit"];
+
+            List<Models.StaticData.SelectListItem> harvestUnitsOptions = new List<Models.StaticData.SelectListItem>();
+            foreach (var r in fertTypes)
+            {
+                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = Convert.ToInt16(r["id"].ToString()), Value = r["name"].ToString() };
+                harvestUnitsOptions.Add(li);
+            }
+            return harvestUnitsOptions;
+        }
+
+        public bool IsCropHarvestYieldDefaultUnit(int selectedCropYieldUnit)
+        {
+            return (selectedCropYieldUnit == CROP_YIELD_DEFAULT_UNIT);
+        }
+
+        public int GetHarvestYieldDefaultUnit()
+        {
+            return CROP_YIELD_DEFAULT_UNIT;
+        }
+
+        public decimal ConvertYieldFromBushelToTonsPerAcre(int cropid, decimal yield)
+        {
+            Crop crop = GetCrop(cropid);
+            if (crop.harvestBushelsPerTon.HasValue)
+                return (yield / Convert.ToDecimal(crop.harvestBushelsPerTon));
+            return -1;  
         }
     }
 
