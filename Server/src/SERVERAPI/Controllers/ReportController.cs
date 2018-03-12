@@ -82,7 +82,7 @@ namespace SERVERAPI.Controllers
                 rvm.noCropsMsg = _sd.GetUserPrompt("nocropmessage");
             }
 
-            rvm.downloadMsg = _sd.GetUserPrompt("reportdownload");
+            rvm.downloadMsg = string.Format(_sd.GetUserPrompt("reportdownload"), Url.Action("DownloadMessage", "Home"));
             rvm.loadMsg = _sd.GetUserPrompt("reportload");
 
             return View(rvm);
