@@ -1,10 +1,9 @@
-﻿@model  SERVERAPI.ViewModels.IndexViewModel
+﻿@model SERVERAPI.ViewModels.IndexViewModel
 @{
     ViewBag.Title = "Nutrient Management Calculator";
     Layout = "_LayoutNoNav";
 }
 @inject IJsonHelper Json;
-
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
     <div class="modal-dialog">
@@ -131,77 +130,6 @@
                         </div>
                     </div>
                 </div>
-                @*<div style="width:100%; text-align:center">
-            <div style="display:inline-block">
-                <table class="rnd-table rnd-table-rounded" style="width:250px">
-                    <thead>
-                        <tr>
-                            <th style="border-radius: 10px 10px 0 0; text-align:center">Start a new plan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="height:200px">
-                            <td style="text-align:left; color:black">
-                                <p>With this option you can:</p>
-                                <ul>
-                                    <li>Begin planning</li>
-                                    <li>Start over</li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr style="text-align:center">
-                            <td>
-                                @if (Model.unsavedData)
-                                {
-                                    <button class="btn" style="background-color:olivedrab; color:white; font-weight:bold" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">New</button>
-                                }
-                                else
-                                {
-                                    <input class="btn" style="background-color:olivedrab; color:white; font-weight:bold" type="submit" value="New" name="new" />
-                                }
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                        </tr>
-                    </tbody>
-
-                </table>
-            </div>
-            <div style="width:50px; display:inline-block">
-                &nbsp;
-            </div>
-            <div style="display:inline-block">
-                <table class="rnd-table rnd-table-rounded" style="width:250px">
-                    <thead>
-                        <tr>
-                            <th style="border-radius: 10px 10px 0 0; text-align:center">Update my plan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="height:200px">
-                            <td style="text-align:left; color:black">
-                                <p>With this option you can:</p>
-                                <ul>
-                                    <li>Pick up where you left off</li>
-                                    <li>Copy last year's plan</li>
-                                    <li>Take a look at someone else's plan</li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <button class="btn" style="background-color:olivedrab; color:white" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                        </tr>
-                    </tbody>
-
-                </table>
-            </div>
-        </div>*@
             </div>
         </div>
         @Html.HiddenFor(x => x.unsavedData)
@@ -215,11 +143,11 @@
 
 @section Scripts {
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
         // ensure this event handler is attached to current and future elements (after partial renders)
-    $(document).on("click", '[data_modal]', function (e) {
-        $.ajaxSetup({ cache: false });
+        $(document).on("click", '[data_modal]', function (e) {
+            $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({
@@ -229,7 +157,7 @@
                 bindForm(this);
             });
             return false;
-         });
+        });
 
         function bindForm(dialog) {
             $('form', dialog).submit(function () {
@@ -261,8 +189,7 @@
                         }
                     });
                 }
-                else
-                {
+                else {
                     $.ajax({
                         cache: false,
                         url: this.action,
@@ -304,16 +231,16 @@
                     type: this.method,
                     data: $(this).serialize()
                 })
-                .done(function (result) {
-                    if (result.success) {
-                        $('#myModal').modal('hide');
-                        //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                        window.location.href = result.url;
-                    } else {
-                        $('#myModalContent').html(result);
-                        bindForm2(dialog);
-                    }
-                });
+                    .done(function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            window.location.href = result.url;
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm2(dialog);
+                        }
+                    });
 
                 return false;
             });
@@ -322,10 +249,14 @@
 
         $(document).ready(function () {
             $.ajaxSetup({ cache: false });
-            $("#themeTemplate, #subthemeTemplate, #topicTemplate").css("padding-top", 5);	
+            $("#themeTemplate, #subthemeTemplate, #topicTemplate").css("padding-top", 5);
 
         });
 
-</script>
+        function ResetWarning() {
+            $("#unsavedData").val("False");
+        }
+
+    </script>
 
 }

@@ -1970,6 +1970,7 @@ namespace SERVERAPI.Controllers
                 if (!(string.IsNullOrEmpty(ovm.ltK)))
                 {
                     if (decimal.TryParse(ovm.ltK, out tmp))
+
                     {
                         if (tmp < 0 ||
                             tmp > 1000)

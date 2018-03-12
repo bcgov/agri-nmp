@@ -1,6 +1,3 @@
-﻿@using Microsoft.AspNetCore.Http;
-<!DOCTYPE html>
-
 <html>
 <head>
     <meta charset="utf-8" />
@@ -71,19 +68,6 @@
     <div>
         @RenderBody()
     </div>
-    <footer id="footer" style="border-top:none"></footer>
-    @*<script src="js/bootstrap.min.js"></script>
-        <script src="js/misc.js"></script>
-        <script src="js/navMenu.js"></script>
-         IE10 viewport hack for Surface/desktop Windows 8 bug
-        <script src="js/ie10-viewport-bug-workaround.js"></script>*@
-
-    <!-- Datatables config -->
-    @*<script type="text/javascript" charset="utf-8">
-            $(document).ready(function () {
-                $('#bs-datatables').DataTable();
-            });
-        </script>*@
     @RenderSection("Scripts", required: true)
 </body>
 </html>
