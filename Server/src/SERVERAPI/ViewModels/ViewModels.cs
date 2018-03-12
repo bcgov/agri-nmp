@@ -237,7 +237,6 @@ namespace SERVERAPI.ViewModels
         public List<Models.StaticData.SelectListItem> cropOptions { get; set; }
         public string selPrevOption { get; set; }
         public List<Models.StaticData.SelectListItem> prevOptions { get; set; }
-        [Required(ErrorMessage = "Required")]
         public string yield { get; set; }
         public string yieldUnit { get; set; }
         public string crude { get; set; }
@@ -258,6 +257,11 @@ namespace SERVERAPI.ViewModels
         public bool stdN { get; set; }
         public string stdNAmt { get; set; }
         public bool stdYield { get; set; }
+        public bool showHarvestUnitsDDL { get; set; }
+        public List<Models.StaticData.SelectListItem> harvestUnitsOptions { get; set; }
+        public string selHarvestUnits { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string yieldByHarvestUnit { get; set; }
     }
     public class CropDeleteViewModel
     {

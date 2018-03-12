@@ -1589,6 +1589,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1604,6 +1605,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "1",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1619,6 +1621,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "2",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1634,6 +1637,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "1",
             "prevyearmanureappl_volcatcd": "1",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1649,6 +1653,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1664,6 +1669,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1679,6 +1685,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "1",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1694,6 +1701,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "2",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1709,6 +1717,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "2",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1724,6 +1733,7 @@
             "n_high_lbperac": "0",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1739,6 +1749,7 @@
             "n_high_lbperac": "0",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1754,6 +1765,7 @@
             "n_high_lbperac": "0",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1769,6 +1781,7 @@
             "n_high_lbperac": "0",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1784,6 +1797,7 @@
             "n_high_lbperac": "0",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1799,6 +1813,7 @@
             "n_high_lbperac": "0",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1814,6 +1829,7 @@
             "n_high_lbperac": "0",
             "prevcropcd": "2",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1829,6 +1845,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "33.333333",
             "sortNum": "100"
           },
           {
@@ -1844,6 +1861,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "33.333333",
             "sortNum": "100"
           },
           {
@@ -1859,6 +1877,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "41.666667",
             "sortNum": "100"
           },
           {
@@ -1874,6 +1893,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "41.666667",
             "sortNum": "100"
           },
           {
@@ -1889,6 +1909,7 @@
             "n_high_lbperac": "66.91343415",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1904,6 +1925,7 @@
             "n_high_lbperac": "107.06149464",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1919,6 +1941,7 @@
             "n_high_lbperac": "35.68716488",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1934,6 +1957,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1949,6 +1973,7 @@
             "n_high_lbperac": "165.05313757",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1964,6 +1989,7 @@
             "n_high_lbperac": "115.98328586",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1979,6 +2005,7 @@
             "n_high_lbperac": "151.67045074",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -1994,6 +2021,7 @@
             "n_high_lbperac": "151.67045074",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2009,6 +2037,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2024,6 +2053,7 @@
             "n_high_lbperac": "165.05313757",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2039,6 +2069,7 @@
             "n_high_lbperac": "62.45253854",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2054,6 +2085,7 @@
             "n_high_lbperac": "147.20955513",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2069,6 +2101,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2084,6 +2117,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2099,6 +2133,7 @@
             "n_high_lbperac": "156.13134635",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2114,6 +2149,7 @@
             "n_high_lbperac": "178.4358244",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2129,6 +2165,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2144,6 +2181,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2159,6 +2197,7 @@
             "n_high_lbperac": "13.38268683",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2174,6 +2213,7 @@
             "n_high_lbperac": "124.90507708",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2189,6 +2229,7 @@
             "n_high_lbperac": "120.44418147",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2204,6 +2245,7 @@
             "n_high_lbperac": "160.59224196",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2219,6 +2261,7 @@
             "n_high_lbperac": "178.4358244",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2234,6 +2277,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2249,6 +2293,7 @@
             "n_high_lbperac": "62.45253854",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2264,6 +2309,7 @@
             "n_high_lbperac": "71.37432976",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2279,6 +2325,7 @@
             "n_high_lbperac": "178.4358244",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2294,6 +2341,7 @@
             "n_high_lbperac": "40.14806049",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2309,6 +2357,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2324,6 +2373,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2339,6 +2389,7 @@
             "n_high_lbperac": "160.59224196",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2354,6 +2405,7 @@
             "n_high_lbperac": "98.13970342",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "100"
           },
           {
@@ -2369,6 +2421,7 @@
             "n_high_lbperac": "0",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "",
             "sortNum": "10"
           },
           {
@@ -2384,6 +2437,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "62.5",
             "sortNum": "100"
           },
           {
@@ -2399,6 +2453,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "62.5",
             "sortNum": "100"
           },
           {
@@ -2414,6 +2469,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "35.71428571",
             "sortNum": "100"
           },
           {
@@ -2429,6 +2485,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "35.71428571",
             "sortNum": "100"
           },
           {
@@ -2444,6 +2501,7 @@
             "n_high_lbperac": "null",
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
+            "bushelsperton": "40",
             "sortNum": "100"
           }
         ]
@@ -9207,6 +9265,18 @@
             "id": "5",
             "name": "Edge",
             "minversion": "15.0"
+          }
+        ]
+      },
+      "harvestunits": {
+        "harvestunit": [
+          {
+            "id": "1",
+            "name": "tons/ac"
+          },
+          {
+            "id": "2",
+            "name": "bu/ac"
           }
         ]
       }

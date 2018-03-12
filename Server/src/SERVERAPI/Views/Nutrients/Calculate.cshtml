@@ -374,6 +374,14 @@
         })
     });
 
+  
+    $(document).ready(function () {
+        $("body").on("change", "#ddlHarvestUnits", function () {
+            $('#buttonPressed').val("HarvestUnitChange");
+            $("#modForm").submit();
+        })
+    });
+
     $(document).ready(function () {
         $("body").on("change", "#ddlDensity", function () {
             $('#buttonPressed').val("DensityChange");
@@ -487,7 +495,7 @@
         NeedRefresh();
     });
 
-    $(document).on('change', '#yield', function () {
+    $(document).on('change', '#yieldByHarvestUnit', function () {
         NeedRefresh();
     });
 

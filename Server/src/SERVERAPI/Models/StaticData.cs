@@ -238,6 +238,7 @@ namespace SERVERAPI.Models
             public int prevcropcd { get; set; }
             public int sortNum { get; set; }
             public int prevYearManureAppl_volCatCd { get; set; }
+            public decimal? harvestBushelsPerTon { get; set; }
         }
 
         public class Yield
@@ -453,5 +454,6 @@ namespace SERVERAPI.Models
             public string name { get; set; }
             public string minVersion { get; set; }
         }
+
     }
 }

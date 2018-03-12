@@ -572,7 +572,9 @@ namespace SERVERAPI.Models.Impl
             crp.cropOther = updtCrop.cropOther;
             crp.coverCropHarvested = updtCrop.coverCropHarvested;
             // cannot be modified in the UI
-            crp.prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(Convert.ToInt32(crp.cropId)); 
+            crp.prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(Convert.ToInt32(crp.cropId));
+            crp.yieldHarvestUnit = updtCrop.yieldHarvestUnit;
+            crp.yieldByHarvestUnit = updtCrop.yieldByHarvestUnit;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
