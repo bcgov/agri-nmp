@@ -992,7 +992,7 @@ namespace SERVERAPI.Models.Impl
             cf.phosphorousPtoP2O5Kconversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["phosphorousPtoP2O5Kconversion"]);
             cf.lbPerTonConversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["lbPerTonConversion"]);
             cf.lbper1000ftsquared_lbperac_conversion = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["lbper1000ftsquared_lbperac_conversion"]);
-            cf.defaultApplicationOfManureInPrevYears = (rss["agri"]["nmp"]["conversions"]["lbper1000ftsquared_lbperac_conversion"]).ToString();
+            cf.defaultApplicationOfManureInPrevYears = (rss["agri"]["nmp"]["conversions"]["defaultApplicationOfManureInPrevYears"]).ToString();
 
             return cf;
         }
