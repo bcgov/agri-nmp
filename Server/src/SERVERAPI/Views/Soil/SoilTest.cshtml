@@ -21,9 +21,13 @@
 <br />
 
 <div class="container">
-    <div class="step-forms col-sm-12">
+    <div class="step-forms col-sm-12" style="height:auto">
         <!-- PAGE CONTENT -->
         <form asp-controller="Soil" asp-action="SoilTest" method="post" id="modForm">
+            @Html.HiddenFor(x => x.fldsFnd)
+            @Html.HiddenFor(x => x.buttonPressed)
+            @Html.HiddenFor(x => x.testSelected)
+            @Html.HiddenFor(x => x.warningMsg)
             <div class="form-box">
                 <div class="form-box-body">
                     <div class="form-box-fields">
@@ -95,13 +99,10 @@
                 </div>
             </div>
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="Intercept('@Url.Action("Fields", "Fields" )');" title="Previous"  aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="Intercept('@Url.Action("Manure", "Manure" )');" title="Next"  aria-label="Next" />
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="Intercept('@Url.Action("Fields", "Fields" )');" title="Previous" aria-label="Previous" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="Intercept('@Url.Action("Manure", "Manure" )');" title="Next" aria-label="Next" />
             </div>
-            @Html.HiddenFor(x => x.fldsFnd)
-            @Html.HiddenFor(x => x.buttonPressed)
-            @Html.HiddenFor(x => x.testSelected)
-            @Html.HiddenFor(x => x.warningMsg)
+
         </form>
     </div>
 </div>
