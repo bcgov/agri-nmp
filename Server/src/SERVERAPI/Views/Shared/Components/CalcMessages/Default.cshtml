@@ -9,7 +9,7 @@
             {
                 <div class="gov-slim-alert gov-slim-alert-danger" role="alert" aria-live="assertive">
                         <img src="~/images/@(msg.Icon).svg" />
-                    &nbsp; @msg.Message
+                    &nbsp; @Html.Raw(msg.Message)
                 </div>
              }
         }

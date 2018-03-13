@@ -40,6 +40,7 @@ namespace SERVERAPI.Controllers
             };
 
             cvm.regionFnd = (fd.farmRegion.HasValue) ? true : false;
+            cvm.icons = _sd.GetNutrientIcons();
 
             // no name entered so default to the first one for the farm
             if (nme == null)
@@ -74,11 +75,6 @@ namespace SERVERAPI.Controllers
             if (cvm.fldsFnd > 0)
             {
                 cvm.itemsPresent = ItemCount(cvm.currFld) > 0 ? true : false;
-
-                if (!cvm.itemsPresent)
-                {
-                    cvm.icons = _sd.GetNutrientIcons();
-                }
             }
 
             return View(cvm);
