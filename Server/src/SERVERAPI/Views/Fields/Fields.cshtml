@@ -23,7 +23,7 @@
 <div class="container">
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
-        <form asp-controller="Farm" asp-action="Farm" method="post">
+        <form asp-controller="Farm" asp-action="Farm" method="post" id="modForm">
             <div id="fields">
                 @await Component.InvokeAsync("Fields")
             </div>
