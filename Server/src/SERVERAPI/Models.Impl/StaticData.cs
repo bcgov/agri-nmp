@@ -17,7 +17,8 @@ namespace SERVERAPI.Models.Impl
         private const string MANURE_CLASS_COMPOST_BOOK = "Compost_Book";
         private const string MANURE_CLASS_OTHER = "Other";
         private const int CROPTYPE_GRAINS_OILSEEDS_ID = 4;
-        private const int CROP_YIELD_DEFAULT_UNIT = 1; 
+        private const int CROP_YIELD_DEFAULT_CALCULATION_UNIT = 1;
+        private const int CROP_YIELD_DEFAULT_DISPLAY_UNIT = 2;
 
 
         private readonly IHttpContextAccessor _ctx;
@@ -1702,17 +1703,22 @@ namespace SERVERAPI.Models.Impl
 
         public string GetHarvestYieldDefaultUnitName()
         {
-            return GetHarvestYieldUnitName(CROP_YIELD_DEFAULT_UNIT.ToString());
+            return GetHarvestYieldUnitName(CROP_YIELD_DEFAULT_CALCULATION_UNIT.ToString());
         }
 
         public bool IsCropHarvestYieldDefaultUnit(int selectedCropYieldUnit)
         {
-            return (selectedCropYieldUnit == CROP_YIELD_DEFAULT_UNIT);
+            return (selectedCropYieldUnit == CROP_YIELD_DEFAULT_CALCULATION_UNIT);
         }
 
         public int GetHarvestYieldDefaultUnit()
         {
-            return CROP_YIELD_DEFAULT_UNIT;
+            return CROP_YIELD_DEFAULT_CALCULATION_UNIT;
+        }
+
+        public int GetHarvestYieldDefaultDisplayUnit()
+        {
+            return CROP_YIELD_DEFAULT_DISPLAY_UNIT; 
         }
 
         public decimal ConvertYieldFromBushelToTonsPerAcre(int cropid, decimal yield)
