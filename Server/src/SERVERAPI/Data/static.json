@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.899"
+        "staticDataVersion": "2018.904"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9134,7 +9134,7 @@
           {
             "id": "26",
             "name": "defaultsoiltest",
-            "text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<p /> Crop P and K requirements will be 0 on fields without a soil test."
+            "text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<p> Crop P and K requirements will be 0 on fields without a soil test.</p>"
           },
           {
             "id": "27",
@@ -9233,7 +9233,7 @@
           },
           {
             "id": "10",
-            "text": "Reduce crop P2O5 removal balance below 35 lb/ac per year in the long term. <a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in new tab)</a>",
+            "text": "Reduce crop P2O5 removal balance below 35 lb/ac per year in the long term. <a href=\"https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/631500-4_phosphorus_considerations_factsheet_no6_sep2010.pdf\" target=\"_blank\">Learn more (opens in new tab)</a>",
             "displayMessage": "Yes",
             "icon": "stop",
             "balanceType": "AgrP2O5CropP2O5",
@@ -9290,7 +9290,7 @@
           {
             "id": "1",
             "name": "good",
-            "definition": "Best"
+            "definition": "Good"
           },
           {
             "id": "2",
