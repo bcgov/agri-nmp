@@ -21,7 +21,7 @@
         "phosphorousPtoP2O5Kconversion": "2.29",
         "lbPerTonConversion": "20",
         "lbper1000ftsquared_lbperac_conversion": "43.5600021606",
-        "defaultApplicationOfManureInPrevYears": "1"
+        "defaultApplicationOfManureInPrevYears": "0"
       },
       "interiorBCSampleDtForNitrateCredit": {
         "fromDateMonth": "08",
