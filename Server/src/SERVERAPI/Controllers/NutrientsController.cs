@@ -1081,7 +1081,7 @@ namespace SERVERAPI.Controllers
 
                 if (!cp.yieldHarvestUnit.HasValue)
                 {   // retrofit old version of data
-                    cp.yieldHarvestUnit = _sd.GetHarvestYieldDefaultUnit();
+                    cp.yieldHarvestUnit = _sd.GetHarvestYieldDefaultDisplayUnit();
                     cvm.selHarvestUnits = cp.yieldHarvestUnit.ToString();
                     cp.yieldByHarvestUnit = cp.yield; // retrofit old version of data
                     cvm.yield = cp.yield.ToString();
@@ -1170,6 +1170,7 @@ namespace SERVERAPI.Controllers
             }
             else
             {
+
                 CropDetailsReset(ref cvm);
 
                 CropDetailsSetup(ref cvm);
@@ -1217,7 +1218,10 @@ namespace SERVERAPI.Controllers
                         else
                         {
                             if (_sd.IsCropGrainsAndOilseeds(crpTyp.id))
+                            {
                                 cvm.showHarvestUnitsDDL = true;
+                                cvm.selHarvestUnits = _sd.GetHarvestYieldDefaultDisplayUnit().ToString();
+                            }
                             else
                                 cvm.showHarvestUnitsDDL = false;
                             cvm.manEntry = false;
@@ -1321,6 +1325,7 @@ namespace SERVERAPI.Controllers
                         if (cvm.showHarvestUnitsDDL)
                         {
                             cvm.harvestUnitsOptions = _sd.GetCropHarvestUnitsDll();
+                            cvm.selHarvestUnits = _sd.GetHarvestYieldDefaultDisplayUnit().ToString();
                         }
                         if (cvm.showCrude)
                         {
