@@ -35,6 +35,7 @@
 
     <!-- SITE CSS -->
     <link href="~/css/site.css" rel="stylesheet" />
+    @*<link href="~/css/mygovbc-bootstrap-theme.min.css" rel="stylesheet" />*@
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -136,23 +137,36 @@
     <div class="header-height"></div>
 
 
-<!-- /Header -->
-<div>
-    @RenderBody()
-</div>
-<footer id="footer" style="border-top:none"></footer>
-@*<script src="js/bootstrap.min.js"></script>
-    <script src="js/misc.js"></script>
-    <script src="js/navMenu.js"></script>
-     IE10 viewport hack for Surface/desktop Windows 8 bug
-    <script src="js/ie10-viewport-bug-workaround.js"></script>*@
+    <!-- /Header -->
+    <div>
+        @RenderBody()
+    </div>
+    <footer class="footer">
+        <nav class="navbar navbar-default navbar-footer navbar-static-bottom" style="margin-bottom:0px">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://www2.gov.bc.ca/gov/content/home/disclaimer" target="_blank">Disclaimer</a></li>
+                    <li><a href="http://www2.gov.bc.ca/gov/content/home/privacy" target="_blank">Privacy</a></li>
+                    <li><a href="http://www2.gov.bc.ca/gov/content/home/accessibility" target="_blank">Accessibility</a></li>
+                    <li><a href="http://www2.gov.bc.ca/gov/content/home/copyright" target="_blank">Copyright</a></li>
+                </ul>
+            </div>
+        </nav>
+    </footer>
 
-<!-- Datatables config -->
-@*<script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
-            $('#bs-datatables').DataTable();
-        });
-    </script>*@
-@RenderSection("Scripts", required: true)
+    @*<footer id="footer" style="border-top:none"></footer>*@
+    @*<script src="js/bootstrap.min.js"></script>
+        <script src="js/misc.js"></script>
+        <script src="js/navMenu.js"></script>
+         IE10 viewport hack for Surface/desktop Windows 8 bug
+        <script src="js/ie10-viewport-bug-workaround.js"></script>*@
+
+    <!-- Datatables config -->
+    @*<script type="text/javascript" charset="utf-8">
+            $(document).ready(function () {
+                $('#bs-datatables').DataTable();
+            });
+        </script>*@
+    @RenderSection("Scripts", required: true)
 </body>
 </html>

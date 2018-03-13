@@ -54,6 +54,7 @@
 
     <!-- SITE CSS -->
     <link href="~/css/site.css" rel="stylesheet" />
+    @*<link href="~/css/mygovbc-bootstrap-theme.min.css" rel="stylesheet" />*@
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -85,76 +86,91 @@
 
 </head>
 <body>
-    <!-- HEADER -->
-    <div id="header">
-        <div id="header-main" class="navbar navbar-default ">
+    <div class="content">
+        <!-- HEADER -->
+        <div id="header">
+            <div id="header-main" class="navbar navbar-default ">
 
-            <div class="container">
-                <div id="header-main-row" class="row">
-                    <!-- GOV & ENV TITLE -->
-                    <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
-                        <div id="logo">
-                            <a href="http://gov.bc.ca"><img src="~/images/gov3_bc_logo.png" alt="Government of B.C." title="Government of B.C." /></a>
-                        </div>
-                        <div>
-                            <span style="padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Calculator</span>
-                        </div>
-                        @*<div id="access">
-                            <ul>
-                                <li aria-label="Keyboard Tab Skip">
-                                    <a accesskey="1" href="#main-content-anchor" aria-label="Skip to main content">Skip to main content</a>
-                                </li>
-                                <li aria-label="Keyboard Tab Skip">
-                                    <a accesskey="n" href="#main-content-anchor" onclick="$('.menu-button').focus();" aria-label="Skip to navigation">Skip to navigation</a>
-                                </li>
-                                <li aria-label="Keyboard Tab Skip">
-                                    <a accesskey="0" href="http://gov.bc.ca/webaccessibility/" aria-label="Accessibility Statement">Accessibility Statement</a>
-                                </li>
-                            </ul>
-                        </div>*@
-                        <button type="button" class="navbar-toggle gov-button-custom collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-label="Burger Navigation">
-                            <img src="~/images/menu-open-mobile.png" />
-                        </button>
-                    </div>
-                    <!-- /GOV & ENV TITLE -->
-                    <!-- COLLAPSING NAVBAR -->
-                    <div id="navbar" class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li><a href='@Url.Action("About", "Home" )' target="_blank">About</a></li>
-                            <li><a href='@Url.Action("Help", "Home" )' target="_blank">Help</a></li>
-                        </ul>
-                    </div>
-                    <!-- /COLLAPSING NAVBAR -->
-
-                </div>
-            </div>
-            <div class="navigationRibbon">
-                <div class="level2Navigation">
-                    <div class="container">                        
+                <div class="container">
+                    <div id="header-main-row" class="row">
+                        <!-- GOV & ENV TITLE -->
                         <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
-                            <span>
-                                <a href='@Url.Action("About", "Home" )' target="_blank">
-                                    About
-                                </a>
-                            </span>
-                            <span>
-                                <a href='@Url.Action("Help", "Home" )' target="_blank">
-                                    Help
-                                </a>
-                            </span>
+                            <div id="logo">
+                                <a href="http://gov.bc.ca"><img src="~/images/gov3_bc_logo.png" alt="Government of B.C." title="Government of B.C." /></a>
+                            </div>
+                            <div>
+                                <span style="padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Calculator</span>
+                            </div>
+                            @*<div id="access">
+                                <ul>
+                                    <li aria-label="Keyboard Tab Skip">
+                                        <a accesskey="1" href="#main-content-anchor" aria-label="Skip to main content">Skip to main content</a>
+                                    </li>
+                                    <li aria-label="Keyboard Tab Skip">
+                                        <a accesskey="n" href="#main-content-anchor" onclick="$('.menu-button').focus();" aria-label="Skip to navigation">Skip to navigation</a>
+                                    </li>
+                                    <li aria-label="Keyboard Tab Skip">
+                                        <a accesskey="0" href="http://gov.bc.ca/webaccessibility/" aria-label="Accessibility Statement">Accessibility Statement</a>
+                                    </li>
+                                </ul>
+                            </div>*@
+                            <button type="button" class="navbar-toggle gov-button-custom collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-label="Burger Navigation">
+                                <img src="~/images/menu-open-mobile.png" />
+                            </button>
+                        </div>
+                        <!-- /GOV & ENV TITLE -->
+                        <!-- COLLAPSING NAVBAR -->
+                        <div id="navbar" class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a href='@Url.Action("About", "Home" )' target="_blank">About</a></li>
+                                <li><a href='@Url.Action("Help", "Home" )' target="_blank">Help</a></li>
+                            </ul>
+                        </div>
+                        <!-- /COLLAPSING NAVBAR -->
+
+                    </div>
+                </div>
+                <div class="navigationRibbon">
+                    <div class="level2Navigation">
+                        <div class="container">
+                            <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
+                                <span>
+                                    <a href='@Url.Action("About", "Home" )' target="_blank">
+                                        About
+                                    </a>
+                                </span>
+                                <span>
+                                    <a href='@Url.Action("Help", "Home" )' target="_blank">
+                                        Help
+                                    </a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="header-height"></div>
+        <main class="container">
+            <!-- /Header -->
+            <div>
+                @RenderBody()
+            </div>
+        </main>
+        <div id="pad"></div>
     </div>
-    <div class="header-height"></div>
-
-    <!-- /Header -->
-    <div>
-        @RenderBody()
-    </div>
-
+    <footer class="footer">
+        <nav class="navbar navbar-default navbar-footer navbar-static-bottom" style="margin-bottom:0px">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://www2.gov.bc.ca/gov/content/home/disclaimer" target="_blank">Disclaimer</a></li>
+                    <li><a href="http://www2.gov.bc.ca/gov/content/home/privacy" target="_blank">Privacy</a></li>
+                    <li><a href="http://www2.gov.bc.ca/gov/content/home/accessibility" target="_blank">Accessibility</a></li>
+                    <li><a href="http://www2.gov.bc.ca/gov/content/home/copyright" target="_blank">Copyright</a></li>
+                </ul>
+            </div>
+        </nav>
+    </footer>
     @*<script src="js/bootstrap.min.js"></script>
         <script src="js/misc.js"></script>
         <script src="js/navMenu.js"></script>
