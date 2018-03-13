@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.843"
+        "staticDataVersion": "2018.899"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9074,7 +9074,7 @@
           {
             "id": "14",
             "name": "reportdownload",
-            "text": "<div style='text-align: center; width: 300px'><p>Save your work to a local drive</p><p>Load the file from the homepage to return to your calculations at any time</p><p><a href='#' data_modalI='' data-type='{0}'>more info on using the NMP data file</a></p></div>"
+            "text": "<div style='text-align: center; width: 300px'><p>To continue later, download file</p><p>Your work is saved only if you Download File</p><p><a href='#' data_modalI='' data-type='{0}'>How to use the data file</a></p></div>"
           },
           {
             "id": "15",
@@ -9134,7 +9134,7 @@
           {
             "id": "26",
             "name": "defaultsoiltest",
-            "text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<br /> Crop P and K requirements will be 0 on fields without a soil test."
+            "text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<p /> Crop P and K requirements will be 0 on fields without a soil test."
           },
           {
             "id": "27",
@@ -9233,7 +9233,7 @@
           },
           {
             "id": "10",
-            "text": "Reduce P2O5 inputs in the long term. Crop P2O5 removal balance should not exceed 35 lb/ac per year to limit soil P buildup.",
+            "text": "Reduce crop P2O5 removal balance below 35 lb/ac per year in the long term. <a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in new tab)</a>",
             "displayMessage": "Yes",
             "icon": "stop",
             "balanceType": "AgrP2O5CropP2O5",
@@ -9290,7 +9290,7 @@
           {
             "id": "1",
             "name": "good",
-            "definition": "Good"
+            "definition": "Best"
           },
           {
             "id": "2",
@@ -9300,7 +9300,7 @@
           {
             "id": "3",
             "name": "stop",
-            "definition": "Reduce N or P2O5 application"
+            "definition": "Reduce nutrient application"
           }
         ]
       }
