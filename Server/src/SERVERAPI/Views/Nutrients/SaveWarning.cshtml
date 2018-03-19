@@ -19,8 +19,8 @@
             <br />
         </div>
         <div class="modal-footer">
-            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-primary" type="button" value="Download file" onclick="location.href='@Url.Action("Download", "Home")'" />
+            <button id="canBtn" class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="button" value="Download file" onclick="location.href='@Url.Action("Download", "Home")';this.style.display = 'none';document.getElementById('canBtn').style.display = 'none';" />
             <input class="btn btn-primary" type="button" value="Continue" onclick="window.location.href = '@Model.target'" />
         </div>
         @Html.HiddenFor(x => x.target)
