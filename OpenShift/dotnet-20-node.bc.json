@@ -46,7 +46,7 @@
                 "source": {
                     "type": "Git",
                     "git": {
-                        "uri": "${GIT_REPO_URL}"
+                        "uri": "${SOURCE_REPOSITORY_URL}"
                     },
                     "contextDir": "OpenShift/s2i-dotnetcore-node"
                 },

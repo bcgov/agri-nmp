@@ -18,4 +18,6 @@ oc tag nmp-pr-1:latest nmp-pr-1:pr-1
 
 ```
 oc delete dc -l app-name=nmp; oc delete svc -l app-name=nmp ; oc delete route -l app-name=nmp
+
+oc delete all -l app-name=nmp
 ```
