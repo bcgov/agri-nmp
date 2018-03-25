@@ -29,7 +29,9 @@
                 "name": "nmp${NAME_SUFFIX}",
                 "generation": 1515,
                 "creationTimestamp": null,
-                "labels": null
+                "labels": {
+                    "base-name":"nmp"
+                }
             }
         },
         {
@@ -39,7 +41,9 @@
                 "name": "pdf${NAME_SUFFIX}",
                 "generation": 1283,
                 "creationTimestamp": null,
-                "labels": null
+                "labels": {
+                    "base-name":"nmp"
+                }
             }
         },
         {
