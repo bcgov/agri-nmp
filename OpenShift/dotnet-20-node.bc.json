@@ -42,7 +42,7 @@
             },
             "spec": {
                 "triggers": [],
-                "runPolicy": "Serial",
+                "runPolicy": "SerialLatestOnly",
                 "source": {
                     "type": "Git",
                     "git": {

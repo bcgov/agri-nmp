@@ -59,7 +59,7 @@
                         "type": "ConfigChange"
                     }
                 ],
-                "runPolicy": "Serial",
+                "runPolicy": "SerialLatestOnly",
                 "source": {
                     "type": "Git",
                     "git": {
@@ -124,7 +124,7 @@
                         "type": "ConfigChange"
                     }
                 ],
-                "runPolicy": "Serial",
+                "runPolicy": "SerialLatestOnly",
                 "source": {
                     "type": "Git",
                     "git": {
