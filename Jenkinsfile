@@ -25,7 +25,7 @@ def dcModels(){
     return models;
 }
 
-standardDeliveryPipeline {
+basicPipeline {
     name = 'nmp'
     bcModels = bcModels()
     dcModels = dcModels()
