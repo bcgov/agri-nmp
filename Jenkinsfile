@@ -27,6 +27,11 @@ def dcModels(){
 
 basicPipeline {
     name = 'nmp'
+    env = [
+        'dev':['project':'csnr-devops-lab-deploy'],
+        'test':['project':'csnr-devops-lab-deploy'],
+        'prod':['project':'csnr-devops-lab-deploy']
+    ]
     bcModels = bcModels()
     dcModels = dcModels()
 }
