@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.912"
+        "staticDataVersion": "2018.913"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9024,7 +9024,7 @@
           {
             "id": "3",
             "name": "disclaimer",
-            "text": "Although every effort has been made to ensure that the information in the Nutrient Management Calculator is correct, the Governments of Canada and British Columbia will not be liable for any claims, damages or losses of any kind arising out of the use of, or reliance upon, the information provided through the use of this calculator."
+            "text": "Although every effort has been made to ensure that the information in the Nutrient Management Calculator is correct, the Governments of Canada and British Columbia will not be liable for any claims, damages or losses of any kind arising out of the use of, or reliance upon, the information provided through the use of this calculator.<p>Information requested by this website, such as farm name and field names, is not collected or saved anywhere except on your computer.</p>"
           },
           {
             "id": "4",
@@ -9039,12 +9039,12 @@
           {
             "id": "6",
             "name": "fileoverwritewarning",
-            "text": "Download file to save the changes you made, or Continue to proceed without saving."
+            "text": "Download a file to save the changes you made, or Continue to load another file without saving."
           },
           {
             "id": "7",
             "name": "finishwithoutsaving",
-            "text": "Download file to save the changes you made, or Continue to close this session without saving."
+            "text": "Download a file to save the changes you made, or Continue to close this session without saving."
           },
           {
             "id": "8",
@@ -9074,7 +9074,7 @@
           {
             "id": "14",
             "name": "reportdownload",
-            "text": "<div style='text-align: center; width: 300px'><p>To <b>continue later</b>, Download file</p><p>Your data is saved only if you Download file</p><p>Load your data from the Home page to continue calculations<p><a href='#' data_modalI='' data-type='{0}'>How to use the data file</a></p></div>"
+            "text": "<div style='text-align: center; width: 300px'><p>To <b>continue later</b>, Download file to your computer</p><p>Load a file on the Home page when you want to continue<p><a href='#' data_modalI='' data-type='{0}'>How to use the data file</a></p></div>"
           },
           {
             "id": "15",
