@@ -60,6 +60,10 @@
             "spec": {
                 "triggers": [
                     {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    },
+                    {
                         "type": "ConfigChange"
                     }
                 ],
