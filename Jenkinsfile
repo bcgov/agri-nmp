@@ -1,42 +1,20 @@
-node('maven') {
-    
-	// Code Quality Check is not possible for a C# project, as it must be run from a MS Windows server or PC.
-	// See the project readme for instructions.
-	
-	stage('checkout') {
-       echo "checking out source"
-       echo "Build: ${BUILD_ID}"
-       checkout scm
-    }
-	    
-	stage('build') {
-	 echo "Building..."
-	 openshiftBuild bldCfg: 'nmp', showBuildLogs: 'true'
-	 openshiftTag destStream: 'nmp', verbose: 'true', destTag: '$BUILD_ID', srcStream: 'nmp', srcTag: 'latest'
-	 openshiftTag destStream: 'nmp', verbose: 'true', destTag: 'dev', srcStream: 'nmp', srcTag: 'latest'
-    }
-	
-	stage('validation') {
-          dir('functional-tests'){
-                 sh './gradlew --debug --stacktrace phantomJsTest'
-      }
-   }
-}
 
-
-stage('deploy-test') {
-  timeout(time: 4, unit: 'HOURS') { input "Deploy to test?"}
-  
-  node('master'){
-     openshiftTag destStream: 'nmp', verbose: 'true', destTag: 'test', srcStream: 'nmp', srcTag: '$BUILD_ID'
-  }
-}
-
-stage('deploy-prod') {
-  timeout(time: 24, unit: 'HOURS') { input "Deployment to prod?"}
-  node('master'){
-     openshiftTag destStream: 'nmp', verbose: 'true', destTag: 'prod', srcStream: 'nmp', srcTag: '$BUILD_ID'
-  }
-  
+basicPipeline {
+    name = 'nmp'
+    env = [
+        'dev':[:],
+        'test':[:],
+        'prod':['params':['host':'nmp.apps.nrs.gov.bc.ca']]
+    ]
+    templates = [
+        'build':[
+            ['file':'OpenShift/dotnet-20.bc.json'],
+            ['file':'OpenShift/dotnet-20-node.bc.json'],
+            ['file':'OpenShift/nmp.bc.json'],
+        ],
+        'deployment':[
+            ['file':'OpenShift/nmp.dc.json', 'params':['HOST':'${env[DEPLOY_ENV_NAME]?.params?.host?:""}']]
+        ]
+    ]
 }
 
