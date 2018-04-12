@@ -9179,7 +9179,7 @@
           },
           {
             "id": "4",
-            "text": "Crop requirement for P2O5 is met, application can be reduced by {0} lb/ac",
+            "text": "Crop requirement for P2O5 is met; {0} lb/ac adds no benefit to the crop",
             "displayMessage": "Yes",
             "icon": "dollar warning",
             "balanceType": "AgrP2O5",
@@ -9295,7 +9295,7 @@
           {
             "id": "2",
             "name": "dollar warning",
-            "definition": "Crop requirement not met OR nutrient application can be reduced"
+            "definition": "Crop requirement not met OR nutrient application adds no benefit to the crop"
           },
           {
             "id": "3",
