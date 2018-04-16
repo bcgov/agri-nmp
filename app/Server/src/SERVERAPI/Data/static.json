@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.937"
+        "staticDataVersion": "2018.938"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -2502,6 +2502,22 @@
             "prevcropcd": "3",
             "prevyearmanureappl_volcatcd": "0",
             "bushelsperton": "40",
+            "sortNum": "100"
+          },
+          {
+            "id": "72",
+            "cropname": "Alfalfa or legume dominant stand (4 cuts)",
+            "croptypeid": "1",
+            "yieldcd": "2",
+            "cropremovalfactor_N": "32.0",
+            "cropremovalfactor_P2O5": "9.2",
+            "cropremovalfactor_K2O": "25.2",
+            "n_recommcd": "1",
+            "n_recomm_lbperac": "0",
+            "n_high_lbperac": "null",
+            "prevcropcd": "2",
+            "prevyearmanureappl_volcatcd": "2",
+            "bushelsperton": "",
             "sortNum": "100"
           }
         ]
@@ -8960,7 +8976,7 @@
           {
             "id": "1",
             "name": "soiltestexplanation",
-            "url": "https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view"
+            "url": "https://drive.google.com/open?id=1V3OUxM1Z16S8WVEE2Xg-8dHUFUier6N9"
           },
           {
             "id": "2",
