@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.913"
+        "staticDataVersion": "2018.942"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -1492,15 +1492,15 @@
             "id": "2",
             "prevcropcd": "1",
             "name": "established forage: 30-50% legumes",
-            "ncreditmetric": "56",
-            "ncreditimperial": "50"
+            "ncreditmetric": "45",
+            "ncreditimperial": "40"
           },
           {
             "id": "3",
             "prevcropcd": "1",
             "name": "established forage: 50-100% legumes",
-            "ncreditmetric": "112",
-            "ncreditimperial": "100"
+            "ncreditmetric": "90",
+            "ncreditimperial": "80"
           },
           {
             "id": "4",
@@ -1534,15 +1534,15 @@
             "id": "8",
             "prevcropcd": "3",
             "name": "established forage: 30-50% legumes",
-            "ncreditmetric": "56",
-            "ncreditimperial": "50"
+            "ncreditmetric": "45",
+            "ncreditimperial": "40"
           },
           {
             "id": "9",
             "prevcropcd": "3",
             "name": "established forage: 50-100% legumes",
-            "ncreditmetric": "112",
-            "ncreditimperial": "100"
+            "ncreditmetric": "90",
+            "ncreditimperial": "80"
           },
           {
             "id": "10",
@@ -2503,6 +2503,22 @@
             "prevyearmanureappl_volcatcd": "0",
             "bushelsperton": "40",
             "sortNum": "100"
+          },
+          {
+            "id": "72",
+            "cropname": "Alfalfa or legume dominant stand (4 cuts)",
+            "croptypeid": "1",
+            "yieldcd": "2",
+            "cropremovalfactor_N": "32.0",
+            "cropremovalfactor_P2O5": "9.2",
+            "cropremovalfactor_K2O": "25.2",
+            "n_recommcd": "1",
+            "n_recomm_lbperac": "0",
+            "n_high_lbperac": "null",
+            "prevcropcd": "2",
+            "prevyearmanureappl_volcatcd": "2",
+            "bushelsperton": "",
+            "sortNum": "100"
           }
         ]
       },
@@ -3457,6 +3473,16 @@
             "cropid": "71",
             "locationid": "2",
             "amt": "0.875"
+           },
+          {
+            "cropid": "72",
+            "locationid": "1",
+            "amt": "7"
+          },
+          {
+            "cropid": "72",
+            "locationid": "2",
+            "amt": "7"
           }
         ]
       },
@@ -3470,12 +3496,12 @@
           {
             "cropid": "1",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "4"
+            "phosphorous_crop_group_region_cd": "3"
           },
           {
             "cropid": "1",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "4"
+            "phosphorous_crop_group_region_cd": "3"
           },
           {
             "cropid": "2",
@@ -3485,12 +3511,12 @@
           {
             "cropid": "2",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "4"
+            "phosphorous_crop_group_region_cd": "3"
           },
           {
             "cropid": "2",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "4"
+            "phosphorous_crop_group_region_cd": "3"
           },
           {
             "cropid": "3",
@@ -3500,12 +3526,12 @@
           {
             "cropid": "3",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "4"
+            "phosphorous_crop_group_region_cd": "3"
           },
           {
             "cropid": "3",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "4"
+            "phosphorous_crop_group_region_cd": "3"
           },
           {
             "cropid": "4",
@@ -3530,12 +3556,12 @@
           {
             "cropid": "5",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "5",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "6",
@@ -3545,12 +3571,12 @@
           {
             "cropid": "6",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "6",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "7",
@@ -3560,12 +3586,12 @@
           {
             "cropid": "7",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "7",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "8",
@@ -3575,12 +3601,12 @@
           {
             "cropid": "8",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "8",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "9",
@@ -3590,12 +3616,12 @@
           {
             "cropid": "9",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "9",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "3"
+            "phosphorous_crop_group_region_cd": "2"
           },
           {
             "cropid": "10",
@@ -3715,7 +3741,7 @@
           {
             "cropid": "22",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "2"
+            "phosphorous_crop_group_region_cd": "1"
           },
           {
             "cropid": "23",
@@ -3730,7 +3756,7 @@
           {
             "cropid": "23",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "2"
+            "phosphorous_crop_group_region_cd": "1"
           },
           {
             "cropid": "24",
@@ -3740,12 +3766,12 @@
           {
             "cropid": "24",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "2"
+            "phosphorous_crop_group_region_cd": "1"
           },
           {
             "cropid": "24",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "2"
+            "phosphorous_crop_group_region_cd": "1"
           },
           {
             "cropid": "25",
@@ -3755,12 +3781,12 @@
           {
             "cropid": "25",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "2"
+            "phosphorous_crop_group_region_cd": "1"
           },
           {
             "cropid": "25",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "2"
+            "phosphorous_crop_group_region_cd": "1"
           },
           {
             "cropid": "26",
@@ -3935,12 +3961,12 @@
           {
             "cropid": "39",
             "soil_test_phosphorous_region_cd": "2",
-            "phosphorous_crop_group_region_cd": "5"
+            "phosphorous_crop_group_region_cd": "4"
           },
           {
             "cropid": "39",
             "soil_test_phosphorous_region_cd": "3",
-            "phosphorous_crop_group_region_cd": "5"
+            "phosphorous_crop_group_region_cd": "4"
           },
           {
             "cropid": "40",
@@ -4316,6 +4342,21 @@
             "cropid": "71",
             "soil_test_phosphorous_region_cd": "3",
             "phosphorous_crop_group_region_cd": "2"
+          },
+            {
+            "cropid": "72",
+            "soil_test_phosphorous_region_cd": "1",
+            "phosphorous_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "72",
+            "soil_test_phosphorous_region_cd": "2",
+            "phosphorous_crop_group_region_cd": "3"
+          },
+          {
+            "cropid": "72",
+            "soil_test_phosphorous_region_cd": "3",
+            "phosphorous_crop_group_region_cd": "3"
           }
         ]
       },
@@ -5250,6 +5291,21 @@
             "cropid": "71",
             "soil_test_potassium_region_cd": "3",
             "potassium_crop_group_region_cd": "2"
+          },
+          {
+            "cropid": "72",
+            "soil_test_potassium_region_cd": "1",
+            "potassium_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "72",
+            "soil_test_potassium_region_cd": "2",
+            "potassium_crop_group_region_cd": "4"
+          },
+          {
+            "cropid": "72",
+            "soil_test_potassium_region_cd": "3",
+            "potassium_crop_group_region_cd": "3"
           }
         ]
       },
@@ -8960,7 +9016,7 @@
           {
             "id": "1",
             "name": "soiltestexplanation",
-            "url": "https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view"
+            "url": "https://drive.google.com/open?id=1V3OUxM1Z16S8WVEE2Xg-8dHUFUier6N9"
           },
           {
             "id": "2",
@@ -9000,12 +9056,12 @@
           {
             "id": "9",
             "name": "prevmanureexplanation",
-            "url": "https://drive.google.com/open?id=18ozkZnq5ngQ6D0ALrK1aR4rZasF6GoLM "
+            "url": "https://drive.google.com/open?id=1J_LVtoctbVGmQuQJxJyzPe2N50mtTgg9 "
           },
           {
             "id": "10",
             "name": "soilnitrateexplanation",
-            "url": "https://drive.google.com/open?id=18ozkZnq5ngQ6D0ALrK1aR4rZasF6GoLM "
+            "url": "https://drive.google.com/open?id=1sRWDtXSxpgD0mrGLrmdHApuDlQa7SSdj "
           }
         ]
       },
@@ -9179,7 +9235,7 @@
           },
           {
             "id": "4",
-            "text": "Crop requirement for P2O5 is met, application can be reduced by {0} lb/ac",
+            "text": "Crop requirement for P2O5 is met; {0} lb/ac adds no benefit to the crop",
             "displayMessage": "Yes",
             "icon": "dollar warning",
             "balanceType": "AgrP2O5",
@@ -9295,7 +9351,7 @@
           {
             "id": "2",
             "name": "dollar warning",
-            "definition": "Crop requirement not met OR nutrient application can be reduced"
+            "definition": "Crop requirement not met OR nutrient application adds no benefit to the crop"
           },
           {
             "id": "3",
