@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.943"
+        "staticDataVersion": "2018.944"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9085,7 +9085,7 @@
           {
             "id": "4",
             "name": "agriinfomessage",
-            "text": "<h1>Agronomic Balance</h1><ul><li>agronomic balances mainly indicate if crop nutrient requirements are met</li><li>crop removal balances can indicate if soil phosphorus (P) or potassium (K) levels will change</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
+            "text": "<h1>Agronomic Balance</h1><ul><li>agronomic balances mainly indicate if crop nutrient requirements are met</li><li>crop removal balances can indicate if soil phosphorus (P) or potassium (K) levels will change</li></ul><p><a href=\"https://drive.google.com/file/d/1U9k7Yv_Ua-_DzD8jAibyhEaV--9UGsFW/view\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
           },
           {
             "id": "5",
