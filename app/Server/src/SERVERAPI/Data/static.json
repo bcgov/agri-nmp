@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.942"
+        "staticDataVersion": "2018.945"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9031,7 +9031,7 @@
           {
             "id": "4",
             "name": "aboutmessage",
-            "url": "https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-mangement-calculator-app/about_nmp_calculator.pdf"
+            "url": "https://www2.gov.bc.ca/assets/download/A419ABE942C84E809F5FE56FD264CD8C"
           },
           {
             "id": "5",
@@ -9085,12 +9085,12 @@
           {
             "id": "4",
             "name": "agriinfomessage",
-            "text": "<h1>Agronomic Balance</h1><ul><li>agronomic balances mainly indicate if crop nutrient requirements are met</li><li>crop removal balances can indicate if soil phosphorus (P) or potassium (K) levels will change</li></ul><p><a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
+            "text": "<h1>Agronomic Balance</h1><ul><li>agronomic balances mainly indicate if crop nutrient requirements are met</li><li>crop removal balances can indicate if soil phosphorus (P) or potassium (K) levels will change</li></ul><p><a href=\"https://drive.google.com/file/d/1U9k7Yv_Ua-_DzD8jAibyhEaV--9UGsFW/view\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
           },
           {
             "id": "5",
             "name": "cropinfomessage",
-            "text": "<h1>Crop Removal Balance</h1><ul><li>Crop removal balances indicate if soil phosphorus (P) or potassium (K) levels will change</li><li>Agronomic balances mainly indicate if crop nutrient requirements are met</li><li>Increases in soil P in the long term are a possible water quality concern</li></ul><p><a href=\"https://www2.gov.bc.ca/assets/gov/farming-natural-resources-and-industry/agriculture-and-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/631500-4_phosphorus_considerations_factsheet_no6_sep2010.pdf\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
+            "text": "<h1>Crop Removal Balance</h1><ul><li>Crop removal balances indicate if soil phosphorus (P) or potassium (K) levels will change</li><li>Agronomic balances mainly indicate if crop nutrient requirements are met</li><li>Increases in soil P in the long term are a possible water quality concern</li></ul><p><a href=\"https://drive.google.com/file/d/1U9k7Yv_Ua-_DzD8jAibyhEaV--9UGsFW/view\" target=\"_blank\">Learn more (opens in new tab)</a></p>"
           },
           {
             "id": "6",
