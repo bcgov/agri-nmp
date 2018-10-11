@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.945"
+        "staticDataVersion": "2018.949"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -131,14 +131,6 @@
             "ConvertToKelownaPge72": "0.72",
             "ConvertToKelownaK": "0.75",
             "sortNum": "140"
-          },
-          {
-            "id": "5",
-            "name": "Down to Earth (Mod Kelowna and Amm Acetate)",
-            "ConvertToKelownaPlt72": "1.24",
-            "ConvertToKelownaPge72": "1.24",
-            "ConvertToKelownaK": "0.8",
-            "sortNum": "150"
           },
           {
             "id": "6",
