@@ -2,7 +2,7 @@
 
 Static Codes, or 'Book Values' can be updated by authorized Product Owners, in addition to any of the developer team.  The steps to do so are as follows:
 
-1. Ensure you have the appropriate permissions, by requesting 'Write' access from one of the repository admins.  Backup admins include [Clecio Varjao, DevOps Chapter Lead for NRM](mailto:Clecio.Varjao@gov.bc.ca?subject=[GitHub AGRI-NMP]%20Request%20Access)] or [Gary Wong, Agile Architect Owner for NRM](mailto:Gary.T.Wong@gov.bc.ca?subject=[GitHub AGRI-NMP]%20Request%20Access)]
+1. Ensure you have the appropriate permissions, by requesting 'Write' access from one of the repository admins.  Backup admins include [Clecio Varjao, DevOps Chapter Lead for NRM](mailto:Clecio.Varjao@gov.bc.ca?subject=[GitHub AGRI-NMP]%20Request%20Access) or [Gary Wong, Agile Architect Owner for NRM](mailto:Gary.T.Wong@gov.bc.ca?subject=[GitHub AGRI-NMP]%20Request%20Access)
 2. From the branch dropdown box (top left of the main repo [page](https://github.com/bcgov/agri-nmp)), select the "Development" branch.
 
 ![Set branch to Development](https://gist.githubusercontent.com/garywong-bc/73db443ac647548ff26b2dded48e74f0/raw/315e1dccbcedf78f954242af91c86eb320c461d9/agri-nmp.static-code.1.png)
@@ -10,16 +10,16 @@ Static Codes, or 'Book Values' can be updated by authorized Product Owners, in a
 3. Edit the [static.json](https://github.com/bcgov/agri-nmp/blob/Development/app/Server/src/SERVERAPI/Data/static.json)  file in this branch.
 
     - There are two options to edit the static data (pencil icon at right)
-a.	Click “edit this file” then copy and paste to json editor (recommended), or
-b.	Click “edit this file” and make changes directly to the Github file
+        - Click “edit this file” then copy and paste to json editor (recommended), or
+        - Click “edit this file” and make changes directly to the Github file
+    - If there is a corresponding Excel spreadsheet for the static data, ensure the changes have been done there *first*, and use the spreadsheet as the source for the data.
 
-If there is a corresponding Excel spreadsheet for the static data, ensure the changes have been done there *first*, and use the spreadsheet as the source for the data.
+4. After making the changes, under “staticDataVersion” on [line 5](https://github.com/bcgov/agri-nmp/blob/Development/app/Server/src/SERVERAPI/Data/static.json#L5), update the version number to Year.Commit#. 
 
-4. After making the changes, under “staticDataVersion” line 5, update the version number to Year.Commit#. Example: "2017.591" -> "2017.595".
+    - as an example: `2017.591` -> `2017.595`
+    - the Commit# should be the total number of ‘commits’ for the entire app, including changes to the static data file and other files: see top left of main repo [page](https://github.com/bcgov/agri-nmp) (e.g. **952** Commits)
 
-The Commit# should be the total number of ‘commits’ for the entire app, including changes to the static data file and other files: see top left of https://github.com/bcgov/agri-nmp (e.g. **952** Commits)
-
-5. Click **Preview changes** (tab next to the `<> Edit File` tab) to double check.
+5. Click **Preview changes** (tab next to the `<> Edit File` tab) to review your changes.
 6. Scroll down and enter a logical title to what you did (and if more details are warranted, add a more in-depth description in the “add an optional extended description”).
 7. Click 'Commit Changes' which will save your changes to the “Development” branch, and then initiate a pull request into the “master” branch.  
 
