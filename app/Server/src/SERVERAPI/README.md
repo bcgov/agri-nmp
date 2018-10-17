@@ -4,6 +4,10 @@ Static Codes, or 'Book Values' can be updated by authorized Product Owners, in a
 
 1. Ensure you have the appropriate permissions, by requesting 'Write' access from one of the repository admins.  Backup admins include [Clecio Varjao, DevOps Chapter Lead for NRM](mailto:Clecio.Varjao@gov.bc.ca?subject=[GitHub AGRI-NMP]%20Request%20Access)] or [Gary Wong, Agile Architect Owner for NRM](mailto:Gary.T.Wong@gov.bc.ca?subject=[GitHub AGRI-NMP]%20Request%20Access)]
 2. From the branch dropdown box (top left of the main repo [page](https://github.com/bcgov/agri-nmp)), select the "Development" branch.
+
+![Set branch to Development](https://gist.githubusercontent.com/garywong-bc/73db443ac647548ff26b2dded48e74f0/raw/315e1dccbcedf78f954242af91c86eb320c461d9/agri-nmp.static-code.1.png)
+
+
 3. Edit the [static.json](https://github.com/bcgov/agri-nmp/blob/Development/app/Server/src/SERVERAPI/Data/static.json)  file in this branch.
 
     - There are two options to edit the static data (pencil icon at right)
