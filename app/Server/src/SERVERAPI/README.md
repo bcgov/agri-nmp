@@ -39,4 +39,7 @@ The Commit# should be the total number of ‘commits’ for the entire app, incl
     - Find the pull request in the bcgov-agri-nmp pipeline
 11.	This is the standard TEST URL: https://nmp-test-agri-nmp-test.pathfinder.gov.bc.ca/.  You may do some exploratory testing by navigating the application, being sure to at least visit the page that uses the updated static code values. 
 12. If the changes are ready for prod, accept the pull request into prod from the Jenkins site. 
+
+![Accept PR](https://gist.githubusercontent.com/garywong-bc/73db443ac647548ff26b2dded48e74f0/raw/315e1dccbcedf78f954242af91c86eb320c461d9/agri-nmp.static-code.4.png)
+
 13. Approve merge of changes in GitHub by going to the “pull request” tab and approving the merge.
