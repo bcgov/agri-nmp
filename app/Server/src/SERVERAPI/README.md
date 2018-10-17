@@ -24,10 +24,10 @@ Static Codes, or 'Book Values' can be updated by authorized Product Owners, in a
 5. Click **Preview changes** (tab next to the `<> Edit File` tab) to review your changes
 6. Scroll down and enter a logical title to what you did (and if more details are warranted, add a more in-depth description in the “add an optional extended description”)
 7. Click 'Commit Changes' which will save your changes to the “Development” branch, and then initiate a pull request into the “master” branch
+    - if there is a pull request from the Development branch already in the queue, the changes made will not require a new pull request; the changes will automatically occur after committing
 
 ![New PR](https://gist.githubusercontent.com/garywong-bc/73db443ac647548ff26b2dded48e74f0/raw/315e1dccbcedf78f954242af91c86eb320c461d9/agri-nmp.static-code.2.png)
 
-    - If there is a pull request from the Development branch already in queue the changes made will not require a new pull request. The changes will automatically occur after committing 
 8. Wait for the pull request or the new commit (if a pull request is already in progress) to go to the “dev” stage in the Jenkins pipeline
     - once it has been pushed into “Dev” on Jenkins, to test your changes on the DEV environment, go to the unique dev URL (e.g. https://nmp-dev-pr-193-agri-nmp-dev.pathfinder.gov.bc.ca/) that has been automatically created
     - you can find this URL by clicking on the pull requests tab at the top then clicking “deployed”; Note that the `193` is an example and this number will match *your* Pull Request number
