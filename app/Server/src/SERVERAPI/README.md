@@ -1,6 +1,6 @@
 # Updating Static Code table lookup values
 
-Static Codes, or 'Book Values' can be updated by authorized Product Owners, in addition to any of the developer team.  The steps to do so are as follows:
+Static Codes (including message text) can be updated by authorized Product Owners, in addition to any of the developer team.  The steps to do so are as follows:
 
 1. Ensure you have the appropriate permissions, by requesting 'Write' access from one of the repository admins
     - Backup admins include [Clecio Varjao, DevOps Chapter Lead for NRM](mailto:Clecio.Varjao@gov.bc.ca?subject=AGRI-NMP%20GitHub%20Access) or [Gary Wong, Agile Architect Owner for NRM](mailto:Gary.T.Wong@gov.bc.ca?subject=AGRI-NMP%20GitHub%20Access)
