@@ -28,7 +28,7 @@ Static Codes, or 'Book Values' can be updated by authorized Product Owners, in a
 
 ![New PR](https://gist.githubusercontent.com/garywong-bc/73db443ac647548ff26b2dded48e74f0/raw/b44732f79ac3f0bc28a33bcc0e6416c798686efe/agri-nmp.static-code.2.png)
 
-    - click on `Compare and pull request`; enter a logical title to what you did (and if more details are warranted, add a more in-depth description in the “Leave a comment” box) and then scroll down to click 'Create pull request'
+    - click on 'Compare and pull request'; enter a logical title to what you did (and if more details are warranted, add a more in-depth description in the “Leave a comment” box) and then scroll down to click 'Create pull request'
 
 ![Create PR](https://gist.githubusercontent.com/garywong-bc/73db443ac647548ff26b2dded48e74f0/raw/b44732f79ac3f0bc28a33bcc0e6416c798686efe/agri-nmp.static-code.5.png)
 
