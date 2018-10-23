@@ -9405,9 +9405,7 @@
             "solidPerGalPerAnimalPerDay": "8.98",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 1,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 1
           },
           {
             "Id": 2,
@@ -9416,9 +9414,7 @@
             "solidPerGalPerAnimalPerDay": "",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 1,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 1
           },
           {
             "Id": 3,
@@ -9427,9 +9423,7 @@
             "solidPerGalPerAnimalPerDay": "4.49",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 1,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 1
           },
           {
             "Id": 4,
@@ -9438,9 +9432,7 @@
             "solidPerGalPerAnimalPerDay": "6.08",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 1,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 1
           },
           {
             "Id": 5,
@@ -9449,9 +9441,7 @@
             "solidPerGalPerAnimalPerDay": "",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 2
           },
           {
             "Id": 6,
@@ -9460,9 +9450,7 @@
             "solidPerGalPerAnimalPerDay": "",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 2
           },
           {
             "Id": 7,
@@ -9471,9 +9459,7 @@
             "solidPerGalPerAnimalPerDay": "5.02",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 2
           },
           {
             "Id": 8,
@@ -9482,9 +9468,7 @@
             "solidPerGalPerAnimalPerDay": "6.61",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 2
           },
           {
             "Id": 9,
@@ -9493,9 +9477,7 @@
             "solidPerGalPerAnimalPerDay": "16.64",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2,
-            "FIELD8": "",
-            "FIELD9": 3.16
+            "animalId": 2
           },
           {
             "Id": 10,
@@ -9504,9 +9486,7 @@
             "solidPerGalPerAnimalPerDay": "17.17",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2,
-            "FIELD8": "",
-            "FIELD9": 0.008657534
+            "animalId": 2
           },
           {
             "Id": 11,
@@ -9515,9 +9495,7 @@
             "solidPerGalPerAnimalPerDay": "19.82",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 2,
-            "FIELD8": "",
-            "FIELD9": 8.657534247
+            "animalId": 2
           },
           {
             "Id": 12,
@@ -9526,9 +9504,7 @@
             "solidPerGalPerAnimalPerDay": "",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 2,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 2
           },
           {
             "Id": 13,
@@ -9537,9 +9513,7 @@
             "solidPerGalPerAnimalPerDay": "0.04",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 3,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 3
           },
           {
             "Id": 14,
@@ -9548,9 +9522,7 @@
             "solidPerGalPerAnimalPerDay": "0.69",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 4,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 4
           },
           {
             "Id": 15,
@@ -9559,9 +9531,7 @@
             "solidPerGalPerAnimalPerDay": "14.95",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 5,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 5
           },
           {
             "Id": 16,
@@ -9570,9 +9540,7 @@
             "solidPerGalPerAnimalPerDay": "0.01",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 17,
@@ -9581,9 +9549,7 @@
             "solidPerGalPerAnimalPerDay": "0.02",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 18,
@@ -9592,9 +9558,7 @@
             "solidPerGalPerAnimalPerDay": "0.03",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 19,
@@ -9603,9 +9567,7 @@
             "solidPerGalPerAnimalPerDay": "0.04",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 20,
@@ -9614,9 +9576,7 @@
             "solidPerGalPerAnimalPerDay": "0.05",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 21,
@@ -9625,9 +9585,7 @@
             "solidPerGalPerAnimalPerDay": "0.02",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 22,
@@ -9636,9 +9594,7 @@
             "solidPerGalPerAnimalPerDay": "0.03",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 23,
@@ -9647,9 +9603,7 @@
             "solidPerGalPerAnimalPerDay": "0.02",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 24,
@@ -9658,9 +9612,7 @@
             "solidPerGalPerAnimalPerDay": "0.08",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 25,
@@ -9669,9 +9621,7 @@
             "solidPerGalPerAnimalPerDay": "0.11",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 26,
@@ -9680,9 +9630,7 @@
             "solidPerGalPerAnimalPerDay": "0.12",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 6
           },
           {
             "Id": 27,
@@ -9691,9 +9639,7 @@
             "solidPerGalPerAnimalPerDay": "0.19",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 7,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 7
           },
           {
             "Id": 28,
@@ -9702,9 +9648,7 @@
             "solidPerGalPerAnimalPerDay": "1.11",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 8,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 8
           },
           {
             "Id": 29,
@@ -9713,9 +9657,7 @@
             "solidPerGalPerAnimalPerDay": "3.59",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 9
           },
           {
             "Id": 30,
@@ -9724,9 +9666,7 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 9
           },
           {
             "Id": 31,
@@ -9735,9 +9675,7 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 9
           },
           {
             "Id": 32,
@@ -9746,9 +9684,7 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 9
           },
           {
             "Id": 33,
@@ -9757,9 +9693,7 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 9
           },
           {
             "Id": 34,
@@ -9768,9 +9702,7 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 9
           },
           {
             "Id": 35,
@@ -9779,9 +9711,7 @@
             "solidPerGalPerAnimalPerDay": "1.48",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 10,
-            "FIELD8": "",
-            "FIELD9": null
+            "animalId": 10
           }
         ]
       }
