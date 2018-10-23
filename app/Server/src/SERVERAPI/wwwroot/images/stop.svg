@@ -8,5 +8,8 @@
   <g>
     <title>Layer 1</title>
     <path d="m0.062504,5.678955l5.253724,-4.729069l7.430023,0l5.253749,4.729069l0,6.688031l-5.253749,4.729135l-7.430023,0l-5.253724,-4.729135l0,-6.688031z" stroke-width="1.5" fill="#ff0f3f" id="svg_1"/>
+    <text xml:space="preserve" y="-5.4204" x="-26.0936" text-anchor="start" stroke-width="0" stroke-opacity="null" stroke="null" fill-opacity="null" fill="#ffffff" font-size="24px" font-family="Helvetica,Arial,sans-serif" id="svg_3">!</text>
+    <rect height="6.67969" width="1.1875" y="3.68093" x="8.46875" stroke-width="1.5" stroke="#ffffff" fill="#ffffff" id="svg_5"/>
+    <rect height="1.21991" width="1.125" y="13.179" x="8.46875" stroke-width="1.5" stroke="#ffffff" fill="#ffffff" id="svg_6"/>
   </g>
 </svg>
