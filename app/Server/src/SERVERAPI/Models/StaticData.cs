@@ -489,7 +489,7 @@ namespace SERVERAPI.Models
 
         public class Animals
         {
-            public List<Animal> Animals { get; set; }
+            public List<Animal> animals { get; set; }
         }
 
         public class Animal
@@ -501,7 +501,7 @@ namespace SERVERAPI.Models
 
         public class AnimalSubTypes
         {
-            public List<AnimalSubType> AnimalSubTypes { get; set; }
+            public List<AnimalSubType> animalSubTypes { get; set; }
         }
 
         public class AnimalSubType
@@ -513,6 +513,11 @@ namespace SERVERAPI.Models
             public decimal solidPerPoundPerAnimalPerDay {get; set; }
             public decimal solidLiquidSeparationPercentage { get; set; }
             public int animalId { get; set; }
+        }
+
+        public class ManureMaterialTypes
+        {
+            public List<ManureMaterialType> manureMaterialTypes { get; set; }
         }
 
         public class ManureMaterialType
