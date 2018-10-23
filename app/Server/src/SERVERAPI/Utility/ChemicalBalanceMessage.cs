@@ -181,7 +181,7 @@ namespace SERVERAPI.Utility
 
             if (crps.Count > 0) //display balance messages when at least one Crop has been added
                 displayBalances = true;
-                
+
             return chemicalBalances;
         }
 
