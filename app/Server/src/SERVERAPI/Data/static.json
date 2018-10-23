@@ -9714,6 +9714,22 @@
             "animalId": 10
           }
         ]
+      },
+      "manureMaterialTypes": {
+        "manureMaterialType": [
+          {
+            "id": 1,
+            "name": "Liquid"
+          },
+          {
+            "id": 2,
+            "name": "Solid"
+          },
+          {
+            "id": 3,
+            "name": "Solid Liquid Seperated"
+          }
+        ]
       }
     }
   }
