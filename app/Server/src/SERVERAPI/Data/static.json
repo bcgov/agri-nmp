@@ -9351,6 +9351,439 @@
             "definition": "Reduce nutrient application"
           }
         ]
+      },
+      "animals": {
+        "animal": [
+          {
+            "Id": 1,
+            "Name": "Beef"
+          },
+          {
+            "Id": 2,
+            "Name": "Dairy"
+          },
+          {
+            "Id": 3,
+            "Name": "Ducks"
+          },
+          {
+            "Id": 4,
+            "Name": "Goats"
+          },
+          {
+            "Id": 5,
+            "Name": "Horse"
+          },
+          {
+            "Id": 6,
+            "Name": "Poultry"
+          },
+          {
+            "Id": 7,
+            "Name": "Rabbits"
+          },
+          {
+            "Id": 8,
+            "Name": "Sheep"
+          },
+          {
+            "Id": 9,
+            "Name": "Swine"
+          },
+          {
+            "Id": 10,
+            "Name": "Veal"
+          }
+        ]
+      },
+      "animalSubTypes": {
+        "animalSubType": [
+          {
+            "Id": 1,
+            "name": "Cow or bred heifer",
+            "liquidPerGalPerAnimalPerDay": "10.57",
+            "solidPerGalPerAnimalPerDay": "8.98",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 1,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 2,
+            "name": "Calves",
+            "liquidPerGalPerAnimalPerDay": "2.64",
+            "solidPerGalPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 1,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 3,
+            "name": "Yearlings",
+            "liquidPerGalPerAnimalPerDay": "5.28",
+            "solidPerGalPerAnimalPerDay": "4.49",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 1,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 4,
+            "name": "Heavy Feeders",
+            "liquidPerGalPerAnimalPerDay": "8.19",
+            "solidPerGalPerAnimalPerDay": "6.08",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 1,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 5,
+            "name": "Calves (0 to 3 months old)",
+            "liquidPerGalPerAnimalPerDay": "1.59",
+            "solidPerGalPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 2,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 6,
+            "name": "Calves (3 to 6 months old)",
+            "liquidPerGalPerAnimalPerDay": "2.91",
+            "solidPerGalPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 2,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 7,
+            "name": "Heifers (6 to 15 months old)",
+            "liquidPerGalPerAnimalPerDay": "5.81",
+            "solidPerGalPerAnimalPerDay": "5.02",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 2,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 8,
+            "name": "Heifers (15 to 26 months old)",
+            "liquidPerGalPerAnimalPerDay": "9.25",
+            "solidPerGalPerAnimalPerDay": "6.61",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 2,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 9,
+            "name": "Milking Cow - free stall ",
+            "liquidPerGalPerAnimalPerDay": "19.82",
+            "solidPerGalPerAnimalPerDay": "16.64",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 2,
+            "FIELD8": "",
+            "FIELD9": 3.16
+          },
+          {
+            "Id": 10,
+            "name": "MilkingCow- tie stall",
+            "liquidPerGalPerAnimalPerDay": "17.70",
+            "solidPerGalPerAnimalPerDay": "17.17",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 2,
+            "FIELD8": "",
+            "FIELD9": 0.008657534
+          },
+          {
+            "Id": 11,
+            "name": "Milking Cow -Loose Housing ",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "19.82",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 2,
+            "FIELD8": "",
+            "FIELD9": 8.657534247
+          },
+          {
+            "Id": 12,
+            "name": "Dry Cow",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 2,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 13,
+            "name": "Ducks",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.04",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 3,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 14,
+            "name": "Goats",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.69",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 4,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 15,
+            "name": "Horse",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "14.95",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 5,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 16,
+            "name": "Pullets - Cage Housing",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.01",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 17,
+            "name": "Pullets - Floor Housing",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.02",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 18,
+            "name": "Layer",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.03",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 19,
+            "name": "Broiler Breeder Layer- Cage Housing",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.04",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 20,
+            "name": "Broiler Breeder Layer- Floor Housing",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.05",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 21,
+            "name": "Broiler Breeder Pullets",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.02",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 22,
+            "name": "Broiler Chicken",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.03",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 23,
+            "name": "Roaster Chicken",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.02",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 24,
+            "name": "Turkey Broiler",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.08",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 25,
+            "name": "Turkey Heavy Hen",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.11",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 26,
+            "name": "Turkey Heavy Tom",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.12",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 6,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 27,
+            "name": " Doe and Litter",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "0.19",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 7,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 28,
+            "name": " Ewe or Ram",
+            "liquidPerGalPerAnimalPerDay": "1.80",
+            "solidPerGalPerAnimalPerDay": "1.11",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 8,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 29,
+            "name": "Dry Sow, Boar, or Gilts",
+            "liquidPerGalPerAnimalPerDay": "4.17",
+            "solidPerGalPerAnimalPerDay": "3.59",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 9,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 30,
+            "name": "Nursing Sow and Litter",
+            "liquidPerGalPerAnimalPerDay": "6.21",
+            "solidPerGalPerAnimalPerDay": "n/a",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 9,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 31,
+            "name": " Nursery ",
+            "liquidPerGalPerAnimalPerDay": "0.66",
+            "solidPerGalPerAnimalPerDay": "n/a",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 9,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 32,
+            "name": "Grower",
+            "liquidPerGalPerAnimalPerDay": "1.66",
+            "solidPerGalPerAnimalPerDay": "n/a",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 9,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 33,
+            "name": "Finisher",
+            "liquidPerGalPerAnimalPerDay": "3.17",
+            "solidPerGalPerAnimalPerDay": "n/a",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 9,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 34,
+            "name": "Grower Finisher",
+            "liquidPerGalPerAnimalPerDay": "2.67",
+            "solidPerGalPerAnimalPerDay": "n/a",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": 10,
+            "animalId": 9,
+            "FIELD8": "",
+            "FIELD9": null
+          },
+          {
+            "Id": 35,
+            "name": "Veal ",
+            "liquidPerGalPerAnimalPerDay": "n/a",
+            "solidPerGalPerAnimalPerDay": "1.48",
+            "solidPerPoundPerAnimalPerDay": "",
+            "solidLiquidSeparationPercentage": null,
+            "animalId": 10,
+            "FIELD8": "",
+            "FIELD9": null
+          }
+        ]
       }
     }
   }
