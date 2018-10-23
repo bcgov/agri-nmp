@@ -180,8 +180,18 @@ namespace SERVERAPI.Utility
             }
 
             if (crps.Count > 0) //display balance messages when at least one Crop has been added
-                displayBalances = true;
-                
+            {
+                foreach (var crp in crps)
+                {
+                    Crop cp = _sd.GetCrop(Convert.ToInt32(crp.cropId));
+                    if (cp.croptypeid != 2)
+                    {
+                        displayBalances = true;
+                        break;
+                    }
+                }
+            }
+
             return chemicalBalances;
         }
 
