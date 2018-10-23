@@ -465,5 +465,31 @@ namespace SERVERAPI.Models
             public string minVersion { get; set; }
         }
 
+        public class Animal
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+
+        }
+
+        public class AnimalSubType
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+
+            public decimal liquidPerGalPerAnimalPerDay { get; set;}
+            public decimal solidPerGalPerAnimalPerDay {get; set; }
+            public decimal solidPerPoundPerAnimalPerDay {get; set; }
+            public decimal solidLiquidSeparationPercentage { get; set; }
+
+        }
+
+        public class ManureMaterialType
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+
+        }
+
     }
 }

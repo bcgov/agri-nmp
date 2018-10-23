@@ -621,4 +621,18 @@ namespace SERVERAPI.ViewModels
         public string url { get; set; }
         public string urlText { get; set; }
     }
+
+    public class ManureManagementViewModel
+    {
+          [Display(Name = "Animal Type")]
+          [Required]
+          public string animalType { get; set; }
+          [Display(Name = "Subtype")]
+          [Required]
+          public string subType { get; set; }
+          [Display(Name = "Average Animal Number on Farm")]
+          public int animalNumber { get; set; }
+          [Display(Name = "Manure Type")]
+          public string manureType { get; set; }
+    }
 }
