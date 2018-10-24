@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http;
-@model SERVERAPI.ViewModels.ManureManagementViewModel
+@model SERVERAPI.ViewModels.ManureGeneratedObtainedDetailViewModel
 
 @{
     ViewBag.Title = "Manure Generated/Obtained";
@@ -118,5 +118,13 @@
                 return false;
             });
         }
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlAnimalType", function () {
+                $('#buttonPressed').val("TypeChange");
+                $("#modForm").submit();
+            })
+        });
+
     </script>
 }

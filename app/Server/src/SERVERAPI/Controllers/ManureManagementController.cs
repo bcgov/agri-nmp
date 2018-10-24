@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
@@ -33,13 +36,62 @@ namespace SERVERAPI.Controllers
             return View();
         }
 
-        public IActionResult ManureGeneratedObtainedDetail(int? id, string target)
+        public IActionResult ManureGeneratedObtainedDetail(int? id)
         {
-            ManureManagementViewModel mm = new ManureManagementViewModel();
-            mm.animalType = "";
-            mm.subType = "";
-            mm.manureType = "";
-            return PartialView("ManureGeneratedObtainedDetail", mm);
+            ManureGeneratedObtainedDetailViewModel mgovm = new ManureGeneratedObtainedDetailViewModel();
+            // Animal a= _ud.
+
+            if (id != null)
+            {
+            }
+            else
+            {
+                animalTypeDetailsSetup(ref mgovm);
+                // mgovm.animalTypeOptions = new List<Models.StaticData.SelectListItem>();
+                // mgovm.selAnimalTypeOption = _sd.get
+                
+            }
+
+            //mm.selAnimalTypeOption = mgovm.;
+            //mm.selSubtypeOption = "";
+            //mm.selManureTypeOption = "";
+            return PartialView("ManureGeneratedObtainedDetail", mgovm);
+        }
+
+        [HttpPost]
+        public IActionResult ManureGeneratedObtainedDetail(ManureGeneratedObtainedDetailViewModel mgovm)
+        {
+            animalTypeDetailsSetup(ref mgovm);
+            //try
+            //{
+            //    if (mgovm.buttonPressed == "TypeChange")
+            //    {
+            //        AnimalSubType crpTyp = _sd.GetAnimalSubTypes(Convert.ToInt32(mgovm.selAnimalTypeOption));
+            //    }
+            //    return View(mgovm);
+            //}
+
+            return View(mgovm);
+
+        }
+
+        private void animalTypeDetailsSetup(ref ManureGeneratedObtainedDetailViewModel mgovm)
+        {
+            mgovm.animalTypeOptions = new List<Models.StaticData.SelectListItem>();
+            mgovm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
+
+            mgovm.subTypeOptions = new List<Models.StaticData.SelectListItem>();
+            mgovm.manureMaterialTypeOptions = new List<Models.StaticData.SelectListItem>();
+            mgovm.manureMaterialTypeOptions = _sd.GetManureMaterialTypesDll().ToList();
+
+            if (!string.IsNullOrEmpty(mgovm.selAnimalTypeOption) &&
+                mgovm.selAnimalTypeOption != "select animal")
+            {
+                mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
+            }
+
+
+            return;
         }
     }
 }
