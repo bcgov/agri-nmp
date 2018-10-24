@@ -29,7 +29,6 @@ Updates to code values without developer assistance
 ---------------------------------------------
 This project allows non-technical users (i.e. Product Owners) with business domain knowledge, to revise and update static code table values, message text, etc.  See the [instructions](app/Server/src/SERVERAPI/Data/README.md) for details.
 
-
 Static Code Analysis
 --------------------
 
@@ -40,7 +39,6 @@ Steps to conduct static code analysis:
 4) Change to the folder containing the .SLN file (the Server directory)
 5) Edit the sonar.bat file in that folder, changing the token to match the value above.
 6) Run sonar.bat on a Windows computer to execute the scan and upload the stats.
-
 
 License
 -------
