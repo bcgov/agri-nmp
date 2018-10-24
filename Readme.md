@@ -40,7 +40,6 @@ Steps to conduct static code analysis:
 5) Edit the sonar.bat file in that folder, changing the token to match the value above.
 6) Run sonar.bat on a Windows computer to execute the scan and upload the stats.
 
-
 License
 -------
 
