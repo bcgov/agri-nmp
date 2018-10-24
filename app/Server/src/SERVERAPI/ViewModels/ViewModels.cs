@@ -622,17 +622,21 @@ namespace SERVERAPI.ViewModels
         public string urlText { get; set; }
     }
 
-    public class ManureManagementViewModel
+
+    public class ManureGeneratedObtainedDetailViewModel
     {
-          [Display(Name = "Animal Type")]
-          [Required]
-          public string animalType { get; set; }
-          [Display(Name = "Subtype")]
-          [Required]
-          public string subType { get; set; }
-          [Display(Name = "Average Animal Number on Farm")]
-          public int animalNumber { get; set; }
-          [Display(Name = "Manure Type")]
-          public string manureType { get; set; }
+        //[Required(ErrorMessage = "Required")]
+        //[Range(1, 9999, ErrorMessage = "Required")]
+        public string selAnimalTypeOption { get; set; }
+        public List<Models.StaticData.SelectListItem> animalTypeOptions { get; set; }
+        //[Required(ErrorMessage = "Required")]
+        //[Range(1, 9999, ErrorMessage = "Required")]
+        public string selSubTypeOption { get; set; }
+        public List<Models.StaticData.SelectListItem> subTypeOptions { get; set; }
+        public string selManureMaterialTypeOption { get; set; }
+        public List<Models.StaticData.SelectListItem> manureMaterialTypeOptions { get; set; }
+        //[Required(ErrorMessage = "Required")]
+        public string averageAnimalNumber { get; set; }
+        public string buttonPressed { get; set; }
     }
 }

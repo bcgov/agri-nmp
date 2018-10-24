@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.ViewModels;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -21,10 +22,10 @@ namespace SERVERAPI.ViewComponents
         {
             return View(await GetManureGeneratedObtainedAsync());
         }
-
-        private Task<FieldsViewModel> GetManureGeneratedObtainedAsync()
+         
+        private Task<ManureGeneratedObtainedDetailViewModel> GetManureGeneratedObtainedAsync()
         {
-            FieldsViewModel fvm = new FieldsViewModel();
+            ManureGeneratedObtainedDetailViewModel fvm = new ManureGeneratedObtainedDetailViewModel();
             return Task.FromResult(fvm);
         }
     }

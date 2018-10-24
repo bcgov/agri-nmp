@@ -1,49 +1,61 @@
-﻿@model SERVERAPI.ViewModels.ManureManagementViewModel
+﻿@model SERVERAPI.ViewModels.ManureGeneratedObtainedDetailViewModel
 @{
     Layout = null;
 }
 <div id="target">
-
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Manure Generated Details </h4>
-    </div>
-
     <form asp-action="ManureGeneratedObtainedDetail" asp-controller="ManureManagement" id="modForm" method="post" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Manure Generated Details </h4> @*- @Model.title*@
+        </div>
         <div class="modal-body">
             <div class="row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-3">
-                        <label>Animal Type</label>
-                        <div>
-                            <select class="form-control" id="ddlAnimalType">
-                                <option>select</option>
+                        <label asp-for="selAnimalTypeOption">Animal Type</label>
+                        @*<div>
+                            <select class="form-control" asp-for="selAnimalTypeOption" id="ddlAnimalType">
+                                <option>select animal</option>
                             </select>
-                        </div>
+                        </div>*@
+                        <select class="form-control" asp-for="selAnimalTypeOption" asp-items="@(new SelectList(Model.animalTypeOptions,"Id","Value"))" id="ddlAnimalType">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selAnimalTypeOption" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label>Subtype</label>
-                        <div>
-                            <select class="form-control" id="ddlSubtype">
-                                <option>select</option>
+                        @*<div>
+                            <select class="form-control" asp-for="selSubtypeOption" id="ddlSubtype">
+                                <option>select type</option>
                             </select>
-                        </div>
+                        </div>*@
+                        <select class="form-control" asp-for="selSubTypeOption" asp-items="@(new SelectList(Model.subTypeOptions,"Id","Value"))" id="ddlSubType">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selSubTypeOption" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label>Average Animal Number on Farm</label>
-                        <div>
-                            <input asp-for="animalNumber" class="col-sm-2" />
-                            <span asp-validation-for="animalNumber"></span>
-                        </div>
+                        @*<div>
+                            <input asp-for="averageAnimalNumber" class="col-sm-2" />
+                            <span asp-validation-for="averageAnimalNumber"></span>
+                        </div>*@
+                        <input class="form-control" asp-for="averageAnimalNumber" id="averageAnimalNumber" type="text" />
+                        <span asp-validation-for="averageAnimalNumber"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label>Manure Type</label>
-                        <div>
+                        @*<div>
                             <select class="form-control" id="ddlManureType">
                                 <option>select</option>
                             </select>
-                        </div>
+                        </div>*@
+                        <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(new SelectList(Model.manureMaterialTypeOptions,"Id","Value"))" id="ddlManureMaterialType">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selManureMaterialTypeOption" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -52,6 +64,8 @@
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
             <input class="btn btn-primary" type="submit" value="Save" />
         </div>
+        @Html.HiddenFor(x => x.buttonPressed)
     </form>
 </div>
+
 
