@@ -9347,7 +9347,7 @@
           },
           {
             "id": "3",
-            "name": "stop",
+            "name": "stop triangle",
             "definition": "Reduce nutrient application"
           }
         ]
