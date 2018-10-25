@@ -621,4 +621,28 @@ namespace SERVERAPI.ViewModels
         public string url { get; set; }
         public string urlText { get; set; }
     }
+
+
+    public class ManureGeneratedObtainedDetailViewModel
+    {
+        public string title { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selAnimalTypeOption { get; set; }
+        public List<Models.StaticData.SelectListItem> animalTypeOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selSubTypeOption { get; set; }
+        public List<Models.StaticData.SelectListItem> subTypeOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selManureMaterialTypeOption { get; set; }
+        public List<Models.StaticData.SelectListItem> manureMaterialTypeOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string averageAnimalNumber { get; set; }
+        public string buttonPressed { get; set; }
+        public string placehldr { get; set; }
+
+        public string target { get; set; }
+    }
 }
