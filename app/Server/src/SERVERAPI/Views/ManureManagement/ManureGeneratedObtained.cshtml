@@ -126,5 +126,19 @@
             })
         });
 
+        $(document).ready(function () {
+            $("body").on("change", "#ddlSubType", function () {
+                $('#buttonPressed').val("TypeChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlManureMaterialType", function () {
+                $('#buttonPressed').val("TypeChange");
+                $("#modForm").submit();
+            })
+        });
+
     </script>
 }
