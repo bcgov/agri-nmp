@@ -625,6 +625,7 @@ namespace SERVERAPI.ViewModels
 
     public class ManureGeneratedObtainedDetailViewModel
     {
+        public string title { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selAnimalTypeOption { get; set; }

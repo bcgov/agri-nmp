@@ -39,6 +39,7 @@ namespace SERVERAPI.Controllers
         public IActionResult ManureGeneratedObtainedDetail(int? id)
         {
             ManureGeneratedObtainedDetailViewModel mgovm = new ManureGeneratedObtainedDetailViewModel();
+            mgovm.title = id == null ? "Add" : "Edit";
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
 
             if (id != null)
