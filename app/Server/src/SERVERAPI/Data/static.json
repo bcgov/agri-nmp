@@ -9361,11 +9361,11 @@
         "animal": [
           {
             "Id": 1,
-            "Name": "Beef"
+            "Name": "Beef Cattle"
           },
           {
             "Id": 2,
-            "Name": "Dairy"
+            "Name": "Dairy Cattle"
           },
           {
             "Id": 3,
@@ -9486,7 +9486,7 @@
           },
           {
             "Id": 10,
-            "name": "MilkingCow- tie stall",
+            "name": "Milking Cow - tie stall",
             "liquidPerGalPerAnimalPerDay": "17.70",
             "solidPerGalPerAnimalPerDay": "17.17",
             "solidPerPoundPerAnimalPerDay": "",
@@ -9495,7 +9495,7 @@
           },
           {
             "Id": 11,
-            "name": "Milking Cow -Loose Housing ",
+            "name": "Milking Cow - Loose Housing ",
             "liquidPerGalPerAnimalPerDay": "n/a",
             "solidPerGalPerAnimalPerDay": "19.82",
             "solidPerPoundPerAnimalPerDay": "",
@@ -9732,9 +9732,19 @@
           },
           {
             "id": 3,
-            "name": "Solid Liquid Seperated"
+            "name": "Solid Liquid Separated"
           }
         ]
+      },
+      "animalsUsingWashWater": {
+        "animalUsingWashWater": [
+          {
+            "animalSubTypeId": 9 
+          },
+          {
+            "animalSubTypeId": 10 
+          }
+        ] 
       }
     }
   }
