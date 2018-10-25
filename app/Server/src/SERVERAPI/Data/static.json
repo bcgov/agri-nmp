@@ -9202,7 +9202,7 @@
             "id": "1",
             "text": "Reduce N input by {0} lb/ac",
             "displayMessage": "Yes",
-            "icon": "stop",
+            "icon": "stop triangle",
             "balanceType": "AgrN",
             "balance_low": "15",
             "balance_high": "99999"
@@ -9283,7 +9283,7 @@
             "id": "10",
             "text": "Reduce crop P2O5 removal balance below 35 lb/ac per year in the long term.",
             "displayMessage": "Yes",
-            "icon": "stop",
+            "icon": "stop triangle",
             "balanceType": "AgrP2O5CropP2O5",
             "balance_low": "15",
             "balance_high": "99999",
