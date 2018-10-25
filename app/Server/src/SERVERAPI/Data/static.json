@@ -9193,6 +9193,11 @@
             "id": "28",
             "name": "othernutrientplaceholder",
             "text": "e.g. irrigation water"
+          },
+          {
+            "id": "29",
+            "name": "averageanimalnumberplaceholder",
+            "text": "e.g. 10"
           }
         ]
       },

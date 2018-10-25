@@ -39,7 +39,7 @@ namespace SERVERAPI.Controllers
         public IActionResult ManureGeneratedObtainedDetail(int? id)
         {
             ManureGeneratedObtainedDetailViewModel mgovm = new ManureGeneratedObtainedDetailViewModel();
-            // Animal a= _ud.
+            mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
 
             if (id != null)
             {
@@ -61,17 +61,36 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult ManureGeneratedObtainedDetail(ManureGeneratedObtainedDetailViewModel mgovm)
         {
-            animalTypeDetailsSetup(ref mgovm);
-            //try
-            //{
-            //    if (mgovm.buttonPressed == "TypeChange")
-            //    {
-            //        AnimalSubType crpTyp = _sd.GetAnimalSubTypes(Convert.ToInt32(mgovm.selAnimalTypeOption));
-            //    }
-            //    return View(mgovm);
-            //}
+            string url="";
 
-            return View(mgovm);
+            mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
+            animalTypeDetailsSetup(ref mgovm);
+            try
+            {
+                if (mgovm.buttonPressed == "TypeChange")
+                {
+                    ModelState.Clear();
+                    mgovm.buttonPressed = "";
+                    return View(mgovm);
+                }
+
+                if (mgovm.target == "#manuregeneratedobtained")
+                {
+                    url = Url.Action("ManureGeneratedObtained", "ManureManagement");
+                    return Json(new { success = true, url = url, target = mgovm.target });
+                }
+                
+
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Unexpected system error -" + ex.Message);
+            }
+
+            return PartialView(mgovm);
+            // return RedirectToAction("ManureGeneratedObtainedDetail", "ManureManagement");
+
 
         }
 
@@ -88,6 +107,7 @@ namespace SERVERAPI.Controllers
                 mgovm.selAnimalTypeOption != "select animal")
             {
                 mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
+                mgovm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select subtype" });
             }
 
 
