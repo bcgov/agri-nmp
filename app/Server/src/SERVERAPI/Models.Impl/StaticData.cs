@@ -2046,7 +2046,29 @@ namespace SERVERAPI.Models.Impl
 
             return manureMaterialTypeOptions;
         }
+        
+        public Models.StaticData.AnimalsUsingWashWater GetAnimalsUsingWashWater()
+        {
+            var animalsUsingWashWater = new AnimalsUsingWashWater();
+            animalsUsingWashWater.Animals = new List<AnimalUsingWashWater>();
+            var array = (JArray)rss["agri"]["nmp"]["animalsUsingWashWater"];
 
+            foreach (var record in array)
+            {
+                var animalUsingWashWater = new AnimalUsingWashWater
+                {
+                    AnimalSubTypeId = Convert.ToInt32(record["animalSubTypeId"].ToString())
+                };
+                animalsUsingWashWater.Animals.Add(animalUsingWashWater);
+            }
+
+            return animalsUsingWashWater;
+        }
+
+        public bool DoesAnimalUseWashWater(int animalSubTypeId)
+        {
+            return GetAnimalsUsingWashWater().Animals.Any(a => a.AnimalSubTypeId == animalSubTypeId);
+        }
     }
 
 }
