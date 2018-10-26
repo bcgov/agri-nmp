@@ -9410,7 +9410,8 @@
             "solidPerGalPerAnimalPerDay": "8.98",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 1
+            "animalId": 1,
+            "includeWashWater": 0
           },
           {
             "Id": 2,
@@ -9419,7 +9420,8 @@
             "solidPerGalPerAnimalPerDay": "",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 1
+            "animalId": 1,
+            "includeWashWater": 0
           },
           {
             "Id": 3,
@@ -9428,7 +9430,8 @@
             "solidPerGalPerAnimalPerDay": "4.49",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 1
+            "animalId": 1,
+            "includeWashWater": 0
           },
           {
             "Id": 4,
@@ -9437,7 +9440,8 @@
             "solidPerGalPerAnimalPerDay": "6.08",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 1
+            "animalId": 1,
+            "includeWashWater": 0
           },
           {
             "Id": 5,
@@ -9446,7 +9450,8 @@
             "solidPerGalPerAnimalPerDay": "",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2
+            "animalId": 2,
+            "includeWashWater": 0
           },
           {
             "Id": 6,
@@ -9455,7 +9460,8 @@
             "solidPerGalPerAnimalPerDay": "",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2
+            "animalId": 2,
+            "includeWashWater": 0
           },
           {
             "Id": 7,
@@ -9464,7 +9470,8 @@
             "solidPerGalPerAnimalPerDay": "5.02",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2
+            "animalId": 2,
+            "includeWashWater": 0
           },
           {
             "Id": 8,
@@ -9473,7 +9480,8 @@
             "solidPerGalPerAnimalPerDay": "6.61",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2
+            "animalId": 2,
+            "includeWashWater": 0
           },
           {
             "Id": 9,
@@ -9482,7 +9490,8 @@
             "solidPerGalPerAnimalPerDay": "16.64",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2
+            "animalId": 2,
+            "includeWashWater": 1
           },
           {
             "Id": 10,
@@ -9491,7 +9500,8 @@
             "solidPerGalPerAnimalPerDay": "17.17",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 2
+            "animalId": 2,
+            "includeWashWater": 0
           },
           {
             "Id": 11,
@@ -9500,7 +9510,8 @@
             "solidPerGalPerAnimalPerDay": "19.82",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 2
+            "animalId": 2,
+            "includeWashWater": 0
           },
           {
             "Id": 12,
@@ -9509,7 +9520,8 @@
             "solidPerGalPerAnimalPerDay": "",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 2
+            "animalId": 2,
+            "includeWashWater": 0
           },
           {
             "Id": 13,
@@ -9518,7 +9530,8 @@
             "solidPerGalPerAnimalPerDay": "0.04",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 3
+            "animalId": 3,
+            "includeWashWater": 0
           },
           {
             "Id": 14,
@@ -9527,7 +9540,8 @@
             "solidPerGalPerAnimalPerDay": "0.69",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 4
+            "animalId": 4,
+            "includeWashWater": 0
           },
           {
             "Id": 15,
@@ -9536,7 +9550,8 @@
             "solidPerGalPerAnimalPerDay": "14.95",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 5
+            "animalId": 5,
+            "includeWashWater": 0
           },
           {
             "Id": 16,
@@ -9545,7 +9560,8 @@
             "solidPerGalPerAnimalPerDay": "0.01",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 17,
@@ -9554,7 +9570,8 @@
             "solidPerGalPerAnimalPerDay": "0.02",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 18,
@@ -9563,7 +9580,8 @@
             "solidPerGalPerAnimalPerDay": "0.03",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 19,
@@ -9572,7 +9590,8 @@
             "solidPerGalPerAnimalPerDay": "0.04",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 20,
@@ -9581,7 +9600,8 @@
             "solidPerGalPerAnimalPerDay": "0.05",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 21,
@@ -9590,7 +9610,8 @@
             "solidPerGalPerAnimalPerDay": "0.02",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 22,
@@ -9599,7 +9620,8 @@
             "solidPerGalPerAnimalPerDay": "0.03",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 23,
@@ -9608,7 +9630,8 @@
             "solidPerGalPerAnimalPerDay": "0.02",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 24,
@@ -9617,7 +9640,8 @@
             "solidPerGalPerAnimalPerDay": "0.08",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 25,
@@ -9626,7 +9650,8 @@
             "solidPerGalPerAnimalPerDay": "0.11",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 26,
@@ -9635,7 +9660,8 @@
             "solidPerGalPerAnimalPerDay": "0.12",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 6
+            "animalId": 6,
+            "includeWashWater": 0
           },
           {
             "Id": 27,
@@ -9644,7 +9670,8 @@
             "solidPerGalPerAnimalPerDay": "0.19",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 7
+            "animalId": 7,
+            "includeWashWater": 0
           },
           {
             "Id": 28,
@@ -9653,7 +9680,8 @@
             "solidPerGalPerAnimalPerDay": "1.11",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 8
+            "animalId": 8,
+            "includeWashWater": 0
           },
           {
             "Id": 29,
@@ -9662,7 +9690,8 @@
             "solidPerGalPerAnimalPerDay": "3.59",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9
+            "animalId": 9,
+            "includeWashWater": 0
           },
           {
             "Id": 30,
@@ -9671,7 +9700,8 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9
+            "animalId": 9,
+            "includeWashWater": 0
           },
           {
             "Id": 31,
@@ -9680,7 +9710,8 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9
+            "animalId": 9,
+            "includeWashWater": 0
           },
           {
             "Id": 32,
@@ -9689,7 +9720,8 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9
+            "animalId": 9,
+            "includeWashWater": 0
           },
           {
             "Id": 33,
@@ -9698,7 +9730,8 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9
+            "animalId": 9,
+            "includeWashWater": 0
           },
           {
             "Id": 34,
@@ -9707,7 +9740,8 @@
             "solidPerGalPerAnimalPerDay": "n/a",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
-            "animalId": 9
+            "animalId": 9,
+            "includeWashWater": 0
           },
           {
             "Id": 35,
@@ -9716,7 +9750,8 @@
             "solidPerGalPerAnimalPerDay": "1.48",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": null,
-            "animalId": 10
+            "animalId": 10,
+            "includeWashWater": 0
           }
         ]
       },
