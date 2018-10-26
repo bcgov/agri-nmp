@@ -2,15 +2,17 @@
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SERVERAPI.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20181026214650_AnotherAnimalChange")]
+    partial class AnotherAnimalChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

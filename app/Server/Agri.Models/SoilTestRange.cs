@@ -2,7 +2,7 @@
 {
     public class SoilTestRange
     {
-        public int upperLimit { get; set; }
-        public string rating { get; set; }
+        public int UpperLimit { get; set; }
+        public string Rating { get; set; }
     }
 }

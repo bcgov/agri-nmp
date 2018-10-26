@@ -2,9 +2,12 @@
 {
     public class LiquidFertilizerDensity
     {
-        public int id { get; set; }
-        public int fertilizerId { get; set; }
-        public int densityUnitId { get; set; }
-        public decimal value { get; set; }
+        public int Id { get; set; }
+        public int FertilizerId { get; set; }
+        public int DensityUnitId { get; set; }
+        public decimal Value { get; set; }
+
+        public Fertilizer Fertilizer { get; set; }
+        public DensityUnit DensityUnit { get; set; }
     }
 }

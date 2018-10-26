@@ -2,9 +2,9 @@
 {
     public class FertilizerType
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string dry_liquid { get; set; }
-        public bool custom { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string DryLiquid { get; set; }
+        public bool Custom { get; set; }
     }
 }

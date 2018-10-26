@@ -2,7 +2,7 @@
 {
     public class Yield
     {
-        public int id { get; set; }
-        public string yielddesc { get; set; }
+        public int Id { get; set; }
+        public string YieldDesc { get; set; }
     }
 }

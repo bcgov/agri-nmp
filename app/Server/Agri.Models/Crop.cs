@@ -1,20 +1,27 @@
-﻿namespace Agri.Models
+﻿using System.Collections.Generic;
+
+namespace Agri.Models
 {
     public class Crop
     {
         public int id { get; set; }
-        public string cropname { get; set; }
-        public int croptypeid { get; set; }
-        public int yieldcd { get; set; }
-        public decimal? cropremovalfactor_N { get; set; }
-        public decimal? cropremovalfactor_P2O5 { get; set; }
-        public decimal? cropremovalfactor_K2O { get; set; }
-        public decimal n_recommcd { get; set; }
-        public decimal? n_recomm_lbperac { get; set; }
-        public decimal? n_high_lbperac { get; set; }
-        public int prevcropcd { get; set; }
-        public int sortNum { get; set; }
-        public int prevYearManureAppl_volCatCd { get; set; }
-        public decimal? harvestBushelsPerTon { get; set; }
+        public string CropName { get; set; }
+        public int CropTypeId { get; set; }
+        public int YieldCd { get; set; }
+        public decimal? CropRemovalFactor_N { get; set; }
+        public decimal? CropRemovalFactorP2O5 { get; set; }
+        public decimal? CropRemovalFactorK2O { get; set; }
+        public decimal N_RecommCd { get; set; }
+        public decimal? N_Recomm_lbPerAc { get; set; }
+        public decimal? N_High_lbPerAc { get; set; }
+        public int PrevCropCd { get; set; }
+        public int SortNum { get; set; }
+        public int PrevYearManureAppl_VolCatCd { get; set; }
+        public decimal? HarvestBushelsPerTon { get; set; }
+
+        public CropType CropType { get; set; }
+        public List<CropYield> CropYields { get; set; }
+        public List<CropSTKRegionCd> CropSTKRegionCds { get; set; }
+        public List<CropSTPRegionCd> CropSTPRegionCds { get; set; }
     }
 }

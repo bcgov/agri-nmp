@@ -2,9 +2,11 @@
 {
     public class STKRecommend
     {
-        public int stk_kelowna_rangeid { get; set; }
-        public int soil_test_potassium_region_cd { get; set; }
-        public int potassium_crop_group_region_cd { get; set; }
-        public int k2o_recommend_kgperha { get; set; }
+        public int STKKelownaRangeId { get; set; }
+        public int SoilTestPotassiumRegionCd { get; set; }
+        public int PotassiumCropGroupRegionCd { get; set; }
+        public int K2O_Recommend_kgPeHa { get; set; }
+
+        public STKKelownaRange STKKelownaRange { get; set; }
     }
 }

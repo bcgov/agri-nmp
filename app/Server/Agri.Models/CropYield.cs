@@ -2,8 +2,10 @@
 {
     public class CropYield
     {
-        public int cropid { get; set; }
-        public int locationid { get; set; }
-        public decimal? amt { get; set; }
+        public int CropId { get; set; }
+        public int LocationId { get; set; }
+        public decimal? Amt { get; set; }
+        public Crop Crop { get; set; }
+        public Location Location { get; set; }
     }
 }

@@ -1,9 +1,13 @@
-﻿namespace Agri.Models
+﻿using System.Collections.Generic;
+
+namespace Agri.Models
 {
     public class DensityUnit
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public decimal convfactor { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal ConvFactor { get; set; }
+
+        public List<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
     }
 }

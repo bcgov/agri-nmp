@@ -2,19 +2,22 @@
 {
     public class Manure
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string manure_class { get; set; }
-        public string solid_liquid { get; set; }
-        public string moisture { get; set; }
-        public decimal nitrogen { get; set; }
-        public int ammonia { get; set; }
-        public decimal phosphorous { get; set; }
-        public decimal potassium { get; set; }
-        public int dmid { get; set; }
-        public int nminerizationid { get; set; }
-        public int sortNum { get; set; }
-        public decimal cubic_Yard_Conversion { get; set; }
-        public decimal nitrate { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string ManureClass { get; set; }
+        public string SolidLiquid { get; set; }
+        public string Moisture { get; set; }
+        public decimal Nitrogen { get; set; }
+        public int Ammonia { get; set; }
+        public decimal Phosphorous { get; set; }
+        public decimal Potassium { get; set; }
+        public int DMId { get; set; }
+        public int NMineralizationId { get; set; }
+        public int SortNum { get; set; }
+        public decimal CubicYardConversion { get; set; }
+        public decimal Nitrate { get; set; }
+
+        public NMineralization NMineralization { get; set; }
+        public DM Dm { get; set; }
     }
 }

@@ -1,10 +1,14 @@
-﻿namespace Agri.Models
+﻿using System.Collections.Generic;
+
+namespace Agri.Models
 {
     public class STPKelownaRange
     {
-        public int id { get; set; }
-        public string range { get; set; }
-        public int range_low { get; set; }
-        public int range_high { get; set; }
+        public int Id { get; set; }
+        public string Range { get; set; }
+        public int RangeLow { get; set; }
+        public int RangeHigh { get; set; }
+
+        public List<STPRecommend> STPRecommendations { get; set; }
     }
 }

@@ -2,9 +2,11 @@
 {
     public class STPRecommend
     {
-        public int stp_kelowna_rangeid { get; set; }
-        public int soil_test_phosphorous_region_cd { get; set; }
-        public int phosphorous_crop_group_region_cd { get; set; }
-        public int p2o5_recommend_kgperha { get; set; }
+        public int STPKelownaRangeId { get; set; }
+        public int SoilTestPhosphorousRegionCd { get; set; }
+        public int PhosphorousCropGroupRegionCd { get; set; }
+        public int P2O5_Recommend_KgPerHa { get; set; }
+
+        public STPKelownaRange StpKelownaRange { get; set; }
     }
 }

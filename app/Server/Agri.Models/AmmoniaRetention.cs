@@ -2,8 +2,8 @@
 {
     public class AmmoniaRetention
     {
-        public int seasonapplicatonid { get; set; }
-        public int dm { get; set; }
-        public decimal? value { get; set; }
+        public int SeasonApplicationId { get; set; }
+        public int DM { get; set; }
+        public decimal? Value { get; set; }
     }
 }

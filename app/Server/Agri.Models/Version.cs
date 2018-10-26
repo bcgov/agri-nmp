@@ -1,9 +1,7 @@
 ﻿namespace Agri.Models
 {
-    //public class StaticData
-    //{
     public class Version
     {
-        public string staticDataVersion { get; set; }
+        public string StaticDataVersion { get; set; }
     }
 }

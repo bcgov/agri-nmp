@@ -1,8 +1,14 @@
-﻿namespace Agri.Models
+﻿using System;
+using System.Collections.Generic;
+
+namespace Agri.Models
 {
     public class Location
     {
-        public int id { get; set; }
-        public string name { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public List<CropYield> CropYields { get; set; }
+        public List<Region> Regions { get; set; }
     }
 }

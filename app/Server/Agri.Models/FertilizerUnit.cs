@@ -2,15 +2,17 @@
 {
     public class FertilizerUnit
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string dry_liquid { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string DryLiquid { get; set; }
 
-        public decimal conv_to_impgalperac { get; set; }
+        public decimal ConvToImpGalPerAc { get; set; }
 
         // conversion factor to the units displayed in the section, Manure and Fertilizer Required, of the Complete Report.
         // does not consider the area 
-        public decimal farm_reqd_nutrients_std_units_conversion { get; set; }
-        public decimal farm_reqd_nutrients_std_units_area_conversion { get; set; }
+        public decimal FarmReqdNutrientsStdUnitsConversion { get; set; }
+        public decimal FarmReqdNutrientsStdUnitsAreaConversion { get; set; }
+
+
     }
 }

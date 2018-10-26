@@ -1,11 +1,15 @@
-﻿namespace Agri.Models
+﻿using System.Collections.Generic;
+
+namespace Agri.Models
 {
     public class NMineralization
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public int locationid { get; set; }
-        public decimal firstyearvalue { get; set; }
-        public decimal longtermvalue { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int Locationid { get; set; }
+        public decimal FirstYearValue { get; set; }
+        public decimal LongTermValue { get; set; }
+
+        public List<Manure> Manures { get; set; }
     }
 }
