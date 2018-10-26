@@ -1903,7 +1903,7 @@ namespace SERVERAPI.Models.Impl
             foreach (var record in array)
             {
                 Models.StaticData.Animal animal = new Models.StaticData.Animal();
-                animal.id = Convert.ToInt32(record["Id"].ToString());
+                animal.id = Convert.ToInt32(record["id"].ToString());
                 animal.name = record["Name"].ToString();
                 animals.animals.Add(animal);
             }
@@ -1917,7 +1917,7 @@ namespace SERVERAPI.Models.Impl
             JObject rec = array.Children<JObject>()
                 .FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
             Models.StaticData.Animal animal = new Models.StaticData.Animal();
-            animal.id = Convert.ToInt32(rec["Id"].ToString());
+            animal.id = Convert.ToInt32(rec["id"].ToString());
             animal.name = rec["Name"].ToString();
 
             return animal;
@@ -1949,7 +1949,7 @@ namespace SERVERAPI.Models.Impl
                 if (Convert.ToUInt32(record["animalId"].ToString()) == animalId)
                 {
                     Models.StaticData.AnimalSubType animalSubtype = new Models.StaticData.AnimalSubType();
-                    animalSubtype.id = Convert.ToInt32(record["Id"]);
+                    animalSubtype.id = Convert.ToInt32(record["id"]);
                     animalSubtype.name = record["name"].ToString();
                     animalSubtype.liquidPerGalPerAnimalPerDay =
                         Convert.ToDecimal(record["liquidPerGalPerAnimalPerDay"]);
@@ -1975,7 +1975,7 @@ namespace SERVERAPI.Models.Impl
             foreach (var record in array)
             {
                 Models.StaticData.AnimalSubType animalSubtype = new Models.StaticData.AnimalSubType();
-                    animalSubtype.id = Convert.ToInt32(record["Id"].ToString());
+                    animalSubtype.id = Convert.ToInt32(record["id"].ToString());
                     animalSubtype.name = record["name"].ToString();
                 //    animalSubtype.liquidPerGalPerAnimalPerDay =
                 //        Convert.ToDecimal(record["liquidPerGalPerAnimalPerDay"].ToString());
@@ -2045,29 +2045,6 @@ namespace SERVERAPI.Models.Impl
             }
 
             return manureMaterialTypeOptions;
-        }
-        
-        public Models.StaticData.AnimalsUsingWashWater GetAnimalsUsingWashWater()
-        {
-            var animalsUsingWashWater = new AnimalsUsingWashWater();
-            animalsUsingWashWater.Animals = new List<AnimalUsingWashWater>();
-            var array = (JArray)rss["agri"]["nmp"]["animalsUsingWashWater"];
-
-            foreach (var record in array)
-            {
-                var animalUsingWashWater = new AnimalUsingWashWater
-                {
-                    AnimalSubTypeId = Convert.ToInt32(record["animalSubTypeId"].ToString())
-                };
-                animalsUsingWashWater.Animals.Add(animalUsingWashWater);
-            }
-
-            return animalsUsingWashWater;
-        }
-
-        public bool DoesAnimalUseWashWater(int animalSubTypeId)
-        {
-            return GetAnimalsUsingWashWater().Animals.Any(a => a.AnimalSubTypeId == animalSubTypeId);
         }
     }
 

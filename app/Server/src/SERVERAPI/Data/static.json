@@ -9360,43 +9360,43 @@
       "animals": {
         "animal": [
           {
-            "Id": 1,
+            "id": 1,
             "Name": "Beef Cattle"
           },
           {
-            "Id": 2,
+            "id": 2,
             "Name": "Dairy Cattle"
           },
           {
-            "Id": 3,
+            "id": 3,
             "Name": "Ducks"
           },
           {
-            "Id": 4,
+            "id": 4,
             "Name": "Goats"
           },
           {
-            "Id": 5,
+            "id": 5,
             "Name": "Horse"
           },
           {
-            "Id": 6,
+            "id": 6,
             "Name": "Poultry"
           },
           {
-            "Id": 7,
+            "id": 7,
             "Name": "Rabbits"
           },
           {
-            "Id": 8,
+            "id": 8,
             "Name": "Sheep"
           },
           {
-            "Id": 9,
+            "id": 9,
             "Name": "Swine"
           },
           {
-            "Id": 10,
+            "id": 10,
             "Name": "Veal"
           }
         ]
@@ -9740,16 +9740,6 @@
             "name": "Solid Liquid Separated"
           }
         ]
-      },
-      "animalsUsingWashWater": {
-        "animalUsingWashWater": [
-          {
-            "animalSubTypeId": 9 
-          },
-          {
-            "animalSubTypeId": 10 
-          }
-        ] 
       }
     }
   }

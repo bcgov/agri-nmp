@@ -525,15 +525,5 @@ namespace SERVERAPI.Models
             public int id { get; set; }
             public string name { get; set; }
         }
-
-        public class AnimalUsingWashWater
-        {
-            public int AnimalSubTypeId { get; set; }
-        }
-
-        public class AnimalsUsingWashWater
-        {
-            public List<AnimalUsingWashWater> Animals { get; set; }
-        }
     }
 }
