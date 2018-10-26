@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "AgriConnectionString": "Server=localhost;Database=AgriConfiguration;Username=postgres;Password=superuserpassword"
+  } 
+}

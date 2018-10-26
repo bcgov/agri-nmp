@@ -17,21 +17,41 @@ namespace SERVERAPI
     {
         public static void Main(string[] args)
         {
-            var config = new ConfigurationBuilder()
-                .AddEnvironmentVariables("")
-                .Build();
+            //var config = new ConfigurationBuilder()
+            //    .AddJsonFile("config.json", false, true)
+            //    .AddEnvironmentVariables("")
+            //    .Build();
 
-            var url = config["ASPNETCORE_URLS"] ?? "http://*:8080";
+            //var url = config["ASPNETCORE_URLS"] ?? "http://*:8080";
 
-            var host = new WebHostBuilder()
+            //var host = new WebHostBuilder()
+            //    .UseKestrel()
+            //    .UseContentRoot(Directory.GetCurrentDirectory())
+            //    .UseIISIntegration()
+            //    .UseStartup<Startup>()
+            //    .UseUrls(url)
+            //    .Build();  
+
+            //host.Run();
+            BuildWebHost(args).Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(SetupConfiguration)
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseUrls(url)
-                .Build();  
+                .UseUrls("http://*:8080")
+                .Build();
 
-            host.Run();
+
+        private static void SetupConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder builder)
+        {
+            builder.Sources.Clear();
+
+            builder.AddEnvironmentVariables();
         }
     }
 

@@ -33,6 +33,7 @@ using SERVERAPI.Utility;
 using SERVERAPI.Controllers;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Agri.Data;
 
 namespace SERVERAPI
 {
@@ -61,6 +62,7 @@ namespace SERVERAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             //services.AddAuthorization();
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -86,6 +88,11 @@ namespace SERVERAPI
             // Enable Node Services
             services.AddNodeServices();
 
+            services.AddDbContext<AgriConfigurationContext>(options =>
+                { options.UseNpgsql(Configuration.GetConnectionString("AgriConnectionString")
+                                                ,b => b.MigrationsAssembly("SERVERAPI"));
+                });
+
             //// Add framework services.
             services.AddMvc()
                 .AddJsonOptions(
@@ -105,6 +112,8 @@ namespace SERVERAPI
             services.AddOptions();
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
