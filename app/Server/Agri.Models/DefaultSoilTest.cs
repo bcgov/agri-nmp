@@ -2,11 +2,11 @@
 {
     public class DefaultSoilTest
     {
-        public decimal nitrogen { get; set; }
-        public decimal phosphorous { get; set; }
-        public decimal potassium { get; set; }
+        public decimal Nitrogen { get; set; }
+        public decimal Phosphorous { get; set; }
+        public decimal Potassium { get; set; }
         public decimal pH { get; set; }
-        public int convertedKelownaP { get; set; }
-        public int convertedKelownaK { get; set; }
+        public int ConvertedKelownaP { get; set; }
+        public int ConvertedKelownaK { get; set; }
     }
 }

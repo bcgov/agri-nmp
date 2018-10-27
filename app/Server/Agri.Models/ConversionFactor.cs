@@ -2,19 +2,19 @@
 {
     public class ConversionFactor
     {
-        public decimal n_protein_conversion { get; set; }
-        public decimal unit_conversion { get; set; }
-        public int defaultSoilTestKelownaP { get; set; }
-        public int defaultSoilTestKelownaK { get; set; }
-        public decimal kgperha_lbperac_conversion { get; set; }
-        public decimal potassiumAvailabilityFirstYear { get; set; }
-        public decimal potassiumAvailabilityLongTerm { get; set; }
-        public decimal potassiumKtoK2Oconversion { get; set; }
-        public decimal phosphorousAvailabilityFirstYear { get; set; }
-        public decimal phosphorousAvailabilityLongTerm { get; set; }
-        public decimal phosphorousPtoP2O5Kconversion { get; set; }
+        public decimal NProteinConversion { get; set; }
+        public decimal UnitConversion { get; set; }
+        public int DefaultSoilTestKelownaP { get; set; }
+        public int DefaultSoilTestKelownaK { get; set; }
+        public decimal KgPerHa_lbPerAc_Conversion { get; set; }
+        public decimal PotassiumAvailabilityFirstYear { get; set; }
+        public decimal PotassiumAvailabilityLongTerm { get; set; }
+        public decimal PotassiumKtoK2Oconversion { get; set; }
+        public decimal PhosphorousAvailabilityFirstYear { get; set; }
+        public decimal PhosphorousAvailabilityLongTerm { get; set; }
+        public decimal PhosphorousPtoP2O5Kconversion { get; set; }
         public decimal lbPerTonConversion { get; set; }
-        public decimal lbper1000ftsquared_lbperac_conversion { get; set; }
-        public string defaultApplicationOfManureInPrevYears { get; set; }
+        public decimal lbPer1000ftSquared_lbPerAc_Conversion { get; set; }
+        public string DefaultApplicationOfManureInPrevYears { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class PrevYearManureApplDefaultNitrogen
     {
-        public string prevYearManureAppFrequency { get; set; }
-        public int[] defaultNitrogenCredit { get; set; }
+        public string PrevYearManureAppFrequency { get; set; }
+        public int[] DefaultNitrogenCredit { get; set; }
     }
 }

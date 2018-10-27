@@ -2,8 +2,8 @@
 {
     public class ExternalLink
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string url { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Url { get; set; }
     }
 }
