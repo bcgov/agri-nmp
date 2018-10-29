@@ -512,7 +512,9 @@ namespace SERVERAPI.Models
             public decimal solidPerGalPerAnimalPerDay {get; set; }
             public decimal solidPerPoundPerAnimalPerDay {get; set; }
             public decimal solidLiquidSeparationPercentage { get; set; }
+            public decimal washWater { get; set; }
             public int animalId { get; set; }
+            
         }
 
         public class ManureMaterialTypes
@@ -524,6 +526,16 @@ namespace SERVERAPI.Models
         {
             public int id { get; set; }
             public string name { get; set; }
+        }
+
+        public class AnimalUsingWashWater
+        {
+            public int AnimalSubTypeId { get; set; }
+        }
+
+        public class AnimalsUsingWashWater
+        {
+            public List<AnimalUsingWashWater> Animals { get; set; }
         }
     }
 }
