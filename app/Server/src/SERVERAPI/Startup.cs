@@ -56,6 +56,11 @@ namespace SERVERAPI
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
             Configuration = builder.Build();
         }
 
@@ -88,9 +93,15 @@ namespace SERVERAPI
             // Enable Node Services
             services.AddNodeServices();
 
+            var agriConnectionString = Configuration["Agri:ConnectionString"];
+            Console.WriteLine(agriConnectionString);
+            //services.AddDbContext<AgriConfigurationContext>(options =>
+            //    { options.UseNpgsql(Configuration.GetConnectionString("AgriConnectionString")
+            //                                    ,b => b.MigrationsAssembly("SERVERAPI"));
+            //    });
             services.AddDbContext<AgriConfigurationContext>(options =>
-                { options.UseNpgsql(Configuration.GetConnectionString("AgriConnectionString")
-                                                ,b => b.MigrationsAssembly("SERVERAPI"));
+                {
+                    options.UseNpgsql(agriConnectionString, b => b.MigrationsAssembly("SERVERAPI"));
                 });
 
             //// Add framework services.

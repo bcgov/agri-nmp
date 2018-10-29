@@ -45,6 +45,7 @@ namespace Agri.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            //Composite Primary Key Definitions
             builder.Entity<CropSTKRegionCd>().HasKey(table => new {table.CropId, table.PotassiumCropGroupRegionCd});
             builder.Entity<CropSTPRegionCd>().HasKey(table => new {table.CropId, table.PhosphorousCropGroupRegionCd});
             builder.Entity<CropYield>().HasKey(table => new {table.CropId, table.LocationId});
