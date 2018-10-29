@@ -2,6 +2,7 @@
 {
     public class DefaultSoilTest
     {
+        public int Id { get; set; }
         public decimal Nitrogen { get; set; }
         public decimal Phosphorous { get; set; }
         public decimal Potassium { get; set; }

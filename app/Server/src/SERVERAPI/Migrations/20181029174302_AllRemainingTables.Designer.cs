@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SERVERAPI.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20181029174302_AllRemainingTables")]
+    partial class AllRemainingTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -222,28 +224,6 @@ namespace SERVERAPI.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("CropYield");
-                });
-
-            modelBuilder.Entity("Agri.Models.DefaultSoilTest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ConvertedKelownaK");
-
-                    b.Property<int>("ConvertedKelownaP");
-
-                    b.Property<decimal>("Nitrogen");
-
-                    b.Property<decimal>("Phosphorous");
-
-                    b.Property<decimal>("Potassium");
-
-                    b.Property<decimal>("pH");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DefaultSoilTests");
                 });
 
             modelBuilder.Entity("Agri.Models.DensityUnit", b =>
@@ -476,20 +456,6 @@ namespace SERVERAPI.Migrations
                     b.ToTable("NMineralization");
                 });
 
-            modelBuilder.Entity("Agri.Models.NutrientIcon", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("definition");
-
-                    b.Property<string>("name");
-
-                    b.HasKey("id");
-
-                    b.ToTable("NutrientIcons");
-                });
-
             modelBuilder.Entity("Agri.Models.PrevCropType", b =>
                 {
                     b.Property<int>("Id")
@@ -514,32 +480,6 @@ namespace SERVERAPI.Migrations
                     b.HasIndex("CropTypeId1");
 
                     b.ToTable("PrevCropType");
-                });
-
-            modelBuilder.Entity("Agri.Models.PrevManureApplicationYear", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PrevManureApplicationYears");
-                });
-
-            modelBuilder.Entity("Agri.Models.PrevYearManureApplDefaultNitrogen", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int[]>("DefaultNitrogenCredit");
-
-                    b.Property<string>("PrevYearManureAppFrequency");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PrevYearManureApplDefaultNitrogens");
                 });
 
             modelBuilder.Entity("Agri.Models.Region", b =>
@@ -596,32 +536,6 @@ namespace SERVERAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SeasonApplications");
-                });
-
-            modelBuilder.Entity("Agri.Models.SelectCodeItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Cd");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SelectCodeItems");
-                });
-
-            modelBuilder.Entity("Agri.Models.SelectListItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SelectListItems");
                 });
 
             modelBuilder.Entity("Agri.Models.SoilTestMethod", b =>

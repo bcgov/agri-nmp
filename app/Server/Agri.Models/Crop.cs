@@ -4,7 +4,7 @@ namespace Agri.Models
 {
     public class Crop
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string CropName { get; set; }
         public int CropTypeId { get; set; }
         public int YieldCd { get; set; }

@@ -1,7 +1,10 @@
-﻿namespace Agri.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models
 {
     public class STKRecommend
     {
+        [Key]
         public int STKKelownaRangeId { get; set; }
         public int SoilTestPotassiumRegionCd { get; set; }
         public int PotassiumCropGroupRegionCd { get; set; }

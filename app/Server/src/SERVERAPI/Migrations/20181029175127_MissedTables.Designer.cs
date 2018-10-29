@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SERVERAPI.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20181029175127_MissedTables")]
+    partial class MissedTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -514,32 +516,6 @@ namespace SERVERAPI.Migrations
                     b.HasIndex("CropTypeId1");
 
                     b.ToTable("PrevCropType");
-                });
-
-            modelBuilder.Entity("Agri.Models.PrevManureApplicationYear", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PrevManureApplicationYears");
-                });
-
-            modelBuilder.Entity("Agri.Models.PrevYearManureApplDefaultNitrogen", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int[]>("DefaultNitrogenCredit");
-
-                    b.Property<string>("PrevYearManureAppFrequency");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PrevYearManureApplDefaultNitrogens");
                 });
 
             modelBuilder.Entity("Agri.Models.Region", b =>
