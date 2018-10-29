@@ -67,7 +67,6 @@
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Save" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>Save</button>
         </div>
-
         @Html.HiddenFor(x => x.title)
         @Html.HiddenFor(x => x.buttonPressed)
         @Html.HiddenFor(x => x.showWashWater)
