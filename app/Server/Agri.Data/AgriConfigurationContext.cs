@@ -50,7 +50,7 @@ namespace Agri.Data
             modelBuilder.Entity<CropSTPRegionCd>().HasKey(table => new {table.CropId, table.PhosphorousCropGroupRegionCd});
             modelBuilder.Entity<CropYield>().HasKey(table => new {table.CropId, table.LocationId});
 
-            modelBuilder.Entity<AmmoniaRetention>().HasData()
+            modelBuilder.Entity<AmmoniaRetention>().HasData();
         }
     }
 }
