@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Models;
+﻿using Agri.Models.StaticData;
 using Microsoft.EntityFrameworkCore;
-using Version = Agri.Models.Version;
+using Version = Agri.Models.StaticData.Version;
 
 namespace Agri.Data
 {
