@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SERVERAPI", "src\SERVERAPI\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agri.Models", "Agri.Models\Agri.Models.csproj", "{9B9513CD-CF5A-4922-A865-D140ACF6B150}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agri.Data", "Agri.Data\Agri.Data.csproj", "{520844A0-5F05-4B83-A8E7-E9214A4511F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agri.Data", "Agri.Data\Agri.Data.csproj", "{520844A0-5F05-4B83-A8E7-E9214A4511F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

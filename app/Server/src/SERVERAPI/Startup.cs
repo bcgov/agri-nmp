@@ -68,12 +68,20 @@ namespace SERVERAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            var agriConnectionString = Configuration["Agri:ConnectionString"];
+            Console.WriteLine(agriConnectionString);
+            //Creates the DbContext as a scoped Service
+            services.AddDbContext<AgriConfigurationContext>(options =>
+            {
+                options.UseNpgsql(agriConnectionString, b => b.MigrationsAssembly("SERVERAPI"));
+            });
+
             //services.AddAuthorization();
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
+            services.AddTransient<AgriSeeder>();
 
             //// allow for large files to be uploaded
             services.Configure<FormOptions>(options =>
@@ -93,16 +101,6 @@ namespace SERVERAPI
             // Enable Node Services
             services.AddNodeServices();
 
-            var agriConnectionString = Configuration["Agri:ConnectionString"];
-            Console.WriteLine(agriConnectionString);
-            //services.AddDbContext<AgriConfigurationContext>(options =>
-            //    { options.UseNpgsql(Configuration.GetConnectionString("AgriConnectionString")
-            //                                    ,b => b.MigrationsAssembly("SERVERAPI"));
-            //    });
-            services.AddDbContext<AgriConfigurationContext>(options =>
-                {
-                    options.UseNpgsql(agriConnectionString, b => b.MigrationsAssembly("SERVERAPI"));
-                });
 
             //// Add framework services.
             services.AddMvc()

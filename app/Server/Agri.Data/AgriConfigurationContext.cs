@@ -43,12 +43,14 @@ namespace Agri.Data
         public DbSet<Version> Versions { get; set; }
         public DbSet<Yield> Yields { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Composite Primary Key Definitions
-            builder.Entity<CropSTKRegionCd>().HasKey(table => new {table.CropId, table.PotassiumCropGroupRegionCd});
-            builder.Entity<CropSTPRegionCd>().HasKey(table => new {table.CropId, table.PhosphorousCropGroupRegionCd});
-            builder.Entity<CropYield>().HasKey(table => new {table.CropId, table.LocationId});
+            modelBuilder.Entity<CropSTKRegionCd>().HasKey(table => new {table.CropId, table.PotassiumCropGroupRegionCd});
+            modelBuilder.Entity<CropSTPRegionCd>().HasKey(table => new {table.CropId, table.PhosphorousCropGroupRegionCd});
+            modelBuilder.Entity<CropYield>().HasKey(table => new {table.CropId, table.LocationId});
+
+            modelBuilder.Entity<AmmoniaRetention>().HasData()
         }
     }
 }
