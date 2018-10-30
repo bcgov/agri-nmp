@@ -513,6 +513,7 @@ namespace SERVERAPI.Models
             public decimal solidPerPoundPerAnimalPerDay {get; set; }
             public decimal solidLiquidSeparationPercentage { get; set; }
             public decimal washWater { get; set; }
+            public decimal milkProduction { get; set; }
             public int animalId { get; set; }
             
         }

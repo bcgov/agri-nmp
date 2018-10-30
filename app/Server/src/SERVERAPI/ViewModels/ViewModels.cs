@@ -645,6 +645,10 @@ namespace SERVERAPI.ViewModels
         public decimal washWater { get; set; }
         public bool showWashWater { get; set; }
         public bool stdWashWater { get; set; }
+        public string includeMilkProduction { get; set; }
+        public decimal milkProduction { get; set; }
+        public bool showMilkProduction { get; set; }
+        public bool stdMilkProduction { get; set; }
         public string buttonPressed { get; set; }
         public string placehldr { get; set; }
 

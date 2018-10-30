@@ -41,6 +41,7 @@ namespace SERVERAPI.Controllers
             ManureGeneratedObtainedDetailViewModel mgovm = new ManureGeneratedObtainedDetailViewModel();
             mgovm.title = id == null ? "Add" : "Edit";
             mgovm.stdWashWater = true;
+            mgovm.stdMilkProduction = true;
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
 
             if (id != null)
@@ -80,11 +81,26 @@ namespace SERVERAPI.Controllers
                             mgovm.washWater = _sd.GetIncludeWashWater(Convert.ToInt16(mgovm.selSubTypeOption));
                             mgovm.stdWashWater = true;
                         }
+
+                        if (mgovm.showMilkProduction)
+                        {
+                            mgovm.milkProduction = _sd.GetMilkProduction(Convert.ToInt16(mgovm.selSubTypeOption));
+                            mgovm.stdMilkProduction = true;
+                        }
                     }
                     else
                     {
                         animalDetailReset(ref mgovm);
                     }
+
+                    return View(mgovm);
+                }
+
+                if (mgovm.buttonPressed == "ManureMaterialTypeChange")
+                {
+                    ModelState.Clear();
+                    mgovm.buttonPressed = "";
+                    mgovm.btnText = "Save";
 
                     return View(mgovm);
                 }
@@ -108,11 +124,13 @@ namespace SERVERAPI.Controllers
                             if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                             {
                                 mgovm.showWashWater = true;
+                                mgovm.showMilkProduction = true;
                             }
                         }
                         else
                         {
                             mgovm.showWashWater = false;
+                            mgovm.showMilkProduction = false;
                         }
                     }
                     else
@@ -128,22 +146,44 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     mgovm.buttonPressed = "";
                     mgovm.btnText = "Save";
-                    animalDetailReset(ref mgovm);
 
                     mgovm.stdWashWater = true;
                     mgovm.washWater = _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption));
+                    if (mgovm.milkProduction != _sd.GetMilkProduction(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                    {
+                        mgovm.stdMilkProduction = false;
+                    }
+                    return View(mgovm);
+                }
+
+                if (mgovm.buttonPressed == "ResetMilkProduction")
+                {
+                    ModelState.Clear();
+                    mgovm.buttonPressed = "";
+                    mgovm.btnText = "Save";
+
+                    mgovm.stdMilkProduction = true;
+                    mgovm.milkProduction = _sd.GetMilkProduction(Convert.ToInt32(mgovm.selSubTypeOption));
+                    if (mgovm.washWater != _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                    {
+                        mgovm.stdWashWater = false;
+                    }
                     return View(mgovm);
                 }
 
                 if (mgovm.btnText == "Save")
                 {
+                    ModelState.Clear();
                     if (mgovm.washWater != _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
                     {
                         mgovm.stdWashWater = false;
                     }
 
+                    if (mgovm.milkProduction != _sd.GetMilkProduction(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                    {
+                        mgovm.stdMilkProduction = false;
+                    }
                 }
-
             }
             catch (Exception ex)
             {
@@ -155,6 +195,7 @@ namespace SERVERAPI.Controllers
         private void animalDetailReset(ref ManureGeneratedObtainedDetailViewModel mgovm)
         {
             mgovm.stdWashWater = true;
+            mgovm.stdMilkProduction = true;
 
             return;
         }
@@ -162,6 +203,7 @@ namespace SERVERAPI.Controllers
         private void animalTypeDetailsSetup(ref ManureGeneratedObtainedDetailViewModel mgovm)
         {
             mgovm.showWashWater = false;
+            mgovm.showMilkProduction = false;
 
             mgovm.animalTypeOptions = new List<Models.StaticData.SelectListItem>();
             mgovm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
@@ -182,6 +224,7 @@ namespace SERVERAPI.Controllers
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;
+                        mgovm.showMilkProduction = true;
                     }
                 }
             }
