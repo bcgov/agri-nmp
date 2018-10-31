@@ -38,20 +38,19 @@
                     </div>
                     @if (Model.showWashWater)
                     {
-                    <div class="form-group col-sm-3">
-                        <label>Milking Centre Wash Water</label>
-                        <div class="input-group">
-                            <input class="form-control" asp-for="washWater" id="washWater" type="text" />
-                            @if (!Model.stdWashWater)
-                            {
-                                <span class="input-group-btn" title="Reset to standard value">
-                                    <button class="btn btn-default" type="button" id="rstWashWater" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                                </span>
-                            }
+                        <div class="form-group col-sm-5">
+                            <label>Milking Centre Wash Water(US gallons/day/animal)</label>
+                            <div class="input-group">
+                                <input class="form-control" asp-for="washWater" id="washWater" type="text" />
+                                @if (!Model.stdWashWater)
+                                {
+                                    <span class="input-group-btn" title="Reset to standard value">
+                                        <button class="btn btn-default" type="button" id="rstWashWater" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                    </span>
+                                }
+                            </div>
+                            <span asp-validation-for="washWater"></span>
                         </div>
-                        <label>US gallons/day/animal)</label>
-                        <span asp-validation-for="washWater"></span>
-                    </div>
                     }
                     else
                     {
@@ -60,7 +59,7 @@
                     @if (Model.showMilkProduction)
                     {
                         <div class="form-group col-sm-3">
-                            <label>Milk Production</label>
+                            <label>Milk Production(lb/day/animal)</label>
                             <div class="input-group">
                                 <input class="form-control" asp-for="milkProduction" id="milkProduction" type="text" />
                                 @if (!Model.stdMilkProduction)
@@ -70,7 +69,6 @@
                                     </span>
                                 }
                             </div>
-                            <label>lb/day/animal</label>
                             <span asp-validation-for="milkProduction"></span>
                         </div>
                     }
