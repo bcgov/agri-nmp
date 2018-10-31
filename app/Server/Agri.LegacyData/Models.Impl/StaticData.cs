@@ -1977,8 +1977,8 @@ namespace Agri.LegacyData.Models.Impl
                                                 Convert.ToDecimal(record["liquidPerGalPerAnimalPerDay"].ToString()) : 0,
                     SolidPerGalPerAnimalPerDay = !string.IsNullOrWhiteSpace(record["solidPerGalPerAnimalPerDay"].ToString()) ? 
                                                 Convert.ToDecimal(record["solidPerGalPerAnimalPerDay"].ToString()) : 0,
-                    //SolidPerPoundPerAnimalPerDay = !string.IsNullOrWhiteSpace(record["solidPerPoundPerAnimalPerDay"].ToString()) ?
-                    //                            Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"].ToString()) : 0,
+                    SolidPerPoundPerAnimalPerDay = !string.IsNullOrWhiteSpace(record["solidPerPoundPerAnimalPerDay"].ToString()) ?
+                                                Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"].ToString()) : 0,
                     SolidLiquidSeparationPercentage = !string.IsNullOrWhiteSpace(record["solidLiquidSeparationPercentage"].ToString()) ?
                                                  Convert.ToDecimal(record["solidLiquidSeparationPercentage"].ToString()) : 0,
                     AnimalId = Convert.ToInt32(record["animalId"].ToString())
