@@ -25,27 +25,11 @@ namespace Agri.LegacyData.Models.Impl
         private const int CROP_YIELD_DEFAULT_DISPLAY_UNIT = 2;
 
 
-        private JObject rss;
-
-        
+        protected JObject rss;
 
         public StaticData()
         {
-            //var assembly = Assembly.GetEntryAssembly();
-            //var resourceStream = assembly.GetManifestResourceStream("Agri.LegacyData.Data.static.json");
-            //try
-            //{
-            //    using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
-            //    {
-            //        rss = JObject.Parse(reader.ReadToEnd());
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw new Exception("Static Data json file structure error!");
-            //}
             rss = StaticDataLoader.GetStaticDataJson();
-
         }
 
         public List<Region> GetRegions()

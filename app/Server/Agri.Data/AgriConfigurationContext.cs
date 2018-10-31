@@ -41,11 +41,10 @@ namespace Agri.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Composite Primary Key Definitions
+            modelBuilder.Entity<AmmoniaRetention>().HasKey(table => new {table.SeasonApplicationId, table.DM});
             modelBuilder.Entity<CropSTKRegionCd>().HasKey(table => new {table.CropId, table.PotassiumCropGroupRegionCd});
             modelBuilder.Entity<CropSTPRegionCd>().HasKey(table => new {table.CropId, table.PhosphorousCropGroupRegionCd});
             modelBuilder.Entity<CropYield>().HasKey(table => new {table.CropId, table.LocationId});
-
-            modelBuilder.Entity<AmmoniaRetention>().HasData();
         }
     }
 }

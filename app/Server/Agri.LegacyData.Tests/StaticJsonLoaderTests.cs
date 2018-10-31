@@ -1,3 +1,4 @@
+using Agri.LegacyData.Models.Impl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Agri.LegacyData.Tests
@@ -11,6 +12,16 @@ namespace Agri.LegacyData.Tests
             var rss = StaticDataLoader.GetStaticDataJson();
 
             Assert.IsNotNull(rss);
+        }
+
+        [TestMethod]
+        public void RetrieveAmmoniaRetentionListSuccessfully()
+        {
+            var staticDataLists = new StaticDataExtraLists();
+            var result = staticDataLists.GetAmmoniaRetentions();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
         }
     }
 }

@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Agri.LegacyData\Agri.LegacyData.csproj" />
     <ProjectReference Include="..\Agri.Models\Agri.Models.csproj" />
   </ItemGroup>
 

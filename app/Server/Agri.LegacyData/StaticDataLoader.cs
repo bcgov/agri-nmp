@@ -13,10 +13,7 @@ namespace Agri.LegacyData
     {
         public static JObject GetStaticDataJson()
         {
-            var assembly = Assembly.GetEntryAssembly();
-            //var resourceStream = assembly.GetManifestResourceStream("Agri.LegacyData.Data.static.json");
-            //var resourceStream = assembly.GetManifestResourceStream("Agri.LegacyData.Data.static.json");
-            var resourceStream = Assembly.LoadFrom("Agri.LegacyData.Tests").GetManifestResourceStream("Data.static.json");
+            var resourceStream = Assembly.Load("Agri.LegacyData").GetManifestResourceStream("Agri.LegacyData.Data.static.json");
 
             try
             {
