@@ -135,7 +135,7 @@
 
         $(document).ready(function () {
             $("body").on("change", "#ddlManureMaterialType", function () {
-                $('#buttonPressed').val("TypeChange");
+                $('#buttonPressed').val("ManureMaterialTypeChange");
                 $("#modForm").submit();
             })
         });
@@ -149,6 +149,17 @@
         $(document).ready(function () {
             $("body").on("click", "#rstWashWater", function () {
                 $('#buttonPressed').val("ResetWashWater");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).on('change','#milkProduction', function () {
+                NeedRefresh();
+            });
+
+        $(document).ready(function () {
+            $("body").on("click", "#rstmilkProduction", function () {
+                $('#buttonPressed').val("ResetMilkProduction");
                 $("#modForm").submit();
             })
         });

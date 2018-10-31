@@ -2093,6 +2093,23 @@ namespace SERVERAPI.Models.Impl
 
             return animalSubType.washWater;
         }
+
+        public decimal GetMilkProduction(int Id)
+        {
+            Models.StaticData.AnimalSubType animalSubType = new Models.StaticData.AnimalSubType();
+
+            JArray subTypeIDS = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
+
+            foreach (var r in subTypeIDS)
+            {
+                if (r["id"].ToString() == Id.ToString())
+                {
+                    animalSubType.milkProduction = Convert.ToDecimal(r["milkProduction"].ToString());
+                }
+            }
+
+            return animalSubType.milkProduction;
+        }
     }
 
 }
