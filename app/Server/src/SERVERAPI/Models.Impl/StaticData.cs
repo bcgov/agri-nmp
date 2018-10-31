@@ -1974,17 +1974,20 @@ namespace SERVERAPI.Models.Impl
             JArray array = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
             foreach (var record in array)
             {
-                Models.StaticData.AnimalSubType animalSubtype = new Models.StaticData.AnimalSubType();
-                    animalSubtype.id = Convert.ToInt32(record["id"].ToString());
-                    animalSubtype.name = record["name"].ToString();
-                //    animalSubtype.liquidPerGalPerAnimalPerDay =
-                //        Convert.ToDecimal(record["liquidPerGalPerAnimalPerDay"].ToString());
-                //    animalSubtype.solidPerGalPerAnimalPerDay = Convert.ToDecimal(record["solidPerGalPerAnimalPerDay"].ToString(""));
-                //animalSubtype.solidPerPoundPerAnimalPerDay =
-                //        Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"].ToString());
-                //animalSubtype.solidLiquidSeparationPercentage =
-                //        Convert.ToDecimal(record["solidLiquidSeparationPercentage"].ToString());
-                animalSubtype.animalId = Convert.ToInt32(record["animalId"].ToString());
+                Models.StaticData.AnimalSubType animalSubtype = new Models.StaticData.AnimalSubType
+                {
+                    id = Convert.ToInt32(record["id"].ToString()),
+                    name = record["name"].ToString(),
+                    liquidPerGalPerAnimalPerDay = !string.IsNullOrWhiteSpace(record["liquidPerGalPerAnimalPerDay"].ToString()) ?
+                        Convert.ToDecimal(record["liquidPerGalPerAnimalPerDay"].ToString()) : 0,
+                    solidPerGalPerAnimalPerDay = !string.IsNullOrWhiteSpace(record["solidPerGalPerAnimalPerDay"].ToString()) ?
+                        Convert.ToDecimal(record["solidPerGalPerAnimalPerDay"].ToString()) : 0,
+                    solidPerPoundPerAnimalPerDay = !string.IsNullOrWhiteSpace(record["solidPerPoundPerAnimalPerDay"].ToString()) ?
+                        Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"].ToString()) : 0,
+                    solidLiquidSeparationPercentage = !string.IsNullOrWhiteSpace(record["solidLiquidSeparationPercentage"].ToString()) ?
+                        Convert.ToDecimal(record["solidLiquidSeparationPercentage"].ToString()) : 0,
+                    animalId = Convert.ToInt32(record["animalId"].ToString())
+                };
                 animalSubTypes.animalSubTypes.Add(animalSubtype);
             }
 
