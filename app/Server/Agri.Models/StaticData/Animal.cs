@@ -9,6 +9,10 @@ namespace Agri.Models.StaticData
 {
     public class Animal
     {
+        public Animal()
+        {
+            AnimalSubTypes = new List<AnimalSubType>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public List<AnimalSubType> AnimalSubTypes { get; set; }

@@ -5,6 +5,11 @@ namespace Agri.Models.StaticData
 {
     public class Location
     {
+        public Location()
+        {
+            CropYields = new List<CropYield>();
+            Regions = new List<Region>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
 

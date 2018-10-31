@@ -1889,18 +1889,19 @@ namespace Agri.LegacyData.Models.Impl
             return icon;
         }
 
-        public Models.StaticData.Animals GetAnimals()
+        public List<Animal> GetAnimals()
         {
-            Models.StaticData.Animals animals = new Models.StaticData.Animals();
-            animals.animals = new List<Models.StaticData.Animal>();
+            var animals = new List<Animal>();
 
             JArray array = (JArray)rss["agri"]["nmp"]["animals"]["animal"];
             foreach (var record in array)
             {
-                Models.StaticData.Animal animal = new Models.StaticData.Animal();
-                animal.id = Convert.ToInt32(record["id"].ToString());
-                animal.name = record["Name"].ToString();
-                animals.animals.Add(animal);
+                var animal = new Animal
+                {
+                    Id = Convert.ToInt32(record["id"].ToString()),
+                    Name = record["Name"].ToString()
+                };
+                animals.Add(animal);
             }
 
             return animals;
@@ -1920,67 +1921,69 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetAnimalTypesDll()
         {
-            Models.StaticData.Animals animalTypes = GetAnimals();
+            var animalTypes = GetAnimals();
 
             List<Models.StaticData.SelectListItem> animalTypeOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in animalTypes.animals)
+            foreach (var r in animalTypes)
             {
                 Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                    { Id = r.id, Value = r.name };
+                    { Id = r.Id, Value = r.Name };
                 animalTypeOptions.Add(li);
             }
 
             return animalTypeOptions;
         }
 
-        public Models.StaticData.AnimalSubTypes GetAnimalSubTypes(int animalId)
+        public List<AnimalSubType> GetAnimalSubTypes(int animalId)
         {
-            var subTypes = new Models.StaticData.AnimalSubTypes {animalSubTypes = new List<Models.StaticData.AnimalSubType>()};
+            var subTypes = new List<AnimalSubType>();
 
             JArray array = (JArray) rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
             foreach (var record in array)
             {
                 if (Convert.ToUInt32(record["animalId"].ToString()) == animalId)
                 {
-                    Models.StaticData.AnimalSubType animalSubtype = new Models.StaticData.AnimalSubType();
-                    animalSubtype.id = Convert.ToInt32(record["id"]);
-                    animalSubtype.name = record["name"].ToString();
-                    animalSubtype.liquidPerGalPerAnimalPerDay =
-                        Convert.ToDecimal(record["liquidPerGalPerAnimalPerDay"]);
-                    animalSubtype.solidPerGalPerAnimalPerDay = Convert.ToDecimal(record["solidPerGalPerAnimalPerDay"]);
-                    animalSubtype.solidPerPoundPerAnimalPerDay =
-                        Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"]);
-                    animalSubtype.solidLiquidSeparationPercentage =
-                        Convert.ToDecimal(record["solidLiquidSeparationPercentage"]);
-                    animalSubtype.animalId = Convert.ToInt32(record["animalId"]);
-                    subTypes.animalSubTypes.Add(animalSubtype);
+                    var animalSubtype = new AnimalSubType
+                    {
+                        Id = Convert.ToInt32(record["id"]),
+                        Name = record["name"].ToString(),
+                        LiquidPerGalPerAnimalPerDay = Convert.ToDecimal(record["liquidPerGalPerAnimalPerDay"]),
+                        SolidPerGalPerAnimalPerDay = Convert.ToDecimal(record["solidPerGalPerAnimalPerDay"]),
+                        SolidPerPoundPerAnimalPerDay = Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"]),
+                        SolidLiquidSeparationPercentage = 
+                            Convert.ToDecimal(record["solidLiquidSeparationPercentage"]),
+                        AnimalId = Convert.ToInt32(record["animalId"])
+                    };
+                    subTypes.Add(animalSubtype);
                 }
             }
 
             return subTypes;
         }
 
-        public Models.StaticData.AnimalSubTypes GetAnimalSubTypes()
+        public List<AnimalSubType> GetAnimalSubTypes()
         {
-            Models.StaticData.AnimalSubTypes animalSubTypes = new Models.StaticData.AnimalSubTypes();
-            animalSubTypes.animalSubTypes = new List<Models.StaticData.AnimalSubType>();
+            var animalSubTypes = new List<AnimalSubType>();
 
             JArray array = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
             foreach (var record in array)
             {
-                Models.StaticData.AnimalSubType animalSubtype = new Models.StaticData.AnimalSubType();
-                    animalSubtype.id = Convert.ToInt32(record["id"].ToString());
-                    animalSubtype.name = record["name"].ToString();
-                //    animalSubtype.liquidPerGalPerAnimalPerDay =
-                //        Convert.ToDecimal(record["liquidPerGalPerAnimalPerDay"].ToString());
-                //    animalSubtype.solidPerGalPerAnimalPerDay = Convert.ToDecimal(record["solidPerGalPerAnimalPerDay"].ToString(""));
-                //animalSubtype.solidPerPoundPerAnimalPerDay =
-                //        Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"].ToString());
-                //animalSubtype.solidLiquidSeparationPercentage =
-                //        Convert.ToDecimal(record["solidLiquidSeparationPercentage"].ToString());
-                animalSubtype.animalId = Convert.ToInt32(record["animalId"].ToString());
-                animalSubTypes.animalSubTypes.Add(animalSubtype);
+                var animalSubtype = new AnimalSubType
+                {
+                    Id = Convert.ToInt32(record["id"].ToString()),
+                    Name = record["name"].ToString(),
+                    LiquidPerGalPerAnimalPerDay = !string.IsNullOrWhiteSpace(record["liquidPerGalPerAnimalPerDay"].ToString()) ? 
+                                                Convert.ToDecimal(record["liquidPerGalPerAnimalPerDay"].ToString()) : 0,
+                    SolidPerGalPerAnimalPerDay = !string.IsNullOrWhiteSpace(record["solidPerGalPerAnimalPerDay"].ToString()) ? 
+                                                Convert.ToDecimal(record["solidPerGalPerAnimalPerDay"].ToString()) : 0,
+                    //SolidPerPoundPerAnimalPerDay = !string.IsNullOrWhiteSpace(record["solidPerPoundPerAnimalPerDay"].ToString()) ?
+                    //                            Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"].ToString()) : 0,
+                    SolidLiquidSeparationPercentage = !string.IsNullOrWhiteSpace(record["solidLiquidSeparationPercentage"].ToString()) ?
+                                                 Convert.ToDecimal(record["solidLiquidSeparationPercentage"].ToString()) : 0,
+                    AnimalId = Convert.ToInt32(record["animalId"].ToString())
+                };
+                animalSubTypes.Add(animalSubtype);
             }
 
             return animalSubTypes;
@@ -1988,18 +1991,18 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetSubtypesDll(int animalType)
         {
-            Models.StaticData.AnimalSubTypes animalSubTypes = GetAnimalSubTypes();
+            var animalSubTypes = GetAnimalSubTypes();
 
-            animalSubTypes.animalSubTypes = animalSubTypes.animalSubTypes.OrderBy(n => n.name).ToList();
+            animalSubTypes = animalSubTypes.OrderBy(n => n.Name).ToList();
 
             List<Models.StaticData.SelectListItem> animalSubTypesOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in animalSubTypes.animalSubTypes)
+            foreach (var r in animalSubTypes)
             {
-                if (r.animalId == animalType)
+                if (r.AnimalId == animalType)
                 {
                     Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                        { Id = r.id, Value = r.name };
+                        { Id = r.Id, Value = r.Name };
                     animalSubTypesOptions.Add(li);
                 }
             }

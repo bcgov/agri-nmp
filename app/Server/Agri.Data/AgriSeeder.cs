@@ -21,20 +21,33 @@ namespace Agri.Data
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
             _context.Database.EnsureCreated();
-            var staticLists = new StaticDataExtraLists();
+            var staticData = new StaticData();
+            var staticExtraLists = new StaticDataExtraLists();
 
-            var saveChanges = false;
             if (!_context.AmmoniaRetentions.Any())
             {
-                var ammoniaRetentions = staticLists.GetAmmoniaRetentions();
+                var ammoniaRetentions = staticExtraLists.GetAmmoniaRetentions();
                 _context.AmmoniaRetentions.AddRange(ammoniaRetentions);
-                saveChanges = true;
             }
 
-            if (saveChanges)
+            if (!_context.Animals.Any())
             {
-                _context.SaveChanges();
+                var animals = staticData.GetAnimals();
+                var animalSubtypes = staticData.GetAnimalSubTypes();
+                foreach (var animal in animals)
+                {
+                    var subtypes = animalSubtypes.Where(s => s.AnimalId == animal.Id).ToList();
+                    if (subtypes.Any())
+                    {
+                        animal.AnimalSubTypes.AddRange(subtypes);
+                    }
+                }
+                _context.Animals.AddRange(animals);
+
+                var types = staticData.GetAnimalSubTypes();
             }
+            
+            _context.SaveChanges();
         }
     }
 }

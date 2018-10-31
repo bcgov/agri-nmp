@@ -4,6 +4,12 @@ namespace Agri.Models.StaticData
 {
     public class Crop
     {
+        public Crop()
+        {
+            CropYields = new List<CropYield>();
+            CropSTKRegionCds = new List<CropSTKRegionCd>();
+            CropSTPRegionCds = new List<CropSTPRegionCd>();
+        }
         public int Id { get; set; }
         public string CropName { get; set; }
         public int CropTypeId { get; set; }

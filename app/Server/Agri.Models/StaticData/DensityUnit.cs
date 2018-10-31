@@ -4,6 +4,10 @@ namespace Agri.Models.StaticData
 {
     public class DensityUnit
     {
+        public DensityUnit()
+        {
+            LiquidFertilizerDensities = new List<LiquidFertilizerDensity>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal ConvFactor { get; set; }

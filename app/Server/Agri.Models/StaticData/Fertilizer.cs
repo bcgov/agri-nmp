@@ -4,6 +4,10 @@ namespace Agri.Models.StaticData
 {
     public class Fertilizer
     {
+        public Fertilizer()
+        {
+            LiquidFertilizerDensities = new List<LiquidFertilizerDensity>();
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string DryLiquid { get; set; }
