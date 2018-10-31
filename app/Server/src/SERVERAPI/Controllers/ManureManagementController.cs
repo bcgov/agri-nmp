@@ -40,6 +40,7 @@ namespace SERVERAPI.Controllers
         {
             ManureGeneratedObtainedDetailViewModel mgovm = new ManureGeneratedObtainedDetailViewModel();
             mgovm.title = id == null ? "Add" : "Edit";
+            mgovm.stdWashWater = true;
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
 
             if (id != null)
@@ -47,15 +48,11 @@ namespace SERVERAPI.Controllers
             }
             else
             {
+                animalDetailReset(ref mgovm);
                 animalTypeDetailsSetup(ref mgovm);
-                // mgovm.animalTypeOptions = new List<Models.StaticData.SelectListItem>();
-                // mgovm.selAnimalTypeOption = _sd.get
                 
             }
 
-            //mm.selAnimalTypeOption = mgovm.;
-            //mm.selSubtypeOption = "";
-            //mm.selManureTypeOption = "";
             return PartialView("ManureGeneratedObtainedDetail", mgovm);
         }
 
@@ -63,7 +60,7 @@ namespace SERVERAPI.Controllers
         public IActionResult ManureGeneratedObtainedDetail(ManureGeneratedObtainedDetailViewModel mgovm)
         {
             string url="";
-
+            
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             animalTypeDetailsSetup(ref mgovm);
             try
@@ -72,16 +69,80 @@ namespace SERVERAPI.Controllers
                 {
                     ModelState.Clear();
                     mgovm.buttonPressed = "";
+                    mgovm.btnText = "Save";
+
+                    if (mgovm.selAnimalTypeOption != "" &&
+                        mgovm.selAnimalTypeOption != "0" &&
+                        mgovm.selAnimalTypeOption != "select animal")
+                    {
+                        if (mgovm.showWashWater)
+                        {
+                            mgovm.washWater = _sd.GetIncludeWashWater(Convert.ToInt16(mgovm.selSubTypeOption));
+                            mgovm.stdWashWater = true;
+                        }
+                    }
+                    else
+                    {
+                        animalDetailReset(ref mgovm);
+                    }
+
                     return View(mgovm);
                 }
 
-                if (mgovm.target == "#manuregeneratedobtained")
+                if (mgovm.buttonPressed == "AnimalTypeChange")
                 {
-                    url = Url.Action("ManureGeneratedObtained", "ManureManagement");
-                    return Json(new { success = true, url = url, target = mgovm.target });
-                }
-                
+                    ModelState.Clear();
+                    mgovm.buttonPressed = "";
+                    mgovm.btnText = "Save";
 
+                    if (mgovm.selAnimalTypeOption != "" &&
+                        mgovm.selAnimalTypeOption != "0" &&
+                        mgovm.selAnimalTypeOption != "select animal")
+                    {
+                        mgovm.selSubTypeOption = "select subtype";
+                        mgovm.averageAnimalNumber = "";
+                        mgovm.selManureMaterialTypeOption = "select type";
+                        if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
+                            mgovm.selSubTypeOption != "select subtype")
+                        {
+                            if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
+                            {
+                                mgovm.showWashWater = true;
+                            }
+                        }
+                        else
+                        {
+                            mgovm.showWashWater = false;
+                        }
+                    }
+                    else
+                    {
+                        animalDetailReset(ref mgovm);
+                    }
+
+                    return View(mgovm);
+                }
+
+                if (mgovm.buttonPressed == "ResetWashWater")
+                {
+                    ModelState.Clear();
+                    mgovm.buttonPressed = "";
+                    mgovm.btnText = "Save";
+                    animalDetailReset(ref mgovm);
+
+                    mgovm.stdWashWater = true;
+                    mgovm.washWater = _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption));
+                    return View(mgovm);
+                }
+
+                if (mgovm.btnText == "Save")
+                {
+                    if (mgovm.washWater != _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                    {
+                        mgovm.stdWashWater = false;
+                    }
+
+                }
 
             }
             catch (Exception ex)
@@ -90,13 +151,18 @@ namespace SERVERAPI.Controllers
             }
 
             return PartialView(mgovm);
-            // return RedirectToAction("ManureGeneratedObtainedDetail", "ManureManagement");
+        }
+        private void animalDetailReset(ref ManureGeneratedObtainedDetailViewModel mgovm)
+        {
+            mgovm.stdWashWater = true;
 
-
+            return;
         }
 
         private void animalTypeDetailsSetup(ref ManureGeneratedObtainedDetailViewModel mgovm)
         {
+            mgovm.showWashWater = false;
+
             mgovm.animalTypeOptions = new List<Models.StaticData.SelectListItem>();
             mgovm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
 
@@ -109,9 +175,16 @@ namespace SERVERAPI.Controllers
             {
                 mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
                 mgovm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select subtype" });
+
+                if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
+                    mgovm.selSubTypeOption != "select subtype")
+                {
+                    if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
+                    {
+                        mgovm.showWashWater = true;
+                    }
+                }
             }
-
-
             return;
         }
     }

@@ -9491,7 +9491,7 @@
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
-            "includeWashWater": 1
+            "includeWashWater": 7.5
           },
           {
             "id": 10,

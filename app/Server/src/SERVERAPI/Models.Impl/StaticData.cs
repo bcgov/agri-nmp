@@ -2049,6 +2049,50 @@ namespace SERVERAPI.Models.Impl
 
             return manureMaterialTypeOptions;
         }
+
+        public Models.StaticData.AnimalsUsingWashWater GetAnimalsUsingWashWater()
+        {
+            var animalsUsingWashWater = new AnimalsUsingWashWater();
+            animalsUsingWashWater.Animals = new List<AnimalUsingWashWater>();
+            JArray array = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
+
+            foreach (var record in array)
+            {
+                if (Convert.ToDecimal(record["includeWashWater"].ToString()) != 0)
+                {
+                    var animalUsingWashWater = new AnimalUsingWashWater
+                    {
+                        AnimalSubTypeId = Convert.ToInt32(record["id"].ToString())
+                    };
+                    animalsUsingWashWater.Animals.Add(animalUsingWashWater);
+
+                }
+            }
+
+            return animalsUsingWashWater;
+        }
+
+        public bool DoesAnimalUseWashWater(int animalSubTypeId)
+        {
+            return GetAnimalsUsingWashWater().Animals.Any(a => a.AnimalSubTypeId == animalSubTypeId);
+        }
+
+        public decimal GetIncludeWashWater(int Id)
+        {
+            Models.StaticData.AnimalSubType animalSubType = new Models.StaticData.AnimalSubType();
+
+            JArray subTypeIDS = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
+
+            foreach (var r in subTypeIDS)
+            {
+                if (r["id"].ToString() == Id.ToString())
+                {
+                    animalSubType.washWater = Convert.ToDecimal(r["includeWashWater"].ToString());
+                }
+            }
+
+            return animalSubType.washWater;
+        }
     }
 
 }

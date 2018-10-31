@@ -121,7 +121,7 @@
 
         $(document).ready(function () {
             $("body").on("change", "#ddlAnimalType", function () {
-                $('#buttonPressed').val("TypeChange");
+                $('#buttonPressed').val("AnimalTypeChange");
                 $("#modForm").submit();
             })
         });
@@ -139,6 +139,25 @@
                 $("#modForm").submit();
             })
         });
+
+        $(document).on('change',
+            '#washWater',
+            function() {
+                NeedRefresh();
+            });
+ 
+        $(document).ready(function () {
+            $("body").on("click", "#rstWashWater", function () {
+                $('#buttonPressed').val("ResetWashWater");
+                $("#modForm").submit();
+            })
+        });
+
+        function NeedRefresh() {
+            $("#ok_button").html('Save');
+            $("#ok_button").css('background-color', '#1abbed');
+            $("#btnText").val("Save");
+        }
 
     </script>
 }

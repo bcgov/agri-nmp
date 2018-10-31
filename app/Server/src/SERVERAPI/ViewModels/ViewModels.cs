@@ -626,6 +626,7 @@ namespace SERVERAPI.ViewModels
     public class ManureGeneratedObtainedDetailViewModel
     {
         public string title { get; set; }
+        public string btnText { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selAnimalTypeOption { get; set; }
@@ -640,6 +641,10 @@ namespace SERVERAPI.ViewModels
         public List<Models.StaticData.SelectListItem> manureMaterialTypeOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         public string averageAnimalNumber { get; set; }
+        public string includeWashWater { get; set; }
+        public decimal washWater { get; set; }
+        public bool showWashWater { get; set; }
+        public bool stdWashWater { get; set; }
         public string buttonPressed { get; set; }
         public string placehldr { get; set; }
 
