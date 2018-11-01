@@ -558,7 +558,7 @@ namespace Agri.LegacyData.Models.Impl
                     N_High_lbPerAc = r["n_high_lbperac"].ToString() == "null"
                         ? (decimal?) null
                         : Convert.ToDecimal(r["n_high_lbperac"].ToString()),
-                    PrevCropCd = Convert.ToInt32(r["prevcropcd"].ToString()),
+                    PrevCropCode = Convert.ToInt32(r["prevcropcd"].ToString()),
                     SortNum = Convert.ToInt32(r["sortNum"].ToString()),
                     HarvestBushelsPerTon = r["bushelsperton"].ToString() == ""
                         ? (decimal?) null
@@ -633,7 +633,7 @@ namespace Agri.LegacyData.Models.Impl
                 N_High_lbPerAc = r["n_high_lbperac"].ToString() == "null"
                     ? (decimal?) null
                     : Convert.ToDecimal(r["n_high_lbperac"].ToString()),
-                PrevCropCd = Convert.ToInt32(r["prevcropcd"].ToString()),
+                PrevCropCode = Convert.ToInt32(r["prevcropcd"].ToString()),
                 PrevYearManureAppl_VolCatCd = Convert.ToInt32(r["prevyearmanureappl_volcatcd"].ToString()),
                 HarvestBushelsPerTon = r["bushelsperton"].ToString() == ""
                     ? (decimal?) null
@@ -875,22 +875,23 @@ namespace Agri.LegacyData.Models.Impl
             return type;
         }
 
-        public Models.StaticData.PrevCropTypes GetPrevCropTypes()
+        public List<PrevCropType> GetPrevCropTypes()
         {
-            Models.StaticData.PrevCropTypes types = new Models.StaticData.PrevCropTypes();
-            types.prevCropTypes = new List<Models.StaticData.PrevCropType>();
+            var types = new List<PrevCropType>();
 
             JArray array = (JArray) rss["agri"]["nmp"]["prevcroptypes"]["prevcroptype"];
 
             foreach (var r in array)
             {
-                Models.StaticData.PrevCropType type = new Models.StaticData.PrevCropType();
-                type.id = Convert.ToInt32(r["id"].ToString());
-                type.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
-                type.name = r["name"].ToString();
-                type.nCreditMetric = Convert.ToInt32(r["ncreditmetric"].ToString());
-                type.nCreditImperial = Convert.ToInt32(r["ncreditimperial"].ToString());
-                types.prevCropTypes.Add(type);
+                var type = new PrevCropType
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    PrevCropCode = Convert.ToInt32(r["prevcropcd"].ToString()),
+                    Name = r["name"].ToString(),
+                    nCreditMetric = Convert.ToInt32(r["ncreditmetric"].ToString()),
+                    nCreditImperial = Convert.ToInt32(r["ncreditimperial"].ToString())
+                };
+                types.Add(type);
             }
 
             return types;
@@ -898,16 +899,16 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetPrevCropTypesDll(string prevCropCd)
         {
-            Models.StaticData.PrevCropTypes types = GetPrevCropTypes();
+            var types = GetPrevCropTypes();
 
             List<Models.StaticData.SelectListItem> typesOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in types.prevCropTypes)
+            foreach (var r in types)
             {
-                if (r.prevcropcd.ToString() == prevCropCd)
+                if (r.PrevCropCode.ToString() == prevCropCd)
                 {
                     Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                        {Id = r.id, Value = r.name};
+                        {Id = r.Id, Value = r.Name};
                     typesOptions.Add(li);
                 }
             }

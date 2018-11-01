@@ -111,5 +111,89 @@ namespace Agri.LegacyData.Models.Impl
 
             return cds;
         }
+
+
+
+        public List<STKKelownaRange> GetSTKKelownaRanges()
+        {
+            JArray array = (JArray)rss["agri"]["nmp"]["stk_kelowna_ranges"]["stk_kelowna_range"];
+            var ranges = new List<STKKelownaRange>();
+
+            foreach (var r in array)
+            {
+                var range = new STKKelownaRange
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Range = r["range"].ToString(),
+                    RangeLow = Convert.ToInt32(r["range_low"].ToString()),
+                    RangeHigh = Convert.ToInt32(r["range_high"].ToString()),
+            };
+
+                ranges.Add(range);
+            }
+        
+            return ranges;
+        }
+
+        public List<STPKelownaRange> GetSTPKelownaRanges()
+        {
+            JArray array = (JArray) rss["agri"]["nmp"]["stp_kelowna_ranges"]["stp_kelowna_range"];
+            var ranges = new List<STPKelownaRange>();
+
+            foreach (var r in array)
+            {
+                var range = new STPKelownaRange
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Range = r["range"].ToString(),
+                    RangeLow = Convert.ToInt32(r["range_low"].ToString()),
+                    RangeHigh = Convert.ToInt32(r["range_high"].ToString()),
+                };
+
+                ranges.Add(range);
+            }
+
+            return ranges;
+        }
+
+        public List<STKRecommend> GetSTKRecommendations()
+        {
+            var stkRs = new List<STKRecommend>();
+            JArray array = (JArray)rss["agri"]["nmp"]["stk_recommends"]["stk_recommend"];
+
+            foreach (var r in array)
+            {
+                var stk = new STKRecommend
+                {
+                    STKKelownaRangeId = Convert.ToInt32(r["stk_kelowna_rangeid"].ToString()),
+                    SoilTestPotassiumRegionCd = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString()),
+                    PotassiumCropGroupRegionCd = Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString()),
+                    K2O_Recommend_kgPeHa = Convert.ToInt32(r["k2o_recommend_kgperha"].ToString()),
+                };
+                stkRs.Add(stk);
+            }
+
+            return stkRs;
+        }
+
+        public List<STPRecommend> GetSTPRecommendations()
+        {
+            var stpRs = new List<STPRecommend>();
+            JArray array = (JArray) rss["agri"]["nmp"]["stp_recommends"]["stp_recommend"];
+
+            foreach (var r in array)
+            {
+                var stk = new STPRecommend
+                {
+                    STPKelownaRangeId = Convert.ToInt32(r["stp_kelowna_rangeid"].ToString()),
+                    SoilTestPhosphorousRegionCd = Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString()),
+                    PhosphorousCropGroupRegionCd = Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString()),
+                    P2O5_Recommend_KgPerHa = Convert.ToInt32(r["p2o5_recommend_kgperha"].ToString()),
+                };
+                stpRs.Add(stk);
+            }
+
+            return stpRs;
+        }
     }
 }

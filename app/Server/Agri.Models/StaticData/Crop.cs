@@ -9,6 +9,7 @@ namespace Agri.Models.StaticData
             CropYields = new List<CropYield>();
             CropSTKRegionCds = new List<CropSTKRegionCd>();
             CropSTPRegionCds = new List<CropSTPRegionCd>();
+            PrevCropTypes = new List<PrevCropType>();
         }
         public int Id { get; set; }
         public string CropName { get; set; }
@@ -20,7 +21,7 @@ namespace Agri.Models.StaticData
         public decimal N_RecommCd { get; set; }
         public decimal? N_Recomm_lbPerAc { get; set; }
         public decimal? N_High_lbPerAc { get; set; }
-        public int PrevCropCd { get; set; }
+        public int PrevCropCode { get; set; }
         public int SortNum { get; set; }
         public int PrevYearManureAppl_VolCatCd { get; set; }
         public decimal? HarvestBushelsPerTon { get; set; }
@@ -29,5 +30,6 @@ namespace Agri.Models.StaticData
         public List<CropYield> CropYields { get; set; }
         public List<CropSTKRegionCd> CropSTKRegionCds { get; set; }
         public List<CropSTPRegionCd> CropSTPRegionCds { get; set; }
+        public List<PrevCropType> PrevCropTypes { get; set; }
     }
 }

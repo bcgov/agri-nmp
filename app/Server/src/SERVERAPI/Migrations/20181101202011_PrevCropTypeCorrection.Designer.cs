@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SERVERAPI.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20181101202011_PrevCropTypeCorrection")]
+    partial class PrevCropTypeCorrection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,7 +147,7 @@ namespace SERVERAPI.Migrations
 
                     b.Property<decimal?>("N_Recomm_lbPerAc");
 
-                    b.Property<int>("PrevCropCode");
+                    b.Property<int>("PrevCropCd");
 
                     b.Property<int>("PrevYearManureAppl_VolCatCd");
 
@@ -492,21 +494,17 @@ namespace SERVERAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CropId");
-
                     b.Property<int?>("CropTypeId");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("PrevCropCode");
+                    b.Property<int>("PrevCropCd");
 
                     b.Property<int>("nCreditImperial");
 
                     b.Property<int>("nCreditMetric");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CropId");
 
                     b.HasIndex("CropTypeId");
 
@@ -876,10 +874,6 @@ namespace SERVERAPI.Migrations
 
             modelBuilder.Entity("Agri.Models.StaticData.PrevCropType", b =>
                 {
-                    b.HasOne("Agri.Models.StaticData.Crop")
-                        .WithMany("PrevCropTypes")
-                        .HasForeignKey("CropId");
-
                     b.HasOne("Agri.Models.StaticData.CropType")
                         .WithMany("PrevCropTypes")
                         .HasForeignKey("CropTypeId");

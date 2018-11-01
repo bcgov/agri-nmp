@@ -59,7 +59,46 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetCropStpRegionCdsSuccessfully()
         {
+            var result = _staticDataExtRepo.GetCropStpRegionCds();
 
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSTKKelownaRangesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSTKKelownaRanges();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSTPKelownaRangesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSTPKelownaRanges();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSTKRecommendsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSTKRecommendations();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSTPRecommendsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSTPRecommendations();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
         }
     }
 }

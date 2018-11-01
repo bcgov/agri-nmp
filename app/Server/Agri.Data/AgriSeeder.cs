@@ -67,6 +67,12 @@ namespace Agri.Data
                 _context.Locations.AddRange(locations);
             }
 
+            if (!_context.Regions.Any())
+            {
+                var regions = staticDataRepo.GetRegions();
+                _context.Regions.AddRange(regions);
+            }
+
             if (!_context.CropTypes.Any())
             {
                 var types = staticDataRepo.GetCropTypes();
@@ -79,6 +85,8 @@ namespace Agri.Data
                 var stksRegions = staticExtRepo.GetCropStkRegionCds();
                 var stpsRegions = staticExtRepo.GetCropStpRegionCds();
                 var cropYields = staticExtRepo.GetCropYields();
+                var prevCropTypes = staticDataRepo.GetPrevCropTypes();
+
                 foreach (var crop in crops)
                 {
                     if (stksRegions.Any(s => s.CropId == crop.Id))
@@ -95,10 +103,48 @@ namespace Agri.Data
                     {
                         crop.CropYields.AddRange(cropYields.Where(s => s.CropId == crop.Id));
                     }
+
+                    if (prevCropTypes.Any(c => c.PrevCropCode == crop.PrevCropCode))
+                    {
+                        crop.PrevCropTypes.AddRange(prevCropTypes.Where(c => c.PrevCropCode == crop.PrevCropCode));
+                    }
+                }
+
+                if (!_context.STKKelownaRanges.Any())
+                {
+                    var ranges = staticExtRepo.GetSTKKelownaRanges();
+                    var stks = staticExtRepo.GetSTKRecommendations();
+
+                    foreach (var stkKelownaRange in ranges)
+                    {
+                        if (stks.Any(s => s.STKKelownaRangeId == stkKelownaRange.Id))
+                        {
+                            stkKelownaRange.STKRecommendations.AddRange(stks.Where(s => s.STKKelownaRangeId == stkKelownaRange.Id));
+                        }
+                    }
+
+                    _context.STKKelownaRanges.AddRange(ranges);
+                }
+
+                if (!_context.STPKelownaRanges.Any())
+                {
+                    var ranges = staticExtRepo.GetSTPKelownaRanges();
+                    var stps = staticExtRepo.GetSTPRecommendations();
+
+                    foreach (var stpKelownaRange in ranges)
+                    {
+                        if (stps.Any(s => s.STPKelownaRangeId == stpKelownaRange.Id))
+                        {
+                            stpKelownaRange.STPRecommendations.AddRange(stps.Where(s => s.STPKelownaRangeId == stpKelownaRange.Id));
+                        }
+                    }
+
+                    _context.STPKelownaRanges.AddRange(ranges);
                 }
 
                 _context.Crops.AddRange(crops);
             }
+
 
             _context.SaveChanges();
         }
