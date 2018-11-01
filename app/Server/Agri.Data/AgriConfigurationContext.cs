@@ -48,8 +48,8 @@ namespace Agri.Data
         {
             //Composite Primary Key Definitions
             modelBuilder.Entity<AmmoniaRetention>().HasKey(table => new {table.SeasonApplicationId, table.DM});
-            modelBuilder.Entity<CropSTKRegionCd>().HasKey(table => new {table.CropId, table.PotassiumCropGroupRegionCd});
-            modelBuilder.Entity<CropSTPRegionCd>().HasKey(table => new {table.CropId, table.PhosphorousCropGroupRegionCd});
+            modelBuilder.Entity<CropSTKRegionCd>().HasKey(table => new {table.CropId, table.SoilTestPotassiumRegionCd});
+            modelBuilder.Entity<CropSTPRegionCd>().HasKey(table => new {table.CropId, table.SoilTestPhosphorousRegionCd});
             modelBuilder.Entity<CropYield>().HasKey(table => new {table.CropId, table.LocationId});
         }
     }

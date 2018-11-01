@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SERVERAPI.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20181031225451_MissingTables1")]
-    partial class MissingTables1
+    [Migration("20181101192251_InitialDB")]
+    partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -166,13 +166,11 @@ namespace SERVERAPI.Migrations
                 {
                     b.Property<int>("CropId");
 
-                    b.Property<int?>("PotassiumCropGroupRegionCd");
-
                     b.Property<int>("SoilTestPotassiumRegionCd");
 
-                    b.HasKey("CropId", "PotassiumCropGroupRegionCd");
+                    b.Property<int?>("PotassiumCropGroupRegionCd");
 
-                    b.HasAlternateKey("CropId", "SoilTestPotassiumRegionCd");
+                    b.HasKey("CropId", "SoilTestPotassiumRegionCd");
 
                     b.ToTable("CropSTKRegionCds");
                 });
@@ -181,13 +179,11 @@ namespace SERVERAPI.Migrations
                 {
                     b.Property<int>("CropId");
 
-                    b.Property<int?>("PhosphorousCropGroupRegionCd");
-
                     b.Property<int>("SoilTestPhosphorousRegionCd");
 
-                    b.HasKey("CropId", "PhosphorousCropGroupRegionCd");
+                    b.Property<int?>("PhosphorousCropGroupRegionCd");
 
-                    b.HasAlternateKey("CropId", "SoilTestPhosphorousRegionCd");
+                    b.HasKey("CropId", "SoilTestPhosphorousRegionCd");
 
                     b.ToTable("CropSTPRegionCds");
                 });

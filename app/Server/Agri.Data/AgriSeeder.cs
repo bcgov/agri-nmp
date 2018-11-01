@@ -22,6 +22,7 @@ namespace Agri.Data
         {
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
+            _context.Database.EnsureDeleted();
             _context.Database.Migrate();
 
             var staticDataRepo = new StaticDataRepository();
@@ -66,40 +67,38 @@ namespace Agri.Data
                 _context.Locations.AddRange(locations);
             }
 
-            //if (!_context.CropTypes.Any())
-            //{
-            //    var types = staticDataRepo.GetCropTypes();
-            //    _context.CropTypes.AddRange(types);
-            //}
+            if (!_context.CropTypes.Any())
+            {
+                var types = staticDataRepo.GetCropTypes();
+                _context.CropTypes.AddRange(types);
+            }
 
-            //if (!_context.Crops.Any())
-            //{
-            //    var crops = staticDataRepo.GetCrops();
-            //    foreach (var crop in crops)
-            //    {
-                    
-            //    }
+            if (!_context.Crops.Any())
+            {
+                var crops = staticDataRepo.GetCrops();
+                var stksRegions = staticExtRepo.GetCropStkRegionCds();
+                var stpsRegions = staticExtRepo.GetCropStpRegionCds();
+                var cropYields = staticExtRepo.GetCropYields();
+                foreach (var crop in crops)
+                {
+                    if (stksRegions.Any(s => s.CropId == crop.Id))
+                    {
+                        crop.CropSTKRegionCds.AddRange(stksRegions.Where(s => s.CropId == crop.Id));
+                    }
 
-            //    _context.Crops.AddRange(crops);
-            //}
+                    if (stpsRegions.Any(s => s.CropId == crop.Id))
+                    {
+                        crop.CropSTPRegionCds.AddRange(stpsRegions.Where(s => s.CropId == crop.Id));
+                    }
 
-            //if (!_context.CropYields.Any())
-            //{
-            //    var cropYields = staticExtRepo.GetCropYields();
-            //    _context.CropYields.AddRange(cropYields);
-            //}
+                    if (cropYields.Any(s => s.CropId == crop.Id))
+                    {
+                        crop.CropYields.AddRange(cropYields.Where(s => s.CropId == crop.Id));
+                    }
+                }
 
-            //if (!_context.CropSTKRegionCds.Any())
-            //{
-            //    var cds = staticExtRepo.GetCropStkRegionCds();
-            //    _context.CropSTKRegionCds.AddRange(cds);
-            //}
-
-            //if (!_context.CropSTPRegionCds.Any())
-            //{
-            //    var cds = staticExtRepo.GetCropStpRegionCds();
-            //    _context.CropSTPRegionCds.AddRange(cds);
-            //}
+                _context.Crops.AddRange(crops);
+            }
 
             _context.SaveChanges();
         }

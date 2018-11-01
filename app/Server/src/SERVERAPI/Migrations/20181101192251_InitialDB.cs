@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace SERVERAPI.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class InitialDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,14 +12,14 @@ namespace SERVERAPI.Migrations
                 name: "AmmoniaRetentions",
                 columns: table => new
                 {
-                    SeasonApplicationId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    SeasonApplicationId = table.Column<int>(nullable: false),
                     DM = table.Column<int>(nullable: false),
                     Value = table.Column<decimal>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AmmoniaRetentions", x => x.SeasonApplicationId);
+                    table.PrimaryKey("PK_AmmoniaRetentions", x => new { x.SeasonApplicationId, x.DM });
+                    table.UniqueConstraint("AK_AmmoniaRetentions_DM_SeasonApplicationId", x => new { x.DM, x.SeasonApplicationId });
                 });
 
             migrationBuilder.CreateTable(
@@ -76,7 +76,7 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CropType",
+                name: "CropTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -89,7 +89,7 @@ namespace SERVERAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CropType", x => x.Id);
+                    table.PrimaryKey("PK_CropTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,7 +215,7 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Location",
+                name: "Locations",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -224,7 +224,7 @@ namespace SERVERAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Location", x => x.Id);
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -531,9 +531,9 @@ namespace SERVERAPI.Migrations
                 {
                     table.PrimaryKey("PK_Crops", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Crops_CropType_CropTypeId",
+                        name: "FK_Crops_CropTypes_CropTypeId",
                         column: x => x.CropTypeId,
-                        principalTable: "CropType",
+                        principalTable: "CropTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -555,9 +555,9 @@ namespace SERVERAPI.Migrations
                 {
                     table.PrimaryKey("PK_PrevCropType", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PrevCropType_CropType_CropTypeId",
+                        name: "FK_PrevCropType_CropTypes_CropTypeId",
                         column: x => x.CropTypeId,
-                        principalTable: "CropType",
+                        principalTable: "CropTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -596,7 +596,7 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Region",
+                name: "Regions",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -609,11 +609,11 @@ namespace SERVERAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Region", x => x.Id);
+                    table.PrimaryKey("PK_Regions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Region_Location_LocationId",
+                        name: "FK_Regions_Locations_LocationId",
                         column: x => x.LocationId,
-                        principalTable: "Location",
+                        principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -700,19 +700,18 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CropSTKRegionCd",
+                name: "CropSTKRegionCds",
                 columns: table => new
                 {
                     CropId = table.Column<int>(nullable: false),
                     SoilTestPotassiumRegionCd = table.Column<int>(nullable: false),
-                    PotassiumCropGroupRegionCd = table.Column<int>(nullable: false)
+                    PotassiumCropGroupRegionCd = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CropSTKRegionCd", x => new { x.CropId, x.PotassiumCropGroupRegionCd });
-                    table.UniqueConstraint("AK_CropSTKRegionCd_CropId_SoilTestPotassiumRegionCd", x => new { x.CropId, x.SoilTestPotassiumRegionCd });
+                    table.PrimaryKey("PK_CropSTKRegionCds", x => new { x.CropId, x.SoilTestPotassiumRegionCd });
                     table.ForeignKey(
-                        name: "FK_CropSTKRegionCd_Crops_CropId",
+                        name: "FK_CropSTKRegionCds_Crops_CropId",
                         column: x => x.CropId,
                         principalTable: "Crops",
                         principalColumn: "Id",
@@ -720,19 +719,18 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CropSTPRegionCd",
+                name: "CropSTPRegionCds",
                 columns: table => new
                 {
                     CropId = table.Column<int>(nullable: false),
                     SoilTestPhosphorousRegionCd = table.Column<int>(nullable: false),
-                    PhosphorousCropGroupRegionCd = table.Column<int>(nullable: false)
+                    PhosphorousCropGroupRegionCd = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CropSTPRegionCd", x => new { x.CropId, x.PhosphorousCropGroupRegionCd });
-                    table.UniqueConstraint("AK_CropSTPRegionCd_CropId_SoilTestPhosphorousRegionCd", x => new { x.CropId, x.SoilTestPhosphorousRegionCd });
+                    table.PrimaryKey("PK_CropSTPRegionCds", x => new { x.CropId, x.SoilTestPhosphorousRegionCd });
                     table.ForeignKey(
-                        name: "FK_CropSTPRegionCd_Crops_CropId",
+                        name: "FK_CropSTPRegionCds_Crops_CropId",
                         column: x => x.CropId,
                         principalTable: "Crops",
                         principalColumn: "Id",
@@ -740,7 +738,7 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CropYield",
+                name: "CropYields",
                 columns: table => new
                 {
                     CropId = table.Column<int>(nullable: false),
@@ -749,17 +747,17 @@ namespace SERVERAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CropYield", x => new { x.CropId, x.LocationId });
+                    table.PrimaryKey("PK_CropYields", x => new { x.CropId, x.LocationId });
                     table.ForeignKey(
-                        name: "FK_CropYield_Crops_CropId",
+                        name: "FK_CropYields_Crops_CropId",
                         column: x => x.CropId,
                         principalTable: "Crops",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CropYield_Location_LocationId",
+                        name: "FK_CropYields_Locations_LocationId",
                         column: x => x.LocationId,
-                        principalTable: "Location",
+                        principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -775,8 +773,8 @@ namespace SERVERAPI.Migrations
                 column: "CropTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CropYield_LocationId",
-                table: "CropYield",
+                name: "IX_CropYields_LocationId",
+                table: "CropYields",
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
@@ -810,8 +808,8 @@ namespace SERVERAPI.Migrations
                 column: "CropTypeId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Region_LocationId",
-                table: "Region",
+                name: "IX_Regions_LocationId",
+                table: "Regions",
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
@@ -840,13 +838,13 @@ namespace SERVERAPI.Migrations
                 name: "ConversionFactors");
 
             migrationBuilder.DropTable(
-                name: "CropSTKRegionCd");
+                name: "CropSTKRegionCds");
 
             migrationBuilder.DropTable(
-                name: "CropSTPRegionCd");
+                name: "CropSTPRegionCds");
 
             migrationBuilder.DropTable(
-                name: "CropYield");
+                name: "CropYields");
 
             migrationBuilder.DropTable(
                 name: "DefaultSoilTests");
@@ -885,7 +883,7 @@ namespace SERVERAPI.Migrations
                 name: "PrevYearManureApplDefaultNitrogens");
 
             migrationBuilder.DropTable(
-                name: "Region");
+                name: "Regions");
 
             migrationBuilder.DropTable(
                 name: "SeasonApplications");
@@ -939,7 +937,7 @@ namespace SERVERAPI.Migrations
                 name: "NMineralization");
 
             migrationBuilder.DropTable(
-                name: "Location");
+                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "STKKelownaRanges");
@@ -948,7 +946,7 @@ namespace SERVERAPI.Migrations
                 name: "STPKelownaRanges");
 
             migrationBuilder.DropTable(
-                name: "CropType");
+                name: "CropTypes");
         }
     }
 }

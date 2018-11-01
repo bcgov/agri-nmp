@@ -69,7 +69,6 @@ namespace SERVERAPI
         {
 
             var agriConnectionString = Configuration["Agri:ConnectionString"];
-            Console.WriteLine(agriConnectionString);
             //Creates the DbContext as a scoped Service
             services.AddDbContext<AgriConfigurationContext>(options =>
             {

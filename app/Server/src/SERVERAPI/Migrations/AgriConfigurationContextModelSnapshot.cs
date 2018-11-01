@@ -164,13 +164,11 @@ namespace SERVERAPI.Migrations
                 {
                     b.Property<int>("CropId");
 
-                    b.Property<int?>("PotassiumCropGroupRegionCd");
-
                     b.Property<int>("SoilTestPotassiumRegionCd");
 
-                    b.HasKey("CropId", "PotassiumCropGroupRegionCd");
+                    b.Property<int?>("PotassiumCropGroupRegionCd");
 
-                    b.HasAlternateKey("CropId", "SoilTestPotassiumRegionCd");
+                    b.HasKey("CropId", "SoilTestPotassiumRegionCd");
 
                     b.ToTable("CropSTKRegionCds");
                 });
@@ -179,13 +177,11 @@ namespace SERVERAPI.Migrations
                 {
                     b.Property<int>("CropId");
 
-                    b.Property<int?>("PhosphorousCropGroupRegionCd");
-
                     b.Property<int>("SoilTestPhosphorousRegionCd");
 
-                    b.HasKey("CropId", "PhosphorousCropGroupRegionCd");
+                    b.Property<int?>("PhosphorousCropGroupRegionCd");
 
-                    b.HasAlternateKey("CropId", "SoilTestPhosphorousRegionCd");
+                    b.HasKey("CropId", "SoilTestPhosphorousRegionCd");
 
                     b.ToTable("CropSTPRegionCds");
                 });
