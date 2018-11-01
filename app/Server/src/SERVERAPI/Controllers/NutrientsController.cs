@@ -8,7 +8,11 @@ using SERVERAPI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.Models.Utility;
 using static SERVERAPI.Models.StaticData;
+using FertilizerNutrients = SERVERAPI.Utility.FertilizerNutrients;
+using NOrganicMineralizations = SERVERAPI.Utility.NOrganicMineralizations;
+using NutrientInputs = SERVERAPI.Utility.NutrientInputs;
 
 namespace SERVERAPI.Controllers
 {

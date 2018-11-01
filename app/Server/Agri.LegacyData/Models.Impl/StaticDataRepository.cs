@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -15,7 +16,7 @@ using AutoMapper;
 
 namespace Agri.LegacyData.Models.Impl
 {
-    public partial class StaticData
+    public class StaticDataRepository
     {
         private const string MANURE_CLASS_COMPOST = "Compost";
         private const string MANURE_CLASS_COMPOST_BOOK = "Compost_Book";
@@ -27,7 +28,7 @@ namespace Agri.LegacyData.Models.Impl
 
         protected JObject rss;
 
-        public StaticData()
+        public StaticDataRepository()
         {
             rss = StaticDataLoader.GetStaticDataJson();
         }
@@ -477,23 +478,23 @@ namespace Agri.LegacyData.Models.Impl
             return densityUnit;
         }
 
-        public Models.StaticData.CropTypes GetCropTypes()
+        public List<CropType> GetCropTypes()
         {
-            Models.StaticData.CropTypes types = new Models.StaticData.CropTypes();
-            types.cropTypes = new List<Models.StaticData.CropType>();
-
+            var types = new List<CropType>();
             JArray array = (JArray) rss["agri"]["nmp"]["croptypes"]["croptype"];
 
             foreach (var r in array)
             {
-                Models.StaticData.CropType type = new Models.StaticData.CropType();
-                type.id = Convert.ToInt32(r["id"].ToString());
-                type.name = r["name"].ToString();
-                type.covercrop = r["covercrop"].ToString() == "true" ? true : false;
-                type.crudeproteinrequired = r["crudeproteinrequired"].ToString() == "true" ? true : false;
-                type.customcrop = r["customcrop"].ToString() == "true" ? true : false;
-                type.modifynitrogen = r["modifynitrogen"].ToString() == "true" ? true : false;
-                types.cropTypes.Add(type);
+                var type = new CropType
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    CoverCrop = r["covercrop"].ToString() == "true" ? true : false,
+                    CrudeProteinRequired = r["crudeproteinrequired"].ToString() == "true" ? true : false,
+                    CustomCrop = r["customcrop"].ToString() == "true" ? true : false,
+                    ModifyNitrogen = r["modifynitrogen"].ToString() == "true" ? true : false
+                };
+                types.Add(type);
             }
 
             return types;
@@ -519,58 +520,59 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetCropTypesDll()
         {
-            Models.StaticData.CropTypes types = GetCropTypes();
+            var types = GetCropTypes();
 
             List<Models.StaticData.SelectListItem> typesOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in types.cropTypes)
+            foreach (var r in types)
             {
                 Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                    {Id = r.id, Value = r.name};
+                    {Id = r.Id, Value = r.Name};
                 typesOptions.Add(li);
             }
 
             return typesOptions;
         }
 
-        public Models.StaticData.Crops GetCrops()
+        public List<Crop> GetCrops()
         {
-            Models.StaticData.Crops crops = new Models.StaticData.Crops();
-            crops.crops = new List<Models.StaticData.Crop>();
+            var crops = new List<Crop>();
 
             JArray array = (JArray) rss["agri"]["nmp"]["crops"]["crop"];
 
             foreach (var r in array)
             {
 
-                Models.StaticData.Crop crop = new Models.StaticData.Crop();
-                crop.id = Convert.ToInt32(r["id"].ToString());
-                crop.cropname = r["cropname"].ToString();
-                crop.croptypeid = Convert.ToInt32(r["croptypeid"].ToString());
-                crop.yieldcd = Convert.ToInt32(r["yieldcd"].ToString());
-                crop.cropremovalfactor_N = r["cropremovalfactor_N"].ToString() == "null"
-                    ? (decimal?) null
-                    : Convert.ToDecimal(r["cropremovalfactor_N"].ToString());
-                crop.cropremovalfactor_P2O5 = r["cropremovalfactor_P2O5"].ToString() == "null"
-                    ? (decimal?) null
-                    : Convert.ToDecimal(r["cropremovalfactor_P2O5"].ToString());
-                crop.cropremovalfactor_K2O = r["cropremovalfactor_K2O"].ToString() == "null"
-                    ? (decimal?) null
-                    : Convert.ToDecimal(r["cropremovalfactor_K2O"].ToString());
-                crop.n_recommcd = Convert.ToDecimal(r["n_recommcd"].ToString());
-                crop.n_recomm_lbperac = r["n_recomm_lbperac"].ToString() == "null"
-                    ? (decimal?) null
-                    : Convert.ToDecimal(r["n_recomm_lbperac"].ToString());
-                crop.n_high_lbperac = r["n_high_lbperac"].ToString() == "null"
-                    ? (decimal?) null
-                    : Convert.ToDecimal(r["n_high_lbperac"].ToString());
-                crop.prevcropcd = Convert.ToInt32(r["prevcropcd"].ToString());
-                crop.sortNum = Convert.ToInt32(r["sortNum"].ToString());
-                crop.harvestBushelsPerTon = r["bushelsperton"].ToString() == ""
-                    ? (decimal?) null
-                    : Convert.ToDecimal(r["bushelsperton"].ToString());
+                var crop = new Crop
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    CropName = r["cropname"].ToString(),
+                    CropTypeId = Convert.ToInt32(r["croptypeid"].ToString()),
+                    YieldCd = Convert.ToInt32(r["yieldcd"].ToString()),
+                    CropRemovalFactor_N = r["cropremovalfactor_N"].ToString() == "null"
+                        ? (decimal?) null
+                        : Convert.ToDecimal(r["cropremovalfactor_N"].ToString()),
+                    CropRemovalFactorP2O5 = r["cropremovalfactor_P2O5"].ToString() == "null"
+                        ? (decimal?) null
+                        : Convert.ToDecimal(r["cropremovalfactor_P2O5"].ToString()),
+                    CropRemovalFactorK2O = r["cropremovalfactor_K2O"].ToString() == "null"
+                        ? (decimal?) null
+                        : Convert.ToDecimal(r["cropremovalfactor_K2O"].ToString()),
+                    N_RecommCd = Convert.ToDecimal(r["n_recommcd"].ToString()),
+                    N_Recomm_lbPerAc = r["n_recomm_lbperac"].ToString() == "null"
+                        ? (decimal?) null
+                        : Convert.ToDecimal(r["n_recomm_lbperac"].ToString()),
+                    N_High_lbPerAc = r["n_high_lbperac"].ToString() == "null"
+                        ? (decimal?) null
+                        : Convert.ToDecimal(r["n_high_lbperac"].ToString()),
+                    PrevCropCd = Convert.ToInt32(r["prevcropcd"].ToString()),
+                    SortNum = Convert.ToInt32(r["sortNum"].ToString()),
+                    HarvestBushelsPerTon = r["bushelsperton"].ToString() == ""
+                        ? (decimal?) null
+                        : Convert.ToDecimal(r["bushelsperton"].ToString())
+                };
 
-                crops.crops.Add(crop);
+                crops.Add(crop);
             }
 
             return crops;
@@ -578,18 +580,18 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetCropsDll(int cropType)
         {
-            Models.StaticData.Crops crops = GetCrops();
+            var crops = GetCrops();
 
-            crops.crops = crops.crops.OrderBy(n => n.sortNum).ThenBy(n => n.cropname).ToList();
+            crops = crops.OrderBy(n => n.SortNum).ThenBy(n => n.CropName).ToList();
 
             List<Models.StaticData.SelectListItem> cropsOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in crops.crops)
+            foreach (var r in crops)
             {
-                if (r.croptypeid == cropType)
+                if (r.CropTypeId == cropType)
                 {
                     Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                        {Id = r.id, Value = r.cropname};
+                        {Id = r.Id, Value = r.CropName};
                     cropsOptions.Add(li);
                 }
             }
@@ -597,14 +599,14 @@ namespace Agri.LegacyData.Models.Impl
             return cropsOptions;
         }
 
-        public Models.StaticData.Crops GetCrops(int cropType)
+        public List<Crop> GetCrops(int cropType)
         {
-            Models.StaticData.Crops crops = GetCrops();
-            foreach (var r in crops.crops)
+            var crops = GetCrops();
+            foreach (var r in crops)
             {
-                if (r.croptypeid != cropType)
+                if (r.CropTypeId != cropType)
                 {
-                    crops.crops.Remove(r);
+                    crops.Remove(r);
                 }
             }
 
@@ -1042,38 +1044,39 @@ namespace Agri.LegacyData.Models.Impl
             return sTKKelownaRange;
         }
 
-        public Models.StaticData.ConversionFactor GetConversionFactor()
+        public ConversionFactor GetConversionFactor()
         {
-            Models.StaticData.ConversionFactor cf = new Models.StaticData.ConversionFactor();
-
-            cf.n_protein_conversion =
-                Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["n_protein_conversion"]);
-            cf.unit_conversion = Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["unit_conversion"]);
-            cf.defaultSoilTestKelownaP =
-                Convert.ToInt16((string) rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
-            cf.defaultSoilTestKelownaK =
-                Convert.ToInt16((string) rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);
-            cf.kgperha_lbperac_conversion =
-                Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["kgperha_lbperac_conversion"]);
-            cf.potassiumAvailabilityFirstYear =
-                Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["potassiumAvailabilityFirstYear"]);
-            cf.potassiumAvailabilityLongTerm =
-                Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["potassiumAvailabilityLongTerm"]);
-            cf.potassiumKtoK2Oconversion =
-                Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["potassiumKtoK2Oconversion"]);
-            cf.phosphorousAvailabilityFirstYear =
-                Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["phosphorousAvailabilityFirstYear"]);
-            cf.phosphorousAvailabilityLongTerm =
-                Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["phosphorousAvailabilityLongTerm"]);
-            cf.phosphorousPtoP2O5Kconversion =
-                Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["phosphorousPtoP2O5Kconversion"]);
-            cf.lbPerTonConversion = Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["lbPerTonConversion"]);
-            cf.lbper1000ftsquared_lbperac_conversion =
-                Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["lbper1000ftsquared_lbperac_conversion"]);
-            cf.defaultApplicationOfManureInPrevYears =
-                (rss["agri"]["nmp"]["conversions"]["defaultApplicationOfManureInPrevYears"]).ToString();
-
-            return cf;
+            return new ConversionFactor
+            {
+                NProteinConversion =
+                    Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["n_protein_conversion"]),
+                UnitConversion = Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["unit_conversion"]),
+                DefaultSoilTestKelownaP =
+                    Convert.ToInt16((string) rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]),
+                DefaultSoilTestKelownaK =
+                    Convert.ToInt16((string) rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]),
+                KgPerHa_lbPerAc_Conversion =
+                    Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["kgperha_lbperac_conversion"]),
+                PotassiumAvailabilityFirstYear =
+                    Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["potassiumAvailabilityFirstYear"]),
+                PotassiumAvailabilityLongTerm =
+                    Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["potassiumAvailabilityLongTerm"]),
+                PotassiumKtoK2Oconversion =
+                    Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["potassiumKtoK2Oconversion"]),
+                PhosphorousAvailabilityFirstYear =
+                    Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["phosphorousAvailabilityFirstYear"]),
+                PhosphorousAvailabilityLongTerm =
+                    Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["phosphorousAvailabilityLongTerm"]),
+                PhosphorousPtoP2O5KConversion =
+                    Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["phosphorousPtoP2O5Kconversion"]),
+                lbPerTonConversion =
+                    Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["lbPerTonConversion"]),
+                lbPer1000ftSquared_lbPerAc_Conversion =
+                    Convert.ToDecimal(
+                        (string) rss["agri"]["nmp"]["conversions"]["lbper1000ftsquared_lbperac_conversion"]),
+                DefaultApplicationOfManureInPrevYears =
+                    (rss["agri"]["nmp"]["conversions"]["defaultApplicationOfManureInPrevYears"]).ToString()
+            };
         }
 
         public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance, bool legume)
@@ -1660,20 +1663,21 @@ namespace Agri.LegacyData.Models.Impl
             return Convert.ToDecimal(conversionFactor);
         }
 
-        public Models.StaticData.Browsers GetAllowableBrowsers()
+        public List<Browser> GetAllowableBrowsers()
         {
-            Models.StaticData.Browsers browsers = new Models.StaticData.Browsers();
-            browsers.known = new List<Models.StaticData.Browser>();
+            var browsers = new List<Browser>();
 
             JArray array = (JArray) rss["agri"]["nmp"]["browsers"]["browser"];
 
             foreach (var r in array)
             {
-                Models.StaticData.Browser browser = new Models.StaticData.Browser();
-                browser.id = Convert.ToInt32(r["id"].ToString());
-                browser.name = r["name"].ToString();
-                browser.minVersion = r["minversion"].ToString();
-                browsers.known.Add(browser);
+                var browser = new Browser()
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    MinVersion = r["minversion"].ToString()
+                };
+                browsers.Add(browser);
             }
 
             return browsers;

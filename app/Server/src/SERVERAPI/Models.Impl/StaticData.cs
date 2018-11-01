@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Agri.Models.Utility;
 using static SERVERAPI.Models.StaticData;
 using Newtonsoft.Json;
 
@@ -1082,10 +1083,10 @@ namespace SERVERAPI.Models.Impl
             return cf;
         }
 
-        public Utility.BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance, bool legume)
+        public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance, bool legume)
         {
             JArray array = (JArray) rss["agri"]["nmp"]["messages"]["message"];
-            Utility.BalanceMessages bm = new Utility.BalanceMessages();
+            BalanceMessages bm = new BalanceMessages();
 
             foreach (var r in array)
             {
@@ -1141,11 +1142,11 @@ namespace SERVERAPI.Models.Impl
             return message;
         }
 
-        public Utility.BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance1, long balance2,
+        public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance1, long balance2,
             string assignedChemical)
         {
             JArray array = (JArray) rss["agri"]["nmp"]["messages"]["message"];
-            Utility.BalanceMessages bm = new Utility.BalanceMessages();
+            BalanceMessages bm = new BalanceMessages();
 
             foreach (var r in array)
             {

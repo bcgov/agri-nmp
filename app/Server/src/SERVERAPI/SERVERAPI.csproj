@@ -25,6 +25,9 @@
 
   <ItemGroup>
     <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
+    <Compile Remove="Utility\BalanceMessages.cs" />
+    <Compile Remove="Utility\ChemicalBalances.cs" />
+    <Compile Remove="Utility\CropRequirementRemoval.cs" />
     <Content Remove="Data\static.json" />
     <None Remove="PDF.js" />
     <Content Include="PDF.js">

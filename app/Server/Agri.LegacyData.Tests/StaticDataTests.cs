@@ -11,15 +11,55 @@ namespace Agri.LegacyData.Tests
     [TestClass]
     public class StaticDataTests
     {
+        private StaticDataExtRepository _staticDataExtRepo;
+        private StaticDataRepository _staticDataRepo;
+
+        public StaticDataTests()
+        {
+            _staticDataRepo = new StaticDataRepository();
+            _staticDataExtRepo = new StaticDataExtRepository();
+        }
+
         [TestMethod]
         public void GetAnimalSubTypesSuccessfully()
         {
-            var staticData = new StaticData();
-            var result = staticData.GetAnimalSubTypes();
+            var result = _staticDataRepo.GetAnimalSubTypes();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
         }
-        
+
+        [TestMethod]
+        public void GetLocationTypesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetLocations();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetCropYieldsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetCropYields();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetCropStkRegionCdsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetCropStkRegionCds();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetCropStpRegionCdsSuccessfully()
+        {
+
+        }
     }
 }

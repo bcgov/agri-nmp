@@ -17,7 +17,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void RetrieveAmmoniaRetentionListSuccessfully()
         {
-            var staticDataLists = new StaticDataExtraLists();
+            var staticDataLists = new StaticDataExtRepository();
             var result = staticDataLists.GetAmmoniaRetentions();
 
             Assert.IsNotNull(result);
