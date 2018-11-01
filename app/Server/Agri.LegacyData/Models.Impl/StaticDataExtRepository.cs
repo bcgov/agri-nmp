@@ -111,5 +111,67 @@ namespace Agri.LegacyData.Models.Impl
 
             return cds;
         }
+
+        public List<UserPrompt> GetUserPromts()
+        {
+            var array = (JArray)rss["agri"]["nmp"]["userprompts"]["userprompt"];
+            var userPrompts = new List<UserPrompt>();
+
+            foreach (var r in array)
+            {
+                var userPrompt = new UserPrompt()
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = Convert.ToString(r["name"].ToString()),
+                    Text = Convert.ToString(r["text"].ToString())
+                };
+
+                userPrompts.Add(userPrompt);
+            }
+
+            return userPrompts;
+        }
+
+        public List<ExternalLink> GetExternalLinks()
+        {
+            var array = (JArray)rss["agri"]["nmp"]["externallinks"]["externallink"];
+            var externalLinks = new List<ExternalLink>();
+
+            foreach (var r in array)
+            {
+                var externalLink = new ExternalLink()
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = Convert.ToString(r["name"].ToString()),
+                    Url = Convert.ToString(r["url"].ToString())
+                };
+
+                externalLinks.Add(externalLink);
+            }
+
+            return externalLinks;
+        }
+
+        //public List<Userprom> GetCropYields()
+        //{
+        //    var array = (JArray)rss["agri"]["nmp"]["cropyields"]["cropyield"];
+        //    var cropYields = new List<CropYield>();
+
+        //    foreach (var r in array)
+        //    {
+        //        var cropYield = new CropYield()
+        //        {
+        //            CropId = Convert.ToInt32(r["cropid"].ToString()),
+        //            LocationId = Convert.ToInt32(r["locationid"].ToString()),
+        //            Amt = r["amt"].ToString() == "null"
+        //                ? (decimal?)null
+        //                : Convert.ToDecimal(r["amt"].ToString())
+        //        };
+
+        //        cropYields.Add(cropYield);
+        //    }
+
+        //    return cropYields;
+        //}
     }
-}
+    }

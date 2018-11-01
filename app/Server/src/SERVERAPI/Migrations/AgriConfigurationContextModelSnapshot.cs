@@ -783,6 +783,20 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Units");
                 });
 
+            modelBuilder.Entity("Agri.Models.StaticData.UserPrompt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserPrompts");
+                });
+
             modelBuilder.Entity("Agri.Models.StaticData.Version", b =>
                 {
                     b.Property<int>("Id")

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SERVERAPI.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20181031225451_MissingTables1")]
-    partial class MissingTables1
+    [Migration("20181101213041_AddedUserPromptsTable")]
+    partial class AddedUserPromptsTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -783,6 +783,20 @@ namespace SERVERAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Units");
+                });
+
+            modelBuilder.Entity("Agri.Models.StaticData.UserPrompt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserPrompts");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.Version", b =>

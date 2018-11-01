@@ -61,5 +61,41 @@ namespace Agri.LegacyData.Tests
         {
 
         }
+
+        [TestMethod]
+        public void GetSoilTestMethodsSuccessfully()
+        {
+            var result = _staticDataRepo.GetSoilTestMethods();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetFertilizerMethodsSuccessfully()
+        {
+            var result = _staticDataRepo.GetFertilizerMethods();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetUserPromptsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetUserPromts();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetExternalLinksSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetExternalLinks();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
     }
 }

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SERVERAPI.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20181029193139_InitialDb")]
-    partial class InitialDb
+    [Migration("20181101180718_Initial DB")]
+    partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,21 +21,22 @@ namespace SERVERAPI.Migrations
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("Agri.Models.AmmoniaRetention", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.AmmoniaRetention", b =>
                 {
-                    b.Property<int>("SeasonApplicationId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("SeasonApplicationId");
 
                     b.Property<int>("DM");
 
                     b.Property<decimal?>("Value");
 
-                    b.HasKey("SeasonApplicationId");
+                    b.HasKey("SeasonApplicationId", "DM");
+
+                    b.HasAlternateKey("DM", "SeasonApplicationId");
 
                     b.ToTable("AmmoniaRetentions");
                 });
 
-            modelBuilder.Entity("Agri.Models.Animal", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Animal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -47,7 +48,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Animals");
                 });
 
-            modelBuilder.Entity("Agri.Models.AnimalSubType", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.AnimalSubType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -71,7 +72,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("AnimalSubType");
                 });
 
-            modelBuilder.Entity("Agri.Models.Browser", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Browser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -85,7 +86,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Browsers");
                 });
 
-            modelBuilder.Entity("Agri.Models.ConversionFactor", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.ConversionFactor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -123,7 +124,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("ConversionFactors");
                 });
 
-            modelBuilder.Entity("Agri.Models.Crop", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Crop", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -161,7 +162,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Crops");
                 });
 
-            modelBuilder.Entity("Agri.Models.CropSTKRegionCd", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSTKRegionCd", b =>
                 {
                     b.Property<int>("CropId");
 
@@ -173,10 +174,10 @@ namespace SERVERAPI.Migrations
 
                     b.HasAlternateKey("CropId", "SoilTestPotassiumRegionCd");
 
-                    b.ToTable("CropSTKRegionCd");
+                    b.ToTable("CropSTKRegionCds");
                 });
 
-            modelBuilder.Entity("Agri.Models.CropSTPRegionCd", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSTPRegionCd", b =>
                 {
                     b.Property<int>("CropId");
 
@@ -188,10 +189,10 @@ namespace SERVERAPI.Migrations
 
                     b.HasAlternateKey("CropId", "SoilTestPhosphorousRegionCd");
 
-                    b.ToTable("CropSTPRegionCd");
+                    b.ToTable("CropSTPRegionCds");
                 });
 
-            modelBuilder.Entity("Agri.Models.CropType", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -208,10 +209,10 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CropType");
+                    b.ToTable("CropTypes");
                 });
 
-            modelBuilder.Entity("Agri.Models.CropYield", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropYield", b =>
                 {
                     b.Property<int>("CropId");
 
@@ -223,10 +224,10 @@ namespace SERVERAPI.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("CropYield");
+                    b.ToTable("CropYields");
                 });
 
-            modelBuilder.Entity("Agri.Models.DefaultSoilTest", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.DefaultSoilTest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -248,7 +249,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("DefaultSoilTests");
                 });
 
-            modelBuilder.Entity("Agri.Models.DensityUnit", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.DensityUnit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -262,7 +263,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("DensityUnit");
                 });
 
-            modelBuilder.Entity("Agri.Models.DM", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.DM", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -274,7 +275,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("DM");
                 });
 
-            modelBuilder.Entity("Agri.Models.ExternalLink", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.ExternalLink", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -288,7 +289,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("ExternalLinks");
                 });
 
-            modelBuilder.Entity("Agri.Models.Fertilizer", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Fertilizer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -310,7 +311,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Fertilizer");
                 });
 
-            modelBuilder.Entity("Agri.Models.FertilizerMethod", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.FertilizerMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -322,7 +323,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("FertilizerMethods");
                 });
 
-            modelBuilder.Entity("Agri.Models.FertilizerType", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.FertilizerType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -338,7 +339,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("FertilizerTypes");
                 });
 
-            modelBuilder.Entity("Agri.Models.FertilizerUnit", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.FertilizerUnit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -358,7 +359,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("FertilizerUnits");
                 });
 
-            modelBuilder.Entity("Agri.Models.LiquidFertilizerDensity", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.LiquidFertilizerDensity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -378,7 +379,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("LiquidFertilizerDensities");
                 });
 
-            modelBuilder.Entity("Agri.Models.Location", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Location", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -387,10 +388,10 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location");
+                    b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("Agri.Models.Manure", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Manure", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -430,7 +431,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Manures");
                 });
 
-            modelBuilder.Entity("Agri.Models.Message", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Message", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -460,7 +461,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Agri.Models.NMineralization", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.NMineralization", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -478,7 +479,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("NMineralization");
                 });
 
-            modelBuilder.Entity("Agri.Models.NutrientIcon", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.NutrientIcon", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd();
@@ -492,7 +493,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("NutrientIcons");
                 });
 
-            modelBuilder.Entity("Agri.Models.PrevCropType", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.PrevCropType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -518,7 +519,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("PrevCropType");
                 });
 
-            modelBuilder.Entity("Agri.Models.PrevManureApplicationYear", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.PrevManureApplicationYear", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -530,7 +531,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("PrevManureApplicationYears");
                 });
 
-            modelBuilder.Entity("Agri.Models.PrevYearManureApplDefaultNitrogen", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.PrevYearManureApplDefaultNitrogen", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -544,7 +545,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("PrevYearManureApplDefaultNitrogens");
                 });
 
-            modelBuilder.Entity("Agri.Models.Region", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Region", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -563,10 +564,10 @@ namespace SERVERAPI.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Region");
+                    b.ToTable("Regions");
                 });
 
-            modelBuilder.Entity("Agri.Models.SeasonApplication", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.SeasonApplication", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -600,7 +601,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("SeasonApplications");
                 });
 
-            modelBuilder.Entity("Agri.Models.SelectCodeItem", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.SelectCodeItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -614,7 +615,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("SelectCodeItems");
                 });
 
-            modelBuilder.Entity("Agri.Models.SelectListItem", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.SelectListItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -626,7 +627,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("SelectListItems");
                 });
 
-            modelBuilder.Entity("Agri.Models.SoilTestMethod", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -646,7 +647,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("SoilTestMethods");
                 });
 
-            modelBuilder.Entity("Agri.Models.SoilTestPhosphorousRange", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPhosphorousRange", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -660,7 +661,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("SoilTestPhosphorousRanges");
                 });
 
-            modelBuilder.Entity("Agri.Models.SoilTestPotassiumRange", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPotassiumRange", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -674,7 +675,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("SoilTestPotassiumRanges");
                 });
 
-            modelBuilder.Entity("Agri.Models.STKKelownaRange", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.STKKelownaRange", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -690,7 +691,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("STKKelownaRanges");
                 });
 
-            modelBuilder.Entity("Agri.Models.STKRecommend", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.STKRecommend", b =>
                 {
                     b.Property<int>("STKKelownaRangeId")
                         .ValueGeneratedOnAdd();
@@ -710,7 +711,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("STKRecommend");
                 });
 
-            modelBuilder.Entity("Agri.Models.STPKelownaRange", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.STPKelownaRange", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -726,7 +727,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("STPKelownaRanges");
                 });
 
-            modelBuilder.Entity("Agri.Models.STPRecommend", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.STPRecommend", b =>
                 {
                     b.Property<int>("STPKelownaRangeId")
                         .ValueGeneratedOnAdd();
@@ -746,7 +747,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("STPRecommend");
                 });
 
-            modelBuilder.Entity("Agri.Models.Unit", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Unit", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -784,7 +785,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Units");
                 });
 
-            modelBuilder.Entity("Agri.Models.Version", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Version", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -796,7 +797,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Versions");
                 });
 
-            modelBuilder.Entity("Agri.Models.Yield", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Yield", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -808,106 +809,106 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Yields");
                 });
 
-            modelBuilder.Entity("Agri.Models.AnimalSubType", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.AnimalSubType", b =>
                 {
-                    b.HasOne("Agri.Models.Animal", "Animal")
+                    b.HasOne("Agri.Models.StaticData.Animal", "Animal")
                         .WithMany("AnimalSubTypes")
                         .HasForeignKey("AnimalId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.Crop", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Crop", b =>
                 {
-                    b.HasOne("Agri.Models.CropType", "CropType")
+                    b.HasOne("Agri.Models.StaticData.CropType", "CropType")
                         .WithMany("Crops")
                         .HasForeignKey("CropTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.CropSTKRegionCd", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSTKRegionCd", b =>
                 {
-                    b.HasOne("Agri.Models.Crop")
+                    b.HasOne("Agri.Models.StaticData.Crop")
                         .WithMany("CropSTKRegionCds")
                         .HasForeignKey("CropId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.CropSTPRegionCd", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSTPRegionCd", b =>
                 {
-                    b.HasOne("Agri.Models.Crop")
+                    b.HasOne("Agri.Models.StaticData.Crop")
                         .WithMany("CropSTPRegionCds")
                         .HasForeignKey("CropId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.CropYield", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropYield", b =>
                 {
-                    b.HasOne("Agri.Models.Crop", "Crop")
+                    b.HasOne("Agri.Models.StaticData.Crop", "Crop")
                         .WithMany("CropYields")
                         .HasForeignKey("CropId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Agri.Models.Location", "Location")
+                    b.HasOne("Agri.Models.StaticData.Location", "Location")
                         .WithMany("CropYields")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.LiquidFertilizerDensity", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.LiquidFertilizerDensity", b =>
                 {
-                    b.HasOne("Agri.Models.DensityUnit", "DensityUnit")
+                    b.HasOne("Agri.Models.StaticData.DensityUnit", "DensityUnit")
                         .WithMany("LiquidFertilizerDensities")
                         .HasForeignKey("DensityUnitId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Agri.Models.Fertilizer", "Fertilizer")
+                    b.HasOne("Agri.Models.StaticData.Fertilizer", "Fertilizer")
                         .WithMany("LiquidFertilizerDensities")
                         .HasForeignKey("FertilizerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.Manure", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Manure", b =>
                 {
-                    b.HasOne("Agri.Models.DM", "Dm")
+                    b.HasOne("Agri.Models.StaticData.DM", "Dm")
                         .WithMany()
                         .HasForeignKey("DMId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Agri.Models.NMineralization", "NMineralization")
+                    b.HasOne("Agri.Models.StaticData.NMineralization", "NMineralization")
                         .WithMany("Manures")
                         .HasForeignKey("NMineralizationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.PrevCropType", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.PrevCropType", b =>
                 {
-                    b.HasOne("Agri.Models.CropType")
+                    b.HasOne("Agri.Models.StaticData.CropType")
                         .WithMany("PrevCropTypes")
                         .HasForeignKey("CropTypeId");
 
-                    b.HasOne("Agri.Models.PrevCropType", "CropType")
+                    b.HasOne("Agri.Models.StaticData.PrevCropType", "CropType")
                         .WithMany()
                         .HasForeignKey("CropTypeId1");
                 });
 
-            modelBuilder.Entity("Agri.Models.Region", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.Region", b =>
                 {
-                    b.HasOne("Agri.Models.Location")
+                    b.HasOne("Agri.Models.StaticData.Location")
                         .WithMany("Regions")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.STKRecommend", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.STKRecommend", b =>
                 {
-                    b.HasOne("Agri.Models.STKKelownaRange", "STKKelownaRange")
+                    b.HasOne("Agri.Models.StaticData.STKKelownaRange", "STKKelownaRange")
                         .WithMany("STKRecommendations")
                         .HasForeignKey("STKKelownaRangeId1");
                 });
 
-            modelBuilder.Entity("Agri.Models.STPRecommend", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.STPRecommend", b =>
                 {
-                    b.HasOne("Agri.Models.STPKelownaRange", "StpKelownaRange")
+                    b.HasOne("Agri.Models.StaticData.STPKelownaRange", "StpKelownaRange")
                         .WithMany("STPRecommendations")
                         .HasForeignKey("StpKelownaRangeId");
                 });

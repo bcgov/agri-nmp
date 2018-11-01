@@ -41,6 +41,7 @@ namespace Agri.Data
         public DbSet<STKKelownaRange> STKKelownaRanges { get; set; }
         public DbSet<STPKelownaRange> STPKelownaRanges { get; set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<UserPrompt> UserPrompts { get; set; }
         public DbSet<Version> Versions { get; set; }
         public DbSet<Yield> Yields { get; set; }
 

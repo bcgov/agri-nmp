@@ -12,7 +12,6 @@ using Newtonsoft.Json.Linq;
 
 using Agri.Models.Utility;
 using  Agri.Models.StaticData;
-using AutoMapper;
 
 namespace Agri.LegacyData.Models.Impl
 {
@@ -800,46 +799,39 @@ namespace Agri.LegacyData.Models.Impl
             return method;
         }
 
-        public Models.StaticData.SoilTestMethods GetSoilTestMethods()
+        public List<SoilTestMethod> GetSoilTestMethods()
         {
-            Models.StaticData.SoilTestMethods meths = new Models.StaticData.SoilTestMethods();
-            meths.methods = new List<Models.StaticData.SoilTestMethod>();
-
-            JArray items = (JArray) rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
-
-            foreach (var r in items)
+            var soilTestMethods = new List<SoilTestMethod>();
+            JArray array = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
+            foreach (var record in array)
             {
-                Models.StaticData.SoilTestMethod rec = new Models.StaticData.SoilTestMethod();
-
-                rec.id = Convert.ToInt32(r["id"].ToString());
-                rec.name = r["name"].ToString();
-                rec.ConvertToKelownaPlt72 = Convert.ToDecimal(r["ConvertToKelownaPlt72"].ToString());
-                rec.ConvertToKelownaPge72 = Convert.ToDecimal(r["ConvertToKelownaPge72"].ToString());
-                rec.ConvertToKelownaK = Convert.ToDecimal(r["ConvertToKelownaK"].ToString());
-                rec.sortNum = Convert.ToInt32(r["sortNum"].ToString());
-
-                meths.methods.Add(rec);
+                var soilTestMethod = new SoilTestMethod
+                {
+                    Id = Convert.ToInt32(record["id"].ToString()),
+                    Name = record["name"].ToString(),
+                    ConvertToKelownaPlt72 = Convert.ToDecimal(record["ConvertToKelownaPlt72"].ToString()),
+                    ConvertToKelownaPge72 = Convert.ToDecimal(record["ConvertToKelownaPge72"].ToString()),
+                    ConvertToKelownaK = Convert.ToDecimal(record["ConvertToKelownaK"].ToString()),
+                    SortNum = Convert.ToInt16(record["sortNum"].ToString())
+                };
+                soilTestMethods.Add(soilTestMethod);
             }
 
-            return meths;
+            return soilTestMethods;
         }
 
-        public List<Models.StaticData.SelectListItem> GetSoilTestMethodsDll()
+        public List<SelectListItem> GetSoilTestMethodsDll()
         {
-            Models.StaticData.SoilTestMethods meths = GetSoilTestMethods();
-
-            meths.methods = meths.methods.OrderBy(n => n.sortNum).ThenBy(n => n.name).ToList();
-
-            List<Models.StaticData.SelectListItem> mthOptions = new List<Models.StaticData.SelectListItem>();
-
-            foreach (var r in meths.methods)
+            var soilTestMethods = GetSoilTestMethods();
+            List<SelectListItem> soilTestMethodOptions = new List<SelectListItem>();
+            foreach (var r in soilTestMethods)
             {
-                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                    {Id = r.id, Value = r.name};
-                mthOptions.Add(li);
+                SelectListItem li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                soilTestMethodOptions.Add(li);
             }
 
-            return mthOptions;
+            return soilTestMethodOptions;
         }
 
         public Models.StaticData.Region GetRegion(int id)
@@ -1405,38 +1397,37 @@ namespace Agri.LegacyData.Models.Impl
             return fertilizerMethod;
         }
 
-        public Models.StaticData.FertilizerMethods GetFertilizerMethods()
+        public List<FertilizerMethod> GetFertilizerMethods()
         {
-            Models.StaticData.FertilizerMethods fertilizerMethods = new Models.StaticData.FertilizerMethods();
-            fertilizerMethods.fertilizerMethods = new List<Models.StaticData.FertilizerMethod>();
+            var feritilizerMethods = new List<FertilizerMethod>();
 
-            JArray array = (JArray) rss["agri"]["nmp"]["fertilizermethods"]["fertilizermethod"];
-
-            foreach (var r in array)
+            JArray array = (JArray)rss["agri"]["nmp"]["fertilizermethods"]["fertilizermethod"];
+            foreach (var record in array)
             {
-                Models.StaticData.FertilizerMethod fertilizerMethod = new Models.StaticData.FertilizerMethod();
-                fertilizerMethod.id = Convert.ToInt32(r["id"].ToString());
-                fertilizerMethod.name = r["name"].ToString();
-                fertilizerMethods.fertilizerMethods.Add(fertilizerMethod);
+                var feritilizerMethod = new FertilizerMethod()
+                {
+                    Id = Convert.ToInt32(record["id"].ToString()),
+                    Name = record["name"].ToString()
+                };
+                feritilizerMethods.Add(feritilizerMethod);
             }
 
-            return fertilizerMethods;
+            return feritilizerMethods;
         }
 
-        public List<Models.StaticData.SelectListItem> GetFertilizerMethodsDll()
+        public List<SelectListItem> GetFertilizerMethodsDll()
         {
-            Models.StaticData.FertilizerMethods methods = GetFertilizerMethods();
-
-            List<Models.StaticData.SelectListItem> methodsOptions = new List<Models.StaticData.SelectListItem>();
-
-            foreach (var r in methods.fertilizerMethods)
+            var fertilizerMethods = GetFertilizerMethods();
+            List<SelectListItem> fertilizerMethodOptions = new List<SelectListItem>();
+            foreach (var r in fertilizerMethods)
             {
-                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                    {Id = r.id, Value = r.name};
-                methodsOptions.Add(li);
+                SelectListItem li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                fertilizerMethodOptions.Add(li);
             }
 
-            return methodsOptions;
+            return fertilizerMethodOptions;
+
         }
 
         public string GetSoilTestWarning()

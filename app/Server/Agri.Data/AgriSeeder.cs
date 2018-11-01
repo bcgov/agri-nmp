@@ -22,6 +22,7 @@ namespace Agri.Data
         {
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
+            _context.Database.EnsureDeleted();
             _context.Database.Migrate();
 
             var staticDataRepo = new StaticDataRepository();
@@ -66,6 +67,29 @@ namespace Agri.Data
                 _context.Locations.AddRange(locations);
             }
 
+            if (!_context.SoilTestMethods.Any())
+            {
+                var soilTestMethods = staticDataRepo.GetSoilTestMethods();
+                _context.SoilTestMethods.AddRange(soilTestMethods);
+            }
+
+            if (!_context.FertilizerMethods.Any())
+            {
+                var fertilizerMethods = staticDataRepo.GetFertilizerMethods();
+                _context.FertilizerMethods.AddRange(fertilizerMethods);
+            }
+
+            if (!_context.UserPrompts.Any())
+            {
+                var userPrompts = staticExtRepo.GetUserPromts();
+                _context.UserPrompts.AddRange(userPrompts);
+            }
+
+            if (!_context.ExternalLinks.Any())
+            {
+                var externalLinks = staticExtRepo.GetExternalLinks();
+                _context.ExternalLinks.AddRange(externalLinks);
+            }
             //if (!_context.CropTypes.Any())
             //{
             //    var types = staticDataRepo.GetCropTypes();
@@ -77,7 +101,7 @@ namespace Agri.Data
             //    var crops = staticDataRepo.GetCrops();
             //    foreach (var crop in crops)
             //    {
-                    
+
             //    }
 
             //    _context.Crops.AddRange(crops);
