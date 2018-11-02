@@ -28,12 +28,15 @@ namespace Agri.Data
             var staticDataRepo = new StaticDataRepository();
             var staticExtRepo = new StaticDataExtRepository();
 
+            //AmoniaRetention
             if (!_context.AmmoniaRetentions.Any())
             {
                 var ammoniaRetentions = staticExtRepo.GetAmmoniaRetentions();
                 _context.AmmoniaRetentions.AddRange(ammoniaRetentions);
             }
 
+            //Animal
+            //AnimalSubType
             if (!_context.Animals.Any())
             {
                 var animals = staticDataRepo.GetAnimals();
@@ -49,41 +52,51 @@ namespace Agri.Data
                 _context.Animals.AddRange(animals);
             }
 
+            //Browser
             if (!_context.Browsers.Any())
             {
                 var browsers = staticDataRepo.GetAllowableBrowsers();
                 _context.Browsers.AddRange(browsers);
             }
 
+            //ConversionFactor
             if (!_context.ConversionFactors.Any())
             {
                 var cFactor = staticDataRepo.GetConversionFactor();
                 _context.ConversionFactors.Add(cFactor);
             }
 
+            //Location
             if (!_context.Locations.Any())
             {
                 var locations = staticExtRepo.GetLocations();
                 _context.Locations.AddRange(locations);
             }
 
+            //Regions
             if (!_context.Regions.Any())
             {
                 var regions = staticDataRepo.GetRegions();
                 _context.Regions.AddRange(regions);
             }
 
+            //CropTypes
             if (!_context.CropTypes.Any())
             {
                 var types = staticDataRepo.GetCropTypes();
                 _context.CropTypes.AddRange(types);
             }
 
+            //Crops
+            //CropStkRegion
+            //CropStpRegion
+            //CropYield
+            //PrevCropType
             if (!_context.Crops.Any())
             {
                 var crops = staticDataRepo.GetCrops();
-                var stksRegions = staticExtRepo.GetCropStkRegionCds();
-                var stpsRegions = staticExtRepo.GetCropStpRegionCds();
+                var stksRegions = staticExtRepo.GetCropStkRegions();
+                var stpsRegions = staticExtRepo.GetCropStpRegions();
                 var cropYields = staticExtRepo.GetCropYields();
                 var prevCropTypes = staticDataRepo.GetPrevCropTypes();
 
@@ -109,7 +122,38 @@ namespace Agri.Data
                         crop.PrevCropTypes.AddRange(prevCropTypes.Where(c => c.PrevCropCode == crop.PrevCropCode));
                     }
                 }
+                
+                //DensityType
+                if (!_context.DensityUnits.Any())
+                {
+                    var units = staticDataRepo.GetDensityUnits();
+                    _context.DensityUnits.AddRange(units);
+                }
 
+                //Fertilizer
+                if (!_context.Fertilizers.Any())
+                {
+                    var fertilizers = staticDataRepo.GetFertilizers();
+                    _context.Fertilizers.AddRange(fertilizers);
+                }
+
+                //FertilizerType
+                if (!_context.FertilizerTypes.Any())
+                {
+                    var types = staticDataRepo.GetFertilizerTypes();
+                    _context.FertilizerTypes.AddRange(types);
+                }
+
+
+                //LiquidFertilizerDensity
+                if (!_context.LiquidFertilizerDensities.Any())
+                {
+                    var densities = staticExtRepo.GetLiquidFertilizerDensities();
+                    _context.LiquidFertilizerDensities.AddRange(densities);
+                }
+
+                //STKKelownaRange
+                //STKRecommendations
                 if (!_context.STKKelownaRanges.Any())
                 {
                     var ranges = staticExtRepo.GetSTKKelownaRanges();
@@ -126,6 +170,8 @@ namespace Agri.Data
                     _context.STKKelownaRanges.AddRange(ranges);
                 }
 
+                //STPKelownaRange
+                //STPRecommendations
                 if (!_context.STPKelownaRanges.Any())
                 {
                     var ranges = staticExtRepo.GetSTPKelownaRanges();
@@ -145,7 +191,29 @@ namespace Agri.Data
                 _context.Crops.AddRange(crops);
             }
 
+            //HarvestUnit
+            if (!_context.HarvestUnits.Any())
+            {
+                var units = staticExtRepo.GetHarvestUnits();
+                _context.HarvestUnits.AddRange(units);
+            }
 
+            //PrevManureApplicationYear
+            if (_context.PrevManureApplicationYears.Any())
+            {
+                var years = staticDataRepo.GetPrevManureApplicationInPrevYears();
+                _context.PrevManureApplicationYears.AddRange(years);
+            }
+
+            //PrevYearManureApplDefaultNitrogen
+            if (_context.PrevYearManureApplNitrogenDefaults.Any())
+            {
+                var nitrogenDefaults = staticDataRepo.GetPrevYearManureNitrogenCreditDefaults();
+                _context.PrevYearManureApplNitrogenDefaults.AddRange(nitrogenDefaults);
+            }
+
+
+    
             _context.SaveChanges();
         }
     }

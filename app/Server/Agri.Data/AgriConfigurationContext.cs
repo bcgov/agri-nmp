@@ -16,21 +16,26 @@ namespace Agri.Data
         public DbSet<ConversionFactor> ConversionFactors { get; set; }
         public DbSet<Crop> Crops { get; set; }
         public DbSet<CropYield> CropYields { get; set; }
-        public DbSet<CropSTKRegionCd> CropSTKRegionCds { get; set; }
-        public DbSet<CropSTPRegionCd> CropSTPRegionCds { get; set; }
+        public DbSet<CropSTKRegion> CropStkRegions { get; set; }
+        public DbSet<CropSTPRegion> CropSTPRegions { get; set; }
         public DbSet<CropType> CropTypes { get; set; }
         public DbSet<DefaultSoilTest> DefaultSoilTests { get; set; }
+        public DbSet<DensityUnit> DensityUnits { get; set; }
+        public DbSet<DM> DMs { get; set; }
         public DbSet<ExternalLink> ExternalLinks { get; set; }
+        public DbSet<Fertilizer> Fertilizers { get; set; }
         public DbSet<FertilizerMethod> FertilizerMethods { get; set; }
         public DbSet<FertilizerType> FertilizerTypes { get; set; }
         public DbSet<FertilizerUnit> FertilizerUnits { get; set; }
+        public DbSet<HarvestUnit> HarvestUnits { get; set; }
         public DbSet<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Manure> Manures { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<NMineralization> NMineralizations { get; set; }
         public DbSet<NutrientIcon> NutrientIcons { get; set; }
         public DbSet<PrevManureApplicationYear> PrevManureApplicationYears { get; set; }
-        public DbSet<PrevYearManureApplDefaultNitrogen> PrevYearManureApplDefaultNitrogens { get; set; }
+        public DbSet<PrevYearManureApplNitrogenDefault> PrevYearManureApplNitrogenDefaults { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<SeasonApplication> SeasonApplications { get; set; }
         public DbSet<SelectCodeItem> SelectCodeItems { get; set; }
@@ -48,9 +53,13 @@ namespace Agri.Data
         {
             //Composite Primary Key Definitions
             modelBuilder.Entity<AmmoniaRetention>().HasKey(table => new {table.SeasonApplicationId, table.DM});
-            modelBuilder.Entity<CropSTKRegionCd>().HasKey(table => new {table.CropId, table.SoilTestPotassiumRegionCd});
-            modelBuilder.Entity<CropSTPRegionCd>().HasKey(table => new {table.CropId, table.SoilTestPhosphorousRegionCd});
+            modelBuilder.Entity<CropSTKRegion>().HasKey(table => new {table.CropId, SoilTestPotassiumRegionCd = table.SoilTestPotassiumRegionCode});
+            modelBuilder.Entity<CropSTPRegion>().HasKey(table => new {table.CropId, table.SoilTestPhosphorousRegionCode});
             modelBuilder.Entity<CropYield>().HasKey(table => new {table.CropId, table.LocationId});
+            modelBuilder.Entity<STKRecommend>().HasKey(table => new
+                {table.STKKelownaRangeId, SoilTestPotassiumRegionCd = table.SoilTestPotassiumRegionCode, PotassiumCropGroupRegionCd = table.PotassiumCropGroupRegionCode});
+            modelBuilder.Entity<STPRecommend>().HasKey(table => new
+                {table.STPKelownaRangeId, table.SoilTestPhosphorousRegionCode, PhosphorousCropGroupRegionCd = table.PhosphorousCropGroupRegionCode});
         }
     }
 }

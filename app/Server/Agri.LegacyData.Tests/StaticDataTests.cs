@@ -50,7 +50,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetCropStkRegionCdsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetCropStkRegionCds();
+            var result = _staticDataExtRepo.GetCropStkRegions();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -59,7 +59,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetCropStpRegionCdsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetCropStpRegionCds();
+            var result = _staticDataExtRepo.GetCropStpRegions();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -96,6 +96,24 @@ namespace Agri.LegacyData.Tests
         public void GetSTPRecommendsSuccessfully()
         {
             var result = _staticDataExtRepo.GetSTPRecommendations();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetHarvestUnitsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetHarvestUnits();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetLiquidFertilizerDensitiesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetLiquidFertilizerDensities();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);

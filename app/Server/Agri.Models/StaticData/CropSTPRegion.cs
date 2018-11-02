@@ -2,12 +2,12 @@
 
 namespace Agri.Models.StaticData
 {
-    public class CropSTPRegionCd
+    public class CropSTPRegion
     {
         [Key]
         public int CropId { get; set; }
         [Key]
-        public int SoilTestPhosphorousRegionCd { get; set; }
-        public int? PhosphorousCropGroupRegionCd { get; set; }
+        public int SoilTestPhosphorousRegionCode { get; set; }
+        public int? PhosphorousCropGroupRegionCode { get; set; }
     }
 }

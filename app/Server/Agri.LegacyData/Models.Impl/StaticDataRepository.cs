@@ -417,20 +417,20 @@ namespace Agri.LegacyData.Models.Impl
             return fertilizerUnit;
         }
 
-        public Models.StaticData.DensityUnits GetDensityUnits()
+        public List<DensityUnit> GetDensityUnits()
         {
-            Models.StaticData.DensityUnits units = new Models.StaticData.DensityUnits();
-            units.densityUnits = new List<Models.StaticData.DensityUnit>();
-
-            JArray array = (JArray) rss["agri"]["nmp"]["densityunits"]["densityunit"];
+            var units = new List<DensityUnit>();
+            var array = (JArray) rss["agri"]["nmp"]["densityunits"]["densityunit"];
 
             foreach (var r in array)
             {
-                Models.StaticData.DensityUnit unit = new Models.StaticData.DensityUnit();
-                unit.id = Convert.ToInt32(r["id"].ToString());
-                unit.name = r["name"].ToString();
-                unit.convfactor = Convert.ToDecimal(r["convfactor"].ToString());
-                units.densityUnits.Add(unit);
+                var unit = new DensityUnit
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    ConvFactor = Convert.ToDecimal(r["convfactor"].ToString())
+                };
+                units.Add(unit);
             }
 
             return units;
@@ -438,14 +438,14 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetDensityUnitsDll()
         {
-            Models.StaticData.DensityUnits units = GetDensityUnits();
+            var units = GetDensityUnits();
 
             List<Models.StaticData.SelectListItem> unitsOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in units.densityUnits)
+            foreach (var r in units)
             {
                 Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                    {Id = r.id, Value = r.name};
+                    {Id = r.Id, Value = r.Name};
                 unitsOptions.Add(li);
             }
 
@@ -1171,21 +1171,21 @@ namespace Agri.LegacyData.Models.Impl
             return type;
         }
 
-        public Models.StaticData.FertilizerTypes GetFertilizerTypes()
+        public List<FertilizerType> GetFertilizerTypes()
         {
-            Models.StaticData.FertilizerTypes types = new Models.StaticData.FertilizerTypes();
-            types.fertilizerTypes = new List<Models.StaticData.FertilizerType>();
-
+            var types = new List<FertilizerType>();
             JArray array = (JArray) rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
 
             foreach (var r in array)
             {
-                Models.StaticData.FertilizerType type = new Models.StaticData.FertilizerType();
-                type.id = Convert.ToInt32(r["id"].ToString());
-                type.name = r["name"].ToString();
-                type.dry_liquid = r["dry_liquid"].ToString();
-                type.custom = r["customfertilizer"].ToString() == "true" ? true : false;
-                types.fertilizerTypes.Add(type);
+                var type = new FertilizerType
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    DryLiquid = r["dry_liquid"].ToString(),
+                    Custom = r["customfertilizer"].ToString() == "true"
+                };
+                types.Add(type);
             }
 
             return types;
@@ -1193,14 +1193,16 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetFertilizerTypesDll()
         {
-            Models.StaticData.FertilizerTypes types = GetFertilizerTypes();
+            var types = GetFertilizerTypes();
 
             List<Models.StaticData.SelectListItem> typesOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in types.fertilizerTypes)
+            foreach (var r in types)
             {
                 Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                    {Id = r.id, Value = r.name};
+                {
+                    Id = r.Id, Value = r.Name
+                };
                 typesOptions.Add(li);
             }
 
@@ -1225,26 +1227,26 @@ namespace Agri.LegacyData.Models.Impl
             return fertilizer;
         }
 
-        public Models.StaticData.Fertilizers GetFertilizers()
+        public List<Fertilizer> GetFertilizers()
         {
-            Models.StaticData.Fertilizers fertilizers = new Models.StaticData.Fertilizers();
-            fertilizers.fertilizers = new List<Models.StaticData.Fertilizer>();
-
+            var fertilizers = new List<Fertilizer>();
             JArray array = (JArray) rss["agri"]["nmp"]["fertilizers"]["fertilizer"];
 
             foreach (var r in array)
             {
 
-                Models.StaticData.Fertilizer fertilizer = new Models.StaticData.Fertilizer();
-                fertilizer.id = Convert.ToInt32(r["id"].ToString());
-                fertilizer.name = r["name"].ToString();
-                fertilizer.dry_liquid = r["dry_liquid"].ToString();
-                fertilizer.nitrogen = Convert.ToDecimal(r["nitrogen"].ToString());
-                fertilizer.phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
-                fertilizer.potassium = Convert.ToDecimal(r["potassium"].ToString());
-                fertilizer.sortNum = Convert.ToInt32(r["sortNum"].ToString());
+                var fertilizer = new Fertilizer
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    DryLiquid = r["dry_liquid"].ToString(),
+                    Nitrogen = Convert.ToDecimal(r["nitrogen"].ToString()),
+                    Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString()),
+                    Potassium = Convert.ToDecimal(r["potassium"].ToString()),
+                    SortNum = Convert.ToInt32(r["sortNum"].ToString())
+                };
 
-                fertilizers.fertilizers.Add(fertilizer);
+                fertilizers.Add(fertilizer);
             }
 
             return fertilizers;
@@ -1252,18 +1254,18 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetFertilizersDll(string fertilizerType)
         {
-            Models.StaticData.Fertilizers types = GetFertilizers();
+            var types = GetFertilizers();
 
-            types.fertilizers = types.fertilizers.OrderBy(n => n.sortNum).ThenBy(n => n.name).ToList();
+            types = types.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
 
             List<Models.StaticData.SelectListItem> typesOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in types.fertilizers)
+            foreach (var r in types)
             {
-                if (r.dry_liquid.ToString() == fertilizerType)
+                if (r.DryLiquid.ToString() == fertilizerType)
                 {
                     Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                        {Id = r.id, Value = r.name};
+                        {Id = r.Id, Value = r.Name};
                     typesOptions.Add(li);
                 }
             }
@@ -1538,34 +1540,35 @@ namespace Agri.LegacyData.Models.Impl
             return (JArray) rss["agri"]["nmp"]["manureprevyearscd"]["manureprevyearcd"];
         }
 
-        public List<Models.StaticData.SelectListItem> GetPrevManureApplicationInPrevYears()
+        public List<PrevManureApplicationYear> GetPrevManureApplicationInPrevYears()
         {
-            List<Models.StaticData.SelectListItem> selections =
-                new List<Models.StaticData.SelectListItem>();
-            Models.StaticData.SelectListItem sel;
+            var selections = new List<PrevManureApplicationYear>();
             JArray jsonPrevYearManure = GetPrevYearManureText();
 
             foreach (var r in jsonPrevYearManure)
             {
-                sel = new Models.StaticData.SelectListItem
-                    {Id = Convert.ToInt32(r["id"].ToString()), Value = r["name"].ToString()};
+                var sel = new PrevManureApplicationYear
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString()
+                };
                 selections.Add(sel);
             }
 
             return selections;
         }
 
-        public List<PrevYearManureApplDefaultNitrogen> GetPrevYearManureNitrogenCreditDefaults()
+        public List<PrevYearManureApplNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults()
         {
             JArray jsonPrevYearManureDefaultNitrogren =
                 (JArray) rss["agri"]["nmp"]["defaultprevyearmanureapplfrequency"]["defprevyearmanurenitrogen"];
-            List<PrevYearManureApplDefaultNitrogen> result = new List<PrevYearManureApplDefaultNitrogen>();
-            PrevYearManureApplDefaultNitrogen defaultNitrogen;
+            List<PrevYearManureApplNitrogenDefault> result = new List<PrevYearManureApplNitrogenDefault>();
+            PrevYearManureApplNitrogenDefault defaultNitrogen;
 
             foreach (var r in jsonPrevYearManureDefaultNitrogren)
             {
-                defaultNitrogen = new PrevYearManureApplDefaultNitrogen();
-                defaultNitrogen = JsonConvert.DeserializeObject<PrevYearManureApplDefaultNitrogen>(r.ToString());
+                defaultNitrogen = new PrevYearManureApplNitrogenDefault();
+                defaultNitrogen = JsonConvert.DeserializeObject<PrevYearManureApplNitrogenDefault>(r.ToString());
                 result.Add(defaultNitrogen);
             }
 

@@ -7,8 +7,8 @@ namespace Agri.Models.StaticData
         public Crop()
         {
             CropYields = new List<CropYield>();
-            CropSTKRegionCds = new List<CropSTKRegionCd>();
-            CropSTPRegionCds = new List<CropSTPRegionCd>();
+            CropSTKRegionCds = new List<CropSTKRegion>();
+            CropSTPRegionCds = new List<CropSTPRegion>();
             PrevCropTypes = new List<PrevCropType>();
         }
         public int Id { get; set; }
@@ -28,8 +28,8 @@ namespace Agri.Models.StaticData
 
         public CropType CropType { get; set; }
         public List<CropYield> CropYields { get; set; }
-        public List<CropSTKRegionCd> CropSTKRegionCds { get; set; }
-        public List<CropSTPRegionCd> CropSTPRegionCds { get; set; }
+        public List<CropSTKRegion> CropSTKRegionCds { get; set; }
+        public List<CropSTPRegion> CropSTPRegionCds { get; set; }
         public List<PrevCropType> PrevCropTypes { get; set; }
     }
 }

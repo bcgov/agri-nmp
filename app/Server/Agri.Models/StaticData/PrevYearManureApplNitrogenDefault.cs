@@ -1,6 +1,6 @@
 ﻿namespace Agri.Models.StaticData
 {
-    public class PrevYearManureApplDefaultNitrogen
+    public class PrevYearManureApplNitrogenDefault
     {
         public int Id { get; set; }
         public string PrevYearManureAppFrequency { get; set; }

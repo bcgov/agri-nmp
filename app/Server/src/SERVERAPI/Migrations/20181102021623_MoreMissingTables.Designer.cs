@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SERVERAPI.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20181101192251_InitialDB")]
-    partial class InitialDB
+    [Migration("20181102021623_MoreMissingTables")]
+    partial class MoreMissingTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,7 +147,7 @@ namespace SERVERAPI.Migrations
 
                     b.Property<decimal?>("N_Recomm_lbPerAc");
 
-                    b.Property<int>("PrevCropCd");
+                    b.Property<int>("PrevCropCode");
 
                     b.Property<int>("PrevYearManureAppl_VolCatCd");
 
@@ -162,30 +162,30 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Crops");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.CropSTKRegionCd", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSTKRegion", b =>
                 {
                     b.Property<int>("CropId");
 
-                    b.Property<int>("SoilTestPotassiumRegionCd");
+                    b.Property<int>("SoilTestPotassiumRegionCode");
 
-                    b.Property<int?>("PotassiumCropGroupRegionCd");
+                    b.Property<int?>("PotassiumCropGroupRegionCode");
 
-                    b.HasKey("CropId", "SoilTestPotassiumRegionCd");
+                    b.HasKey("CropId", "SoilTestPotassiumRegionCode");
 
-                    b.ToTable("CropSTKRegionCds");
+                    b.ToTable("CropStkRegions");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.CropSTPRegionCd", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSTPRegion", b =>
                 {
                     b.Property<int>("CropId");
 
-                    b.Property<int>("SoilTestPhosphorousRegionCd");
+                    b.Property<int>("SoilTestPhosphorousRegionCode");
 
-                    b.Property<int?>("PhosphorousCropGroupRegionCd");
+                    b.Property<int?>("PhosphorousCropGroupRegionCode");
 
-                    b.HasKey("CropId", "SoilTestPhosphorousRegionCd");
+                    b.HasKey("CropId", "SoilTestPhosphorousRegionCode");
 
-                    b.ToTable("CropSTPRegionCds");
+                    b.ToTable("CropSTPRegions");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.CropType", b =>
@@ -256,7 +256,7 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DensityUnit");
+                    b.ToTable("DensityUnits");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.DM", b =>
@@ -268,7 +268,7 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DM");
+                    b.ToTable("DMs");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.ExternalLink", b =>
@@ -304,7 +304,7 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Fertilizer");
+                    b.ToTable("Fertilizers");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.FertilizerMethod", b =>
@@ -353,6 +353,18 @@ namespace SERVERAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FertilizerUnits");
+                });
+
+            modelBuilder.Entity("Agri.Models.StaticData.HarvestUnit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HarvestUnits");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.LiquidFertilizerDensity", b =>
@@ -472,7 +484,7 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NMineralization");
+                    b.ToTable("NMineralizations");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.NutrientIcon", b =>
@@ -494,13 +506,13 @@ namespace SERVERAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CropTypeId");
+                    b.Property<int?>("CropId");
 
-                    b.Property<int?>("CropTypeId1");
+                    b.Property<int?>("CropTypeId");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("PrevCropCd");
+                    b.Property<int>("PrevCropCode");
 
                     b.Property<int>("nCreditImperial");
 
@@ -508,16 +520,16 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CropTypeId");
+                    b.HasIndex("CropId");
 
-                    b.HasIndex("CropTypeId1");
+                    b.HasIndex("CropTypeId");
 
                     b.ToTable("PrevCropType");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.PrevManureApplicationYear", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
@@ -527,7 +539,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("PrevManureApplicationYears");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.PrevYearManureApplDefaultNitrogen", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.PrevYearManureApplNitrogenDefault", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -538,7 +550,7 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PrevYearManureApplDefaultNitrogens");
+                    b.ToTable("PrevYearManureApplNitrogenDefaults");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.Region", b =>
@@ -689,20 +701,17 @@ namespace SERVERAPI.Migrations
 
             modelBuilder.Entity("Agri.Models.StaticData.STKRecommend", b =>
                 {
-                    b.Property<int>("STKKelownaRangeId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("STKKelownaRangeId");
+
+                    b.Property<int>("SoilTestPotassiumRegionCode");
+
+                    b.Property<int>("PotassiumCropGroupRegionCode");
 
                     b.Property<int>("K2O_Recommend_kgPeHa");
 
-                    b.Property<int>("PotassiumCropGroupRegionCd");
+                    b.HasKey("STKKelownaRangeId", "SoilTestPotassiumRegionCode", "PotassiumCropGroupRegionCode");
 
-                    b.Property<int?>("STKKelownaRangeId1");
-
-                    b.Property<int>("SoilTestPotassiumRegionCd");
-
-                    b.HasKey("STKKelownaRangeId");
-
-                    b.HasIndex("STKKelownaRangeId1");
+                    b.HasAlternateKey("PotassiumCropGroupRegionCode", "SoilTestPotassiumRegionCode", "STKKelownaRangeId");
 
                     b.ToTable("STKRecommend");
                 });
@@ -725,20 +734,17 @@ namespace SERVERAPI.Migrations
 
             modelBuilder.Entity("Agri.Models.StaticData.STPRecommend", b =>
                 {
-                    b.Property<int>("STPKelownaRangeId")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("STPKelownaRangeId");
+
+                    b.Property<int>("SoilTestPhosphorousRegionCode");
+
+                    b.Property<int>("PhosphorousCropGroupRegionCode");
 
                     b.Property<int>("P2O5_Recommend_KgPerHa");
 
-                    b.Property<int>("PhosphorousCropGroupRegionCd");
+                    b.HasKey("STPKelownaRangeId", "SoilTestPhosphorousRegionCode", "PhosphorousCropGroupRegionCode");
 
-                    b.Property<int>("SoilTestPhosphorousRegionCd");
-
-                    b.Property<int?>("StpKelownaRangeId");
-
-                    b.HasKey("STPKelownaRangeId");
-
-                    b.HasIndex("StpKelownaRangeId");
+                    b.HasAlternateKey("PhosphorousCropGroupRegionCode", "SoilTestPhosphorousRegionCode", "STPKelownaRangeId");
 
                     b.ToTable("STPRecommend");
                 });
@@ -821,7 +827,7 @@ namespace SERVERAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.CropSTKRegionCd", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSTKRegion", b =>
                 {
                     b.HasOne("Agri.Models.StaticData.Crop")
                         .WithMany("CropSTKRegionCds")
@@ -829,7 +835,7 @@ namespace SERVERAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.CropSTPRegionCd", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSTPRegion", b =>
                 {
                     b.HasOne("Agri.Models.StaticData.Crop")
                         .WithMany("CropSTPRegionCds")
@@ -878,13 +884,13 @@ namespace SERVERAPI.Migrations
 
             modelBuilder.Entity("Agri.Models.StaticData.PrevCropType", b =>
                 {
+                    b.HasOne("Agri.Models.StaticData.Crop")
+                        .WithMany("PrevCropTypes")
+                        .HasForeignKey("CropId");
+
                     b.HasOne("Agri.Models.StaticData.CropType")
                         .WithMany("PrevCropTypes")
                         .HasForeignKey("CropTypeId");
-
-                    b.HasOne("Agri.Models.StaticData.PrevCropType", "CropType")
-                        .WithMany()
-                        .HasForeignKey("CropTypeId1");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.Region", b =>
@@ -899,14 +905,16 @@ namespace SERVERAPI.Migrations
                 {
                     b.HasOne("Agri.Models.StaticData.STKKelownaRange", "STKKelownaRange")
                         .WithMany("STKRecommendations")
-                        .HasForeignKey("STKKelownaRangeId1");
+                        .HasForeignKey("STKKelownaRangeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.STPRecommend", b =>
                 {
                     b.HasOne("Agri.Models.StaticData.STPKelownaRange", "StpKelownaRange")
                         .WithMany("STPRecommendations")
-                        .HasForeignKey("StpKelownaRangeId");
+                        .HasForeignKey("STPKelownaRangeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

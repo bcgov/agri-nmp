@@ -215,6 +215,19 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HarvestUnits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HarvestUnits", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
                 {
@@ -283,7 +296,8 @@ namespace SERVERAPI.Migrations
                 name: "PrevManureApplicationYears",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -292,7 +306,7 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrevYearManureApplDefaultNitrogens",
+                name: "PrevYearManureApplNitrogenDefaults",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -302,7 +316,7 @@ namespace SERVERAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrevYearManureApplDefaultNitrogens", x => x.Id);
+                    table.PrimaryKey("PK_PrevYearManureApplNitrogenDefaults", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -522,7 +536,7 @@ namespace SERVERAPI.Migrations
                     N_RecommCd = table.Column<decimal>(nullable: false),
                     N_Recomm_lbPerAc = table.Column<decimal>(nullable: true),
                     N_High_lbPerAc = table.Column<decimal>(nullable: true),
-                    PrevCropCd = table.Column<int>(nullable: false),
+                    PrevCropCode = table.Column<int>(nullable: false),
                     SortNum = table.Column<int>(nullable: false),
                     PrevYearManureAppl_VolCatCd = table.Column<int>(nullable: false),
                     HarvestBushelsPerTon = table.Column<decimal>(nullable: true)
@@ -536,36 +550,6 @@ namespace SERVERAPI.Migrations
                         principalTable: "CropTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PrevCropType",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    PrevCropCd = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    nCreditMetric = table.Column<int>(nullable: false),
-                    nCreditImperial = table.Column<int>(nullable: false),
-                    CropTypeId1 = table.Column<int>(nullable: true),
-                    CropTypeId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PrevCropType", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PrevCropType_CropTypes_CropTypeId",
-                        column: x => x.CropTypeId,
-                        principalTable: "CropTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PrevCropType_PrevCropType_CropTypeId1",
-                        column: x => x.CropTypeId1,
-                        principalTable: "PrevCropType",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -659,59 +643,57 @@ namespace SERVERAPI.Migrations
                 name: "STKRecommend",
                 columns: table => new
                 {
-                    STKKelownaRangeId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    SoilTestPotassiumRegionCd = table.Column<int>(nullable: false),
-                    PotassiumCropGroupRegionCd = table.Column<int>(nullable: false),
-                    K2O_Recommend_kgPeHa = table.Column<int>(nullable: false),
-                    STKKelownaRangeId1 = table.Column<int>(nullable: true)
+                    STKKelownaRangeId = table.Column<int>(nullable: false),
+                    SoilTestPotassiumRegionCode = table.Column<int>(nullable: false),
+                    PotassiumCropGroupRegionCode = table.Column<int>(nullable: false),
+                    K2O_Recommend_kgPeHa = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_STKRecommend", x => x.STKKelownaRangeId);
+                    table.PrimaryKey("PK_STKRecommend", x => new { x.STKKelownaRangeId, x.SoilTestPotassiumRegionCode, x.PotassiumCropGroupRegionCode });
+                    table.UniqueConstraint("AK_STKRecommend_PotassiumCropGroupRegionCode_SoilTestPotassium~", x => new { x.PotassiumCropGroupRegionCode, x.SoilTestPotassiumRegionCode, x.STKKelownaRangeId });
                     table.ForeignKey(
-                        name: "FK_STKRecommend_STKKelownaRanges_STKKelownaRangeId1",
-                        column: x => x.STKKelownaRangeId1,
+                        name: "FK_STKRecommend_STKKelownaRanges_STKKelownaRangeId",
+                        column: x => x.STKKelownaRangeId,
                         principalTable: "STKKelownaRanges",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "STPRecommend",
                 columns: table => new
                 {
-                    STPKelownaRangeId = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    SoilTestPhosphorousRegionCd = table.Column<int>(nullable: false),
-                    PhosphorousCropGroupRegionCd = table.Column<int>(nullable: false),
-                    P2O5_Recommend_KgPerHa = table.Column<int>(nullable: false),
-                    StpKelownaRangeId = table.Column<int>(nullable: true)
+                    STPKelownaRangeId = table.Column<int>(nullable: false),
+                    SoilTestPhosphorousRegionCode = table.Column<int>(nullable: false),
+                    PhosphorousCropGroupRegionCode = table.Column<int>(nullable: false),
+                    P2O5_Recommend_KgPerHa = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_STPRecommend", x => x.STPKelownaRangeId);
+                    table.PrimaryKey("PK_STPRecommend", x => new { x.STPKelownaRangeId, x.SoilTestPhosphorousRegionCode, x.PhosphorousCropGroupRegionCode });
+                    table.UniqueConstraint("AK_STPRecommend_PhosphorousCropGroupRegionCode_SoilTestPhospho~", x => new { x.PhosphorousCropGroupRegionCode, x.SoilTestPhosphorousRegionCode, x.STPKelownaRangeId });
                     table.ForeignKey(
-                        name: "FK_STPRecommend_STPKelownaRanges_StpKelownaRangeId",
-                        column: x => x.StpKelownaRangeId,
+                        name: "FK_STPRecommend_STPKelownaRanges_STPKelownaRangeId",
+                        column: x => x.STPKelownaRangeId,
                         principalTable: "STPKelownaRanges",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "CropSTKRegionCds",
+                name: "CropStkRegions",
                 columns: table => new
                 {
                     CropId = table.Column<int>(nullable: false),
-                    SoilTestPotassiumRegionCd = table.Column<int>(nullable: false),
-                    PotassiumCropGroupRegionCd = table.Column<int>(nullable: true)
+                    SoilTestPotassiumRegionCode = table.Column<int>(nullable: false),
+                    PotassiumCropGroupRegionCode = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CropSTKRegionCds", x => new { x.CropId, x.SoilTestPotassiumRegionCd });
+                    table.PrimaryKey("PK_CropStkRegions", x => new { x.CropId, x.SoilTestPotassiumRegionCode });
                     table.ForeignKey(
-                        name: "FK_CropSTKRegionCds_Crops_CropId",
+                        name: "FK_CropStkRegions_Crops_CropId",
                         column: x => x.CropId,
                         principalTable: "Crops",
                         principalColumn: "Id",
@@ -719,18 +701,18 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CropSTPRegionCds",
+                name: "CropSTPRegions",
                 columns: table => new
                 {
                     CropId = table.Column<int>(nullable: false),
-                    SoilTestPhosphorousRegionCd = table.Column<int>(nullable: false),
-                    PhosphorousCropGroupRegionCd = table.Column<int>(nullable: true)
+                    SoilTestPhosphorousRegionCode = table.Column<int>(nullable: false),
+                    PhosphorousCropGroupRegionCode = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CropSTPRegionCds", x => new { x.CropId, x.SoilTestPhosphorousRegionCd });
+                    table.PrimaryKey("PK_CropSTPRegions", x => new { x.CropId, x.SoilTestPhosphorousRegionCode });
                     table.ForeignKey(
-                        name: "FK_CropSTPRegionCds_Crops_CropId",
+                        name: "FK_CropSTPRegions_Crops_CropId",
                         column: x => x.CropId,
                         principalTable: "Crops",
                         principalColumn: "Id",
@@ -760,6 +742,36 @@ namespace SERVERAPI.Migrations
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrevCropType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    PrevCropCode = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    nCreditMetric = table.Column<int>(nullable: false),
+                    nCreditImperial = table.Column<int>(nullable: false),
+                    CropId = table.Column<int>(nullable: true),
+                    CropTypeId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrevCropType", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PrevCropType_Crops_CropId",
+                        column: x => x.CropId,
+                        principalTable: "Crops",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PrevCropType_CropTypes_CropTypeId",
+                        column: x => x.CropTypeId,
+                        principalTable: "CropTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -798,29 +810,19 @@ namespace SERVERAPI.Migrations
                 column: "NMineralizationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PrevCropType_CropId",
+                table: "PrevCropType",
+                column: "CropId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PrevCropType_CropTypeId",
                 table: "PrevCropType",
                 column: "CropTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrevCropType_CropTypeId1",
-                table: "PrevCropType",
-                column: "CropTypeId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Regions_LocationId",
                 table: "Regions",
                 column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_STKRecommend_STKKelownaRangeId1",
-                table: "STKRecommend",
-                column: "STKKelownaRangeId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_STPRecommend_StpKelownaRangeId",
-                table: "STPRecommend",
-                column: "StpKelownaRangeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -838,10 +840,10 @@ namespace SERVERAPI.Migrations
                 name: "ConversionFactors");
 
             migrationBuilder.DropTable(
-                name: "CropSTKRegionCds");
+                name: "CropStkRegions");
 
             migrationBuilder.DropTable(
-                name: "CropSTPRegionCds");
+                name: "CropSTPRegions");
 
             migrationBuilder.DropTable(
                 name: "CropYields");
@@ -862,6 +864,9 @@ namespace SERVERAPI.Migrations
                 name: "FertilizerUnits");
 
             migrationBuilder.DropTable(
+                name: "HarvestUnits");
+
+            migrationBuilder.DropTable(
                 name: "LiquidFertilizerDensities");
 
             migrationBuilder.DropTable(
@@ -880,7 +885,7 @@ namespace SERVERAPI.Migrations
                 name: "PrevManureApplicationYears");
 
             migrationBuilder.DropTable(
-                name: "PrevYearManureApplDefaultNitrogens");
+                name: "PrevYearManureApplNitrogenDefaults");
 
             migrationBuilder.DropTable(
                 name: "Regions");
@@ -922,9 +927,6 @@ namespace SERVERAPI.Migrations
                 name: "Animals");
 
             migrationBuilder.DropTable(
-                name: "Crops");
-
-            migrationBuilder.DropTable(
                 name: "DensityUnit");
 
             migrationBuilder.DropTable(
@@ -935,6 +937,9 @@ namespace SERVERAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "NMineralization");
+
+            migrationBuilder.DropTable(
+                name: "Crops");
 
             migrationBuilder.DropTable(
                 name: "Locations");
