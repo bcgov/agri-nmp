@@ -32,6 +32,8 @@ namespace Agri.Data
         public DbSet<PrevManureApplicationYear> PrevManureApplicationYears { get; set; }
         public DbSet<PrevYearManureApplDefaultNitrogen> PrevYearManureApplDefaultNitrogens { get; set; }
         public DbSet<Region> Regions { get; set; }
+        public DbSet<RptCompletedFertilizerRequiredStdUnit> RptCompletedFertilizerRequiredStdUnits { get; set; }
+        public DbSet<RptCompletedManureRequiredStdUnit> RptCompletedManureRequiredStdUnits { get; set; }
         public DbSet<SeasonApplication> SeasonApplications { get; set; }
         public DbSet<SelectCodeItem> SelectCodeItems { get; set; }
         public DbSet<SelectListItem> SelectListItems { get; set; }

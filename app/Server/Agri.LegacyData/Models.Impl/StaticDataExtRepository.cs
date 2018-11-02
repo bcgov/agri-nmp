@@ -152,26 +152,137 @@ namespace Agri.LegacyData.Models.Impl
             return externalLinks;
         }
 
-        //public List<Userprom> GetCropYields()
+        public List<SoilTestPhosphorousRange> GetSoilTestPhosphorousRanges()
+        {
+            var array = (JArray)rss["agri"]["nmp"]["soiltestranges"]["phosphorous"];
+            var soilTestPhosphorousRanges = new List<SoilTestPhosphorousRange>();
+
+            foreach (var r in array)
+            {
+                var soilTestPhosphorousRange = new SoilTestPhosphorousRange()
+                {
+                    // Id = Convert.ToInt32(r["id"].ToString()),
+                    UpperLimit = Convert.ToInt32(r["upperlimit"].ToString()),
+                    Rating = Convert.ToString(r["rating"].ToString())
+                };
+
+                soilTestPhosphorousRanges.Add(soilTestPhosphorousRange);
+            }
+
+            return soilTestPhosphorousRanges;
+        }
+
+        public List<SoilTestPotassiumRange> GetSoilTestPotassiumRanges()
+        {
+            var array = (JArray)rss["agri"]["nmp"]["soiltestranges"]["potassium"];
+            var soilTestPotassiumRanges = new List<SoilTestPotassiumRange>();
+
+            foreach (var r in array)
+            {
+                var soilTestPotassiumRange = new SoilTestPotassiumRange()
+                {
+                    // Id = Convert.ToInt32(r["id"].ToString()),
+                    UpperLimit = Convert.ToInt32(r["upperlimit"].ToString()),
+                    Rating = Convert.ToString(r["rating"].ToString())
+                };
+
+                soilTestPotassiumRanges.Add(soilTestPotassiumRange);
+            }
+
+            return soilTestPotassiumRanges;
+        }
+
+        public List<Message> GetMessages()
+        {
+            var array = (JArray)rss["agri"]["nmp"]["messages"]["message"];
+            var messages = new List<Message>();
+
+            foreach (var r in array)
+            {
+                var message = new Message()
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Text = Convert.ToString(r["text"].ToString()),
+                    DisplayMessage = Convert.ToString(r["displayMessage"].ToString()),
+                    Icon = Convert.ToString(r["icon"].ToString()),
+                    BalanceType = Convert.ToString(r["balanceType"].ToString()),
+                    BalanceLow = Convert.ToInt32(r["balance_low"].ToString()),
+                    BalanceHigh = Convert.ToInt32(r["balance_high"].ToString()),
+                    SoilTestLow = Convert.ToInt32(r["soiltest_low"].ToString()),
+                    SoilTestHigh = Convert.ToInt32(r["soiltest_high"].ToString()),
+                    Balance1Low = Convert.ToInt32(r["balance1_low"].ToString()),
+                    Balance1High = Convert.ToInt32(r["balance1_high"].ToString())
+                };
+
+                messages.Add(message);
+            }
+
+            return messages;
+        }
+
+        public List<SeasonApplication> GetSeasonApplications()
+        {
+            var applications = new List<SeasonApplication>();
+            JArray array = (JArray)rss["agri"]["nmp"]["season-applications"]["season-application"];
+            foreach (var r in array)
+            {
+                var application = new SeasonApplication()
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    Season = r["season"].ToString(),
+                    ApplicationMethod = r["application_method"].ToString(),
+                    DM_lt1 = Convert.ToDecimal(r["dm_lt1"].ToString()),
+                    DM_1_5 = Convert.ToDecimal(r["dm_1_5"].ToString()),
+                    DM_5_10 = Convert.ToDecimal(r["dm_5_10"].ToString()),
+                    DM_gt10 = Convert.ToDecimal(r["dm_gt10"].ToString()),
+                    PoultrySolid = r["poultry_solid"].ToString(),
+                    Compost = r["season"].ToString(),
+                    SortNum = Convert.ToInt32(r["sortNum"].ToString()),
+                    ManureType = r["manure_type"].ToString()
+                };
+                applications.Add(application);
+            }
+
+            return applications;
+        }
+
+        public List<Yield> GetYields()
+        {
+            JArray array = (JArray)rss["agri"]["nmp"]["yields"]["yield"];
+            var yields = new List<Yield>();
+
+            foreach (var r in array)
+            {
+                var yield = new Yield
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    YieldDesc = r["yielddesc"].ToString()
+                };
+                yields.Add(yield);
+            }
+
+            return yields;
+        }
+
+        //public List<RptCompletedManureRequiredStdUnit> GetRptCompletedManureRequiredStdUnits()
         //{
-        //    var array = (JArray)rss["agri"]["nmp"]["cropyields"]["cropyield"];
-        //    var cropYields = new List<CropYield>();
+        //    var array = (JArray) rss["agri"]["nmp"]["RptCompletedManureRequired_StdUnit"];
+        //    var rptCompletedManureRequiredStdUnits = new List<RptCompletedManureRequiredStdUnit>();
 
         //    foreach (var r in array)
         //    {
-        //        var cropYield = new CropYield()
+        //        var rptCompletedManureRequiredStdUnit = new RptCompletedManureRequiredStdUnit()
         //        {
-        //            CropId = Convert.ToInt32(r["cropid"].ToString()),
-        //            LocationId = Convert.ToInt32(r["locationid"].ToString()),
-        //            Amt = r["amt"].ToString() == "null"
-        //                ? (decimal?)null
-        //                : Convert.ToDecimal(r["amt"].ToString())
+        //            SolidUnitId = Convert.ToInt32(r["solid_unit_id"].ToString()),
+        //            LiquidUnitId = Convert.ToInt32(r["liquid_unit_id"].ToString())
         //        };
 
-        //        cropYields.Add(cropYield);
+        //        rptCompletedManureRequiredStdUnits.Add(rptCompletedManureRequiredStdUnit);
         //    }
 
-        //    return cropYields;
+        //    return rptCompletedManureRequiredStdUnits;
         //}
+
     }
     }

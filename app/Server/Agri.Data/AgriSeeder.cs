@@ -90,6 +90,48 @@ namespace Agri.Data
                 var externalLinks = staticExtRepo.GetExternalLinks();
                 _context.ExternalLinks.AddRange(externalLinks);
             }
+
+            if (!_context.Units.Any())
+            {
+                var units = staticDataRepo.GetUnits();
+                _context.Units.AddRange(units);
+            }
+
+            if (!_context.SoilTestPhosphorousRanges.Any())
+            {
+                var getSoilTestPhosphorousRanges = staticExtRepo.GetSoilTestPhosphorousRanges();
+                _context.SoilTestPhosphorousRanges.AddRange(getSoilTestPhosphorousRanges);
+            }
+
+            if (!_context.SoilTestPotassiumRanges.Any())
+            {
+                var getSoilTestPotassiumRanges = staticExtRepo.GetSoilTestPotassiumRanges();
+                _context.SoilTestPotassiumRanges.AddRange(getSoilTestPotassiumRanges);
+            }
+
+            if (!_context.Messages.Any())
+            {
+                var getMessages = staticExtRepo.GetMessages();
+                _context.Messages.AddRange(getMessages);
+            }
+
+            if (!_context.SeasonApplications.Any())
+            {
+                var getSeasonApplications = staticExtRepo.GetSeasonApplications();
+                _context.SeasonApplications.AddRange(getSeasonApplications);
+            }
+
+            if (!_context.Yields.Any())
+            {
+                var getYields = staticExtRepo.GetYields();
+                _context.Yields.AddRange(getYields);
+            }
+            //if (!_context.RptCompletedManureRequiredStdUnits.Any())
+            //{
+            //    var rptCompletedManureRequiredStdUnits = staticExtRepo.GetRptCompletedManureRequiredStdUnits();
+            //    _context.RptCompletedManureRequiredStdUnits.AddRange(rptCompletedManureRequiredStdUnits);
+            //}
+
             //if (!_context.CropTypes.Any())
             //{
             //    var types = staticDataRepo.GetCropTypes();

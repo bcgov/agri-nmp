@@ -97,5 +97,69 @@ namespace Agri.LegacyData.Tests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
         }
+
+        [TestMethod]
+        public void GetUnitsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetUnits();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSoilTestPhosphorousRangesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSoilTestPhosphorousRanges();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSoilTestPotassiumRangesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSoilTestPotassiumRanges();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetMessagesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetMessages();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+
+        [TestMethod]
+        public void GetSeasonApplicationsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSeasonApplications();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetYieldsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetYields();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        //[TestMethod]
+        //public void GetRptCompletedManureRequiredStdUnitsSuccessfully()
+        //{
+        //    var result = _staticDataExtRepo.GetRptCompletedManureRequiredStdUnits();
+
+        //    Assert.IsNotNull(result);
+        //    Assert.IsTrue(result.Count > 0);
+        //}
     }
 }
