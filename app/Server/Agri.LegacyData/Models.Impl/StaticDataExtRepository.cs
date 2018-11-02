@@ -233,5 +233,44 @@ namespace Agri.LegacyData.Models.Impl
 
             return densities;
         }
+
+        public List<NMineralization> GetNMineralizations()
+        {
+            var array = (JArray)rss["agri"]["nmp"]["nmineralizations"]["nmineralization"];
+            var nmineralizations = new List<NMineralization>();
+
+            foreach (var r in array)
+            {
+                var nmineralization = new NMineralization()
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    Locationid = Convert.ToInt32(r["locationid"].ToString()),
+                    FirstYearValue = Convert.ToDecimal(r["firstyearvalue"].ToString()),
+                    LongTermValue = Convert.ToDecimal(r["longtermvalue"].ToString()),
+                };
+                nmineralizations.Add(nmineralization);
+            }
+
+            return nmineralizations;
+        }
+
+        public List<DM> GetDMs()
+        {
+            JArray array = (JArray)rss["agri"]["nmp"]["dms"]["dm"];
+            var dms = new List<DM>();
+
+            foreach (var r in array)
+            {
+                var dm = new DM()
+                {
+                    Id = Convert.ToInt32(r["ID"].ToString()),
+                    Name = r["name"].ToString()
+                };
+                dms.Add(dm);
+            };
+
+            return dms;
+        }
     }
 }

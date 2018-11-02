@@ -118,5 +118,23 @@ namespace Agri.LegacyData.Tests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
         }
+
+        [TestMethod]
+        public void GetNMineralizationsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetNMineralizations();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetDMsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetDMs();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
     }
 }

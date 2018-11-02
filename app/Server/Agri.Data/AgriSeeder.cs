@@ -152,6 +152,27 @@ namespace Agri.Data
                     _context.LiquidFertilizerDensities.AddRange(densities);
                 }
 
+                //DM
+                if (!_context.DMs.Any())
+                {
+                    var dms = staticExtRepo.GetDMs();
+                    _context.DMs.AddRange(dms);
+                }
+
+                //NMineralization
+                if (!_context.NMineralizations.Any())
+                {
+                    var minerals = staticExtRepo.GetNMineralizations();
+                    _context.NMineralizations.AddRange(minerals);
+                }
+
+                //Manure
+                if (!_context.Manures.Any())
+                {
+                    var manures = staticDataRepo.GetManures();
+                    _context.Manures.AddRange(manures);
+                }
+
                 //STKKelownaRange
                 //STKRecommendations
                 if (!_context.STKKelownaRanges.Any())
@@ -199,20 +220,18 @@ namespace Agri.Data
             }
 
             //PrevManureApplicationYear
-            if (_context.PrevManureApplicationYears.Any())
+            if (!_context.PrevManureApplicationYears.Any())
             {
                 var years = staticDataRepo.GetPrevManureApplicationInPrevYears();
                 _context.PrevManureApplicationYears.AddRange(years);
             }
 
             //PrevYearManureApplDefaultNitrogen
-            if (_context.PrevYearManureApplNitrogenDefaults.Any())
+            if (!_context.PrevYearManureApplNitrogenDefaults.Any())
             {
                 var nitrogenDefaults = staticDataRepo.GetPrevYearManureNitrogenCreditDefaults();
                 _context.PrevYearManureApplNitrogenDefaults.AddRange(nitrogenDefaults);
             }
-
-
     
             _context.SaveChanges();
         }

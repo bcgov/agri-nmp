@@ -131,55 +131,54 @@ namespace Agri.LegacyData.Models.Impl
             return man;
         }
 
-        public Models.StaticData.Manures GetManures()
+        public List<Manure> GetManures()
         {
-            Models.StaticData.Manures mans = new Models.StaticData.Manures();
-            mans.manures = new List<Models.StaticData.Manure>();
+            var manures = new List<Manure>();
+            JArray array = (JArray) rss["agri"]["nmp"]["manures"]["manure"];
 
-            JArray manures = (JArray) rss["agri"]["nmp"]["manures"]["manure"];
-
-            foreach (var r in manures)
+            foreach (var r in array)
             {
-                Models.StaticData.Manure man = new Models.StaticData.Manure();
+                var manure = new Manure
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    ManureClass = r["manure_class"].ToString(),
+                    SolidLiquid = r["solid_liquid"].ToString(),
+                    Moisture = r["moisture"].ToString(),
+                    Nitrogen = Convert.ToDecimal(r["nitrogen"].ToString()),
+                    Ammonia = Convert.ToInt32(r["ammonia"].ToString()),
+                    Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString()),
+                    Potassium = Convert.ToDecimal(r["potassium"].ToString()),
+                    DMId = Convert.ToInt32(r["dmid"].ToString()),
+                    NMineralizationId = Convert.ToInt32(r["nminerizationid"].ToString())
+                };
 
-                man.id = Convert.ToInt32(r["id"].ToString());
-                man.name = r["name"].ToString();
-                man.manure_class = r["manure_class"].ToString();
-                man.solid_liquid = r["solid_liquid"].ToString();
-                man.moisture = r["moisture"].ToString();
-                man.nitrogen = Convert.ToDecimal(r["nitrogen"].ToString());
-                man.ammonia = Convert.ToInt32(r["ammonia"].ToString());
-                man.phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
-                man.potassium = Convert.ToDecimal(r["potassium"].ToString());
-                man.dmid = Convert.ToInt32(r["dmid"].ToString());
-                man.nminerizationid = Convert.ToInt32(r["nminerizationid"].ToString());
-                if (man.solid_liquid.ToUpper() == "SOLID")
-                    man.cubic_Yard_Conversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
+                if (manure.SolidLiquid.ToUpper() == "SOLID")
+                    manure.CubicYardConversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
                 else
-                    man.cubic_Yard_Conversion = 0;
-                man.sortNum = Convert.ToInt32(r["sortNum"].ToString());
-                man.nitrate = Convert.ToDecimal(r["nitrate"].ToString());
-                mans.manures.Add(man);
+                    manure.CubicYardConversion = 0;
+                manure.SortNum = Convert.ToInt32(r["sortNum"].ToString());
+                manure.Nitrate = Convert.ToDecimal(r["nitrate"].ToString());
+                manures.Add(manure);
             }
 
-            return mans;
+            return manures;
         }
 
         public List<Models.StaticData.SelectListItem> GetManuresDll()
         {
-            Models.StaticData.Manures mans = GetManures();
+            var manures = GetManures();
 
-            mans.manures = mans.manures.OrderBy(n => n.sortNum).ThenBy(n => n.name).ToList();
+            manures = manures.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
 
             List<Models.StaticData.SelectListItem> manOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in mans.manures)
+            foreach (var r in manures)
             {
                 Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                    {Id = r.id, Value = r.name};
+                    {Id = r.Id, Value = r.Name};
                 manOptions.Add(li);
             }
-
 
             return manOptions;
         }
@@ -1543,7 +1542,7 @@ namespace Agri.LegacyData.Models.Impl
         public List<PrevManureApplicationYear> GetPrevManureApplicationInPrevYears()
         {
             var selections = new List<PrevManureApplicationYear>();
-            JArray jsonPrevYearManure = GetPrevYearManureText();
+            var jsonPrevYearManure = GetPrevYearManureText();
 
             foreach (var r in jsonPrevYearManure)
             {
@@ -1560,15 +1559,12 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<PrevYearManureApplNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults()
         {
-            JArray jsonPrevYearManureDefaultNitrogren =
-                (JArray) rss["agri"]["nmp"]["defaultprevyearmanureapplfrequency"]["defprevyearmanurenitrogen"];
-            List<PrevYearManureApplNitrogenDefault> result = new List<PrevYearManureApplNitrogenDefault>();
-            PrevYearManureApplNitrogenDefault defaultNitrogen;
+            var nitrogrenDefaults = (JArray) rss["agri"]["nmp"]["defaultprevyearmanureapplfrequency"]["defprevyearmanurenitrogen"];
+            var result = new List<PrevYearManureApplNitrogenDefault>();
 
-            foreach (var r in jsonPrevYearManureDefaultNitrogren)
+            foreach (var r in nitrogrenDefaults)
             {
-                defaultNitrogen = new PrevYearManureApplNitrogenDefault();
-                defaultNitrogen = JsonConvert.DeserializeObject<PrevYearManureApplNitrogenDefault>(r.ToString());
+                var defaultNitrogen = JsonConvert.DeserializeObject<PrevYearManureApplNitrogenDefault>(r.ToString());
                 result.Add(defaultNitrogen);
             }
 
