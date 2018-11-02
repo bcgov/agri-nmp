@@ -9,8 +9,8 @@
         public string BalanceType { get; set; }
         public int BalanceLow { get; set; }
         public int BalanceHigh { get; set; }
-        public decimal SoilTestLow { get; set; }
-        public decimal SoilTestHigh { get; set; }
+        public decimal SoilTestLow { get; set; }    // Unused
+        public decimal SoilTestHigh { get; set; }   //Unused
         public int Balance1Low { get; set; }
         public int Balance1High { get; set; }
     }

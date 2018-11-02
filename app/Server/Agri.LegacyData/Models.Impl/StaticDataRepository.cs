@@ -312,15 +312,15 @@ namespace Agri.LegacyData.Models.Impl
                     Id = Convert.ToInt32(record["id"].ToString()),
                     Name = record["name"].ToString(),
                     NutrientContentUnits = record["nutrient_content_units"].ToString(),
-                    Conversion_lbTon = Convert.ToDecimal(record["conversion_lbton"].ToString()),
+                    ConversionlbTon = Convert.ToDecimal(record["conversion_lbton"].ToString()),
                     NutrientRateUnits = record["nutrient_rate_units"].ToString(),
                     CostUnits = record["cost_units"].ToString(),
                     CostApplications = Convert.ToDecimal(record["cost_applications"].ToString()),
                     DollarUnitArea = record["dollar_unit_area"].ToString(),
                     ValueMaterialUnits = record["value_material_units"].ToString(),
-                    Value_N = Convert.ToDecimal(record["value_N"].ToString()),
-                    Value_P2O5 = Convert.ToDecimal(record["value_P2O5"].ToString()),
-                    Value_K2O = Convert.ToDecimal(record["value_K2O"].ToString()),
+                    ValueN = Convert.ToDecimal(record["value_N"].ToString()),
+                    ValueP2O5 = Convert.ToDecimal(record["value_P2O5"].ToString()),
+                    ValueK2O = Convert.ToDecimal(record["value_K2O"].ToString()),
                     SolidLiquid = record["solid_liquid"].ToString(),
                     FarmReqdNutrientsStdUnitsConversion =
                         Convert.ToDecimal(record["farm_reqd_nutrients_std_units_conversion"].ToString()),
@@ -808,8 +808,8 @@ namespace Agri.LegacyData.Models.Impl
                 {
                     Id = Convert.ToInt32(record["id"].ToString()),
                     Name = record["name"].ToString(),
-                    ConvertToKelownaPlt72 = Convert.ToDecimal(record["ConvertToKelownaPlt72"].ToString()),
-                    ConvertToKelownaPge72 = Convert.ToDecimal(record["ConvertToKelownaPge72"].ToString()),
+                    ConvertToKelownaPHLessThan72 = Convert.ToDecimal(record["ConvertToKelownaPlt72"].ToString()),
+                    ConvertToKelownaPHGreaterThanEqual72 = Convert.ToDecimal(record["ConvertToKelownaPge72"].ToString()),
                     ConvertToKelownaK = Convert.ToDecimal(record["ConvertToKelownaK"].ToString()),
                     SortNum = Convert.ToInt16(record["sortNum"].ToString())
                 };

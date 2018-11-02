@@ -12,6 +12,7 @@ namespace Agri.Data
 
         public DbSet<AmmoniaRetention> AmmoniaRetentions { get; set; }
         public DbSet<Animal> Animals { get; set; }
+        public DbSet<BCSampleDateForNitrateCredit> BCSampleDateForNitrateCredit { get; set; }
         public DbSet<Browser> Browsers { get; set; }
         public DbSet<ConversionFactor> ConversionFactors { get; set; }
         public DbSet<Crop> Crops { get; set; }
@@ -29,6 +30,7 @@ namespace Agri.Data
         public DbSet<Manure> Manures { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<NutrientIcon> NutrientIcons { get; set; }
+        public DbSet<NitrogenRecommendation> NitrogenRecommendations { get; set; }
         public DbSet<PrevManureApplicationYear> PrevManureApplicationYears { get; set; }
         public DbSet<PrevYearManureApplDefaultNitrogen> PrevYearManureApplDefaultNitrogens { get; set; }
         public DbSet<Region> Regions { get; set; }
@@ -38,7 +40,7 @@ namespace Agri.Data
         public DbSet<SelectCodeItem> SelectCodeItems { get; set; }
         public DbSet<SelectListItem> SelectListItems { get; set; }
         public DbSet<SoilTestMethod> SoilTestMethods { get; set; }
-        public DbSet<SoilTestPhosphorousRange> SoilTestPhosphorousRanges { get; set; }
+        public DbSet<SoilTestPhosphorusRange> SoilTestPhosphorusRanges { get; set; }
         public DbSet<SoilTestPotassiumRange> SoilTestPotassiumRanges { get; set; }
         public DbSet<STKKelownaRange> STKKelownaRanges { get; set; }
         public DbSet<STPKelownaRange> STPKelownaRanges { get; set; }

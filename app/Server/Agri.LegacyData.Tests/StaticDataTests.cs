@@ -110,7 +110,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetSoilTestPhosphorousRangesSuccessfully()
         {
-            var result = _staticDataExtRepo.GetSoilTestPhosphorousRanges();
+            var result = _staticDataExtRepo.GetSoilTestPhosphorusRanges();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -133,8 +133,6 @@ namespace Agri.LegacyData.Tests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
         }
-
-
         [TestMethod]
         public void GetSeasonApplicationsSuccessfully()
         {
@@ -153,13 +151,13 @@ namespace Agri.LegacyData.Tests
             Assert.IsTrue(result.Count > 0);
         }
 
-        //[TestMethod]
-        //public void GetRptCompletedManureRequiredStdUnitsSuccessfully()
-        //{
-        //    var result = _staticDataExtRepo.GetRptCompletedManureRequiredStdUnits();
+        [TestMethod]
+        public void GetNitrogenRecommendationsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetNitrogenRecommendations();
 
-        //    Assert.IsNotNull(result);
-        //    Assert.IsTrue(result.Count > 0);
-        //}
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
     }
 }

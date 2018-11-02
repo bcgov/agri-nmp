@@ -97,10 +97,10 @@ namespace Agri.Data
                 _context.Units.AddRange(units);
             }
 
-            if (!_context.SoilTestPhosphorousRanges.Any())
+            if (!_context.SoilTestPhosphorusRanges.Any())
             {
-                var getSoilTestPhosphorousRanges = staticExtRepo.GetSoilTestPhosphorousRanges();
-                _context.SoilTestPhosphorousRanges.AddRange(getSoilTestPhosphorousRanges);
+                var getSoilTestPhosphorusRanges = staticExtRepo.GetSoilTestPhosphorusRanges();
+                _context.SoilTestPhosphorusRanges.AddRange(getSoilTestPhosphorusRanges);
             }
 
             if (!_context.SoilTestPotassiumRanges.Any())
@@ -126,46 +126,30 @@ namespace Agri.Data
                 var getYields = staticExtRepo.GetYields();
                 _context.Yields.AddRange(getYields);
             }
-            //if (!_context.RptCompletedManureRequiredStdUnits.Any())
-            //{
-            //    var rptCompletedManureRequiredStdUnits = staticExtRepo.GetRptCompletedManureRequiredStdUnits();
-            //    _context.RptCompletedManureRequiredStdUnits.AddRange(rptCompletedManureRequiredStdUnits);
-            //}
 
-            //if (!_context.CropTypes.Any())
-            //{
-            //    var types = staticDataRepo.GetCropTypes();
-            //    _context.CropTypes.AddRange(types);
-            //}
+            if (!_context.NitrogenRecommendations.Any())
+            {
+                var getNitrogenRecommendations = staticExtRepo.GetNitrogenRecommendations();
+                _context.NitrogenRecommendations.AddRange(getNitrogenRecommendations);
+            }
 
-            //if (!_context.Crops.Any())
-            //{
-            //    var crops = staticDataRepo.GetCrops();
-            //    foreach (var crop in crops)
-            //    {
+            if (!_context.RptCompletedManureRequiredStdUnits.Any())
+            {
+                var rptCompletedManureRequiredStdUnits = staticExtRepo.GetRptCompletedManureRequiredStdUnit();
+                _context.RptCompletedManureRequiredStdUnits.AddRange(rptCompletedManureRequiredStdUnits);
+            }
 
-            //    }
+            if (!_context.RptCompletedFertilizerRequiredStdUnits.Any())
+            {
+                var rptCompletedManureRequiredStdUnits = staticExtRepo.GetRptCompletedFertilizerRequiredStdUnit();
+                _context.RptCompletedFertilizerRequiredStdUnits.AddRange(rptCompletedManureRequiredStdUnits);
+            }
 
-            //    _context.Crops.AddRange(crops);
-            //}
-
-            //if (!_context.CropYields.Any())
-            //{
-            //    var cropYields = staticExtRepo.GetCropYields();
-            //    _context.CropYields.AddRange(cropYields);
-            //}
-
-            //if (!_context.CropSTKRegionCds.Any())
-            //{
-            //    var cds = staticExtRepo.GetCropStkRegionCds();
-            //    _context.CropSTKRegionCds.AddRange(cds);
-            //}
-
-            //if (!_context.CropSTPRegionCds.Any())
-            //{
-            //    var cds = staticExtRepo.GetCropStpRegionCds();
-            //    _context.CropSTPRegionCds.AddRange(cds);
-            //}
+            if (!_context.BCSampleDateForNitrateCredit.Any())
+            {
+                var bcSampleDateForNitrateCredit = staticExtRepo.GetBCSampleDateForNitrateCredit();
+                _context.BCSampleDateForNitrateCredit.AddRange(bcSampleDateForNitrateCredit);
+            }
 
             _context.SaveChanges();
         }

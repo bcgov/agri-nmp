@@ -152,24 +152,24 @@ namespace Agri.LegacyData.Models.Impl
             return externalLinks;
         }
 
-        public List<SoilTestPhosphorousRange> GetSoilTestPhosphorousRanges()
+        public List<SoilTestPhosphorusRange> GetSoilTestPhosphorusRanges()
         {
             var array = (JArray)rss["agri"]["nmp"]["soiltestranges"]["phosphorous"];
-            var soilTestPhosphorousRanges = new List<SoilTestPhosphorousRange>();
+            var soilTestPhosphorusRanges = new List<SoilTestPhosphorusRange>();
 
             foreach (var r in array)
             {
-                var soilTestPhosphorousRange = new SoilTestPhosphorousRange()
+                var soilTestPhosphorusRange = new SoilTestPhosphorusRange()
                 {
                     // Id = Convert.ToInt32(r["id"].ToString()),
                     UpperLimit = Convert.ToInt32(r["upperlimit"].ToString()),
                     Rating = Convert.ToString(r["rating"].ToString())
                 };
 
-                soilTestPhosphorousRanges.Add(soilTestPhosphorousRange);
+                soilTestPhosphorusRanges.Add(soilTestPhosphorusRange);
             }
 
-            return soilTestPhosphorousRanges;
+            return soilTestPhosphorusRanges;
         }
 
         public List<SoilTestPotassiumRange> GetSoilTestPotassiumRanges()
@@ -232,10 +232,10 @@ namespace Agri.LegacyData.Models.Impl
                     Name = r["name"].ToString(),
                     Season = r["season"].ToString(),
                     ApplicationMethod = r["application_method"].ToString(),
-                    DM_lt1 = Convert.ToDecimal(r["dm_lt1"].ToString()),
-                    DM_1_5 = Convert.ToDecimal(r["dm_1_5"].ToString()),
-                    DM_5_10 = Convert.ToDecimal(r["dm_5_10"].ToString()),
-                    DM_gt10 = Convert.ToDecimal(r["dm_gt10"].ToString()),
+                    DryMatterLessThan1Percent = Convert.ToDecimal(r["dm_lt1"].ToString()),
+                    DryMatter1To5Percent = Convert.ToDecimal(r["dm_1_5"].ToString()),
+                    DryMatter5To10Percent = Convert.ToDecimal(r["dm_5_10"].ToString()),
+                    DryMatterGreaterThan10Percent = Convert.ToDecimal(r["dm_gt10"].ToString()),
                     PoultrySolid = r["poultry_solid"].ToString(),
                     Compost = r["season"].ToString(),
                     SortNum = Convert.ToInt32(r["sortNum"].ToString()),
@@ -265,24 +265,61 @@ namespace Agri.LegacyData.Models.Impl
             return yields;
         }
 
-        //public List<RptCompletedManureRequiredStdUnit> GetRptCompletedManureRequiredStdUnits()
-        //{
-        //    var array = (JArray) rss["agri"]["nmp"]["RptCompletedManureRequired_StdUnit"];
-        //    var rptCompletedManureRequiredStdUnits = new List<RptCompletedManureRequiredStdUnit>();
+        public List<NitrogenRecommendation> GetNitrogenRecommendations()
+        {
+            JArray array = (JArray)rss["agri"]["nmp"]["n_recommcds"]["n_recommcd"];
+            var nitrogenRecommendations = new List<NitrogenRecommendation>();
 
-        //    foreach (var r in array)
-        //    {
-        //        var rptCompletedManureRequiredStdUnit = new RptCompletedManureRequiredStdUnit()
-        //        {
-        //            SolidUnitId = Convert.ToInt32(r["solid_unit_id"].ToString()),
-        //            LiquidUnitId = Convert.ToInt32(r["liquid_unit_id"].ToString())
-        //        };
+            foreach (var r in array)
+            {
+                var nitrogenRecommendation = new NitrogenRecommendation
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    RecommendationDesc = r["recommdesc"].ToString()
+                };
+                nitrogenRecommendations.Add(nitrogenRecommendation);
+            }
 
-        //        rptCompletedManureRequiredStdUnits.Add(rptCompletedManureRequiredStdUnit);
-        //    }
+            return nitrogenRecommendations;
+        }
 
-        //    return rptCompletedManureRequiredStdUnits;
-        //}
+        public RptCompletedManureRequiredStdUnit GetRptCompletedManureRequiredStdUnit()
+        {
+            var rptCompletedManureRequiredStdUnit = new RptCompletedManureRequiredStdUnit()
+            {
+                SolidUnitId = Convert.ToInt32(rss["agri"]["nmp"]["RptCompletedManureRequired_StdUnit"]["solid_unit_id"]
+                    .ToString()),
+                LiquidUnitId =
+                    Convert.ToInt32(rss["agri"]["nmp"]["RptCompletedManureRequired_StdUnit"]["liquid_unit_id"]
+                        .ToString())
+            };
+            return rptCompletedManureRequiredStdUnit;
+        }
+
+        public RptCompletedFertilizerRequiredStdUnit GetRptCompletedFertilizerRequiredStdUnit()
+        {
+            var rptCompletedFertilizerRequiredStdUnit = new RptCompletedFertilizerRequiredStdUnit()
+            {
+                SolidUnitId = Convert.ToInt32(rss["agri"]["nmp"]["RptCompletedFertilizerRequired_StdUnit"]["solid_unit_id"]
+                    .ToString()),
+                LiquidUnitId =
+                    Convert.ToInt32(rss["agri"]["nmp"]["RptCompletedFertilizerRequired_StdUnit"]["liquid_unit_id"]
+                        .ToString())
+            };
+            return rptCompletedFertilizerRequiredStdUnit;
+        }
+
+        public BCSampleDateForNitrateCredit GetBCSampleDateForNitrateCredit()
+        {
+            var bcSampleDateForNitrateCredit = new BCSampleDateForNitrateCredit()
+            {
+                CoastalFromDateMonth = rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"]["fromDateMonth"].ToString(),
+                CoastalToDateMonth =  rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"]["toDateMonth"].ToString(),
+                InteriorFromDateMonth = rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"]["fromDateMonth"].ToString(),
+                InteriorToDateMonth = rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"]["toDateMonth"].ToString()
+            };
+            return bcSampleDateForNitrateCredit;
+        }
 
     }
     }
