@@ -1,4 +1,5 @@
-﻿using Agri.Models.StaticData;
+﻿using Agri.LegacyData.Models;
+using Agri.Models.StaticData;
 using Microsoft.EntityFrameworkCore;
 using Version = Agri.Models.StaticData.Version;
 
@@ -12,6 +13,7 @@ namespace Agri.Data
 
         public DbSet<AmmoniaRetention> AmmoniaRetentions { get; set; }
         public DbSet<Animal> Animals { get; set; }
+        public DbSet<BCSampleDateForNitrateCredit> BCSampleDateForNitrateCredit { get; set; }
         public DbSet<Browser> Browsers { get; set; }
         public DbSet<ConversionFactor> ConversionFactors { get; set; }
         public DbSet<Crop> Crops { get; set; }
@@ -34,18 +36,22 @@ namespace Agri.Data
         public DbSet<Message> Messages { get; set; }
         public DbSet<NitrogenMineralization> NMineralizations { get; set; }
         public DbSet<NutrientIcon> NutrientIcons { get; set; }
+        public DbSet<NitrogenRecommendation> NitrogenRecommendations { get; set; }
         public DbSet<PreviousManureApplicationYear> PrevManureApplicationYears { get; set; }
         public DbSet<PreviousYearManureApplicationNitrogenDefault> PrevYearManureApplicationNitrogenDefaults { get; set; }
         public DbSet<Region> Regions { get; set; }
+        public DbSet<RptCompletedFertilizerRequiredStdUnit> RptCompletedFertilizerRequiredStdUnits { get; set; }
+        public DbSet<RptCompletedManureRequiredStdUnit> RptCompletedManureRequiredStdUnits { get; set; }
         public DbSet<SeasonApplication> SeasonApplications { get; set; }
         public DbSet<SelectCodeItem> SelectCodeItems { get; set; }
         public DbSet<SelectListItem> SelectListItems { get; set; }
         public DbSet<SoilTestMethod> SoilTestMethods { get; set; }
-        public DbSet<SoilTestPhosphorousRange> SoilTestPhosphorousRanges { get; set; }
+        public DbSet<SoilTestPhosphorusRange> SoilTestPhosphorusRanges { get; set; }
         public DbSet<SoilTestPotassiumRange> SoilTestPotassiumRanges { get; set; }
         public DbSet<SoilTestPotassiumKelownaRange> SoilTestPotassiumKelownaRanges { get; set; }
         public DbSet<SoilTestPhosphorousKelownaRange> SoilTestPhosphorousKelownaRanges { get; set; }
         public DbSet<Unit> Units { get; set; }
+        public DbSet<UserPrompt> UserPrompts { get; set; }
         public DbSet<Version> Versions { get; set; }
         public DbSet<Yield> Yields { get; set; }
 

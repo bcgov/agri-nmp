@@ -36,6 +36,20 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BCSampleDateForNitrateCredit",
+                columns: table => new
+                {
+                    CoastalFromDateMonth = table.Column<string>(nullable: false),
+                    CoastalToDateMonth = table.Column<string>(nullable: true),
+                    InteriorFromDateMonth = table.Column<string>(nullable: true),
+                    InteriorToDateMonth = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BCSampleDateForNitrateCredit", x => x.CoastalFromDateMonth);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Browsers",
                 columns: table => new
                 {
@@ -264,6 +278,19 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "NitrogenRecommendations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    RecommendationDesc = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NitrogenRecommendations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "NMineralizations",
                 columns: table => new
                 {
@@ -308,6 +335,34 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RptCompletedFertilizerRequiredStdUnits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    SolidUnitId = table.Column<int>(nullable: false),
+                    LiquidUnitId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RptCompletedFertilizerRequiredStdUnits", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RptCompletedManureRequiredStdUnits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    SolidUnitId = table.Column<int>(nullable: false),
+                    LiquidUnitId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RptCompletedManureRequiredStdUnits", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SeasonApplications",
                 columns: table => new
                 {
@@ -316,11 +371,10 @@ namespace SERVERAPI.Migrations
                     Name = table.Column<string>(nullable: true),
                     Season = table.Column<string>(nullable: true),
                     ApplicationMethod = table.Column<string>(nullable: true),
-                    Moisture = table.Column<string>(nullable: true),
-                    DM_lt1 = table.Column<decimal>(nullable: false),
-                    DM_1_5 = table.Column<decimal>(nullable: false),
-                    DM_5_10 = table.Column<decimal>(nullable: false),
-                    DM_gt10 = table.Column<decimal>(nullable: false),
+                    DryMatterLessThan1Percent = table.Column<decimal>(nullable: false),
+                    DryMatter1To5Percent = table.Column<decimal>(nullable: false),
+                    DryMatter5To10Percent = table.Column<decimal>(nullable: false),
+                    DryMatterGreaterThan10Percent = table.Column<decimal>(nullable: false),
                     PoultrySolid = table.Column<string>(nullable: true),
                     Compost = table.Column<string>(nullable: true),
                     SortNum = table.Column<int>(nullable: false),
@@ -365,8 +419,8 @@ namespace SERVERAPI.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(nullable: true),
-                    ConvertToKelownaPlt72 = table.Column<decimal>(nullable: false),
-                    ConvertToKelownaPge72 = table.Column<decimal>(nullable: false),
+                    ConvertToKelownaPHLessThan72 = table.Column<decimal>(nullable: false),
+                    ConvertToKelownaPHGreaterThanEqual72 = table.Column<decimal>(nullable: false),
                     ConvertToKelownaK = table.Column<decimal>(nullable: false),
                     SortNum = table.Column<int>(nullable: false)
                 },
@@ -391,17 +445,16 @@ namespace SERVERAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SoilTestPhosphorousRanges",
+                name: "SoilTestPhosphorusRanges",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    UpperLimit = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    UpperLimit = table.Column<int>(nullable: false),
                     Rating = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SoilTestPhosphorousRanges", x => x.Id);
+                    table.PrimaryKey("PK_SoilTestPhosphorusRanges", x => x.UpperLimit);
                 });
 
             migrationBuilder.CreateTable(
@@ -423,14 +476,13 @@ namespace SERVERAPI.Migrations
                 name: "SoilTestPotassiumRanges",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    UpperLimit = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    UpperLimit = table.Column<int>(nullable: false),
                     Rating = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SoilTestPotassiumRanges", x => x.Id);
+                    table.PrimaryKey("PK_SoilTestPotassiumRanges", x => x.UpperLimit);
                 });
 
             migrationBuilder.CreateTable(
@@ -441,15 +493,15 @@ namespace SERVERAPI.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(nullable: true),
                     NutrientContentUnits = table.Column<string>(nullable: true),
-                    Conversion_lbTon = table.Column<decimal>(nullable: false),
+                    ConversionlbTon = table.Column<decimal>(nullable: false),
                     NutrientRateUnits = table.Column<string>(nullable: true),
                     CostUnits = table.Column<string>(nullable: true),
                     CostApplications = table.Column<decimal>(nullable: false),
                     DollarUnitArea = table.Column<string>(nullable: true),
                     ValueMaterialUnits = table.Column<string>(nullable: true),
-                    Value_N = table.Column<decimal>(nullable: false),
-                    Value_P2O5 = table.Column<decimal>(nullable: false),
-                    Value_K2O = table.Column<decimal>(nullable: false),
+                    ValueN = table.Column<decimal>(nullable: false),
+                    ValueP2O5 = table.Column<decimal>(nullable: false),
+                    ValueK2O = table.Column<decimal>(nullable: false),
                     FarmReqdNutrientsStdUnitsConversion = table.Column<decimal>(nullable: false),
                     FarmReqdNutrientsStdUnitsAreaConversion = table.Column<decimal>(nullable: false),
                     SolidLiquid = table.Column<string>(nullable: true)
@@ -457,6 +509,20 @@ namespace SERVERAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Units", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserPrompts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPrompts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -856,6 +922,9 @@ namespace SERVERAPI.Migrations
                 name: "AnimalSubType");
 
             migrationBuilder.DropTable(
+                name: "BCSampleDateForNitrateCredit");
+
+            migrationBuilder.DropTable(
                 name: "Browsers");
 
             migrationBuilder.DropTable(
@@ -898,6 +967,9 @@ namespace SERVERAPI.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
+                name: "NitrogenRecommendations");
+
+            migrationBuilder.DropTable(
                 name: "NutrientIcons");
 
             migrationBuilder.DropTable(
@@ -905,6 +977,12 @@ namespace SERVERAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Regions");
+
+            migrationBuilder.DropTable(
+                name: "RptCompletedFertilizerRequiredStdUnits");
+
+            migrationBuilder.DropTable(
+                name: "RptCompletedManureRequiredStdUnits");
 
             migrationBuilder.DropTable(
                 name: "SeasonApplications");
@@ -919,10 +997,10 @@ namespace SERVERAPI.Migrations
                 name: "SoilTestMethods");
 
             migrationBuilder.DropTable(
-                name: "SoilTestPhosphorousRanges");
+                name: "SoilTestPhosphorousRecommendation");
 
             migrationBuilder.DropTable(
-                name: "SoilTestPhosphorousRecommendation");
+                name: "SoilTestPhosphorusRanges");
 
             migrationBuilder.DropTable(
                 name: "SoilTestPotassiumRanges");
@@ -932,6 +1010,9 @@ namespace SERVERAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Units");
+
+            migrationBuilder.DropTable(
+                name: "UserPrompts");
 
             migrationBuilder.DropTable(
                 name: "Versions");

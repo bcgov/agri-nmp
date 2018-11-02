@@ -91,13 +91,6 @@ namespace Agri.Data
             if (!_context.PrevManureApplicationYears.Any())
             {
                 var years = staticDataRepo.GetPrevManureApplicationInPrevYears();
-                //var nitrogenDefaults = staticDataRepo.GetPrevYearManureNitrogenCreditDefaults();
-
-                //foreach (var year in years)
-                //{
-                //    year.PreviousYearManureApplicationNitrogenDefaults.AddRange(nitrogenDefaults.Where(n => n.FieldManureApplicationHistory == year.FieldManureApplicationHistory));
-                //}
-
                 _context.PrevManureApplicationYears.AddRange(years);
             }
 
@@ -232,11 +225,88 @@ namespace Agri.Data
                             stpKelownaRange.SoilTestPhosphorousRecommendations.AddRange(stps.Where(s => s.SoilTestPhosphorousKelownaRangeId == stpKelownaRange.Id));
                         }
                     }
-
                     _context.SoilTestPhosphorousKelownaRanges.AddRange(ranges);
                 }
 
                 _context.Crops.AddRange(crops);
+            }
+
+            if (!_context.FertilizerMethods.Any())
+            {
+                var fertilizerMethods = staticDataRepo.GetFertilizerMethods();
+                _context.FertilizerMethods.AddRange(fertilizerMethods);
+            }
+
+            if (!_context.UserPrompts.Any())
+            {
+                var userPrompts = staticExtRepo.GetUserPromts();
+                _context.UserPrompts.AddRange(userPrompts);
+            }
+
+            if (!_context.ExternalLinks.Any())
+            {
+                var externalLinks = staticExtRepo.GetExternalLinks();
+                _context.ExternalLinks.AddRange(externalLinks);
+            }
+
+            if (!_context.Units.Any())
+            {
+                var units = staticDataRepo.GetUnits();
+                _context.Units.AddRange(units);
+            }
+
+            if (!_context.SoilTestMethods.Any())
+            {
+                var soilTestMethods = staticDataRepo.GetSoilTestMethods();
+                _context.SoilTestMethods.AddRange(soilTestMethods);
+            }
+
+            if (!_context.SoilTestPhosphorusRanges.Any())
+            {
+                var getSoilTestPhosphorusRanges = staticExtRepo.GetSoilTestPhosphorusRanges();
+                _context.SoilTestPhosphorusRanges.AddRange(getSoilTestPhosphorusRanges);
+            }
+
+            if (!_context.SoilTestPotassiumRanges.Any())
+            {
+                var getSoilTestPotassiumRanges = staticExtRepo.GetSoilTestPotassiumRanges();
+                _context.SoilTestPotassiumRanges.AddRange(getSoilTestPotassiumRanges);
+            }
+
+            if (!_context.Messages.Any())
+            {
+                var getMessages = staticExtRepo.GetMessages();
+                _context.Messages.AddRange(getMessages);
+            }
+
+            if (!_context.SeasonApplications.Any())
+            {
+                var getSeasonApplications = staticExtRepo.GetSeasonApplications();
+                _context.SeasonApplications.AddRange(getSeasonApplications);
+            }
+
+            if (!_context.Yields.Any())
+            {
+                var getYields = staticExtRepo.GetYields();
+                _context.Yields.AddRange(getYields);
+            }
+
+            if (!_context.NitrogenRecommendations.Any())
+            {
+                var getNitrogenRecommendations = staticExtRepo.GetNitrogenRecommendations();
+                _context.NitrogenRecommendations.AddRange(getNitrogenRecommendations);
+            }
+
+            if (!_context.RptCompletedManureRequiredStdUnits.Any())
+            {
+                var rptCompletedManureRequiredStdUnits = staticExtRepo.GetRptCompletedManureRequiredStdUnit();
+                _context.RptCompletedManureRequiredStdUnits.AddRange(rptCompletedManureRequiredStdUnits);
+            }
+
+            if (!_context.RptCompletedFertilizerRequiredStdUnits.Any())
+            {
+                var rptCompletedManureRequiredStdUnits = staticExtRepo.GetRptCompletedFertilizerRequiredStdUnit();
+                _context.RptCompletedFertilizerRequiredStdUnits.AddRange(rptCompletedManureRequiredStdUnits);
             }
 
             //HarvestUnit
@@ -246,7 +316,12 @@ namespace Agri.Data
                 _context.HarvestUnits.AddRange(units);
             }
 
-    
+            if (!_context.BCSampleDateForNitrateCredit.Any())
+            {
+                var bcSampleDateForNitrateCredit = staticExtRepo.GetBCSampleDateForNitrateCredit();
+                _context.BCSampleDateForNitrateCredit.AddRange(bcSampleDateForNitrateCredit);
+            }
+
             _context.SaveChanges();
         }
     }

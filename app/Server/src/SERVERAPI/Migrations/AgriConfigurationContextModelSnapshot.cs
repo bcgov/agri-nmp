@@ -70,6 +70,22 @@ namespace SERVERAPI.Migrations
                     b.ToTable("AnimalSubType");
                 });
 
+            modelBuilder.Entity("Agri.Models.StaticData.BCSampleDateForNitrateCredit", b =>
+                {
+                    b.Property<string>("CoastalFromDateMonth")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CoastalToDateMonth");
+
+                    b.Property<string>("InteriorFromDateMonth");
+
+                    b.Property<string>("InteriorToDateMonth");
+
+                    b.HasKey("CoastalFromDateMonth");
+
+                    b.ToTable("BCSampleDateForNitrateCredit");
+                });
+
             modelBuilder.Entity("Agri.Models.StaticData.Browser", b =>
                 {
                     b.Property<int>("Id")
@@ -492,6 +508,18 @@ namespace SERVERAPI.Migrations
                     b.ToTable("NMineralizations");
                 });
 
+            modelBuilder.Entity("Agri.Models.StaticData.NitrogenRecommendation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("RecommendationDesc");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NitrogenRecommendations");
+                });
+
             modelBuilder.Entity("Agri.Models.StaticData.NutrientIcon", b =>
                 {
                     b.Property<int>("id")
@@ -582,6 +610,34 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Regions");
                 });
 
+            modelBuilder.Entity("Agri.Models.StaticData.RptCompletedFertilizerRequiredStdUnit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("LiquidUnitId");
+
+                    b.Property<int>("SolidUnitId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RptCompletedFertilizerRequiredStdUnits");
+                });
+
+            modelBuilder.Entity("Agri.Models.StaticData.RptCompletedManureRequiredStdUnit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("LiquidUnitId");
+
+                    b.Property<int>("SolidUnitId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RptCompletedManureRequiredStdUnits");
+                });
+
             modelBuilder.Entity("Agri.Models.StaticData.SeasonApplication", b =>
                 {
                     b.Property<int>("Id")
@@ -591,17 +647,15 @@ namespace SERVERAPI.Migrations
 
                     b.Property<string>("Compost");
 
-                    b.Property<decimal>("DM_1_5");
+                    b.Property<decimal>("DryMatter1To5Percent");
 
-                    b.Property<decimal>("DM_5_10");
+                    b.Property<decimal>("DryMatter5To10Percent");
 
-                    b.Property<decimal>("DM_gt10");
+                    b.Property<decimal>("DryMatterGreaterThan10Percent");
 
-                    b.Property<decimal>("DM_lt1");
+                    b.Property<decimal>("DryMatterLessThan1Percent");
 
                     b.Property<string>("ManureType");
-
-                    b.Property<string>("Moisture");
 
                     b.Property<string>("Name");
 
@@ -649,9 +703,9 @@ namespace SERVERAPI.Migrations
 
                     b.Property<decimal>("ConvertToKelownaK");
 
-                    b.Property<decimal>("ConvertToKelownaPge72");
+                    b.Property<decimal>("ConvertToKelownaPHGreaterThanEqual72");
 
-                    b.Property<decimal>("ConvertToKelownaPlt72");
+                    b.Property<decimal>("ConvertToKelownaPHLessThan72");
 
                     b.Property<string>("Name");
 
@@ -678,20 +732,6 @@ namespace SERVERAPI.Migrations
                     b.ToTable("SoilTestPhosphorousKelownaRanges");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPhosphorousRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Rating");
-
-                    b.Property<int>("UpperLimit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SoilTestPhosphorousRanges");
-                });
-
             modelBuilder.Entity("Agri.Models.StaticData.SoilTestPhosphorousRecommendation", b =>
                 {
                     b.Property<int>("SoilTestPhosphorousKelownaRangeId");
@@ -707,6 +747,18 @@ namespace SERVERAPI.Migrations
                     b.HasAlternateKey("PhosphorousCropGroupRegionCode", "SoilTestPhosphorousKelownaRangeId", "SoilTestPhosphorousRegionCode");
 
                     b.ToTable("SoilTestPhosphorousRecommendation");
+                });
+
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPhosphorusRange", b =>
+                {
+                    b.Property<int>("UpperLimit")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Rating");
+
+                    b.HasKey("UpperLimit");
+
+                    b.ToTable("SoilTestPhosphorusRanges");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.SoilTestPotassiumKelownaRange", b =>
@@ -727,14 +779,12 @@ namespace SERVERAPI.Migrations
 
             modelBuilder.Entity("Agri.Models.StaticData.SoilTestPotassiumRange", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UpperLimit")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Rating");
 
-                    b.Property<int>("UpperLimit");
-
-                    b.HasKey("Id");
+                    b.HasKey("UpperLimit");
 
                     b.ToTable("SoilTestPotassiumRanges");
                 });
@@ -761,7 +811,7 @@ namespace SERVERAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Conversion_lbTon");
+                    b.Property<decimal>("ConversionlbTon");
 
                     b.Property<decimal>("CostApplications");
 
@@ -781,17 +831,31 @@ namespace SERVERAPI.Migrations
 
                     b.Property<string>("SolidLiquid");
 
+                    b.Property<decimal>("ValueK2O");
+
                     b.Property<string>("ValueMaterialUnits");
 
-                    b.Property<decimal>("Value_K2O");
+                    b.Property<decimal>("ValueN");
 
-                    b.Property<decimal>("Value_N");
-
-                    b.Property<decimal>("Value_P2O5");
+                    b.Property<decimal>("ValueP2O5");
 
                     b.HasKey("Id");
 
                     b.ToTable("Units");
+                });
+
+            modelBuilder.Entity("Agri.Models.StaticData.UserPrompt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserPrompts");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.Version", b =>

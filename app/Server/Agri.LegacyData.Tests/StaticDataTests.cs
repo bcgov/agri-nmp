@@ -136,5 +136,103 @@ namespace Agri.LegacyData.Tests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
         }
+
+        [TestMethod]
+        public void GetSoilTestMethodsSuccessfully()
+        {
+            var result = _staticDataRepo.GetSoilTestMethods();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetFertilizerMethodsSuccessfully()
+        {
+            var result = _staticDataRepo.GetFertilizerMethods();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetUserPromptsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetUserPromts();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetExternalLinksSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetExternalLinks();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetUnitsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetUnits();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSoilTestPhosphorousRangesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSoilTestPhosphorusRanges();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSoilTestPotassiumRangesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSoilTestPotassiumRanges();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetMessagesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetMessages();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+        [TestMethod]
+        public void GetSeasonApplicationsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSeasonApplications();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetYieldsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetYields();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetNitrogenRecommendationsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetNitrogenRecommendations();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
     }
 }
