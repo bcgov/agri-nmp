@@ -7,7 +7,7 @@ namespace Agri.Models.StaticData
         [Key]
         public int SeasonApplicationId { get; set; }
         [Key]
-        public int DM { get; set; }
+        public int DryMatter { get; set; }
         public decimal? Value { get; set; }
     }
 }

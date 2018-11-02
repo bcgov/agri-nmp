@@ -17,7 +17,7 @@ namespace Agri.LegacyData.Models.Impl
                 var ammoniaRetention = new AmmoniaRetention
                 {
                     SeasonApplicationId = Convert.ToInt32(r["seasonapplicatonid"].ToString()),
-                    DM = Convert.ToInt32(r["dm"].ToString()),
+                    DryMatter = Convert.ToInt32(r["dm"].ToString()),
                     Value = r["value"].ToString() == "null"
                             ? (decimal?)null
                             : Convert.ToDecimal(r["value"].ToString())
@@ -39,7 +39,7 @@ namespace Agri.LegacyData.Models.Impl
                 {
                     CropId = Convert.ToInt32(r["cropid"].ToString()),
                     LocationId = Convert.ToInt32(r["locationid"].ToString()),
-                    Amt = r["amt"].ToString() == "null"
+                    Amount = r["amt"].ToString() == "null"
                         ? (decimal?) null
                         : Convert.ToDecimal(r["amt"].ToString())
                 };
@@ -68,14 +68,14 @@ namespace Agri.LegacyData.Models.Impl
             return locations;
         }
 
-        public List<CropSTKRegion> GetCropStkRegions()
+        public List<CropSoilTestPotassiumRegion> GetCropSoilTestPotassiumRegions()
         {
             JArray array = (JArray)rss["agri"]["nmp"]["crop_stk_regioncds"]["crop_stk_regioncd"];
-            var cds = new List<CropSTKRegion>();
+            var cds = new List<CropSoilTestPotassiumRegion>();
 
             foreach (var r in array)
             {
-                var cd = new CropSTKRegion()
+                var cd = new CropSoilTestPotassiumRegion()
                 {
                     CropId = Convert.ToInt32(r["cropid"].ToString()),
                     SoilTestPotassiumRegionCode = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString()),
@@ -90,14 +90,14 @@ namespace Agri.LegacyData.Models.Impl
             return cds;
         }
 
-        public List<CropSTPRegion> GetCropStpRegions()
+        public List<CropSoilTestPhosphorousRegion> GetCropSoilTestPhosphorousRegions()
         {
             JArray array = (JArray)rss["agri"]["nmp"]["crop_stp_regioncds"]["crop_stp_regioncd"];
-            var cds = new List<CropSTPRegion>();
+            var cds = new List<CropSoilTestPhosphorousRegion>();
 
             foreach (var r in array)
             {
-                var cd = new CropSTPRegion()
+                var cd = new CropSoilTestPhosphorousRegion()
                 {
                     CropId = Convert.ToInt32(r["cropid"].ToString()),
                     SoilTestPhosphorousRegionCode = Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString()),
@@ -114,14 +114,14 @@ namespace Agri.LegacyData.Models.Impl
 
 
 
-        public List<STKKelownaRange> GetSTKKelownaRanges()
+        public List<SoilTestPotassiumKelownaRange> GetSoilTestPotassiumKelownaRanges()
         {
             JArray array = (JArray)rss["agri"]["nmp"]["stk_kelowna_ranges"]["stk_kelowna_range"];
-            var ranges = new List<STKKelownaRange>();
+            var ranges = new List<SoilTestPotassiumKelownaRange>();
 
             foreach (var r in array)
             {
-                var range = new STKKelownaRange
+                var range = new SoilTestPotassiumKelownaRange
                 {
                     Id = Convert.ToInt32(r["id"].ToString()),
                     Range = r["range"].ToString(),
@@ -135,14 +135,14 @@ namespace Agri.LegacyData.Models.Impl
             return ranges;
         }
 
-        public List<STPKelownaRange> GetSTPKelownaRanges()
+        public List<SoilTestPhosphorousKelownaRange> GetSoilTestPhosphorousKelownaRanges()
         {
             JArray array = (JArray) rss["agri"]["nmp"]["stp_kelowna_ranges"]["stp_kelowna_range"];
-            var ranges = new List<STPKelownaRange>();
+            var ranges = new List<SoilTestPhosphorousKelownaRange>();
 
             foreach (var r in array)
             {
-                var range = new STPKelownaRange
+                var range = new SoilTestPhosphorousKelownaRange
                 {
                     Id = Convert.ToInt32(r["id"].ToString()),
                     Range = r["range"].ToString(),
@@ -156,19 +156,19 @@ namespace Agri.LegacyData.Models.Impl
             return ranges;
         }
 
-        public List<STKRecommend> GetSTKRecommendations()
+        public List<SoilTestPotassiumRecommendation> GetSoilTestPotassiumRecommendations()
         {
-            var stkRs = new List<STKRecommend>();
+            var stkRs = new List<SoilTestPotassiumRecommendation>();
             JArray array = (JArray)rss["agri"]["nmp"]["stk_recommends"]["stk_recommend"];
 
             foreach (var r in array)
             {
-                var stk = new STKRecommend
+                var stk = new SoilTestPotassiumRecommendation
                 {
-                    STKKelownaRangeId = Convert.ToInt32(r["stk_kelowna_rangeid"].ToString()),
+                    SoilTestPotassiumKelownaRangeId = Convert.ToInt32(r["stk_kelowna_rangeid"].ToString()),
                     SoilTestPotassiumRegionCode = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString()),
                     PotassiumCropGroupRegionCode = Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString()),
-                    K2O_Recommend_kgPeHa = Convert.ToInt32(r["k2o_recommend_kgperha"].ToString()),
+                    K2ORecommendationKilogramPerHectare = Convert.ToInt32(r["k2o_recommend_kgperha"].ToString()),
                 };
                 stkRs.Add(stk);
             }
@@ -176,19 +176,19 @@ namespace Agri.LegacyData.Models.Impl
             return stkRs;
         }
 
-        public List<STPRecommend> GetSTPRecommendations()
+        public List<SoilTestPhosphorousRecommendation> GetSoilTestPhosphorousRecommendations()
         {
-            var stpRs = new List<STPRecommend>();
+            var stpRs = new List<SoilTestPhosphorousRecommendation>();
             JArray array = (JArray) rss["agri"]["nmp"]["stp_recommends"]["stp_recommend"];
 
             foreach (var r in array)
             {
-                var stk = new STPRecommend
+                var stk = new SoilTestPhosphorousRecommendation
                 {
-                    STPKelownaRangeId = Convert.ToInt32(r["stp_kelowna_rangeid"].ToString()),
+                    SoilTestPhosphorousKelownaRangeId = Convert.ToInt32(r["stp_kelowna_rangeid"].ToString()),
                     SoilTestPhosphorousRegionCode = Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString()),
                     PhosphorousCropGroupRegionCode = Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString()),
-                    P2O5_Recommend_KgPerHa = Convert.ToInt32(r["p2o5_recommend_kgperha"].ToString()),
+                    P2O5RecommendationKilogramPerHectare = Convert.ToInt32(r["p2o5_recommend_kgperha"].ToString()),
                 };
                 stpRs.Add(stk);
             }
@@ -234,18 +234,18 @@ namespace Agri.LegacyData.Models.Impl
             return densities;
         }
 
-        public List<NMineralization> GetNMineralizations()
+        public List<NitrogenMineralization> GetNitrogeMineralizations()
         {
             var array = (JArray)rss["agri"]["nmp"]["nmineralizations"]["nmineralization"];
-            var nmineralizations = new List<NMineralization>();
+            var nmineralizations = new List<NitrogenMineralization>();
 
             foreach (var r in array)
             {
-                var nmineralization = new NMineralization()
+                var nmineralization = new NitrogenMineralization()
                 {
                     Id = Convert.ToInt32(r["id"].ToString()),
                     Name = r["name"].ToString(),
-                    Locationid = Convert.ToInt32(r["locationid"].ToString()),
+                    LocationId = Convert.ToInt32(r["locationid"].ToString()),
                     FirstYearValue = Convert.ToDecimal(r["firstyearvalue"].ToString()),
                     LongTermValue = Convert.ToDecimal(r["longtermvalue"].ToString()),
                 };
@@ -255,14 +255,14 @@ namespace Agri.LegacyData.Models.Impl
             return nmineralizations;
         }
 
-        public List<DM> GetDMs()
+        public List<DryMatter> GetDryMatters()
         {
             JArray array = (JArray)rss["agri"]["nmp"]["dms"]["dm"];
-            var dms = new List<DM>();
+            var dms = new List<DryMatter>();
 
             foreach (var r in array)
             {
-                var dm = new DM()
+                var dm = new DryMatter()
                 {
                     Id = Convert.ToInt32(r["ID"].ToString()),
                     Name = r["name"].ToString()

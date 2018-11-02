@@ -8,7 +8,7 @@ namespace Agri.Models.StaticData
         public int CropId { get; set; }
         [Key]
         public int LocationId { get; set; }
-        public decimal? Amt { get; set; }
+        public decimal? Amount { get; set; }
         public Crop Crop { get; set; }
         public Location Location { get; set; }
     }

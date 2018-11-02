@@ -7,6 +7,6 @@
         public int SoilTestPhosphorousRegionCd { get; set; }
         public int SoilTestPotassiumRegionCd { get; set; }
         public int LocationId { get; set; }
-        public int SortNum { get; set; }
+        public int SortNumber { get; set; }
     }
 }

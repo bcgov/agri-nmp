@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace SERVERAPI.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20181102021623_MoreMissingTables")]
-    partial class MoreMissingTables
+    [Migration("20181102220829_InitialDB")]
+    partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,13 +25,13 @@ namespace SERVERAPI.Migrations
                 {
                     b.Property<int>("SeasonApplicationId");
 
-                    b.Property<int>("DM");
+                    b.Property<int>("DryMatter");
 
                     b.Property<decimal?>("Value");
 
-                    b.HasKey("SeasonApplicationId", "DM");
+                    b.HasKey("SeasonApplicationId", "DryMatter");
 
-                    b.HasAlternateKey("DM", "SeasonApplicationId");
+                    b.HasAlternateKey("DryMatter", "SeasonApplicationId");
 
                     b.ToTable("AmmoniaRetentions");
                 });
@@ -93,31 +93,33 @@ namespace SERVERAPI.Migrations
 
                     b.Property<string>("DefaultApplicationOfManureInPrevYears");
 
-                    b.Property<int>("DefaultSoilTestKelownaK");
+                    b.Property<int>("DefaultSoilTestKelownaPhosphorous");
 
-                    b.Property<int>("DefaultSoilTestKelownaP");
+                    b.Property<int>("DefaultSoilTestKelownaPotassium");
 
-                    b.Property<decimal>("KgPerHa_lbPerAc_Conversion");
+                    b.Property<decimal>("KilogramPerHectareToPoundPerAcreConversion");
 
-                    b.Property<decimal>("NProteinConversion");
+                    b.Property<decimal>("NitrogenProteinConversion");
 
                     b.Property<decimal>("PhosphorousAvailabilityFirstYear");
 
                     b.Property<decimal>("PhosphorousAvailabilityLongTerm");
 
-                    b.Property<decimal>("PhosphorousPtoP2O5KConversion");
+                    b.Property<decimal>("PhosphorousPtoP2O5Conversion");
 
                     b.Property<decimal>("PotassiumAvailabilityFirstYear");
 
                     b.Property<decimal>("PotassiumAvailabilityLongTerm");
 
-                    b.Property<decimal>("PotassiumKtoK2Oconversion");
+                    b.Property<decimal>("PotassiumKtoK2OConversion");
+
+                    b.Property<decimal>("PoundPer1000FtSquaredToPoundPerAcreConversion");
+
+                    b.Property<decimal>("PoundPerTonConversion");
+
+                    b.Property<decimal>("SoilTestPPMToPoundPerAcre");
 
                     b.Property<decimal>("UnitConversion");
-
-                    b.Property<decimal>("lbPer1000ftSquared_lbPerAc_Conversion");
-
-                    b.Property<decimal>("lbPerTonConversion");
 
                     b.HasKey("Id");
 
@@ -133,25 +135,25 @@ namespace SERVERAPI.Migrations
 
                     b.Property<decimal?>("CropRemovalFactorK2O");
 
-                    b.Property<decimal?>("CropRemovalFactorP2O5");
+                    b.Property<decimal?>("CropRemovalFactorNitrogen");
 
-                    b.Property<decimal?>("CropRemovalFactor_N");
+                    b.Property<decimal?>("CropRemovalFactorP2O5");
 
                     b.Property<int>("CropTypeId");
 
                     b.Property<decimal?>("HarvestBushelsPerTon");
 
-                    b.Property<decimal?>("N_High_lbPerAc");
+                    b.Property<int>("ManureApplicationHistory");
 
-                    b.Property<decimal>("N_RecommCd");
+                    b.Property<decimal>("NitrogenRecommendationId");
 
-                    b.Property<decimal?>("N_Recomm_lbPerAc");
+                    b.Property<decimal?>("NitrogenRecommendationPoundPerAcre");
 
-                    b.Property<int>("PrevCropCode");
+                    b.Property<decimal?>("NitrogenRecommendationUpperLimitPoundPerAcre");
 
-                    b.Property<int>("PrevYearManureAppl_VolCatCd");
+                    b.Property<int>("PreviousCropCode");
 
-                    b.Property<int>("SortNum");
+                    b.Property<int>("SortNumber");
 
                     b.Property<int>("YieldCd");
 
@@ -159,23 +161,12 @@ namespace SERVERAPI.Migrations
 
                     b.HasIndex("CropTypeId");
 
+                    b.HasIndex("ManureApplicationHistory");
+
                     b.ToTable("Crops");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.CropSTKRegion", b =>
-                {
-                    b.Property<int>("CropId");
-
-                    b.Property<int>("SoilTestPotassiumRegionCode");
-
-                    b.Property<int?>("PotassiumCropGroupRegionCode");
-
-                    b.HasKey("CropId", "SoilTestPotassiumRegionCode");
-
-                    b.ToTable("CropStkRegions");
-                });
-
-            modelBuilder.Entity("Agri.Models.StaticData.CropSTPRegion", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSoilTestPhosphorousRegion", b =>
                 {
                     b.Property<int>("CropId");
 
@@ -185,7 +176,20 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("CropId", "SoilTestPhosphorousRegionCode");
 
-                    b.ToTable("CropSTPRegions");
+                    b.ToTable("CropSoilTestPhosphorousRegions");
+                });
+
+            modelBuilder.Entity("Agri.Models.StaticData.CropSoilTestPotassiumRegion", b =>
+                {
+                    b.Property<int>("CropId");
+
+                    b.Property<int>("SoilTestPotassiumRegionCode");
+
+                    b.Property<int?>("PotassiumCropGroupRegionCode");
+
+                    b.HasKey("CropId", "SoilTestPotassiumRegionCode");
+
+                    b.ToTable("CropSoilTestPotassiumRegions");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.CropType", b =>
@@ -214,7 +218,7 @@ namespace SERVERAPI.Migrations
 
                     b.Property<int>("LocationId");
 
-                    b.Property<decimal?>("Amt");
+                    b.Property<decimal?>("Amount");
 
                     b.HasKey("CropId", "LocationId");
 
@@ -259,7 +263,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("DensityUnits");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.DM", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.DryMatter", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -268,7 +272,7 @@ namespace SERVERAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DMs");
+                    b.ToTable("DryMatters");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.ExternalLink", b =>
@@ -340,13 +344,13 @@ namespace SERVERAPI.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("ConvToImpGalPerAc");
+                    b.Property<decimal>("ConversionToImperialGallonsPerAcre");
 
                     b.Property<string>("DryLiquid");
 
-                    b.Property<decimal>("FarmReqdNutrientsStdUnitsAreaConversion");
+                    b.Property<decimal>("FarmRequiredNutrientsStdUnitsAreaConversion");
 
-                    b.Property<decimal>("FarmReqdNutrientsStdUnitsConversion");
+                    b.Property<decimal>("FarmRequiredNutrientsStdUnitsConversion");
 
                     b.Property<string>("Name");
 
@@ -416,6 +420,10 @@ namespace SERVERAPI.Migrations
 
                     b.Property<int>("NMineralizationId");
 
+                    b.Property<int?>("NMineralizationId1");
+
+                    b.Property<int?>("NMineralizationLocationId");
+
                     b.Property<string>("Name");
 
                     b.Property<decimal>("Nitrate");
@@ -434,7 +442,7 @@ namespace SERVERAPI.Migrations
 
                     b.HasIndex("DMId");
 
-                    b.HasIndex("NMineralizationId");
+                    b.HasIndex("NMineralizationId1", "NMineralizationLocationId");
 
                     b.ToTable("Manures");
                 });
@@ -469,20 +477,19 @@ namespace SERVERAPI.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.NMineralization", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.NitrogenMineralization", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("LocationId");
 
                     b.Property<decimal>("FirstYearValue");
-
-                    b.Property<int>("Locationid");
 
                     b.Property<decimal>("LongTermValue");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "LocationId");
 
                     b.ToTable("NMineralizations");
                 });
@@ -501,7 +508,7 @@ namespace SERVERAPI.Migrations
                     b.ToTable("NutrientIcons");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.PrevCropType", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.PreviousCropType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -512,11 +519,11 @@ namespace SERVERAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("PrevCropCode");
+                    b.Property<int>("NitrogenCreditImperial");
 
-                    b.Property<int>("nCreditImperial");
+                    b.Property<int>("NitrogenCreditMetric");
 
-                    b.Property<int>("nCreditMetric");
+                    b.Property<int>("PreviousCropCode");
 
                     b.HasKey("Id");
 
@@ -524,13 +531,15 @@ namespace SERVERAPI.Migrations
 
                     b.HasIndex("CropTypeId");
 
-                    b.ToTable("PrevCropType");
+                    b.ToTable("PreviousCropType");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.PrevManureApplicationYear", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.PreviousManureApplicationYear", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("FieldManureApplicationHistory");
 
                     b.Property<string>("Name");
 
@@ -539,18 +548,18 @@ namespace SERVERAPI.Migrations
                     b.ToTable("PrevManureApplicationYears");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.PrevYearManureApplNitrogenDefault", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.PreviousYearManureApplicationNitrogenDefault", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int[]>("DefaultNitrogenCredit");
 
-                    b.Property<string>("PrevYearManureAppFrequency");
+                    b.Property<int>("FieldManureApplicationHistory");
 
                     b.HasKey("Id");
 
-                    b.ToTable("PrevYearManureApplNitrogenDefaults");
+                    b.ToTable("PrevYearManureApplicationNitrogenDefaults");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.Region", b =>
@@ -566,7 +575,7 @@ namespace SERVERAPI.Migrations
 
                     b.Property<int>("SoilTestPotassiumRegionCd");
 
-                    b.Property<int>("SortNum");
+                    b.Property<int>("SortNumber");
 
                     b.HasKey("Id");
 
@@ -655,6 +664,22 @@ namespace SERVERAPI.Migrations
                     b.ToTable("SoilTestMethods");
                 });
 
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPhosphorousKelownaRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Range");
+
+                    b.Property<int>("RangeHigh");
+
+                    b.Property<int>("RangeLow");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SoilTestPhosphorousKelownaRanges");
+                });
+
             modelBuilder.Entity("Agri.Models.StaticData.SoilTestPhosphorousRange", b =>
                 {
                     b.Property<int>("Id")
@@ -667,6 +692,39 @@ namespace SERVERAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SoilTestPhosphorousRanges");
+                });
+
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPhosphorousRecommendation", b =>
+                {
+                    b.Property<int>("SoilTestPhosphorousKelownaRangeId");
+
+                    b.Property<int>("SoilTestPhosphorousRegionCode");
+
+                    b.Property<int>("PhosphorousCropGroupRegionCode");
+
+                    b.Property<int>("P2O5RecommendationKilogramPerHectare");
+
+                    b.HasKey("SoilTestPhosphorousKelownaRangeId", "SoilTestPhosphorousRegionCode", "PhosphorousCropGroupRegionCode");
+
+                    b.HasAlternateKey("PhosphorousCropGroupRegionCode", "SoilTestPhosphorousKelownaRangeId", "SoilTestPhosphorousRegionCode");
+
+                    b.ToTable("SoilTestPhosphorousRecommendation");
+                });
+
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPotassiumKelownaRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Range");
+
+                    b.Property<int>("RangeHigh");
+
+                    b.Property<int>("RangeLow");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SoilTestPotassiumKelownaRanges");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.SoilTestPotassiumRange", b =>
@@ -683,70 +741,21 @@ namespace SERVERAPI.Migrations
                     b.ToTable("SoilTestPotassiumRanges");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.STKKelownaRange", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPotassiumRecommendation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Range");
-
-                    b.Property<int>("RangeHigh");
-
-                    b.Property<int>("RangeLow");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("STKKelownaRanges");
-                });
-
-            modelBuilder.Entity("Agri.Models.StaticData.STKRecommend", b =>
-                {
-                    b.Property<int>("STKKelownaRangeId");
+                    b.Property<int>("SoilTestPotassiumKelownaRangeId");
 
                     b.Property<int>("SoilTestPotassiumRegionCode");
 
                     b.Property<int>("PotassiumCropGroupRegionCode");
 
-                    b.Property<int>("K2O_Recommend_kgPeHa");
+                    b.Property<int>("K2ORecommendationKilogramPerHectare");
 
-                    b.HasKey("STKKelownaRangeId", "SoilTestPotassiumRegionCode", "PotassiumCropGroupRegionCode");
+                    b.HasKey("SoilTestPotassiumKelownaRangeId", "SoilTestPotassiumRegionCode", "PotassiumCropGroupRegionCode");
 
-                    b.HasAlternateKey("PotassiumCropGroupRegionCode", "SoilTestPotassiumRegionCode", "STKKelownaRangeId");
+                    b.HasAlternateKey("PotassiumCropGroupRegionCode", "SoilTestPotassiumKelownaRangeId", "SoilTestPotassiumRegionCode");
 
-                    b.ToTable("STKRecommend");
-                });
-
-            modelBuilder.Entity("Agri.Models.StaticData.STPKelownaRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Range");
-
-                    b.Property<int>("RangeHigh");
-
-                    b.Property<int>("RangeLow");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("STPKelownaRanges");
-                });
-
-            modelBuilder.Entity("Agri.Models.StaticData.STPRecommend", b =>
-                {
-                    b.Property<int>("STPKelownaRangeId");
-
-                    b.Property<int>("SoilTestPhosphorousRegionCode");
-
-                    b.Property<int>("PhosphorousCropGroupRegionCode");
-
-                    b.Property<int>("P2O5_Recommend_KgPerHa");
-
-                    b.HasKey("STPKelownaRangeId", "SoilTestPhosphorousRegionCode", "PhosphorousCropGroupRegionCode");
-
-                    b.HasAlternateKey("PhosphorousCropGroupRegionCode", "SoilTestPhosphorousRegionCode", "STPKelownaRangeId");
-
-                    b.ToTable("STPRecommend");
+                    b.ToTable("SoilTestPotassiumRecommendation");
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.Unit", b =>
@@ -825,20 +834,26 @@ namespace SERVERAPI.Migrations
                         .WithMany("Crops")
                         .HasForeignKey("CropTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Agri.Models.StaticData.PreviousYearManureApplicationNitrogenDefault", "PreviousYearManureApplicationNitrogenDefault")
+                        .WithMany("Crops")
+                        .HasForeignKey("ManureApplicationHistory")
+                        .HasPrincipalKey("FieldManureApplicationHistory")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.CropSTKRegion", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSoilTestPhosphorousRegion", b =>
                 {
                     b.HasOne("Agri.Models.StaticData.Crop")
-                        .WithMany("CropSTKRegionCds")
+                        .WithMany("CropSoilTestPhosphorousRegions")
                         .HasForeignKey("CropId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.CropSTPRegion", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.CropSoilTestPotassiumRegion", b =>
                 {
                     b.HasOne("Agri.Models.StaticData.Crop")
-                        .WithMany("CropSTPRegionCds")
+                        .WithMany("CropSoilTestPotassiumRegions")
                         .HasForeignKey("CropId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -871,26 +886,34 @@ namespace SERVERAPI.Migrations
 
             modelBuilder.Entity("Agri.Models.StaticData.Manure", b =>
                 {
-                    b.HasOne("Agri.Models.StaticData.DM", "Dm")
+                    b.HasOne("Agri.Models.StaticData.DryMatter", "Dm")
                         .WithMany()
                         .HasForeignKey("DMId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Agri.Models.StaticData.NMineralization", "NMineralization")
+                    b.HasOne("Agri.Models.StaticData.NitrogenMineralization", "NMineralization")
                         .WithMany("Manures")
-                        .HasForeignKey("NMineralizationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("NMineralizationId1", "NMineralizationLocationId");
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.PrevCropType", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.PreviousCropType", b =>
                 {
                     b.HasOne("Agri.Models.StaticData.Crop")
-                        .WithMany("PrevCropTypes")
+                        .WithMany("PreviousCropTypes")
                         .HasForeignKey("CropId");
 
                     b.HasOne("Agri.Models.StaticData.CropType")
                         .WithMany("PrevCropTypes")
                         .HasForeignKey("CropTypeId");
+                });
+
+            modelBuilder.Entity("Agri.Models.StaticData.PreviousYearManureApplicationNitrogenDefault", b =>
+                {
+                    b.HasOne("Agri.Models.StaticData.PreviousManureApplicationYear", "PreviousManureApplicationYear")
+                        .WithMany("PreviousYearManureApplicationNitrogenDefaults")
+                        .HasForeignKey("FieldManureApplicationHistory")
+                        .HasPrincipalKey("FieldManureApplicationHistory")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.StaticData.Region", b =>
@@ -901,19 +924,19 @@ namespace SERVERAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.STKRecommend", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPhosphorousRecommendation", b =>
                 {
-                    b.HasOne("Agri.Models.StaticData.STKKelownaRange", "STKKelownaRange")
-                        .WithMany("STKRecommendations")
-                        .HasForeignKey("STKKelownaRangeId")
+                    b.HasOne("Agri.Models.StaticData.SoilTestPhosphorousKelownaRange", "SoilTestPhosphorousKelownaRange")
+                        .WithMany("SoilTestPhosphorousRecommendations")
+                        .HasForeignKey("SoilTestPhosphorousKelownaRangeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Agri.Models.StaticData.STPRecommend", b =>
+            modelBuilder.Entity("Agri.Models.StaticData.SoilTestPotassiumRecommendation", b =>
                 {
-                    b.HasOne("Agri.Models.StaticData.STPKelownaRange", "StpKelownaRange")
-                        .WithMany("STPRecommendations")
-                        .HasForeignKey("STPKelownaRangeId")
+                    b.HasOne("Agri.Models.StaticData.SoilTestPotassiumKelownaRange", "SoilTestPotassiumKelownaRange")
+                        .WithMany("SoilTestPotassiumRecommendations")
+                        .HasForeignKey("SoilTestPotassiumKelownaRangeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

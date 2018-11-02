@@ -87,6 +87,27 @@ namespace Agri.Data
                 _context.CropTypes.AddRange(types);
             }
 
+            //PrevManureApplicationYear
+            if (!_context.PrevManureApplicationYears.Any())
+            {
+                var years = staticDataRepo.GetPrevManureApplicationInPrevYears();
+                //var nitrogenDefaults = staticDataRepo.GetPrevYearManureNitrogenCreditDefaults();
+
+                //foreach (var year in years)
+                //{
+                //    year.PreviousYearManureApplicationNitrogenDefaults.AddRange(nitrogenDefaults.Where(n => n.FieldManureApplicationHistory == year.FieldManureApplicationHistory));
+                //}
+
+                _context.PrevManureApplicationYears.AddRange(years);
+            }
+
+            //PrevYearManureApplicationlDefaultNitrogen
+            if (!_context.PrevYearManureApplicationNitrogenDefaults.Any())
+            {
+                var nitrogenDefaults = staticDataRepo.GetPrevYearManureNitrogenCreditDefaults();
+                _context.PrevYearManureApplicationNitrogenDefaults.AddRange(nitrogenDefaults);
+            }
+
             //Crops
             //CropStkRegion
             //CropStpRegion
@@ -95,21 +116,21 @@ namespace Agri.Data
             if (!_context.Crops.Any())
             {
                 var crops = staticDataRepo.GetCrops();
-                var stksRegions = staticExtRepo.GetCropStkRegions();
-                var stpsRegions = staticExtRepo.GetCropStpRegions();
+                var stksRegions = staticExtRepo.GetCropSoilTestPotassiumRegions();
+                var stpsRegions = staticExtRepo.GetCropSoilTestPhosphorousRegions();
                 var cropYields = staticExtRepo.GetCropYields();
-                var prevCropTypes = staticDataRepo.GetPrevCropTypes();
+                var prevCropTypes = staticDataRepo.GetPreviousCropTypes();
 
                 foreach (var crop in crops)
                 {
                     if (stksRegions.Any(s => s.CropId == crop.Id))
                     {
-                        crop.CropSTKRegionCds.AddRange(stksRegions.Where(s => s.CropId == crop.Id));
+                        crop.CropSoilTestPotassiumRegions.AddRange(stksRegions.Where(s => s.CropId == crop.Id));
                     }
 
                     if (stpsRegions.Any(s => s.CropId == crop.Id))
                     {
-                        crop.CropSTPRegionCds.AddRange(stpsRegions.Where(s => s.CropId == crop.Id));
+                        crop.CropSoilTestPhosphorousRegions.AddRange(stpsRegions.Where(s => s.CropId == crop.Id));
                     }
 
                     if (cropYields.Any(s => s.CropId == crop.Id))
@@ -117,9 +138,9 @@ namespace Agri.Data
                         crop.CropYields.AddRange(cropYields.Where(s => s.CropId == crop.Id));
                     }
 
-                    if (prevCropTypes.Any(c => c.PrevCropCode == crop.PrevCropCode))
+                    if (prevCropTypes.Any(c => c.PreviousCropCode == crop.PreviousCropCode))
                     {
-                        crop.PrevCropTypes.AddRange(prevCropTypes.Where(c => c.PrevCropCode == crop.PrevCropCode));
+                        crop.PreviousCropTypes.AddRange(prevCropTypes.Where(c => c.PreviousCropCode == crop.PreviousCropCode));
                     }
                 }
                 
@@ -144,6 +165,12 @@ namespace Agri.Data
                     _context.FertilizerTypes.AddRange(types);
                 }
 
+                //FertilizerUnit
+                if (!_context.FertilizerUnits.Any())
+                {
+                    var units = staticDataRepo.GetFertilizerUnits();
+                    _context.FertilizerUnits.AddRange(units);
+                }
 
                 //LiquidFertilizerDensity
                 if (!_context.LiquidFertilizerDensities.Any())
@@ -152,17 +179,17 @@ namespace Agri.Data
                     _context.LiquidFertilizerDensities.AddRange(densities);
                 }
 
-                //DM
-                if (!_context.DMs.Any())
+                //DryMatter
+                if (!_context.DryMatters.Any())
                 {
-                    var dms = staticExtRepo.GetDMs();
-                    _context.DMs.AddRange(dms);
+                    var dms = staticExtRepo.GetDryMatters();
+                    _context.DryMatters.AddRange(dms);
                 }
 
                 //NMineralization
                 if (!_context.NMineralizations.Any())
                 {
-                    var minerals = staticExtRepo.GetNMineralizations();
+                    var minerals = staticExtRepo.GetNitrogeMineralizations();
                     _context.NMineralizations.AddRange(minerals);
                 }
 
@@ -175,38 +202,38 @@ namespace Agri.Data
 
                 //STKKelownaRange
                 //STKRecommendations
-                if (!_context.STKKelownaRanges.Any())
+                if (!_context.SoilTestPotassiumKelownaRanges.Any())
                 {
-                    var ranges = staticExtRepo.GetSTKKelownaRanges();
-                    var stks = staticExtRepo.GetSTKRecommendations();
+                    var ranges = staticExtRepo.GetSoilTestPotassiumKelownaRanges();
+                    var stks = staticExtRepo.GetSoilTestPotassiumRecommendations();
 
                     foreach (var stkKelownaRange in ranges)
                     {
-                        if (stks.Any(s => s.STKKelownaRangeId == stkKelownaRange.Id))
+                        if (stks.Any(s => s.SoilTestPotassiumKelownaRangeId == stkKelownaRange.Id))
                         {
-                            stkKelownaRange.STKRecommendations.AddRange(stks.Where(s => s.STKKelownaRangeId == stkKelownaRange.Id));
+                            stkKelownaRange.SoilTestPotassiumRecommendations.AddRange(stks.Where(s => s.SoilTestPotassiumKelownaRangeId == stkKelownaRange.Id));
                         }
                     }
 
-                    _context.STKKelownaRanges.AddRange(ranges);
+                    _context.SoilTestPotassiumKelownaRanges.AddRange(ranges);
                 }
 
                 //STPKelownaRange
                 //STPRecommendations
-                if (!_context.STPKelownaRanges.Any())
+                if (!_context.SoilTestPhosphorousKelownaRanges.Any())
                 {
-                    var ranges = staticExtRepo.GetSTPKelownaRanges();
-                    var stps = staticExtRepo.GetSTPRecommendations();
+                    var ranges = staticExtRepo.GetSoilTestPhosphorousKelownaRanges();
+                    var stps = staticExtRepo.GetSoilTestPhosphorousRecommendations();
 
                     foreach (var stpKelownaRange in ranges)
                     {
-                        if (stps.Any(s => s.STPKelownaRangeId == stpKelownaRange.Id))
+                        if (stps.Any(s => s.SoilTestPhosphorousKelownaRangeId == stpKelownaRange.Id))
                         {
-                            stpKelownaRange.STPRecommendations.AddRange(stps.Where(s => s.STPKelownaRangeId == stpKelownaRange.Id));
+                            stpKelownaRange.SoilTestPhosphorousRecommendations.AddRange(stps.Where(s => s.SoilTestPhosphorousKelownaRangeId == stpKelownaRange.Id));
                         }
                     }
 
-                    _context.STPKelownaRanges.AddRange(ranges);
+                    _context.SoilTestPhosphorousKelownaRanges.AddRange(ranges);
                 }
 
                 _context.Crops.AddRange(crops);
@@ -219,19 +246,6 @@ namespace Agri.Data
                 _context.HarvestUnits.AddRange(units);
             }
 
-            //PrevManureApplicationYear
-            if (!_context.PrevManureApplicationYears.Any())
-            {
-                var years = staticDataRepo.GetPrevManureApplicationInPrevYears();
-                _context.PrevManureApplicationYears.AddRange(years);
-            }
-
-            //PrevYearManureApplDefaultNitrogen
-            if (!_context.PrevYearManureApplNitrogenDefaults.Any())
-            {
-                var nitrogenDefaults = staticDataRepo.GetPrevYearManureNitrogenCreditDefaults();
-                _context.PrevYearManureApplNitrogenDefaults.AddRange(nitrogenDefaults);
-            }
     
             _context.SaveChanges();
         }

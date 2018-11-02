@@ -50,7 +50,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetCropStkRegionCdsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetCropStkRegions();
+            var result = _staticDataExtRepo.GetCropSoilTestPotassiumRegions();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -59,7 +59,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetCropStpRegionCdsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetCropStpRegions();
+            var result = _staticDataExtRepo.GetCropSoilTestPhosphorousRegions();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -68,7 +68,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetSTKKelownaRangesSuccessfully()
         {
-            var result = _staticDataExtRepo.GetSTKKelownaRanges();
+            var result = _staticDataExtRepo.GetSoilTestPotassiumKelownaRanges();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -77,7 +77,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetSTPKelownaRangesSuccessfully()
         {
-            var result = _staticDataExtRepo.GetSTPKelownaRanges();
+            var result = _staticDataExtRepo.GetSoilTestPhosphorousKelownaRanges();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -86,7 +86,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetSTKRecommendsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetSTKRecommendations();
+            var result = _staticDataExtRepo.GetSoilTestPotassiumRecommendations();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -95,7 +95,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetSTPRecommendsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetSTPRecommendations();
+            var result = _staticDataExtRepo.GetSoilTestPhosphorousRecommendations();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -122,7 +122,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetNMineralizationsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetNMineralizations();
+            var result = _staticDataExtRepo.GetNitrogeMineralizations();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -131,7 +131,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetDMsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetDMs();
+            var result = _staticDataExtRepo.GetDryMatters();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);

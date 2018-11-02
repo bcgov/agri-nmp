@@ -1,0 +1,17 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models.StaticData
+{
+    public class SoilTestPotassiumRecommendation
+    {
+        [Key]
+        public int SoilTestPotassiumKelownaRangeId { get; set; }
+        [Key]
+        public int SoilTestPotassiumRegionCode { get; set; }
+        [Key]
+        public int PotassiumCropGroupRegionCode { get; set; }
+        public int K2ORecommendationKilogramPerHectare { get; set; }
+
+        public SoilTestPotassiumKelownaRange SoilTestPotassiumKelownaRange { get; set; }
+    }
+}

@@ -8,7 +8,7 @@ namespace Agri.Models.StaticData
         public CropType()
         {
             Crops = new List<Crop>();
-            PrevCropTypes = new List<PrevCropType>();
+            PrevCropTypes = new List<PreviousCropType>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
@@ -18,6 +18,6 @@ namespace Agri.Models.StaticData
         public bool ModifyNitrogen { get; set; }
 
         public List<Crop> Crops { get; set; }
-        public List<PrevCropType> PrevCropTypes { get; set; }
+        public List<PreviousCropType> PrevCropTypes { get; set; }
     }
 }

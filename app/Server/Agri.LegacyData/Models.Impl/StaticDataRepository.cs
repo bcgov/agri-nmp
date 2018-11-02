@@ -41,7 +41,7 @@ namespace Agri.LegacyData.Models.Impl
                     LocationId = Convert.ToInt32(r["locationid"].ToString()),
                     SoilTestPhosphorousRegionCd = Convert.ToInt32(r["soil_test_phospherous_region_cd"].ToString()),
                     SoilTestPotassiumRegionCd = Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString()),
-                    SortNum = Convert.ToInt32(r["sortNum"].ToString())
+                    SortNumber = Convert.ToInt32(r["sortNum"].ToString())
                 };
 
                 regions.Add(reg);
@@ -54,7 +54,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             List<Region> regions = GetRegions();
 
-            regions = regions.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
+            regions = regions.OrderBy(n => n.SortNumber).ThenBy(n => n.Name).ToList();
 
             List<Models.StaticData.SelectListItem> regOptions = new List<Models.StaticData.SelectListItem>();
 
@@ -346,26 +346,24 @@ namespace Agri.LegacyData.Models.Impl
             return unitsOptions;
         }
 
-        public Models.StaticData.FertilizerUnits GetFertilizerUnits()
+        public List<FertilizerUnit> GetFertilizerUnits()
         {
-            Models.StaticData.FertilizerUnits units = new Models.StaticData.FertilizerUnits();
-            units.fertilizerUnits = new List<Models.StaticData.FertilizerUnit>();
-
+            var units = new List<FertilizerUnit>();
             JArray array = (JArray) rss["agri"]["nmp"]["fertilizerunits"]["fertilizerunit"];
 
             foreach (var r in array)
             {
-                Models.StaticData.FertilizerUnit unit = new Models.StaticData.FertilizerUnit();
-                unit.id = Convert.ToInt32(r["id"].ToString());
-                unit.name = r["name"].ToString();
-                unit.dry_liquid = r["dry_liquid"].ToString();
-                if (r["conv_to_impgalperac"] != null)
-                    unit.conv_to_impgalperac = Convert.ToDecimal(r["conv_to_impgalperac"].ToString());
-                unit.farm_reqd_nutrients_std_units_conversion =
-                    Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString());
-                unit.farm_reqd_nutrients_std_units_area_conversion =
-                    Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString());
-                units.fertilizerUnits.Add(unit);
+                var unit = new FertilizerUnit
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    DryLiquid = r["dry_liquid"].ToString(),
+                    ConversionToImperialGallonsPerAcre = r["conv_to_impgalperac"] != null
+                        ? Convert.ToDecimal(r["conv_to_impgalperac"].ToString())
+                        : 0,
+                    FarmRequiredNutrientsStdUnitsConversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString()),
+                    FarmRequiredNutrientsStdUnitsAreaConversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString())
+                };
             }
 
             return units;
@@ -373,16 +371,16 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetFertilizerUnitsDll(string unitType)
         {
-            Models.StaticData.FertilizerUnits units = GetFertilizerUnits();
+            var units = GetFertilizerUnits();
 
             List<Models.StaticData.SelectListItem> unitsOptions = new List<Models.StaticData.SelectListItem>();
 
-            foreach (var r in units.fertilizerUnits)
+            foreach (var r in units)
             {
-                if (r.dry_liquid == unitType)
+                if (r.DryLiquid == unitType)
                 {
                     Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                        {Id = r.id, Value = r.name};
+                        {Id = r.Id, Value = r.Name};
                     unitsOptions.Add(li);
                 }
             }
@@ -541,7 +539,7 @@ namespace Agri.LegacyData.Models.Impl
                     CropName = r["cropname"].ToString(),
                     CropTypeId = Convert.ToInt32(r["croptypeid"].ToString()),
                     YieldCd = Convert.ToInt32(r["yieldcd"].ToString()),
-                    CropRemovalFactor_N = r["cropremovalfactor_N"].ToString() == "null"
+                    CropRemovalFactorNitrogen = r["cropremovalfactor_N"].ToString() == "null"
                         ? (decimal?) null
                         : Convert.ToDecimal(r["cropremovalfactor_N"].ToString()),
                     CropRemovalFactorP2O5 = r["cropremovalfactor_P2O5"].ToString() == "null"
@@ -550,15 +548,16 @@ namespace Agri.LegacyData.Models.Impl
                     CropRemovalFactorK2O = r["cropremovalfactor_K2O"].ToString() == "null"
                         ? (decimal?) null
                         : Convert.ToDecimal(r["cropremovalfactor_K2O"].ToString()),
-                    N_RecommCd = Convert.ToDecimal(r["n_recommcd"].ToString()),
-                    N_Recomm_lbPerAc = r["n_recomm_lbperac"].ToString() == "null"
+                    NitrogenRecommendationId = Convert.ToDecimal(r["n_recommcd"].ToString()),
+                    NitrogenRecommendationPoundPerAcre = r["n_recomm_lbperac"].ToString() == "null"
                         ? (decimal?) null
                         : Convert.ToDecimal(r["n_recomm_lbperac"].ToString()),
-                    N_High_lbPerAc = r["n_high_lbperac"].ToString() == "null"
+                    NitrogenRecommendationUpperLimitPoundPerAcre = r["n_high_lbperac"].ToString() == "null"
                         ? (decimal?) null
                         : Convert.ToDecimal(r["n_high_lbperac"].ToString()),
-                    PrevCropCode = Convert.ToInt32(r["prevcropcd"].ToString()),
-                    SortNum = Convert.ToInt32(r["sortNum"].ToString()),
+                    PreviousCropCode = Convert.ToInt32(r["prevcropcd"].ToString()),
+                    SortNumber = Convert.ToInt32(r["sortNum"].ToString()),
+                    ManureApplicationHistory = Convert.ToInt32(r["prevyearmanureappl_volcatcd"].ToString()),
                     HarvestBushelsPerTon = r["bushelsperton"].ToString() == ""
                         ? (decimal?) null
                         : Convert.ToDecimal(r["bushelsperton"].ToString())
@@ -574,7 +573,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             var crops = GetCrops();
 
-            crops = crops.OrderBy(n => n.SortNum).ThenBy(n => n.CropName).ToList();
+            crops = crops.OrderBy(n => n.SortNumber).ThenBy(n => n.CropName).ToList();
 
             List<Models.StaticData.SelectListItem> cropsOptions = new List<Models.StaticData.SelectListItem>();
 
@@ -616,7 +615,7 @@ namespace Agri.LegacyData.Models.Impl
                 CropName = r["cropname"].ToString(),
                 CropTypeId = Convert.ToInt32(r["croptypeid"].ToString()),
                 YieldCd = Convert.ToInt32(r["yieldcd"].ToString()),
-                CropRemovalFactor_N = r["cropremovalfactor_N"].ToString() == "null"
+                CropRemovalFactorNitrogen = r["cropremovalfactor_N"].ToString() == "null"
                     ? (decimal?) null
                     : Convert.ToDecimal(r["cropremovalfactor_N"].ToString()),
                 CropRemovalFactorP2O5 = r["cropremovalfactor_P2O5"].ToString() == "null"
@@ -625,15 +624,15 @@ namespace Agri.LegacyData.Models.Impl
                 CropRemovalFactorK2O = r["cropremovalfactor_K2O"].ToString() == "null"
                     ? (decimal?) null
                     : Convert.ToDecimal(r["cropremovalfactor_K2O"].ToString()),
-                N_RecommCd = Convert.ToDecimal(r["n_recommcd"].ToString()),
-                N_Recomm_lbPerAc = r["n_recomm_lbperac"].ToString() == "null"
+                NitrogenRecommendationId = Convert.ToDecimal(r["n_recommcd"].ToString()),
+                NitrogenRecommendationPoundPerAcre = r["n_recomm_lbperac"].ToString() == "null"
                     ? (decimal?) null
                     : Convert.ToDecimal(r["n_recomm_lbperac"].ToString()),
-                N_High_lbPerAc = r["n_high_lbperac"].ToString() == "null"
+                NitrogenRecommendationUpperLimitPoundPerAcre = r["n_high_lbperac"].ToString() == "null"
                     ? (decimal?) null
                     : Convert.ToDecimal(r["n_high_lbperac"].ToString()),
-                PrevCropCode = Convert.ToInt32(r["prevcropcd"].ToString()),
-                PrevYearManureAppl_VolCatCd = Convert.ToInt32(r["prevyearmanureappl_volcatcd"].ToString()),
+                PreviousCropCode = Convert.ToInt32(r["prevcropcd"].ToString()),
+                ManureApplicationHistory = Convert.ToInt32(r["prevyearmanureappl_volcatcd"].ToString()),
                 HarvestBushelsPerTon = r["bushelsperton"].ToString() == ""
                     ? (decimal?) null
                     : Convert.ToDecimal(r["bushelsperton"].ToString())
@@ -718,7 +717,7 @@ namespace Agri.LegacyData.Models.Impl
             return crop_stk_regioncd;
         }
 
-        public Models.StaticData.DM GetDM(int ID)
+        public Models.StaticData.DM GetDryMatter(int ID)
         {
 
             JArray array = (JArray) rss["agri"]["nmp"]["dms"]["dm"];
@@ -748,7 +747,7 @@ namespace Agri.LegacyData.Models.Impl
                     Convert.ToInt32(r["dm"].ToString()) == dm)
                 {
                     ammoniaRetention.SeasonApplicationId = Convert.ToInt32(r["seasonapplicatonid"].ToString());
-                    ammoniaRetention.DM = Convert.ToInt32(r["dm"].ToString());
+                    ammoniaRetention.DryMatter = Convert.ToInt32(r["dm"].ToString());
                     ammoniaRetention.Value = r["value"].ToString() == "null"
                         ? (decimal?) null
                         : Convert.ToDecimal(r["value"].ToString());
@@ -874,21 +873,21 @@ namespace Agri.LegacyData.Models.Impl
             return type;
         }
 
-        public List<PrevCropType> GetPrevCropTypes()
+        public List<PreviousCropType> GetPreviousCropTypes()
         {
-            var types = new List<PrevCropType>();
+            var types = new List<PreviousCropType>();
 
             JArray array = (JArray) rss["agri"]["nmp"]["prevcroptypes"]["prevcroptype"];
 
             foreach (var r in array)
             {
-                var type = new PrevCropType
+                var type = new PreviousCropType
                 {
                     Id = Convert.ToInt32(r["id"].ToString()),
-                    PrevCropCode = Convert.ToInt32(r["prevcropcd"].ToString()),
+                    PreviousCropCode = Convert.ToInt32(r["prevcropcd"].ToString()),
                     Name = r["name"].ToString(),
-                    nCreditMetric = Convert.ToInt32(r["ncreditmetric"].ToString()),
-                    nCreditImperial = Convert.ToInt32(r["ncreditimperial"].ToString())
+                    NitrogenCreditMetric = Convert.ToInt32(r["ncreditmetric"].ToString()),
+                    NitrogenCreditImperial = Convert.ToInt32(r["ncreditimperial"].ToString())
                 };
                 types.Add(type);
             }
@@ -898,13 +897,13 @@ namespace Agri.LegacyData.Models.Impl
 
         public List<Models.StaticData.SelectListItem> GetPrevCropTypesDll(string prevCropCd)
         {
-            var types = GetPrevCropTypes();
+            var types = GetPreviousCropTypes();
 
             List<Models.StaticData.SelectListItem> typesOptions = new List<Models.StaticData.SelectListItem>();
 
             foreach (var r in types)
             {
-                if (r.PrevCropCode.ToString() == prevCropCd)
+                if (r.PreviousCropCode.ToString() == prevCropCd)
                 {
                     Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
                         {Id = r.Id, Value = r.Name};
@@ -1041,34 +1040,36 @@ namespace Agri.LegacyData.Models.Impl
         {
             return new ConversionFactor
             {
-                NProteinConversion =
+                NitrogenProteinConversion =
                     Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["n_protein_conversion"]),
                 UnitConversion = Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["unit_conversion"]),
-                DefaultSoilTestKelownaP =
+                DefaultSoilTestKelownaPhosphorous =
                     Convert.ToInt16((string) rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]),
-                DefaultSoilTestKelownaK =
+                DefaultSoilTestKelownaPotassium =
                     Convert.ToInt16((string) rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]),
-                KgPerHa_lbPerAc_Conversion =
+                KilogramPerHectareToPoundPerAcreConversion =
                     Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["kgperha_lbperac_conversion"]),
                 PotassiumAvailabilityFirstYear =
                     Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["potassiumAvailabilityFirstYear"]),
                 PotassiumAvailabilityLongTerm =
                     Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["potassiumAvailabilityLongTerm"]),
-                PotassiumKtoK2Oconversion =
+                PotassiumKtoK2OConversion =
                     Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["potassiumKtoK2Oconversion"]),
                 PhosphorousAvailabilityFirstYear =
                     Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["phosphorousAvailabilityFirstYear"]),
                 PhosphorousAvailabilityLongTerm =
                     Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["phosphorousAvailabilityLongTerm"]),
-                PhosphorousPtoP2O5KConversion =
+                PhosphorousPtoP2O5Conversion =
                     Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["phosphorousPtoP2O5Kconversion"]),
-                lbPerTonConversion =
+                PoundPerTonConversion =
                     Convert.ToDecimal((string) rss["agri"]["nmp"]["conversions"]["lbPerTonConversion"]),
-                lbPer1000ftSquared_lbPerAc_Conversion =
+                PoundPer1000FtSquaredToPoundPerAcreConversion =
                     Convert.ToDecimal(
                         (string) rss["agri"]["nmp"]["conversions"]["lbper1000ftsquared_lbperac_conversion"]),
                 DefaultApplicationOfManureInPrevYears =
-                    (rss["agri"]["nmp"]["conversions"]["defaultApplicationOfManureInPrevYears"]).ToString()
+                    (rss["agri"]["nmp"]["conversions"]["defaultApplicationOfManureInPrevYears"]).ToString(),
+                SoilTestPPMToPoundPerAcre =
+                    Convert.ToDecimal((string)rss["agri"]["nmp"]["soilTestPPMToPoundPerAcreConversionFactor"]["ppmToPoundPerAcre"]),
             };
         }
 
@@ -1539,16 +1540,16 @@ namespace Agri.LegacyData.Models.Impl
             return (JArray) rss["agri"]["nmp"]["manureprevyearscd"]["manureprevyearcd"];
         }
 
-        public List<PrevManureApplicationYear> GetPrevManureApplicationInPrevYears()
+        public List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears()
         {
-            var selections = new List<PrevManureApplicationYear>();
+            var selections = new List<PreviousManureApplicationYear>();
             var jsonPrevYearManure = GetPrevYearManureText();
 
             foreach (var r in jsonPrevYearManure)
             {
-                var sel = new PrevManureApplicationYear
+                var sel = new PreviousManureApplicationYear
                 {
-                    Id = Convert.ToInt32(r["id"].ToString()),
+                    FieldManureApplicationHistory = Convert.ToInt32(r["id"].ToString()),
                     Name = r["name"].ToString()
                 };
                 selections.Add(sel);
@@ -1557,14 +1558,20 @@ namespace Agri.LegacyData.Models.Impl
             return selections;
         }
 
-        public List<PrevYearManureApplNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults()
+        public List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults()
         {
             var nitrogrenDefaults = (JArray) rss["agri"]["nmp"]["defaultprevyearmanureapplfrequency"]["defprevyearmanurenitrogen"];
-            var result = new List<PrevYearManureApplNitrogenDefault>();
+            var result = new List<PreviousYearManureApplicationNitrogenDefault>();
 
             foreach (var r in nitrogrenDefaults)
             {
-                var defaultNitrogen = JsonConvert.DeserializeObject<PrevYearManureApplNitrogenDefault>(r.ToString());
+                //var defaultNitrogen = JsonConvert.DeserializeObject<PreviousYearManureApplicationNitrogenDefault>(r.ToString());
+                var defaultNitrogen = new PreviousYearManureApplicationNitrogenDefault()
+                {
+                    FieldManureApplicationHistory = Convert.ToInt32(r["prevYearManureAppFrequency"].ToString()),
+                    DefaultNitrogenCredit = JsonConvert.DeserializeObject<int[]>(r["defaultNitrogenCredit"].ToString()),
+                };
+
                 result.Add(defaultNitrogen);
             }
 

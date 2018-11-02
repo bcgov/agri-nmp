@@ -17,7 +17,7 @@
         public decimal CubicYardConversion { get; set; }
         public decimal Nitrate { get; set; }
 
-        public NMineralization NMineralization { get; set; }
-        public DM Dm { get; set; }
+        public NitrogenMineralization NMineralization { get; set; }
+        public DryMatter Dm { get; set; }
     }
 }

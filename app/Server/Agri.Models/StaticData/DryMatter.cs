@@ -1,6 +1,6 @@
 ﻿namespace Agri.Models.StaticData
 {
-    public class DM
+    public class DryMatter
     {
         public int Id { get; set; }
         public string Name { get; set; }

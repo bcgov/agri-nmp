@@ -2,7 +2,7 @@
 
 namespace Agri.Models.StaticData
 {
-    public class CropSTKRegion
+    public class CropSoilTestPotassiumRegion
     {
         [Key]
         public int CropId { get; set; }
