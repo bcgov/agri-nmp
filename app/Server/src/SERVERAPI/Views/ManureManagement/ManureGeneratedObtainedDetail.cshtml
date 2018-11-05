@@ -38,9 +38,9 @@
                     </div>
                     @if (Model.showWashWater)
                     {
-                    <div class="form-group col-sm-3">
+                    <div class="form-group col-sm-4">
                         <label>Milking Centre Wash Water</label>
-                        <div class="input-group">
+                        <div class="input-group col-sm-9">
                             <input class="form-control" asp-for="washWater" id="washWater" type="text" />
                             @if (!Model.stdWashWater)
                             {
@@ -49,7 +49,7 @@
                                 </span>
                             }
                         </div>
-                        <label>US gallons/day/animal)</label>
+                        <label>US gallons/day/animal</label>
                         <span asp-validation-for="washWater"></span>
                     </div>
                     }
@@ -57,22 +57,23 @@
                     {
                         @Html.HiddenFor(x => x.washWater)
                     }
+
                     @if (Model.showMilkProduction)
                     {
-                        <div class="form-group col-sm-3">
-                            <label>Milk Production</label>
-                            <div class="input-group">
-                                <input class="form-control" asp-for="milkProduction" id="milkProduction" type="text" />
-                                @if (!Model.stdMilkProduction)
-                                {
-                                    <span class="input-group-btn" title="Reset to standard value">
-                                        <button class="btn btn-default" type="button" id="rstmilkProduction" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                                    </span>
-                                }
-                            </div>
-                            <label>lb/day/animal</label>
-                            <span asp-validation-for="milkProduction"></span>
+                    <div class="form-group col-sm-3">
+                        <label>Milk Production</label>
+                        <div class="input-group">
+                            <input class="form-control" asp-for="milkProduction" id="milkProduction" type="text" />
+                            @if (!Model.stdMilkProduction)
+                            {
+                                <span class="input-group-btn" title="Reset to standard value">
+                                    <button class="btn btn-default" type="button" id="rstmilkProduction" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                </span>
+                            }
                         </div>
+                        <label>lb/day/animal</label>
+                        <span asp-validation-for="milkProduction"></span>
+                    </div>
                     }
                     else
                     {
