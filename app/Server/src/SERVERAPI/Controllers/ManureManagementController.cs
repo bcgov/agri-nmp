@@ -60,8 +60,6 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult ManureGeneratedObtainedDetail(ManureGeneratedObtainedDetailViewModel mgovm)
         {
-            string url = "";
-
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             animalTypeDetailsSetup(ref mgovm);
             try
