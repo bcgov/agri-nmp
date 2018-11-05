@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.ViewModels;
+using Microsoft.Extensions.Options;
 using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
+using SERVERAPI.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static SERVERAPI.Models.StaticData;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SERVERAPI.Controllers
 {

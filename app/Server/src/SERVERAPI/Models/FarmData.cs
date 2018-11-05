@@ -26,7 +26,7 @@ namespace SERVERAPI.Models
         public string year { get; set; }
         public List<Field> fields { get; set; }
         public List<FarmManure> farmManures { get; set; }
-
+        public List<GeneratedManure> GeneratedManures { get; set; }
     }
     public class Field
     {
@@ -139,6 +139,16 @@ namespace SERVERAPI.Models
         public int dmid { get; set; }
         public int nminerizationid { get; set; }
         public decimal? nitrate { get; set; }
+    }
+
+    public class GeneratedManure
+    {
+        public int id { get; set; }
+        public int animalId { get; set; }
+        public int animalSubTypeId { get; set; }
+        public int averageAnimalNumber { get; set; }
+        public StaticData.ManureMaterialType manureType { get; set; }
+        public decimal washWaterGallons { get; set; }
     }
 }
 
