@@ -92,6 +92,7 @@ namespace SERVERAPI.Controllers
                     }
 
                     return View(mgovm);
+
                 }
 
                 if (mgovm.buttonPressed == "ManureMaterialTypeChange")
