@@ -49,9 +49,7 @@ namespace SERVERAPI.Controllers
             }
             else
             {
-                animalDetailReset(ref mgovm);
                 animalTypeDetailsSetup(ref mgovm);
-
             }
 
             return PartialView("ManureGeneratedObtainedDetail", mgovm);
@@ -60,17 +58,20 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult ManureGeneratedObtainedDetail(ManureGeneratedObtainedDetailViewModel mgovm)
         {
+            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
             string url = "";
 
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             animalTypeDetailsSetup(ref mgovm);
             try
             {
-                if (mgovm.buttonPressed == "TypeChange")
+                if (mgovm.buttonPressed == "SubTypeChange")
                 {
                     ModelState.Clear();
                     mgovm.buttonPressed = "";
                     mgovm.btnText = "Save";
+                    mgovm.washWater = "";
+                    mgovm.milkProduction = "";
 
                     if (mgovm.selAnimalTypeOption != "" &&
                         mgovm.selAnimalTypeOption != "0" &&
@@ -78,19 +79,16 @@ namespace SERVERAPI.Controllers
                     {
                         if (mgovm.showWashWater)
                         {
-                            mgovm.washWater = _sd.GetIncludeWashWater(Convert.ToInt16(mgovm.selSubTypeOption));
+                            mgovm.washWater = calculateAnimalRequirement
+                                .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                             mgovm.stdWashWater = true;
                         }
-
                         if (mgovm.showMilkProduction)
                         {
-                            mgovm.milkProduction = _sd.GetMilkProduction(Convert.ToInt16(mgovm.selSubTypeOption));
+                            mgovm.milkProduction = calculateAnimalRequirement
+                                .GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                             mgovm.stdMilkProduction = true;
                         }
-                    }
-                    else
-                    {
-                        animalDetailReset(ref mgovm);
                     }
 
                     return View(mgovm);
@@ -110,33 +108,12 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     mgovm.buttonPressed = "";
                     mgovm.btnText = "Save";
-
-                    if (mgovm.selAnimalTypeOption != "" &&
-                        mgovm.selAnimalTypeOption != "0" &&
-                        mgovm.selAnimalTypeOption != "select animal")
-                    {
-                        mgovm.selSubTypeOption = "select subtype";
-                        mgovm.averageAnimalNumber = "";
-                        mgovm.selManureMaterialTypeOption = "select type";
-                        if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
-                            mgovm.selSubTypeOption != "select subtype")
-                        {
-                            if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
-                            {
-                                mgovm.showWashWater = true;
-                                mgovm.showMilkProduction = true;
-                            }
-                        }
-                        else
-                        {
-                            mgovm.showWashWater = false;
-                            mgovm.showMilkProduction = false;
-                        }
-                    }
-                    else
-                    {
-                        animalDetailReset(ref mgovm);
-                    }
+                    mgovm.washWater = "";
+                    mgovm.milkProduction = "";
+                    mgovm.showWashWater = false;
+                    mgovm.showMilkProduction = false;
+                    mgovm.averageAnimalNumber = "";
+                    mgovm.manureMaterialTypeOptions = new List<SelectListItem>();
 
                     return View(mgovm);
                 }
@@ -146,13 +123,9 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     mgovm.buttonPressed = "";
                     mgovm.btnText = "Save";
-
                     mgovm.stdWashWater = true;
-                    mgovm.washWater = _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption));
-                    if (mgovm.milkProduction != _sd.GetMilkProduction(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
-                    {
-                        mgovm.stdMilkProduction = false;
-                    }
+
+                    mgovm.washWater = calculateAnimalRequirement.GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                     return View(mgovm);
                 }
 
@@ -163,53 +136,35 @@ namespace SERVERAPI.Controllers
                     mgovm.btnText = "Save";
 
                     mgovm.stdMilkProduction = true;
-                    mgovm.milkProduction = _sd.GetMilkProduction(Convert.ToInt32(mgovm.selSubTypeOption));
-                    if (mgovm.washWater != _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
-                    {
-                        mgovm.stdWashWater = false;
-                    }
+                    mgovm.milkProduction = calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                     return View(mgovm);
                 }
 
-                if (mgovm.btnText == "Save")
+                if (ModelState.IsValid)
                 {
-                    ModelState.Clear();
-                    if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
-                        mgovm.selSubTypeOption != "select subtype")
+                    if (mgovm.btnText == "Save")
                     {
-                        if (mgovm.washWater !=
-                            _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                        ModelState.Clear();
+                        if (mgovm.washWater == null)
+                            calculateAnimalRequirement.washWater = null;
+                        else
+                            calculateAnimalRequirement.washWater = Convert.ToDecimal(mgovm.washWater);
+
+                        if (mgovm.milkProduction == null)
+                            calculateAnimalRequirement.milkProduction = null;
+                        else
+                            calculateAnimalRequirement.milkProduction = Convert.ToDecimal(mgovm.milkProduction);
+
+
+                        if (mgovm.washWater != calculateAnimalRequirement.GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())
                         {
                             mgovm.stdWashWater = false;
                         }
-
-                        if (mgovm.milkProduction !=
-                            _sd.GetMilkProduction(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                        if (mgovm.milkProduction != calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())
                         {
                             mgovm.stdMilkProduction = false;
                         }
                     }
-
-                    if (string.IsNullOrEmpty(mgovm.selAnimalTypeOption) ||
-                        mgovm.selAnimalTypeOption == "select animal")
-                    {
-                        ModelState.AddModelError("selAnimalTypeOption", "Required");
-                    }
-                    if (string.IsNullOrEmpty(mgovm.selSubTypeOption) ||
-                        mgovm.selSubTypeOption == "select subtype" || mgovm.selSubTypeOption == "0")
-                    {
-                        ModelState.AddModelError("selSubTypeOption", "Required");
-                    }
-                    if (string.IsNullOrEmpty(mgovm.selManureMaterialTypeOption) ||
-                        mgovm.selManureMaterialTypeOption == "select type")
-                    {
-                        ModelState.AddModelError("selManureMaterialTypeOption", "Required");
-                    }
-                    if (string.IsNullOrEmpty(mgovm.averageAnimalNumber))
-                    {
-                        ModelState.AddModelError("averageAnimalNumber", "Required");
-                    }
-                    //return View(mgovm);
                 }
             }
             catch (Exception ex)
@@ -218,13 +173,6 @@ namespace SERVERAPI.Controllers
             }
 
             return PartialView(mgovm);
-        }
-        private void animalDetailReset(ref ManureGeneratedObtainedDetailViewModel mgovm)
-        {
-            mgovm.stdWashWater = true;
-            mgovm.stdMilkProduction = true;
-
-            return;
         }
 
         private void animalTypeDetailsSetup(ref ManureGeneratedObtainedDetailViewModel mgovm)
@@ -248,6 +196,7 @@ namespace SERVERAPI.Controllers
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
                 {
+                    Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;
