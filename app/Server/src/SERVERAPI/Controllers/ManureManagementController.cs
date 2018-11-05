@@ -51,7 +51,7 @@ namespace SERVERAPI.Controllers
             {
                 animalDetailReset(ref mgovm);
                 animalTypeDetailsSetup(ref mgovm);
-                
+
             }
 
             return PartialView("ManureGeneratedObtainedDetail", mgovm);
@@ -60,8 +60,8 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult ManureGeneratedObtainedDetail(ManureGeneratedObtainedDetailViewModel mgovm)
         {
-            string url="";
-            
+            string url = "";
+
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             animalTypeDetailsSetup(ref mgovm);
             try
@@ -174,15 +174,42 @@ namespace SERVERAPI.Controllers
                 if (mgovm.btnText == "Save")
                 {
                     ModelState.Clear();
-                    if (mgovm.washWater != _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                    if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
+                        mgovm.selSubTypeOption != "select subtype")
                     {
-                        mgovm.stdWashWater = false;
+                        if (mgovm.washWater !=
+                            _sd.GetIncludeWashWater(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                        {
+                            mgovm.stdWashWater = false;
+                        }
+
+                        if (mgovm.milkProduction !=
+                            _sd.GetMilkProduction(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                        {
+                            mgovm.stdMilkProduction = false;
+                        }
                     }
 
-                    if (mgovm.milkProduction != _sd.GetMilkProduction(Convert.ToInt32(mgovm.selSubTypeOption.ToString())))
+                    if (string.IsNullOrEmpty(mgovm.selAnimalTypeOption) ||
+                        mgovm.selAnimalTypeOption == "select animal")
                     {
-                        mgovm.stdMilkProduction = false;
+                        ModelState.AddModelError("selAnimalTypeOption", "Required");
                     }
+                    if (string.IsNullOrEmpty(mgovm.selSubTypeOption) ||
+                        mgovm.selSubTypeOption == "select subtype" || mgovm.selSubTypeOption == "0")
+                    {
+                        ModelState.AddModelError("selSubTypeOption", "Required");
+                    }
+                    if (string.IsNullOrEmpty(mgovm.selManureMaterialTypeOption) ||
+                        mgovm.selManureMaterialTypeOption == "select type")
+                    {
+                        ModelState.AddModelError("selManureMaterialTypeOption", "Required");
+                    }
+                    if (string.IsNullOrEmpty(mgovm.averageAnimalNumber))
+                    {
+                        ModelState.AddModelError("averageAnimalNumber", "Required");
+                    }
+                    //return View(mgovm);
                 }
             }
             catch (Exception ex)
