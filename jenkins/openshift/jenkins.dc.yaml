@@ -374,6 +374,7 @@ objects:
     port:
       targetPort: 8080-tcp
     tls:
+      insecureEdgeTerminationPolicy: Redirect
       termination: edge
     to:
       kind: Service

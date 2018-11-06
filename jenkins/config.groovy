@@ -128,7 +128,7 @@ environments {
                 name = "${opt.'deployment-name'?:app.name}"
                 namespace = app.namespaces[env.name].namespace
                 version = "${vars.deployment.name}-${vars.deployment.env.name}" //app-version  and tag
-                host = "jenkins2${vars.deployment.suffix}-${vars.deployment.namespace}-pathfinder.gov.bc.ca"
+                host = "jenkins-agri-nmp-agri-nmp-tools.pathfinder.gov.bc.ca"
             }
         }
     }

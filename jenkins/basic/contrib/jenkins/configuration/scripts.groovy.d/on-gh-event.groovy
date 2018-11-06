@@ -59,16 +59,17 @@ static Map exec(List args, File workingDirectory=null, Appendable stdout=null, A
                     println "Is Collaborator:${isFromCollaborator} (${payload.pull_request.user.login})"
                     println "Clone Url:${cloneUrl}"
                     println "Checkout Branch:${sourceBranch}"
+                    println exec(['oc', '--namespace=agri-nmp-tools', 'delete', 'all', '-l', "app=nmp-dev-pr-${payload.number}"])
+                    println exec(['oc', '--namespace=agri-nmp-dev', 'delete', 'all', '-l', "app=nmp-dev-pr-${payload.number}"])
+                    println exec(['oc', '--namespace=agri-nmp-test', 'delete', 'all', '-l', "app=nmp-dev-pr-${payload.number}"])
 
-                    println exec(['mkdir', '-p', gitWorkDir.getAbsolutePath()])
-                    println exec(['rm', '-rf', gitWorkDir.getAbsolutePath()])
-                    println exec(['git', 'init', gitWorkDir.getAbsolutePath()])
-                    println exec(['git', 'remote', 'add', 'origin', payload.repository.clone_url], gitWorkDir)
-                    println exec(['git', 'fetch', '--no-tags', payload.repository.clone_url, "+${sourceBranch}:PR-${payload.number}"], gitWorkDir)
-                    println exec(['git', 'checkout', "PR-${payload.number}"] , gitWorkDir)
-
-                    ///Users/cvarjao/Documents/GitHub/mds/
-                    exec(['sh', '-c', "pipeline/gradlew --no-build-cache --console=plain --no-daemon -b pipeline/build.gradle cd-clean -Pargs.--config=pipeline/config.groovy -Pargs.--pr=${payload.number}"] , gitWorkDir, binding.variables.out)
+                    //println exec(['mkdir', '-p', gitWorkDir.getAbsolutePath()])
+                    //println exec(['rm', '-rf', gitWorkDir.getAbsolutePath()])
+                    //println exec(['git', 'init', gitWorkDir.getAbsolutePath()])
+                    //println exec(['git', 'remote', 'add', 'origin', payload.repository.clone_url], gitWorkDir)
+                    //println exec(['git', 'fetch', '--no-tags', payload.repository.clone_url, "+${sourceBranch}:PR-${payload.number}"], gitWorkDir)
+                    //println exec(['git', 'checkout', "PR-${payload.number}"] , gitWorkDir)
+                    //exec(['sh', '-c', "pipeline/gradlew --no-build-cache --console=plain --no-daemon -b pipeline/build.gradle cd-clean -Pargs.--config=pipeline/config.groovy -Pargs.--pr=${payload.number}"] , gitWorkDir, binding.variables.out)
                 }
             }else if ("issue_comment" == ghEventType){
                 def payload = new JsonSlurper().parseText(ghPayload)
