@@ -257,5 +257,12 @@ namespace SERVERAPI.Controllers
             }
             return;
         }
+
+
+        [HttpGet]
+        public IActionResult ManureStorageSystems()
+        {
+            return View();
+        }
     }
 }
