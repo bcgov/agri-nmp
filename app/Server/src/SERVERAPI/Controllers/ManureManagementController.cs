@@ -264,5 +264,35 @@ namespace SERVERAPI.Controllers
         {
             return View();
         }
+
+        public IActionResult ManureStorageDetail()
+        {
+            var msvm = new ManureStorageViewModel();
+            msvm.Title = "Add";
+
+            //msvm.ManureMaterialTypeOptions = _sd.GetManureMaterialTypesDll();
+            msvm.ManureMaterialTypeOptions = _sd.GetManureMaterialTypes().manureMaterialTypes;
+            msvm.GeneratedManures = new List<GeneratedManure>
+            {
+                new GeneratedManure
+                {
+                    animalId = 1, animalSubTypeId = 1, manureType = new ManureMaterialType{ id = 2, name = "Liquid"}
+                }
+            };
+
+            return PartialView("ManureStorageDetail", msvm);
+        }
+
+        public IActionResult ManureStorageDetail(ManureStorageViewModel msvm)
+        {
+
+            if (msvm.ButtonPressed == "ManureMaterialTypeChange")
+            {
+                var placeHolder = _sd.GetUserPrompt("storagesystemnameplaceholder");
+                msvm.Placeholder = string.Format(placeHolder, msvm.SelectedManureMaterialType);
+            }
+
+            return PartialView(msvm);
+        }
     }
 }

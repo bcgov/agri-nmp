@@ -7,6 +7,15 @@
 }
 
 
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog" id="divSize">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
 <!-- BODY CONTENT -->
 
 <div class="header-height"></div>
@@ -18,7 +27,7 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
         <form asp-controller="ManureManagement" asp-action="ManureStorage" method="post" id="modForm">
-            <div id="ManureStorageList">
+            <div id="ManureStorage">
                 @await Component.InvokeAsync("ManureStorage")
             </div>
         </form>
@@ -32,4 +41,55 @@
 
 @section Scripts {
 
+
+    <script type="text/javascript">
+
+        // ensure this event handler is attached to current and future elements (after partial renders)
+        $(document).on("click", '[data_modal]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").removeClass("modal-carousel");
+            $("#divSize").addClass("modal-large");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+
+        function bindForm(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+
+        $(".modal").on("hidden.bs.modal", function () {
+            $(".myModalContent").html("");
+        });
+
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlManureMaterialType", function () {
+                $('#buttonPressed').val("ManureMaterialTypeChange");
+                $("#modForm").submit();
+            })
+        });
+    </script>
 }

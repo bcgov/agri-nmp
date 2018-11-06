@@ -9198,6 +9198,11 @@
             "id": "29",
             "name": "averageanimalnumberplaceholder",
             "text": "e.g. 10"
+          },
+          {
+            "id": "30",
+            "name": "storagesystemnameplaceholder",
+            "text": "e.g. {0} Storage System"
           }
         ]
       },

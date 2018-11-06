@@ -1,14 +1,11 @@
-﻿@model SERVERAPI.ViewModels.ManureStorageViewModel
-
-<div>
+﻿<div>
     <div class="form-box">
         <div class="form-box-header clearfix">
             <legend class="form-box-heading">Manure Storage</legend>
         </div>
         <div class="form-box-body">
             <div class="form-box-table-first text-center">
-                <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("", "ManureManagement", new {target = "#manuregeneratedobtained"})">Add Storage System
-                    </button>
+                <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {target = "#ManureStorage"})">Add Storage System</button>
             </div>
             <div class="form-box-submit">
                 <input class="form-box-submit-button btn btn-primary" type="button" value="Next" title="Next" aria-label="Next" />
