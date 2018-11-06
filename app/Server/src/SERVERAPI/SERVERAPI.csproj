@@ -24,7 +24,19 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Mappings\**" />
+    <Compile Remove="Migrations\**" />
+    <Compile Remove="Services\**" />
     <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
+    <Content Remove="Mappings\**" />
+    <Content Remove="Migrations\**" />
+    <Content Remove="Services\**" />
+    <EmbeddedResource Remove="Mappings\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Mappings\**" />
+    <None Remove="Migrations\**" />
+    <None Remove="Services\**" />
     <Content Remove="Data\static.json" />
     <None Remove="PDF.js" />
     <Content Include="PDF.js">
@@ -51,11 +63,8 @@
     <EmbeddedResource Include="Data\static.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Mappings\" />
-    <Folder Include="Migrations\" />
     <Folder Include="UserAgent\" />
     <Folder Include="Services.Impl\" />
-    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Views\Home\temp.cshtml" />
