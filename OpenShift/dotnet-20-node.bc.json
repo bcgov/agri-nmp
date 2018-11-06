@@ -14,6 +14,9 @@
             "value": ""
         },
         {
+            "name": "ENV_NAME"
+        },
+        {
             "name": "SOURCE_REPOSITORY_URL",
             "displayName": "SOURCE_REPOSITORY_URL",
             "description": "The GIT repository URL",
@@ -70,7 +73,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "dotnet-20-node${NAME_SUFFIX}:latest"
+                        "name": "dotnet-20-node${NAME_SUFFIX}:${ENV_NAME}"
                     }
                 },
                 "resources": {},
