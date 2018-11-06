@@ -1,0 +1,68 @@
+#!/bin/sh
+
+source /usr/local/bin/jenkins-util-lib.sh
+
+generate_passwd_file
+
+JENKINS_JAVA_CMD="/usr/bin/java"
+CONTAINER_MEMORY_IN_BYTES=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)
+CONTAINER_MEMORY_IN_MB=$((CONTAINER_MEMORY_IN_BYTES/2**20))
+#Container Memory Limit - 5 Megabytes
+JAVA_MAX_METASPACE_SIZE=$(awk '{ printf "%d", (($1 / 1024) - (1024*5)) }' < /sys/fs/cgroup/memory/memory.limit_in_bytes)
+
+DEFAULT_JAVA_TOOL_OPTIONS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dsun.zip.disableMemoryMapping=true"
+DEFAULT_JENKINS_MEM_OPTS="-XX:MaxRAMFraction=2 -XX:MaxMetaspaceSize=${JAVA_MAX_METASPACE_SIZE}k"
+DEFAULT_JAVA_GC_OPTS="-XshowSettings:vm -XX:+PrintFlagsFinal -XX:NativeMemoryTracking=summary -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=19 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:ParallelGCThreads=2"
+DEFAULT_JAVA_DIAGNOSTICS="-XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintGCDetails -XX:+UnlockDiagnosticVMOptions -Xloggc:/var/log/jenkins/gc.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=100M"
+
+# jstat -gc 1
+
+if [[ -z "${JAVA_TOOL_OPTIONS}" ]]; then
+  # these options will automatically be picked up by any JVM process but can
+  # be overridden on that process' command line.
+  JAVA_TOOL_OPTIONS="${DEFAULT_JAVA_TOOL_OPTIONS}"
+  export JAVA_TOOL_OPTIONS
+fi
+
+# -XX:MetaspaceSize=<NNN>
+# -XX:MaxMetaspaceSize=<NNN>
+
+if [[ -z "$JENKINS_MEM_OPTS" ]]; then
+  JENKINS_MEM_OPTS="${DEFAULT_JENKINS_MEM_OPTS}"
+fi
+JENKINS_MEM_OPTS="${JENKINS_MEM_OPTS} ${JENKINS_MEM_OPTS_APPEND}"
+
+if [[ -z "$JAVA_GC_OPTS" ]]; then
+  JAVA_GC_OPTS="${DEFAULT_JAVA_GC_OPTS}"
+fi
+JAVA_GC_OPTS="${JAVA_GC_OPTS} ${JAVA_GC_OPTSAPPEND}"
+
+if [[ "${USE_JAVA_DIAGNOSTICS}" ]]; then
+  JAVA_DIAGNOSTICS="${DEFAULT_JAVA_DIAGNOSTICS} ${JAVA_DIAGNOSTICS_APPEND}"
+fi
+
+JENKINS_OPTIONS="${JENKINS_OPTIONS} ${JENKINS_OPTIONS_APPEND}"
+
+if [[ -z "${JENKINS_JAVA_OPTIONS}" ]]; then
+    JENKINS_JAVA_OPTIONS="$JENKINS_MEM_OPTS $JAVA_GC_OPTS $JAVA_DIAGNOSTICS -Dfile.encoding=UTF8 -XX:ErrorFile=/var/lib/jenkins/logs/jvm.error.log  $JENKINS_OPTIONS"
+fi
+
+JENKINS_JAVA_OPTIONS="${JENKINS_JAVA_OPTIONS} ${JENKINS_JAVA_OPTIONS_APPEND}"
+
+echo "JAVA_GC_OPTS=${JAVA_GC_OPTS}"
+echo "JAVA_DIAGNOSTICS=${JAVA_DIAGNOSTICS}"
+echo "JENKINS_OPTIONS=${JENKINS_OPTIONS}"
+echo "JENKINS_JAVA_OPTIONS=${JENKINS_JAVA_OPTIONS}"
+
+JAVA_CMD="$JENKINS_JAVA_CMD $JENKINS_JAVA_OPTIONS -jar /usr/lib/jenkins/swarm-client.jar"
+PARAMS="-name '$(cat /etc/hostname)' -deleteExistingClients -disableClientsUniqueId -disableSslVerification"
+PARAMS="$PARAMS -fsroot '$JENKINS_HOME/$(cat /etc/hostname)'"
+PARAMS="$PARAMS -master http://$JENKINS_MASTER_SERVICE:8080"
+PARAMS="$PARAMS -username  '$(cat /var/run/secrets/jenkins-slave-user/username)'"
+PARAMS="$PARAMS -passwordFile /var/run/secrets/jenkins-slave-user/password -description '$(cat /etc/hostname)'"
+PARAMS="$PARAMS -executors 3"
+PARAMS="$PARAMS -labels 'Linux rhel rhel7 build test deploy light'"
+PARAMS="$PARAMS -mode 'normal' -retry 10 -tunnel $JENKINS_MASTER_SERVICE:50000"
+
+set -x
+exec $JAVA_CMD $PARAMS
