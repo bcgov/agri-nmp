@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+
+
+@{
+    ViewBag.Title = "Manure Storage Systems";
+}
+
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<br />
+<br />
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="ManureManagement" asp-action="ManureStorage" method="post" id="modForm">
+            <div id="ManureStorageList">
+                @await Component.InvokeAsync("ManureStorage")
+            </div>
+        </form>
+        <!-- PAGE CONTENT -->
+    </div>
+</div>
+
+<!-- /BODY CONTENT -->
+
+
+
+@section Scripts {
+
+}

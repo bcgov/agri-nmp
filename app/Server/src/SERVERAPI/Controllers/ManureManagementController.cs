@@ -260,7 +260,7 @@ namespace SERVERAPI.Controllers
 
 
         [HttpGet]
-        public IActionResult ManureStorageSystems()
+        public IActionResult ManureStorage()
         {
             return View();
         }
