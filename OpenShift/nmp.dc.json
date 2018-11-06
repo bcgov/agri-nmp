@@ -324,7 +324,7 @@
             "metadata": {
                 "name": "nmp${NAME_SUFFIX}",
                 "creationTimestamp": null,
-                "labels": null,
+                "labels": {"frontend": "true"  },
                 "annotations": {
                     "template.openshift.io.bcgov/tls-secret-name.prod": "nmp-route-cert${NAME_SUFFIX}"
                 }

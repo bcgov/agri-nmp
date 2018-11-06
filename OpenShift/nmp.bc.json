@@ -21,7 +21,9 @@
             "displayName": "SOURCE_REPOSITORY_URL",
             "description": "The suffix for all created objects",
             "required": false,
-            "value": "https://github.com/cvarjao/agri-nmp.git"
+            "value": "https://github.com/bcgov/agri-nmp.git"
+        },{
+            "name": "ENV_NAME"
         }
     ],
     "objects": [
@@ -98,7 +100,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "nmp${NAME_SUFFIX}:latest"
+                        "name": "nmp${NAME_SUFFIX}:${ENV_NAME}"
                     }
                 },
                 "resources": {
@@ -146,7 +148,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-20-node${NAME_SUFFIX}:latest"
+                            "name": "dotnet-20-node${NAME_SUFFIX}:${ENV_NAME}"
                         },
                         "env": [
                             {
@@ -164,7 +166,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "pdf${NAME_SUFFIX}:latest"
+                        "name": "pdf${NAME_SUFFIX}:${ENV_NAME}"
                     }
                 },
                 "resources": {},
