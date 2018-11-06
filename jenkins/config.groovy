@@ -68,7 +68,7 @@ app {
         timeoutInSeconds = 60*20 // 20 minutes
         templates = [
                 [
-                    'file':'https://raw.githubusercontent.com/cvarjao-o/openshift-templates/stable/jenkins/jenkins.dc.yaml',
+                    'file':'openshift/jenkins.dc.yaml',
                     'params':[
                         'NAME':app.deployment.name,
                         'BC_NAME':app.build.name,
@@ -128,7 +128,7 @@ environments {
                 name = "${opt.'deployment-name'?:app.name}"
                 namespace = app.namespaces[env.name].namespace
                 version = "${vars.deployment.name}-${vars.deployment.env.name}" //app-version  and tag
-                host = "${vars.deployment.name}${vars.deployment.suffix}-${vars.deployment.namespace}-pathfinder.gov.bc.ca"
+                host = "jenkins2${vars.deployment.suffix}-${vars.deployment.namespace}-pathfinder.gov.bc.ca"
             }
         }
     }
