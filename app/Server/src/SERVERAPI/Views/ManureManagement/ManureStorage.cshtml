@@ -87,8 +87,9 @@
 
         $(document).ready(function () {
             $("body").on("change", "#ddlManureMaterialType", function () {
-                $('#buttonPressed').val("ManureMaterialTypeChange");
+                $('#ButtonPressed').val("ManureMaterialTypeChange");
                 $("#modForm").submit();
+                $("#SystemName").enabled = true;
             })
         });
     </script>

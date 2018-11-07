@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using MvcRendering = Microsoft.AspNetCore.Mvc.Rendering;
 using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
 using static SERVERAPI.Models.StaticData;
+using StaticData = SERVERAPI.Models.StaticData;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -236,14 +238,14 @@ namespace SERVERAPI.Controllers
             mgovm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
 
             mgovm.subTypeOptions = new List<Models.StaticData.SelectListItem>();
-            mgovm.manureMaterialTypeOptions = new List<Models.StaticData.SelectListItem>();
-            mgovm.manureMaterialTypeOptions = _sd.GetManureMaterialTypesDll().ToList();
+            //mgovm.manureMaterialTypeOptions = new List<Models.StaticData.SelectListItem>();
+            //mgovm.manureMaterialTypeOptions = _sd.GetManureMaterialTypesDll().ToList();
 
             if (!string.IsNullOrEmpty(mgovm.selAnimalTypeOption) &&
                 mgovm.selAnimalTypeOption != "select animal")
             {
                 mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
-                mgovm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select subtype" });
+                mgovm.subTypeOptions.Insert(0, new StaticData.SelectListItem() { Id = 0, Value = "select subtype" });
 
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
@@ -265,34 +267,86 @@ namespace SERVERAPI.Controllers
             return View();
         }
 
+        private List<GeneratedManure> SampleGeneratedManures = new List<GeneratedManure>
+        {
+            new GeneratedManure
+            {
+                animalId = 1,
+                animalSubTypeId = 1,
+                animalSubTypeName = "Cow, including calf to weaning",
+                manureType = ManureMaterialType.Solid
+            },
+            new GeneratedManure
+            {
+                animalId = 1,
+                animalSubTypeId = 3,
+                animalSubTypeName = "Heavy Feeders",
+                manureType = ManureMaterialType.Solid
+            },
+            new GeneratedManure
+            {
+                animalId = 2,
+                animalSubTypeId = 4,
+                animalSubTypeName = "Calves (0 to 3 months old)",
+                manureType = ManureMaterialType.Liquid
+            },
+            new GeneratedManure
+            {
+                animalId = 2,
+                animalSubTypeId = 9,
+                animalSubTypeName = "Milking Cow",
+                manureType = ManureMaterialType.Liquid
+            }
+        };
         public IActionResult ManureStorageDetail()
         {
-            var msvm = new ManureStorageViewModel();
-            msvm.Title = "Add";
-
-            //msvm.ManureMaterialTypeOptions = _sd.GetManureMaterialTypesDll();
-            msvm.ManureMaterialTypeOptions = _sd.GetManureMaterialTypes().manureMaterialTypes;
-            msvm.GeneratedManures = new List<GeneratedManure>
+            //TODO: Remove Sample Data
+            ViewBag.SampleGeneratedManures = SampleGeneratedManures;
+            var msvm = new ManureStorageViewModel
             {
-                new GeneratedManure
-                {
-                    animalId = 1, animalSubTypeId = 1, manureType = new ManureMaterialType{ id = 2, name = "Liquid"}
-                }
+                //ManureMaterialTypeOptions = _sd.GetManureMaterialTypesDll(),
+                Title = "Add"
             };
+
 
             return PartialView("ManureStorageDetail", msvm);
         }
 
+
+
+        [HttpPost]
         public IActionResult ManureStorageDetail(ManureStorageViewModel msvm)
         {
-
+            //TODO: Remove Sample Data
+            ViewBag.SampleGeneratedManures = SampleGeneratedManures;
             if (msvm.ButtonPressed == "ManureMaterialTypeChange")
             {
-                var placeHolder = _sd.GetUserPrompt("storagesystemnameplaceholder");
-                msvm.Placeholder = string.Format(placeHolder, msvm.SelectedManureMaterialType);
+                ModelState.Clear();
+                msvm.ButtonPressed = "";
+
+                var selectedTypeMsg = msvm.SelectedManureMaterialType == ManureMaterialType.Solid ? "Solid" : "Liquid";
+                var systemTypeCount = string.Empty;
+                var placeHolder = string.Format(_sd.GetUserPrompt("storagesystemnameplaceholder"), selectedTypeMsg, systemTypeCount);
+
+                var multiSelectList = new MvcRendering.MultiSelectList(SampleGeneratedManures
+                    .Where(g => g.manureType == msvm.SelectedManureMaterialType), "id", "animalSubTypeName");
+
+                msvm.GeneratedManures = multiSelectList;
+
+                msvm.Placeholder = placeHolder;
             }
 
             return PartialView(msvm);
+        }
+
+        private void GetFilteredGeneratedManures(ManureStorageViewModel msvm)
+        {
+            
+        }
+
+        private void ManureStorageViewModelSetup(ManureStorageViewModel msvm)
+        {
+            //msvm.ManureMaterialTypeOptions = 
         }
     }
 }

@@ -2015,41 +2015,6 @@ namespace SERVERAPI.Models.Impl
             return animalSubTypesOptions;
         }
 
-        public Models.StaticData.ManureMaterialTypes GetManureMaterialTypes()
-        {
-            // var result = new ManureMaterialTypes {manureMaterialTypes = new List<ManureMaterialType>()};
-            Models.StaticData.ManureMaterialTypes manureMaterialTypes = new Models.StaticData.ManureMaterialTypes();
-            manureMaterialTypes.manureMaterialTypes = new List<Models.StaticData.ManureMaterialType>();
-
-            JArray array = (JArray)rss["agri"]["nmp"]["manureMaterialTypes"]["manureMaterialType"];
-
-            foreach (var record in array)
-            {
-                Models.StaticData.ManureMaterialType manureMaterialType = new Models.StaticData.ManureMaterialType();
-                manureMaterialType.id = Convert.ToInt32(record["id"].ToString());
-                manureMaterialType.name = record["name"].ToString();
-                manureMaterialTypes.manureMaterialTypes.Add(manureMaterialType);
-            }
-
-            return manureMaterialTypes;
-        }
-
-        public List<Models.StaticData.SelectListItem> GetManureMaterialTypesDll()
-        {
-            Models.StaticData.ManureMaterialTypes manureMaterialTypes = GetManureMaterialTypes();
-
-            List<Models.StaticData.SelectListItem> manureMaterialTypeOptions = new List<Models.StaticData.SelectListItem>();
-
-            foreach (var r in manureMaterialTypes.manureMaterialTypes)
-            {
-                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem()
-                    { Id = r.id, Value = r.name };
-                manureMaterialTypeOptions.Add(li);
-            }
-
-            return manureMaterialTypeOptions;
-        }
-
         public Models.StaticData.AnimalsUsingWashWater GetAnimalsUsingWashWater()
         {
             var animalsUsingWashWater = new AnimalsUsingWashWater();

@@ -9202,7 +9202,7 @@
           {
             "id": "30",
             "name": "storagesystemnameplaceholder",
-            "text": "e.g. {0} Storage System"
+            "text": "e.g. {0} Storage System {1}"
           }
         ]
       },
@@ -9774,7 +9774,7 @@
           },
           {
             "id": 3,
-            "name": "Solid Liquid Separated"
+            "name": "Liquid Solid Separation"
           }
         ]
       }
