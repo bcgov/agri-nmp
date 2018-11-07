@@ -3,6 +3,7 @@ using SERVERAPI.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SERVERAPI.ViewModels;
 using static SERVERAPI.Models.StaticData;
 
 namespace SERVERAPI.Models.Impl
@@ -784,6 +785,34 @@ namespace SERVERAPI.Models.Impl
             yd.GeneratedManures.Remove(generatedManure);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void AddManureStorageSystem(ManureStorageSystem storageSystem)
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            
+            if (yd.ManureStorageSystems == null)
+            {
+                yd.ManureStorageSystems = new List<ManureStorageSystem>();
+                storageSystem.Id = 1;
+            }
+            else
+            {
+                storageSystem.Id = yd.ManureStorageSystems.Select(m => m.Id).Max() + 1;
+            }
+
+            yd.ManureStorageSystems.Add(storageSystem);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public List<ManureStorageSystem> GetStorageSystems()
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            return yd?.ManureStorageSystems;
         }
     }
 }

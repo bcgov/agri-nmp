@@ -27,6 +27,7 @@ namespace SERVERAPI.Models
         public List<Field> fields { get; set; }
         public List<FarmManure> farmManures { get; set; }
         public List<GeneratedManure> GeneratedManures { get; set; }
+        public List<ManureStorageSystem> ManureStorageSystems { get; set; }
     }
     public class Field
     {
@@ -150,6 +151,30 @@ namespace SERVERAPI.Models
         public int averageAnimalNumber { get; set; }
         public StaticData.ManureMaterialType manureType { get; set; }
         public decimal washWaterGallons { get; set; }
+        public bool AssignedToStoredSystem { get; set; }
+    }
+
+    public class ManureStorageSystem
+    {
+        public ManureStorageSystem()
+        {
+            ManureStorageStructures = new List<ManureStorageStructure>();
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public StaticData.ManureMaterialType ManureMaterialType { get; set; }
+        public List<GeneratedManure> MaterialsIncludedInSystem { get; set; }
+        public bool GetsRunoffFromRoofsOrYards { get; set; }
+        public bool IncludeRunoff => RooftopsAreaSquareFeetIncludedInRunoff > 0;
+        public int RooftopsAreaSquareFeetIncludedInRunoff { get; set; }
+        public List<ManureStorageStructure> ManureStorageStructures { get; set; }
+    }
+
+    public class ManureStorageStructure
+    {
+        public int Id { get; set; }
+        public int Name { get; set; }
+        public int UncoveredAreaSquareFeet { get; set; }
     }
 }
 

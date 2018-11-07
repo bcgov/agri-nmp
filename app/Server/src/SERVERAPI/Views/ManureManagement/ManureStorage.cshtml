@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http;
 
 
-
 @{
     ViewBag.Title = "Manure Storage Systems";
 }
@@ -26,6 +25,7 @@
 <div class="container">
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
+
         <form asp-controller="ManureManagement" asp-action="ManureStorage" method="post" id="modForm">
             <div id="ManureStorage">
                 @await Component.InvokeAsync("ManureStorage")
@@ -80,16 +80,63 @@
             });
         }
 
+        $(document).ready(function () {
+            $("#wizard-manureGenerated").addClass('wizard-item-done');
+        });
+
+
+        $(document).on("click", '[data_modalI]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").removeClass("modal-large");
+            $("#divSize").addClass("modal-carousel");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindFormI(this);
+            });
+            return false;
+        });
+
         $(".modal").on("hidden.bs.modal", function () {
             $(".myModalContent").html("");
         });
+
+        function bindFormI(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $("#divSize").removeClass("modal-carousel");
+                            $('#myModal').modal('hide');
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindFormI(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
 
 
         $(document).ready(function () {
             $("body").on("change", "#ddlManureMaterialType", function () {
                 $('#ButtonPressed').val("ManureMaterialTypeChange");
                 $("#modForm").submit();
-                $("#SystemName").enabled = true;
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlSelectedMaterialsToInclude", function () {
+                $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
+                $("#modForm").submit();
             })
         });
     </script>
