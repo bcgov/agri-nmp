@@ -634,6 +634,7 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selSubTypeOption { get; set; }
+        public string subTypeName { get; set; }
         public List<Models.StaticData.SelectListItem> subTypeOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
@@ -651,7 +652,16 @@ namespace SERVERAPI.ViewModels
         public bool stdMilkProduction { get; set; }
         public string buttonPressed { get; set; }
         public string placehldr { get; set; }
+        public string target { get; set; }
+        public int? id { get; set; }
+    }
 
+    public class ManureGeneratedObtainedDeleteViewModel
+    {
+        public string title { get; set; }
+        public int id { get; set; }
+        [Display(Name = "SubType")]
+        public string subTypeName { get; set; }
         public string target { get; set; }
     }
 }
