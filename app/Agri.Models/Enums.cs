@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Agri.Models.Configuration
+namespace Agri.Models
 {
     public enum ManureMaterialType
     {
