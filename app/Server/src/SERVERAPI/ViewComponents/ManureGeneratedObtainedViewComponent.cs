@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models;
 using SERVERAPI.ViewModels;
 
 namespace SERVERAPI.ViewComponents
@@ -22,11 +23,24 @@ namespace SERVERAPI.ViewComponents
         {
             return View(await GetManureGeneratedObtainedAsync());
         }
-         
-        private Task<ManureGeneratedObtainedDetailViewModel> GetManureGeneratedObtainedAsync()
+
+        private Task<ManureGeneratedDetailViewModel> GetManureGeneratedObtainedAsync()
         {
-            ManureGeneratedObtainedDetailViewModel fvm = new ManureGeneratedObtainedDetailViewModel();
-            return Task.FromResult(fvm);
+            ManureGeneratedDetailViewModel mgovm = new ManureGeneratedDetailViewModel();
+            mgovm.generatedManures = new List<GeneratedManure>();
+
+            List<GeneratedManure> generatedManureList = _ud.GetGeneratedManures();
+            foreach (var gml in generatedManureList)
+            {
+                mgovm.generatedManures.Add(gml);
+            }
+
+            return Task.FromResult(mgovm);
+        }
+
+        public class ManureGeneratedDetailViewModel
+        {
+            public List<GeneratedManure> generatedManures { get; set; }
         }
     }
 }

@@ -1994,6 +1994,22 @@ namespace SERVERAPI.Models.Impl
             return animalSubTypes;
         }
 
+        public Models.StaticData.AnimalSubType GetAnimalSubType(int id)
+        {
+            JArray array = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
+            JObject rec = array.Children<JObject>()
+                .FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
+            Models.StaticData.AnimalSubType animalSubType = new Models.StaticData.AnimalSubType();
+            animalSubType.id = Convert.ToInt32(rec["id"].ToString());
+            animalSubType.name = rec["name"].ToString();
+            animalSubType.solidPerPoundPerAnimalPerDay = rec["solidPerPoundPerAnimalPerDay"].ToString() == ""? (decimal?)null
+                : Convert.ToDecimal(rec["solidPerPoundPerAnimalPerDay"].ToString());
+            animalSubType.liquidPerGalPerAnimalPerDay = rec["liquidPerGalPerAnimalPerDay"].ToString() == "" ? (decimal?)null
+                : Convert.ToDecimal(rec["liquidPerGalPerAnimalPerDay"].ToString());
+            animalSubType.animalId = Convert.ToInt32(rec["animalId"].ToString());
+            return animalSubType;
+        }
+
         public List<Models.StaticData.SelectListItem> GetSubtypesDll(int animalType)
         {
             Models.StaticData.AnimalSubTypes animalSubTypes = GetAnimalSubTypes();
@@ -2015,6 +2031,16 @@ namespace SERVERAPI.Models.Impl
             return animalSubTypesOptions;
         }
 
+        public string GetAnimalSubTypeName(int id)
+        {
+            JArray array = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
+            JObject rec = array.Children<JObject>()
+                .FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
+            Models.StaticData.AnimalSubType animalSubType = new Models.StaticData.AnimalSubType();
+            animalSubType.name = rec["name"].ToString();
+
+            return animalSubType.name;
+        }
         public Models.StaticData.AnimalsUsingWashWater GetAnimalsUsingWashWater()
         {
             var animalsUsingWashWater = new AnimalsUsingWashWater();

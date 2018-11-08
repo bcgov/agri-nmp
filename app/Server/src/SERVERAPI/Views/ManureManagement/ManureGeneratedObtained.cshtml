@@ -128,7 +128,7 @@
 
         $(document).ready(function () {
             $("body").on("change", "#ddlSubType", function () {
-                $('#buttonPressed').val("TypeChange");
+                $('#buttonPressed').val("SubTypeChange");
                 $("#modForm").submit();
             })
         });
@@ -141,8 +141,12 @@
         });
 
         $(document).on('change',
-            '#washWater',
-            function() {
+            '#averageAnimalNumber', function () {
+                NeedRefresh();
+            });
+
+        $(document).on('change',
+            '#washWater', function () {
                 NeedRefresh();
             });
  
