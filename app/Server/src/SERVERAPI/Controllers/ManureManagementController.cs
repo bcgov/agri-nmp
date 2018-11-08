@@ -275,6 +275,7 @@ namespace SERVERAPI.Controllers
 
                 if (id.HasValue)
                 {
+                    msvm.DisableForEditMode = true;
                     var savedStorageSystem = _ud.GetStorageSystem(id.Value);
                     msvm.SystemName = savedStorageSystem.Name;
                     msvm.SelectedManureMaterialType = savedStorageSystem.ManureMaterialType;

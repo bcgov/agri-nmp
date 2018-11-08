@@ -15,7 +15,9 @@
                 <div class="form-group">
                     <div class="form-group col-sm-3">
                         <label asp-for="SelectedManureMaterialType">Liquid or Solid</label>
-                        <select class="form-control" asp-for="SelectedManureMaterialType" asp-items="@(Html.GetEnumSelectList<StaticData.ManureMaterialType>())" id="ddlManureMaterialType">
+                        <select class="form-control" asp-for="SelectedManureMaterialType" 
+                                asp-items="@(Html.GetEnumSelectList<StaticData.ManureMaterialType>())" id="ddlManureMaterialType"
+                                disabled="@(Model.DisableForEditMode ? "disabled" : null)">
                             <option>Select Manure Type</option>
                         </select>
                         <span asp-validation-for="SelectedManureMaterialType" class="text-danger"></span>

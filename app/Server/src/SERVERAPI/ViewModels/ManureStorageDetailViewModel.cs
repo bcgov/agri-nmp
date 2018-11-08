@@ -24,6 +24,7 @@ namespace SERVERAPI.ViewModels
         public string Placeholder { get; set; }
         public string ButtonText { get; set; }
         public string ButtonPressed { get; set; }
+        public bool DisableForEditMode { get; set; }
     }
 
 }
