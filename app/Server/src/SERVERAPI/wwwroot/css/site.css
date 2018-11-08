@@ -222,3 +222,8 @@ body {
             background-color: transparent;
             text-decoration: underline;
         }
+
+
+.field-validation-valid {
+    display: none;
+}
