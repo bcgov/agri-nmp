@@ -2,7 +2,7 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "dotnet-20",
+        "name": "dotnet-21",
         "creationTimestamp": null
     },
     "parameters": [
@@ -11,7 +11,7 @@
             "displayName": "Name",
             "description": "The name for all created objects",
             "required": true,
-            "value": "dotnet-20"
+            "value": "dotnet-21"
         }
     ],
     "objects": [
@@ -19,7 +19,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-20-rhel7${NAME_SUFFIX}",
+                "name": "dotnet-21-rhel7${NAME_SUFFIX}",
                 "creationTimestamp": null,
                 "annotations": null
             },
@@ -29,11 +29,11 @@
                 },
                 "tags": [
                     {
-                        "name": "2.0",
+                        "name": "2.1",
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-20-rhel7"
+                            "name": "registry.access.redhat.com/dotnet/dotnet-21-rhel7"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
@@ -41,11 +41,11 @@
                         }
                     },
                     {
-                        "name": "2.0-14",
+                        "name": "2.1-10",
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-20-rhel7"
+                            "name": "registry.access.redhat.com/dotnet/dotnet-21-rhel7"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
@@ -59,7 +59,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-20-runtime-rhel7${NAME_SUFFIX}",
+                "name": "dotnet-21-runtime-rhel7${NAME_SUFFIX}",
                 "creationTimestamp": null,
                 "annotations": null
             },
@@ -69,11 +69,11 @@
                 },
                 "tags": [
                     {
-                        "name": "2.0",
+                        "name": "2.1",
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-20-runtime-rhel7"
+                            "name": "registry.access.redhat.com/dotnet/dotnet-21-runtime-rhel7"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
@@ -81,11 +81,11 @@
                         }
                     },
                     {
-                        "name": "2.0-14",
+                        "name": "2.1-10",
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-20-runtime-rhel7"
+                            "name": "registry.access.redhat.com/dotnet/dotnet-21-runtime-rhel7"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
