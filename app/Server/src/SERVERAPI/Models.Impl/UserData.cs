@@ -812,7 +812,7 @@ namespace SERVERAPI.Models.Impl
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
-            return yd?.ManureStorageSystems;
+            return yd?.ManureStorageSystems ?? new List<ManureStorageSystem>();
         }
 
         public ManureStorageSystem GetStorageSystem(int id)

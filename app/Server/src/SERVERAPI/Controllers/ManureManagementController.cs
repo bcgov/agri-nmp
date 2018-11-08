@@ -313,9 +313,9 @@ namespace SERVERAPI.Controllers
                     var selectedTypeMsg = msdvm.SelectedManureMaterialType == ManureMaterialType.Solid
                         ? "Solid"
                         : "Liquid";
-                    var systemTypeCount = string.Empty;
-                    var placeHolder = string.Format(_sd.GetUserPrompt("storagesystemnameplaceholder"), selectedTypeMsg,
-                        systemTypeCount);
+                    var systemTypeCount = _ud.GetStorageSystems().Count(ss => ss.ManureMaterialType == msdvm.SelectedManureMaterialType);
+                    var systemTypeCountMsg = systemTypeCount > 0 ? (systemTypeCount + 1).ToString() : string.Empty;
+                    var placeHolder = string.Format(_sd.GetUserPrompt("storagesystemnameplaceholder"), selectedTypeMsg, systemTypeCountMsg);
 
                     msdvm.Placeholder = placeHolder;
                 }
