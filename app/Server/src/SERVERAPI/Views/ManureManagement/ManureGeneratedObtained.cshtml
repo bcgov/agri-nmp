@@ -141,8 +141,12 @@
         });
 
         $(document).on('change',
-            '#washWater',
-            function() {
+            '#averageAnimalNumber', function () {
+                NeedRefresh();
+            });
+
+        $(document).on('change',
+            '#washWater', function () {
                 NeedRefresh();
             });
  

@@ -145,6 +145,7 @@ namespace SERVERAPI.Models
     {
         public int? id { get; set; }
         public int animalId { get; set; }
+        public string animalName { get; set; }
         public int animalSubTypeId { get; set; }
         public string subTypeName { get; set; }
         public int averageAnimalNumber { get; set; }
