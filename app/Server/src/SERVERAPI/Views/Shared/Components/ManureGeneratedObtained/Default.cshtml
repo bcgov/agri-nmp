@@ -1,52 +1,58 @@
 ﻿@model ManureGeneratedObtained.ManureGeneratedDetailViewModel
 <style>
-    .row:nth-child(odd) {
-        background: #e0e0e0;
+    .box:nth-of-type(odd) {
+        background-color:#fff;
+    }
+
+    .box:nth-of-type(even) {
+        background-color:#eee;
     }
 </style>
-    <div>
-        @if (Model.generatedManures.Count == 0)
-        {
-            <div class="form-box">
-                <div class="form-box-header clearfix">
-                    <legend class="form-box-heading">Manure Generated/Obtained</legend>
-                </div>
-                <div class="form-box-body">
-                    <div class="form-box-table">
-                        <div class="form-box-table-row form-box-table-header row row-eq-height">
-                            <div class="col-sm-12 form-box-table-cell" ></div>
-                        </div>
-                    </div>
-                    <div class="form-box-table-first text-center">
-                        <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureGeneratedObtainedDetail", "ManureManagement", new {target = "#manuregeneratedobtained"})">Add Animal</button>
-                    </div>
-                    @*<div class="form-box-submit">
-                            <input class="form-box-submit-button btn btn-primary" type="button" value="Next" title="Next" aria-label="Next"/>
-                        </div>*@
-                </div>
-            </div>
-        }
 
-        @if (Model.generatedManures.Count() > 0)
-        {
-            <div class="form-box">
-                <div class="form-box-header clearfix">
-                    <legend class="form-box-heading">Manure Generated/Obtained</legend>
+<div>
+    @if (Model.generatedManures.Count == 0)
+    {
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <legend class="form-box-heading">Manure Generated/Obtained</legend>
+            </div>
+            <div class="form-box-body">
+                <div class="form-box-table">
+                    <div class="form-box-table-row form-box-table-header row row-eq-height">
+                        <div class="col-sm-12 form-box-table-cell"></div>
+                    </div>
                 </div>
-                <div class="form-box-body">
-                    <div class="form-box-table">
-                        <div class="form-box-table-header form-box-table-row row row-eq-height">
-                            <div class="col-sm-7 form-box-table-cell">
-                                <strong>Material Type</strong>
-                            </div>
-                            <div class="col-sm-3 form-box-table-cell">
-                                <strong>Annual Amount</strong>
-                            </div>
-                            <div class="col-sm-2 form-box-table-cell">
-                            </div>
+                <div class="form-box-table-first text-center">
+                    <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureGeneratedObtainedDetail", "ManureManagement", new {target = "#manuregeneratedobtained"})">Add Animal</button>
+                </div>
+                @*<div class="form-box-submit">
+                        <input class="form-box-submit-button btn btn-primary" type="button" value="Next" title="Next" aria-label="Next"/>
+                    </div>*@
+            </div>
+        </div>
+    }
+
+    @if (Model.generatedManures.Count() > 0)
+    {
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <legend class="form-box-heading">Manure Generated/Obtained</legend>
+            </div>
+            <div class="form-box-body">
+                <div class="form-box-table">
+                    <div class="form-box-table-header form-box-table-row row row-eq-height">
+                        <div class="col-sm-7 form-box-table-cell">
+                            <strong>Material Type</strong>
                         </div>
-                        @foreach (var item in Model.generatedManures)
-                        {
+                        <div class="col-sm-3 form-box-table-cell">
+                            <strong>Annual Amount</strong>
+                        </div>
+                        <div class="col-sm-2 form-box-table-cell">
+                        </div>
+                    </div>
+                    @foreach (var item in Model.generatedManures)
+                    {
+                        <div class="box">
                             <div class="form-box-table-row row row-eq-height">
                                 <div class="col-sm-7 form-box-table-cell">
                                     @item.subTypeName (@item.averageAnimalNumber) , @item.manureTypeName
@@ -64,25 +70,26 @@
                                     </button>
                                 </div>
                             </div>
-                            if (@item.washWaterGallons != 0)
+                            @if (@item.washWaterGallons != 0)
                             {
-                                <div class="form-box-table-row row row-eq-height">
-                                    <div class="col-sm-7 form-box-table-cell">
-                                        Milking Centre Wash Water
-                                    </div>
-                                    <div class="col-sm-3 form-box-table-cell">
-                                        @item.washWaterGallons gallons
-                                    </div>
-                                    <div class="col-sm-2 form-box-table-cell">
-                                    </div>
+                            <div class="form-box-table-row row row-eq-height">
+                                <div class="col-sm-7 form-box-table-cell">
+                                    Milking Centre Wash Water
                                 </div>
+                                <div class="col-sm-3 form-box-table-cell">
+                                    @item.washWaterGallons U.S. gallons
+                                </div>
+                                <div class="col-sm-2 form-box-table-cell">
+                                </div>
+                            </div>
                             }
-                        }
-                        <div class="form-box-table-add text-right form-box-table-row row">
-                            <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureGeneratedObtainedDetail", "ManureManagement", new {target = "#manuregeneratedobtained"})">Add another Animal</button>
                         </div>
+                    }
+                    <div class="form-box-table-add text-right form-box-table-row row">
+                        <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureGeneratedObtainedDetail", "ManureManagement", new {target = "#manuregeneratedobtained"})">Add another Animal</button>
                     </div>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
+</div>
