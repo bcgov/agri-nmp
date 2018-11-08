@@ -17,7 +17,7 @@ namespace SERVERAPI.ViewModels
         [Range(1, 9999, ErrorMessage = "Select a Manure Material Type")]
         public StaticData.ManureMaterialType SelectedManureMaterialType { get; set; }
         [Required(ErrorMessage = "Required")]
-        public IEnumerable<int> SelectedMaterialsToInclude { get; set; }
+        public IList<int> SelectedMaterialsToInclude { get; set; }
         [Required(ErrorMessage = "Required")]
         public string SystemName { get; set; }
         public MultiSelectList GeneratedManures { get; set; }

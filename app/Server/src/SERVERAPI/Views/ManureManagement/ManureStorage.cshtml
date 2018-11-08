@@ -4,8 +4,6 @@
 @{
     ViewBag.Title = "Manure Storage Systems";
 }
-
-
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
     <div class="modal-dialog" id="divSize">
@@ -26,8 +24,8 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
 
-        <form asp-controller="ManureManagement" asp-action="ManureStorage" method="post" id="modForm">
-            <div id="ManureStorage">
+        <form asp-controller="ManureManagement" asp-action="ManureStorage" method="post" >
+            <div id="manurestorage">
                 @await Component.InvokeAsync("ManureStorage")
             </div>
         </form>
@@ -69,7 +67,7 @@
                     success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
-                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            $(result.Target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);
@@ -81,7 +79,7 @@
         }
 
         $(document).ready(function () {
-            $("#wizard-manureGenerated").addClass('wizard-item-done');
+            $("#wizard-manureStorage").addClass('wizard-item-done');
         });
 
 

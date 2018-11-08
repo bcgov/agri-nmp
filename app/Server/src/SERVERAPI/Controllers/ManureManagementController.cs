@@ -266,13 +266,28 @@ namespace SERVERAPI.Controllers
             return View();
         }
 
-        public IActionResult ManureStorageDetail()
+        public IActionResult ManureStorageDetail(int? id)
         {
-            var msvm = new ManureStorageDetailViewModel
+            var msvm = new ManureStorageDetailViewModel();
+            try
             {
-                //ManureMaterialTypeOptions = _sd.GetManureMaterialTypesDll(),
-                Title = "Add"
-            };
+                msvm.Title = !id.HasValue ? "Add" : "Edit";
+
+                if (id.HasValue)
+                {
+                    var savedStorageSystem = _ud.GetStorageSystem(id.Value);
+                    msvm.SystemName = savedStorageSystem.Name;
+                    msvm.SelectedManureMaterialType = savedStorageSystem.ManureMaterialType;
+                    msvm.SelectedMaterialsToInclude = savedStorageSystem.MaterialsIncludedInSystem.Select(m => m.id).ToList();
+                    msvm.GeneratedManures = GetFilteredMaterialsList(msvm);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
 
             return PartialView("ManureStorageDetail", msvm);
@@ -335,6 +350,7 @@ namespace SERVERAPI.Controllers
                             msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.id == includedIds)).ToList();
                         var newSystem = new ManureStorageSystem
                         {
+                            Name = msdvm.SystemName,
                             ManureMaterialType = msdvm.SelectedManureMaterialType,
                             MaterialsIncludedInSystem = includedManure
                         };

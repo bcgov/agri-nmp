@@ -814,5 +814,10 @@ namespace SERVERAPI.Models.Impl
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             return yd?.ManureStorageSystems;
         }
+
+        public ManureStorageSystem GetStorageSystem(int id)
+        {
+            return GetStorageSystems().SingleOrDefault(s => s.Id == id);
+        }
     }
 }

@@ -18,7 +18,7 @@
                         <select class="form-control" asp-for="SelectedManureMaterialType" asp-items="@(Html.GetEnumSelectList<StaticData.ManureMaterialType>())" id="ddlManureMaterialType">
                             <option>Select Manure Type</option>
                         </select>
-                        <span asp-validation-for="SelectedManureMaterialType"  class="text-danger"></span>
+                        <span asp-validation-for="SelectedManureMaterialType" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="SelectedMaterialsToInclude">Select materials to include</label>
@@ -40,5 +40,6 @@
         @Html.HiddenFor(x => x.ButtonPressed)
         @Html.HiddenFor(x => x.Placeholder);
         @Html.HiddenFor(x => x.ButtonText);
+        @Html.HiddenFor(x => x.Target)
     </form>
 </div>
