@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.LegacyData.Models;
+﻿using System.Linq;
 using Agri.LegacyData.Models.Impl;
 using Microsoft.EntityFrameworkCore;
 
