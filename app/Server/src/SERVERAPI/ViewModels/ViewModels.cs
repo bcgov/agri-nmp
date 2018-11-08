@@ -663,5 +663,6 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "SubType")]
         public string subTypeName { get; set; }
         public string target { get; set; }
+        public string warning { get; set; }
     }
 }

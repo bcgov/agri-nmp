@@ -20,6 +20,13 @@
                 </div>
             </div>
             <br />
+            @if (!string.IsNullOrEmpty(Model.warning))
+            {
+                <div class="form-group">
+                    <label class="text-danger">@Model.warning</label>
+                </div>
+                <br />
+            }
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
@@ -29,5 +36,6 @@
         @Html.HiddenFor(x => x.title)
         @Html.HiddenFor(x => x.id)
         @Html.HiddenFor(x => x.target)
+        @Html.HiddenFor(x => x.warning)
     </form>
 </div>
