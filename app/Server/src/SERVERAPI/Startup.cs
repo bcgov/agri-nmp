@@ -103,7 +103,7 @@ namespace SERVERAPI
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
             services.AddOptions();
-            services.AddAutoMapper(typeof(Startup).Assembly);
+            //services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
