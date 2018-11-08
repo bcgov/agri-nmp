@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Agri.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SERVERAPI.Models;
 
 namespace SERVERAPI.ViewModels
 {
@@ -15,7 +11,7 @@ namespace SERVERAPI.ViewModels
         public string Target { get; set; }
         [Required(ErrorMessage = "Select a Manure Material Type")]
         //[Range(1, 9999, ErrorMessage = "Select a Manure Material Type")]
-        public StaticData.ManureMaterialType SelectedManureMaterialType { get; set; }
+        public ManureMaterialType SelectedManureMaterialType { get; set; }
         [Required(ErrorMessage = "Required")]
         public IList<int> SelectedMaterialsToInclude { get; set; }
         [Required(ErrorMessage = "Required")]

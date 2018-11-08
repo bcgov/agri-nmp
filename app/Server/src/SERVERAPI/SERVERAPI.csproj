@@ -38,6 +38,7 @@
     <None Remove="Mappings\**" />
     <None Remove="Migrations\**" />
     <None Remove="Services\**" />
+    <Compile Remove="Models\FarmData.cs" />
     <Content Remove="Data\static.json" />
     <None Remove="PDF.js" />
     <Content Include="PDF.js">
@@ -71,6 +72,7 @@
     <None Include="Views\Home\temp.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Agri.Models\Agri.Models.csproj" />
     <ProjectReference Include="..\..\..\Common\src\Common\Common.csproj" />
   </ItemGroup>
   <ItemGroup>

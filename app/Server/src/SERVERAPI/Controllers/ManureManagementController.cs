@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.Models;
+using Agri.Models.Farm;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +13,7 @@ using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
 using static SERVERAPI.Models.StaticData;
 using StaticData = SERVERAPI.Models.StaticData;
+
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

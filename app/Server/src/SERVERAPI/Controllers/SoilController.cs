@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.Models;
@@ -155,7 +156,7 @@ namespace SERVERAPI.Controllers
                 Field fld = _ud.GetFieldDetails(tvm.fieldName);
                 if(fld.soilTest == null)
                 {
-                    fld.soilTest = new Models.SoilTest();
+                    fld.soilTest = new SoilTest();
                 }
                 fld.soilTest.sampleDate = Convert.ToDateTime(tvm.sampleDate);
                 fld.soilTest.ValP = Convert.ToDecimal(tvm.dispP);
