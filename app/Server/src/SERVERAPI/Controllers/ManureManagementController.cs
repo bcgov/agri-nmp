@@ -367,7 +367,40 @@ namespace SERVERAPI.Controllers
             }
             return;
         }
-        
+
+        public IActionResult RefreshManureManagemetList()
+        {
+            return ViewComponent("ManureGeneratedObtained");
+        }
+
+        [HttpGet]
+        public ActionResult ManureGeneratedObtainedDelete(int id, string target)
+        {
+            ManureGeneratedObtainedDeleteViewModel dvm = new ManureGeneratedObtainedDeleteViewModel();
+            dvm.id = id;
+
+            GeneratedManure gm = _ud.GetGeneratedManure(id);
+            dvm.subTypeName = _sd.GetAnimalSubType(Convert.ToInt32(gm.animalSubTypeId)).name;
+
+            dvm.title = "Delete";
+            dvm.warning = _sd.GetUserPrompt("deletewarningmanuregenerated");
+
+            return PartialView("ManureGeneratedObtainedDelete", dvm);
+        }
+
+        [HttpPost]
+        public ActionResult ManureGeneratedObtainedDelete(ManureGeneratedObtainedDeleteViewModel dvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _ud.DeleteGeneratedManure(dvm.id);
+
+                string url = Url.Action("RefreshManureManagemetList", "ManureManagement");
+                return Json(new { success = true, url = url, target = dvm.target });
+            }
+            return PartialView("ManureGeneratedObtainedDelete", dvm);
+        }
+
         [HttpGet]
         public IActionResult ManureStorage()
         {
