@@ -37,6 +37,12 @@
     <None Remove="Migrations\**" />
     <None Remove="Services\**" />
     <Compile Remove="Models\FarmData.cs" />
+    <Compile Remove="Utility\BalanceMessages.cs" />
+    <Compile Remove="Utility\ChemicalBalances.cs" />
+    <Compile Remove="Utility\CropRequirementRemoval.cs" />
+    <Compile Remove="Utility\FertilizerNutrients.cs" />
+    <Compile Remove="Utility\NOrganicMineralizations.cs" />
+    <Compile Remove="Utility\NutrientInputs.cs" />
     <Content Remove="Data\static.json" />
     <None Remove="PDF.js" />
     <Content Include="PDF.js">

@@ -12,6 +12,7 @@ using System.Text;
 using System.Net;
 using SERVERAPI.Utility;
 using System.IO;
+using Agri.Models.Calculate;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
