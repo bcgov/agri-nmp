@@ -384,7 +384,6 @@ namespace SERVERAPI.Controllers
             dvm.subTypeName = _sd.GetAnimalSubType(Convert.ToInt32(gm.animalSubTypeId)).name;
 
             dvm.title = "Delete";
-            dvm.warning = _sd.GetUserPrompt("deletewarningmanuregenerated");
 
             return PartialView("ManureGeneratedObtainedDelete", dvm);
         }
