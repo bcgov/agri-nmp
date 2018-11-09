@@ -36,6 +36,7 @@
     <None Remove="Mappings\**" />
     <None Remove="Migrations\**" />
     <None Remove="Services\**" />
+    <Compile Remove="Models\AppSettings.cs" />
     <Compile Remove="Models\FarmData.cs" />
     <Compile Remove="Utility\BalanceMessages.cs" />
     <Compile Remove="Utility\ChemicalBalances.cs" />

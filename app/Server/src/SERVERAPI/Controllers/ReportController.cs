@@ -14,6 +14,7 @@ using SERVERAPI.Utility;
 using System.IO;
 using Agri.Models.Calculate;
 using Agri.Models.Farm;
+using Agri.Models.Settings;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using SERVERAPI.Models.Impl;

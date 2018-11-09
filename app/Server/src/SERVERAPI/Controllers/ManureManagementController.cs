@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Agri.Models;
 using Agri.Models.Farm;
+using Agri.Models.Settings;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
