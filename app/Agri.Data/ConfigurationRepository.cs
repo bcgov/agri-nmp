@@ -5,15 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
+using Microsoft.EntityFrameworkCore;
 using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Data
 {
-    public class CongifurationRepository : IConfigurationRepository
+    public class ConfigurationRepository : IConfigurationRepository
     {
+        private AgriConfigurationContext _context;
+
+        public ConfigurationRepository(DbContextOptions<AgriConfigurationContext> options, string connectionString)
+        {
+            _context = new AgriConfigurationContext(options, connectionString);
+        }
+
         public List<Region> GetRegions()
         {
             throw new NotImplementedException();
+
         }
 
         public List<SelectListItem> GetRegionsDll()

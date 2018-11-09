@@ -33,6 +33,7 @@ using SERVERAPI.Utility;
 using SERVERAPI.Controllers;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Agri.Data;
 using Agri.Models.Settings;
 using AutoMapper;
 
@@ -55,7 +56,8 @@ namespace SERVERAPI
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables()
+                .AddUserSecrets<Startup>();
 
             Configuration = builder.Build();
         }
@@ -64,6 +66,8 @@ namespace SERVERAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddAuthorization();
+            //var agriConnectionString = Configuration["Agri:ConnectionString"];
+            //services.AddScoped<IConfigurationRepository>(provider => new ConfigurationRepository(agriConnectionString));
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
