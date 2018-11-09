@@ -2,7 +2,7 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "dotnet-20-node",
+        "name": "dotnet-21-node",
         "creationTimestamp": null
     },
     "parameters": [
@@ -29,7 +29,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-20-node${NAME_SUFFIX}",
+                "name": "dotnet-21-node${NAME_SUFFIX}",
                 "creationTimestamp": null,
                 "labels": null
             }
@@ -38,7 +38,7 @@
             "kind": "BuildConfig",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-20-node${NAME_SUFFIX}",
+                "name": "dotnet-21-node${NAME_SUFFIX}",
                 "creationTimestamp": null,
                 "labels": null
             },
@@ -65,7 +65,7 @@
                     "dockerStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-20-rhel7${NAME_SUFFIX}:2.0"
+                            "name": "dotnet-21-rhel7${NAME_SUFFIX}:2.1"
                         },
                         "dockerfilePath": "Dockerfile.rhel7"
                     }
@@ -73,7 +73,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "dotnet-20-node${NAME_SUFFIX}:${ENV_NAME}"
+                        "name": "dotnet-21-node${NAME_SUFFIX}:${ENV_NAME}"
                     }
                 },
                 "resources": {},
