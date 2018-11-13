@@ -462,6 +462,8 @@ namespace SERVERAPI.Controllers
                     var placeHolder = string.Format(_sd.GetUserPrompt("storagesystemnameplaceholder"), selectedTypeMsg, systemTypeCountMsg);
 
                     msdvm.Placeholder = placeHolder;
+
+                    return View(msdvm);
                 }
 
                 if (msdvm.ButtonPressed == "SelectedMaterialsToIncludeChange")
@@ -469,10 +471,13 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     msdvm.ButtonPressed = "";
                     msdvm.ButtonText = "Save";
+
+                    return View(msdvm);
                 }
 
                 if (msdvm.ButtonText == "Save" || msdvm.SystemId.HasValue)
                 {
+                    ModelState.Clear();
                     if (msdvm.SelectedManureMaterialType == 0)
                     {
                         ModelState.AddModelError("SelectedManureMaterialType", "Required");

@@ -40,6 +40,7 @@
             <button type="submit" class="btn btn-primary" id="ok_button" @(Model.ButtonText == "Save" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>Save</button>
         </div>
         @Html.HiddenFor(x => x.SystemId);
+        @Html.HiddenFor(x => x.SelectedManureMaterialType);
         @Html.HiddenFor(x => x.ButtonPressed)
         @Html.HiddenFor(x => x.Placeholder);
         @Html.HiddenFor(x => x.ButtonText);
