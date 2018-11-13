@@ -21,7 +21,7 @@
             "displayName": "SOURCE_REPOSITORY_URL",
             "description": "The GIT repository URL",
             "required": true,
-            "value": "https://github.com/cvarjao/agri-nmp.git"
+            "value": "https://github.com/bcgov/agri-nmp.git"
         }
     ],
     "objects": [
