@@ -418,11 +418,12 @@ namespace SERVERAPI.Controllers
                 {
                     msvm.DisableForEditMode = true;
                     var savedStorageSystem = _ud.GetStorageSystem(id.Value);
+                    msvm.SystemId = savedStorageSystem.Id;
                     msvm.SystemName = savedStorageSystem.Name;
                     msvm.SelectedManureMaterialType = savedStorageSystem.ManureMaterialType;
                     msvm.SelectedMaterialsToInclude =
                         savedStorageSystem.MaterialsIncludedInSystem.Where(m => m.id.HasValue).Select(m => m.id.Value).ToList();
-                    msvm.GeneratedManures = GetFilteredMaterialsList(msvm);
+                    msvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msvm);
                 }
 
             }
@@ -445,7 +446,7 @@ namespace SERVERAPI.Controllers
             {
                 var currentStorageSystems = _ud.GetStorageSystems();
 
-                msdvm.GeneratedManures = GetFilteredMaterialsList(msdvm);
+                msdvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msdvm);
 
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
                 {
@@ -499,6 +500,7 @@ namespace SERVERAPI.Controllers
                         };
 
                         _ud.AddManureStorageSystem(newSystem);
+                        msdvm.SystemId = newSystem.Id;
 
                         var url = Url.Action("RefreshStorageList", "ManureManagement");
                         return Json(new {success = true, url = url, target = msdvm.Target});
@@ -513,12 +515,30 @@ namespace SERVERAPI.Controllers
             return PartialView(msdvm);
         }
 
-        private MvcRendering.MultiSelectList GetFilteredMaterialsList(ManureStorageDetailViewModel msdvm)
+        private MvcRendering.MultiSelectList GetFilteredMaterialsListForCurrentView(ManureStorageDetailViewModel msdvm)
         {
             if (msdvm.SelectedManureMaterialType > 0)
             {
-                    return new MvcRendering.MultiSelectList(_ud.GetGeneratedManures()
-                        .Where(g => g.manureType == msdvm.SelectedManureMaterialType), "id", "animalSubTypeName", msdvm.SelectedMaterialsToInclude);
+                //Materials already allocated
+                var materialIdsToInclude = msdvm.SelectedMaterialsToInclude ?? new List<int>();
+
+                //Materials accounted in another system
+                var materialIdsToExclude = new List<int>();
+                foreach (var manureStorageSystem in _ud.GetStorageSystems())
+                {
+                    var accountedFor =
+                        manureStorageSystem.MaterialsIncludedInSystem.Where(m =>
+                            materialIdsToInclude.All(include => include != m.id)).Select(s => s.id.Value);
+                    materialIdsToExclude.AddRange(accountedFor);
+                }     
+
+                var generatedManures = _ud.GetGeneratedManures()
+                    .Where(g => g.manureType == msdvm.SelectedManureMaterialType &&
+                                !materialIdsToExclude.Any(exclude => g.id.HasValue && g.id.Value == exclude));
+
+                    //return new MvcRendering.MultiSelectList(_ud.GetGeneratedManures()
+                    //    .Where(g => g.manureType == msdvm.SelectedManureMaterialType), "id", "animalSubTypeName", msdvm.SelectedMaterialsToInclude);
+                return new MvcRendering.MultiSelectList(generatedManures, "id", "animalSubTypeName", msdvm.SelectedMaterialsToInclude);
             }
 
             return null;

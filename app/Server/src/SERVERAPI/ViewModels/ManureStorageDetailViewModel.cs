@@ -20,6 +20,7 @@ namespace SERVERAPI.ViewModels
         public IList<int> SelectedMaterialsToInclude { get; set; }
         [Required(ErrorMessage = "Required")]
         public string SystemName { get; set; }
+        public int? SystemId { get; set; }
         public MultiSelectList GeneratedManures { get; set; }
         public string Placeholder { get; set; }
         public string ButtonText { get; set; }
