@@ -32,6 +32,18 @@
                         <input class="form-control" asp-for="SystemName" type="text" placeholder="@Model.Placeholder" id="txtSystemName" />
                         <span asp-validation-for="SystemName" class="text-danger"></span>
                     </div>
+                    <div class="form-group col-sm-3">
+                        <label>Does it get runoff from roofs or yards?</label>
+                        <label style="padding-right:20px">
+                            <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="true" /> Yes
+                        </label>
+                        <label>
+                            <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="false" /> No
+                        </label>
+                        <label asp-for="RunoffAreaSquareFeet">Include runoff (enter it in area for rooftops)</label>
+                        <input class="form-control" asp-for="RunoffAreaSquareFeet" placeholder="" id="txtRooftopsRunOff" />
+                        <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
+                    </div>
                 </div>
             </div>
         </div>
