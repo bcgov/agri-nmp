@@ -471,21 +471,30 @@ namespace SERVERAPI.Controllers
                     msdvm.ButtonText = "Save";
                 }
 
-                if (msdvm.ButtonText == "Save")
+                if (msdvm.ButtonText == "Save" || msdvm.SystemId.HasValue)
                 {
                     if (msdvm.SelectedManureMaterialType == 0)
                     {
-                        ModelState.AddModelError("ddlManureMaterialType", "Required");
+                        ModelState.AddModelError("SelectedManureMaterialType", "Required");
                     }
 
                     if (msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
                     {
-                        ModelState.AddModelError("ddlSelectedMaterialsToInclude", "Required");
+                        ModelState.AddModelError("SelectedMaterialsToInclude", "Required");
                     }
 
                     if (string.IsNullOrEmpty(msdvm.SystemName))
                     {
-                        ModelState.AddModelError("txtSystemName", "Required");
+                        ModelState.AddModelError("SystemName", "Required");
+                    }
+
+                    var otherSystemNames = _ud.GetStorageSystems()
+                        .Where(ss => ss.Id != (msdvm.SystemId ?? 0)).Select(x => x.Name);
+
+                    if (otherSystemNames.Any(sn =>
+                        sn.Equals(msdvm.SystemName, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        ModelState.AddModelError("SystemName", $"\"{msdvm.SystemName}\" has already been used, please enter a different system name.");
                     }
 
                     if (ModelState.IsValid)
