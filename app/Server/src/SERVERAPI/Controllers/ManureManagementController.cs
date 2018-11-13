@@ -407,7 +407,7 @@ namespace SERVERAPI.Controllers
             return View();
         }
 
-        public IActionResult ManureStorageDetail(int? id)
+        public IActionResult ManureStorageDetail(int? id, string target)
         {
             var msvm = new ManureStorageDetailViewModel();
             try
