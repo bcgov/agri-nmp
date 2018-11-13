@@ -737,12 +737,17 @@ namespace SERVERAPI.Models.Impl
         {
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
-            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+
+            if (yd.GeneratedManures == null)
+            {
+                yd.GeneratedManures = new List<GeneratedManure>();
+            }
 
             return yd?.GeneratedManures ??  new List<GeneratedManure>();
         }
 
-        public GeneratedManure GetGeneratedManure(int generatedManureId)
+        public GeneratedManure GetGeneratedManure(int? generatedManureId)
         {
             return GetGeneratedManures().FirstOrDefault(gm => gm.id == generatedManureId);
         }
@@ -753,7 +758,7 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
 
-            if (yd.GeneratedManures == null)
+            if (yd.GeneratedManures == null || yd.GeneratedManures.Count == 0)
             {
                 yd.GeneratedManures = new List<GeneratedManure>();
                 generatedManure.id = 1;
@@ -767,11 +772,29 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
-        public void UpdateGeneratedManure(GeneratedManure updatedGeneratedManure)
-        {
-            var farmDataGeneratedManure = GetGeneratedManure(updatedGeneratedManure.id);
 
-            AutoMapper.Mapper.Map(updatedGeneratedManure, farmDataGeneratedManure);
+        public void UpdateGeneratedManures(GeneratedManure updatedGeneratedManure)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            GeneratedManure farmDataGeneratedManure = yd.GeneratedManures.FirstOrDefault(f => f.id == updatedGeneratedManure.id);
+
+            farmDataGeneratedManure.animalSubTypeId = updatedGeneratedManure.animalSubTypeId;
+            farmDataGeneratedManure.averageAnimalNumber = updatedGeneratedManure.averageAnimalNumber;
+            farmDataGeneratedManure.id = updatedGeneratedManure.id;
+            farmDataGeneratedManure.manureType = updatedGeneratedManure.manureType;
+            farmDataGeneratedManure.animalId = updatedGeneratedManure.animalId;
+            farmDataGeneratedManure.animalId = updatedGeneratedManure.animalId;
+            farmDataGeneratedManure.manureType = updatedGeneratedManure.manureType;
+            farmDataGeneratedManure.manureTypeName = updatedGeneratedManure.manureTypeName;
+            farmDataGeneratedManure.milkProduction = updatedGeneratedManure.milkProduction;
+            farmDataGeneratedManure.subTypeName = updatedGeneratedManure.subTypeName;
+            farmDataGeneratedManure.washWater = updatedGeneratedManure.washWater;
+            farmDataGeneratedManure.washWaterGallons = updatedGeneratedManure.washWaterGallons;
+            farmDataGeneratedManure.annualAmount = updatedGeneratedManure.annualAmount;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
         public void DeleteGeneratedManure(int id)

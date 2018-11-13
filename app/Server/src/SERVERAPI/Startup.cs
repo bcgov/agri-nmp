@@ -33,6 +33,7 @@ using SERVERAPI.Utility;
 using SERVERAPI.Controllers;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using AutoMapper;
 
 namespace SERVERAPI
 {
@@ -66,7 +67,6 @@ namespace SERVERAPI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
 
             //// allow for large files to be uploaded
             services.Configure<FormOptions>(options =>
@@ -103,6 +103,7 @@ namespace SERVERAPI
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
             services.AddOptions();
+            services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }

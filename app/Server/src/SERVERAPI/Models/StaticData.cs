@@ -508,9 +508,9 @@ namespace SERVERAPI.Models
         {
             public int id { get; set; }
             public string name { get; set; }
-            public decimal liquidPerGalPerAnimalPerDay { get; set;}
-            public decimal solidPerGalPerAnimalPerDay {get; set; }
-            public decimal solidPerPoundPerAnimalPerDay {get; set; }
+            public decimal? liquidPerGalPerAnimalPerDay { get; set;}
+            public decimal? solidPerGalPerAnimalPerDay {get; set; }
+            public decimal? solidPerPoundPerAnimalPerDay {get; set; }
             public decimal solidLiquidSeparationPercentage { get; set; }
             public decimal washWater { get; set; }
             public decimal milkProduction { get; set; }
