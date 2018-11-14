@@ -51,7 +51,7 @@ namespace SERVERAPI.ViewComponents
             {
                 Field nf = new Field();
                 nf.fieldName = f.fieldName;
-                nf.area = f.area;
+                nf.area = Convert.ToDecimal((f.area).ToString("G29"));
                 nf.comment = f.comment;
                 fvm.fields.Add(nf);
             }

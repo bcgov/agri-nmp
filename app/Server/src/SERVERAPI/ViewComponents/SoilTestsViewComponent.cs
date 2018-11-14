@@ -47,10 +47,10 @@ namespace SERVERAPI.ViewComponents
                 if (m.soilTest != null)
                 {
                     dc.sampleDate = m.soilTest.sampleDate.ToString("MMM-yyyy");
-                    dc.dispNO3H = m.soilTest.valNO3H.ToString();
-                    dc.dispP = m.soilTest.ValP.ToString();
-                    dc.dispK = m.soilTest.valK.ToString();
-                    dc.dispPH = m.soilTest.valPH.ToString();
+                    dc.dispNO3H = m.soilTest.valNO3H.ToString("G29");
+                    dc.dispP = m.soilTest.ValP.ToString("G29");
+                    dc.dispK = m.soilTest.valK.ToString("G29");
+                    dc.dispPH = m.soilTest.valPH.ToString("G29");
                     dc.dispPRating = _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(m.soilTest));
                     dc.dispKRating = _sd.SoilTestRating("potassium", stc.GetConvertedSTK(m.soilTest));
 

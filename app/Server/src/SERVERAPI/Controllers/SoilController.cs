@@ -86,10 +86,10 @@ namespace SERVERAPI.Controllers
             if (fld.soilTest != null)
             {                
                 tvm.sampleDate = fld.soilTest.sampleDate.ToString("MMM-yyyy");
-                tvm.dispK = fld.soilTest.valK.ToString();
-                tvm.dispNO3H = fld.soilTest.valNO3H.ToString();
-                tvm.dispP = fld.soilTest.ValP.ToString();
-                tvm.dispPH = fld.soilTest.valPH.ToString();
+                tvm.dispK = fld.soilTest.valK.ToString("G29");
+                tvm.dispNO3H = fld.soilTest.valNO3H.ToString("G29");
+                tvm.dispP = fld.soilTest.ValP.ToString("G29");
+                tvm.dispPH = fld.soilTest.valPH.ToString("G29");
             }
 
             return View(tvm);
