@@ -412,16 +412,19 @@ namespace SERVERAPI.Controllers
             try
             {
                 msvm.Title = !id.HasValue ? "Add" : "Edit";
+                msvm.RunoffAreaSquareFeetPlaceholder = _sd.GetUserPrompt("storagesystemrunoffareasquarefeetplaceholderplaceholder");
 
                 if (id.HasValue)
                 {
-                    msvm.DisableForEditMode = true;
+                    msvm.DisableMaterialTypeForEditMode = true;
                     var savedStorageSystem = _ud.GetStorageSystem(id.Value);
                     msvm.SystemId = savedStorageSystem.Id;
                     msvm.SystemName = savedStorageSystem.Name;
                     msvm.SelectedManureMaterialType = savedStorageSystem.ManureMaterialType;
                     var selectedMaterialsToInclude = savedStorageSystem.MaterialsIncludedInSystem.Where(m => m.id.HasValue).Select(m => m.id.Value).ToList();
                     msvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msvm, selectedMaterialsToInclude);
+                    msvm.GetsRunoffFromRoofsOrYards = savedStorageSystem.GetsRunoffFromRoofsOrYards;
+                    msvm.RunoffAreaSquareFeet = savedStorageSystem.RunoffAreaSquareFeet;
                 }
 
             }
@@ -442,8 +445,6 @@ namespace SERVERAPI.Controllers
         {
             try
             {
-                var currentStorageSystems = _ud.GetStorageSystems();
-
                 msdvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msdvm);
 
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
@@ -459,16 +460,26 @@ namespace SERVERAPI.Controllers
                     var systemTypeCountMsg = systemTypeCount > 0 ? (systemTypeCount + 1).ToString() : string.Empty;
                     var placeHolder = string.Format(_sd.GetUserPrompt("storagesystemnameplaceholder"), selectedTypeMsg, systemTypeCountMsg);
 
-                    msdvm.Placeholder = placeHolder;
+                    msdvm.SystemNamePlaceholder = placeHolder;
 
                     return View(msdvm);
                 }
 
-                if (msdvm.ButtonPressed == "SelectedMaterialsToIncludeChange")
+                if (msdvm.ButtonPressed == "SelectedMaterialsToIncludeChange" || msdvm.ButtonPressed == "SystemNameChange")
                 {
                     ModelState.Clear();
                     msdvm.ButtonPressed = "";
                     msdvm.ButtonText = "Save";
+
+                    return View(msdvm);
+                }
+
+                if (msdvm.ButtonPressed == "GetsRunoffFromRoofsOrYardsChange")
+                {
+                    ModelState.Clear();
+                    msdvm.ButtonPressed = "";
+                    msdvm.ButtonText = "Save";
+                    msdvm.RunoffAreaSquareFeet = string.Empty;
 
                     return View(msdvm);
                 }
@@ -508,7 +519,9 @@ namespace SERVERAPI.Controllers
                         {
                             Name = msdvm.SystemName,
                             ManureMaterialType = msdvm.SelectedManureMaterialType,
-                            MaterialsIncludedInSystem = includedManure
+                            MaterialsIncludedInSystem = includedManure,
+                            GetsRunoffFromRoofsOrYards = msdvm.GetsRunoffFromRoofsOrYards,
+                            RunoffAreaSquareFeet = msdvm.RunoffAreaSquareFeet
                         };
 
                         if (msdvm.SystemId.HasValue)

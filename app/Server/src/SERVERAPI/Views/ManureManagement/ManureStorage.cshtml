@@ -137,5 +137,22 @@
                 $("#modForm").submit();
             })
         });
+
+        $(document).ready(function() {
+            $("body").on("change", "#txtSystemName", function() {
+                $('#ButtonPressed').val("SystemNameChange");
+                $("#modForm").submit();
+            })
+        })
+
+        function SelectedMaterialsToIncludeChanged() {
+            $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
+            $("#modForm").submit();
+        }
+
+        function GetsRunoffFromRoofsOrYardsChanged() {
+            $('#ButtonPressed').val("GetsRunoffFromRoofsOrYardsChange");
+            $("#modForm").submit();
+        }
     </script>
 }

@@ -17,7 +17,7 @@
                         <label asp-for="SelectedManureMaterialType">Liquid or Solid</label>
                         <select class="form-control" asp-for="SelectedManureMaterialType" 
                                 asp-items="@(Html.GetEnumSelectList<StaticData.ManureMaterialType>())" id="ddlManureMaterialType"
-                                disabled="@(Model.DisableForEditMode ? "disabled" : null)">
+                                disabled="@(Model.DisableMaterialTypeForEditMode ? "disabled" : null)">
                             <option>Select Manure Type</option>
                         </select>
                         <span asp-validation-for="SelectedManureMaterialType" class="text-danger">Select a Manure Material Type</span>
@@ -33,7 +33,7 @@
                                         <label asp-for="@Model.GeneratedManures[index]">
                                             @Html.HiddenFor(m => Model.GeneratedManures[index].Value)
                                             @Html.HiddenFor(m => Model.GeneratedManures[index].Text)
-                                            <input type="checkbox" asp-for="@Model.GeneratedManures[index].Selected"/> @Model.GeneratedManures[index].Text
+                                            <input type="checkbox" asp-for="@Model.GeneratedManures[index].Selected" onchange="SelectedMaterialsToIncludeChanged()"/> @Model.GeneratedManures[index].Text
                                         </label>
                                     </li>
                                 }
@@ -43,21 +43,26 @@
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="SystemName">System Name</label>
-                        <input class="form-control" asp-for="SystemName" type="text" placeholder="@Model.Placeholder" id="txtSystemName" />
+                        <input class="form-control" asp-for="SystemName" type="text" placeholder="@Model.SystemNamePlaceholder" id="txtSystemName" />
                         <span asp-validation-for="SystemName" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-3">
-                        <label>Does it get runoff from roofs or yards?</label>
-                        <label style="padding-right:20px">
-                            <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="true" /> Yes
-                        </label>
-                        <label>
-                            <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="false" /> No
-                        </label>
-                        <label asp-for="RunoffAreaSquareFeet">Include runoff (enter it in area for rooftops)</label>
-                        <input class="form-control" asp-for="RunoffAreaSquareFeet" placeholder="" id="txtRooftopsRunOff" />
-                        <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
-                    </div>
+                    @if (Model.ShowRunOffQuestions)
+                    {
+                        <div class="form-group col-sm-3">
+                            <label>Does it get runoff from roofs or yards?</label>
+                            <label style="padding-right: 20px">
+                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="true" onchange="GetsRunoffFromRoofsOrYardsChanged()"/> Yes
+                            </label>
+                            <label>
+                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="false" onchange="GetsRunoffFromRoofsOrYardsChanged()"/> No
+                            </label>
+                            <label asp-for="RunoffAreaSquareFeet">Include runoff (enter it in area for rooftops)</label>
+                            <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" placeholder="@Model.RunoffAreaSquareFeetPlaceholder" 
+                                   id="txtRooftopsRunOff"
+                                   disabled="@(Model.EnableRunoffAreaField ? null : "disabled")"/>
+                            <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -68,7 +73,8 @@
         @Html.HiddenFor(x => x.SystemId)
         @Html.HiddenFor(x => x.SelectedManureMaterialType)
         @Html.HiddenFor(x => x.ButtonPressed)
-        @Html.HiddenFor(x => x.Placeholder)
+        @Html.HiddenFor(x => x.SystemNamePlaceholder)
+        @Html.HiddenFor(x => x.RunoffAreaSquareFeetPlaceholder)
         @Html.HiddenFor(x => x.ButtonText)
         @Html.HiddenFor(x => x.Target)
     </form>
