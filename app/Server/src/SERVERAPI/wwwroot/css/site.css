@@ -227,3 +227,54 @@ body {
 .field-validation-valid {
     display: none;
 }
+
+/*Listbox Styles*/
+.agri-listbox ul {
+    height: 100px;
+    overflow: auto;
+    width: 200px;
+    list-style-type: none;
+    margin-top: 5px;
+    overflow-x: hidden;
+}
+.agri-listbox li {
+    margin: 0;
+    vertical-align: middle;
+}
+
+.agri-listbox li:hover div {
+    background-color: Highlight;
+    color: HighlightText;
+}
+
+.agri-listbox label {
+    display: block;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    vertical-align: middle
+}
+
+.agri-listbox label:hover {
+    background-color: Highlight;
+    color: HighlightText;
+}
+
+.agri-listbox-container-div {
+    width: 100%;
+    max-height: 50px;
+}
+.agri-listbox-checkbox-div {
+    margin: 0;
+    padding: 0;
+    width: 25px;
+    max-height: 50px;
+}
+
+.agri-listbox-text-div {
+    position: absolute;
+    right: 0;
+    /*top: 0;*/
+    /*z-index: -1;*/
+}

@@ -16,12 +16,24 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Select a Manure Material Type")]
         //[Range(1, 9999, ErrorMessage = "Select a Manure Material Type")]
         public StaticData.ManureMaterialType SelectedManureMaterialType { get; set; }
+
         [Required(ErrorMessage = "Required")]
-        public IList<int> SelectedMaterialsToInclude { get; set; }
-        public MultiSelectList GeneratedManures { get; set; }
+        public List<int> SelectedMaterialsToInclude
+        {
+            get
+            {
+                if (GeneratedManures != null && GeneratedManures.Any())
+                {
+                    return GeneratedManures.Where(m => m.Selected).Select(gm => Convert.ToInt32(gm.Value)).ToList();
+                }
+                return new List<int>();
+            }
+        }
+
         [Required(ErrorMessage = "Required")]
         public string SystemName { get; set; }
         public int? SystemId { get; set; }
+        public List<SelectListItem> GeneratedManures { get; set; }
         public bool GetsRunoffFromRoofsOrYards { get; set; }
         public int RunoffAreaSquareFeet { get; set; }
         public string Placeholder { get; set; }

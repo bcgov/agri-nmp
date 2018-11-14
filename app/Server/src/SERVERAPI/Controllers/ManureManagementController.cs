@@ -420,9 +420,8 @@ namespace SERVERAPI.Controllers
                     msvm.SystemId = savedStorageSystem.Id;
                     msvm.SystemName = savedStorageSystem.Name;
                     msvm.SelectedManureMaterialType = savedStorageSystem.ManureMaterialType;
-                    msvm.SelectedMaterialsToInclude =
-                        savedStorageSystem.MaterialsIncludedInSystem.Where(m => m.id.HasValue).Select(m => m.id.Value).ToList();
-                    msvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msvm);
+                    var selectedMaterialsToInclude = savedStorageSystem.MaterialsIncludedInSystem.Where(m => m.id.HasValue).Select(m => m.id.Value).ToList();
+                    msvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msvm, selectedMaterialsToInclude);
                 }
 
             }
@@ -505,15 +504,23 @@ namespace SERVERAPI.Controllers
                     {
                         var includedManure = _ud.GetGeneratedManures().Where(gm =>
                             msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.id == includedIds)).ToList();
-                        var newSystem = new ManureStorageSystem
+                        var manureStorageSystem = new ManureStorageSystem
                         {
                             Name = msdvm.SystemName,
                             ManureMaterialType = msdvm.SelectedManureMaterialType,
                             MaterialsIncludedInSystem = includedManure
                         };
 
-                        _ud.AddManureStorageSystem(newSystem);
-                        msdvm.SystemId = newSystem.Id;
+                        if (msdvm.SystemId.HasValue)
+                        {
+                            manureStorageSystem.Id = msdvm.SystemId.Value;
+                            _ud.UpdateManureStorageSystem(manureStorageSystem);
+                        }
+                        else
+                        {
+                            _ud.AddManureStorageSystem(manureStorageSystem);
+                            msdvm.SystemId = manureStorageSystem.Id;
+                        }
 
                         var url = Url.Action("RefreshStorageList", "ManureManagement");
                         return Json(new {success = true, url = url, target = msdvm.Target});
@@ -528,30 +535,58 @@ namespace SERVERAPI.Controllers
             return PartialView(msdvm);
         }
 
-        private MvcRendering.MultiSelectList GetFilteredMaterialsListForCurrentView(ManureStorageDetailViewModel msdvm)
+        private List<MvcRendering.SelectListItem> GetFilteredMaterialsListForCurrentView(ManureStorageDetailViewModel msdvm)
         {
+            return GetFilteredMaterialsListForCurrentView(msdvm, msdvm.SelectedMaterialsToInclude);
+        }
+
+        private List<MvcRendering.SelectListItem> GetFilteredMaterialsListForCurrentView(ManureStorageDetailViewModel msdvm, List<int> selectedMaterials)
+        {
+
             if (msdvm.SelectedManureMaterialType > 0)
             {
+                var selectedManuresToInclude = selectedMaterials.ToList();
                 //Materials already allocated
-                var materialIdsToInclude = msdvm.SelectedMaterialsToInclude ?? new List<int>();
+                if (msdvm.SystemId.HasValue)
+                {
+                    selectedManuresToInclude.AddRange(_ud.GetStorageSystems()
+                                                                        .Single(ss => ss.Id == msdvm.SystemId).MaterialsIncludedInSystem
+                                                                        .Select(m => m.id.Value).ToList());
+                    selectedManuresToInclude = selectedManuresToInclude.GroupBy(s => s).Select(m => m.First()).ToList();
+                }
 
                 //Materials accounted in another system
                 var materialIdsToExclude = new List<int>();
+
                 foreach (var manureStorageSystem in _ud.GetStorageSystems())
                 {
                     var accountedFor =
                         manureStorageSystem.MaterialsIncludedInSystem.Where(m =>
-                            materialIdsToInclude.All(include => include != m.id)).Select(s => s.id.Value);
+                            selectedManuresToInclude.All(include => include != m.id)).Select(s => s.id.Value);
                     materialIdsToExclude.AddRange(accountedFor);
-                }     
+                }
 
                 var generatedManures = _ud.GetGeneratedManures()
-                    .Where(g => g.manureType == msdvm.SelectedManureMaterialType &&
-                                !materialIdsToExclude.Any(exclude => g.id.HasValue && g.id.Value == exclude));
+                    .Where(g => (
+                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Solid && g.manureType == ManureMaterialType.Solid)
+                                            ||
+                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid && (g.manureType == ManureMaterialType.Liquid || g.manureType == ManureMaterialType.Solid))
+                                        )
+                                       && !materialIdsToExclude.Any(exclude => g.id.HasValue && g.id.Value == exclude));
 
-                    //return new MvcRendering.MultiSelectList(_ud.GetGeneratedManures()
-                    //    .Where(g => g.manureType == msdvm.SelectedManureMaterialType), "id", "animalSubTypeName", msdvm.SelectedMaterialsToInclude);
-                return new MvcRendering.MultiSelectList(generatedManures, "id", "animalSubTypeName", msdvm.SelectedMaterialsToInclude);
+                //return new MvcRendering.MultiSelectList(generatedManures, "id", "animalSubTypeName", msdvm.SelectedMaterialsToInclude);
+                var manureSelectItems = new List<MvcRendering.SelectListItem>();
+                foreach (var generatedManure in generatedManures)
+                {
+                    manureSelectItems.Add(new MvcRendering.SelectListItem
+                    {
+                        Value = generatedManure.id.Value.ToString(),
+                        Text = generatedManure.animalSubTypeName,
+                        Selected = selectedMaterials.Any(sm => sm == generatedManure.id.Value)
+                    });
+                }
+
+                return manureSelectItems;
             }
 
             return null;
