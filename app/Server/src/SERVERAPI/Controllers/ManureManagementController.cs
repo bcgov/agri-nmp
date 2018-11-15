@@ -412,6 +412,7 @@ namespace SERVERAPI.Controllers
             try
             {
                 msvm.Title = !id.HasValue ? "Add" : "Edit";
+                msvm.StorageStructureNamePlaceholder = _sd.GetUserPrompt("storagestructurenameplaceholder");
 
                 if (id.HasValue)
                 {
