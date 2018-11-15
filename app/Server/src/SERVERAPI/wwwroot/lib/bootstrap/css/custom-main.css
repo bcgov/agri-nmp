@@ -653,7 +653,7 @@ label {
 
 .wizard-item:before {
   content: "";
-  position: absolute;
+  /*position: absolute;*/
   top: 30px;
   right: 60%;
   height: 2px;
@@ -995,3 +995,40 @@ label {
     max-width: 880px;
     margin: 0 auto 30px;
 }
+
+.wizardsubmenu {
+    padding: 20px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+#submenu-manure-width {
+    width: 20%;
+}
+
+.submenu-manure-wrapper {
+    max-width: 1090px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+.submenu-manure-wizard {
+    padding: 25px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.submenu-manure-wizard-list {
+    list-style: none;
+    text-align: center;
+}
+
+.submenu-manure-wizard-item {
+    float: left;
+    width: 25%;
+    position: relative;
+}
+
+.submenu-fields-wizard-item {
+    float: left;
+    width: 50%;
+    position: relative;
+}
+

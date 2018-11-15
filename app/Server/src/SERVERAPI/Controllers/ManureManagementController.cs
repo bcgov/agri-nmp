@@ -582,5 +582,17 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("ManureStorage");
         }
+
+        [HttpGet]
+        public IActionResult ManureNutrientAnalysis()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult ManureImported()
+        {
+            return View();
+        }
     }
 }
