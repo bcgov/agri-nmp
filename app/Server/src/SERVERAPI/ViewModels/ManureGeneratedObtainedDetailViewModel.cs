@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SERVERAPI.Models;
 
 namespace SERVERAPI.ViewModels
 {
@@ -18,8 +19,8 @@ namespace SERVERAPI.ViewModels
         public List<Models.StaticData.SelectListItem> subTypeOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
-        public string selManureMaterialTypeOption { get; set; }
-        public List<Models.StaticData.SelectListItem> manureMaterialTypeOptions { get; set; }
+        public StaticData.ManureMaterialType selManureMaterialTypeOption { get; set; }
+        //public List<Models.StaticData.SelectListItem> manureMaterialTypeOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         public string averageAnimalNumber { get; set; }
         public string includeWashWater { get; set; }

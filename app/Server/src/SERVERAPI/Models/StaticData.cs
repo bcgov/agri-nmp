@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -518,15 +520,12 @@ namespace SERVERAPI.Models
             
         }
 
-        public class ManureMaterialTypes
+        public enum ManureMaterialType
         {
-            public List<ManureMaterialType> manureMaterialTypes { get; set; }
-        }
-
-        public class ManureMaterialType
-        {
-            public int id { get; set; }
-            public string name { get; set; }
+            Liquid = 1,
+            Solid = 2,
+            [Display(Name = "Solid Liquid Separation")]
+            SolidLiquidSeparated = 3
         }
 
         public class AnimalUsingWashWater

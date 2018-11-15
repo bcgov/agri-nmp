@@ -32,10 +32,10 @@
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="selManureMaterialTypeOption">Manure Type</label>
-                        <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(new SelectList(Model.manureMaterialTypeOptions,"Id","Value"))" id="ddlManureMaterialType">
+                        <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(Html.GetEnumSelectList<StaticData.ManureMaterialType>())" id="ddlManureMaterialType">
                             <option>select type</option>
                         </select>
-                        <span asp-validation-for="selManureMaterialTypeOption" class="text-danger"></span>
+                        <span asp-validation-for="selManureMaterialTypeOption" class="text-danger">Select a Manure Material Type</span>
                     </div>
                     @if (Model.showWashWater)
                     {
