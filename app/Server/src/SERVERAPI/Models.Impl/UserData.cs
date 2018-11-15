@@ -859,21 +859,12 @@ namespace SERVERAPI.Models.Impl
             savedSystem.GetsRunoffFromRoofsOrYards = updatedSystem.GetsRunoffFromRoofsOrYards;
             savedSystem.RunoffAreaSquareFeet = updatedSystem.RunoffAreaSquareFeet;
 
-            //Only one structure will be expected in the updated system
-            var updatedStructure = updatedSystem.ManureStorageStructures.First();
-            if (updatedStructure.Id == 0)
+            foreach (var updateStorageStructure in updatedSystem.ManureStorageStructures)
             {
-                updatedStructure.Id = savedSystem.ManureStorageStructures.Any() ? savedSystem.ManureStorageStructures.Select(mss => mss.Id).Max() + 1 : 1;
-                savedSystem.ManureStorageStructures.Add(updatedStructure);
-            }
-            else
-            {
-                var savedStructure = savedSystem.ManureStorageStructures.Single(mss => mss.Id == updatedStructure.Id);
-                savedStructure.Name = updatedStructure.Name;
-                savedStructure.UncoveredAreaSquareFeet = updatedStructure.UncoveredAreaSquareFeet;
+                savedSystem.AddUpdateManureStorageStructure(updateStorageStructure);
             }
 
-        _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
     }
 }

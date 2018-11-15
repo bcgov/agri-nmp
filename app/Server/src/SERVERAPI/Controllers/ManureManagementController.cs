@@ -571,7 +571,7 @@ namespace SERVERAPI.Controllers
 
                         if (!msdvm.StorageStructureId.HasValue)
                         {
-                            manureStorageSystem.ManureStorageStructures.Add(storageStructure);
+                            manureStorageSystem.AddUpdateManureStorageStructure(storageStructure);
                         }
 
                         if (msdvm.SystemId.HasValue)
