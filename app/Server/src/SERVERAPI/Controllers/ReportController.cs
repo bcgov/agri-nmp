@@ -642,7 +642,7 @@ namespace SERVERAPI.Controllers
             {
                 ReportApplicationField rf = new ReportApplicationField();
                 rf.fieldName = f.fieldName;
-                rf.fieldArea = f.area.ToString();
+                rf.fieldArea = f.area.ToString("G29");
                 rf.fieldComment = f.comment;
                 rf.nutrients = new List<ReportFieldNutrient>();
                 if (f.nutrients != null)
@@ -756,10 +756,10 @@ namespace SERVERAPI.Controllers
                     st.ConvertedKelownaK = dt.convertedKelownaK;
 
                     dc.sampleDate = "Default Values";
-                    dc.nitrogen = dt.nitrogen.ToString();
-                    dc.phosphorous = dt.phosphorous.ToString();
-                    dc.potassium = dt.potassium.ToString();
-                    dc.pH = dt.pH.ToString();
+                    dc.nitrogen = dt.nitrogen.ToString("G29");
+                    dc.phosphorous = dt.phosphorous.ToString("G29");
+                    dc.potassium = dt.potassium.ToString("G29");
+                    dc.pH = dt.pH.ToString("G29");
                     dc.phosphorousRange = _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(st));
                     dc.potassiumRange = _sd.SoilTestRating("potassium", stc.GetConvertedSTK(st));
                 }
@@ -795,7 +795,7 @@ namespace SERVERAPI.Controllers
             {
                 ReportSheetsField rf = new ReportSheetsField();
                 rf.fieldName = f.fieldName;
-                rf.fieldArea = f.area.ToString();
+                rf.fieldArea = f.area.ToString("G29");
                 rf.nutrients = new List<ReportFieldNutrient>();
                 if (f.nutrients != null)
                 {
