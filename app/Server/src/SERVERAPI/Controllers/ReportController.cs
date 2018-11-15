@@ -186,11 +186,11 @@ namespace SERVERAPI.Controllers
 
                             string stdNAmt = cropRequirementRemoval.N_Requirement.ToString();
 
-                            if (c.reqN.ToString() != cropRequirementRemoval.N_Requirement.ToString())
+                            if (c.reqN.ToString("G29") != cropRequirementRemoval.N_Requirement.ToString())
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
                                 rff.id = rf.footnotes.Count() + 1;
-                                rff.message = "Crop required nitrogen adjusted to " + c.reqN.ToString();
+                                rff.message = "Crop required nitrogen adjusted to " + c.reqN.ToString("G29");
                                 fc.footnote = rff.id.ToString();
                                 rf.footnotes.Add(rff);
                             }
