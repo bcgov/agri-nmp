@@ -170,8 +170,7 @@ namespace SERVERAPI.Models
         public StaticData.ManureMaterialType ManureMaterialType { get; set; }
         public List<GeneratedManure> MaterialsIncludedInSystem { get; set; }
         public bool GetsRunoffFromRoofsOrYards { get; set; }
-        public bool IncludeRunoff => !string.IsNullOrWhiteSpace(RunoffAreaSquareFeet);
-        public string RunoffAreaSquareFeet { get; set; }
+        public int? RunoffAreaSquareFeet { get; set; }
         public List<ManureStorageStructure> ManureStorageStructures { get; set; }
     }
 
