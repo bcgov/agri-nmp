@@ -211,8 +211,8 @@ namespace SERVERAPI.Controllers
                         fc.reqP = -Convert.ToDecimal((c.reqP2o5).ToString("G29"));
                         fc.reqK = -Convert.ToDecimal((c.reqK2o).ToString("G29"));
                         fc.remN = -Convert.ToDecimal((c.remN).ToString("G29"));
-                        fc.remP = -c.remP2o5;
-                        fc.remK = -c.remK2o;
+                        fc.remP = -Convert.ToDecimal((c.remP2o5).ToString("G29"));
+                        fc.remK = -Convert.ToDecimal((c.remK2o).ToString("G29"));
 
                         rf.reqN = rf.reqN + fc.reqN;
                         rf.reqP = rf.reqP + fc.reqP;
