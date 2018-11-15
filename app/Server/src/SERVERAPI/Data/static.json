@@ -9208,11 +9208,6 @@
             "id": "31",
             "name": "storagesystemnameplaceholder",
             "text": "e.g. {0} Storage System {1}"
-          },
-          {
-            "id": "32",
-            "name": "storagesystemrunoffareasquarefeetplaceholderplaceholder",
-            "text": "e.g. 30 m^2"
           }
         ]
       },
