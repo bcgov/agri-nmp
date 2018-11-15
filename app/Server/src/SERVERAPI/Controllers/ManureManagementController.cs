@@ -504,7 +504,7 @@ namespace SERVERAPI.Controllers
 
                     if (msdvm.GetsRunoffFromRoofsOrYards && (!msdvm.RunoffAreaSquareFeet.HasValue || msdvm.RunoffAreaSquareFeet <= 0))
                     {
-                        ModelState.AddModelError("RunoffAreaSquareFeet", "A positive Area greater than 0 is Required");
+                        ModelState.AddModelError("RunoffAreaSquareFeet", "Required");
                     }
 
                     var otherSystemNames = _ud.GetStorageSystems()
