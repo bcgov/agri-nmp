@@ -177,8 +177,8 @@ namespace SERVERAPI.Models
     public class ManureStorageStructure
     {
         public int Id { get; set; }
-        public int Name { get; set; }
-        public int UncoveredAreaSquareFeet { get; set; }
+        public string Name { get; set; }
+        public int? UncoveredAreaSquareFeet { get; set; }
     }
 }
 

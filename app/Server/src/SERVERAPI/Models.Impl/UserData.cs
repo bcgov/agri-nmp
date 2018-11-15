@@ -840,6 +840,8 @@ namespace SERVERAPI.Models.Impl
                 storageSystem.Id = yd.ManureStorageSystems.Select(m => m.Id).Max() + 1;
             }
 
+            storageSystem.ManureStorageStructures.First().Id = 1;
+
             yd.ManureStorageSystems.Add(storageSystem);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -857,7 +859,21 @@ namespace SERVERAPI.Models.Impl
             savedSystem.GetsRunoffFromRoofsOrYards = updatedSystem.GetsRunoffFromRoofsOrYards;
             savedSystem.RunoffAreaSquareFeet = updatedSystem.RunoffAreaSquareFeet;
 
-            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+            //Only one structure will be expected in the updated system
+            var updatedStructure = updatedSystem.ManureStorageStructures.First();
+            if (updatedStructure.Id == 0)
+            {
+                updatedStructure.Id = savedSystem.ManureStorageStructures.Any() ? savedSystem.ManureStorageStructures.Select(mss => mss.Id).Max() + 1 : 1;
+                savedSystem.ManureStorageStructures.Add(updatedStructure);
+            }
+            else
+            {
+                var savedStructure = savedSystem.ManureStorageStructures.Single(mss => mss.Id == updatedStructure.Id);
+                savedStructure.Name = updatedStructure.Name;
+                savedStructure.UncoveredAreaSquareFeet = updatedStructure.UncoveredAreaSquareFeet;
+            }
+
+        _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
     }
 }
