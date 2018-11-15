@@ -412,7 +412,6 @@ namespace SERVERAPI.Controllers
             try
             {
                 msvm.Title = !id.HasValue ? "Add" : "Edit";
-                msvm.RunoffAreaSquareFeetPlaceholder = _sd.GetUserPrompt("storagesystemrunoffareasquarefeetplaceholderplaceholder");
 
                 if (id.HasValue)
                 {
@@ -479,7 +478,7 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     msdvm.ButtonPressed = "";
                     msdvm.ButtonText = "Save";
-                    msdvm.RunoffAreaSquareFeet = string.Empty;
+                    msdvm.RunoffAreaSquareFeet = null;
 
                     return View(msdvm);
                 }
@@ -500,6 +499,11 @@ namespace SERVERAPI.Controllers
                     if (string.IsNullOrEmpty(msdvm.SystemName))
                     {
                         ModelState.AddModelError("SystemName", "Required");
+                    }
+
+                    if (msdvm.GetsRunoffFromRoofsOrYards && (!msdvm.RunoffAreaSquareFeet.HasValue || msdvm.RunoffAreaSquareFeet <= 0))
+                    {
+                        ModelState.AddModelError("RunoffAreaSquareFeet", "A positive Area greater than 0 is Required");
                     }
 
                     var otherSystemNames = _ud.GetStorageSystems()

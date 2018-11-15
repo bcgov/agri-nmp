@@ -36,13 +36,12 @@ namespace SERVERAPI.ViewModels
         public int? SystemId { get; set; }
         public List<SelectListItem> GeneratedManures { get; set; }
         public bool GetsRunoffFromRoofsOrYards { get; set; }
-        public string RunoffAreaSquareFeet { get; set; }
-        public string RunoffAreaSquareFeetPlaceholder { get; set; }
+        public int? RunoffAreaSquareFeet { get; set; }
         public string ButtonText { get; set; }
         public string ButtonPressed { get; set; }
         public bool DisableMaterialTypeForEditMode { get; set; }
         public bool ShowRunOffQuestions => SelectedManureMaterialType == StaticData.ManureMaterialType.Liquid;
-        public bool EnableRunoffAreaField => GetsRunoffFromRoofsOrYards;
+        public bool ShowRunoffAreaField => GetsRunoffFromRoofsOrYards;
     }
 
 }
