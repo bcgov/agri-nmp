@@ -37,11 +37,19 @@ namespace SERVERAPI.ViewModels
         public List<SelectListItem> GeneratedManures { get; set; }
         public bool GetsRunoffFromRoofsOrYards { get; set; }
         public int? RunoffAreaSquareFeet { get; set; }
+        public int? StorageStructureId { get; set; }
+        public string StorageStructureName { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string StorageStructureNamePlaceholder { get; set; }
+        public int? UncoveredAreaOfStorageStructure { get; set; }
         public string ButtonText { get; set; }
         public string ButtonPressed { get; set; }
         public bool DisableMaterialTypeForEditMode { get; set; }
         public bool ShowRunOffQuestions => SelectedManureMaterialType == StaticData.ManureMaterialType.Liquid;
         public bool ShowRunoffAreaField => GetsRunoffFromRoofsOrYards;
+        public bool ShowUncoveredAreaOfStorageStructure => SelectedManureMaterialType == StaticData.ManureMaterialType.Liquid;
+        public bool DisableSystemFields { get; set; }
+        public bool ShowStructureFields { get; set; }
     }
 
 }

@@ -406,24 +406,66 @@ namespace SERVERAPI.Controllers
             return View();
         }
 
-        public IActionResult ManureStorageDetail(int? id, string target)
+        public IActionResult ManureStorageDetail(int? id, string mode, int? structureId, string target)
         {
             var msvm = new ManureStorageDetailViewModel();
+            var systemTitle = "{0} Storage System";
+
             try
             {
-                msvm.Title = !id.HasValue ? "Add" : "Edit";
+                if (mode == "addSystem")
+                {
+                    msvm.Title = string.Format(systemTitle, "Add");
+                    msvm.DisableSystemFields = false;
+                    msvm.ShowStructureFields = true;
+                }
+
+                msvm.StorageStructureNamePlaceholder = _sd.GetUserPrompt("storagestructurenameplaceholder");
 
                 if (id.HasValue)
                 {
+
                     msvm.DisableMaterialTypeForEditMode = true;
                     var savedStorageSystem = _ud.GetStorageSystem(id.Value);
                     msvm.SystemId = savedStorageSystem.Id;
                     msvm.SystemName = savedStorageSystem.Name;
                     msvm.SelectedManureMaterialType = savedStorageSystem.ManureMaterialType;
-                    var selectedMaterialsToInclude = savedStorageSystem.MaterialsIncludedInSystem.Where(m => m.id.HasValue).Select(m => m.id.Value).ToList();
+                    var selectedMaterialsToInclude = savedStorageSystem.MaterialsIncludedInSystem
+                        .Where(m => m.id.HasValue).Select(m => m.id.Value).ToList();
                     msvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msvm, selectedMaterialsToInclude);
                     msvm.GetsRunoffFromRoofsOrYards = savedStorageSystem.GetsRunoffFromRoofsOrYards;
                     msvm.RunoffAreaSquareFeet = savedStorageSystem.RunoffAreaSquareFeet;
+
+                    if (structureId.HasValue)
+                    {
+                        var manureStorageStructure =
+                            savedStorageSystem.ManureStorageStructures.Single(mss => mss.Id == structureId);
+                        msvm.StorageStructureId = manureStorageStructure.Id;
+                        msvm.StorageStructureName = manureStorageStructure.Name;
+                        msvm.UncoveredAreaOfStorageStructure = manureStorageStructure.UncoveredAreaSquareFeet;
+                    }
+
+                    var manureType = msvm.SelectedManureMaterialType == ManureMaterialType.Solid
+                        ? "Solid"
+                        : "Liquid";
+
+                    systemTitle = string.Format(systemTitle, manureType);
+
+                    if (mode == "editSystem" && !structureId.HasValue)
+                    {
+                        systemTitle = $"Edit {systemTitle}";
+                        msvm.ShowStructureFields = false;
+                        msvm.DisableSystemFields = false;
+                    }
+                    else
+                    {
+                        msvm.ShowStructureFields = true;
+                        msvm.DisableSystemFields = true;
+                        systemTitle = $"Storage Structure - {systemTitle}";
+                        systemTitle = !structureId.HasValue ? $"Add {systemTitle}" : $"Edit {systemTitle}";
+                    }
+
+                    msvm.Title = systemTitle;
                 }
 
             }
@@ -486,51 +528,112 @@ namespace SERVERAPI.Controllers
                 if (msdvm.ButtonText == "Save" || msdvm.SystemId.HasValue)
                 {
                     ModelState.Clear();
-                    if (msdvm.SelectedManureMaterialType == 0)
+
+                    if (!msdvm.DisableSystemFields)
                     {
-                        ModelState.AddModelError("SelectedManureMaterialType", "Required");
+                        if (msdvm.SelectedManureMaterialType == 0)
+                        {
+                            ModelState.AddModelError("SelectedManureMaterialType", "Required");
+                        }
+
+                        if (msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
+                        {
+                            ModelState.AddModelError("SelectedMaterialsToInclude", "Required");
+                        }
+
+                        if (string.IsNullOrEmpty(msdvm.SystemName))
+                        {
+                            ModelState.AddModelError("SystemName", "Required");
+                        }
+
+                        if (msdvm.GetsRunoffFromRoofsOrYards &&
+                            (!msdvm.RunoffAreaSquareFeet.HasValue || msdvm.RunoffAreaSquareFeet <= 0))
+                        {
+                            ModelState.AddModelError("RunoffAreaSquareFeet", "Required");
+                        }
+
+                        var otherSystemNames = _ud.GetStorageSystems()
+                            .Where(ss => ss.Id != (msdvm.SystemId ?? 0)).Select(x => x.Name);
+
+                        if (otherSystemNames.Any(sn =>
+                            sn.Equals(msdvm.SystemName, StringComparison.CurrentCultureIgnoreCase)))
+                        {
+                            ModelState.AddModelError("SystemName",
+                                $"\"{msdvm.SystemName}\" has already been used, please enter a different system name.");
+                        }
                     }
 
-                    if (msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
+                    if (msdvm.ShowStructureFields)
                     {
-                        ModelState.AddModelError("SelectedMaterialsToInclude", "Required");
-                    }
+                        if (string.IsNullOrWhiteSpace(msdvm.StorageStructureName))
+                        {
+                            ModelState.AddModelError("StorageStructureName", "Required");
+                        }
 
-                    if (string.IsNullOrEmpty(msdvm.SystemName))
-                    {
-                        ModelState.AddModelError("SystemName", "Required");
-                    }
+                        if (msdvm.ShowUncoveredAreaOfStorageStructure &&
+                            !msdvm.UncoveredAreaOfStorageStructure.HasValue)
+                        {
+                            ModelState.AddModelError("UncoveredAreaOfStorageStructure", "Required");
+                        }
 
-                    if (msdvm.GetsRunoffFromRoofsOrYards && (!msdvm.RunoffAreaSquareFeet.HasValue || msdvm.RunoffAreaSquareFeet <= 0))
-                    {
-                        ModelState.AddModelError("RunoffAreaSquareFeet", "Required");
-                    }
-
-                    var otherSystemNames = _ud.GetStorageSystems()
-                        .Where(ss => ss.Id != (msdvm.SystemId ?? 0)).Select(x => x.Name);
-
-                    if (otherSystemNames.Any(sn =>
-                        sn.Equals(msdvm.SystemName, StringComparison.CurrentCultureIgnoreCase)))
-                    {
-                        ModelState.AddModelError("SystemName", $"\"{msdvm.SystemName}\" has already been used, please enter a different system name.");
+                        if (_ud.GetStorageSystems()
+                            .Any(ss =>
+                                ss.Id == (msdvm.SystemId ?? 0) &&
+                                ss.ManureStorageStructures.Any(s => 
+                                    s.Name.Equals(msdvm.StorageStructureName) && s.Id != msdvm.StorageStructureId)))
+                        {
+                            ModelState.AddModelError("StorageStructureName",
+                                $"\"{msdvm.StorageStructureName}\" has already been used, please enter a different structure name.");
+                        }
                     }
 
                     if (ModelState.IsValid)
                     {
                         var includedManure = _ud.GetGeneratedManures().Where(gm =>
                             msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.id == includedIds)).ToList();
-                        var manureStorageSystem = new ManureStorageSystem
+
+                        ManureStorageSystem manureStorageSystem;
+                        
+                        if (msdvm.SystemId.HasValue)
                         {
-                            Name = msdvm.SystemName,
-                            ManureMaterialType = msdvm.SelectedManureMaterialType,
-                            MaterialsIncludedInSystem = includedManure,
-                            GetsRunoffFromRoofsOrYards = msdvm.GetsRunoffFromRoofsOrYards,
-                            RunoffAreaSquareFeet = msdvm.RunoffAreaSquareFeet
-                        };
+                            manureStorageSystem = _ud.GetStorageSystem(msdvm.SystemId.Value);
+                        }
+                        else
+                        {
+                            manureStorageSystem = new ManureStorageSystem();
+                        }
+
+                        manureStorageSystem.Name = msdvm.SystemName;
+                        manureStorageSystem.ManureMaterialType = msdvm.SelectedManureMaterialType;
+                        manureStorageSystem.MaterialsIncludedInSystem = includedManure;
+                        manureStorageSystem.GetsRunoffFromRoofsOrYards = msdvm.GetsRunoffFromRoofsOrYards;
+                        manureStorageSystem.RunoffAreaSquareFeet = msdvm.RunoffAreaSquareFeet;
+
+                        if (msdvm.ShowStructureFields)
+                        {
+                            ManureStorageStructure storageStructure;
+                            if (msdvm.StorageStructureId.HasValue)
+                            {
+                                storageStructure =
+                                    manureStorageSystem.ManureStorageStructures.Single(mss =>
+                                        mss.Id == msdvm.StorageStructureId);
+                            }
+                            else
+                            {
+                                storageStructure = new ManureStorageStructure();
+                            }
+
+                            storageStructure.Name = msdvm.StorageStructureName;
+                            storageStructure.UncoveredAreaSquareFeet = msdvm.UncoveredAreaOfStorageStructure;
+
+                            if (!msdvm.StorageStructureId.HasValue)
+                            {
+                                manureStorageSystem.AddUpdateManureStorageStructure(storageStructure);
+                            }
+                        }
 
                         if (msdvm.SystemId.HasValue)
                         {
-                            manureStorageSystem.Id = msdvm.SystemId.Value;
                             _ud.UpdateManureStorageSystem(manureStorageSystem);
                         }
                         else
