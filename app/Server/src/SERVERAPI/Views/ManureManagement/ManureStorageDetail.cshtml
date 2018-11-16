@@ -17,7 +17,7 @@
                         <label asp-for="SelectedManureMaterialType">Liquid or Solid</label>
                         <select class="form-control" asp-for="SelectedManureMaterialType"
                                 asp-items="@(Html.GetEnumSelectList<StaticData.ManureMaterialType>())" id="ddlManureMaterialType"
-                                disabled="@(Model.DisableMaterialTypeForEditMode ? "disabled" : null)">
+                                disabled="@(Model.DisableMaterialTypeForEditMode || Model.DisableSystemFields ? "disabled" : null)">
                             <option>Select Manure Type</option>
                         </select>
                         <span asp-validation-for="SelectedManureMaterialType" class="text-danger">Select a Manure Material Type</span>
@@ -33,17 +33,28 @@
                                         <label asp-for="@Model.GeneratedManures[index]">
                                             @Html.HiddenFor(m => Model.GeneratedManures[index].Value)
                                             @Html.HiddenFor(m => Model.GeneratedManures[index].Text)
-                                            <input type="checkbox" asp-for="@Model.GeneratedManures[index].Selected" onchange="SelectedMaterialsToIncludeChanged()" /> @Model.GeneratedManures[index].Text
-                                        </label>
-                                    </li>
+                                            <input type="checkbox" asp-for="@Model.GeneratedManures[index].Selected"
+                                                   onchange="SelectedMaterialsToIncludeChanged()"
+                                                   disabled="@(Model.DisableSystemFields ? "disabled" : null)" /> @Model.GeneratedManures[index].Text
+                                            @if (Model.DisableSystemFields)
+                                            {
+                                                @Html.HiddenFor(x => Model.GeneratedManures[index].Selected)
+                                            }
+                                            </label>
+                                        </li>
+                                    }
                                 }
-                            }
                         </ul>
                         <span asp-validation-for="SelectedMaterialsToInclude" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="SystemName">System Name</label>
-                        <input class="form-control" asp-for="SystemName" type="text" placeholder="@Model.SystemNamePlaceholder" id="txtSystemName" />
+                        <input class="form-control" asp-for="SystemName" type="text" placeholder="@Model.SystemNamePlaceholder" id="txtSystemName"
+                               disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
+                        @if (Model.DisableSystemFields)
+                        {
+                            @Html.HiddenFor(x => x.SystemName)
+                        }
                         <span asp-validation-for="SystemName" class="text-danger"></span>
                     </div>
                     @if (Model.ShowRunOffQuestions)
@@ -51,38 +62,51 @@
                         <div class="form-group col-sm-3">
                             <label>Does yard or roof runoff enter the storage?</label>
                             <label style="padding-right: 20px">
-                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="true" onchange="GetsRunoffFromRoofsOrYardsChanged()" /> Yes
+                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="true" 
+                                       disabled="@(Model.DisableSystemFields ? "disabled" : null)" 
+                                       onchange="GetsRunoffFromRoofsOrYardsChanged()" /> Yes
                             </label>
                             <label>
-                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="false" onchange="GetsRunoffFromRoofsOrYardsChanged()" /> No
+                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="false" 
+                                       disabled="@(Model.DisableSystemFields ? "disabled" : null)" 
+                                       onchange="GetsRunoffFromRoofsOrYardsChanged()" /> No
                             </label>
                             @if (Model.ShowRunoffAreaField)
                             {
                                 <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
-                                <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff" />
+                                <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"
+                                       disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
+                                if (Model.DisableSystemFields)
+                                {
+                                    @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
+                                }
                                 <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
                             }
                         </div>
                     }
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="form-group col-sm-3">
-                        <label asp-for="StorageStructureName">Storage Structure Name</label>
-                        <input class="form-control" asp-for="StorageStructureName" type="text" id="txtStorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
-                        <span asp-validation-for="StorageStructureName" class="text-danger"></span>
+            @if (Model.ShowStructureFields)
+            {
+                <div class="row" style="border-top: #E5E5E5 1px solid; padding-top: 10px">
+                    <div class="form-group">
+                        <div class="form-group col-sm-3">
+                            <br />
+                            <label asp-for="StorageStructureName">Storage Structure Name</label>
+                            <input class="form-control" asp-for="StorageStructureName" type="text" id="txtStorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
+                            <span asp-validation-for="StorageStructureName" class="text-danger"></span>
+                        </div>
+                        @if (Model.ShowUncoveredAreaOfStorageStructure)
+                        {
+                            <div class="form-group col-sm-3">
+                                <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area Of Storage Structure (ft<sup>2</sup>)</label>
+                                <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure" />
+                                <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
+                            </div>
+                        }
                     </div>
-                    @if (Model.ShowUncoveredAreaOfStorageStructure)
-                    {
-                    <div class="form-group col-sm-3">
-                        <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area Of Storage Structure (ft<sup>2</sup>)</label>
-                        <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure" />
-                        <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
-                    </div>
-                    }
                 </div>
-            </div>
+            }
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
@@ -94,6 +118,8 @@
         @Html.HiddenFor(x => x.ButtonPressed)
         @Html.HiddenFor(x => x.SystemNamePlaceholder)
         @Html.HiddenFor(x => x.StorageStructureNamePlaceholder)
+        @Html.HiddenFor(x => x.DisableSystemFields)
+        @Html.HiddenFor(x => x.ShowStructureFields)
         @Html.HiddenFor(x => x.ButtonText)
         @Html.HiddenFor(x => x.Target)
     </form>

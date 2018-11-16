@@ -48,6 +48,8 @@ namespace SERVERAPI.ViewModels
         public bool ShowRunOffQuestions => SelectedManureMaterialType == StaticData.ManureMaterialType.Liquid;
         public bool ShowRunoffAreaField => GetsRunoffFromRoofsOrYards;
         public bool ShowUncoveredAreaOfStorageStructure => SelectedManureMaterialType == StaticData.ManureMaterialType.Liquid;
+        public bool DisableSystemFields { get; set; }
+        public bool ShowStructureFields { get; set; }
     }
 
 }
