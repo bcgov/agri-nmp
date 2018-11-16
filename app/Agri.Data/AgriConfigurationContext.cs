@@ -1,74 +1,68 @@
 ﻿using Agri.LegacyData.Models;
 using Agri.Models.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Data
 {
     public class AgriConfigurationContext : DbContext
     {
-        private string connectionString;
-
         public AgriConfigurationContext(DbContextOptions<AgriConfigurationContext> options) : base (options)
         {
         }
 
-        public AgriConfigurationContext(DbContextOptions<AgriConfigurationContext> options, 
-            string connectionString) : base(options)
-        {
-            this.connectionString = connectionString;
-        }
-
         #region DbSets 
-        public DbSet<Agri.Models.Configuration.AmmoniaRetention> AmmoniaRetentions { get; set; }
-        public DbSet<Agri.Models.Configuration.Animal> Animals { get; set; }
-        public DbSet<Agri.Models.Configuration.BCSampleDateForNitrateCredit> BCSampleDateForNitrateCredit { get; set; }
-        public DbSet<Agri.Models.Configuration.Browser> Browsers { get; set; }
-        public DbSet<Agri.Models.Configuration.ConversionFactor> ConversionFactors { get; set; }
-        public DbSet<Agri.Models.Configuration.Crop> Crops { get; set; }
-        public DbSet<Agri.Models.Configuration.CropYield> CropYields { get; set; }
-        public DbSet<Agri.Models.Configuration.CropSoilTestPotassiumRegion> CropSoilTestPotassiumRegions { get; set; }
-        public DbSet<Agri.Models.Configuration.CropSoilTestPhosphorousRegion> CropSoilTestPhosphorousRegions { get; set; }
-        public DbSet<Agri.Models.Configuration.CropType> CropTypes { get; set; }
-        public DbSet<Agri.Models.Configuration.DefaultSoilTest> DefaultSoilTests { get; set; }
-        public DbSet<Agri.Models.Configuration.DensityUnit> DensityUnits { get; set; }
-        public DbSet<Agri.Models.Configuration.DryMatter> DryMatters { get; set; }
-        public DbSet<Agri.Models.Configuration.ExternalLink> ExternalLinks { get; set; }
-        public DbSet<Agri.Models.Configuration.Fertilizer> Fertilizers { get; set; }
-        public DbSet<Agri.Models.Configuration.FertilizerMethod> FertilizerMethods { get; set; }
-        public DbSet<Agri.Models.Configuration.FertilizerType> FertilizerTypes { get; set; }
-        public DbSet<Agri.Models.Configuration.FertilizerUnit> FertilizerUnits { get; set; }
-        public DbSet<Agri.Models.Configuration.HarvestUnit> HarvestUnits { get; set; }
-        public DbSet<Agri.Models.Configuration.LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
-        public DbSet<Agri.Models.Configuration.Location> Locations { get; set; }
-        public DbSet<Agri.Models.Configuration.Manure> Manures { get; set; }
-        public DbSet<Agri.Models.Configuration.Message> Messages { get; set; }
-        public DbSet<Agri.Models.Configuration.NitrogenMineralization> NitrogenMineralizations { get; set; }
-        public DbSet<Agri.Models.Configuration.NutrientIcon> NutrientIcons { get; set; }
-        public DbSet<Agri.Models.Configuration.NitrogenRecommendation> NitrogenRecommendations { get; set; }
-        public DbSet<Agri.Models.Configuration.PreviousManureApplicationYear> PrevManureApplicationYears { get; set; }
-        public DbSet<Agri.Models.Configuration.PreviousYearManureApplicationNitrogenDefault> PrevYearManureApplicationNitrogenDefaults { get; set; }
-        public DbSet<Agri.Models.Configuration.Region> Regions { get; set; }
-        public DbSet<Agri.Models.Configuration.RptCompletedFertilizerRequiredStdUnit> RptCompletedFertilizerRequiredStdUnits { get; set; }
-        public DbSet<Agri.Models.Configuration.RptCompletedManureRequiredStdUnit> RptCompletedManureRequiredStdUnits { get; set; }
-        public DbSet<Agri.Models.Configuration.SeasonApplication> SeasonApplications { get; set; }
-        public DbSet<Agri.Models.Configuration.SelectCodeItem> SelectCodeItems { get; set; }
-        public DbSet<Agri.Models.Configuration.SelectListItem> SelectListItems { get; set; }
-        public DbSet<Agri.Models.Configuration.SoilTestMethod> SoilTestMethods { get; set; }
-        public DbSet<Agri.Models.Configuration.SoilTestPhosphorusRange> SoilTestPhosphorusRanges { get; set; }
-        public DbSet<Agri.Models.Configuration.SoilTestPotassiumRange> SoilTestPotassiumRanges { get; set; }
-        public DbSet<Agri.Models.Configuration.SoilTestPotassiumKelownaRange> SoilTestPotassiumKelownaRanges { get; set; }
-        public DbSet<Agri.Models.Configuration.SoilTestPhosphorousKelownaRange> SoilTestPhosphorousKelownaRanges { get; set; }
-        public DbSet<Agri.Models.Configuration.Unit> Units { get; set; }
-        public DbSet<Agri.Models.Configuration.UserPrompt> UserPrompts { get; set; }
-        public DbSet<Agri.Models.Configuration.Version> Versions { get; set; }
-        public DbSet<Agri.Models.Configuration.Yield> Yields { get; set; }
+        public DbSet<AmmoniaRetention> AmmoniaRetentions { get; set; }
+        public DbSet<Animal> Animals { get; set; }
+        public DbSet<BCSampleDateForNitrateCredit> BCSampleDateForNitrateCredit { get; set; }
+        public DbSet<Browser> Browsers { get; set; }
+        public DbSet<ConversionFactor> ConversionFactors { get; set; }
+        public DbSet<Crop> Crops { get; set; }
+        public DbSet<CropYield> CropYields { get; set; }
+        public DbSet<CropSoilTestPotassiumRegion> CropSoilTestPotassiumRegions { get; set; }
+        public DbSet<CropSoilTestPhosphorousRegion> CropSoilTestPhosphorousRegions { get; set; }
+        public DbSet<CropType> CropTypes { get; set; }
+        public DbSet<DefaultSoilTest> DefaultSoilTests { get; set; }
+        public DbSet<DensityUnit> DensityUnits { get; set; }
+        public DbSet<DryMatter> DryMatters { get; set; }
+        public DbSet<ExternalLink> ExternalLinks { get; set; }
+        public DbSet<Fertilizer> Fertilizers { get; set; }
+        public DbSet<FertilizerMethod> FertilizerMethods { get; set; }
+        public DbSet<FertilizerType> FertilizerTypes { get; set; }
+        public DbSet<FertilizerUnit> FertilizerUnits { get; set; }
+        public DbSet<HarvestUnit> HarvestUnits { get; set; }
+        public DbSet<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Manure> Manures { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<NitrogenMineralization> NitrogenMineralizations { get; set; }
+        public DbSet<NutrientIcon> NutrientIcons { get; set; }
+        public DbSet<NitrogenRecommendation> NitrogenRecommendations { get; set; }
+        public DbSet<PreviousManureApplicationYear> PrevManureApplicationYears { get; set; }
+        public DbSet<PreviousYearManureApplicationNitrogenDefault> PrevYearManureApplicationNitrogenDefaults { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<RptCompletedFertilizerRequiredStdUnit> RptCompletedFertilizerRequiredStdUnits { get; set; }
+        public DbSet<RptCompletedManureRequiredStdUnit> RptCompletedManureRequiredStdUnits { get; set; }
+        public DbSet<SeasonApplication> SeasonApplications { get; set; }
+        public DbSet<SelectCodeItem> SelectCodeItems { get; set; }
+        public DbSet<SelectListItem> SelectListItems { get; set; }
+        public DbSet<SoilTestMethod> SoilTestMethods { get; set; }
+        public DbSet<SoilTestPhosphorusRange> SoilTestPhosphorusRanges { get; set; }
+        public DbSet<SoilTestPotassiumRange> SoilTestPotassiumRanges { get; set; }
+        public DbSet<SoilTestPotassiumKelownaRange> SoilTestPotassiumKelownaRanges { get; set; }
+        public DbSet<SoilTestPhosphorousKelownaRange> SoilTestPhosphorousKelownaRanges { get; set; }
+        public DbSet<Unit> Units { get; set; }
+        public DbSet<UserPrompt> UserPrompts { get; set; }
+        public DbSet<Version> Versions { get; set; }
+        public DbSet<Yield> Yields { get; set; }
 
         #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseNpgsql();
+            var agriConnection = Configuration["Agri:ConnectionString"]
+            optionsBuilder.UseNpgsql();
 
             base.OnConfiguring(optionsBuilder);
         }

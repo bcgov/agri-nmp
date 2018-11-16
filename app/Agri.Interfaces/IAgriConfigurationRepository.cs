@@ -6,7 +6,7 @@ using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Data
 {
-    public interface IConfigurationRepository
+    public interface IAgriConfigurationRepository
     {
         List<Region> GetRegions();
         List<SelectListItem> GetRegionsDll();

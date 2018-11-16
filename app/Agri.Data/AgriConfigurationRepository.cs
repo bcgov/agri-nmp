@@ -10,11 +10,11 @@ using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Data
 {
-    public class ConfigurationRepository : IConfigurationRepository
+    public class AgriConfigurationRepository : IAgriConfigurationRepository
     {
         private AgriConfigurationContext _context;
 
-        public ConfigurationRepository(DbContextOptions<AgriConfigurationContext> options, string connectionString)
+        public AgriConfigurationRepository(DbContextOptions<AgriConfigurationContext> options, string connectionString)
         {
             _context = new AgriConfigurationContext(options, connectionString);
         }

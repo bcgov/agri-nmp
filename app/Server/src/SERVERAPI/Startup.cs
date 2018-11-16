@@ -9,31 +9,17 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.XPath;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Http;
-
-using System.Reflection;
-using System.Runtime.Loader;
-using Microsoft.Extensions.FileProviders;
-using SERVERAPI.Models;
 using SERVERAPI.Utility;
 using SERVERAPI.Controllers;
-using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Agri.Data;
 using Agri.Models.Settings;
 
 namespace SERVERAPI
