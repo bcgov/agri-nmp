@@ -148,12 +148,12 @@ namespace SERVERAPI.Controllers
                 mvm.selManOption = nm.manureId;
                 mvm.rate = nm.rate.ToString();
                 mvm.nh4 = nm.nh4Retention.ToString("###");
-                mvm.yrN = nm.yrN.ToString();
-                mvm.yrP2o5 = nm.yrP2o5.ToString();
-                mvm.yrK2o = nm.yrK2o.ToString();
-                mvm.ltN = nm.ltN.ToString();
-                mvm.ltP2o5 = nm.ltP2o5.ToString();
-                mvm.ltK2o = nm.ltK2o.ToString();
+                mvm.yrN = nm.yrN.ToString("G29");
+                mvm.yrP2o5 = nm.yrP2o5.ToString("G29");
+                mvm.yrK2o = nm.yrK2o.ToString("G29");
+                mvm.ltN = nm.ltN.ToString("G29");
+                mvm.ltP2o5 = nm.ltP2o5.ToString("G29");
+                mvm.ltK2o = nm.ltK2o.ToString("G29");
                 FarmManure man = _ud.GetFarmManure(Convert.ToInt32(nm.manureId));
                 mvm.currUnit = man.solid_liquid;
                 mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
@@ -1066,13 +1066,13 @@ namespace SERVERAPI.Controllers
 
                 cvm.fieldName = fldName;
                 cvm.id = id;
-                cvm.reqN = cp.reqN.ToString();
-                cvm.reqP2o5 = cp.reqP2o5.ToString();
-                cvm.reqK2o = cp.reqK2o.ToString();
-                cvm.remN = cp.remN.ToString();
-                cvm.remP2o5 = cp.remP2o5.ToString();
-                cvm.remK2o = cp.remK2o.ToString();
-                
+                cvm.reqN = cp.reqN.ToString("G29");
+                cvm.reqP2o5 = cp.reqP2o5.ToString("G29");
+                cvm.reqK2o = cp.reqK2o.ToString("G29");
+                cvm.remN = cp.remN.ToString("G29");
+                cvm.remP2o5 = cp.remP2o5.ToString("G29");
+                cvm.remK2o = cp.remK2o.ToString("G29");
+
                 cvm.crude = cp.crudeProtien.ToString();
                 cvm.selCropOption = cp.cropId;
                 cvm.selPrevOption = cp.prevCropId.ToString();
@@ -1915,12 +1915,12 @@ namespace SERVERAPI.Controllers
 
                 NutrientOther no = _ud.GetFieldNutrientsOther(fldName, id.Value);
                 ovm.source = no.description;
-                ovm.yrN = no.yrN.ToString();
-                ovm.yrP = no.yrP2o5.ToString();
-                ovm.yrK = no.yrK.ToString();
-                ovm.ltN = no.ltN.ToString();
-                ovm.ltP = no.ltP2o5.ToString();
-                ovm.ltK = no.ltK.ToString();
+                ovm.yrN = no.yrN.ToString("G29");
+                ovm.yrP = no.yrP2o5.ToString("G29");
+                ovm.yrK = no.yrK.ToString("G29");
+                ovm.ltN = no.ltN.ToString("G29");
+                ovm.ltP = no.ltP2o5.ToString("G29");
+                ovm.ltK = no.ltK.ToString("G29");
             }
             else
 

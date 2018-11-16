@@ -54,9 +54,9 @@ namespace SERVERAPI.ViewComponents
                 dm.fldName = fldName;
                 dm.fertilizerId = f.id;
                 dm.fertilizerName = fertilizerName;
-                dm.valN = f.fertN.ToString();
-                dm.valP = f.fertP2o5.ToString();
-                dm.valK = f.fertK2o.ToString();
+                dm.valN = f.fertN.ToString("G29");
+                dm.valP = f.fertP2o5.ToString("G29");
+                dm.valK = f.fertK2o.ToString("G29");
 
                 fvm.fldFertilizers.Add(dm);
             }

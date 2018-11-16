@@ -17,8 +17,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Bootstrap.Datepicker" Version="1.6.4" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
     <PackageReference Include="Bootstrap.Datepicker" Version="1.8.0" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.1.1" />
   </ItemGroup>
@@ -57,9 +59,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
-    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.11" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.3" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
   </ItemGroup>
   <ItemGroup>

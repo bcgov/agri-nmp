@@ -121,7 +121,7 @@ namespace SERVERAPI.Controllers
             foreach (var f in fldList)
             {
                 ReportFieldsField rf = new ReportFieldsField();
-                rf.fieldArea = f.area.ToString();
+                rf.fieldArea = f.area.ToString("G29");
                 rf.fieldName = f.fieldName;
                 rf.fieldComment = f.comment;
                 rf.soiltest = new ReportFieldSoilTest();
@@ -134,10 +134,10 @@ namespace SERVERAPI.Controllers
                 if (f.soilTest != null)
                 {
                     rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
-                    rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString() + " ppm";
-                    rf.soiltest.dispP = f.soilTest.ValP.ToString() + " ppm (" + _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(f.soilTest)) + ")";
-                    rf.soiltest.dispK = f.soilTest.valK.ToString() + " ppm (" + _sd.SoilTestRating("potassium", stc.GetConvertedSTK(f.soilTest)) + ")";
-                    rf.soiltest.dispPH = f.soilTest.valPH.ToString();
+                    rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString("G29") + " ppm";
+                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(f.soilTest)) + ")";
+                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + _sd.SoilTestRating("potassium", stc.GetConvertedSTK(f.soilTest)) + ")";
+                    rf.soiltest.dispPH = f.soilTest.valPH.ToString("G29");
                 }
 
                 rf.nutrients = new List<ReportFieldNutrient>();
@@ -189,11 +189,11 @@ namespace SERVERAPI.Controllers
 
                             string stdNAmt = cropRequirementRemoval.N_Requirement.ToString();
 
-                            if (c.reqN.ToString() != cropRequirementRemoval.N_Requirement.ToString())
+                            if (c.reqN.ToString("G29") != cropRequirementRemoval.N_Requirement.ToString())
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
                                 rff.id = rf.footnotes.Count() + 1;
-                                rff.message = "Crop required nitrogen adjusted to " + c.reqN.ToString();
+                                rff.message = "Crop required nitrogen adjusted to " + c.reqN.ToString("G29");
                                 fc.footnote = rff.id.ToString();
                                 rf.footnotes.Add(rff);
                             }
@@ -210,12 +210,12 @@ namespace SERVERAPI.Controllers
                             fc.yieldInUnit = _sd.GetHarvestYieldDefaultUnitName(); 
                         }
                         
-                        fc.reqN = -c.reqN;
-                        fc.reqP = -c.reqP2o5;
-                        fc.reqK = -c.reqK2o;
-                        fc.remN = -c.remN;
-                        fc.remP = -c.remP2o5;
-                        fc.remK = -c.remK2o;
+                        fc.reqN = -Convert.ToDecimal((c.reqN).ToString("G29"));
+                        fc.reqP = -Convert.ToDecimal((c.reqP2o5).ToString("G29"));
+                        fc.reqK = -Convert.ToDecimal((c.reqK2o).ToString("G29"));
+                        fc.remN = -Convert.ToDecimal((c.remN).ToString("G29"));
+                        fc.remP = -Convert.ToDecimal((c.remP2o5).ToString("G29"));
+                        fc.remK = -Convert.ToDecimal((c.remK2o).ToString("G29"));
 
                         rf.reqN = rf.reqN + fc.reqN;
                         rf.reqP = rf.reqP + fc.reqP;
@@ -274,12 +274,12 @@ namespace SERVERAPI.Controllers
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).application_method;
                             rfn.nutrientUnit = _sd.GetUnit(m.unitId).name;
-                            rfn.reqN = m.yrN;
-                            rfn.reqP = m.yrP2o5;
-                            rfn.reqK = m.yrK2o;
-                            rfn.remN = m.ltN;
-                            rfn.remP = m.ltP2o5;
-                            rfn.remK = m.ltK2o;
+                            rfn.reqN = Convert.ToDecimal((m.yrN).ToString("G29"));
+                            rfn.reqP = Convert.ToDecimal((m.yrP2o5).ToString("G29"));
+                            rfn.reqK = Convert.ToDecimal((m.yrK2o).ToString("G29"));
+                            rfn.remN = Convert.ToDecimal((m.ltN).ToString("G29"));
+                            rfn.remP = Convert.ToDecimal((m.ltP2o5).ToString("G29"));
+                            rfn.remK = Convert.ToDecimal((m.ltK2o).ToString("G29"));
                             rf.nutrients.Add(rfn);
 
                             rf.reqN = rf.reqN + rfn.reqN;
@@ -326,23 +326,23 @@ namespace SERVERAPI.Controllers
                             {
                                 fertilizerName = ftyp.dry_liquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
                                 fertilizerName = fertilizerName + ft.customN.ToString() + "-" + ft.customP2o5.ToString() + "-" + ft.customK2o.ToString();
-                                rfn.reqN = ft.fertN;
-                                rfn.reqP = ft.fertP2o5;
-                                rfn.reqK = ft.fertK2o;
-                                rfn.remN = ft.fertN;
-                                rfn.remP = ft.fertP2o5;
-                                rfn.remK = ft.fertK2o;
+                                rfn.reqN = Convert.ToDecimal((ft.fertN).ToString("G29"));
+                                rfn.reqP = Convert.ToDecimal((ft.fertP2o5).ToString("G29"));
+                                rfn.reqK = Convert.ToDecimal((ft.fertK2o).ToString("G29"));
+                                rfn.remN = Convert.ToDecimal((ft.fertN).ToString("G29"));
+                                rfn.remP = Convert.ToDecimal((ft.fertP2o5).ToString("G29"));
+                                rfn.remK = Convert.ToDecimal((ft.fertK2o).ToString("G29"));
                             }
                             else
                             {
                                 Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
                                 fertilizerName = ff.name;
-                                rfn.reqN = ft.fertN;
-                                rfn.reqP = ft.fertP2o5;
-                                rfn.reqK = ft.fertK2o;
-                                rfn.remN = ft.fertN;
-                                rfn.remP = ft.fertP2o5;
-                                rfn.remK = ft.fertK2o;
+                                rfn.reqN = Convert.ToDecimal((ft.fertN).ToString("G29"));
+                                rfn.reqP = Convert.ToDecimal((ft.fertP2o5).ToString("G29"));
+                                rfn.reqK = Convert.ToDecimal((ft.fertK2o).ToString("G29"));
+                                rfn.remN = Convert.ToDecimal((ft.fertN).ToString("G29"));
+                                rfn.remP = Convert.ToDecimal((ft.fertP2o5).ToString("G29"));
+                                rfn.remK = Convert.ToDecimal((ft.fertK2o).ToString("G29"));
                             }
 
                             rfn.nutrientName = fertilizerName;
@@ -387,12 +387,12 @@ namespace SERVERAPI.Controllers
                         {
                             ReportFieldOtherNutrient fon = new ReportFieldOtherNutrient();
                             fon.otherName = o.description;
-                            fon.reqN = o.ltN;
-                            fon.reqP = o.ltP2o5;
-                            fon.reqK = o.ltK;
-                            fon.remN = o.yrN;
-                            fon.remP = o.yrP2o5;
-                            fon.remK = o.yrK;
+                            fon.reqN = Convert.ToDecimal((o.ltN).ToString("G29")); 
+                            fon.reqP = Convert.ToDecimal((o.ltP2o5).ToString("G29"));
+                            fon.reqK = Convert.ToDecimal((o.ltK).ToString("G29"));
+                            fon.remN = Convert.ToDecimal((o.yrN).ToString("G29"));
+                            fon.remP = Convert.ToDecimal((o.yrP2o5).ToString("G29"));
+                            fon.remK = Convert.ToDecimal((o.yrK).ToString("G29"));
                             rf.otherNutrients.Add(fon);
 
                             rf.reqN = rf.reqN + fon.reqN;
@@ -645,7 +645,7 @@ namespace SERVERAPI.Controllers
             {
                 ReportApplicationField rf = new ReportApplicationField();
                 rf.fieldName = f.fieldName;
-                rf.fieldArea = f.area.ToString();
+                rf.fieldArea = f.area.ToString("G29");
                 rf.fieldComment = f.comment;
                 rf.nutrients = new List<ReportFieldNutrient>();
                 if (f.nutrients != null)
@@ -740,10 +740,10 @@ namespace SERVERAPI.Controllers
                 if (m.soilTest != null)
                 {
                     dc.sampleDate = m.soilTest.sampleDate.ToString("MMM-yyyy");
-                    dc.nitrogen = m.soilTest.valNO3H.ToString();
-                    dc.phosphorous = m.soilTest.ValP.ToString();
-                    dc.potassium = m.soilTest.valK.ToString();
-                    dc.pH = m.soilTest.valPH.ToString();
+                    dc.nitrogen = m.soilTest.valNO3H.ToString("G29");
+                    dc.phosphorous = m.soilTest.ValP.ToString("G29");
+                    dc.potassium = m.soilTest.valK.ToString("G29");
+                    dc.pH = m.soilTest.valPH.ToString("G29");
                     dc.phosphorousRange = _sd.SoilTestRating("phosphorous",stc.GetConvertedSTP(m.soilTest));
                     dc.potassiumRange = _sd.SoilTestRating("potassium", stc.GetConvertedSTK(m.soilTest));
                 }
@@ -759,10 +759,10 @@ namespace SERVERAPI.Controllers
                     st.ConvertedKelownaK = dt.convertedKelownaK;
 
                     dc.sampleDate = "Default Values";
-                    dc.nitrogen = dt.nitrogen.ToString();
-                    dc.phosphorous = dt.phosphorous.ToString();
-                    dc.potassium = dt.potassium.ToString();
-                    dc.pH = dt.pH.ToString();
+                    dc.nitrogen = dt.nitrogen.ToString("G29");
+                    dc.phosphorous = dt.phosphorous.ToString("G29");
+                    dc.potassium = dt.potassium.ToString("G29");
+                    dc.pH = dt.pH.ToString("G29");
                     dc.phosphorousRange = _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(st));
                     dc.potassiumRange = _sd.SoilTestRating("potassium", stc.GetConvertedSTK(st));
                 }
@@ -798,7 +798,7 @@ namespace SERVERAPI.Controllers
             {
                 ReportSheetsField rf = new ReportSheetsField();
                 rf.fieldName = f.fieldName;
-                rf.fieldArea = f.area.ToString();
+                rf.fieldArea = f.area.ToString("G29");
                 rf.nutrients = new List<ReportFieldNutrient>();
                 if (f.nutrients != null)
                 {

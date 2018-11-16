@@ -83,7 +83,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-20-rhel7${NAME_SUFFIX}:2.0"
+                            "name": "dotnet-21-rhel7${NAME_SUFFIX}:2.1"
                         },
                         "env": [
                             {
@@ -148,7 +148,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-20-node${NAME_SUFFIX}:${ENV_NAME}"
+                            "name": "dotnet-21-node${NAME_SUFFIX}:${ENV_NAME}"
                         },
                         "env": [
                             {
