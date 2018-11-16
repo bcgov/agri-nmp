@@ -39,12 +39,12 @@ namespace SERVERAPI.ViewComponents
                     matType = _ud.GetFarmManure(Convert.ToInt32(m.manureId)).name,
                     applType = _sd.GetApplication(m.applicationId).name,
                     rate = m.rate.ToString() + " " + _sd.GetUnit(m.unitId).name,
-                    yrN = m.yrN.ToString(),
-                    yrP = m.yrP2o5.ToString(),
-                    yrK = m.yrK2o.ToString(),
-                    ltN = m.ltN.ToString(),
-                    ltP = m.ltP2o5.ToString(),
-                    ltK = m.ltK2o.ToString(),
+                    yrN = m.yrN.ToString("G29"),
+                    yrP = m.yrP2o5.ToString("G29"),
+                    yrK = m.yrK2o.ToString("G29"),
+                    ltN = m.ltN.ToString("G29"),
+                    ltP = m.ltP2o5.ToString("G29"),
+                    ltK = m.ltK2o.ToString("G29"),
                 };
                 mvm.manures.Add(dm);
             }

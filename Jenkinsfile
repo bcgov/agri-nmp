@@ -8,8 +8,8 @@ basicPipeline {
     ]
     templates = [
         'build':[
-            ['file':'OpenShift/dotnet-20.bc.json'],
-            ['file':'OpenShift/dotnet-20-node.bc.json'],
+            ['file':'OpenShift/dotnet-21.bc.json'],
+            ['file':'OpenShift/dotnet-21-node.bc.json'],
             ['file':'OpenShift/nmp.bc.json'],
         ],
         'deployment':[

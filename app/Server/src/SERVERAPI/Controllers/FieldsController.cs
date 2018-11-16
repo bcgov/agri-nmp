@@ -155,7 +155,7 @@ namespace SERVERAPI.Controllers
                 Field fld = _ud.GetFieldDetails(name);
                 fvm.currFieldName = fld.fieldName;
                 fvm.fieldName = fld.fieldName;
-                fvm.fieldArea = fld.area.ToString();
+                fvm.fieldArea = fld.area.ToString("G29");
                 fvm.fieldComment = fld.comment;
                 fvm.fieldId = fld.id;
                 // retrofit old saved NMP files
