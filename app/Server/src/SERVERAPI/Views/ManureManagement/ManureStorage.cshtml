@@ -142,6 +142,7 @@
             })
         });
 
+<<<<<<< HEAD
         $(document).ready(function () {
             $("#wizard-submanuregen").show();
             $("#wizard-submanureimported").show();
@@ -154,5 +155,23 @@
             $("#wizard-manure").addClass('wizard-item-done');
             $("#wizard-submanurestorage").addClass('wizard-item-done');
         });
+=======
+        $(document).ready(function() {
+            $("body").on("change", "#txtSystemName", function() {
+                $('#ButtonPressed').val("SystemNameChange");
+                $("#modForm").submit();
+            })
+        })
+
+        function SelectedMaterialsToIncludeChanged() {
+            $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
+            $("#modForm").submit();
+        }
+
+        function GetsRunoffFromRoofsOrYardsChanged() {
+            $('#ButtonPressed').val("GetsRunoffFromRoofsOrYardsChange");
+            $("#modForm").submit();
+        }
+>>>>>>> 7fa3bc3642ae30f972e44ba5f95fb45f766066ca
     </script>
 }

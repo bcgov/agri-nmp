@@ -855,7 +855,7 @@ namespace SERVERAPI.Models.Impl
             savedSystem.MaterialsIncludedInSystem = updatedSystem.MaterialsIncludedInSystem;
             savedSystem.Name = updatedSystem.Name;
             savedSystem.GetsRunoffFromRoofsOrYards = updatedSystem.GetsRunoffFromRoofsOrYards;
-            savedSystem.RooftopsAreaSquareFeetIncludedInRunoff = updatedSystem.RooftopsAreaSquareFeetIncludedInRunoff;
+            savedSystem.RunoffAreaSquareFeet = updatedSystem.RunoffAreaSquareFeet;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
