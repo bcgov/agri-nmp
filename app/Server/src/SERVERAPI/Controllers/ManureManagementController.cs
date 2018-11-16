@@ -409,13 +409,13 @@ namespace SERVERAPI.Controllers
         public IActionResult ManureStorageDetail(int? id, string mode, int? structureId, string target)
         {
             var msvm = new ManureStorageDetailViewModel();
-            var systemTitle = "{0} Storage System";
+            var systemTitle = "Storage System Details";
 
             try
             {
                 if (mode == "addSystem")
                 {
-                    msvm.Title = string.Format(systemTitle, "Add");
+                    msvm.Title = systemTitle;
                     msvm.DisableSystemFields = false;
                     msvm.ShowStructureFields = true;
                 }
@@ -449,11 +449,10 @@ namespace SERVERAPI.Controllers
                         ? "Solid"
                         : "Liquid";
 
-                    systemTitle = string.Format(systemTitle, manureType);
+                    systemTitle = $"{manureType} {systemTitle}";
 
                     if (mode == "editSystem" && !structureId.HasValue)
                     {
-                        systemTitle = $"Edit {systemTitle}";
                         msvm.ShowStructureFields = false;
                         msvm.DisableSystemFields = false;
                     }
@@ -462,7 +461,6 @@ namespace SERVERAPI.Controllers
                         msvm.ShowStructureFields = true;
                         msvm.DisableSystemFields = true;
                         systemTitle = $"Storage Structure - {systemTitle}";
-                        systemTitle = !structureId.HasValue ? $"Add {systemTitle}" : $"Edit {systemTitle}";
                     }
 
                     msvm.Title = systemTitle;
