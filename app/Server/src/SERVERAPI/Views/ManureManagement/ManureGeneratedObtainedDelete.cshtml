@@ -13,20 +13,12 @@
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="subTypeName"></label>
                 <div>
                     @Model.subTypeName<br />
                     <span asp-validation-for="subTypeName"></span>
                 </div>
             </div>
             <br />
-            @if (!string.IsNullOrEmpty(Model.warning))
-            {
-                <div class="form-group">
-                    <label class="text-danger">@Model.warning</label>
-                </div>
-                <br />
-            }
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>

@@ -8,12 +8,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using MvcRendering = Microsoft.AspNetCore.Mvc.Rendering;
-using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
-using static SERVERAPI.Models.StaticData;
-using StaticData = SERVERAPI.Models.StaticData;
+using static Agri.LegacyData.Models.StaticData;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,7 +22,7 @@ namespace SERVERAPI.Controllers
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
-        public Models.Impl.StaticData _sd { get; set; }
+        public StaticData _sd { get; set; }
         public IViewRenderService _viewRenderService { get; set; }
         public AppSettings _settings;
         private readonly IMapper _mapper;
@@ -63,13 +61,13 @@ namespace SERVERAPI.Controllers
                 mgovm.averageAnimalNumber = gm.averageAnimalNumber.ToString();
                 mgovm.selManureMaterialTypeOption = gm.manureType;
 
-                AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(gm.animalSubTypeId.ToString()));
+                Models.StaticData.AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(gm.animalSubTypeId.ToString()));
                 mgovm.selAnimalTypeOption = animalSubType.animalId.ToString();
 
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
                 {
-                    Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                    Models.StaticData.Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;
@@ -215,7 +213,7 @@ namespace SERVERAPI.Controllers
                         List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
                         if (mgovm.id == null)
                         {
-                            Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                            Models.StaticData.Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
 
                             GeneratedManure gm = new GeneratedManure();
                             gm.animalId = Convert.ToInt32(mgovm.selAnimalTypeOption);
@@ -224,7 +222,7 @@ namespace SERVERAPI.Controllers
                             gm.animalSubTypeName = _sd.GetAnimalSubTypeName(Convert.ToInt32(mgovm.selSubTypeOption));
                             gm.averageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
                             gm.manureType = mgovm.selManureMaterialTypeOption;
-                            gm.manureTypeName = EnumHelper<ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
+                            gm.manureTypeName = EnumHelper<Agri.Models.ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
                             if (mgovm.washWater != null)
                             {
                                 gm.washWaterGallons = Math.Round(Convert.ToDecimal(mgovm.washWater) * Convert.ToInt32(mgovm.averageAnimalNumber) * 365);
@@ -245,7 +243,7 @@ namespace SERVERAPI.Controllers
                                 gm.milkProduction = 0;
                             }
 
-                            AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+                            Models.StaticData.AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
 
                             // manure material type is liquid
                             if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
@@ -277,7 +275,7 @@ namespace SERVERAPI.Controllers
                             if (mgovm.selManureMaterialTypeOption != 0)
                                 thisManureMaterialType =mgovm.selManureMaterialTypeOption;
 
-                            Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                            Models.StaticData.Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
 
                             gm.id = mgovm.id;
                             gm.animalId = thisAnimalType;
@@ -300,7 +298,7 @@ namespace SERVERAPI.Controllers
                                 gm.washWater = 0;
                             }
 
-                            AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+                            Models.StaticData.AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
 
                             // manure material type is liquid
                             if (Convert.ToInt32(mgovm.selManureMaterialTypeOption) == 1)
@@ -356,12 +354,12 @@ namespace SERVERAPI.Controllers
                 mgovm.selAnimalTypeOption != "select animal")
             {
                 mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
-                mgovm.subTypeOptions.Insert(0, new StaticData.SelectListItem() { Id = 0, Value = "select subtype" });
+                mgovm.subTypeOptions.Insert(0, new Models.StaticData.SelectListItem() { Id = 0, Value = "select subtype" });
 
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
                 {
-                    Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                    Models.StaticData.Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;
@@ -387,7 +385,6 @@ namespace SERVERAPI.Controllers
             dvm.subTypeName = _sd.GetAnimalSubType(Convert.ToInt32(gm.animalSubTypeId)).name;
 
             dvm.title = "Delete";
-            dvm.warning = _sd.GetUserPrompt("deletewarningmanuregenerated");
 
             return PartialView("ManureGeneratedObtainedDelete", dvm);
         }
@@ -411,7 +408,7 @@ namespace SERVERAPI.Controllers
             return View();
         }
 
-        public IActionResult ManureStorageDetail(int? id)
+        public IActionResult ManureStorageDetail(int? id, string target)
         {
             var msvm = new ManureStorageDetailViewModel();
             try
@@ -420,13 +417,15 @@ namespace SERVERAPI.Controllers
 
                 if (id.HasValue)
                 {
-                    msvm.DisableForEditMode = true;
+                    msvm.DisableMaterialTypeForEditMode = true;
                     var savedStorageSystem = _ud.GetStorageSystem(id.Value);
+                    msvm.SystemId = savedStorageSystem.Id;
                     msvm.SystemName = savedStorageSystem.Name;
                     msvm.SelectedManureMaterialType = savedStorageSystem.ManureMaterialType;
-                    msvm.SelectedMaterialsToInclude =
-                        savedStorageSystem.MaterialsIncludedInSystem.Where(m => m.id.HasValue).Select(m => m.id.Value).ToList();
-                    msvm.GeneratedManures = GetFilteredMaterialsList(msvm);
+                    var selectedMaterialsToInclude = savedStorageSystem.MaterialsIncludedInSystem.Where(m => m.id.HasValue).Select(m => m.id.Value).ToList();
+                    msvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msvm, selectedMaterialsToInclude);
+                    msvm.GetsRunoffFromRoofsOrYards = savedStorageSystem.GetsRunoffFromRoofsOrYards;
+                    msvm.RunoffAreaSquareFeet = savedStorageSystem.RunoffAreaSquareFeet;
                 }
 
             }
@@ -447,9 +446,7 @@ namespace SERVERAPI.Controllers
         {
             try
             {
-                var currentStorageSystems = _ud.GetStorageSystems();
-
-                msdvm.GeneratedManures = GetFilteredMaterialsList(msdvm);
+                msdvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msdvm);
 
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
                 {
@@ -464,45 +461,85 @@ namespace SERVERAPI.Controllers
                     var systemTypeCountMsg = systemTypeCount > 0 ? (systemTypeCount + 1).ToString() : string.Empty;
                     var placeHolder = string.Format(_sd.GetUserPrompt("storagesystemnameplaceholder"), selectedTypeMsg, systemTypeCountMsg);
 
-                    msdvm.Placeholder = placeHolder;
+                    msdvm.SystemNamePlaceholder = placeHolder;
+
+                    return View(msdvm);
                 }
 
-                if (msdvm.ButtonPressed == "SelectedMaterialsToIncludeChange")
+                if (msdvm.ButtonPressed == "SelectedMaterialsToIncludeChange" || msdvm.ButtonPressed == "SystemNameChange")
                 {
                     ModelState.Clear();
                     msdvm.ButtonPressed = "";
                     msdvm.ButtonText = "Save";
+
+                    return View(msdvm);
                 }
 
-                if (msdvm.ButtonText == "Save")
+                if (msdvm.ButtonPressed == "GetsRunoffFromRoofsOrYardsChange")
                 {
+                    ModelState.Clear();
+                    msdvm.ButtonPressed = "";
+                    msdvm.ButtonText = "Save";
+                    msdvm.RunoffAreaSquareFeet = null;
+
+                    return View(msdvm);
+                }
+
+                if (msdvm.ButtonText == "Save" || msdvm.SystemId.HasValue)
+                {
+                    ModelState.Clear();
                     if (msdvm.SelectedManureMaterialType == 0)
                     {
-                        ModelState.AddModelError("ddlManureMaterialType", "Required");
+                        ModelState.AddModelError("SelectedManureMaterialType", "Required");
                     }
 
                     if (msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
                     {
-                        ModelState.AddModelError("ddlSelectedMaterialsToInclude", "Required");
+                        ModelState.AddModelError("SelectedMaterialsToInclude", "Required");
                     }
 
                     if (string.IsNullOrEmpty(msdvm.SystemName))
                     {
-                        ModelState.AddModelError("txtSystemName", "Required");
+                        ModelState.AddModelError("SystemName", "Required");
+                    }
+
+                    if (msdvm.GetsRunoffFromRoofsOrYards && (!msdvm.RunoffAreaSquareFeet.HasValue || msdvm.RunoffAreaSquareFeet <= 0))
+                    {
+                        ModelState.AddModelError("RunoffAreaSquareFeet", "Required");
+                    }
+
+                    var otherSystemNames = _ud.GetStorageSystems()
+                        .Where(ss => ss.Id != (msdvm.SystemId ?? 0)).Select(x => x.Name);
+
+                    if (otherSystemNames.Any(sn =>
+                        sn.Equals(msdvm.SystemName, StringComparison.CurrentCultureIgnoreCase)))
+                    {
+                        ModelState.AddModelError("SystemName", $"\"{msdvm.SystemName}\" has already been used, please enter a different system name.");
                     }
 
                     if (ModelState.IsValid)
                     {
                         var includedManure = _ud.GetGeneratedManures().Where(gm =>
                             msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.id == includedIds)).ToList();
-                        var newSystem = new ManureStorageSystem
+                        var manureStorageSystem = new ManureStorageSystem
                         {
                             Name = msdvm.SystemName,
                             ManureMaterialType = msdvm.SelectedManureMaterialType,
-                            MaterialsIncludedInSystem = includedManure
+                            MaterialsIncludedInSystem = includedManure,
+                            GetsRunoffFromRoofsOrYards = msdvm.GetsRunoffFromRoofsOrYards,
+                            RunoffAreaSquareFeet = msdvm.RunoffAreaSquareFeet
                         };
 
-                        _ud.AddManureStorageSystem(newSystem);
+                        if (msdvm.SystemId.HasValue)
+                        {
+                            manureStorageSystem.Id = msdvm.SystemId.Value;
+                            _ud.UpdateManureStorageSystem(manureStorageSystem);
+                        }
+                        else
+                        {
+                            _ud.AddManureStorageSystem(manureStorageSystem);
+                            msdvm.SystemId = manureStorageSystem.Id;
+                        }
 
                         var url = Url.Action("RefreshStorageList", "ManureManagement");
                         return Json(new {success = true, url = url, target = msdvm.Target});
@@ -517,12 +554,58 @@ namespace SERVERAPI.Controllers
             return PartialView(msdvm);
         }
 
-        private MvcRendering.MultiSelectList GetFilteredMaterialsList(ManureStorageDetailViewModel msdvm)
+        private List<MvcRendering.SelectListItem> GetFilteredMaterialsListForCurrentView(ManureStorageDetailViewModel msdvm)
         {
+            return GetFilteredMaterialsListForCurrentView(msdvm, msdvm.SelectedMaterialsToInclude);
+        }
+
+        private List<MvcRendering.SelectListItem> GetFilteredMaterialsListForCurrentView(ManureStorageDetailViewModel msdvm, List<int> selectedMaterials)
+        {
+
             if (msdvm.SelectedManureMaterialType > 0)
             {
-                    return new MvcRendering.MultiSelectList(_ud.GetGeneratedManures()
-                        .Where(g => g.manureType == msdvm.SelectedManureMaterialType), "id", "animalSubTypeName", msdvm.SelectedMaterialsToInclude);
+                var selectedManuresToInclude = selectedMaterials.ToList();
+                //Materials already allocated
+                if (msdvm.SystemId.HasValue)
+                {
+                    selectedManuresToInclude.AddRange(_ud.GetStorageSystems()
+                                                                        .Single(ss => ss.Id == msdvm.SystemId).MaterialsIncludedInSystem
+                                                                        .Select(m => m.id.Value).ToList());
+                    selectedManuresToInclude = selectedManuresToInclude.GroupBy(s => s).Select(m => m.First()).ToList();
+                }
+
+                //Materials accounted in another system
+                var materialIdsToExclude = new List<int>();
+
+                foreach (var manureStorageSystem in _ud.GetStorageSystems())
+                {
+                    var accountedFor =
+                        manureStorageSystem.MaterialsIncludedInSystem.Where(m =>
+                            selectedManuresToInclude.All(include => include != m.id)).Select(s => s.id.Value);
+                    materialIdsToExclude.AddRange(accountedFor);
+                }
+
+                var generatedManures = _ud.GetGeneratedManures()
+                    .Where(g => (
+                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Solid && g.manureType == ManureMaterialType.Solid)
+                                            ||
+                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid && (g.manureType == ManureMaterialType.Liquid || g.manureType == ManureMaterialType.Solid))
+                                        )
+                                       && !materialIdsToExclude.Any(exclude => g.id.HasValue && g.id.Value == exclude));
+
+                //return new MvcRendering.MultiSelectList(generatedManures, "id", "animalSubTypeName", msdvm.SelectedMaterialsToInclude);
+                var manureSelectItems = new List<MvcRendering.SelectListItem>();
+                foreach (var generatedManure in generatedManures)
+                {
+                    manureSelectItems.Add(new MvcRendering.SelectListItem
+                    {
+                        Value = generatedManure.id.Value.ToString(),
+                        Text = generatedManure.animalSubTypeName,
+                        Selected = selectedMaterials.Any(sm => sm == generatedManure.id.Value)
+                    });
+                }
+
+                return manureSelectItems;
             }
 
             return null;

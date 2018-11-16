@@ -811,6 +811,20 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
+
+        public List<ManureStorageSystem> GetStorageSystems()
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            return yd?.ManureStorageSystems ?? new List<ManureStorageSystem>();
+        }
+
+        public ManureStorageSystem GetStorageSystem(int id)
+        {
+            return GetStorageSystems().SingleOrDefault(s => s.Id == id);
+        }
+
         public void AddManureStorageSystem(ManureStorageSystem storageSystem)
         {
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -831,17 +845,20 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
-        public List<ManureStorageSystem> GetStorageSystems()
+        public void UpdateManureStorageSystem(ManureStorageSystem updatedSystem)
         {
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
-            return yd?.ManureStorageSystems ?? new List<ManureStorageSystem>();
-        }
 
-        public ManureStorageSystem GetStorageSystem(int id)
-        {
-            return GetStorageSystems().SingleOrDefault(s => s.Id == id);
+            var savedSystem = yd.ManureStorageSystems.Single(ss => ss.Id == updatedSystem.Id);
+            savedSystem.ManureMaterialType = updatedSystem.ManureMaterialType;
+            savedSystem.MaterialsIncludedInSystem = updatedSystem.MaterialsIncludedInSystem;
+            savedSystem.Name = updatedSystem.Name;
+            savedSystem.GetsRunoffFromRoofsOrYards = updatedSystem.GetsRunoffFromRoofsOrYards;
+            savedSystem.RunoffAreaSquareFeet = updatedSystem.RunoffAreaSquareFeet;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
     }
 }

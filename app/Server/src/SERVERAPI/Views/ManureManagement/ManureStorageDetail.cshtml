@@ -17,31 +17,65 @@
                         <label asp-for="SelectedManureMaterialType">Liquid or Solid</label>
                         <select class="form-control" asp-for="SelectedManureMaterialType" 
                                 asp-items="@(Html.GetEnumSelectList<StaticData.ManureMaterialType>())" id="ddlManureMaterialType"
-                                disabled="@(Model.DisableForEditMode ? "disabled" : null)">
+                                disabled="@(Model.DisableMaterialTypeForEditMode ? "disabled" : null)">
                             <option>Select Manure Type</option>
                         </select>
                         <span asp-validation-for="SelectedManureMaterialType" class="text-danger">Select a Manure Material Type</span>
                     </div>
-                    <div class="form-group col-sm-3">
+                    <div class="form-group col-sm-3 agri-listbox">
                         <label asp-for="SelectedMaterialsToInclude">Select materials to include</label>
-                        <select class="form-control" size="5" asp-for="SelectedMaterialsToInclude" asp-items="Model.GeneratedManures" id="ddlSelectedMaterialsToInclude"></select>
+                        <ul class="form-control  agri-listbox" id="SelectedMaterialsToInclude">
+                            @if (Model.GeneratedManures != null)
+                            {
+                                for (var index = 0; index < Model.GeneratedManures.Count; index++)
+                                {
+                                    <li>
+                                        <label asp-for="@Model.GeneratedManures[index]">
+                                            @Html.HiddenFor(m => Model.GeneratedManures[index].Value)
+                                            @Html.HiddenFor(m => Model.GeneratedManures[index].Text)
+                                            <input type="checkbox" asp-for="@Model.GeneratedManures[index].Selected" onchange="SelectedMaterialsToIncludeChanged()"/> @Model.GeneratedManures[index].Text
+                                        </label>
+                                    </li>
+                                }
+                            }
+                        </ul>
                         <span asp-validation-for="SelectedMaterialsToInclude" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="SystemName">System Name</label>
-                        <input class="form-control" asp-for="SystemName" type="text" placeholder="@Model.Placeholder" id="SystemName" />
+                        <input class="form-control" asp-for="SystemName" type="text" placeholder="@Model.SystemNamePlaceholder" id="txtSystemName" />
                         <span asp-validation-for="SystemName" class="text-danger"></span>
                     </div>
+                    @if (Model.ShowRunOffQuestions)
+                    {
+                        <div class="form-group col-sm-3">
+                            <label>Does yard or roof runoff enter the storage?</label>
+                            <label style="padding-right: 20px">
+                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="true" onchange="GetsRunoffFromRoofsOrYardsChanged()" /> Yes
+                            </label>
+                            <label>
+                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="false" onchange="GetsRunoffFromRoofsOrYardsChanged()" /> No
+                            </label>
+                           @if (Model.ShowRunoffAreaField)
+                           {
+                            <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
+                               <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"/>
+                               <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
+                           }
+                        </div>
+                    }
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="ok_button" @( Model.ButtonText == "Save" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>Save</button>
+            <button type="submit" class="btn btn-primary" id="ok_button" @(Model.ButtonText == "Save" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>Save</button>
         </div>
+        @Html.HiddenFor(x => x.SystemId)
+        @Html.HiddenFor(x => x.SelectedManureMaterialType)
         @Html.HiddenFor(x => x.ButtonPressed)
-        @Html.HiddenFor(x => x.Placeholder);
-        @Html.HiddenFor(x => x.ButtonText);
+        @Html.HiddenFor(x => x.SystemNamePlaceholder)
+        @Html.HiddenFor(x => x.ButtonText)
         @Html.HiddenFor(x => x.Target)
     </form>
 </div>
