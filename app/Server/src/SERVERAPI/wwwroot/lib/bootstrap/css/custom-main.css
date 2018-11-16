@@ -669,14 +669,14 @@ label {
 }
 
 .wizard-circle {
-  border-radius: 50%;
-  width: 60px;
+    /*border-radius: 50%;*/
+    /*width: 60px;
   height: 60px;
-  border: 2px solid #959595;
-  margin: 0 auto 10px;
-  background: white;
-  position: relative;
-  z-index: 2;
+  border: 2px solid #959595;*/
+    margin: 0 auto 10px;
+    background: white;
+    position: relative;
+    z-index: 2;
 }
 
 .wizard-name {
@@ -686,7 +686,7 @@ label {
 }
 
 .wizard-icon {
-  line-height: 55px;
+  line-height: 100px;
 }
 
 .wizard-icon svg {
@@ -1009,7 +1009,15 @@ label {
     max-width: 1090px;
     margin: 0 auto;
     padding: 0 15px;
+    padding-left: 150px;
 }
+
+.submenu-fields-wrapper {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
 .submenu-manure-wizard {
     padding: 25px 0;
     border-bottom: 1px solid #ccc;
