@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http;
-@model SERVERAPI.ViewModels.ManureGeneratedObtainedDetailViewModel
+
 
 @{
-    ViewBag.Title = "Manure Generated/Obtained";
+    ViewBag.Title = "Manure Nutrient Analysis";
 }
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
@@ -23,20 +23,24 @@
 <div class="container">
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
-        <form asp-controller="ManureManagement" asp-action="ManureGeneratedObtained" method="post" id="modForm">
-            <div id="manuregeneratedobtained">
-                @await Component.InvokeAsync("ManureGeneratedObtained")
+
+        <form asp-controller="ManureManagement" asp-action="ManureNutrientAnalysis" method="post" >
+            <div id="manurestorage">
+                @await Component.InvokeAsync("ManureNutrientAnalysis")
+            </div>
+            <div class="form-box-submit">
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("ManureStorage", "ManureManagement" )';" title="Previous"  aria-label="Previous" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Fields", "Fields" )';"  title="Next"  aria-label="Next"/>
             </div>
         </form>
-        <div class="form-box-submit">
-            <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Farm", "Farm" )';" title="Previous"  aria-label="Previous" />
-            <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureImported", "ManureManagement" )';"  title="Next"  aria-label="Next"/>
-        </div>
         <!-- PAGE CONTENT -->
     </div>
 </div>
 
 <!-- /BODY CONTENT -->
+
+
+
 @section Scripts {
 
 
@@ -79,7 +83,7 @@
         }
 
         $(document).ready(function () {
-            $("#wizard-manureGenerated").addClass('wizard-item-done');
+            $("#wizard-manureStorage").addClass('wizard-item-done');
         });
 
 
@@ -123,58 +127,19 @@
             });
         }
 
-        $(document).ready(function () {
-            $("body").on("change", "#ddlAnimalType", function () {
-                $('#buttonPressed').val("AnimalTypeChange");
-                $("#modForm").submit();
-            })
-        });
-
-        $(document).ready(function () {
-            $("body").on("change", "#ddlSubType", function () {
-                $('#buttonPressed').val("SubTypeChange");
-                $("#modForm").submit();
-            })
-        });
 
         $(document).ready(function () {
             $("body").on("change", "#ddlManureMaterialType", function () {
-                $('#buttonPressed').val("ManureMaterialTypeChange");
-                $("#modForm").submit();
-            })
-        });
-
-        $(document).on('change',
-            '#averageAnimalNumber', function () {
-                NeedRefresh();
-            });
-
-        $(document).on('change',
-            '#washWater', function () {
-                NeedRefresh();
-            });
- 
-        $(document).ready(function () {
-            $("body").on("click", "#rstWashWater", function () {
-                $('#buttonPressed').val("ResetWashWater");
-                $("#modForm").submit();
-            })
-        });
-
-        $(document).on('change','#milkProduction', function () {
-                NeedRefresh();
-            });
-
-        $(document).ready(function () {
-            $("body").on("click", "#rstmilkProduction", function () {
-                $('#buttonPressed').val("ResetMilkProduction");
+                $('#ButtonPressed').val("ManureMaterialTypeChange");
                 $("#modForm").submit();
             })
         });
 
         $(document).ready(function () {
-            $("#wizard-manure").addClass('wizard-item-done');
-            $("#wizard-submanuregen").addClass('wizard-item-done');
+            $("body").on("change", "#ddlSelectedMaterialsToInclude", function () {
+                $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
+                $("#modForm").submit();
+            })
         });
 
         $(document).ready(function () {
@@ -182,18 +147,29 @@
             $("#wizard-submanureimported").show();
             $("#wizard-submanurestorage").show();
             $("#wizard-submanunutrient").show();
-            $("#wizard-submanuregen").addClass('submenu-manure-width');
-            $("#wizard-submanureimported").addClass('submenu-manure-width');
-            $("#wizard-submanurestorage").addClass('submenu-manure-width');
-            $("#wizard-submanunutrient").addClass('submenu-manure-width');
             return false;
         });
 
-        function NeedRefresh() {
-            $("#ok_button").html('Save');
-            $("#ok_button").css('background-color', '#1abbed');
-            $("#btnText").val("Save");
-        }
-      
+        $(document).ready(function () {
+            $("#wizard-manure").addClass('wizard-item-done');
+            $("#wizard-submanunutrient").addClass('wizard-item-done');
+        });
+
+        //$("#wizard-submanunutrient").click(function () {
+        //    $("#wizard-submanuregen").show();
+        //    $("#wizard-submanureimported").show();
+        //    $("#wizard-submanurestorage").show();
+        //    $("#wizard-submanunutrient").show();
+        //    return false;
+        //});
+
+        //$("#wizard-submanuregen").click(function () {
+        //    $("#wizard-submanuregen").show();
+        //    $("#wizard-submanureimported").show();
+        //    $("#wizard-submanurestorage").show();
+        //    $("#wizard-submanunutrient").show();
+        //    return false;
+        //});
+
     </script>
 }
