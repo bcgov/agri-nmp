@@ -841,6 +841,8 @@ namespace SERVERAPI.Models.Impl
                 storageSystem.Id = yd.ManureStorageSystems.Select(m => m.Id).Max() + 1;
             }
 
+            storageSystem.ManureStorageStructures.First().Id = 1;
+
             yd.ManureStorageSystems.Add(storageSystem);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -857,6 +859,11 @@ namespace SERVERAPI.Models.Impl
             savedSystem.Name = updatedSystem.Name;
             savedSystem.GetsRunoffFromRoofsOrYards = updatedSystem.GetsRunoffFromRoofsOrYards;
             savedSystem.RunoffAreaSquareFeet = updatedSystem.RunoffAreaSquareFeet;
+
+            foreach (var updateStorageStructure in updatedSystem.ManureStorageStructures)
+            {
+                savedSystem.AddUpdateManureStorageStructure(updateStorageStructure);
+            }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

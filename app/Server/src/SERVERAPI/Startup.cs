@@ -35,7 +35,6 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Agri.Data;
 using Agri.Models.Settings;
-using AutoMapper;
 
 namespace SERVERAPI
 {

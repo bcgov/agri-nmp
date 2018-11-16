@@ -9208,6 +9208,11 @@
             "id": "31",
             "name": "storagesystemnameplaceholder",
             "text": "e.g. {0} Storage System {1}"
+          },
+          {
+            "id": "32",
+            "name": "storagestructurenameplaceholder",
+            "text": "Underbarn"
           }
         ]
       },

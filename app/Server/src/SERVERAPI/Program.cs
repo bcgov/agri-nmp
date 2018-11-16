@@ -32,7 +32,7 @@ namespace SERVERAPI
             //host.Run();
             var host = BuildWebHost(args);
 
-            RunSeeding(host);
+            //RunSeeding(host);
 
             host.Run();
         }
