@@ -97,7 +97,7 @@
                 </div>
                 <div class="form-box-submit">
                     <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="Intercept('@Url.Action("Fields", "Fields" )');" title="Previous" aria-label="Previous" />
-                    <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="Intercept('@Url.Action("Manure", "Manure" )');" title="Next" aria-label="Next" />
+                    <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="Intercept('@Url.Action("Calculate", "Nutrients" )');" title="Next" aria-label="Next" />
                 </div>
 
             </form>
@@ -239,6 +239,17 @@
                 return false;
             });
         }
+        $(document).ready(function () {
+            $("#wizard-subfields").show();
+            $("#wizard-subsoiltests").show();
+            return false;
+        });
+
+        $(document).ready(function () {
+            $("#wizard-field").addClass('wizard-item-done');
+            $("#wizard-subsoiltests").addClass('wizard-item-done');
+        });
+
     </script>
 
 }
