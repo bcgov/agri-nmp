@@ -61,8 +61,8 @@ namespace Agri.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var agriConnection = Configuration["Agri:ConnectionString"]
-            optionsBuilder.UseNpgsql();
+            //var agriConnection = Configuration["Agri:ConnectionString"]
+            //optionsBuilder.UseNpgsql();
 
             base.OnConfiguring(optionsBuilder);
         }

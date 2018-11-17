@@ -16,7 +16,7 @@ namespace Agri.Data
 
         public AgriConfigurationRepository(DbContextOptions<AgriConfigurationContext> options, string connectionString)
         {
-            _context = new AgriConfigurationContext(options, connectionString);
+            //_context = new AgriConfigurationContext(options, connectionString);
         }
 
         public List<Region> GetRegions()
