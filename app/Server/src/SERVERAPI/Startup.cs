@@ -21,6 +21,8 @@ using SERVERAPI.Utility;
 using SERVERAPI.Controllers;
 using System.Globalization;
 using Agri.Models.Settings;
+using Agri.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SERVERAPI
 {
@@ -51,12 +53,18 @@ namespace SERVERAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddAuthorization();
-            //var agriConnectionString = Configuration["Agri:ConnectionString"];
+            var agriConnectionString = Configuration["Agri:ConnectionString"];
+            //Creates the DbContext as a scoped Service
+            services.AddDbContext<AgriConfigurationContext>(options =>
+            {
+                options.UseNpgsql(agriConnectionString, b => b.MigrationsAssembly("Agri.Data"));
+            });
             //services.AddScoped<IConfigurationRepository>(provider => new ConfigurationRepository(agriConnectionString));
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddTransient<AgriSeeder>();
 
             //// allow for large files to be uploaded
             services.Configure<FormOptions>(options =>

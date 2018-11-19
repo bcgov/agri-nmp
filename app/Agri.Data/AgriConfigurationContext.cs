@@ -59,14 +59,6 @@ namespace Agri.Data
 
         #endregion
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //var agriConnection = Configuration["Agri:ConnectionString"]
-            //optionsBuilder.UseNpgsql();
-
-            base.OnConfiguring(optionsBuilder);
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Composite Primary Key Definitions

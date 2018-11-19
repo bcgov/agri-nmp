@@ -14,25 +14,11 @@ namespace SERVERAPI
     {
         public static void Main(string[] args)
         {
-            //var config = new ConfigurationBuilder()
-            //    .AddJsonFile("config.json", false, true)
-            //    .AddEnvironmentVariables("")
-            //    .Build();
-
-            //var url = config["ASPNETCORE_URLS"] ?? "http://*:8080";
-
-            //var host = new WebHostBuilder()
-            //    .UseKestrel()
-            //    .UseContentRoot(Directory.GetCurrentDirectory())
-            //    .UseIISIntegration()
-            //    .UseStartup<Startup>()
-            //    .UseUrls(url)
-            //    .Build();  
 
             //host.Run();
             var host = BuildWebHost(args);
 
-            //RunSeeding(host);
+            RunSeeding(host);
 
             host.Run();
         }
