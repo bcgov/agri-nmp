@@ -26,7 +26,8 @@ namespace SERVERAPI.Models
         public string year { get; set; }
         public List<Field> fields { get; set; }
         public List<FarmManure> farmManures { get; set; }
-
+        public List<GeneratedManure> GeneratedManures { get; set; }
+        public List<ManureStorageSystem> ManureStorageSystems { get; set; }
     }
     public class Field
     {
@@ -139,6 +140,79 @@ namespace SERVERAPI.Models
         public int dmid { get; set; }
         public int nminerizationid { get; set; }
         public decimal? nitrate { get; set; }
+    }
+
+    public class GeneratedManure
+    {
+        public int? id { get; set; }
+        public int animalId { get; set; }
+        public string animalName { get; set; }
+        public int animalSubTypeId { get; set; }
+        public string animalSubTypeName { get; set; }
+        public int averageAnimalNumber { get; set; }
+        public StaticData.ManureMaterialType manureType { get; set; }
+        public string manureTypeName { get; set; }
+        public string annualAmount { get; set; }
+        public decimal washWaterGallons { get; set; }
+        public decimal washWater { get; set; }
+        public decimal milkProduction { get; set; }
+        public bool AssignedToStoredSystem { get; set; }
+    }
+
+    public class ManureStorageSystem
+    {
+        public ManureStorageSystem()
+        {
+            ManureStorageStructures = new List<ManureStorageStructure>();
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public StaticData.ManureMaterialType ManureMaterialType { get; set; }
+        public List<GeneratedManure> MaterialsIncludedInSystem { get; set; }
+        public bool GetsRunoffFromRoofsOrYards { get; set; }
+        public int? RunoffAreaSquareFeet { get; set; }
+        public List<ManureStorageStructure> ManureStorageStructures { get; }
+
+        public void AddUpdateManureStorageStructure(ManureStorageStructure manureStorageStructure)
+        {
+            var savedStructure = ManureStorageStructures.SingleOrDefault(mss => mss.Id == manureStorageStructure.Id);
+
+            if (savedStructure == null)
+            {
+                manureStorageStructure.Id = ManureStorageStructures.Any()
+                    ? ManureStorageStructures.Select(mss => mss.Id).Max() + 1
+                    : 0;
+
+                ManureStorageStructures.Add(manureStorageStructure);
+            }
+            else
+            {
+                savedStructure.Name = manureStorageStructure.Name;
+                savedStructure.UncoveredAreaSquareFeet = manureStorageStructure.UncoveredAreaSquareFeet;
+            }
+        }
+
+        public void UpdateManureStorageStructure(ManureStorageStructure manureStorageStructure)
+        {
+            if (manureStorageStructure.Id > 0)
+            {
+                var savedStructure = ManureStorageStructures.Single(mss => mss.Id == manureStorageStructure.Id);
+                savedStructure.Name = manureStorageStructure.Name;
+                savedStructure.UncoveredAreaSquareFeet = manureStorageStructure.UncoveredAreaSquareFeet;
+            }
+        }
+
+        public ManureStorageStructure GetManureStorageStructure(int id)
+        {
+            return ManureStorageStructures.Single(mss => mss.Id == id);
+        }
+    }
+
+    public class ManureStorageStructure
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int? UncoveredAreaSquareFeet { get; set; }
     }
 }
 

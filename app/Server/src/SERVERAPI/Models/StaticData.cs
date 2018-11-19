@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -90,6 +92,7 @@ namespace SERVERAPI.Models
             public decimal cubic_Yard_Conversion { get; set; }
             public decimal nitrate { get; set; }
         }
+
         public class FertilizerTypes
         {
             public List<FertilizerType> fertilizerTypes { get; set; }
@@ -167,23 +170,28 @@ namespace SERVERAPI.Models
             public string value_material_units { get; set; }
             public decimal value_N { get; set; }
             public decimal value_P2O5 { get; set; }
+
             public decimal value_K2O { get; set; }
+
             // conversion factor to the units displayed in the section, Manure and Fertilizer Required, of the Complete Report.
             // does not consider the area 
             public decimal farm_reqd_nutrients_std_units_conversion { get; set; }
             public decimal farm_reqd_nutrients_std_units_area_conversion { get; set; }
             public string solid_liquid { get; set; }
         }
+
         public class NutrientIcons
         {
             public List<NutrientIcon> nutrientIcons { get; set; }
         }
+
         public class NutrientIcon
         {
             public int id { get; set; }
             public string name { get; set; }
             public string definition { get; set; }
         }
+
         public class FertilizerUnits
         {
             public List<FertilizerUnit> fertilizerUnits { get; set; }
@@ -194,10 +202,12 @@ namespace SERVERAPI.Models
             public int id { get; set; }
             public string name { get; set; }
             public string dry_liquid { get; set; }
+
             public decimal conv_to_impgalperac { get; set; }
+
             // conversion factor to the units displayed in the section, Manure and Fertilizer Required, of the Complete Report.
             // does not consider the area 
-            public decimal farm_reqd_nutrients_std_units_conversion { get; set; }  
+            public decimal farm_reqd_nutrients_std_units_conversion { get; set; }
             public decimal farm_reqd_nutrients_std_units_area_conversion { get; set; }
         }
 
@@ -283,6 +293,7 @@ namespace SERVERAPI.Models
         {
             public List<SoilTestMethod> methods { get; set; }
         }
+
         public class SoilTestMethod
         {
             public int id { get; set; }
@@ -297,6 +308,7 @@ namespace SERVERAPI.Models
         {
             public List<PrevCropType> prevCropTypes { get; set; }
         }
+
         public class PrevCropType
         {
             public int id { get; set; }
@@ -310,6 +322,7 @@ namespace SERVERAPI.Models
         {
             public List<CropYield> cropYields { get; set; }
         }
+
         public class CropYield
         {
             public int cropid { get; set; }
@@ -321,6 +334,7 @@ namespace SERVERAPI.Models
         {
             public List<CropSTPRegionCd> cropSTPRegionCds { get; set; }
         }
+
         public class CropSTPRegionCd
         {
             public int cropid { get; set; }
@@ -332,6 +346,7 @@ namespace SERVERAPI.Models
         {
             public List<CropSTKRegionCd> cropSTKRegionCds { get; set; }
         }
+
         public class CropSTKRegionCd
         {
             public int cropid { get; set; }
@@ -343,6 +358,7 @@ namespace SERVERAPI.Models
         {
             public List<STPRecommend> sTPRecommends { get; set; }
         }
+
         public class STPRecommend
         {
             public int stp_kelowna_rangeid { get; set; }
@@ -355,6 +371,7 @@ namespace SERVERAPI.Models
         {
             public List<STPKelownaRange> sTPKelownaRanges { get; set; }
         }
+
         public class STPKelownaRange
         {
             public int id { get; set; }
@@ -367,6 +384,7 @@ namespace SERVERAPI.Models
         {
             public List<STKRecommend> sTKRecommends { get; set; }
         }
+
         public class STKRecommend
         {
             public int stk_kelowna_rangeid { get; set; }
@@ -379,6 +397,7 @@ namespace SERVERAPI.Models
         {
             public List<STKKelownaRange> sTKKelownaRanges { get; set; }
         }
+
         public class STKKelownaRange
         {
             public int id { get; set; }
@@ -391,6 +410,7 @@ namespace SERVERAPI.Models
         {
             public List<Message> messages { get; set; }
         }
+
         public class Message
         {
             public int id { get; set; }
@@ -426,6 +446,7 @@ namespace SERVERAPI.Models
         {
             public List<FertilizerMethod> fertilizerMethods { get; set; }
         }
+
         public class FertilizerMethod
         {
             public int id { get; set; }
@@ -436,6 +457,7 @@ namespace SERVERAPI.Models
         {
             public List<ExternalLink> externalLinks { get; set; }
         }
+
         public class ExternalLink
         {
             public int id { get; set; }
@@ -454,10 +476,12 @@ namespace SERVERAPI.Models
             public string prevYearManureAppFrequency { get; set; }
             public int[] defaultNitrogenCredit { get; set; }
         }
+
         public class Browsers
         {
             public List<Browser> known { get; set; }
         }
+
         public class Browser
         {
             public int id { get; set; }
@@ -465,5 +489,53 @@ namespace SERVERAPI.Models
             public string minVersion { get; set; }
         }
 
+        public class Animals
+        {
+            public List<Animal> animals { get; set; }
+        }
+
+        public class Animal
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+
+        }
+
+        public class AnimalSubTypes
+        {
+            public List<AnimalSubType> animalSubTypes { get; set; }
+        }
+
+        public class AnimalSubType
+        {
+            public int id { get; set; }
+            public string name { get; set; }
+            public decimal? liquidPerGalPerAnimalPerDay { get; set;}
+            public decimal? solidPerGalPerAnimalPerDay {get; set; }
+            public decimal? solidPerPoundPerAnimalPerDay {get; set; }
+            public decimal solidLiquidSeparationPercentage { get; set; }
+            public decimal washWater { get; set; }
+            public decimal milkProduction { get; set; }
+            public int animalId { get; set; }
+            
+        }
+
+        public enum ManureMaterialType
+        {
+            Liquid = 1,
+            Solid = 2,
+            [Display(Name = "Solid Liquid Separation")]
+            SolidLiquidSeparated = 3
+        }
+
+        public class AnimalUsingWashWater
+        {
+            public int AnimalSubTypeId { get; set; }
+        }
+
+        public class AnimalsUsingWashWater
+        {
+            public List<AnimalUsingWashWater> Animals { get; set; }
+        }
     }
 }

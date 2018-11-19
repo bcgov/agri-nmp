@@ -61,12 +61,12 @@ namespace SERVERAPI.ViewComponents
                     cropId = Convert.ToInt32(m.id),
                     cropName = cp.cropname,
                     yield = m.yield.ToString() + " tons/ac ("+ yld.yielddesc + ")",
-                    reqN = (m.reqN * -1).ToString(),
-                    reqP = (m.reqP2o5 * -1).ToString(),
-                    reqK = (m.reqK2o * -1).ToString(),
-                    remN = (m.remN * -1).ToString(),
-                    remP = (m.remP2o5 * -1).ToString(),
-                    remK = (m.remK2o * -1).ToString()
+                    reqN = (m.reqN * -1).ToString("G29"), 
+                    reqP = (m.reqP2o5 * -1).ToString("G29"),
+                    reqK = (m.reqK2o * -1).ToString("G29"),
+                    remN = (m.remN * -1).ToString("G29"),
+                    remP = (m.remP2o5 * -1).ToString("G29"),
+                    remK = (m.remK2o * -1).ToString("G29"),
                 };
                 mvm.cropList.Add(dm);
             }
