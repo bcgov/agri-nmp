@@ -100,6 +100,7 @@ namespace SERVERAPI
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
+            services.AddScoped<Agri.LegacyData.Models.Impl.StaticDataExtRepository>();
             services.AddOptions();
             //services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();

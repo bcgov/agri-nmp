@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Agri.Models;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
 {
@@ -11,12 +12,12 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selAnimalTypeOption { get; set; }
-        public List<Models.StaticData.SelectListItem> animalTypeOptions { get; set; }
+        public List<SelectListItem> animalTypeOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selSubTypeOption { get; set; }
         public string subTypeName { get; set; }
-        public List<Models.StaticData.SelectListItem> subTypeOptions { get; set; }
+        public List<SelectListItem> subTypeOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public ManureMaterialType selManureMaterialTypeOption { get; set; }
