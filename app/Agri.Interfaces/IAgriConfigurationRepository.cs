@@ -4,10 +4,34 @@ using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Version = Agri.Models.Configuration.Version;
 
-namespace Agri.Data
+namespace Agri.Interfaces
 {
     public interface IAgriConfigurationRepository
     {
+        List<AmmoniaRetention> GetAmmoniaRetentions();
+        List<CropYield> GetCropYields();
+        List<Location> GetLocations();
+        List<CropSoilTestPotassiumRegion> GetCropSoilTestPotassiumRegions();
+        List<CropSoilTestPhosphorousRegion> GetCropSoilTestPhosphorousRegions();
+        List<UserPrompt> GetUserPromts();
+        List<ExternalLink> GetExternalLinks();
+        List<SoilTestPhosphorusRange> GetSoilTestPhosphorusRanges();
+        List<SoilTestPotassiumRange> GetSoilTestPotassiumRanges();
+        List<Message> GetMessages();
+        List<SeasonApplication> GetSeasonApplications();
+        List<Yield> GetYields();
+        List<NitrogenRecommendation> GetNitrogenRecommendations();
+        RptCompletedManureRequiredStdUnit GetRptCompletedManureRequiredStdUnit();
+        RptCompletedFertilizerRequiredStdUnit GetRptCompletedFertilizerRequiredStdUnit();
+        BCSampleDateForNitrateCredit GetBCSampleDateForNitrateCredit();
+        List<SoilTestPotassiumKelownaRange> GetSoilTestPotassiumKelownaRanges();
+        List<SoilTestPhosphorousKelownaRange> GetSoilTestPhosphorousKelownaRanges();
+        List<SoilTestPotassiumRecommendation> GetSoilTestPotassiumRecommendations();
+        List<SoilTestPhosphorousRecommendation> GetSoilTestPhosphorousRecommendations();
+        List<HarvestUnit> GetHarvestUnits();
+        List<LiquidFertilizerDensity> GetLiquidFertilizerDensities();
+        List<NitrogenMineralization> GetNitrogeMineralizations();
+        List<DryMatter> GetDryMatters();
         List<Region> GetRegions();
         List<SelectListItem> GetRegionsDll();
         Manure GetManure(string manId);
@@ -85,7 +109,6 @@ namespace Agri.Data
         string GetUserPrompt(string name);
         Version GetVersionData();
         string GetStaticDataVersion();
-        //List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield, string parentNode, string parentfield);
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
         List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults();
         bool wasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded);
@@ -119,6 +142,5 @@ namespace Agri.Data
         List<AnimalSubType> GetAnimalSubTypes(int animalId);
         List<AnimalSubType> GetAnimalSubTypes();
         List<SelectListItem> GetSubtypesDll(int animalType);
-        List<SelectListItem> GetManureMaterialTypesDll();
     }
 }
