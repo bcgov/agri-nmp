@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
 {
@@ -14,13 +15,13 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selTypOption { get; set; }
-        public List<Models.StaticData.SelectListItem> typOptions { get; set; }
+        public List<SelectListItem> typOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selCropOption { get; set; }
-        public List<Models.StaticData.SelectListItem> cropOptions { get; set; }
+        public List<SelectListItem> cropOptions { get; set; }
         public string selPrevOption { get; set; }
-        public List<Models.StaticData.SelectListItem> prevOptions { get; set; }
+        public List<SelectListItem> prevOptions { get; set; }
         public string yield { get; set; }
         public string yieldUnit { get; set; }
         public string crude { get; set; }
@@ -42,7 +43,7 @@ namespace SERVERAPI.ViewModels
         public string stdNAmt { get; set; }
         public bool stdYield { get; set; }
         public bool showHarvestUnitsDDL { get; set; }
-        public List<Models.StaticData.SelectListItem> harvestUnitsOptions { get; set; }
+        public List<SelectListItem> harvestUnitsOptions { get; set; }
         public string selHarvestUnits { get; set; }
         [Required(ErrorMessage = "Required")]
         public string yieldByHarvestUnit { get; set; }

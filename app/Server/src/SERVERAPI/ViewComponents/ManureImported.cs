@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
@@ -18,9 +19,9 @@ namespace SERVERAPI.ViewComponents
     public class ManureImportedViewComponent : ViewComponent
     {
         private UserData _userData;
-        private StaticData _sdData;
+        private IAgriConfigurationRepository _sdData;
 
-        public ManureImportedViewComponent(StaticData sdData, UserData ud)
+        public ManureImportedViewComponent(IAgriConfigurationRepository sdData, UserData ud)
         {
             _sdData = sdData;
             _userData = ud;

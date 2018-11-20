@@ -6,8 +6,8 @@ using System.Linq;
 using Agri.Interfaces;
 using Agri.Models.Farm;
 using SERVERAPI.ViewModels;
-using static SERVERAPI.Models.StaticData;
 using Agri.LegacyData.Models.Impl;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.Models.Impl
 {
