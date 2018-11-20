@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
-using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using MvcRendering = Microsoft.AspNetCore.Mvc.Rendering;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
-using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
 
 
@@ -23,13 +22,13 @@ namespace SERVERAPI.Controllers
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
-        public StaticDataExtRepository _sd { get; set; }
+        public IAgriConfigurationRepository _sd { get; set; }
         public IViewRenderService _viewRenderService { get; set; }
         public AppSettings _settings;
         //private readonly IMapper _mapper;
 
         public ManureManagementController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud,
-            StaticDataExtRepository sd
+            IAgriConfigurationRepository sd
             //,IMapper mapper
             )
         {
@@ -219,8 +218,6 @@ namespace SERVERAPI.Controllers
                         {
                             Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
                             AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
-                            //if (animalSubType.Count > 0)
-                            //    mgovm.selAnimalTypeOption = animalSubType[0].AnimalId.ToString();
 
 
                             GeneratedManure gm = new GeneratedManure();

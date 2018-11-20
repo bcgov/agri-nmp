@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Agri.Interfaces;
 using Agri.Models.Configuration;
 using Newtonsoft.Json.Linq;
 
 namespace Agri.LegacyData.Models.Impl
 {
-    public class StaticDataExtRepository : StaticDataRepository
+    public class StaticDataExtRepository : StaticDataRepository, IAgriConfigurationRepository
     {
         public List<AmmoniaRetention> GetAmmoniaRetentions()
         {

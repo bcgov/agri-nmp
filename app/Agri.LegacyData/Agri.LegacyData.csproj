@@ -13,23 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Agri.Interfaces\Agri.Interfaces.csproj" />
-    <ProjectReference Include="..\Agri.Models\Agri.Models.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\..\..\..\..\Users\anselmor\.nuget\packages\automapper\7.0.1\lib\netcoreapp2.0\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions">
-      <HintPath>..\..\..\..\..\..\Users\anselmor\.nuget\packages\microsoft.aspnetcore.hosting.abstractions\2.0.0-preview2-final\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
-      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.http.abstractions\2.1.1\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\10.0.1\lib\netstandard1.3\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Agri.Interfaces\Agri.Interfaces.csproj" />
+    <ProjectReference Include="..\Agri.Models\Agri.Models.csproj" />
   </ItemGroup>
 
 </Project>

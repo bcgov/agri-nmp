@@ -6,7 +6,7 @@ using SERVERAPI.Models.Impl;
 using Microsoft.AspNetCore.Hosting;
 using static SERVERAPI.Models.StaticData;
 using System.Data;
-using Agri.LegacyData.Models.Impl;
+using Agri.Interfaces;
 
 
 namespace SERVERAPI.Utility
@@ -14,9 +14,9 @@ namespace SERVERAPI.Utility
     public class CalculateAnimalRequirement
     {
         private UserData _ud;
-        private StaticDataExtRepository _sd;
+        private IAgriConfigurationRepository _sd;
 
-        public CalculateAnimalRequirement(UserData ud, StaticDataExtRepository sd)
+        public CalculateAnimalRequirement(UserData ud, IAgriConfigurationRepository sd)
         {
             _ud = ud;
             _sd = sd;
