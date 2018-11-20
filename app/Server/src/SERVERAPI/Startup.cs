@@ -62,7 +62,9 @@ namespace SERVERAPI
 
             Configuration = builder.Build();
 
-            Console.WriteLine(Configuration["agri-secret"]);
+            Console.WriteLine("Agri-secret");
+            Console.WriteLine(Configuration["database-name"]);
+            Console.WriteLine(Configuration["database-user"]);
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
