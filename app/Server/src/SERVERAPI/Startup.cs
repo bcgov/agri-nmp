@@ -76,7 +76,7 @@ namespace SERVERAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddAuthorization();
-            var agriConnectionString = Configuration["Agri:ConnectionString"];
+            var agriConnectionString = GetConnectionString();
             //Creates the DbContext as a scoped Service
             services.AddDbContext<AgriConfigurationContext>(options =>
             {
@@ -156,7 +156,9 @@ namespace SERVERAPI
             {
                 return Configuration["Agri:ConnectionString"];
             }
-            else if()
+            else if(!string.IsNullOrEmpty(Configuration["database-name"]) &&
+                    !string.IsNullOrEmpty(Configuration["database-user"]) &&
+                    !string.IsNullOrEmpty(Configuration["database-password"]))
             {
                 // Create a new SqlConnectionStringBuilder and
                 // initialize it with a few name/value pairs.
@@ -171,10 +173,11 @@ namespace SERVERAPI
                 // you can work with individual items.
                 builder["Server"] = "testhosthaschanged";
                 builder["Database"] = Configuration["database-name"];
-                builder["Username"] = Configuration["database-name"];
+                builder["Username"] = Configuration["database-user"];
                 builder.Password = "new@1Password";
 
                 Console.WriteLine("ConnectionString: " + builder.ConnectionString);
+                return builder.ConnectionString;
             }
             throw new Exception("ConnectionString not found");
         }
