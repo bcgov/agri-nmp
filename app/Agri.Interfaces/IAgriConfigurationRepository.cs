@@ -59,6 +59,7 @@ namespace Agri.Interfaces
         Crop GetCrop(int cropId);
         int GetCropPrevYearManureApplVolCatCd(int cropId);
         List<Yield> GetYield(int yieldId);
+        Yield GetYieldById(int yieldId);
         CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropid, int soil_test_phosphorous_region_cd);
         CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soil_test_potassium_region_cd);
         DryMatter GetDryMatter(int ID);

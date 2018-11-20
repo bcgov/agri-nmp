@@ -586,11 +586,15 @@ namespace Agri.Data
             throw new NotImplementedException();
         }
 
-        public List<Yield> GetYield(int yieldId)
+        public Yield GetYieldById(int yieldId)
         {
             throw new NotImplementedException();
         }
 
+        public List<Yield> GetYield(int yieldId)
+        {
+            throw new NotImplementedException();
+        }
         public List<Yield> GetYields()
         {
             throw new NotImplementedException();

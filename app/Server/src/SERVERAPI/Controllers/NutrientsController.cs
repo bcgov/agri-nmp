@@ -1109,16 +1109,16 @@ namespace SERVERAPI.Controllers
                 if (!string.IsNullOrEmpty(cp.cropOther))
                 {
                     cvm.manEntry = true;
-                    List<Yield> yld = _sd.GetYield(1);
+                    Yield yld = _sd.GetYieldById(1);
                     cvm.cropDesc = cp.cropOther;
-                    cvm.yieldUnit = "(" + yld[0].YieldDesc + ")";
+                    cvm.yieldUnit = "(" + yld.YieldDesc + ")";
                     cvm.selTypOption = _settings.OtherCropId;
                 }
                 else
                 {
                     Crop crop = _sd.GetCrop(Convert.ToInt32(cp.cropId));
-                    List<Yield> yld = _sd.GetYield(crop.YieldCd);
-                    cvm.yieldUnit = "(" + yld[0].YieldDesc + ")";
+                    Yield yld = _sd.GetYieldById(crop.YieldCd);
+                    cvm.yieldUnit = "(" + yld.YieldDesc + ")";
                     cvm.selTypOption = crop.CropTypeId.ToString();
                     //E07US18
                     cvm.showHarvestUnitsDDL = _sd.IsCropGrainsAndOilseeds(Convert.ToInt16(crop.CropTypeId));
@@ -1319,9 +1319,9 @@ namespace SERVERAPI.Controllers
                         cvm.selCropOption != "select")
                     {
                         Crop cp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
-                        List<Yield> yld = _sd.GetYield(cp.YieldCd);
+                        Yield yld = _sd.GetYieldById(cp.YieldCd);
 
-                        cvm.yieldUnit = "(" + yld[0].YieldDesc + ")";
+                        cvm.yieldUnit = "(" + yld.YieldDesc + ")";
                         // E07US18
                         if (cvm.showHarvestUnitsDDL)
                         {

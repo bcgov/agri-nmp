@@ -72,7 +72,7 @@ namespace Agri.LegacyData.Models.Impl
 
         public Manure GetManure(string manId)
         {
-            var man = new Models.StaticData.Manure();
+            var man = new Manure();
 
             JArray manures = (JArray)rss["agri"]["nmp"]["manures"]["manure"];
 
@@ -80,59 +80,56 @@ namespace Agri.LegacyData.Models.Impl
             {
                 if (r["id"].ToString() == manId)
                 {
-                    man.id = Convert.ToInt32(r["id"].ToString());
-                    man.name = r["name"].ToString();
-                    man.manure_class = r["manure_class"].ToString();
-                    man.solid_liquid = r["solid_liquid"].ToString();
-                    man.moisture = r["moisture"].ToString();
-                    man.nitrogen = Convert.ToDecimal(r["nitrogen"].ToString());
-                    man.ammonia = Convert.ToInt32(r["ammonia"].ToString());
-                    man.phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
-                    man.potassium = Convert.ToDecimal(r["potassium"].ToString());
-                    man.dmid = Convert.ToInt32(r["dmid"].ToString());
-                    man.nminerizationid = Convert.ToInt32(r["nminerizationid"].ToString());
-                    if (man.solid_liquid.ToUpper() == "SOLID")
-                        man.cubic_Yard_Conversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
+                    man.Id = Convert.ToInt32(r["id"].ToString());
+                    man.Name = r["name"].ToString();
+                    man.ManureClass = r["manure_class"].ToString();
+                    man.SolidLiquid = r["solid_liquid"].ToString();
+                    man.Moisture = r["moisture"].ToString();
+                    man.Nitrogen = Convert.ToDecimal(r["nitrogen"].ToString());
+                    man.Ammonia = Convert.ToInt32(r["ammonia"].ToString());
+                    man.Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
+                    man.Potassium = Convert.ToDecimal(r["potassium"].ToString());
+                    man.DMId = Convert.ToInt32(r["dmid"].ToString());
+                    man.NMineralizationId = Convert.ToInt32(r["nminerizationid"].ToString());
+                    if (man.SolidLiquid.ToUpper() == "SOLID")
+                        man.CubicYardConversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
                     else
-                        man.cubic_Yard_Conversion = 0;
-                    man.nitrate = Convert.ToDecimal(r["nitrate"].ToString());
+                        man.CubicYardConversion = 0;
+                    man.Nitrate = Convert.ToDecimal(r["nitrate"].ToString());
                 }
             }
 
-            //return man;
-            return new Manure();
-
+            return man;
         }
 
         public Manure GetManureByName(string manureName)
         {
-            Models.StaticData.Manure man = null;
+            Manure man = null;
 
             JArray manures = (JArray)rss["agri"]["nmp"]["manures"]["manure"];
             JObject r = manures.Children<JObject>().FirstOrDefault(o => o["name"].ToString() == manureName.Trim());
 
             if (r != null)
             {
-                man = new Models.StaticData.Manure();
-                man.id = Convert.ToInt32(r["id"].ToString());
-                man.name = r["name"].ToString();
-                man.manure_class = r["manure_class"].ToString();
-                man.solid_liquid = r["solid_liquid"].ToString();
-                man.moisture = r["moisture"].ToString();
-                man.nitrogen = Convert.ToDecimal(r["nitrogen"].ToString());
-                man.ammonia = Convert.ToInt32(r["ammonia"].ToString());
-                man.phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
-                man.potassium = Convert.ToDecimal(r["potassium"].ToString());
-                man.dmid = Convert.ToInt32(r["dmid"].ToString());
-                man.nminerizationid = Convert.ToInt32(r["nminerizationid"].ToString());
-                if (man.solid_liquid.ToUpper() == "SOLID")
-                    man.cubic_Yard_Conversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
+                man = new Manure();
+                man.Id = Convert.ToInt32(r["id"].ToString());
+                man.Name = r["name"].ToString();
+                man.ManureClass = r["manure_class"].ToString();
+                man.SolidLiquid = r["solid_liquid"].ToString();
+                man.Moisture = r["moisture"].ToString();
+                man.Nitrogen = Convert.ToDecimal(r["nitrogen"].ToString());
+                man.Ammonia = Convert.ToInt32(r["ammonia"].ToString());
+                man.Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
+                man.Potassium = Convert.ToDecimal(r["potassium"].ToString());
+                man.DMId = Convert.ToInt32(r["dmid"].ToString());
+                man.NMineralizationId = Convert.ToInt32(r["nminerizationid"].ToString());
+                if (man.SolidLiquid.ToUpper() == "SOLID")
+                    man.CubicYardConversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
                 else
-                    man.cubic_Yard_Conversion = 0;
+                    man.CubicYardConversion = 0;
             }
 
-            //return man;
-            return new Manure();
+            return man;
         }
 
         public List<Manure> GetManures()
@@ -189,7 +186,7 @@ namespace Agri.LegacyData.Models.Impl
 
         public SeasonApplication GetApplication(string applId)
         {
-            Models.StaticData.Season_Application appl = new Models.StaticData.Season_Application();
+            SeasonApplication appl = new SeasonApplication();
 
             JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-application"];
 
@@ -197,53 +194,50 @@ namespace Agri.LegacyData.Models.Impl
             {
                 if (r["id"].ToString() == applId)
                 {
-                    appl.id = Convert.ToInt32(r["id"].ToString());
-                    appl.name = r["name"].ToString();
-                    appl.season = r["season"].ToString();
-                    appl.application_method = r["application_method"].ToString();
-                    appl.dm_lt1 = Convert.ToDecimal(r["dm_lt1"].ToString());
-                    appl.dm_1_5 = Convert.ToDecimal(r["dm_1_5"].ToString());
-                    appl.dm_5_10 = Convert.ToDecimal(r["dm_5_10"].ToString());
-                    appl.dm_gt10 = Convert.ToDecimal(r["dm_gt10"].ToString());
-                    appl.poultry_solid = r["poultry_solid"].ToString();
-                    appl.compost = r["season"].ToString();
-                    appl.manure_type = r["manure_type"].ToString();
+                    appl.Id = Convert.ToInt32(r["id"].ToString());
+                    appl.Name = r["name"].ToString();
+                    appl.Season = r["season"].ToString();
+                    appl.ApplicationMethod = r["application_method"].ToString();
+                    appl.DryMatterLessThan1Percent = Convert.ToDecimal(r["dm_lt1"].ToString());
+                    appl.DryMatter1To5Percent = Convert.ToDecimal(r["dm_1_5"].ToString());
+                    appl.DryMatter5To10Percent = Convert.ToDecimal(r["dm_5_10"].ToString());
+                    appl.DryMatterGreaterThan10Percent = Convert.ToDecimal(r["dm_gt10"].ToString());
+                    appl.PoultrySolid = r["poultry_solid"].ToString();
+                    appl.Compost = r["season"].ToString();
+                    appl.ManureType = r["manure_type"].ToString();
                 }
             }
 
-            //return appl;
-            return new SeasonApplication();
+            return appl;
         }
 
         public List<SeasonApplication> GetApplications()
         {
-            Models.StaticData.Season_Applications appls = new Models.StaticData.Season_Applications();
-            appls.season_applications = new List<Models.StaticData.Season_Application>();
+            var applications = new List<SeasonApplication>();
 
-            JArray applications = (JArray)rss["agri"]["nmp"]["season-applications"]["season-application"];
+            JArray array = (JArray) rss["agri"]["nmp"]["season-applications"]["season-application"];
 
-            foreach (var r in applications)
+            foreach (var r in array)
             {
-                Models.StaticData.Season_Application appl = new Models.StaticData.Season_Application();
+                var seasonApplication = new SeasonApplication
+                {
+                    Id = Convert.ToInt32(r["id"].ToString()),
+                    Name = r["name"].ToString(),
+                    Season = r["season"].ToString(),
+                    ApplicationMethod = r["application_method"].ToString(),
+                    DryMatterLessThan1Percent = Convert.ToDecimal(r["dm_lt1"].ToString()),
+                    DryMatter1To5Percent = Convert.ToDecimal(r["dm_1_5"].ToString()),
+                    DryMatter5To10Percent = Convert.ToDecimal(r["dm_5_10"].ToString()),
+                    DryMatterGreaterThan10Percent = Convert.ToDecimal(r["dm_gt10"].ToString()),
+                    PoultrySolid = r["poultry_solid"].ToString(),
+                    Compost = r["season"].ToString(),
+                    SortNum = Convert.ToInt32(r["sortNum"].ToString()),
+                    ManureType = r["manure_type"].ToString()
 
-                appl.id = Convert.ToInt32(r["id"].ToString());
-                appl.name = r["name"].ToString();
-                appl.season = r["season"].ToString();
-                appl.application_method = r["application_method"].ToString();
-                appl.dm_lt1 = Convert.ToDecimal(r["dm_lt1"].ToString());
-                appl.dm_1_5 = Convert.ToDecimal(r["dm_1_5"].ToString());
-                appl.dm_5_10 = Convert.ToDecimal(r["dm_5_10"].ToString());
-                appl.dm_gt10 = Convert.ToDecimal(r["dm_gt10"].ToString());
-                appl.poultry_solid = r["poultry_solid"].ToString();
-                appl.compost = r["season"].ToString();
-                appl.sortNum = Convert.ToInt32(r["sortNum"].ToString());
-                appl.manure_type = r["manure_type"].ToString();
-
-                appls.season_applications.Add(appl);
+                };
+                applications.Add(seasonApplication); 
             }
-
-            //return appls;
-            return new List<SeasonApplication>();
+            return applications;
         }
 
         public List<SelectListItem> GetApplicationsDll(string manureType)
@@ -269,7 +263,7 @@ namespace Agri.LegacyData.Models.Impl
 
         public Unit GetUnit(string unitId)
         {
-            Models.StaticData.Unit unit = new Models.StaticData.Unit();
+            Unit unit = new Unit();
 
             JArray units = (JArray)rss["agri"]["nmp"]["units"]["unit"];
 
@@ -277,28 +271,27 @@ namespace Agri.LegacyData.Models.Impl
             {
                 if (r["id"].ToString() == unitId)
                 {
-                    unit.id = Convert.ToInt32(r["id"].ToString());
-                    unit.name = r["name"].ToString();
-                    unit.nutrient_content_units = r["nutrient_content_units"].ToString();
-                    unit.conversion_lbton = Convert.ToDecimal(r["conversion_lbton"].ToString());
-                    unit.nutrient_rate_units = r["nutrient_rate_units"].ToString();
-                    unit.cost_units = r["cost_units"].ToString();
-                    unit.cost_applications = Convert.ToDecimal(r["cost_applications"].ToString());
-                    unit.dollar_unit_area = r["dollar_unit_area"].ToString();
-                    unit.value_material_units = r["value_material_units"].ToString();
-                    unit.value_N = Convert.ToDecimal(r["value_N"].ToString());
-                    unit.value_P2O5 = Convert.ToDecimal(r["value_P2O5"].ToString());
-                    unit.value_K2O = Convert.ToDecimal(r["value_K2O"].ToString());
-                    unit.solid_liquid = r["solid_liquid"].ToString();
-                    unit.farm_reqd_nutrients_std_units_conversion =
+                    unit.Id = Convert.ToInt32(r["id"].ToString());
+                    unit.Name = r["name"].ToString();
+                    unit.NutrientContentUnits = r["nutrient_content_units"].ToString();
+                    unit.ConversionlbTon = Convert.ToDecimal(r["conversion_lbton"].ToString());
+                    unit.NutrientRateUnits = r["nutrient_rate_units"].ToString();
+                    unit.CostUnits = r["cost_units"].ToString();
+                    unit.CostApplications = Convert.ToDecimal(r["cost_applications"].ToString());
+                    unit.DollarUnitArea = r["dollar_unit_area"].ToString();
+                    unit.ValueMaterialUnits = r["value_material_units"].ToString();
+                    unit.ValueN = Convert.ToDecimal(r["value_N"].ToString());
+                    unit.ValueP2O5 = Convert.ToDecimal(r["value_P2O5"].ToString());
+                    unit.ValueK2O = Convert.ToDecimal(r["value_K2O"].ToString());
+                    unit.SolidLiquid = r["solid_liquid"].ToString();
+                    unit.FarmReqdNutrientsStdUnitsConversion =
                         Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString());
-                    unit.farm_reqd_nutrients_std_units_area_conversion =
+                    unit.FarmReqdNutrientsStdUnitsAreaConversion =
                         Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString());
                 }
             }
 
-            //return unit;
-            return new Unit();
+            return unit;
         }
 
         public List<Unit> GetUnits()
@@ -396,7 +389,7 @@ namespace Agri.LegacyData.Models.Impl
 
         public FertilizerUnit GetFertilizerUnit(int Id)
         {
-            Models.StaticData.FertilizerUnit fertilizerUnit = new Models.StaticData.FertilizerUnit();
+            FertilizerUnit fertilizerUnit = new FertilizerUnit();
 
             JArray fertilizerUnits = (JArray)rss["agri"]["nmp"]["fertilizerunits"]["fertilizerunit"];
 
@@ -404,21 +397,20 @@ namespace Agri.LegacyData.Models.Impl
             {
                 if (r["id"].ToString() == Id.ToString())
                 {
-                    fertilizerUnit.id = Convert.ToInt32(r["id"].ToString());
-                    fertilizerUnit.name = r["name"].ToString();
-                    fertilizerUnit.dry_liquid = r["dry_liquid"].ToString();
-                    fertilizerUnit.conv_to_impgalperac = r["conv_to_impgalperac"] == null
+                    fertilizerUnit.Id = Convert.ToInt32(r["id"].ToString());
+                    fertilizerUnit.Name = r["name"].ToString();
+                    fertilizerUnit.DryLiquid = r["dry_liquid"].ToString();
+                    fertilizerUnit.ConversionToImperialGallonsPerAcre = r["conv_to_impgalperac"] == null
                         ? 0
                         : Convert.ToDecimal(r["conv_to_impgalperac"].ToString());
-                    fertilizerUnit.farm_reqd_nutrients_std_units_conversion =
+                    fertilizerUnit.FarmRequiredNutrientsStdUnitsConversion =
                         Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString());
-                    fertilizerUnit.farm_reqd_nutrients_std_units_area_conversion =
+                    fertilizerUnit.FarmRequiredNutrientsStdUnitsAreaConversion =
                         Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString());
                 }
             }
 
-            //return fertilizerUnit;
-            return new FertilizerUnit();
+            return fertilizerUnit;
         }
 
         public List<DensityUnit> GetDensityUnits()
@@ -458,7 +450,7 @@ namespace Agri.LegacyData.Models.Impl
 
         public DensityUnit GetDensityUnit(int Id)
         {
-            Models.StaticData.DensityUnit densityUnit = new Models.StaticData.DensityUnit();
+            DensityUnit densityUnit = new DensityUnit();
 
             JArray densityUnits = (JArray)rss["agri"]["nmp"]["densityunits"]["densityunit"];
 
@@ -466,14 +458,13 @@ namespace Agri.LegacyData.Models.Impl
             {
                 if (r["id"].ToString() == Id.ToString())
                 {
-                    densityUnit.id = Convert.ToInt32(r["id"].ToString());
-                    densityUnit.name = r["name"].ToString();
-                    densityUnit.convfactor = Convert.ToDecimal(r["convfactor"].ToString());
+                    densityUnit.Id = Convert.ToInt32(r["id"].ToString());
+                    densityUnit.Name = r["name"].ToString();
+                    densityUnit.ConvFactor = Convert.ToDecimal(r["convfactor"].ToString());
                 }
             }
 
-            //return densityUnit;
-            return new DensityUnit();
+            return densityUnit;
         }
 
         public List<CropType> GetCropTypes()
@@ -505,16 +496,15 @@ namespace Agri.LegacyData.Models.Impl
             JObject rec = array.Children<JObject>()
                 .FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
 
-            Models.StaticData.CropType type = new Models.StaticData.CropType();
-            type.id = Convert.ToInt32(rec["id"].ToString());
-            type.name = rec["name"].ToString();
-            type.covercrop = rec["covercrop"].ToString() == "true" ? true : false;
-            type.crudeproteinrequired = rec["crudeproteinrequired"].ToString() == "true" ? true : false;
-            type.customcrop = rec["customcrop"].ToString() == "true" ? true : false;
-            type.modifynitrogen = rec["modifynitrogen"].ToString() == "true" ? true : false;
+            CropType type = new CropType();
+            type.Id = Convert.ToInt32(rec["id"].ToString());
+            type.Name = rec["name"].ToString();
+            type.CoverCrop = rec["covercrop"].ToString() == "true" ? true : false;
+            type.CrudeProteinRequired = rec["crudeproteinrequired"].ToString() == "true" ? true : false;
+            type.CustomCrop = rec["customcrop"].ToString() == "true" ? true : false;
+            type.ModifyNitrogen = rec["modifynitrogen"].ToString() == "true" ? true : false;
 
-            //return type;
-            return new CropType();
+            return type;
         }
 
         public List<SelectListItem> GetCropTypesDll()
@@ -652,12 +642,29 @@ namespace Agri.LegacyData.Models.Impl
 
         public int GetCropPrevYearManureApplVolCatCd(int cropId)
         {
-            Models.StaticData.Crops crops = new Models.StaticData.Crops();
+            List<Crop> crops = new List<Crop>();
 
             JObject r = (JObject)rss["agri"]["nmp"]["crops"]["crop"]
                 .FirstOrDefault(x => x["id"].ToString() == cropId.ToString());
 
             return Convert.ToInt32(r["prevyearmanureappl_volcatcd"].ToString());
+        }
+
+        public Yield GetYieldById(int yieldId)
+        {
+            JArray array = (JArray)rss["agri"]["nmp"]["yields"]["yield"];
+           Yield yield = new Yield();
+
+            foreach (var r in array)
+            {
+                if (Convert.ToInt32(r["id"].ToString()) == yieldId)
+                {
+                    yield.Id = Convert.ToInt32(r["id"].ToString());
+                    yield.YieldDesc = r["yielddesc"].ToString();
+                }
+            }
+
+            return yield;
         }
 
         public List<Yield> GetYield(int yieldId)
@@ -682,69 +689,66 @@ namespace Agri.LegacyData.Models.Impl
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["crop_stp_regioncds"]["crop_stp_regioncd"];
-            Models.StaticData.CropSTPRegionCd crop_stp_regioncd = new Models.StaticData.CropSTPRegionCd();
+           CropSoilTestPhosphorousRegion crop_stp_regioncd = new CropSoilTestPhosphorousRegion();
 
             foreach (var r in array)
             {
                 if (Convert.ToInt32(r["cropid"].ToString()) == cropid &&
                     Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString()) == soil_test_phosphorous_region_cd)
                 {
-                    crop_stp_regioncd.cropid = Convert.ToInt32(r["cropid"].ToString());
-                    crop_stp_regioncd.soil_test_phosphorous_region_cd =
+                    crop_stp_regioncd.CropId = Convert.ToInt32(r["cropid"].ToString());
+                    crop_stp_regioncd.SoilTestPhosphorousRegionCode =
                         Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString());
-                    crop_stp_regioncd.phosphorous_crop_group_region_cd =
+                    crop_stp_regioncd.PhosphorousCropGroupRegionCode =
                         r["phosphorous_crop_group_region_cd"].ToString() == "null"
                             ? (int?)null
                             : Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString());
                 }
             }
 
-            //return crop_stp_regioncd;
-            return new CropSoilTestPhosphorousRegion();
+            return crop_stp_regioncd;
         }
 
         public CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soil_test_potassium_region_cd)
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["crop_stk_regioncds"]["crop_stk_regioncd"];
-            Models.StaticData.CropSTKRegionCd crop_stk_regioncd = new Models.StaticData.CropSTKRegionCd();
+            CropSoilTestPotassiumRegion crop_stk_regioncd = new CropSoilTestPotassiumRegion();
 
             foreach (var r in array)
             {
                 if (Convert.ToInt32(r["cropid"].ToString()) == cropid &&
                     Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString()) == soil_test_potassium_region_cd)
                 {
-                    crop_stk_regioncd.cropid = Convert.ToInt32(r["cropid"].ToString());
-                    crop_stk_regioncd.soil_test_potassium_region_cd =
+                    crop_stk_regioncd.CropId = Convert.ToInt32(r["cropid"].ToString());
+                    crop_stk_regioncd.SoilTestPotassiumRegionCode =
                         Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString());
-                    crop_stk_regioncd.potassium_crop_group_region_cd =
+                    crop_stk_regioncd.PotassiumCropGroupRegionCode =
                         r["potassium_crop_group_region_cd"].ToString() == "null"
                             ? (int?)null
                             : Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString());
                 }
             }
 
-            //return crop_stk_regioncd;
-            return new CropSoilTestPotassiumRegion();
+            return crop_stk_regioncd;
         }
 
         public DryMatter GetDryMatter(int ID)
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["dms"]["dm"];
-            Models.StaticData.DM dm = new Models.StaticData.DM();
+            DryMatter dm = new DryMatter();
 
             foreach (var r in array)
             {
                 if (Convert.ToInt32(r["ID"].ToString()) == ID)
                 {
-                    dm.ID = Convert.ToInt32(r["ID"].ToString());
-                    dm.name = r["name"].ToString();
+                    dm.Id = Convert.ToInt32(r["ID"].ToString());
+                    dm.Name = r["name"].ToString();
                 }
             }
 
-            //return dm;
-            return new DryMatter();
+            return dm;
         }
 
         public AmmoniaRetention GetAmmoniaRetention(int seasonApplicatonId, int dm)
@@ -774,23 +778,22 @@ namespace Agri.LegacyData.Models.Impl
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["nmineralizations"]["nmineralization"];
-            Models.StaticData.NMineralization nmineralization = new Models.StaticData.NMineralization();
+            NitrogenMineralization nmineralization = new NitrogenMineralization();
 
             foreach (var r in array)
             {
                 if (Convert.ToInt32(r["id"].ToString()) == id &&
                     Convert.ToInt32(r["locationid"].ToString()) == locationid)
                 {
-                    nmineralization.id = Convert.ToInt32(r["id"].ToString());
-                    nmineralization.name = r["name"].ToString();
-                    nmineralization.locationid = Convert.ToInt32(r["locationid"].ToString());
-                    nmineralization.firstyearvalue = Convert.ToDecimal(r["firstyearvalue"].ToString());
-                    nmineralization.longtermvalue = Convert.ToDecimal(r["longtermvalue"].ToString());
+                    nmineralization.Id = Convert.ToInt32(r["id"].ToString());
+                    nmineralization.Name = r["name"].ToString();
+                    nmineralization.LocationId = Convert.ToInt32(r["locationid"].ToString());
+                    nmineralization.FirstYearValue = Convert.ToDecimal(r["firstyearvalue"].ToString());
+                    nmineralization.LongTermValue = Convert.ToDecimal(r["longtermvalue"].ToString());
                 }
             }
 
-            //return nmineralization;
-            return new NitrogenMineralization();
+            return nmineralization;
         }
 
         public string GetSoilTestMethod(string id)
@@ -843,42 +846,40 @@ namespace Agri.LegacyData.Models.Impl
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["regions"]["region"];
-            Models.StaticData.Region region = new Models.StaticData.Region();
+            Region region = new Region();
 
             foreach (var r in array)
             {
                 if (Convert.ToInt32(r["id"].ToString()) == id)
                 {
-                    region.id = Convert.ToInt32(r["id"].ToString());
-                    region.name = r["name"].ToString();
-                    region.soil_test_phospherous_region_cd =
+                    region.Id = Convert.ToInt32(r["id"].ToString());
+                    region.Name = r["name"].ToString();
+                    region.SoilTestPhosphorousRegionCd =
                         Convert.ToInt32(r["soil_test_phospherous_region_cd"].ToString());
-                    region.soil_test_potassium_region_cd =
+                    region.SoilTestPotassiumRegionCd =
                         Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString());
-                    region.locationid = Convert.ToInt32(r["locationid"].ToString());
+                    region.LocationId = Convert.ToInt32(r["locationid"].ToString());
                 }
             }
 
-            //return region;
-            return new Region();
+            return region;
         }
 
         public PreviousCropType GetPrevCropType(int id)
         {
-            Models.StaticData.PrevCropType type = new Models.StaticData.PrevCropType();
+            PreviousCropType type = new PreviousCropType();
 
             JArray array = (JArray)rss["agri"]["nmp"]["prevcroptypes"]["prevcroptype"];
             JObject rec = array.Children<JObject>()
                 .FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id.ToString());
 
-            type.id = Convert.ToInt32(rec["id"].ToString());
-            type.prevcropcd = Convert.ToInt32(rec["prevcropcd"].ToString());
-            type.name = rec["name"].ToString();
-            type.nCreditMetric = Convert.ToInt32(rec["ncreditmetric"].ToString());
-            type.nCreditImperial = Convert.ToInt32(rec["ncreditimperial"].ToString());
+            type.Id = Convert.ToInt32(rec["id"].ToString());
+            type.PreviousCropCode = Convert.ToInt32(rec["prevcropcd"].ToString());
+            type.Name = rec["name"].ToString();
+            type.NitrogenCreditMetric = Convert.ToInt32(rec["ncreditmetric"].ToString());
+            type.NitrogenCreditImperial = Convert.ToInt32(rec["ncreditimperial"].ToString());
 
-            //return type;
-            return new PreviousCropType();
+            return type;
         }
 
         public List<PreviousCropType> GetPreviousCropTypes()
@@ -926,7 +927,7 @@ namespace Agri.LegacyData.Models.Impl
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["cropyields"]["cropyield"];
-            Models.StaticData.CropYield cropYield = new Models.StaticData.CropYield();
+            CropYield cropYield = new CropYield();
 
             try
             {
@@ -935,9 +936,9 @@ namespace Agri.LegacyData.Models.Impl
                     if (Convert.ToInt32(r["cropid"].ToString()) == cropid &&
                         Convert.ToInt32(r["locationid"].ToString()) == locationid)
                     {
-                        cropYield.cropid = Convert.ToInt32(r["cropid"].ToString());
-                        cropYield.locationid = Convert.ToInt32(r["locationid"].ToString());
-                        cropYield.amt = r["amt"].ToString() == "null"
+                        cropYield.CropId = Convert.ToInt32(r["cropid"].ToString());
+                        cropYield.LocationId = Convert.ToInt32(r["locationid"].ToString());
+                        cropYield.Amount = r["amt"].ToString() == "null"
                             ? (decimal?)null
                             : Convert.ToDecimal(r["amt"].ToString());
                     }
@@ -947,8 +948,7 @@ namespace Agri.LegacyData.Models.Impl
             {
             }
 
-            //return cropYield;
-            return new CropYield();
+            return cropYield;
         }
 
         public SoilTestPhosphorousRecommendation GetSTPRecommend(int stp_kelowna_rangeid,
@@ -956,7 +956,7 @@ namespace Agri.LegacyData.Models.Impl
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["stp_recommends"]["stp_recommend"];
-            Models.StaticData.STPRecommend sTPRecommend = new Models.StaticData.STPRecommend();
+            SoilTestPhosphorousRecommendation sTPRecommend = new SoilTestPhosphorousRecommendation();
 
             foreach (var r in array)
             {
@@ -966,39 +966,37 @@ namespace Agri.LegacyData.Models.Impl
                     Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString()) ==
                     phosphorous_crop_group_region_cd)
                 {
-                    sTPRecommend.stp_kelowna_rangeid = Convert.ToInt32(r["stp_kelowna_rangeid"].ToString());
-                    sTPRecommend.soil_test_phosphorous_region_cd =
+                    sTPRecommend.SoilTestPhosphorousKelownaRangeId = Convert.ToInt32(r["stp_kelowna_rangeid"].ToString());
+                    sTPRecommend.SoilTestPhosphorousRegionCode =
                         Convert.ToInt32(r["soil_test_phosphorous_region_cd"].ToString());
-                    sTPRecommend.phosphorous_crop_group_region_cd =
+                    sTPRecommend.PhosphorousCropGroupRegionCode =
                         Convert.ToInt32(r["phosphorous_crop_group_region_cd"].ToString());
-                    sTPRecommend.p2o5_recommend_kgperha = Convert.ToInt32(r["p2o5_recommend_kgperha"].ToString());
+                    sTPRecommend.P2O5RecommendationKilogramPerHectare = Convert.ToInt32(r["p2o5_recommend_kgperha"].ToString());
                 }
             }
 
-            //return sTPRecommend;
-            return new SoilTestPhosphorousRecommendation();
+            return sTPRecommend;
         }
 
         public SoilTestPhosphorousKelownaRange GetSTPKelownaRangeByPpm(int ppm)
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["stp_kelowna_ranges"]["stp_kelowna_range"];
-            Models.StaticData.STPKelownaRange sTPKelownaRange = new Models.StaticData.STPKelownaRange();
+            SoilTestPhosphorousKelownaRange sTPKelownaRange = new SoilTestPhosphorousKelownaRange();
 
             foreach (var r in array)
             {
                 if (ppm >= Convert.ToInt32(r["range_low"].ToString()) &&
                     ppm <= Convert.ToInt32(r["range_high"].ToString()))
                 {
-                    sTPKelownaRange.id = Convert.ToInt32(r["id"].ToString());
-                    sTPKelownaRange.range = r["range"].ToString();
-                    sTPKelownaRange.range_low = Convert.ToInt32(r["range_low"].ToString());
-                    sTPKelownaRange.range_high = Convert.ToInt32(r["range_high"].ToString());
+                    sTPKelownaRange.Id = Convert.ToInt32(r["id"].ToString());
+                    sTPKelownaRange.Range = r["range"].ToString();
+                    sTPKelownaRange.RangeLow = Convert.ToInt32(r["range_low"].ToString());
+                    sTPKelownaRange.RangeHigh = Convert.ToInt32(r["range_high"].ToString());
                 }
             }
 
-            //return sTPKelownaRange;
-            return new SoilTestPhosphorousKelownaRange();
+            return sTPKelownaRange;
         }
 
         public SoilTestPotassiumRecommendation GetSTKRecommend(int stk_kelowna_rangeid,
@@ -1006,7 +1004,7 @@ namespace Agri.LegacyData.Models.Impl
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["stk_recommends"]["stk_recommend"];
-            Models.StaticData.STKRecommend sTKRecommend = new Models.StaticData.STKRecommend();
+            SoilTestPotassiumRecommendation sTKRecommend = new SoilTestPotassiumRecommendation();
 
             foreach (var r in array)
             {
@@ -1014,39 +1012,37 @@ namespace Agri.LegacyData.Models.Impl
                     Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString()) == soil_test_potassium_region_cd &&
                     Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString()) == potassium_crop_group_region_cd)
                 {
-                    sTKRecommend.stk_kelowna_rangeid = Convert.ToInt32(r["stk_kelowna_rangeid"].ToString());
-                    sTKRecommend.soil_test_potassium_region_cd =
+                    sTKRecommend.SoilTestPotassiumKelownaRangeId = Convert.ToInt32(r["stk_kelowna_rangeid"].ToString());
+                    sTKRecommend.SoilTestPotassiumRegionCode =
                         Convert.ToInt32(r["soil_test_potassium_region_cd"].ToString());
-                    sTKRecommend.potassium_crop_group_region_cd =
+                    sTKRecommend.PotassiumCropGroupRegionCode =
                         Convert.ToInt32(r["potassium_crop_group_region_cd"].ToString());
-                    sTKRecommend.k2o_recommend_kgperha = Convert.ToInt32(r["k2o_recommend_kgperha"].ToString());
+                    sTKRecommend.K2ORecommendationKilogramPerHectare = Convert.ToInt32(r["k2o_recommend_kgperha"].ToString());
                 }
             }
 
-            //return sTKRecommend;
-            return new SoilTestPotassiumRecommendation();
+            return sTKRecommend;
         }
 
         public SoilTestPotassiumKelownaRange GetSTKKelownaRangeByPpm(int ppm)
         {
 
             JArray array = (JArray)rss["agri"]["nmp"]["stk_kelowna_ranges"]["stk_kelowna_range"];
-            Models.StaticData.STKKelownaRange sTKKelownaRange = new Models.StaticData.STKKelownaRange();
+            SoilTestPotassiumKelownaRange sTKKelownaRange = new SoilTestPotassiumKelownaRange();
 
             foreach (var r in array)
             {
                 if (ppm >= Convert.ToInt32(r["range_low"].ToString()) &&
                     ppm <= Convert.ToInt32(r["range_high"].ToString()))
                 {
-                    sTKKelownaRange.id = Convert.ToInt32(r["id"].ToString());
-                    sTKKelownaRange.range = r["range"].ToString();
-                    sTKKelownaRange.range_low = Convert.ToInt32(r["range_low"].ToString());
-                    sTKKelownaRange.range_high = Convert.ToInt32(r["range_high"].ToString());
+                    sTKKelownaRange.Id = Convert.ToInt32(r["id"].ToString());
+                    sTKKelownaRange.Range = r["range"].ToString();
+                    sTKKelownaRange.RangeLow = Convert.ToInt32(r["range_low"].ToString());
+                    sTKKelownaRange.RangeHigh = Convert.ToInt32(r["range_high"].ToString());
                 }
             }
 
-            //return sTKKelownaRange;
-            return new SoilTestPotassiumKelownaRange();
+            return sTKKelownaRange;
         }
 
         public ConversionFactor GetConversionFactor()
@@ -1175,14 +1171,13 @@ namespace Agri.LegacyData.Models.Impl
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizertypes"]["fertilizertype"];
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
 
-            Models.StaticData.FertilizerType type = new Models.StaticData.FertilizerType();
-            type.id = Convert.ToInt32(rec["id"].ToString());
-            type.name = rec["name"].ToString();
-            type.dry_liquid = rec["dry_liquid"].ToString();
-            type.custom = rec["customfertilizer"].ToString() == "true" ? true : false;
+            FertilizerType type = new FertilizerType();
+            type.Id = Convert.ToInt32(rec["id"].ToString());
+            type.Name = rec["name"].ToString();
+            type.DryLiquid = rec["dry_liquid"].ToString();
+            type.Custom = rec["customfertilizer"].ToString() == "true" ? true : false;
 
-            //return type;
-            return new FertilizerType();
+            return type;
         }
 
         public List<FertilizerType> GetFertilizerTypes()
@@ -1230,17 +1225,16 @@ namespace Agri.LegacyData.Models.Impl
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizers"]["fertilizer"];
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
 
-            Models.StaticData.Fertilizer fertilizer = new Models.StaticData.Fertilizer();
-            fertilizer.id = Convert.ToInt32(rec["id"].ToString());
-            fertilizer.name = rec["name"].ToString();
-            fertilizer.dry_liquid = rec["dry_liquid"].ToString();
-            fertilizer.nitrogen = Convert.ToDecimal(rec["nitrogen"].ToString());
-            fertilizer.phosphorous = Convert.ToDecimal(rec["phosphorous"].ToString());
-            fertilizer.potassium = Convert.ToDecimal(rec["potassium"].ToString());
-            fertilizer.sortNum = Convert.ToInt32(rec["sortNum"].ToString());
+            Fertilizer fertilizer = new Fertilizer();
+            fertilizer.Id = Convert.ToInt32(rec["id"].ToString());
+            fertilizer.Name = rec["name"].ToString();
+            fertilizer.DryLiquid = rec["dry_liquid"].ToString();
+            fertilizer.Nitrogen = Convert.ToDecimal(rec["nitrogen"].ToString());
+            fertilizer.Phosphorous = Convert.ToDecimal(rec["phosphorous"].ToString());
+            fertilizer.Potassium = Convert.ToDecimal(rec["potassium"].ToString());
+            fertilizer.SortNum = Convert.ToInt32(rec["sortNum"].ToString());
 
-            //return fertilizer;
-            return new Fertilizer();
+            return fertilizer;
         }
 
         public List<Fertilizer> GetFertilizers()
@@ -1292,28 +1286,27 @@ namespace Agri.LegacyData.Models.Impl
         public SoilTestMethod GetSoilTestMethodByMethod(string _soilTest)
         {
             JArray items = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
-            Models.StaticData.SoilTestMethod soilTestMethod = new Models.StaticData.SoilTestMethod();
+            SoilTestMethod soilTestMethod = new SoilTestMethod();
 
             foreach (var r in items)
             {
                 if (_soilTest == r["name"].ToString())
                 {
-                    soilTestMethod.id = Convert.ToInt32(r["id"].ToString());
-                    soilTestMethod.name = r["name"].ToString();
-                    soilTestMethod.ConvertToKelownaPlt72 = Convert.ToDecimal(r["ConvertToKelownaPlt72"].ToString());
-                    soilTestMethod.ConvertToKelownaPge72 = Convert.ToDecimal(r["ConvertToKelownaPge72"].ToString());
+                    soilTestMethod.Id = Convert.ToInt32(r["id"].ToString());
+                    soilTestMethod.Name = r["name"].ToString();
+                    soilTestMethod.ConvertToKelownaPHLessThan72 = Convert.ToDecimal(r["ConvertToKelownaPlt72"].ToString());
+                    soilTestMethod.ConvertToKelownaPHGreaterThanEqual72 = Convert.ToDecimal(r["ConvertToKelownaPge72"].ToString());
                     soilTestMethod.ConvertToKelownaK = Convert.ToDecimal(r["ConvertToKelownaK"].ToString());
                 }
             }
 
-            //return soilTestMethod;
-            return new SoilTestMethod();
+            return soilTestMethod;
         }
 
         public SoilTestMethod GetSoilTestMethodById(string id)
         {
             JArray items = (JArray)rss["agri"]["nmp"]["soiltestmethods"]["soiltestmethod"];
-            Models.StaticData.SoilTestMethod soilTestMethod = new Models.StaticData.SoilTestMethod();
+           SoilTestMethod soilTestMethod = new SoilTestMethod();
             int idParsed = 0;
             int.TryParse(id, out idParsed);
 
@@ -1323,10 +1316,10 @@ namespace Agri.LegacyData.Models.Impl
                 {
                     if (idParsed == Convert.ToInt16(r["id"].ToString()))
                     {
-                        soilTestMethod.id = Convert.ToInt32(r["id"].ToString());
-                        soilTestMethod.name = r["name"].ToString();
-                        soilTestMethod.ConvertToKelownaPlt72 = Convert.ToDecimal(r["ConvertToKelownaPlt72"].ToString());
-                        soilTestMethod.ConvertToKelownaPge72 = Convert.ToDecimal(r["ConvertToKelownaPge72"].ToString());
+                        soilTestMethod.Id = Convert.ToInt32(r["id"].ToString());
+                        soilTestMethod.Name = r["name"].ToString();
+                        soilTestMethod.ConvertToKelownaPHLessThan72 = Convert.ToDecimal(r["ConvertToKelownaPlt72"].ToString());
+                        soilTestMethod.ConvertToKelownaPHGreaterThanEqual72 = Convert.ToDecimal(r["ConvertToKelownaPge72"].ToString());
                         soilTestMethod.ConvertToKelownaK = Convert.ToDecimal(r["ConvertToKelownaK"].ToString());
                     }
                 }
@@ -1336,8 +1329,7 @@ namespace Agri.LegacyData.Models.Impl
                 // Handle error
             }
 
-            //return soilTestMethod;
-            return new SoilTestMethod();
+            return soilTestMethod;
         }
 
         public LiquidFertilizerDensity GetLiquidFertilizerDensity(int fertilizerId, int densityId)
@@ -1347,34 +1339,32 @@ namespace Agri.LegacyData.Models.Impl
                 o["fertilizerid"] != null && o["fertilizerid"].ToString() == fertilizerId.ToString() &&
                 o["densityunitid"] != null && o["densityunitid"].ToString() == densityId.ToString());
 
-            Models.StaticData.LiquidFertilizerDensity density = new Models.StaticData.LiquidFertilizerDensity();
-            density.id = Convert.ToInt32(rec["id"].ToString());
-            density.value = Convert.ToDecimal(rec["value"].ToString());
+            LiquidFertilizerDensity density = new LiquidFertilizerDensity();
+            density.Id = Convert.ToInt32(rec["id"].ToString());
+            density.Value = Convert.ToDecimal(rec["value"].ToString());
 
-            //return density;
-            return new LiquidFertilizerDensity();
+            return density;
         }
 
         public DefaultSoilTest GetDefaultSoilTest()
         {
-            Models.StaticData.DefaultSoilTest dt = new Models.StaticData.DefaultSoilTest();
+            DefaultSoilTest dt = new DefaultSoilTest();
 
-            dt.nitrogen = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestNitrogen"]);
-            dt.phosphorous = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
-            dt.potassium = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);
+            dt.Nitrogen = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestNitrogen"]);
+            dt.Phosphorous = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
+            dt.Potassium = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);
             dt.pH = Convert.ToDecimal((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestpH"]);
-            dt.convertedKelownaP =
+            dt.ConvertedKelownaP =
                 Convert.ToInt32((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaP"]);
-            dt.convertedKelownaK =
+            dt.ConvertedKelownaK =
                 Convert.ToInt32((string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestKelownaK"]);
 
-            //return dt;
-            return new DefaultSoilTest();
+            return dt;
         }
 
         public string GetDefaultSoilTestMethod()
         {
-            Models.StaticData.DefaultSoilTest dt = new Models.StaticData.DefaultSoilTest();
+            DefaultSoilTest dt = new DefaultSoilTest();
 
             return (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMethodId"];
         }
@@ -1383,24 +1373,23 @@ namespace Agri.LegacyData.Models.Impl
         {
             string results = "Ukn";
 
-            Models.StaticData.Fertilizers fertilizers = new Models.StaticData.Fertilizers();
-            List<Models.StaticData.SoilTestRange> ranges = new List<Models.StaticData.SoilTestRange>();
+            List<SoilTestRange> ranges = new List<SoilTestRange>();
 
             JArray array = (JArray)rss["agri"]["nmp"]["soiltestranges"][chem];
 
             foreach (var r in array)
             {
-                Models.StaticData.SoilTestRange range = new Models.StaticData.SoilTestRange();
-                range.upperLimit = Convert.ToInt32(r["upperlimit"].ToString());
-                range.rating = r["rating"].ToString();
+                SoilTestRange range = new SoilTestRange();
+                range.UpperLimit = Convert.ToInt32(r["upperlimit"].ToString());
+                range.Rating = r["rating"].ToString();
                 ranges.Add(range);
             }
 
             for (int i = 0; i < ranges.Count(); i++)
             {
-                if (value < ranges[i].upperLimit)
+                if (value < ranges[i].UpperLimit)
                 {
-                    results = ranges[i].rating;
+                    results = ranges[i].Rating;
                     break;
                 }
             }
@@ -1414,12 +1403,11 @@ namespace Agri.LegacyData.Models.Impl
             JArray array = (JArray)rss["agri"]["nmp"]["fertilizermethods"]["fertilizermethod"];
             JObject rec = array.Children<JObject>().FirstOrDefault(o => o["id"] != null && o["id"].ToString() == id);
 
-            Models.StaticData.FertilizerMethod fertilizerMethod = new Models.StaticData.FertilizerMethod();
-            fertilizerMethod.id = Convert.ToInt32((string)rec["id"]);
-            fertilizerMethod.name = (string)rec["name"];
+           FertilizerMethod fertilizerMethod = new FertilizerMethod();
+            fertilizerMethod.Id = Convert.ToInt32((string)rec["id"]);
+            fertilizerMethod.Name = (string)rec["name"];
 
-            //return fertilizerMethod;
-            return new FertilizerMethod();
+            return fertilizerMethod;
         }
 
         public List<FertilizerMethod> GetFertilizerMethods()
@@ -1892,7 +1880,7 @@ namespace Agri.LegacyData.Models.Impl
 
         public NutrientIcon GetNutrientIcon(string name)
         {
-            Models.StaticData.NutrientIcon icon = new Models.StaticData.NutrientIcon();
+            NutrientIcon icon = new NutrientIcon();
 
             JArray icons = (JArray)rss["agri"]["nmp"]["nutrienticons"]["nutrienticon"];
 
@@ -1900,14 +1888,13 @@ namespace Agri.LegacyData.Models.Impl
             {
                 if (r["name"].ToString() == name)
                 {
-                    icon.id = Convert.ToInt32(r["id"].ToString());
-                    icon.name = r["name"].ToString();
-                    icon.definition = r["definition"].ToString();
+                    icon.Id = Convert.ToInt32(r["id"].ToString());
+                    icon.Name = r["name"].ToString();
+                    icon.Definition = r["definition"].ToString();
                 }
             }
 
-            //return icon;
-            return new NutrientIcon();
+            return icon;
         }
 
         public List<Animal> GetAnimals()
