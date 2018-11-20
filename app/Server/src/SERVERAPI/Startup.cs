@@ -1,4 +1,4 @@
-/*
+﻿/*
  
  *
  
@@ -22,7 +22,10 @@ using SERVERAPI.Controllers;
 using System.Globalization;
 using Agri.Models.Settings;
 using Agri.Data;
+using Agri.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Agri.LegacyData.Models.Impl;
+using System.IO;
 
 namespace SERVERAPI
 {
@@ -43,10 +46,23 @@ namespace SERVERAPI
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables()
-                .AddUserSecrets<Startup>();
+                .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+            else
+            {
+                if (Directory.Exists(" /etc/secret-volume"))
+                {
+                    builder.AddJsonFile("/etc/secret-volume/agri-secret", true);
+                }
+            }
 
             Configuration = builder.Build();
+
+            Console.WriteLine(Configuration["agri-secret"]);
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -100,6 +116,7 @@ namespace SERVERAPI
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
+            services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
             services.AddOptions();
             //services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
