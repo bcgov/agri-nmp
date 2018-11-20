@@ -26,6 +26,7 @@ using Agri.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Agri.LegacyData.Models.Impl;
 using System.IO;
+using System.Data.SqlClient;
 
 namespace SERVERAPI
 {
@@ -54,9 +55,13 @@ namespace SERVERAPI
             }
             else
             {
-                if (Directory.Exists(" /etc/secret-volume"))
+                if (Directory.Exists("/etc/secret-volume"))
                 {
                     builder.AddJsonFile("/etc/secret-volume/agri-secret", true);
+                }
+                else
+                {
+                    Console.WriteLine("/etc/secret-volume was NOT FOUND");
                 }
             }
 
@@ -143,6 +148,35 @@ namespace SERVERAPI
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
+        }
+
+        private string GetConnectionString()
+        {
+            if (_hostingEnv.IsDevelopment())
+            {
+                return Configuration["Agri:ConnectionString"];
+            }
+            else if()
+            {
+                // Create a new SqlConnectionStringBuilder and
+                // initialize it with a few name/value pairs.
+                SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+
+                // Pass the SqlConnectionStringBuilder an existing 
+                // connection string, and you can retrieve and
+                // modify any of the elements.
+                builder.ConnectionString = "Server=localhost;Database=AgriConfiguration;Username=username;Password=password";
+
+                // Now that the connection string has been parsed,
+                // you can work with individual items.
+                builder["Server"] = "testhosthaschanged";
+                builder["Database"] = Configuration["database-name"];
+                builder["Username"] = Configuration["database-name"];
+                builder.Password = "new@1Password";
+
+                Console.WriteLine("ConnectionString: " + builder.ConnectionString);
+            }
+            throw new Exception("ConnectionString not found");
         }
     }    
 }
