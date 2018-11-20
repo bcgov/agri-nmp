@@ -7,7 +7,6 @@ using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
-using StaticData = SERVERAPI.Models.Impl.StaticData;
 
 namespace SERVERAPI.ViewComponents
 {

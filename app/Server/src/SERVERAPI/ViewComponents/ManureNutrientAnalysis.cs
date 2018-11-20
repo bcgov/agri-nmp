@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
-using StaticData = SERVERAPI.Models.Impl.StaticData;
 
 namespace SERVERAPI.ViewComponents
 {
