@@ -179,7 +179,9 @@ namespace SERVERAPI
                 Console.WriteLine("ConnectionString: " + builder.ConnectionString);
                 return builder.ConnectionString;
             }
-            throw new Exception("ConnectionString not found");
+
+            return "";
+            //throw new Exception("ConnectionString not found");
         }
     }    
 }
