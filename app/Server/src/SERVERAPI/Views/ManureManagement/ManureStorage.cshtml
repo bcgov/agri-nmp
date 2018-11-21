@@ -36,15 +36,11 @@
         <!-- PAGE CONTENT -->
     </div>
 </div>
-@foreach (var env in Environment.GetEnvironmentVariables().Keys)
-{
-    <div>@env.ToString()</div>
-    <div>@Environment.GetEnvironmentVariable(env.ToString())</div>
-}
-<div>@Environment.GetEnvironmentVariable("pgsqldatabase_name ")</div>
-<div>@Environment.GetEnvironmentVariable("pgsqlpassword ")</div>
-<div>@Environment.GetEnvironmentVariable("pgsqluri ")</div>
-<div>@Environment.GetEnvironmentVariable("pgsqlusername ")</div>
+
+<div>pgsqldatabase_name @Environment.GetEnvironmentVariable("pgsqldatabase_name")</div>
+<div>pgsqlpassword @Environment.GetEnvironmentVariable("pgsqlpassword")</div>
+<div>pgsqluri @Environment.GetEnvironmentVariable("pgsqluri")</div>
+<div>pgsqlusername @Environment.GetEnvironmentVariable("pgsqlusername")</div>
 <!-- /BODY CONTENT -->
 
 
