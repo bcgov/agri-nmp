@@ -626,12 +626,12 @@ label {
 }
 
 .wrapper {
-  max-width: 1090px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 15px;
 }
 .wrapper-large {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     padding: 0 15px;
 }
@@ -647,7 +647,7 @@ label {
 
 .wizard-item {
   float: left;
-  width: 14.286%;
+  width: 14%;
   position: relative;
 }
 
@@ -686,16 +686,16 @@ label {
 }
 
 .wizard-icon {
-  line-height: 100px;
+  line-height: 20px;
 }
 
-.wizard-icon svg {
+/*.wizard-icon svg {
   vertical-align: middle;
 }
 
 .wizard-icon svg * {
   stroke: #959595;
-}
+}*/
 
 .wizard-item-done .wizard-name {
   color: #5cb85c;
@@ -709,9 +709,9 @@ label {
   background: #5cb85c;
 }
 
-.wizard-item-done .wizard-icon svg * {
+/*.wizard-item-done .wizard-icon svg * {
   stroke: #5cb85c;
-}
+}*/
 
 .step-header {
   padding: 20px 0;
@@ -997,7 +997,7 @@ label {
 }
 
 .wizardsubmenu {
-    padding: 20px 0;
+    padding: 0px 0;
     border-bottom: 1px solid #ccc;
 }
 
@@ -1006,9 +1006,10 @@ label {
 }
 
 .submenu-manure-wrapper {
-    max-width: 1090px;
+    max-width: 1290px;
+    max-height: 20px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 150px;
     padding-left: 150px;
 }
 
@@ -1019,7 +1020,7 @@ label {
 }
 
 .submenu-manure-wizard {
-    padding: 25px 0;
+    /*padding: 5px 0;*/
     border-bottom: 1px solid #ccc;
 }
 
@@ -1039,4 +1040,10 @@ label {
     width: 50%;
     position: relative;
 }
+.submenu-manure-wizardsvg {
+    padding: 25px 0;
+    border-bottom: 1px solid #ccc;
+    max-height: 40px;
+}
+
 

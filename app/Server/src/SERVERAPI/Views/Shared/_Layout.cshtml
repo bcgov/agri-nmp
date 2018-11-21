@@ -125,105 +125,108 @@
 
         <!--WIZARD-->
         <div class="wizard">
-            <div class="wrapper-large wizard-list clearfix" style="text-align:right">
+            <div class="wrapper-large wizard-list clearfix" style="text-align:right;vertical-align:middle">
                 <a href='@Url.Action("Report", "Report" )'><u>Continue later</u></a>
             </div>
-            <ul class="wrapper wizard-list clearfix">
-                <li id="wizard-home" class="wizard-item ">
+            <ul class="wrapper wizard-list clearfix" style="display:inline-block;">
+            <li id="wizard-home" class="wizard-item ">
+                <a href='@Url.Action("Index", "Home" )'>
+                    <span class="wizard-name">Home</span>
+                </a>
+            </li>
+            </ul>
+            <ul class="wrapper wizard-list clearfix" style="text-align:right;vertical-align:middle;padding-left:70px">
+                @*<li id="wizard-home" class="wizard-item " style="padding: 0 130px">
                     <a href='@Url.Action("Index", "Home" )'>
                         <span class="wizard-name">Home</span>
                     </a>
-                </li>
+                </li>*@
                 <li id="wizard-farm" class="wizard-item">
-                    <a id="firstMenu" href='@Url.Action("Farm", "Farm" )'>
-                        <span class="wizard-name">Farm Info</span>
+                    <a id="firstMenu" href='@Url.Action("Farm", "Farm")'>
+                        <span class="wizard-name">Farm Information</span>
                     </a>
                 </li>
-                <div class="wizard-item" style="width: 30px;height:40px">
-                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-                </div>
-
-                @*<li class="wizard-item">
-            <div style="width: 30px;height:10px">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 31.49 31.49" style="enable-background:new 0 0 31.49 31.49;" xml:space="preserve">
-                    <path style="fill:#1E201D;" d="M21.205,5.007c-0.429-0.444-1.143-0.444-1.587,0c-0.429,0.429-0.429,1.143,0,1.571l8.047,8.047H1.111C0.492,14.626,0,15.118,0,15.737c0,0.619,0.492,1.127,1.111,1.127h26.554l-8.047,8.032c-0.429,0.444-0.429,1.159,0,1.587c0.444,0.444,1.159,0.444,1.587,0l9.952-9.952c0.444-0.429,0.444-1.143,0-1.571L21.205,5.007z" /><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
-                    </svg>
-                </div>
-        </li>*@
-
-                @*<li class="wizard-item">
-            <div style="width: 30px;height:40px">
-                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z"/></svg>
-                </div>
-        </li>*@
-
-
+                <li id="wizard-farm" class="wizard-item" style="width:5%">
+                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:50px">
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
+                    </div>
+                </li>
                 <li id="wizard-manure" class="wizard-item">
                     <a id="fourthMenu" href='@Url.Action("ManureGeneratedObtained", "ManureManagement")'>
                         <span style="padding-top: 10px" class="wizard-name">Manure/Compost</span>
                     </a>
                 </li>
-                <div class="wizard-item" style="width: 30px;height:40px">
-                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-                </div>
+                <li id="wizard-manure" class="wizard-item" style="width:5%">
+                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:30px">
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
+                    </div>
+                </li>
+                
                 <li id="wizard-field" class="wizard-item">
                     <a id="secondMenu" href='@Url.Action("Fields", "Fields")'>
                         <span class="wizard-name">Fields and Soil</span>
                     </a>
                 </li>
-                <div class="wizard-item" style="width: 30px;height:40px">
-                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-                </div>
+                <li id="wizard-field" class="wizard-item" style="width:5%">
+                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:20px">
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
+                    </div>
+                </li>
+               
                 <li id="wizard-nutrient" class="wizard-item">
                     <a id="fifthMenu" href='@Url.Action("Calculate", "Nutrients")'>
+                        @*<div class="wizard-item" style="width: 30px;height:40px">
+                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
+                        </div>*@
                         <span class="wizard-name">Calculate Nutrients</span>
                     </a>
                 </li>
-                <div class="wizard-item" style="width: 30px;height:40px">
-                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-                </div>
+                <li id="wizard-nutrient" class="wizard-item" style="width:5%">
+                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:20px">
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
+                    </div>
+                </li>
                 <li id="wizard-report" class="wizard-item">
                     <a id="sixthMenu" href='@Url.Action("Report", "Report")'>
+                        @*<div class="wizard-item" style="width: 30px;height:40px">
+                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
+                        </div>*@
                         <span class="wizard-name">Reporting</span>
                     </a>
                 </li>
             </ul>
-
         </div>
         <div class="submenu-manure-wizard">
             <ul class="submenu-manure-wrapper submenu-manure-wizard-list clearfix">
                 <li id="wizard-submanuregen" class="submenu-manure-wizard-item" style="display:none">
                     <a id="sMenu" href='@Url.Action("ManureGeneratedObtained", "ManureManagement")'>
-                        <span class="wizard-name">Manure generated</span>
-                        @*<div class="wizard-item">
-                            <svg id="Layer_1" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#010101" points="30.4,20.6 66.7,49.1 30.4,77.6 31.6,79.1 69.9,49.1 31.6,19.1 30.4,20.6 " /></svg>
-                        </div>*@
+                        <span class="wizard-name" style="vertical-align: text-bottom;">Manure generated</span>
                     </a>
                 </li>
                
                 <li id="wizard-submanureimported" class="submenu-manure-wizard-item" style="display:none">
                     <a id="eMenu" href='@Url.Action("ManureImported", "ManureManagement" )'>
                         <span class="wizard-name">Manure/Compost imported </span>
-                        @*<div class="wizard-item">
-                            <svg id="Layer_1" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#010101" points="30.4,20.6 66.7,49.1 30.4,77.6 31.6,79.1 69.9,49.1 31.6,19.1 30.4,20.6 " /></svg>
-                        </div>*@
+                        <div class="wizard-item" style="width: 30px;height:29px;display:block">
+                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:11;stroke-miterlimit:5;}</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 "/></svg>
+                        </div>
                     </a>
                 </li>
                 <li id="wizard-submanurestorage" class="submenu-manure-wizard-item" style="display:none">
                     <a id="nMenu" href='@Url.Action("ManureStorage", "ManureManagement" )'>
                         <span class="wizard-name">Storage</span>
-                        @*<div class="wizard-item">
-                            <svg id="Layer_1" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#010101" points="30.4,20.6 66.7,49.1 30.4,77.6 31.6,79.1 69.9,49.1 31.6,19.1 30.4,20.6 " /></svg>
-                        </div>*@
+                        <div class="wizard-item" style="width: 30px;height:29px;">
+                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:11;stroke-miterlimit:10;}</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 "/></svg>
+                        </div>
                     </a>
 
                 </li>
                 <li id="wizard-submanunutrient" class="submenu-manure-wizard-item" style="display:none">
                     <a id="tMenu" href='@Url.Action("ManureNutrientAnalysis", "ManureManagement" )'>
                         <span class="wizard-name">Nutrient Analysis</span>
-                        @*<div class="wizard-item">
-                            <svg id="Layer_1" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#010101" points="30.4,20.6 66.7,49.1 30.4,77.6 31.6,79.1 69.9,49.1 31.6,19.1 30.4,20.6 " /></svg>
-                        </div>*@
+                        <div class="wizard-item" style="width: 30px;height:29px;padding:0px">
+                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:11;stroke-miterlimit:10;}</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 "/></svg>
+                        </div>
                     </a>
                 </li>
             </ul>
@@ -231,17 +234,14 @@
                 <li id="wizard-subfields" class="submenu-fields-wizard-item" style="display:none">
                     <a id="eMenu" href='@Url.Action("Fields", "Fields" )'>
                         <span class="wizard-name">Field List</span>
-                        @*<div class="wizard-item">
-                            <svg id="Layer_1" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#010101" points="30.4,20.6 66.7,49.1 30.4,77.6 31.6,79.1 69.9,49.1 31.6,19.1 30.4,20.6 " /></svg>
-                        </div>*@
                     </a>
                 </li>
                 <li id="wizard-subsoiltests" class="submenu-fields-wizard-item" style="display:none">
                     <a id="twMenu" href='@Url.Action("SoilTest", "Soil" )'>
                         <span class="wizard-name">Soil Tests</span>
-                        @*<div class="wizard-item">
-                            <svg id="Layer_1" version="1.1" viewBox="0 0 100 100" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#010101" points="30.4,20.6 66.7,49.1 30.4,77.6 31.6,79.1 69.9,49.1 31.6,19.1 30.4,20.6 " /></svg>
-                        </div>*@
+                        <div class="wizard-item" style="width: 30px;height:29px;padding:0px">
+                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:11;stroke-miterlimit:10;}</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 "/></svg>
+                        </div>
                     </a>
                 </li>
             </ul>
