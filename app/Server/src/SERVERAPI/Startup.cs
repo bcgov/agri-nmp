@@ -174,7 +174,7 @@ namespace SERVERAPI
                 // modify any of the elements.
                 //return "Server=localhost;Database=AgriConfiguration;Username=username;Password=password";
                 server = server.Replace("postgres://", string.Empty).Replace(":5432", string.Empty);
-                return $"Server={server};Database=sampledb;Username={username};Password={password}";
+                return $"Server={server};Database=AgriConfiguration;Username={username};Password={password}";
 
                 // Now that the connection string has been parsed,
                 // you can work with individual items.
