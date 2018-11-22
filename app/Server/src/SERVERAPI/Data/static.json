@@ -9830,23 +9830,33 @@
         "mainMenu": [
           {
             "id": 1,
-            "name": "Farm Information"
+            "name": "Farm Information",
+            "controller": "Farm",
+            "action": "Farm"
           },
           {
             "id": 2,
-            "name": "Manure/Compost"
+            "name": "Manure/Compost",
+            "controller": "ManureManagement",
+            "action": "ManureGeneratedObtained"
           },
           {
             "id": 3,
-            "name": "Fields and Soil"
+            "name": "Fields and Soil",
+            "controller": "Fields",
+            "action": "Fields"
           },
           {
             "id": 4,
-            "name": "Calculate Nutrients"
+            "name": "Calculate Nutrients",
+            "controller": "Nutrients",
+            "action": "Calculate"
           },
           {
             "id": 5,
-            "name": "Reporting"
+            "name": "Reporting",
+            "controller": "Report",
+            "action": "Report"
           }
         ]
       },

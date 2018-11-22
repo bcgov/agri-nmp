@@ -124,68 +124,11 @@
         <div class="header-height"></div>
 
         <!--WIZARD-->
-        <div class="wizard"">
+        <div class="wizard" ">
             <div class="wrapper-large wizard-list clearfix" style="text-align:right;vertical-align:middle">
                 <a href='@Url.Action("Report", "Report" )'><u>Continue later</u></a>
             </div>
-            <ul class="wrapper wizard-list clearfix" style="text-align:right;vertical-align:middle;padding-left:70px">
-                <li id="wizard-home" class="wizard-item " style="padding: 0 10px">
-                    <a href='@Url.Action("Index", "Home" )'>
-                        <span class="wizard-name">Home</span>
-                    </a>
-                </li>
-                <li id="wizard-home" class="wizard-item" style="width:5%">
-                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:30px">
-                    </div>
-                </li>
-                <li id="wizard-farm" class="wizard-item">
-                    <a id="firstMenu" href='@Url.Action("Farm", "Farm")'>
-                        <span class="wizard-name">Farm Information</span>
-                    </a>
-                </li>
-                <li id="wizard-farm" class="wizard-item" style="width:5%">
-                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:30px">
-                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-                    </div>
-                </li>
-                <li id="wizard-manure" class="wizard-item">
-                    <a id="fourthMenu" href='@Url.Action("ManureGeneratedObtained", "ManureManagement")'>
-                        <span style="padding-top: 10px" class="wizard-name">Manure/Compost</span>
-                    </a>
-                </li>
-                <li id="wizard-manure" class="wizard-item" style="width:5%">
-                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:30px">
-                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-                    </div>
-                </li>
-                
-                <li id="wizard-field" class="wizard-item">
-                    <a id="secondMenu" href='@Url.Action("Fields", "Fields")'>
-                        <span class="wizard-name">Fields and Soil</span>
-                    </a>
-                </li>
-                <li id="wizard-field" class="wizard-item" style="width:5%">
-                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:20px">
-                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-                    </div>
-                </li>
-               
-                <li id="wizard-nutrient" class="wizard-item">
-                    <a id="fifthMenu" href='@Url.Action("Calculate", "Nutrients")'>
-                        <span class="wizard-name">Calculate Nutrients</span>
-                    </a>
-                </li>
-                <li id="wizard-nutrient" class="wizard-item" style="width:5%">
-                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:50px">
-                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-                    </div>
-                </li>
-                <li id="wizard-report" class="wizard-item">
-                    <a id="sixthMenu" href='@Url.Action("Report", "Report")'>
-                        <span class="wizard-name">Reporting</span>
-                    </a>
-                </li>
-            </ul>
+            @await Component.InvokeAsync("Navigation")
         </div>
         <div class="submenu-manure-wizard">
             <ul class="submenu-manure-wrapper submenu-manure-wizard-list clearfix">
@@ -194,12 +137,19 @@
                         <span class="wizard-name" style="vertical-align: text-top;">Manure generated</span>
                     </a>
                 </li>
-               
+
                 <li id="wizard-submanureimported" class="submenu-manure-wizard-item" style="display:none">
                     <a id="eMenu" href='@Url.Action("ManureImported", "ManureManagement" )'>
                         <span class="wizard-name" style="vertical-align: text-top">Manure/Compost imported </span>
                         <div class="wizard-item" style="width: 30px;height:29px;display:block">
-                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:11;stroke-miterlimit:5;}</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 "/></svg>
+                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
+                                                                                                                                                                                                                                                    .st0 {
+                                                                                                                                                                                                                                                        fill: none;
+                                                                                                                                                                                                                                                        stroke: #000000;
+                                                                                                                                                                                                                                                        stroke-width: 11;
+                                                                                                                                                                                                                                                        stroke-miterlimit: 5;
+                                                                                                                                                                                                                                                    }
+</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 " /></svg>
                         </div>
                     </a>
                 </li>
@@ -207,7 +157,14 @@
                     <a id="nMenu" href='@Url.Action("ManureStorage", "ManureManagement" )'>
                         <span class="wizard-name" style="vertical-align: text-top">Storage</span>
                         <div class="wizard-item" style="width: 30px;height:29px;">
-                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:11;stroke-miterlimit:10;}</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 "/></svg>
+                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
+                                                                                                                                                                                                                                                    .st0 {
+                                                                                                                                                                                                                                                        fill: none;
+                                                                                                                                                                                                                                                        stroke: #000000;
+                                                                                                                                                                                                                                                        stroke-width: 11;
+                                                                                                                                                                                                                                                        stroke-miterlimit: 10;
+                                                                                                                                                                                                                                                    }
+</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 " /></svg>
                         </div>
                     </a>
 
@@ -216,7 +173,14 @@
                     <a id="tMenu" href='@Url.Action("ManureNutrientAnalysis", "ManureManagement" )'>
                         <span class="wizard-name" style="vertical-align: text-top">Nutrient Analysis</span>
                         <div class="wizard-item" style="width: 30px;height:29px;">
-                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:11;stroke-miterlimit:10;}</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 "/></svg>
+                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
+                                                                                                                                                                                                                                                    .st0 {
+                                                                                                                                                                                                                                                        fill: none;
+                                                                                                                                                                                                                                                        stroke: #000000;
+                                                                                                                                                                                                                                                        stroke-width: 11;
+                                                                                                                                                                                                                                                        stroke-miterlimit: 10;
+                                                                                                                                                                                                                                                    }
+</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 " /></svg>
                         </div>
                     </a>
                 </li>
@@ -231,7 +195,14 @@
                     <a id="twMenu" href='@Url.Action("SoilTest", "Soil" )'>
                         <span class="wizard-name" style="vertical-align: text-top">Soil Tests</span>
                         <div class="wizard-item" style="width: 30px;height:29px;">
-                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">.st0{fill:none;stroke:#000000;stroke-width:11;stroke-miterlimit:10;}</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 "/></svg>
+                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
+                                                                                                                                                                                                                                                    .st0 {
+                                                                                                                                                                                                                                                        fill: none;
+                                                                                                                                                                                                                                                        stroke: #000000;
+                                                                                                                                                                                                                                                        stroke-width: 11;
+                                                                                                                                                                                                                                                        stroke-miterlimit: 10;
+                                                                                                                                                                                                                                                    }
+</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 " /></svg>
                         </div>
                     </a>
                 </li>

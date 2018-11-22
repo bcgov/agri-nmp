@@ -495,12 +495,52 @@ namespace Agri.LegacyData.Models.Impl
                 var mainMenu = new MainMenu
                 {
                     Id = Convert.ToInt32(record["id"].ToString()),
-                    Name = record["name"].ToString()
+                    Name = record["name"].ToString(),
+                    Controller = record["controller"].ToString(),
+                    Action = record["action"].ToString()
                 };
                 mainMenus.Add(mainMenu);
             }
 
             return mainMenus;
+        }
+
+        public List<SubMenu> GetSubMenus(int mainMenuId)
+        {
+            var subMenus = new List<SubMenu>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
+            foreach (var record in array)
+            {
+                if (Convert.ToUInt32(record["mainMenuId"].ToString()) == mainMenuId)
+                {
+                    var subMenu = new SubMenu
+                    {
+                        Id = Convert.ToInt32(record["id"]),
+                        Name = record["name"].ToString(),
+                        MainMenuId = Convert.ToInt32(record["mainMenuId"])
+                    };
+                    subMenus.Add(subMenu);
+                }
+            }
+
+            return subMenus;
+        }
+
+        public List<SelectListItem> GetMainMenusDll()
+        {
+            var mainMenus = GetMainMenus();
+
+            List<SelectListItem> mainMenuOptions = new List<SelectListItem>();
+
+            foreach (var r in mainMenus)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                mainMenuOptions.Add(li);
+            }
+
+            return mainMenuOptions;
         }
 
         public List<SubMenu> GetSubMenus()
@@ -520,6 +560,30 @@ namespace Agri.LegacyData.Models.Impl
             }
 
             return subMenus;
+        }
+
+        public List<SelectListItem> GetSubmenusDll()
+        {
+            var subMenus = GetSubMenus();
+
+            subMenus = subMenus.OrderBy(n => n.Name).ToList();
+
+            List<SelectListItem> subMenuoptions = new List<SelectListItem>();
+
+            foreach (var r in subMenus)
+            {
+                //if (r.MainMenuId == mainMenu)
+                //{
+                //    var li = new SelectListItem()
+                //        { Id = r.Id, Value = r.Name };
+                //    subMenuoptions.Add(li);
+                //}
+                var li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                subMenuoptions.Add(li);
+            }
+
+            return subMenuoptions;
         }
 
     }

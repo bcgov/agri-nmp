@@ -147,5 +147,10 @@ namespace Agri.Interfaces
         decimal GetMilkProduction(int Id);
         bool DoesAnimalUseWashWater(int animalSubTypeId);
         AnimalSubType GetAnimalSubType(int id);
+        List<MainMenu> GetMainMenus();
+        List<SelectListItem> GetMainMenusDll();
+        List<SubMenu> GetSubMenus();
+        List<SelectListItem> GetSubmenusDll();
+
     }
 }
