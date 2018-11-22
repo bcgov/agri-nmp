@@ -11,7 +11,7 @@
     </li>
     @foreach (var item in Model.mainMenuOptions)
     {
-        <li id="wizard-farm" class="wizard-item">
+        <li id="@item.Controller@item.Action@item.Id" class="wizard-item">
             <a id="firstMenu" href='@Url.Action(@item.Action, @item.Controller)'>
                 <span class="wizard-name">@item.Name</span>
             </a>
@@ -25,46 +25,4 @@
              </li>
          }
     }
-    @*<li id="wizard-farm" class="wizard-item" style="width:5%">
-        <div class="wizard-item" style="width: 30px;height:40px;padding-left:30px">
-            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-        </div>
-    </li>
-    <li id="wizard-manure" class="wizard-item">
-        <a id="fourthMenu" href='@Url.Action("ManureGeneratedObtained", "ManureManagement")'>
-            <span style="padding-top: 10px" class="wizard-name">Manure/Compost</span>
-        </a>
-    </li>
-    <li id="wizard-manure" class="wizard-item" style="width:5%">
-        <div class="wizard-item" style="width: 30px;height:40px;padding-left:30px">
-            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-        </div>
-    </li>
-
-    <li id="wizard-field" class="wizard-item">
-        <a id="secondMenu" href='@Url.Action("Fields", "Fields")'>
-            <span class="wizard-name">Fields and Soil</span>
-        </a>
-    </li>
-    <li id="wizard-field" class="wizard-item" style="width:5%">
-        <div class="wizard-item" style="width: 30px;height:40px;padding-left:20px">
-            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-        </div>
-    </li>
-
-    <li id="wizard-nutrient" class="wizard-item">
-        <a id="fifthMenu" href='@Url.Action("Calculate", "Nutrients")'>
-            <span class="wizard-name">Calculate Nutrients</span>
-        </a>
-    </li>
-    <li id="wizard-nutrient" class="wizard-item" style="width:5%">
-        <div class="wizard-item" style="width: 30px;height:40px;padding-left:50px">
-            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>
-        </div>
-    </li>
-    <li id="wizard-report" class="wizard-item">
-        <a id="sixthMenu" href='@Url.Action("Report", "Report")'>
-            <span class="wizard-name">Reporting</span>
-        </a>
-    </li>*@
 </ul>
