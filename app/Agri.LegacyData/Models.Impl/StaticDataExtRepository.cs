@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Agri.Interfaces;
 using Agri.Models.Configuration;
 using Newtonsoft.Json.Linq;
@@ -483,5 +484,43 @@ namespace Agri.LegacyData.Models.Impl
 
             return dms;
         }
+
+        public List<MainMenu> GetMainMenus()
+        {
+            var mainMenus = new List<MainMenu>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["mainMenus"]["mainMenu"];
+            foreach (var record in array)
+            {
+                var mainMenu = new MainMenu
+                {
+                    Id = Convert.ToInt32(record["id"].ToString()),
+                    Name = record["name"].ToString()
+                };
+                mainMenus.Add(mainMenu);
+            }
+
+            return mainMenus;
+        }
+
+        public List<SubMenu> GetSubMenus()
+        {
+            var subMenus = new List<SubMenu>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["subMenus"]["subMenu"];
+            foreach (var record in array)
+            {
+                var subMenu = new SubMenu()
+                {
+                    Id = Convert.ToInt32(record["id"].ToString()),
+                    Name = record["name"].ToString(),
+                    MainMenuId = Convert.ToInt32(record["mainMenuId"].ToString())
+                };
+                subMenus.Add(subMenu);
+            }
+
+            return subMenus;
+        }
+
     }
     }

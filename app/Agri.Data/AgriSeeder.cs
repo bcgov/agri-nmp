@@ -331,6 +331,23 @@ namespace Agri.Data
                 _context.NutrientIcons.AddRange(icons);
             }
 
+            //MainMenu
+            //SubMenu
+            if (!_context.MainMenus.Any())
+            {
+                var mainMenus = staticExtRepo.GetMainMenus();
+                var subMenus = staticExtRepo.GetSubMenus();
+                foreach (var mainMenu in mainMenus)
+                {
+                    var subMenu = subMenus.Where(s => s.MainMenuId == mainMenu.Id).ToList();
+                    if (subMenu.Any())
+                    {
+                        mainMenu.SubMenus.AddRange(subMenu);
+                    }
+                }
+                _context.MainMenus.AddRange(mainMenus);
+            }
+
             _context.SaveChanges();
         }
     }
