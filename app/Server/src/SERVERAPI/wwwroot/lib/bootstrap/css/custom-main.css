@@ -626,7 +626,7 @@ label {
 }
 
 .wrapper {
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 15px;
 }
@@ -636,7 +636,7 @@ label {
     padding: 0 15px;
 }
 .wizard {
-  padding: 37px 0;
+  padding: 8px 0;
   border-bottom: 1px solid #ccc;
 }
 
@@ -647,7 +647,7 @@ label {
 
 .wizard-item {
   float: left;
-  width: 14%;
+  width: 9%;
   position: relative;
 }
 
@@ -1006,7 +1006,7 @@ label {
 }
 
 .submenu-manure-wrapper {
-    max-width: 1290px;
+    max-width: 1310px;
     max-height: 20px;
     margin: 0 auto;
     padding: 0 150px;
@@ -1014,7 +1014,7 @@ label {
 }
 
 .submenu-fields-wrapper {
-    max-width: 1250px;
+    max-width: 650px;
     margin: 0 auto;
     padding: 0 15px;
 }

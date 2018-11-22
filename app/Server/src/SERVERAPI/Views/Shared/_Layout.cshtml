@@ -124,23 +124,21 @@
         <div class="header-height"></div>
 
         <!--WIZARD-->
-        <div class="wizard">
+        <div class="wizard"">
             <div class="wrapper-large wizard-list clearfix" style="text-align:right;vertical-align:middle">
                 <a href='@Url.Action("Report", "Report" )'><u>Continue later</u></a>
             </div>
-            <ul class="wrapper wizard-list clearfix" style="display:inline-block;">
-            <li id="wizard-home" class="wizard-item ">
-                <a href='@Url.Action("Index", "Home" )'>
-                    <span class="wizard-name">Home</span>
-                </a>
-            </li>
-            </ul>
             <ul class="wrapper wizard-list clearfix" style="text-align:right;vertical-align:middle;padding-left:70px">
-                @*<li id="wizard-home" class="wizard-item " style="padding: 0 130px">
+                <li id="wizard-home" class="wizard-item " style="padding: 0 10px">
                     <a href='@Url.Action("Index", "Home" )'>
                         <span class="wizard-name">Home</span>
                     </a>
-                </li>*@
+                </li>
+                <li id="wizard-home" class="wizard-item" style="width:5%">
+                    <div class="wizard-item" style="width: 30px;height:40px;padding-left:30px">
+                        @*<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M21.883 12l-7.527 6.235.644.765 9-7.521-9-7.479-.645.764 7.529 6.236h-21.884v1h21.883z" /></svg>*@
+                    </div>
+                </li>
                 <li id="wizard-farm" class="wizard-item">
                     <a id="firstMenu" href='@Url.Action("Farm", "Farm")'>
                         <span class="wizard-name">Farm Information</span>
