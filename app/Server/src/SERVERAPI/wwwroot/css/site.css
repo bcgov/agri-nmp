@@ -280,42 +280,35 @@ body {
 }
 
 /* Tree Lines */
+.tree, .tree ul, .tree li {
+    position: relative;
+}
+
 .tree ul {
-    padding-top: 0px; 
-    position: relative;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
+    list-style: none;
+    padding-left: 32px;
 }
 
-.tree li {
-    /*float: left;*/
-    text-align: left;
-    list-style-type: none;
-    position: relative;
-    /*padding: 20px 5px 0 5px;*/
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-}
-
-/*Use ::before and ::after to draw the connectors*/
-.tree li::after {
-    content: '';
+.tree li::before, .tree li::after {
+    content: "";
     position: absolute;
-    top: 0;
-    border-bottom: 1px solid #ccc;
-    width: 10%;
-    height: 25%;
+    left: -15px;
 }
 
-.tree li::after {
-    left: 0%;
-    border-left: 1px solid #ccc;
-}
+    .tree li::before {
+        border-top: 1px solid #CCCCCC;
+        top: 9px;
+        width: 65px;
+        height: 0;
+    }
 
-/*We need to remove left-right connectors from elements without any siblings*/
-.tree li.tree-no-line::after, .tree li.tree-no-line::before {
-    display: none;
+    .tree li::after {
+        border-left: 1px solid #CCCCCC;
+        height: 100%;
+        width: 0px;
+        top: 2px;
+    }
+
+.tree ul > li:last-child::after {
+    height: 8px;
 }
-    
