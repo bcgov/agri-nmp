@@ -156,10 +156,12 @@ namespace SERVERAPI
             {
                 return Configuration["Agri:ConnectionString"];
             }
-            else if(!string.IsNullOrEmpty(Configuration["database-name"]) &&
-                    !string.IsNullOrEmpty(Configuration["database-user"]) &&
-                    !string.IsNullOrEmpty(Configuration["database-password"]))
+            else
             {
+                var password = Environment.GetEnvironmentVariable("pgsqlpassword");
+                var server = Environment.GetEnvironmentVariable("pgsqluri");
+                var username = Environment.GetEnvironmentVariable("pgsqlusername");
+
                 // Create a new SqlConnectionStringBuilder and
                 // initialize it with a few name/value pairs.
                 SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
@@ -171,16 +173,15 @@ namespace SERVERAPI
 
                 // Now that the connection string has been parsed,
                 // you can work with individual items.
-                builder["Server"] = "testhosthaschanged";
-                builder["Database"] = Configuration["database-name"];
-                builder["Username"] = Configuration["database-user"];
-                builder.Password = "new@1Password";
+                builder["Server"] = server;
+                builder["Database"] = "sampledb";
+                builder["Username"] = username;
+                builder.Password = password;
 
                 Console.WriteLine("ConnectionString: " + builder.ConnectionString);
                 return builder.ConnectionString;
             }
 
-            return "";
             //throw new Exception("ConnectionString not found");
         }
     }    
