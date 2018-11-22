@@ -11,5 +11,10 @@ namespace SERVERAPI.ViewModels
     {
         public List<GeneratedManure> GeneratedManures { get; set; }
         public List<ManureStorageSystem> ManureStorageSystems { get; set; }
+
+        public bool DisableAddButtons
+        {
+            get { return GeneratedManures.All(gm => gm.AssignedToStoredSystem); }
+        }
     }
 }

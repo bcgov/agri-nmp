@@ -57,7 +57,7 @@
                                          <li>
                                              <div class="row">
                                                  <div class="col-sm-8 col-sm-offset-1">
-                                                     <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {id = storageSystem.Id, mode = "addStructure", target = "#manurestorage"})">Add a Storage to this System</button>
+                                                     <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {id = storageSystem.Id, mode = "addStructure", target = "#manurestorage"})"  @(Model.DisableAddButtons ? "disabled" : string.Empty)>Add a Storage to this System</button>
                                                  </div>
                                              </div>
                                          </li>
@@ -82,7 +82,7 @@
             </div>
             <div class="form-box-table-add  form-box-table-row row">
                 <div class="col-sm-12  @(Model.ManureStorageSystems.Any() ? "" : "text-center" )">
-                    <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {mode = "addSystem", target = "#manurestorage"})">Add Storage System</button>
+                    <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {mode = "addSystem", target = "#manurestorage"})"  @(Model.DisableAddButtons ? "disabled" : string.Empty)>Add Storage System</button>
                 </div>
             </div>
         </div>
