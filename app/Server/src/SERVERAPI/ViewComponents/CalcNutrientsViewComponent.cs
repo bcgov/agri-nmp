@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcNutrients : ViewComponent
     {
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public CalcNutrients(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public CalcNutrients(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;

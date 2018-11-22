@@ -8,7 +8,12 @@ using SERVERAPI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static SERVERAPI.Models.StaticData;
+using Agri.Interfaces;
+using Agri.Models.Calculate;
+using Agri.Models.Farm;
+using Agri.Models.Settings;
+using Agri.Models.Configuration;
+using Region = Agri.Models.Configuration.Region;
 
 namespace SERVERAPI.Controllers
 {
@@ -17,11 +22,11 @@ namespace SERVERAPI.Controllers
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
-        public Models.Impl.StaticData _sd { get; set; }
+        public IAgriConfigurationRepository _sd { get; set; }
         public IViewRenderService _viewRenderService { get; set; }
         public AppSettings _settings;
 
-        public NutrientsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd, IOptions<AppSettings> settings)
+        public NutrientsController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd, IOptions<AppSettings> settings)
         {
             _env = env;
             _ud = ud;
@@ -157,7 +162,7 @@ namespace SERVERAPI.Controllers
 
                 int regionid = _ud.FarmDetails().farmRegion.Value;
                 Region region = _sd.GetRegion(regionid);
-                nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
+                nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.LocationId);
 
                 mvm.stdN = Convert.ToDecimal(mvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100) ? false : true;
                 mvm.stdAvail = Convert.ToDecimal(mvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100) ? false : true;
@@ -250,7 +255,7 @@ namespace SERVERAPI.Controllers
                     // reset to calculated amount
                     int regionid = _ud.FarmDetails().farmRegion.Value;
                     Region region = _sd.GetRegion(regionid);
-                    nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
+                    nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.LocationId);
 
                     mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
 
@@ -277,7 +282,7 @@ namespace SERVERAPI.Controllers
                         // if application is present then recalc N and A
                         int regionid = _ud.FarmDetails().farmRegion.Value;
                         Region region = _sd.GetRegion(regionid);
-                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
+                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.LocationId);
 
                         mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
 
@@ -370,7 +375,7 @@ namespace SERVERAPI.Controllers
                         // determine if values on screen are book value or not
                         int regionid = _ud.FarmDetails().farmRegion.Value;
                         Region region = _sd.GetRegion(regionid);
-                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.locationid);
+                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.selManOption), region.LocationId);
 
                         if (Convert.ToDecimal(mvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.selManOption), Convert.ToInt16(mvm.selApplOption)) * 100))
                         {
@@ -463,19 +468,19 @@ namespace SERVERAPI.Controllers
         }
         private void ManureDetailsSetup(ref ManureDetailsViewModel mvm)
         {
-            mvm.manOptions = new List<Models.StaticData.SelectListItem>();
+            mvm.manOptions = new List<SelectListItem>();
             mvm.manOptions = _ud.GetFarmManuresDll().ToList();
 
-            mvm.applOptions = new List<Models.StaticData.SelectListItem>();
+            mvm.applOptions = new List<SelectListItem>();
             if (mvm.selManOption != null &&
                 mvm.selManOption != "select" &&
                 mvm.selManOption != "")
             {
                 FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.selManOption));
-                mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.manureId.ToString()).solid_liquid).ToList();
+                mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.manureId.ToString()).SolidLiquid).ToList();
             }
 
-            mvm.rateOptions = new List<Models.StaticData.SelectListItem>();
+            mvm.rateOptions = new List<SelectListItem>();
             mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
             mvm.selRateOptionText = "(lb/ac)";
 
@@ -510,12 +515,12 @@ namespace SERVERAPI.Controllers
                 fvm.selTypOption = nf.fertilizerTypeId.ToString();
                 FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
 
-                fvm.currUnit = ft.dry_liquid;
-                fvm.selFertOption = ft.custom ? 1 : nf.fertilizerId;
+                fvm.currUnit = ft.DryLiquid;
+                fvm.selFertOption = ft.Custom ? 1 : nf.fertilizerId;
                 fvm.applRate = nf.applRate.ToString("#.##");
                 fvm.selRateOption = nf.applUnitId.ToString();
                 fvm.selMethOption = nf.applMethodId;
-                fvm.fertilizerType = ft.dry_liquid;
+                fvm.fertilizerType = ft.DryLiquid;
                 fvm.calcN = nf.fertN.ToString();
                 fvm.calcP2o5 = nf.fertP2o5.ToString();
                 fvm.calcK2o = nf.fertK2o.ToString();
@@ -523,13 +528,13 @@ namespace SERVERAPI.Controllers
                 {
                     fvm.applDate = nf.applDate.HasValue ? nf.applDate.Value.ToString("MMM-yyyy") : "";
                 }
-                if (ft.dry_liquid == "liquid")
+                if (ft.DryLiquid == "liquid")
                 {
                     fvm.density = nf.liquidDensity.ToString("#.##");
                     fvm.selDenOption = nf.liquidDensityUnitId;
-                    if (!ft.custom)
+                    if (!ft.Custom)
                     {
-                        if (fvm.density != _sd.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).value.ToString("#.##"))
+                        if (fvm.density != _sd.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).Value.ToString("#.##"))
                         {
                             fvm.stdDensity = false;
                         }
@@ -539,7 +544,7 @@ namespace SERVERAPI.Controllers
                         }
                     }
                 }
-                if (ft.custom)
+                if (ft.Custom)
                 {
                     fvm.valN = nf.customN.Value.ToString("0");
                     fvm.valP2o5 = nf.customP2o5.Value.ToString("0");
@@ -549,9 +554,9 @@ namespace SERVERAPI.Controllers
                 else
                 {
                     Fertilizer ff = _sd.GetFertilizer(nf.fertilizerId.ToString());
-                    fvm.valN = ff.nitrogen.ToString("0");
-                    fvm.valP2o5 = ff.phosphorous.ToString("0");
-                    fvm.valK2o = ff.potassium.ToString("0");
+                    fvm.valN = ff.Nitrogen.ToString("0");
+                    fvm.valP2o5 = ff.Phosphorous.ToString("0");
+                    fvm.valK2o = ff.Potassium.ToString("0");
                     fvm.manEntry = false;
                 }
             }
@@ -626,7 +631,7 @@ namespace SERVERAPI.Controllers
 
                     NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fvm.fieldName, fvm.id.Value);
 
-                    fvm.density = _sd.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).value.ToString("#.##");
+                    fvm.density = _sd.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).Value.ToString("#.##");
 
                     fvm.stdDensity = true;
                     return View(fvm);
@@ -642,20 +647,20 @@ namespace SERVERAPI.Controllers
 
                     if (fvm.selTypOption != "" && fvm.selTypOption != "select")
                     {
-                        Models.StaticData.FertilizerType typ = _sd.GetFertilizerType(fvm.selTypOption);
+                       FertilizerType typ = _sd.GetFertilizerType(fvm.selTypOption);
 
                         fvm.density = "";
 
 
-                        if (fvm.currUnit != typ.dry_liquid)
+                        if (fvm.currUnit != typ.DryLiquid)
                         {
-                            fvm.currUnit = typ.dry_liquid;
+                            fvm.currUnit = typ.DryLiquid;
                             fvm.rateOptions = _sd.GetFertilizerUnitsDll(fvm.currUnit).ToList();
                             fvm.selRateOption = fvm.rateOptions[0].Id.ToString();
-                            fvm.fertilizerType = typ.dry_liquid;
+                            fvm.fertilizerType = typ.DryLiquid;
                         }
 
-                        fvm.manEntry = typ.custom;
+                        fvm.manEntry = typ.Custom;
                         if (!fvm.manEntry)
                             fvm.selFertOption = 0;
 
@@ -678,9 +683,9 @@ namespace SERVERAPI.Controllers
                        !fvm.manEntry)
                     {
                         Fertilizer ft = _sd.GetFertilizer(fvm.selFertOption.ToString());
-                        fvm.valN = ft.nitrogen.ToString("0");
-                        fvm.valP2o5 = ft.phosphorous.ToString("0");
-                        fvm.valK2o = ft.potassium.ToString("0");
+                        fvm.valN = ft.Nitrogen.ToString("0");
+                        fvm.valP2o5 = ft.Phosphorous.ToString("0");
+                        fvm.valK2o = ft.Potassium.ToString("0");
 
                         FertilizerDetailSetup_DefaultDensity(ref fvm);
                     }
@@ -795,11 +800,11 @@ namespace SERVERAPI.Controllers
                         ModelState.Clear();
                         FertilizerType ft = _sd.GetFertilizerType(fvm.selTypOption.ToString());
 
-                        if (ft.dry_liquid == "liquid")
+                        if (ft.DryLiquid == "liquid")
                         {
-                            if (!ft.custom)
+                            if (!ft.Custom)
                             {
-                                if (fvm.density != _sd.GetLiquidFertilizerDensity(fvm.selFertOption, fvm.selDenOption).value.ToString("#.##"))
+                                if (fvm.density != _sd.GetLiquidFertilizerDensity(fvm.selFertOption, fvm.selDenOption).Value.ToString("#.##"))
                                 {
                                     fvm.stdDensity = false;
                                 }
@@ -919,35 +924,32 @@ namespace SERVERAPI.Controllers
         }
         private void FertilizerDetailsSetup(ref FertilizerDetailsViewModel fvm)
         {
-            fvm.typOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.typOptions = new List<SelectListItem>();
             fvm.typOptions = _sd.GetFertilizerTypesDll().ToList();
 
-            fvm.denOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.denOptions = new List<SelectListItem>();
             fvm.denOptions = _sd.GetDensityUnitsDll().ToList();
 
-            fvm.methOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.methOptions = new List<SelectListItem>();
             fvm.methOptions = _sd.GetFertilizerMethodsDll().ToList();
 
             FertilizerDetailSetup_Fertilizer(ref fvm);
 
-            //fvm.rateOptions = new List<Models.StaticData.SelectListItem>();
             fvm.rateOptions = _sd.GetFertilizerUnitsDll(fvm.currUnit).ToList();
-
-            //fvm.rateOptions = _sd.GetUnitsDll(fvm.currUnit).ToList();
 
             return;
         }
 
         private void FertilizerDetailSetup_Fertilizer(ref FertilizerDetailsViewModel fvm)
         {
-            fvm.fertOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.fertOptions = new List<SelectListItem>();
             if (fvm.selTypOption != null &&
                fvm.selTypOption != "select")
             {
                 FertilizerType ft = _sd.GetFertilizerType(fvm.selTypOption);
-                if (!ft.custom)
+                if (!ft.Custom)
                 {
-                    fvm.fertOptions = _sd.GetFertilizersDll(ft.dry_liquid).ToList();
+                    fvm.fertOptions = _sd.GetFertilizersDll(ft.DryLiquid).ToList();
                 }
                 else
                 {
@@ -985,7 +987,7 @@ namespace SERVERAPI.Controllers
                 fvm.selFertOption != 0 &&
                 fvm.selDenOption != 0)
             {
-                fvm.density = _sd.GetLiquidFertilizerDensity(Convert.ToInt32(fvm.selFertOption), Convert.ToInt32(fvm.selDenOption)).value.ToString("#.##");
+                fvm.density = _sd.GetLiquidFertilizerDensity(Convert.ToInt32(fvm.selFertOption), Convert.ToInt32(fvm.selDenOption)).Value.ToString("#.##");
                 fvm.stdDensity = true;
             }
 
@@ -1015,14 +1017,14 @@ namespace SERVERAPI.Controllers
             NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id);
             FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
 
-            if (ft.custom)
+            if (ft.Custom)
             {
-                fertilizerName = ft.dry_liquid == "dry" ? "Custom (Dry)" : "Custom (Liquid)";
+                fertilizerName = ft.DryLiquid == "dry" ? "Custom (Dry)" : "Custom (Liquid)";
             }
             else
             {
                 Fertilizer ff = _sd.GetFertilizer(nf.fertilizerId.ToString());
-                fertilizerName = ff.name;
+                fertilizerName = ff.Name;
             }
 
             fvm.fertilizerName = fertilizerName;
@@ -1074,7 +1076,7 @@ namespace SERVERAPI.Controllers
                 cvm.selCropOption = cp.cropId;
                 cvm.selPrevOption = cp.prevCropId.ToString();
                 cvm.coverCropHarvested = cp.coverCropHarvested;
-                cvm.nCredit = cvm.selPrevOption != "0" ? _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).nCreditImperial.ToString() : "0";
+                cvm.nCredit = cvm.selPrevOption != "0" ? _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).NitrogenCreditImperial.ToString() : "0";
                 //E07US18 
                 cvm.showHarvestUnitsDDL = false; 
 
@@ -1107,22 +1109,22 @@ namespace SERVERAPI.Controllers
                 if (!string.IsNullOrEmpty(cp.cropOther))
                 {
                     cvm.manEntry = true;
-                    Yield yld = _sd.GetYield(1);
+                    Yield yld = _sd.GetYieldById(1);
                     cvm.cropDesc = cp.cropOther;
-                    cvm.yieldUnit = "(" + yld.yielddesc + ")";
+                    cvm.yieldUnit = "(" + yld.YieldDesc + ")";
                     cvm.selTypOption = _settings.OtherCropId;
                 }
                 else
                 {
                     Crop crop = _sd.GetCrop(Convert.ToInt32(cp.cropId));
-                    Yield yld = _sd.GetYield(crop.yieldcd);
-                    cvm.yieldUnit = "(" + yld.yielddesc + ")";
-                    cvm.selTypOption = crop.croptypeid.ToString();
+                    Yield yld = _sd.GetYieldById(crop.YieldCd);
+                    cvm.yieldUnit = "(" + yld.YieldDesc + ")";
+                    cvm.selTypOption = crop.CropTypeId.ToString();
                     //E07US18
-                    cvm.showHarvestUnitsDDL = _sd.IsCropGrainsAndOilseeds(Convert.ToInt16(crop.croptypeid));
+                    cvm.showHarvestUnitsDDL = _sd.IsCropGrainsAndOilseeds(Convert.ToInt16(crop.CropTypeId));
 
                     CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
-                    if (crpTyp.modifynitrogen)
+                    if (crpTyp.ModifyNitrogen)
                     {
                         cvm.modNitrogen = true;
 
@@ -1197,13 +1199,13 @@ namespace SERVERAPI.Controllers
                     cvm.stdYield = true;
                     cvm.yield = "";
                     cvm.yieldByHarvestUnit = "";
-                    cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
+                    cvm.prevOptions = new List<SelectListItem>();
 
                     if (cvm.selTypOption != "select")
                     {
                         CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
 
-                        if (crpTyp.customcrop)
+                        if (crpTyp.CustomCrop)
                         {
                             cvm.manEntry = true;
                             cvm.reqN = string.Empty;
@@ -1216,7 +1218,7 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            if (_sd.IsCropGrainsAndOilseeds(crpTyp.id))
+                            if (_sd.IsCropGrainsAndOilseeds(crpTyp.Id))
                             {
                                 cvm.showHarvestUnitsDDL = true;
                                 cvm.selHarvestUnits = _sd.GetHarvestYieldDefaultDisplayUnit().ToString();
@@ -1244,7 +1246,7 @@ namespace SERVERAPI.Controllers
                     if (cvm.selPrevOption != "select" &&
                         cvm.selPrevOption != "")
                     {
-                        cvm.nCredit = _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).nCreditImperial.ToString();
+                        cvm.nCredit = _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).NitrogenCreditImperial.ToString();
                     }
                     else
                     {
@@ -1317,9 +1319,9 @@ namespace SERVERAPI.Controllers
                         cvm.selCropOption != "select")
                     {
                         Crop cp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
-                        Yield yld = _sd.GetYield(cp.yieldcd);
+                        Yield yld = _sd.GetYieldById(cp.YieldCd);
 
-                        cvm.yieldUnit = "(" + yld.yielddesc + ")";
+                        cvm.yieldUnit = "(" + yld.YieldDesc + ")";
                         // E07US18
                         if (cvm.showHarvestUnitsDDL)
                         {
@@ -1361,13 +1363,13 @@ namespace SERVERAPI.Controllers
 
                         if (cvm.selHarvestUnits == _sd.GetHarvestYieldDefaultUnit().ToString())
                         {
-                            if (crop.harvestBushelsPerTon.HasValue)
-                                cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) / Convert.ToDecimal(crop.harvestBushelsPerTon)).ToString("#.##");
+                            if (crop.HarvestBushelsPerTon.HasValue)
+                                cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) / Convert.ToDecimal(crop.HarvestBushelsPerTon)).ToString("#.##");
                         }
                         else
                         {
-                            if (crop.harvestBushelsPerTon.HasValue)
-                                cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) * Convert.ToDecimal(crop.harvestBushelsPerTon)).ToString("#.##");
+                            if (crop.HarvestBushelsPerTon.HasValue)
+                                cvm.yieldByHarvestUnit = (Convert.ToDecimal(cvm.yieldByHarvestUnit) * Convert.ToDecimal(crop.HarvestBushelsPerTon)).ToString("#.##");
                         }
                     }
                     return View(cvm);
@@ -1641,7 +1643,7 @@ namespace SERVERAPI.Controllers
                             if (!cvm.modNitrogen)
                             {
                                 CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
-                                if (crpTyp.modifynitrogen)
+                                if (crpTyp.ModifyNitrogen)
                                 {
                                     cvm.modNitrogen = true;
                                     cvm.stdN = true;
@@ -1750,11 +1752,11 @@ namespace SERVERAPI.Controllers
         private void CropDetailsSetup(ref CropDetailsViewModel cvm)
         {
             cvm.showCrude = false;
-            cvm.typOptions = new List<Models.StaticData.SelectListItem>();
+            cvm.typOptions = new List<SelectListItem>();
             cvm.typOptions = _sd.GetCropTypesDll().ToList();
 
-            cvm.cropOptions = new List<Models.StaticData.SelectListItem>();
-            cvm.harvestUnitsOptions = new List<Models.StaticData.SelectListItem>();
+            cvm.cropOptions = new List<SelectListItem>();
+            cvm.harvestUnitsOptions = new List<SelectListItem>();
             if (!string.IsNullOrEmpty(cvm.selTypOption) &&
                 cvm.selTypOption != "select")
             {
@@ -1764,10 +1766,10 @@ namespace SERVERAPI.Controllers
                 if (cvm.selTypOption != "select")
                 {
                     CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
-                    cvm.showCrude = crpTyp.crudeproteinrequired;
-                    cvm.coverCrop = crpTyp.covercrop;
-                    cvm.manEntry = crpTyp.customcrop;
-                    if (!crpTyp.customcrop)
+                    cvm.showCrude = crpTyp.CrudeProteinRequired;
+                    cvm.coverCrop = crpTyp.CoverCrop;
+                    cvm.manEntry = crpTyp.CustomCrop;
+                    if (!crpTyp.CustomCrop)
                     {
                         cvm.cropOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select" });
                     }
@@ -1794,14 +1796,14 @@ namespace SERVERAPI.Controllers
         }
         private void PreviousCropSetup(ref CropDetailsViewModel cvm)
         {
-            cvm.prevOptions = new List<Models.StaticData.SelectListItem>();
+            cvm.prevOptions = new List<SelectListItem>();
             if (!string.IsNullOrEmpty(cvm.selCropOption))
             {
                 if (cvm.selCropOption != "select" &&
                     cvm.selCropOption != "0")
                 {
                     Crop crp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
-                    cvm.prevOptions = _sd.GetPrevCropTypesDll(crp.prevcropcd.ToString()).ToList();
+                    cvm.prevOptions = _sd.GetPrevCropTypesDll(crp.PreviousCropCode.ToString()).ToList();
                 }
             }
         }
@@ -1874,7 +1876,7 @@ namespace SERVERAPI.Controllers
             if (!string.IsNullOrEmpty(crp.cropOther))
                 dvm.cropName = crp.cropOther;
             else
-                dvm.cropName = _sd.GetCrop(Convert.ToInt32(crp.cropId)).cropname;
+                dvm.cropName = _sd.GetCrop(Convert.ToInt32(crp.cropId)).CropName;
 
             dvm.act = "Delete";
 

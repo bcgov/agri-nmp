@@ -5,16 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static SERVERAPI.Models.StaticData;
+using Agri.Interfaces;
+using Agri.Models.Farm;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcFertilizer : ViewComponent
     {
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public CalcFertilizer(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public CalcFertilizer(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;
@@ -39,15 +41,15 @@ namespace SERVERAPI.ViewComponents
 
                 FertilizerType ft = _sd.GetFertilizerType(f.fertilizerTypeId.ToString());
 
-                if(ft.custom)
+                if(ft.Custom)
                 {
-                    fertilizerName = ft.dry_liquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
+                    fertilizerName = ft.DryLiquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
                     fertilizerName = fertilizerName + f.customN.ToString() + "-" + f.customP2o5.ToString() + "-" + f.customK2o.ToString();
                 }
                 else
                 {
                     Fertilizer ff = _sd.GetFertilizer(f.fertilizerId.ToString());
-                    fertilizerName = ff.name;
+                    fertilizerName = ff.Name;
                 }
 
                 dm.fldName = fldName;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
 {
@@ -12,16 +13,16 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selManOption { get; set; }
-        public List<Models.StaticData.SelectListItem> manOptions { get; set; }
+        public List<SelectListItem> manOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selApplOption { get; set; }
-        public List<Models.StaticData.SelectListItem> applOptions { get; set; }
+        public List<SelectListItem> applOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selRateOption { get; set; }
         public string selRateOptionText { get; set; }
-        public List<Models.StaticData.SelectListItem> rateOptions { get; set; }
+        public List<SelectListItem> rateOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         public string rate { get; set; }
         public string currUnit { get; set; }

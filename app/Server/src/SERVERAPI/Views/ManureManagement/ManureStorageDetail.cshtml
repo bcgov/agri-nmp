@@ -1,4 +1,5 @@
-﻿@model ManureStorageDetailViewModel
+﻿@using Agri.Models
+@model ManureStorageDetailViewModel
 
 @{
     Layout = null;
@@ -16,7 +17,7 @@
                     <div class="form-group col-sm-3">
                         <label asp-for="SelectedManureMaterialType">Liquid or Solid</label>
                         <select class="form-control" asp-for="SelectedManureMaterialType"
-                                asp-items="@(Html.GetEnumSelectList<StaticData.ManureMaterialType>())" id="ddlManureMaterialType"
+                                asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType"
                                 disabled="@(Model.DisableMaterialTypeForEditMode || Model.DisableSystemFields ? "disabled" : null)">
                             <option>Select Manure Type</option>
                         </select>

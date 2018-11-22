@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Linq;
+using Agri.Models.Farm;
+using Agri.Models.Settings;
 
 namespace SERVERAPI.Controllers
 {

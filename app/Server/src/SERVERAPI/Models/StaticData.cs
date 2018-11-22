@@ -519,15 +519,6 @@ namespace SERVERAPI.Models
             public int animalId { get; set; }
             
         }
-
-        public enum ManureMaterialType
-        {
-            Liquid = 1,
-            Solid = 2,
-            [Display(Name = "Solid Liquid Separation")]
-            SolidLiquidSeparated = 3
-        }
-
         public class AnimalUsingWashWater
         {
             public int AnimalSubTypeId { get; set; }

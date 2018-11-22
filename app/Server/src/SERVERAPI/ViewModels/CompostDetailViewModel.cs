@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
 {
@@ -9,7 +10,7 @@ namespace SERVERAPI.ViewModels
         public int? id { get; set; }
         public string target { get; set; }
         public int selManOption { get; set; }
-        public List<Models.StaticData.SelectListItem> manOptions { get; set; }
+        public List<SelectListItem> manOptions { get; set; }
         public string act { get; set; }
         [Display(Name = "Material Type")]
         public string manureName { get; set; }

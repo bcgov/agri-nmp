@@ -9,31 +9,22 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.XPath;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Http;
-
-using System.Reflection;
-using System.Runtime.Loader;
-using Microsoft.Extensions.FileProviders;
-using SERVERAPI.Models;
 using SERVERAPI.Utility;
 using SERVERAPI.Controllers;
-using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using AutoMapper;
+using Agri.Models.Settings;
+using Agri.Data;
+using Agri.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Agri.LegacyData.Models.Impl;
 
 namespace SERVERAPI
 {
@@ -54,7 +45,8 @@ namespace SERVERAPI
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables()
+                .AddUserSecrets<Startup>();
 
             Configuration = builder.Build();
         }
@@ -63,10 +55,18 @@ namespace SERVERAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddAuthorization();
+            var agriConnectionString = Configuration["Agri:ConnectionString"];
+            //Creates the DbContext as a scoped Service
+            services.AddDbContext<AgriConfigurationContext>(options =>
+            {
+                options.UseNpgsql(agriConnectionString, b => b.MigrationsAssembly("Agri.Data"));
+            });
+            //services.AddScoped<IConfigurationRepository>(provider => new ConfigurationRepository(agriConnectionString));
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.AddTransient<AgriSeeder>();
 
             //// allow for large files to be uploaded
             services.Configure<FormOptions>(options =>
@@ -102,8 +102,9 @@ namespace SERVERAPI
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
+            services.AddScoped<IAgriConfigurationRepository,StaticDataExtRepository>();
             services.AddOptions();
-            services.AddAutoMapper(typeof(Startup).Assembly);
+            //services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }

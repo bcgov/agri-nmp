@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
 {
@@ -12,20 +13,20 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selTypOption { get; set; }
-        public List<Models.StaticData.SelectListItem> typOptions { get; set; }
+        public List<SelectListItem> typOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public int selFertOption { get; set; }
-        public List<Models.StaticData.SelectListItem> fertOptions { get; set; }
+        public List<SelectListItem> fertOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selRateOption { get; set; }
         public string selRateOptionText { get; set; }
-        public List<Models.StaticData.SelectListItem> rateOptions { get; set; }
+        public List<SelectListItem> rateOptions { get; set; }
         public int selDenOption { get; set; }
-        public List<Models.StaticData.SelectListItem> denOptions { get; set; }
+        public List<SelectListItem> denOptions { get; set; }
         public int selMethOption { get; set; }
-        public List<Models.StaticData.SelectListItem> methOptions { get; set; }
+        public List<SelectListItem> methOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         public string applRate { get; set; }
         public string currUnit { get; set; }

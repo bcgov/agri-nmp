@@ -5,15 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcManure : ViewComponent
     {
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public CalcManure(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public CalcManure(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;
@@ -37,8 +39,8 @@ namespace SERVERAPI.ViewComponents
                     fldName = fldName,
                     manId = m.id,
                     matType = _ud.GetFarmManure(Convert.ToInt32(m.manureId)).name,
-                    applType = _sd.GetApplication(m.applicationId).name,
-                    rate = m.rate.ToString() + " " + _sd.GetUnit(m.unitId).name,
+                    applType = _sd.GetApplication(m.applicationId).Name,
+                    rate = m.rate.ToString() + " " + _sd.GetUnit(m.unitId).Name,
                     yrN = m.yrN.ToString("G29"),
                     yrP = m.yrP2o5.ToString("G29"),
                     yrK = m.yrK2o.ToString("G29"),

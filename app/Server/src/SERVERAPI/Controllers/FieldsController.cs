@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
+using Agri.Models.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using SERVERAPI.Models;
 using Microsoft.Extensions.Options;
+using Agri.Models.Configuration;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +22,11 @@ namespace SERVERAPI.Controllers
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
-        public Models.Impl.StaticData _sd { get; set; }
+        public IAgriConfigurationRepository _sd { get; set; }
         private readonly IOptions<AppSettings> _appSettings;
 
 
-        public FieldsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd, IOptions<AppSettings> appSettings)
+        public FieldsController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd, IOptions<AppSettings> appSettings)
         {
             _env = env;
             _ud = ud;
@@ -140,7 +144,7 @@ namespace SERVERAPI.Controllers
         {
             FieldDetailViewModel fvm = new FieldDetailViewModel();
 
-            Models.StaticData.ConversionFactor cf = _sd.GetConversionFactor();
+           ConversionFactor cf = _sd.GetConversionFactor();
 
             fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
 
@@ -161,7 +165,7 @@ namespace SERVERAPI.Controllers
                 // retrofit old saved NMP files
                 if (String.IsNullOrEmpty(fld.prevYearManureApplicationFrequency))
                     // set to default (no manure applied in the last two years)
-                    fvm.selPrevYrManureOption = cf.defaultApplicationOfManureInPrevYears;
+                    fvm.selPrevYrManureOption = cf.DefaultApplicationOfManureInPrevYears;
                 else
                     fvm.selPrevYrManureOption = fld.prevYearManureApplicationFrequency;
                 fvm.act = "Edit";
