@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Agri.Models.Farm;
 using SERVERAPI.Models;
 
 namespace SERVERAPI.ViewModels

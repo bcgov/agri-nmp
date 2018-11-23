@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
+using Agri.Models;
+using Agri.Models.Farm;
+using Agri.Models.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using MvcRendering = Microsoft.AspNetCore.Mvc.Rendering;
-using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
-using static SERVERAPI.Models.StaticData;
-using StaticData = SERVERAPI.Models.StaticData;
+
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,19 +20,21 @@ namespace SERVERAPI.Controllers
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
-        public Models.Impl.StaticData _sd { get; set; }
+        public StaticData _sd { get; set; }
         public IViewRenderService _viewRenderService { get; set; }
         public AppSettings _settings;
-        private readonly IMapper _mapper;
+        //private readonly IMapper _mapper;
 
         public ManureManagementController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud,
-            Models.Impl.StaticData sd,IMapper mapper)
+            Models.Impl.StaticData sd
+            //,IMapper mapper
+            )
         {
             _env = env;
             _ud = ud;
             _sd = sd;
             _viewRenderService = viewRenderService;
-            _mapper = mapper;
+            //_mapper = mapper;
         }
 
         #region Manure Generated Obtained
@@ -61,13 +63,13 @@ namespace SERVERAPI.Controllers
                 mgovm.averageAnimalNumber = gm.averageAnimalNumber.ToString();
                 mgovm.selManureMaterialTypeOption = gm.manureType;
 
-                AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(gm.animalSubTypeId.ToString()));
+                Models.StaticData.AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(gm.animalSubTypeId.ToString()));
                 mgovm.selAnimalTypeOption = animalSubType.animalId.ToString();
 
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
                 {
-                    Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                    Models.StaticData.Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;
@@ -213,7 +215,7 @@ namespace SERVERAPI.Controllers
                         List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
                         if (mgovm.id == null)
                         {
-                            Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                            Models.StaticData.Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
 
                             GeneratedManure gm = new GeneratedManure();
                             gm.animalId = Convert.ToInt32(mgovm.selAnimalTypeOption);
@@ -222,7 +224,7 @@ namespace SERVERAPI.Controllers
                             gm.animalSubTypeName = _sd.GetAnimalSubTypeName(Convert.ToInt32(mgovm.selSubTypeOption));
                             gm.averageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
                             gm.manureType = mgovm.selManureMaterialTypeOption;
-                            gm.manureTypeName = EnumHelper<ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
+                            gm.manureTypeName = EnumHelper<Agri.Models.ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
                             if (mgovm.washWater != null)
                             {
                                 gm.washWaterGallons = Math.Round(Convert.ToDecimal(mgovm.washWater) * Convert.ToInt32(mgovm.averageAnimalNumber) * 365);
@@ -243,7 +245,7 @@ namespace SERVERAPI.Controllers
                                 gm.milkProduction = 0;
                             }
 
-                            AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+                            Models.StaticData.AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
 
                             // manure material type is liquid
                             if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
@@ -275,7 +277,7 @@ namespace SERVERAPI.Controllers
                             if (mgovm.selManureMaterialTypeOption != 0)
                                 thisManureMaterialType = mgovm.selManureMaterialTypeOption;
 
-                            Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                            Models.StaticData.Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
 
                             gm.id = mgovm.id;
                             gm.animalId = thisAnimalType;
@@ -298,7 +300,7 @@ namespace SERVERAPI.Controllers
                                 gm.washWater = 0;
                             }
 
-                            AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+                            Models.StaticData.AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
 
                             // manure material type is liquid
                             if (Convert.ToInt32(mgovm.selManureMaterialTypeOption) == 1)
@@ -354,12 +356,12 @@ namespace SERVERAPI.Controllers
                 mgovm.selAnimalTypeOption != "select animal")
             {
                 mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
-                mgovm.subTypeOptions.Insert(0, new StaticData.SelectListItem() { Id = 0, Value = "select subtype" });
+                mgovm.subTypeOptions.Insert(0, new Models.StaticData.SelectListItem() { Id = 0, Value = "select subtype" });
 
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
                 {
-                    Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                    Models.StaticData.Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;

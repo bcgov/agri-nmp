@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Agri.Models.Calculate;
 using SERVERAPI.Models.Impl;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.Models;
 using static SERVERAPI.Models.StaticData;
 
 namespace SERVERAPI.Utility

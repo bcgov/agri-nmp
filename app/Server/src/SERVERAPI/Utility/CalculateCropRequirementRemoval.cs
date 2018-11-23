@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Models.Calculate;
+using Agri.Models.Farm;
 using SERVERAPI.Models.Impl;
 using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.Models;

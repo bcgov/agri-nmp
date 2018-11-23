@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Agri.Models;
+using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using StaticData = SERVERAPI.Models.Impl.StaticData;
@@ -38,28 +35,28 @@ namespace SERVERAPI.ViewComponents
                     animalId = 1,
                     animalSubTypeId = 1,
                     animalSubTypeName = "Cow, including calf to weaning",
-                    manureType = Models.StaticData.ManureMaterialType.Solid
+                    manureType = ManureMaterialType.Solid
                 },
                 new GeneratedManure
                 {
                     animalId = 1,
                     animalSubTypeId = 3,
                     animalSubTypeName = "Heavy Feeders",
-                    manureType = Models.StaticData.ManureMaterialType.Solid
+                    manureType = ManureMaterialType.Solid
                 },
                 new GeneratedManure
                 {
                     animalId = 2,
                     animalSubTypeId = 4,
                     animalSubTypeName = "Calves (0 to 3 months old)",
-                    manureType = Models.StaticData.ManureMaterialType.Liquid
+                    manureType = ManureMaterialType.Liquid
                 },
                 new GeneratedManure
                 {
                     animalId = 2,
                     animalSubTypeId = 9,
                     animalSubTypeName = "Milking Cow",
-                    manureType = Models.StaticData.ManureMaterialType.Liquid
+                    manureType = ManureMaterialType.Liquid
                 }
             };
 
