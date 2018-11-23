@@ -59,6 +59,11 @@ namespace Agri.Data
                     .ToList();
         }
 
+        public AnimalSubType GetAnimalSubType(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<AnimalSubType> GetAnimalSubTypes(int animalId)
         {
             return GetAnimal(animalId)
@@ -207,6 +212,11 @@ namespace Agri.Data
             throw new NotImplementedException();
         }
 
+        public bool DoesAnimalUseWashWater(int animalSubTypeId)
+        {
+            throw new NotImplementedException();
+        }
+
         public DryMatter GetDryMatter(int ID)
         {
             throw new NotImplementedException();
@@ -321,6 +331,10 @@ namespace Agri.Data
         {
             throw new NotImplementedException();
         }
+        public decimal GetIncludeWashWater(int Id)
+        {
+            throw new NotImplementedException();
+        }
 
         public int GetInteriorId()
         {
@@ -387,6 +401,10 @@ namespace Agri.Data
             throw new NotImplementedException();
         }
 
+        public decimal GetMilkProduction(int Id)
+        {
+            throw new NotImplementedException();
+        }
         public List<NitrogenMineralization> GetNitrogeMineralizations()
         {
             throw new NotImplementedException();
@@ -592,11 +610,15 @@ namespace Agri.Data
             throw new NotImplementedException();
         }
 
-        public List<Yield> GetYield(int yieldId)
+        public Yield GetYieldById(int yieldId)
         {
             throw new NotImplementedException();
         }
 
+        public List<Yield> GetYield(int yieldId)
+        {
+            throw new NotImplementedException();
+        }
         public List<Yield> GetYields()
         {
             throw new NotImplementedException();
@@ -658,6 +680,12 @@ namespace Agri.Data
         }
 
         public bool wasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
+            string parentNode, string parentfield)
         {
             throw new NotImplementedException();
         }

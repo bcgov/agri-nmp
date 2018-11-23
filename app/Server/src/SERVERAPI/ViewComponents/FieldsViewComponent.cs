@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
 using Agri.Models.Farm;
 using SERVERAPI.Models;
 using SERVERAPI.Controllers;
@@ -15,9 +16,9 @@ namespace SERVERAPI.ViewComponents
     {
         private IHostingEnvironment _env;
         private UserData _ud;
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
 
-        public Fields(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
+        public Fields(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
         {
             _env = env;
             _ud = ud;

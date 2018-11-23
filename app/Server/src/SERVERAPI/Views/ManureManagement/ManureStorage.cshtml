@@ -37,10 +37,6 @@
     </div>
 </div>
 
-<div>pgsqldatabase_name @Environment.GetEnvironmentVariable("pgsqldatabase_name")</div>
-<div>pgsqlpassword @Environment.GetEnvironmentVariable("pgsqlpassword")</div>
-<div>pgsqluri @Environment.GetEnvironmentVariable("pgsqluri")</div>
-<div>pgsqlusername @Environment.GetEnvironmentVariable("pgsqlusername")</div>
 <!-- /BODY CONTENT -->
 
 
@@ -159,6 +155,7 @@
             $("#wizard-submanurestorage").addClass('wizard-item-done');
         });
 
+
         $(document).ready(function () {
             $("body").on("change", "#txtSystemName", function () {
                 $('#ButtonPressed').val("SystemNameChange");
@@ -175,7 +172,6 @@
             $('#ButtonPressed').val("GetsRunoffFromRoofsOrYardsChange");
             $("#modForm").submit();
         }
-
 
         function Intercept(x) {
             //Create field with total amount of unallocated manure materials and update the fields below
@@ -202,6 +198,5 @@
         }
 
     </script>
-    
 
 }

@@ -13,6 +13,7 @@ namespace Agri.Models.Configuration
         public int Id { get; set; }
         public int FieldManureApplicationHistory { get; set; }
         public int[] DefaultNitrogenCredit { get; set; }
+        public string PreviousYearManureAplicationFrequency { get; set; }
 
         public PreviousManureApplicationYear PreviousManureApplicationYear { get; set; }
         public List<Crop> Crops { get; set; }
