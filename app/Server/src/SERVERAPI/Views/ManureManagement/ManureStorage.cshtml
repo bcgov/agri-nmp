@@ -171,5 +171,33 @@
             $('#ButtonPressed').val("GetsRunoffFromRoofsOrYardsChange");
             $("#modForm").submit();
         }
+
+
+        function Intercept(x) {
+            //Create field with total amount of unallocated manure materials and update the fields below
+            if ($("#testSelected").val() == "False" ||
+                $("#missingTests").val() == "True")
+            {
+                $.ajaxSetup({ cache: false });
+                var url = '@Url.Action("MissingTests", "Soil", new { target = "zzz" })';
+                $type = url.replace('zzz',x);
+                $("#divSize").addClass("modal-large");
+                $('#myModalContent').load($type, function () {
+                    $('#myModal').modal({
+                        /*backdrop: 'static',*/
+                        //keyboard: true
+                    }, 'show');
+                    bindForm(this);
+                });
+                return false;
+            }
+            else
+            {
+                window.location.href = x;
+            }
+        }
+
     </script>
+    
+
 }
