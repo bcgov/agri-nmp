@@ -796,6 +796,7 @@ namespace SERVERAPI.Models.Impl
             farmDataGeneratedManure.washWater = updatedGeneratedManure.washWater;
             farmDataGeneratedManure.washWaterGallons = updatedGeneratedManure.washWaterGallons;
             farmDataGeneratedManure.annualAmount = updatedGeneratedManure.annualAmount;
+            farmDataGeneratedManure.AssignedToStoredSystem = updatedGeneratedManure.AssignedToStoredSystem;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -812,6 +813,18 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
+        public void UpdateGenerateManuresAllocationToStorage()
+        {
+            var currentGeneratedManures = GetGeneratedManures();
+            var currentStorages = GetStorageSystems();
+            foreach (var generatedManure in currentGeneratedManures)
+            {
+                generatedManure.AssignedToStoredSystem = currentStorages.Any(s =>
+                    s.MaterialsIncludedInSystem.Any(mis => mis.id == generatedManure.id));
+
+                UpdateGeneratedManures(generatedManure);
+            }
+        }
 
         public List<ManureStorageSystem> GetStorageSystems()
         {
@@ -861,10 +874,23 @@ namespace SERVERAPI.Models.Impl
             savedSystem.GetsRunoffFromRoofsOrYards = updatedSystem.GetsRunoffFromRoofsOrYards;
             savedSystem.RunoffAreaSquareFeet = updatedSystem.RunoffAreaSquareFeet;
 
+            savedSystem.ManureStorageStructures.RemoveAll(s => !updatedSystem.ManureStorageStructures.Any(u => u.Id == s.Id));
             foreach (var updateStorageStructure in updatedSystem.ManureStorageStructures)
             {
                 savedSystem.AddUpdateManureStorageStructure(updateStorageStructure);
             }
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void DeleteManureStorageSystem(int id)
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            var storageSystem = yd.ManureStorageSystems.FirstOrDefault(mss => mss.Id == id);
+
+            yd.ManureStorageSystems.Remove(storageSystem);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

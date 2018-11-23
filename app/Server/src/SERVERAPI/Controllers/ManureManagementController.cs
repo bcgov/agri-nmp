@@ -39,6 +39,8 @@ namespace SERVERAPI.Controllers
             //_mapper = mapper;
         }
 
+        #region Manure Generated Obtained
+
         [HttpGet]
         public IActionResult ManureGeneratedObtained()
         {
@@ -315,6 +317,7 @@ namespace SERVERAPI.Controllers
                             // manure material type is solid
                             else if (Convert.ToInt32(mgovm.selManureMaterialTypeOption) == 2)
                             {
+
                                 if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
                                     gm.annualAmount = (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * 365) / 2000))) + " tons";
                             }
@@ -408,12 +411,16 @@ namespace SERVERAPI.Controllers
             return PartialView("ManureGeneratedObtainedDelete", dvm);
         }
 
+        #endregion
+
+        #region Manure Storage
+
         [HttpGet]
         public IActionResult ManureStorage()
         {
             return View();
         }
-
+        
         public IActionResult ManureStorageDetail(int? id, string mode, int? structureId, string target)
         {
             var msvm = new ManureStorageDetailViewModel();
@@ -597,6 +604,7 @@ namespace SERVERAPI.Controllers
                     {
                         var includedManure = _ud.GetGeneratedManures().Where(gm =>
                             msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.id == includedIds)).ToList();
+                        includedManure.ForEach(m => { m.AssignedToStoredSystem = true; });
 
                         ManureStorageSystem manureStorageSystem;
 
@@ -647,6 +655,8 @@ namespace SERVERAPI.Controllers
                             _ud.AddManureStorageSystem(manureStorageSystem);
                             msdvm.SystemId = manureStorageSystem.Id;
                         }
+
+                        _ud.UpdateGenerateManuresAllocationToStorage();
 
                         var url = Url.Action("RefreshStorageList", "ManureManagement");
                         return Json(new { success = true, url = url, target = msdvm.Target });
@@ -724,15 +734,85 @@ namespace SERVERAPI.Controllers
         }
 
         [HttpGet]
+        public IActionResult ManureStorageDelete(int id, int? structureId, string target)
+        {
+            var vm = new ManureStorageDeleteViewModel();
+            var storageSystem = _ud.GetStorageSystem(id);
+
+            vm.Title = "Delete";
+            vm.Target = target;
+            vm.StorageSystemName = storageSystem.Name;
+            vm.SystemId = storageSystem.Id;
+
+            if (structureId.HasValue)
+            {
+                var structure =
+                    storageSystem.ManureStorageStructures.SingleOrDefault(mss => mss.Id == structureId.Value);
+                vm.StorageStructureName = structure.Name;
+                vm.StructureId = structure.Id;
+            }
+
+            return PartialView("ManureStorageDelete", vm);
+        }
+
+        [HttpPost]
+        public IActionResult ManureStorageDelete(ManureStorageDeleteViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (vm.StructureId.HasValue)
+                {
+                    var storageSystem = _ud.GetStorageSystem(vm.SystemId);
+                    var structureToDelete = storageSystem.ManureStorageStructures.SingleOrDefault(mss => mss.Id == vm.StructureId);
+                    storageSystem.ManureStorageStructures.Remove(structureToDelete);
+                    _ud.UpdateManureStorageSystem(storageSystem);
+                }
+                else
+                {
+                    _ud.DeleteManureStorageSystem(vm.SystemId);
+                    _ud.UpdateGenerateManuresAllocationToStorage();
+                }
+
+
+                string url = Url.Action("RefreshStorageList", "ManureManagement");
+                return Json(new { success = true, url = url, target = vm.Target });
+            }
+
+            return PartialView("ManureStorageDelete", vm);
+        }
+
+        [HttpGet]
+        public IActionResult ManureStorageMaterialsRequireAssigning(string target)
+        {
+            var vm = new ManureStorageMaterialsRequireAssigningViewModel();
+
+            vm.Title = "";
+            vm.Target = target;
+            vm.UnallocatedGeneratedManures = _ud.GetGeneratedManures().Where(gm => !gm.AssignedToStoredSystem).ToList();
+
+            return PartialView("ManureStorageMaterialsRequireAssigning", vm);
+        }
+
+        #endregion
+
+        #region ManureNutrientAnalysis
+
+        [HttpGet]
         public IActionResult ManureNutrientAnalysis()
         {
             return View();
         }
+
+        #endregion
+
+        #region ManureImported
 
         [HttpGet]
         public IActionResult ManureImported()
         {
             return View();
         }
+
+        #endregion
     }
 }

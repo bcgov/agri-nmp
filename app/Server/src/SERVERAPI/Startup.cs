@@ -25,6 +25,8 @@ using Agri.Data;
 using Agri.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Agri.LegacyData.Models.Impl;
+using System.IO;
+using System.Data.SqlClient;
 
 namespace SERVERAPI
 {
@@ -45,17 +47,25 @@ namespace SERVERAPI
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables()
-                .AddUserSecrets<Startup>();
+                .AddEnvironmentVariables();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
 
             Configuration = builder.Build();
+
+            Console.WriteLine(Environment.GetEnvironmentVariable("pgsqluri") ?? "pgsqluri not found");
+            Console.WriteLine(Environment.GetEnvironmentVariable("pgsqlpassword") ?? "pgsqlpassword not found");
+            Console.WriteLine(Environment.GetEnvironmentVariable("pgsqlusername") ?? "pgsqlusername not found");
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddAuthorization();
-            var agriConnectionString = Configuration["Agri:ConnectionString"];
+            var agriConnectionString = GetConnectionString();
             //Creates the DbContext as a scoped Service
             services.AddDbContext<AgriConfigurationContext>(options =>
             {
@@ -102,7 +112,7 @@ namespace SERVERAPI
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
-            services.AddScoped<IAgriConfigurationRepository,StaticDataExtRepository>();
+            services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
             services.AddOptions();
             //services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
@@ -128,5 +138,29 @@ namespace SERVERAPI
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }
-    }    
+
+        private string GetConnectionString()
+        {
+            if (_hostingEnv.IsDevelopment())
+            {
+                return Configuration["Agri:ConnectionString"];
+            }
+            else
+            {
+                var server = Environment.GetEnvironmentVariable("pgsqluri");
+                var password = Environment.GetEnvironmentVariable("pgsqlpassword");
+                var username = Environment.GetEnvironmentVariable("pgsqlusername");
+
+                if (string.IsNullOrEmpty(server) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
+                {
+                    throw new Exception("Connection String Environment variables not found");
+                }
+
+                //Just filter out the IP
+                server = server.Replace("postgres://", string.Empty).Replace(":5432", string.Empty);
+                return $"Server={server};Database=AgriConfiguration;Username={username};Password={password}";
+            }
+
+        }
+    }
 }
