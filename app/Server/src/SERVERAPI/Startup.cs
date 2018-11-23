@@ -53,23 +53,9 @@ namespace SERVERAPI
             {
                 builder.AddUserSecrets<Startup>();
             }
-            //else
-            //{
-            //    if (Directory.Exists("/etc/secret-volume"))
-            //    {
-            //        builder.AddJsonFile("/etc/secret-volume/agri-secret", true);
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("/etc/secret-volume was NOT FOUND");
-            //    }
-            //}
 
             Configuration = builder.Build();
 
-            //Console.WriteLine("Agri-secret");
-            //Console.WriteLine(Configuration["database-name"]);
-            //Console.WriteLine(Configuration["database-user"]);
             Console.WriteLine(Environment.GetEnvironmentVariable("pgsqluri") ?? "pgsqluri not found");
             Console.WriteLine(Environment.GetEnvironmentVariable("pgsqlpassword") ?? "pgsqlpassword not found");
             Console.WriteLine(Environment.GetEnvironmentVariable("pgsqlusername") ?? "pgsqlusername not found");
@@ -165,29 +151,16 @@ namespace SERVERAPI
                 var password = Environment.GetEnvironmentVariable("pgsqlpassword");
                 var username = Environment.GetEnvironmentVariable("pgsqlusername");
 
-                // Create a new SqlConnectionStringBuilder and
-                // initialize it with a few name/value pairs.
-                //SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+                if (string.IsNullOrEmpty(server) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
+                {
+                    throw new Exception("Connection String Environment variables not found");
+                }
 
-                // Pass the SqlConnectionStringBuilder an existing 
-                // connection string, and you can retrieve and
-                // modify any of the elements.
-                //return "Server=localhost;Database=AgriConfiguration;Username=username;Password=password";
+                //Just filter out the IP
                 server = server.Replace("postgres://", string.Empty).Replace(":5432", string.Empty);
                 return $"Server={server};Database=AgriConfiguration;Username={username};Password={password}";
-
-                // Now that the connection string has been parsed,
-                // you can work with individual items.
-                //builder["Server"] = server;
-                //builder["Database"] = "sampledb";
-                //builder["Username"] = username;
-                //builder.Password = password;
-
-                //Console.WriteLine("ConnectionString: " + builder.ConnectionString);
-                //return builder.ConnectionString;
             }
 
-            //throw new Exception("ConnectionString not found");
         }
     }    
 }
