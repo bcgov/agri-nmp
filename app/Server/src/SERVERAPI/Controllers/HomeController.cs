@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Linq;
+using Agri.Interfaces;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
 
@@ -63,11 +64,11 @@ namespace SERVERAPI.Controllers
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
-        public Models.Impl.StaticData _sd { get; set; }
+        public IAgriConfigurationRepository _sd { get; set; }
         public AppSettings _settings;
         public BrowserData _bd { get; set; }
 
-        public HomeController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd, BrowserData bd)
+        public HomeController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd, BrowserData bd)
         {
             _env = env;
             _ud = ud;
@@ -363,11 +364,11 @@ namespace SERVERAPI.Controllers
             Utility.ValidateStaticData validate = new Utility.ValidateStaticData(_sd);
             StringBuilder sb = new StringBuilder("");
 
-            List<Utility.StaticDataValidationMessages>  messages = validate.PerformValidation();
+            List<Agri.Models.Configuration.StaticDataValidationMessages>  messages = validate.PerformValidation();
 
             if (messages.Count > 0)
             {
-                foreach (Utility.StaticDataValidationMessages message in messages)
+                foreach (Agri.Models.Configuration.StaticDataValidationMessages message in messages)
                 {
                     sb.Append(String.Format("Validate error: {0} value of {1} does not exist in {2}. <br/>", message.Child, message.LinkData, message.Parent));
                 }

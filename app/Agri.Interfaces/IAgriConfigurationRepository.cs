@@ -147,5 +147,8 @@ namespace Agri.Interfaces
         decimal GetMilkProduction(int Id);
         bool DoesAnimalUseWashWater(int animalSubTypeId);
         AnimalSubType GetAnimalSubType(int id);
+
+        List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
+            string parentNode, string parentfield);
     }
 }
