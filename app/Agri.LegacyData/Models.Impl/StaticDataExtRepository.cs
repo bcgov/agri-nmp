@@ -554,6 +554,8 @@ namespace Agri.LegacyData.Models.Impl
                 {
                     Id = Convert.ToInt32(record["id"].ToString()),
                     Name = record["name"].ToString(),
+                    Controller = record["controller"].ToString(),
+                    Action = record["action"].ToString(),
                     MainMenuId = Convert.ToInt32(record["mainMenuId"].ToString())
                 };
                 subMenus.Add(subMenu);
