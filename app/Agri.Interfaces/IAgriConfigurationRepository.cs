@@ -151,6 +151,7 @@ namespace Agri.Interfaces
         List<SelectListItem> GetMainMenusDll();
         List<SubMenu> GetSubMenus();
         List<SelectListItem> GetSubmenusDll();
-
+        List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
+            string parentNode, string parentfield);
     }
 }

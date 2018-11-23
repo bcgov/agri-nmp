@@ -1501,47 +1501,47 @@ namespace Agri.LegacyData.Models.Impl
             return result;
         }
 
-        //public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
-        //    string parentNode, string parentfield)
-        //{
-        //    List<StaticDataValidationMessages> messages = new List<StaticDataValidationMessages>();
+        public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
+            string parentNode, string parentfield)
+        {
+            List<StaticDataValidationMessages> messages = new List<StaticDataValidationMessages>();
 
-        //    JArray childArray = (JArray) rss.SelectToken(childNode);
-        //    JArray parentArray = (JArray) rss.SelectToken(parentNode);
+            JArray childArray = (JArray)rss.SelectToken(childNode);
+            JArray parentArray = (JArray)rss.SelectToken(parentNode);
 
-        //    string matchP = string.Empty;
-        //    string matchC = string.Empty;
-        //    bool relationshipOK = false;
+            string matchP = string.Empty;
+            string matchC = string.Empty;
+            bool relationshipOK = false;
 
-        //    // iterate over children
-        //    foreach (var c in childArray)
-        //    {
-        //        relationshipOK = false;
-        //        //get the child relationship field
-        //        matchC = c.SelectToken(childfield).ToString();
+            // iterate over children
+            foreach (var c in childArray)
+            {
+                relationshipOK = false;
+                //get the child relationship field
+                matchC = c.SelectToken(childfield).ToString();
 
-        //        //look for matching parent
-        //        foreach (var p in parentArray)
-        //        {
-        //            matchP = p.SelectToken(parentfield).ToString();
-        //            //if (rel == c.SelectToken(childfield).ToString())
-        //            if (matchP == matchC || matchC == "null")
-        //                relationshipOK = true;
-        //        }
+                //look for matching parent
+                foreach (var p in parentArray)
+                {
+                    matchP = p.SelectToken(parentfield).ToString();
+                    //if (rel == c.SelectToken(childfield).ToString())
+                    if (matchP == matchC || matchC == "null")
+                        relationshipOK = true;
+                }
 
-        //        if (!relationshipOK)
-        //        {
-        //            StaticDataValidationMessages message = new StaticDataValidationMessages();
-        //            message.Child = childNode;
-        //            message.LinkData = matchC;
-        //            message.Parent = parentNode;
-        //            messages.Add(message);
-        //            message = null;
-        //        }
-        //    }
+                if (!relationshipOK)
+                {
+                    StaticDataValidationMessages message = new StaticDataValidationMessages();
+                    message.Child = childNode;
+                    message.LinkData = matchC;
+                    message.Parent = parentNode;
+                    messages.Add(message);
+                    message = null;
+                }
+            }
 
-        //    return messages;
-        //}
+            return messages;
+        }
 
         public List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears()
         {

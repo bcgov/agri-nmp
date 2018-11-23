@@ -13,34 +13,50 @@ namespace Agri.Data
 {
     public class AgriConfigurationRepository : IAgriConfigurationRepository
     {
+        private AgriConfigurationContext _context;
+
+        public AgriConfigurationRepository(AgriConfigurationContext context)
+        {
+            _context = context;
+        }
+
         public decimal ConvertYieldFromBushelToTonsPerAcre(int cropid, decimal yield)
         {
-            throw new NotImplementedException();
+            var crop = GetCrop(cropid);
+            if (crop.HarvestBushelsPerTon.HasValue)
+                return (yield / Convert.ToDecimal(crop.HarvestBushelsPerTon));
+            return -1;
         }
 
         public List<Browser> GetAllowableBrowsers()
         {
-            throw new NotImplementedException();
+            return _context.Browsers.ToList();
         }
 
         public AmmoniaRetention GetAmmoniaRetention(int seasonApplicatonId, int dm)
         {
-            throw new NotImplementedException();
+            return _context.AmmoniaRetentions.SingleOrDefault(ar =>
+                ar.SeasonApplicationId == seasonApplicatonId && ar.DryMatter == dm);
         }
 
         public List<AmmoniaRetention> GetAmmoniaRetentions()
         {
-            throw new NotImplementedException();
+            return _context.AmmoniaRetentions.ToList();
         }
 
         public Animal GetAnimal(int id)
         {
-            throw new NotImplementedException();
+            return _context.Animals
+                .Where(a => a.Id == id)
+                .Include(a => a.AnimalSubTypes)
+                    .SingleOrDefault();
         }
 
         public List<Animal> GetAnimals()
         {
-            throw new NotImplementedException();
+            return _context.Animals
+                .Include(a => a.AnimalSubTypes)
+                    .ToList();
         }
 
         public AnimalSubType GetAnimalSubType(int id)
@@ -50,12 +66,15 @@ namespace Agri.Data
 
         public List<AnimalSubType> GetAnimalSubTypes(int animalId)
         {
-            throw new NotImplementedException();
+            return GetAnimal(animalId)
+                .AnimalSubTypes
+                    .ToList();
         }
 
         public List<AnimalSubType> GetAnimalSubTypes()
         {
             throw new NotImplementedException();
+            //return GetAnimals().Select(a => a.AnimalSubTypes).ToList();
         }
 
         public List<SelectListItem> GetAnimalTypesDll()
@@ -90,7 +109,12 @@ namespace Agri.Data
 
         public Crop GetCrop(int cropId)
         {
-            throw new NotImplementedException();
+            return _context.Crops
+                .Where(c => c.Id == cropId)
+                .Include(c => GetCropYields())
+                .Include(c => c.CropSoilTestPhosphorousRegions)
+                .Include(c => c.CropSoilTestPotassiumRegions)
+                    .SingleOrDefault();
         }
 
         public List<SelectListItem> GetCropHarvestUnitsDll()
@@ -676,6 +700,11 @@ namespace Agri.Data
         }
 
         public List<SelectListItem> GetSubmenusDll()
+        {
+            throw new NotImplementedException();
+        }
+        public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
+            string parentNode, string parentfield)
         {
             throw new NotImplementedException();
         }
