@@ -73,13 +73,12 @@ namespace Agri.Data
 
         public List<AnimalSubType> GetAnimalSubTypes()
         {
-            throw new NotImplementedException();
-            //return GetAnimals().Select(a => a.AnimalSubTypes).ToList();
+            return GetAnimals().SelectMany(a => a.AnimalSubTypes).ToList();
         }
 
         public List<SelectListItem> GetAnimalTypesDll()
         {
-            throw new NotImplementedException();
+            return GetAnimalSubTypes().Select(st => new SelectListItem {Id = st.Id, Value = st.Name}).ToList();
         }
 
         public SeasonApplication GetApplication(string applId)
