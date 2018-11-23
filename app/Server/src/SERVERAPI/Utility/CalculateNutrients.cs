@@ -2,9 +2,12 @@
 using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using System;
+using Agri.Interfaces;
 using Agri.Models.Calculate;
 using Agri.Models.Farm;
-using static SERVERAPI.Models.StaticData;
+//using static SERVERAPI.Models.StaticData;
+using Agri.LegacyData.Models.Impl;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.Utility
 {
@@ -12,9 +15,9 @@ namespace SERVERAPI.Utility
     {
         private IHostingEnvironment _env;
         private UserData _ud;
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
 
-        public CalculateNutrients(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
+        public CalculateNutrients(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
         {
             _env = env;
             _ud = ud;
@@ -36,24 +39,24 @@ namespace SERVERAPI.Utility
 
             ConversionFactor _cf = _sd.GetConversionFactor();
 
-            decimal potassiumAvailabilityFirstYear = _cf.potassiumAvailabilityFirstYear;
-            decimal potassiumAvailabilityLongTerm = _cf.potassiumAvailabilityLongTerm;
-            decimal potassiumKtoK2Oconversion = _cf.potassiumKtoK2Oconversion;
-            decimal phosphorousAvailabilityFirstYear = _cf.phosphorousAvailabilityFirstYear;
-            decimal phosphorousAvailabilityLongTerm = _cf.phosphorousAvailabilityLongTerm;
-            decimal phosphorousPtoP2O5Kconversion = _cf.phosphorousPtoP2O5Kconversion;
-            decimal lbPerTonConversion = _cf.lbPerTonConversion;
+            decimal potassiumAvailabilityFirstYear = _cf.PotassiumAvailabilityFirstYear;
+            decimal potassiumAvailabilityLongTerm = _cf.PotassiumAvailabilityLongTerm;
+            decimal potassiumKtoK2Oconversion = _cf.PotassiumKtoK2OConversion;
+            decimal phosphorousAvailabilityFirstYear = _cf.PhosphorousAvailabilityFirstYear;
+            decimal phosphorousAvailabilityLongTerm = _cf.PhosphorousAvailabilityLongTerm;
+            decimal phosphorousPtoP2O5Kconversion = _cf.PhosphorousPtoP2O5Conversion;
+            decimal lbPerTonConversion = _cf.PoundPerTonConversion;
             decimal tenThousand = 10000;
 
             // get conversion factor for selected units to lb/ac
             Unit myunit = _sd.GetUnit(applicationRateUnits);
-            decimal conversion = myunit.conversion_lbton;
+            decimal conversion = myunit.ConversionlbTon;
 
             // for solid manures specified in cubic yards per ac, convert application rate to tons/ac
-            if (myunit.id == 6 && mymanure.solid_liquid.ToUpper() == "SOLID")
+            if (myunit.Id == 6 && mymanure.solid_liquid.ToUpper() == "SOLID")
             {
                 Manure manure = _sd.GetManure(mymanure.manureId.ToString());
-                applicationRate = applicationRate * manure.cubic_Yard_Conversion;
+                applicationRate = applicationRate * manure.CubicYardConversion;
             }
 
 
@@ -94,7 +97,7 @@ namespace SERVERAPI.Utility
             int regionid = _ud.FarmDetails().farmRegion.Value;
             Region region = _sd.GetRegion(regionid);            
 
-            nOrganicMineralizations = GetNMineralization(mymanure.id, region.locationid);
+            nOrganicMineralizations = GetNMineralization(mymanure.id, region.LocationId);
             nOrganicMineralizations.OrganicN_FirstYear = firstYearOrganicNAvailablityPct / 100; // get data from screen
 
             //decimal ammoniaRetention = GetAmmoniaRetention(mymanure.id, Convert.ToInt32(applicationSeason));
@@ -128,7 +131,7 @@ namespace SERVERAPI.Utility
             
             AmmoniaRetention myAmmoniaRetention = _sd.GetAmmoniaRetention(seasonapplicationid, myManure.dmid);
 
-            ammoniaRention = myAmmoniaRetention.value.HasValue ? myAmmoniaRetention.value.Value : 0;
+            ammoniaRention = myAmmoniaRetention.Value.HasValue ? myAmmoniaRetention.Value.Value : 0;
 
             return ammoniaRention;
         }
@@ -139,10 +142,10 @@ namespace SERVERAPI.Utility
 
             FarmManure myManure = _ud.GetFarmManure(manureid);
 
-            NMineralization myNMineralization = _sd.GetNMineralization(myManure.nminerizationid, locationid);            
+            NitrogenMineralization myNMineralization = _sd.GetNMineralization(myManure.nminerizationid, locationid);            
 
-            nOrganicMineralizations.OrganicN_FirstYear = myNMineralization.firstyearvalue; 
-            nOrganicMineralizations.OrganicN_LongTerm = myNMineralization.longtermvalue;
+            nOrganicMineralizations.OrganicN_FirstYear = myNMineralization.FirstYearValue; 
+            nOrganicMineralizations.OrganicN_LongTerm = myNMineralization.LongTermValue;
 
             return nOrganicMineralizations;
         }

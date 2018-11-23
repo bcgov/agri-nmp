@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Controllers;
 using SERVERAPI.Models;
 using static SERVERAPI.Models.StaticData;
+using Agri.LegacyData.Models.Impl;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcPrevYearManure : ViewComponent
     {
 
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public CalcPrevYearManure(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public CalcPrevYearManure(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;

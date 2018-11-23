@@ -3,18 +3,20 @@ using SERVERAPI.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.Interfaces;
 using Agri.Models.Farm;
 using SERVERAPI.ViewModels;
-using static SERVERAPI.Models.StaticData;
+using Agri.LegacyData.Models.Impl;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.Models.Impl
 {
     public class UserData
     {
         private readonly IHttpContextAccessor _ctx;
-        public Models.Impl.StaticData _sd { get; set; }
+        public IAgriConfigurationRepository _sd { get; set; }
 
-        public UserData(IHttpContextAccessor ctx, Models.Impl.StaticData sd)
+        public UserData(IHttpContextAccessor ctx, IAgriConfigurationRepository sd)
         {
             _ctx = ctx;
             _sd = sd;
@@ -39,7 +41,7 @@ namespace SERVERAPI.Models.Impl
             {
                 farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -608,20 +610,20 @@ namespace SERVERAPI.Models.Impl
             }
 
             fm = yd.farmManures.FirstOrDefault(c => c.id == id);
-            if(!fm.customized)
+            if (!fm.customized)
             {
-                Manure man = _sd.GetManure(fm.manureId.ToString());
-                fm.ammonia = man.ammonia;
-                fm.dmid = man.dmid;
-                fm.manure_class = man.manure_class;
-                fm.moisture = man.moisture;
-                fm.name = man.name;
-                fm.nitrate = man.nitrate; 
-                fm.nitrogen = man.nitrogen;
-                fm.nminerizationid = man.nminerizationid;
-                fm.phosphorous = man.phosphorous;
-                fm.potassium = man.potassium;
-                fm.solid_liquid = man.solid_liquid;
+                Agri.Models.Configuration.Manure man = _sd.GetManure(fm.manureId.ToString());
+                fm.ammonia = man.Ammonia;
+                fm.dmid = man.DMId;
+                fm.manure_class = man.ManureClass;
+                fm.moisture = man.Moisture;
+                fm.name = man.Name;
+                fm.nitrate = man.Nitrate;
+                fm.nitrogen = man.Nitrogen;
+                fm.nminerizationid = man.NMineralizationId;
+                fm.phosphorous = man.Phosphorous;
+                fm.potassium = man.Potassium;
+                fm.solid_liquid = man.SolidLiquid;
             }
 
             return fm;
@@ -637,22 +639,21 @@ namespace SERVERAPI.Models.Impl
             {
                 yd.farmManures = new List<FarmManure>();
             }
-            foreach(var fm in yd.farmManures)
+            foreach (var fm in yd.farmManures)
             {
                 if (!fm.customized)
                 {
-                    Manure man = _sd.GetManure(fm.manureId.ToString());
-                    fm.ammonia = man.ammonia;
-                    fm.dmid = man.dmid;
-                    fm.manure_class = man.manure_class;
-                    fm.moisture = man.moisture;
-                    fm.name = man.name;
-                    fm.nitrate = (decimal?)null;
-                    fm.nitrogen = man.nitrogen;
-                    fm.nminerizationid = man.nminerizationid;
-                    fm.phosphorous = man.phosphorous;
-                    fm.potassium = man.potassium;
-                    fm.solid_liquid = man.solid_liquid;
+                    Agri.Models.Configuration.Manure man = _sd.GetManure(fm.manureId.ToString());
+                    fm.ammonia = man.Ammonia;
+                    fm.dmid = man.DMId;
+                    fm.manure_class = man.ManureClass;
+                    fm.moisture = man.Moisture;
+                    fm.name = man.Name;
+                    fm.nitrate = man.Nitrate;
+                    fm.nitrogen = man.Nitrogen;
+                    fm.nminerizationid = man.NMineralizationId;
+                    fm.phosphorous = man.Phosphorous;
+                    fm.potassium = man.Potassium;
                 }
             }
 
@@ -717,18 +718,18 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
-        public List<Models.StaticData.SelectListItem> GetFarmManuresDll()
+        public List<SelectListItem> GetFarmManuresDll()
         {
             List<FarmManure> manures = GetFarmManures();
 
             manures.Sort(delegate (FarmManure f1, FarmManure f2) { return f1.customized.CompareTo(f2.customized); });
             manures.Reverse();
 
-            List<Models.StaticData.SelectListItem> manOptions = new List<Models.StaticData.SelectListItem>();
+            List<SelectListItem> manOptions = new List<SelectListItem>();
 
             foreach (var r in manures)
             {
-                Models.StaticData.SelectListItem li = new Models.StaticData.SelectListItem() { Id = r.id, Value = r.name };
+                SelectListItem li = new SelectListItem() { Id = r.id, Value = r.name };
                 manOptions.Add(li);
             }
 
@@ -746,7 +747,7 @@ namespace SERVERAPI.Models.Impl
                 yd.GeneratedManures = new List<GeneratedManure>();
             }
 
-            return yd?.GeneratedManures ??  new List<GeneratedManure>();
+            return yd?.GeneratedManures ??new List<GeneratedManure>();
         }
 
         public GeneratedManure GetGeneratedManure(int? generatedManureId)
@@ -859,7 +860,6 @@ namespace SERVERAPI.Models.Impl
             yd.ManureStorageSystems.Add(storageSystem);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
-
 
         public void UpdateManureStorageSystem(ManureStorageSystem updatedSystem)
         {

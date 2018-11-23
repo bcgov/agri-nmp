@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Agri.Models.Configuration;
+
 
 namespace SERVERAPI.ViewModels
 {
@@ -7,7 +9,7 @@ namespace SERVERAPI.ViewModels
         public bool fldsFnd { get; set; }
         public string buttonPressed { get; set; }
         public string selTstOption { get; set; }
-        public List<Models.StaticData.SelectListItem> tstOptions { get; set; }
+        public List<SelectListItem> tstOptions { get; set; }
         public bool testSelected { get; set; }
         public string warningMsg { get; set; }
     }
