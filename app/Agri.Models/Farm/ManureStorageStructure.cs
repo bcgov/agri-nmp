@@ -10,6 +10,7 @@ namespace Agri.Models.Farm
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool IsStructureCovered => !UncoveredAreaSquareFeet.HasValue;
         public int? UncoveredAreaSquareFeet { get; set; }
     }
 }

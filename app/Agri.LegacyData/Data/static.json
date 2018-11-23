@@ -9206,13 +9206,18 @@
           },
           {
             "id": "31",
-            "name": "storagesystemnameplaceholder",
-            "text": "e.g. {0} Storage System {1}"
+            "name": "storagesystemnamedefault",
+            "text": "{0} Storage System {1}"
           },
           {
             "id": "32",
-            "name": "storagestructurenameplaceholder",
-            "text": "Underbarn"
+            "name": "storagestructureliquidnameplaceholder",
+            "text": "e.g. under-barn, or steel tank"
+          },
+          {
+            "id": "33",
+            "name": "storagestructuresolidnameplaceholder",
+            "text": "e.g. concrete walled"
           }
         ]
       },
