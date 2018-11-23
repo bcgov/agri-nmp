@@ -30,7 +30,6 @@ namespace SERVERAPI.ViewModels
 
         [Required(ErrorMessage = "Required")]
         public string SystemName { get; set; }
-        public string SystemNamePlaceholder { get; set; }
         public int? SystemId { get; set; }
         public List<SelectListItem> GeneratedManures { get; set; }
         public bool GetsRunoffFromRoofsOrYards { get; set; }
@@ -40,6 +39,7 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         public string StorageStructureNamePlaceholder { get; set; }
         public int? UncoveredAreaOfStorageStructure { get; set; }
+        public bool IsStructureCovered { get; set; }
         public string ButtonText { get; set; }
         public string ButtonPressed { get; set; }
         public bool DisableMaterialTypeForEditMode { get; set; }

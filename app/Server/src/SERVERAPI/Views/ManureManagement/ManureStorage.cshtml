@@ -37,10 +37,6 @@
     </div>
 </div>
 
-<div>pgsqldatabase_name @Environment.GetEnvironmentVariable("pgsqldatabase_name")</div>
-<div>pgsqlpassword @Environment.GetEnvironmentVariable("pgsqlpassword")</div>
-<div>pgsqluri @Environment.GetEnvironmentVariable("pgsqluri")</div>
-<div>pgsqlusername @Environment.GetEnvironmentVariable("pgsqlusername")</div>
 <!-- /BODY CONTENT -->
 
 
@@ -173,6 +169,11 @@
 
         function GetsRunoffFromRoofsOrYardsChanged() {
             $('#ButtonPressed').val("GetsRunoffFromRoofsOrYardsChange");
+            $("#modForm").submit();
+        }
+
+        function IsStructureCoveredChanged() {
+            $('#ButtonPressed').val("IsStructureCoveredChange");
             $("#modForm").submit();
         }
 

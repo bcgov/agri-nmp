@@ -428,11 +428,8 @@ namespace SERVERAPI.Controllers
                     msvm.ShowStructureFields = true;
                 }
 
-                msvm.StorageStructureNamePlaceholder = _sd.GetUserPrompt("storagestructurenameplaceholder");
-
                 if (id.HasValue)
                 {
-
                     msvm.DisableMaterialTypeForEditMode = true;
                     var savedStorageSystem = _ud.GetStorageSystem(id.Value);
                     msvm.SystemId = savedStorageSystem.Id;
@@ -451,13 +448,12 @@ namespace SERVERAPI.Controllers
                         msvm.StorageStructureId = manureStorageStructure.Id;
                         msvm.StorageStructureName = manureStorageStructure.Name;
                         msvm.UncoveredAreaOfStorageStructure = manureStorageStructure.UncoveredAreaSquareFeet;
+                        msvm.IsStructureCovered = manureStorageStructure.IsStructureCovered;
                     }
 
-                    var manureType = msvm.SelectedManureMaterialType == ManureMaterialType.Solid
-                        ? "Solid"
-                        : "Liquid";
-
-                    systemTitle = $"{manureType} {systemTitle}";
+                    msvm.StorageStructureNamePlaceholder = msvm.SelectedManureMaterialType == ManureMaterialType.Liquid ?
+                        _sd.GetUserPrompt("storagestructureliquidnameplaceholder") :
+                        _sd.GetUserPrompt("storagestructuresolidnameplaceholder");
 
                     if (mode == "editSystem" && !structureId.HasValue)
                     {
@@ -466,9 +462,10 @@ namespace SERVERAPI.Controllers
                     }
                     else
                     {
+
                         msvm.ShowStructureFields = true;
                         msvm.DisableSystemFields = true;
-                        systemTitle = $"Storage Structure - {systemTitle}";
+                        systemTitle = "Storage Structure Details";
                     }
 
                     msvm.Title = systemTitle;
@@ -505,9 +502,14 @@ namespace SERVERAPI.Controllers
                         : "Liquid";
                     var systemTypeCount = _ud.GetStorageSystems().Count(ss => ss.ManureMaterialType == msdvm.SelectedManureMaterialType);
                     var systemTypeCountMsg = systemTypeCount > 0 ? (systemTypeCount + 1).ToString() : string.Empty;
-                    var placeHolder = string.Format(_sd.GetUserPrompt("storagesystemnameplaceholder"), selectedTypeMsg, systemTypeCountMsg);
+                    var defaultSystemName = string.Format(_sd.GetUserPrompt("storagesystemnamedefault"), selectedTypeMsg, systemTypeCountMsg);
 
-                    msdvm.SystemNamePlaceholder = placeHolder;
+                    msdvm.SystemName = defaultSystemName;
+
+                    msdvm.StorageStructureNamePlaceholder = msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid ?
+                        _sd.GetUserPrompt("storagestructureliquidnameplaceholder") :
+                        _sd.GetUserPrompt("storagestructuresolidnameplaceholder");
+
 
                     return View(msdvm);
                 }
@@ -528,6 +530,19 @@ namespace SERVERAPI.Controllers
                     msdvm.ButtonText = "Save";
                     msdvm.RunoffAreaSquareFeet = null;
 
+                    return View(msdvm);
+                }
+
+                if (msdvm.ButtonPressed == "IsStructureCoveredChange")
+                {
+                    ModelState.Clear();
+                    msdvm.ButtonPressed = "";
+                    msdvm.ButtonText = "Save";
+
+                    if (msdvm.IsStructureCovered)
+                    {
+                        msdvm.UncoveredAreaOfStorageStructure = null;
+                    }
                     return View(msdvm);
                 }
 
@@ -577,6 +592,7 @@ namespace SERVERAPI.Controllers
                         }
 
                         if (msdvm.ShowUncoveredAreaOfStorageStructure &&
+                            !msdvm.IsStructureCovered &&
                             !msdvm.UncoveredAreaOfStorageStructure.HasValue)
                         {
                             ModelState.AddModelError("UncoveredAreaOfStorageStructure", "Required");
