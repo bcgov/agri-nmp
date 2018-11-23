@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using SERVERAPI.Models.Impl;
 using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.Models;
 using static SERVERAPI.Models.StaticData;
 using System.Data;
+using Agri.Interfaces;
 
 
 namespace SERVERAPI.Utility
@@ -14,9 +14,9 @@ namespace SERVERAPI.Utility
     public class CalculateAnimalRequirement
     {
         private UserData _ud;
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
 
-        public CalculateAnimalRequirement(UserData ud, Models.Impl.StaticData sd)
+        public CalculateAnimalRequirement(UserData ud, IAgriConfigurationRepository sd)
         {
             _ud = ud;
             _sd = sd;

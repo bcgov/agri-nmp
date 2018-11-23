@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Agri.Models.Farm;
 using SERVERAPI.Models;
+using Agri.LegacyData.Models.Impl;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
 {
@@ -12,6 +14,6 @@ namespace SERVERAPI.ViewModels
         public bool itemsPresent { get; set; }
         public string noData { get; set; }
         public List<Field> fields { get; set; }
-        public StaticData.NutrientIcons icons { get; set; }
+        public List<NutrientIcon> icons { get; set; }
     }
 }

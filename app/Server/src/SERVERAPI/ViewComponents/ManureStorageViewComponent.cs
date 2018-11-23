@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
-using StaticData = SERVERAPI.Models.Impl.StaticData;
 
 namespace SERVERAPI.ViewComponents
 {
     public class ManureStorageViewComponent : ViewComponent
     {
         private UserData _userData;
-        private StaticData _sdData;
+        private IAgriConfigurationRepository _sdData;
 
-        public ManureStorageViewComponent(StaticData sdData, UserData ud)
+        public ManureStorageViewComponent(IAgriConfigurationRepository sdData, UserData ud)
         {
             _sdData = sdData;
             _userData = ud;

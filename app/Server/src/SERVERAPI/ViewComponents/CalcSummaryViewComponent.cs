@@ -4,17 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
 using Agri.Models.Calculate;
 using SERVERAPI.Utility;
+using Agri.LegacyData.Models.Impl;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcSummary : ViewComponent
     {
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public CalcSummary(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public CalcSummary(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;
@@ -42,27 +44,27 @@ namespace SERVERAPI.ViewComponents
                 {
                     case "CropN":
                         cvm.remNIcon = m.Icon;
-                        cvm.remNIconText = _sd.GetNutrientIcon(m.Icon).definition;
+                        cvm.remNIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
                     case "CropP2O5":
                         cvm.remPIcon = m.Icon;
-                        cvm.remPIconText = _sd.GetNutrientIcon(m.Icon).definition;
+                        cvm.remPIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
                     case "CropK2O":
                         cvm.remKIcon = m.Icon;
-                        cvm.remKIconText = _sd.GetNutrientIcon(m.Icon).definition;
+                        cvm.remKIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
                     case "AgrN":
                         cvm.reqNIcon = m.Icon;
-                        cvm.reqNIconText = _sd.GetNutrientIcon(m.Icon).definition;
+                        cvm.reqNIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
                     case "AgrP2O5":
                         cvm.reqPIcon = m.Icon;
-                        cvm.reqPIconText = _sd.GetNutrientIcon(m.Icon).definition;
+                        cvm.reqPIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
                     case "AgrK2O":
                         cvm.reqKIcon = m.Icon;
-                        cvm.reqKIconText = _sd.GetNutrientIcon(m.Icon).definition;
+                        cvm.reqKIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
                 }
             }

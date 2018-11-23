@@ -9198,6 +9198,21 @@
             "id": "29",
             "name": "averageanimalnumberplaceholder",
             "text": "e.g. 10"
+          },
+          {
+            "id": "30",
+            "name": "deletewarningmanuregenerated",
+            "text": "This deletes the manuregenerated/obtained details."
+          },
+          {
+            "id": "31",
+            "name": "storagesystemnameplaceholder",
+            "text": "e.g. {0} Storage System {1}"
+          },
+          {
+            "id": "32",
+            "name": "storagestructurenameplaceholder",
+            "text": "Underbarn"
           }
         ]
       },
@@ -9211,10 +9226,10 @@
             "balanceType": "AgrN",
             "balance_low": "15",
             "balance_high": "99999",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "0",
-            "balance1_high": "0"
+            "balance1_high": "0",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           },
           {
             "id": "2",
@@ -9224,10 +9239,10 @@
             "balanceType": "AgrN",
             "balance_low": "-5",
             "balance_high": "14",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "0",
-            "balance1_high": "0"
+            "balance1_high": "0",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           },
           {
             "id": "3",
@@ -9237,10 +9252,10 @@
             "balanceType": "AgrN",
             "balance_low": "-99999",
             "balance_high": "-6",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "0",
-            "balance1_high": "0"
+            "balance1_high": "0",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           },
           {
             "id": "4",
@@ -9250,10 +9265,10 @@
             "balanceType": "AgrP2O5",
             "balance_low": "15",
             "balance_high": "99999",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "0",
-            "balance1_high": "0"
+            "balance1_high": "0",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           },
           {
             "id": "5",
@@ -9263,10 +9278,10 @@
             "balanceType": "AgrP2O5",
             "balance_low": "-5",
             "balance_high": "14",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "0",
-            "balance1_high": "0"
+            "balance1_high": "0",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           },
           {
             "id": "6",
@@ -9276,10 +9291,10 @@
             "balanceType": "AgrP2O5",
             "balance_low": "-99999",
             "balance_high": "-6",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "0",
-            "balance1_high": "0"
+            "balance1_high": "0",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           },
           {
             "id": "7",
@@ -9289,10 +9304,10 @@
             "balanceType": "AgrK2O",
             "balance_low": "15",
             "balance_high": "99999",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "0",
-            "balance1_high": "0"
+            "balance1_high": "0",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           },
           {
             "id": "8",
@@ -9302,10 +9317,10 @@
             "balanceType": "AgrK2O",
             "balance_low": "-5",
             "balance_high": "14",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "0",
-            "balance1_high": "0"
+            "balance1_high": "0",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           },
           {
             "id": "9",
@@ -9315,10 +9330,10 @@
             "balanceType": "AgrK2O",
             "balance_low": "-99999",
             "balance_high": "-6",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "0",
-            "balance1_high": "0"
+            "balance1_high": "0",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           },
           {
             "id": "10",
@@ -9328,10 +9343,10 @@
             "balanceType": "AgrP2O5CropP2O5",
             "balance_low": "15",
             "balance_high": "99999",
-            "soiltest_low": "0",
-            "soiltest_high": "0",
             "balance1_low": "35",
-            "balance1_high": "99999"
+            "balance1_high": "99999",
+            "soiltest_low": "0",
+            "soiltest_high": "0"
           }
         ]
       },
@@ -9446,320 +9461,352 @@
             "name": "Cow, including calf to weaning",
             "liquidPerGalPerAnimalPerDay": "10.57",
             "solidPerGalPerAnimalPerDay": "8.98",
-            "solidPerPoundPerAnimalPerDay": 60.05,
+            "solidPerPoundPerAnimalPerDay": "60.05",
             "solidLiquidSeparationPercentage": "",
             "animalId": 1,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 2,
             "name": "Yearlings",
             "liquidPerGalPerAnimalPerDay": "5.28",
             "solidPerGalPerAnimalPerDay": "4.49",
-            "solidPerPoundPerAnimalPerDay": 32.42,
+            "solidPerPoundPerAnimalPerDay": "32.42",
             "solidLiquidSeparationPercentage": "",
             "animalId": 1,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 3,
             "name": "Heavy Feeders",
             "liquidPerGalPerAnimalPerDay": "8.19",
             "solidPerGalPerAnimalPerDay": "6.08",
-            "solidPerPoundPerAnimalPerDay": 43.87,
+            "solidPerPoundPerAnimalPerDay": "43.87",
             "solidLiquidSeparationPercentage": "",
             "animalId": 1,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 4,
             "name": "Calves (0 to 3 months old)",
             "liquidPerGalPerAnimalPerDay": "1.85",
             "solidPerGalPerAnimalPerDay": "2.91",
-            "solidPerPoundPerAnimalPerDay": 15.54122309,
-            "solidLiquidSeparationPercentage": 10,
+            "solidPerPoundPerAnimalPerDay": "15.54",
+            "solidLiquidSeparationPercentage": "10",
             "animalId": 2,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 5,
             "name": "Calves (3 to 6 months old)",
             "liquidPerGalPerAnimalPerDay": "3.70",
             "solidPerGalPerAnimalPerDay": "5.81",
-            "solidPerPoundPerAnimalPerDay": 31.08244619,
-            "solidLiquidSeparationPercentage": 10,
+            "solidPerPoundPerAnimalPerDay": "31.08",
+            "solidLiquidSeparationPercentage": "10",
             "animalId": 2,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 6,
             "name": "Heifers (6 to 15 months old)",
             "liquidPerGalPerAnimalPerDay": "7.40",
             "solidPerGalPerAnimalPerDay": "11.62",
-            "solidPerPoundPerAnimalPerDay": "",
-            "solidLiquidSeparationPercentage": 10,
+            "solidPerPoundPerAnimalPerDay": "71.49",
+            "solidLiquidSeparationPercentage": "10",
             "animalId": 2,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 7,
             "name": "Heifers (15 to 26 months old)",
             "liquidPerGalPerAnimalPerDay": "12.95",
             "solidPerGalPerAnimalPerDay": "20.08",
-            "solidPerPoundPerAnimalPerDay": "",
-            "solidLiquidSeparationPercentage": 10,
+            "solidPerPoundPerAnimalPerDay": "123.48",
+            "solidLiquidSeparationPercentage": "10",
             "animalId": 2,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 8,
             "name": "Dry Cow",
             "liquidPerGalPerAnimalPerDay": "18.49",
             "solidPerGalPerAnimalPerDay": "28.53",
-            "solidPerPoundPerAnimalPerDay": "",
-            "solidLiquidSeparationPercentage": 10,
+            "solidPerPoundPerAnimalPerDay": "205.99",
+            "solidLiquidSeparationPercentage": "10",
             "animalId": 2,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 9,
             "name": "Milking Cow",
             "liquidPerGalPerAnimalPerDay": "19.82",
             "solidPerGalPerAnimalPerDay": "30.65",
-            "solidPerPoundPerAnimalPerDay": "",
-            "solidLiquidSeparationPercentage": 10,
+            "solidPerPoundPerAnimalPerDay": "221.25",
+            "solidLiquidSeparationPercentage": "10",
             "animalId": 2,
-            "includeWashWater": 1
+            "includeWashWater": 7.5,
+            "milkProduction": 72.3
           },
           {
             "id": 10,
             "name": "Ducks",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.04",
-            "solidPerPoundPerAnimalPerDay": 0.14,
+            "solidPerPoundPerAnimalPerDay": "0.14",
             "solidLiquidSeparationPercentage": "",
             "animalId": 3,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 11,
             "name": "Goats",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.69",
-            "solidPerPoundPerAnimalPerDay": 4.59,
+            "solidPerPoundPerAnimalPerDay": "4.59",
             "solidLiquidSeparationPercentage": "",
             "animalId": 4,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 12,
             "name": "Horse",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "14.95",
-            "solidPerPoundPerAnimalPerDay": 78,
+            "solidPerPoundPerAnimalPerDay": "78",
             "solidLiquidSeparationPercentage": "",
             "animalId": 5,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 13,
             "name": "Pullets - Cage Housing",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.01",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.07",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 14,
             "name": "Pullets - Floor Housing",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.02",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.05",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 15,
             "name": "Layer",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.03",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.143",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 16,
             "name": "Broiler Breeder Layer- Cage Housing",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.04",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.15",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 17,
             "name": "Broiler Breeder Layer- Floor Housing",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.05",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.19",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 18,
             "name": "Broiler Breeder Pullets",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.02",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.07",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 19,
             "name": "Broiler Chicken",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.03",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.10",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 20,
             "name": "Roaster Chicken",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.02",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.09",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 21,
             "name": "Turkey Broiler",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.08",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.25",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 22,
             "name": "Turkey Heavy Hen",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.11",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.35",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 23,
             "name": "Turkey Heavy Tom",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.12",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "0.41",
             "solidLiquidSeparationPercentage": "",
             "animalId": 6,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 24,
-            "name": " Doe and Litter",
-            "liquidPerGalPerAnimalPerDay": "",
+            "name": "Doe and Litter",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "0.19",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "1.003115309",
             "solidLiquidSeparationPercentage": "",
             "animalId": 7,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 25,
             "name": " Ewe or Ram",
             "liquidPerGalPerAnimalPerDay": "1.80",
             "solidPerGalPerAnimalPerDay": "1.11",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "6.675661738",
             "solidLiquidSeparationPercentage": "",
             "animalId": 8,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 26,
             "name": "Dry Sow, Boar, or Gilts",
             "liquidPerGalPerAnimalPerDay": "4.17",
             "solidPerGalPerAnimalPerDay": "3.59",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerPoundPerAnimalPerDay": "19.2146031",
             "solidLiquidSeparationPercentage": "",
             "animalId": 9,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 27,
             "name": "Nursing Sow and Litter",
             "liquidPerGalPerAnimalPerDay": "6.21",
-            "solidPerGalPerAnimalPerDay": "",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerGalPerAnimalPerDay": "0",
+            "solidPerPoundPerAnimalPerDay": "0",
             "solidLiquidSeparationPercentage": "",
             "animalId": 9,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 28,
-            "name": " Nursery ",
+            "name": "Nursery",
             "liquidPerGalPerAnimalPerDay": "0.66",
-            "solidPerGalPerAnimalPerDay": "",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerGalPerAnimalPerDay": "0",
+            "solidPerPoundPerAnimalPerDay": "0",
             "solidLiquidSeparationPercentage": "",
             "animalId": 9,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 29,
             "name": "Grower",
             "liquidPerGalPerAnimalPerDay": "1.66",
-            "solidPerGalPerAnimalPerDay": "",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerGalPerAnimalPerDay": "0",
+            "solidPerPoundPerAnimalPerDay": "0",
             "solidLiquidSeparationPercentage": "",
             "animalId": 9,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 30,
             "name": "Finisher",
             "liquidPerGalPerAnimalPerDay": "3.17",
-            "solidPerGalPerAnimalPerDay": "",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerGalPerAnimalPerDay": "0",
+            "solidPerPoundPerAnimalPerDay": "0",
             "solidLiquidSeparationPercentage": "",
             "animalId": 9,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 31,
             "name": "Grower Finisher",
             "liquidPerGalPerAnimalPerDay": "2.67",
-            "solidPerGalPerAnimalPerDay": "",
-            "solidPerPoundPerAnimalPerDay": "",
+            "solidPerGalPerAnimalPerDay": "0",
+            "solidPerPoundPerAnimalPerDay": "0",
             "solidLiquidSeparationPercentage": "",
             "animalId": 9,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           },
           {
             "id": 32,
             "name": "Veal ",
-            "liquidPerGalPerAnimalPerDay": "",
+            "liquidPerGalPerAnimalPerDay": "0",
             "solidPerGalPerAnimalPerDay": "1.48",
             "solidPerPoundPerAnimalPerDay": "",
             "solidLiquidSeparationPercentage": "",
             "animalId": 10,
-            "includeWashWater": 0
+            "includeWashWater": 0,
+            "milkProduction": 0
           }
         ]
       },
@@ -9775,7 +9822,7 @@
           },
           {
             "id": 3,
-            "name": "Solid Liquid Separated"
+            "name": "Liquid Solid Separation"
           }
         ]
       }
