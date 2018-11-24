@@ -100,32 +100,29 @@
                         <input class="form-control" asp-for="StorageStructureName" type="text" id="txtStorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
                         <span asp-validation-for="StorageStructureName" class="text-danger"></span>
                     </div>
-                    @if (Model.ShowUncoveredAreaOfStorageStructure)
-                    {
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <div><label>Is the structure covered?</label></div>
-                                <div>
-                                    <label style="padding-right: 20px">
-                                        <input asp-for="IsStructureCovered" type="radio" value="true"
-                                               onchange="IsStructureCoveredChanged()" /> Yes
-                                    </label>
-                                    <label>
-                                        <input asp-for="IsStructureCovered" type="radio" value="false"
-                                               onchange="IsStructureCoveredChanged()" /> No
-                                    </label>
-                                </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div><label>Is the structure covered?</label></div>
+                            <div>
+                                <label style="padding-right: 20px">
+                                    <input asp-for="IsStructureCovered" type="radio" value="true"
+                                           onchange="IsStructureCoveredChanged()" /> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="IsStructureCovered" type="radio" value="false"
+                                           onchange="IsStructureCoveredChanged()" /> No
+                                </label>
                             </div>
-                            @if (!Model.IsStructureCovered)
-                            {
-                                <div class="form-group">
-                                    <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area Of Storage Structure (ft<sup>2</sup>)</label>
-                                    <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure" />
-                                    <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
-                                </div>
-                            }
                         </div>
-                    }
+                        @if (!Model.IsStructureCovered)
+                        {
+                            <div class="form-group">
+                                <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area Of Storage Structure (ft<sup>2</sup>)</label>
+                                <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure" />
+                                <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
+                            </div>
+                        }
+                    </div>
                 </div>
             }
         </div>
