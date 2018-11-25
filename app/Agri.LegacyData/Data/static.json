@@ -9901,8 +9901,8 @@
             "id": 6,
             "name": "Soil Tests",
             "mainMenuId": 3,
-            "controller": "SoilTest",
-            "action": "Soil"
+            "controller": "Soil",
+            "action": "SoilTest"
           }
         ]
       }

@@ -636,8 +636,8 @@ label {
     padding: 0 15px;
 }
 .wizard {
-  padding: 8px 0;
-  border-bottom: 1px solid #ccc;
+    padding: 8px 0;
+    border-bottom: 1px solid #b0cee2;
 }
 
 .wizard-list {
@@ -680,8 +680,7 @@ label {
 }
 
 .wizard-name {
-  font-weight: bold;
-  color: #777;
+  color: black;
   font-size: 14px;
 }
 
@@ -698,7 +697,8 @@ label {
 }*/
 
 .wizard-item-done .wizard-name {
-  color: #5cb85c;
+  color: black;
+  font-weight:bold;
 }
 
 .wizard-item-done .wizard-circle {
@@ -998,7 +998,7 @@ label {
 
 .wizardsubmenu {
     padding: 0px 0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #b0cee2;
 }
 
 #submenu-manure-width {
@@ -1006,7 +1006,7 @@ label {
 }
 
 .submenu-manure-wrapper {
-    max-width: 1310px;
+    max-width: 1210px;
     max-height: 20px;
     margin: 0 auto;
     padding: 0 150px;
@@ -1014,14 +1014,14 @@ label {
 }
 
 .submenu-fields-wrapper {
-    max-width: 650px;
+    max-width: 930px;
     margin: 0 auto;
     padding: 0 15px;
 }
 
 .submenu-manure-wizard {
     /*padding: 5px 0;*/
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #b0cee2;
 }
 
 .submenu-manure-wizard-list {
@@ -1039,6 +1039,10 @@ label {
     float: left;
     width: 50%;
     position: relative;
+}
+
+.padding {
+    padding: 20px 0px;
 }
 
 

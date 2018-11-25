@@ -34,8 +34,8 @@ namespace SERVERAPI.ViewComponents
             ndvm.mainMenuOptions = new List<MainMenu>();
             ndvm.mainMenuOptions = _sd.GetMainMenus();
 
-            ndvm.subTypeOptions = new List<SelectListItem>();
-            ndvm.subTypeOptions = _sd.GetSubmenusDll().ToList();
+            ndvm.subMenuOptions = new List<SubMenu>();
+            ndvm.subMenuOptions = _sd.GetSubMenus();
 
             return Task.FromResult(ndvm);
         }
@@ -46,7 +46,7 @@ namespace SERVERAPI.ViewComponents
             public List<MainMenu> mainMenuOptions { get; set; }
             public string selSubMenuOption { get; set; }
             public string subTypeName { get; set; }
-            public List<SelectListItem> subTypeOptions { get; set; }
+            public List<SubMenu> subMenuOptions { get; set; }
         }
     }
 }
