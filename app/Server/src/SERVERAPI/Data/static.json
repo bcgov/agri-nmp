@@ -9864,33 +9864,45 @@
         "subMenu": [
           {
             "id": 1,
-            "name": "Manure generated",
-            "mainMenuId": 2
+            "name": "Manure Generated",
+            "mainMenuId": 2,
+            "controller": "ManureManagement",
+            "action": "ManureGeneratedObtained"
           },
           {
             "id": 2,
-            "name": "Manure/Compost imported",
-            "mainMenuId": 2
+            "name": "Manure/Compost Imported",
+            "mainMenuId": 2,
+            "controller": "ManureManagement",
+            "action": "ManureImported"
           },
           {
             "id": 3,
             "name": "Storage",
-            "mainMenuId": 2
+            "mainMenuId": 2,
+            "controller": "ManureManagement",
+            "action": "ManureStorage"
           },
           {
             "id": 4,
             "name": "Nutrient Analysis",
-            "mainMenuId": 2
+            "mainMenuId": 2,
+            "controller": "ManureManagement",
+            "action": "ManureNutrientAnalysis"
           },
           {
             "id": 5,
             "name": "Field List",
-            "mainMenuId": 3
+            "mainMenuId": 3,
+            "controller": "Fields",
+            "action": "Fields"
           },
           {
             "id": 6,
             "name": "Soil Tests",
-            "mainMenuId": 3
+            "mainMenuId": 3,
+            "controller": "Soil",
+            "action": "SoilTest"
           }
         ]
       }
