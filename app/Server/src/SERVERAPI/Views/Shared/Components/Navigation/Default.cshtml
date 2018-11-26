@@ -1,4 +1,15 @@
 ﻿@model Navigation.NavigationDetailViewModel
+<style>
+
+    #submenu-ul>li:first-child {
+        border-left: 1px solid #b0cee2;
+        line-height: 24px;
+    }
+    #submenu-ul > li:last-child {
+        border-right: 1px solid #b0cee2;
+        line-height: 24px;
+    }
+</style>
 <!--MAIN MENU-->
 <div class="wizard" style="background-color:#c1daea">
     <div class="wrapper-large wizard-list clearfix" style="text-align:right;vertical-align:middle">
@@ -35,7 +46,7 @@
 <!--MAIN MENU-->
 <!--SUB MENU-->
 <div id="submenu" class="submenu-manure-wizard" style="background-color:#f2f2f2">
-    <ul class="submenu-manure-wrapper submenu-manure-wizard-list clearfix">
+    <ul id="submenu-ul" class="submenu-manure-wrapper submenu-manure-wizard-list clearfix">
         @foreach (var item in Model.subMenuOptions)
         {
             if (@item.MainMenuId == 2)
@@ -43,37 +54,39 @@
                 <li id="@item.Controller@item.Action@item.Id" class="submenu-manure-wizard-item" style="display:none">
                     <a id="eMenu" href='@Url.Action(@item.Action, @item.Controller)'>
                         <span class="wizard-name" style="vertical-align: text-top">@item.Name</span>
-
-                        <div style="width: 30px;height:19px;display:block">
-                            <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
-                                                                                                                                                                                                                                                .st0 {
-                                                                                                                                                                                                                                                    fill: none;
-                                                                                                                                                                                                                                                    stroke: #000000;
-                                                                                                                                                                                                                                                    stroke-width: 11;
-                                                                                                                                                                                                                                                    stroke-miterlimit: 5;
-                                                                                                                                                                                                                                                }
+                        @if (!item.Equals(Model.subMenuOptions.First()))
+                        {
+                            <div class="wizard-item" style="width: 30px;height:30px;display:block">
+                                <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
+                                                                                                                                                                                                                                                        .st0 {
+                                                                                                                                                                                                                                                            fill: none;
+                                                                                                                                                                                                                                                            stroke: #000000;
+                                                                                                                                                                                                                                                            stroke-width: 11;
+                                                                                                                                                                                                                                                            stroke-miterlimit: 5;
+                                                                                                                                                                                                                                                        }
 </style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 " /></svg>
-                        </div>
+                            </div>
+                        }
 
                     </a>
-                   
+
                 </li>
-               
+
             }
         }
     </ul>
 
-    <ul class="submenu-fields-wrapper submenu-manure-wizard-list clearfix">
+    <ul id="submenu-ul" class="submenu-fields-wrapper submenu-manure-wizard-list clearfix">
         @foreach (var item in Model.subMenuOptions)
         {
             if (@item.MainMenuId == 3)
             {
-                <li id="@item.Controller@item.Action@item.Id" class="submenu-fields-wizard-item" style="display:none">
+                <li id="@item.Controller@item.Action@item.Id" class="submenu-fields-wizard-item" style="display:none;first-chil">
                     <a id="eMenu" href='@Url.Action(@item.Action, @item.Controller)'>
                         <span class="wizard-name" style="vertical-align: text-top">@item.Name</span>
                         @if (!(@item.Id == 5))
                         {
-                            <div class="wizard-item" style="width: 30px;height:19px;display:block">
+                            <div class="wizard-item" style="width: 30px;height:30px;display:block">
                                 <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
                                                                                                                                                                                                                                                     .st0 {
                                                                                                                                                                                                                                                         fill: none;

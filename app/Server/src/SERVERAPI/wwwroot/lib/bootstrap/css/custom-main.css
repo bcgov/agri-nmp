@@ -1006,17 +1006,17 @@ label {
 }
 
 .submenu-manure-wrapper {
-    max-width: 1210px;
-    max-height: 20px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 0 150px;
-    padding-left: 150px;
+    padding: 0 90px;
+    padding-left: 70px;
 }
 
 .submenu-fields-wrapper {
-    max-width: 930px;
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 90px;
+    padding-left:70px;
 }
 
 .submenu-manure-wizard {
@@ -1042,7 +1042,7 @@ label {
 }
 
 .padding {
-    padding: 20px 0px;
+    padding: 15px 0px;
 }
 
 
