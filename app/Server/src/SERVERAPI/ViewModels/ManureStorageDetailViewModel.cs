@@ -45,7 +45,6 @@ namespace SERVERAPI.ViewModels
         public bool DisableMaterialTypeForEditMode { get; set; }
         public bool ShowRunOffQuestions => SelectedManureMaterialType == ManureMaterialType.Liquid;
         public bool ShowRunoffAreaField => GetsRunoffFromRoofsOrYards;
-        public bool ShowUncoveredAreaOfStorageStructure => SelectedManureMaterialType == ManureMaterialType.Liquid;
         public bool DisableSystemFields { get; set; }
         public bool ShowStructureFields { get; set; }
     }

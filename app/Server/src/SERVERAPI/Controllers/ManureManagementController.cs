@@ -598,8 +598,7 @@ namespace SERVERAPI.Controllers
                             ModelState.AddModelError("StorageStructureName", "Required");
                         }
 
-                        if (msdvm.ShowUncoveredAreaOfStorageStructure &&
-                            !msdvm.IsStructureCovered &&
+                        if (!msdvm.IsStructureCovered &&
                             !msdvm.UncoveredAreaOfStorageStructure.HasValue)
                         {
                             ModelState.AddModelError("UncoveredAreaOfStorageStructure", "Required");
