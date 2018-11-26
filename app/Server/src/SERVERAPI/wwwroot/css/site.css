@@ -239,7 +239,6 @@ body {
 }
 .agri-listbox li {
     margin: 0;
-    vertical-align: middle;
 }
 
 .agri-listbox li:hover div {
@@ -253,7 +252,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    vertical-align: middle
+    vertical-align: top
 }
 
 .agri-listbox label:hover {
