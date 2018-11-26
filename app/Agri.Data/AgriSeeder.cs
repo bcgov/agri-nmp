@@ -15,7 +15,7 @@ namespace Agri.Data
 
         public void Seed()
         {
-            _context.Database.EnsureDeleted();
+            //_context.Database.EnsureDeleted();
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
             _context.Database.Migrate();
