@@ -173,6 +173,12 @@
             $("#modForm").submit();
         }
 
+        function IsStructureCoveredChanged() {
+            $('#ButtonPressed').val("IsStructureCoveredChange");
+            $("#modForm").submit();
+        }
+
+
         function Intercept(x) {
             //Create field with total amount of unallocated manure materials and update the fields below
             if ($("#testSelected").val() == "False" ||
