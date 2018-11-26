@@ -74,6 +74,8 @@ namespace SERVERAPI.ViewComponents
                 ManureStorageSystems = _userData.GetStorageSystems()
             };
 
+            manureStorageVm.ExplainMaterialsNeedingStorageMessage = _sdData.GetUserPrompt("explainmaterialsneedingstorage");
+
             return Task.FromResult(manureStorageVm);
         }
     }

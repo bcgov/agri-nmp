@@ -6,16 +6,6 @@
             <legend class="form-box-heading">Storages</legend>
         </div>
         <div class="form-box-body">
-            @*<div class="form-box-table">
-                <div class="form-box-table-header form-box-table-row row row-eq-height">
-                    <div class="col-sm-8 form-box-table-cell">
-                        <strong>Storages</strong>
-                    </div>
-                    <div class="col-sm-4 form-box-table-cell">
-                        <strong>Materials Needing Storage</strong>
-                    </div>
-                </div>
-            </div>*@
             <div class="row">
                 <div class="col-sm-8" >
                     @if (Model.ManureStorageSystems != null)
@@ -69,13 +59,19 @@
                     }
                 </div>
                 <div class="col-sm-4">
-                    @foreach (var generatedManure in Model.GeneratedManures)
+                    @if (Model.GeneratedManures.Any(gm => !gm.AssignedToStoredSystem))
                     {
-                        <div class="box">
-                            <div class="form-box-table-row row row-eq-height">
-                                @generatedManure.animalSubTypeName   @if (generatedManure.AssignedToStoredSystem)
-                                {<i><b>Allocated</b></i>}
-                            </div>
+                        <div>
+                            <b>Materials Needing Storage</b>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainMaterialsNeedingStorageMessage" id="toolTipExplainMaterialsNeedingStorage">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Materials to be Stored" style="font-size:20px; padding-top:5px"></span>
+                            </a>
+                        </div>
+                    }
+                    @foreach (var generatedManure in Model.GeneratedManures.Where(gm => !gm.AssignedToStoredSystem))
+                    {
+                        <div class="form-row">
+                            @generatedManure.animalSubTypeName
                         </div>
                     }
                 </div>
@@ -87,5 +83,23 @@
             </div>
         </div>
     </div>
-
 </div>
+
+<script  type="text/javascript">
+
+    $(document).ready(function() {
+        $('#toolTipExplainMaterialsNeedingStorage').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainMaterialsNeedingStorage').click(function() {
+            triggerToolTip($('#toolTipExplainMaterialsNeedingStorage'));
+        });
+    })
+
+</script>
