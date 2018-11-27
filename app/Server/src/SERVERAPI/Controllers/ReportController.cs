@@ -22,6 +22,7 @@ using SERVERAPI.Models.Impl;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.NodeServices;
 using Agri.LegacyData.Models.Impl;
+using Agri.Models;
 using Agri.Models.Configuration;
 using Fertilizer = Agri.Models.Configuration.Fertilizer;
 using FertilizerType = Agri.Models.Configuration.FertilizerType;
@@ -473,6 +474,69 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+
+        public async Task<string> RenderManure()
+        {
+            ReportManuresViewModel rmvm = new ReportManuresViewModel();
+            
+            rmvm.storages = new List<ReportStoragesStorage>();
+            rmvm.year = _ud.FarmDetails().year;
+
+
+            List<ManureStorageSystem> storageList = _ud.GetStorageSystems();
+            foreach (var s in storageList)
+            {
+                ReportStoragesStorage rs= new ReportStoragesStorage();
+                int? runoffAreaSquareFeet = 0;
+                int? areaOfUncoveredLiquidStorage = 0;
+                decimal annualAmountOfManurePerStorage=0;
+
+                rs.manures = new List<GeneratedManure>();
+                rs.storageSystemName = s.Name;
+
+                if (s.GetsRunoffFromRoofsOrYards)
+                {
+                    runoffAreaSquareFeet = s.RunoffAreaSquareFeet;
+                }
+
+                foreach (var ss in s.ManureStorageStructures)
+                {
+                    if (!ss.IsStructureCovered)
+                        areaOfUncoveredLiquidStorage = ss.UncoveredAreaSquareFeet;
+                }
+
+                rs.precipitation = Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)  * 1000 * Convert.ToDecimal(24.5424);
+
+                if (s.MaterialsIncludedInSystem != null)
+                {
+                    foreach (var m in s.MaterialsIncludedInSystem)
+                    {
+                        rs.animalManure = m.animalSubTypeName + "," + m.averageAnimalNumber + " animals";
+                        rs.annualAmount = Convert.ToDecimal(m.annualAmount.Split(' ')[0]);
+
+                        if (m.washWaterGallons != 0)
+                        {
+                            rs.milkingCenterWashWater = m.washWaterGallons;
+                            annualAmountOfManurePerStorage += m.washWaterGallons;
+                        }
+
+                        rs.manures.Add(m);  
+                    }
+                }
+
+                annualAmountOfManurePerStorage += rs.precipitation;
+                annualAmountOfManurePerStorage += rs.milkingCenterWashWater;
+                rs.annualAmount = annualAmountOfManurePerStorage;
+
+                rmvm.storages.Add(rs);
+
+            }
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportManure.cshtml", rmvm);
+
+            return result;
+        }
+
         public async Task<string> RenderSources()
         {
             ReportSourcesViewModel rvm = new ReportSourcesViewModel();
@@ -909,6 +973,18 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+
+        public async Task<IActionResult> PrintManure()
+        {
+            FileContentResult result = null;
+
+            string reportManure = await RenderManure();
+
+            result = await PrintReportAsync(reportManure, true);
+
+            return result;
+        }
+
         public async Task<IActionResult> PrintSources()
         {
             FileContentResult result = null;

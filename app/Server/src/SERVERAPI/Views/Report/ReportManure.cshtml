@@ -1,0 +1,80 @@
+﻿@model SERVERAPI.ViewModels.ReportManuresViewModel
+
+<div class="Row">
+    <div class="Cell">
+        <span style="font-size:10pt"><b>Manure/Compost Inventory</b></span>
+        <br />
+        <br />
+    </div>
+</div>
+<div class="Row">
+    <div class="Cell">
+        <table style="border-collapse: collapse;">
+            <tr style="padding-top:20px; padding-bottom:20px">
+                <td class="CellHdg">
+                    Material
+                </td>
+                <td colspan="2" class="CellHdg" style="text-align:center">
+                    Annual Amount
+                </td>
+            </tr>
+            @foreach (var s in Model.storages)
+            {
+                <tr>
+                    <td class="CellDtl" style="width:300px;font-weight:bold">Manure in @s.storageSystemName</td>
+                    <td class="CellDtl" style="width:300px;text-align:right;font-weight:bold">@s.annualAmount</td>
+                    @if(@s.manures[0].manureTypeName == "Liquid")
+                    {
+                    <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons</td>
+                    }
+
+                    @if (@s.manures[0].manureTypeName == "Solid")
+                    {
+                        <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">tons</td>
+                    }
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="text-align:left; width:80px;padding-left:10px">Animal manure</td>
+                    <td class="CellDtl" style="text-align:left; width:80px"></td>
+                    <td class="CellDtl" style="text-align:left; width:80px"></td>
+                </tr>
+                @foreach (var m in @s.manures)
+                 {
+                     <tr>
+                         <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">@m.animalSubTypeName , @m.averageAnimalNumber animals</td>
+                         <td class="CellDtl" style="text-align:right; width:80px">@m.annualAmount.Split(' ')[0]</td>
+                         @if(@m.manureTypeName == "Liquid")
+                         {
+                             <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
+                         }
+                         @if(@m.manureTypeName == "Solid")
+                         {
+                             <td class="CellDtl" style="text-align:left; width:80px">tons</td>
+                         }
+
+                     </tr>
+
+                 }
+                @if (@s.milkingCenterWashWater != 0)
+                 {
+                     <tr>
+                         <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Milking Center Wash Water</td>
+                         <td class="CellDtl" style="text-align:right;width:300px;">@s.milkingCenterWashWater</td>
+                         <td class="CellDtl" style="text-align:left;width:300px;">US gallons</td>
+                     </tr>
+                 }
+                @if (@s.precipitation != 0)
+                 {
+                     <tr>
+                         <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Precipitation</td>
+                         <td class="CellDtl" style="text-align:right;width:300px;">@s.precipitation</td>
+                         <td class="CellDtl" style="text-align:left;width:300px;">US gallons</td>
+                     </tr>
+                 }
+            }
+
+        </table>
+        
+       
+    </div>
+</div>

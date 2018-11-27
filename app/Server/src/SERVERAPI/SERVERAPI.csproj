@@ -91,6 +91,9 @@
     <Content Update="Views\ManureManagement\ManureNutrientAnalysis.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Report\ReportManure.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\Components\Navigation\Default.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
