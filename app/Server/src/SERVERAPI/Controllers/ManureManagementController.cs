@@ -795,19 +795,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView("ManureStorageDelete", vm);
         }
-
-        [HttpGet]
-        public IActionResult ManureStorageMaterialsRequireAssigning(string target)
-        {
-            var vm = new ManureStorageMaterialsRequireAssigningViewModel();
-
-            vm.Title = "";
-            vm.Target = target;
-            vm.UnallocatedGeneratedManures = _ud.GetGeneratedManures().Where(gm => !gm.AssignedToStoredSystem).ToList();
-
-            return PartialView("ManureStorageMaterialsRequireAssigning", vm);
-        }
-
+        
         #endregion
 
         #region ManureNutrientAnalysis
@@ -830,7 +818,9 @@ namespace SERVERAPI.Controllers
 
         public IActionResult ManureImportedDetail()
         {
-            return PartialView("ManureImportedDetail");
+            var vm = new ManureImportDetailViewModel();
+
+            return PartialView("ManureImportedDetail", vm);
         }
 
         #endregion
