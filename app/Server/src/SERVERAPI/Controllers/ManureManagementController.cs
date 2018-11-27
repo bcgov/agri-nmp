@@ -828,6 +828,11 @@ namespace SERVERAPI.Controllers
             return View();
         }
 
+        public IActionResult ManureImportedDetail()
+        {
+            return PartialView("ManureImportedDetail");
+        }
+
         #endregion
     }
 }
