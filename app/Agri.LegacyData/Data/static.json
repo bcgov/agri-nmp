@@ -9218,6 +9218,11 @@
             "id": "33",
             "name": "storagestructuresolidnameplaceholder",
             "text": "e.g. concrete walled"
+          },
+          {
+            "id": "34",
+            "name": "explainmaterialsneedingstorage",
+            "text": "These are the manures, composts, etc. haven't been assigned to a storage system yet. To calculate application rates of these materials, assign them to a storage by clicking on the <b>Add Storage System</b> button."
           }
         ]
       },
