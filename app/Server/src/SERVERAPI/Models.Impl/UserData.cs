@@ -894,5 +894,13 @@ namespace SERVERAPI.Models.Impl
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
+
+        public List<ImportedManure> GetImportedManures()
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            return yd.ImportedManures?.ToList() ?? new List<ImportedManure>();
+        }
     }
 }

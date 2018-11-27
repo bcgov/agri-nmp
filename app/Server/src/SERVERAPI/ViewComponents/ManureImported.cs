@@ -28,58 +28,17 @@ namespace SERVERAPI.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View(await GetManureStorageSystemAsync());
+            return View(await GetManureImportedAsync());
         }
 
-        private Task<ManureStorageViewModel> GetManureStorageSystemAsync()
+        private Task<ManureImportedViewModel> GetManureImportedAsync()
         {
-            var generatedManures = new List<GeneratedManure>
+            var manureImportedVm = new ManureImportedViewModel()
             {
-                new GeneratedManure
-                {
-                    animalId = 1,
-                    animalSubTypeId = 1,
-                    animalSubTypeName = "Cow, including calf to weaning",
-                    manureType = ManureMaterialType.Solid
-                },
-                new GeneratedManure
-                {
-                    animalId = 1,
-                    animalSubTypeId = 3,
-                    animalSubTypeName = "Heavy Feeders",
-                    manureType = ManureMaterialType.Solid
-                },
-                new GeneratedManure
-                {
-                    animalId = 2,
-                    animalSubTypeId = 4,
-                    animalSubTypeName = "Calves (0 to 3 months old)",
-                    manureType = ManureMaterialType.Liquid
-                },
-                new GeneratedManure
-                {
-                    animalId = 2,
-                    animalSubTypeId = 9,
-                    animalSubTypeName = "Milking Cow",
-                    manureType = ManureMaterialType.Liquid
-                }
+                ImportedManures = _userData.GetImportedManures()
             };
 
-            if (!_userData.GetGeneratedManures().Any())
-            {
-                foreach (var generatedManure in generatedManures)
-                {
-                    _userData.AddGeneratedManure(generatedManure);
-                }
-            }
-
-            var manureStorageVm = new ManureStorageViewModel
-            {
-                GeneratedManures = _userData.GetGeneratedManures(),
-                ManureStorageSystems = _userData.GetStorageSystems()
-            };
-
-            return Task.FromResult(manureStorageVm);
+            return Task.FromResult(manureImportedVm);
         }
     }
 }

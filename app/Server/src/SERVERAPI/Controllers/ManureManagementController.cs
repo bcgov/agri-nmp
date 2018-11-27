@@ -816,9 +816,11 @@ namespace SERVERAPI.Controllers
             return View();
         }
 
-        public IActionResult ManureImportedDetail()
+        public IActionResult ManureImportedDetail(string target)
         {
             var vm = new ManureImportDetailViewModel();
+
+            vm.Target = target;
 
             return PartialView("ManureImportedDetail", vm);
         }
