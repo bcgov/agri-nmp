@@ -816,13 +816,60 @@ namespace SERVERAPI.Controllers
             return View();
         }
 
-        public IActionResult ManureImportedDetail(string target)
+        [HttpGet]
+        public IActionResult ManureImportedDetail(int? id, string target)
         {
-            var vm = new ManureImportDetailViewModel();
+            var vm = new ManureImportedDetailViewModel();
 
+            vm.Title = "Imported Material Details";
             vm.Target = target;
+            vm.SelectedManureType = ManureMaterialType.Solid;
+            vm.IsLandAppliedBeforeStorage = true;
+            vm.LandAppliedLabelText = _sd.GetUserPrompt("importmaterialislandappliedquestion");
+
+            if (id.HasValue)
+            {
+                var savedImportedManure = _ud.GetImportedManure(id.Value);
+            }
 
             return PartialView("ManureImportedDetail", vm);
+        }
+
+        [HttpPost]
+        public IActionResult ManureImportedDetail(ManureImportedDetailViewModel vm)
+        {
+
+            if (vm.ButtonPressed == "ManureMaterialTypeChange")
+            {
+                ModelState.Clear();
+                vm.ButtonPressed = "";
+                vm.ButtonText = "Save";
+
+                return PartialView("ManureImportedDetail", vm);
+            }
+
+            //if (vm.SelectedManureType < ManureMaterialType.Liquid)
+            //{
+            //    ModelState.AddModelError("SelectedManureType", "Required");
+            //}
+            if (!vm.AnnualAmount.HasValue && vm.AnnualAmount < 0)
+            {
+                    ModelState.AddModelError("AnnualAmount", "Enter a numeric value");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var url = Url.Action("RefreshImportList", "ManureManagement");
+                return Json(new { success = true, url = url, target = vm.Target });
+            }
+
+            return PartialView("ManureImportedDetail", vm);
+        }
+
+        public IActionResult RefreshImportList()
+        {
+            return ViewComponent("ManureImported");
         }
 
         #endregion

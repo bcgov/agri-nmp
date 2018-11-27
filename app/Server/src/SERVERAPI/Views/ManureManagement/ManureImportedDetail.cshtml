@@ -1,5 +1,5 @@
 ﻿@using Agri.Models
-@model ManureImportDetailViewModel
+@model ManureImportedDetailViewModel
 
 @{
     Layout = null;
@@ -7,7 +7,7 @@
 
 <div id="target">
 
-    <form asp-action="ManureStorageDetail" asp-controller="ManureManagement" id="modForm" method="post" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+    <form asp-action="ManureImportedDetail" asp-controller="ManureManagement" id="modForm" method="post" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel">@Model.Title</h4>
@@ -27,7 +27,6 @@
                         <label asp-for="SelectedManureType">Liquid or Solid</label>
                         <select class="form-control" asp-for="SelectedManureType"
                                 asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
-                            <option>Select Manure Type</option>
                         </select>
                         <span asp-validation-for="SelectedManureType" class="text-danger">Select a Manure Material Type</span>
                     </div>
@@ -36,19 +35,19 @@
                     <div class="form-group">
                         <label asp-for="AnnualAmount">Amount per year</label>
                         <input class="form-control" asp-for="AnnualAmount" type="text" id="" />
-                        <span asp-validation-for="AnnualAmount" class="text-danger"></span>
+                        <span asp-validation-for="AnnualAmount" class="text-danger">Enter a numeric value</span>
                     </div>
                 </div>
                 <div class="col-sm-1" style="padding-left: 0;">
                     <div class="form-group">
                         <label asp-for="SelectedAnnualAmountUnit">(Units)</label>
-                        <select class="form-control" asp-for="SelectedAnnualAmountUnit" id="ddlManureMaterialType"></select>
-                        <span asp-validation-for="SelectedAnnualAmountUnit" class="text-danger">Select a Manure Material Type</span>
+                        <select class="form-control" asp-for="SelectedAnnualAmountUnit" asp-items="@Model.GetAnnualAmountUnits()" id="ddlManureMaterialType"></select>
+                        <span asp-validation-for="SelectedAnnualAmountUnit" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group">
-                        <label>Is the material stored before it is land-applied?</label>
+                        <label>@Model.LandAppliedLabelText</label>
                         <label style="padding-right: 20px">
                             <input asp-for="IsLandAppliedBeforeStorage" type="radio" value="true"
                                    onchange="IsLandAppliedBeforeStorageChanged()" /> Yes
@@ -60,11 +59,15 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-primary" id="ok_button" @(Model.ButtonText == "Save" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>Save</button>
         </div>
+        @Html.HiddenFor(x => x.Target)
+        @Html.HiddenFor(x => x.Title)
+        @Html.HiddenFor(x => x.ButtonText)
+        @Html.HiddenFor(x => x.SelectedAnnualAmountUnit);
+        @Html.HiddenFor(x => x.LandAppliedLabelText);
     </form>
 </div>

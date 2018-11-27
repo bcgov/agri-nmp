@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Agri.Models.Configuration;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Agri.Models.Farm
 {
@@ -12,7 +9,7 @@ namespace Agri.Models.Farm
         public string MaterialName { get; set; }
         public ManureMaterialType ManureType { get; set; }
         public string ManureTypeName { get; set; }
-        public string AnnualAmount { get; set; }
+        public decimal AnnualAmount { get; set; }
         public string Units { get; set; }
         public bool IsLandAppliedBeforeStorage { get; set; }
         public bool AssignedToStoredSystem { get; set; }

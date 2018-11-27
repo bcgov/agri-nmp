@@ -129,20 +129,6 @@
 
 
         $(document).ready(function () {
-            $("body").on("change", "#ddlManureMaterialType", function () {
-                $('#ButtonPressed').val("ManureMaterialTypeChange");
-                $("#modForm").submit();
-            })
-        });
-
-        $(document).ready(function () {
-            $("body").on("change", "#ddlSelectedMaterialsToInclude", function () {
-                $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
-                $("#modForm").submit();
-            })
-        });
-
-        $(document).ready(function () {
             $("#wizard-submanuregen").show();
             $("#wizard-submanureimported").show();
             $("#wizard-submanurestorage").show();
@@ -162,6 +148,15 @@
         //    $("#wizard-submanunutrient").show();
         //    return false;
         //});
+
+
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlManureMaterialType", function () {
+                $('#ButtonPressed').val("ManureMaterialTypeChange");
+                $("#modForm").submit();
+            })
+        });
 
     </script>
 }
