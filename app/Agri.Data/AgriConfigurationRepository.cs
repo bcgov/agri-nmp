@@ -682,5 +682,11 @@ namespace Agri.Data
         {
             throw new NotImplementedException();
         }
+
+        public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
+            string parentNode, string parentfield)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

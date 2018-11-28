@@ -37,10 +37,6 @@
     </div>
 </div>
 
-<div>pgsqldatabase_name @Environment.GetEnvironmentVariable("pgsqldatabase_name")</div>
-<div>pgsqlpassword @Environment.GetEnvironmentVariable("pgsqlpassword")</div>
-<div>pgsqluri @Environment.GetEnvironmentVariable("pgsqluri")</div>
-<div>pgsqlusername @Environment.GetEnvironmentVariable("pgsqlusername")</div>
 <!-- /BODY CONTENT -->
 
 
@@ -159,8 +155,9 @@
             $("#wizard-submanurestorage").addClass('wizard-item-done');
         });
 
-        $(document).ready(function() {
-            $("body").on("change", "#txtSystemName", function() {
+
+        $(document).ready(function () {
+            $("body").on("change", "#txtSystemName", function () {
                 $('#ButtonPressed').val("SystemNameChange");
                 $("#modForm").submit();
             })
@@ -176,32 +173,12 @@
             $("#modForm").submit();
         }
 
-
-        function Intercept(x) {
-            //Create field with total amount of unallocated manure materials and update the fields below
-            if ($("#testSelected").val() == "False" ||
-                $("#missingTests").val() == "True")
-            {
-                $.ajaxSetup({ cache: false });
-                var url = '@Url.Action("MissingTests", "Soil", new { target = "zzz" })';
-                $type = url.replace('zzz',x);
-                $("#divSize").addClass("modal-large");
-                $('#myModalContent').load($type, function () {
-                    $('#myModal').modal({
-                        /*backdrop: 'static',*/
-                        //keyboard: true
-                    }, 'show');
-                    bindForm(this);
-                });
-                return false;
-            }
-            else
-            {
-                window.location.href = x;
-            }
+        function IsStructureCoveredChanged() {
+            $('#ButtonPressed').val("IsStructureCoveredChange");
+            $("#modForm").submit();
         }
 
+
     </script>
-    
 
 }
