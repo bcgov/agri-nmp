@@ -113,7 +113,7 @@ namespace Agri.LegacyData.Models.Impl
             return cds;
         }
 
-        public List<UserPrompt> GetUserPromts()
+        public List<UserPrompt> GetUserPrompts()
         {
             var array = (JArray)rss["agri"]["nmp"]["userprompts"]["userprompt"];
             var userPrompts = new List<UserPrompt>();

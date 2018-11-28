@@ -158,7 +158,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetUserPromptsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetUserPromts();
+            var result = _staticDataExtRepo.GetUserPrompts();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);

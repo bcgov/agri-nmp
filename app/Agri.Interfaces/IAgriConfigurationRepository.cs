@@ -13,7 +13,7 @@ namespace Agri.Interfaces
         List<Location> GetLocations();
         List<CropSoilTestPotassiumRegion> GetCropSoilTestPotassiumRegions();
         List<CropSoilTestPhosphorousRegion> GetCropSoilTestPhosphorousRegions();
-        List<UserPrompt> GetUserPromts();
+        List<UserPrompt> GetUserPrompts();
         List<ExternalLink> GetExternalLinks();
         List<SoilTestPhosphorusRange> GetSoilTestPhosphorusRanges();
         List<SoilTestPotassiumRange> GetSoilTestPotassiumRanges();
@@ -60,8 +60,8 @@ namespace Agri.Interfaces
         int GetCropPrevYearManureApplVolCatCd(int cropId);
         List<Yield> GetYield(int yieldId);
         Yield GetYieldById(int yieldId);
-        CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropid, int soil_test_phosphorous_region_cd);
-        CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soil_test_potassium_region_cd);
+        CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropid, int soilTestPotassiumRegionCode);
+        CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soilTestPotassiumRegionCode);
         DryMatter GetDryMatter(int ID);
         AmmoniaRetention GetAmmoniaRetention(int seasonApplicatonId, int dm);
         NitrogenMineralization GetNMineralization(int id, int locationid);
@@ -145,6 +145,7 @@ namespace Agri.Interfaces
         List<SelectListItem> GetSubtypesDll(int animalType);
         decimal GetIncludeWashWater(int Id);
         decimal GetMilkProduction(int Id);
+        AnimalsUsingWashWater GetAnimalsUsingWashWater();
         bool DoesAnimalUseWashWater(int animalSubTypeId);
         AnimalSubType GetAnimalSubType(int id);
 

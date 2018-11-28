@@ -240,7 +240,7 @@ namespace Agri.Data
 
             if (!_context.UserPrompts.Any())
             {
-                var userPrompts = staticExtRepo.GetUserPromts();
+                var userPrompts = staticExtRepo.GetUserPrompts();
                 _context.UserPrompts.AddRange(userPrompts);
             }
 
