@@ -9,10 +9,10 @@ namespace SERVERAPI.ViewModels
     {
         public string storageSystemName { get; set; }
         public string animalManure { get; set; }
-        public decimal annualAmount { get; set; }
+        public string annualAmount { get; set; }
         public string units { get; set; }
-        public decimal precipitation { get; set; }
-        public decimal milkingCenterWashWater { get; set; }
+        public string precipitation { get; set; }
+        public string milkingCenterWashWater { get; set; }
         public List<GeneratedManure> manures { get; set; }
         public List<ReportFieldFootnote> footnotes { get; set; }
 

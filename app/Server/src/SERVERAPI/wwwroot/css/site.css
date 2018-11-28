@@ -311,3 +311,42 @@ body {
 .tree ul > li:last-child::after {
     height: 8px;
 }
+
+/* Tooltip */
+.tooltip-inner {
+    background: #ffffff;
+    color: #000000;
+    border: #23527C 1px solid;
+    max-width: 300px;
+    padding: 3px 8px;
+    text-align: left;
+    border-radius: 2px;
+}
+
+.tooltip.top {
+    padding: 10px 0;
+    margin-top:-10px;
+}
+
+.tooltip.top .tooltip-arrow {
+    bottom: 0;
+    left: 50%;
+    margin-left: -15px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 10px solid #23527C;
+}
+
+.tooltip .title {
+    background: #23527C;
+    color: #ffffff;
+    max-width: 300px;
+    padding: 3px 8px;
+    text-align: left;
+    border-radius: 2px;
+}
+    .tooltip .title .close {
+        color: #ffffff;
+        float: right;
+    }
+    

@@ -505,28 +505,29 @@ namespace SERVERAPI.Controllers
                         areaOfUncoveredLiquidStorage = ss.UncoveredAreaSquareFeet;
                 }
 
-                rs.precipitation = Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)  * 1000 * Convert.ToDecimal(24.5424);
+                rs.precipitation = string.Format("{0:#,##0}", (Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage) * 1000 * Convert.ToDecimal(24.5424)));
+               
 
                 if (s.MaterialsIncludedInSystem != null)
                 {
                     foreach (var m in s.MaterialsIncludedInSystem)
                     {
                         rs.animalManure = m.animalSubTypeName + "," + m.averageAnimalNumber + " animals";
-                        rs.annualAmount = Convert.ToDecimal(m.annualAmount.Split(' ')[0]);
+                        rs.annualAmount = string.Format("{0:#,##0}", m.annualAmount.Split(' ')[0]);
 
                         if (m.washWaterGallons != 0)
                         {
-                            rs.milkingCenterWashWater = m.washWaterGallons;
+                            rs.milkingCenterWashWater = string.Format("{0:#,##0}", m.washWaterGallons);
                             annualAmountOfManurePerStorage += m.washWaterGallons;
                         }
-
+                        annualAmountOfManurePerStorage += Convert.ToDecimal(rs.annualAmount);
                         rs.manures.Add(m);  
                     }
                 }
 
-                annualAmountOfManurePerStorage += rs.precipitation;
-                annualAmountOfManurePerStorage += rs.milkingCenterWashWater;
-                rs.annualAmount = annualAmountOfManurePerStorage;
+                annualAmountOfManurePerStorage += Convert.ToDecimal(rs.precipitation);
+
+                rs.annualAmount = string.Format("{0:#,##0}",annualAmountOfManurePerStorage);
 
                 rmvm.storages.Add(rs);
 

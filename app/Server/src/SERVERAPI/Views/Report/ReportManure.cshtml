@@ -41,9 +41,9 @@
                 @foreach (var m in @s.manures)
                  {
                      <tr>
-                         <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">@m.animalSubTypeName , @m.averageAnimalNumber animals</td>
-                         <td class="CellDtl" style="text-align:right; width:80px">@m.annualAmount.Split(' ')[0]</td>
-                         @if(@m.manureTypeName == "Liquid")
+                         <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">@m.animalSubTypeName, @m.averageAnimalNumber animals</td>
+                         <td class="CellDtl" style="text-align:right; width:80px"> @string.Format("{0:#,0}",Convert.ToDecimal(@m.annualAmount.Split(' ')[0]))</td>
+                         @if (@m.manureTypeName == "Liquid")
                          {
                              <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
                          }
@@ -55,7 +55,7 @@
                      </tr>
 
                  }
-                @if (@s.milkingCenterWashWater != 0)
+                @if (@s.milkingCenterWashWater != null)
                  {
                      <tr>
                          <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Milking Center Wash Water</td>
@@ -63,12 +63,21 @@
                          <td class="CellDtl" style="text-align:left;width:300px;">US gallons</td>
                      </tr>
                  }
-                @if (@s.precipitation != 0)
+                @if (@s.precipitation != null)
                  {
                      <tr>
                          <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Precipitation</td>
                          <td class="CellDtl" style="text-align:right;width:300px;">@s.precipitation</td>
                          <td class="CellDtl" style="text-align:left;width:300px;">US gallons</td>
+                     </tr>
+                 }
+                
+                @if (!s.Equals(Model.storages.Last()))
+                 {
+                     <tr>
+                         <td class="CellDtl" style="width:300px;height:10px;"></td>
+                         <td class="CellDtl" style="width:300px;"></td>
+                         <td class="CellDtl" style="width:300px;"></td>
                      </tr>
                  }
             }
