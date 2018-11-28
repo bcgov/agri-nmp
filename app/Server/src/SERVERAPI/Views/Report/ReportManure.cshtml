@@ -23,9 +23,9 @@
                 <tr>
                     <td class="CellDtl" style="width:300px;font-weight:bold">Manure in @s.storageSystemName</td>
                     <td class="CellDtl" style="width:300px;text-align:right;font-weight:bold">@s.annualAmount</td>
-                    @if(@s.manures[0].manureTypeName == "Liquid")
+                    @if (@s.manures[0].manureTypeName == "Liquid")
                     {
-                    <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons</td>
+                        <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons</td>
                     }
 
                     @if (@s.manures[0].manureTypeName == "Solid")
@@ -39,51 +39,80 @@
                     <td class="CellDtl" style="text-align:left; width:80px"></td>
                 </tr>
                 @foreach (var m in @s.manures)
-                 {
-                     <tr>
-                         <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">@m.animalSubTypeName, @m.averageAnimalNumber animals</td>
-                         <td class="CellDtl" style="text-align:right; width:80px"> @string.Format("{0:#,0}",Convert.ToDecimal(@m.annualAmount.Split(' ')[0]))</td>
-                         @if (@m.manureTypeName == "Liquid")
-                         {
-                             <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
-                         }
-                         @if(@m.manureTypeName == "Solid")
-                         {
-                             <td class="CellDtl" style="text-align:left; width:80px">tons</td>
-                         }
+                {
+                    <tr>
+                        <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">@m.animalSubTypeName, @m.averageAnimalNumber animals</td>
+                        <td class="CellDtl" style="text-align:right; width:80px"> @string.Format("{0:#,0}", Convert.ToDecimal(@m.annualAmount.Split(' ')[0]))</td>
+                        @if (@m.manureTypeName == "Liquid")
+                        {
+                            <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
+                        }
+                        @if (@m.manureTypeName == "Solid")
+                        {
+                            <td class="CellDtl" style="text-align:left; width:80px">tons</td>
+                        }
 
-                     </tr>
+                    </tr>
 
-                 }
+                }
                 @if (@s.milkingCenterWashWater != null)
-                 {
-                     <tr>
-                         <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Milking Center Wash Water</td>
-                         <td class="CellDtl" style="text-align:right;width:300px;">@s.milkingCenterWashWater</td>
-                         <td class="CellDtl" style="text-align:left;width:300px;">US gallons</td>
-                     </tr>
-                 }
+                {
+                    <tr>
+                        <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Milking Center Wash Water<sup>@s.footnote</sup></td>
+                        <td class="CellDtl" style="text-align:right;width:300px;">@s.milkingCenterWashWater</td>
+                        <td class="CellDtl" style="text-align:left;width:300px;">US gallons</td>
+                    </tr>
+                }
                 @if (@s.precipitation != null)
-                 {
-                     <tr>
-                         <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Precipitation</td>
-                         <td class="CellDtl" style="text-align:right;width:300px;">@s.precipitation</td>
-                         <td class="CellDtl" style="text-align:left;width:300px;">US gallons</td>
-                     </tr>
-                 }
-                
+                {
+                    <tr>
+                        <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Precipitation</td>
+                        <td class="CellDtl" style="text-align:right;width:300px;">@s.precipitation</td>
+                        <td class="CellDtl" style="text-align:left;width:300px;">US gallons</td>
+                    </tr>
+                }
+
                 @if (!s.Equals(Model.storages.Last()))
-                 {
-                     <tr>
-                         <td class="CellDtl" style="width:300px;height:10px;"></td>
-                         <td class="CellDtl" style="width:300px;"></td>
-                         <td class="CellDtl" style="width:300px;"></td>
-                     </tr>
-                 }
+                {
+                    <tr>
+                        <td class="CellDtl" style="width:300px;height:10px;"></td>
+                        <td class="CellDtl" style="width:300px;"></td>
+                        <td class="CellDtl" style="width:300px;"></td>
+                    </tr>
+                }
+
+
             }
 
         </table>
         
-       
+    @foreach (var s in Model.storages)
+    {
+        @if (@s.footnotes.Count() > 0)
+         {
+             <br/>
+             <br/>
+             <table>
+                 <tr>
+                     <td>
+                         <span class="CellDtlNBd">Assumptions:</span>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>
+                         &nbsp;
+                     </td>
+                 </tr>
+                 @foreach (var fn in @s.footnotes)
+                 {
+                     <tr>
+                         <td class="CellDtlNBd" style="padding:0px">
+                             @fn.id.ToString() &nbsp;&nbsp; @fn.message
+                         </td>
+                     </tr>
+                 }
+             </table>
+         }
+    }
     </div>
 </div>

@@ -489,10 +489,12 @@ namespace SERVERAPI.Controllers
                 ReportStoragesStorage rs= new ReportStoragesStorage();
                 int? runoffAreaSquareFeet = 0;
                 int? areaOfUncoveredLiquidStorage = 0;
+                decimal washWaterAdjustedValue = 0;
                 decimal annualAmountOfManurePerStorage=0;
 
                 rs.manures = new List<GeneratedManure>();
                 rs.storageSystemName = s.Name;
+                rs.footnotes = new List<ReportFieldFootnote>();
 
                 if (s.GetsRunoffFromRoofsOrYards)
                 {
@@ -519,6 +521,7 @@ namespace SERVERAPI.Controllers
                         {
                             rs.milkingCenterWashWater = string.Format("{0:#,##0}", m.washWaterGallons);
                             annualAmountOfManurePerStorage += m.washWaterGallons;
+                            washWaterAdjustedValue= m.washWater;
                         }
                         annualAmountOfManurePerStorage += Convert.ToDecimal(rs.annualAmount);
                         rs.manures.Add(m);  
@@ -528,6 +531,15 @@ namespace SERVERAPI.Controllers
                 annualAmountOfManurePerStorage += Convert.ToDecimal(rs.precipitation);
 
                 rs.annualAmount = string.Format("{0:#,##0}",annualAmountOfManurePerStorage);
+
+                if (rs.milkingCenterWashWater != null)
+                {
+                    ReportFieldFootnote rff = new ReportFieldFootnote();
+                    rff.id = rs.footnotes.Count() + 1;
+                    rff.message = "Milking Center Wash Water adjusted to "+ washWaterAdjustedValue + " US gallons/day/animal";
+                    rs.footnote = rff.id.ToString();
+                    rs.footnotes.Add(rff);
+                }
 
                 rmvm.storages.Add(rs);
 
