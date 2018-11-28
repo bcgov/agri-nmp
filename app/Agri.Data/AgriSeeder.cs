@@ -57,7 +57,16 @@ namespace Agri.Data
             if (!_context.ConversionFactors.Any())
             {
                 var cFactor = staticDataRepo.GetConversionFactor();
+                cFactor.SoilTestPPMToPoundPerAcre = staticDataRepo.GetSoilTestNitratePPMToPoundPerAcreConversionFactor();
                 _context.ConversionFactors.Add(cFactor);
+            }
+
+            //Default Soil Test
+            if (!_context.DefaultSoilTests.Any())
+            {
+                var test = staticDataRepo.GetDefaultSoilTest();
+                test.DefaultSoilTestMethodId = staticDataRepo.GetDefaultSoilTestMethod();
+                _context.DefaultSoilTests.Add(test);
             }
 
             //Location

@@ -68,7 +68,7 @@ namespace Agri.Data
 
         public AnimalSubType GetAnimalSubType(int id)
         {
-            throw new NotImplementedException();
+            return GetAnimalSubTypes().SingleOrDefault(ast => ast.Id == id);
         }
 
         public List<AnimalSubType> GetAnimalSubTypes(int animalId)
@@ -155,7 +155,7 @@ namespace Agri.Data
 
         public int GetCropPrevYearManureApplVolCatCd(int cropId)
         {
-            throw new NotImplementedException();
+            return GetCrops().SingleOrDefault(c => c.Id == cropId).ManureApplicationHistory;
         }
 
         public List<Crop> GetCrops()
@@ -251,12 +251,12 @@ namespace Agri.Data
 
         public DefaultSoilTest GetDefaultSoilTest()
         {
-            throw new NotImplementedException();
+            return _context.DefaultSoilTests.FirstOrDefault();
         }
 
         public string GetDefaultSoilTestMethod()
         {
-            throw new NotImplementedException();
+            return GetDefaultSoilTest().DefaultSoilTestMethodId;
         }
 
         public DensityUnit GetDensityUnit(int Id)
@@ -778,7 +778,7 @@ namespace Agri.Data
 
         public decimal GetSoilTestNitratePPMToPoundPerAcreConversionFactor()
         {
-            throw new NotImplementedException();
+            return GetConversionFactor().SoilTestPPMToPoundPerAcre;
         }
 
         public List<SoilTestPhosphorousKelownaRange> GetSoilTestPhosphorousKelownaRanges()
