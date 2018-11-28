@@ -478,10 +478,13 @@ namespace SERVERAPI.Controllers
         public async Task<string> RenderManure()
         {
             ReportManuresViewModel rmvm = new ReportManuresViewModel();
-            
+            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
+
             rmvm.storages = new List<ReportStoragesStorage>();
             rmvm.year = _ud.FarmDetails().year;
-
+            decimal rainInMM = 1000;
+            decimal conversionForLiquid = 0.024542388m;
+            decimal conversionForSolid = 0.000102408m;
 
             List<ManureStorageSystem> storageList = _ud.GetStorageSystems();
             foreach (var s in storageList)
@@ -509,11 +512,11 @@ namespace SERVERAPI.Controllers
 
                 if (s.ManureMaterialType == ManureMaterialType.Liquid)
                 {
-                    rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * 1000 * Convert.ToDecimal(0.024542388)));
+                    rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * rainInMM * conversionForLiquid));
                 }
                 else if (s.ManureMaterialType == ManureMaterialType.Solid)
                 {
-                    rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * 1000 * Convert.ToDecimal(0.000102408)));
+                    rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * rainInMM * conversionForSolid));
                 }
 
                 if (s.MaterialsIncludedInSystem != null)
@@ -529,6 +532,16 @@ namespace SERVERAPI.Controllers
                             annualAmountOfManurePerStorage += m.washWaterGallons;
                             washWaterAdjustedValue= m.washWater;
                         }
+
+                        if (m.washWater.ToString("#.##") != calculateAnimalRequirement
+                                .GetWashWaterBySubTypeId(m.animalSubTypeId).Value.ToString("#.##"))
+                        {
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = rs.footnotes.Count() + 1;
+                            rff.message = "Milking Center Wash Water adjusted to " + washWaterAdjustedValue.ToString("G29") + " US gallons/day/animal";
+                            rs.footnote = rff.id.ToString();
+                            rs.footnotes.Add(rff);
+                        }
                         annualAmountOfManurePerStorage += Convert.ToDecimal(rs.annualAmount);
                         rs.manures.Add(m);  
                     }
@@ -537,15 +550,6 @@ namespace SERVERAPI.Controllers
                 annualAmountOfManurePerStorage += Convert.ToDecimal(rs.precipitation);
 
                 rs.annualAmount = string.Format("{0:#,##0}",annualAmountOfManurePerStorage);
-
-                if (rs.milkingCenterWashWater != null)
-                {
-                    ReportFieldFootnote rff = new ReportFieldFootnote();
-                    rff.id = rs.footnotes.Count() + 1;
-                    rff.message = "Milking Center Wash Water adjusted to "+ washWaterAdjustedValue + " US gallons/day/animal";
-                    rs.footnote = rff.id.ToString();
-                    rs.footnotes.Add(rff);
-                }
 
                 rmvm.storages.Add(rs);
 
