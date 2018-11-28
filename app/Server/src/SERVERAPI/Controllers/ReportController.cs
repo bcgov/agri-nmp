@@ -507,8 +507,14 @@ namespace SERVERAPI.Controllers
                         areaOfUncoveredLiquidStorage = ss.UncoveredAreaSquareFeet;
                 }
 
-                rs.precipitation = string.Format("{0:#,##0}", (Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage) * 1000 * Convert.ToDecimal(24.5424)));
-               
+                if (s.ManureMaterialType == ManureMaterialType.Liquid)
+                {
+                    rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * 1000 * Convert.ToDecimal(0.024542388)));
+                }
+                else if (s.ManureMaterialType == ManureMaterialType.Solid)
+                {
+                    rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * 1000 * Convert.ToDecimal(0.000102408)));
+                }
 
                 if (s.MaterialsIncludedInSystem != null)
                 {
