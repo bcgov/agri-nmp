@@ -44,7 +44,7 @@ namespace SERVERAPI.ViewComponents
             {
                 if (fld.crops.Count() > 0)  
                 {
-                    manureVM.display = _sd.wasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
+                    manureVM.display = _sd.WasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
                     if (manureVM.display)
                     {
                         manureVM.fldName = fldName;

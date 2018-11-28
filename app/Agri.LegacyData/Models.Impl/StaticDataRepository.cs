@@ -1581,7 +1581,7 @@ namespace Agri.LegacyData.Models.Impl
             return result;
         }
 
-        public bool wasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
+        public bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
         {
             string noManureFromPreviousYearsCd =
                 (string)rss["agri"]["nmp"]["manureprevyearscd"]["manureprevyearcd"][0]["id"];

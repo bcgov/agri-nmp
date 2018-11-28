@@ -58,7 +58,6 @@ namespace Agri.Interfaces
         List<Crop> GetCrops(int cropType);
         Crop GetCrop(int cropId);
         int GetCropPrevYearManureApplVolCatCd(int cropId);
-        List<Yield> GetYield(int yieldId);
         Yield GetYieldById(int yieldId);
         CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropid, int soilTestPotassiumRegionCode);
         CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soilTestPotassiumRegionCode);
@@ -112,7 +111,7 @@ namespace Agri.Interfaces
         string GetStaticDataVersion();
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
         List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults();
-        bool wasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded);
+        bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded);
         int GetInteriorId();
         bool IsRegionInteriorBC(int? region);
         bool IsNitrateCreditApplicable(int? region, DateTime sampleDate, int yearOfAnalysis);

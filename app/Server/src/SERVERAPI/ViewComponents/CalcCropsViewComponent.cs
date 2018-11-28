@@ -46,12 +46,12 @@ namespace SERVERAPI.ViewComponents
                 if (!string.IsNullOrEmpty(m.cropOther))
                 {
                     cp.CropName = m.cropOther + "*";
-                    yld = _sd.GetYield(1);
+                    yld = _sd.GetYields();
                 }
                 else
                 {
                     cp = _sd.GetCrop(Convert.ToInt32(m.cropId));
-                    yld = _sd.GetYield(cp.YieldCd);
+                    yld = _sd.GetYields();
                 }
 
                 if(m.coverCropHarvested.HasValue)
