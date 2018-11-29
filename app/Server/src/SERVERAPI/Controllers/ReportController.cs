@@ -533,9 +533,9 @@ namespace SERVERAPI.Controllers
                         {
                             // if solid material is added to the liquid system change the calculations to depict that of liquid
                             AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(m.animalSubTypeId));
-                            if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
+                            if (animalSubType.SolidPerGalPerAnimalPerDay.HasValue)
                             {
-                                rs.annualAmount = (Math.Round(Convert.ToInt32(m.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * 365)).ToString();
+                                rs.annualAmount = (Math.Round(Convert.ToInt32(m.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerGalPerAnimalPerDay) * 365)).ToString();
                                 rs.units = "US gallons";
                                 m.annualAmount = rs.annualAmount;
                             }
