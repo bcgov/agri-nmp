@@ -799,6 +799,19 @@ namespace SERVERAPI.Models.Impl
             farmDataGeneratedManure.AssignedToStoredSystem = updatedGeneratedManure.AssignedToStoredSystem;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+
+            var storageSystem = GetStorageSystems()
+                                            .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.id == updatedGeneratedManure.id));
+
+            if (storageSystem != null)
+            {
+                var oldMaterial =
+                    storageSystem.MaterialsIncludedInSystem.Single(m => m.id == updatedGeneratedManure.id);
+                storageSystem.MaterialsIncludedInSystem.Remove(oldMaterial);
+                storageSystem.MaterialsIncludedInSystem.Add(updatedGeneratedManure);
+                UpdateManureStorageSystem(storageSystem);
+            }
+            
         }
 
         public void DeleteGeneratedManure(int id)
