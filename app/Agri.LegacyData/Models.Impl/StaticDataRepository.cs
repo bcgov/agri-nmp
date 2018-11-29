@@ -1369,7 +1369,7 @@ namespace Agri.LegacyData.Models.Impl
             return (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMethodId"];
         }
 
-        public string SoilTestRating(string chem, decimal value)
+        protected string SoilTestRating(string chem, decimal value)
         {
             string results = "Ukn";
 

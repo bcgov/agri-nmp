@@ -100,7 +100,10 @@ namespace Agri.Interfaces
         LiquidFertilizerDensity GetLiquidFertilizerDensity(int fertilizerId, int densityId);
         DefaultSoilTest GetDefaultSoilTest();
         string GetDefaultSoilTestMethod();
-        string SoilTestRating(string chem, decimal value);
+        List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges();
+        List<PhosphorusSoilTestRange> GetPhosphorusSoilTestRanges();
+        string GetPotassiumSoilTestRating(decimal value);
+        string GetPhosphorusSoilTestRating(decimal value);
         FertilizerMethod GetFertilizerMethod(string id);
         List<FertilizerMethod> GetFertilizerMethods();
         List<SelectListItem> GetFertilizerMethodsDll();

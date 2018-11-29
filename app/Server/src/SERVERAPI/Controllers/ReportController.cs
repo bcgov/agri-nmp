@@ -143,8 +143,8 @@ namespace SERVERAPI.Controllers
                 {
                     rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
                     rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString("G29") + " ppm";
-                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(f.soilTest)) + ")";
-                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + _sd.SoilTestRating("potassium", stc.GetConvertedSTK(f.soilTest)) + ")";
+                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + _sd.GetPhosphorusSoilTestRating(stc.GetConvertedSTP(f.soilTest)) + ")";
+                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + _sd.GetPotassiumSoilTestRating(stc.GetConvertedSTK(f.soilTest)) + ")";
                     rf.soiltest.dispPH = f.soilTest.valPH.ToString("G29");
                 }
 
@@ -752,8 +752,8 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = m.soilTest.ValP.ToString("G29");
                     dc.potassium = m.soilTest.valK.ToString("G29");
                     dc.pH = m.soilTest.valPH.ToString("G29");
-                    dc.phosphorousRange = _sd.SoilTestRating("phosphorous",stc.GetConvertedSTP(m.soilTest));
-                    dc.potassiumRange = _sd.SoilTestRating("potassium", stc.GetConvertedSTK(m.soilTest));
+                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(stc.GetConvertedSTP(m.soilTest));
+                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(stc.GetConvertedSTK(m.soilTest));
                 }
                 else
                 {
@@ -771,8 +771,8 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = dt.Phosphorous.ToString("G29");
                     dc.potassium = dt.Potassium.ToString("G29");
                     dc.pH = dt.pH.ToString("G29");
-                    dc.phosphorousRange = _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(st));
-                    dc.potassiumRange = _sd.SoilTestRating("potassium", stc.GetConvertedSTK(st));
+                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(stc.GetConvertedSTP(st));
+                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(stc.GetConvertedSTK(st));
                 }
                 dc.fieldCrops = null;
 

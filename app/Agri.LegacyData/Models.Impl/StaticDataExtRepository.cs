@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Agri.Interfaces;
 using Agri.Models.Configuration;
 using Newtonsoft.Json.Linq;
@@ -510,11 +511,11 @@ namespace Agri.LegacyData.Models.Impl
             return samples;
         }
 
-        public List<SoilTestRange> GetSoilTestRanges()
+        private List<SoilTestRange> GetSoilTestRanges(string chemical)
         {
             var ranges = new List<SoilTestRange>();
 
-            JArray array = (JArray)rss["agri"]["nmp"]["soiltestranges"];
+            JArray array = (JArray)rss["agri"]["nmp"]["soiltestranges"][chemical];
 
             foreach (var r in array)
             {
@@ -525,6 +526,34 @@ namespace Agri.LegacyData.Models.Impl
             }
 
             return ranges;
+        }
+
+        public string GetPotassiumSoilTestRating(decimal value)
+        {
+            return SoilTestRating("potassium", value);
+        }
+
+        public string GetPhosphorusSoilTestRating(decimal value)
+        {
+            return SoilTestRating("phosphorous", value);
+        }
+
+        public List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges()
+        {
+            var ranges = GetSoilTestRanges("potassium");
+
+            return ranges
+                .Select(r => new PotassiumSoilTestRange {Rating = r.Rating, UpperLimit = r.UpperLimit})
+                .ToList();
+        }
+
+        public List<PhosphorusSoilTestRange> GetPhosphorusSoilTestRanges()
+        {
+            var ranges = GetSoilTestRanges("phosphorous");
+
+            return ranges
+                .Select(r => new PhosphorusSoilTestRange { Rating = r.Rating, UpperLimit = r.UpperLimit})
+                .ToList();
         }
     }
 }

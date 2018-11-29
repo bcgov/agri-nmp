@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20181129054807_FinalRepoRelatedChanges")]
+    partial class FinalRepoRelatedChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -556,34 +558,6 @@ namespace Agri.Data.Migrations
                     b.ToTable("NutrientIcons");
                 });
 
-            modelBuilder.Entity("Agri.Models.Configuration.PhosphorusSoilTestRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Rating");
-
-                    b.Property<int>("UpperLimit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PhosphorusSoilTestRanges");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.PotassiumSoilTestRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Rating");
-
-                    b.Property<int>("UpperLimit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PotassiumSoilTestRanges");
-                });
-
             modelBuilder.Entity("Agri.Models.Configuration.PreviousCropType", b =>
                 {
                     b.Property<int>("Id")
@@ -856,6 +830,20 @@ namespace Agri.Data.Migrations
                     b.HasAlternateKey("PotassiumCropGroupRegionCode", "SoilTestPotassiumKelownaRangeId", "SoilTestPotassiumRegionCode");
 
                     b.ToTable("SoilTestPotassiumRecommendation");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SoilTestRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Rating");
+
+                    b.Property<int>("UpperLimit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SoilTestRanges");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Unit", b =>

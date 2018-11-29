@@ -71,14 +71,20 @@ namespace Agri.Data
             }
 
             //Soil Test Ranges
-            if (!_context.SoilTestRanges.Any())
+            if (!_context.PhosphorusSoilTestRanges.Any())
             {
-                var ranges = staticExtRepo.GetSoilTestRanges();
-                _context.SoilTestRanges.AddRange(ranges);
+                var ranges = staticExtRepo.GetPhosphorusSoilTestRanges();
+                _context.PhosphorusSoilTestRanges.AddRange(ranges);
             }
 
-                //Location
-                if (!_context.Locations.Any())
+            if (!_context.PotassiumSoilTestRanges.Any())
+            {
+                var ranges = staticExtRepo.GetPotassiumSoilTestRanges();
+                _context.PotassiumSoilTestRanges.AddRange(ranges);
+            }
+
+            //Location
+            if (!_context.Locations.Any())
             {
                 var locations = staticExtRepo.GetLocations();
                 _context.Locations.AddRange(locations);

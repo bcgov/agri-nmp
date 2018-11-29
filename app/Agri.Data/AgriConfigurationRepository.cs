@@ -1032,9 +1032,25 @@ namespace Agri.Data
             return GetRegions().Any(r => r.LocationId == GetInteriorId());
         }
 
-        public string SoilTestRating(string chem, decimal value)
+        public string GetPotassiumSoilTestRating(decimal value)
         {
-            return _context.SoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+        }
+
+        public string GetPhosphorusSoilTestRating(decimal value)
+        {
+            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+        }
+
+        public List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges()
+        {
+            return _context.PotassiumSoilTestRanges.ToList();
+        }
+
+        public List<PhosphorusSoilTestRange> GetPhosphorusSoilTestRanges()
+        {
+            return _context.PhosphorusSoilTestRanges.ToList();
+
         }
 
         public bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)

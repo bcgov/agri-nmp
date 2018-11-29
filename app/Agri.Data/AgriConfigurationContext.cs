@@ -53,7 +53,8 @@ namespace Agri.Data
         public DbSet<SoilTestPotassiumRange> SoilTestPotassiumRanges { get; set; }
         public DbSet<SoilTestPotassiumKelownaRange> SoilTestPotassiumKelownaRanges { get; set; }
         public DbSet<SoilTestPhosphorousKelownaRange> SoilTestPhosphorousKelownaRanges { get; set; }
-        public DbSet<SoilTestRange> SoilTestRanges { get; set; }
+        public DbSet<PotassiumSoilTestRange> PotassiumSoilTestRanges { get; set; }
+        public DbSet<PhosphorusSoilTestRange> PhosphorusSoilTestRanges { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<UserPrompt> UserPrompts { get; set; }
         public DbSet<Version> Versions { get; set; }
