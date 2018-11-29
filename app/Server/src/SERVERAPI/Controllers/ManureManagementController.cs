@@ -852,7 +852,7 @@ namespace SERVERAPI.Controllers
             //{
             //    ModelState.AddModelError("SelectedManureType", "Required");
             //}
-            if (!vm.AnnualAmount.HasValue && vm.AnnualAmount < 0)
+            if (!vm.AnnualAmount.HasValue || vm.AnnualAmount < 0)
             {
                     ModelState.AddModelError("AnnualAmount", "Enter a numeric value");
             }

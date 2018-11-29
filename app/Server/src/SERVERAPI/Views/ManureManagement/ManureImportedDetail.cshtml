@@ -26,8 +26,7 @@
                     <div class="form-group">
                         <label asp-for="SelectedManureType">Liquid or Solid</label>
                         <select class="form-control" asp-for="SelectedManureType"
-                                asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
-                        </select>
+                                asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType"></select>
                         <span asp-validation-for="SelectedManureType" class="text-danger">Select a Manure Material Type</span>
                     </div>
                 </div>
@@ -38,14 +37,14 @@
                         <span asp-validation-for="AnnualAmount" class="text-danger">Enter a numeric value</span>
                     </div>
                 </div>
-                <div class="col-sm-1" style="padding-left: 0;">
+                <div class="col-sm-2" style="padding-left: 0;">
                     <div class="form-group">
                         <label asp-for="SelectedAnnualAmountUnit">(Units)</label>
                         <select class="form-control" asp-for="SelectedAnnualAmountUnit" asp-items="@Model.GetAnnualAmountUnits()" id="ddlManureMaterialType"></select>
                         <span asp-validation-for="SelectedAnnualAmountUnit" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <div class="form-group">
                         <label>@Model.LandAppliedLabelText</label>
                         <label style="padding-right: 20px">
@@ -67,6 +66,7 @@
         @Html.HiddenFor(x => x.Target)
         @Html.HiddenFor(x => x.Title)
         @Html.HiddenFor(x => x.ButtonText)
+        @Html.HiddenFor(x => x.ButtonPressed)
         @Html.HiddenFor(x => x.SelectedAnnualAmountUnit);
         @Html.HiddenFor(x => x.LandAppliedLabelText);
     </form>
