@@ -23,15 +23,7 @@
                 <tr>
                     <td class="CellDtl" style="width:300px;font-weight:bold">Manure in @s.storageSystemName</td>
                     <td class="CellDtl" style="width:300px;text-align:right;font-weight:bold">@s.annualAmount</td>
-                    @if (@s.manures[0].manureTypeName == "Liquid")
-                    {
-                        <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons</td>
-                    }
-
-                    @if (@s.manures[0].manureTypeName == "Solid")
-                    {
-                        <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">tons</td>
-                    }
+                    <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">@s.units</td>
                 </tr>
                 <tr>
                     <td class="CellDtl" style="text-align:left; width:80px;padding-left:10px">Animal manure</td>
@@ -43,14 +35,7 @@
                     <tr>
                         <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">@m.animalSubTypeName, @m.averageAnimalNumber animals</td>
                         <td class="CellDtl" style="text-align:right; width:80px"> @string.Format("{0:#,0}", Convert.ToDecimal(@m.annualAmount.Split(' ')[0]))</td>
-                        @if (@m.manureTypeName == "Liquid")
-                        {
-                            <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
-                        }
-                        @if (@m.manureTypeName == "Solid")
-                        {
-                            <td class="CellDtl" style="text-align:left; width:80px">tons</td>
-                        }
+                        <td class="CellDtl" style="text-align:left; width:80px">@s.units</td>
 
                     </tr>
 
@@ -80,8 +65,6 @@
                         <td class="CellDtl" style="width:300px;"></td>
                     </tr>
                 }
-
-
             }
 
         </table>
