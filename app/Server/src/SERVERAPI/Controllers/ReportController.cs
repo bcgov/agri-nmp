@@ -497,6 +497,7 @@ namespace SERVERAPI.Controllers
 
                 rs.manures = new List<GeneratedManure>();
                 rs.storageSystemName = s.Name;
+                rs.ManureMaterialType = s.ManureMaterialType;
                 rs.footnotes = new List<ReportFieldFootnote>();
 
                 if (s.GetsRunoffFromRoofsOrYards)
@@ -513,10 +514,12 @@ namespace SERVERAPI.Controllers
                 if (s.ManureMaterialType == ManureMaterialType.Liquid)
                 {
                     rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * rainInMM * conversionForLiquid));
+                    rs.units = "US gallons";
                 }
                 else if (s.ManureMaterialType == ManureMaterialType.Solid)
                 {
                     rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * rainInMM * conversionForSolid));
+                    rs.units ="tons";
                 }
 
                 if (s.MaterialsIncludedInSystem != null)
