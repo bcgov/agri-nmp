@@ -106,7 +106,6 @@ namespace SERVERAPI
                     });
 
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
-            services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
             services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
             services.AddOptions();

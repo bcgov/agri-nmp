@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Agri.Interfaces;
 using Agri.Models.Farm;
-using static SERVERAPI.Models.StaticData;
 using Agri.Models.Configuration;
 using Crop = Agri.Models.Configuration.Crop;
 using Yield = Agri.Models.Configuration.Yield;

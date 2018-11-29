@@ -1,15 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Agri.Interfaces;
+using Agri.Models.Configuration;
+using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Version = System.Version;
 
 namespace SERVERAPI.Models.Impl
 {
     public partial class BrowserData
     {
         private readonly IHttpContextAccessor _ctx;
-        private readonly StaticData _sd;
+        private readonly IAgriConfigurationRepository _sd;
         public string BrowserName { get; }
         public string BrowserVersion { get; }
         public bool BrowserValid { get; }
@@ -19,7 +20,7 @@ namespace SERVERAPI.Models.Impl
         public string BrowserUpdate { get; }
         public string BrowserOs { get; }
 
-        public BrowserData(IHttpContextAccessor ctx, StaticData sd)
+        public BrowserData(IHttpContextAccessor ctx, IAgriConfigurationRepository sd)
         {
             _ctx = ctx;
             _sd = sd;
@@ -32,8 +33,9 @@ namespace SERVERAPI.Models.Impl
                 BrowserOs = ua.OS.Name;
                 BrowserAgent = _ctx.HttpContext.Request.Headers["User-Agent"].ToString();
 
-                Models.StaticData.Browsers ab = _sd.GetAllowableBrowsers();
-                int indx = ab.known.FindIndex(r => r.name == BrowserName);
+                var ab = _sd.GetAllowableBrowsers();
+                var browser = ab.Where(a => a.Name.Equals(BrowserName, StringComparison.CurrentCultureIgnoreCase))
+                                    .SingleOrDefault();   //known.FindIndex(r => r.name == BrowserName);
                 if (BrowserOs == "iOS")
                 {
                     OSValid = false;
@@ -41,7 +43,7 @@ namespace SERVERAPI.Models.Impl
                 else
                 {
                     OSValid = true;
-                    if (indx < 0)
+                    if (browser == null)
                     {
                         BrowserValid = false;
                         BrowserName = "Unknown";
@@ -49,7 +51,7 @@ namespace SERVERAPI.Models.Impl
                     else
                     {
                         BrowserValid = true;
-                        var minVer = Version.Parse(ab.known[indx].minVersion);
+                        var minVer = Version.Parse(browser.MinVersion);
                         var thisVer = Version.Parse(BrowserVersion);
                         if (thisVer < minVer)
                         {
