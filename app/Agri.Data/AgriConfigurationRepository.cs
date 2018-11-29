@@ -85,7 +85,7 @@ namespace Agri.Data
 
         public List<SelectListItem> GetAnimalTypesDll()
         {
-            return GetAnimalSubTypes().Select(st => new SelectListItem {Id = st.Id, Value = st.Name}).ToList();
+            return GetAnimals().Select(st => new SelectListItem {Id = st.Id, Value = st.Name}).ToList();
         }
 
         public SeasonApplication GetApplication(string applId)
@@ -133,7 +133,7 @@ namespace Agri.Data
         {
             return _context.Crops
                 .Where(c => c.Id == cropId)
-                .Include(c => GetCropYields())
+                .Include(c => c.CropYields)
                 .Include(c => c.CropSoilTestPhosphorousRegions)
                 .Include(c => c.CropSoilTestPotassiumRegions)
                     .SingleOrDefault();
@@ -206,10 +206,10 @@ namespace Agri.Data
                 .SingleOrDefault();
         }
 
-        public CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropId, int soilTestPotassiumRegionCode)
+        public CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropId, int soilTestPhosphorousRegionCode)
         {
             return GetCropSoilTestPhosphorousRegions()
-                .Where(p => p.CropId == cropId && p.SoilTestPhosphorousRegionCode == soilTestPotassiumRegionCode)
+                .Where(p => p.CropId == cropId && p.SoilTestPhosphorousRegionCode == soilTestPhosphorousRegionCode)
                 .SingleOrDefault();
         }
 

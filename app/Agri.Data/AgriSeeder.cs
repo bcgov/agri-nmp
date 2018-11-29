@@ -20,7 +20,6 @@ namespace Agri.Data
             //create the database and/or run the migrations
             _context.Database.Migrate();
 
-            var staticDataRepo = new StaticDataRepository();
             var staticExtRepo = new StaticDataExtRepository();
 
             //AmoniaRetention
@@ -34,8 +33,8 @@ namespace Agri.Data
             //AnimalSubType
             if (!_context.Animals.Any())
             {
-                var animals = staticDataRepo.GetAnimals();
-                var animalSubtypes = staticDataRepo.GetAnimalSubTypes();
+                var animals = staticExtRepo.GetAnimals();
+                var animalSubtypes = staticExtRepo.GetAnimalSubTypes();
                 foreach (var animal in animals)
                 {
                     var subtypes = animalSubtypes.Where(s => s.AnimalId == animal.Id).ToList();
@@ -50,23 +49,23 @@ namespace Agri.Data
             //Browser
             if (!_context.Browsers.Any())
             {
-                var browsers = staticDataRepo.GetAllowableBrowsers();
+                var browsers = staticExtRepo.GetAllowableBrowsers();
                 _context.Browsers.AddRange(browsers);
             }
 
             //ConversionFactor
             if (!_context.ConversionFactors.Any())
             {
-                var cFactor = staticDataRepo.GetConversionFactor();
-                cFactor.SoilTestPPMToPoundPerAcre = staticDataRepo.GetSoilTestNitratePPMToPoundPerAcreConversionFactor();
+                var cFactor = staticExtRepo.GetConversionFactor();
+                cFactor.SoilTestPPMToPoundPerAcre = staticExtRepo.GetSoilTestNitratePPMToPoundPerAcreConversionFactor();
                 _context.ConversionFactors.Add(cFactor);
             }
 
             //Default Soil Test
             if (!_context.DefaultSoilTests.Any())
             {
-                var test = staticDataRepo.GetDefaultSoilTest();
-                test.DefaultSoilTestMethodId = staticDataRepo.GetDefaultSoilTestMethod();
+                var test = staticExtRepo.GetDefaultSoilTest();
+                test.DefaultSoilTestMethodId = staticExtRepo.GetDefaultSoilTestMethod();
                 _context.DefaultSoilTests.Add(test);
             }
 
@@ -93,28 +92,28 @@ namespace Agri.Data
             //Regions
             if (!_context.Regions.Any())
             {
-                var regions = staticDataRepo.GetRegions();
+                var regions = staticExtRepo.GetRegions();
                 _context.Regions.AddRange(regions);
             }
 
             //CropTypes
             if (!_context.CropTypes.Any())
             {
-                var types = staticDataRepo.GetCropTypes();
+                var types = staticExtRepo.GetCropTypes();
                 _context.CropTypes.AddRange(types);
             }
 
             //PrevManureApplicationYear
             if (!_context.PrevManureApplicationYears.Any())
             {
-                var years = staticDataRepo.GetPrevManureApplicationInPrevYears();
+                var years = staticExtRepo.GetPrevManureApplicationInPrevYears();
                 _context.PrevManureApplicationYears.AddRange(years);
             }
 
             //PrevYearManureApplicationlDefaultNitrogen
             if (!_context.PrevYearManureApplicationNitrogenDefaults.Any())
             {
-                var nitrogenDefaults = staticDataRepo.GetPrevYearManureNitrogenCreditDefaults();
+                var nitrogenDefaults = staticExtRepo.GetPrevYearManureNitrogenCreditDefaults();
                 _context.PrevYearManureApplicationNitrogenDefaults.AddRange(nitrogenDefaults);
             }
 
@@ -125,11 +124,11 @@ namespace Agri.Data
             //PrevCropType
             if (!_context.Crops.Any())
             {
-                var crops = staticDataRepo.GetCrops();
+                var crops = staticExtRepo.GetCrops();
                 var stksRegions = staticExtRepo.GetCropSoilTestPotassiumRegions();
                 var stpsRegions = staticExtRepo.GetCropSoilTestPhosphorousRegions();
                 var cropYields = staticExtRepo.GetCropYields();
-                var prevCropTypes = staticDataRepo.GetPreviousCropTypes();
+                var prevCropTypes = staticExtRepo.GetPreviousCropTypes();
 
                 foreach (var crop in crops)
                 {
@@ -157,28 +156,28 @@ namespace Agri.Data
                 //DensityType
                 if (!_context.DensityUnits.Any())
                 {
-                    var units = staticDataRepo.GetDensityUnits();
+                    var units = staticExtRepo.GetDensityUnits();
                     _context.DensityUnits.AddRange(units);
                 }
 
                 //Fertilizer
                 if (!_context.Fertilizers.Any())
                 {
-                    var fertilizers = staticDataRepo.GetFertilizers();
+                    var fertilizers = staticExtRepo.GetFertilizers();
                     _context.Fertilizers.AddRange(fertilizers);
                 }
 
                 //FertilizerType
                 if (!_context.FertilizerTypes.Any())
                 {
-                    var types = staticDataRepo.GetFertilizerTypes();
+                    var types = staticExtRepo.GetFertilizerTypes();
                     _context.FertilizerTypes.AddRange(types);
                 }
 
                 //FertilizerUnit
                 if (!_context.FertilizerUnits.Any())
                 {
-                    var units = staticDataRepo.GetFertilizerUnits();
+                    var units = staticExtRepo.GetFertilizerUnits();
                     _context.FertilizerUnits.AddRange(units);
                 }
 
@@ -206,7 +205,7 @@ namespace Agri.Data
                 //Manure
                 if (!_context.Manures.Any())
                 {
-                    var manures = staticDataRepo.GetManures();
+                    var manures = staticExtRepo.GetManures();
                     _context.Manures.AddRange(manures);
                 }
 
@@ -257,7 +256,7 @@ namespace Agri.Data
 
             if (!_context.FertilizerMethods.Any())
             {
-                var fertilizerMethods = staticDataRepo.GetFertilizerMethods();
+                var fertilizerMethods = staticExtRepo.GetFertilizerMethods();
                 _context.FertilizerMethods.AddRange(fertilizerMethods);
             }
 
@@ -275,13 +274,13 @@ namespace Agri.Data
 
             if (!_context.Units.Any())
             {
-                var units = staticDataRepo.GetUnits();
+                var units = staticExtRepo.GetUnits();
                 _context.Units.AddRange(units);
             }
 
             if (!_context.SoilTestMethods.Any())
             {
-                var soilTestMethods = staticDataRepo.GetSoilTestMethods();
+                var soilTestMethods = staticExtRepo.GetSoilTestMethods();
                 _context.SoilTestMethods.AddRange(soilTestMethods);
             }
 
@@ -349,13 +348,13 @@ namespace Agri.Data
             //Nutrient Icons
             if (!_context.NutrientIcons.Any())
             {
-                var icons = staticDataRepo.GetNutrientIcons();
+                var icons = staticExtRepo.GetNutrientIcons();
                 _context.NutrientIcons.AddRange(icons);
             }
 
             if (!_context.Versions.Any())
             {
-                var version = staticDataRepo.GetStaticDataVersion();
+                var version = staticExtRepo.GetStaticDataVersion();
                 _context.Versions.Add(new Version {StaticDataVersion = version});
             }
 
