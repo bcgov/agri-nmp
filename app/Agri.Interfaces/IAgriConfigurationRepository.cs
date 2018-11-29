@@ -147,7 +147,7 @@ namespace Agri.Interfaces
         AnimalsUsingWashWater GetAnimalsUsingWashWater();
         bool DoesAnimalUseWashWater(int animalSubTypeId);
         AnimalSubType GetAnimalSubType(int id);
-
+        [Obsolete]
         List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield);
     }

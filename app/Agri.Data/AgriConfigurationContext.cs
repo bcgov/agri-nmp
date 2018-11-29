@@ -36,6 +36,7 @@ namespace Agri.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<Manure> Manures { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<NitrateCreditSampleDate> NitrateCreditSampleDates { get; set; }
         public DbSet<NitrogenMineralization> NitrogenMineralizations { get; set; }
         public DbSet<NutrientIcon> NutrientIcons { get; set; }
         public DbSet<NitrogenRecommendation> NitrogenRecommendations { get; set; }
@@ -52,6 +53,7 @@ namespace Agri.Data
         public DbSet<SoilTestPotassiumRange> SoilTestPotassiumRanges { get; set; }
         public DbSet<SoilTestPotassiumKelownaRange> SoilTestPotassiumKelownaRanges { get; set; }
         public DbSet<SoilTestPhosphorousKelownaRange> SoilTestPhosphorousKelownaRanges { get; set; }
+        public DbSet<SoilTestRange> SoilTestRanges { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<UserPrompt> UserPrompts { get; set; }
         public DbSet<Version> Versions { get; set; }

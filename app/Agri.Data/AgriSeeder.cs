@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Agri.LegacyData.Models.Impl;
+using Agri.Models.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace Agri.Data
@@ -69,8 +70,15 @@ namespace Agri.Data
                 _context.DefaultSoilTests.Add(test);
             }
 
-            //Location
-            if (!_context.Locations.Any())
+            //Soil Test Ranges
+            if (!_context.SoilTestRanges.Any())
+            {
+                var ranges = staticExtRepo.GetSoilTestRanges();
+                _context.SoilTestRanges.AddRange(ranges);
+            }
+
+                //Location
+                if (!_context.Locations.Any())
             {
                 var locations = staticExtRepo.GetLocations();
                 _context.Locations.AddRange(locations);
@@ -337,6 +345,18 @@ namespace Agri.Data
             {
                 var icons = staticDataRepo.GetNutrientIcons();
                 _context.NutrientIcons.AddRange(icons);
+            }
+
+            if (!_context.Versions.Any())
+            {
+                var version = staticDataRepo.GetStaticDataVersion();
+                _context.Versions.Add(new Version {StaticDataVersion = version});
+            }
+
+            if (!_context.NitrateCreditSampleDates.Any())
+            {
+                var dates = staticExtRepo.GetNitrateCreditSampleDates();
+                _context.NitrateCreditSampleDates.AddRange(dates);
             }
 
             _context.SaveChanges();

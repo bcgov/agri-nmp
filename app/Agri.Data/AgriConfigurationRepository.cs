@@ -822,7 +822,7 @@ namespace Agri.Data
 
         public string GetStaticDataVersion()
         {
-            throw new NotImplementedException();
+            return _context.Versions.FirstOrDefault().StaticDataVersion;
         }
 
         public SoilTestPotassiumKelownaRange GetSTKKelownaRangeByPpm(int ppm)
@@ -918,7 +918,7 @@ namespace Agri.Data
 
         public Version GetVersionData()
         {
-            throw new NotImplementedException();
+            return _context.Versions.FirstOrDefault();
         }
 
         public Yield GetYieldById(int yieldId)
@@ -987,22 +987,43 @@ namespace Agri.Data
 
             return false;
         }
-        
+
         private DateTime GetInteriorNitrateSampleFromDt(int yearOfAnalysis)
         {
-            throw new NotImplementedException();
+            var fromDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                ncs.Location.Equals("InteriorBC", StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault().FromDateMonth;
+
+            return new DateTime(yearOfAnalysis - 1, Convert.ToInt16(fromDate), 01);
         }
+
         private DateTime GetInteriorNitrateSampleToDt(int yearOfAnalysis)
         {
-            throw new NotImplementedException();
+            var toDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                    ncs.Location.Equals("InteriorBC", StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault().ToDateMonth;
+
+            return new DateTime(yearOfAnalysis, Convert.ToInt16(toDate),
+                DateTime.DaysInMonth(yearOfAnalysis, Convert.ToInt16(toDate)));
         }
+
         private DateTime GetCoastalNitrateSampleFromDt(int yearOfAnalysis)
         {
-            throw new NotImplementedException();
+            var fromDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                    ncs.Location.Equals("CoastalBC", StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault().FromDateMonth;
+
+            return new DateTime(yearOfAnalysis - 1, Convert.ToInt16(fromDate), 01);
         }
+
         private DateTime GetCoastalNitrateSampleToDt(int yearOfAnalysis)
         {
-            throw new NotImplementedException();
+            var toDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                    ncs.Location.Equals("CoastalBC", StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault().ToDateMonth;
+
+            return new DateTime(yearOfAnalysis, Convert.ToInt16(toDate),
+                DateTime.DaysInMonth(yearOfAnalysis, Convert.ToInt16(toDate)));
         }
 
 
@@ -1013,7 +1034,7 @@ namespace Agri.Data
 
         public string SoilTestRating(string chem, decimal value)
         {
-            throw new NotImplementedException();
+            return _context.SoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
@@ -1025,6 +1046,7 @@ namespace Agri.Data
         public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield)
         {
+            //TODO: Will be depricated
             throw new NotImplementedException();
         }
 
