@@ -686,6 +686,360 @@ namespace Agri.Data.TestHarness
             var expected = _staticExtRepo.GetMessageByChemicalBalance("AgrN", 5, false);
 
             Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.Icon, actual.Icon);
+
+            actual = _agriRepository.GetMessageByChemicalBalance("AgrN", 40, false);
+            expected = _staticExtRepo.GetMessageByChemicalBalance("AgrN", 40, false);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.Icon, actual.Icon);
+        }
+
+        [TestMethod]
+        public void CompareGetMessageByChemicalSoilTest()
+        {
+            var actual = _agriRepository.GetMessageByChemicalBalance("AgrN", 5, false, 0);
+            var expected = _staticExtRepo.GetMessageByChemicalBalance("AgrN", 5, false, 0);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+
+            actual = _agriRepository.GetMessageByChemicalBalance("AgrN", 5, true, 0);
+            expected = _staticExtRepo.GetMessageByChemicalBalance("AgrN", 5, true, 0);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetMessageByChemicalBalance2()
+        {
+            var actual = _agriRepository.GetMessageByChemicalBalance("AgrP2O5CropP2O5", 40, 40, "CropP2O5");
+            var expected = _staticExtRepo.GetMessageByChemicalBalance("AgrP2O5CropP2O5", 40, 40, "CropP2O5");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Message, actual.Message);
+            Assert.AreEqual(expected.Icon, actual.Icon);
+
+            actual = _agriRepository.GetMessageByChemicalBalance("AgrP2O5CropP2O5", 40, 0, "CropP2O5");
+            expected = _staticExtRepo.GetMessageByChemicalBalance("AgrP2O5CropP2O5", 40, 0, "CropP2O5");
+        }
+        
+        [TestMethod]
+        public void CompareGetMessages()
+        {
+            var actual = _agriRepository.GetMessages();
+            var expected = _staticExtRepo.GetMessages();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetMilkProduction()
+        {
+            var actual = _agriRepository.GetMilkProduction(9);
+            var expected = _staticExtRepo.GetMilkProduction(9);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetNitrogeMineralizations()
+        {
+            var actual = _agriRepository.GetNitrogeMineralizations();
+            var expected = _staticExtRepo.GetNitrogeMineralizations();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetNitrogenRecommendations()
+        {
+            var actual = _agriRepository.GetNitrogenRecommendations();
+            var expected = _staticExtRepo.GetNitrogenRecommendations();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetNMineralization()
+        {
+            var actual = _agriRepository.GetNMineralization(1,1);
+            var expected = _staticExtRepo.GetNMineralization(1,1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.FirstYearValue, actual.FirstYearValue);
+        }
+
+        [TestMethod]
+        public void CompareGetNutrientIcon()
+        {
+            var actual = _agriRepository.GetNutrientIcon("good");
+            var expected = _staticExtRepo.GetNutrientIcon("good");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.Definition, actual.Definition);
+        }
+
+        [TestMethod]
+        public void CompareGetNutrientIcons()
+        {
+            var actual = _agriRepository.GetNutrientIcons();
+            var expected = _staticExtRepo.GetNutrientIcons();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetPrevCropType()
+        {
+            var actual = _agriRepository.GetPrevCropType(1);
+            var expected = _staticExtRepo.GetPrevCropType(1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.PreviousCropCode, actual.PreviousCropCode);
+        }
+
+        [TestMethod]
+        public void CompareGetPrevCropTypesDll()
+        {
+            var actual = _agriRepository.GetPrevCropTypesDll("1");
+            var expected = _staticExtRepo.GetPrevCropTypesDll("1");
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetPreviousCropTypes()
+        {
+            var actual = _agriRepository.GetPreviousCropTypes();
+            var expected = _staticExtRepo.GetPreviousCropTypes();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetPrevManureApplicationInPrevYears()
+        {
+            var actual = _agriRepository.GetPrevManureApplicationInPrevYears();
+            var expected = _staticExtRepo.GetPrevManureApplicationInPrevYears();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetPrevYearManureNitrogenCreditDefaults()
+        {
+            var actual = _agriRepository.GetPrevYearManureNitrogenCreditDefaults();
+            var expected = _staticExtRepo.GetPrevYearManureNitrogenCreditDefaults();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetRegion()
+        {
+            var actual = _agriRepository.GetRegion(1);
+            var expected = _staticExtRepo.GetRegion(1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.SoilTestPhosphorousRegionCd, actual.SoilTestPhosphorousRegionCd);
+        }
+
+        [TestMethod]
+        public void CompareGetRegions()
+        {
+            var actual = _agriRepository.GetRegions();
+            var expected = _staticExtRepo.GetRegions();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetRegionsDll()
+        {
+            var actual = _agriRepository.GetRegionsDll();
+            var expected = _staticExtRepo.GetRegionsDll();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetRptCompletedFertilizerRequiredStdUnit()
+        {
+            var actual = _agriRepository.GetRptCompletedFertilizerRequiredStdUnit();
+            var expected = _staticExtRepo.GetRptCompletedFertilizerRequiredStdUnit();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.LiquidUnitId, actual.LiquidUnitId);
+            Assert.AreEqual(expected.SolidUnitId, actual.SolidUnitId);
+        }
+
+        [TestMethod]
+        public void CompareGetRptCompletedManureRequiredStdUnit()
+        {
+            var actual = _agriRepository.GetRptCompletedManureRequiredStdUnit();
+            var expected = _staticExtRepo.GetRptCompletedManureRequiredStdUnit();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.LiquidUnitId, actual.LiquidUnitId);
+            Assert.AreEqual(expected.SolidUnitId, actual.SolidUnitId);
+        }
+
+        [TestMethod]
+        public void CompareGetSeasonApplications()
+        {
+            var actual = _agriRepository.GetSeasonApplications();
+            var expected = _staticExtRepo.GetSeasonApplications();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestMethod()
+        {
+            var actual = _agriRepository.GetSoilTestMethod("1");
+            var expected = _staticExtRepo.GetSoilTestMethod("1");
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestMethodById()
+        {
+            var actual = _agriRepository.GetSoilTestMethodById("1");
+            var expected = _staticExtRepo.GetSoilTestMethodById("1");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.ConvertToKelownaPHGreaterThanEqual72, actual.ConvertToKelownaPHGreaterThanEqual72);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestMethods()
+        {
+            var actual = _agriRepository.GetSoilTestMethods();
+            var expected = _staticExtRepo.GetSoilTestMethods();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestMethodsDll()
+        {
+            var actual = _agriRepository.GetSoilTestMethodsDll();
+            var expected = _staticExtRepo.GetSoilTestMethodsDll();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestNitratePPMToPoundPerAcreConversionFactor()
+        {
+            var actual = _agriRepository.GetSoilTestNitratePPMToPoundPerAcreConversionFactor();
+            var expected = _staticExtRepo.GetSoilTestNitratePPMToPoundPerAcreConversionFactor();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestPhosphorousKelownaRanges()
+        {
+            var actual = _agriRepository.GetSoilTestPhosphorousKelownaRanges();
+            var expected = _staticExtRepo.GetSoilTestPhosphorousKelownaRanges();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestPhosphorousRecommendations()
+        {
+            var actual = _agriRepository.GetSoilTestPhosphorousRecommendations();
+            var expected = _staticExtRepo.GetSoilTestPhosphorousRecommendations();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestPhosphorusRanges()
+        {
+            var actual = _agriRepository.GetSoilTestPhosphorusRanges();
+            var expected = _staticExtRepo.GetSoilTestPhosphorusRanges();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestPotassiumRanges()
+        {
+            var actual = _agriRepository.GetSoilTestPotassiumRanges();
+            var expected = _staticExtRepo.GetSoilTestPotassiumRanges();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestPotassiumRecommendations()
+        {
+            var actual = _agriRepository.GetSoilTestPotassiumRecommendations();
+            var expected = _staticExtRepo.GetSoilTestPotassiumRecommendations();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestPotassiumKelownaRanges()
+        {
+            var actual = _agriRepository.GetSoilTestPotassiumKelownaRanges();
+            var expected = _staticExtRepo.GetSoilTestPotassiumKelownaRanges();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSoilTestWarning()
+        {
+            var actual = _agriRepository.GetSoilTestWarning();
+            var expected = _staticExtRepo.GetSoilTestWarning();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetStaticDataVersion()
+        {
+            var actual = _agriRepository.GetStaticDataVersion();
+            var expected = _staticExtRepo.GetStaticDataVersion();
+
+            Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);
         }
     }
