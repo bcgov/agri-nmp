@@ -2020,6 +2020,10 @@ namespace Agri.LegacyData.Models.Impl
                                                 Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"].ToString()) : 0,
                     SolidLiquidSeparationPercentage = !string.IsNullOrWhiteSpace(record["solidLiquidSeparationPercentage"].ToString()) ?
                                                  Convert.ToDecimal(record["solidLiquidSeparationPercentage"].ToString()) : 0,
+                    WashWater = !string.IsNullOrWhiteSpace(record["includeWashWater"].ToString()) ?
+                                                Convert.ToDecimal(record["includeWashWater"].ToString()) : 0,
+                    MilkProduction = !string.IsNullOrWhiteSpace(record["milkProduction"].ToString()) ?
+                                                Convert.ToDecimal(record["milkProduction"].ToString()) : 0,
                     AnimalId = Convert.ToInt32(record["animalId"].ToString())
                 };
                 animalSubTypes.Add(animalSubtype);

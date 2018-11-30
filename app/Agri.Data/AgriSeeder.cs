@@ -18,7 +18,7 @@ namespace Agri.Data
         {
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
-    
+
             _context.Database.Migrate();
 
             var staticExtRepo = new StaticDataExtRepository();
@@ -44,6 +44,7 @@ namespace Agri.Data
                         animal.AnimalSubTypes.AddRange(subtypes);
                     }
                 }
+
                 _context.Animals.AddRange(animals);
             }
 
@@ -153,106 +154,109 @@ namespace Agri.Data
                         crop.PreviousCropTypes.AddRange(prevCropTypes.Where(c => c.PreviousCropCode == crop.PreviousCropCode));
                     }
                 }
-                
-                //DensityType
-                if (!_context.DensityUnits.Any())
-                {
-                    var units = staticExtRepo.GetDensityUnits();
-                    _context.DensityUnits.AddRange(units);
-                }
-
-                //Fertilizer
-                if (!_context.Fertilizers.Any())
-                {
-                    var fertilizers = staticExtRepo.GetFertilizers();
-                    _context.Fertilizers.AddRange(fertilizers);
-                }
-
-                //FertilizerType
-                if (!_context.FertilizerTypes.Any())
-                {
-                    var types = staticExtRepo.GetFertilizerTypes();
-                    _context.FertilizerTypes.AddRange(types);
-                }
-
-                //FertilizerUnit
-                if (!_context.FertilizerUnits.Any())
-                {
-                    var units = staticExtRepo.GetFertilizerUnits();
-                    _context.FertilizerUnits.AddRange(units);
-                }
-
-                //LiquidFertilizerDensity
-                if (!_context.LiquidFertilizerDensities.Any())
-                {
-                    var densities = staticExtRepo.GetLiquidFertilizerDensities();
-                    _context.LiquidFertilizerDensities.AddRange(densities);
-                }
-
-                //DryMatter
-                if (!_context.DryMatters.Any())
-                {
-                    var dms = staticExtRepo.GetDryMatters();
-                    _context.DryMatters.AddRange(dms);
-                }
-
-                //NMineralization
-                if (!_context.NitrogenMineralizations.Any())
-                {
-                    var minerals = staticExtRepo.GetNitrogeMineralizations();
-                    _context.NitrogenMineralizations.AddRange(minerals);
-                }
-
-                //Manure
-                if (!_context.Manures.Any())
-                {
-                    var manures = staticExtRepo.GetManures();
-                    _context.Manures.AddRange(manures);
-                }
-
-                ////ManureMaterialTypes
-                //if (!_context.ManureMaterialTypes.Any())
-                //{
-                //    var types = staticDataRepo.GetManureMaterialTypes();
-                //    _context.ManureMaterialTypes.AddRange(types);
-                //}
-
-                //STKKelownaRange
-                //STKRecommendations
-                if (!_context.SoilTestPotassiumKelownaRanges.Any())
-                {
-                    var ranges = staticExtRepo.GetSoilTestPotassiumKelownaRanges();
-                    var stks = staticExtRepo.GetSoilTestPotassiumRecommendations();
-
-                    foreach (var stkKelownaRange in ranges)
-                    {
-                        if (stks.Any(s => s.SoilTestPotassiumKelownaRangeId == stkKelownaRange.Id))
-                        {
-                            stkKelownaRange.SoilTestPotassiumRecommendations.AddRange(stks.Where(s => s.SoilTestPotassiumKelownaRangeId == stkKelownaRange.Id));
-                        }
-                    }
-
-                    _context.SoilTestPotassiumKelownaRanges.AddRange(ranges);
-                }
-
-                //STPKelownaRange
-                //STPRecommendations
-                if (!_context.SoilTestPhosphorousKelownaRanges.Any())
-                {
-                    var ranges = staticExtRepo.GetSoilTestPhosphorousKelownaRanges();
-                    var stps = staticExtRepo.GetSoilTestPhosphorousRecommendations();
-
-                    foreach (var stpKelownaRange in ranges)
-                    {
-                        if (stps.Any(s => s.SoilTestPhosphorousKelownaRangeId == stpKelownaRange.Id))
-                        {
-                            stpKelownaRange.SoilTestPhosphorousRecommendations.AddRange(stps.Where(s => s.SoilTestPhosphorousKelownaRangeId == stpKelownaRange.Id));
-                        }
-                    }
-                    _context.SoilTestPhosphorousKelownaRanges.AddRange(ranges);
-                }
 
                 _context.Crops.AddRange(crops);
+            }
+
+            //DensityType
+            if (!_context.DensityUnits.Any())
+            {
+                var units = staticExtRepo.GetDensityUnits();
+                _context.DensityUnits.AddRange(units);
+            }
+
+            //Fertilizer
+            if (!_context.Fertilizers.Any())
+            {
+                var fertilizers = staticExtRepo.GetFertilizers();
+                _context.Fertilizers.AddRange(fertilizers);
+            }
+
+            //FertilizerType
+            if (!_context.FertilizerTypes.Any())
+            {
+                var types = staticExtRepo.GetFertilizerTypes();
+                _context.FertilizerTypes.AddRange(types);
+            }
+
+            //FertilizerUnit
+            if (!_context.FertilizerUnits.Any())
+            {
+                var units = staticExtRepo.GetFertilizerUnits();
+                _context.FertilizerUnits.AddRange(units);
+            }
+
+            //LiquidFertilizerDensity
+            if (!_context.LiquidFertilizerDensities.Any())
+            {
+                var densities = staticExtRepo.GetLiquidFertilizerDensities();
+                _context.LiquidFertilizerDensities.AddRange(densities);
+            }
+
+            //DryMatter
+            if (!_context.DryMatters.Any())
+            {
+                var dms = staticExtRepo.GetDryMatters();
+                _context.DryMatters.AddRange(dms);
+            }
+
+            //NMineralization
+            if (!_context.NitrogenMineralizations.Any())
+            {
+                var minerals = staticExtRepo.GetNitrogeMineralizations();
+                _context.NitrogenMineralizations.AddRange(minerals);
+            }
+
+            //Manure
+            if (!_context.Manures.Any())
+            {
+                var manures = staticExtRepo.GetManures();
+                _context.Manures.AddRange(manures);
+            }
+
+            ////ManureMaterialTypes
+            //if (!_context.ManureMaterialTypes.Any())
+            //{
+            //    var types = staticDataRepo.GetManureMaterialTypes();
+            //    _context.ManureMaterialTypes.AddRange(types);
+            //}
+
+            //STKKelownaRange
+            //STKRecommendations
+            if (!_context.SoilTestPotassiumKelownaRanges.Any())
+            {
+                var ranges = staticExtRepo.GetSoilTestPotassiumKelownaRanges();
+                var stks = staticExtRepo.GetSoilTestPotassiumRecommendations();
+
+                foreach (var stkKelownaRange in ranges)
+                {
+                    if (stks.Any(s => s.SoilTestPotassiumKelownaRangeId == stkKelownaRange.Id))
+                    {
+                        stkKelownaRange.SoilTestPotassiumRecommendations.AddRange(stks.Where(s =>
+                            s.SoilTestPotassiumKelownaRangeId == stkKelownaRange.Id));
+                    }
+                }
+
+                _context.SoilTestPotassiumKelownaRanges.AddRange(ranges);
+            }
+
+            //STPKelownaRange
+            //STPRecommendations
+            if (!_context.SoilTestPhosphorousKelownaRanges.Any())
+            {
+                var ranges = staticExtRepo.GetSoilTestPhosphorousKelownaRanges();
+                var stps = staticExtRepo.GetSoilTestPhosphorousRecommendations();
+
+                foreach (var stpKelownaRange in ranges)
+                {
+                    if (stps.Any(s => s.SoilTestPhosphorousKelownaRangeId == stpKelownaRange.Id))
+                    {
+                        stpKelownaRange.SoilTestPhosphorousRecommendations.AddRange(stps.Where(s =>
+                            s.SoilTestPhosphorousKelownaRangeId == stpKelownaRange.Id));
+                    }
+                }
+
+                _context.SoilTestPhosphorousKelownaRanges.AddRange(ranges);
             }
 
             if (!_context.FertilizerMethods.Any())
