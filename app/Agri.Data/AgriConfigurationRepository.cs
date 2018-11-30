@@ -894,7 +894,7 @@ namespace Agri.Data
 
             foreach (var r in units)
             {
-                if (r.SolidLiquid == unitType)
+                if (r.SolidLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
                         { Id = r.Id, Value = r.Name };
@@ -960,17 +960,17 @@ namespace Agri.Data
 
         public bool IsManureClassCompostClassType(string manure_class)
         {
-            return (manure_class == MANURE_CLASS_COMPOST_BOOK);
+            return manure_class.Equals(MANURE_CLASS_COMPOST_BOOK, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public bool IsManureClassCompostType(string manure_class)
         {
-            return (manure_class == MANURE_CLASS_COMPOST);
+            return manure_class.Equals(MANURE_CLASS_COMPOST, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public bool IsManureClassOtherType(string manure_class)
         {
-            return (manure_class == MANURE_CLASS_OTHER);
+            return manure_class.Equals(MANURE_CLASS_OTHER, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public bool IsNitrateCreditApplicable(int? region, DateTime sampleDate, int yearOfAnalysis)
