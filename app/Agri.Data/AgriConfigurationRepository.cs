@@ -385,7 +385,7 @@ namespace Agri.Data
 
             foreach (var r in types)
             {
-                if (r.DryLiquid.ToString() == fertilizerType)
+                if (r.DryLiquid.Equals(fertilizerType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
                         { Id = r.Id, Value = r.Name };
@@ -448,7 +448,7 @@ namespace Agri.Data
 
             foreach (var r in units)
             {
-                if (r.DryLiquid == unitType)
+                if (r.DryLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
                         { Id = r.Id, Value = r.Name };

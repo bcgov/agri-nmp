@@ -258,5 +258,435 @@ namespace Agri.Data.TestHarness
             Assert.IsTrue(actual.Count > 0);
             Assert.AreEqual(expected.Count, actual.Count);
         }
+
+        [TestMethod]
+        public void CompareGetCropSTKRegionCd()
+        {
+            //Alfalfa or legume dominant stand (1 cut)
+            var actual = _agriRepository.GetCropSTKRegionCd(1, 1);
+            var expected = _staticExtRepo.GetCropSTKRegionCd(1, 1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.PotassiumCropGroupRegionCode, actual.PotassiumCropGroupRegionCode);
+            Assert.AreEqual(expected.SoilTestPotassiumRegionCode, actual.SoilTestPotassiumRegionCode);
+        }
+
+        [TestMethod]
+        public void CompareGetCropSTPRegionCd()
+        {
+            //Alfalfa or legume dominant stand (1 cut)
+            var actual = _agriRepository.GetCropSTPRegionCd(1, 1);
+            var expected = _staticExtRepo.GetCropSTPRegionCd(1, 1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.PhosphorousCropGroupRegionCode, actual.PhosphorousCropGroupRegionCode);
+            Assert.AreEqual(expected.SoilTestPhosphorousRegionCode, actual.SoilTestPhosphorousRegionCode);
+        }
+
+        [TestMethod]
+        public void CompareGetCropType()
+        {
+            //Alfalfa or legume dominant stand (1 cut)
+            var actual = _agriRepository.GetCropType(1);
+            var expected = _staticExtRepo.GetCropType(1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.CoverCrop, actual.CoverCrop);
+            Assert.AreEqual(expected.CrudeProteinRequired, actual.CrudeProteinRequired);
+        }
+
+        [TestMethod]
+        public void CompareGetCropTypes()
+        {
+            var actual = _agriRepository.GetCropTypes();
+            var expected = _staticExtRepo.GetCropTypes();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetCropTypesDll()
+        {
+            var actual = _agriRepository.GetCropTypesDll();
+            var expected = _staticExtRepo.GetCropTypesDll();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetCropYield()
+        {
+            //Alfalfa or legume dominant stand (1 cut)
+            var actual = _agriRepository.GetCropYield(1, 1);
+            var expected = _staticExtRepo.GetCropYield(1, 1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Amount, actual.Amount);
+        }
+
+        [TestMethod]
+        public void CompareGetCropYields()
+        {
+            var actual = _agriRepository.GetCropYields();
+            var expected = _staticExtRepo.GetCropYields();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetDefaultSoilTest()
+        {
+            var actual = _agriRepository.GetDefaultSoilTest();
+            var expected = _staticExtRepo.GetDefaultSoilTest();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.ConvertedKelownaK, actual.ConvertedKelownaK);
+            Assert.AreEqual(expected.ConvertedKelownaP, actual.ConvertedKelownaP);
+        }
+
+        [TestMethod]
+        public void CompareGetDensityUnit()
+        {
+            var actual = _agriRepository.GetDensityUnit(1);
+            var expected = _staticExtRepo.GetDensityUnit(1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+        }
+
+        [TestMethod]
+        public void CompareGetDensityUnits()
+        {
+            var actual = _agriRepository.GetDensityUnits();
+            var expected = _staticExtRepo.GetDensityUnits();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetDensityUnitsDll()
+        {
+            var actual = _agriRepository.GetDensityUnitsDll();
+            var expected = _staticExtRepo.GetDensityUnitsDll();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetAnimalsUsingWashWater()
+        {
+            var actual = _agriRepository.GetAnimalsUsingWashWater();
+            var expected = _staticExtRepo.GetAnimalsUsingWashWater();
+
+            Assert.IsTrue(actual.Animals.Count > 0);
+            Assert.AreEqual(expected.Animals.Count, actual.Animals.Count);
+        }
+
+        [TestMethod]
+        public void CompareDoesAnimalUseWashWater()
+        {
+            var actual = _agriRepository.DoesAnimalUseWashWater(9);
+            var expected = _staticExtRepo.DoesAnimalUseWashWater(9);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetDryMatter()
+        {
+            //Lagoon <1% DM
+            var actual = _agriRepository.GetDryMatter(1);
+            var expected = _staticExtRepo.GetDryMatter(1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+        }
+
+        [TestMethod]
+        public void CompareGetDryMatters()
+        {
+            var actual = _agriRepository.GetDryMatters();
+            var expected = _staticExtRepo.GetDryMatters();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetExternalLinks()
+        {
+            var actual = _agriRepository.GetExternalLinks();
+            var expected = _staticExtRepo.GetExternalLinks();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizer()
+        {
+            var actual = _agriRepository.GetFertilizer("1");
+            var expected = _staticExtRepo.GetFertilizer("1");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.DryLiquid, actual.DryLiquid);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizerMethod()
+        {
+            var actual = _agriRepository.GetFertilizerMethod("1");
+            var expected = _staticExtRepo.GetFertilizerMethod("1");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizerMethods()
+        {
+            var actual = _agriRepository.GetFertilizerMethods();
+            var expected = _staticExtRepo.GetFertilizerMethods();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizerMethodsDll()
+        {
+            var actual = _agriRepository.GetFertilizerMethodsDll();
+            var expected = _staticExtRepo.GetFertilizerMethodsDll();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizerRptStdUnit()
+        {
+            var actual = _agriRepository.GetFertilizerRptStdUnit("dry");
+            var expected = _staticExtRepo.GetFertilizerRptStdUnit("dry");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+
+            actual = _agriRepository.GetFertilizerRptStdUnit("liquid");
+            expected = _staticExtRepo.GetFertilizerRptStdUnit("liquid");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizers()
+        {
+            var actual = _agriRepository.GetFertilizers();
+            var expected = _staticExtRepo.GetFertilizers();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizersDll()
+        {
+            var actual = _agriRepository.GetFertilizersDll("dry");
+            var expected = _staticExtRepo.GetFertilizersDll("dry");
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+
+            actual = _agriRepository.GetFertilizersDll("liquid");
+            expected = _staticExtRepo.GetFertilizersDll("liquid");
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizerUnit()
+        {
+            var actual = _agriRepository.GetFertilizerUnit(1);
+            var expected = _staticExtRepo.GetFertilizerUnit(1);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.DryLiquid, actual.DryLiquid);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizerUnits()
+        {
+            var actual = _agriRepository.GetFertilizerUnits();
+            var expected = _staticExtRepo.GetFertilizerUnits();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetFertilizerUnitsDll()
+        {
+            var actual = _agriRepository.GetFertilizerUnitsDll("dry");
+            var expected = _staticExtRepo.GetFertilizerUnitsDll("dry");
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+
+            actual = _agriRepository.GetFertilizerUnitsDll("liquid");
+            expected = _staticExtRepo.GetFertilizerUnitsDll("liquid");
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetHarvestUnits()
+        {
+            var actual = _agriRepository.GetHarvestUnits();
+            var expected = _staticExtRepo.GetHarvestUnits();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetHarvestYieldDefaultUnitName()
+        {
+            var actual = _agriRepository.GetHarvestYieldDefaultUnitName();
+            var expected = _staticExtRepo.GetHarvestYieldDefaultUnitName();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetHarvestYieldUnitName()
+        {
+            var actual = _agriRepository.GetHarvestYieldUnitName("1");
+            var expected = _staticExtRepo.GetHarvestYieldUnitName("1");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetIncludeWashWater()
+        {
+            //Milking Cow
+            var actual = _agriRepository.GetIncludeWashWater(9);
+            var expected = _staticExtRepo.GetIncludeWashWater(9);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetInteriorId()
+        {
+            var actual = _agriRepository.GetInteriorId();
+            var expected = _staticExtRepo.GetInteriorId();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetLiquidFertilizerDensities()
+        {
+            var actual = _agriRepository.GetLiquidFertilizerDensities();
+            var expected = _staticExtRepo.GetLiquidFertilizerDensities();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetLiquidFertilizerDensity()
+        {
+            var actual = _agriRepository.GetLiquidFertilizerDensity(22, 3);
+            var expected = _staticExtRepo.GetLiquidFertilizerDensity(22, 3);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Value, actual.Value);
+        }
+
+        [TestMethod]
+        public void CompareGetLocations()
+        {
+            var actual = _agriRepository.GetLocations();
+            var expected = _staticExtRepo.GetLocations();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetManure()
+        {
+            var actual = _agriRepository.GetManure("1");
+            var expected = _staticExtRepo.GetManure("1");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+        }
+
+        [TestMethod]
+        public void CompareGetManureByName()
+        {
+            var actual = _agriRepository.GetManureByName("Beef-feedlot, solid (dry)");
+            var expected = _staticExtRepo.GetManureByName("Beef-feedlot, solid (dry)");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected.Name, actual.Name);
+        }
+
+        [TestMethod]
+        public void CompareGetManureRptStdUnit()
+        {
+            var actual = _agriRepository.GetManureRptStdUnit("dry");
+            var expected = _staticExtRepo.GetManureRptStdUnit("dry");
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CompareGetManures()
+        {
+            var actual = _agriRepository.GetManures();
+            var expected = _staticExtRepo.GetManures();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetManuresDll()
+        {
+            var actual = _agriRepository.GetManuresDll();
+            var expected = _staticExtRepo.GetManuresDll();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetMessageByChemical()
+        {
+            var actual = _agriRepository.GetMessageByChemicalBalance("AgrN", 5, false);
+            var expected = _staticExtRepo.GetMessageByChemicalBalance("AgrN", 5, false);
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
