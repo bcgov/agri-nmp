@@ -19,6 +19,7 @@ namespace Agri.Models
         [Description("Imp. gallons")]
         ImperialGallons,
         [Description("m³")]
-        CubicMeters
+        CubicMeters,
+        tonnes
     }
 }

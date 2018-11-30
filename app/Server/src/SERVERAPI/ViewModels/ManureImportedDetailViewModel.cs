@@ -35,6 +35,7 @@ namespace SERVERAPI.ViewModels
                 selectListItems.Add(new MvcRendering.SelectListItem { Value = AnnualAmountUnits.Yards.ToString(), Text = EnumHelper<AnnualAmountUnits>.GetDisplayValue(AnnualAmountUnits.Yards) });
                 selectListItems.Add(new MvcRendering.SelectListItem { Value = AnnualAmountUnits.tons.ToString(), Text = EnumHelper<AnnualAmountUnits>.GetDisplayValue(AnnualAmountUnits.tons) });
                 selectListItems.Add(new MvcRendering.SelectListItem { Value = AnnualAmountUnits.CubicMeters.ToString(), Text = EnumHelper<AnnualAmountUnits>.GetDisplayValue(AnnualAmountUnits.CubicMeters) });
+                selectListItems.Add(new MvcRendering.SelectListItem { Value = AnnualAmountUnits.tonnes.ToString(), Text = EnumHelper<AnnualAmountUnits>.GetDisplayValue(AnnualAmountUnits.tonnes) });
             }
             else
             {
