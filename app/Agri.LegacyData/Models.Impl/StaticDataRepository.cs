@@ -2057,6 +2057,8 @@ namespace Agri.LegacyData.Models.Impl
             AnimalSubType animalSubType = new AnimalSubType();
             animalSubType.Id = Convert.ToInt32(rec["id"].ToString());
             animalSubType.Name = rec["name"].ToString();
+            animalSubType.SolidPerGalPerAnimalPerDay = rec["solidPerGalPerAnimalPerDay"].ToString() == "" ? (decimal?)null
+                : Convert.ToDecimal(rec["solidPerGalPerAnimalPerDay"].ToString());
             animalSubType.SolidPerPoundPerAnimalPerDay = rec["solidPerPoundPerAnimalPerDay"].ToString() == "" ? (decimal?)null
                 : Convert.ToDecimal(rec["solidPerPoundPerAnimalPerDay"].ToString());
             animalSubType.LiquidPerGalPerAnimalPerDay = rec["liquidPerGalPerAnimalPerDay"].ToString() == "" ? (decimal?)null
