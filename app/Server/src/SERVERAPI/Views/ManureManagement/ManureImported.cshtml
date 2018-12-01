@@ -1,8 +1,8 @@
-﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Http;
 
 
 @{
-    ViewBag.Title = "Manure Imported";
+    ViewBag.Title = "Manure/Compost Imported";
 }
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
@@ -83,7 +83,7 @@
         }
 
         $(document).ready(function () {
-            $("#wizard-manureStorage").addClass('wizard-item-done');
+            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
         });
 
 
@@ -129,33 +129,32 @@
 
 
         $(document).ready(function () {
-            $("#wizard-submanuregen").show();
-            $("#wizard-submanureimported").show();
-            $("#wizard-submanurestorage").show();
-            $("#wizard-submanunutrient").show();
-            return false;
-        });
-
-        $(document).ready(function () {
-            $("#wizard-manure").addClass('wizard-item-done');
-            $("#wizard-submanureimported").addClass('wizard-item-done');
-        });
-
-        //$("#wizard-submanuregen").click(function () {
-        //    $("#wizard-submanuregen").show();
-        //    $("#wizard-submanureimported").show();
-        //    $("#wizard-submanurestorage").show();
-        //    $("#wizard-submanunutrient").show();
-        //    return false;
-        //});
-
-
-
-        $(document).ready(function () {
             $("body").on("change", "#ddlManureMaterialType", function () {
                 $('#ButtonPressed').val("ManureMaterialTypeChange");
                 $("#modForm").submit();
             })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlSelectedMaterialsToInclude", function () {
+                $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("#ManureManagementManureGeneratedObtained1").show();
+            $("#ManureManagementManureImported2").show();
+            $("#ManureManagementManureStorage3").show();
+            $("#ManureManagementManureNutrientAnalysis4").show();
+            return false;
+        });
+
+        $(document).ready(function () {
+            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
+            $("#ManureManagementManureImported2").addClass('wizard-item-done');
+            $("#ManureManagementManureImported2").addClass('lineheight');
+            $("#ManureManagementManureStorage3").addClass('lineheight');
         });
 
     </script>

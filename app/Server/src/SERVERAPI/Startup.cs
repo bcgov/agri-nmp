@@ -55,6 +55,10 @@ namespace SERVERAPI
             }
 
             Configuration = builder.Build();
+
+            //Console.WriteLine(Environment.GetEnvironmentVariable("pgsqluri") ?? "pgsqluri not found");
+            //Console.WriteLine(Environment.GetEnvironmentVariable("pgsqlpassword") ?? "pgsqlpassword not found");
+            //Console.WriteLine(Environment.GetEnvironmentVariable("pgsqlusername") ?? "pgsqlusername not found");
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -143,7 +147,7 @@ namespace SERVERAPI
             }
             else
             {
-                return string.Empty;
+                return String.Empty;
                 var server = Environment.GetEnvironmentVariable("pgsqluri");
                 var password = Environment.GetEnvironmentVariable("pgsqlpassword");
                 var username = Environment.GetEnvironmentVariable("pgsqlusername");

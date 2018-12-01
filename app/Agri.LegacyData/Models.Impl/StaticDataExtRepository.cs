@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Agri.Interfaces;
 using Agri.Models.Configuration;
 using Newtonsoft.Json.Linq;
@@ -483,5 +484,109 @@ namespace Agri.LegacyData.Models.Impl
 
             return dms;
         }
+
+        public List<MainMenu> GetMainMenus()
+        {
+            var mainMenus = new List<MainMenu>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["mainMenus"]["mainMenu"];
+            foreach (var record in array)
+            {
+                var mainMenu = new MainMenu
+                {
+                    Id = Convert.ToInt32(record["id"].ToString()),
+                    Name = record["name"].ToString(),
+                    Controller = record["controller"].ToString(),
+                    Action = record["action"].ToString()
+                };
+                mainMenus.Add(mainMenu);
+            }
+
+            return mainMenus;
+        }
+
+        public List<SubMenu> GetSubMenus(int mainMenuId)
+        {
+            var subMenus = new List<SubMenu>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
+            foreach (var record in array)
+            {
+                if (Convert.ToUInt32(record["mainMenuId"].ToString()) == mainMenuId)
+                {
+                    var subMenu = new SubMenu
+                    {
+                        Id = Convert.ToInt32(record["id"]),
+                        Name = record["name"].ToString(),
+                        MainMenuId = Convert.ToInt32(record["mainMenuId"])
+                    };
+                    subMenus.Add(subMenu);
+                }
+            }
+
+            return subMenus;
+        }
+
+        public List<SelectListItem> GetMainMenusDll()
+        {
+            var mainMenus = GetMainMenus();
+
+            List<SelectListItem> mainMenuOptions = new List<SelectListItem>();
+
+            foreach (var r in mainMenus)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                mainMenuOptions.Add(li);
+            }
+
+            return mainMenuOptions;
+        }
+
+        public List<SubMenu> GetSubMenus()
+        {
+            var subMenus = new List<SubMenu>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["subMenus"]["subMenu"];
+            foreach (var record in array)
+            {
+                var subMenu = new SubMenu()
+                {
+                    Id = Convert.ToInt32(record["id"].ToString()),
+                    Name = record["name"].ToString(),
+                    Controller = record["controller"].ToString(),
+                    Action = record["action"].ToString(),
+                    MainMenuId = Convert.ToInt32(record["mainMenuId"].ToString())
+                };
+                subMenus.Add(subMenu);
+            }
+
+            return subMenus;
+        }
+
+        public List<SelectListItem> GetSubmenusDll()
+        {
+            var subMenus = GetSubMenus();
+
+            subMenus = subMenus.OrderBy(n => n.Name).ToList();
+
+            List<SelectListItem> subMenuoptions = new List<SelectListItem>();
+
+            foreach (var r in subMenus)
+            {
+                //if (r.MainMenuId == mainMenu)
+                //{
+                //    var li = new SelectListItem()
+                //        { Id = r.Id, Value = r.Name };
+                //    subMenuoptions.Add(li);
+                //}
+                var li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                subMenuoptions.Add(li);
+            }
+
+            return subMenuoptions;
+        }
+
     }
     }

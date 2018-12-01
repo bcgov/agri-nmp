@@ -9510,7 +9510,7 @@
             "liquidPerGalPerAnimalPerDay": "1.85",
             "solidPerGalPerAnimalPerDay": "2.91",
             "solidPerPoundPerAnimalPerDay": "15.54",
-            "solidLiquidSeparationPercentage": "10",
+            "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
             "milkProduction": 0
@@ -9521,7 +9521,7 @@
             "liquidPerGalPerAnimalPerDay": "3.70",
             "solidPerGalPerAnimalPerDay": "5.81",
             "solidPerPoundPerAnimalPerDay": "31.08",
-            "solidLiquidSeparationPercentage": "10",
+            "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
             "milkProduction": 0
@@ -9532,7 +9532,7 @@
             "liquidPerGalPerAnimalPerDay": "7.40",
             "solidPerGalPerAnimalPerDay": "11.62",
             "solidPerPoundPerAnimalPerDay": "71.49",
-            "solidLiquidSeparationPercentage": "10",
+            "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
             "milkProduction": 0
@@ -9543,7 +9543,7 @@
             "liquidPerGalPerAnimalPerDay": "12.95",
             "solidPerGalPerAnimalPerDay": "20.08",
             "solidPerPoundPerAnimalPerDay": "123.48",
-            "solidLiquidSeparationPercentage": "10",
+            "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
             "milkProduction": 0
@@ -9554,7 +9554,7 @@
             "liquidPerGalPerAnimalPerDay": "18.49",
             "solidPerGalPerAnimalPerDay": "28.53",
             "solidPerPoundPerAnimalPerDay": "205.99",
-            "solidLiquidSeparationPercentage": "10",
+            "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
             "milkProduction": 0
@@ -9565,7 +9565,7 @@
             "liquidPerGalPerAnimalPerDay": "19.82",
             "solidPerGalPerAnimalPerDay": "30.65",
             "solidPerPoundPerAnimalPerDay": "221.25",
-            "solidLiquidSeparationPercentage": "10",
+            "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 7.5,
             "milkProduction": 72.3
@@ -9838,6 +9838,86 @@
           {
             "id": 3,
             "name": "Liquid Solid Separation"
+          }
+        ]
+      },
+      "mainMenus": {
+        "mainMenu": [
+          {
+            "id": 1,
+            "name": "Farm Information",
+            "controller": "Farm",
+            "action": "Farm"
+          },
+          {
+            "id": 2,
+            "name": "Manure/Compost",
+            "controller": "ManureManagement",
+            "action": "ManureGeneratedObtained"
+          },
+          {
+            "id": 3,
+            "name": "Fields and Soil",
+            "controller": "Fields",
+            "action": "Fields"
+          },
+          {
+            "id": 4,
+            "name": "Calculate Nutrients",
+            "controller": "Nutrients",
+            "action": "Calculate"
+          },
+          {
+            "id": 5,
+            "name": "Reporting",
+            "controller": "Report",
+            "action": "Report"
+          }
+        ]
+      },
+      "subMenus": {
+        "subMenu": [
+          {
+            "id": 1,
+            "name": "Manure Generated",
+            "mainMenuId": 2,
+            "controller": "ManureManagement",
+            "action": "ManureGeneratedObtained"
+          },
+          {
+            "id": 2,
+            "name": "Manure/Compost Imported",
+            "mainMenuId": 2,
+            "controller": "ManureManagement",
+            "action": "ManureImported"
+          },
+          {
+            "id": 3,
+            "name": "Storage",
+            "mainMenuId": 2,
+            "controller": "ManureManagement",
+            "action": "ManureStorage"
+          },
+          {
+            "id": 4,
+            "name": "Nutrient Analysis",
+            "mainMenuId": 2,
+            "controller": "ManureManagement",
+            "action": "ManureNutrientAnalysis"
+          },
+          {
+            "id": 5,
+            "name": "Field List",
+            "mainMenuId": 3,
+            "controller": "Fields",
+            "action": "Fields"
+          },
+          {
+            "id": 6,
+            "name": "Soil Tests",
+            "mainMenuId": 3,
+            "controller": "Soil",
+            "action": "SoilTest"
           }
         ]
       }
