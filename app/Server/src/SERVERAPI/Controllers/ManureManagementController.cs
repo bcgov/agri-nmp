@@ -795,19 +795,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView("ManureStorageDelete", vm);
         }
-
-        [HttpGet]
-        public IActionResult ManureStorageMaterialsRequireAssigning(string target)
-        {
-            var vm = new ManureStorageMaterialsRequireAssigningViewModel();
-
-            vm.Title = "";
-            vm.Target = target;
-            vm.UnallocatedGeneratedManures = _ud.GetGeneratedManures().Where(gm => !gm.AssignedToStoredSystem).ToList();
-
-            return PartialView("ManureStorageMaterialsRequireAssigning", vm);
-        }
-
+        
         #endregion
 
         #region ManureNutrientAnalysis
@@ -826,6 +814,62 @@ namespace SERVERAPI.Controllers
         public IActionResult ManureImported()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult ManureImportedDetail(int? id, string target)
+        {
+            var vm = new ManureImportedDetailViewModel();
+
+            vm.Title = "Imported Material Details";
+            vm.Target = target;
+            vm.SelectedManureType = ManureMaterialType.Solid;
+            vm.IsLandAppliedBeforeStorage = true;
+            vm.LandAppliedLabelText = _sd.GetUserPrompt("importmaterialislandappliedquestion");
+
+            if (id.HasValue)
+            {
+                var savedImportedManure = _ud.GetImportedManure(id.Value);
+            }
+
+            return PartialView("ManureImportedDetail", vm);
+        }
+
+        [HttpPost]
+        public IActionResult ManureImportedDetail(ManureImportedDetailViewModel vm)
+        {
+
+            if (vm.ButtonPressed == "ManureMaterialTypeChange")
+            {
+                ModelState.Clear();
+                vm.ButtonPressed = "";
+                vm.ButtonText = "Save";
+
+                return PartialView("ManureImportedDetail", vm);
+            }
+
+            //if (vm.SelectedManureType < ManureMaterialType.Liquid)
+            //{
+            //    ModelState.AddModelError("SelectedManureType", "Required");
+            //}
+            if (!vm.AnnualAmount.HasValue || vm.AnnualAmount < 0)
+            {
+                    ModelState.AddModelError("AnnualAmount", "Enter a numeric value");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                var url = Url.Action("RefreshImportList", "ManureManagement");
+                return Json(new { success = true, url = url, target = vm.Target });
+            }
+
+            return PartialView("ManureImportedDetail", vm);
+        }
+
+        public IActionResult RefreshImportList()
+        {
+            return ViewComponent("ManureImported");
         }
 
         #endregion
