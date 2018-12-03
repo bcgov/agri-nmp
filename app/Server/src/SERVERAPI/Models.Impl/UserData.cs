@@ -612,7 +612,7 @@ namespace SERVERAPI.Models.Impl
             fm = yd.farmManures.FirstOrDefault(c => c.id == id);
             if (!fm.customized)
             {
-                Agri.Models.Configuration.Manure man = _sd.GetManure(fm.manureId.ToString());
+                Manure man = _sd.GetManure(fm.manureId.ToString());
                 fm.ammonia = man.Ammonia;
                 fm.dmid = man.DMId;
                 fm.manure_class = man.ManureClass;

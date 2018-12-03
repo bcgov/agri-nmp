@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Http;
-
+@model SERVERAPI.ViewModels.FarmViewModel
 
 @{
-    ViewBag.Title = "Nutrient Analysis";
+    ViewBag.Title = "Manure/Compost Analysis";
 }
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
@@ -23,27 +23,24 @@
 <div class="container">
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
-        <form asp-controller="Manure" asp-action="ManureNutrientAnalysis" method="post">
+        <form asp-controller="Manure" asp-action="Manure" method="post">
             <div id="compostmanure">
                 @await Component.InvokeAsync("Compost")
             </div>
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("SoilTest", "Soil" )';" title="Previous" aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';" title="Next" aria-label="Next" />
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("SoilTest", "Soil" )';" title="Previous"  aria-label="Previous" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';"  title="Next"  aria-label="Next"/>
             </div>
         </form>
     </div>
 </div>
-
-<!-- /BODY CONTENT -->
-
-
-
 @section Scripts {
-
-
     <script type="text/javascript">
-
+        //
+        // data_modal  -> uses large format modal popup
+        // data_modal2 -> uses small format modal popup and refreshes the entire screen when done
+        // data_modal3 -> uses small format modal popup
+        //
         // ensure this event handler is attached to current and future elements (after partial renders)
         $(document).on("click", '[data_modal]', function (e) {
             $.ajaxSetup({ cache: false });
@@ -63,13 +60,14 @@
         function bindForm(dialog) {
             $('form', dialog).submit(function () {
                 $.ajax({
+                    cache: false,
                     url: this.action,
                     type: this.method,
                     data: $(this).serialize(),
                     success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
-                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            $(result.target).load(result.url);
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);
@@ -105,7 +103,6 @@
             $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
         });
 
-
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
@@ -134,7 +131,6 @@
                     data: $(this).serialize(),
                     success: function (result) {
                         if (result.success) {
-                            $("#divSize").removeClass("modal-carousel");
                             $('#myModal').modal('hide');
                         } else {
                             $('#myModalContent').html(result);
@@ -146,35 +142,6 @@
             });
         }
 
-
-        $(document).ready(function () {
-            $("body").on("change", "#ddlManureMaterialType", function () {
-                $('#ButtonPressed').val("ManureMaterialTypeChange");
-                $("#modForm").submit();
-            })
-        });
-
-        $(document).ready(function () {
-            $("body").on("change", "#ddlSelectedMaterialsToInclude", function () {
-                $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
-                $("#modForm").submit();
-            })
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained1").show();
-            $("#ManureManagementManureImported2").show();
-            $("#ManureManagementManureStorage3").show();
-            $("#ManureManagementManureNutrientAnalysis4").show();
-            return false;
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-            $("#ManureManagementManureNutrientAnalysis4").addClass('wizard-item-done');
-            $("#ManureManagementManureImported2").addClass('lineheight');
-            $("#ManureManagementManureStorage3").addClass('lineheight');
-        });
-
     </script>
+
 }

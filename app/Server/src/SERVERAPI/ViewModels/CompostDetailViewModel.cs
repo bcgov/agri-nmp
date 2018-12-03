@@ -10,6 +10,8 @@ namespace SERVERAPI.ViewModels
         public int? id { get; set; }
         public string target { get; set; }
         public int selManOption { get; set; }
+        public List<SelectListItem> storageSystemOptions { get; set; }
+        public int selStorageSystemOption { get; set; }
         public List<SelectListItem> manOptions { get; set; }
         public string act { get; set; }
         [Display(Name = "Material Type")]
