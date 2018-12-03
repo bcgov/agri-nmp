@@ -6,15 +6,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
+using Agri.LegacyData.Models.Impl;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewComponents
 {
     public class SoilTests : ViewComponent
     {
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public SoilTests(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public SoilTests(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;

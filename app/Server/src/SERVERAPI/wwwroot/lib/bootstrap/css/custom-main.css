@@ -626,18 +626,18 @@ label {
 }
 
 .wrapper {
-  max-width: 1090px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 15px;
 }
 .wrapper-large {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     padding: 0 15px;
 }
 .wizard {
-  padding: 37px 0;
-  border-bottom: 1px solid #ccc;
+    padding: 8px 0;
+    border-bottom: 1px solid #b0cee2;
 }
 
 .wizard-list {
@@ -647,7 +647,7 @@ label {
 
 .wizard-item {
   float: left;
-  width: 14.286%;
+  width: 9%;
   position: relative;
 }
 
@@ -680,25 +680,25 @@ label {
 }
 
 .wizard-name {
-  font-weight: bold;
-  color: #777;
+  color: black;
   font-size: 14px;
 }
 
 .wizard-icon {
-  line-height: 100px;
+  line-height: 20px;
 }
 
-.wizard-icon svg {
+/*.wizard-icon svg {
   vertical-align: middle;
 }
 
 .wizard-icon svg * {
   stroke: #959595;
-}
+}*/
 
 .wizard-item-done .wizard-name {
-  color: #5cb85c;
+  color: black;
+  font-weight:bold;
 }
 
 .wizard-item-done .wizard-circle {
@@ -709,9 +709,9 @@ label {
   background: #5cb85c;
 }
 
-.wizard-item-done .wizard-icon svg * {
+/*.wizard-item-done .wizard-icon svg * {
   stroke: #5cb85c;
-}
+}*/
 
 .step-header {
   padding: 20px 0;
@@ -997,8 +997,8 @@ label {
 }
 
 .wizardsubmenu {
-    padding: 20px 0;
-    border-bottom: 1px solid #ccc;
+    padding: 0px 0;
+    border-bottom: 1px solid #b0cee2;
 }
 
 #submenu-manure-width {
@@ -1006,21 +1006,22 @@ label {
 }
 
 .submenu-manure-wrapper {
-    max-width: 1090px;
+    max-width: 1055px;
     margin: 0 auto;
-    padding: 0 15px;
-    padding-left: 150px;
+    padding: 0 90px;
+    padding-left: 88px;
 }
 
 .submenu-fields-wrapper {
-    max-width: 1250px;
+    max-width: 1055px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 90px;
+    padding-left:88px;
 }
 
 .submenu-manure-wizard {
-    padding: 25px 0;
-    border-bottom: 1px solid #ccc;
+    /*padding: 5px 0;*/
+    border-bottom: 1px solid #b0cee2;
 }
 
 .submenu-manure-wizard-list {
@@ -1039,4 +1040,13 @@ label {
     width: 50%;
     position: relative;
 }
+
+.padding {
+    padding: 15px 0px;
+}
+
+.lineheight{
+    line-height: 23px;
+}
+
 

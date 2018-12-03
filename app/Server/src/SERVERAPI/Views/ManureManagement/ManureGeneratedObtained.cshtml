@@ -2,7 +2,7 @@
 @model SERVERAPI.ViewModels.ManureGeneratedObtainedDetailViewModel
 
 @{
-    ViewBag.Title = "Manure Generated/Obtained";
+    ViewBag.Title = "Manure Generated";
 }
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
@@ -79,7 +79,7 @@
         }
 
         $(document).ready(function () {
-            $("#wizard-manureGenerated").addClass('wizard-item-done');
+            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
         });
 
 
@@ -173,19 +173,22 @@
         });
 
         $(document).ready(function () {
-            $("#wizard-manure").addClass('wizard-item-done');
-            $("#wizard-submanuregen").addClass('wizard-item-done');
+            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
+            $("#ManureManagementManureGeneratedObtained1").addClass('wizard-item-done');
+            $("#ManureManagementManureImported2").addClass('lineheight');
+            $("#ManureManagementManureStorage3").addClass('lineheight');
+            
         });
 
         $(document).ready(function () {
-            $("#wizard-submanuregen").show();
-            $("#wizard-submanureimported").show();
-            $("#wizard-submanurestorage").show();
-            $("#wizard-submanunutrient").show();
-            $("#wizard-submanuregen").addClass('submenu-manure-width');
-            $("#wizard-submanureimported").addClass('submenu-manure-width');
-            $("#wizard-submanurestorage").addClass('submenu-manure-width');
-            $("#wizard-submanunutrient").addClass('submenu-manure-width');
+            $("#ManureManagementManureGeneratedObtained1").show();
+            $("#ManureManagementManureImported2").show();
+            $("#ManureManagementManureStorage3").show();
+            $("#ManureManagementManureNutrientAnalysis4").show();
+            $("#ManureManagementManureGeneratedObtained1").addClass('submenu-manure-width');
+            $("#ManureManagementManureImported2").addClass('submenu-manure-width');
+            $("#ManureManagementManureStorage3").addClass('submenu-manure-width');
+            $("#ManureManagementManureNutrientAnalysis4").addClass('submenu-manure-width');
             return false;
         });
 

@@ -1,8 +1,8 @@
-﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Http;
 
 
 @{
-    ViewBag.Title = "Manure Imported";
+    ViewBag.Title = "Manure/Compost Imported";
 }
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
@@ -25,7 +25,7 @@
         <!-- PAGE CONTENT -->
 
         <form asp-controller="ManureManagement" asp-action="ManureNutrientAnalysis" method="post" >
-            <div id="manurestorage">
+            <div id="manureimported">
                 @await Component.InvokeAsync("ManureImported")
             </div>
             <div class="form-box-submit">
@@ -83,7 +83,7 @@
         }
 
         $(document).ready(function () {
-            $("#wizard-manureStorage").addClass('wizard-item-done');
+            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
         });
 
 
@@ -143,25 +143,19 @@
         });
 
         $(document).ready(function () {
-            $("#wizard-submanuregen").show();
-            $("#wizard-submanureimported").show();
-            $("#wizard-submanurestorage").show();
-            $("#wizard-submanunutrient").show();
+            $("#ManureManagementManureGeneratedObtained1").show();
+            $("#ManureManagementManureImported2").show();
+            $("#ManureManagementManureStorage3").show();
+            $("#ManureManagementManureNutrientAnalysis4").show();
             return false;
         });
 
         $(document).ready(function () {
-            $("#wizard-manure").addClass('wizard-item-done');
-            $("#wizard-submanureimported").addClass('wizard-item-done');
+            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
+            $("#ManureManagementManureImported2").addClass('wizard-item-done');
+            $("#ManureManagementManureImported2").addClass('lineheight');
+            $("#ManureManagementManureStorage3").addClass('lineheight');
         });
-
-        //$("#wizard-submanuregen").click(function () {
-        //    $("#wizard-submanuregen").show();
-        //    $("#wizard-submanureimported").show();
-        //    $("#wizard-submanurestorage").show();
-        //    $("#wizard-submanunutrient").show();
-        //    return false;
-        //});
 
     </script>
 }

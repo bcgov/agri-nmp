@@ -2,16 +2,20 @@
 using SERVERAPI.Models.Impl;
 using System;
 using System.Collections.Generic;
+using Agri.Interfaces;
+using Agri.Models.Farm;
 using static SERVERAPI.Models.StaticData;
+using Agri.Models.Configuration;
+using SoilTestMethod = Agri.Models.Configuration.SoilTestMethod;
 
 namespace SERVERAPI.Utility
 {
     public class SoilTestConversions
     {        
         private UserData _ud;
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
 
-        public SoilTestConversions(UserData ud, Models.Impl.StaticData sd)
+        public SoilTestConversions(UserData ud, IAgriConfigurationRepository sd)
         {        
             _ud = ud;
             _sd = sd;
@@ -33,11 +37,11 @@ namespace SERVERAPI.Utility
 
                 if (soilTest.valPH >= 7.2M) //ph of 7.2 is a constant boundary
                 {
-                    convertedP = Convert.ToInt16(Decimal.Multiply(soilTestMethod.ConvertToKelownaPge72, soilTest.ValP));
+                    convertedP = Convert.ToInt16(Decimal.Multiply(soilTestMethod.ConvertToKelownaPHGreaterThanEqual72, soilTest.ValP));
                 }
                 else
                 {
-                    convertedP = Convert.ToInt16(Decimal.Multiply(soilTestMethod.ConvertToKelownaPlt72, soilTest.ValP));
+                    convertedP = Convert.ToInt16(Decimal.Multiply(soilTestMethod.ConvertToKelownaPHLessThan72, soilTest.ValP));
                 }
 
             }

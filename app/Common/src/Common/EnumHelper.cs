@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
@@ -36,13 +37,13 @@ public static class EnumHelper<T>
     {
         var fieldInfo = value.GetType().GetField(value.ToString());
 
-        var descriptionAttributes = fieldInfo.GetCustomAttributes(typeof(DisplayAttribute), false) as DisplayAttribute[];
+        var descriptionAttributes = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
 
         if (descriptionAttributes == null)
         {
             return string.Empty;
         }
 
-        return (descriptionAttributes.Length > 0) ? descriptionAttributes[0].Name : value.ToString();
+        return (descriptionAttributes.Length > 0) ? descriptionAttributes[0].Description : value.ToString();
     }
 }

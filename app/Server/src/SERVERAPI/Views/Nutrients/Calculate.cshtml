@@ -112,9 +112,9 @@
                             <div class="form-box-header clearfix">
                                 <p>Add a Crop to Start Calculations</p>
                                 <h1>Guide to Interpreting Calculations</h1>
-                                @foreach (var i in Model.icons.nutrientIcons)
+                                @foreach (var i in Model.icons)
                                 {
-                                    <div style='padding-top:10px'><img src="~/images/@(i.name).svg" height='30' width='30' /><span style='margin-left:30px'>@i.definition</span></div>
+                                    <div style='padding-top:10px'><img src="~/images/@(i.Name).svg" height='30' width='30' /><span style='margin-left:30px'>@i.Definition</span></div>
                                 }
                             </div>
                         </div>
@@ -594,7 +594,7 @@
     }
 
     $(document).ready(function () {
-        $("#wizard-nutrient").addClass('wizard-item-done');
+        $("#NutrientsCalculate4").addClass('wizard-item-done');
     });
 
     $(document).on("click", '[data_modalI]', function (e) {
@@ -634,7 +634,11 @@
             });
             return false;
         });
-    }
+        }
+
+    $(document).ready(function () {
+        $("#submenu").addClass('padding');
+    });
     </script>
 
 }

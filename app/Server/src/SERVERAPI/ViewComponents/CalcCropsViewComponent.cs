@@ -5,16 +5,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
 using static SERVERAPI.Models.StaticData;
+using Agri.Models.Configuration;
+using Crop = Agri.Models.Configuration.Crop;
+using Yield = Agri.Models.Configuration.Yield;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcCrops : ViewComponent
     {
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public CalcCrops(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public CalcCrops(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;
@@ -36,22 +41,22 @@ namespace SERVERAPI.ViewComponents
             foreach (var m in fldCrops)
             {
                 Crop cp = new Crop();
-                Yield yld = new Yield();
+                List<Yield> yld = new List<Yield>();
 
                 if (!string.IsNullOrEmpty(m.cropOther))
                 {
-                    cp.cropname = m.cropOther + "*";
+                    cp.CropName = m.cropOther + "*";
                     yld = _sd.GetYield(1);
                 }
                 else
                 {
                     cp = _sd.GetCrop(Convert.ToInt32(m.cropId));
-                    yld = _sd.GetYield(cp.yieldcd);
+                    yld = _sd.GetYield(cp.YieldCd);
                 }
 
                 if(m.coverCropHarvested.HasValue)
                 {
-                    cp.cropname = m.coverCropHarvested.Value ? cp.cropname + "(harvested)" : cp.cropname;
+                    cp.CropName = m.coverCropHarvested.Value ? cp.CropName + "(harvested)" : cp.CropName;
                 }
 
                 DisplayCrop dm = new DisplayCrop()
@@ -59,8 +64,8 @@ namespace SERVERAPI.ViewComponents
 
                     fldNm = fldName,
                     cropId = Convert.ToInt32(m.id),
-                    cropName = cp.cropname,
-                    yield = m.yield.ToString() + " tons/ac ("+ yld.yielddesc + ")",
+                    cropName = cp.CropName,
+                    yield = m.yield.ToString() + " tons/ac ("+ yld[0].YieldDesc + ")",
                     reqN = (m.reqN * -1).ToString("G29"), 
                     reqP = (m.reqP2o5 * -1).ToString("G29"),
                     reqK = (m.reqK2o * -1).ToString("G29"),

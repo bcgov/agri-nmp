@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
+using Agri.Models.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.Models;
 using SERVERAPI.ViewModels;
 using SERVERAPI.Models.Impl;
+using Agri.LegacyData.Models.Impl;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.Controllers
 {
@@ -15,10 +20,10 @@ namespace SERVERAPI.Controllers
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
-        public Models.Impl.StaticData _sd { get; set; }
+        public IAgriConfigurationRepository _sd { get; set; }
         public AppSettings _settings;
 
-        public SoilController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
+        public SoilController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
         {
             _env = env;
             _ud = ud;
@@ -35,7 +40,7 @@ namespace SERVERAPI.Controllers
             if (!string.IsNullOrEmpty(fd.testingMethod))
                 fvm.testSelected = true;
 
-            fvm.tstOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.tstOptions = new List<SelectListItem>();
             fvm.tstOptions = _sd.GetSoilTestMethodsDll().ToList();
 
             List<Field> fl = _ud.GetFields();
@@ -49,7 +54,7 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult SoilTest(SoilTestViewModel fvm)
         {
-            fvm.tstOptions = new List<Models.StaticData.SelectListItem>();
+            fvm.tstOptions = new List<SelectListItem>();
             fvm.tstOptions = _sd.GetSoilTestMethodsDll().ToList();
 
             if (fvm.buttonPressed == "MethodChange")
@@ -155,7 +160,7 @@ namespace SERVERAPI.Controllers
                 Field fld = _ud.GetFieldDetails(tvm.fieldName);
                 if(fld.soilTest == null)
                 {
-                    fld.soilTest = new Models.SoilTest();
+                    fld.soilTest = new SoilTest();
                 }
                 fld.soilTest.sampleDate = Convert.ToDateTime(tvm.sampleDate);
                 fld.soilTest.ValP = Convert.ToDecimal(tvm.dispP);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
 {
@@ -14,7 +15,7 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Comments (optional)")]     
         public string fieldComment { get; set; }
 
-        public List<SERVERAPI.Models.StaticData.SelectListItem> selPrevYrManureOptions { get; set; }
+        public List<PreviousManureApplicationYear> selPrevYrManureOptions { get; set; }
         [Display(Name = "Manure application in previous years")]
         [Required]
         public string selPrevYrManureOption { get; set; }
