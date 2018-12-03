@@ -1,12 +1,16 @@
-﻿@model SERVERAPI.ViewModels.ManureStorageViewModel
+﻿@model SERVERAPI.ViewModels.ManureImportedViewModel
 
 <div>
     <div class="form-box">
         <div class="form-box-header clearfix">
-            <legend class="form-box-heading">Manure Imported</legend>
+            <legend class="form-box-heading">Manure/Compost Imported</legend>
         </div>
         <div class="form-box-body">
-           
+            <div class="form-box-table-add  form-box-table-row row">
+                <div class="col-sm-12  @(Model.ImportedManures.Any() ? "" : "text-center" )">
+                    <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureImportedDetail", "ManureManagement", new {target = "#manureimported"})">Add Imported Manure</button>
+                </div>
+            </div>
         </div>
     </div>
 

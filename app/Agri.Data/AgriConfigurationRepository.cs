@@ -1059,6 +1059,25 @@ namespace Agri.Data
                    Convert.ToInt32(userSelectedPrevYearsManureAdded);
         }
 
+        public List<MainMenu> GetMainMenus()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SelectListItem> GetMainMenusDll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SubMenu> GetSubMenus()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SelectListItem> GetSubmenusDll()
+        {
+            throw new NotImplementedException();
+        }
         public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield)
         {

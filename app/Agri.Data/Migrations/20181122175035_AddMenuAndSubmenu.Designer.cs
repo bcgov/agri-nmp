@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20181122175035_AddMenuAndSubmenu")]
+    partial class AddMenuAndSubmenu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -254,8 +256,6 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("ConvertedKelownaP");
 
-                    b.Property<string>("DefaultSoilTestMethodId");
-
                     b.Property<decimal>("Nitrogen");
 
                     b.Property<decimal>("Phosphorous");
@@ -428,10 +428,6 @@ namespace Agri.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Action");
-
-                    b.Property<string>("Controller");
-
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
@@ -513,22 +509,6 @@ namespace Agri.Data.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("Agri.Models.Configuration.NitrateCreditSampleDate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FromDateMonth");
-
-                    b.Property<string>("Location");
-
-                    b.Property<string>("ToDateMonth");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NitrateCreditSampleDates");
-                });
-
             modelBuilder.Entity("Agri.Models.Configuration.NitrogenMineralization", b =>
                 {
                     b.Property<int>("Id");
@@ -570,34 +550,6 @@ namespace Agri.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("NutrientIcons");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.PhosphorusSoilTestRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Rating");
-
-                    b.Property<int>("UpperLimit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PhosphorusSoilTestRanges");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.PotassiumSoilTestRange", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Rating");
-
-                    b.Property<int>("UpperLimit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PotassiumSoilTestRanges");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.PreviousCropType", b =>
@@ -878,10 +830,6 @@ namespace Agri.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Action");
-
-                    b.Property<string>("Controller");
 
                     b.Property<int>("MainMenuId");
 

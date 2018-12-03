@@ -16,6 +16,7 @@ namespace Agri.Data
 
         public void Seed()
         {
+            //_context.Database.EnsureDeleted();
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
 
@@ -360,13 +361,30 @@ namespace Agri.Data
             if (!_context.Versions.Any())
             {
                 var version = staticExtRepo.GetStaticDataVersion();
-                _context.Versions.Add(new Version {StaticDataVersion = version});
+                _context.Versions.Add(new Version { StaticDataVersion = version });
             }
 
             if (!_context.NitrateCreditSampleDates.Any())
             {
                 var dates = staticExtRepo.GetNitrateCreditSampleDates();
                 _context.NitrateCreditSampleDates.AddRange(dates);
+            }
+
+            //MainMenu
+            //SubMenu
+            if (!_context.MainMenus.Any())
+            {
+                var mainMenus = staticExtRepo.GetMainMenus();
+                var subMenus = staticExtRepo.GetSubMenus();
+                foreach (var mainMenu in mainMenus)
+                {
+                    var subMenu = subMenus.Where(s => s.MainMenuId == mainMenu.Id).ToList();
+                    if (subMenu.Any())
+                    {
+                        mainMenu.SubMenus.AddRange(subMenu);
+                    }
+                }
+                _context.MainMenus.AddRange(mainMenus);
             }
 
             _context.SaveChanges();

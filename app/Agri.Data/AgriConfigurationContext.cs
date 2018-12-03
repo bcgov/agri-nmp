@@ -34,6 +34,7 @@ namespace Agri.Data
         public DbSet<HarvestUnit> HarvestUnits { get; set; }
         public DbSet<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<MainMenu> MainMenus { get; set; }
         public DbSet<Manure> Manures { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<NitrateCreditSampleDate> NitrateCreditSampleDates { get; set; }

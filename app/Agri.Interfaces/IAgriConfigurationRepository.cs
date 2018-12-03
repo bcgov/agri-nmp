@@ -150,6 +150,10 @@ namespace Agri.Interfaces
         AnimalsUsingWashWater GetAnimalsUsingWashWater();
         bool DoesAnimalUseWashWater(int animalSubTypeId);
         AnimalSubType GetAnimalSubType(int id);
+        List<MainMenu> GetMainMenus();
+        List<SelectListItem> GetMainMenusDll();
+        List<SubMenu> GetSubMenus();
+        List<SelectListItem> GetSubmenusDll();
         [Obsolete]
         List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield);

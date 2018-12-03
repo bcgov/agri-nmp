@@ -24,13 +24,13 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
 
-        <form asp-controller="ManureManagement" asp-action="ManureStorage" method="post">
+        <form asp-controller="ManureManagement" asp-action="ManureStorage" method="post" >
             <div id="manurestorage">
                 @await Component.InvokeAsync("ManureStorage")
             </div>
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("ManureImported", "ManureManagement" )';" title="Previous" aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureNutrientAnalysis", "ManureManagement" )';" title="Next" aria-label="Next" />
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("ManureImported", "ManureManagement" )';" title="Previous"  aria-label="Previous" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureNutrientAnalysis", "ManureManagement" )';"  title="Next"  aria-label="Next"/>
             </div>
         </form>
         <!-- PAGE CONTENT -->
@@ -143,21 +143,22 @@
         });
 
         $(document).ready(function () {
-            $("#wizard-submanuregen").show();
-            $("#wizard-submanureimported").show();
-            $("#wizard-submanurestorage").show();
-            $("#wizard-submanunutrient").show();
+            $("#ManureManagementManureGeneratedObtained1").show();
+            $("#ManureManagementManureImported2").show();
+            $("#ManureManagementManureStorage3").show();
+            $("#ManureManagementManureNutrientAnalysis4").show();
             return false;
         });
 
         $(document).ready(function () {
-            $("#wizard-manure").addClass('wizard-item-done');
-            $("#wizard-submanurestorage").addClass('wizard-item-done');
+            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
+            $("#ManureManagementManureStorage3").addClass('wizard-item-done');
+            $("#ManureManagementManureImported2").addClass('lineheight');
+            $("#ManureManagementManureStorage3").addClass('lineheight');
         });
 
-
         $(document).ready(function () {
-            $("body").on("change", "#txtSystemName", function () {
+            $("body").on("change", "#txtSystemName", function() {
                 $('#ButtonPressed').val("SystemNameChange");
                 $("#modForm").submit();
             })
@@ -180,5 +181,4 @@
 
 
     </script>
-
 }
