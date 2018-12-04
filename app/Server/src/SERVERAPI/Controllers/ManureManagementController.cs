@@ -13,31 +13,28 @@ using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
 using Agri.Models.Configuration;
-
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using AutoMapper;
 
 namespace SERVERAPI.Controllers
 {
     public class ManureManagementController : Controller
     {
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
-        public IViewRenderService _viewRenderService { get; set; }
-        public AppSettings _settings;
-        //private readonly IMapper _mapper;
+        private readonly IHostingEnvironment _env;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly IViewRenderService _viewRenderService;
+        private readonly IMapper _mapper;
 
-        public ManureManagementController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud,
-            IAgriConfigurationRepository sd
-            //,IMapper mapper
-            )
+        public ManureManagementController(IHostingEnvironment env, 
+            IViewRenderService viewRenderService, UserData ud,
+            IAgriConfigurationRepository sd,
+            IMapper mapper)
         {
             _env = env;
             _ud = ud;
             _sd = sd;
             _viewRenderService = viewRenderService;
-            //_mapper = mapper;
+            _mapper = mapper;
         }
 
         #region Manure Generated Obtained
@@ -1421,16 +1418,21 @@ namespace SERVERAPI.Controllers
         {
             var vm = new ManureImportedDetailViewModel();
 
-            vm.Title = "Imported Material Details";
-            vm.Target = target;
-            vm.SelectedManureType = ManureMaterialType.Solid;
-            vm.IsLandAppliedBeforeStorage = true;
-            vm.LandAppliedLabelText = _sd.GetUserPrompt("importmaterialislandappliedquestion");
-
             if (id.HasValue)
             {
                 var savedImportedManure = _ud.GetImportedManure(id.Value);
+                vm = _mapper.Map<ImportedManure, ManureImportedDetailViewModel>(savedImportedManure);
             }
+            else
+            {
+                vm.StandardSolidMoisture = _sd.GetManureImportedDefault().DefaultSolidMoisture;
+                vm.Moisture = vm.StandardSolidMoisture;
+                vm.IsLandAppliedBeforeStorage = true;
+            }
+            vm.Title = "Imported Material Details";
+            vm.Target = target;
+            vm.SelectedManureType = ManureMaterialType.Solid;
+            vm.LandAppliedLabelText = _sd.GetUserPrompt("importmaterialislandappliedquestion");
 
             return PartialView("ManureImportedDetail", vm);
         }
@@ -1445,21 +1447,48 @@ namespace SERVERAPI.Controllers
                 vm.ButtonPressed = "";
                 vm.ButtonText = "Save";
 
+                if (vm.SelectedManureType == ManureMaterialType.Liquid)
+                {
+                    vm.Moisture = null;
+                }
+
                 return PartialView("ManureImportedDetail", vm);
             }
 
-            //if (vm.SelectedManureType < ManureMaterialType.Liquid)
-            //{
-            //    ModelState.AddModelError("SelectedManureType", "Required");
-            //}
+            if (vm.ButtonPressed == "ResetMoisture")
+            {
+                ModelState.Clear();
+                vm.ButtonPressed = "";
+                vm.ButtonText = "Save";
+
+                vm.Moisture = vm.StandardSolidMoisture;
+                return PartialView("ManureImportedDetail", vm);
+            }
+
+            if (vm.SelectedManureType == ManureMaterialType.Solid &&
+                    (!vm.Moisture.HasValue || vm.Moisture.Value <= 0 || vm.Moisture > 100))
+            {
+                ModelState.AddModelError("Moisture", "Enter a value between 0 and 100");
+            }
+
             if (!vm.AnnualAmount.HasValue || vm.AnnualAmount < 0)
             {
                     ModelState.AddModelError("AnnualAmount", "Enter a numeric value");
             }
 
-
             if (ModelState.IsValid)
             {
+                var importedManure = _mapper.Map<ImportedManure>(vm);
+
+                if (!vm.ManureImportId.HasValue)
+                {
+                    _ud.AddImportedManure(importedManure);
+                }
+                else
+                {
+                    _ud.UpdateImportedManure(importedManure);
+                }
+
                 var url = Url.Action("RefreshImportList", "ManureManagement");
                 return Json(new { success = true, url = url, target = vm.Target });
             }

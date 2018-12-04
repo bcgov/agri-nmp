@@ -588,5 +588,16 @@ namespace Agri.LegacyData.Models.Impl
             return subMenuoptions;
         }
 
+        public ManureImportedDefault GetManureImportedDefault()
+        {
+            var defaultMoistureRaw = rss["agri"]["nmp"]["ManureImportedDefaults"]["defaultSolidMoisture"];
+
+            var importedDefault = new ManureImportedDefault
+            {
+                DefaultSolidMoisture = Convert.ToInt32(defaultMoistureRaw)
+            };
+
+            return importedDefault;
+        }
     }
     }
