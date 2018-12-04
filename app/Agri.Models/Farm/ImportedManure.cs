@@ -5,7 +5,7 @@ namespace Agri.Models.Farm
 {
     public class ImportedManure
     {
-        public int? id { get; set; }
+        public int? Id { get; set; }
         public string MaterialName { get; set; }
         public ManureMaterialType ManureType { get; set; }
         public string ManureTypeName { get; set; }

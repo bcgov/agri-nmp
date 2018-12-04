@@ -8,18 +8,21 @@ using Agri.Models.Farm;
 using SERVERAPI.ViewModels;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
+using AutoMapper;
 
 namespace SERVERAPI.Models.Impl
 {
     public class UserData
     {
         private readonly IHttpContextAccessor _ctx;
-        public IAgriConfigurationRepository _sd { get; set; }
+        public IAgriConfigurationRepository _sd;
+        private IMapper _mapper;
 
-        public UserData(IHttpContextAccessor ctx, IAgriConfigurationRepository sd)
+        public UserData(IHttpContextAccessor ctx, IAgriConfigurationRepository sd, IMapper mapper)
         {
             _ctx = ctx;
             _sd = sd;
+            _mapper = mapper;
         }
 
         public void NewFarm()
@@ -930,7 +933,38 @@ namespace SERVERAPI.Models.Impl
 
         public object GetImportedManure(int id)
         {
-            return GetImportedManures().SingleOrDefault(im => im.id == id);
+            return GetImportedManures().SingleOrDefault(im => im.Id == id);
+        }
+
+        public void AddImportedManure(ImportedManure newManure)
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+
+            if (yd.ImportedManures == null)
+            {
+                yd.ImportedManures = new List<ImportedManure>();
+                newManure.Id = 1;
+            }
+            else
+            {
+                newManure.Id = yd.ImportedManures.Max(im => im.Id) + 1;
+            }
+
+            yd.ImportedManures.Add(newManure);
+        }
+
+        public void UpdateImportedManure(ImportedManure updatedManure)
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+
+            var savedManure = yd.ImportedManures.Single(im => im.Id == updatedManure.Id);
+            _mapper.Map(updatedManure, savedManure);
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
     }
 }

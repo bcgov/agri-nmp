@@ -12,31 +12,28 @@ using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
 using Agri.Models.Configuration;
-
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using AutoMapper;
 
 namespace SERVERAPI.Controllers
 {
     public class ManureManagementController : Controller
     {
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
-        public IViewRenderService _viewRenderService { get; set; }
-        public AppSettings _settings;
-        //private readonly IMapper _mapper;
+        private readonly IHostingEnvironment _env;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly IViewRenderService _viewRenderService;
+        private readonly IMapper _mapper;
 
-        public ManureManagementController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud,
-            IAgriConfigurationRepository sd
-            //,IMapper mapper
-            )
+        public ManureManagementController(IHostingEnvironment env, 
+            IViewRenderService viewRenderService, UserData ud,
+            IAgriConfigurationRepository sd,
+            IMapper mapper)
         {
             _env = env;
             _ud = ud;
             _sd = sd;
             _viewRenderService = viewRenderService;
-            //_mapper = mapper;
+            _mapper = mapper;
         }
 
         #region Manure Generated Obtained
@@ -877,6 +874,17 @@ namespace SERVERAPI.Controllers
 
             if (ModelState.IsValid)
             {
+                var importedManure = _mapper.Map<ImportedManure>(vm);
+
+                if (!vm.ManureImportId.HasValue)
+                {
+                    _ud.AddImportedManure(importedManure);
+                }
+                else
+                {
+                    _ud.UpdateImportedManure(importedManure);
+                }
+
                 var url = Url.Action("RefreshImportList", "ManureManagement");
                 return Json(new { success = true, url = url, target = vm.Target });
             }
