@@ -15,36 +15,52 @@
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-row row">
-                <div class="col-sm-3">
+                <div class="col-lg-3" style="padding-left: 0; padding-right: 0;">
                     <div class="form-group">
                         <label asp-for="MaterialName">Material Name</label>
                         <input class="form-control" asp-for="MaterialName" type="text" id="txtMaterialName" />
                         <span asp-validation-for="MaterialName" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-sm-3">
-                    <div class="form-group">
+                <div class="col-lg-2"  style="padding-right: 0;">
+                    <div class="form-group" style="padding-right: 0;">
                         <label asp-for="SelectedManureType">Liquid or Solid</label>
                         <select class="form-control" asp-for="SelectedManureType"
                                 asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType"></select>
                         <span asp-validation-for="SelectedManureType" class="text-danger">Select a Manure Material Type</span>
                     </div>
                 </div>
-                <div class="col-sm-2" style="padding-right: 0;">
+                <div class="col-lg-2" style="padding-right: 0;">
                     <div class="form-group">
                         <label asp-for="AnnualAmount">Amount per year</label>
                         <input class="form-control" asp-for="AnnualAmount" type="text" id="" />
                         <span asp-validation-for="AnnualAmount" class="text-danger">Enter a numeric value</span>
                     </div>
                 </div>
-                <div class="col-sm-2" style="padding-left: 0;">
+                <div class="col-lg-1" style="padding-left: 0; padding-right: 0; width: auto">
                     <div class="form-group">
                         <label asp-for="SelectedAnnualAmountUnit">(Units)</label>
                         <select class="form-control" asp-for="SelectedAnnualAmountUnit" asp-items="@Model.GetAnnualAmountUnits()" id="ddlManureMaterialType"></select>
                         <span asp-validation-for="SelectedAnnualAmountUnit" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-sm-2">
+                @if (Model.SelectedManureType == ManureMaterialType.Solid)
+                {
+                <div class="col-lg-2 form-group" style="padding-right: 0; max-width: 15%">
+                    <label asp-for="Moisture">Moisture (%)</label>
+                    <div class="input-group ">
+                        <input class="form-control" asp-for="Moisture" id="txtMoisture" type="text" />
+                        @if (!Model.IsStdMoisture)
+                        {
+                            <span class="input-group-btn" title="Reset to standard value">
+                                <button class="btn btn-default" type="button" id="rstMoisture" style="background-color:orange;"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                            </span>
+                        }
+                        <span asp-validation-for="Moisture" class="text-danger"></span>
+                    </div>
+                </div>
+                }
+                <div class="col-lg-2" style="padding-right: 0;">
                     <div class="form-group">
                         <label>@Model.LandAppliedLabelText</label>
                         <label style="padding-right: 20px">
@@ -67,7 +83,8 @@
         @Html.HiddenFor(x => x.Title)
         @Html.HiddenFor(x => x.ButtonText)
         @Html.HiddenFor(x => x.ButtonPressed)
-        @Html.HiddenFor(x => x.SelectedAnnualAmountUnit);
-        @Html.HiddenFor(x => x.LandAppliedLabelText);
+        @Html.HiddenFor(x => x.SelectedAnnualAmountUnit)
+        @Html.HiddenFor(x => x.LandAppliedLabelText)
+        @Html.HiddenFor(x => x.StandardSolidMoisture)
     </form>
 </div>

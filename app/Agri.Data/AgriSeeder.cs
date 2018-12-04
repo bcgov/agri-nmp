@@ -331,6 +331,12 @@ namespace Agri.Data
                 _context.NutrientIcons.AddRange(icons);
             }
 
+            if (!_context.ManureImportedDefaults.Any())
+            {
+                var defaultManure = staticExtRepo.GetManureImportedDefault();
+                _context.Add(defaultManure);
+            }
+
             //MainMenu
             //SubMenu
             if (!_context.MainMenus.Any())

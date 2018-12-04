@@ -824,6 +824,8 @@ namespace SERVERAPI.Controllers
             vm.Title = "Imported Material Details";
             vm.Target = target;
             vm.SelectedManureType = ManureMaterialType.Solid;
+            vm.StandardSolidMoisture = _sd.GetManureImportedDefault().DefaultSolidMoisture;
+            vm.Moisture = vm.StandardSolidMoisture;
             vm.IsLandAppliedBeforeStorage = true;
             vm.LandAppliedLabelText = _sd.GetUserPrompt("importmaterialislandappliedquestion");
 
@@ -845,18 +847,33 @@ namespace SERVERAPI.Controllers
                 vm.ButtonPressed = "";
                 vm.ButtonText = "Save";
 
+                if (vm.SelectedManureType == ManureMaterialType.Liquid)
+                {
+                    vm.Moisture = null;
+                }
+
                 return PartialView("ManureImportedDetail", vm);
             }
 
-            //if (vm.SelectedManureType < ManureMaterialType.Liquid)
-            //{
-            //    ModelState.AddModelError("SelectedManureType", "Required");
-            //}
+            if (vm.ButtonPressed == "ResetMoisture")
+            {
+                ModelState.Clear();
+                vm.ButtonPressed = "";
+                vm.ButtonText = "Save";
+
+                vm.Moisture = vm.StandardSolidMoisture;
+            }
+
+            if (vm.SelectedManureType == ManureMaterialType.Solid &&
+                    (!vm.Moisture.HasValue || vm.Moisture.Value <= 0 || vm.Moisture > 100))
+            {
+                ModelState.AddModelError("Moisture", "Enter a value between 0 and 100");
+            }
+
             if (!vm.AnnualAmount.HasValue || vm.AnnualAmount < 0)
             {
                     ModelState.AddModelError("AnnualAmount", "Enter a numeric value");
             }
-
 
             if (ModelState.IsValid)
             {

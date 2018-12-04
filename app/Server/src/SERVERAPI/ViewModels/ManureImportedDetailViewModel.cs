@@ -19,6 +19,10 @@ namespace SERVERAPI.ViewModels
         [Range(0,99999990, ErrorMessage = "Enter a numeric value")]
         public decimal? AnnualAmount { get; set; }
         public string SelectedAnnualAmountUnit { get; set; }
+        public decimal? Moisture { get; set; }
+        public decimal StandardSolidMoisture { get; set; }
+        public bool IsStdMoisture => SelectedManureType == ManureMaterialType.Solid && Moisture.HasValue &&
+                                     Moisture.Value == StandardSolidMoisture;
         public bool IsLandAppliedBeforeStorage { get; set; }
         public string LandAppliedLabelText { get; set; }
         public string ButtonText { get; set; }

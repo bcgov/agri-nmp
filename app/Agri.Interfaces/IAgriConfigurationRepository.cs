@@ -153,5 +153,6 @@ namespace Agri.Interfaces
         List<SelectListItem> GetSubmenusDll();
         List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield);
+        ManureImportedDefault GetManureImportedDefault();
     }
 }
