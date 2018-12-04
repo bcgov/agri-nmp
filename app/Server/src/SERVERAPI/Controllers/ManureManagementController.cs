@@ -920,6 +920,7 @@ namespace SERVERAPI.Controllers
                     if (cvm.selsourceOfMaterialOption != "" && cvm.selsourceOfMaterialOption != "0" &&
                         cvm.selsourceOfMaterialOption != "select")
                     {
+                        cvm.manOptions = new List<SelectListItem>();
                         var manures = _sd.GetManures();
                         var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption));
                         var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
