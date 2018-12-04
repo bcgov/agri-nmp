@@ -951,6 +951,7 @@ namespace SERVERAPI.Models.Impl
                 newManure.Id = yd.ImportedManures.Max(im => im.Id) + 1;
             }
             yd.ImportedManures.Add(newManure);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
         public void UpdateImportedManure(ImportedManure updatedManure)
         {

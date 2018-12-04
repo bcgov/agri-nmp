@@ -875,20 +875,54 @@ namespace SERVERAPI.Controllers
                 cvm.sourceOfMaterialOptions.Add(li);
             }
 
+            // add imported materials that are not being stored to the list of Material Sources
+            var importedManures = _ud.GetImportedManures();
+            var importedManuresNotStored = new List<ImportedManure>();
+            foreach (var importedManure in importedManures)
+            {
+                if (importedManure.IsLandAppliedBeforeStorage == false)
+                {
+                    importedManuresNotStored.Add(importedManure);
+                }
+            }
+
+            foreach (var imns in importedManuresNotStored)
+            {
+                var li = new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                    { Text = imns.ManureId + "," + imns.Id, Value = imns.MaterialName };
+                cvm.sourceOfMaterialOptions.Add(li);
+            }
+
             cvm.manOptions = new List<SelectListItem>();
 
             if (!string.IsNullOrEmpty(cvm.selsourceOfMaterialOption) &&
                 cvm.selsourceOfMaterialOption != "select")
             {
                 var manures = _sd.GetManures();
-                var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
-                var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
-                cvm.materialType = storageSystem.ManureMaterialType;
-                foreach (var manuresByMaterialType in manuresByMaterialTypes)
+
+                if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
                 {
-                    var li = new SelectListItem()
-                    { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
-                    cvm.manOptions.Add(li);
+                    var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                    var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
+                    cvm.materialType = storageSystem.ManureMaterialType;
+                    foreach (var manuresByMaterialType in manuresByMaterialTypes)
+                    {
+                        var li = new SelectListItem()
+                            { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
+                        cvm.manOptions.Add(li);
+                    }
+                }
+                else if(cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
+                {
+                    var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                    var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() select manure;
+                    cvm.materialType = importedManure.ManureType;
+                    foreach (var manuresByMaterialType in manuresByMaterialTypes)
+                    {
+                        var li = new SelectListItem()
+                            { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
+                        cvm.manOptions.Add(li);
+                    }
                 }
             }
 
@@ -914,19 +948,36 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     cvm.buttonPressed = "";
 
+                    cvm.manOptions = new List<SelectListItem>();
+
                     if (cvm.selsourceOfMaterialOption != "" && cvm.selsourceOfMaterialOption != "0" &&
                         cvm.selsourceOfMaterialOption != "select")
                     {
-                        cvm.manOptions = new List<SelectListItem>();
                         var manures = _sd.GetManures();
-                        var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
-                        var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
-                        cvm.materialType = storageSystem.ManureMaterialType;
-                        foreach (var manuresByMaterialType in manuresByMaterialTypes)
+
+                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
                         {
-                            var li = new SelectListItem()
-                                { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
-                            cvm.manOptions.Add(li);
+                            var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
+                            cvm.materialType = storageSystem.ManureMaterialType;
+                            foreach (var manuresByMaterialType in manuresByMaterialTypes)
+                            {
+                                var li = new SelectListItem()
+                                    { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
+                                cvm.manOptions.Add(li);
+                            }
+                        }
+                        else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
+                        {
+                            var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() select manure;
+                            cvm.materialType = importedManure.ManureType;
+                            foreach (var manuresByMaterialType in manuresByMaterialTypes)
+                            {
+                                var li = new SelectListItem()
+                                    { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
+                                cvm.manOptions.Add(li);
+                            }
                         }
                     }
                     return View(cvm);
