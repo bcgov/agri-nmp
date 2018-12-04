@@ -81,6 +81,13 @@
         }
 
         $(document).ready(function () {
+            $("body").on("change", "#ddlSourceOfMaterial", function () {
+                $('#buttonPressed').val("SourceOfMaterialChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
             $("body").on("change", "#ddlMan", function () {
                 $('#buttonPressed').val("ManureChange");
                 $("#modForm").submit();

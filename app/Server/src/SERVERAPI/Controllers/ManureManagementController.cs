@@ -822,7 +822,6 @@ namespace SERVERAPI.Controllers
             if (id != null)
             {
                 FarmManure fm = _ud.GetFarmManure(id.Value);
-                var storageSystems = _ud.GetStorageSystems();
 
                 mvm.selManOption = fm.manureId;
 
@@ -869,10 +868,32 @@ namespace SERVERAPI.Controllers
         }
         private void CompostDetailsSetup(ref CompostDetailViewModel cvm)
         {
+            // add storage systems created by user to the list of Material Sources
             var storageSystems = _ud.GetStorageSystems();
+            cvm.sourceOfMaterialOptions = new List<SelectListItem>();
+            foreach (var storageSystem in storageSystems)
+            {
+                var li = new SelectListItem()
+                { Id = storageSystem.Id, Value = storageSystem.Name };
+                cvm.sourceOfMaterialOptions.Add(li);
+            }
 
             cvm.manOptions = new List<SelectListItem>();
-            cvm.manOptions = _sd.GetManuresDll().ToList();
+
+            if (!string.IsNullOrEmpty(cvm.selsourceOfMaterialOption) &&
+                cvm.selsourceOfMaterialOption != "select")
+            {
+                var manures = _sd.GetManures();
+                var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption));
+                var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
+                cvm.materialType = storageSystem.ManureMaterialType;
+                foreach (var manuresByMaterialType in manuresByMaterialTypes)
+                {
+                    var li = new SelectListItem()
+                    { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
+                    cvm.manOptions.Add(li);
+                }
+            }
 
             return;
         }
@@ -891,6 +912,26 @@ namespace SERVERAPI.Controllers
 
             try
             {
+                if (cvm.buttonPressed == "SourceOfMaterialChange")
+                {
+                    ModelState.Clear();
+                    cvm.buttonPressed = "";
+
+                    if (cvm.selsourceOfMaterialOption != "" && cvm.selsourceOfMaterialOption != "0" &&
+                        cvm.selsourceOfMaterialOption != "select")
+                    {
+                        var manures = _sd.GetManures();
+                        var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption));
+                        var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
+                        foreach (var manuresByMaterialType in manuresByMaterialTypes)
+                        {
+                            var li = new SelectListItem()
+                                { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
+                            cvm.manOptions.Add(li);
+                        }
+                    }
+                    return View(cvm);
+                }
 
                 if (cvm.buttonPressed == "ManureChange")
                 {

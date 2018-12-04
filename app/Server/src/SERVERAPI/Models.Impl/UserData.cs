@@ -930,7 +930,7 @@ namespace SERVERAPI.Models.Impl
 
         public object GetImportedManure(int id)
         {
-            return GetImportedManures().SingleOrDefault(im => im.id == id);
+            return GetImportedManures().SingleOrDefault(im => im.Id == id);
         }
     }
 }
