@@ -11,8 +11,12 @@ namespace SERVERAPI.ViewModels
         public string title { get; set; }
         public int? id { get; set; }
         public string target { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public int selManOption { get; set; }
         public List<SelectListItem> sourceOfMaterialOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public string selsourceOfMaterialOption { get; set; }
         public List<Agri.Models.Configuration.SelectListItem> manOptions { get; set; }
         public string act { get; set; }
