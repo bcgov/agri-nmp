@@ -40,28 +40,28 @@ namespace SERVERAPI.ViewComponents
                     animalId = 1,
                     animalSubTypeId = 1,
                     animalSubTypeName = "Cow, including calf to weaning",
-                    manureType = ManureMaterialType.Solid
+                    ManureType = ManureMaterialType.Solid
                 },
                 new GeneratedManure
                 {
                     animalId = 1,
                     animalSubTypeId = 3,
                     animalSubTypeName = "Heavy Feeders",
-                    manureType = ManureMaterialType.Solid
+                    ManureType = ManureMaterialType.Solid
                 },
                 new GeneratedManure
                 {
                     animalId = 2,
                     animalSubTypeId = 4,
                     animalSubTypeName = "Calves (0 to 3 months old)",
-                    manureType = ManureMaterialType.Liquid
+                    ManureType = ManureMaterialType.Liquid
                 },
                 new GeneratedManure
                 {
                     animalId = 2,
                     animalSubTypeId = 9,
                     animalSubTypeName = "Milking Cow",
-                    manureType = ManureMaterialType.Liquid
+                    ManureType = ManureMaterialType.Liquid
                 }
             };
 

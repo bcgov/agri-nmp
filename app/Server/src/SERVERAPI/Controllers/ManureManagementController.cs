@@ -63,7 +63,7 @@ namespace SERVERAPI.Controllers
                 mgovm.id = id;
                 mgovm.selSubTypeOption = gm.animalSubTypeId.ToString();
                 mgovm.averageAnimalNumber = gm.averageAnimalNumber.ToString();
-                mgovm.selManureMaterialTypeOption = gm.manureType;
+                mgovm.selManureMaterialTypeOption = gm.ManureType;
 
                 List<AnimalSubType> animalSubType = _sd.GetAnimalSubTypes(Convert.ToInt32(gm.animalId.ToString()));
                 if (animalSubType.Count > 0)
@@ -228,7 +228,7 @@ namespace SERVERAPI.Controllers
                             gm.animalSubTypeId = Convert.ToInt32(mgovm.selSubTypeOption);
                             gm.animalSubTypeName = animalSubTypeDetails.Name;
                             gm.averageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
-                            gm.manureType = mgovm.selManureMaterialTypeOption;
+                            gm.ManureType = mgovm.selManureMaterialTypeOption;
                             gm.manureTypeName = EnumHelper<Agri.Models.ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
                             if (mgovm.washWater != null)
                             {
@@ -286,13 +286,13 @@ namespace SERVERAPI.Controllers
 
                             Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
 
-                            gm.id = mgovm.id;
+                            gm.Id = mgovm.id;
                             gm.animalId = thisAnimalType;
                             gm.animalName = animal.Name;
                             gm.animalSubTypeId = thisSubType;
                             gm.animalSubTypeName = animalSubType.Name;
                             gm.averageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
-                            gm.manureType = thisManureMaterialType;
+                            gm.ManureType = thisManureMaterialType;
                             gm.manureTypeName = EnumHelper<ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
                             gm.milkProduction = Convert.ToDecimal(mgovm.milkProduction);
 
@@ -443,7 +443,7 @@ namespace SERVERAPI.Controllers
                     msvm.SystemName = savedStorageSystem.Name;
                     msvm.SelectedManureMaterialType = savedStorageSystem.ManureMaterialType;
                     var selectedMaterialsToInclude = savedStorageSystem.MaterialsIncludedInSystem
-                        .Where(m => m.id.HasValue).Select(m => m.id.Value).ToList();
+                        .Where(m => m.Id.HasValue).Select(m => m.Id.Value).ToList();
                     msvm.GeneratedManures = GetFilteredMaterialsListForCurrentView(msvm, selectedMaterialsToInclude);
                     msvm.GetsRunoffFromRoofsOrYards = savedStorageSystem.GetsRunoffFromRoofsOrYards;
                     msvm.RunoffAreaSquareFeet = savedStorageSystem.RunoffAreaSquareFeet;
@@ -618,7 +618,7 @@ namespace SERVERAPI.Controllers
                     if (ModelState.IsValid)
                     {
                         var includedManure = _ud.GetGeneratedManures().Where(gm =>
-                            msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.id == includedIds)).ToList();
+                            msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.Id == includedIds)).ToList();
                         includedManure.ForEach(m => { m.AssignedToStoredSystem = true; });
 
                         ManureStorageSystem manureStorageSystem;
@@ -702,7 +702,7 @@ namespace SERVERAPI.Controllers
                 {
                     selectedManuresToInclude.AddRange(_ud.GetStorageSystems()
                                                                         .Single(ss => ss.Id == msdvm.SystemId).MaterialsIncludedInSystem
-                                                                        .Select(m => m.id.Value).ToList());
+                                                                        .Select(m => m.Id.Value).ToList());
                     selectedManuresToInclude = selectedManuresToInclude.GroupBy(s => s).Select(m => m.First()).ToList();
                 }
 
@@ -713,17 +713,17 @@ namespace SERVERAPI.Controllers
                 {
                     var accountedFor =
                         manureStorageSystem.MaterialsIncludedInSystem.Where(m =>
-                            selectedManuresToInclude.All(include => include != m.id)).Select(s => s.id.Value);
+                            selectedManuresToInclude.All(include => include != m.Id)).Select(s => s.Id.Value);
                     materialIdsToExclude.AddRange(accountedFor);
                 }
 
                 var generatedManures = _ud.GetGeneratedManures()
                     .Where(g => (
-                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Solid && g.manureType == ManureMaterialType.Solid)
+                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Solid && g.ManureType == ManureMaterialType.Solid)
                                             ||
-                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid && (g.manureType == ManureMaterialType.Liquid || g.manureType == ManureMaterialType.Solid))
+                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid && (g.ManureType == ManureMaterialType.Liquid || g.ManureType == ManureMaterialType.Solid))
                                         )
-                                       && !materialIdsToExclude.Any(exclude => g.id.HasValue && g.id.Value == exclude));
+                                       && !materialIdsToExclude.Any(exclude => g.Id.HasValue && g.Id.Value == exclude));
 
                 //return new MvcRendering.MultiSelectList(generatedManures, "id", "animalSubTypeName", msdvm.SelectedMaterialsToInclude);
                 var manureSelectItems = new List<MvcRendering.SelectListItem>();
@@ -731,9 +731,9 @@ namespace SERVERAPI.Controllers
                 {
                     manureSelectItems.Add(new MvcRendering.SelectListItem
                     {
-                        Value = generatedManure.id.Value.ToString(),
+                        Value = generatedManure.Id.Value.ToString(),
                         Text = generatedManure.animalSubTypeName,
-                        Selected = selectedMaterials.Any(sm => sm == generatedManure.id.Value)
+                        Selected = selectedMaterials.Any(sm => sm == generatedManure.Id.Value)
                     });
                 }
 
