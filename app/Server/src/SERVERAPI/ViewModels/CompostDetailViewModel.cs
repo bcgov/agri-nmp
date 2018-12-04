@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Agri.Models;
-using Agri.Models.Configuration;
-//using Microsoft.AspNetCore.Mvc.Rendering;
+//using Agri.Models.Configuration;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SERVERAPI.ViewModels
 {

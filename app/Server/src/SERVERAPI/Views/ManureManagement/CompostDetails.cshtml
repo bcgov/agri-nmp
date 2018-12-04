@@ -18,7 +18,7 @@
                     <div class="form-group col-sm-3">
                         <label asp-for="selsourceOfMaterialOption">Source of Material</label>
                         <div>
-                            <select class="form-control" asp-for="selsourceOfMaterialOption" asp-items="@(new SelectList(Model.sourceOfMaterialOptions,"Id","Value"))" id="ddlSourceOfMaterial">
+                            <select class="form-control" asp-for="selsourceOfMaterialOption" asp-items="@(new SelectList(Model.sourceOfMaterialOptions,"Text","Value"))" id="ddlSourceOfMaterial">
                                 <option>select</option>
                             </select>
                             <span asp-validation-for="selsourceOfMaterialOption"></span>
