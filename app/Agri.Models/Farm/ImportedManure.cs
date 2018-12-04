@@ -10,7 +10,9 @@ namespace Agri.Models.Farm
         public ManureMaterialType ManureType { get; set; }
         public string ManureTypeName { get; set; }
         public decimal AnnualAmount { get; set; }
-        public string Units { get; set; }
+        public AnnualAmountUnits Units { get; set; }
+        public decimal? Moisture { get; set; }
+        public decimal StandardSolidMoisture { get; set; }
         public bool IsLandAppliedBeforeStorage { get; set; }
         public bool AssignedToStoredSystem { get; set; }
     }

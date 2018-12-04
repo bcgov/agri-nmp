@@ -931,7 +931,7 @@ namespace SERVERAPI.Models.Impl
             return yd.ImportedManures?.ToList() ?? new List<ImportedManure>();
         }
 
-        public object GetImportedManure(int id)
+        public ImportedManure GetImportedManure(int id)
         {
             return GetImportedManures().SingleOrDefault(im => im.Id == id);
         }
@@ -953,6 +953,7 @@ namespace SERVERAPI.Models.Impl
             }
 
             yd.ImportedManures.Add(newManure);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
         public void UpdateImportedManure(ImportedManure updatedManure)

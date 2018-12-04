@@ -19,7 +19,7 @@
                         <div class="col-sm-3 form-box-table-cell">
                             <strong>Annual Amount (Weight)</strong>
                         </div>
-                        <div class="col-sm-2 form-box-table-cell">
+                        <div class="col-sm-1 form-box-table-cell">
                             <strong>Stored</strong>
                         </div>
                         <div class="col-sm-2 form-box-table-cell">
@@ -39,8 +39,8 @@
                             <div class="col-sm-3 form-box-table-cell">
                                 @item.AnnualAmount
                             </div>
-                            <div class="col-sm-2 form-box-table-cell">
-                                @item.IsLandAppliedBeforeStorage ? Yes : No
+                            <div class="col-sm-1 form-box-table-cell">
+                                @(item.IsLandAppliedBeforeStorage ? "Yes" : "No")
                             </div>
                             <div class="col-sm-2 form-box-table-cell text-center">
                                 <button title="Edit" aria-label="Edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureImportedDetail", "ManureManagement", new { id = item.Id, target = "#ManureImported" } )">

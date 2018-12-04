@@ -818,18 +818,21 @@ namespace SERVERAPI.Controllers
         {
             var vm = new ManureImportedDetailViewModel();
 
-            vm.Title = "Imported Material Details";
-            vm.Target = target;
-            vm.SelectedManureType = ManureMaterialType.Solid;
-            vm.StandardSolidMoisture = _sd.GetManureImportedDefault().DefaultSolidMoisture;
-            vm.Moisture = vm.StandardSolidMoisture;
-            vm.IsLandAppliedBeforeStorage = true;
-            vm.LandAppliedLabelText = _sd.GetUserPrompt("importmaterialislandappliedquestion");
-
             if (id.HasValue)
             {
                 var savedImportedManure = _ud.GetImportedManure(id.Value);
+                vm = _mapper.Map<ImportedManure, ManureImportedDetailViewModel>(savedImportedManure);
             }
+            else
+            {
+                vm.StandardSolidMoisture = _sd.GetManureImportedDefault().DefaultSolidMoisture;
+                vm.Moisture = vm.StandardSolidMoisture;
+                vm.IsLandAppliedBeforeStorage = true;
+            }
+            vm.Title = "Imported Material Details";
+            vm.Target = target;
+            vm.SelectedManureType = ManureMaterialType.Solid;
+            vm.LandAppliedLabelText = _sd.GetUserPrompt("importmaterialislandappliedquestion");
 
             return PartialView("ManureImportedDetail", vm);
         }
@@ -859,6 +862,7 @@ namespace SERVERAPI.Controllers
                 vm.ButtonText = "Save";
 
                 vm.Moisture = vm.StandardSolidMoisture;
+                return PartialView("ManureImportedDetail", vm);
             }
 
             if (vm.SelectedManureType == ManureMaterialType.Solid &&
