@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Agri.Models;
-//using Agri.Models.Configuration;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SERVERAPI.ViewModels
@@ -12,11 +11,9 @@ namespace SERVERAPI.ViewModels
         public int? id { get; set; }
         public string target { get; set; }
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
         public int selManOption { get; set; }
         public List<SelectListItem> sourceOfMaterialOptions { get; set; }
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
         public string selsourceOfMaterialOption { get; set; }
         public List<Agri.Models.Configuration.SelectListItem> manOptions { get; set; }
         public string act { get; set; }
