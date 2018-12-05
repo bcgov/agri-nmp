@@ -243,5 +243,14 @@ namespace Agri.LegacyData.Tests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
         }
+
+        [TestMethod]
+        public void GetSolidMaterialsConversionFactorsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSolidMaterialsConversionFactors();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
     }
 }

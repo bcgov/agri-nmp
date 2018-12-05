@@ -615,7 +615,7 @@ namespace Agri.LegacyData.Models.Impl
             {
                 var conversionFactor = new SolidMaterialsConversionFactor()
                 {
-                    Id = Convert.ToInt32(record["id"].ToString()),
+                    Id = Convert.ToInt32(record["Id"].ToString()),
                     InputUnit =  (AnnualAmountUnits)Convert.ToInt32(record["InputUnit"].ToString()),
                     InputUnitName = record["InputUnitName"].ToString(),
                     CubicYardsOutput = Convert.ToDecimal(record["CubicYardsOutput"].ToString()),

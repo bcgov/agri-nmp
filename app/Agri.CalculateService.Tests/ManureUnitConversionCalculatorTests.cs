@@ -31,10 +31,10 @@ namespace Agri.CalculateService.Tests
                 });
 
             var calculator = new ManureUnitConversionCalculator(repository);
-            var expected = "1 yards³ (99 m³)";
+            var expected = 1;
 
             //Act
-            var result = calculator.GetVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.Yards);
+            var result = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.Yards);
             
             //Assert
             Assert.AreEqual(expected, result);
@@ -55,13 +55,16 @@ namespace Agri.CalculateService.Tests
                 });
 
             var calculator = new ManureUnitConversionCalculator(repository);
-            var expected = "1 yards³ (99 m³)";
+            var expectedCubicYards = 1;
+            var expectedCubicMeters = 99;
 
             //Act
-            var result = calculator.GetVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.tons);
+            var resultCubicYards = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.tons);
+            var resultCubicMeters = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.tons);
 
             //Assert
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expectedCubicYards, resultCubicYards);
+            Assert.AreEqual(expectedCubicMeters, resultCubicMeters);
         }
 
         [TestMethod]
@@ -79,13 +82,17 @@ namespace Agri.CalculateService.Tests
                 });
 
             var calculator = new ManureUnitConversionCalculator(repository);
-            var expected = "1 yards³ (99 m³)";
+
+            var expectedCubicYards = 1;
+            var expectedCubicMeters = 99;
 
             //Act
-            var result = calculator.GetVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.CubicMeters);
+            var resultCubicYards = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.CubicMeters);
+            var resultCubicMeters = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.CubicMeters);
 
             //Assert
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expectedCubicYards, resultCubicYards);
+            Assert.AreEqual(expectedCubicMeters, resultCubicMeters);
         }
 
         [TestMethod]
@@ -103,13 +110,17 @@ namespace Agri.CalculateService.Tests
                 });
 
             var calculator = new ManureUnitConversionCalculator(repository);
-            var expected = "1 yards³ (99 m³)";
+
+            var expectedCubicYards = 1;
+            var expectedCubicMeters = 99;
 
             //Act
-            var result = calculator.GetVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.tonnes);
+            var resultCubicYards = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.tonnes);
+            var resultCubicMeters = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, 1, AnnualAmountUnits.tonnes);
 
             //Assert
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expectedCubicYards, resultCubicYards);
+            Assert.AreEqual(expectedCubicMeters, resultCubicMeters);
         }
 
         [TestMethod]
@@ -130,7 +141,79 @@ namespace Agri.CalculateService.Tests
             var expected = "1 tons";
 
             //Act
-            var result = calculator.GetWeight(ManureMaterialType.Solid, 1, AnnualAmountUnits.tons);
+            var result = calculator.GetTonsWeight(ManureMaterialType.Solid, 1, AnnualAmountUnits.tons);
+
+            //Assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void GetLiquidVolumeSuccessfullyForUSGallonsInput()
+        {
+            //Arrange
+            var repository = Substitute.For<IAgriConfigurationRepository>();
+            repository.GetLiquidMaterialsConversionFactors()
+                .Returns(new List<LiquidMaterialsConversionFactor>()
+                {
+                    new LiquidMaterialsConversionFactor
+                    {
+                        InputUnit = AnnualAmountUnits.USGallons, USGallonsOutput = 1
+                    }
+                });
+
+            var calculator = new ManureUnitConversionCalculator(repository);
+            var expected = 1;
+
+            //Act
+            var result = calculator.GetUSGallonsVolume(ManureMaterialType.Liquid, 1, AnnualAmountUnits.USGallons);
+
+            //Assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void GetLiquidVolumeSuccessfullyForImpGallonsInput()
+        {
+            //Arrange
+            var repository = Substitute.For<IAgriConfigurationRepository>();
+            repository.GetLiquidMaterialsConversionFactors()
+                .Returns(new List<LiquidMaterialsConversionFactor>()
+                {
+                    new LiquidMaterialsConversionFactor
+                    {
+                        InputUnit = AnnualAmountUnits.ImperialGallons, USGallonsOutput = 1
+                    }
+                });
+
+            var calculator = new ManureUnitConversionCalculator(repository);
+            var expected = 1;
+
+            //Act
+            var result = calculator.GetUSGallonsVolume(ManureMaterialType.Liquid, 1, AnnualAmountUnits.ImperialGallons);
+
+            //Assert
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        public void GetLiquidVolumeSuccessfullyForCubicMetersInput()
+        {
+            //Arrange
+            var repository = Substitute.For<IAgriConfigurationRepository>();
+            repository.GetLiquidMaterialsConversionFactors()
+                .Returns(new List<LiquidMaterialsConversionFactor>()
+                {
+                    new LiquidMaterialsConversionFactor
+                    {
+                        InputUnit = AnnualAmountUnits.CubicMeters, USGallonsOutput = 1
+                    }
+                });
+
+            var calculator = new ManureUnitConversionCalculator(repository);
+            var expected = 1;
+
+            //Act
+            var result = calculator.GetUSGallonsVolume(ManureMaterialType.Liquid, 1, AnnualAmountUnits.CubicMeters);
 
             //Assert
             Assert.AreEqual(expected, result);

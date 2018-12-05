@@ -21,17 +21,20 @@ namespace SERVERAPI.Controllers
         private readonly IHostingEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
+        private readonly IManureUnitConversionCalculator _manureUnitConversionCalculator;
         private readonly IViewRenderService _viewRenderService;
         private readonly IMapper _mapper;
 
         public ManureManagementController(IHostingEnvironment env, 
             IViewRenderService viewRenderService, UserData ud,
             IAgriConfigurationRepository sd,
+            IManureUnitConversionCalculator manureUnitConversionCalculator,
             IMapper mapper)
         {
             _env = env;
             _ud = ud;
             _sd = sd;
+            _manureUnitConversionCalculator = manureUnitConversionCalculator;
             _viewRenderService = viewRenderService;
             _mapper = mapper;
         }
@@ -878,7 +881,28 @@ namespace SERVERAPI.Controllers
 
             if (ModelState.IsValid)
             {
+
                 var importedManure = _mapper.Map<ImportedManure>(vm);
+
+                importedManure.AnnualAmountCubicMetersVolume =
+                    _manureUnitConversionCalculator.GetCubicMetersVolume(importedManure.ManureType, 
+                                                                                            importedManure.AnnualAmount,
+                                                                                            importedManure.Units);
+
+                importedManure.AnnualAmountCubicYardsVolume =
+                    _manureUnitConversionCalculator.GetCubicYardsVolume(importedManure.ManureType,
+                                                                                            importedManure.AnnualAmount,
+                                                                                            importedManure.Units);
+
+                importedManure.AnnualAmountUSGallonsVolume =
+                    _manureUnitConversionCalculator.GetUSGallonsVolume(importedManure.ManureType,
+                                                                                            importedManure.AnnualAmount,
+                                                                                            importedManure.Units);
+
+                importedManure.AnnualAmountTonsWeight =
+                    _manureUnitConversionCalculator.GetTonsWeight(importedManure.ManureType,
+                                                                                            importedManure.AnnualAmount,
+                                                                                            importedManure.Units);
 
                 if (!vm.ManureImportId.HasValue)
                 {
@@ -888,7 +912,7 @@ namespace SERVERAPI.Controllers
                 {
                     _ud.UpdateImportedManure(importedManure);
                 }
-
+                
                 var url = Url.Action("RefreshImportList", "ManureManagement");
                 return Json(new { success = true, url = url, target = vm.Target });
             }

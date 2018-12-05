@@ -354,6 +354,12 @@ namespace Agri.Data
                 _context.MainMenus.AddRange(mainMenus);
             }
 
+            if (!_context.LiquidMaterialsConversionFactors.Any())
+            {
+                var conversions = staticExtRepo.GetLiquidMaterialsConversionFactors();
+                _context.LiquidMaterialsConversionFactors.AddRange(conversions);
+            }
+
             if (!_context.SolidMaterialsConversionFactors.Any())
             {
                 var conversions = staticExtRepo.GetSolidMaterialsConversionFactors();

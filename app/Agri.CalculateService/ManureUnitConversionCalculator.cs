@@ -8,7 +8,7 @@ using Agri.Models;
 
 namespace Agri.CalculateService
 {
-    public class ManureUnitConversionCalculator
+    public class ManureUnitConversionCalculator : IManureUnitConversionCalculator
     {
         private IAgriConfigurationRepository _repository;
 
@@ -17,7 +17,7 @@ namespace Agri.CalculateService
             _repository = repository;
         }
 
-        public string GetVolume(ManureMaterialType manureMaterialType, 
+        public decimal GetCubicYardsVolume(ManureMaterialType manureMaterialType, 
             decimal amountToConvert, 
             AnnualAmountUnits amountUnit)
         {
@@ -30,15 +30,50 @@ namespace Agri.CalculateService
                 var cubicYardsConverted = converstionFactor.CubicYardsOutput * amountToConvert;
                 var cubicMetersConverted = converstionFactor.CubicMetersOutput * amountToConvert;
 
-                return $"{cubicYardsConverted} yards³ ({cubicMetersConverted} m³)";
+                return cubicYardsConverted;
             }
-            else
+
+            return 0;
+        }
+        public decimal GetCubicMetersVolume(ManureMaterialType manureMaterialType,
+            decimal amountToConvert,
+            AnnualAmountUnits amountUnit)
+        {
+            if (manureMaterialType == ManureMaterialType.Solid)
             {
-                return string.Empty;
+                var converstionFactor = _repository
+                    .GetSolidMaterialsConversionFactors()
+                    .Single(cf => cf.InputUnit == amountUnit);
+
+                var cubicYardsConverted = converstionFactor.CubicYardsOutput * amountToConvert;
+                var cubicMetersConverted = converstionFactor.CubicMetersOutput * amountToConvert;
+
+                return cubicMetersConverted;
             }
+
+            return 0;
         }
 
-        public string GetWeight(ManureMaterialType manureMaterialType,
+        public decimal GetUSGallonsVolume(ManureMaterialType manureMaterialType,
+            decimal amountToConvert,
+            AnnualAmountUnits amountUnit)
+        {
+            if (manureMaterialType == ManureMaterialType.Liquid)
+            {
+
+                var converstionFactor = _repository
+                    .GetLiquidMaterialsConversionFactors()
+                    .Single(cf => cf.InputUnit == amountUnit);
+
+                var usGallonsCoverted = converstionFactor.USGallonsOutput * amountToConvert;
+
+                return usGallonsCoverted;
+            }
+
+            return 0;
+        }
+
+        public decimal GetTonsWeight(ManureMaterialType manureMaterialType,
             decimal amountToConvert,
             AnnualAmountUnits amountUnit)
         {
@@ -50,11 +85,11 @@ namespace Agri.CalculateService
 
                 var tonsConverted = converstionFactor.MetricTonsOutput * amountToConvert;
 
-                return $"{tonsConverted} tons";
+                return tonsConverted;
             }
             else
             {
-                return string.Empty;
+                return 0;
             }
         }
     }

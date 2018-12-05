@@ -9910,64 +9910,6 @@
             "action": "SoilTest"
           }
         ]
-      },
-      "LiquidMaterialsConversionFactors": {
-        "LiquidMaterialsConversionFactor": [
-          {
-            "Id": 1,
-            "InputUnit": 3,
-            "InputUnitName": "US gallons",
-            "USGallonsOutput": 1
-          },
-          {
-            "Id": 2,
-            "InputUnit": 4,
-            "InputUnitName": "Imp. gallons",
-            "USGallonsOutput": 1.20095
-          },
-          {
-            "Id": 3,
-            "InputUnit": 5,
-            "InputUnitName": "cubic meters",
-            "USGallonsOutput": 264.172
-          }
-        ]
-      },
-      "SolidMaterialsConversionFactors": {
-        "SolidMaterialsConversionFactor": [
-          {
-            "Id": 1,
-            "InputUnit": 1,
-            "InputUnitName": "cubic yards",
-            "CubicYardsOutput": 1,
-            "CubicMetersOutput": 0.764555,
-            "MetricTonsOutput": 0.704471875
-          },
-          {
-            "Id": 2,
-            "InputUnit": 2,
-            "InputUnitName": "tons",
-            "CubicYardsOutput": 1.419503085,
-            "CubicMetersOutput": 1.085288181,
-            "MetricTonsOutput": 1
-          },
-          {
-            "Id": 3,
-            "InputUnit": 5,
-            "InputUnitName": "cubic meters",
-            "CubicYardsOutput": 1.30795,
-            "CubicMetersOutput": 1,
-            "MetricTonsOutput": 0.921413989
-          },
-          {
-            "Id": 4,
-            "InputUnit": 6,
-            "InputUnitName": "tonnes",
-            "CubicYardsOutput": 1.564732446,
-            "CubicMetersOutput": 1.196324015,
-            "MetricTonsOutput": 1.10231
-          }
-        ]
       }
     }
   }

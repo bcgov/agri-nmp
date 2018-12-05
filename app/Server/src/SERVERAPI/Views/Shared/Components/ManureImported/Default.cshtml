@@ -31,13 +31,13 @@
                     <div class="box">
                         <div class="form-box-table-row row row-eq-height">
                             <div class="col-sm-3 form-box-table-cell">
-                                @item.ManureTypeName
+                                @item.MaterialName (@item.ManureTypeName)
                             </div>
                             <div class="col-sm-3 form-box-table-cell">
-                                @item.AnnualAmount
+                                @item.AnnualAmountDisplayVolume
                             </div>
                             <div class="col-sm-3 form-box-table-cell">
-                                @item.AnnualAmount
+                                @item.AnnualAmountDisplayWeight
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
                                 @(item.IsLandAppliedBeforeStorage ? "Yes" : "No")
