@@ -713,5 +713,15 @@ namespace Agri.Data
         {
             return _context.ManureImportedDefaults.First();
         }
+
+        public List<SolidMaterialsConversionFactor> GetSolidMaterialsConversionFactors()
+        {
+            return _context.SolidMaterialsConversionFactors.ToList();
+        }
+
+        public List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors()
+        {
+            return _context.LiquidMaterialsConversionFactors.ToList();
+        }
     }
 }
