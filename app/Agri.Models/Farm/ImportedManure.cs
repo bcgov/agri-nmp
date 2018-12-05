@@ -6,7 +6,6 @@ namespace Agri.Models.Farm
     public class ImportedManure : ManagedManure
     {
         public string MaterialName { get; set; }
-        public ManureMaterialType ManureType { get; set; }
         public string ManureTypeName { get; set; }
         public decimal AnnualAmount { get; set; }
         public decimal AnnualAmountUSGallonsVolume { get; set; }
@@ -35,5 +34,6 @@ namespace Agri.Models.Farm
         public decimal StandardSolidMoisture { get; set; }
         public bool IsLandAppliedBeforeStorage { get; set; }
         public override string ManureId => $"Imported{Id ?? 0}";
+        public override string ManagedManureName => MaterialName;
     }
 }

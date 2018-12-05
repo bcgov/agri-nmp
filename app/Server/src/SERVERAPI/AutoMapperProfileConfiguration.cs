@@ -19,8 +19,7 @@ namespace SERVERAPI
         protected AutoMapperProfileConfiguration(string profileName)
             : base(profileName)
         {
-            //Mapper.CreateMap<ProductDto, Product>()
-            //    .ForMember(dest => dest.Code, x => x.MapFrom(src => src.code.ToUpper()));
+            CreateMap<ManureStorageSystem, ManureStorageSystem>();
             CreateMap<ManureImportedDetailViewModel, ImportedManure>()
                 .ForMember(dest => dest.Id, x => x.MapFrom(src => src.ManureImportId))
                 .ForMember(dest => dest.ManureType, x => x.MapFrom(src => src.SelectedManureType))

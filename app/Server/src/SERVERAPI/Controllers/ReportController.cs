@@ -522,9 +522,9 @@ namespace SERVERAPI.Controllers
                     rs.units ="tons";
                 }
 
-                if (s.MaterialsIncludedInSystem != null)
+                if (s.GeneratedManuresIncludedInSystem != null)
                 {
-                    foreach (var m in s.MaterialsIncludedInSystem)
+                    foreach (var m in s.GeneratedManuresIncludedInSystem)
                     {
                         rs.animalManure = m.animalSubTypeName + "," + m.averageAnimalNumber + " animals";
                         rs.annualAmount = string.Format("{0:#,##0}", m.annualAmount.Split(' ')[0]);

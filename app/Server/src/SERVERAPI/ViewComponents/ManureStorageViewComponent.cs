@@ -31,6 +31,7 @@ namespace SERVERAPI.ViewComponents
             var manureStorageVm = new ManureStorageViewModel
             {
                 GeneratedManures = _userData.GetGeneratedManures(),
+                ImportedManures = _userData.GetImportedManures(), 
                 ManureStorageSystems = _userData.GetStorageSystems()
             };
 
