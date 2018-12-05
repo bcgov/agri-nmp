@@ -17,6 +17,7 @@ namespace SERVERAPI.ViewModels
         public string selsourceOfMaterialOption { get; set; }
         public List<Agri.Models.Configuration.SelectListItem> manOptions { get; set; }
         public string act { get; set; }
+        public string sourceOfMaterialName { get; set; }
         [Display(Name = "Material Type")]
         public string manureName { get; set; }
         public ManureMaterialType materialType { get; set; }

@@ -820,6 +820,7 @@ namespace SERVERAPI.Controllers
             {
                 FarmManure fm = _ud.GetFarmManure(id.Value);
 
+                mvm.selsourceOfMaterialOption = fm.sourceOfMaterialId;
                 mvm.selManOption = fm.manureId;
 
                 if (!fm.customized)
@@ -848,6 +849,7 @@ namespace SERVERAPI.Controllers
             {
                 mvm.bookValue = true;
                 mvm.manureName = "  ";
+                mvm.sourceOfMaterialName = "  ";
                 mvm.moisture = "  ";
                 mvm.nitrogen = "  ";
                 mvm.ammonia = "  ";
@@ -958,6 +960,7 @@ namespace SERVERAPI.Controllers
                         if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                            cvm.sourceOfMaterialName = storageSystem.Name;
                             var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
                             cvm.materialType = storageSystem.ManureMaterialType;
                             foreach (var manuresByMaterialType in manuresByMaterialTypes)
@@ -970,6 +973,7 @@ namespace SERVERAPI.Controllers
                         else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
                         {
                             var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                            cvm.sourceOfMaterialName = importedManure.MaterialName;
                             var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() select manure;
                             cvm.materialType = importedManure.ManureType;
                             foreach (var manuresByMaterialType in manuresByMaterialTypes)
@@ -987,6 +991,20 @@ namespace SERVERAPI.Controllers
                 {
                     ModelState.Clear();
                     cvm.buttonPressed = "";
+
+                    if (cvm.selsourceOfMaterialOption != "select")
+                    {
+                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                        {
+                            var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                            cvm.sourceOfMaterialName = storageSystem.Name;
+                        }
+                        else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
+                        {
+                            var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                            cvm.sourceOfMaterialName = importedManure.MaterialName;
+                        }
+                    }
 
                     if (cvm.selManOption != 0)
                     {
@@ -1115,6 +1133,21 @@ namespace SERVERAPI.Controllers
                 if (ModelState.IsValid)
                 {
                     man = _sd.GetManure(cvm.selManOption.ToString());
+
+                    if (cvm.selsourceOfMaterialOption != "select")
+                    {
+                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                        {
+                            var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                            cvm.sourceOfMaterialName = storageSystem.Name;
+                        }
+                        else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
+                        {
+                            var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                            cvm.sourceOfMaterialName = importedManure.MaterialName;
+                        }
+
+                    }
 
                     if (!cvm.bookValue)
                     {
@@ -1264,6 +1297,8 @@ namespace SERVERAPI.Controllers
                         FarmManure fm = new FarmManure();
                         if (cvm.bookValue)
                         {
+                            fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
+                            fm.sourceOfMaterialName = cvm.sourceOfMaterialName;
                             fm.manureId = cvm.selManOption;
                             fm.customized = false;
                         }
@@ -1272,12 +1307,14 @@ namespace SERVERAPI.Controllers
                             man = _sd.GetManure(cvm.selManOption.ToString());
 
                             fm.customized = true;
+                            fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
                             fm.manureId = cvm.selManOption;
-                            fm.ammonia = Convert.ToInt32(cvm.ammonia);
+                            fm.ammonia = Convert.ToDecimal(cvm.ammonia);
                             fm.dmid = man.DMId;
                             fm.manure_class = man.ManureClass;
                             fm.moisture = cvm.moisture;
                             fm.name = cvm.manureName;
+                            fm.sourceOfMaterialName = cvm.sourceOfMaterialName;
                             fm.nitrogen = Convert.ToDecimal(cvm.nitrogen);
                             fm.nminerizationid = man.NMineralizationId;
                             fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
@@ -1296,6 +1333,7 @@ namespace SERVERAPI.Controllers
                         {
                             fm = new FarmManure();
                             fm.id = cvm.id.Value;
+                            fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
                             fm.manureId = cvm.selManOption;
                             fm.customized = false;
                         }
@@ -1304,12 +1342,14 @@ namespace SERVERAPI.Controllers
                             man = _sd.GetManure(cvm.selManOption.ToString());
 
                             fm.customized = true;
+                            fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
                             fm.manureId = cvm.selManOption;
-                            fm.ammonia = Convert.ToInt32(cvm.ammonia);
+                            fm.ammonia = Convert.ToDecimal(cvm.ammonia);
                             fm.dmid = man.DMId;
                             fm.manure_class = man.ManureClass;
                             fm.moisture = cvm.moisture;
                             fm.name = cvm.manureName;
+                            fm.sourceOfMaterialName = cvm.sourceOfMaterialName;
                             fm.nitrogen = Convert.ToDecimal(cvm.nitrogen);
                             fm.nminerizationid = man.NMineralizationId;
                             fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
