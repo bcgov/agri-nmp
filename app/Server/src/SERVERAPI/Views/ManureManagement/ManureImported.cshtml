@@ -143,6 +143,13 @@
         });
 
         $(document).ready(function () {
+            $("body").on("click", "#rstMoisture", function () {
+                $('#ButtonPressed').val("ResetMoisture");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
             $("#ManureManagementManureGeneratedObtained1").show();
             $("#ManureManagementManureImported2").show();
             $("#ManureManagementManureStorage3").show();
@@ -156,6 +163,12 @@
             $("#ManureManagementManureImported2").addClass('lineheight');
             $("#ManureManagementManureStorage3").addClass('lineheight');
         });
+
+        function NeedRefresh() {
+            $("#ok_button").html('Save');
+            $("#ok_button").css('background-color', '#1abbed');
+            $("#btnText").val("Save");
+        }
 
     </script>
 }

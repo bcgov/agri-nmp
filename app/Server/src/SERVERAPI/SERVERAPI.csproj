@@ -82,6 +82,15 @@
     <ProjectReference Include="..\..\..\Common\src\Common\Common.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Views\ManureManagement\CompostDelete.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\ManureManagement\CompostDetails.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\ManureManagement\Manure.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\ManureManagement\ManureGeneratedObtainedDelete.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

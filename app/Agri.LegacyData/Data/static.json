@@ -9227,7 +9227,7 @@
           {
             "id": "35",
             "name": "importmaterialislandappliedquestion",
-            "text": "Is the material stored before it is land-applied?"
+            "text": "Is the material stored?"
           }
         ]
       },
@@ -9920,6 +9920,9 @@
             "action": "SoilTest"
           }
         ]
+      },
+      "ManureImportedDefaults": {
+        "defaultSolidMoisture": 75
       }
     }
   }

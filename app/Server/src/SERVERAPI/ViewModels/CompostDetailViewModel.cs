@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Agri.Models.Configuration;
+using Agri.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SERVERAPI.ViewModels
 {
@@ -9,11 +10,16 @@ namespace SERVERAPI.ViewModels
         public string title { get; set; }
         public int? id { get; set; }
         public string target { get; set; }
+        [Required(ErrorMessage = "Required")]
         public int selManOption { get; set; }
-        public List<SelectListItem> manOptions { get; set; }
+        public List<SelectListItem> sourceOfMaterialOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        public string selsourceOfMaterialOption { get; set; }
+        public List<Agri.Models.Configuration.SelectListItem> manOptions { get; set; }
         public string act { get; set; }
         [Display(Name = "Material Type")]
         public string manureName { get; set; }
+        public ManureMaterialType materialType { get; set; }
         [Display(Name = "Moisture (%)")]
         public string moisture { get; set; }
         [Display(Name = "N (%)")]
