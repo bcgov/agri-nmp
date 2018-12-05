@@ -708,5 +708,10 @@ namespace Agri.Data
         {
             throw new NotImplementedException();
         }
+
+        public ManureImportedDefault GetManureImportedDefault()
+        {
+            return _context.ManureImportedDefaults.First();
+        }
     }
 }
