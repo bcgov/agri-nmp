@@ -1543,7 +1543,7 @@ namespace SERVERAPI.Controllers
                     .Select(im => im.MaterialName).ToList();
                 if (existingNames.Any(n => n.Contains(vm.MaterialName, StringComparison.CurrentCultureIgnoreCase)))
                 {
-                    ModelState.AddModelError("MaterialName", "Enter a unique name");
+                    ModelState.AddModelError("MaterialName", "Use a new name");
                 }
 
                 if (vm.SelectedManureType == ManureMaterialType.Solid &&
