@@ -1094,6 +1094,11 @@ namespace Agri.Data
             throw new NotImplementedException();
         }
 
+        public ManureImportedDefault GetManureImportedDefault()
+        {
+            return _context.ManureImportedDefaults.First();
+        }
+
         private string ParseStdUnit(string stdUnit)
         {
             int idx = stdUnit.LastIndexOf("/");

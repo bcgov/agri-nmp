@@ -1,0 +1,190 @@
+﻿@using Agri.Models
+@model SERVERAPI.ViewModels.CompostDetailViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <form asp-action="CompostDetails" asp-controller="ManureManagement" id="modForm" method="post" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Manure/Compost Details - @Model.act</h4>
+        </div>
+
+        <div class="modal-body">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-3">
+                        <label asp-for="selsourceOfMaterialOption">Source of Material</label>
+                        <div>
+                            <select class="form-control" asp-for="selsourceOfMaterialOption" asp-items="@(new SelectList(Model.sourceOfMaterialOptions,"Text","Value"))" id="ddlSourceOfMaterial">
+                                <option>select</option>
+                            </select>
+                            <span asp-validation-for="selsourceOfMaterialOption" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-5">
+                        <label asp-for="selManOption">Material Type</label>
+                        <div>
+                            <select class="form-control" asp-for="selManOption" asp-items="@(new SelectList(Model.manOptions, "Id", "Value"))" id="ddlMan">
+                                <option>select</option>
+                            </select>
+                            <span asp-validation-for="selManOption"  class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group col-sm-6">
+                        <label>&nbsp;</label>
+                        <div class="radio" style="margin-top:0px">
+                            @if (Model.onlyCustom)
+                            {
+                                <label style="padding-right:20px">
+                                    <input asp-for="bookValue" type="radio" value="true" id="book" disabled="disabled" /> Book Value
+                                </label>
+                            }
+                            else
+                            {
+                                <label style="padding-right:20px">
+                                    <input asp-for="bookValue" type="radio" value="true" id="book" /> Book Value
+                                </label>
+                            }
+                            @if (Model.selManOption != 0)
+                            {
+                                <label>
+                                    <input asp-for="bookValue" type="radio" value="false" id="lab" /> Lab Analysis
+                                </label>
+                            }
+                            else
+                            {
+                                <label>
+                                    <input asp-for="bookValue" type="radio" value="false" id="lab" disabled="disabled" /> Lab Analysis
+                                </label>
+                            }
+                            &nbsp;
+                            <a href="@Model.url" target="_blank">@Model.urlText</a>
+                        </div>
+                        <span asp-validation-for="bookValue"></span>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                @if (Model.bookValue)
+                {
+
+
+                    <div style="clear:both"></div>
+                    <div class="form-group">
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div class="form-group col-sm-2">
+                            <label>Moisture&nbsp;(%)</label>
+                            <div class="input-group col-sm-6">
+                                @Model.moisture
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>N&nbsp;(%)</label>
+                            <div class="input-group col-sm-6">
+                                @Model.nitrogen
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>NH<sub>4</sub>-N&nbsp;(ppm)</label>
+                            <div class="input-group col-sm-6">
+                                @Model.ammonia
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>P&nbsp;(%)</label>
+                            <div class="input-group col-sm-6">
+                                @Model.phosphorous
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>K&nbsp;(%)</label>
+                            <div class="input-group col-sm-6">
+                                @Model.potassium
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <div class="form-group col-sm-6">
+                            <label asp-for="manureName">Material Name</label>
+                            <div class="input-group col-sm-12">
+                                <input class="form-control" asp-for="manureName" id="manureName" type="text" />
+                            </div>
+                            <span asp-validation-for="manureName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div style="clear:both"></div>
+                    <div class="form-group">
+                        <div class="form-group col-sm-2">
+                            <label>Moisture&nbsp;(%)</label>
+                            <div class="input-group col-sm-6">
+                                <input class="form-control" asp-for="moisture" id="avail" type="text" placeholder="@Model.moistureBook" />
+                            </div>
+                            <span asp-validation-for="moisture" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>N&nbsp;(%)</label>
+                            <div class="input-group col-sm-6">
+                                <input class="form-control" asp-for="nitrogen" id="avail" type="text" placeholder="@Model.nitrogenBook" />
+                            </div>
+                            <span asp-validation-for="nitrogen" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>NH<sub>4</sub>-N&nbsp;(ppm)</label>
+                            <div class="input-group col-sm-6">
+                                <input class="form-control" asp-for="ammonia" id="avail" type="text" placeholder="@Model.ammoniaBook" />
+                            </div>
+                            <span asp-validation-for="ammonia" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>P&nbsp;(%)</label>
+                            <div class="input-group col-sm-6">
+                                <input class="form-control" asp-for="phosphorous" id="avail" type="text" placeholder="@Model.phosphorousBook" />
+                            </div>
+                            <span asp-validation-for="phosphorous" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <label>K&nbsp;(%)</label>
+                            <div class="input-group col-sm-6">
+                                <input class="form-control" asp-for="potassium" id="avail" type="text" placeholder="@Model.potassiumBook" />
+                            </div>
+                            <span asp-validation-for="potassium" class="text-danger"></span>
+                        </div>
+                        @if (Model.showNitrate)
+                        {
+                            <div class="form-group col-sm-2">
+                                <label>NO<sub>3</sub>-N&nbsp;(ppm)</label>
+                                <div class="input-group col-sm-6">
+                                    <input class="form-control" asp-for="nitrate" id="avail" type="text" placeholder="@Model.nitrateBook" />
+                                </div>
+                                <span asp-validation-for="nitrate" class="text-danger"></span>
+                            </div>
+                        }
+                    </div>}
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </div>
+        @Html.HiddenFor(x => x.act)
+        @Html.HiddenFor(x => x.buttonPressed)
+        @Html.HiddenFor(x => x.compost)
+        @Html.HiddenFor(x => x.target)
+        @Html.HiddenFor(x => x.manureName)
+        @Html.HiddenFor(x => x.url)
+        @Html.HiddenFor(x => x.urlText)
+        @Html.HiddenFor(x => x.onlyCustom)
+        @Html.HiddenFor(x => x.showNitrate)
+    </form>
+</div>

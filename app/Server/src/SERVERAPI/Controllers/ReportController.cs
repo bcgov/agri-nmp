@@ -529,7 +529,7 @@ namespace SERVERAPI.Controllers
                         rs.animalManure = m.animalSubTypeName + "," + m.averageAnimalNumber + " animals";
                         rs.annualAmount = string.Format("{0:#,##0}", m.annualAmount.Split(' ')[0]);
 
-                        if (@s.ManureMaterialType != @m.manureType  && @m.manureType == ManureMaterialType.Solid)
+                        if (@s.ManureMaterialType != @m.ManureType  && @m.ManureType == ManureMaterialType.Solid)
                         {
                             // if solid material is added to the liquid system change the calculations to depict that of liquid
                             AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(m.animalSubTypeId));

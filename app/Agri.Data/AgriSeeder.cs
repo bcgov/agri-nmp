@@ -369,6 +369,12 @@ namespace Agri.Data
                 _context.NitrateCreditSampleDates.AddRange(dates);
             }
 
+            if (!_context.ManureImportedDefaults.Any())
+            {
+                var defaultManure = staticExtRepo.GetManureImportedDefault();
+                _context.Add(defaultManure);
+            }
+
             //MainMenu
             //SubMenu
             if (!_context.MainMenus.Any())

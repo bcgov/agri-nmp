@@ -659,5 +659,16 @@ namespace Agri.LegacyData.Models.Impl
                 .Select(r => new PhosphorusSoilTestRange { Rating = r.Rating, UpperLimit = r.UpperLimit})
                 .ToList();
         }
+        public ManureImportedDefault GetManureImportedDefault()
+        {
+            var defaultMoistureRaw = rss["agri"]["nmp"]["ManureImportedDefaults"]["defaultSolidMoisture"];
+
+            var importedDefault = new ManureImportedDefault
+            {
+                DefaultSolidMoisture = Convert.ToInt32(defaultMoistureRaw)
+            };
+
+            return importedDefault;
+        }
     }
 }
