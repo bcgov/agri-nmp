@@ -950,7 +950,7 @@ namespace SERVERAPI.Models.Impl
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
-            if (yd.ImportedManures == null)
+            if (yd.ImportedManures == null || yd.ImportedManures.Count == 0)
             {
                 yd.ImportedManures = new List<ImportedManure>();
                 newManure.Id = 1;
@@ -974,13 +974,13 @@ namespace SERVERAPI.Models.Impl
 
             //Update the Materials saved in the Storage Systems
             var storageSystem = GetStorageSystems()
-                .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.ManureId == updatedManure.ManureId));
+                .SingleOrDefault(s => s.ImportedManuresIncludedInSystem.Any(m => m.ManureId == updatedManure.ManureId));
             if (storageSystem != null)
             {
                 var oldMaterial =
-                    storageSystem.MaterialsIncludedInSystem.Single(m => m.ManureId == updatedManure.ManureId);
-                storageSystem.MaterialsIncludedInSystem.Remove(oldMaterial);
-                //storageSystem.MaterialsIncludedInSystem.Add(updatedManure);
+                    storageSystem.ImportedManuresIncludedInSystem.Single(m => m.ManureId == updatedManure.ManureId);
+                storageSystem.ImportedManuresIncludedInSystem.Remove(oldMaterial);
+                storageSystem.ImportedManuresIncludedInSystem.Add(updatedManure);
                 UpdateManureStorageSystem(storageSystem);
             }
 
@@ -1000,8 +1000,8 @@ namespace SERVERAPI.Models.Impl
             if (storageSystem != null)
             {
                 var oldMaterial =
-                    storageSystem.MaterialsIncludedInSystem.Single(m => m.ManureId == importedManure.ManureId);
-                storageSystem.MaterialsIncludedInSystem.Remove(oldMaterial);
+                    storageSystem.ImportedManuresIncludedInSystem.Single(m => m.ManureId == importedManure.ManureId);
+                storageSystem.ImportedManuresIncludedInSystem.Remove(oldMaterial);
                 UpdateManureStorageSystem(storageSystem);
             }
             yd.ImportedManures.Remove(importedManure);
