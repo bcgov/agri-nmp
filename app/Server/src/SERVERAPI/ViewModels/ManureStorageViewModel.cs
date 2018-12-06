@@ -12,7 +12,7 @@ namespace SERVERAPI.ViewModels
         public string ExplainMaterialsNeedingStorageMessage { get; set; }
         public bool AnyUnallocatedManures =>
             GeneratedManures.Any(gm => !gm.AssignedToStoredSystem) ||
-            ImportedManures.Any(im => !im.IsLandAppliedBeforeStorage && !im.AssignedToStoredSystem);
+            ImportedManures.Any(im => !im.IsMaterialStored && !im.AssignedToStoredSystem);
         public bool DisableAddStorageSystemButton
         {
             get { return !AnyUnallocatedManures; }
@@ -30,7 +30,7 @@ namespace SERVERAPI.ViewModels
 
                 if (ImportedManures.Any())
                 {
-                    manures.AddRange(ImportedManures.Where(im => !im.IsLandAppliedBeforeStorage));
+                    manures.AddRange(ImportedManures.Where(im => !im.IsMaterialStored));
                 }
 
                 return manures;
