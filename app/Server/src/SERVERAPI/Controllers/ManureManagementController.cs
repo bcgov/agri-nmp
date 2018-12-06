@@ -870,11 +870,15 @@ namespace SERVERAPI.Controllers
             // add storage systems created by user to the list of Material Sources
             var storageSystems = _ud.GetStorageSystems();
             cvm.sourceOfMaterialOptions = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+
             foreach (var storageSystem in storageSystems)
             {
-                var li = new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
-                { Text = storageSystem.MaterialsIncludedInSystem[0].ManureId +","+ storageSystem.Id, Value = storageSystem.Name };
-                cvm.sourceOfMaterialOptions.Add(li);
+                if (storageSystem.MaterialsIncludedInSystem.Count() != 0)
+                {
+                    var li = new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
+                        { Text = storageSystem.MaterialsIncludedInSystem[0].ManureId + "," + storageSystem.Id, Value = storageSystem.Name };
+                    cvm.sourceOfMaterialOptions.Add(li);
+                }
             }
 
             // add imported materials that are not being stored to the list of Material Sources
@@ -1334,6 +1338,7 @@ namespace SERVERAPI.Controllers
                             fm = new FarmManure();
                             fm.id = cvm.id.Value;
                             fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
+                            fm.sourceOfMaterialName = cvm.sourceOfMaterialName;
                             fm.manureId = cvm.selManOption;
                             fm.customized = false;
                         }

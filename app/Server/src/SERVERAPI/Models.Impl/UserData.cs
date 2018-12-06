@@ -697,9 +697,11 @@ namespace SERVERAPI.Models.Impl
             frm.customized = updtMan.customized;
             frm.dmid = updtMan.dmid;
             frm.manureId = updtMan.manureId;
+            frm.sourceOfMaterialId = updtMan.sourceOfMaterialId;
             frm.manure_class = updtMan.manure_class;
             frm.moisture = updtMan.moisture;
             frm.name = updtMan.name;
+            frm.sourceOfMaterialName = updtMan.sourceOfMaterialName;
             frm.nitrate = updtMan.nitrate;
             frm.nitrogen = updtMan.nitrogen;
             frm.nminerizationid = updtMan.nminerizationid;
