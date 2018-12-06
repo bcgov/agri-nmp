@@ -805,13 +805,13 @@ namespace SERVERAPI.Models.Impl
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
-            //Update the Materails saved in the Storage Systems
+            //Update the Materials saved in the Storage Systems
             var storageSystem = GetStorageSystems()
-                                            .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.Id == updatedGeneratedManure.Id));
+                                            .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.ManureId == updatedGeneratedManure.ManureId));
             if (storageSystem != null)
             {
                 var oldMaterial =
-                    storageSystem.MaterialsIncludedInSystem.Single(m => m.Id == updatedGeneratedManure.Id);
+                    storageSystem.MaterialsIncludedInSystem.Single(m => m.ManureId == updatedGeneratedManure.ManureId);
                 storageSystem.MaterialsIncludedInSystem.Remove(oldMaterial);
                 storageSystem.MaterialsIncludedInSystem.Add(updatedGeneratedManure);
                 UpdateManureStorageSystem(storageSystem);
@@ -832,26 +832,33 @@ namespace SERVERAPI.Models.Impl
 
             //Update the Materails saved in the Storage Systems
             var storageSystem = GetStorageSystems()
-                .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.Id == generatedManure.Id));
+                .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.ManureId == generatedManure.ManureId));
             if (storageSystem != null)
             {
                 var oldMaterial =
-                    storageSystem.MaterialsIncludedInSystem.Single(m => m.Id == generatedManure.Id);
+                    storageSystem.MaterialsIncludedInSystem.Single(m => m.ManureId == generatedManure.ManureId);
                 storageSystem.MaterialsIncludedInSystem.Remove(oldMaterial);
                 UpdateManureStorageSystem(storageSystem);
             }
         }
 
-        public void UpdateGenerateManuresAllocationToStorage()
+        public void UpdateManagedManuresAllocationToStorage()
         {
-            var currentGeneratedManures = GetGeneratedManures();
+            var currentManures = GetAllManagedManures();
             var currentStorages = GetStorageSystems();
-            foreach (var generatedManure in currentGeneratedManures)
+            foreach (var manure in currentManures)
             {
-                generatedManure.AssignedToStoredSystem = currentStorages.Any(s =>
-                    s.MaterialsIncludedInSystem.Any(mis => mis.Id == generatedManure.Id));
+                manure.AssignedToStoredSystem = currentStorages.Any(s =>
+                    s.MaterialsIncludedInSystem.Any(mis => mis.ManureId == manure.ManureId));
 
-                UpdateGeneratedManures(generatedManure);
+                if (manure is GeneratedManure)
+                {
+                    UpdateGeneratedManures(manure as GeneratedManure);
+                }
+                else
+                {
+                    UpdateImportedManure(manure as ImportedManure);
+                }
             }
         }
 
@@ -874,7 +881,7 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
 
-            if (yd.ManureStorageSystems == null)
+            if (yd.ManureStorageSystems == null || yd.ManureStorageSystems?.Count == 0)
             {
                 yd.ManureStorageSystems = new List<ManureStorageSystem>();
                 storageSystem.Id = 1;
@@ -897,11 +904,13 @@ namespace SERVERAPI.Models.Impl
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
 
             var savedSystem = yd.ManureStorageSystems.Single(ss => ss.Id == updatedSystem.Id);
-            savedSystem.ManureMaterialType = updatedSystem.ManureMaterialType;
-            savedSystem.MaterialsIncludedInSystem = updatedSystem.MaterialsIncludedInSystem;
-            savedSystem.Name = updatedSystem.Name;
-            savedSystem.GetsRunoffFromRoofsOrYards = updatedSystem.GetsRunoffFromRoofsOrYards;
-            savedSystem.RunoffAreaSquareFeet = updatedSystem.RunoffAreaSquareFeet;
+            //savedSystem.ManureMaterialType = updatedSystem.ManureMaterialType;
+            //savedSystem.GeneratedManuresIncludedInSystem = updatedSystem.GeneratedManuresIncludedInSystem;
+            //savedSystem.ImportedManuresIncludedInSystem = updatedSystem.ImportedManuresIncludedInSystem;
+            //savedSystem.Name = updatedSystem.Name;
+            //savedSystem.GetsRunoffFromRoofsOrYards = updatedSystem.GetsRunoffFromRoofsOrYards;
+            //savedSystem.RunoffAreaSquareFeet = updatedSystem.RunoffAreaSquareFeet;
+            savedSystem = _mapper.Map<ManureStorageSystem>(updatedSystem);
 
             savedSystem.ManureStorageStructures.RemoveAll(s => !updatedSystem.ManureStorageStructures.Any(u => u.Id == s.Id));
             foreach (var updateStorageStructure in updatedSystem.ManureStorageStructures)
@@ -943,7 +952,7 @@ namespace SERVERAPI.Models.Impl
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
-            if (yd.ImportedManures == null)
+            if (yd.ImportedManures == null || yd.ImportedManures.Count == 0)
             {
                 yd.ImportedManures = new List<ImportedManure>();
                 newManure.Id = 1;
@@ -953,8 +962,10 @@ namespace SERVERAPI.Models.Impl
                 newManure.Id = yd.ImportedManures.Max(im => im.Id) + 1;
             }
             yd.ImportedManures.Add(newManure);
+
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
+
         public void UpdateImportedManure(ImportedManure updatedManure)
         {
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -962,7 +973,57 @@ namespace SERVERAPI.Models.Impl
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             var savedManure = yd.ImportedManures.Single(im => im.Id == updatedManure.Id);
             _mapper.Map(updatedManure, savedManure);
+
+            //Update the Materials saved in the Storage Systems
+            var storageSystem = GetStorageSystems()
+                .SingleOrDefault(s => s.ImportedManuresIncludedInSystem.Any(m => m.ManureId == updatedManure.ManureId));
+            if (storageSystem != null)
+            {
+                var oldMaterial =
+                    storageSystem.ImportedManuresIncludedInSystem.Single(m => m.ManureId == updatedManure.ManureId);
+                storageSystem.ImportedManuresIncludedInSystem.Remove(oldMaterial);
+                storageSystem.ImportedManuresIncludedInSystem.Add(updatedManure);
+                UpdateManureStorageSystem(storageSystem);
+            }
+
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
+
+        public void DeleteImportedManure(int importedManureId)
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            var importedManure = yd.ImportedManures.Single(im => im.Id == importedManureId);
+
+            //Update the Materials saved in the Storage Systems
+            var storageSystem = GetStorageSystems()
+                .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.ManureId == importedManure.ManureId));
+            if (storageSystem != null)
+            {
+                var oldMaterial =
+                    storageSystem.ImportedManuresIncludedInSystem.Single(m => m.ManureId == importedManure.ManureId);
+                storageSystem.ImportedManuresIncludedInSystem.Remove(oldMaterial);
+                UpdateManureStorageSystem(storageSystem);
+            }
+            yd.ImportedManures.Remove(importedManure);
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public List<ManagedManure> GetAllManagedManures()
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            var generated = yd.GeneratedManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
+            var imported = yd.ImportedManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
+            
+            var manures = new List<ManagedManure>();
+            manures.AddRange(generated);
+            manures.AddRange(imported);
+            return manures;
+        }
+
     }
 }

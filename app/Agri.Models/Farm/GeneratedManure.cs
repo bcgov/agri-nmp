@@ -15,5 +15,6 @@ namespace Agri.Models.Farm
         public decimal washWater { get; set; }
         public decimal milkProduction { get; set; }
         public override string ManureId => $"Generated{Id ?? 0}";
+        public override string ManagedManureName => animalSubTypeName;
     }
 }

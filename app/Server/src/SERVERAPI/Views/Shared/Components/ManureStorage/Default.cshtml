@@ -59,7 +59,7 @@
                     }
                 </div>
                 <div class="col-sm-4">
-                    @if (Model.GeneratedManures.Any(gm => !gm.AssignedToStoredSystem))
+                    @if (Model.AnyUnallocatedManures)
                     {
                         <div>
                             <b>Materials Needing Storage</b>
@@ -68,10 +68,10 @@
                             </a>
                         </div>
                     }
-                    @foreach (var generatedManure in Model.GeneratedManures.Where(gm => !gm.AssignedToStoredSystem))
+                    @foreach (var manure in Model.UnallocatedManureNames)
                     {
                         <div class="form-row">
-                            @generatedManure.animalSubTypeName
+                            @manure
                         </div>
                     }
                 </div>
