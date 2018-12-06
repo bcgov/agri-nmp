@@ -40,7 +40,7 @@
                                 @item.AnnualAmountDisplayWeight
                             </div>
                             <div class="col-sm-1 form-box-table-cell">
-                                @(item.IsLandAppliedBeforeStorage ? "Yes" : "No")
+                                @(item.IsMaterialStored ? "No" : "Yes")
                             </div>
                             <div class="col-sm-2 form-box-table-cell text-center">
                                 <button title="Edit" aria-label="Edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureImportedDetail", "ManureManagement", new { id = item.Id, target = "#manureimported" } )">

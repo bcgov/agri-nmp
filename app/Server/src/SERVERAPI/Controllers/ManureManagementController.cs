@@ -889,7 +889,7 @@ namespace SERVERAPI.Controllers
             var importedManuresNotStored = new List<ImportedManure>();
             foreach (var importedManure in importedManures)
             {
-                if (importedManure.IsLandAppliedBeforeStorage == false)
+                if (importedManure.IsMaterialStored == false)
                 {
                     importedManuresNotStored.Add(importedManure);
                 }
@@ -1526,12 +1526,12 @@ namespace SERVERAPI.Controllers
             {
                 vm.StandardSolidMoisture = _sd.GetManureImportedDefault().DefaultSolidMoisture;
                 vm.Moisture = vm.StandardSolidMoisture;
-                vm.IsLandAppliedBeforeStorage = false;
+                vm.IsMaterialStored = false;
             }
             vm.Title = "Imported Material Details";
             vm.Target = target;
             vm.SelectedManureType = ManureMaterialType.Solid;
-            vm.LandAppliedLabelText = _sd.GetUserPrompt("importmaterialislandappliedquestion");
+            vm.IsMaterialStoredLabelText = _sd.GetUserPrompt("ImportMaterialIsMaterialAppliedQuestion");
 
             return PartialView("ManureImportedDetail", vm);
         }

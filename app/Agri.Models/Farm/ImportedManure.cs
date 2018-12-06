@@ -32,7 +32,7 @@ namespace Agri.Models.Farm
         public AnnualAmountUnits Units { get; set; }
         public decimal? Moisture { get; set; }
         public decimal StandardSolidMoisture { get; set; }
-        public bool IsLandAppliedBeforeStorage { get; set; }
+        public bool IsMaterialStored { get; set; }
         public override string ManureId => $"Imported{Id ?? 0}";
         public override string ManagedManureName => MaterialName;
     }

@@ -22,8 +22,8 @@ namespace SERVERAPI.ViewModels
         public decimal StandardSolidMoisture { get; set; }
         public bool IsStdMoisture => SelectedManureType == ManureMaterialType.Solid && Moisture.HasValue &&
                                      Moisture.Value == StandardSolidMoisture;
-        public bool IsLandAppliedBeforeStorage { get; set; }
-        public string LandAppliedLabelText { get; set; }
+        public bool IsMaterialStored { get; set; }
+        public string IsMaterialStoredLabelText { get; set; }
         public string ButtonText { get; set; }
         public string ButtonPressed { get; set; }
 

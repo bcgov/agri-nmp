@@ -904,13 +904,7 @@ namespace SERVERAPI.Models.Impl
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
 
             var savedSystem = yd.ManureStorageSystems.Single(ss => ss.Id == updatedSystem.Id);
-            //savedSystem.ManureMaterialType = updatedSystem.ManureMaterialType;
-            //savedSystem.GeneratedManuresIncludedInSystem = updatedSystem.GeneratedManuresIncludedInSystem;
-            //savedSystem.ImportedManuresIncludedInSystem = updatedSystem.ImportedManuresIncludedInSystem;
-            //savedSystem.Name = updatedSystem.Name;
-            //savedSystem.GetsRunoffFromRoofsOrYards = updatedSystem.GetsRunoffFromRoofsOrYards;
-            //savedSystem.RunoffAreaSquareFeet = updatedSystem.RunoffAreaSquareFeet;
-            savedSystem = _mapper.Map<ManureStorageSystem>(updatedSystem);
+            _mapper.Map(updatedSystem, savedSystem);
 
             savedSystem.ManureStorageStructures.RemoveAll(s => !updatedSystem.ManureStorageStructures.Any(u => u.Id == s.Id));
             foreach (var updateStorageStructure in updatedSystem.ManureStorageStructures)
