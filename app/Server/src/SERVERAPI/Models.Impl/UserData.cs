@@ -840,16 +840,23 @@ namespace SERVERAPI.Models.Impl
             }
         }
 
-        public void UpdateGenerateManuresAllocationToStorage()
+        public void UpdateManagedManuresAllocationToStorage()
         {
-            var currentGeneratedManures = GetGeneratedManures();
+            var currentManures = GetAllManagedManures();
             var currentStorages = GetStorageSystems();
-            foreach (var generatedManure in currentGeneratedManures)
+            foreach (var manure in currentManures)
             {
-                generatedManure.AssignedToStoredSystem = currentStorages.Any(s =>
-                    s.MaterialsIncludedInSystem.Any(mis => mis.Id == generatedManure.Id));
+                manure.AssignedToStoredSystem = currentStorages.Any(s =>
+                    s.MaterialsIncludedInSystem.Any(mis => mis.ManureId == manure.ManureId));
 
-                UpdateGeneratedManures(generatedManure);
+                if (manure is GeneratedManure)
+                {
+                    UpdateGeneratedManures(manure as GeneratedManure);
+                }
+                else
+                {
+                    UpdateImportedManure(manure as ImportedManure);
+                }
             }
         }
 
@@ -872,7 +879,7 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
 
-            if (yd.ManureStorageSystems == null)
+            if (yd.ManureStorageSystems == null || yd.ManureStorageSystems?.Count == 0)
             {
                 yd.ManureStorageSystems = new List<ManureStorageSystem>();
                 storageSystem.Id = 1;

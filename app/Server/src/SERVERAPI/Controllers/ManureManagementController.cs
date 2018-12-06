@@ -672,7 +672,7 @@ namespace SERVERAPI.Controllers
                             msdvm.SystemId = manureStorageSystem.Id;
                         }
 
-                        _ud.UpdateGenerateManuresAllocationToStorage();
+                        _ud.UpdateManagedManuresAllocationToStorage();
 
                         var url = Url.Action("RefreshStorageList", "ManureManagement");
                         return Json(new { success = true, url = url, target = msdvm.Target });
@@ -708,13 +708,13 @@ namespace SERVERAPI.Controllers
                 }
 
                 //Materials accounted in another system
-                var materialIdsToExclude = new List<int>();
+                var materialIdsToExclude = new List<string>();
 
                 foreach (var manureStorageSystem in _ud.GetStorageSystems())
                 {
                     var accountedFor =
                         manureStorageSystem.MaterialsIncludedInSystem.Where(m =>
-                            selectedManuresToInclude.All(include => include != m.ManureId)).Select(s => s.Id.Value);
+                            selectedManuresToInclude.All(include => include != m.ManureId)).Select(s => s.ManureId);
                     materialIdsToExclude.AddRange(accountedFor);
                 }
 
@@ -724,7 +724,7 @@ namespace SERVERAPI.Controllers
                                             ||
                                             (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid && (g.ManureType == ManureMaterialType.Liquid || g.ManureType == ManureMaterialType.Solid))
                                         )
-                                       && !materialIdsToExclude.Any(exclude => g.Id.HasValue && g.Id.Value == exclude));
+                                       && !materialIdsToExclude.Any(exclude => g.Id.HasValue && g.ManureId == exclude));
 
                 
                 var manureSelectItems = new List<MvcRendering.SelectListItem>();
@@ -786,7 +786,7 @@ namespace SERVERAPI.Controllers
                 else
                 {
                     _ud.DeleteManureStorageSystem(vm.SystemId);
-                    _ud.UpdateGenerateManuresAllocationToStorage();
+                    _ud.UpdateManagedManuresAllocationToStorage();
                 }
 
 
@@ -1481,7 +1481,7 @@ namespace SERVERAPI.Controllers
             {
                 vm.StandardSolidMoisture = _sd.GetManureImportedDefault().DefaultSolidMoisture;
                 vm.Moisture = vm.StandardSolidMoisture;
-                vm.IsLandAppliedBeforeStorage = true;
+                vm.IsLandAppliedBeforeStorage = false;
             }
             vm.Title = "Imported Material Details";
             vm.Target = target;

@@ -18,7 +18,7 @@ namespace SERVERAPI.ViewModels
             get { return !AnyUnallocatedManures; }
         }
 
-        public List<ManagedManure> ManagedManures
+        public List<ManagedManure> StorableManures
         {
             get
             {
@@ -36,6 +36,6 @@ namespace SERVERAPI.ViewModels
                 return manures;
             }
         }
-        public List<string> UnallocatedManureNames => ManagedManures.Where(mm => !mm.AssignedToStoredSystem).Select(mm => mm.ManagedManureName).ToList();
+        public List<string> UnallocatedManureNames => StorableManures.Where(mm => !mm.AssignedToStoredSystem).Select(mm => mm.ManagedManureName).ToList();
     }
 }
