@@ -9922,7 +9922,7 @@
         ]
       },
       "ManureImportedDefaults": {
-        "defaultSolidMoisture": 75
+        "defaultSolidMoisture": 50
       },
       "LiquidMaterialsConversionFactors": {
         "LiquidMaterialsConversionFactor": [
