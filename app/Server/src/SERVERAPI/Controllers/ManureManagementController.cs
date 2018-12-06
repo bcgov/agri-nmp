@@ -719,7 +719,8 @@ namespace SERVERAPI.Controllers
                 }
 
                 var managedManures = _ud.GetAllManagedManures()
-                    .Where(g => (
+                    .Where(g => (g is GeneratedManure || (g is ImportedManure && (g as ImportedManure).IsMaterialStored)) &&
+                                        (
                                             (msdvm.SelectedManureMaterialType == ManureMaterialType.Solid && g.ManureType == ManureMaterialType.Solid)
                                             ||
                                             (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid && (g.ManureType == ManureMaterialType.Liquid || g.ManureType == ManureMaterialType.Solid))
@@ -1496,6 +1497,14 @@ namespace SERVERAPI.Controllers
         {
             try
             {
+                if (vm.ButtonPressed == "MaterialNameChange")
+                {
+                    ModelState.Clear();
+                    vm.ButtonPressed = "";
+                    vm.ButtonText = "Save";
+                    
+                    return PartialView("ManureImportedDetail", vm);
+                }
 
                 if (vm.ButtonPressed == "ManureMaterialTypeChange")
                 {
@@ -1511,6 +1520,14 @@ namespace SERVERAPI.Controllers
                     return PartialView("ManureImportedDetail", vm);
                 }
 
+                if (vm.ButtonPressed == "IsMaterialStoredChange")
+                {
+                    ModelState.Clear();
+                    vm.ButtonPressed = "";
+                    vm.ButtonText = "Save";
+                    return PartialView("ManureImportedDetail", vm);
+                }
+
                 if (vm.ButtonPressed == "ResetMoisture")
                 {
                     ModelState.Clear();
@@ -1519,6 +1536,13 @@ namespace SERVERAPI.Controllers
 
                     vm.Moisture = vm.StandardSolidMoisture;
                     return PartialView("ManureImportedDetail", vm);
+                }
+
+
+                var existingNames = _ud.GetImportedManures().Select(im => im.MaterialName).ToList();
+                if (existingNames.Any(n => n.Contains(vm.MaterialName, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    ModelState.AddModelError("MaterialName", "Enter a unique name");
                 }
 
                 if (vm.SelectedManureType == ManureMaterialType.Solid &&
