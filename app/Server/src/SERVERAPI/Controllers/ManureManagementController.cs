@@ -1584,7 +1584,9 @@ namespace SERVERAPI.Controllers
                 }
 
 
-                var existingNames = _ud.GetImportedManures().Select(im => im.MaterialName).ToList();
+                var existingNames = _ud.GetImportedManures()
+                    .Where(im => !vm.ManureImportId.HasValue || (vm.ManureImportId.HasValue && im.Id != vm.ManureImportId))
+                    .Select(im => im.MaterialName).ToList();
                 if (existingNames.Any(n => n.Contains(vm.MaterialName, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     ModelState.AddModelError("MaterialName", "Enter a unique name");
