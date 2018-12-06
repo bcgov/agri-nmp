@@ -1482,7 +1482,7 @@ namespace SERVERAPI.Controllers
             {
                 vm.StandardSolidMoisture = _sd.GetManureImportedDefault().DefaultSolidMoisture;
                 vm.Moisture = vm.StandardSolidMoisture;
-                vm.IsMaterialStored = false;
+                vm.IsMaterialStored = true;
             }
             vm.Title = "Imported Material Details";
             vm.Target = target;
