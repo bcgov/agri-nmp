@@ -118,7 +118,8 @@ namespace Agri.Data.Migrations
                     Potassium = table.Column<decimal>(nullable: false),
                     pH = table.Column<decimal>(nullable: false),
                     ConvertedKelownaP = table.Column<int>(nullable: false),
-                    ConvertedKelownaK = table.Column<int>(nullable: false)
+                    ConvertedKelownaK = table.Column<int>(nullable: false),
+                    DefaultSoilTestMethodId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -256,6 +257,21 @@ namespace Agri.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MainMenus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Controller = table.Column<string>(nullable: true),
+                    Action = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MainMenus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
@@ -275,6 +291,21 @@ namespace Agri.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Messages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NitrateCreditSampleDates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Location = table.Column<string>(nullable: true),
+                    FromDateMonth = table.Column<string>(nullable: true),
+                    ToDateMonth = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NitrateCreditSampleDates", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -317,6 +348,34 @@ namespace Agri.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NutrientIcons", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PhosphorusSoilTestRanges",
+                columns: table => new
+                {
+                    UpperLimit = table.Column<int>(nullable: false),
+                    Rating = table.Column<string>(nullable: true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PhosphorusSoilTestRanges", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PotassiumSoilTestRanges",
+                columns: table => new
+                {
+                    UpperLimit = table.Column<int>(nullable: false),
+                    Rating = table.Column<string>(nullable: true),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PotassiumSoilTestRanges", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -558,10 +617,12 @@ namespace Agri.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     Name = table.Column<string>(nullable: true),
-                    LiquidPerGalPerAnimalPerDay = table.Column<decimal>(nullable: false),
-                    SolidPerGalPerAnimalPerDay = table.Column<decimal>(nullable: false),
-                    SolidPerPoundPerAnimalPerDay = table.Column<decimal>(nullable: false),
+                    LiquidPerGalPerAnimalPerDay = table.Column<decimal>(nullable: true),
+                    SolidPerGalPerAnimalPerDay = table.Column<decimal>(nullable: true),
+                    SolidPerPoundPerAnimalPerDay = table.Column<decimal>(nullable: true),
                     SolidLiquidSeparationPercentage = table.Column<decimal>(nullable: false),
+                    WashWater = table.Column<decimal>(nullable: false),
+                    MilkProduction = table.Column<decimal>(nullable: false),
                     AnimalId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -626,6 +687,28 @@ namespace Agri.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SubMenu",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Controller = table.Column<string>(nullable: true),
+                    Action = table.Column<string>(nullable: true),
+                    MainMenuId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubMenu", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SubMenu_MainMenus_MainMenuId",
+                        column: x => x.MainMenuId,
+                        principalTable: "MainMenus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Manures",
                 columns: table => new
                 {
@@ -671,7 +754,8 @@ namespace Agri.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     FieldManureApplicationHistory = table.Column<int>(nullable: false),
-                    DefaultNitrogenCredit = table.Column<int[]>(nullable: true)
+                    DefaultNitrogenCredit = table.Column<int[]>(nullable: true),
+                    PreviousYearManureAplicationFrequency = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -911,6 +995,11 @@ namespace Agri.Data.Migrations
                 name: "IX_Regions_LocationId",
                 table: "Regions",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubMenu_MainMenuId",
+                table: "SubMenu",
+                column: "MainMenuId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -967,10 +1056,19 @@ namespace Agri.Data.Migrations
                 name: "Messages");
 
             migrationBuilder.DropTable(
+                name: "NitrateCreditSampleDates");
+
+            migrationBuilder.DropTable(
                 name: "NitrogenRecommendations");
 
             migrationBuilder.DropTable(
                 name: "NutrientIcons");
+
+            migrationBuilder.DropTable(
+                name: "PhosphorusSoilTestRanges");
+
+            migrationBuilder.DropTable(
+                name: "PotassiumSoilTestRanges");
 
             migrationBuilder.DropTable(
                 name: "PreviousCropType");
@@ -1007,6 +1105,9 @@ namespace Agri.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "SoilTestPotassiumRecommendation");
+
+            migrationBuilder.DropTable(
+                name: "SubMenu");
 
             migrationBuilder.DropTable(
                 name: "Units");
@@ -1046,6 +1147,9 @@ namespace Agri.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "SoilTestPotassiumKelownaRanges");
+
+            migrationBuilder.DropTable(
+                name: "MainMenus");
 
             migrationBuilder.DropTable(
                 name: "CropTypes");

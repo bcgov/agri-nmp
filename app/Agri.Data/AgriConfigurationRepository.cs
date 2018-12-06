@@ -160,7 +160,12 @@ namespace Agri.Data
 
         public List<Crop> GetCrops()
         {
-            return _context.Crops.ToList();
+            return _context.Crops
+                .Include(c => c.CropYields)
+                .Include(c => c.CropSoilTestPhosphorousRegions)
+                .Include(c => c.CropSoilTestPotassiumRegions)
+                .Include(c => c.PreviousCropTypes)
+                .ToList();
         }
 
         public List<Crop> GetCrops(int cropType)
@@ -491,7 +496,7 @@ namespace Agri.Data
 
         public int GetInteriorId()
         {
-            return GetLocations().FirstOrDefault().Id;
+            return GetLocations().First(l => l.Name.Equals("Interior", StringComparison.CurrentCultureIgnoreCase)).Id;
         }
 
         public List<LiquidFertilizerDensity> GetLiquidFertilizerDensities()
@@ -783,7 +788,9 @@ namespace Agri.Data
 
         public List<SoilTestPhosphorousKelownaRange> GetSoilTestPhosphorousKelownaRanges()
         {
-            return _context.SoilTestPhosphorousKelownaRanges.ToList();
+            return _context.SoilTestPhosphorousKelownaRanges
+                .Include(stpk => stpk.SoilTestPhosphorousRecommendations)
+                .ToList();
         }
 
         public List<SoilTestPhosphorousRecommendation> GetSoilTestPhosphorousRecommendations()
@@ -798,7 +805,9 @@ namespace Agri.Data
 
         public List<SoilTestPotassiumKelownaRange> GetSoilTestPotassiumKelownaRanges()
         {
-            return _context.SoilTestPotassiumKelownaRanges.ToList();
+            return _context.SoilTestPotassiumKelownaRanges
+                .Include(stpk => stpk.SoilTestPotassiumRecommendations)
+                .ToList();
         }
 
         public List<SoilTestPotassiumRange> GetSoilTestPotassiumRanges()
@@ -1029,7 +1038,7 @@ namespace Agri.Data
 
         public bool IsRegionInteriorBC(int? region)
         {
-            return GetRegions().Any(r => r.LocationId == GetInteriorId());
+            return GetRegions().Any(r => region.HasValue && r.Id == region.Value && r.LocationId == GetInteriorId());
         }
 
         public string GetPotassiumSoilTestRating(decimal value)
@@ -1055,8 +1064,8 @@ namespace Agri.Data
 
         public bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
         {
-            return _context.PrevManureApplicationYears.FirstOrDefault().Id !=
-                   Convert.ToInt32(userSelectedPrevYearsManureAdded);
+            return _context.PrevManureApplicationYears
+                       .First(pma => pma.FieldManureApplicationHistory == 0).Id != Convert.ToInt32(userSelectedPrevYearsManureAdded);
         }
 
         public List<MainMenu> GetMainMenus()

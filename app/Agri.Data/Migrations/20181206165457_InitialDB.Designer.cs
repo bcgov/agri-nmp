@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20181119050941_InitialDB")]
+    [Migration("20181206165457_InitialDB")]
     partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,15 +55,19 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("AnimalId");
 
-                    b.Property<decimal>("LiquidPerGalPerAnimalPerDay");
+                    b.Property<decimal?>("LiquidPerGalPerAnimalPerDay");
+
+                    b.Property<decimal>("MilkProduction");
 
                     b.Property<string>("Name");
 
                     b.Property<decimal>("SolidLiquidSeparationPercentage");
 
-                    b.Property<decimal>("SolidPerGalPerAnimalPerDay");
+                    b.Property<decimal?>("SolidPerGalPerAnimalPerDay");
 
-                    b.Property<decimal>("SolidPerPoundPerAnimalPerDay");
+                    b.Property<decimal?>("SolidPerPoundPerAnimalPerDay");
+
+                    b.Property<decimal>("WashWater");
 
                     b.HasKey("Id");
 
@@ -252,6 +256,8 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("ConvertedKelownaP");
 
+                    b.Property<string>("DefaultSoilTestMethodId");
+
                     b.Property<decimal>("Nitrogen");
 
                     b.Property<decimal>("Phosphorous");
@@ -419,6 +425,22 @@ namespace Agri.Data.Migrations
                     b.ToTable("Locations");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.MainMenu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Action");
+
+                    b.Property<string>("Controller");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MainMenus");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.Manure", b =>
                 {
                     b.Property<int>("Id")
@@ -493,6 +515,22 @@ namespace Agri.Data.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.NitrateCreditSampleDate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FromDateMonth");
+
+                    b.Property<string>("Location");
+
+                    b.Property<string>("ToDateMonth");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NitrateCreditSampleDates");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.NitrogenMineralization", b =>
                 {
                     b.Property<int>("Id");
@@ -534,6 +572,34 @@ namespace Agri.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("NutrientIcons");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.PhosphorusSoilTestRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Rating");
+
+                    b.Property<int>("UpperLimit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PhosphorusSoilTestRanges");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.PotassiumSoilTestRange", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Rating");
+
+                    b.Property<int>("UpperLimit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PotassiumSoilTestRanges");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.PreviousCropType", b =>
@@ -584,6 +650,8 @@ namespace Agri.Data.Migrations
                     b.Property<int[]>("DefaultNitrogenCredit");
 
                     b.Property<int>("FieldManureApplicationHistory");
+
+                    b.Property<string>("PreviousYearManureAplicationFrequency");
 
                     b.HasKey("Id");
 
@@ -808,6 +876,26 @@ namespace Agri.Data.Migrations
                     b.ToTable("SoilTestPotassiumRecommendation");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.SubMenu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Action");
+
+                    b.Property<string>("Controller");
+
+                    b.Property<int>("MainMenuId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MainMenuId");
+
+                    b.ToTable("SubMenu");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.Unit", b =>
                 {
                     b.Property<int>("Id")
@@ -1001,6 +1089,14 @@ namespace Agri.Data.Migrations
                     b.HasOne("Agri.Models.Configuration.SoilTestPotassiumKelownaRange", "SoilTestPotassiumKelownaRange")
                         .WithMany("SoilTestPotassiumRecommendations")
                         .HasForeignKey("SoilTestPotassiumKelownaRangeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SubMenu", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.MainMenu", "MainMenu")
+                        .WithMany("SubMenus")
+                        .HasForeignKey("MainMenuId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

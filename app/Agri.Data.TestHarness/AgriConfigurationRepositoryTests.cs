@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
@@ -254,7 +255,9 @@ namespace Agri.Data.TestHarness
         public void CompareGetCropSoilTestPotassiumRegions()
         {
             var actual = _agriRepository.GetCropSoilTestPotassiumRegions();
-            var expected = _staticExtRepo.GetCropSoilTestPotassiumRegions();
+
+            var cropIds = _agriRepository.GetCrops().Select(c => c.Id).ToList();
+            var expected = _staticExtRepo.GetCropSoilTestPotassiumRegions().Where(test => cropIds.Any(c => c == test.CropId)).ToList();
 
             Assert.IsTrue(actual.Count > 0);
             Assert.AreEqual(expected.Count, actual.Count);
@@ -1063,7 +1066,6 @@ namespace Agri.Data.TestHarness
             var expected = _staticExtRepo.GetSTKRecommend(1, 1, 1);
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.SoilTestPotassiumKelownaRange, actual.SoilTestPotassiumKelownaRange);
             Assert.AreEqual(expected.K2ORecommendationKilogramPerHectare, actual.K2ORecommendationKilogramPerHectare);
         }
 
@@ -1071,7 +1073,7 @@ namespace Agri.Data.TestHarness
         public void CompareGetSTPKelownaRangeByPpm()
         {
             var actual = _agriRepository.GetSTPKelownaRangeByPpm(10);
-            var expected = _staticExtRepo.GetSTPKelownaRangeByPpm(0);
+            var expected = _staticExtRepo.GetSTPKelownaRangeByPpm(10);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected.Range, actual.Range);
@@ -1086,7 +1088,6 @@ namespace Agri.Data.TestHarness
             var expected = _staticExtRepo.GetSTPRecommend(1, 1, 6);
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.SoilTestPhosphorousKelownaRange, actual.SoilTestPhosphorousKelownaRange);
             Assert.AreEqual(expected.P2O5RecommendationKilogramPerHectare, actual.P2O5RecommendationKilogramPerHectare);
         }
 
@@ -1164,7 +1165,6 @@ namespace Agri.Data.TestHarness
             var expected = _staticExtRepo.GetVersionData();
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.Id, actual.Id);
             Assert.AreEqual(expected.StaticDataVersion, actual.StaticDataVersion);
         }
 

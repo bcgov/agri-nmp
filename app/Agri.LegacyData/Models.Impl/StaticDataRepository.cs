@@ -334,7 +334,7 @@ namespace Agri.LegacyData.Models.Impl
 
             foreach (var r in units)
             {
-                if (r.SolidLiquid == unitType)
+                if (r.SolidLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
                     { Id = r.Id, Value = r.Name };
@@ -363,6 +363,7 @@ namespace Agri.LegacyData.Models.Impl
                     FarmRequiredNutrientsStdUnitsConversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString()),
                     FarmRequiredNutrientsStdUnitsAreaConversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString())
                 };
+                units.Add(unit);
             }
 
             return units;
@@ -1487,7 +1488,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             var version = new Version();
 
-            version.StaticDataVersion = (string)rss["agri"]["nmp"]["version"]["staticDataVersion"];
+            version.StaticDataVersion = (string)rss["agri"]["nmp"]["versions"]["staticDataVersion"];
 
             return version;
         }
