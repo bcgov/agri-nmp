@@ -69,20 +69,20 @@
                 <div class="form-group col-sm-3 agri-listbox">
                     <label asp-for="SelectedMaterialsToInclude">Select materials to include</label>
                     <ul class="form-control  agri-listbox" id="SelectedMaterialsToInclude" style="width: 400px">
-                        @if (Model.GeneratedManures != null)
+                        @if (Model.ManagedManures != null)
                         {
-                            for (var index = 0; index < Model.GeneratedManures.Count; index++)
+                            for (var index = 0; index < Model.ManagedManures.Count; index++)
                             {
                                 <li>
-                                    <label asp-for="@Model.GeneratedManures[index]">
-                                        @Html.HiddenFor(m => Model.GeneratedManures[index].Value)
-                                        @Html.HiddenFor(m => Model.GeneratedManures[index].Text)
-                                        <input type="checkbox" asp-for="@Model.GeneratedManures[index].Selected"
+                                    <label asp-for="@Model.ManagedManures[index]">
+                                        @Html.HiddenFor(m => Model.ManagedManures[index].Value)
+                                        @Html.HiddenFor(m => Model.ManagedManures[index].Text)
+                                        <input type="checkbox" asp-for="@Model.ManagedManures[index].Selected"
                                                onchange="SelectedMaterialsToIncludeChanged()"
-                                               disabled="@(Model.DisableSystemFields ? "disabled" : null)" /> @Model.GeneratedManures[index].Text
+                                               disabled="@(Model.DisableSystemFields ? "disabled" : null)" /> @Model.ManagedManures[index].Text
                                             @if (Model.DisableSystemFields)
                                             {
-                                                @Html.HiddenFor(x => Model.GeneratedManures[index].Selected)
+                                                @Html.HiddenFor(x => Model.ManagedManures[index].Selected)
                                             }
                                         </label>
                                     </li>

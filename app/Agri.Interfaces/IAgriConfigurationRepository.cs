@@ -154,5 +154,7 @@ namespace Agri.Interfaces
         List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield);
         ManureImportedDefault GetManureImportedDefault();
+        List<SolidMaterialsConversionFactor> GetSolidMaterialsConversionFactors();
+        List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors();
     }
 }

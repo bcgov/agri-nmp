@@ -12,14 +12,20 @@ namespace Agri.Models
     public enum AnnualAmountUnits
     {
         [Description("yards³")]
-        Yards,
-        tons,
+        Yards = 1,
+        tons = 2,
         [Description("US gallons")]
-        USGallons,
+        USGallons = 3,
         [Description("Imp. gallons")]
-        ImperialGallons,
+        ImperialGallons = 4,
         [Description("m³")]
-        CubicMeters,
-        tonnes
+        CubicMeters = 5,
+        tonnes = 6
+    }
+
+    public enum NutrientAnalysisTypes
+    {
+        Stored=1,
+        Imported=2
     }
 }

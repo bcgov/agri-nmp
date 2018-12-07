@@ -62,14 +62,12 @@
                 }
                 <div class="col-sm-2" style="padding-right: 0;">
                     <div class="form-group">
-                        <label>@Model.LandAppliedLabelText</label>
+                        <label>@Model.IsMaterialStoredLabelText</label>
                         <label style="padding-right: 20px">
-                            <input asp-for="IsLandAppliedBeforeStorage" type="radio" value="true"
-                                   onchange="IsLandAppliedBeforeStorageChanged()" /> Yes
+                            <input asp-for="IsMaterialStored" type="radio" value="true" id="rbIsMaterialStoredYes" /> Yes
                         </label>
                         <label>
-                            <input asp-for="IsLandAppliedBeforeStorage" type="radio" value="false"
-                                   onchange="IsLandAppliedBeforeStorageChanged()" /> No
+                            <input asp-for="IsMaterialStored" type="radio" value="false" id="rbIsMaterialStoredYes" /> No
                         </label>
                     </div>
                 </div>
@@ -85,7 +83,7 @@
         @Html.HiddenFor(x => x.ButtonPressed)
         @Html.HiddenFor(x => x.ManureImportId)
         @Html.HiddenFor(x => x.SelectedAnnualAmountUnit)
-        @Html.HiddenFor(x => x.LandAppliedLabelText)
+        @Html.HiddenFor(x => x.IsMaterialStoredLabelText)
         @Html.HiddenFor(x => x.StandardSolidMoisture)
     </form>
 </div>

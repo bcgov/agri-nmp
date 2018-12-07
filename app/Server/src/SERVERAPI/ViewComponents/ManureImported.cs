@@ -35,7 +35,7 @@ namespace SERVERAPI.ViewComponents
         {
             var manureImportedVm = new ManureImportedViewModel()
             {
-                ImportedManures = _userData.GetImportedManures()
+                ImportedManures = _userData.GetImportedManures(),
             };
 
             return Task.FromResult(manureImportedVm);
