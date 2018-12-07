@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,8 @@ namespace Agri.CalculateService
             _repository = repository;
         }
 
-        public decimal GetCubicYardsVolume(ManureMaterialType manureMaterialType, 
+        public decimal GetCubicYardsVolume(ManureMaterialType manureMaterialType,
+            decimal moistureWholePercent,
             decimal amountToConvert, 
             AnnualAmountUnits amountUnit)
         {
@@ -27,8 +29,9 @@ namespace Agri.CalculateService
                     .GetSolidMaterialsConversionFactors()
                     .Single(cf => cf.InputUnit == amountUnit);
 
-                var cubicYardsConverted = converstionFactor.CubicYardsOutput * amountToConvert;
-                var cubicMetersConverted = converstionFactor.CubicMetersOutput * amountToConvert;
+                var cubicYardsConverted =
+                    GetDensityFactoredConversion(moistureWholePercent, converstionFactor.CubicYardsOutput) *
+                    amountToConvert;
 
                 return cubicYardsConverted;
             }
@@ -36,6 +39,7 @@ namespace Agri.CalculateService
             return 0;
         }
         public decimal GetCubicMetersVolume(ManureMaterialType manureMaterialType,
+            decimal moistureWholePercent,
             decimal amountToConvert,
             AnnualAmountUnits amountUnit)
         {
@@ -45,8 +49,9 @@ namespace Agri.CalculateService
                     .GetSolidMaterialsConversionFactors()
                     .Single(cf => cf.InputUnit == amountUnit);
 
-                var cubicYardsConverted = converstionFactor.CubicYardsOutput * amountToConvert;
-                var cubicMetersConverted = converstionFactor.CubicMetersOutput * amountToConvert;
+                var cubicMetersConverted =
+                    GetDensityFactoredConversion(moistureWholePercent, converstionFactor.CubicMetersOutput) *
+                    amountToConvert;
 
                 return cubicMetersConverted;
             }
@@ -74,6 +79,7 @@ namespace Agri.CalculateService
         }
 
         public decimal GetTonsWeight(ManureMaterialType manureMaterialType,
+            decimal moistureWholePercent,
             decimal amountToConvert,
             AnnualAmountUnits amountUnit)
         {
@@ -83,7 +89,9 @@ namespace Agri.CalculateService
                     .GetSolidMaterialsConversionFactors()
                     .Single(cf => cf.InputUnit == amountUnit);
 
-                var tonsConverted = converstionFactor.MetricTonsOutput * amountToConvert;
+                var tonsConverted =
+                    GetDensityFactoredConversion(moistureWholePercent, converstionFactor.MetricTonsOutput) *
+                    amountToConvert;
 
                 return tonsConverted;
             }
@@ -91,6 +99,37 @@ namespace Agri.CalculateService
             {
                 return 0;
             }
+        }
+
+        public decimal GetDensity(decimal moistureWholePercent)
+        {
+            var moisturePercentDecimal = Convert.ToDouble(moistureWholePercent / 100);
+            if (moistureWholePercent < 40)
+            {
+                return .27m;
+            }
+            else if (moistureWholePercent >= 40 && moistureWholePercent <= 82)
+            {
+                var result = (7.9386 * Math.Pow(moisturePercentDecimal, 3)) - (16.43 * Math.Pow(moisturePercentDecimal, 2)) +
+                             (11.993 * moisturePercentDecimal) - 2.3975;
+
+                return Convert.ToDecimal(result);
+            }
+            else
+            {
+                return 0.837m;
+            }
+        }
+
+        public decimal GetDensityFactoredConversion(decimal moistureWholePercent, string conversionFactor)
+        {
+            var moisterPercentDecimal = Convert.ToDouble(moistureWholePercent / 100);
+            var density = GetDensity(moistureWholePercent);
+
+            var parsedExpression = conversionFactor.Replace("density", density.ToString(), StringComparison.CurrentCultureIgnoreCase);
+            var conversion = Convert.ToDecimal(new DataTable().Compute(parsedExpression, null));
+
+            return conversion;
         }
     }
 }

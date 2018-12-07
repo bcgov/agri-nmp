@@ -1564,11 +1564,13 @@ namespace SERVERAPI.Controllers
 
                     importedManure.AnnualAmountCubicMetersVolume =
                         _manureUnitConversionCalculator.GetCubicMetersVolume(importedManure.ManureType,
+                            importedManure.Moisture.Value,
                             importedManure.AnnualAmount,
                             importedManure.Units);
 
                     importedManure.AnnualAmountCubicYardsVolume =
                         _manureUnitConversionCalculator.GetCubicYardsVolume(importedManure.ManureType,
+                            importedManure.Moisture.Value,
                             importedManure.AnnualAmount,
                             importedManure.Units);
 
@@ -1579,6 +1581,7 @@ namespace SERVERAPI.Controllers
 
                     importedManure.AnnualAmountTonsWeight =
                         _manureUnitConversionCalculator.GetTonsWeight(importedManure.ManureType,
+                            importedManure.Moisture.Value,
                             importedManure.AnnualAmount,
                             importedManure.Units);
 

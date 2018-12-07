@@ -9952,33 +9952,33 @@
             "Id": 1,
             "InputUnit": 1,
             "InputUnitName": "cubic yards",
-            "CubicYardsOutput": 1,
-            "CubicMetersOutput": 0.764555,
-            "MetricTonsOutput": 0.704471875
+            "CubicYardsOutput": "1",
+            "CubicMetersOutput": "0.764555",
+            "MetricTonsOutput": "1*density"
           },
           {
             "Id": 2,
             "InputUnit": 2,
             "InputUnitName": "tons",
-            "CubicYardsOutput": 1.419503085,
-            "CubicMetersOutput": 1.085288181,
-            "MetricTonsOutput": 1
+            "CubicYardsOutput": "1/density",
+            "CubicMetersOutput": "(1/density)*0.764555",
+            "MetricTonsOutput": "1"
           },
           {
             "Id": 3,
             "InputUnit": 5,
             "InputUnitName": "cubic meters",
-            "CubicYardsOutput": 1.30795,
-            "CubicMetersOutput": 1,
-            "MetricTonsOutput": 0.921413989
+            "CubicYardsOutput": "1.30795",
+            "CubicMetersOutput": "1",
+            "MetricTonsOutput": "1.30795*density"
           },
           {
             "Id": 4,
             "InputUnit": 6,
             "InputUnitName": "tonnes",
-            "CubicYardsOutput": 1.564732446,
-            "CubicMetersOutput": 1.196324015,
-            "MetricTonsOutput": 1.10231
+            "CubicYardsOutput": "1.10231/density",
+            "CubicMetersOutput": "(1.10231/density)*0.764555",
+            "MetricTonsOutput": "1.10231"
           }
         ]
       }
