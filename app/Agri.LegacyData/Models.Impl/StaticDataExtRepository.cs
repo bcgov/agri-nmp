@@ -618,9 +618,9 @@ namespace Agri.LegacyData.Models.Impl
                     Id = Convert.ToInt32(record["Id"].ToString()),
                     InputUnit =  (AnnualAmountUnits)Convert.ToInt32(record["InputUnit"].ToString()),
                     InputUnitName = record["InputUnitName"].ToString(),
-                    CubicYardsOutput = Convert.ToDecimal(record["CubicYardsOutput"].ToString()),
-                    CubicMetersOutput = Convert.ToDecimal(record["CubicMetersOutput"].ToString()),
-                    MetricTonsOutput = Convert.ToDecimal(record["MetricTonsOutput"].ToString())
+                    CubicYardsOutput = record["CubicYardsOutput"].ToString(),
+                    CubicMetersOutput = record["CubicMetersOutput"].ToString(),
+                    MetricTonsOutput = record["MetricTonsOutput"].ToString()
                 };
                 conversionFactors.Add(conversionFactor);
             }
