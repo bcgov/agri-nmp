@@ -22,4 +22,10 @@ namespace Agri.Models
         CubicMeters = 5,
         tonnes = 6
     }
+
+    public enum NutrientAnalysisTypes
+    {
+        Stored=1,
+        Imported=2
+    }
 }

@@ -10,10 +10,10 @@ namespace SERVERAPI.ViewModels
         public string title { get; set; }
         public int? id { get; set; }
         public string target { get; set; }
-        [Required(ErrorMessage = "Required")]
+        //[Required]
         public int selManOption { get; set; }
         public List<SelectListItem> sourceOfMaterialOptions { get; set; }
-        [Required(ErrorMessage = "Required")]
+        //[Required(ErrorMessage = "Required")]
         public string selsourceOfMaterialOption { get; set; }
         public List<Agri.Models.Configuration.SelectListItem> manOptions { get; set; }
         public string act { get; set; }
@@ -46,5 +46,7 @@ namespace SERVERAPI.ViewModels
         public string phosphorousBook { get; set; }
         public string potassiumBook { get; set; }
         public bool showNitrate { get; set; }
+        public NutrientAnalysisTypes stored_imported { get; set; }
+
     }
 }
