@@ -28,4 +28,16 @@ namespace Agri.Models
         Stored=1,
         Imported=2
     }
+
+    public enum ApplicationRateUnits
+    {
+        [Description("yards³/ac")]
+        CubicYardsPerAcre = 1,
+        [Description("tons/ac")]
+        TonsPerAcre = 2,
+        [Description("m³/ha")]
+        CubicMetersPerHectare = 3,
+        [Description("tonnes/ha")]
+        TonnesPerHecatre = 4
+    }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Agri.Interfaces;
+using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -722,6 +723,11 @@ namespace Agri.Data
         public List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors()
         {
             return _context.LiquidMaterialsConversionFactors.ToList();
+        }
+
+        public SolidMaterialApplicationTonPerAcreRateConversion GetSolidMaterialApplicationTonPerAcreRateConversion()
+        {
+            throw new NotImplementedException();
         }
     }
 }

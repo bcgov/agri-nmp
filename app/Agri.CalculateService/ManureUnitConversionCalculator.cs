@@ -18,6 +18,37 @@ namespace Agri.CalculateService
             _repository = repository;
         }
 
+        public decimal GetDensity(decimal moistureWholePercent)
+        {
+            var moisturePercentDecimal = Convert.ToDouble(moistureWholePercent / 100);
+            if (moistureWholePercent < 40)
+            {
+                return .27m;
+            }
+            else if (moistureWholePercent >= 40 && moistureWholePercent <= 82)
+            {
+                var result = (7.9386 * Math.Pow(moisturePercentDecimal, 3)) - (16.43 * Math.Pow(moisturePercentDecimal, 2)) +
+                             (11.993 * moisturePercentDecimal) - 2.3975;
+
+                return Convert.ToDecimal(result);
+            }
+            else
+            {
+                return 0.837m;
+            }
+        }
+
+        public decimal GetDensityFactoredConversion(decimal moistureWholePercent, string conversionFactor)
+        {
+            var moisterPercentDecimal = Convert.ToDouble(moistureWholePercent / 100);
+            var density = GetDensity(moistureWholePercent);
+
+            var parsedExpression = conversionFactor.Replace("density", density.ToString(), StringComparison.CurrentCultureIgnoreCase);
+            var conversion = Convert.ToDecimal(new DataTable().Compute(parsedExpression, null));
+
+            return conversion;
+        }
+
         public decimal GetCubicYardsVolume(ManureMaterialType manureMaterialType,
             decimal moistureWholePercent,
             decimal amountToConvert, 
@@ -101,35 +132,11 @@ namespace Agri.CalculateService
             }
         }
 
-        public decimal GetDensity(decimal moistureWholePercent)
+        public decimal GetSolidsTonsPerAcreApplicationRate(
+            decimal moistureWholePercent,
+            decimal amountToConvert)
         {
-            var moisturePercentDecimal = Convert.ToDouble(moistureWholePercent / 100);
-            if (moistureWholePercent < 40)
-            {
-                return .27m;
-            }
-            else if (moistureWholePercent >= 40 && moistureWholePercent <= 82)
-            {
-                var result = (7.9386 * Math.Pow(moisturePercentDecimal, 3)) - (16.43 * Math.Pow(moisturePercentDecimal, 2)) +
-                             (11.993 * moisturePercentDecimal) - 2.3975;
-
-                return Convert.ToDecimal(result);
-            }
-            else
-            {
-                return 0.837m;
-            }
-        }
-
-        public decimal GetDensityFactoredConversion(decimal moistureWholePercent, string conversionFactor)
-        {
-            var moisterPercentDecimal = Convert.ToDouble(moistureWholePercent / 100);
-            var density = GetDensity(moistureWholePercent);
-
-            var parsedExpression = conversionFactor.Replace("density", density.ToString(), StringComparison.CurrentCultureIgnoreCase);
-            var conversion = Convert.ToDecimal(new DataTable().Compute(parsedExpression, null));
-
-            return conversion;
+            return 0m;
         }
     }
 }

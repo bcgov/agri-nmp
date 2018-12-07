@@ -9981,7 +9981,36 @@
             "MetricTonsOutput": "1.10231"
           }
         ]
-      }
+      },
+      "SolidMaterialApplicationTonPerAcreRateConversions": {
+        "SolidMaterialApplicationTonPerAcreRateConversion": [
+          {
+            "Id": 1,
+            "ApplicationRateUnits": "1",
+            "ApplicationRateUnitName": "yards3/ac",
+            "TonsPerAcreConversion": "1*density"
+          },
+          {
+            "Id": 2,
+            "ApplicationRateUnits": "2",
+            "ApplicationRateUnitName": "tons/ac",
+            "TonsPerAcreConversion": "1"
+          },
+          {
+            "Id": 3,
+            "ApplicationRateUnits": "3",
+            "ApplicationRateUnitName": "m³/ha",
+            "TonsPerAcreConversion": "1*1.30795*density/2.47105",
+          },
+          {
+            "Id": 4,
+            "ApplicationRateUnits": "4",
+            "ApplicationRateUnitName": "tonnes/ha",
+            "TonsPerAcreConversion": "1",
+            "CubicYardsPerAcre": "1*1.10231/2.47105"
+          }
+        ] 
+      } 
     }
   }
 }

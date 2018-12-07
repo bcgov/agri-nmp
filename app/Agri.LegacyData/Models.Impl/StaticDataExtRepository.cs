@@ -647,5 +647,23 @@ namespace Agri.LegacyData.Models.Impl
 
             return conversionFactors;
         }
+
+        public SolidMaterialApplicationTonPerAcreRateConversion GetSolidMaterialApplicationTonPerAcreRateConversion()
+        {
+
+            var array = (JArray)rss["agri"]["nmp"]["SolidMaterialApplicationTonPerAcreRateConversions"]["SolidMaterialApplicationTonPerAcreRateConversion"];
+
+            var record = array[0];
+            var conversionFactor = new SolidMaterialApplicationTonPerAcreRateConversion
+            {
+                Id = Convert.ToInt32(record["Id"].ToString()),
+                //TonsPerAcre = record["TonsPerAcre"].ToString(),
+                //CubicYardsPerAcre = record["CubicYardsPerAcre"].ToString(),
+                //CubicYardsPerHectare = record["CubicYardsPerHectare"].ToString(),
+                //TonnesPerHectare = record["IdTonnesPerHectare"].ToString()
+            };
+
+            return conversionFactor;
+        }
     }
 }
