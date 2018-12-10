@@ -1563,10 +1563,11 @@ namespace SERVERAPI.Controllers
                 vm.StandardSolidMoisture = _sd.GetManureImportedDefault().DefaultSolidMoisture;
                 vm.Moisture = vm.StandardSolidMoisture;
                 vm.IsMaterialStored = true;
+                vm.SelectedManureType = ManureMaterialType.Solid;
             }
+
             vm.Title = "Imported Material Details";
             vm.Target = target;
-            vm.SelectedManureType = ManureMaterialType.Solid;
             vm.IsMaterialStoredLabelText = _sd.GetUserPrompt("ImportMaterialIsMaterialAppliedQuestion");
 
             return PartialView("ManureImportedDetail", vm);
@@ -1622,7 +1623,7 @@ namespace SERVERAPI.Controllers
                 var existingNames = _ud.GetImportedManures()
                     .Where(im => !vm.ManureImportId.HasValue || (vm.ManureImportId.HasValue && im.Id != vm.ManureImportId))
                     .Select(im => im.MaterialName).ToList();
-                if (existingNames.Any(n => n.Contains(vm.MaterialName, StringComparison.CurrentCultureIgnoreCase)))
+                if (existingNames.Any(n => n.Trim().Equals(vm.MaterialName, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     ModelState.AddModelError("MaterialName", "Use a new name");
                 }
@@ -1643,25 +1644,33 @@ namespace SERVERAPI.Controllers
 
                     var importedManure = _mapper.Map<ImportedManure>(vm);
 
-                    importedManure.AnnualAmountCubicMetersVolume =
-                        _manureUnitConversionCalculator.GetCubicMetersVolume(importedManure.ManureType,
-                            importedManure.AnnualAmount,
-                            importedManure.Units);
+                    if (vm.SelectedManureType == ManureMaterialType.Solid)
+                    {
+                        importedManure.AnnualAmountCubicMetersVolume =
+                            _manureUnitConversionCalculator.GetCubicMetersVolume(importedManure.ManureType,
+                                importedManure.Moisture.Value,
+                                importedManure.AnnualAmount,
+                                importedManure.Units);
 
-                    importedManure.AnnualAmountCubicYardsVolume =
-                        _manureUnitConversionCalculator.GetCubicYardsVolume(importedManure.ManureType,
-                            importedManure.AnnualAmount,
-                            importedManure.Units);
+                        importedManure.AnnualAmountCubicYardsVolume =
+                            _manureUnitConversionCalculator.GetCubicYardsVolume(importedManure.ManureType,
+                                importedManure.Moisture.Value,
+                                importedManure.AnnualAmount,
+                                importedManure.Units);
 
-                    importedManure.AnnualAmountUSGallonsVolume =
-                        _manureUnitConversionCalculator.GetUSGallonsVolume(importedManure.ManureType,
-                            importedManure.AnnualAmount,
-                            importedManure.Units);
-
-                    importedManure.AnnualAmountTonsWeight =
-                        _manureUnitConversionCalculator.GetTonsWeight(importedManure.ManureType,
-                            importedManure.AnnualAmount,
-                            importedManure.Units);
+                        importedManure.AnnualAmountTonsWeight =
+                            _manureUnitConversionCalculator.GetTonsWeight(importedManure.ManureType,
+                                importedManure.Moisture.Value,
+                                importedManure.AnnualAmount,
+                                importedManure.Units);
+                    }
+                    else
+                    {
+                        importedManure.AnnualAmountUSGallonsVolume =
+                            _manureUnitConversionCalculator.GetUSGallonsVolume(importedManure.ManureType,
+                                importedManure.AnnualAmount,
+                                importedManure.Units);
+                    }
 
                     if (!vm.ManureImportId.HasValue)
                     {

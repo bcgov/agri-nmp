@@ -8,8 +8,8 @@ namespace Agri.Models.Configuration
 {
     public class SolidMaterialsConversionFactor : MaterialsConversionFactor
     {
-        public decimal CubicYardsOutput { get; set; }
-        public decimal CubicMetersOutput { get; set; }
-        public decimal MetricTonsOutput { get; set; }
+        public string CubicYardsOutput { get; set; }
+        public string CubicMetersOutput { get; set; }
+        public string MetricTonsOutput { get; set; }
     }
 }
