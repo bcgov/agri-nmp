@@ -15,11 +15,11 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-4">
-                        <label asp-for="selManOption">Material Type</label>
-                        <select class="form-control" asp-for="selManOption" asp-items="@(new SelectList(Model.manOptions,"Id","Value"))" id="ddlMan">
+                        <label asp-for="SelectedManureType">Material Type</label>
+                        <select class="form-control" asp-for="SelectedManureType" asp-items="@(new SelectList(Model.ManureTypeOptions,"Id","Value"))" id="ddlMan">
                             <option>select</option>
                         </select>
-                        <span asp-validation-for="selManOption" class="text-danger"></span>
+                        <span asp-validation-for="SelectedManureType" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="selApplOption">Application Season/Method</label>
@@ -31,8 +31,8 @@
                     <div class="form-group col-sm-2">
                         <label asp-for="selApplOption"> Application Rate</label>
                         <div>
-                            <input class="form-control" asp-for="rate" id="rate" type="text" />
-                            <span asp-validation-for="rate" class="text-danger"></span>
+                            <input class="form-control" asp-for="ApplicationRate" id="rate" type="text" />
+                            <span asp-validation-for="ApplicationRate" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-3" style="padding-right:0px">
@@ -143,8 +143,16 @@
             </div>
             <div class="row">
                 <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0" />
+                <div class="form-group col-sm-4">
+                    <div class="Title">
+                        Material Remaining
+                    </div>
+                    <div>
+                        @Model.MaterialRemainingToString
+                    </div>
+                </div>
                 <div class="form-group col-sm-4" style="margin:5px">
-                    <div class="Table">
+                    <div class="form-group">
                         <div class="Title">
                             <p>Still Required This Year (lb/ac)</p>
                         </div>
@@ -162,23 +170,23 @@
                         <div class="Row">
                             <div class="Cell2" style="text-align:center">
                                 @if (!string.IsNullOrEmpty(Model.totNIcon))
-                            {
-                                <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText" />
-                        }
+                                {
+                                    <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText" />
+                                }
                                 @Model.totN
                             </div>
                             <div class="Cell2" style="text-align:center">
                                 @if (!string.IsNullOrEmpty(Model.totPIcon))
-                            {
-                                <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
-                        }
+                                {
+                                    <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
+                                }
                                 @Model.totP2o5
                             </div>
                             <div class="Cell2" style="text-align:center">
                                 @if (!string.IsNullOrEmpty(Model.totKIcon))
-                            {
-                                <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
-                        }
+                                {
+                                    <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
+                                }
                                 @Model.totK2o
                             </div>
                         </div>

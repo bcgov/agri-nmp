@@ -12,8 +12,8 @@ namespace SERVERAPI.ViewModels
         public string fieldName { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
-        public string selManOption { get; set; }
-        public List<SelectListItem> manOptions { get; set; }
+        public string SelectedManureType { get; set; }
+        public List<SelectListItem> ManureTypeOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selApplOption { get; set; }
@@ -24,7 +24,7 @@ namespace SERVERAPI.ViewModels
         public string selRateOptionText { get; set; }
         public List<SelectListItem> rateOptions { get; set; }
         [Required(ErrorMessage = "Required")]
-        public string rate { get; set; }
+        public string ApplicationRate { get; set; }
         public string currUnit { get; set; }
         [Required(ErrorMessage = "Required")]
         public string nh4 { get; set; }
@@ -50,5 +50,8 @@ namespace SERVERAPI.ViewModels
         public string totN { get; set; }
         public string totP2o5 { get; set; }
         public string totK2o { get; set; }
+        public string MaterialRemainingLabel { get; set; }
+        public decimal MaterialRemainingWholePercent { get; set; }
+        public string MaterialRemainingToString => $"{MaterialRemainingLabel}:  {MaterialRemainingWholePercent} %";
     }
 }

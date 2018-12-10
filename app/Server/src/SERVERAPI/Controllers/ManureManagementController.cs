@@ -228,6 +228,7 @@ namespace SERVERAPI.Controllers
                             gm.animalName = animal.Name;
                             gm.animalSubTypeId = Convert.ToInt32(mgovm.selSubTypeOption);
                             gm.animalSubTypeName = animalSubTypeDetails.Name;
+                            gm.solidPerGalPerAnimalPerDay = animalSubTypeDetails.SolidPerGalPerAnimalPerDay;
                             gm.averageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
                             gm.ManureType = mgovm.selManureMaterialTypeOption;
                             gm.manureTypeName = EnumHelper<Agri.Models.ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
@@ -296,6 +297,7 @@ namespace SERVERAPI.Controllers
                             gm.ManureType = thisManureMaterialType;
                             gm.manureTypeName = EnumHelper<ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
                             gm.milkProduction = Convert.ToDecimal(mgovm.milkProduction);
+                            gm.solidPerGalPerAnimalPerDay = animalSubType.SolidPerGalPerAnimalPerDay;
 
                             if (mgovm.washWater != null)
                             {
@@ -1420,7 +1422,7 @@ namespace SERVERAPI.Controllers
         }
         private void ReCalculateManure(int id)
         {
-            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
             List<Field> flds = _ud.GetFields();

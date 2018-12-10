@@ -736,7 +736,10 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var r in manures)
             {
-                SelectListItem li = new SelectListItem() { Id = r.id, Value = r.name };
+                var name = manures.Count(m => m.manureId == r.manureId) == 1
+                    ? r.name
+                    : $"{r.sourceOfMaterialName}: {r.name}";
+                SelectListItem li = new SelectListItem() { Id = r.id, Value = name };
                 manOptions.Add(li);
             }
 
@@ -804,6 +807,7 @@ namespace SERVERAPI.Models.Impl
             farmDataGeneratedManure.washWaterGallons = updatedGeneratedManure.washWaterGallons;
             farmDataGeneratedManure.annualAmount = updatedGeneratedManure.annualAmount;
             farmDataGeneratedManure.AssignedToStoredSystem = updatedGeneratedManure.AssignedToStoredSystem;
+            farmDataGeneratedManure.solidPerGalPerAnimalPerDay = updatedGeneratedManure.solidPerGalPerAnimalPerDay;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
