@@ -541,10 +541,10 @@ namespace SERVERAPI.Controllers
                             }
                         }
 
-                        if (m.washWaterGallons != 0)
+                        if (m.washWaterGallons != "")
                         {
                             rs.milkingCenterWashWater = string.Format("{0:#,##0}", m.washWaterGallons);
-                            annualAmountOfManurePerStorage += m.washWaterGallons;
+                            annualAmountOfManurePerStorage += Convert.ToDecimal(m.washWaterGallons);
                             washWaterAdjustedValue= m.washWater;
                         }
 

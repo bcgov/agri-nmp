@@ -96,13 +96,13 @@
             {
                 <div class="form-row row" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
                     <div class="form-group col-sm-3">
-                        <label asp-for="StorageStructureName">Storage Structure Name</label>
+                        <label asp-for="StorageStructureName">Storage Name</label>
                         <input class="form-control" asp-for="StorageStructureName" type="text" id="txtStorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
                         <span asp-validation-for="StorageStructureName" class="text-danger"></span>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <div><label>Is the structure covered?</label></div>
+                            <div><label>Is the storage covered?</label></div>
                             <div>
                                 <label style="padding-right: 20px">
                                     <input asp-for="IsStructureCovered" type="radio" value="true"
@@ -117,7 +117,7 @@
                         @if (!Model.IsStructureCovered)
                         {
                             <div class="form-group">
-                                <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area Of Storage Structure (ft<sup>2</sup>)</label>
+                                <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
                                 <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure" />
                                 <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
                             </div>
