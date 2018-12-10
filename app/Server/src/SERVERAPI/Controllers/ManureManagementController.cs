@@ -847,6 +847,7 @@ namespace SERVERAPI.Controllers
 
                 mvm.selsourceOfMaterialOption = fm.sourceOfMaterialId;
                 mvm.stored_imported = fm.stored_imported;
+                mvm.IsAssignedToStorage = fm.IsAssignedToStorage;
                 mvm.selManOption = fm.manureId;
 
                 if (!fm.customized)
@@ -1196,11 +1197,22 @@ namespace SERVERAPI.Controllers
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = storageSystem.Name;
+                            cvm.IsAssignedToStorage = true;
                         }
                         else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
                         {
                             var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
-                            cvm.sourceOfMaterialName = importedManure.MaterialName;
+                            if (importedManure.AssignedToStoredSystem == true)
+                            {
+                                var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                                cvm.sourceOfMaterialName = storageSystem.Name;
+                                cvm.IsAssignedToStorage = true;
+                            }
+                            else if (importedManure.AssignedToStoredSystem == false)
+                            {
+                                cvm.sourceOfMaterialName = importedManure.MaterialName;
+                                cvm.IsAssignedToStorage = false;
+                            }
                         }
 
                     }
@@ -1360,6 +1372,7 @@ namespace SERVERAPI.Controllers
                             fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
                             fm.sourceOfMaterialName = cvm.sourceOfMaterialName;
                             fm.stored_imported = cvm.stored_imported;
+                            fm.IsAssignedToStorage = cvm.IsAssignedToStorage;
                             fm.manureId = cvm.selManOption;
                             fm.customized = false;
                         }
@@ -1383,6 +1396,7 @@ namespace SERVERAPI.Controllers
                             fm.nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                             fm.solid_liquid = man.SolidLiquid;
                             fm.stored_imported = cvm.stored_imported;
+                            fm.IsAssignedToStorage = cvm.IsAssignedToStorage;
                         }
 
 
@@ -1421,6 +1435,7 @@ namespace SERVERAPI.Controllers
                             fm.solid_liquid = man.SolidLiquid;
                             fm.nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                             fm.stored_imported = cvm.stored_imported;
+                            fm.IsAssignedToStorage = cvm.IsAssignedToStorage;
                         }
 
                         _ud.UpdateFarmManure(fm);

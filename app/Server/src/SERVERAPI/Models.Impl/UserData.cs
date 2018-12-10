@@ -647,7 +647,7 @@ namespace SERVERAPI.Models.Impl
             {
                 if (!fm.customized)
                 {
-                    Agri.Models.Configuration.Manure man = _sd.GetManure(fm.manureId.ToString());
+                    Manure man = _sd.GetManure(fm.manureId.ToString());
                     fm.ammonia = man.Ammonia;
                     fm.dmid = man.DMId;
                     fm.manure_class = man.ManureClass;
@@ -710,6 +710,8 @@ namespace SERVERAPI.Models.Impl
             frm.potassium = updtMan.potassium;
             frm.solid_liquid = updtMan.solid_liquid;
             frm.stored_imported = updtMan.stored_imported;
+            frm.IsAssignedToStorage = updtMan.IsAssignedToStorage;
+
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

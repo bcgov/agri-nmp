@@ -2,6 +2,7 @@
 {
     public class ReportAnalysisDetail
     {
+        public string sourceOfMaterialName { get; set; }
         public string manureName { get; set; }
         public string sampleDate { get; set; }
         public string moisture { get; set; }

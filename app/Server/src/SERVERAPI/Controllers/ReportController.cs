@@ -723,6 +723,7 @@ namespace SERVERAPI.Controllers
             {
                 ReportAnalysisDetail rd = new ReportAnalysisDetail();
 
+                rd.sourceOfMaterialName = m.sourceOfMaterialName;
                 rd.manureName = m.name;
                 rd.moisture = m.moisture.ToString();
                 rd.ammonia = m.ammonia.ToString("#0");

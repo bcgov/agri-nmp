@@ -12,6 +12,9 @@
         <table style="border-collapse: collapse;">
             <tr style="padding-top:20px; padding-bottom:20px">
                 <td class="CellHdg">
+                    Source of Material Name
+                </td>
+                <td class="CellHdg">
                     Material Type
                 </td>
                 <td class="CellHdg" style="text-align:center">
@@ -39,6 +42,7 @@
             @foreach (var n in Model.details)
             {
                 <tr>
+                    <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName</td>
                     <td class="CellDtl" style="width:300px;">@n.manureName</td>
                     <td class="CellDtl" style="text-align:center; width:80px">@n.moisture</td>
                     <td class="CellDtl" style="text-align:center; width:80px">@n.nitrogen</td>
