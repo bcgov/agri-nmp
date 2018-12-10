@@ -648,22 +648,24 @@ namespace Agri.LegacyData.Models.Impl
             return conversionFactors;
         }
 
-        public SolidMaterialApplicationTonPerAcreRateConversion GetSolidMaterialApplicationTonPerAcreRateConversion()
+        public List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions()
         {
-
+            var conversionFactors = new List<SolidMaterialApplicationTonPerAcreRateConversion>();
             var array = (JArray)rss["agri"]["nmp"]["SolidMaterialApplicationTonPerAcreRateConversions"]["SolidMaterialApplicationTonPerAcreRateConversion"];
 
-            var record = array[0];
-            var conversionFactor = new SolidMaterialApplicationTonPerAcreRateConversion
+            foreach (var record in array)
             {
-                Id = Convert.ToInt32(record["Id"].ToString()),
-                //TonsPerAcre = record["TonsPerAcre"].ToString(),
-                //CubicYardsPerAcre = record["CubicYardsPerAcre"].ToString(),
-                //CubicYardsPerHectare = record["CubicYardsPerHectare"].ToString(),
-                //TonnesPerHectare = record["IdTonnesPerHectare"].ToString()
-            };
+                var conversionFactor = new SolidMaterialApplicationTonPerAcreRateConversion
+                {
+                    Id = Convert.ToInt32(record["Id"].ToString()),
+                    ApplicationRateUnit = (ApplicationRateUnits)Convert.ToInt32(record["ApplicationRateUnit"].ToString()),
+                    ApplicationRateUnitName = record["ApplicationRateUnitName"].ToString(),
+                    TonsPerAcreConversion = record["TonsPerAcreConversion"].ToString(),
+                };
+                conversionFactors.Add(conversionFactor);
+            }
 
-            return conversionFactor;
+            return conversionFactors;
         }
     }
 }

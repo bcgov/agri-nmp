@@ -277,13 +277,158 @@ namespace Agri.CalculateService.Tests
                 });
 
             var calculator = new ManureUnitConversionCalculator(repository);
-            var expected = 1;
+            var expectedUSGallons = 1;
 
             //Act
-            var result = calculator.GetUSGallonsVolume(ManureMaterialType.Liquid, 1, AnnualAmountUnits.CubicMeters);
+            var usGallonsResult = calculator.GetUSGallonsVolume(ManureMaterialType.Liquid, 1, AnnualAmountUnits.CubicMeters);
 
             //Assert
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(expectedUSGallons, usGallonsResult);
+        }
+
+        [TestMethod]
+        public void GetSolidsTonsPerAcreApplicationRateCubicYardsInput()
+        {
+            //Arrange
+            var repository = Substitute.For<IAgriConfigurationRepository>();
+            repository.GetSolidMaterialApplicationTonPerAcreRateConversions()
+                .Returns(new List<SolidMaterialApplicationTonPerAcreRateConversion>()
+                {
+                    new SolidMaterialApplicationTonPerAcreRateConversion
+                    {
+                        ApplicationRateUnit = ApplicationRateUnits.CubicYardsPerAcre,
+                        TonsPerAcreConversion = "1*density"
+                    }
+                });
+
+            var calculator = new ManureUnitConversionCalculator(repository);
+
+            var moisture = 75m;
+            var amount = 10;
+            var expectedTonsPerAcre = 7;
+
+            //Act
+            var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(moisture, amount, ApplicationRateUnits.CubicYardsPerAcre);
+
+            //Assert
+            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
+        }
+
+        [TestMethod]
+        public void GetSolidsTonsPerAcreApplicationRateTonsInput()
+        {
+            //Arrange
+            var repository = Substitute.For<IAgriConfigurationRepository>();
+            repository.GetSolidMaterialApplicationTonPerAcreRateConversions()
+                .Returns(new List<SolidMaterialApplicationTonPerAcreRateConversion>()
+                {
+                    new SolidMaterialApplicationTonPerAcreRateConversion
+                    {
+                        ApplicationRateUnit = ApplicationRateUnits.TonsPerAcre,
+                        TonsPerAcreConversion = "1"
+                    }
+                });
+
+            var calculator = new ManureUnitConversionCalculator(repository);
+
+            var moisture = 75m;
+            var amount = 6;
+            var expectedTonsPerAcre = 6;
+
+            //Act
+            var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(moisture, amount, ApplicationRateUnits.TonsPerAcre);
+
+            //Assert
+            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre,1));
+        }
+
+        [TestMethod]
+        public void GetSolidsTonsPerAcreApplicationRateCubicMetersPerHectareInput()
+        {
+            //Arrange
+            var repository = Substitute.For<IAgriConfigurationRepository>();
+            repository.GetSolidMaterialApplicationTonPerAcreRateConversions()
+                .Returns(new List<SolidMaterialApplicationTonPerAcreRateConversion>()
+                {
+                    new SolidMaterialApplicationTonPerAcreRateConversion
+                    {
+                        ApplicationRateUnit = ApplicationRateUnits.CubicMetersPerHectare,
+                        TonsPerAcreConversion = "1*1.30795*density/2.47105"
+                    }
+                });
+
+            var calculator = new ManureUnitConversionCalculator(repository);
+
+            var moisture = 75m;
+            var amount = 10;
+            var expectedTonsPerAcre = 3.7m;
+
+            //Act
+            var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(moisture, amount, ApplicationRateUnits.CubicMetersPerHectare);
+
+            //Assert
+            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
+        }
+
+        [TestMethod]
+        public void GetSolidsTonsPerAcreApplicationRateTonnesPerHectareInput()
+        {
+            //Arrange
+            var repository = Substitute.For<IAgriConfigurationRepository>();
+            repository.GetSolidMaterialApplicationTonPerAcreRateConversions()
+                .Returns(new List<SolidMaterialApplicationTonPerAcreRateConversion>()
+                {
+                    new SolidMaterialApplicationTonPerAcreRateConversion
+                    {
+                        ApplicationRateUnit = ApplicationRateUnits.TonnesPerHecatre,
+                        TonsPerAcreConversion = "1*1.10231/2.47105"
+                    }
+                });
+
+            var calculator = new ManureUnitConversionCalculator(repository);
+
+            var moisture = 75m;
+            var amount = 40;
+            var expectedTonsPerAcre = 17.8m;
+
+            //Act
+            var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(moisture, amount, ApplicationRateUnits.TonnesPerHecatre);
+
+            //Assert
+            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
+        }
+
+        [TestMethod]
+        public void GetSolidsTonsPerAcreApplicationRateCubicYardsInputWithManureId()
+        {
+            //Arrange
+            var repository = Substitute.For<IAgriConfigurationRepository>();
+            repository.GetSolidMaterialApplicationTonPerAcreRateConversions()
+                .Returns(new List<SolidMaterialApplicationTonPerAcreRateConversion>()
+                {
+                    new SolidMaterialApplicationTonPerAcreRateConversion
+                    {
+                        ApplicationRateUnit = ApplicationRateUnits.CubicYardsPerAcre,
+                        TonsPerAcreConversion = "1*density"
+                    }
+                });
+            repository.GetManure("1")
+                .ReturnsForAnyArgs(new Manure
+                {
+                    CubicYardConversion = .51m
+                });
+
+            var calculator = new ManureUnitConversionCalculator(repository);
+
+            var manureId = 1; //"Beef-feedlot, solid (dry)"
+            var amount = 10;
+            var expectedTonsPerAcre = 5.1m;
+
+            //Act
+            var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(manureId, amount, ApplicationRateUnits.CubicYardsPerAcre);
+
+            //Assert
+            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
         }
     }
 }

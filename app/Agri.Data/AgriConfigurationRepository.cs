@@ -724,8 +724,7 @@ namespace Agri.Data
         {
             return _context.LiquidMaterialsConversionFactors.ToList();
         }
-
-        public SolidMaterialApplicationTonPerAcreRateConversion GetSolidMaterialApplicationTonPerAcreRateConversion()
+        public List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions()
         {
             throw new NotImplementedException();
         }

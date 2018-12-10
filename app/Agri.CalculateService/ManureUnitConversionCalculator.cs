@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Agri.Interfaces;
 using Agri.Models;
+using Agri.Models.Configuration;
 
 namespace Agri.CalculateService
 {
@@ -38,11 +39,16 @@ namespace Agri.CalculateService
             }
         }
 
-        public decimal GetDensityFactoredConversion(decimal moistureWholePercent, string conversionFactor)
+        public decimal GetDensityFactoredConversionUsingMoisture(decimal moistureWholePercent, string conversionFactor)
         {
             var moisterPercentDecimal = Convert.ToDouble(moistureWholePercent / 100);
             var density = GetDensity(moistureWholePercent);
 
+            return GetDenisityFactoredConversion(density, conversionFactor);
+        }
+
+        public decimal GetDenisityFactoredConversion(decimal density, string conversionFactor)
+        {
             var parsedExpression = conversionFactor.Replace("density", density.ToString(), StringComparison.CurrentCultureIgnoreCase);
             var conversion = Convert.ToDecimal(new DataTable().Compute(parsedExpression, null));
 
@@ -61,7 +67,7 @@ namespace Agri.CalculateService
                     .Single(cf => cf.InputUnit == amountUnit);
 
                 var cubicYardsConverted =
-                    GetDensityFactoredConversion(moistureWholePercent, converstionFactor.CubicYardsOutput) *
+                    GetDensityFactoredConversionUsingMoisture(moistureWholePercent, converstionFactor.CubicYardsOutput) *
                     amountToConvert;
 
                 return cubicYardsConverted;
@@ -81,7 +87,7 @@ namespace Agri.CalculateService
                     .Single(cf => cf.InputUnit == amountUnit);
 
                 var cubicMetersConverted =
-                    GetDensityFactoredConversion(moistureWholePercent, converstionFactor.CubicMetersOutput) *
+                    GetDensityFactoredConversionUsingMoisture(moistureWholePercent, converstionFactor.CubicMetersOutput) *
                     amountToConvert;
 
                 return cubicMetersConverted;
@@ -121,7 +127,7 @@ namespace Agri.CalculateService
                     .Single(cf => cf.InputUnit == amountUnit);
 
                 var tonsConverted =
-                    GetDensityFactoredConversion(moistureWholePercent, converstionFactor.MetricTonsOutput) *
+                    GetDensityFactoredConversionUsingMoisture(moistureWholePercent, converstionFactor.MetricTonsOutput) *
                     amountToConvert;
 
                 return tonsConverted;
@@ -134,9 +140,35 @@ namespace Agri.CalculateService
 
         public decimal GetSolidsTonsPerAcreApplicationRate(
             decimal moistureWholePercent,
-            decimal amountToConvert)
+            decimal amountToConvert,
+            ApplicationRateUnits applicationRateUnit)
         {
-            return 0m;
+            var conversionFactor = _repository
+                .GetSolidMaterialApplicationTonPerAcreRateConversions()
+                .Single(cf => cf.ApplicationRateUnit == applicationRateUnit);
+
+            var densityFactoredConversion =
+                GetDensityFactoredConversionUsingMoisture(moistureWholePercent, conversionFactor.TonsPerAcreConversion);
+
+            var tonsConverted = densityFactoredConversion * amountToConvert;
+
+            return tonsConverted;
+        }
+
+        public decimal GetSolidsTonsPerAcreApplicationRate(
+            int manureId, decimal amountToConvert, ApplicationRateUnits applicationRateUnit)
+        {
+            var density = _repository.GetManure(manureId.ToString()).CubicYardConversion;
+            var conversionFactor = _repository
+                .GetSolidMaterialApplicationTonPerAcreRateConversions()
+                .Single(cf => cf.ApplicationRateUnit == applicationRateUnit);
+
+            var densityFactoredConversion =
+                GetDenisityFactoredConversion(density, conversionFactor.TonsPerAcreConversion);
+
+            var tonsConverted = densityFactoredConversion * amountToConvert;
+
+            return tonsConverted;
         }
     }
 }

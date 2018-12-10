@@ -157,6 +157,6 @@ namespace Agri.Interfaces
         ManureImportedDefault GetManureImportedDefault();
         List<SolidMaterialsConversionFactor> GetSolidMaterialsConversionFactors();
         List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors();
-        SolidMaterialApplicationTonPerAcreRateConversion GetSolidMaterialApplicationTonPerAcreRateConversion();
+        List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions();
     }
 }
