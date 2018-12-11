@@ -950,6 +950,10 @@ namespace SERVERAPI.Models.Impl
         {
             return GetImportedManures().SingleOrDefault(im => im.Id == id);
         }
+        public ImportedManure GetImportedManureByManureId(string manureId)
+        {
+            return GetImportedManures().SingleOrDefault(im => im.ManureId == manureId);
+        }
 
         public void AddImportedManure(ImportedManure newManure)
         {

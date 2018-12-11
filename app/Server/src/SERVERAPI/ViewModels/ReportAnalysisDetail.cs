@@ -1,4 +1,5 @@
-﻿namespace SERVERAPI.ViewModels
+﻿using System.Collections.Generic;
+namespace SERVERAPI.ViewModels
 {
     public class ReportAnalysisDetail
     {
@@ -11,5 +12,8 @@
         public string phosphorous { get; set; }
         public string potassium { get; set; }
         public string nitrate { get; set; }
+        public bool isAssignedToStorage { get; set; }
+
+        public string footnote { get; set; }
     }
 }

@@ -716,6 +716,7 @@ namespace SERVERAPI.Controllers
             rvm.nitratePresent = false;
 
             rvm.details = new List<ReportAnalysisDetail>();
+            rvm.footnotes = new List<ReportFieldFootnote>();
 
             List<FarmManure> manures = _ud.GetFarmManures();
 
@@ -731,11 +732,22 @@ namespace SERVERAPI.Controllers
                 rd.phosphorous = m.phosphorous.ToString("#0.00");
                 rd.potassium = m.potassium.ToString("#0.00");
                 rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString("#0"): "n/a";
+                rd.isAssignedToStorage = m.IsAssignedToStorage;
 
-                if(m.nitrate.HasValue)
+                if (m.nitrate.HasValue)
                 {
                     rvm.nitratePresent = true;
                 }
+
+                if (m.IsAssignedToStorage == false)
+                {
+                    ReportFieldFootnote rff = new ReportFieldFootnote();
+                    rff.id = rvm.footnotes.Count() + 1;
+                    rff.message = rd.sourceOfMaterialName +" includes materials that have not been allocted to a storage";
+                    rd.footnote = rff.id.ToString();
+                    rvm.footnotes.Add(rff);
+                }
+
                 rvm.details.Add(rd);
             }
 

@@ -42,7 +42,14 @@
             @foreach (var n in Model.details)
             {
                 <tr>
-                    <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName</td>
+                    @if (@n.isAssignedToStorage)
+                    {
+                        <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName</td>
+                    }
+                    else
+                    {
+                        <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName<sup>@n.footnote</sup></td>
+                    }
                     <td class="CellDtl" style="width:300px;">@n.manureName</td>
                     <td class="CellDtl" style="text-align:center; width:80px">@n.moisture</td>
                     <td class="CellDtl" style="text-align:center; width:80px">@n.nitrogen</td>
@@ -56,5 +63,20 @@
                 </tr>
             }
         </table>
+        @if (Model.footnotes.Count() > 0)
+        {
+            <br/>
+            <br/>
+            <table>
+                @foreach (var fn in Model.footnotes)
+                {
+                    <tr>
+                        <td class="CellDtlNBd" style="padding:0px">
+                            @fn.id.ToString() &nbsp;&nbsp; @fn.message
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
     </div>
 </div>
