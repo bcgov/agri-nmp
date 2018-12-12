@@ -12,7 +12,7 @@ namespace SERVERAPI.ViewModels
         public string fieldName { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
-        public string SelectedManureType { get; set; }
+        public string SelectedFarmManure { get; set; }
         public List<SelectListItem> ManureTypeOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]

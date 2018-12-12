@@ -5,6 +5,7 @@ namespace Agri.Interfaces
 {
     public interface IManureUnitConversionCalculator
     {
+        decimal GetDensity(decimal moistureWholePercent);
         decimal GetCubicMetersVolume(ManureMaterialType manureMaterialType, decimal moistureWholePercent, decimal amountToConvert, AnnualAmountUnits amountUnit);
         decimal GetCubicYardsVolume(ManureMaterialType manureMaterialType, decimal moistureWholePercent, decimal amountToConvert, AnnualAmountUnits amountUnit);
         decimal GetUSGallonsVolume(ManureMaterialType manureMaterialType, decimal amountToConvert, AnnualAmountUnits amountUnit);

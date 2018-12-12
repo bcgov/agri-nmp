@@ -15,11 +15,11 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-4">
-                        <label asp-for="SelectedManureType">Material Type</label>
-                        <select class="form-control" asp-for="SelectedManureType" asp-items="@(new SelectList(Model.ManureTypeOptions,"Id","Value"))" id="ddlMan">
+                        <label asp-for="SelectedFarmManure">Material Type</label>
+                        <select class="form-control" asp-for="SelectedFarmManure" asp-items="@(new SelectList(Model.ManureTypeOptions,"Id","Value"))" id="ddlMan">
                             <option>select</option>
                         </select>
-                        <span asp-validation-for="SelectedManureType" class="text-danger"></span>
+                        <span asp-validation-for="SelectedFarmManure" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="selApplOption">Application Season/Method</label>

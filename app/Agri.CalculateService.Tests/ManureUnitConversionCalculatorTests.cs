@@ -1,11 +1,10 @@
 using Agri.Interfaces;
+using Agri.Models;
 using Agri.Models.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using NSubstitute.Extensions;
-using System.Collections.Generic;
-using Agri.Models;
 using System;
+using System.Collections.Generic;
 
 namespace Agri.CalculateService.Tests
 {

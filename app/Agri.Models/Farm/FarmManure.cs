@@ -1,10 +1,20 @@
-﻿namespace Agri.Models.Farm
+﻿using System;
+
+namespace Agri.Models.Farm
 {
     public class FarmManure
     {
         public int id { get; set; }
         public bool customized { get; set; }
         public string sourceOfMaterialId { get; set; }
+        public int? sourceOfMaterialStorageSystemId =>
+            !sourceOfMaterialId.Split(",")[0].Contains("Imported", StringComparison.CurrentCultureIgnoreCase)
+                ? Convert.ToInt32(sourceOfMaterialId.Split(",")[1])
+                : new int?();
+        public int? sourceOfMaterialImportedManureId =>
+            sourceOfMaterialId.Split(",")[0].Contains("Imported", StringComparison.CurrentCultureIgnoreCase)
+                ? Convert.ToInt32(sourceOfMaterialId.Split(",")[1])
+                : new int?();
         public string sourceOfMaterialName { get; set; }
         public int manureId { get; set; }
         public string name { get; set; }

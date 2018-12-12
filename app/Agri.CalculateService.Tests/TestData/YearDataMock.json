@@ -1,0 +1,190 @@
+﻿{
+  "year": "2018",
+  "fields": [
+    {
+      "id": 1,
+      "fieldName": "Field 1",
+      "area": 10.0,
+      "comment": null,
+      "nutrients": {
+        "nutrientManures": [
+          {
+            "id": 1,
+            "custom": false,
+            "manureId": "1",
+            "applicationId": "7",
+            "unitId": "1",
+            "rate": 10.0,
+            "nh4Retention": 1.0,
+            "nAvail": 35.0,
+            "yrN": 0.0,
+            "yrP2o5": 0.0,
+            "yrK2o": 0.0,
+            "ltN": 0.0,
+            "ltP2o5": 0.0,
+            "ltK2o": 0.0
+          },
+          {
+            "id": 2,
+            "custom": false,
+            "manureId": "2",
+            "applicationId": "7",
+            "unitId": "4",
+            "rate": 10.0,
+            "nh4Retention": 1.0,
+            "nAvail": 20.0,
+            "yrN": 17.0,
+            "yrP2o5": 42.0,
+            "yrK2o": 161.0,
+            "ltN": 21.0,
+            "ltP2o5": 60.0,
+            "ltK2o": 161.0
+          }
+        ],
+        "nutrientFertilizers": null,
+        "nutrientOthers": null
+      },
+      "crops": null,
+      "soilTest": null,
+      "prevYearManureApplicationFrequency": "0",
+      "prevYearManureApplicationNitrogenCredit": null,
+      "SoilTestNitrateOverrideNitrogenCredit": null
+    },
+    {
+      "id": 2,
+      "fieldName": "Field 2",
+      "area": 10.0,
+      "comment": null,
+      "nutrients": null,
+      "crops": null,
+      "soilTest": null,
+      "prevYearManureApplicationFrequency": "0",
+      "prevYearManureApplicationNitrogenCredit": null,
+      "SoilTestNitrateOverrideNitrogenCredit": null
+    }
+  ],
+  "farmManures": [
+    {
+      "id": 1,
+      "customized": false,
+      "sourceOfMaterialId": "Generated1,1",
+      "sourceOfMaterialStorageSystemId": 1,
+      "sourceOfMaterialImportedManureId": null,
+      "sourceOfMaterialName": "Liquid Storage System ",
+      "manureId": 3,
+      "name": null,
+      "manure_class": null,
+      "solid_liquid": null,
+      "moisture": null,
+      "nitrogen": 0.0,
+      "ammonia": 0.0,
+      "phosphorous": 0.0,
+      "potassium": 0.0,
+      "dmid": 0,
+      "nminerizationid": 0,
+      "nitrate": null,
+      "stored_imported": 2
+    },
+    {
+      "id": 2,
+      "customized": false,
+      "sourceOfMaterialId": "Imported1,1",
+      "sourceOfMaterialStorageSystemId": null,
+      "sourceOfMaterialImportedManureId": 1,
+      "sourceOfMaterialName": "Imported Solid",
+      "manureId": 1,
+      "name": null,
+      "manure_class": null,
+      "solid_liquid": null,
+      "moisture": null,
+      "nitrogen": 0.0,
+      "ammonia": 0.0,
+      "phosphorous": 0.0,
+      "potassium": 0.0,
+      "dmid": 0,
+      "nminerizationid": 0,
+      "nitrate": null,
+      "stored_imported": 2
+    }
+  ],
+  "GeneratedManures": [
+    {
+      "animalId": 1,
+      "animalName": "Beef Cattle",
+      "animalSubTypeId": 3,
+      "animalSubTypeName": "Heavy Feeders",
+      "averageAnimalNumber": 1,
+      "manureTypeName": "Liquid",
+      "annualAmount": "2989 U.S. gallons",
+      "washWaterGallons": 0.0,
+      "washWater": 0.0,
+      "milkProduction": 0.0,
+      "solidPerGalPerAnimalPerDay": 6.08,
+      "ManureId": "Generated1",
+      "ManagedManureName": "Heavy Feeders",
+      "Id": 1,
+      "ManureType": 1,
+      "AssignedToStoredSystem": true
+    }
+  ],
+  "ImportedManures": [
+    {
+      "MaterialName": "Imported Solid",
+      "ManureTypeName": "Solid",
+      "AnnualAmount": 1000.0,
+      "AnnualAmountUSGallonsVolume": 0.0,
+      "AnnualAmountCubicYardsVolume": 1000.0,
+      "AnnualAmountCubicMetersVolume": 764.555000,
+      "AnnualAmountTonsWeight": 483.825000,
+      "AnnualAmountDisplayVolume": "1,000 yards³ (765 m³)",
+      "AnnualAmountDisplayWeight": "484 tons",
+      "Units": 1,
+      "Moisture": 50.0,
+      "StandardSolidMoisture": 50.0,
+      "IsMaterialStored": false,
+      "ManureId": "Imported1",
+      "ManagedManureName": "Imported Solid",
+      "Id": 1,
+      "ManureType": 2,
+      "AssignedToStoredSystem": false
+    }
+  ],
+  "ManureStorageSystems": [
+    {
+      "Id": 1,
+      "Name": "Liquid Storage System ",
+      "ManureMaterialType": 1,
+      "GeneratedManuresIncludedInSystem": [
+        {
+          "animalId": 1,
+          "animalName": "Beef Cattle",
+          "animalSubTypeId": 3,
+          "animalSubTypeName": "Heavy Feeders",
+          "averageAnimalNumber": 1,
+          "manureTypeName": "Liquid",
+          "annualAmount": "2989 U.S. gallons",
+          "washWaterGallons": 0.0,
+          "washWater": 0.0,
+          "milkProduction": 0.0,
+          "solidPerGalPerAnimalPerDay": 6.08,
+          "ManureId": "Generated1",
+          "ManagedManureName": "Heavy Feeders",
+          "Id": 1,
+          "ManureType": 1,
+          "AssignedToStoredSystem": true
+        }
+      ],
+      "ImportedManuresIncludedInSystem": [],
+      "GetsRunoffFromRoofsOrYards": false,
+      "RunoffAreaSquareFeet": null,
+      "ManureStorageStructures": [
+        {
+          "Id": 1,
+          "Name": "Underbarn",
+          "IsStructureCovered": true,
+          "UncoveredAreaSquareFeet": null
+        }
+      ]
+    }
+  ]
+}

@@ -156,7 +156,9 @@ namespace Agri.CalculateService
         }
 
         public decimal GetSolidsTonsPerAcreApplicationRate(
-            int manureId, decimal amountToConvert, ApplicationRateUnits applicationRateUnit)
+            int manureId, 
+            decimal amountToConvert, 
+            ApplicationRateUnits applicationRateUnit)
         {
             var density = _repository.GetManure(manureId.ToString()).CubicYardConversion;
             var conversionFactor = _repository
