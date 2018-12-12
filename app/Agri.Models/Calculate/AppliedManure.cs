@@ -1,4 +1,5 @@
 ﻿using Agri.Models.Farm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -43,8 +44,8 @@ namespace Agri.Models.Calculate
         }
 
         public decimal TotalAnnualManureRemainingToApply => TotalAnnualManureToApply - TotalApplied;
-        public decimal WholePercentAppiled => TotalApplied / TotalAnnualManureToApply * 100;
-        public decimal WholePercentRemaining => TotalAnnualManureRemainingToApply / TotalAnnualManureToApply * 100;
+        public int WholePercentAppiled => Convert.ToInt32(TotalApplied / TotalAnnualManureToApply * 100);
+        public int WholePercentRemaining => Convert.ToInt32(TotalAnnualManureRemainingToApply / TotalAnnualManureToApply * 100);
         public string AppliedMessage => $"{SourceName}: {WholePercentAppiled}%";
         public string RemainingToApplMessage => $"{SourceName}: {WholePercentRemaining}%";
     }

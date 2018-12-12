@@ -46,7 +46,7 @@ namespace Agri.Models.Farm
         public List<int> GetFarmManureIdsForImportedManure(int importedManureId)
         {
             var farmManureIds = farmManures.Where(fm =>
-                    fm.sourceOfMaterialImportedManureId.HasValue && fm.sourceOfMaterialStorageSystemId == importedManureId)
+                    fm.sourceOfMaterialImportedManureId.HasValue && fm.sourceOfMaterialImportedManureId == importedManureId)
                 .Select(fm => fm.id).ToList();
 
             return farmManureIds;
