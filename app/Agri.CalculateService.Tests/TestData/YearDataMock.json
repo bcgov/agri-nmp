@@ -133,20 +133,20 @@
       "ManureTypeName": "Solid",
       "AnnualAmount": 1000.0,
       "AnnualAmountUSGallonsVolume": 0.0,
-      "AnnualAmountCubicYardsVolume": 1000.0,
-      "AnnualAmountCubicMetersVolume": 764.555000,
-      "AnnualAmountTonsWeight": 483.825000,
-      "AnnualAmountDisplayVolume": "1,000 yards³ (765 m³)",
-      "AnnualAmountDisplayWeight": "484 tons",
-      "Units": 1,
+      "AnnualAmountCubicYardsVolume": 2066.8630186534387433472846587,
+      "AnnualAmountCubicMetersVolume": 1580.2304552265798584198832222,
+      "AnnualAmountTonsWeight": 1000.0,
+      "AnnualAmountDisplayVolume": "2,067 yards³ (1,580 m³)",
+      "AnnualAmountDisplayWeight": "1,000 tons",
+      "Units": 4,
       "Moisture": 50.0,
       "StandardSolidMoisture": 50.0,
-      "IsMaterialStored": false,
+      "IsMaterialStored": true,
       "ManureId": "Imported1",
       "ManagedManureName": "Imported Solid",
       "Id": 1,
       "ManureType": 2,
-      "AssignedToStoredSystem": false
+      "AssignedToStoredSystem":false
     }
   ],
   "ManureStorageSystems": [

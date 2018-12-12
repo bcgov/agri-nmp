@@ -45,7 +45,7 @@ namespace Agri.CalculateService.Tests
                 {
                     new SolidMaterialsConversionFactor
                     {
-                        InputUnit = AnnualAmountUnits.Yards,
+                        InputUnit = AnnualAmountUnits.CubicYards,
                         CubicYardsOutput = "1",
                         CubicMetersOutput = "0.764555",
                         MetricTonsOutput = "1*density"
@@ -60,9 +60,9 @@ namespace Agri.CalculateService.Tests
             var expectedMetricTons = 2;
 
             //Act
-            var cubicYardsResult = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.Yards);
-            var cubicMetersResult = calculator.GetCubicMetersVolume(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.Yards);
-            var tonsResult = calculator.GetTonsWeight(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.Yards);
+            var cubicYardsResult = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.CubicYards);
+            var cubicMetersResult = calculator.GetCubicMetersVolume(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.CubicYards);
+            var tonsResult = calculator.GetTonsWeight(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.CubicYards);
 
             //Assert
             Assert.AreEqual(expectedCubicYards, Math.Round(cubicYardsResult));

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Agri.Interfaces;
+using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -20,19 +21,23 @@ namespace SERVERAPI.Controllers
     //[RedirectingAction]
     public class NutrientsController : Controller
     {
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
-        public IViewRenderService _viewRenderService { get; set; }
+        public IHostingEnvironment _env;
+        public UserData _ud;
+        public IAgriConfigurationRepository _sd;
+        public IViewRenderService _viewRenderService;
         public AppSettings _settings;
+        private IManureApplicationCalculator _manureApplicationCalculator;
 
-        public NutrientsController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd, IOptions<AppSettings> settings)
+        public NutrientsController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd,
+            IOptions<AppSettings> settings, IManureApplicationCalculator manureApplicationCalculator)
         {
             _env = env;
             _ud = ud;
             _sd = sd;
             _settings = settings.Value;
+            _manureApplicationCalculator = manureApplicationCalculator;
         }
+
         // GET: /<controller>/
         public IActionResult Calculate(string nme)
         {
@@ -218,6 +223,9 @@ namespace SERVERAPI.Controllers
             mvm.totP2o5 = (chemicalBalances.balance_AgrP2O5 > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrP2O5).ToString();
             mvm.totK2o = (chemicalBalances.balance_AgrK2O > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrK2O).ToString();
         }
+
+        
+
         [HttpPost]
         public IActionResult ManureDetails(ManureDetailsViewModel mvm)
         {
@@ -478,6 +486,24 @@ namespace SERVERAPI.Controllers
             {
                 FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
                 mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.manureId.ToString()).SolidLiquid).ToList();
+
+                AppliedManure appliedManure;
+                var yearData = _ud.GetYearData();
+                if (fm.SourceMaterialType == FarmManureSourceType.Stored)
+                {
+                    appliedManure =
+                        _manureApplicationCalculator.GetAppliedStoredManure(yearData,
+                            fm.sourceOfMaterialStorageSystemId.Value);
+                }
+                else
+                {
+                    appliedManure =
+                        _manureApplicationCalculator.GetAppliedImportedManure(yearData,
+                            fm.sourceOfMaterialStorageSystemId.Value);
+                }
+
+                mvm.MaterialRemainingLabel = appliedManure.SourceName;
+                mvm.MaterialRemainingWholePercent = appliedManure.WholePercentRemaining;
             }
 
             mvm.rateOptions = new List<SelectListItem>();

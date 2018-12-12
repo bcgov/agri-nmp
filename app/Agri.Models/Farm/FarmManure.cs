@@ -16,6 +16,9 @@ namespace Agri.Models.Farm
                 ? Convert.ToInt32(sourceOfMaterialId.Split(",")[1])
                 : new int?();
         public string sourceOfMaterialName { get; set; }
+        public FarmManureSourceType SourceMaterialType => sourceOfMaterialStorageSystemId.HasValue
+            ? FarmManureSourceType.Stored
+            : FarmManureSourceType.Imported;
         public int manureId { get; set; }
         public string name { get; set; }
         public string manure_class { get; set; }

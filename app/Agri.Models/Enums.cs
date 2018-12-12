@@ -21,13 +21,19 @@ namespace Agri.Models
         tons = 4,
         tonnes = 5,
         [Description("yards³")]
-        Yards = 6
+        CubicYards = 6
     }
 
     public enum NutrientAnalysisTypes
     {
         Stored = 1,
         Imported = 2
+    }
+
+    public enum FarmManureSourceType
+    {
+        Stored,
+        Imported
     }
 
     public enum ApplicationRateUnits

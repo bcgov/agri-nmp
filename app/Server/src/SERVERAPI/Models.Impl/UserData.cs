@@ -1035,5 +1035,12 @@ namespace SERVERAPI.Models.Impl
             return manures;
         }
 
+        public YearData GetYearData()
+        {
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            var yearData = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+            return yearData;
+        }
+
     }
 }

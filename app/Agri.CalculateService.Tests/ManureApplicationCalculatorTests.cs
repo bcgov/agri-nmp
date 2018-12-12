@@ -135,8 +135,8 @@ namespace Agri.CalculateService.Tests
             Assert.IsNotNull(result.FieldAppliedManures[0]);
             Assert.IsNotNull(result.FieldAppliedManures[0].TonsApplied);
             Assert.IsNotNull(result.FieldAppliedManures[0].TonsApplied.Value == 100);
-            Assert.IsTrue(result.TotalAnnualManureToApply == 88m);
-            Assert.IsTrue(result.WholePercentAppiled == 100);
+            Assert.IsTrue(result.TotalAnnualManureToApply == 1000m);
+            Assert.IsTrue(result.WholePercentAppiled == 10);
         }
     }
 

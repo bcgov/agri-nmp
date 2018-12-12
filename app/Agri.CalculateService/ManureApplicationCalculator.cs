@@ -10,7 +10,7 @@ using Agri.Models.Farm;
 
 namespace Agri.CalculateService
 {
-    public class ManureApplicationCalculator
+    public class ManureApplicationCalculator : IManureApplicationCalculator
     {
         private IManureUnitConversionCalculator _manureUnitConversionCalculator;
 
