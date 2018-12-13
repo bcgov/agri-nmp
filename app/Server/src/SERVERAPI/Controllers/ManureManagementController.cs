@@ -749,7 +749,7 @@ namespace SERVERAPI.Controllers
                     else if (manure.ManureId.Contains("Imported"))
                     {
                         var manureImported = _ud.GetImportedManure(manure.Id.GetValueOrDefault());
-                        materialsToInclude = manureImported.MaterialName + "(" +
+                        materialsToInclude = manureImported.MaterialName + " (" +
                                              manureImported.ManureTypeName + ")";
                     }
                     manureSelectItems.Add(new MvcRendering.SelectListItem
