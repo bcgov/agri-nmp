@@ -408,6 +408,8 @@ namespace SERVERAPI.Controllers
                         }
 
                         MaunureStillRequired(ref mvm);
+                        ManureApplicationRefresh(mvm);
+
                         if (mvm.id == null)
                         {
                             _ud.DeleteFieldNutrientsManure(mvm.fieldName, addedId);
@@ -416,7 +418,6 @@ namespace SERVERAPI.Controllers
                         {
                             _ud.UpdateFieldNutrientsManure(mvm.fieldName, origManure);
                         }
-                        ManureApplicationRefresh(mvm);
                     }
                     else
                     {

@@ -47,12 +47,22 @@ namespace Agri.CalculateService
                     }
                     else
                     {
-                        var manureId = yearData.farmManures
-                            .Single(fm => fm.id == Convert.ToInt32(nutrientManure.manureId)).manureId;
+                        var farmManure = yearData.farmManures
+                            .Single(fm => fm.id == Convert.ToInt32(nutrientManure.manureId));
 
-                        var convertedRate = _manureUnitConversionCalculator
-                            .GetSolidsTonsPerAcreApplicationRate(manureId, nutrientManure.rate,
-                                (ApplicationRateUnits) Convert.ToInt32(nutrientManure.unitId));
+                        decimal convertedRate;
+                        if (string.IsNullOrWhiteSpace(farmManure.moisture))
+                        {
+                            convertedRate = _manureUnitConversionCalculator
+                                .GetSolidsTonsPerAcreApplicationRate(farmManure.manureId, nutrientManure.rate,
+                                    (ApplicationRateUnits) Convert.ToInt32(nutrientManure.unitId));
+                        }
+                        else
+                        {
+                            convertedRate = _manureUnitConversionCalculator
+                                .GetSolidsTonsPerAcreApplicationRate(Convert.ToDecimal(farmManure.moisture), nutrientManure.rate,
+                                    (ApplicationRateUnits)Convert.ToInt32(nutrientManure.unitId));
+                        }
 
                         fieldAppliedManure.TonsApplied = field.area * convertedRate;
                     }
