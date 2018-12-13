@@ -47,6 +47,7 @@ namespace SERVERAPI.ViewModels
         public string potassiumBook { get; set; }
         public bool showNitrate { get; set; }
         public NutrientAnalysisTypes stored_imported { get; set; }
+        public bool IsAssignedToStorage { get; set; }
 
     }
 }
