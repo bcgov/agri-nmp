@@ -731,10 +731,10 @@ namespace SERVERAPI.Controllers
                 rd.nitrogen = m.nitrogen.ToString("#0.00");
                 rd.phosphorous = m.phosphorous.ToString("#0.00");
                 rd.potassium = m.potassium.ToString("#0.00");
-                rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString("#0"): "n/a";
+                rd.nitrate = (m.nitrate.HasValue && m.nitrate >0) ? m.nitrate.Value.ToString("#0"): "n/a";
                 rd.isAssignedToStorage = m.IsAssignedToStorage;
 
-                if (m.nitrate.HasValue)
+                if (m.nitrate.HasValue && m.nitrate > 0)
                 {
                     rvm.nitratePresent = true;
                 }
