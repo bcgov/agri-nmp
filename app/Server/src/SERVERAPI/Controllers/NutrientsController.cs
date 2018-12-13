@@ -188,6 +188,8 @@ namespace SERVERAPI.Controllers
 
             MaunureStillRequired(ref mvm);
 
+            ManureApplicationRefresh(mvm);
+
             return PartialView(mvm);
         }
         private void MaunureStillRequired(ref ManureDetailsViewModel mvm)
@@ -414,6 +416,7 @@ namespace SERVERAPI.Controllers
                         {
                             _ud.UpdateFieldNutrientsManure(mvm.fieldName, origManure);
                         }
+                        ManureApplicationRefresh(mvm);
                     }
                     else
                     {
@@ -486,9 +489,23 @@ namespace SERVERAPI.Controllers
             {
                 FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
                 mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.manureId.ToString()).SolidLiquid).ToList();
+            }
 
+            mvm.rateOptions = new List<SelectListItem>();
+            mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
+            mvm.selRateOptionText = "(lb/ac)";
+
+            return;
+        }
+
+        private void ManureApplicationRefresh(ManureDetailsViewModel mvm)
+        {
+            if (!string.IsNullOrWhiteSpace(mvm.SelectedFarmManure) &&
+                !mvm.SelectedFarmManure.Equals("select", StringComparison.CurrentCultureIgnoreCase))
+            {
                 AppliedManure appliedManure;
                 var yearData = _ud.GetYearData();
+                FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
                 if (fm.SourceMaterialType == FarmManureSourceType.Stored)
                 {
                     appliedManure =
@@ -505,12 +522,6 @@ namespace SERVERAPI.Controllers
                 mvm.MaterialRemainingLabel = appliedManure.SourceName;
                 mvm.MaterialRemainingWholePercent = appliedManure.WholePercentRemaining;
             }
-
-            mvm.rateOptions = new List<SelectListItem>();
-            mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
-            mvm.selRateOptionText = "(lb/ac)";
-
-            return;
         }
 
         public IActionResult FertilizerDetails(string fldName, int? id)

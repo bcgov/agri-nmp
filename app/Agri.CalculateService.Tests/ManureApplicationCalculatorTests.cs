@@ -66,36 +66,36 @@ namespace Agri.CalculateService.Tests
             Assert.IsTrue(result.WholePercentAppiled == 4);
         }
 
-        [TestMethod]
-        public void GetAppliedSolidStoredManure()
-        {
-            //Arrange
-            var repository = Substitute.For<IAgriConfigurationRepository>();
-            repository.GetSolidMaterialApplicationTonPerAcreRateConversions()
-                .Returns(new List<SolidMaterialApplicationTonPerAcreRateConversion>()
-                {
-                    new SolidMaterialApplicationTonPerAcreRateConversion
-                    {
-                        ApplicationRateUnit = ApplicationRateUnits.TonsPerAcre,
-                        TonsPerAcreConversion = "1"
-                    }
-                });
-            var convertCalculator = new ManureUnitConversionCalculator(repository);
-            var calculator = new ManureApplicationCalculator(convertCalculator);
-            var manureStorageSystemId = 1;
+        //[TestMethod]
+        //public void GetAppliedSolidStoredManure()
+        //{
+        //    //Arrange
+        //    var repository = Substitute.For<IAgriConfigurationRepository>();
+        //    repository.GetSolidMaterialApplicationTonPerAcreRateConversions()
+        //        .Returns(new List<SolidMaterialApplicationTonPerAcreRateConversion>()
+        //        {
+        //            new SolidMaterialApplicationTonPerAcreRateConversion
+        //            {
+        //                ApplicationRateUnit = ApplicationRateUnits.TonsPerAcre,
+        //                TonsPerAcreConversion = "1"
+        //            }
+        //        });
+        //    var convertCalculator = new ManureUnitConversionCalculator(repository);
+        //    var calculator = new ManureApplicationCalculator(convertCalculator);
+        //    var manureStorageSystemId = 1;
 
-            //Act
-            var result = calculator.GetAppliedStoredManure(_yearData, manureStorageSystemId);
+        //    //Act
+        //    var result = calculator.GetAppliedStoredManure(_yearData, manureStorageSystemId);
 
-            //Assess
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.FieldAppliedManures.Count > 0);
-            Assert.IsNotNull(result.FieldAppliedManures[0]);
-            Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied);
-            Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied.Value == 120.0950000M);
-            Assert.IsTrue(result.TotalAnnualManureToApply == 2989m);
-            Assert.IsTrue(result.WholePercentAppiled == 4);
-        }
+        //    //Assess
+        //    Assert.IsNotNull(result);
+        //    Assert.IsTrue(result.FieldAppliedManures.Count > 0);
+        //    Assert.IsNotNull(result.FieldAppliedManures[0]);
+        //    Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied);
+        //    Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied.Value == 120.0950000M);
+        //    Assert.IsTrue(result.TotalAnnualManureToApply == 2989m);
+        //    Assert.IsTrue(result.WholePercentAppiled == 4);
+        //}
 
 
         [TestMethod]

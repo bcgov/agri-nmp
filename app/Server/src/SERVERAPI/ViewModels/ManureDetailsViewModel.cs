@@ -50,8 +50,9 @@ namespace SERVERAPI.ViewModels
         public string totN { get; set; }
         public string totP2o5 { get; set; }
         public string totK2o { get; set; }
+        public bool ShowMaterialRemaining => MaterialRemainingWholePercent.HasValue;
         public string MaterialRemainingLabel { get; set; }
-        public decimal MaterialRemainingWholePercent { get; set; }
+        public decimal? MaterialRemainingWholePercent { get; set; }
         public string MaterialRemainingToString => $"{MaterialRemainingLabel}:  {MaterialRemainingWholePercent} %";
     }
 }

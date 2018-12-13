@@ -144,12 +144,15 @@
             <div class="row">
                 <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0" />
                 <div class="form-group col-sm-4">
-                    <div class="Title">
-                        Material Remaining
-                    </div>
-                    <div>
-                        @Model.MaterialRemainingToString
-                    </div>
+                    @if (Model.ShowMaterialRemaining)
+                    {
+                        <div class="Title">
+                            Material Remaining
+                        </div>
+                        <div>
+                            @Model.MaterialRemainingToString
+                        </div>
+                    }
                 </div>
                 <div class="form-group col-sm-4" style="margin:5px">
                     <div class="form-group">
