@@ -21,7 +21,7 @@ app {
 
     git {
         workDir = ['git', 'rev-parse', '--show-toplevel'].execute().text.trim()
-        uri = ['git', 'config', '--get', 'remote.origin.url'].execute().text.trim().replaceAll('((https://github.com/)|git@github.com:)([^/]+)/(.*)', 'https://github.com/$3/$4')
+        uri = ['git', 'config', '--get', 'remote.origin.url'].execute().text.trim().replaceAll('(?:(?:https://github.com/)|(?:git@github.com:))(?<org>[^/]+)/(?<repo>.*)', 'https://github.com/${org}/${repo}')
         ref = "refs/pull/${opt.'pr'}/head"
     }
 
