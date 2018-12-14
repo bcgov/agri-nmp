@@ -279,7 +279,8 @@ namespace SERVERAPI.Controllers
                     mvm.buttonPressed = "";
                     mvm.btnText = "Calculate";
 
-                    if (mvm.SelectedFarmManure != "")
+                    if (mvm.SelectedFarmManure != "" && 
+                        !mvm.SelectedFarmManure.Equals("selApplOption", StringComparison.CurrentCultureIgnoreCase))
                     {
                         FarmManure man = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
                         if (mvm.currUnit != man.solid_liquid)
@@ -504,21 +505,9 @@ namespace SERVERAPI.Controllers
             if (!string.IsNullOrWhiteSpace(mvm.SelectedFarmManure) &&
                 !mvm.SelectedFarmManure.Equals("select", StringComparison.CurrentCultureIgnoreCase))
             {
-                AppliedManure appliedManure;
                 var yearData = _ud.GetYearData();
                 FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
-                if (fm.SourceMaterialType == FarmManureSourceType.Stored)
-                {
-                    appliedManure =
-                        _manureApplicationCalculator.GetAppliedStoredManure(yearData,
-                            fm.sourceOfMaterialStorageSystemId.Value);
-                }
-                else
-                {
-                    appliedManure =
-                        _manureApplicationCalculator.GetAppliedImportedManure(yearData,
-                            fm.sourceOfMaterialStorageSystemId.Value);
-                }
+                var appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
 
                 mvm.MaterialRemainingLabel = appliedManure.SourceName;
                 mvm.MaterialRemainingWholePercent = appliedManure.WholePercentRemaining;

@@ -10008,8 +10008,30 @@
             "ApplicationRateUnitName": "yards3/ac",
             "TonsPerAcreConversion": "1*density"
           }
-        ] 
-      } 
+        ]
+      },
+      "LiquidMaterialApplicationUSGallonsPerAcreRateConversions": {
+        "LiquidMaterialApplicationUSGallonsPerAcreRateConversion": [
+          {
+            "Id": 1,
+            "ApplicationRateUnit": "1",
+            "ApplicationRateUnitName": "Imp. gallons/ac",
+            "USGallonsPerAcreConversion": "1.20095"
+          },
+          {
+            "Id": 2,
+            "ApplicationRateUnit": "2",
+            "ApplicationRateUnitName": "m³/ha",
+            "USGallonsPerAcreConversion": "1*264.172/2.47105"
+          },
+          {
+            "Id": 3,
+            "ApplicationRateUnit": "3",
+            "ApplicationRateUnitName": "US gallons/ac",
+            "USGallonsPerAcreConversion": "1"
+          }
+        ]
+      }
     }
   }
 }

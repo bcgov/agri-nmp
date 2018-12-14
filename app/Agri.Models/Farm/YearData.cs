@@ -15,38 +15,51 @@ namespace Agri.Models.Farm
         public List<ImportedManure> ImportedManures { get; set; }
         public List<ManureStorageSystem> ManureStorageSystems { get; set; }
 
-
-        public List<NutrientManure> GetStoredManureAllocated(int storageSystemId)
+        public int? GetManureStorageSystemId(string managedManureId)
         {
-            var farmManureIds = GetFarmManureIdsForStorageSystem(storageSystemId);
+            var manureStorageSystemId = ManureStorageSystems.SingleOrDefault(mss =>
+                mss.MaterialsIncludedInSystem.Any(m => m.ManureId == managedManureId))?.Id;
+            return manureStorageSystemId;
+        }
+
+        public int? GetImportedManureId(string managedManureId)
+        {
+            var importedManureId =
+                ImportedManures.SingleOrDefault(im => im.ManureId == managedManureId).Id;
+            return importedManureId;
+        }
+
+        public List<NutrientManure> GetStoredManureAllocated(string managedManureId)
+        {
+            var farmManureIds = GetFarmManureIdsForStorageSystem(managedManureId);
 
             var appliedAsNutrients = GetNutrientManuresFromFields(farmManureIds);
 
             return appliedAsNutrients;
         }
 
-        public List<int> GetFarmManureIdsForStorageSystem(int storageSystemId)
+        public List<int> GetFarmManureIdsForStorageSystem(string managedManureId)
         {
-            var farmManureIds = farmManures.Where(fm =>
-                    fm.sourceOfMaterialStorageSystemId.HasValue && fm.sourceOfMaterialStorageSystemId == storageSystemId)
+            var farmManureIds = farmManures
+                .Where(fm => fm.stored_imported == NutrientAnalysisTypes.Stored && fm.managedManureId == managedManureId)
                 .Select(fm => fm.id).ToList();
 
             return farmManureIds;
         }
 
-        public List<NutrientManure> GetUnstorableImportedManureAllocated(int importedManureId)
+        public List<NutrientManure> GetUnstorableImportedManureAllocated(string managedManureId)
         {
-            var farmManureIds = GetFarmManureIdsForImportedManure(importedManureId);
+            var farmManureIds = GetFarmManureIdsForImportedManure(managedManureId);
 
             var appliedAsNutrients = GetNutrientManuresFromFields(farmManureIds);
 
             return appliedAsNutrients;
         }
 
-        public List<int> GetFarmManureIdsForImportedManure(int importedManureId)
+        public List<int> GetFarmManureIdsForImportedManure(string managedManureId)
         {
             var farmManureIds = farmManures.Where(fm =>
-                    fm.sourceOfMaterialImportedManureId.HasValue && fm.sourceOfMaterialImportedManureId == importedManureId)
+                    fm.stored_imported == NutrientAnalysisTypes.Imported && fm.managedManureId == managedManureId)
                 .Select(fm => fm.id).ToList();
 
             return farmManureIds;
@@ -61,18 +74,18 @@ namespace Agri.Models.Farm
         }
 
 
-        public List<Field> GetFieldsAppliedWithStoredManure(int storageSystemId)
+        public List<Field> GetFieldsAppliedWithStoredManure(string managedManureId)
         {
-            var farmManureIds = GetFarmManureIdsForStorageSystem(storageSystemId);
+            var farmManureIds = GetFarmManureIdsForStorageSystem(managedManureId);
 
             var appliedFields = GetFieldsAppliedWithFarmManure(farmManureIds);
 
             return appliedFields;
         }
 
-        public List<Field> GetFieldsAppliedWithUnstorableImportedManure(int importedManureId)
+        public List<Field> GetFieldsAppliedWithUnstorableImportedManure(string managedManureId)
         {
-            var farmManureIds = GetFarmManureIdsForImportedManure(importedManureId);
+            var farmManureIds = GetFarmManureIdsForImportedManure(managedManureId);
 
             var appliedFields = GetFieldsAppliedWithFarmManure(farmManureIds);
 

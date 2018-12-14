@@ -12,5 +12,6 @@ namespace Agri.Interfaces
         decimal GetTonsWeight(ManureMaterialType manureMaterialType, decimal moistureWholePercent, decimal amountToConvert, AnnualAmountUnits amountUnit);
         decimal GetSolidsTonsPerAcreApplicationRate(decimal moistureWholePercent, decimal amountToConvert, ApplicationRateUnits applicationRateUnit);
         decimal GetSolidsTonsPerAcreApplicationRate(int manureId, decimal amountToConvert, ApplicationRateUnits applicationRateUnit);
+        decimal GetLiquidUSGallonsPerAcreApplicationRate(decimal amountToConvert, ApplicationRateUnits applicationRateUnit);
     }
 }

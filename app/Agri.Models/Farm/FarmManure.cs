@@ -7,18 +7,17 @@ namespace Agri.Models.Farm
         public int id { get; set; }
         public bool customized { get; set; }
         public string sourceOfMaterialId { get; set; }
-        public int? sourceOfMaterialStorageSystemId =>
-            !sourceOfMaterialId.Split(",")[0].Contains("Imported", StringComparison.CurrentCultureIgnoreCase)
+        public int? sourceOfMaterialGeneratedManureId =>
+            sourceOfMaterialId.Split(",")[0].Contains("Generated", StringComparison.CurrentCultureIgnoreCase)
                 ? Convert.ToInt32(sourceOfMaterialId.Split(",")[1])
                 : new int?();
         public int? sourceOfMaterialImportedManureId =>
             sourceOfMaterialId.Split(",")[0].Contains("Imported", StringComparison.CurrentCultureIgnoreCase)
                 ? Convert.ToInt32(sourceOfMaterialId.Split(",")[1])
                 : new int?();
+
+        public string managedManureId => sourceOfMaterialId.Split(",")[0];
         public string sourceOfMaterialName { get; set; }
-        public FarmManureSourceType SourceMaterialType => sourceOfMaterialStorageSystemId.HasValue
-            ? FarmManureSourceType.Stored
-            : FarmManureSourceType.Imported;
         public int manureId { get; set; }
         public string name { get; set; }
         public string manure_class { get; set; }

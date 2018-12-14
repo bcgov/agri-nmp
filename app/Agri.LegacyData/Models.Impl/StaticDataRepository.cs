@@ -765,10 +765,10 @@ namespace Agri.LegacyData.Models.Impl
                     ammoniaRetention.SeasonApplicationId = Convert.ToInt32(r["seasonapplicatonid"].ToString());
                     ammoniaRetention.DryMatter = Convert.ToInt32(r["dm"].ToString());
                     ammoniaRetention.Value = r["value"].ToString() == "null"
-                        ? (decimal?)null
+                        ? (decimal?) null
                         : Convert.ToDecimal(r["value"].ToString());
+                    break;
                 }
-                break;
             }
 
             return ammoniaRetention;

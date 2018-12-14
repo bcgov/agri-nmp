@@ -70,6 +70,7 @@
       "sourceOfMaterialId": "Generated1,1",
       "sourceOfMaterialStorageSystemId": 1,
       "sourceOfMaterialImportedManureId": null,
+      "managedManureId": "Generated1",
       "sourceOfMaterialName": "Liquid Storage System ",
       "manureId": 3,
       "name": null,
@@ -83,7 +84,7 @@
       "dmid": 0,
       "nminerizationid": 0,
       "nitrate": null,
-      "stored_imported": 2
+      "stored_imported": 1
     },
     {
       "id": 2,
@@ -91,6 +92,7 @@
       "sourceOfMaterialId": "Imported1,1",
       "sourceOfMaterialStorageSystemId": null,
       "sourceOfMaterialImportedManureId": 1,
+      "managedManureId": "Imported1",
       "sourceOfMaterialName": "Imported Solid",
       "manureId": 1,
       "name": null,

@@ -172,5 +172,10 @@ namespace Agri.CalculateService
 
             return tonsConverted;
         }
+
+        public decimal GetLiquidUSGallonsPerAcreApplicationRate(decimal amountToConvert, ApplicationRateUnits applicationRateUnit)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

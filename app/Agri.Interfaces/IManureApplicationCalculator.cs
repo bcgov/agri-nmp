@@ -5,7 +5,8 @@ namespace Agri.Interfaces
 {
     public interface IManureApplicationCalculator
     {
-        AppliedStoredManure GetAppliedStoredManure(YearData yearData, int manureStorageSystemId);
-        AppliedImportedManure GetAppliedImportedManure(YearData yearData, int importedManureId);
+        AppliedManure GetAppliedManure(YearData yearData, FarmManure farmManure);
+        AppliedStoredManure GetAppliedStoredManure(YearData yearData, string managedManureId);
+        AppliedImportedManure GetAppliedImportedManure(YearData yearData, string managedManureId);
     }
 }

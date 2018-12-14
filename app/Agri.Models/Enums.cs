@@ -30,12 +30,6 @@ namespace Agri.Models
         Imported = 2
     }
 
-    public enum FarmManureSourceType
-    {
-        Stored,
-        Imported
-    }
-
     public enum ApplicationRateUnits
     {
         //The integer values match the Units in Static Data

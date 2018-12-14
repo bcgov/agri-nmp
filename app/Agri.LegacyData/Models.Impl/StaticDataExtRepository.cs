@@ -667,5 +667,25 @@ namespace Agri.LegacyData.Models.Impl
 
             return conversionFactors;
         }
+
+        public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
+        {
+            var conversionFactors = new List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>();
+            var array = (JArray)rss["agri"]["nmp"]["LiquidMaterialApplicationUSGallonsPerAcreRateConversions"]["LiquidMaterialApplicationUSGallonsPerAcreRateConversion"];
+
+            foreach (var record in array)
+            {
+                var conversionFactor = new LiquidMaterialApplicationUSGallonsPerAcreRateConversion
+                {
+                    Id = Convert.ToInt32(record["Id"].ToString()),
+                    ApplicationRateUnit = (ApplicationRateUnits)Convert.ToInt32(record["ApplicationRateUnit"].ToString()),
+                    ApplicationRateUnitName = record["ApplicationRateUnitName"].ToString(),
+                    USGallonsPerAcreConversion = record["USGallonsPerAcreConversion"].ToString(),
+                };
+                conversionFactors.Add(conversionFactor);
+            }
+
+            return conversionFactors;
+        }
     }
 }

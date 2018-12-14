@@ -728,5 +728,10 @@ namespace Agri.Data
         {
             throw new NotImplementedException();
         }
+
+        public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
