@@ -96,9 +96,9 @@ namespace Agri.Models.Farm
                         }
                     }
 
-                    if (generatedManure.washWaterGallons != 0)
+                    if (!string.IsNullOrEmpty(generatedManure.washWaterGallons))
                     {
-                        totalAnnualGeneratedManure += generatedManure.washWaterGallons;
+                        totalAnnualGeneratedManure += Convert.ToInt32(generatedManure.washWaterGallons);
                     }
                     totalAnnualGeneratedManure += annualAmount;
                 }
