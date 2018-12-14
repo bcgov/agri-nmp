@@ -647,7 +647,7 @@ namespace SERVERAPI.Models.Impl
             {
                 if (!fm.customized)
                 {
-                    Agri.Models.Configuration.Manure man = _sd.GetManure(fm.manureId.ToString());
+                    Manure man = _sd.GetManure(fm.manureId.ToString());
                     fm.ammonia = man.Ammonia;
                     fm.dmid = man.DMId;
                     fm.manure_class = man.ManureClass;
@@ -710,6 +710,8 @@ namespace SERVERAPI.Models.Impl
             frm.potassium = updtMan.potassium;
             frm.solid_liquid = updtMan.solid_liquid;
             frm.stored_imported = updtMan.stored_imported;
+            frm.IsAssignedToStorage = updtMan.IsAssignedToStorage;
+
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -930,8 +932,11 @@ namespace SERVERAPI.Models.Impl
             yd.ManureStorageSystems.Remove(storageSystem);
 
             // Remove the NutrientAnalsis if the StorageSystem is removed.
-            var farmManure = yd.farmManures.Single(im => Convert.ToInt32(im.sourceOfMaterialId.Split(",")[1]) == id && im.sourceOfMaterialId.Split(",")[0].Contains("Generated"));
-            yd.farmManures.Remove(farmManure);
+            if (yd.farmManures != null)
+            {
+                var farmManure = yd.farmManures.Single(im => Convert.ToInt32(im.sourceOfMaterialId.Split(",")[1]) == id && im.sourceOfMaterialId.Split(",")[0].Contains("Generated"));
+                yd.farmManures.Remove(farmManure);
+            }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -948,6 +953,10 @@ namespace SERVERAPI.Models.Impl
         public ImportedManure GetImportedManure(int id)
         {
             return GetImportedManures().SingleOrDefault(im => im.Id == id);
+        }
+        public ImportedManure GetImportedManureByManureId(string manureId)
+        {
+            return GetImportedManures().SingleOrDefault(im => im.ManureId == manureId);
         }
 
         public void AddImportedManure(ImportedManure newManure)
@@ -1014,8 +1023,11 @@ namespace SERVERAPI.Models.Impl
             // Remove the Nutrient Analysis if the Imported Manure is removed.
             if (importedManure.AssignedToStoredSystem == false)
             {
-                var farmManure = yd.farmManures.Single(im => Convert.ToInt32(im.sourceOfMaterialId.Split(",")[1]) == importedManureId && im.sourceOfMaterialId.Split(",")[0].Contains("Imported")); 
-                yd.farmManures.Remove(farmManure);
+                if (yd.farmManures != null)
+                {
+                    var farmManure = yd.farmManures.Single(im => Convert.ToInt32(im.sourceOfMaterialId.Split(",")[1]) == importedManureId && im.sourceOfMaterialId.Split(",")[0].Contains("Imported"));
+                    yd.farmManures.Remove(farmManure);
+                }
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);

@@ -11,7 +11,7 @@ namespace Agri.Models.Farm
         public int averageAnimalNumber { get; set; }
         public string manureTypeName { get; set; }
         public string annualAmount { get; set; }
-        public decimal washWaterGallons { get; set; }
+        public string washWaterGallons { get; set; }
         public decimal washWater { get; set; }
         public decimal milkProduction { get; set; }
         public decimal? solidPerGalPerAnimalPerDay { get; set; }

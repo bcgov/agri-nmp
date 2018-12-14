@@ -31,5 +31,6 @@ namespace Agri.Models.Farm
         public int nminerizationid { get; set; }
         public decimal? nitrate { get; set; }
         public NutrientAnalysisTypes stored_imported { get; set; }
+        public bool IsAssignedToStorage { get; set; }
     }
 }
