@@ -4,232 +4,234 @@
     Layout = null;
 }
 <div id="target">
-<form asp-action="ManureDetails" asp-controller="Nutrients" id="modForm" method="post">
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">Manure Details - @Model.title</h4>
-</div>
+    <form asp-action="ManureDetails" asp-controller="Nutrients" id="modForm" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Manure Details - @Model.title</h4>
+        </div>
 
-<div class="modal-body">
-    <div class="row">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group">
-            <div class="form-group col-sm-4">
-                <label asp-for="SelectedFarmManure">Material Type</label>
-                <select class="form-control" asp-for="SelectedFarmManure" asp-items="@(new SelectList(Model.ManureTypeOptions,"Id","Value"))" id="ddlMan">
-                    <option>select</option>
-                </select>
-                <span asp-validation-for="SelectedFarmManure" class="text-danger"></span>
-            </div>
-            <div class="form-group col-sm-3">
-                <label asp-for="selApplOption">Application Season/Method</label>
-                <select class="form-control" asp-for="selApplOption" asp-items="@(new SelectList(Model.applOptions,"Id","Value"))" id="ddlAppl">
-                    <option>select</option>
-                </select>
-                <span asp-validation-for="selApplOption" class="text-danger"></span>
-            </div>
-            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px">
-                <label asp-for="selApplOption"> Application Rate</label>
-                <div>
-                    <input class="form-control" asp-for="ApplicationRate" id="rate" type="text" />
-                    <span asp-validation-for="ApplicationRate" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group col-sm-3" style="margin-left:0px; padding-left:0px">
-                <div style="display:table; width:100%">
-                    <div style="display:table-row">
-                        <label>Units</label>
-                    </div>
-                    <div style="display:table-row">
-                        <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
+        <div class="modal-body">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-4">
+                        <label asp-for="SelectedFarmManure">Material Type</label>
+                        <select class="form-control" asp-for="SelectedFarmManure" asp-items="@(new SelectList(Model.ManureTypeOptions,"Id","Value"))" id="ddlMan">
                             <option>select</option>
                         </select>
-                        <br />
-                        <div style="display:inline;">
-                            <a href="@Model.url" target="_blank">@Model.urlText</a>
+                        <span asp-validation-for="SelectedFarmManure" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-3">
+                        <label asp-for="selApplOption">Application Season/Method</label>
+                        <select class="form-control" asp-for="selApplOption" asp-items="@(new SelectList(Model.applOptions,"Id","Value"))" id="ddlAppl">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selApplOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px">
+                        <label asp-for="selApplOption"> Application Rate</label>
+                        <div>
+                            <input class="form-control" asp-for="ApplicationRate" id="rate" type="text" />
+                            <span asp-validation-for="ApplicationRate" class="text-danger"></span>
                         </div>
                     </div>
-                    <span asp-validation-for="selRateOption" class="text-danger"></span>
+                    <div class="form-group col-sm-3" style="margin-left:0px; padding-left:0px">
+                        <div style="display:table; width:100%">
+                            <div style="display:table-row">
+                                <label>Units</label>
+                            </div>
+                            <div style="display:table-row">
+                                <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
+                                    <option>select</option>
+                                </select>
+                                <br />
+                                <div style="display:inline;">
+                                    <a href="@Model.url" target="_blank">@Model.urlText</a>
+                                </div>
+                            </div>
+                            <span asp-validation-for="selRateOption" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-2">
+                        <label asp-for="selApplOption">Ammonium-N Retention (%)</label>
+                        <div class="input-group">
+                            <input class="form-control" asp-for="nh4" id="nh4" type="text" />
+                            @if (!Model.stdN)
+                            {
+                                <span class="input-group-btn" title="Reset to standard value">
+                                    <button class="btn btn-default" type="button" id="rstN" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                </span>
+                            }
+                        </div>
+                        <span asp-validation-for="nh4" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <label asp-for="selApplOption">Organic N Available This Year (%)</label>
+                        <div class="input-group">
+                            <input class="form-control col-sm-1" asp-for="avail" id="avail" type="text" />
+                            @if (!Model.stdAvail)
+                            {
+                                <span class="input-group-btn" title="Reset to standard value">
+                                    <button class="btn btn-default" type="button" id="rstA" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                </span>
+                            }
+                        </div>
+                        <span asp-validation-for="avail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Available This Year (lb/ac)</p>
+                        </div>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
+                        </div>
+                        <div class="Row">
+                            <div class="Cell" style="text-align:center">
+                                <p>@Model.yrN</p>
+                            </div>
+                            <div class="Cell" style="text-align:center">
+                                <p>@Model.yrP2o5</p>
+                            </div>
+                            <div class="Cell" style="text-align:center">
+                                <p>@Model.yrK2o</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <div class="Table">
+                        <div class="Title">
+                            <p>Available Long Term (lb/ac)</p>
+                        </div>
+                        <div class="Heading">
+                            <div class="Cell">
+                                <p>N</p>
+                            </div>
+                            <div class="Cell">
+                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            </div>
+                            <div class="Cell">
+                                <p>K<sub>2</sub>O</p>
+                            </div>
+                        </div>
+                        <div class="Row">
+                            <div class="Cell" style="text-align:center">
+                                <p>@Model.ltN</p>
+                            </div>
+                            <div class="Cell" style="text-align:center">
+                                <p>@Model.ltP2o5</p>
+                            </div>
+                            <div class="Cell" style="text-align:center">
+                                <p>@Model.ltK2o</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div style="clear:both"></div>
-        <div class="form-group">
-            <div class="form-group col-sm-2">
-                <label asp-for="selApplOption">Ammonium-N Retention (%)</label>
-                <div class="input-group">
-                    <input class="form-control" asp-for="nh4" id="nh4" type="text" />
-                    @if (!Model.stdN)
+            <div class="row">
+                <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0" />
+                <div class="col-sm-4">
+                    @if (Model.ShowMaterialRemaining)
                     {
-                        <span class="input-group-btn" title="Reset to standard value">
-                            <button class="btn btn-default" type="button" id="rstN" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                        </span>
+                        <div class="form-group">
+                            <div class="Title">
+                                Material Remaining
+                            </div>
+                            <div class="Cell">
+                                @Model.MaterialRemainingToString
+                            </div>
+                        </div>
                     }
                 </div>
-                <span asp-validation-for="nh4" class="text-danger"></span>
-            </div>
-            <div class="form-group col-sm-2">
-                <label asp-for="selApplOption">Organic N Available This Year (%)</label>
-                <div class="input-group">
-                    <input class="form-control col-sm-1" asp-for="avail" id="avail" type="text" />
-                    @if (!Model.stdAvail)
-                    {
-                        <span class="input-group-btn" title="Reset to standard value">
-                            <button class="btn btn-default" type="button" id="rstA" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                        </span>
-                    }
-                </div>
-                <span asp-validation-for="avail" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group col-sm-4">
-            <div class="Table">
-                <div class="Title">
-                    <p>Available This Year (lb/ac)</p>
-                </div>
-                <div class="Heading">
-                    <div class="Cell">
-                        <p>N</p>
-                    </div>
-                    <div class="Cell">
-                        <p>P<sub>2</sub>O<sub>5</sub></p>
-                    </div>
-                    <div class="Cell">
-                        <p>K<sub>2</sub>O</p>
-                    </div>
-                </div>
-                <div class="Row">
-                    <div class="Cell" style="text-align:center">
-                        <p>@Model.yrN</p>
-                    </div>
-                    <div class="Cell" style="text-align:center">
-                        <p>@Model.yrP2o5</p>
-                    </div>
-                    <div class="Cell" style="text-align:center">
-                        <p>@Model.yrK2o</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group col-sm-4">
-            <div class="Table">
-                <div class="Title">
-                    <p>Available Long Term (lb/ac)</p>
-                </div>
-                <div class="Heading">
-                    <div class="Cell">
-                        <p>N</p>
-                    </div>
-                    <div class="Cell">
-                        <p>P<sub>2</sub>O<sub>5</sub></p>
-                    </div>
-                    <div class="Cell">
-                        <p>K<sub>2</sub>O</p>
-                    </div>
-                </div>
-                <div class="Row">
-                    <div class="Cell" style="text-align:center">
-                        <p>@Model.ltN</p>
-                    </div>
-                    <div class="Cell" style="text-align:center">
-                        <p>@Model.ltP2o5</p>
-                    </div>
-                    <div class="Cell" style="text-align:center">
-                        <p>@Model.ltK2o</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0" />
-        <div class="col-sm-4">
-            @if (Model.ShowMaterialRemaining)
-            {
-                <div class="form-group">
-                    <div class="Title" >
-                        Material Remaining
-                    </div>
-                    <div class="Cell">
-                        @Model.MaterialRemainingToString
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="form-group col-sm-4" style="margin-left:30px">
-            <div class="Table">
-                <div class="form-group">
-                    <div class="Title">
-                        <p>Still Required This Year (lb/ac)</p>
-                    </div>
-                    <div class="Heading">
-                        <div class="Cell">
-                            <p>N</p>
-                        </div>
-                        <div class="Cell">
-                            <p>P<sub>2</sub>O<sub>5</sub></p>
-                        </div>
-                        <div class="Cell">
-                            <p>K<sub>2</sub>O</p>
-                        </div>
-                    </div>
-                    <div class="Row">
-                        <div class="Cell" style="text-align:center">
-                            @if (!string.IsNullOrEmpty(Model.totNIcon))
-                            {
-                                <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText" />
-                            }
-                            @Model.totN
-                        </div>
-                        <div class="Cell" style="text-align:center">
-                            @if (!string.IsNullOrEmpty(Model.totPIcon))
-                            {
-                                <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
-                            }
-                            @Model.totP2o5
-                        </div>
-                        <div class="Cell" style="text-align:center">
-                            @if (!string.IsNullOrEmpty(Model.totKIcon))
-                            {
-                                <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
-                            }
-                            @Model.totK2o
+                <div class="form-group col-sm-4" style="margin-left:30px">
+                    <div class="Table">
+                        <div class="form-group">
+                            <div class="Title">
+                                <p>Still Required This Year (lb/ac)</p>
+                            </div>
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>N</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
+                            </div>
+                            <div class="Row">
+                                <div class="Cell" style="text-align:center">
+                                    @if (!string.IsNullOrEmpty(Model.totNIcon))
+                                    {
+                                        <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText" />
+                                    }
+                                    @Model.totN
+                                </div>
+                                <div class="Cell" style="text-align:center">
+                                    @if (!string.IsNullOrEmpty(Model.totPIcon))
+                                    {
+                                        <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
+                                    }
+                                    @Model.totP2o5
+                                </div>
+                                <div class="Cell" style="text-align:center">
+                                    @if (!string.IsNullOrEmpty(Model.totKIcon))
+                                    {
+                                        <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
+                                    }
+                                    @Model.totK2o
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="modal-footer">
-    <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-    <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
-</div>
-@Html.HiddenFor(x => x.title)
-@Html.HiddenFor(x => x.id)
-@Html.HiddenFor(x => x.fieldName)
-@Html.HiddenFor(x => x.buttonPressed)
-@Html.HiddenFor(x => x.rateOptions)
-@Html.HiddenFor(x => x.btnText)
-@Html.HiddenFor(x => x.currUnit)
-@Html.HiddenFor(x => x.yrN)
-@Html.HiddenFor(x => x.yrP2o5)
-@Html.HiddenFor(x => x.yrK2o)
-@Html.HiddenFor(x => x.ltN)
-@Html.HiddenFor(x => x.ltP2o5)
-@Html.HiddenFor(x => x.ltK2o)
-@Html.HiddenFor(x => x.stdN)
-@Html.HiddenFor(x => x.stdAvail)
-@Html.HiddenFor(x => x.url)
-@Html.HiddenFor(x => x.urlText)
-@Html.HiddenFor(x => x.totK2o)
-@Html.HiddenFor(x => x.totKIcon)
-@Html.HiddenFor(x => x.totKIconText)
-@Html.HiddenFor(x => x.totN)
-@Html.HiddenFor(x => x.totNIcon)
-@Html.HiddenFor(x => x.totNIconText)
-@Html.HiddenFor(x => x.totP2o5)
-@Html.HiddenFor(x => x.totPIcon)
-@Html.HiddenFor(x => x.totPIconText)
-</form>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
+        </div>
+        @Html.HiddenFor(x => x.title)
+        @Html.HiddenFor(x => x.id)
+        @Html.HiddenFor(x => x.fieldName)
+        @Html.HiddenFor(x => x.buttonPressed)
+        @Html.HiddenFor(x => x.rateOptions)
+        @Html.HiddenFor(x => x.btnText)
+        @Html.HiddenFor(x => x.currUnit)
+        @Html.HiddenFor(x => x.yrN)
+        @Html.HiddenFor(x => x.yrP2o5)
+        @Html.HiddenFor(x => x.yrK2o)
+        @Html.HiddenFor(x => x.ltN)
+        @Html.HiddenFor(x => x.ltP2o5)
+        @Html.HiddenFor(x => x.ltK2o)
+        @Html.HiddenFor(x => x.stdN)
+        @Html.HiddenFor(x => x.stdAvail)
+        @Html.HiddenFor(x => x.url)
+        @Html.HiddenFor(x => x.urlText)
+        @Html.HiddenFor(x => x.totK2o)
+        @Html.HiddenFor(x => x.totKIcon)
+        @Html.HiddenFor(x => x.totKIconText)
+        @Html.HiddenFor(x => x.totN)
+        @Html.HiddenFor(x => x.totNIcon)
+        @Html.HiddenFor(x => x.totNIconText)
+        @Html.HiddenFor(x => x.totP2o5)
+        @Html.HiddenFor(x => x.totPIcon)
+        @Html.HiddenFor(x => x.totPIconText)
+        @Html.HiddenFor(x => x.MaterialRemainingWholePercent);
+        @Html.HiddenFor(x => x.MaterialRemainingLabel);
+    </form>
 </div>

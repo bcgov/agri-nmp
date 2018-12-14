@@ -303,6 +303,8 @@ namespace SERVERAPI.Controllers
                             // recalc N and A values
                             mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.SelectedFarmManure), Convert.ToInt16(mvm.selApplOption)) * 100).ToString("###");
                         }
+
+                        ManureApplicationRefresh(mvm);
                     }
                     else
                     {
