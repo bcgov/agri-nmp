@@ -175,7 +175,12 @@ namespace Agri.CalculateService
 
         public decimal GetLiquidUSGallonsPerAcreApplicationRate(decimal amountToConvert, ApplicationRateUnits applicationRateUnit)
         {
-            throw new NotImplementedException();
+            var conversionFactor = _repository.GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
+                .Single(cf => cf.ApplicationRateUnit == applicationRateUnit).USGallonsPerAcreConversion;
+
+            var usGallonsConverted = conversionFactor * amountToConvert;
+
+            return usGallonsConverted;
         }
     }
 }

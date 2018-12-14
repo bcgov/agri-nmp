@@ -43,12 +43,13 @@ namespace Agri.CalculateService.Tests
         {
             //Arrange
             var repository = Substitute.For<IAgriConfigurationRepository>();
-            repository.GetLiquidMaterialsConversionFactors()
-                .Returns(new List<LiquidMaterialsConversionFactor>()
+            repository.GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
+                .Returns(new List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>()
                 {
-                    new LiquidMaterialsConversionFactor
+                    new LiquidMaterialApplicationUSGallonsPerAcreRateConversion()
                     {
-                        InputUnit = AnnualAmountUnits.ImperialGallons, USGallonsOutput = 1.20095m
+                        ApplicationRateUnit = ApplicationRateUnits.ImperialGallonsPerAcre,
+                        USGallonsPerAcreConversion = 1.20095m
                     }
                 });
             var convertCalculator = new ManureUnitConversionCalculator(repository);
@@ -146,14 +147,16 @@ namespace Agri.CalculateService.Tests
         {
             //Arrange
             var repository = Substitute.For<IAgriConfigurationRepository>();
-            repository.GetLiquidMaterialsConversionFactors()
-                .Returns(new List<LiquidMaterialsConversionFactor>()
+            repository.GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
+                .Returns(new List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>()
                 {
-                    new LiquidMaterialsConversionFactor
+                    new LiquidMaterialApplicationUSGallonsPerAcreRateConversion()
                     {
-                        InputUnit = AnnualAmountUnits.ImperialGallons, USGallonsOutput = 1.20095m
+                        ApplicationRateUnit = ApplicationRateUnits.ImperialGallonsPerAcre,
+                        USGallonsPerAcreConversion = 1.20095m
                     }
                 });
+
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator);
             var farmManure = _yearData.farmManures.Single(fm => fm.id == 1);

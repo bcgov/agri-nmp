@@ -8,6 +8,6 @@ namespace Agri.Models.Configuration
 {
     public class LiquidMaterialApplicationUSGallonsPerAcreRateConversion : ApplicationPerAcreConversion
     {
-        public string USGallonsPerAcreConversion { get; set; }
+        public decimal USGallonsPerAcreConversion { get; set; }
     }
 }

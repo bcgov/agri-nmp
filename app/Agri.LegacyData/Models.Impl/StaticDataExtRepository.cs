@@ -680,7 +680,7 @@ namespace Agri.LegacyData.Models.Impl
                     Id = Convert.ToInt32(record["Id"].ToString()),
                     ApplicationRateUnit = (ApplicationRateUnits)Convert.ToInt32(record["ApplicationRateUnit"].ToString()),
                     ApplicationRateUnitName = record["ApplicationRateUnitName"].ToString(),
-                    USGallonsPerAcreConversion = record["USGallonsPerAcreConversion"].ToString(),
+                    USGallonsPerAcreConversion = Convert.ToDecimal(record["USGallonsPerAcreConversion"].ToString()),
                 };
                 conversionFactors.Add(conversionFactor);
             }

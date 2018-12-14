@@ -55,9 +55,8 @@ namespace Agri.CalculateService
                     if (manureStorageSystem.ManureMaterialType == ManureMaterialType.Liquid)
                     {
                         var convertedRate = _manureUnitConversionCalculator
-                            .GetUSGallonsVolume(ManureMaterialType.Liquid,
-                                nutrientManure.rate,
-                                (AnnualAmountUnits) Convert.ToInt32(nutrientManure.unitId));
+                            .GetLiquidUSGallonsPerAcreApplicationRate(nutrientManure.rate,
+                                (ApplicationRateUnits) Convert.ToInt32(nutrientManure.unitId));
 
                         fieldAppliedManure.USGallonsApplied =
                             field.area * convertedRate;
@@ -115,9 +114,8 @@ namespace Agri.CalculateService
                     if (importedManure.ManureType == ManureMaterialType.Liquid)
                     {
                         var convertedRate = _manureUnitConversionCalculator
-                            .GetUSGallonsVolume(ManureMaterialType.Liquid,
-                                nutrientManure.rate,
-                                (AnnualAmountUnits) Convert.ToInt32(nutrientManure.unitId));
+                            .GetLiquidUSGallonsPerAcreApplicationRate(nutrientManure.rate,
+                                (ApplicationRateUnits)Convert.ToInt32(nutrientManure.unitId));
 
                         fieldAppliedManure.USGallonsApplied =
                             field.area * convertedRate;
