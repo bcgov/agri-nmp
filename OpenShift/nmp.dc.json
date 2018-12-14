@@ -14,7 +14,7 @@
             "value": ""
         },
         {
-            "name": "ENV_NAME",
+            "name": "VERSION",
             "displayName": "Name",
             "description": "The suffix for all created objects",
             "required": false,
@@ -33,10 +33,10 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "nmp${NAME_SUFFIX}",
+                "name": "nmp",
                 "creationTimestamp": null,
                 "labels": {
-                    "base-name":"nmp"
+                    "shared": "true"
                 }
             }
         },
@@ -44,10 +44,10 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "pdf${NAME_SUFFIX}",
+                "name": "pdf",
                 "creationTimestamp": null,
                 "labels": {
-                    "base-name":"pdf"
+                    "shared": "true"
                 }
             }
         },
@@ -84,11 +84,11 @@
                         "imageChangeParams": {
                             "automatic": true,
                             "containerNames": [
-                                "nmp${NAME_SUFFIX}"
+                                "nmp"
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "name": "nmp${NAME_SUFFIX}:${ENV_NAME}"
+                                "name": "nmp:${VERSION}"
                             }
                         }
                     }
@@ -109,7 +109,7 @@
                     "spec": {
                         "containers": [
                             {
-                                "name": "nmp${NAME_SUFFIX}",
+                                "name": "nmp",
                                 "image": " ",
                                 "ports": [
                                     {
@@ -199,11 +199,11 @@
                         "imageChangeParams": {
                             "automatic": true,
                             "containerNames": [
-                                "pdf${NAME_SUFFIX}"
+                                "pdf"
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "name": "pdf${NAME_SUFFIX}:${ENV_NAME}"
+                                "name": "pdf:${VERSION}"
                             }
                         }
                     },
@@ -227,7 +227,7 @@
                     "spec": {
                         "containers": [
                             {
-                                "name": "pdf${NAME_SUFFIX}",
+                                "name": "pdf",
                                 "image": " ",
                                 "ports": [
                                     {

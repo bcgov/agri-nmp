@@ -1,24 +1,43 @@
-# How to manually load templates
+# Automated/Assisted Build and Deployment
 
+## Build
 ```
-oc process -f dotnet-20.bc.json -p 'NAME_SUFFIX=-pr-1' -l 'app=nmp-pr-1,app-name=nmp,env-name=pr-1' | oc apply -f - --dry-run
-oc process -f dotnet-20-node.bc.json -p 'NAME_SUFFIX=-pr-1' -l 'app=nmp-pr-1,app-name=nmp,env-name=pr-1' | oc apply -f - --dry-run
-oc process -f nmp.bc.json -p 'NAME_SUFFIX=-pr-1' -l 'app=nmp-pr-1,app-name=nmp,env-name=pr-1' | oc apply -f - --dry-run
-
+OpenShift/pipeline-cli build --config=openshift/config.groovy --pr=267
 ```
 
-# Deployment
+## Deployment
 ```
-oc process -f nmp.dc.json -p 'NAME_SUFFIX=-pr-1' -p 'ENV_NAME=pr-1' -l 'app=nmp-pr-1,app-name=nmp,env-name=pr-1' | oc create -f - --dry-run
-
-oc tag pdf-pr-1:latest pdf-pr-1:pr-1
-oc tag nmp-pr-1:latest nmp-pr-1:pr-1
-```
-
+OpenShift/pipeline-cli deploy --config=openshift/config.groovy --pr=267 --env=dev
 
 ```
-oc delete all -l app=nmp-pr-1
-oc delete dc -l app-name=nmp; oc delete svc -l app-name=nmp ; oc delete route -l app-name=nmp
 
-oc delete all -l app-name=nmp
+## Cleanup
 ```
+# adjust '-n csnr-devops-lab-tools` to the correct namespace
+oc -n csnr-devops-lab-tools delete dc,rc,svc,route,bc,is,secret,pvc,configmap -l app-name=nmp
+```
+
+# Manual Build/Deployment
+## Prerequisites
+  * Have a Pull-Request
+
+  * Set Project
+    ```
+    oc project csnr-devops-lab-tools
+    ```
+## Build
+```
+oc process -f OpenShift/dotnet-20.bc.json -o json | oc apply -f -
+
+oc process -f OpenShift/dotnet-20-node.bc.json -p NAME_SUFFIX=-build-267 -p VERSION=build-v267 -p SOURCE_GIT_URL=https://github.com/bcgov/agri-nmp.git -p SOURCE_GIT_REF=refs/pull/267/head -o json | oc apply -f -
+
+oc process -f OpenShift/nmp.bc.json -p NAME_SUFFIX=-build-267 -p VERSION=build-v267 -p SOURCE_GIT_URL=https://github.com/bcgov/agri-nmp.git -p SOURCE_GIT_REF=refs/pull/267/head -o json | oc apply -f -
+```
+
+## Deployment
+```
+oc process -f OpenShift/nmp.bc.json -p NAME_SUFFIX=-dev-267 -p VERSION=dev-v267 -p 'HOST=' -o json | oc apply -f -
+```
+
+## Cleanup
+Same as automated/assisted 'Cleanup' above

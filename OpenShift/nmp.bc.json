@@ -16,37 +16,35 @@
             "required": false,
             "value": ""
         },
+        { "name": "VERSION" },
         {
-            "name": "SOURCE_REPOSITORY_URL",
-            "displayName": "SOURCE_REPOSITORY_URL",
+            "name": "SOURCE_GIT_URL",
+            "displayName": "SOURCE_GIT_URL",
             "description": "The suffix for all created objects",
             "required": false,
-            "value": "https://github.com/cvarjao/agri-nmp.git"
-        }
+            "value": "https://github.com/bcgov/agri-nmp.git"
+        },
+        { "name": "SOURCE_GIT_REF" }
     ],
     "objects": [
         {
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "nmp${NAME_SUFFIX}",
+                "name": "nmp",
                 "generation": 1515,
                 "creationTimestamp": null,
-                "labels": {
-                    "base-name":"nmp"
-                }
+                "labels": { "shared": "true" }
             }
         },
         {
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "pdf${NAME_SUFFIX}",
+                "name": "pdf",
                 "generation": 1283,
                 "creationTimestamp": null,
-                "labels": {
-                    "base-name":"pdf"
-                }
+                "labels": { "shared": "true" }
             }
         },
         {
@@ -71,8 +69,8 @@
                 "source": {
                     "type": "Git",
                     "git": {
-                        "uri": "${SOURCE_REPOSITORY_URL}",
-                        "ref": "master"
+                        "uri": "${SOURCE_GIT_URL}",
+                        "ref": "${SOURCE_GIT_REF}"
                     },
                     "contextDir": "/app"
                 },
@@ -81,7 +79,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-20-rhel7${NAME_SUFFIX}:2.0"
+                            "name": "dotnet-20-rhel7:2.0"
                         },
                         "env": [
                             {
@@ -98,7 +96,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "nmp${NAME_SUFFIX}:latest"
+                        "name": "nmp:${VERSION}"
                     }
                 },
                 "resources": {
@@ -136,8 +134,8 @@
                 "source": {
                     "type": "Git",
                     "git": {
-                        "uri": "${SOURCE_REPOSITORY_URL}",
-                        "ref": "master"
+                        "uri": "${SOURCE_GIT_URL}",
+                        "ref": "${SOURCE_GIT_REF}"
                     },
                     "contextDir": "/PDF"
                 },
@@ -146,7 +144,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-20-node${NAME_SUFFIX}:latest"
+                            "name": "dotnet-20-node:${VERSION}"
                         },
                         "env": [
                             {
@@ -164,7 +162,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "pdf${NAME_SUFFIX}:latest"
+                        "name": "pdf:${VERSION}"
                     }
                 },
                 "resources": {},
