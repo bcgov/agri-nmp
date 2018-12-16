@@ -931,7 +931,7 @@ namespace SERVERAPI.Models.Impl
             yd.ManureStorageSystems.Remove(storageSystem);
 
             // Remove the NutrientAnalsis if the StorageSystem is removed.
-            if (yd.farmManures != null)
+            if (yd.farmManures != null && yd.ManureStorageSystems.Count >0)
             {
                 var farmManure = yd.farmManures.Single(im => Convert.ToInt32(im.sourceOfMaterialId.Split(",")[1]) == id && im.sourceOfMaterialId.Split(",")[0].Contains("Generated"));
                 yd.farmManures.Remove(farmManure);
