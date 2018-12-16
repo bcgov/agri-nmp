@@ -94,6 +94,27 @@ namespace SERVERAPI.Controllers
                 rvm.noCropsMsg = _sd.GetUserPrompt("nocropmessage");
             }
 
+            rvm.GeneratedManures = _ud.GetGeneratedManures();
+            rvm.ImportedManures = _ud.GetImportedManures();
+
+            if (rvm.UnallocatedManureNames.Count > 0)
+            {
+                rvm.materialsNotStoredMessage = _sd.GetUserPrompt("materialsNotStoredMessage");
+            }
+
+            // materials remaining
+            //var yearData = _ud.GetYearData();
+            //rvm.AppliedManures = new List<AppliedManure>();
+            //foreach (var storageSystem in yearData.ManureStorageSystems)
+            //{
+            //    foreach (var manures in storageSystem.MaterialsIncludedInSystem)
+            //    {
+            //        List<FarmManure> farmManure = yearData.GetFarmManuresForStorageSystem(manures.ManureId);
+            //        var appliedManure = _manureApplicationCalculator.GetAppliedManures(yearData, farmManure);
+            //        rvm.AppliedManures.Add(appliedManure[0]);
+            //    }
+            //}
+
             rvm.downloadMsg = string.Format(_sd.GetUserPrompt("reportdownload"), Url.Action("DownloadMessage", "Home"));
             rvm.loadMsg = _sd.GetUserPrompt("reportload");
 
