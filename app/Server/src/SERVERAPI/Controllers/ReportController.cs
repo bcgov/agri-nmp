@@ -104,8 +104,7 @@ namespace SERVERAPI.Controllers
                 rvm.materialsNotStoredMessage = _sd.GetUserPrompt("materialsNotStoredMessage");
             }
 
-            if (cropFound)
-            {
+           
                 // materials remaining
                 var yearData = _ud.GetYearData();
                 rvm.RemainingManures = new List<AppliedManure>();
@@ -145,7 +144,6 @@ namespace SERVERAPI.Controllers
                             }
                         }
                     }
-                }
 
 
                 if (rvm.RemainingManures.Count() > 0)
