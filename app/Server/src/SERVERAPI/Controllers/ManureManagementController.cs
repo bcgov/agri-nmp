@@ -903,7 +903,6 @@ namespace SERVERAPI.Controllers
                     var li = new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
                         { Text = storageSystem.MaterialsIncludedInSystem[0].ManureId + "," + storageSystem.Id, Value = storageSystem.Name };
                     cvm.sourceOfMaterialOptions.Add(li);
-                    cvm.stored_imported = NutrientAnalysisTypes.Stored ;
                 }
             }
 
@@ -915,7 +914,6 @@ namespace SERVERAPI.Controllers
                 if (importedManure.AssignedToStoredSystem == false)
                 {
                     importedManuresNotStored.Add(importedManure);
-                    cvm.stored_imported = NutrientAnalysisTypes.Imported;
                 }
             }
 
@@ -943,6 +941,7 @@ namespace SERVERAPI.Controllers
                         var li = new SelectListItem()
                             { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
                         cvm.manOptions.Add(li);
+                        cvm.stored_imported = NutrientAnalysisTypes.Stored;
                     }
                 }
                 else if(cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
@@ -958,6 +957,7 @@ namespace SERVERAPI.Controllers
                             var li = new SelectListItem()
                                 { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
                             cvm.manOptions.Add(li);
+                            cvm.stored_imported = NutrientAnalysisTypes.Stored;
                         }
                     }
                     else if(importedManure.AssignedToStoredSystem == false)
@@ -969,6 +969,7 @@ namespace SERVERAPI.Controllers
                             var li = new SelectListItem()
                                 { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
                             cvm.manOptions.Add(li);
+                            cvm.stored_imported = NutrientAnalysisTypes.Imported;
                         }
                     }
                    
@@ -1016,8 +1017,6 @@ namespace SERVERAPI.Controllers
                                     { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
                                 cvm.manOptions.Add(li);
                             }
-
-                            cvm.stored_imported = NutrientAnalysisTypes.Stored;
                         }
                         else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
                         {
@@ -1031,7 +1030,6 @@ namespace SERVERAPI.Controllers
                                     { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
                                 cvm.manOptions.Add(li);
                             }
-                            cvm.stored_imported = NutrientAnalysisTypes.Stored;
                         }
                     }
                     return View(cvm);
