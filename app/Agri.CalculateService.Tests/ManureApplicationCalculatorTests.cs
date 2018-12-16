@@ -32,7 +32,7 @@ namespace Agri.CalculateService.Tests
         public void GetFieldsAppliedWithStoredManure()
         {
             //act
-            var result = _yearData.GetFieldsAppliedWithStoredManure("Generated1");
+            var result = _yearData.GetFieldsAppliedWithManure("Generated1");
 
             //assess
             Assert.IsNotNull(result);
@@ -105,7 +105,7 @@ namespace Agri.CalculateService.Tests
         public void GetFieldsAppliedWithImportedManure()
         {
             //act
-            var result = _yearData.GetFieldsAppliedWithUnstorableImportedManure("Imported1");
+            var result = _yearData.GetFieldsAppliedWithManure("Imported1");
 
             //assess
             Assert.IsNotNull(result);

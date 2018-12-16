@@ -44,6 +44,48 @@ namespace Agri.Models.Farm
         public List<ManureStorageStructure> ManureStorageStructures { get; }
 
         [JsonIgnore]
+        public List<ManureStorageItemSummary> ManureStorageItemSummaries
+        {
+            get
+            {
+                var summaries = new List<ManureStorageItemSummary>();
+                foreach (var generatedManure in GeneratedManuresIncludedInSystem)
+                {
+                    var annualAmount = Convert.ToDecimal(generatedManure.annualAmount.Split(' ')[0]);
+                    if (@ManureMaterialType != @generatedManure.ManureType && @generatedManure.ManureType == ManureMaterialType.Solid)
+                    {
+                        if (generatedManure.solidPerGalPerAnimalPerDay.HasValue)
+                        {
+                            // if solid material is added to the liquid system change the calculations to depict that of liquid
+                            annualAmount = Math.Round(Convert.ToInt32(generatedManure.averageAnimalNumber) *
+                                                      generatedManure.solidPerGalPerAnimalPerDay.Value) * 365;
+                        }
+                    }
+
+                    annualAmount += Convert.ToInt32(generatedManure.washWaterGallons);
+                    var summary = new ManureStorageItemSummary(generatedManure, annualAmount, AnnualAmountUnit);
+                    summaries.Add(summary);
+                }
+
+                foreach (var importedManure in ImportedManuresIncludedInSystem)
+                {
+                    decimal totalImportedManure;
+                    if (importedManure.ManureType == ManureMaterialType.Liquid)
+                    {
+                        totalImportedManure = ImportedManuresIncludedInSystem.Sum(im => im.AnnualAmountUSGallonsVolume);
+                    }
+                    else
+                    {
+                        totalImportedManure = ImportedManuresIncludedInSystem.Sum(im => im.AnnualAmountTonsWeight);
+                    }
+                    summaries.Add(new ManureStorageItemSummary(importedManure, totalImportedManure, AnnualAmountUnit));
+                }
+
+                return summaries;
+            }
+        }
+
+        [JsonIgnore]
         public int TotalAreaOfUncoveredLiquidStorage => ManureStorageStructures
                                                                                     .Where(ss => !ss.IsStructureCovered)
                                                                                     .Sum(ss => ss.UncoveredAreaSquareFeet ?? 0);
@@ -82,26 +124,25 @@ namespace Agri.Models.Farm
         {
             get
             {
-                var totalAnnualGeneratedManure = 0m;
-                foreach (var generatedManure in GeneratedManuresIncludedInSystem)
-                {
-                    var annualAmount = Convert.ToDecimal(generatedManure.annualAmount.Split(' ')[0]);
-                    if (@ManureMaterialType != @generatedManure.ManureType && @generatedManure.ManureType == ManureMaterialType.Solid)
-                    {
-                        if (generatedManure.solidPerGalPerAnimalPerDay.HasValue)
-                        {
-                            // if solid material is added to the liquid system change the calculations to depict that of liquid
-                            annualAmount = Math.Round(Convert.ToInt32(generatedManure.averageAnimalNumber) *
-                                                              generatedManure.solidPerGalPerAnimalPerDay.Value) * 365;
-                        }
-                    }
+                //var totalAnnualGeneratedManure = 0m;
+                //foreach (var generatedManure in GeneratedManuresIncludedInSystem)
+                //{
+                //    var annualAmount = Convert.ToDecimal(generatedManure.annualAmount.Split(' ')[0]);
+                //    if (@ManureMaterialType != @generatedManure.ManureType && @generatedManure.ManureType == ManureMaterialType.Solid)
+                //    {
+                //        if (generatedManure.solidPerGalPerAnimalPerDay.HasValue)
+                //        {
+                //            // if solid material is added to the liquid system change the calculations to depict that of liquid
+                //            annualAmount = Math.Round(Convert.ToInt32(generatedManure.averageAnimalNumber) *
+                //                                              generatedManure.solidPerGalPerAnimalPerDay.Value) * 365;
+                //        }
+                //    }
 
-                    if (!string.IsNullOrEmpty(generatedManure.washWaterGallons))
-                    {
-                        totalAnnualGeneratedManure += Convert.ToInt32(generatedManure.washWaterGallons);
-                    }
-                    totalAnnualGeneratedManure += annualAmount;
-                }
+                //    totalAnnualGeneratedManure += Convert.ToInt32(generatedManure.washWaterGallons);
+                //    totalAnnualGeneratedManure += annualAmount;
+                //}
+                var totalAnnualGeneratedManure = ManureStorageItemSummaries
+                    .Where(ms => ms.ManagedManure is GeneratedManure).Sum(ms => ms.ItemTotalAnnualStored);
 
                 return totalAnnualGeneratedManure;
             }
@@ -112,15 +153,18 @@ namespace Agri.Models.Farm
         {
             get
             {
-                var totalImportedManure = 0m;
-                if (ManureMaterialType == ManureMaterialType.Liquid)
-                {
-                    totalImportedManure = ImportedManuresIncludedInSystem.Sum(im => im.AnnualAmountUSGallonsVolume);
-                }
-                else
-                {
-                    totalImportedManure = ImportedManuresIncludedInSystem.Sum(im => im.AnnualAmountTonsWeight);
-                }
+                //var totalImportedManure = 0m;
+                //if (ManureMaterialType == ManureMaterialType.Liquid)
+                //{
+                //    totalImportedManure = ImportedManuresIncludedInSystem.Sum(im => im.AnnualAmountUSGallonsVolume);
+                //}
+                //else
+                //{
+                //    totalImportedManure = ImportedManuresIncludedInSystem.Sum(im => im.AnnualAmountTonsWeight);
+                //}
+                var totalImportedManure = ManureStorageItemSummaries.Where(ms => ms.ManagedManure is ImportedManure)
+                    .Sum(ms => ms.ItemTotalAnnualStored);
+
                 return totalImportedManure;
             }
         }

@@ -234,12 +234,10 @@ namespace SERVERAPI.Controllers
                             gm.manureTypeName = EnumHelper<Agri.Models.ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
                             if (mgovm.washWater != null)
                             {
-                                gm.washWaterGallons = string.Format("{0:#,##0}", (Math.Round(Convert.ToDecimal(mgovm.washWater) * Convert.ToInt32(mgovm.averageAnimalNumber) * 365)));
                                 gm.washWater = Convert.ToDecimal(mgovm.washWater.ToString());
                             }
                             else
                             {
-                                gm.washWaterGallons = "";
                                 gm.washWater = 0;
                             }
 
@@ -301,12 +299,10 @@ namespace SERVERAPI.Controllers
 
                             if (mgovm.washWater != null)
                             {
-                                gm.washWaterGallons = string.Format("{0:#,##0}", (Math.Round(Convert.ToDecimal(mgovm.washWater) * Convert.ToInt32(mgovm.averageAnimalNumber) * 365)));
                                 gm.washWater = Convert.ToDecimal(mgovm.washWater);
                             }
                             else
                             {
-                                gm.washWaterGallons = "";
                                 gm.washWater = 0;
                             }
 

@@ -29,23 +29,32 @@ namespace Agri.Models.Calculate
         {
             get
             {
-                if (ManureMaterialType == Models.ManureMaterialType.Liquid)
+                if (FieldAppliedManures.Any())
                 {
-                    var totalLiquidApplied = FieldAppliedManures
-                                                            .Where(f => f.USGallonsApplied.HasValue)
-                                                            .Sum(f => f.USGallonsApplied.Value);
-                    return totalLiquidApplied;
+                    if (ManureMaterialType == Models.ManureMaterialType.Liquid)
+                    {
+                        var totalLiquidApplied = FieldAppliedManures
+                            .Where(f => f.USGallonsApplied.HasValue)
+                            .Sum(f => f.USGallonsApplied.Value);
+                        return totalLiquidApplied;
+                    }
+
+                    var totalSolidApplied = FieldAppliedManures
+                        .Where(f => f.TonsApplied.HasValue)
+                        .Sum(f => f.TonsApplied.Value);
+                    return totalSolidApplied;
                 }
-                var totalSolidApplied = FieldAppliedManures
-                                                    .Where(f => f.TonsApplied.HasValue)
-                                                    .Sum(f => f.TonsApplied.Value);
-                return totalSolidApplied;
+
+                return 0;
             }
         }
 
         public decimal TotalAnnualManureRemainingToApply => TotalAnnualManureToApply - TotalApplied;
         public int WholePercentAppiled => Convert.ToInt32(TotalApplied / TotalAnnualManureToApply * 100);
-        public int WholePercentRemaining => Convert.ToInt32((TotalAnnualManureRemainingToApply >= 0 ? TotalAnnualManureRemainingToApply : 0) / TotalAnnualManureToApply * 100);
+
+        public int WholePercentRemaining =>
+            Convert.ToInt32((TotalAnnualManureRemainingToApply >= 0 ? TotalAnnualManureRemainingToApply : 0) /
+                            TotalAnnualManureToApply * 100);
         public string AppliedMessage => $"{SourceName}: {WholePercentAppiled}%";
         public string RemainingToApplMessage => $"{SourceName}: {WholePercentRemaining}%";
     }

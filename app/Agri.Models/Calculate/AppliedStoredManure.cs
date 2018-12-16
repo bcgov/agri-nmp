@@ -24,5 +24,25 @@ namespace Agri.Models.Calculate
 
         public override decimal TotalAnnualManureToApply => ManureStorageSystem.AnnualTotalAmountofManureInStorage;
 
+        public List<string> ListUnallocatedMaterialAsPercentOfTotalStored
+        {
+            get
+            {
+                var result = new List<string>();
+                foreach (var storedMaterial in ManureStorageSystem.ManureStorageItemSummaries)
+                {
+                    var percentOfTotalStored =
+                        storedMaterial.GetPercentageOfTotalStorageGeneratedManure(ManureStorageSystem
+                            .AnnualTotalAmountofManureInStorage);
+
+                    var unallocated =
+                        $"Storage System: {ManureStorageSystem.Name}, Material: {storedMaterial.ManagedManure.ManagedManureName} ";
+                    unallocated += $"Unallocated {storedMaterial.ItemTotalAnnualStored} {storedMaterial.AnnualAmountUnit} - {percentOfTotalStored}% of Total Stored";
+                    result.Add(unallocated);
+                }
+
+                return result;
+            }
+        }
     }
 }

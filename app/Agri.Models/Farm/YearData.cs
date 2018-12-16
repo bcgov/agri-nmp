@@ -29,42 +29,23 @@ namespace Agri.Models.Farm
             return importedManureId;
         }
 
-        public List<NutrientManure> GetStoredManureAllocated(string managedManureId)
-        {
-            var farmManureIds = GetFarmManureIdsForStorageSystem(managedManureId);
 
-            var appliedAsNutrients = GetNutrientManuresFromFields(farmManureIds);
-
-            return appliedAsNutrients;
-        }
-
-        public List<int> GetFarmManureIdsForStorageSystem(string managedManureId)
+        public List<int> GetFarmManureIds(List<string> managedManureIds)
         {
             var farmManureIds = farmManures
-                .Where(fm => fm.stored_imported == NutrientAnalysisTypes.Stored && fm.managedManureId == managedManureId)
+                .Where(fm => managedManureIds.Any(mm => mm == fm.managedManureId))
                 .Select(fm => fm.id).ToList();
 
             return farmManureIds;
         }
 
-        public List<NutrientManure> GetUnstorableImportedManureAllocated(string managedManureId)
+        public List<int> GetFarmManureIds(string managedManureId)
         {
-            var farmManureIds = GetFarmManureIdsForImportedManure(managedManureId);
-
-            var appliedAsNutrients = GetNutrientManuresFromFields(farmManureIds);
-
-            return appliedAsNutrients;
-        }
-
-        public List<int> GetFarmManureIdsForImportedManure(string managedManureId)
-        {
-            var farmManureIds = farmManures.Where(fm =>
-                    fm.stored_imported == NutrientAnalysisTypes.Imported && fm.managedManureId == managedManureId)
-                .Select(fm => fm.id).ToList();
+            var farmManureIds = GetFarmManureIds(new List<string> {managedManureId});
 
             return farmManureIds;
         }
-
+        
         public List<NutrientManure> GetNutrientManuresFromFields(List<int> farmManureIds)
         {
             return fields
@@ -72,20 +53,19 @@ namespace Agri.Models.Farm
                 .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
                 .ToList();
         }
-
-
-        public List<Field> GetFieldsAppliedWithStoredManure(string managedManureId)
+        
+        public List<Field> GetFieldsAppliedWithManure(List<string> managedManureIds)
         {
-            var farmManureIds = GetFarmManureIdsForStorageSystem(managedManureId);
+            var farmManureIds = GetFarmManureIds(managedManureIds);
 
             var appliedFields = GetFieldsAppliedWithFarmManure(farmManureIds);
 
             return appliedFields;
         }
-
-        public List<Field> GetFieldsAppliedWithUnstorableImportedManure(string managedManureId)
+        
+        public List<Field> GetFieldsAppliedWithManure(string managedManureId)
         {
-            var farmManureIds = GetFarmManureIdsForImportedManure(managedManureId);
+            var farmManureIds = GetFarmManureIds(managedManureId);
 
             var appliedFields = GetFieldsAppliedWithFarmManure(farmManureIds);
 

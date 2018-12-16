@@ -44,10 +44,6 @@
                                 <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
                                     <option>select</option>
                                 </select>
-                                <br />
-                                <div style="display:inline;">
-                                    <a href="@Model.url" target="_blank">@Model.urlText</a>
-                                </div>
                             </div>
                             <span asp-validation-for="selRateOption" class="text-danger"></span>
                         </div>
