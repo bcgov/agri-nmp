@@ -42,6 +42,8 @@ namespace SERVERAPI.ViewModels
         public List<string> UnallocatedManureNames => StorableManures.Where(mm => !mm.AssignedToStoredSystem).Select(mm => mm.ManagedManureName).ToList();
 
         public List<AppliedManure> RemainingManures { get; set; }
+        public List<AppliedManure> OverUtilizedManures { get; set; }
         public string MaterialsRemainingMessage { get; set; }
+        public string OverUtilizedManuresMessage { get; set; }
     }
 }

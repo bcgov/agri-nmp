@@ -9231,12 +9231,12 @@
           },
           {
             "id": "36",
-            "name": "excessMaterialsMessage",
-            "text": "The following materials are not applied to a field"
+            "name": "remainingMaterialsMessage",
+            "text": "The following materials are not applied to a field                                  "
           },
           {
             "id": "37",
-            "name": "depletionMaterialsMessage",
+            "name": "overUtilizedMaterialsMessage",
             "text": "There is not enough of the following materials to meet the planned application rates"
           },
           {
