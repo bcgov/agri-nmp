@@ -35,9 +35,11 @@ namespace Agri.Models.Calculate
                         storedMaterial.GetPercentageOfTotalStorageGeneratedManure(ManureStorageSystem
                             .AnnualTotalAmountofManureInStorage);
 
+                    var itemAmountRemainingToApply = TotalAnnualManureRemainingToApply * (percentOfTotalStored / 100);
+
                     var unallocated =
                         $"Storage System: {ManureStorageSystem.Name}, Material: {storedMaterial.ManagedManure.ManagedManureName} ";
-                    unallocated += $"Unallocated {storedMaterial.ItemTotalAnnualStored} {storedMaterial.AnnualAmountUnit} - {percentOfTotalStored}% of Total Stored";
+                    unallocated += $"Unallocated {itemAmountRemainingToApply} {storedMaterial.AnnualAmountUnit} - {percentOfTotalStored}% of Total Stored";
                     result.Add(unallocated);
                 }
 

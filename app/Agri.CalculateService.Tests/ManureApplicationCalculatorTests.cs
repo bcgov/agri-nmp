@@ -160,6 +160,8 @@ namespace Agri.CalculateService.Tests
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator);
             var farmManure = _yearData.farmManures.Single(fm => fm.id == 1);
+            var expectedUnAllocatedMessage =
+                "Storage System: Liquid Storage System , Material: Heavy Feeders Unallocated 2868.905000000 US gallons - 100% of Total Stored";
 
             //Act
             var result = calculator.GetAppliedManure(_yearData, farmManure );
@@ -173,6 +175,7 @@ namespace Agri.CalculateService.Tests
             Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied.Value == 120.0950000M);
             Assert.IsTrue(result.TotalAnnualManureToApply == 2989m);
             Assert.IsTrue(result.WholePercentAppiled == 4);
+            Assert.IsTrue((result as AppliedStoredManure).ListUnallocatedMaterialAsPercentOfTotalStored[0] == expectedUnAllocatedMessage);
         }
 
 
