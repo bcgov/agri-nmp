@@ -1907,7 +1907,8 @@ namespace Agri.LegacyData.Models.Impl
                 var animal = new Animal
                 {
                     Id = Convert.ToInt32(record["id"].ToString()),
-                    Name = record["Name"].ToString()
+                    Name = record["Name"].ToString(),
+                    UseSortOrder = record["UseSortOrder"].ToString()
                 };
                 animals.Add(animal);
             }
@@ -1923,7 +1924,8 @@ namespace Agri.LegacyData.Models.Impl
             var animal = new Animal
             {
                 Id = Convert.ToInt32(rec["id"].ToString()),
-                Name = rec["Name"].ToString()
+                Name = rec["Name"].ToString(),
+                UseSortOrder = rec["UseSortOrder"].ToString()
             };
 
             return animal;
@@ -2020,6 +2022,7 @@ namespace Agri.LegacyData.Models.Impl
                                                 Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"].ToString()) : 0,
                     SolidLiquidSeparationPercentage = !string.IsNullOrWhiteSpace(record["solidLiquidSeparationPercentage"].ToString()) ?
                                                  Convert.ToDecimal(record["solidLiquidSeparationPercentage"].ToString()) : 0,
+                    SortOrder = Convert.ToInt32(record["SortOrder"]),
                     AnimalId = Convert.ToInt32(record["animalId"].ToString())
                 };
                 animalSubTypes.Add(animalSubtype);
@@ -2032,7 +2035,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             var animalSubTypes = GetAnimalSubTypes();
 
-            animalSubTypes = animalSubTypes.OrderBy(n => n.Name).ToList();
+            animalSubTypes = animalSubTypes.OrderBy(n => n.SortOrder).ToList();
 
             List<SelectListItem> animalSubTypesOptions = new List<SelectListItem>();
 
@@ -2063,6 +2066,7 @@ namespace Agri.LegacyData.Models.Impl
                 : Convert.ToDecimal(rec["solidPerPoundPerAnimalPerDay"].ToString());
             animalSubType.LiquidPerGalPerAnimalPerDay = rec["liquidPerGalPerAnimalPerDay"].ToString() == "" ? (decimal?)null
                 : Convert.ToDecimal(rec["liquidPerGalPerAnimalPerDay"].ToString());
+            animalSubType.SortOrder = Convert.ToInt32(rec["SortOrder"]);
             animalSubType.AnimalId = Convert.ToInt32(rec["animalId"].ToString());
             return animalSubType;
         }

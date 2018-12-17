@@ -33,9 +33,26 @@
         </li>
         @foreach (var item in Model.mainMenuOptions)
         {
-            <li id="@item.Controller@item.Action@item.Id" class="wizard-item">
+            <li id="@item.Controller@item.Action@item.Id" class="wizard-item" style="text-align: center">
                 <a id="firstMenu" href='@Url.Action(@item.Action, @item.Controller)'>
-                    <span class="wizard-name">@item.Name</span>
+                    @if (@item.Name.Split(' ').Length > 1)
+                    {
+                        if (@item.Name.Split(' ').Length == 2)
+                        {
+                            <span class="wizard-name">@item.Name.Split(' ')[0]</span><br/>
+                            <span class="wizard-name">@item.Name.Split(' ')[1]</span>
+                        }
+                        else
+                        {
+                            <span class="wizard-name">@item.Name.Split(' ')[0]</span><br/>
+                            <span class="wizard-name">@item.Name.Split(' ')[1] @item.Name.Split(' ')[2]</span>
+                        }
+
+                    }
+                    else
+                    {
+                        <span class="wizard-name">@item.Name</span>
+                    }
                 </a>
             </li>
             @if (!item.Equals(Model.mainMenuOptions.Last()))
