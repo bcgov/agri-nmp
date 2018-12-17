@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20181206165457_InitialDB")]
+    [Migration("20181217185546_InitialDB")]
     partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -413,6 +413,38 @@ namespace Agri.Data.Migrations
                     b.ToTable("LiquidFertilizerDensities");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.LiquidMaterialApplicationUSGallonsPerAcreRateConversion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ApplicationRateUnit");
+
+                    b.Property<string>("ApplicationRateUnitName");
+
+                    b.Property<decimal>("USGallonsPerAcreConversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LiquidMaterialApplicationUsGallonsPerAcreRateConversions");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.LiquidMaterialsConversionFactor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("InputUnit");
+
+                    b.Property<string>("InputUnitName");
+
+                    b.Property<decimal>("USGallonsOutput");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LiquidMaterialsConversionFactors");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.Location", b =>
                 {
                     b.Property<int>("Id")
@@ -483,6 +515,18 @@ namespace Agri.Data.Migrations
                     b.HasIndex("NMineralizationId1", "NMineralizationLocationId");
 
                     b.ToTable("Manures");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.ManureImportedDefault", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("DefaultSolidMoisture");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ManureImportedDefaults");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Message", b =>
@@ -874,6 +918,42 @@ namespace Agri.Data.Migrations
                     b.HasAlternateKey("PotassiumCropGroupRegionCode", "SoilTestPotassiumKelownaRangeId", "SoilTestPotassiumRegionCode");
 
                     b.ToTable("SoilTestPotassiumRecommendation");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SolidMaterialApplicationTonPerAcreRateConversion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ApplicationRateUnit");
+
+                    b.Property<string>("ApplicationRateUnitName");
+
+                    b.Property<string>("TonsPerAcreConversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SolidMaterialApplicationTonPerAcreRateConversions");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SolidMaterialsConversionFactor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("CubicMetersOutput");
+
+                    b.Property<string>("CubicYardsOutput");
+
+                    b.Property<int>("InputUnit");
+
+                    b.Property<string>("InputUnitName");
+
+                    b.Property<string>("MetricTonsOutput");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SolidMaterialsConversionFactors");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SubMenu", b =>

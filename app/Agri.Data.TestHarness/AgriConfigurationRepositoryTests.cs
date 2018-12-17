@@ -1312,5 +1312,86 @@ namespace Agri.Data.TestHarness
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void CompareGetMainMenus()
+        {
+            var actual = _agriRepository.GetMainMenus();
+            var expected = _staticExtRepo.GetMainMenus();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+        
+        [TestMethod]
+        public void CompareGetMainMenusDll()
+        {
+            var actual = _agriRepository.GetMainMenusDll();
+            var expected = _staticExtRepo.GetMainMenusDll();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSubMenus()
+        {
+            var actual = _agriRepository.GetSubMenus();
+            var expected = _staticExtRepo.GetSubMenus();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetManureImportedDefault()
+        {
+            var actual = _agriRepository.GetManureImportedDefault();
+            var expected = _staticExtRepo.GetManureImportedDefault();
+
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(actual.Id, actual.Id);
+            Assert.AreEqual(actual.DefaultSolidMoisture, actual.DefaultSolidMoisture);
+        }
+
+        [TestMethod]
+        public void CompareGetSolidMaterialsConversionFactors()
+        {
+            var actual = _agriRepository.GetSolidMaterialsConversionFactors();
+            var expected = _staticExtRepo.GetSolidMaterialsConversionFactors();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetLiquidMaterialsConversionFactors()
+        {
+            var actual = _agriRepository.GetLiquidMaterialsConversionFactors();
+            var expected = _staticExtRepo.GetLiquidMaterialsConversionFactors();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetSolidMaterialApplicationTonPerAcreRateConversions()
+        {
+            var actual = _agriRepository.GetSolidMaterialApplicationTonPerAcreRateConversions();
+            var expected = _staticExtRepo.GetSolidMaterialApplicationTonPerAcreRateConversions();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void CompareGetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
+        {
+            var actual = _agriRepository.GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion();
+            var expected = _staticExtRepo.GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion();
+
+            Assert.IsTrue(actual.Count > 0);
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
     }
 }

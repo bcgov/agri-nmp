@@ -1071,23 +1071,50 @@ namespace Agri.Data
 
         public List<MainMenu> GetMainMenus()
         {
-            throw new NotImplementedException();
+            return _context.MainMenus
+                .Include(x => x.SubMenus)
+                .ToList();
         }
 
         public List<SelectListItem> GetMainMenusDll()
         {
-            throw new NotImplementedException();
+            var mainMenus = GetMainMenus();
+
+            List<SelectListItem> mainMenuOptions = new List<SelectListItem>();
+
+            foreach (var r in mainMenus)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                mainMenuOptions.Add(li);
+            }
+
+            return mainMenuOptions;
         }
 
         public List<SubMenu> GetSubMenus()
         {
-            throw new NotImplementedException();
+            return _context.MainMenus.SelectMany(mm => mm.SubMenus).ToList();
         }
 
         public List<SelectListItem> GetSubmenusDll()
         {
-            throw new NotImplementedException();
+            var subMenus = GetSubMenus();
+
+            subMenus = subMenus.OrderBy(n => n.Name).ToList();
+
+            List<SelectListItem> subMenuoptions = new List<SelectListItem>();
+
+            foreach (var r in subMenus)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                subMenuoptions.Add(li);
+            }
+
+            return subMenuoptions;
         }
+
         public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield)
         {
@@ -1111,12 +1138,12 @@ namespace Agri.Data
         }
         public List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions()
         {
-            throw new NotImplementedException();
+            return _context.SolidMaterialApplicationTonPerAcreRateConversions.ToList();
         }
 
         public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
         {
-            throw new NotImplementedException();
+            return _context.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.ToList();
         }
 
         private string ParseStdUnit(string stdUnit)

@@ -33,6 +33,7 @@ namespace Agri.Data
         public DbSet<FertilizerUnit> FertilizerUnits { get; set; }
         public DbSet<HarvestUnit> HarvestUnits { get; set; }
         public DbSet<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
+        public DbSet<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> LiquidMaterialApplicationUsGallonsPerAcreRateConversions { get; set; }
         public DbSet<LiquidMaterialsConversionFactor> LiquidMaterialsConversionFactors { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<MainMenu> MainMenus { get; set; }
@@ -43,6 +44,8 @@ namespace Agri.Data
         public DbSet<NitrogenMineralization> NitrogenMineralizations { get; set; }
         public DbSet<NutrientIcon> NutrientIcons { get; set; }
         public DbSet<NitrogenRecommendation> NitrogenRecommendations { get; set; }
+        public DbSet<PhosphorusSoilTestRange> PhosphorusSoilTestRanges { get; set; }
+        public DbSet<PotassiumSoilTestRange> PotassiumSoilTestRanges { get; set; }
         public DbSet<PreviousManureApplicationYear> PrevManureApplicationYears { get; set; }
         public DbSet<PreviousYearManureApplicationNitrogenDefault> PrevYearManureApplicationNitrogenDefaults { get; set; }
         public DbSet<Region> Regions { get; set; }
@@ -56,8 +59,7 @@ namespace Agri.Data
         public DbSet<SoilTestPotassiumRange> SoilTestPotassiumRanges { get; set; }
         public DbSet<SoilTestPotassiumKelownaRange> SoilTestPotassiumKelownaRanges { get; set; }
         public DbSet<SoilTestPhosphorousKelownaRange> SoilTestPhosphorousKelownaRanges { get; set; }
-        public DbSet<PotassiumSoilTestRange> PotassiumSoilTestRanges { get; set; }
-        public DbSet<PhosphorusSoilTestRange> PhosphorusSoilTestRanges { get; set; }
+        public DbSet<SolidMaterialApplicationTonPerAcreRateConversion> SolidMaterialApplicationTonPerAcreRateConversions { get; set; }
         public DbSet<SolidMaterialsConversionFactor> SolidMaterialsConversionFactors { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<UserPrompt> UserPrompts { get; set; }

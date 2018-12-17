@@ -244,6 +244,36 @@ namespace Agri.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LiquidMaterialApplicationUsGallonsPerAcreRateConversions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    ApplicationRateUnit = table.Column<int>(nullable: false),
+                    ApplicationRateUnitName = table.Column<string>(nullable: true),
+                    USGallonsPerAcreConversion = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LiquidMaterialApplicationUsGallonsPerAcreRateConversions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LiquidMaterialsConversionFactors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    InputUnit = table.Column<int>(nullable: false),
+                    InputUnitName = table.Column<string>(nullable: true),
+                    USGallonsOutput = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LiquidMaterialsConversionFactors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Locations",
                 columns: table => new
                 {
@@ -269,6 +299,19 @@ namespace Agri.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MainMenus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ManureImportedDefaults",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    DefaultSolidMoisture = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ManureImportedDefaults", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -542,6 +585,38 @@ namespace Agri.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SoilTestPotassiumRanges", x => x.UpperLimit);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SolidMaterialApplicationTonPerAcreRateConversions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    ApplicationRateUnit = table.Column<int>(nullable: false),
+                    ApplicationRateUnitName = table.Column<string>(nullable: true),
+                    TonsPerAcreConversion = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SolidMaterialApplicationTonPerAcreRateConversions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SolidMaterialsConversionFactors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    InputUnit = table.Column<int>(nullable: false),
+                    InputUnitName = table.Column<string>(nullable: true),
+                    CubicYardsOutput = table.Column<string>(nullable: true),
+                    CubicMetersOutput = table.Column<string>(nullable: true),
+                    MetricTonsOutput = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SolidMaterialsConversionFactors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -1050,6 +1125,15 @@ namespace Agri.Data.Migrations
                 name: "LiquidFertilizerDensities");
 
             migrationBuilder.DropTable(
+                name: "LiquidMaterialApplicationUsGallonsPerAcreRateConversions");
+
+            migrationBuilder.DropTable(
+                name: "LiquidMaterialsConversionFactors");
+
+            migrationBuilder.DropTable(
+                name: "ManureImportedDefaults");
+
+            migrationBuilder.DropTable(
                 name: "Manures");
 
             migrationBuilder.DropTable(
@@ -1105,6 +1189,12 @@ namespace Agri.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "SoilTestPotassiumRecommendation");
+
+            migrationBuilder.DropTable(
+                name: "SolidMaterialApplicationTonPerAcreRateConversions");
+
+            migrationBuilder.DropTable(
+                name: "SolidMaterialsConversionFactors");
 
             migrationBuilder.DropTable(
                 name: "SubMenu");

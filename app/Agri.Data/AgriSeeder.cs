@@ -16,7 +16,7 @@ namespace Agri.Data
 
         public void Seed()
         {
-            //_context.Database.EnsureDeleted();
+            _context.Database.EnsureDeleted();
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
             _context.Database.Migrate();
@@ -402,6 +402,18 @@ namespace Agri.Data
             {
                 var conversions = staticExtRepo.GetSolidMaterialsConversionFactors();
                 _context.SolidMaterialsConversionFactors.AddRange(conversions);
+            }
+
+            if (!_context.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.Any())
+            {
+                var conversions = staticExtRepo.GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion();
+                _context.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.AddRange(conversions);
+            }
+
+            if (!_context.SolidMaterialApplicationTonPerAcreRateConversions.Any())
+            {
+                var conversions = staticExtRepo.GetSolidMaterialApplicationTonPerAcreRateConversions();
+                _context.SolidMaterialApplicationTonPerAcreRateConversions.AddRange(conversions);
             }
 
             _context.SaveChanges();
