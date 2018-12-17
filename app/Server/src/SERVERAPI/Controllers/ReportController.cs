@@ -133,7 +133,7 @@ namespace SERVERAPI.Controllers
                     {
                         if (!importedManures.AssignedToStoredSystem)
                         {
-                            var farmManure = _ud.GetFarmManure(importedManures.Id.GetValueOrDefault());
+                            var farmManure = _ud.GetFarmManureByManureId(importedManures.ManureId);
                             var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure.managedManureId);
                             if (appliedImportedManure.WholePercentRemaining >= 10)
                             {

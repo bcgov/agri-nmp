@@ -633,6 +633,38 @@ namespace SERVERAPI.Models.Impl
             return fm;
         }
 
+        public FarmManure GetFarmManureByManureId(string manureId)
+        {
+            FarmManure fm = new FarmManure();
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+
+            if (yd.farmManures == null)
+            {
+                yd.farmManures = new List<FarmManure>();
+            }
+
+            fm = yd.farmManures.FirstOrDefault(c => c.managedManureId == manureId);
+            if (!fm.customized)
+            {
+                Manure man = _sd.GetManure(fm.manureId.ToString());
+                fm.ammonia = man.Ammonia;
+                fm.dmid = man.DMId;
+                fm.manure_class = man.ManureClass;
+                fm.moisture = man.Moisture;
+                fm.name = man.Name;
+                fm.nitrate = man.Nitrate;
+                fm.nitrogen = man.Nitrogen;
+                fm.nminerizationid = man.NMineralizationId;
+                fm.phosphorous = man.Phosphorous;
+                fm.potassium = man.Potassium;
+                fm.solid_liquid = man.SolidLiquid;
+            }
+
+            return fm;
+        }
+
         public List<FarmManure> GetFarmManures()
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
