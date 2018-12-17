@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20181217185546_InitialDB")]
+    [Migration("20181217193503_InitialDB")]
     partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,8 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("UseSortOrder");
+
                     b.HasKey("Id");
 
                     b.ToTable("Animals");
@@ -66,6 +68,8 @@ namespace Agri.Data.Migrations
                     b.Property<decimal?>("SolidPerGalPerAnimalPerDay");
 
                     b.Property<decimal?>("SolidPerPoundPerAnimalPerDay");
+
+                    b.Property<int>("SortOrder");
 
                     b.Property<decimal>("WashWater");
 

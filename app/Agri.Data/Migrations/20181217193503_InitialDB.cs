@@ -28,7 +28,8 @@ namespace Agri.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    UseSortOrder = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -698,7 +699,8 @@ namespace Agri.Data.Migrations
                     SolidLiquidSeparationPercentage = table.Column<decimal>(nullable: false),
                     WashWater = table.Column<decimal>(nullable: false),
                     MilkProduction = table.Column<decimal>(nullable: false),
-                    AnimalId = table.Column<int>(nullable: false)
+                    AnimalId = table.Column<int>(nullable: false),
+                    SortOrder = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

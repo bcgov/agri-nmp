@@ -9429,43 +9429,53 @@
         "animal": [
           {
             "id": 1,
-            "Name": "Beef Cattle"
+            "Name": "Beef Cattle",
+            "UseSortOrder": "false"
           },
           {
             "id": 2,
-            "Name": "Dairy Cattle"
+            "Name": "Dairy Cattle",
+            "UseSortOrder": "true" 
           },
           {
             "id": 3,
-            "Name": "Ducks"
+            "Name": "Ducks",
+            "UseSortOrder": "false"
           },
           {
             "id": 4,
-            "Name": "Goats"
+            "Name": "Goats",
+            "UseSortOrder": "false"
           },
           {
             "id": 5,
-            "Name": "Horse"
+            "Name": "Horse",
+            "UseSortOrder": "false"
           },
           {
             "id": 6,
-            "Name": "Poultry"
+            "Name": "Poultry",
+            "UseSortOrder": "false"
           },
           {
             "id": 7,
-            "Name": "Rabbits"
+            "Name": "Rabbits",
+            "UseSortOrder": "false"
           },
           {
             "id": 8,
-            "Name": "Sheep"
+            "Name": "Sheep",
+            "UseSortOrder": "false"
           },
           {
             "id": 9,
-            "Name": "Swine"
+            "Name": "Swine",
+            "UseSortOrder": "false"
           },
           {
             "id": 10,
-            "Name": "Veal"
+            "Name": "Veal",
+            "UseSortOrder": "false"
           }
         ]
       },
@@ -9481,6 +9491,7 @@
             "animalId": 1,
             "includeWashWater": 0,
             "milkProduction": 0
+
           },
           {
             "id": 2,
@@ -9513,7 +9524,8 @@
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
-            "milkProduction": 0
+            "milkProduction": 0,
+            "SortOrder": 6
           },
           {
             "id": 5,
@@ -9524,7 +9536,8 @@
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
-            "milkProduction": 0
+            "milkProduction": 0,
+            "SortOrder": 5
           },
           {
             "id": 6,
@@ -9535,7 +9548,8 @@
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
-            "milkProduction": 0
+            "milkProduction": 0,
+            "SortOrder": 4
           },
           {
             "id": 7,
@@ -9546,7 +9560,8 @@
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
-            "milkProduction": 0
+            "milkProduction": 0,
+            "SortOrder": 3
           },
           {
             "id": 8,
@@ -9557,7 +9572,8 @@
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 0,
-            "milkProduction": 0
+            "milkProduction": 0,
+            "SortOrder": 2
           },
           {
             "id": 9,
@@ -9568,7 +9584,8 @@
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
             "includeWashWater": 7.5,
-            "milkProduction": 72.3
+            "milkProduction": 72.3,
+            "SortOrder": 1 
           },
           {
             "id": 10,
@@ -9851,7 +9868,7 @@
           },
           {
             "id": 2,
-            "name": "Manure/Compost",
+            "name": "Manure/ Compost",
             "controller": "ManureManagement",
             "action": "ManureGeneratedObtained"
           },

@@ -12,5 +12,6 @@
         public decimal MilkProduction { get; set; }
         public int AnimalId { get; set; }
         public Animal Animal { get; set; }
+        public int SortOrder { get; set; }
     }
 }

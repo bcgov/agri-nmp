@@ -148,7 +148,6 @@ namespace SERVERAPI
             }
             else
             {
-                //return string.Empty;
                 var server = Environment.GetEnvironmentVariable("pgsqluri");
                 var password = Environment.GetEnvironmentVariable("pgsqlpassword");
                 var username = Environment.GetEnvironmentVariable("pgsqlusername");

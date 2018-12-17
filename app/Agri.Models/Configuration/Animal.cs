@@ -15,6 +15,7 @@ namespace Agri.Models.Configuration
         }
         public int Id { get; set; }
         public string Name { get; set; }
+        public string UseSortOrder { get; set; }
         public List<AnimalSubType> AnimalSubTypes { get; set; }
     }
 }
