@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Version = Agri.Models.Configuration.Version;
@@ -156,5 +157,7 @@ namespace Agri.Interfaces
         ManureImportedDefault GetManureImportedDefault();
         List<SolidMaterialsConversionFactor> GetSolidMaterialsConversionFactors();
         List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors();
+        List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions();
+        List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion();
     }
 }

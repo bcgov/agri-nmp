@@ -115,7 +115,7 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderFields()
         {
-            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
             Utility.SoilTestConversions stc = new SoilTestConversions(_ud, _sd);
             CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
@@ -541,9 +541,9 @@ namespace SERVERAPI.Controllers
                             }
                         }
 
-                        if (m.washWaterGallons != "")
+                        if (m.washWaterGallonsToString != "")
                         {
-                            rs.milkingCenterWashWater = string.Format("{0:#,##0}", m.washWaterGallons);
+                            rs.milkingCenterWashWater = m.washWaterGallonsToString;
                             annualAmountOfManurePerStorage += Convert.ToDecimal(m.washWaterGallons);
                             washWaterAdjustedValue= m.washWater;
                         }

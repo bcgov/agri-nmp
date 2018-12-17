@@ -67,14 +67,14 @@
                                     </button>
                                 </div>
                             </div>
-                            @if (@item.washWaterGallons != "")
+                            @if (@item.washWaterGallons > 0)
                             {
                             <div class="form-box-table-row row row-eq-height">
                                 <div class="col-sm-7 form-box-table-cell">
                                     Milking Centre Wash Water
                                 </div>
                                 <div class="col-sm-3 form-box-table-cell">
-                                    @item.washWaterGallons U.S. gallons
+                                    @item.washWaterGallonsToString U.S. gallons
                                 </div>
                                 <div class="col-sm-2 form-box-table-cell">
                                 </div>

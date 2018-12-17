@@ -9928,21 +9928,21 @@
         "LiquidMaterialsConversionFactor": [
           {
             "Id": 1,
-            "InputUnit": 3,
-            "InputUnitName": "US gallons",
-            "USGallonsOutput": 1
-          },
-          {
-            "Id": 2,
-            "InputUnit": 4,
+            "InputUnit": 1,
             "InputUnitName": "Imp. gallons",
             "USGallonsOutput": 1.20095
           },
           {
-            "Id": 3,
-            "InputUnit": 5,
+            "Id": 2,
+            "InputUnit": 2,
             "InputUnitName": "cubic meters",
             "USGallonsOutput": 264.172
+          },
+          {
+            "Id": 3,
+            "InputUnit": 3,
+            "InputUnitName": "US gallons",
+            "USGallonsOutput": 1
           }
         ]
       },
@@ -9950,15 +9950,15 @@
         "SolidMaterialsConversionFactor": [
           {
             "Id": 1,
-            "InputUnit": 1,
-            "InputUnitName": "cubic yards",
-            "CubicYardsOutput": "1",
-            "CubicMetersOutput": "0.764555",
-            "MetricTonsOutput": "1*density"
+            "InputUnit": 2,
+            "InputUnitName": "cubic meters",
+            "CubicYardsOutput": "1.30795",
+            "CubicMetersOutput": "1",
+            "MetricTonsOutput": "1.30795*density"
           },
           {
             "Id": 2,
-            "InputUnit": 2,
+            "InputUnit": 4,
             "InputUnitName": "tons",
             "CubicYardsOutput": "1/density",
             "CubicMetersOutput": "(1/density)*0.764555",
@@ -9967,18 +9967,68 @@
           {
             "Id": 3,
             "InputUnit": 5,
-            "InputUnitName": "cubic meters",
-            "CubicYardsOutput": "1.30795",
-            "CubicMetersOutput": "1",
-            "MetricTonsOutput": "1.30795*density"
-          },
-          {
-            "Id": 4,
-            "InputUnit": 6,
             "InputUnitName": "tonnes",
             "CubicYardsOutput": "1.10231/density",
             "CubicMetersOutput": "(1.10231/density)*0.764555",
             "MetricTonsOutput": "1.10231"
+          },
+          {
+            "Id": 4,
+            "InputUnit": 6,
+            "InputUnitName": "cubic yards",
+            "CubicYardsOutput": "1",
+            "CubicMetersOutput": "0.764555",
+            "MetricTonsOutput": "1*density"
+          }
+        ]
+      },
+      "SolidMaterialApplicationTonPerAcreRateConversions": {
+        "SolidMaterialApplicationTonPerAcreRateConversion": [
+          {
+            "Id": 1,
+            "ApplicationRateUnit": "2",
+            "ApplicationRateUnitName": "m³/ha",
+            "TonsPerAcreConversion": "1*1.30795*density/2.47105"
+          },
+          {
+            "Id": 2,
+            "ApplicationRateUnit": "4",
+            "ApplicationRateUnitName": "tons/ac",
+            "TonsPerAcreConversion": "1"
+          },
+          {
+            "Id": 3,
+            "ApplicationRateUnit": "5",
+            "ApplicationRateUnitName": "tonnes/ha",
+            "TonsPerAcreConversion": "1*1.10231/2.47105"
+          },
+          {
+            "Id": 4,
+            "ApplicationRateUnit": "6",
+            "ApplicationRateUnitName": "yards3/ac",
+            "TonsPerAcreConversion": "1*density"
+          }
+        ]
+      },
+      "LiquidMaterialApplicationUSGallonsPerAcreRateConversions": {
+        "LiquidMaterialApplicationUSGallonsPerAcreRateConversion": [
+          {
+            "Id": 1,
+            "ApplicationRateUnit": "1",
+            "ApplicationRateUnitName": "Imp. gallons/ac",
+            "USGallonsPerAcreConversion": 1.20095
+          },
+          {
+            "Id": 2,
+            "ApplicationRateUnit": "2",
+            "ApplicationRateUnitName": "m³/ha",
+            "USGallonsPerAcreConversion": 106.9067805184031
+          },
+          {
+            "Id": 3,
+            "ApplicationRateUnit": "3",
+            "ApplicationRateUnitName": "US gallons/ac",
+            "USGallonsPerAcreConversion": 1
           }
         ]
       }
