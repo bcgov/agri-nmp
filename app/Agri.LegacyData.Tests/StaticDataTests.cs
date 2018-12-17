@@ -234,5 +234,41 @@ namespace Agri.LegacyData.Tests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
         }
+
+        [TestMethod]
+        public void GetLiquidMaterialsConversionFactorsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetLiquidMaterialsConversionFactors();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSolidMaterialsConversionFactorsSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSolidMaterialsConversionFactors();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetSolidMaterialApplicationTonPerAcreRateConversionSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetSolidMaterialApplicationTonPerAcreRateConversions();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetLiquidMaterialApplicationUSGallonsPerAcreRateConversionSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
     }
 }

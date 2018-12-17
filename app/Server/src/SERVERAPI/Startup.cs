@@ -8,25 +8,26 @@
  * 
  */
 
-using System;
+using Agri.CalculateService;
+using Agri.Data;
+using Agri.Interfaces;
+using Agri.LegacyData.Models.Impl;
+using Agri.Models.Settings;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http;
-using SERVERAPI.Utility;
 using SERVERAPI.Controllers;
+using SERVERAPI.Utility;
+using System;
 using System.Globalization;
-using Agri.Models.Settings;
-using Agri.Data;
-using Agri.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Agri.LegacyData.Models.Impl;
-using System.IO;
-using System.Data.SqlClient;
+using IManureApplicationCalculator = Agri.Interfaces.IManureApplicationCalculator;
 
 namespace SERVERAPI
 {
@@ -55,10 +56,6 @@ namespace SERVERAPI
             }
 
             Configuration = builder.Build();
-
-            //Console.WriteLine(Environment.GetEnvironmentVariable("pgsqluri") ?? "pgsqluri not found");
-            //Console.WriteLine(Environment.GetEnvironmentVariable("pgsqlpassword") ?? "pgsqlpassword not found");
-            //Console.WriteLine(Environment.GetEnvironmentVariable("pgsqlusername") ?? "pgsqlusername not found");
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -96,6 +93,9 @@ namespace SERVERAPI
             // Enable Node Services
             services.AddNodeServices();
 
+            //Automapper
+            services.AddAutoMapper();
+
             //// Add framework services.
             services.AddMvc()
                 .AddJsonOptions(
@@ -113,8 +113,10 @@ namespace SERVERAPI
             services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
             services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
+            services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
+            services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
+
             services.AddOptions();
-            //services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }

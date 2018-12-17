@@ -1,21 +1,23 @@
 ﻿using Agri.Models.Configuration;
+using System;
 
 namespace Agri.Models.Farm
 {
-    public class GeneratedManure
+    public class GeneratedManure : ManagedManure
     {
-        public int? id { get; set; }
         public int animalId { get; set; }
         public string animalName { get; set; }
         public int animalSubTypeId { get; set; }
         public string animalSubTypeName { get; set; }
         public int averageAnimalNumber { get; set; }
-        public ManureMaterialType manureType { get; set; }
         public string manureTypeName { get; set; }
         public string annualAmount { get; set; }
-        public decimal washWaterGallons { get; set; }
+        public string washWaterGallonsToString => string.Format("{0:#,##0}", washWaterGallons);
+        public decimal washWaterGallons => Math.Round(Convert.ToDecimal(washWater) * Convert.ToInt32(averageAnimalNumber) * 365);
         public decimal washWater { get; set; }
         public decimal milkProduction { get; set; }
-        public bool AssignedToStoredSystem { get; set; }
+        public decimal? solidPerGalPerAnimalPerDay { get; set; }
+        public override string ManureId => $"Generated{Id ?? 0}";
+        public override string ManagedManureName => animalSubTypeName;
     }
 }

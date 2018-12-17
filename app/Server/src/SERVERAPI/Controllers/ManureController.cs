@@ -467,7 +467,7 @@ namespace SERVERAPI.Controllers
         }
         private void ReCalculateManure(int id)
         {
-            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
             List<Field> flds = _ud.GetFields();

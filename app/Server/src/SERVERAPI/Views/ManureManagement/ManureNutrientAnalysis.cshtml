@@ -23,17 +23,15 @@
 <div class="container">
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
-
-        <form asp-controller="ManureManagement" asp-action="ManureNutrientAnalysis" method="post" >
-            <div id="manurenutrientanalysis">
-                @await Component.InvokeAsync("ManureNutrientAnalysis")
+        <form asp-controller="Manure" asp-action="ManureNutrientAnalysis" method="post">
+            <div id="compostmanure">
+                @await Component.InvokeAsync("Compost")
             </div>
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("ManureStorage", "ManureManagement" )';" title="Previous"  aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Fields", "Fields" )';"  title="Next"  aria-label="Next"/>
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("SoilTest", "Soil" )';" title="Previous" aria-label="Previous" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Fields", "Fields" )';" title="Next" aria-label="Next" />
             </div>
         </form>
-        <!-- PAGE CONTENT -->
     </div>
 </div>
 
@@ -81,6 +79,34 @@
                 return false;
             });
         }
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlSourceOfMaterial", function () {
+                $('#buttonPressed').val("SourceOfMaterialChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlMan", function () {
+                $('#buttonPressed').val("ManureChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#lab", function () {
+                $('#buttonPressed').val("TypeChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#book", function () {
+                $('#buttonPressed').val("TypeChange");
+                $("#modForm").submit();
+            })
+        });
 
         $(document).ready(function () {
             $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');

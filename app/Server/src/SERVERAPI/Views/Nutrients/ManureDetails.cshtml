@@ -15,11 +15,11 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-4">
-                        <label asp-for="selManOption">Material Type</label>
-                        <select class="form-control" asp-for="selManOption" asp-items="@(new SelectList(Model.manOptions,"Id","Value"))" id="ddlMan">
+                        <label asp-for="SelectedFarmManure">Material Type</label>
+                        <select class="form-control" asp-for="SelectedFarmManure" asp-items="@(new SelectList(Model.ManureTypeOptions,"Id","Value"))" id="ddlMan">
                             <option>select</option>
                         </select>
-                        <span asp-validation-for="selManOption" class="text-danger"></span>
+                        <span asp-validation-for="SelectedFarmManure" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="selApplOption">Application Season/Method</label>
@@ -28,14 +28,14 @@
                         </select>
                         <span asp-validation-for="selApplOption" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-2">
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px">
                         <label asp-for="selApplOption"> Application Rate</label>
                         <div>
-                            <input class="form-control" asp-for="rate" id="rate" type="text" />
-                            <span asp-validation-for="rate" class="text-danger"></span>
+                            <input class="form-control" asp-for="ApplicationRate" id="rate" type="text" />
+                            <span asp-validation-for="ApplicationRate" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group col-sm-3" style="padding-right:0px">
+                    <div class="form-group col-sm-3" style="margin-left:0px; padding-left:0px">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label>Units</label>
@@ -44,10 +44,6 @@
                                 <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
                                     <option>select</option>
                                 </select>
-                                <br />
-                                <div style="display:inline;">
-                                    <a href="@Model.url" target="_blank">@Model.urlText</a>
-                                </div>
                             </div>
                             <span asp-validation-for="selRateOption" class="text-danger"></span>
                         </div>
@@ -60,11 +56,11 @@
                         <div class="input-group">
                             <input class="form-control" asp-for="nh4" id="nh4" type="text" />
                             @if (!Model.stdN)
-                        {
-                            <span class="input-group-btn" title="Reset to standard value">
-                                <button class="btn btn-default" type="button" id="rstN" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                            </span>
-                    }
+                            {
+                                <span class="input-group-btn" title="Reset to standard value">
+                                    <button class="btn btn-default" type="button" id="rstN" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                </span>
+                            }
                         </div>
                         <span asp-validation-for="nh4" class="text-danger"></span>
                     </div>
@@ -73,11 +69,11 @@
                         <div class="input-group">
                             <input class="form-control col-sm-1" asp-for="avail" id="avail" type="text" />
                             @if (!Model.stdAvail)
-                        {
-                            <span class="input-group-btn" title="Reset to standard value">
-                                <button class="btn btn-default" type="button" id="rstA" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                            </span>
-                    }
+                            {
+                                <span class="input-group-btn" title="Reset to standard value">
+                                    <button class="btn btn-default" type="button" id="rstA" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                </span>
+                            }
                         </div>
                         <span asp-validation-for="avail" class="text-danger"></span>
                     </div>
@@ -143,43 +139,58 @@
             </div>
             <div class="row">
                 <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0" />
-                <div class="form-group col-sm-4" style="margin:5px">
+                <div class="col-sm-4">
+                    @if (Model.ShowMaterialRemaining)
+                    {
+                        <div class="form-group">
+                            <div class="Title">
+                                Material Remaining
+                            </div>
+                            <div class="Cell">
+                                @Model.MaterialRemainingToString
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="form-group col-sm-4" style="margin-left:30px">
                     <div class="Table">
-                        <div class="Title">
-                            <p>Still Required This Year (lb/ac)</p>
-                        </div>
-                        <div class="Heading">
-                            <div class="Cell">
-                                <p>N</p>
+                        <div class="form-group">
+                            <div class="Title">
+                                <p>Still Required This Year (lb/ac)</p>
                             </div>
-                            <div class="Cell">
-                                <p>P<sub>2</sub>O<sub>5</sub></p>
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>N</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
                             </div>
-                            <div class="Cell">
-                                <p>K<sub>2</sub>O</p>
-                            </div>
-                        </div>
-                        <div class="Row">
-                            <div class="Cell2" style="text-align:center">
-                                @if (!string.IsNullOrEmpty(Model.totNIcon))
-                            {
-                                <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText" />
-                        }
-                                @Model.totN
-                            </div>
-                            <div class="Cell2" style="text-align:center">
-                                @if (!string.IsNullOrEmpty(Model.totPIcon))
-                            {
-                                <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
-                        }
-                                @Model.totP2o5
-                            </div>
-                            <div class="Cell2" style="text-align:center">
-                                @if (!string.IsNullOrEmpty(Model.totKIcon))
-                            {
-                                <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
-                        }
-                                @Model.totK2o
+                            <div class="Row">
+                                <div class="Cell" style="text-align:center">
+                                    @if (!string.IsNullOrEmpty(Model.totNIcon))
+                                    {
+                                        <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText" />
+                                    }
+                                    @Model.totN
+                                </div>
+                                <div class="Cell" style="text-align:center">
+                                    @if (!string.IsNullOrEmpty(Model.totPIcon))
+                                    {
+                                        <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
+                                    }
+                                    @Model.totP2o5
+                                </div>
+                                <div class="Cell" style="text-align:center">
+                                    @if (!string.IsNullOrEmpty(Model.totKIcon))
+                                    {
+                                        <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
+                                    }
+                                    @Model.totK2o
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -216,5 +227,7 @@
         @Html.HiddenFor(x => x.totP2o5)
         @Html.HiddenFor(x => x.totPIcon)
         @Html.HiddenFor(x => x.totPIconText)
+        @Html.HiddenFor(x => x.MaterialRemainingWholePercent);
+        @Html.HiddenFor(x => x.MaterialRemainingLabel);
     </form>
 </div>

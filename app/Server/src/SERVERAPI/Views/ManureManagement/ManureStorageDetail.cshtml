@@ -69,20 +69,20 @@
                 <div class="form-group col-sm-3 agri-listbox">
                     <label asp-for="SelectedMaterialsToInclude">Select materials to include</label>
                     <ul class="form-control  agri-listbox" id="SelectedMaterialsToInclude" style="width: 400px">
-                        @if (Model.GeneratedManures != null)
+                        @if (Model.ManagedManures != null)
                         {
-                            for (var index = 0; index < Model.GeneratedManures.Count; index++)
+                            for (var index = 0; index < Model.ManagedManures.Count; index++)
                             {
                                 <li>
-                                    <label asp-for="@Model.GeneratedManures[index]">
-                                        @Html.HiddenFor(m => Model.GeneratedManures[index].Value)
-                                        @Html.HiddenFor(m => Model.GeneratedManures[index].Text)
-                                        <input type="checkbox" asp-for="@Model.GeneratedManures[index].Selected"
+                                    <label asp-for="@Model.ManagedManures[index]">
+                                        @Html.HiddenFor(m => Model.ManagedManures[index].Value)
+                                        @Html.HiddenFor(m => Model.ManagedManures[index].Text)
+                                        <input type="checkbox" asp-for="@Model.ManagedManures[index].Selected"
                                                onchange="SelectedMaterialsToIncludeChanged()"
-                                               disabled="@(Model.DisableSystemFields ? "disabled" : null)" /> @Model.GeneratedManures[index].Text
+                                               disabled="@(Model.DisableSystemFields ? "disabled" : null)" /> @Model.ManagedManures[index].Text
                                             @if (Model.DisableSystemFields)
                                             {
-                                                @Html.HiddenFor(x => Model.GeneratedManures[index].Selected)
+                                                @Html.HiddenFor(x => Model.ManagedManures[index].Selected)
                                             }
                                         </label>
                                     </li>
@@ -96,13 +96,13 @@
             {
                 <div class="form-row row" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
                     <div class="form-group col-sm-3">
-                        <label asp-for="StorageStructureName">Storage Structure Name</label>
+                        <label asp-for="StorageStructureName">Storage Name</label>
                         <input class="form-control" asp-for="StorageStructureName" type="text" id="txtStorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
                         <span asp-validation-for="StorageStructureName" class="text-danger"></span>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <div><label>Is the structure covered?</label></div>
+                            <div><label>Is the storage covered?</label></div>
                             <div>
                                 <label style="padding-right: 20px">
                                     <input asp-for="IsStructureCovered" type="radio" value="true"
@@ -117,7 +117,7 @@
                         @if (!Model.IsStructureCovered)
                         {
                             <div class="form-group">
-                                <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area Of Storage Structure (ft<sup>2</sup>)</label>
+                                <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
                                 <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure" />
                                 <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
                             </div>
