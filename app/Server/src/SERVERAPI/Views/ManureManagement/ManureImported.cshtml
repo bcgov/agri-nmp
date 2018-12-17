@@ -129,6 +129,13 @@
 
 
         $(document).ready(function () {
+            $("body").on("change", "#txtMaterialName", function () {
+                $('#ButtonPressed').val("MaterialNameChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
             $("body").on("change", "#ddlManureMaterialType", function () {
                 $('#ButtonPressed').val("ManureMaterialTypeChange");
                 $("#modForm").submit();
@@ -138,6 +145,13 @@
         $(document).ready(function () {
             $("body").on("change", "#ddlSelectedMaterialsToInclude", function () {
                 $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#rbIsMaterialStoredYes", function () {
+                $('#ButtonPressed').val("IsMaterialStoredChange");
                 $("#modForm").submit();
             })
         });
@@ -169,6 +183,6 @@
             $("#ok_button").css('background-color', '#1abbed');
             $("#btnText").val("Save");
         }
-
+        
     </script>
 }

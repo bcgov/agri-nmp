@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Agri.Interfaces;
+using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -1097,6 +1098,25 @@ namespace Agri.Data
         public ManureImportedDefault GetManureImportedDefault()
         {
             return _context.ManureImportedDefaults.First();
+        }
+
+        public List<SolidMaterialsConversionFactor> GetSolidMaterialsConversionFactors()
+        {
+            return _context.SolidMaterialsConversionFactors.ToList();
+        }
+
+        public List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors()
+        {
+            return _context.LiquidMaterialsConversionFactors.ToList();
+        }
+        public List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
+        {
+            throw new NotImplementedException();
         }
 
         private string ParseStdUnit(string stdUnit)

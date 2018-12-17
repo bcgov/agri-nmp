@@ -115,7 +115,7 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderFields()
         {
-            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
             Utility.SoilTestConversions stc = new SoilTestConversions(_ud, _sd);
             CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
@@ -522,9 +522,9 @@ namespace SERVERAPI.Controllers
                     rs.units ="tons";
                 }
 
-                if (s.MaterialsIncludedInSystem != null)
+                if (s.GeneratedManuresIncludedInSystem != null)
                 {
-                    foreach (var m in s.MaterialsIncludedInSystem)
+                    foreach (var m in s.GeneratedManuresIncludedInSystem)
                     {
                         rs.animalManure = m.animalSubTypeName + "," + m.averageAnimalNumber + " animals";
                         rs.annualAmount = string.Format("{0:#,##0}", m.annualAmount.Split(' ')[0]);
@@ -541,10 +541,10 @@ namespace SERVERAPI.Controllers
                             }
                         }
 
-                        if (m.washWaterGallons != 0)
+                        if (m.washWaterGallonsToString != "")
                         {
-                            rs.milkingCenterWashWater = string.Format("{0:#,##0}", m.washWaterGallons);
-                            annualAmountOfManurePerStorage += m.washWaterGallons;
+                            rs.milkingCenterWashWater = m.washWaterGallonsToString;
+                            annualAmountOfManurePerStorage += Convert.ToDecimal(m.washWaterGallons);
                             washWaterAdjustedValue= m.washWater;
                         }
 
@@ -716,6 +716,7 @@ namespace SERVERAPI.Controllers
             rvm.nitratePresent = false;
 
             rvm.details = new List<ReportAnalysisDetail>();
+            rvm.footnotes = new List<ReportFieldFootnote>();
 
             List<FarmManure> manures = _ud.GetFarmManures();
 
@@ -723,18 +724,30 @@ namespace SERVERAPI.Controllers
             {
                 ReportAnalysisDetail rd = new ReportAnalysisDetail();
 
+                rd.sourceOfMaterialName = m.sourceOfMaterialName;
                 rd.manureName = m.name;
                 rd.moisture = m.moisture.ToString();
                 rd.ammonia = m.ammonia.ToString("#0");
                 rd.nitrogen = m.nitrogen.ToString("#0.00");
                 rd.phosphorous = m.phosphorous.ToString("#0.00");
                 rd.potassium = m.potassium.ToString("#0.00");
-                rd.nitrate = m.nitrate.HasValue ? m.nitrate.Value.ToString("#0"): "n/a";
+                rd.nitrate = (m.nitrate.HasValue && m.nitrate >0) ? m.nitrate.Value.ToString("#0"): "n/a";
+                rd.isAssignedToStorage = m.IsAssignedToStorage;
 
-                if(m.nitrate.HasValue)
+                if (m.nitrate.HasValue && m.nitrate > 0)
                 {
                     rvm.nitratePresent = true;
                 }
+
+                if (m.IsAssignedToStorage == false)
+                {
+                    ReportFieldFootnote rff = new ReportFieldFootnote();
+                    rff.id = rvm.footnotes.Count() + 1;
+                    rff.message = rd.sourceOfMaterialName +" includes materials that have not been allocted to a storage";
+                    rd.footnote = rff.id.ToString();
+                    rvm.footnotes.Add(rff);
+                }
+
                 rvm.details.Add(rd);
             }
 

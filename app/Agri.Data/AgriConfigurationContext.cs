@@ -33,6 +33,7 @@ namespace Agri.Data
         public DbSet<FertilizerUnit> FertilizerUnits { get; set; }
         public DbSet<HarvestUnit> HarvestUnits { get; set; }
         public DbSet<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
+        public DbSet<LiquidMaterialsConversionFactor> LiquidMaterialsConversionFactors { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<MainMenu> MainMenus { get; set; }
         public DbSet<ManureImportedDefault> ManureImportedDefaults { get; set; }
@@ -57,6 +58,7 @@ namespace Agri.Data
         public DbSet<SoilTestPhosphorousKelownaRange> SoilTestPhosphorousKelownaRanges { get; set; }
         public DbSet<PotassiumSoilTestRange> PotassiumSoilTestRanges { get; set; }
         public DbSet<PhosphorusSoilTestRange> PhosphorusSoilTestRanges { get; set; }
+        public DbSet<SolidMaterialsConversionFactor> SolidMaterialsConversionFactors { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<UserPrompt> UserPrompts { get; set; }
         public DbSet<Version> Versions { get; set; }

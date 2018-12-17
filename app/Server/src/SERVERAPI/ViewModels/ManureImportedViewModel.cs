@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 
 namespace SERVERAPI.ViewModels

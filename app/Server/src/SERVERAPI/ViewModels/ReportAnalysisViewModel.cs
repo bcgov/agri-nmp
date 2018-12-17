@@ -6,5 +6,7 @@ namespace SERVERAPI.ViewModels
     {
         public bool nitratePresent { get; set; }
         public List<ReportAnalysisDetail> details { get; set; }
+        public List<ReportFieldFootnote> footnotes { get; set; }
+
     }
 }

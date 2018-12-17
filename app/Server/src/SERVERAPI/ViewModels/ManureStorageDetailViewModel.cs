@@ -16,22 +16,22 @@ namespace SERVERAPI.ViewModels
         public ManureMaterialType SelectedManureMaterialType { get; set; }
 
         [Required(ErrorMessage = "Required")]
-        public List<int> SelectedMaterialsToInclude
+        public List<string> SelectedMaterialsToInclude
         {
             get
             {
-                if (GeneratedManures != null && GeneratedManures.Any())
+                if (ManagedManures != null && ManagedManures.Any())
                 {
-                    return GeneratedManures.Where(m => m.Selected).Select(gm => Convert.ToInt32(gm.Value)).ToList();
+                    return ManagedManures.Where(m => m.Selected).Select(gm => gm.Value).ToList();
                 }
-                return new List<int>();
+                return new List<string>();
             }
         }
 
         [Required(ErrorMessage = "Required")]
         public string SystemName { get; set; }
         public int? SystemId { get; set; }
-        public List<SelectListItem> GeneratedManures { get; set; }
+        public List<SelectListItem> ManagedManures { get; set; }
         public bool GetsRunoffFromRoofsOrYards { get; set; }
         public int? RunoffAreaSquareFeet { get; set; }
         public int? StorageStructureId { get; set; }

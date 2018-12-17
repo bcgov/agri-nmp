@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Agri.Interfaces;
+using Agri.Models;
 using Agri.Models.Configuration;
 using Newtonsoft.Json.Linq;
 
@@ -485,6 +486,8 @@ namespace Agri.LegacyData.Models.Impl
                 dms.Add(dm);
             }
 
+            ;
+
             return dms;
         }
 
@@ -492,7 +495,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             var mainMenus = new List<MainMenu>();
 
-            JArray array = (JArray)rss["agri"]["nmp"]["mainMenus"]["mainMenu"];
+            JArray array = (JArray) rss["agri"]["nmp"]["mainMenus"]["mainMenu"];
             foreach (var record in array)
             {
                 var mainMenu = new MainMenu
@@ -512,7 +515,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             var subMenus = new List<SubMenu>();
 
-            JArray array = (JArray)rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
+            JArray array = (JArray) rss["agri"]["nmp"]["animalSubTypes"]["animalSubType"];
             foreach (var record in array)
             {
                 if (Convert.ToUInt32(record["mainMenuId"].ToString()) == mainMenuId)
@@ -539,7 +542,7 @@ namespace Agri.LegacyData.Models.Impl
             foreach (var r in mainMenus)
             {
                 var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                    {Id = r.Id, Value = r.Name};
                 mainMenuOptions.Add(li);
             }
 
@@ -550,7 +553,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             var subMenus = new List<SubMenu>();
 
-            JArray array = (JArray)rss["agri"]["nmp"]["subMenus"]["subMenu"];
+            JArray array = (JArray) rss["agri"]["nmp"]["subMenus"]["subMenu"];
             foreach (var record in array)
             {
                 var subMenu = new SubMenu()
@@ -584,7 +587,7 @@ namespace Agri.LegacyData.Models.Impl
                 //    subMenuoptions.Add(li);
                 //}
                 var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
+                    {Id = r.Id, Value = r.Name};
                 subMenuoptions.Add(li);
             }
 
@@ -669,6 +672,88 @@ namespace Agri.LegacyData.Models.Impl
             };
 
             return importedDefault;
+        }
+
+        public List<SolidMaterialsConversionFactor> GetSolidMaterialsConversionFactors()
+        {
+            var conversionFactors = new List<SolidMaterialsConversionFactor>();
+
+            var array = (JArray)rss["agri"]["nmp"]["SolidMaterialsConversionFactors"]["SolidMaterialsConversionFactor"];
+            foreach (var record in array)
+            {
+                var conversionFactor = new SolidMaterialsConversionFactor()
+                {
+                    Id = Convert.ToInt32(record["Id"].ToString()),
+                    InputUnit =  (AnnualAmountUnits)Convert.ToInt32(record["InputUnit"].ToString()),
+                    InputUnitName = record["InputUnitName"].ToString(),
+                    CubicYardsOutput = record["CubicYardsOutput"].ToString(),
+                    CubicMetersOutput = record["CubicMetersOutput"].ToString(),
+                    MetricTonsOutput = record["MetricTonsOutput"].ToString()
+                };
+                conversionFactors.Add(conversionFactor);
+            }
+
+            return conversionFactors;
+        }
+
+        public List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors()
+        {
+            var conversionFactors = new List<LiquidMaterialsConversionFactor>();
+
+            var array = (JArray)rss["agri"]["nmp"]["LiquidMaterialsConversionFactors"]["LiquidMaterialsConversionFactor"];
+            foreach (var record in array)
+            {
+                var conversionFactor = new LiquidMaterialsConversionFactor()
+                {
+                    Id = Convert.ToInt32(record["Id"].ToString()),
+                    InputUnit = (AnnualAmountUnits)Convert.ToInt32(record["InputUnit"].ToString()),
+                    InputUnitName = record["InputUnitName"].ToString(),
+                    USGallonsOutput = Convert.ToDecimal(record["USGallonsOutput"].ToString())
+                };
+                conversionFactors.Add(conversionFactor);
+            }
+
+            return conversionFactors;
+        }
+
+        public List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions()
+        {
+            var conversionFactors = new List<SolidMaterialApplicationTonPerAcreRateConversion>();
+            var array = (JArray)rss["agri"]["nmp"]["SolidMaterialApplicationTonPerAcreRateConversions"]["SolidMaterialApplicationTonPerAcreRateConversion"];
+
+            foreach (var record in array)
+            {
+                var conversionFactor = new SolidMaterialApplicationTonPerAcreRateConversion
+                {
+                    Id = Convert.ToInt32(record["Id"].ToString()),
+                    ApplicationRateUnit = (ApplicationRateUnits)Convert.ToInt32(record["ApplicationRateUnit"].ToString()),
+                    ApplicationRateUnitName = record["ApplicationRateUnitName"].ToString(),
+                    TonsPerAcreConversion = record["TonsPerAcreConversion"].ToString(),
+                };
+                conversionFactors.Add(conversionFactor);
+            }
+
+            return conversionFactors;
+        }
+
+        public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
+        {
+            var conversionFactors = new List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>();
+            var array = (JArray)rss["agri"]["nmp"]["LiquidMaterialApplicationUSGallonsPerAcreRateConversions"]["LiquidMaterialApplicationUSGallonsPerAcreRateConversion"];
+
+            foreach (var record in array)
+            {
+                var conversionFactor = new LiquidMaterialApplicationUSGallonsPerAcreRateConversion
+                {
+                    Id = Convert.ToInt32(record["Id"].ToString()),
+                    ApplicationRateUnit = (ApplicationRateUnits)Convert.ToInt32(record["ApplicationRateUnit"].ToString()),
+                    ApplicationRateUnitName = record["ApplicationRateUnitName"].ToString(),
+                    USGallonsPerAcreConversion = Convert.ToDecimal(record["USGallonsPerAcreConversion"].ToString()),
+                };
+                conversionFactors.Add(conversionFactor);
+            }
+
+            return conversionFactors;
         }
     }
 }

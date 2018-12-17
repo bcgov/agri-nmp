@@ -8,6 +8,7 @@
  * 
  */
 
+using Agri.CalculateService;
 using Agri.Data;
 using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
@@ -26,6 +27,7 @@ using SERVERAPI.Controllers;
 using SERVERAPI.Utility;
 using System;
 using System.Globalization;
+using IManureApplicationCalculator = Agri.Interfaces.IManureApplicationCalculator;
 
 namespace SERVERAPI
 {
@@ -110,8 +112,10 @@ namespace SERVERAPI
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
             services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
+            services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
+            services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
+
             services.AddOptions();
-            //services.AddAutoMapper(typeof(Startup).Assembly);
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }

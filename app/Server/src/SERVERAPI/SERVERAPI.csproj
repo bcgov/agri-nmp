@@ -67,6 +67,7 @@
     <None Include="Views\Home\temp.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Agri.CalculateService\Agri.CalculateService.csproj" />
     <ProjectReference Include="..\..\..\Agri.Data\Agri.Data.csproj" />
     <ProjectReference Include="..\..\..\Agri.Interfaces\Agri.Interfaces.csproj" />
     <ProjectReference Include="..\..\..\Agri.Models\Agri.Models.csproj" />

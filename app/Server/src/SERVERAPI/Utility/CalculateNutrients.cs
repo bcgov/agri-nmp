@@ -13,13 +13,11 @@ namespace SERVERAPI.Utility
 {
     public class CalculateNutrients
     {
-        private IHostingEnvironment _env;
         private UserData _ud;
         private IAgriConfigurationRepository _sd;
 
-        public CalculateNutrients(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
+        public CalculateNutrients(UserData ud, IAgriConfigurationRepository sd)
         {
-            _env = env;
             _ud = ud;
             _sd = sd;
         }

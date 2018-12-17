@@ -1,93 +1,136 @@
 ﻿@model SERVERAPI.ViewModels.ManureStorageViewModel
 
 <div>
-    <div class="form-box">
-        <div class="form-box-header clearfix">
-            <legend class="form-box-heading">Storage</legend>
-        </div>
-        <div class="form-box-body">
-            <div class="row">
-                <div class="col-sm-8" >
-                    @if (Model.ManureStorageSystems != null)
-                    {
-                        @foreach (var storageSystem in Model.ManureStorageSystems)
-                         {
-                             <div style="padding-top: 15px; margin-bottom: 5px;border: 1px solid #CCCCCC">
-                                 <div class="row">
-                                     <div class="col-sm-5">@storageSystem.Name</div>
-                                     <div class="text-right">
-                                         <button title="Edit" aria-label="Edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {id = storageSystem.Id, mode = "editSystem", target = "#manurestorage"})">
-                                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
-                                         </button>
-                                         <button title="Delete" aria-label="Delete" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureStorageDelete", "ManureManagement", new {id = storageSystem.Id, target = "#manurestorage"})">
-                                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
-                                         </button>
-                                     </div>
-                                 </div>
-                                 <div class="tree">
-                                     <ul>
-                                         @foreach (var structure in storageSystem.ManureStorageStructures)
-                                         {
-                                             <li>
-                                                 <div class="row">
-                                                     <div class="col-sm-4 col-sm-offset-1">
-                                                         @structure.Name
-                                                     </div>
-                                                     <div class="text-right">
-                                                         <button title="Edit" aria-label="Edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {id = storageSystem.Id, mode = "editStructure", structureId = structure.Id, target = "#manurestorage"})">
-                                                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
-                                                         </button>
-                                                         <button title="Delete" aria-label="Delete" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureStorageDelete", "ManureManagement", new {id = storageSystem.Id, structureId = structure.Id, target = "#manurestorage"})">
-                                                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
-                                                         </button>
-                                                     </div>
-                                                 </div><!--end of structure-->
-                                             </li>
-                                         }
-                                         <li>
-                                             <div class="row">
-                                                 <div class="col-sm-8 col-sm-offset-1">
-                                                     <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {id = storageSystem.Id, mode = "addStructure", target = "#manurestorage"})" >Add a Storage to this System</button>
-                                                 </div>
-                                             </div>
-                                         </li>
-                                     </ul>
-                                 </div>
-                             </div>
-                         }
-
-                    }
-                </div>
-                <div class="col-sm-4">
-                    @if (Model.GeneratedManures.Any(gm => !gm.AssignedToStoredSystem))
-                    {
-                        <div>
-                            <b>Materials Needing Storage</b>
-                            <a href="#" data-toggle="tooltip" title="@Model.ExplainMaterialsNeedingStorageMessage" id="toolTipExplainMaterialsNeedingStorage">
-                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Materials to be Stored" style="font-size:20px; padding-top:5px"></span>
-                            </a>
-                        </div>
-                    }
-                    @foreach (var generatedManure in Model.GeneratedManures.Where(gm => !gm.AssignedToStoredSystem))
-                    {
-                        <div class="form-row">
-                            @generatedManure.animalSubTypeName
-                        </div>
-                    }
-                </div>
+    @if (Model.ManureStorageSystems.Count == 0)
+    {
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <legend class="form-box-heading">Storage</legend>
             </div>
-            <div class="form-box-table-add  form-box-table-row row">
-                <div class="col-sm-12  @(Model.ManureStorageSystems.Any() ? "" : "text-center" )">
-                    <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {mode = "addSystem", target = "#manurestorage"})"  @(Model.DisableAddStorageSystemButton ? "disabled" : string.Empty)>Add Storage System</button>
+            <div class="form-box-body">
+                <div class="form-box-table">
+                    <div class="form-box-table-row form-box-table-header row row-eq-height">
+                        <div class="col-sm-12 form-box-table-cell"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                    </div>
+                    <div class="col-sm-4">
+                        @if (Model.AnyUnallocatedManures)
+                        {
+                            <div>
+                                <b>Materials Needing Storage</b>
+                                <a href="#" data-toggle="tooltip" title="@Model.ExplainMaterialsNeedingStorageMessage" id="toolTipExplainMaterialsNeedingStorage">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Materials to be Stored" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                        }
+                        @foreach (var manure in Model.UnallocatedManureNames)
+                        {
+                            <div class="form-row">
+                                @manure
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-box-table-first text-center">
+                        <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {mode = "addSystem", target = "#manurestorage"})" @(Model.DisableAddStorageSystemButton ? "disabled" : string.Empty)>Add Storage System</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
+    @if (Model.ManureStorageSystems.Count > 0)
+    {
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <legend class="form-box-heading">Storage</legend>
+            </div>
+            <div class="form-box-body">
+                <div class="row">
+                    <div class="col-sm-8">
+                        @if (Model.ManureStorageSystems != null)
+                        {
+                            @foreach (var storageSystem in Model.ManureStorageSystems)
+                            {
+                                <div style="padding-top: 15px; margin-bottom: 5px;border: 1px solid #CCCCCC">
+                                    <div class="row">
+                                        <div class="col-sm-5">@storageSystem.Name</div>
+                                        <div class="text-right">
+                                            <button title="Edit Storage System" aria-label="Edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {id = storageSystem.Id, mode = "editSystem", target = "#manurestorage"})">
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
+                                            </button>
+                                            <button title="Delete Storage System" aria-label="Delete" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureStorageDelete", "ManureManagement", new {id = storageSystem.Id, target = "#manurestorage"})">
+                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="tree">
+                                        <ul>
+                                            @foreach (var structure in storageSystem.ManureStorageStructures)
+                                            {
+                                                <li>
+                                                    <div class="row">
+                                                        <div class="col-sm-4 col-sm-offset-1">
+                                                            @structure.Name
+                                                        </div>
+                                                        <div class="text-right">
+                                                            <button title="Edit Storage" aria-label="Edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {id = storageSystem.Id, mode = "editStructure", structureId = structure.Id, target = "#manurestorage"})">
+                                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
+                                                            </button>
+                                                            <button title="Delete Storage" aria-label="Delete" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("ManureStorageDelete", "ManureManagement", new {id = storageSystem.Id, structureId = structure.Id, target = "#manurestorage"})">
+                                                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
+                                                            </button>
+                                                        </div>
+                                                    </div><!--end of structure-->
+                                                </li>
+                                            }
+                                            <li>
+                                                <div class="row">
+                                                    <div class="col-sm-8 col-sm-offset-1">
+                                                        <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {id = storageSystem.Id, mode = "addStructure", target = "#manurestorage"})">Add a Storage to this System</button>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="col-sm-4">
+                        @if (Model.AnyUnallocatedManures)
+                        {
+                            <div>
+                                <b>Materials Needing Storage</b>
+                                <a href="#" data-toggle="tooltip" title="@Model.ExplainMaterialsNeedingStorageMessage" id="toolTipExplainMaterialsNeedingStorage">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Materials to be Stored" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                        }
+                        @foreach (var manure in Model.UnallocatedManureNames)
+                        {
+                            <div class="form-row">
+                                @manure
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="form-box-table-add  form-box-table-row row text-right">
+                    <div class="col-sm-12  @(Model.ManureStorageSystems.Any() ? "" : "text-center")">
+                        <button class="btn btn-default" type="button" style="margin:0px 277px" data_modal="" data-type="@Url.Action("ManureStorageDetail", "ManureManagement", new {mode = "addSystem", target = "#manurestorage"})" @(Model.DisableAddStorageSystemButton ? "disabled" : string.Empty)>Add Storage System</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
-<script  type="text/javascript">
+<script type="text/javascript">
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#toolTipExplainMaterialsNeedingStorage').tooltip({
             template: toolTipClickableInnerHtml,
             html: true,
@@ -97,7 +140,7 @@
 
     //Using triggerToolTip function from ~/lib/site.js
     $(document).ready(function () {
-        $('#toolTipExplainMaterialsNeedingStorage').click(function() {
+        $('#toolTipExplainMaterialsNeedingStorage').click(function () {
             triggerToolTip($('#toolTipExplainMaterialsNeedingStorage'));
         });
     })
