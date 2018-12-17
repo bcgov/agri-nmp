@@ -1,11 +1,8 @@
-﻿using SERVERAPI.Models;
+﻿using Agri.Interfaces;
+using Agri.Models.Farm;
 using SERVERAPI.Models.Impl;
 using System;
 using System.Collections.Generic;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using static SERVERAPI.Models.StaticData;
-using Agri.Models.Configuration;
 using SoilTestMethod = Agri.Models.Configuration.SoilTestMethod;
 
 namespace SERVERAPI.Utility

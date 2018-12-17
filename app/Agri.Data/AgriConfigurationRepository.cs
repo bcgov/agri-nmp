@@ -16,6 +16,13 @@ namespace Agri.Data
     {
         private AgriConfigurationContext _context;
 
+        private const string MANURE_CLASS_COMPOST = "Compost";
+        private const string MANURE_CLASS_COMPOST_BOOK = "Compost_Book";
+        private const string MANURE_CLASS_OTHER = "Other";
+        private const int CROPTYPE_GRAINS_OILSEEDS_ID = 4;
+        private const int CROP_YIELD_DEFAULT_CALCULATION_UNIT = 1;
+        private const int CROP_YIELD_DEFAULT_DISPLAY_UNIT = 2;
+
         public AgriConfigurationRepository(AgriConfigurationContext context)
         {
             _context = context;
@@ -62,7 +69,7 @@ namespace Agri.Data
 
         public AnimalSubType GetAnimalSubType(int id)
         {
-            throw new NotImplementedException();
+            return GetAnimalSubTypes().SingleOrDefault(ast => ast.Id == id);
         }
 
         public List<AnimalSubType> GetAnimalSubTypes(int animalId)
@@ -74,45 +81,60 @@ namespace Agri.Data
 
         public List<AnimalSubType> GetAnimalSubTypes()
         {
-            throw new NotImplementedException();
-            //return GetAnimals().Select(a => a.AnimalSubTypes).ToList();
+            return GetAnimals().SelectMany(a => a.AnimalSubTypes).ToList();
         }
 
         public List<SelectListItem> GetAnimalTypesDll()
         {
-            throw new NotImplementedException();
+            return GetAnimals().Select(st => new SelectListItem {Id = st.Id, Value = st.Name}).ToList();
         }
 
         public SeasonApplication GetApplication(string applId)
         {
-            throw new NotImplementedException();
+            return GetApplications().SingleOrDefault(a => a.Id == Convert.ToInt32(applId));
         }
 
         public List<SeasonApplication> GetApplications()
         {
-            throw new NotImplementedException();
+            return _context.SeasonApplications.ToList();
         }
 
         public List<SelectListItem> GetApplicationsDll(string manureType)
         {
-            throw new NotImplementedException();
+            var appls = GetApplications();
+
+            appls = appls.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
+
+            List<SelectListItem> applsOptions = new List<SelectListItem>();
+
+            foreach (var r in appls)
+            {
+                if (r.ManureType.Contains(manureType))
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.Name };
+                    applsOptions.Add(li);
+                }
+            }
+
+            return applsOptions;
         }
 
         public BCSampleDateForNitrateCredit GetBCSampleDateForNitrateCredit()
         {
-            throw new NotImplementedException();
+            return _context.BCSampleDateForNitrateCredit.FirstOrDefault();
         }
 
         public ConversionFactor GetConversionFactor()
         {
-            throw new NotImplementedException();
+            return _context.ConversionFactors.FirstOrDefault();
         }
 
         public Crop GetCrop(int cropId)
         {
             return _context.Crops
                 .Where(c => c.Id == cropId)
-                .Include(c => GetCropYields())
+                .Include(c => c.CropYields)
                 .Include(c => c.CropSoilTestPhosphorousRegions)
                 .Include(c => c.CropSoilTestPotassiumRegions)
                     .SingleOrDefault();
@@ -120,593 +142,983 @@ namespace Agri.Data
 
         public List<SelectListItem> GetCropHarvestUnitsDll()
         {
-            throw new NotImplementedException();
+            var harvestUnits = _context.HarvestUnits.ToList();
+
+            var harvestUnitsOptions = new List<SelectListItem>();
+            foreach (var r in harvestUnits)
+            {
+                var li = new SelectListItem{ Id = r.Id, Value = r.Name };
+                harvestUnitsOptions.Add(li);
+            }
+
+            return harvestUnitsOptions;
         }
 
         public int GetCropPrevYearManureApplVolCatCd(int cropId)
         {
-            throw new NotImplementedException();
+            return GetCrops().SingleOrDefault(c => c.Id == cropId).ManureApplicationHistory;
         }
 
         public List<Crop> GetCrops()
         {
-            throw new NotImplementedException();
+            return _context.Crops
+                .Include(c => c.CropYields)
+                .Include(c => c.CropSoilTestPhosphorousRegions)
+                .Include(c => c.CropSoilTestPotassiumRegions)
+                .Include(c => c.PreviousCropTypes)
+                .ToList();
         }
 
         public List<Crop> GetCrops(int cropType)
         {
-            throw new NotImplementedException();
+            return GetCrops().Where(c => c.CropTypeId == cropType).ToList();
         }
 
         public List<SelectListItem> GetCropsDll(int cropType)
         {
-            throw new NotImplementedException();
+            var crops = GetCrops();
+
+            crops = crops.OrderBy(n => n.SortNumber).ThenBy(n => n.CropName).ToList();
+
+            List<SelectListItem> cropsOptions = new List<SelectListItem>();
+
+            foreach (var r in crops)
+            {
+                if (r.CropTypeId == cropType)
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.CropName };
+                    cropsOptions.Add(li);
+                }
+            }
+
+            return cropsOptions;
         }
 
         public List<CropSoilTestPhosphorousRegion> GetCropSoilTestPhosphorousRegions()
         {
-            throw new NotImplementedException();
+            return _context.CropSoilTestPhosphorousRegions.ToList();
         }
 
         public List<CropSoilTestPotassiumRegion> GetCropSoilTestPotassiumRegions()
         {
-            throw new NotImplementedException();
+            return _context.CropSoilTestPotassiumRegions.ToList();
         }
 
-        public CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soil_test_potassium_region_cd)
+        public CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropId, int soilTestPotassiumRegionCode)
         {
-            throw new NotImplementedException();
+            return GetCropSoilTestPotassiumRegions()
+                .Where(p => p.CropId == cropId && p.SoilTestPotassiumRegionCode == soilTestPotassiumRegionCode)
+                .SingleOrDefault();
         }
 
-        public CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropid, int soil_test_phosphorous_region_cd)
+        public CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropId, int soilTestPhosphorousRegionCode)
         {
-            throw new NotImplementedException();
+            return GetCropSoilTestPhosphorousRegions()
+                .Where(p => p.CropId == cropId && p.SoilTestPhosphorousRegionCode == soilTestPhosphorousRegionCode)
+                .SingleOrDefault();
         }
 
         public CropType GetCropType(int id)
         {
-            throw new NotImplementedException();
+            return GetCropTypes().SingleOrDefault(c => c.Id == id);
         }
 
         public List<CropType> GetCropTypes()
         {
-            throw new NotImplementedException();
+            return _context.CropTypes.ToList();
         }
 
         public List<SelectListItem> GetCropTypesDll()
         {
-            throw new NotImplementedException();
+            var types = GetCropTypes();
+
+            List<SelectListItem> typesOptions = new List<SelectListItem>();
+
+            foreach (var r in types)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                typesOptions.Add(li);
+            }
+
+            return typesOptions;
         }
 
-        public CropYield GetCropYield(int cropid, int locationid)
+        public CropYield GetCropYield(int cropId, int locationId)
         {
-            throw new NotImplementedException();
+            return GetCropYields().SingleOrDefault(cy => cy.CropId == cropId && cy.LocationId == locationId);
         }
 
         public List<CropYield> GetCropYields()
         {
-            throw new NotImplementedException();
+            return _context.CropYields.ToList();
         }
 
         public DefaultSoilTest GetDefaultSoilTest()
         {
-            throw new NotImplementedException();
+            return _context.DefaultSoilTests.FirstOrDefault();
         }
 
         public string GetDefaultSoilTestMethod()
         {
-            throw new NotImplementedException();
+            return GetDefaultSoilTest().DefaultSoilTestMethodId;
         }
 
         public DensityUnit GetDensityUnit(int Id)
         {
-            throw new NotImplementedException();
+            return GetDensityUnits().SingleOrDefault(du => du.Id == Id);
         }
 
         public List<DensityUnit> GetDensityUnits()
         {
-            throw new NotImplementedException();
+            return _context.DensityUnits.ToList();
         }
 
         public List<SelectListItem> GetDensityUnitsDll()
         {
-            throw new NotImplementedException();
+            var units = GetDensityUnits();
+
+            List<SelectListItem> unitsOptions = new List<SelectListItem>();
+
+            foreach (var r in units)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                unitsOptions.Add(li);
+            }
+
+            return unitsOptions;
+        }
+
+        public AnimalsUsingWashWater GetAnimalsUsingWashWater()
+        {
+            var animalsUsingWashWater = new AnimalsUsingWashWater();
+            animalsUsingWashWater.Animals = new List<AnimalUsingWashWater>();
+
+            foreach (var animalSubType in GetAnimalSubTypes().Where(ast => ast.WashWater > 0))
+            {
+                animalsUsingWashWater.Animals.Add(new AnimalUsingWashWater {AnimalSubTypeId = animalSubType.Id});
+            }
+
+            return animalsUsingWashWater;
         }
 
         public bool DoesAnimalUseWashWater(int animalSubTypeId)
         {
-            throw new NotImplementedException();
+            return GetAnimalsUsingWashWater().Animals.Any(a => a.AnimalSubTypeId == animalSubTypeId);
         }
 
         public DryMatter GetDryMatter(int ID)
         {
-            throw new NotImplementedException();
+            return GetDryMatters().SingleOrDefault(dm => dm.Id == ID);
         }
 
         public List<DryMatter> GetDryMatters()
         {
-            throw new NotImplementedException();
+            return _context.DryMatters.ToList();
         }
 
         public string GetExternalLink(string name)
         {
-            throw new NotImplementedException();
+            return GetExternalLinks()
+                .Where(el => el.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                .SingleOrDefault().Url;
         }
 
         public List<ExternalLink> GetExternalLinks()
         {
-            throw new NotImplementedException();
+            return _context.ExternalLinks.ToList();
         }
 
         public Fertilizer GetFertilizer(string id)
         {
-            throw new NotImplementedException();
+            return GetFertilizers().SingleOrDefault(f => f.Id == Convert.ToInt32(id));
         }
 
         public FertilizerMethod GetFertilizerMethod(string id)
         {
-            throw new NotImplementedException();
+            return GetFertilizerMethods().SingleOrDefault(fm => fm.Id == Convert.ToInt32(id));
         }
 
         public List<FertilizerMethod> GetFertilizerMethods()
         {
-            throw new NotImplementedException();
+            return _context.FertilizerMethods.ToList();
         }
 
         public List<SelectListItem> GetFertilizerMethodsDll()
         {
-            throw new NotImplementedException();
+            var fertilizerMethods = GetFertilizerMethods();
+            List<SelectListItem> fertilizerMethodOptions = new List<SelectListItem>();
+            foreach (var r in fertilizerMethods)
+            {
+                SelectListItem li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                fertilizerMethodOptions.Add(li);
+            }
+
+            return fertilizerMethodOptions;
         }
 
         public string GetFertilizerRptStdUnit(string dryLiquid)
         {
-            throw new NotImplementedException();
+            string stdUnit = string.Empty;
+
+            if (dryLiquid.Equals("dry", StringComparison.CurrentCultureIgnoreCase))
+            {
+                stdUnit = GetFertilizerUnit(Convert.ToInt16(_context.RptCompletedFertilizerRequiredStdUnits.FirstOrDefault().SolidUnitId)).Name;
+            }
+            else
+            {
+                stdUnit = GetFertilizerUnit(Convert.ToInt16(_context.RptCompletedFertilizerRequiredStdUnits.FirstOrDefault().LiquidUnitId)).Name;
+            }
+
+            return ParseStdUnit(stdUnit);
         }
 
         public List<Fertilizer> GetFertilizers()
         {
-            throw new NotImplementedException();
+            return _context.Fertilizers.ToList();
         }
 
         public List<SelectListItem> GetFertilizersDll(string fertilizerType)
         {
-            throw new NotImplementedException();
+            var types = GetFertilizers();
+
+            types = types.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
+
+            List<SelectListItem> typesOptions = new List<SelectListItem>();
+
+            foreach (var r in types)
+            {
+                if (r.DryLiquid.Equals(fertilizerType, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.Name };
+                    typesOptions.Add(li);
+                }
+            }
+
+            return typesOptions;
         }
 
         public FertilizerType GetFertilizerType(string id)
         {
-            throw new NotImplementedException();
+            return GetFertilizerTypes().SingleOrDefault(ft => ft.Id == Convert.ToInt32(id));
         }
 
         public FertilizerType GetFertilizerType(int fertilizerTypeID)
         {
-            throw new NotImplementedException();
+            return GetFertilizerTypes().SingleOrDefault(ft => ft.Id == fertilizerTypeID);
         }
 
         public List<FertilizerType> GetFertilizerTypes()
         {
-            throw new NotImplementedException();
+            return _context.FertilizerTypes.ToList();
         }
 
         public List<SelectListItem> GetFertilizerTypesDll()
         {
-            throw new NotImplementedException();
+            var types = GetFertilizerTypes();
+
+            List<SelectListItem> typesOptions = new List<SelectListItem>();
+
+            foreach (var r in types)
+            {
+                var li = new SelectListItem()
+                {
+                    Id = r.Id,
+                    Value = r.Name
+                };
+                typesOptions.Add(li);
+            }
+
+            return typesOptions;
         }
 
         public FertilizerUnit GetFertilizerUnit(int Id)
         {
-            throw new NotImplementedException();
+            return GetFertilizerUnits().SingleOrDefault(fu => fu.Id == Id);
         }
 
         public List<FertilizerUnit> GetFertilizerUnits()
         {
-            throw new NotImplementedException();
+            return _context.FertilizerUnits.ToList();
         }
 
         public List<SelectListItem> GetFertilizerUnitsDll(string unitType)
         {
-            throw new NotImplementedException();
+            var units = GetFertilizerUnits();
+
+            List<SelectListItem> unitsOptions = new List<SelectListItem>();
+
+            foreach (var r in units)
+            {
+                if (r.DryLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.Name };
+                    unitsOptions.Add(li);
+                }
+            }
+
+            return unitsOptions;
         }
 
         public List<HarvestUnit> GetHarvestUnits()
         {
-            throw new NotImplementedException();
+            return _context.HarvestUnits.ToList();
         }
 
         public int GetHarvestYieldDefaultDisplayUnit()
         {
-            throw new NotImplementedException();
+            return CROP_YIELD_DEFAULT_DISPLAY_UNIT;
         }
 
         public int GetHarvestYieldDefaultUnit()
         {
-            throw new NotImplementedException();
+            return CROP_YIELD_DEFAULT_CALCULATION_UNIT;
         }
 
         public string GetHarvestYieldDefaultUnitName()
         {
-            throw new NotImplementedException();
+            return GetHarvestYieldUnitName(CROP_YIELD_DEFAULT_CALCULATION_UNIT.ToString());
         }
 
         public string GetHarvestYieldUnitName(string yieldUnit)
         {
-            throw new NotImplementedException();
+            return GetHarvestUnits().SingleOrDefault(hu =>
+                hu.Id.ToString().Equals(yieldUnit, StringComparison.CurrentCultureIgnoreCase)).Name;
         }
         public decimal GetIncludeWashWater(int Id)
         {
-            throw new NotImplementedException();
+            return GetAnimalSubTypes().SingleOrDefault(ast => ast.Id == Id).WashWater;
         }
 
         public int GetInteriorId()
         {
-            throw new NotImplementedException();
+            return GetLocations().First(l => l.Name.Equals("Interior", StringComparison.CurrentCultureIgnoreCase)).Id;
         }
 
         public List<LiquidFertilizerDensity> GetLiquidFertilizerDensities()
         {
-            throw new NotImplementedException();
+            return _context.LiquidFertilizerDensities.ToList();
         }
 
         public LiquidFertilizerDensity GetLiquidFertilizerDensity(int fertilizerId, int densityId)
         {
-            throw new NotImplementedException();
+            return GetLiquidFertilizerDensities()
+                .SingleOrDefault(lfd => lfd.FertilizerId == fertilizerId && lfd.DensityUnitId == densityId);
         }
 
         public List<Location> GetLocations()
         {
-            throw new NotImplementedException();
+            return _context.Locations.ToList();
         }
 
         public Manure GetManure(string manId)
         {
-            throw new NotImplementedException();
+            return GetManures().SingleOrDefault(m => m.Id == Convert.ToInt32(manId));
         }
 
         public Manure GetManureByName(string manureName)
         {
-            throw new NotImplementedException();
+            return GetManures()
+                .SingleOrDefault(m => m.Name.Equals(manureName, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public string GetManureRptStdUnit(string solidLiquid)
         {
-            throw new NotImplementedException();
+            string stdUnit;
+
+            if (solidLiquid.Equals("solid", StringComparison.CurrentCultureIgnoreCase))
+            {
+                stdUnit = GetUnit(_context.RptCompletedManureRequiredStdUnits.FirstOrDefault().SolidUnitId.ToString()).Name;
+            }
+            else
+            {
+                stdUnit = GetUnit(_context.RptCompletedManureRequiredStdUnits.FirstOrDefault().LiquidUnitId.ToString()).Name;
+            }
+
+            return ParseStdUnit(stdUnit);
         }
 
         public List<Manure> GetManures()
         {
-            throw new NotImplementedException();
+            return _context.Manures.ToList();
         }
 
         public List<SelectListItem> GetManuresDll()
         {
-            throw new NotImplementedException();
+            var manures = GetManures();
+
+            manures = manures.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
+
+            List<SelectListItem> manOptions = new List<SelectListItem>();
+
+            foreach (var r in manures)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                manOptions.Add(li);
+            }
+
+            return manOptions;
         }
 
         public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance, bool legume)
         {
-            throw new NotImplementedException();
+            var balanceMessages = GetMessages()
+                .Where(m => m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
+                            balance >= Convert.ToInt64(m.BalanceLow) &&
+                            balance <= Convert.ToInt64(m.BalanceHigh))
+                .Select(bm => new BalanceMessages
+                {
+                    Chemical = balanceType,
+                    Message = bm.DisplayMessage.Equals("Yes", StringComparison.CurrentCultureIgnoreCase)  ? 
+                        string.Format(bm.Text, Math.Abs(balance).ToString()) : null,
+                    Icon = bm.Icon,
+                    IconText = GetNutrientIcon(bm.Icon).Definition
+                })
+                .SingleOrDefault();
+
+            if (balanceMessages != null &&
+                balanceType.Equals("AgrN", StringComparison.CurrentCultureIgnoreCase) &&
+                balanceMessages.Icon.Equals("stop", StringComparison.CurrentCultureIgnoreCase))
+            {
+                // nitrogen does not need to be added even if there is a deficiency
+                balanceMessages.Icon = "good";
+                balanceMessages.Message = string.Empty;
+            }
+
+            return balanceMessages;
         }
 
         public string GetMessageByChemicalBalance(string balanceType, long balance, bool legume, decimal soilTest)
         {
-            throw new NotImplementedException();
+
+            return GetMessages()
+                .Where(m => m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
+                            balance >= Convert.ToInt64(m.BalanceLow) &&
+                            balance <= Convert.ToInt64(m.BalanceHigh) &&
+                            soilTest >= m.SoilTestLow &&
+                            soilTest <= m.SoilTestHigh)
+                .Select(m => balanceType.Equals("AgrN", StringComparison.CurrentCultureIgnoreCase) && 
+                                    legume &&
+                                    m.BalanceHigh == 9999 ? 
+                                        string.Empty : // If legume crop in field never display that more N is required
+                                        string.Format(m.Text, Math.Abs(balance).ToString()))
+                .SingleOrDefault();
         }
 
         public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance1, long balance2, string assignedChemical)
         {
-            throw new NotImplementedException();
+
+            return GetMessages()
+                .Where(m => m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
+                            balance1 >= Convert.ToInt64(m.BalanceLow) &&
+                            balance1 <= Convert.ToInt64(m.BalanceHigh) &&
+                   balance2 >= Convert.ToInt64(m.Balance1Low) &&
+                   balance2<= Convert.ToInt64(m.Balance1High))
+                .Select(m => new BalanceMessages
+                {
+                    Chemical = assignedChemical,
+                    Message = m.DisplayMessage.Equals("Yes", StringComparison.CurrentCultureIgnoreCase) ? m.Text : null,
+                    Icon = m.Icon
+                })
+                .SingleOrDefault();
         }
 
         public List<Message> GetMessages()
         {
-            throw new NotImplementedException();
+            return _context.Messages.ToList();
         }
 
         public decimal GetMilkProduction(int Id)
         {
-            throw new NotImplementedException();
+            return GetAnimalSubTypes().SingleOrDefault(ast => ast.Id == Id).MilkProduction;
         }
         public List<NitrogenMineralization> GetNitrogeMineralizations()
         {
-            throw new NotImplementedException();
+            return _context.NitrogenMineralizations.ToList();
         }
 
         public List<NitrogenRecommendation> GetNitrogenRecommendations()
         {
-            throw new NotImplementedException();
+            return _context.NitrogenRecommendations.ToList();
         }
 
         public NitrogenMineralization GetNMineralization(int id, int locationid)
         {
-            throw new NotImplementedException();
+            return GetNitrogeMineralizations().SingleOrDefault(nm => nm.Id == id && nm.LocationId == locationid);
         }
 
         public NutrientIcon GetNutrientIcon(string name)
         {
-            throw new NotImplementedException();
+            return GetNutrientIcons()
+                .SingleOrDefault(ni => ni.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public List<NutrientIcon> GetNutrientIcons()
         {
-            throw new NotImplementedException();
+            return _context.NutrientIcons.ToList();
         }
 
         public PreviousCropType GetPrevCropType(int id)
         {
-            throw new NotImplementedException();
+            return GetPreviousCropTypes().SingleOrDefault(pct => pct.Id == id);
         }
 
         public List<SelectListItem> GetPrevCropTypesDll(string prevCropCd)
         {
-            throw new NotImplementedException();
+            var types = GetPreviousCropTypes();
+
+            List<SelectListItem> typesOptions = new List<SelectListItem>();
+
+            foreach (var r in types)
+            {
+                if (r.PreviousCropCode.ToString() == prevCropCd)
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.Name };
+                    typesOptions.Add(li);
+                }
+            }
+
+            return typesOptions;
         }
 
         public List<PreviousCropType> GetPreviousCropTypes()
         {
-            throw new NotImplementedException();
+            return GetCrops().SelectMany(c => c.PreviousCropTypes).ToList();
         }
 
         public List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears()
         {
-            throw new NotImplementedException();
+            return _context.PrevManureApplicationYears.ToList();
         }
 
         public List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults()
         {
-            throw new NotImplementedException();
+            return _context.PrevYearManureApplicationNitrogenDefaults.ToList();
         }
 
         public Region GetRegion(int id)
         {
-            throw new NotImplementedException();
+            return GetRegions().SingleOrDefault(r => r.Id == id);
         }
 
         public List<Region> GetRegions()
         {
-            throw new NotImplementedException();
+            return _context.Regions.ToList();
         }
 
         public List<SelectListItem> GetRegionsDll()
         {
-            throw new NotImplementedException();
+            List<Region> regions = GetRegions();
+
+            regions = regions.OrderBy(n => n.SortNumber).ThenBy(n => n.Name).ToList();
+
+            var regOptions = new List<SelectListItem>();
+
+
+            foreach (var r in regions)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                regOptions.Add(li);
+            }
+
+            return regOptions;
         }
 
         public RptCompletedFertilizerRequiredStdUnit GetRptCompletedFertilizerRequiredStdUnit()
         {
-            throw new NotImplementedException();
+            return _context.RptCompletedFertilizerRequiredStdUnits.FirstOrDefault();
         }
 
         public RptCompletedManureRequiredStdUnit GetRptCompletedManureRequiredStdUnit()
         {
-            throw new NotImplementedException();
+            return _context.RptCompletedManureRequiredStdUnits.FirstOrDefault();
         }
 
         public List<SeasonApplication> GetSeasonApplications()
         {
-            throw new NotImplementedException();
+            return _context.SeasonApplications.ToList();
         }
 
         public string GetSoilTestMethod(string id)
         {
-            throw new NotImplementedException();
+            return GetSoilTestMethods().SingleOrDefault(stt => stt.Id == Convert.ToInt32(id)).Name;
         }
 
         public SoilTestMethod GetSoilTestMethodById(string id)
         {
-            throw new NotImplementedException();
+            return GetSoilTestMethods().SingleOrDefault(stm => stm.Id == Convert.ToInt32(id));
         }
 
-        public SoilTestMethod GetSoilTestMethodByMethod(string _soilTest)
+        public SoilTestMethod GetSoilTestMethodByMethod(string soilTest)
         {
-            throw new NotImplementedException();
+            return GetSoilTestMethods()
+                .SingleOrDefault(stm => stm.Name.Equals(soilTest, StringComparison.CurrentCultureIgnoreCase));
         }
 
         public List<SoilTestMethod> GetSoilTestMethods()
         {
-            throw new NotImplementedException();
+            return _context.SoilTestMethods.ToList();
         }
 
         public List<SelectListItem> GetSoilTestMethodsDll()
         {
-            throw new NotImplementedException();
+            var soilTestMethods = GetSoilTestMethods();
+            List<SelectListItem> soilTestMethodOptions = new List<SelectListItem>();
+            foreach (var r in soilTestMethods)
+            {
+                SelectListItem li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                soilTestMethodOptions.Add(li);
+            }
+
+            return soilTestMethodOptions;
         }
 
         public decimal GetSoilTestNitratePPMToPoundPerAcreConversionFactor()
         {
-            throw new NotImplementedException();
+            return GetConversionFactor().SoilTestPPMToPoundPerAcre;
         }
 
         public List<SoilTestPhosphorousKelownaRange> GetSoilTestPhosphorousKelownaRanges()
         {
-            throw new NotImplementedException();
+            return _context.SoilTestPhosphorousKelownaRanges
+                .Include(stpk => stpk.SoilTestPhosphorousRecommendations)
+                .ToList();
         }
 
         public List<SoilTestPhosphorousRecommendation> GetSoilTestPhosphorousRecommendations()
         {
-            throw new NotImplementedException();
+            return GetSoilTestPhosphorousKelownaRanges().SelectMany(stp => stp.SoilTestPhosphorousRecommendations).ToList();
         }
 
         public List<SoilTestPhosphorusRange> GetSoilTestPhosphorusRanges()
         {
-            throw new NotImplementedException();
+            return _context.SoilTestPhosphorusRanges.ToList();
         }
 
         public List<SoilTestPotassiumKelownaRange> GetSoilTestPotassiumKelownaRanges()
         {
-            throw new NotImplementedException();
+            return _context.SoilTestPotassiumKelownaRanges
+                .Include(stpk => stpk.SoilTestPotassiumRecommendations)
+                .ToList();
         }
 
         public List<SoilTestPotassiumRange> GetSoilTestPotassiumRanges()
         {
-            throw new NotImplementedException();
+            return _context.SoilTestPotassiumRanges.ToList();
         }
 
         public List<SoilTestPotassiumRecommendation> GetSoilTestPotassiumRecommendations()
         {
-            throw new NotImplementedException();
+            return GetSoilTestPotassiumKelownaRanges().SelectMany(stp => stp.SoilTestPotassiumRecommendations).ToList();
         }
 
         public string GetSoilTestWarning()
         {
-            throw new NotImplementedException();
+            var message = GetUserPrompt("defaultsoiltest");
+
+            return string.Format(message, GetDefaultSoilTest().pH,
+                GetDefaultSoilTest().ConvertedKelownaP,
+                GetDefaultSoilTest().ConvertedKelownaK);
         }
 
         public string GetStaticDataVersion()
         {
-            throw new NotImplementedException();
+            return _context.Versions.FirstOrDefault().StaticDataVersion;
         }
 
         public SoilTestPotassiumKelownaRange GetSTKKelownaRangeByPpm(int ppm)
         {
-            throw new NotImplementedException();
+            return GetSoilTestPotassiumKelownaRanges()
+                .SingleOrDefault(stp => ppm >= stp.RangeLow && ppm <= stp.RangeHigh);
         }
 
-        public SoilTestPotassiumRecommendation GetSTKRecommend(int stk_kelowna_rangeid, int soil_test_potassium_region_cd, int potassium_crop_group_region_cd)
+        public SoilTestPotassiumRecommendation GetSTKRecommend(int stkKelownaRangeId, 
+            int soilTestPotassiumRegionCode, 
+            int potassiumCropGroupRegionCode)
         {
-            throw new NotImplementedException();
+            return GetSoilTestPotassiumRecommendations().SingleOrDefault(stp =>
+                stp.SoilTestPotassiumKelownaRangeId == stkKelownaRangeId &&
+                stp.SoilTestPotassiumRegionCode == soilTestPotassiumRegionCode &&
+                stp.PotassiumCropGroupRegionCode == potassiumCropGroupRegionCode);
         }
 
         public SoilTestPhosphorousKelownaRange GetSTPKelownaRangeByPpm(int ppm)
         {
-            throw new NotImplementedException();
+            return GetSoilTestPhosphorousKelownaRanges()
+                .SingleOrDefault(stp => ppm >= stp.RangeLow && ppm <= stp.RangeHigh);
         }
 
-        public SoilTestPhosphorousRecommendation GetSTPRecommend(int stp_kelowna_rangeid, int soil_test_phosphorous_region_cd, int phosphorous_crop_group_region_cd)
+        public SoilTestPhosphorousRecommendation GetSTPRecommend(int stpKelownaRangeId, int soilTestPhosphorousRegionCode, int phosphorousCropGroupRegionCode)
         {
-            throw new NotImplementedException();
+            return GetSoilTestPhosphorousRecommendations().SingleOrDefault(stp =>
+                stp.SoilTestPhosphorousKelownaRangeId == stpKelownaRangeId &&
+                stp.SoilTestPhosphorousRegionCode == soilTestPhosphorousRegionCode &&
+                stp.PhosphorousCropGroupRegionCode == phosphorousCropGroupRegionCode);
         }
 
         public List<SelectListItem> GetSubtypesDll(int animalType)
         {
-            throw new NotImplementedException();
+            var animalSubTypes = GetAnimalSubTypes();
+
+            animalSubTypes = animalSubTypes.OrderBy(n => n.Name).ToList();
+
+            List<SelectListItem> animalSubTypesOptions = new List<SelectListItem>();
+
+            foreach (var r in animalSubTypes)
+            {
+                if (r.AnimalId == animalType)
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.Name };
+                    animalSubTypesOptions.Add(li);
+                }
+            }
+
+            return animalSubTypesOptions;
         }
 
         public Unit GetUnit(string unitId)
         {
-            throw new NotImplementedException();
+            return GetUnits().SingleOrDefault(u => u.Id == Convert.ToInt32(unitId));
         }
 
         public List<Unit> GetUnits()
         {
-            throw new NotImplementedException();
+            return _context.Units.ToList();
         }
 
         public List<SelectListItem> GetUnitsDll(string unitType)
         {
-            throw new NotImplementedException();
+            var units = GetUnits();
+
+            List<SelectListItem> unitsOptions = new List<SelectListItem>();
+
+            foreach (var r in units)
+            {
+                if (r.SolidLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.Name };
+                    unitsOptions.Add(li);
+                }
+            }
+
+            return unitsOptions;
         }
 
         public string GetUserPrompt(string name)
         {
-            throw new NotImplementedException();
+            return GetUserPrompts()
+                .SingleOrDefault(up => up.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase)).Text;
         }
 
-        public List<UserPrompt> GetUserPromts()
+        public List<UserPrompt> GetUserPrompts()
         {
-            throw new NotImplementedException();
+            return _context.UserPrompts.ToList();
         }
 
         public Version GetVersionData()
         {
-            throw new NotImplementedException();
+            return _context.Versions.FirstOrDefault();
         }
 
         public Yield GetYieldById(int yieldId)
         {
-            throw new NotImplementedException();
+            return GetYields().SingleOrDefault(y => y.Id == yieldId);
         }
 
-        public List<Yield> GetYield(int yieldId)
-        {
-            throw new NotImplementedException();
-        }
         public List<Yield> GetYields()
         {
-            throw new NotImplementedException();
+            return _context.Yields.ToList();
         }
 
         public bool IsCropGrainsAndOilseeds(int cropType)
         {
-            throw new NotImplementedException();
+            return (cropType == CROPTYPE_GRAINS_OILSEEDS_ID);
         }
 
         public bool IsCropHarvestYieldDefaultUnit(int selectedCropYieldUnit)
         {
-            throw new NotImplementedException();
+            return (selectedCropYieldUnit == CROP_YIELD_DEFAULT_CALCULATION_UNIT);
         }
 
         public bool IsCustomFertilizer(int fertilizerTypeID)
         {
-            throw new NotImplementedException();
+            return GetFertilizerTypes().Any(ft => ft.Id == fertilizerTypeID && ft.Custom);
         }
 
         public bool IsFertilizerTypeDry(int fertilizerTypeID)
         {
-            throw new NotImplementedException();
+            return GetFertilizerTypes().Any(ft =>
+                ft.Id == fertilizerTypeID && ft.DryLiquid.Equals("dry", StringComparison.CurrentCultureIgnoreCase));
         }
 
         public bool IsFertilizerTypeLiquid(int fertilizerTypeID)
         {
-            throw new NotImplementedException();
+            return GetFertilizerTypes().Any(ft =>
+                ft.Id == fertilizerTypeID && ft.DryLiquid.Equals("liquid", StringComparison.CurrentCultureIgnoreCase));
         }
 
         public bool IsManureClassCompostClassType(string manure_class)
         {
-            throw new NotImplementedException();
+            return manure_class.Equals(MANURE_CLASS_COMPOST_BOOK, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public bool IsManureClassCompostType(string manure_class)
         {
-            throw new NotImplementedException();
+            return manure_class.Equals(MANURE_CLASS_COMPOST, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public bool IsManureClassOtherType(string manure_class)
         {
-            throw new NotImplementedException();
+            return manure_class.Equals(MANURE_CLASS_OTHER, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public bool IsNitrateCreditApplicable(int? region, DateTime sampleDate, int yearOfAnalysis)
         {
-            throw new NotImplementedException();
+            if ((region != null) && (sampleDate != null))
+            {
+                if (IsRegionInteriorBC(region))
+                    return ((sampleDate >= GetInteriorNitrateSampleFromDt(yearOfAnalysis)) &&
+                            (sampleDate <= GetInteriorNitrateSampleToDt(yearOfAnalysis)));
+                else // coastal farm
+                    return ((sampleDate >= GetCoastalNitrateSampleFromDt(yearOfAnalysis)) &&
+                            (sampleDate <= GetCoastalNitrateSampleToDt(yearOfAnalysis)));
+            }
+
+            return false;
         }
+
+        private DateTime GetInteriorNitrateSampleFromDt(int yearOfAnalysis)
+        {
+            var fromDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                ncs.Location.Equals("InteriorBC", StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault().FromDateMonth;
+
+            return new DateTime(yearOfAnalysis - 1, Convert.ToInt16(fromDate), 01);
+        }
+
+        private DateTime GetInteriorNitrateSampleToDt(int yearOfAnalysis)
+        {
+            var toDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                    ncs.Location.Equals("InteriorBC", StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault().ToDateMonth;
+
+            return new DateTime(yearOfAnalysis, Convert.ToInt16(toDate),
+                DateTime.DaysInMonth(yearOfAnalysis, Convert.ToInt16(toDate)));
+        }
+
+        private DateTime GetCoastalNitrateSampleFromDt(int yearOfAnalysis)
+        {
+            var fromDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                    ncs.Location.Equals("CoastalBC", StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault().FromDateMonth;
+
+            return new DateTime(yearOfAnalysis - 1, Convert.ToInt16(fromDate), 01);
+        }
+
+        private DateTime GetCoastalNitrateSampleToDt(int yearOfAnalysis)
+        {
+            var toDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                    ncs.Location.Equals("CoastalBC", StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault().ToDateMonth;
+
+            return new DateTime(yearOfAnalysis, Convert.ToInt16(toDate),
+                DateTime.DaysInMonth(yearOfAnalysis, Convert.ToInt16(toDate)));
+        }
+
 
         public bool IsRegionInteriorBC(int? region)
         {
-            throw new NotImplementedException();
+            return GetRegions().Any(r => region.HasValue && r.Id == region.Value && r.LocationId == GetInteriorId());
         }
 
-        public string SoilTestRating(string chem, decimal value)
+        public string GetPotassiumSoilTestRating(decimal value)
         {
-            throw new NotImplementedException();
+            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
         }
 
-        public bool wasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
+        public string GetPhosphorusSoilTestRating(decimal value)
         {
-            throw new NotImplementedException();
+            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+        }
+
+        public List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges()
+        {
+            return _context.PotassiumSoilTestRanges.ToList();
+        }
+
+        public List<PhosphorusSoilTestRange> GetPhosphorusSoilTestRanges()
+        {
+            return _context.PhosphorusSoilTestRanges.ToList();
+
+        }
+
+        public bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
+        {
+            return _context.PrevManureApplicationYears
+                       .First(pma => pma.FieldManureApplicationHistory == 0).Id != Convert.ToInt32(userSelectedPrevYearsManureAdded);
         }
 
         public List<MainMenu> GetMainMenus()
         {
-            throw new NotImplementedException();
+            return _context.MainMenus
+                .Include(x => x.SubMenus)
+                .ToList();
         }
 
         public List<SelectListItem> GetMainMenusDll()
         {
-            throw new NotImplementedException();
+            var mainMenus = GetMainMenus();
+
+            List<SelectListItem> mainMenuOptions = new List<SelectListItem>();
+
+            foreach (var r in mainMenus)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                mainMenuOptions.Add(li);
+            }
+
+            return mainMenuOptions;
         }
 
         public List<SubMenu> GetSubMenus()
         {
-            throw new NotImplementedException();
+            return _context.MainMenus.SelectMany(mm => mm.SubMenus).ToList();
         }
 
         public List<SelectListItem> GetSubmenusDll()
         {
-            throw new NotImplementedException();
+            var subMenus = GetSubMenus();
+
+            subMenus = subMenus.OrderBy(n => n.Name).ToList();
+
+            List<SelectListItem> subMenuoptions = new List<SelectListItem>();
+
+            foreach (var r in subMenus)
+            {
+                var li = new SelectListItem()
+                    { Id = r.Id, Value = r.Name };
+                subMenuoptions.Add(li);
+            }
+
+            return subMenuoptions;
         }
+
         public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield)
         {
+            //TODO: Will be depricated
             throw new NotImplementedException();
         }
 
@@ -726,12 +1138,21 @@ namespace Agri.Data
         }
         public List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions()
         {
-            throw new NotImplementedException();
+            return _context.SolidMaterialApplicationTonPerAcreRateConversions.ToList();
         }
 
         public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
         {
-            throw new NotImplementedException();
+            return _context.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.ToList();
+        }
+
+        private string ParseStdUnit(string stdUnit)
+        {
+            int idx = stdUnit.LastIndexOf("/");
+            if (idx > 0)
+                stdUnit = stdUnit.Substring(0, idx);
+
+            return stdUnit;
         }
     }
 }

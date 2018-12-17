@@ -334,7 +334,7 @@ namespace Agri.LegacyData.Models.Impl
 
             foreach (var r in units)
             {
-                if (r.SolidLiquid == unitType)
+                if (r.SolidLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
                     { Id = r.Id, Value = r.Name };
@@ -363,6 +363,7 @@ namespace Agri.LegacyData.Models.Impl
                     FarmRequiredNutrientsStdUnitsConversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_conversion"].ToString()),
                     FarmRequiredNutrientsStdUnitsAreaConversion = Convert.ToDecimal(r["farm_reqd_nutrients_std_units_area_conversion"].ToString())
                 };
+                units.Add(unit);
             }
 
             return units;
@@ -1369,7 +1370,7 @@ namespace Agri.LegacyData.Models.Impl
             return (string)rss["agri"]["nmp"]["conversions"]["defaultSoilTestMethodId"];
         }
 
-        public string SoilTestRating(string chem, decimal value)
+        protected string SoilTestRating(string chem, decimal value)
         {
             string results = "Ukn";
 
@@ -1487,7 +1488,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             var version = new Version();
 
-            version.StaticDataVersion = (string)rss["agri"]["nmp"]["version"]["staticDataVersion"];
+            version.StaticDataVersion = (string)rss["agri"]["nmp"]["versions"]["staticDataVersion"];
 
             return version;
         }
@@ -1581,7 +1582,7 @@ namespace Agri.LegacyData.Models.Impl
             return result;
         }
 
-        public bool wasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
+        public bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
         {
             string noManureFromPreviousYearsCd =
                 (string)rss["agri"]["nmp"]["manureprevyearscd"]["manureprevyearcd"][0]["id"];
@@ -1907,7 +1908,8 @@ namespace Agri.LegacyData.Models.Impl
                 var animal = new Animal
                 {
                     Id = Convert.ToInt32(record["id"].ToString()),
-                    Name = record["Name"].ToString()
+                    Name = record["Name"].ToString(),
+                    UseSortOrder = record["UseSortOrder"].ToString()
                 };
                 animals.Add(animal);
             }
@@ -1923,7 +1925,8 @@ namespace Agri.LegacyData.Models.Impl
             var animal = new Animal
             {
                 Id = Convert.ToInt32(rec["id"].ToString()),
-                Name = rec["Name"].ToString()
+                Name = rec["Name"].ToString(),
+                UseSortOrder = rec["UseSortOrder"].ToString()
             };
 
             return animal;
@@ -2020,6 +2023,11 @@ namespace Agri.LegacyData.Models.Impl
                                                 Convert.ToDecimal(record["solidPerPoundPerAnimalPerDay"].ToString()) : 0,
                     SolidLiquidSeparationPercentage = !string.IsNullOrWhiteSpace(record["solidLiquidSeparationPercentage"].ToString()) ?
                                                  Convert.ToDecimal(record["solidLiquidSeparationPercentage"].ToString()) : 0,
+                    WashWater = !string.IsNullOrWhiteSpace(record["includeWashWater"].ToString()) ?
+                                                Convert.ToDecimal(record["includeWashWater"].ToString()) : 0,
+                    MilkProduction = !string.IsNullOrWhiteSpace(record["milkProduction"].ToString()) ?
+                                                Convert.ToDecimal(record["milkProduction"].ToString()) : 0,
+                    SortOrder = Convert.ToInt32(record["SortOrder"]),
                     AnimalId = Convert.ToInt32(record["animalId"].ToString())
                 };
                 animalSubTypes.Add(animalSubtype);
@@ -2032,7 +2040,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             var animalSubTypes = GetAnimalSubTypes();
 
-            animalSubTypes = animalSubTypes.OrderBy(n => n.Name).ToList();
+            animalSubTypes = animalSubTypes.OrderBy(n => n.SortOrder).ToList();
 
             List<SelectListItem> animalSubTypesOptions = new List<SelectListItem>();
 
@@ -2063,6 +2071,7 @@ namespace Agri.LegacyData.Models.Impl
                 : Convert.ToDecimal(rec["solidPerPoundPerAnimalPerDay"].ToString());
             animalSubType.LiquidPerGalPerAnimalPerDay = rec["liquidPerGalPerAnimalPerDay"].ToString() == "" ? (decimal?)null
                 : Convert.ToDecimal(rec["liquidPerGalPerAnimalPerDay"].ToString());
+            animalSubType.SortOrder = Convert.ToInt32(rec["SortOrder"]);
             animalSubType.AnimalId = Convert.ToInt32(rec["animalId"].ToString());
             return animalSubType;
         }

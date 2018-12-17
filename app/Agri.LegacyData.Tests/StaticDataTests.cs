@@ -158,7 +158,7 @@ namespace Agri.LegacyData.Tests
         [TestMethod]
         public void GetUserPromptsSuccessfully()
         {
-            var result = _staticDataExtRepo.GetUserPromts();
+            var result = _staticDataExtRepo.GetUserPrompts();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
@@ -233,6 +233,25 @@ namespace Agri.LegacyData.Tests
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetPotassiumSoilTestRangesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetPotassiumSoilTestRanges();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+            Assert.IsTrue(result.All(r => r != null) );
+        }
+        [TestMethod]
+        public void GetPhosphorusSoilTestRangesSuccessfully()
+        {
+            var result = _staticDataExtRepo.GetPhosphorusSoilTestRanges();
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+            Assert.IsTrue(result.All(r => r != null) );
         }
 
         [TestMethod]

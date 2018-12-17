@@ -1,8 +1,6 @@
 ﻿using Agri.Interfaces;
 using Agri.Models.Calculate;
 using SERVERAPI.Models.Impl;
-using static SERVERAPI.Models.StaticData;
-using Agri.Models.Configuration;
 using ConversionFactor = Agri.Models.Configuration.ConversionFactor;
 using DensityUnit = Agri.Models.Configuration.DensityUnit;
 using Fertilizer = Agri.Models.Configuration.Fertilizer;

@@ -55,8 +55,8 @@ namespace SERVERAPI.ViewComponents
                     dc.dispP = m.soilTest.ValP.ToString("G29");
                     dc.dispK = m.soilTest.valK.ToString("G29");
                     dc.dispPH = m.soilTest.valPH.ToString("G29");
-                    dc.dispPRating = _sd.SoilTestRating("phosphorous", stc.GetConvertedSTP(m.soilTest));
-                    dc.dispKRating = _sd.SoilTestRating("potassium", stc.GetConvertedSTK(m.soilTest));
+                    dc.dispPRating = _sd.GetPhosphorusSoilTestRating(stc.GetConvertedSTP(m.soilTest));
+                    dc.dispKRating = _sd.GetPotassiumSoilTestRating(stc.GetConvertedSTK(m.soilTest));
 
                 }
                 else

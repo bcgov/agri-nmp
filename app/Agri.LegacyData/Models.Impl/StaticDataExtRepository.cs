@@ -115,7 +115,7 @@ namespace Agri.LegacyData.Models.Impl
             return cds;
         }
 
-        public List<UserPrompt> GetUserPromts()
+        public List<UserPrompt> GetUserPrompts()
         {
             var array = (JArray) rss["agri"]["nmp"]["userprompts"]["userprompt"];
             var userPrompts = new List<UserPrompt>();
@@ -594,6 +594,74 @@ namespace Agri.LegacyData.Models.Impl
             return subMenuoptions;
         }
 
+
+        public List<NitrateCreditSampleDate> GetNitrateCreditSampleDates()
+        {
+            var samples = new List<NitrateCreditSampleDate>();
+            
+            samples.Add(new NitrateCreditSampleDate
+            {
+                Location = "CoastalBC",
+                FromDateMonth = (string)rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"][
+                    "fromDateMonth"],
+                ToDateMonth = (string)rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"]["toDateMonth"]
+            });
+
+            samples.Add(new NitrateCreditSampleDate
+            {
+                Location = "InteriorBC",
+                FromDateMonth = (string)rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"][
+                    "fromDateMonth"],
+                ToDateMonth = (string)rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"]["toDateMonth"]
+            });
+
+            return samples;
+        }
+
+        private List<SoilTestRange> GetSoilTestRanges(string chemical)
+        {
+            var ranges = new List<SoilTestRange>();
+
+            JArray array = (JArray)rss["agri"]["nmp"]["soiltestranges"][chemical];
+
+            foreach (var r in array)
+            {
+                SoilTestRange range = new SoilTestRange();
+                range.UpperLimit = Convert.ToInt32(r["upperlimit"].ToString());
+                range.Rating = r["rating"].ToString();
+                ranges.Add(range);
+            }
+
+            return ranges;
+        }
+
+        public string GetPotassiumSoilTestRating(decimal value)
+        {
+            return SoilTestRating("potassium", value);
+        }
+
+        public string GetPhosphorusSoilTestRating(decimal value)
+        {
+            return SoilTestRating("phosphorous", value);
+        }
+
+        public List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges()
+        {
+            var ranges = GetSoilTestRanges("potassium");
+
+            return ranges
+                .Select(r => new PotassiumSoilTestRange {Rating = r.Rating, UpperLimit = r.UpperLimit})
+                .ToList();
+        }
+
+        public List<PhosphorusSoilTestRange> GetPhosphorusSoilTestRanges()
+        {
+            var ranges = GetSoilTestRanges("phosphorous");
+
+            return ranges
+                .Select(r => new PhosphorusSoilTestRange { Rating = r.Rating, UpperLimit = r.UpperLimit})
+                .ToList();
+        }
         public ManureImportedDefault GetManureImportedDefault()
         {
             var defaultMoistureRaw = rss["agri"]["nmp"]["ManureImportedDefaults"]["defaultSolidMoisture"];

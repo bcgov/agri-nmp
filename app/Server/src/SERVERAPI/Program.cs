@@ -14,11 +14,9 @@ namespace SERVERAPI
     {
         public static void Main(string[] args)
         {
-
-            //host.Run();
             var host = BuildWebHost(args);
 
-            //RunSeeding(host);
+            RunSeeding(host);
 
             host.Run();
         }
