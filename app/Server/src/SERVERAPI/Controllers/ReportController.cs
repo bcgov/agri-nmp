@@ -99,7 +99,7 @@ namespace SERVERAPI.Controllers
             rvm.GeneratedManures = _ud.GetGeneratedManures();
             rvm.ImportedManures = _ud.GetImportedManures();
 
-            if (rvm.UnallocatedManureNames.Count > 0)
+            if (rvm.UnallocatedManures.Count > 0)
             {
                 rvm.materialsNotStoredMessage = _sd.GetUserPrompt("materialsNotStoredMessage");
             }
@@ -131,7 +131,7 @@ namespace SERVERAPI.Controllers
                 {
                     foreach (var importedManures in yearData.ImportedManures)
                     {
-                        if (!importedManures.AssignedToStoredSystem)
+                        if (!importedManures.IsMaterialStored)
                         {
                             var farmManure = _ud.GetFarmManureByManureId(importedManures.ManureId);
                             var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure.managedManureId);

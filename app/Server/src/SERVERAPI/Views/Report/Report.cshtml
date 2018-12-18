@@ -101,10 +101,10 @@
                                     <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
                                     <span style="display:inline; font-size:17px">@Html.Raw(Model.materialsNotStoredMessage)</span>
                                     <ul>
-                                        @foreach (var manure in Model.UnallocatedManureNames)
+                                        @foreach (var manure in Model.UnallocatedManures)
                                         {
                                             <li style="text-align:left">
-                                                @manure
+                                                @manure.ManagedManureName, @manure.ManureType
                                             </li>
                                         }
                                     </ul>

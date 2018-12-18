@@ -10,6 +10,7 @@ using Agri.LegacyData.Models.Impl;
 using Agri.Models;
 using Agri.Models.Configuration;
 using AutoMapper;
+using Version = Agri.Models.Configuration.Version;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -965,8 +966,14 @@ namespace SERVERAPI.Models.Impl
             // Remove the NutrientAnalsis if the StorageSystem is removed.
             if (yd.farmManures != null && yd.ManureStorageSystems.Count >0)
             {
-                var farmManure = yd.farmManures.Single(im => Convert.ToInt32(im.sourceOfMaterialId.Split(",")[1]) == id && im.sourceOfMaterialId.Split(",")[0].Contains("Generated"));
-                yd.farmManures.Remove(farmManure);
+                foreach (var s in yd.ManureStorageSystems)
+                {
+                    foreach (var m in s.MaterialsIncludedInSystem)
+                    {
+                        var farmManure = yd.farmManures.Single(im => im.sourceOfMaterialId.Split(",")[0] == m.ManureId);
+                        yd.farmManures.Remove(farmManure);
+                    }
+                }
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
