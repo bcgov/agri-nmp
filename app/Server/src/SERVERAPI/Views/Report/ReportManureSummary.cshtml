@@ -10,49 +10,47 @@
 <div class="Row">
     <div class="Cell">
         <table style="border-collapse: collapse;">
-            <tr style="padding-top:20px; padding-bottom:20px">
+            <tr style="padding-top:20px; padding-bottom:20px;align-items: right">
                 <td class="CellHdg">
                     Material
                 </td>
-                <td class="CellHdg" style="text-align:center">
+                <td class="CellHdg" style="text-align:right">
                     Annual Amount
                 </td>
-                <td class="CellHdg" style="text-align:center">
+                <td class="CellHdg" style="text-align:right">
                     Land-Applied
                 </td>
-                <td class="CellHdg" style="text-align:center">
+                <td class="CellHdg" style="text-align:right">
                     Amount Remaining
                 </td>
             </tr>
             @foreach (var m in Model.manures)
             {
-                <tr style="padding-top:20px; padding-bottom:20px">
-                    <td class="CellDtl" style="width:300px;font-weight:bold">Material in @m.MaterialName</td>
-                    <td class="CellDtl" style="width:300px;font-weight:bold">@m.AnnualAmount</td>
-                    <td class="CellDtl" style="width:300px;font-weight:bold">@m.LandApplied</td>
-                    <td class="CellDtl" style="width:300px;font-weight:bold">@m.AmountRemaining</td>
-                </tr>
+            <tr style="padding-top:20px; padding-bottom:20px">
+                <td class="CellDtl" style="width:300px;font-weight:bold">Material in @m.MaterialName</td>
+                <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AnnualAmount</td>
+                <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.LandApplied</td>
+                @if (@m.AmountRemaining == "Insignificant")
+                {
+                    <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AmountRemaining<sup>@m.footnote</sup></td>
+                }
+                else
+                {
+                    <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AmountRemaining</td>
+                }
+
+            </tr>
             }
 
         </table>
         
-    @*@foreach (var s in Model.storages)
+    @foreach (var s in Model.manures)
     {
         @if (@s.footnotes.Count() > 0)
          {
              <br/>
              <br/>
              <table>
-                 <tr>
-                     <td>
-                         <span class="CellDtlNBd">Assumptions:</span>
-                     </td>
-                 </tr>
-                 <tr>
-                     <td>
-                         &nbsp;
-                     </td>
-                 </tr>
                  @foreach (var fn in @s.footnotes)
                  {
                      <tr>
@@ -63,6 +61,6 @@
                  }
              </table>
          }
-    }*@
+    }
     </div>
 </div>
