@@ -148,9 +148,10 @@ namespace SERVERAPI
             }
             else
             {
-                var server = Environment.GetEnvironmentVariable("pgsqluri");
-                var password = Environment.GetEnvironmentVariable("pgsqlpassword");
-                var username = Environment.GetEnvironmentVariable("pgsqlusername");
+                var server = Environment.GetEnvironmentVariable("PGSQL_URI");
+                var password = Environment.GetEnvironmentVariable("PGSQL_PASSWORD");
+                var username = Environment.GetEnvironmentVariable("PGSQL_USERNAME");
+                var database = Environment.GetEnvironmentVariable("PGSQL_DATABASE");
 
                 if (string.IsNullOrEmpty(server) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
                 {
@@ -159,7 +160,7 @@ namespace SERVERAPI
 
                 //Just filter out the IP
                 server = server.Replace("postgres://", string.Empty).Replace(":5432", string.Empty);
-                return $"Server={server};Database=AgriConfiguration;Username={username};Password={password}";
+                return $"Server={server};Database={database};Username={username};Password={password}";
             }
 
         }
