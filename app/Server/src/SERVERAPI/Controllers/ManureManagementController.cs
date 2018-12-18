@@ -1197,7 +1197,7 @@ namespace SERVERAPI.Controllers
                         }
                         else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
                         {
-                            var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+                            var importedManure = _ud.GetImportedManureByManureId(cvm.selsourceOfMaterialOption.ToString().Split(",")[0]);
                             if (importedManure.AssignedToStoredSystem == true)
                             {
                                 var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));

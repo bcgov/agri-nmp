@@ -131,7 +131,7 @@ namespace SERVERAPI.Controllers
                 {
                     foreach (var importedManures in yearData.ImportedManures)
                     {
-                        if (!importedManures.AssignedToStoredSystem)
+                        if (!importedManures.IsMaterialStored)
                         {
                             var farmManure = _ud.GetFarmManureByManureId(importedManures.ManureId);
                             var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure.managedManureId);
