@@ -52,13 +52,15 @@ namespace SERVERAPI.Controllers
         public IAgriConfigurationRepository _sd { get; set; }
         public IViewRenderService _viewRenderService { get; set; }
         public AppSettings _settings;
+        private IManureApplicationCalculator _manureApplicationCalculator;
 
-        public ReportController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud, IAgriConfigurationRepository sd)
+        public ReportController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud, IAgriConfigurationRepository sd,IManureApplicationCalculator manureApplicationCalculator)
         {
             _env = env;
             _ud = ud;
             _sd = sd;
             _viewRenderService = viewRenderService;
+            _manureApplicationCalculator = manureApplicationCalculator;
         }
         [HttpGet]
         public IActionResult Report()
@@ -93,6 +95,69 @@ namespace SERVERAPI.Controllers
             {
                 rvm.noCropsMsg = _sd.GetUserPrompt("nocropmessage");
             }
+
+            rvm.GeneratedManures = _ud.GetGeneratedManures();
+            rvm.ImportedManures = _ud.GetImportedManures();
+
+            if (rvm.UnallocatedManureNames.Count > 0)
+            {
+                rvm.materialsNotStoredMessage = _sd.GetUserPrompt("materialsNotStoredMessage");
+            }
+
+            if (fldLst.Count() > 0)
+            {
+                // materials remaining
+                var yearData = _ud.GetYearData();
+                rvm.RemainingManures = new List<AppliedManure>();
+                rvm.OverUtilizedManures = new List<AppliedManure>();
+                if (yearData.ManureStorageSystems != null)
+                {
+                    foreach (var storageSystem in yearData.ManureStorageSystems)
+                    {
+                        var manureStorageSystem = yearData.ManureStorageSystems.SingleOrDefault(mss => mss.Id == storageSystem.Id);
+                        var appliedStoredManure = _manureApplicationCalculator.GetAppliedManureFromStorageSystem(yearData, manureStorageSystem);
+                        if (appliedStoredManure.WholePercentRemaining >= 10)
+                        {
+                            rvm.RemainingManures.Add(appliedStoredManure);
+                        }
+                        else if (appliedStoredManure.WholePercentRemaining == 0 && appliedStoredManure.TotalAnnualManureRemainingToApply < 0 && ((appliedStoredManure.TotalAnnualManureRemainingToApply / appliedStoredManure.TotalAnnualManureToApply) * 100 <= -10))
+                        {
+                            rvm.OverUtilizedManures.Add(appliedStoredManure);
+                        }
+                    }
+                }
+
+                if (yearData.ImportedManures != null)
+                {
+                    foreach (var importedManures in yearData.ImportedManures)
+                    {
+                        if (!importedManures.AssignedToStoredSystem)
+                        {
+                            var farmManure = _ud.GetFarmManureByManureId(importedManures.ManureId);
+                            var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure.managedManureId);
+                            if (appliedImportedManure.WholePercentRemaining >= 10)
+                            {
+                                rvm.RemainingManures.Add(appliedImportedManure);
+                            }
+                            else if (appliedImportedManure.WholePercentRemaining == 0 && appliedImportedManure.TotalAnnualManureRemainingToApply < 0 && ((appliedImportedManure.TotalAnnualManureRemainingToApply / appliedImportedManure.TotalAnnualManureToApply) * 100 <= -10))
+                            {
+                                rvm.OverUtilizedManures.Add(appliedImportedManure);
+                            }
+                        }
+                    }
+                }
+                
+                if (rvm.RemainingManures.Count() > 0)
+                {
+                    rvm.MaterialsRemainingMessage = _sd.GetUserPrompt("remainingMaterialsMessage");
+                }
+
+                if (rvm.OverUtilizedManures.Count() > 0)
+                {
+                    rvm.OverUtilizedManuresMessage = _sd.GetUserPrompt("overUtilizedMaterialsMessage");
+                }
+            }
+            
 
             rvm.downloadMsg = string.Format(_sd.GetUserPrompt("reportdownload"), Url.Action("DownloadMessage", "Home"));
             rvm.loadMsg = _sd.GetUserPrompt("reportload");

@@ -9228,6 +9228,21 @@
             "id": "35",
             "name": "ImportMaterialIsMaterialAppliedQuestion",
             "text": "Is the material stored?"
+          },
+          {
+            "id": "36",
+            "name": "remainingMaterialsMessage",
+            "text": "The following materials are not applied to a field                                  "
+          },
+          {
+            "id": "37",
+            "name": "overUtilizedMaterialsMessage",
+            "text": "There is not enough of the following materials to meet the planned application rates"
+          },
+          {
+            "id": "38",
+            "name": "materialsNotStoredMessage",
+            "text": "The following materials are not stored"
           }
         ]
       },
