@@ -659,72 +659,102 @@ namespace SERVERAPI.Controllers
 
             var yearData = _ud.GetYearData();
 
-            foreach (var fm in yearData.farmManures)
+            if (yearData.farmManures != null)
             {
-                ReportManures rm = new ReportManures();
-                AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
-
-                rm.footnotes = new List<ReportFieldFootnote>();
-
-                if (fm.stored_imported == NutrientAnalysisTypes.Stored)
+                foreach (var fm in yearData.farmManures)
                 {
-                    rm.MaterialName = "Material in ";
-                }
-                else if (fm.stored_imported == NutrientAnalysisTypes.Imported)
-                {
-                    rm.MaterialName = "";
-                }
+                    ReportManures rm = new ReportManures();
+                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
 
-                rm.MaterialName += appliedManure.SourceName;
+                    if (appliedManure != null)
+                    {
+                        rm.footnotes = new List<ReportFieldFootnote>();
 
-                // Annual Amount
-                
-                rm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureToApply))).ToString();
-                if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
-                {
-                    rm.AnnualAmount += " US Gallons";
-                }
-                else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
-                {
-                    rm.AnnualAmount += " tons";
-                }
+                        if (fm.stored_imported == NutrientAnalysisTypes.Stored)
+                        {
+                            rm.MaterialName = "Material in ";
+                        }
+                        else if (fm.stored_imported == NutrientAnalysisTypes.Imported)
+                        {
+                            rm.MaterialName = "";
+                        }
 
-                // Amount Land Applied
-                rm.LandApplied =  string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalApplied))).ToString();
-                if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
-                {
-                    rm.LandApplied += " US Gallons";
-                }
-                else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
-                {
-                    rm.LandApplied += " tons";
-                }
-                rm.LandApplied += " ("+appliedManure.WholePercentAppiled +"%)";
+                        rm.MaterialName += appliedManure.SourceName;
 
-                // Amount Remaining
-                if (appliedManure.WholePercentRemaining < 10)
-                {
-                    rm.AmountRemaining = "Insignificant";
+                        // Annual Amount
 
-                    ReportFieldFootnote rff = new ReportFieldFootnote();
-                    rff.id = rm.footnotes.Count() + 1;
-                    rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
-                    rm.footnote = rff.id.ToString();
-                    rm.footnotes.Add(rff);
-                }
-                else
-                {
-                    rm.AmountRemaining = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureRemainingToApply))) + " (" + appliedManure.WholePercentRemaining + "%)";
-                }
-               
-                rmsvm.manures.Add(rm);
+                        rm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureToApply))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.AnnualAmount += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.AnnualAmount += " tons";
+                        }
 
+                        // Amount Land Applied
+                        rm.LandApplied = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalApplied))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.LandApplied += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.LandApplied += " tons";
+                        }
+                        rm.LandApplied += " (" + appliedManure.WholePercentAppiled + "%)";
+
+                        // Amount Remaining
+                        if (appliedManure.WholePercentRemaining < 10)
+                        {
+                            rm.AmountRemaining = "Insignificant";
+
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = rm.footnotes.Count() + 1;
+                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
+                            rm.footnote = rff.id.ToString();
+                            rm.footnotes.Add(rff);
+                        }
+                        else
+                        {
+                            rm.AmountRemaining = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureRemainingToApply))) + " (" + appliedManure.WholePercentRemaining + "%)";
+                        }
+
+                        rmsvm.manures.Add(rm);
+                    }
+                }
             }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportManureSummary.cshtml", rmsvm);
 
+            return result;
+        }
 
-        
+        public async Task<string> RenderFerilizers()
+        {
+            ReportSourcesViewModel rvm = new ReportSourcesViewModel();
+            List<ReportSourcesDetail> manureRequired = new List<ReportSourcesDetail>();
+            List<ReportSourcesDetail> fertilizerRequired = new List<ReportSourcesDetail>();
+
+            rvm.year = _ud.FarmDetails().year;
+            rvm.details = new List<ReportSourcesDetail>();
+
+
+            List<Field> fldList = _ud.GetFields();
+            foreach (var f in fldList)
+            {
+                if (f.nutrients != null)
+                {
+                    if (f.nutrients.nutrientFertilizers != null)
+                        fertilizerRequired = BuildFertilizerRequiredList(fertilizerRequired, f.nutrients.nutrientFertilizers, f.area);
+                }
+            }
+
+            if (fertilizerRequired.Count > 0)
+                rvm.details.AddRange(fertilizerRequired);
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportFertilizers.cshtml", rvm);
 
             return result;
         }
@@ -1181,23 +1211,14 @@ namespace SERVERAPI.Controllers
 
         public async Task<IActionResult> PrintManure()
         {
-            //FileContentResult result = null;
-
-            //string reportManure = await RenderManureUse();
-
-            //result = await PrintReportAsync(reportManure, true);
-
-            //return result;
-
-
-
             FileContentResult result = null;
-            string pageBreak = "<div>&nbsp;</div>";
+            string pageBreak = "<div>&nbsp;&nbsp;&nbsp;&nbsp;</div>";
 
             string reportManureCompostInventory = await RenderManureCompostInventory();
             string reportManureUse = await RenderManureUse();
+            string reportFertilizers = await RenderFerilizers();
 
-            string report = reportManureCompostInventory + pageBreak + reportManureUse;
+            string report = reportManureCompostInventory + pageBreak + reportManureUse + pageBreak + reportFertilizers;
 
             result = await PrintReportAsync(report, true);
 
