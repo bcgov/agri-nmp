@@ -99,7 +99,7 @@ namespace SERVERAPI.Controllers
             rvm.GeneratedManures = _ud.GetGeneratedManures();
             rvm.ImportedManures = _ud.GetImportedManures();
 
-            if (rvm.UnallocatedManureNames.Count > 0)
+            if (rvm.UnallocatedManures.Count > 0)
             {
                 rvm.materialsNotStoredMessage = _sd.GetUserPrompt("materialsNotStoredMessage");
             }

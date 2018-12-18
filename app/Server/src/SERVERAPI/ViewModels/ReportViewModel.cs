@@ -39,7 +39,7 @@ namespace SERVERAPI.ViewModels
                 return manures;
             }
         }
-        public List<string> UnallocatedManureNames => StorableManures.Where(mm => !mm.AssignedToStoredSystem).Select(mm => mm.ManagedManureName).ToList();
+        public List<ManagedManure> UnallocatedManures => StorableManures.Where(mm => !mm.AssignedToStoredSystem).ToList();
 
         public List<AppliedManure> RemainingManures { get; set; }
         public List<AppliedManure> OverUtilizedManures { get; set; }
