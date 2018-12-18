@@ -20,5 +20,12 @@ namespace SERVERAPI.ViewModels
 
         public string footnote { get; set; }
 
+
+        // Manure and Compost Use
+        public string MaterialName { get; set; }
+        public string AnnualAmount { get; set; }
+        public string LandApplied { get; set; }
+        public string AmountRemaining { get; set; }
+
     }
 }

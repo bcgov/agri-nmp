@@ -1,0 +1,68 @@
+﻿@model SERVERAPI.ViewModels.ReportManureSummaryViewModel
+
+<div class="Row">
+    <div class="Cell">
+        <span style="font-size:10pt"><b>Manure and Compost Use</b></span>
+        <br />
+        <br />
+    </div>
+</div>
+<div class="Row">
+    <div class="Cell">
+        <table style="border-collapse: collapse;">
+            <tr style="padding-top:20px; padding-bottom:20px">
+                <td class="CellHdg">
+                    Material
+                </td>
+                <td class="CellHdg" style="text-align:center">
+                    Annual Amount
+                </td>
+                <td class="CellHdg" style="text-align:center">
+                    Land-Applied
+                </td>
+                <td class="CellHdg" style="text-align:center">
+                    Amount Remaining
+                </td>
+            </tr>
+            @foreach (var m in Model.manures)
+            {
+                <tr style="padding-top:20px; padding-bottom:20px">
+                    <td class="CellDtl" style="width:300px;font-weight:bold">Material in @m.MaterialName</td>
+                    <td class="CellDtl" style="width:300px;font-weight:bold">@m.AnnualAmount</td>
+                    <td class="CellDtl" style="width:300px;font-weight:bold">@m.LandApplied</td>
+                    <td class="CellDtl" style="width:300px;font-weight:bold">@m.AmountRemaining</td>
+                </tr>
+            }
+
+        </table>
+        
+    @*@foreach (var s in Model.storages)
+    {
+        @if (@s.footnotes.Count() > 0)
+         {
+             <br/>
+             <br/>
+             <table>
+                 <tr>
+                     <td>
+                         <span class="CellDtlNBd">Assumptions:</span>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td>
+                         &nbsp;
+                     </td>
+                 </tr>
+                 @foreach (var fn in @s.footnotes)
+                 {
+                     <tr>
+                         <td class="CellDtlNBd" style="padding:0px">
+                             @fn.id.ToString() &nbsp;&nbsp; @fn.message
+                         </td>
+                     </tr>
+                 }
+             </table>
+         }
+    }*@
+    </div>
+</div>
