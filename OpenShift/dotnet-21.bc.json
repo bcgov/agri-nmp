@@ -5,23 +5,15 @@
         "name": "dotnet-21",
         "creationTimestamp": null
     },
-    "parameters": [
-        {
-            "name": "NAME_SUFFIX",
-            "displayName": "Name",
-            "description": "The name for all created objects",
-            "required": true,
-            "value": "dotnet-21"
-        }
-    ],
     "objects": [
         {
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-21-rhel7${NAME_SUFFIX}",
+                "name": "dotnet-21-rhel7",
                 "creationTimestamp": null,
-                "annotations": null
+                "annotations": null,
+                "labels": { "shared": "true" }
             },
             "spec": {
                 "lookupPolicy": {
@@ -59,9 +51,10 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-21-runtime-rhel7${NAME_SUFFIX}",
+                "name": "dotnet-21-runtime-rhel7",
                 "creationTimestamp": null,
-                "annotations": null
+                "annotations": null,
+                "labels": { "shared": "true" }
             },
             "spec": {
                 "lookupPolicy": {

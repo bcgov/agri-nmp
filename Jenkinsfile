@@ -1,20 +1,48 @@
-
-basicPipeline {
-    name = 'nmp'
-    env = [
-        'dev':[:],
-        'test':[:],
-        'prod':['params':['host':'nmp.apps.nrs.gov.bc.ca']]
-    ]
-    templates = [
-        'build':[
-            ['file':'OpenShift/dotnet-21.bc.json'],
-            ['file':'OpenShift/dotnet-21-node.bc.json'],
-            ['file':'OpenShift/nmp.bc.json'],
-        ],
-        'deployment':[
-            ['file':'OpenShift/nmp.dc.json', 'params':['HOST':'${env[DEPLOY_ENV_NAME]?.params?.host?:""}']]
-        ]
-    ]
+pipeline {
+    agent none
+    options {
+        disableResume()
+    }
+    stages {
+        stage('Build') {
+            agent { label 'build' }
+            steps {
+                echo "Aborting all running jobs ..."
+                script {
+                    abortAllPreviousBuildInProgress(currentBuild)
+                }
+                echo "Building ..."
+                sh "OpenShift/pipeline-cli build --pr=${CHANGE_ID}"
+            }
+        }
+        stage('Deploy (DEV)') {
+            agent { label 'deploy' }
+            steps {
+                echo "Deploying ..."
+                sh "OpenShift/pipeline-cli deploy --pr=${CHANGE_ID} --env=dev"
+            }
+        }
+        stage('Deploy (TEST)') {
+            agent { label 'deploy' }
+            input {
+                message "Approve deployment to TEST?"
+                ok "Yes!"
+            }
+            steps {
+                echo "Deploying ..."
+                sh "OpenShift/pipeline-cli deploy --pr=${CHANGE_ID} --env=test"
+            }
+        }
+        stage('Deploy (PROD)') {
+            agent { label 'deploy' }
+            input {
+                message "Approve deployment to PROD?"
+                ok "Yes!"
+            }
+            steps {
+                echo "Deploying ..."
+                sh "OpenShift/pipeline-cli deploy --pr=${CHANGE_ID} --env=prod"
+            }
+        }
+    }
 }
-
