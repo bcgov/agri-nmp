@@ -56,7 +56,7 @@
       "name": "DATABASE_SERVICE_NAME",
       "displayName": "Database service name",
       "description": "Name of the database service",
-      "value": "postgresql-dev${NAME_SUFFIX}"
+      "value": "postgresql-nmp"
     }
   ],
   "objects": [
@@ -183,14 +183,6 @@
             }
           },
           "spec": {
-            "volumes": [
-              {
-                "name": "${DATABASE_SERVICE_NAME}-data",
-                "persistentVolumeClaim": {
-                  "claimName": "${DATABASE_SERVICE_NAME}-pvc"
-                }
-              }
-            ],
             "containers": [
               {
                 "name": "postgres",
