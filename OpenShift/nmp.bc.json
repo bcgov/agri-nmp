@@ -170,7 +170,6 @@
           "app": "${DATABASE_SERVICE_NAME}",
           "deploymentconfig": "${DATABASE_SERVICE_NAME}"
         },
-
         "template": {
           "metadata": {
             "creationTimestamp": null,
@@ -237,12 +236,6 @@
                   }
                 },
                 "resources": {},
-                "volumeMounts": [
-                  {
-                    "name": "${DATABASE_SERVICE_NAME}-data",
-                    "mountPath": "/var/lib/pgsql/data"
-                  }
-                ],
                 "terminationMessagePath": "/dev/termination-log",
                 "imagePullPolicy": "Always"
               }
