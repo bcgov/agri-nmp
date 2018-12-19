@@ -93,7 +93,8 @@
       "stringData": {
         "database-name": "${DATABASE_NAME}",
         "database-user": "${DATABASE_USER}",
-        "database-password": "${DATABASE_PASSWORD}"
+        "database-password": "${DATABASE_PASSWORD}",
+        "database-uri": "{.spec.clusterIP}"
       }
     },
     {
