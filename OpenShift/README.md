@@ -36,7 +36,7 @@ oc process -f OpenShift/nmp.bc.json -p NAME_SUFFIX=-build-267 -p VERSION=build-v
 
 ## Deployment
 ```
-oc process -f OpenShift/nmp.bc.json -p NAME_SUFFIX=-dev-267 -p VERSION=dev-v267 -p 'HOST=' -o json | oc apply -f -
+oc process -f OpenShift/nmp.dc.json -p NAME_SUFFIX=-dev-267 -p VERSION=dev-v267 -p 'HOST=' -o json | oc apply -f -
 ```
 
 ## Cleanup
