@@ -38,7 +38,7 @@
         "displayName": "DB Username",
         "description": "Username for NMP AgriConfiguration Database user that will be used for accessing the database.",
         "generate": "expression",
-        "from": "user[A-Z0-9]{3}",
+        "from": "user[A-Z0-9]{3}"
       },
       {
         "name": "DATABASE_PASSWORD",
