@@ -100,7 +100,7 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}",
+        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
         "annotations": {
           "description": "Exposes the database server"
         }
@@ -116,7 +116,7 @@
           }
         ],
         "selector": {
-          "app": "${DATABASE_SERVICE_NAME}"
+          "app": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
         },
         "type": "ClusterIP",
         "sessionAffinity": "None"
@@ -129,11 +129,11 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}",
+        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
         "generation": 1,
         "creationTimestamp": null,
         "labels": {
-          "app": "${DATABASE_SERVICE_NAME}"
+          "app": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
         },
         "annotations": {
           "description": "Defines how to deploy the database",
@@ -166,15 +166,15 @@
         "replicas": 1,
         "test": false,
         "selector": {
-          "app": "${DATABASE_SERVICE_NAME}",
-          "deploymentconfig": "${DATABASE_SERVICE_NAME}"
+          "app": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
+          "deploymentconfig": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
         },
         "template": {
           "metadata": {
             "creationTimestamp": null,
             "labels": {
-              "app": "${DATABASE_SERVICE_NAME}",
-              "deploymentconfig": "${DATABASE_SERVICE_NAME}"
+              "app": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
+              "deploymentconfig": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
             },
             "annotations": {
               "openshift.io/container.postgresql.image.entrypoint": "[\"container-entrypoint\",\"run-postgresql\"]"
