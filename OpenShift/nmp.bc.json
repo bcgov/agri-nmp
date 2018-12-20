@@ -176,20 +176,6 @@
       "status": {
         "lastVersion": 0
       }
-    },
-    {
-      "kind": "Secret",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "postgres-secrets${NAME_SUFFIX}"
-      },
-      "stringData": {
-        "database-name": "test",
-        "database-user": "test",
-        "database-password": "test",
-        "database-uri": "test"
-      },
-      "type": "Opaque"
     }
   ]
 }
