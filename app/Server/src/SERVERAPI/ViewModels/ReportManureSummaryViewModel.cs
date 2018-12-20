@@ -6,5 +6,6 @@ namespace SERVERAPI.ViewModels
     {
         public string year { get; set; }
         public List<ReportManures> manures { get; set; }
+        public List<ReportFieldFootnote> footnotes { get; set; }
     }
 }

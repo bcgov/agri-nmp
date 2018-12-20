@@ -92,10 +92,10 @@
     <Content Update="Views\ManureManagement\ManureNutrientAnalysis.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Report\ReportManureSummary.cshtml">
+    <Content Update="Views\Report\ReportManureCompostInventory.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Report\ReportManure.cshtml">
+    <Content Update="Views\Report\ReportManureSummary.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Report\ReportFertilizers.cshtml">

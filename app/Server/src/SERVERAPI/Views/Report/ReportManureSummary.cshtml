@@ -27,7 +27,7 @@
             @foreach (var m in Model.manures)
             {
             <tr style="padding-top:20px; padding-bottom:20px">
-                <td class="CellDtl" style="width:300px;font-weight:bold">Material in @m.MaterialName</td>
+                <td class="CellDtl" style="width:300px;font-weight:bold">@m.MaterialName</td>
                 <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AnnualAmount</td>
                 <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.LandApplied</td>
                 @if (@m.AmountRemaining == "Insignificant")
@@ -44,14 +44,13 @@
 
         </table>
         
-    @foreach (var s in Model.manures)
-    {
-        @if (@s.footnotes.Count() > 0)
+   
+        @if (Model.footnotes.Count() > 0)
          {
              <br/>
              <br/>
              <table>
-                 @foreach (var fn in @s.footnotes)
+                 @foreach (var fn in @Model.footnotes)
                  {
                      <tr>
                          <td class="CellDtlNBd" style="padding:0px">
@@ -61,6 +60,5 @@
                  }
              </table>
          }
-    }
     </div>
 </div>
