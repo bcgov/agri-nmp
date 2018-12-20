@@ -184,7 +184,7 @@
             "containers": [
               {
                 "name": "postgres",
-                "image": "registry.access.redhat.com/rhscl/postgresql-94-rhel7",
+                "image": "registry.access.redhat.com/rhscl/postgresql-96-rhel7",
                 "ports": [
                   {
                     "containerPort": 5432,
