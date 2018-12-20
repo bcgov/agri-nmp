@@ -31,14 +31,14 @@
         "name": "DATABASE_NAME",
         "displayName": "DB Name",
         "description": "Name for NMP AgriConfiguration Database.",
-        "generate": "expression",
-        "from": "user[A-Z0-9]{3}"
+        "value": "AgriConfiguration"
       },
       {
         "name": "DATABASE_USER",
         "displayName": "DB Username",
         "description": "Username for NMP AgriConfiguration Database user that will be used for accessing the database.",
-        "value": "5Gi"
+        "generate": "expression",
+        "from": "user[A-Z0-9]{3}",
       },
       {
         "name": "DATABASE_PASSWORD",
