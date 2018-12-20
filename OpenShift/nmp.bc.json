@@ -182,7 +182,7 @@
       "apiVersion": "v1",
       "metadata": {
         "name": "postgres-secrets${NAME_SUFFIX}",
-        "namespace": "${NAME_SUFFIX}",
+        "namespace": "${NAME_SUFFIX}"
       },
       "stringData": {
         "database-name": "${DATABASE_NAME}",
