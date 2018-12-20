@@ -181,8 +181,7 @@
       "kind": "Secret",
       "apiVersion": "v1",
       "metadata": {
-        "name": "postgres-secrets${NAME_SUFFIX}",
-        "namespace": "${NAME_SUFFIX}"
+        "name": "postgres-secrets${NAME_SUFFIX}"
       },
       "stringData": {
         "database-name": "test",
