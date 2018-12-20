@@ -1049,4 +1049,8 @@ label {
     line-height: 23px;
 }
 
+.submenu-hovering {
+    background-color: #DAE8EF;
+}
+
 

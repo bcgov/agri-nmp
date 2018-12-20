@@ -59,10 +59,38 @@
             {
                 <li id="@item.Controller@item.Action@item.Id" class="submenu-manure-wizard-item" style="display:none">
                     <a id="eMenu" href='@Url.Action(@item.Action, @item.Controller)'>
-                        <span class="wizard-name" style="vertical-align: text-top">@item.Name</span>
-                        @if (!item.Equals(Model.subMenuOptions.First()))
+
+                        @if (!(item.Id == 4))
                         {
-                            <div class="wizard-item" style="width: 30px;height:30px;display:block">
+                            <div class="wizard-item" style="width: 30px;height:30px;display:block;float:right">
+                                <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
+                                                                                                                                                                                                                                                        .st0 {
+                                                                                                                                                                                                                                                            fill: none;
+                                                                                                                                                                                                                                                            stroke: #b0cee2;
+                                                                                                                                                                                                                                                            stroke-width: 7;
+                                                                                                                                                                                                                                                            stroke-miterlimit: 5;
+                                                                                                                                                                                                                                                        }
+</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 " /></svg>
+
+                            </div>
+                        }
+                        <span class="wizard-name" style="vertical-align: text-top">@item.Name</span>
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+
+    <ul id="submenu-ul" class="submenu-fields-wrapper submenu-manure-wizard-list clearfix">
+        @foreach (var item in Model.subMenuOptions)
+        {
+            if (@item.MainMenuId == 3)
+            {
+                <li id="@item.Controller@item.Action@item.Id" class="submenu-fields-wizard-item" style="display:none;">
+                    <a id="eMenu" href='@Url.Action(@item.Action, @item.Controller)'>
+                        @if (!item.Equals(Model.subMenuOptions.Last()))
+                        {
+                            <div class="wizard-item" style="width: 30px;height:30px;display:block;float:right">
                                 <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
                                                                                                                                                                                                                                                         .st0 {
                                                                                                                                                                                                                                                             fill: none;
@@ -73,39 +101,11 @@
 </style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 " /></svg>
                             </div>
                         }
-
-                    </a>
-
-                </li>
-
-            }
-        }
-    </ul>
-
-    <ul id="submenu-ul" class="submenu-fields-wrapper submenu-manure-wizard-list clearfix">
-        @foreach (var item in Model.subMenuOptions)
-        {
-            if (@item.MainMenuId == 3)
-            {
-                <li id="@item.Controller@item.Action@item.Id" class="submenu-fields-wizard-item" style="display:none;first-chil">
-                    <a id="eMenu" href='@Url.Action(@item.Action, @item.Controller)'>
+                            
                         <span class="wizard-name" style="vertical-align: text-top">@item.Name</span>
-                        @if (!(@item.Id == 5))
-                        {
-                            <div class="wizard-item" style="width: 30px;height:30px;display:block">
-                                <svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 200 199" style="enable-background:new 0 0 200 199;" xml:space="preserve"><style type="text/css">
-                                                                                                                                                                                                                                                    .st0 {
-                                                                                                                                                                                                                                                        fill: none;
-                                                                                                                                                                                                                                                        stroke: #b0cee2;
-                                                                                                                                                                                                                                                        stroke-width: 7;
-                                                                                                                                                                                                                                                        stroke-miterlimit: 5;
-                                                                                                                                                                                                                                                    }
-</style><polyline class="st0" points="33.5,-0.5 136,102 36.5,201.5 "/></svg>
-                            </div>
-                        }
                     </a>
                 </li>
+                }
             }
-        }
     </ul>
 </div>
