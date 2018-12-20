@@ -185,9 +185,9 @@
         "namespace": "${NAME_SUFFIX}"
       },
       "stringData": {
-        "database-name": "${DATABASE_NAME}",
-        "database-user": "${DATABASE_USER}",
-        "database-password": "${DATABASE_PASSWORD}",
+        "database-name": "test",
+        "database-user": "test",
+        "database-password": "test",
         "database-uri": "test"
       },
       "type": "Opaque"
