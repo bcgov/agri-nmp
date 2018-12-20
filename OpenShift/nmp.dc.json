@@ -93,7 +93,7 @@
         "database-name": "${DATABASE_NAME}",
         "database-user": "${DATABASE_USER}",
         "database-password": "${DATABASE_PASSWORD}",
-        "database-uri": "{.spec.clusterIP}"
+        "database-uri": "test"
       }
     },
     {
@@ -181,6 +181,14 @@
             }
           },
           "spec": {
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-pvc"
+                }
+              }
+            ],
             "containers": [
               {
                 "name": "postgres",
@@ -235,6 +243,12 @@
                   }
                 },
                 "resources": {},
+                "volumeMounts": [
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-data",
+                    "mountPath": "/var/lib/pgsql/data"
+                  }
+                ],
                 "terminationMessagePath": "/dev/termination-log",
                 "imagePullPolicy": "Always"
               }
