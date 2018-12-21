@@ -13,7 +13,7 @@
       "description": "The OpenShift ImageStream name.",
       "displayName": "IMAGE_STREAM_NAME",
       "name": "IMAGE_STREAM_NAME",
-      "value": "postgresql-9.6-oracle-fdw"
+      "value": "postgresql-nmp-agri"
     },
     {
       "description": "The OpenShift Namespace where the ImageStream resides.",
