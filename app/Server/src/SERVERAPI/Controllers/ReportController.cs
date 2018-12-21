@@ -1403,14 +1403,17 @@ namespace SERVERAPI.Controllers
         {
             FileContentResult result = null;
             string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
+            string pageBreakForManure = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
 
             string reportApplication = await RenderApplication();
-            string reportSources = await RenderSources();
+            string reportManureCompostInventory = await RenderManureCompostInventory();
+            string reportManureUse = await RenderManureUse();
+            string reportFertilizers = await RenderFerilizers();
             string reportFields = await RenderFields();
             string reportAnalysis = await RenderAnalysis();
             string reportSummary = await RenderSummary();
 
-            string report = reportApplication + pageBreak + reportSources + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
+            string report = reportApplication + pageBreak + reportManureCompostInventory + pageBreakForManure + reportManureUse + pageBreakForManure + reportFertilizers + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
 
             result = await PrintReportAsync(report, true);
 
