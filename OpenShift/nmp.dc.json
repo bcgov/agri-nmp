@@ -90,7 +90,7 @@
         "name": "postgres-secrets${NAME_SUFFIX}",
         "namespace": "agri-nmp-dev"
       },
-      "stringData": {
+      "data": {
         "database-name": "${DATABASE_NAME}",
         "database-user": "${DATABASE_USER}",
         "database-password": "${DATABASE_PASSWORD}",
