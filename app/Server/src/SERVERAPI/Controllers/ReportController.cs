@@ -554,51 +554,61 @@ namespace SERVERAPI.Controllers
             decimal conversionForSolid = 0.000102408m;
 
             var yd = _ud.GetYearData();
-            foreach (var g in yd.GeneratedManures)
+            if (yd.GeneratedManures != null)
             {
-                if (g.AssignedToStoredSystem == false)
+                foreach (var g in yd.GeneratedManures)
                 {
-                    ReportManuress rm = new ReportManuress();
-                    rm.animalManure = g.animalSubTypeName + "," +
-                                      g.averageAnimalNumber + " animals";
-                    rm.annualAmount =
-                        string.Format("{0:#,##0}", g.annualAmount.Split(' ')[0]);
-                    if (g.ManureType == ManureMaterialType.Liquid)
+                    if (g.AssignedToStoredSystem == false)
                     {
-                        rm.units = "US Gallons";
+                        ReportManuress rm = new ReportManuress();
+                        rm.animalManure = g.animalSubTypeName + "," +
+                                          g.averageAnimalNumber + " animals";
+                        rm.annualAmount =
+                            string.Format("{0:#,##0}", g.annualAmount.Split(' ')[0]);
+                        if (g.ManureType == ManureMaterialType.Liquid)
+                        {
+                            rm.units = "US Gallons";
+                        }
+                        else if (g.ManureType == ManureMaterialType.Solid)
+                        {
+                            rm.units = "tons";
+                        }
+
+
+                        if (g.washWaterGallonsToString != "0")
+                        {
+                            rm.milkingCenterWashWater = g.washWaterGallonsToString;
+                        }
+
+                        rmcvm.unstoredManures.Add(rm);
+
                     }
-                    else if (g.ManureType == ManureMaterialType.Solid)
-                    {
-                        rm.units = "tons";
-                    }
-
-
-                    if (g.washWaterGallonsToString != "0")
-                    {
-                        rm.milkingCenterWashWater = g.washWaterGallonsToString;
-                    }
-
-                    rmcvm.unstoredManures.Add(rm);
-
                 }
             }
-            foreach (var i in yd.ImportedManures)
+
+            if (yd.ImportedManures != null)
             {
-                if (i.AssignedToStoredSystem == false)
+                foreach (var i in yd.ImportedManures)
                 {
-                    ReportManuress rm = new ReportManuress();
-                    rm.animalManure = i.MaterialName;
-                    if (i.ManureType == ManureMaterialType.Liquid)
+                    if (i.AssignedToStoredSystem == false)
                     {
-                        rm.annualAmount = string.Format("{0:#,##0}", (Math.Round(i.AnnualAmountUSGallonsVolume))).ToString();
-                        rm.units = "US Gallons";
+                        ReportManuress rm = new ReportManuress();
+                        rm.animalManure = i.MaterialName;
+                        if (i.ManureType == ManureMaterialType.Liquid)
+                        {
+                            rm.annualAmount = string.Format("{0:#,##0}", (Math.Round(i.AnnualAmountUSGallonsVolume)))
+                                .ToString();
+                            rm.units = "US Gallons";
+                        }
+                        else if (i.ManureType == ManureMaterialType.Solid)
+                        {
+                            rm.annualAmount = string.Format("{0:#,##0}", (Math.Round(i.AnnualAmountTonsWeight)))
+                                .ToString();
+                            rm.units = "tons";
+                        }
+
+                        rmcvm.unstoredManures.Add(rm);
                     }
-                    else if (i.ManureType == ManureMaterialType.Solid)
-                    {
-                        rm.annualAmount = string.Format("{0:#,##0}", (Math.Round(i.AnnualAmountTonsWeight))).ToString();
-                        rm.units = "tons";
-                    }
-                    rmcvm.unstoredManures.Add(rm);
                 }
             }
 
