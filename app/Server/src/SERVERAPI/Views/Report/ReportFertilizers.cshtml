@@ -1,32 +1,34 @@
 ﻿@model SERVERAPI.ViewModels.ReportSourcesViewModel
 
-<div class="Row">
-    <div class="Cell">
-        <span style="font-size:10pt"><b>Fertilizer Required</b></span>
-        <br />
-        <br />
+<div style="page-break-inside:avoid">
+    <div class="Row">
+        <div class="Cell">
+            <span style="font-size:10pt"><b>Fertilizer Required</b></span>
+            <br />
+            <br />
+        </div>
     </div>
-</div>
-<div class="Row">
-    <div class="Cell" style="page-break-inside:avoid">
-        <table style="border-collapse: collapse; width:100%">
-            <tr>
-                <td class="CellHdg" style="width:70%">
-                    Material
-                </td>
-                <td class="CellHdg" style="text-align:center; width:30%">
-                    Total Amount Required in @Model.year
-                </td>
-            </tr>
-            @foreach (var n in Model.details)
-            {
+    <div class="Row">
+        <div class="Cell">
+            <table style="border-collapse: collapse; width:100%">
                 <tr>
-                    <td class="CellDtl">@n.nutrientName</td>
-                    <td class="CellDtl" style="text-align:center">
-                        @n.nutrientAmount @n.nutrientUnit
+                    <td class="CellHdg" style="width:70%">
+                        Material
+                    </td>
+                    <td class="CellHdg" style="text-align:center; width:30%">
+                        Total Amount Required in @Model.year
                     </td>
                 </tr>
-            }
-        </table>
+                @foreach (var n in Model.details)
+                {
+                    <tr>
+                        <td class="CellDtl">@n.nutrientName</td>
+                        <td class="CellDtl" style="text-align:center">
+                            @n.nutrientAmount @n.nutrientUnit
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
 </div>
