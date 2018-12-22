@@ -24,6 +24,7 @@ using Microsoft.AspNetCore.NodeServices;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models;
 using Agri.Models.Configuration;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Fertilizer = Agri.Models.Configuration.Fertilizer;
 using FertilizerType = Agri.Models.Configuration.FertilizerType;
 using FertilizerUnit = Agri.Models.Configuration.FertilizerUnit;
@@ -540,31 +541,90 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
-        public async Task<string> RenderManure()
+        public async Task<string> RenderManureCompostInventory()
         {
-            ReportManuresViewModel rmvm = new ReportManuresViewModel();
+            ReportManureCompostViewModel rmcvm = new ReportManureCompostViewModel();
             CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
-            rmvm.storages = new List<ReportStoragesStorage>();
-            rmvm.year = _ud.FarmDetails().year;
+            rmcvm.storages = new List<ReportStorage>();
+            rmcvm.unstoredManures = new List<ReportManuress>();
+            rmcvm.year = _ud.FarmDetails().year;
             decimal rainInMM = 1000;
             decimal conversionForLiquid = 0.024542388m;
             decimal conversionForSolid = 0.000102408m;
 
+            var yd = _ud.GetYearData();
+            if (yd.GeneratedManures != null)
+            {
+                foreach (var g in yd.GeneratedManures)
+                {
+                    if (g.AssignedToStoredSystem == false)
+                    {
+                        ReportManuress rm = new ReportManuress();
+                        rm.animalManure = g.animalSubTypeName + "," +
+                                          g.averageAnimalNumber + " animals";
+                        rm.annualAmount =
+                            string.Format("{0:#,##0}", g.annualAmount.Split(' ')[0]);
+                        if (g.ManureType == ManureMaterialType.Liquid)
+                        {
+                            rm.units = "US Gallons";
+                        }
+                        else if (g.ManureType == ManureMaterialType.Solid)
+                        {
+                            rm.units = "tons";
+                        }
+
+
+                        if (g.washWaterGallonsToString != "0")
+                        {
+                            rm.milkingCenterWashWater = g.washWaterGallonsToString;
+                        }
+
+                        rmcvm.unstoredManures.Add(rm);
+
+                    }
+                }
+            }
+
+            if (yd.ImportedManures != null)
+            {
+                foreach (var i in yd.ImportedManures)
+                {
+                    if (i.AssignedToStoredSystem == false)
+                    {
+                        ReportManuress rm = new ReportManuress();
+                        rm.animalManure = i.MaterialName;
+                        if (i.ManureType == ManureMaterialType.Liquid)
+                        {
+                            rm.annualAmount = string.Format("{0:#,##0}", (Math.Round(i.AnnualAmountUSGallonsVolume)))
+                                .ToString();
+                            rm.units = "US Gallons";
+                        }
+                        else if (i.ManureType == ManureMaterialType.Solid)
+                        {
+                            rm.annualAmount = string.Format("{0:#,##0}", (Math.Round(i.AnnualAmountTonsWeight)))
+                                .ToString();
+                            rm.units = "tons";
+                        }
+
+                        rmcvm.unstoredManures.Add(rm);
+                    }
+                }
+            }
+
             List<ManureStorageSystem> storageList = _ud.GetStorageSystems();
             foreach (var s in storageList)
             {
-                ReportStoragesStorage rs= new ReportStoragesStorage();
+                ReportStorage rs = new ReportStorage();
+                rs.reportManures = new List<ReportManuress>();
                 int? runoffAreaSquareFeet = 0;
                 int? areaOfUncoveredLiquidStorage = 0;
                 decimal washWaterAdjustedValue = 0;
-                decimal annualAmountOfManurePerStorage=0;
+                decimal annualAmountOfManurePerStorage = 0;
 
-                rs.manures = new List<GeneratedManure>();
                 rs.storageSystemName = s.Name;
                 rs.ManureMaterialType = s.ManureMaterialType;
                 rs.footnotes = new List<ReportFieldFootnote>();
-
                 if (s.GetsRunoffFromRoofsOrYards)
                 {
                     runoffAreaSquareFeet = s.RunoffAreaSquareFeet;
@@ -578,64 +638,237 @@ namespace SERVERAPI.Controllers
 
                 if (s.ManureMaterialType == ManureMaterialType.Liquid)
                 {
-                    rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * rainInMM * conversionForLiquid));
+                    rs.precipitation = string.Format("{0:#,##0}",
+                        ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) *
+                         rainInMM * conversionForLiquid));
                     rs.units = "US gallons";
                 }
                 else if (s.ManureMaterialType == ManureMaterialType.Solid)
                 {
-                    rs.precipitation = string.Format("{0:#,##0}", ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) * rainInMM * conversionForSolid));
-                    rs.units ="tons";
+                    rs.precipitation = string.Format("{0:#,##0}",
+                        ((Convert.ToDecimal(runoffAreaSquareFeet) + Convert.ToDecimal(areaOfUncoveredLiquidStorage)) *
+                         rainInMM * conversionForSolid));
+                    rs.units = "tons";
                 }
 
-                if (s.GeneratedManuresIncludedInSystem != null)
+                if (s.MaterialsIncludedInSystem != null)
                 {
-                    foreach (var m in s.GeneratedManuresIncludedInSystem)
+                    foreach (var m in s.MaterialsIncludedInSystem)
                     {
-                        rs.animalManure = m.animalSubTypeName + "," + m.averageAnimalNumber + " animals";
-                        rs.annualAmount = string.Format("{0:#,##0}", m.annualAmount.Split(' ')[0]);
-
-                        if (@s.ManureMaterialType != @m.ManureType  && @m.ManureType == ManureMaterialType.Solid)
+                        if (m.ManureId.Contains("Generated"))
                         {
-                            // if solid material is added to the liquid system change the calculations to depict that of liquid
-                            AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(m.animalSubTypeId));
-                            if (animalSubType.SolidPerGalPerAnimalPerDay.HasValue)
+                            var generatedFarmManure = _ud.GetGeneratedManure(m.Id);
+                            ReportManuress rm = new ReportManuress();
+                            rm.animalManure = generatedFarmManure.animalSubTypeName + "," +
+                                              generatedFarmManure.averageAnimalNumber + " animals";
+                            rm.annualAmount =
+                                string.Format("{0:#,##0}", generatedFarmManure.annualAmount.Split(' ')[0]);
+                            if (s.ManureMaterialType == ManureMaterialType.Liquid)
                             {
-                                rs.annualAmount = (Math.Round(Convert.ToInt32(m.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerGalPerAnimalPerDay) * 365)).ToString();
-                                rs.units = "US gallons";
-                                m.annualAmount = rs.annualAmount;
+                                rm.units = "US Gallons";
+                            }
+                            else if (s.ManureMaterialType == ManureMaterialType.Solid)
+                            {
+                                rm.units = "tons";
+                            }
+                            if (s.ManureMaterialType != generatedFarmManure.ManureType &&
+                                generatedFarmManure.ManureType == ManureMaterialType.Solid)
+                            {
+                                // if solid material is added to the liquid system change the calculations to depict that of liquid
+                                AnimalSubType animalSubType =
+                                    _sd.GetAnimalSubType(Convert.ToInt32(generatedFarmManure.animalSubTypeId));
+                                if (animalSubType.SolidPerGalPerAnimalPerDay.HasValue)
+                                {
+                                    rm.annualAmount =
+                                        (Math.Round(Convert.ToInt32(generatedFarmManure.averageAnimalNumber) *
+                                                    Convert.ToDecimal(animalSubType.SolidPerGalPerAnimalPerDay) * 365))
+                                        .ToString();
+                                    rm.units = "US gallons";
+                                }
+                            }
+
+                            if (generatedFarmManure.washWaterGallonsToString != "0")
+                            {
+                                rs.milkingCenterWashWater = generatedFarmManure.washWaterGallonsToString;
+                                washWaterAdjustedValue = generatedFarmManure.washWater;
+                            }
+
+                            if (generatedFarmManure.washWater.ToString("#.##") != calculateAnimalRequirement
+                                    .GetWashWaterBySubTypeId(generatedFarmManure.animalSubTypeId).Value
+                                    .ToString("#.##"))
+                            {
+                                ReportFieldFootnote rff = new ReportFieldFootnote();
+                                rff.id = rs.footnotes.Count() + 1;
+                                rff.message = "Milking Center Wash Water adjusted to " +
+                                              washWaterAdjustedValue.ToString("G29") + " US gallons/day/animal";
+                                rs.footnote = rff.id.ToString();
+                                rs.footnotes.Add(rff);
+                            }
+                            rs.reportManures.Add(rm);
+                        }
+                        else if (m.ManureId.Contains("Imported"))
+                        {
+                            var importedFarmManure = _ud.GetImportedManureByManureId(m.ManureId);
+                            if (importedFarmManure.AssignedToStoredSystem)
+                            {
+                                ReportManuress rm = new ReportManuress();
+                                rm.animalManure = importedFarmManure.MaterialName;
+                                if (rs.ManureMaterialType == ManureMaterialType.Liquid)
+                                {
+                                    rm.annualAmount = string.Format("{0:#,##0}", (Math.Round(importedFarmManure.AnnualAmountUSGallonsVolume))).ToString();
+                                    rm.units = "US Gallons";
+                                }
+                                else if (rs.ManureMaterialType == ManureMaterialType.Solid)
+                                {
+                                    rm.annualAmount = string.Format("{0:#,##0}", (Math.Round(importedFarmManure.AnnualAmountTonsWeight))).ToString();
+                                    rm.units = "tons";
+                                }
+                                rs.reportManures.Add(rm);
                             }
                         }
-
-                        if (m.washWaterGallonsToString != "")
-                        {
-                            rs.milkingCenterWashWater = m.washWaterGallonsToString;
-                            annualAmountOfManurePerStorage += Convert.ToDecimal(m.washWaterGallons);
-                            washWaterAdjustedValue= m.washWater;
-                        }
-
-                        if (m.washWater.ToString("#.##") != calculateAnimalRequirement
-                                .GetWashWaterBySubTypeId(m.animalSubTypeId).Value.ToString("#.##"))
-                        {
-                            ReportFieldFootnote rff = new ReportFieldFootnote();
-                            rff.id = rs.footnotes.Count() + 1;
-                            rff.message = "Milking Center Wash Water adjusted to " + washWaterAdjustedValue.ToString("G29") + " US gallons/day/animal";
-                            rs.footnote = rff.id.ToString();
-                            rs.footnotes.Add(rff);
-                        }
-                        annualAmountOfManurePerStorage += Convert.ToDecimal(rs.annualAmount);
-                        rs.manures.Add(m);  
                     }
                 }
 
-                annualAmountOfManurePerStorage += Convert.ToDecimal(rs.precipitation);
-
-                rs.annualAmount = string.Format("{0:#,##0}",annualAmountOfManurePerStorage);
-
-                rmvm.storages.Add(rs);
-
+                rmcvm.storages.Add(rs);
             }
 
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportManure.cshtml", rmvm);
+
+            foreach (var s in rmcvm.storages)
+            {
+                decimal annualAmountOfManurePerStorage = 0;
+                if (s.precipitation != null)
+                {
+                    annualAmountOfManurePerStorage = Convert.ToDecimal(s.precipitation);
+                }
+
+                if (s.milkingCenterWashWater != null)
+                {
+                    annualAmountOfManurePerStorage += Convert.ToDecimal(s.milkingCenterWashWater);
+                }
+
+                foreach (var m in s.reportManures)
+                {
+                    if (m.annualAmount != null)
+                    {
+                        annualAmountOfManurePerStorage += Convert.ToDecimal(m.annualAmount);
+                    }
+                }
+
+                if (s.annualAmountOfManurePerStorage != "")
+                {
+                    s.annualAmountOfManurePerStorage = string.Format("{0:#,##0}", (Math.Round(annualAmountOfManurePerStorage))).ToString();
+                }
+            }
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportManureCompostInventory.cshtml", rmcvm);
+
+            return result;
+        }
+
+        public async Task<string> RenderManureUse()
+        {
+            ReportManureSummaryViewModel rmsvm = new ReportManureSummaryViewModel();
+            rmsvm.manures = new List<ReportManures>();
+            rmsvm.footnotes = new List<ReportFieldFootnote>();
+            rmsvm.year = _ud.FarmDetails().year;
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.farmManures != null)
+            {
+                foreach (var fm in yearData.farmManures)
+                {
+                    ReportManures rm = new ReportManures();
+                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
+
+                    if (appliedManure != null)
+                    {
+                        
+
+                        if (fm.stored_imported == NutrientAnalysisTypes.Stored)
+                        {
+                            rm.MaterialName = "Material in ";
+                        }
+                        else if (fm.stored_imported == NutrientAnalysisTypes.Imported)
+                        {
+                            rm.MaterialName = "";
+                        }
+
+                        rm.MaterialName += appliedManure.SourceName;
+
+                        // Annual Amount
+
+                        rm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureToApply))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.AnnualAmount += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.AnnualAmount += " tons";
+                        }
+
+                        // Amount Land Applied
+                        rm.LandApplied = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalApplied))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.LandApplied += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.LandApplied += " tons";
+                        }
+                        rm.LandApplied += " (" + appliedManure.WholePercentAppiled + "%)";
+
+                        // Amount Remaining
+                        if (appliedManure.WholePercentRemaining < 10)
+                        {
+                            rm.AmountRemaining = "Insignificant";
+
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = rmsvm.footnotes.Count() + 1;
+                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
+                            rm.footnote = rff.id.ToString();
+                            rmsvm.footnotes.Add(rff);
+                        }
+                        else
+                        {
+                            rm.AmountRemaining = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureRemainingToApply))) + " (" + appliedManure.WholePercentRemaining + "%)";
+                        }
+
+                        rmsvm.manures.Add(rm);
+                    }
+                }
+            }
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportManureSummary.cshtml", rmsvm);
+
+            return result;
+        }
+
+        public async Task<string> RenderFerilizers()
+        {
+            ReportSourcesViewModel rvm = new ReportSourcesViewModel();
+            List<ReportSourcesDetail> manureRequired = new List<ReportSourcesDetail>();
+            List<ReportSourcesDetail> fertilizerRequired = new List<ReportSourcesDetail>();
+
+            rvm.year = _ud.FarmDetails().year;
+            rvm.details = new List<ReportSourcesDetail>();
+
+
+            List<Field> fldList = _ud.GetFields();
+            foreach (var f in fldList)
+            {
+                if (f.nutrients != null)
+                {
+                    if (f.nutrients.nutrientFertilizers != null)
+                        fertilizerRequired = BuildFertilizerRequiredList(fertilizerRequired, f.nutrients.nutrientFertilizers, f.area);
+                }
+            }
+
+            if (fertilizerRequired.Count > 0)
+                rvm.details.AddRange(fertilizerRequired);
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportFertilizers.cshtml", rvm);
 
             return result;
         }
@@ -1093,10 +1326,15 @@ namespace SERVERAPI.Controllers
         public async Task<IActionResult> PrintManure()
         {
             FileContentResult result = null;
+            string pageBreak = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
 
-            string reportManure = await RenderManure();
+            string reportManureCompostInventory = await RenderManureCompostInventory();
+            string reportManureUse = await RenderManureUse();
+            string reportFertilizers = await RenderFerilizers();
 
-            result = await PrintReportAsync(reportManure, true);
+            string report = reportManureCompostInventory + pageBreak + reportManureUse + pageBreak + reportFertilizers;
+
+            result = await PrintReportAsync(report, true);
 
             return result;
         }
@@ -1165,14 +1403,17 @@ namespace SERVERAPI.Controllers
         {
             FileContentResult result = null;
             string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
+            string pageBreakForManure = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
 
             string reportApplication = await RenderApplication();
-            string reportSources = await RenderSources();
+            string reportManureCompostInventory = await RenderManureCompostInventory();
+            string reportManureUse = await RenderManureUse();
+            string reportFertilizers = await RenderFerilizers();
             string reportFields = await RenderFields();
             string reportAnalysis = await RenderAnalysis();
             string reportSummary = await RenderSummary();
 
-            string report = reportApplication + pageBreak + reportSources + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
+            string report = reportApplication + pageBreak + reportManureCompostInventory + pageBreakForManure + reportManureUse + pageBreakForManure + reportFertilizers + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
 
             result = await PrintReportAsync(report, true);
 
