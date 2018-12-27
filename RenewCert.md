@@ -25,13 +25,15 @@ If you are on a linux machine, you can just install `certbot` using a package ma
 
 ## Run certbot to generate the new certificates
 
-On linux, run the following command to generate the certs, responding to the prompts and stopping at the `Press Enter to Continue` step.  **Don't press "Enter" (yet)**.
+Generating the cert using certbot is a step run on your local machine.
+
+On a linux-like OS, run the following command to generate the certs, responding to the prompts and stopping at the `Press Enter to Continue` step.  **Don't press "Enter" (yet)**.
 
 ```
 sudo certbot certonly --manual -d nmp.apps.nrs.gov.bc.ca
 ```
 
-Based on the docs, a `--config_dir <dir>` option can be used to change where the cert files are generated (but that's not been tried).
+Based on the docs, a `--config_dir <dir>` option can be used to change where the cert files are generated (but that's not been tried). That might enable not having to run 
 
 On other OS's the command might be different - eg. on docker.
 
@@ -48,6 +50,7 @@ The copied string needs to be put into an OpenShift Config Map such that it prov
 - Click into the `certbot` config map
   - The format of copied string from certbot should be the same as the value of the existing string - e.g same two parts, same length
 - Click Actions -> Edit
+- As a precaution - copy and paste the current key and value into a text editor in case you need to restore them.
 - Set the Key to the first part of the copied string (up to the ".")
 - Set the Value to the entire string
 - Click Save
@@ -62,7 +65,7 @@ Once completed, return to the `certbot` command line and hit `Enter` per the ins
 
 Go to the directory where the certs were saved and display them such that you can copy the text.  As well, go in the OpenShift Agri-NMP Prod project to Applications -> Routes -> nmp-prod and then select Actions -> Edit.  Scroll down to where the values of the certificates are - there are three (`Certificate`, `Private Key` and `CA Certificate`).
 
-- As a precaution - copy and paste the current values into a text editor in case you need to replace them.
+- As a precaution - copy and paste the current values into a text editor in case you need to restore them.
 - From the directory where certbot put the certificate files (e.g. /etc/letsencrypt/live/nmp.apps.nrs.gov.bc.ca)
   - Copy the text from file `cert.pem` to the `Certificate` text box
   - Copy the text from file `privkey1.pem` to the `Private Key` text box
