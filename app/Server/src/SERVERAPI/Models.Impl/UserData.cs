@@ -877,8 +877,16 @@ namespace SERVERAPI.Models.Impl
             {
                 var oldMaterial =
                     storageSystem.MaterialsIncludedInSystem.Single(m => m.ManureId == generatedManure.ManureId);
-                storageSystem.MaterialsIncludedInSystem.Remove(oldMaterial);
-                UpdateManureStorageSystem(storageSystem);
+                storageSystem.GeneratedManuresIncludedInSystem.RemoveAll(mis => mis.ManureId == oldMaterial.ManureId);
+
+                if (storageSystem.MaterialsIncludedInSystem.Any())
+                {
+                    UpdateManureStorageSystem(storageSystem);
+                }
+                else
+                {
+                    DeleteManureStorageSystem(storageSystem.Id);
+                }
             }
         }
 
