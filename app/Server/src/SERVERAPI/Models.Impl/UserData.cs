@@ -10,6 +10,7 @@ using Agri.LegacyData.Models.Impl;
 using Agri.Models;
 using Agri.Models.Configuration;
 using AutoMapper;
+using Version = Agri.Models.Configuration.Version;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -633,6 +634,38 @@ namespace SERVERAPI.Models.Impl
             return fm;
         }
 
+        public FarmManure GetFarmManureByManureId(string manureId)
+        {
+            FarmManure fm = new FarmManure();
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+
+            if (yd.farmManures == null)
+            {
+                yd.farmManures = new List<FarmManure>();
+            }
+
+            fm = yd.farmManures.FirstOrDefault(c => c.managedManureId == manureId);
+            if (!fm.customized)
+            {
+                Manure man = _sd.GetManure(fm.manureId.ToString());
+                fm.ammonia = man.Ammonia;
+                fm.dmid = man.DMId;
+                fm.manure_class = man.ManureClass;
+                fm.moisture = man.Moisture;
+                fm.name = man.Name;
+                fm.nitrate = man.Nitrate;
+                fm.nitrogen = man.Nitrogen;
+                fm.nminerizationid = man.NMineralizationId;
+                fm.phosphorous = man.Phosphorous;
+                fm.potassium = man.Potassium;
+                fm.solid_liquid = man.SolidLiquid;
+            }
+
+            return fm;
+        }
+
         public List<FarmManure> GetFarmManures()
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -931,10 +964,16 @@ namespace SERVERAPI.Models.Impl
             yd.ManureStorageSystems.Remove(storageSystem);
 
             // Remove the NutrientAnalsis if the StorageSystem is removed.
-            if (yd.farmManures != null)
+            if (yd.farmManures != null && yd.ManureStorageSystems.Count >0)
             {
-                var farmManure = yd.farmManures.Single(im => Convert.ToInt32(im.sourceOfMaterialId.Split(",")[1]) == id && im.sourceOfMaterialId.Split(",")[0].Contains("Generated"));
-                yd.farmManures.Remove(farmManure);
+                foreach (var s in yd.ManureStorageSystems)
+                {
+                    foreach (var m in s.MaterialsIncludedInSystem)
+                    {
+                        var farmManure = yd.farmManures.Single(im => im.sourceOfMaterialId.Split(",")[0] == m.ManureId);
+                        yd.farmManures.Remove(farmManure);
+                    }
+                }
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);

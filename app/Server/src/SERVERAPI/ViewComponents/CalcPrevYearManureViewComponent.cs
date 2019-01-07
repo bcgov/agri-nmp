@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models;
-using static SERVERAPI.Models.StaticData;
-using Agri.LegacyData.Models.Impl;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -44,7 +38,7 @@ namespace SERVERAPI.ViewComponents
             {
                 if (fld.crops.Count() > 0)  
                 {
-                    manureVM.display = _sd.wasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
+                    manureVM.display = _sd.WasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
                     if (manureVM.display)
                     {
                         manureVM.fldName = fldName;

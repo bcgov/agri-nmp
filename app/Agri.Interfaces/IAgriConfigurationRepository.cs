@@ -14,7 +14,7 @@ namespace Agri.Interfaces
         List<Location> GetLocations();
         List<CropSoilTestPotassiumRegion> GetCropSoilTestPotassiumRegions();
         List<CropSoilTestPhosphorousRegion> GetCropSoilTestPhosphorousRegions();
-        List<UserPrompt> GetUserPromts();
+        List<UserPrompt> GetUserPrompts();
         List<ExternalLink> GetExternalLinks();
         List<SoilTestPhosphorusRange> GetSoilTestPhosphorusRanges();
         List<SoilTestPotassiumRange> GetSoilTestPotassiumRanges();
@@ -59,10 +59,9 @@ namespace Agri.Interfaces
         List<Crop> GetCrops(int cropType);
         Crop GetCrop(int cropId);
         int GetCropPrevYearManureApplVolCatCd(int cropId);
-        List<Yield> GetYield(int yieldId);
         Yield GetYieldById(int yieldId);
-        CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropid, int soil_test_phosphorous_region_cd);
-        CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soil_test_potassium_region_cd);
+        CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropid, int soilTestPotassiumRegionCode);
+        CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soilTestPotassiumRegionCode);
         DryMatter GetDryMatter(int ID);
         AmmoniaRetention GetAmmoniaRetention(int seasonApplicatonId, int dm);
         NitrogenMineralization GetNMineralization(int id, int locationid);
@@ -102,7 +101,10 @@ namespace Agri.Interfaces
         LiquidFertilizerDensity GetLiquidFertilizerDensity(int fertilizerId, int densityId);
         DefaultSoilTest GetDefaultSoilTest();
         string GetDefaultSoilTestMethod();
-        string SoilTestRating(string chem, decimal value);
+        List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges();
+        List<PhosphorusSoilTestRange> GetPhosphorusSoilTestRanges();
+        string GetPotassiumSoilTestRating(decimal value);
+        string GetPhosphorusSoilTestRating(decimal value);
         FertilizerMethod GetFertilizerMethod(string id);
         List<FertilizerMethod> GetFertilizerMethods();
         List<SelectListItem> GetFertilizerMethodsDll();
@@ -113,7 +115,7 @@ namespace Agri.Interfaces
         string GetStaticDataVersion();
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
         List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults();
-        bool wasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded);
+        bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded);
         int GetInteriorId();
         bool IsRegionInteriorBC(int? region);
         bool IsNitrateCreditApplicable(int? region, DateTime sampleDate, int yearOfAnalysis);
@@ -146,12 +148,14 @@ namespace Agri.Interfaces
         List<SelectListItem> GetSubtypesDll(int animalType);
         decimal GetIncludeWashWater(int Id);
         decimal GetMilkProduction(int Id);
+        AnimalsUsingWashWater GetAnimalsUsingWashWater();
         bool DoesAnimalUseWashWater(int animalSubTypeId);
         AnimalSubType GetAnimalSubType(int id);
         List<MainMenu> GetMainMenus();
         List<SelectListItem> GetMainMenusDll();
         List<SubMenu> GetSubMenus();
         List<SelectListItem> GetSubmenusDll();
+        [Obsolete]
         List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield);
         ManureImportedDefault GetManureImportedDefault();

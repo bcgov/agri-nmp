@@ -13,9 +13,6 @@
     <UserSecretsId>aspnet-Core2-37757D75-C7BA-4F7A-8B80-0040DB6484EA</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="Data\static.json" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Bootstrap.Datepicker" Version="1.6.4" />
@@ -38,15 +35,12 @@
     <None Remove="Mappings\**" />
     <None Remove="Migrations\**" />
     <None Remove="Services\**" />
-    <Compile Remove="Models\AppSettings.cs" />
-    <Compile Remove="Models\FarmData.cs" />
     <Compile Remove="Utility\BalanceMessages.cs" />
     <Compile Remove="Utility\ChemicalBalances.cs" />
     <Compile Remove="Utility\CropRequirementRemoval.cs" />
     <Compile Remove="Utility\FertilizerNutrients.cs" />
     <Compile Remove="Utility\NOrganicMineralizations.cs" />
     <Compile Remove="Utility\NutrientInputs.cs" />
-    <Content Remove="Data\static.json" />
     <None Remove="PDF.js" />
     <Content Include="PDF.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -64,9 +58,6 @@
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.3" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\static.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserAgent\" />
@@ -101,7 +92,13 @@
     <Content Update="Views\ManureManagement\ManureNutrientAnalysis.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Report\ReportManure.cshtml">
+    <Content Update="Views\Report\ReportManureCompostInventory.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Report\ReportManureSummary.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Report\ReportFertilizers.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Views\Shared\Components\Navigation\Default.cshtml">

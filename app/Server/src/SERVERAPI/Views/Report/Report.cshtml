@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using Agri.Models
+@using Microsoft.AspNetCore.Http;
 @model SERVERAPI.ViewModels.ReportViewModel
 
 @{
@@ -21,15 +22,105 @@
 <br />
 
 <div class="container">
-    <div class="step-forms col-sm-12" style="text-align:center">
+    <div class="step-forms col-sm-12" style="text-align:left">
         <!-- PAGE CONTENT -->
         <form asp-controller="Report" asp-action="Report" method="post">
+            @if (!string.IsNullOrEmpty(Model.MaterialsRemainingMessage))
+            {
+                <div class="form-box-fields">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-box" style="margin:0px auto 0px">
+                                <div class="form-box-header clearfix">
+                                    <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
+                                    <span style="display:inline; font-size:17px">@Html.Raw(Model.MaterialsRemainingMessage)</span>
+                                    <ul>
+                                        @foreach (var remainingManure in Model.RemainingManures)
+                                        {
+                                            if (@remainingManure.ManureMaterialType == ManureMaterialType.Solid)
+                                            {
+                                                <li style="text-align:left">
+                                                    @remainingManure.SourceName: @string.Format("{0:#,##0}", (Math.Round(@remainingManure.TotalAnnualManureRemainingToApply))).ToString().TrimStart('-') tons (@remainingManure.WholePercentRemaining% remaining)
+                                                </li>
+                                            }
+                                            else if (@remainingManure.ManureMaterialType == ManureMaterialType.Liquid)
+                                            {
+                                                <li style="text-align:left">
+                                                    @remainingManure.SourceName: @string.Format("{0:#,##0}", (Math.Round(@remainingManure.TotalAnnualManureRemainingToApply))).ToString().TrimStart('-') US Gallons (@remainingManure.WholePercentRemaining% remaining)
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.OverUtilizedManuresMessage))
+            {
+                <div class="form-box-fields">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-box" style="margin:0px auto 0px">
+                                <div class="form-box-header clearfix">
+                                    <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
+                                    <span style="display:inline; font-size:17px">@Html.Raw(Model.OverUtilizedManuresMessage)</span>
+                                    <ul>
+                                        @foreach (var overUtilizedManure in Model.OverUtilizedManures)
+                                        {
+                                            if (@overUtilizedManure.ManureMaterialType == ManureMaterialType.Solid)
+                                            {
+                                                <li style="text-align:left">
+                                                    @overUtilizedManure.SourceName: over utilized by @string.Format("{0:#,##0}", (Math.Round(@overUtilizedManure.TotalAnnualManureRemainingToApply))).ToString().TrimStart('-') tons
+                                                </li>
+                                            }
+                                            else if (@overUtilizedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                                            {
+                                                <li style="text-align:left">
+                                                    @overUtilizedManure.SourceName: over utilized by @string.Format("{0:#,##0}", (Math.Round(@overUtilizedManure.TotalAnnualManureRemainingToApply))).ToString().TrimStart('-') US Gallons
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.materialsNotStoredMessage))
+            {
+                <div class="form-box-fields">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-box" style="margin:0px auto 0px">
+                                <div class="form-box-header clearfix">
+                                    <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
+                                    <span style="display:inline; font-size:17px">@Html.Raw(Model.materialsNotStoredMessage)</span>
+                                    <ul>
+                                        @foreach (var manure in Model.UnallocatedManures)
+                                        {
+                                            <li style="text-align:left">
+                                                @manure.ManagedManureName, @manure.ManureType
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
             @if (!string.IsNullOrEmpty(Model.noCropsMsg))
             {
                 <div class="form-box-fields">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="form-box">
+                            <div class="form-box" style="margin:0px auto 0px">
                                 <div class="form-box-header clearfix">
                                     <div>
                                         <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
@@ -41,102 +132,71 @@
                     </div>
                 </div>
             }
+    </div>
+    <div class="step-forms col-sm-12" style="text-align:center">
 
-            <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
-                <div class="form-box-header clearfix" style="text-align:center">
-                    PDFs (opens a new tab)
-                </div>  
-                <div class="form-box-body">  
-                    <div style="padding:20px">
-                        <div style="margin-top:10px">
-                            <a href="@Url.Action("PrintComplete", "Report")" id="prtComplete"  target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary"  title="Open Complete Report: &#009;&#013; - Application Schedule &#009;&#013; - Manure and Fertilizer Required &#009;&#013; - Field Summaries &#009;&#013; - Manure and Compost Analysis &#009;&#013; - Soil Test Results" aria-label="Open Complete Report: Application Schedule, Manure and Fertilizer Required, Field Summaries, Manure and Compost Analysis, and Soil Test Results"  style="width:220px; padding:5px; font-size:large"   type="button" value="Complete Report" onclick="document.getElementById('prtComplete').click(); return false;" /></span></a>
-                        </div>
-                        <div style="margin-top:10px">
-                            <a href="@Url.Action("PrintFields", "Report")" id="prtFields" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" title="Open Field Summaries only" aria-label="Open Field Summaries only" style="width:160px" type="button" value="Field Summaries" onclick="document.getElementById('prtFields').click(); return false;" /></span></a>
-                        </div>
-                        <div style="margin-top:10px">
-                            <a href="@Url.Action("PrintManure", "Report")" id="prtManure" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" title="Open Print Manure only" aria-label="Open Print Manure only" style="width:160px" type="button" value="Manure Report" onclick="document.getElementById('prtManure').click(); return false;" /></span></a>
-                        </div>
-                        <div style="margin-top:10px">
-                            <a href="@Url.Action("PrintApplication", "Report")" id="prtAppl" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" title="Open Application Schedule only"  aria-label="Open Application Schedule only" style="width:160px" type="button" value="Application Schedule" onclick="document.getElementById('prtAppl').click(); return false;" /></span></a>
-                        </div>
-                        <div style="margin-top:10px">
-                            <a href="@Url.Action("PrintSheets", "Report")" id="prtSheets" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" title="Open Record Keeping Sheets" aria-label="Open Record Keeping Sheets" style="width:220px; padding:5px; font-size:large" type="button" value="Record Keeping Sheets" onclick="document.getElementById('prtSheets').click(); return false;" /></span></a>
-                        </div>
+        <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
+            <div class="form-box-header clearfix" style="text-align:center">
+                PDFs (opens a new tab)
+            </div>
+            <div class="form-box-body">
+                <div style="padding:20px">
+                    <div style="margin-top:10px">
+                        <a href="@Url.Action("PrintComplete", "Report")" id="prtComplete" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" title="Open Complete Report: &#009;&#013; - Application Schedule &#009;&#013; - Manure and Fertilizer Required &#009;&#013; - Field Summaries &#009;&#013; - Manure and Compost Analysis &#009;&#013; - Soil Test Results" aria-label="Open Complete Report: Application Schedule, Manure and Fertilizer Required, Field Summaries, Manure and Compost Analysis, and Soil Test Results" style="width:220px; padding:5px; font-size:large" type="button" value="Complete Report" onclick="document.getElementById('prtComplete').click();return false;" /></span></a>
+                    </div>
+                    <div style="margin-top:10px">
+                        <a href="@Url.Action("PrintFields", "Report")" id="prtFields" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" title="Open Field Summaries only" aria-label="Open Field Summaries only" style="width:160px" type="button" value="Field Summaries" onclick="document.getElementById('prtFields').click();return false;" /></span></a>
+                    </div>
+                    <div style="margin-top:10px">
+                        <a href="@Url.Action("PrintManure", "Report")" id="prtManure" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" title="Open Print Manure only" aria-label="Open Print Manure only" style="width:160px" type="button" value="Manure Report" onclick="document.getElementById('prtManure').click();return false;" /></span></a>
+                    </div>
+                    <div style="margin-top:10px">
+                        <a href="@Url.Action("PrintApplication", "Report")" id="prtAppl" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" title="Open Application Schedule only" aria-label="Open Application Schedule only" style="width:160px" type="button" value="Application Schedule" onclick="document.getElementById('prtAppl').click();return false;" /></span></a>
+                    </div>
+                    <div style="margin-top:10px">
+                        <a href="@Url.Action("PrintSheets", "Report")" id="prtSheets" target="_blank"><span aria-hidden="true" style="font-size:20px; padding-top:5px"><input class="form-box-submit-button btn btn-primary" title="Open Record Keeping Sheets" aria-label="Open Record Keeping Sheets" style="width:220px; padding:5px; font-size:large" type="button" value="Record Keeping Sheets" onclick="document.getElementById('prtSheets').click();return false;" /></span></a>
                     </div>
                 </div>
             </div>
-            <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
-                <div class="form-box-header clearfix" style="text-align:center">
-                    NMP Data File
+        </div>
+        <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
+            <div class="form-box-header clearfix" style="text-align:center">
+                NMP Data File
+            </div>
+            <div class="form-box-body">
+            </div>
+            <div class="Table">
+                <div class="Row">
+                    <div class="Cell" style="text-align:left">
+                        @Html.Raw(Model.downloadMsg)
+                    </div>
                 </div>
-                <div class="form-box-body">
+                <div class="Row" style="padding-bottom:30px">
+                    &nbsp;
                 </div>
-                <div class="Table">
-                    <div class="Row">
-                        <div class="Cell" style="text-align:left">
-                            @Html.Raw(Model.downloadMsg)
-                        </div>
+                <div class="Row" style="padding:30px">
+                    <div class="Cell">
+                        <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="ResetWarning();location.href = '@Url.Action("Download", "Home")'" />
                     </div>
-                    <div class="Row" style="padding-bottom:30px">
-                        &nbsp;
-                    </div>
-                    <div class="Row" style="padding:30px">
-                        <div class="Cell">
-                            <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="ResetWarning();location.href='@Url.Action("Download", "Home")'" />
-                        </div>
-                    </div>
-                    <div class="Row" style="padding-bottom:30px">
-                        &nbsp;
-                    </div>
+                </div>
+                <div class="Row" style="padding-bottom:30px">
+                    &nbsp;
                 </div>
             </div>
-            @*<div class="form-box" style="display:inline-block; margin:30px">
-                    <div class="form-box-header clearfix" style="text-align:center">
-                        <legend class="form-box-heading">Data File</legend>
-                    </div>
-                    <div class="form-box-body">
-                        <div class="form-box-fields">
-                            <div class="Table">
-                                <div class="Row">
-                                    <div class="Cell" style="text-align:left">
-                                        <ul>
-                                            <li>Continue later</li>
-                                            <li>Save data for next year</li>
-                                            <li>Share work with someone else</li>
-                                        </ul>
-                                    </div>
-                                    <div class="Cell" style="text-align:left">
-                                        <ul>
-                                            <li>Load data file from your comupter</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="Row">
-                                    <div class="Cell">
-                                        <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
-                                    </div>
-                                    <div class="Cell">
-                                        <input class="btn btn-primary" type="button" value="Load file" title="Load data from your local drive" onclick="location.href='@Url.Action("Download", "Home")'" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
+        </div>
 
-            <br />
-            <br />
-            <br />
-            <br />
-            <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Calculate", "Nutrients" )';"  title="Previous"  aria-label="Previous"/>
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="Intercept('@Model.url');ResetWarning();" title="Finish"  aria-label="Finish" />
-            </div>
-            @Html.HiddenFor(x => x.unsavedData)
-            @Html.HiddenFor(x => x.url)
-            @Html.HiddenFor(x => x.downloadMsg)
-            @Html.HiddenFor(x => x.loadMsg)
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="form-box-submit">
+            <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href = '@Url.Action("Calculate", "Nutrients")';" title="Previous" aria-label="Previous" />
+            <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="Intercept('@Model.url');ResetWarning();" title="Finish" aria-label="Finish" />
+        </div>
+        @Html.HiddenFor(x => x.unsavedData)
+        @Html.HiddenFor(x => x.url)
+        @Html.HiddenFor(x => x.downloadMsg)
+        @Html.HiddenFor(x => x.loadMsg)
         </form>
     </div>
 </div>

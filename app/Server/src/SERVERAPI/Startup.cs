@@ -110,7 +110,6 @@ namespace SERVERAPI
                     });
 
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
-            services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
             services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
             services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
@@ -149,7 +148,6 @@ namespace SERVERAPI
             }
             else
             {
-                return String.Empty;
                 var server = Environment.GetEnvironmentVariable("pgsqluri");
                 var password = Environment.GetEnvironmentVariable("pgsqlpassword");
                 var username = Environment.GetEnvironmentVariable("pgsqlusername");
