@@ -13,7 +13,8 @@ basicPipeline {
             ['file':'OpenShift/nmp.bc.json'],
         ],
         'deployment':[
-            ['file':'OpenShift/postgresql.dc.json']
+            ['file':'OpenShift/postgresql.dc.json'],
+            ['file':'OpenShift/nmp.dc.json', 'params':['HOST':'${env[DEPLOY_ENV_NAME]?.params?.host?:""}']]
         ]
     ]
 }
