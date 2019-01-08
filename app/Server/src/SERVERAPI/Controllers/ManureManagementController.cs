@@ -424,6 +424,8 @@ namespace SERVERAPI.Controllers
         {
             var msvm = new ManureStorageDetailViewModel();
             var systemTitle = "Storage System Details";
+            msvm.ZeroManagedManuresMessage =
+                "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.";
 
             try
             {
@@ -495,6 +497,10 @@ namespace SERVERAPI.Controllers
             try
             {
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
+                if (msdvm.ManagedManures == null || !msdvm.ManagedManures.Any())
+                {
+                    ModelState.AddModelError("SelectedMaterialsToInclude", "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.");
+                }
 
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
                 {

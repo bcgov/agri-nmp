@@ -32,6 +32,7 @@ namespace SERVERAPI.ViewModels
         public string SystemName { get; set; }
         public int? SystemId { get; set; }
         public List<SelectListItem> ManagedManures { get; set; }
+        public bool AnyManagedManures => ManagedManures == null || (ManagedManures.Any() && SelectedManureMaterialType > 0);
         public bool GetsRunoffFromRoofsOrYards { get; set; }
         public int? RunoffAreaSquareFeet { get; set; }
         public int? StorageStructureId { get; set; }
@@ -47,6 +48,7 @@ namespace SERVERAPI.ViewModels
         public bool ShowRunoffAreaField => GetsRunoffFromRoofsOrYards;
         public bool DisableSystemFields { get; set; }
         public bool ShowStructureFields { get; set; }
+        public string ZeroManagedManuresMessage { get; set; }
     }
 
 }
