@@ -74,7 +74,9 @@
     },
     {
       "name": "NAME_SUFFIX",
-      "required": true
+      "description": "The suffix for all created objects",
+      "required": false,
+      "value": "temp-test"
     }
   ],
   "objects": [
