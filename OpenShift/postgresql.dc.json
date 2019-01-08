@@ -85,8 +85,7 @@
         "annotations": {
           "template.openshift.io/expose-database_name": "{.data['database-name']}",
           "template.openshift.io/expose-password": "{.data['database-password']}",
-          "template.openshift.io/expose-username": "{.data['database-user']}",
-          "as-copy-of": "template.${NAME}-secret"
+          "template.openshift.io/expose-username": "{.data['database-user']}"
         },
         "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
       },
