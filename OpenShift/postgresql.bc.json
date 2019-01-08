@@ -12,15 +12,14 @@
         {
             "kind": "ImageStream",
             "apiVersion": "v1",
-            "metadata": {
-                "name": "gwells-postgresql",
-                "creationTimestamp": null,
-                "labels": {
-                    "base-name": "gwells-postgresql",
-                    "appver": "gwells"
-                },
-                "annotations": {}
+          "metadata": {
+            "name": "${NAME}",
+            "creationTimestamp": null,
+            "labels": {
+              "shared": "true"
             },
+            "annotations": {}
+          },
             "spec": {
                 "lookupPolicy": {
                     "local": false
@@ -34,7 +33,6 @@
                             "namespace": "bcgov"
                         },
                         "importPolicy": {},
-                        "name": "${ENV_NAME}",
                         "referencePolicy": {
                             "type": "Source"
                         }
