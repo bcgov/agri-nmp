@@ -17,6 +17,12 @@
       "value": "postgresql"
     },
     {
+      "name": "NAME_SUFFIX",
+      "description": "The suffix for all created objects",
+      "required": false,
+      "value": ""
+    },
+    {
       "description": "The OpenShift ImageStream name.",
       "displayName": "IMAGE_STREAM_NAME",
       "name": "IMAGE_STREAM_NAME",
@@ -71,12 +77,6 @@
       "name": "IMAGE_STREAM_VERSION",
       "required": true,
       "value": "v1-stable"
-    },
-    {
-      "name": "NAME_SUFFIX",
-      "description": "The suffix for all created objects",
-      "required": false,
-      "value": "temp-test"
     }
   ],
   "objects": [
