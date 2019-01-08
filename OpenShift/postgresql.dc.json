@@ -10,6 +10,13 @@
   },
   "parameters": [
     {
+      "description": "The name of the OpenShift Service exposed for the database.",
+      "displayName": "Database Service Name",
+      "name": "NAME",
+      "required": true,
+      "value": "postgresql"
+    },
+    {
       "description": "The OpenShift ImageStream name.",
       "displayName": "IMAGE_STREAM_NAME",
       "name": "IMAGE_STREAM_NAME",
@@ -78,7 +85,8 @@
         "annotations": {
           "template.openshift.io/expose-database_name": "{.data['database-name']}",
           "template.openshift.io/expose-password": "{.data['database-password']}",
-          "template.openshift.io/expose-username": "{.data['database-user']}"
+          "template.openshift.io/expose-username": "{.data['database-user']}",
+          "as-copy-of": "template.${NAME}-secret"
         },
         "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
       },
