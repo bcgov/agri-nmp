@@ -41,6 +41,8 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("UseSortOrder");
+
                     b.HasKey("Id");
 
                     b.ToTable("Animals");
@@ -64,6 +66,8 @@ namespace Agri.Data.Migrations
                     b.Property<decimal?>("SolidPerGalPerAnimalPerDay");
 
                     b.Property<decimal?>("SolidPerPoundPerAnimalPerDay");
+
+                    b.Property<int>("SortOrder");
 
                     b.Property<decimal>("WashWater");
 
