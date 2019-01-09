@@ -9087,7 +9087,7 @@
           {
             "id": "6",
             "name": "fileoverwritewarning",
-            "text": "Download a file to save the changes you made, or Continue to load another file without saving."
+            "text": "<p class='text-danger'><span style='font-weight:bold;'>Download file</span> to save the changes you made, or <span style='font-weight:bold;'>Continue</span> without saving.</p>"
           },
           {
             "id": "7",
@@ -9243,6 +9243,16 @@
             "id": "38",
             "name": "materialsNotStoredMessage",
             "text": "The following materials are not stored"
+          },
+          {
+            "id": "39",
+            "name": "fileLoadQuestion",
+            "text": "Do you have a file to load?"
+          },
+          {
+            "id": "40",
+            "name": "explainFileLoad",
+            "text": "An \".nmp file\" is the only place to save or store information that you will be asked to provide.You can load an .nmp file from your computer to continue work that has been started."
           }
         ]
       },

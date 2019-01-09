@@ -88,7 +88,7 @@ namespace SERVERAPI.Controllers
             return Redirect(_sd.GetExternalLink("helpmessage"));
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             IndexViewModel lvm = new IndexViewModel();
             FarmData fd = _ud.FarmData();
@@ -101,6 +101,8 @@ namespace SERVERAPI.Controllers
             lvm.disclaimerMsg = _sd.GetUserPrompt("disclaimer");
             lvm.staticDataVersionMsg = _sd.GetStaticDataVersion();
             lvm.browserAgent = _bd.BrowserAgent;
+            lvm.fileLoadLabelText = _sd.GetUserPrompt("fileLoadQuestion");
+            lvm.ExplainFileLoad = _sd.GetUserPrompt("explainFileLoad");
 
             if (_bd.OSValid)
             {
@@ -132,12 +134,87 @@ namespace SERVERAPI.Controllers
             return View(lvm);
 
         }
+
         [HttpPost]
-        public IActionResult Index(LaunchViewModel lvm)
+        public IActionResult Launch(LaunchViewModel lvm)
         {
             _ud.NewFarm();
-            return RedirectToAction("Farm","Farm");
+            return RedirectToAction("Farm", "Farm");
         }
+
+        [HttpPost]
+        public IActionResult Index(IndexViewModel lvm)
+        {
+            if (lvm.ButtonPressed == "startUpload")
+            {
+                FarmData fd;
+
+                var isFileUploaded = lvm.IsFileUploaded;
+                if (lvm.unsavedData)
+                {
+                    ModelState.Clear();
+                    lvm.unsavedData = false;
+                    return View(lvm);
+                }
+
+                string fileContents = "";
+
+                if (Request.Form.Files.Count > 0)
+                {
+                    if (Request.Form.Files.Count > 1)
+                    {
+                        ModelState.AddModelError("", "Only one file may be selected.");
+                    }
+                    else
+                    {
+                        try
+                        {
+                            foreach (var file in Request.Form.Files)
+                            {
+                                var fileBytes = new byte[file.Length];
+
+                                file.OpenReadStream().Read(fileBytes, 0, (int) file.Length);
+                                fileContents = System.Text.Encoding.Default.GetString(fileBytes);
+                            }
+
+                            try
+                            {
+                                fd = JsonConvert.DeserializeObject<FarmData>(fileContents);
+                            }
+                            catch (Exception ex)
+                            {
+                                ModelState.AddModelError("", "File does not appear to be a valid NMP data file.");
+                                return View(lvm);
+                            }
+
+                            // Returns message that successfully uploaded  
+                            _ud.SaveFarmData(fd);
+                            HttpContext.Session.SetObject("Farm",
+                                _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
+
+                            return RedirectToAction("Farm", "Farm");
+                        }
+                        catch (Exception ex)
+                        {
+                            return Json("Error occurred. Error details: " + ex.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "A file has not been selected.");
+                }
+
+                return View(lvm);
+
+            }
+            else
+            {
+                _ud.NewFarm();
+                return RedirectToAction("Farm", "Farm");
+            }
+        }
+
         public IActionResult NewWarning()
         {
             NewWarningViewModel nvm = new NewWarningViewModel();
