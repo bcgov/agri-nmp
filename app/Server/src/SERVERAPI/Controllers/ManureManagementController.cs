@@ -424,8 +424,7 @@ namespace SERVERAPI.Controllers
         {
             var msvm = new ManureStorageDetailViewModel();
             var systemTitle = "Storage System Details";
-            msvm.ZeroManagedManuresMessage =
-                "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.";
+            msvm.ZeroManagedManuresMessage = _sd.GetUserPrompt("NoMaterialsForStorage");
 
             try
             {
