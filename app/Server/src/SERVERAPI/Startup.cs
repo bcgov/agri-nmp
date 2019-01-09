@@ -111,7 +111,7 @@ namespace SERVERAPI
 
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
-            services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
+            services.AddScoped<IAgriConfigurationRepository, AgriConfigurationRepository>();
             services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
             services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
 
