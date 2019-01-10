@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="SeedData\UserPrompts_Add.json" />
+    <None Remove="MigrationSeedData\1_UserPrompts.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="SeedData\UserPrompts_Add.json" />
+    <EmbeddedResource Include="MigrationSeedData\1_UserPrompts.json" />
   </ItemGroup>
 
   <ItemGroup>

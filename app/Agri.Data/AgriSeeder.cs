@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
+using Agri.Models.Data;
 using Microsoft.EntityFrameworkCore;
+using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Data
 {
@@ -417,13 +420,18 @@ namespace Agri.Data
             }
 
             //Updates
-            var newUserPrompts = SeedDataLoader.GetStaticDataJson<List<UserPrompt>>("UserPrompts_Add");
-            foreach (var newUserPrompt in newUserPrompts)
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("1_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
-                if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("1_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
                 {
-                    _context.UserPrompts.Add(newUserPrompt);
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
                 }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
             }
 
             _context.SaveChanges();
