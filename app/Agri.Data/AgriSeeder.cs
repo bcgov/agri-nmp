@@ -434,6 +434,19 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
             }
 
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("2_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("2_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+            }
+
             _context.SaveChanges();
         }
     }

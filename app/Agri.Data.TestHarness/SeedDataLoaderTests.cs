@@ -15,7 +15,6 @@ namespace Agri.Data.TestHarness
         public void GetMigrationSeedData()
         {
             var result = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("1_UserPrompts");
-
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Data);
             Assert.IsTrue(result.Data.Count > 0);

@@ -127,7 +127,7 @@ namespace SERVERAPI.Controllers
             CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
-            mgovm.ExplainWashWaterVolumesDaily = "Enter total wash water volumes added daily.Typically wash water volumes range from x to z US gallons/day/animal"; //_sd.GetUserPrompt("explainWashWaterVolumesDaily");
+            mgovm.ExplainWashWaterVolumesDaily = _sd.GetUserPrompt("ExplainWashWaterTypes");
             animalTypeDetailsSetup(ref mgovm);
             try
             {
