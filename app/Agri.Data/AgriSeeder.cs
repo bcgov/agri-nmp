@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -413,6 +414,16 @@ namespace Agri.Data
             {
                 var conversions = staticExtRepo.GetSolidMaterialApplicationTonPerAcreRateConversions();
                 _context.SolidMaterialApplicationTonPerAcreRateConversions.AddRange(conversions);
+            }
+
+            //Updates
+            var newUserPrompts = SeedDataLoader.GetStaticDataJson<List<UserPrompt>>("UserPrompts_Add");
+            foreach (var newUserPrompt in newUserPrompts)
+            {
+                if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                {
+                    _context.UserPrompts.Add(newUserPrompt);
+                }
             }
 
             _context.SaveChanges();
