@@ -9243,16 +9243,6 @@
             "id": "38",
             "name": "materialsNotStoredMessage",
             "text": "The following materials are not stored"
-          },
-          {
-            "id": "39",
-            "name": "fileLoadQuestion",
-            "text": "Do you have a file to load?"
-          },
-          {
-            "id": "40",
-            "name": "explainFileLoad",
-            "text": "An \".nmp file\" is the only place to save or store information that you will be asked to provide.You can load an .nmp file from your computer to continue work that has been started."
           }
         ]
       },

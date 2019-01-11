@@ -7,9 +7,11 @@
   <ItemGroup>
     <None Remove="MigrationSeedData\1_UserPrompts.json" />
     <None Remove="MigrationSeedData\2_UserPrompts.json" />
+    <None Remove="MigrationSeedData\3_UserPrompts.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="MigrationSeedData\3_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\2_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\1_UserPrompts.json" />
   </ItemGroup>

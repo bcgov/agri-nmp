@@ -101,8 +101,8 @@ namespace SERVERAPI.Controllers
             lvm.disclaimerMsg = _sd.GetUserPrompt("disclaimer");
             lvm.staticDataVersionMsg = _sd.GetStaticDataVersion();
             lvm.browserAgent = _bd.BrowserAgent;
-            lvm.fileLoadLabelText = _sd.GetUserPrompt("fileLoadQuestion");
-            lvm.ExplainFileLoad = _sd.GetUserPrompt("explainFileLoad");
+            lvm.fileLoadLabelText = _sd.GetUserPrompt("FileLoadQuestion");
+            lvm.ExplainFileLoad = _sd.GetUserPrompt("ExplainFileLoad");
 
             if (_bd.OSValid)
             {

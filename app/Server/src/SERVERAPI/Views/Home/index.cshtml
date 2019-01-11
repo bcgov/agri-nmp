@@ -4,6 +4,12 @@
     Layout = "_LayoutNoNav";
 }
 @inject IJsonHelper Json;
+@*<style>
+    input[type=file].hidden {
+        color: transparent;
+    }
+</style>*@
+
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
     <div class="modal-dialog">
@@ -35,7 +41,7 @@
                             <div class="Table">
                                 <div class="TableBody">
                                     <div class="Row">
-                                        <div class="Cell3" style="text-align:center"><img src="~/images/dollar-sign.png" height="30" width="30" /></div>
+                                        <div class="Cell3" style="text-align:center"><img src="~/images/dollar-sign.png" alt="dollar sign" title="dollar sign" height="30" width="30" /></div>
                                         <div class="Cell3" style="padding-left:5px">@Model.pageMsg1</div>
                                     </div>
                                     <div class="Row">
@@ -43,7 +49,7 @@
                                         <div class="Cell3" style="padding-left:10px">&nbsp;</div>
                                     </div>
                                     <div class="Row">
-                                        <div class="Cell3" style="text-align:center"><img src="~/images/Water.png" height="20" width="20" /></div>
+                                        <div class="Cell3" style="text-align:center"><img src="~/images/Water.png" alt="water" title="water" height="20" width="20" /></div>
                                         <div class="Cell3" style="padding-left:5px">@Model.pageMsg2</div>
                                     </div>
                                 </div>
@@ -59,7 +65,7 @@
                                         <div class="Cell3">
                                             @Model.fileLoadLabelText
                                             <a href="#" data-toggle="tooltip" title="@Model.ExplainFileLoad" id="toolTipExplainFileUpload">
-                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of File Upload" style="font-size:20px; padding-top:5px"></span>
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of file" style="font-size:20px; padding-top:5px"></span>
                                             </a>
                                         </div>
                                     </div>
@@ -73,7 +79,7 @@
                                         <br />
                                         <br />
                                         <label>
-                                            <input type="file" id="fileUpload" name="file" class='type' style="display:none" accept=".nmp">
+                                            <input type="file" title="Choose an &quot;nmp&quot; file" id="fileUpload" name="file" class='type' style="display:none;color: transparent;" accept=".nmp">
                                         </label>
                                     </div>
                                     <br/>
@@ -314,6 +320,15 @@
             $('#ButtonPressed').val("startUpload");
         }
 
+        $(function () {
+            $('input[type="file"]').change(function () {
+                if ($(this).val() != "") {
+                    $(this).css('color', '#333');
+                }else{
+                    $(this).css('color', 'transparent');
+                }
+            });
+        })
     </script>
 
 }
