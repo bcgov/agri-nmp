@@ -918,7 +918,7 @@ namespace Agri.Data
         public string GetUserPrompt(string name)
         {
             return GetUserPrompts()
-                .SingleOrDefault(up => up.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase)).Text;
+                .SingleOrDefault(up => up.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))?.Text;
         }
 
         public List<UserPrompt> GetUserPrompts()
