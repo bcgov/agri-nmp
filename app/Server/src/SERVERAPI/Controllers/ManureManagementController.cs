@@ -574,7 +574,8 @@ namespace SERVERAPI.Controllers
                             ModelState.AddModelError("SelectedManureMaterialType", "Required");
                         }
 
-                        if (msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
+                        if (msdvm.ManagedManures != null && msdvm.ManagedManures.Any() && 
+                            msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
                         {
                             ModelState.AddModelError("SelectedMaterialsToInclude", "Required");
                         }
