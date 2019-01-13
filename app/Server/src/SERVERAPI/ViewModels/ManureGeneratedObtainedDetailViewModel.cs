@@ -42,8 +42,8 @@ namespace SERVERAPI.ViewModels
         {
             var selectListItems = new List<MvcRendering.SelectListItem>();
 
-            selectListItems.Add(new MvcRendering.SelectListItem { Value = WashWaterUnits.USGallonsPerDay.ToString(), Text = EnumHelper<WashWaterUnits>.GetDisplayValue(WashWaterUnits.USGallonsPerDay) });
             selectListItems.Add(new MvcRendering.SelectListItem { Value = WashWaterUnits.USGallonsPerDayPerAnimal.ToString(), Text = EnumHelper<WashWaterUnits>.GetDisplayValue(WashWaterUnits.USGallonsPerDayPerAnimal) });
+            selectListItems.Add(new MvcRendering.SelectListItem { Value = WashWaterUnits.USGallonsPerDay.ToString(), Text = EnumHelper<WashWaterUnits>.GetDisplayValue(WashWaterUnits.USGallonsPerDay) });
 
             return selectListItems;
         }

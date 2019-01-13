@@ -128,6 +128,7 @@ namespace SERVERAPI.Controllers
 
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             mgovm.ExplainWashWaterVolumesDaily = _sd.GetUserPrompt("ExplainWashWaterTypes");
+            
             animalTypeDetailsSetup(ref mgovm);
             try
             {
@@ -152,6 +153,26 @@ namespace SERVERAPI.Controllers
                             mgovm.milkProduction = calculateAnimalRequirement
                                 .GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                             mgovm.stdMilkProduction = true;
+                        }
+
+                        if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
+                        {
+                            mgovm.SelWashWaterUnit = WashWaterUnits.USGallonsPerDayPerAnimal;
+                            var washWaterUnits = mgovm.SelWashWaterUnit;
+                            if (washWaterUnits == WashWaterUnits.USGallonsPerDay && mgovm.averageAnimalNumber != null)
+                            {
+                                mgovm.washWater = (Math.Round((Convert.ToInt32(mgovm.averageAnimalNumber) *
+                                                               Convert.ToDecimal(
+                                                                   calculateAnimalRequirement
+                                                                       .GetWashWaterBySubTypeId(
+                                                                           Convert.ToInt16(mgovm.selSubTypeOption))
+                                                                       .ToString())))).ToString();
+                            }
+                            else if (washWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
+                            {
+                                mgovm.washWater = calculateAnimalRequirement
+                                    .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
+                            }
                         }
                     }
 
@@ -403,6 +424,7 @@ namespace SERVERAPI.Controllers
         {
             mgovm.showWashWater = false;
             mgovm.showMilkProduction = false;
+            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
             mgovm.animalTypeOptions = new List<SelectListItem>();
             mgovm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
@@ -422,7 +444,7 @@ namespace SERVERAPI.Controllers
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;
-                        mgovm.showMilkProduction = true;
+                        mgovm.showMilkProduction = true; 
                     }
                 }
             }
