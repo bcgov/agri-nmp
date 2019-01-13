@@ -424,6 +424,7 @@ namespace SERVERAPI.Controllers
         {
             var msvm = new ManureStorageDetailViewModel();
             var systemTitle = "Storage System Details";
+            msvm.ZeroManagedManuresMessage = _sd.GetUserPrompt("NoMaterialsForStorage");
 
             try
             {
@@ -495,6 +496,10 @@ namespace SERVERAPI.Controllers
             try
             {
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
+                if (msdvm.ManagedManures == null || !msdvm.ManagedManures.Any())
+                {
+                    ModelState.AddModelError("SelectedMaterialsToInclude", "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.");
+                }
 
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
                 {
@@ -569,10 +574,12 @@ namespace SERVERAPI.Controllers
                             ModelState.AddModelError("SelectedManureMaterialType", "Required");
                         }
 
-                        if (msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
-                        {
-                            ModelState.AddModelError("SelectedMaterialsToInclude", "Required");
-                        }
+                        //Turning off now that Storage can be empty
+                        //if (msdvm.ManagedManures != null && msdvm.ManagedManures.Any() && 
+                        //    msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
+                        //{
+                        //    ModelState.AddModelError("SelectedMaterialsToInclude", "Required");
+                        //}
 
                         if (string.IsNullOrEmpty(msdvm.SystemName))
                         {

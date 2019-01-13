@@ -1,5 +1,6 @@
 ﻿using Agri.LegacyData.Models;
 using Agri.Models.Configuration;
+using Agri.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Version = Agri.Models.Configuration.Version;
@@ -65,6 +66,8 @@ namespace Agri.Data
         public DbSet<UserPrompt> UserPrompts { get; set; }
         public DbSet<Version> Versions { get; set; }
         public DbSet<Yield> Yields { get; set; }
+
+        public DbSet<AppliedMigrationSeedData> AppliedMigrationSeedData { get; set; }
 
         #endregion
 

@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
+using Agri.Models.Data;
 using Microsoft.EntityFrameworkCore;
+using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Data
 {
@@ -413,6 +417,21 @@ namespace Agri.Data
             {
                 var conversions = staticExtRepo.GetSolidMaterialApplicationTonPerAcreRateConversions();
                 _context.SolidMaterialApplicationTonPerAcreRateConversions.AddRange(conversions);
+            }
+
+            //Updates
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("1_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("1_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
             }
 
             _context.SaveChanges();
