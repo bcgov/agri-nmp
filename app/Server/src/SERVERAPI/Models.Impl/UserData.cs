@@ -11,6 +11,8 @@ using Agri.Models;
 using Agri.Models.Configuration;
 using AutoMapper;
 using Version = Agri.Models.Configuration.Version;
+using SERVERAPI.Utility;
+using Agri.Models.Calculate;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -781,6 +783,53 @@ namespace SERVERAPI.Models.Impl
             return manOptions;
         }
 
+        public void ReCalculateManure(int farmManureId)
+        {
+            var calculateNutrients = new CalculateNutrients(this, _sd);
+            var nOrganicMineralizations = new NOrganicMineralizations();
+
+            List<Field> flds = GetFields();
+
+            foreach (var fld in flds)
+            {
+                List<NutrientManure> mans = GetFieldNutrientsManures(fld.fieldName);
+
+                foreach (var nm in mans)
+                {
+                    if (farmManureId.ToString() == nm.manureId)
+                    {
+                        int regionid = FarmDetails().farmRegion.Value;
+                        Region region = _sd.GetRegion(regionid);
+                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(nm.manureId), region.LocationId);
+
+                        string avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
+
+                        string nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(nm.manureId), Convert.ToInt16(nm.applicationId)) * 100).ToString("###");
+
+                        NutrientInputs nutrientInputs = new NutrientInputs();
+
+                        calculateNutrients.manure = nm.manureId;
+                        calculateNutrients.applicationSeason = nm.applicationId;
+                        calculateNutrients.applicationRate = Convert.ToDecimal(nm.rate);
+                        calculateNutrients.applicationRateUnits = nm.unitId;
+                        calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(nh4);
+                        calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(avail);
+
+                        calculateNutrients.GetNutrientInputs(nutrientInputs);
+
+                        nm.yrN = nutrientInputs.N_FirstYear;
+                        nm.yrP2o5 = nutrientInputs.P2O5_FirstYear;
+                        nm.yrK2o = nutrientInputs.K2O_FirstYear;
+                        nm.ltN = nutrientInputs.N_LongTerm;
+                        nm.ltP2o5 = nutrientInputs.P2O5_LongTerm;
+                        nm.ltK2o = nutrientInputs.K2O_LongTerm;
+
+                        UpdateFieldNutrientsManure(fld.fieldName, nm);
+                    }
+                }
+            }
+        }
+
         public List<GeneratedManure> GetGeneratedManures()
         {
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -865,7 +914,7 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             var generatedManure = yd.GeneratedManures.FirstOrDefault(gm => gm.Id == id);
-
+            
             yd.GeneratedManures.Remove(generatedManure);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -875,11 +924,21 @@ namespace SERVERAPI.Models.Impl
                 .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.ManureId == generatedManure.ManureId));
             if (storageSystem != null)
             {
-                var oldMaterial =
+                var droppedGeneratedMaterial =
                     storageSystem.GeneratedManuresIncludedInSystem.Single(m => m.ManureId == generatedManure.ManureId);
-                storageSystem.GeneratedManuresIncludedInSystem.Remove(oldMaterial);
+                storageSystem.GeneratedManuresIncludedInSystem.Remove(droppedGeneratedMaterial);
                 UpdateManureStorageSystem(storageSystem);
             }
+
+            if (yd.GetFarmManureIds(generatedManure.ManureId).Any())
+            {
+                foreach (var farmManureId in yd.GetFarmManureIds(generatedManure.ManureId))
+                {
+                    var droppedFarmManure = yd.farmManures.Single(fm => fm.id == farmManureId);
+                    yd.farmManures.Remove(droppedFarmManure);
+                }
+            }
+
         }
 
         public void UpdateManagedManuresAllocationToStorage()
@@ -952,7 +1011,26 @@ namespace SERVERAPI.Models.Impl
                 savedSystem.AddUpdateManureStorageStructure(updateStorageStructure);
             }
 
+            //// Remove the NutrientAnalsis if the StorageSystem has no more materials.
+            //if (yd.farmManures != null)
+            //{
+            //    if (!updatedSystem.MaterialsIncludedInSystem.Any())
+            //    {
+            //        var farmManure = yd.farmManures.Single(im => im.sourceOfMaterialId.Split(",")[0] == updatedSystem.ManureId);
+            //        yd.farmManures.Remove(farmManure);
+            //    }
+            //    //foreach (var s in yd.ManureStorageSystems)
+            //    //{
+            //    //    foreach (var m in s.MaterialsIncludedInSystem)
+            //    //    {
+            //    //        var farmManure = yd.farmManures.Single(im => im.sourceOfMaterialId.Split(",")[0] == m.ManureId);
+            //    //        yd.farmManures.Remove(farmManure);
+            //    //    }
+            //    //}
+            //}
+
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+
         }
 
         public void DeleteManureStorageSystem(int id)

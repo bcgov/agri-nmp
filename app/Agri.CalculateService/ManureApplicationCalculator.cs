@@ -39,57 +39,6 @@ namespace Agri.CalculateService
         {
             var manureStorageSystemId = yearData.GetManureStorageSystemId(managedManureId);
             var manureStorageSystem = yearData.ManureStorageSystems.SingleOrDefault(mss => mss.Id == manureStorageSystemId);
-            //var managedManureIds = manureStorageSystem.MaterialsIncludedInSystem.Select(m => m.ManureId).ToList();
-            //var fieldsAppliedWithStoredManure = yearData.GetFieldsAppliedWithManure(managedManureIds);
-            //var farmManureIds = yearData.GetFarmManureIds(managedManureIds);
-
-            //var fieldAppliedManures = new List<FieldAppliedManure>();
-            //foreach (var field in fieldsAppliedWithStoredManure)
-            //{
-            //    var nutrientManures = field.nutrients.nutrientManures
-            //        .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
-            //        .ToList();
-
-            //    foreach (var nutrientManure in nutrientManures)
-            //    {
-            //        var fieldAppliedManure = new FieldAppliedManure();
-            //        if (manureStorageSystem.ManureMaterialType == ManureMaterialType.Liquid)
-            //        {
-            //            var convertedRate = _manureUnitConversionCalculator
-            //                .GetLiquidUSGallonsPerAcreApplicationRate(nutrientManure.rate,
-            //                    (ApplicationRateUnits) Convert.ToInt32(nutrientManure.unitId));
-
-            //            fieldAppliedManure.USGallonsApplied =
-            //                field.area * convertedRate;
-            //        }
-            //        else
-            //        {
-            //            var farmManure = yearData.farmManures
-            //                .Single(fm => fm.id == Convert.ToInt32(nutrientManure.manureId));
-
-            //            decimal convertedRate;
-            //            if (string.IsNullOrWhiteSpace(farmManure.moisture))
-            //            {
-            //                convertedRate = _manureUnitConversionCalculator
-            //                    .GetSolidsTonsPerAcreApplicationRate(farmManure.manureId, nutrientManure.rate,
-            //                        (ApplicationRateUnits) Convert.ToInt32(nutrientManure.unitId));
-            //            }
-            //            else
-            //            {
-            //                convertedRate = _manureUnitConversionCalculator
-            //                    .GetSolidsTonsPerAcreApplicationRate(Convert.ToDecimal(farmManure.moisture),
-            //                        nutrientManure.rate,
-            //                        (ApplicationRateUnits) Convert.ToInt32(nutrientManure.unitId));
-            //            }
-
-            //            fieldAppliedManure.TonsApplied = field.area * convertedRate;
-            //        }
-
-            //        fieldAppliedManures.Add(fieldAppliedManure);
-            //    }
-            //}
-
-            //var appliedStoredManure = new AppliedStoredManure(fieldAppliedManures, manureStorageSystem);
             var appliedStoredManure = GetAppliedManureFromStorageSystem(yearData, manureStorageSystem);
 
             return appliedStoredManure;
