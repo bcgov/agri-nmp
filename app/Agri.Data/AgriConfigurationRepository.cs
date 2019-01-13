@@ -626,8 +626,7 @@ namespace Agri.Data
                 }
             }
 
-            return string.Empty;
-
+            return null;
         }
 
         public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance1, long balance2, string assignedChemical)
