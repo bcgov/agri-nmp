@@ -574,11 +574,12 @@ namespace SERVERAPI.Controllers
                             ModelState.AddModelError("SelectedManureMaterialType", "Required");
                         }
 
-                        if (msdvm.ManagedManures != null && msdvm.ManagedManures.Any() && 
-                            msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
-                        {
-                            ModelState.AddModelError("SelectedMaterialsToInclude", "Required");
-                        }
+                        //Turning off now that Storage can be empty
+                        //if (msdvm.ManagedManures != null && msdvm.ManagedManures.Any() && 
+                        //    msdvm.SelectedMaterialsToInclude != null && !msdvm.SelectedMaterialsToInclude.Any())
+                        //{
+                        //    ModelState.AddModelError("SelectedMaterialsToInclude", "Required");
+                        //}
 
                         if (string.IsNullOrEmpty(msdvm.SystemName))
                         {
