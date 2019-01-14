@@ -908,7 +908,7 @@ namespace SERVERAPI.Controllers
                 if (storageSystem.MaterialsIncludedInSystem.Count() != 0)
                 {
                     var li = new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
-                        { Text = storageSystem.MaterialsIncludedInSystem[0].ManureId + "," + storageSystem.Id, Value = storageSystem.Name };
+                        { Text = "StorageSystem" + "," + storageSystem.Id, Value = storageSystem.Name };
                     cvm.sourceOfMaterialOptions.Add(li);
                 }
             }
@@ -927,7 +927,7 @@ namespace SERVERAPI.Controllers
             foreach (var imns in importedManuresNotStored)
             {
                 var li = new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
-                    { Text = imns.ManureId + "," + imns.Id, Value = imns.MaterialName };
+                    { Text = "Imported" + "," + imns.Id, Value = imns.MaterialName };
                 cvm.sourceOfMaterialOptions.Add(li);
             }
 
@@ -938,7 +938,7 @@ namespace SERVERAPI.Controllers
             {
                 var manures = _sd.GetManures();
 
-                if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                 {
                     var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                     var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
@@ -1012,7 +1012,7 @@ namespace SERVERAPI.Controllers
                     {
                         var manures = _sd.GetManures();
 
-                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = storageSystem.Name;
@@ -1049,7 +1049,7 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.selsourceOfMaterialOption != "select")
                     {
-                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = storageSystem.Name;
@@ -1196,7 +1196,7 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.selsourceOfMaterialOption != "select")
                     {
-                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = storageSystem.Name;

@@ -14,34 +14,21 @@ namespace Agri.Models.Farm
         public List<GeneratedManure> GeneratedManures { get; set; }
         public List<ImportedManure> ImportedManures { get; set; }
         public List<ManureStorageSystem> ManureStorageSystems { get; set; }
-
-        public int? GetManureStorageSystemId(string managedManureId)
-        {
-            var manureStorageSystemId = ManureStorageSystems.SingleOrDefault(mss =>
-                mss.MaterialsIncludedInSystem.Any(m => m.ManureId == managedManureId))?.Id;
-            return manureStorageSystemId;
-        }
-
-        public int? GetImportedManureId(string managedManureId)
-        {
-            var importedManureId =
-                ImportedManures.SingleOrDefault(im => im.ManureId == managedManureId).Id;
-            return importedManureId;
-        }
-
-
-        public List<int> GetFarmManureIds(List<string> managedManureIds)
+        
+        public List<int> GetFarmManureIds(ManureStorageSystem manureStorageSystem)
         {
             var farmManureIds = farmManures
-                .Where(fm => managedManureIds.Any(mm => mm == fm.managedManureId))
+                .Where(fm => fm.sourceOfMaterialStoredSystemId == manureStorageSystem.Id)
                 .Select(fm => fm.id).ToList();
 
             return farmManureIds;
         }
 
-        public List<int> GetFarmManureIds(string managedManureId)
+        public List<int> GetFarmManureIds(ImportedManure importedManure)
         {
-            var farmManureIds = GetFarmManureIds(new List<string> {managedManureId});
+            var farmManureIds = farmManures
+                .Where(fm => fm.sourceOfMaterialImportedManureId == importedManure.Id)
+                .Select(fm => fm.id).ToList();
 
             return farmManureIds;
         }
@@ -53,25 +40,23 @@ namespace Agri.Models.Farm
                 .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
                 .ToList();
         }
-        
-        public List<Field> GetFieldsAppliedWithManure(List<string> managedManureIds)
+
+        public List<Field> GetFieldsAppliedWithManure(ManureStorageSystem manureStorageSystem)
         {
-            var farmManureIds = GetFarmManureIds(managedManureIds);
+            var farmManureIds = GetFarmManureIds(manureStorageSystem);
 
             var appliedFields = GetFieldsAppliedWithFarmManure(farmManureIds);
 
             return appliedFields;
         }
         
-        public List<Field> GetFieldsAppliedWithManure(string managedManureId)
+        public List<Field> GetFieldsAppliedWithManure(FarmManure farmManure)
         {
-            var farmManureIds = GetFarmManureIds(managedManureId);
-
-            var appliedFields = GetFieldsAppliedWithFarmManure(farmManureIds);
+            var appliedFields = GetFieldsAppliedWithFarmManure(new List<int> {farmManure.id});
 
             return appliedFields;
         }
-
+        
         public List<Field> GetFieldsAppliedWithFarmManure(List<int> farmManureIds)
         {
             return fields

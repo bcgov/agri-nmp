@@ -130,12 +130,12 @@ namespace SERVERAPI.Controllers
 
                 if (yearData.ImportedManures != null)
                 {
-                    foreach (var importedManures in yearData.ImportedManures)
+                    foreach (var importedManure in yearData.ImportedManures)
                     {
-                        if (!importedManures.IsMaterialStored)
+                        if (!importedManure.IsMaterialStored)
                         {
-                            var farmManure = _ud.GetFarmManureByManureId(importedManures.ManureId);
-                            var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure.managedManureId);
+                            var farmManure = _ud.GetFarmManureByImportedManure(importedManure);
+                            var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure);
                             if (appliedImportedManure.WholePercentRemaining >= 10)
                             {
                                 rvm.RemainingManures.Add(appliedImportedManure);

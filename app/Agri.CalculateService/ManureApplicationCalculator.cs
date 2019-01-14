@@ -25,20 +25,19 @@ namespace Agri.CalculateService
             if (farmManure.stored_imported == NutrientAnalysisTypes.Stored)
             {
                 //Stored Manure
-                appliedManure = GetAppliedStoredManure(yearData, farmManure.managedManureId);
+                appliedManure = GetAppliedStoredManure(yearData, farmManure);
             }
             else
             {
-                appliedManure = GetAppliedImportedManure(yearData, farmManure.managedManureId);
+                appliedManure = GetAppliedImportedManure(yearData, farmManure);
             }
 
             return appliedManure;
         }
 
-        public AppliedStoredManure GetAppliedStoredManure(YearData yearData, string managedManureId)
+        public AppliedStoredManure GetAppliedStoredManure(YearData yearData, FarmManure farmManure)
         {
-            var manureStorageSystemId = yearData.GetManureStorageSystemId(managedManureId);
-            var manureStorageSystem = yearData.ManureStorageSystems.SingleOrDefault(mss => mss.Id == manureStorageSystemId);
+            var manureStorageSystem = yearData.ManureStorageSystems.SingleOrDefault(mss => mss.Id == farmManure.sourceOfMaterialStoredSystemId);
             var appliedStoredManure = GetAppliedManureFromStorageSystem(yearData, manureStorageSystem);
 
             return appliedStoredManure;
@@ -46,9 +45,8 @@ namespace Agri.CalculateService
 
         public AppliedStoredManure GetAppliedManureFromStorageSystem(YearData yearData, ManureStorageSystem manureStorageSystem)
         {
-            var managedManureIds = manureStorageSystem.MaterialsIncludedInSystem.Select(m => m.ManureId).ToList();
-            var fieldsAppliedWithStoredManure = yearData.GetFieldsAppliedWithManure(managedManureIds);
-            var farmManureIds = yearData.GetFarmManureIds(managedManureIds);
+            var fieldsAppliedWithStoredManure = yearData.GetFieldsAppliedWithManure(manureStorageSystem);
+            var farmManureIds = yearData.GetFarmManureIds(manureStorageSystem);
 
             var fieldAppliedManures = new List<FieldAppliedManure>();
             foreach (var field in fieldsAppliedWithStoredManure)
@@ -101,14 +99,11 @@ namespace Agri.CalculateService
             return appliedStoredManure;
         }
 
-
-
-        public AppliedImportedManure GetAppliedImportedManure(YearData yearData, string managedManureId)
+        public AppliedImportedManure GetAppliedImportedManure(YearData yearData, FarmManure farmManure)
         {
-            var fieldsAppliedWithImportedManure = yearData.GetFieldsAppliedWithManure(managedManureId);
-            var farmManureIds = yearData.GetFarmManureIds(managedManureId);
-            var importedManureId = yearData.GetImportedManureId(managedManureId);
-            var importedManure = yearData.ImportedManures.SingleOrDefault(mss => mss.Id == importedManureId);
+            var fieldsAppliedWithImportedManure = yearData.GetFieldsAppliedWithManure(farmManure);
+            var importedManure = yearData.ImportedManures.SingleOrDefault(mss => mss.Id == farmManure.sourceOfMaterialImportedManureId.Value);
+            var farmManureIds = yearData.GetFarmManureIds(importedManure);
 
             var fieldAppliedManures = new List<FieldAppliedManure>();
             foreach (var field in fieldsAppliedWithImportedManure)
