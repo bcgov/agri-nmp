@@ -46,4 +46,12 @@ namespace Agri.Models
         [Description("yards³/ac")]
         CubicYardsPerAcre = 6
     }
+
+    public enum WashWaterUnits
+    {
+        [Description("US gallons/day/animal")]
+        USGallonsPerDayPerAnimal = 1,
+        [Description("US gallons/day")]
+        USGallonsPerDay = 2
+    }
 }
