@@ -2,7 +2,7 @@
   "apiVersion": "v1",
   "kind": "Template",
   "labels": {
-    "template": "postgresql-persistent-template"
+    "template": "postgresql-ephemeral-template"
   },
   "metadata": {
     "creationTimestamp": null,
@@ -14,7 +14,7 @@
       "displayName": "Database Service Name",
       "name": "NAME",
       "required": true,
-      "value": "postgresql"
+      "value": "nmp-postgresql"
     },
     {
       "name": "NAME_SUFFIX",
@@ -26,7 +26,7 @@
       "description": "The OpenShift ImageStream name.",
       "displayName": "IMAGE_STREAM_NAME",
       "name": "IMAGE_STREAM_NAME",
-      "value": "postgresql-nmp-agri"
+      "value": "nmp-agri-postgresql"
     },
     {
       "description": "The OpenShift Namespace where the ImageStream resides.",
@@ -87,9 +87,10 @@
         "annotations": {
           "template.openshift.io/expose-database_name": "{.data['database-name']}",
           "template.openshift.io/expose-password": "{.data['database-password']}",
-          "template.openshift.io/expose-username": "{.data['database-user']}"
+          "template.openshift.io/expose-username": "{.data['database-user']}",
+          "as-copy-of": "template-${NAME}-credentials "
         },
-        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
+        "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
       },
       "stringData": {
         "database-name": "${POSTGRESQL_DATABASE}",
