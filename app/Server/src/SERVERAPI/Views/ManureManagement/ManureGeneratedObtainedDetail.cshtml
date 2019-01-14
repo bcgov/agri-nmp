@@ -33,9 +33,24 @@
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="selManureMaterialTypeOption">Manure Type</label>
-                        <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
-                            <option>select type</option>
-                        </select>
+                        @if (Model.hasSolidManureType)
+                        {
+                            <select class="form-control" asp-for="selManureMaterialTypeOption" id="ddlManureMaterialType">
+                                <option>Solid</option>
+                            </select>
+
+                        } else if (Model.hasLiquidManureType)
+                        {
+                            <select class="form-control" asp-for="selManureMaterialTypeOption" id="ddlManureMaterialType">
+                                <option>Liquid</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
+                                <option>select type</option>
+                            </select>
+                        }
                         <span asp-validation-for="selManureMaterialTypeOption" class="text-danger">Select a Manure Material Type</span>
                     </div>
                     @if (Model.showWashWater)
