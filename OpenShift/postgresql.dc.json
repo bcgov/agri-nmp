@@ -93,9 +93,9 @@
         "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
       },
       "stringData": {
-        "database-name": "${POSTGRESQL_DATABASE}",
-        "database-password": "${POSTGRESQL_PASSWORD}",
-        "database-user": "${POSTGRESQL_USER}"
+        "database_name": "${POSTGRESQL_DATABASE}",
+        "password": "${POSTGRESQL_PASSWORD}",
+        "username": "${POSTGRESQL_USER}"
       }
     }
   ]
