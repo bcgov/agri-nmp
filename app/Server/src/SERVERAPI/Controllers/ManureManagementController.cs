@@ -176,6 +176,25 @@ namespace SERVERAPI.Controllers
                         }
                     }
 
+
+                    AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                    mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                    mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                    if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                    {
+                        mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                        mgovm.stdManureMaterialType = false;
+                        mgovm.hasLiquidManureType = true;
+                    }
+                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                    {
+                        mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                        mgovm.stdManureMaterialType = false;
+                        mgovm.hasSolidManureType = true;
+                    }
+
                     return View(mgovm);
                 }
 
@@ -198,6 +217,67 @@ namespace SERVERAPI.Controllers
                     mgovm.showWashWater = false;
                     mgovm.showMilkProduction = false;
                     mgovm.averageAnimalNumber = "";
+                    mgovm.hasLiquidManureType = false;
+                    mgovm.hasSolidManureType = false;
+
+                    if (!string.IsNullOrEmpty(mgovm.selAnimalTypeOption) &&
+                        mgovm.selAnimalTypeOption != "select animal")
+                    {
+                        mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
+                        if (mgovm.subTypeOptions.Count() > 1)
+                        {
+                            mgovm.subTypeOptions.Insert(0, new SelectListItem() {Id = 0, Value = "select subtype"});
+                            mgovm.selSubTypeOption = "select subtype";
+                            mgovm.selManureMaterialTypeOption = 0;
+                        }
+
+                        if (mgovm.subTypeOptions.Count() == 1)
+                        {
+                            mgovm.selSubTypeOption = mgovm.subTypeOptions[0].Id.ToString();
+
+                            AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                            mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                            mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                            if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                            {
+                                mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                                mgovm.stdManureMaterialType = false;
+                                mgovm.hasLiquidManureType = true;
+                            }
+                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0" &&
+                                     mgovm.liquidPerGalPerAnimalPerDay == "0")
+                            {
+                                mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                                mgovm.stdManureMaterialType = false;
+                                mgovm.hasSolidManureType = true;
+                            }
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
+                        mgovm.selSubTypeOption != "select subtype")
+                    {
+                        AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                        mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                        mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                        if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                        {
+                            mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                            mgovm.stdManureMaterialType = false;
+                            mgovm.hasLiquidManureType = true;
+                        }
+                        else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                        {
+                            mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                            mgovm.stdManureMaterialType = false;
+                            mgovm.hasSolidManureType = true;
+                        }
+                    }
+
 
                     return View(mgovm);
                 }
@@ -284,6 +364,28 @@ namespace SERVERAPI.Controllers
                         if (mgovm.milkProduction != calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())
                         {
                             mgovm.stdMilkProduction = false;
+                        }
+
+                        if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
+                            mgovm.selSubTypeOption != "select subtype")
+                        {
+                            AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                            mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                            mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                            if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                            {
+                                mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                                mgovm.stdManureMaterialType = false;
+                                mgovm.hasLiquidManureType = true;
+                            }
+                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                            {
+                                mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                                mgovm.stdManureMaterialType = false;
+                                mgovm.hasSolidManureType = true;
+                            }
                         }
 
                         List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
@@ -435,7 +537,33 @@ namespace SERVERAPI.Controllers
                 mgovm.selAnimalTypeOption != "select animal")
             {
                 mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
-                mgovm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select subtype" });
+                if (mgovm.subTypeOptions.Count() > 1)
+                {
+                    mgovm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select subtype" });
+                }
+
+                if (mgovm.subTypeOptions.Count() == 1)
+                {
+                    mgovm.selSubTypeOption = mgovm.subTypeOptions[0].Id.ToString();
+
+                    AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                    mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                    mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                    if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                    {
+                        mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                        mgovm.stdManureMaterialType = false;
+                        mgovm.hasLiquidManureType = true;
+                    }
+                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                    {
+                        mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                        mgovm.stdManureMaterialType = false;
+                        mgovm.hasSolidManureType = true;
+                    }
+                }
 
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
