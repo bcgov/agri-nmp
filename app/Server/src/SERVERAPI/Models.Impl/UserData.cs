@@ -1000,13 +1000,13 @@ namespace SERVERAPI.Models.Impl
             {
                 savedSystem.AddUpdateManureStorageStructure(updateStorageStructure);
             }
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
             // Remove the NutrientAnalsis if the StorageSystem has no more materials.
             if (!updatedSystem.MaterialsIncludedInSystem.Any())
             {
                 RemoveFarmManuresRelatedToManureStorageSystem(updatedSystem);
             }
-                _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
         public void DeleteManureStorageSystem(int id)
@@ -1029,10 +1029,10 @@ namespace SERVERAPI.Models.Impl
                     }
                 }
             }
+            
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
             RemoveFarmManuresRelatedToManureStorageSystem(storageSystem);
-
-            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
         private void RemoveFarmManuresRelatedToManureStorageSystem(ManureStorageSystem storageSystem)
