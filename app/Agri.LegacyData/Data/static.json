@@ -9087,7 +9087,7 @@
           {
             "id": "6",
             "name": "fileoverwritewarning",
-            "text": "Download a file to save the changes you made, or Continue to load another file without saving."
+            "text": "<p class='text-danger'><span style='font-weight:bold;'>Download file</span> to save the changes you made, or <span style='font-weight:bold;'>Continue</span> without saving.</p>"
           },
           {
             "id": "7",

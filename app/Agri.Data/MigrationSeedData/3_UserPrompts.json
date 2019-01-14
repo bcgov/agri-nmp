@@ -1,0 +1,17 @@
+{
+  "Id": 3,
+  "JsonFilename": "3_UserPrompts",
+  "ReasonReference": "R4E09-US02: Home Page Layout",
+  "Data": [
+    {
+      "Id": "41",
+      "Name": "FileLoadQuestion",
+      "Text": "Do you have a file to load?"
+    },
+    {
+      "Id": "42",
+      "Name": "ExplainFileLoad",
+      "Text": "An \".nmp file\" is the only place to save or store information that you will be asked to provide.You can load an .nmp file from your computer to continue work that has been started."
+    }
+  ]
+}
