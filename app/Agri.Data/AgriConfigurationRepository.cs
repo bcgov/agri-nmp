@@ -1180,5 +1180,12 @@ namespace Agri.Data
 
             return stdUnit;
         }
+
+        public List<Breed> GetBreeds()
+        {
+            return _context.Breed
+                .Include(a => a.Animal)
+                .ToList();
+        }
     }
 }

@@ -474,6 +474,19 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
             }
 
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("11_Breed", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<Breed>>("11_Breed");
+                foreach (var newBreed in migrationSeedData.Data)
+                {
+                    if (!_context.Breed.Any(up => up.Id == newBreed.Id))
+                    {
+                        _context.Breed.Add(newBreed);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+            }
+
 
             _context.SaveChanges();
         }

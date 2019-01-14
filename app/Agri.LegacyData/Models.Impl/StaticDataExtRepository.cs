@@ -755,5 +755,24 @@ namespace Agri.LegacyData.Models.Impl
 
             return conversionFactors;
         }
+
+        public List<Breed> GetBreeds()
+        {
+            JArray array = (JArray)rss["agri"]["nmp"]["breeds"]["breed"];
+            var breeds = new List<Breed>();
+
+            foreach (var r in array)
+            {
+                var breed = new Breed
+                {
+                    Id = Convert.ToInt32(r["Id"].ToString()),
+                    BreedName = r["Breed"].ToString(),
+                    BreedManureFactor = Convert.ToDecimal(r["BreedManureFactor"].ToString())
+                };
+                breeds.Add(breed);
+            }
+
+            return breeds;
+        }
     }
 }

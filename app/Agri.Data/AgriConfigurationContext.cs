@@ -17,6 +17,7 @@ namespace Agri.Data
         public DbSet<AmmoniaRetention> AmmoniaRetentions { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<BCSampleDateForNitrateCredit> BCSampleDateForNitrateCredit { get; set; }
+        public DbSet<Breed> Breed { get; set; }
         public DbSet<Browser> Browsers { get; set; }
         public DbSet<ConversionFactor> ConversionFactors { get; set; }
         public DbSet<Crop> Crops { get; set; }
