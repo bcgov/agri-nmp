@@ -1109,7 +1109,7 @@ namespace SERVERAPI.Controllers
                 if (storageSystem.MaterialsIncludedInSystem.Count() != 0)
                 {
                     var li = new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
-                        { Text = storageSystem.MaterialsIncludedInSystem[0].ManureId + "," + storageSystem.Id, Value = storageSystem.Name };
+                        { Text = "StorageSystem" + "," + storageSystem.Id, Value = storageSystem.Name };
                     cvm.sourceOfMaterialOptions.Add(li);
                 }
             }
@@ -1128,7 +1128,7 @@ namespace SERVERAPI.Controllers
             foreach (var imns in importedManuresNotStored)
             {
                 var li = new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem()
-                    { Text = imns.ManureId + "," + imns.Id, Value = imns.MaterialName };
+                    { Text = "Imported" + "," + imns.Id, Value = imns.MaterialName };
                 cvm.sourceOfMaterialOptions.Add(li);
             }
 
@@ -1139,7 +1139,7 @@ namespace SERVERAPI.Controllers
             {
                 var manures = _sd.GetManures();
 
-                if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                 {
                     var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                     var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
@@ -1213,7 +1213,7 @@ namespace SERVERAPI.Controllers
                     {
                         var manures = _sd.GetManures();
 
-                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = storageSystem.Name;
@@ -1250,7 +1250,7 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.selsourceOfMaterialOption != "select")
                     {
-                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = storageSystem.Name;
@@ -1397,7 +1397,7 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.selsourceOfMaterialOption != "select")
                     {
-                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Generated"))
+                        if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = storageSystem.Name;
@@ -1644,7 +1644,7 @@ namespace SERVERAPI.Controllers
 
                         _ud.UpdateFarmManure(fm);
 
-                        ReCalculateManure(fm.id);
+                        _ud.ReCalculateManure(fm.id);
                     }
 
                     string url = Url.Action("RefreshCompostList", "Manure");
@@ -1658,52 +1658,52 @@ namespace SERVERAPI.Controllers
 
             return PartialView(cvm);
         }
-        private void ReCalculateManure(int id)
-        {
-            CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
-            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+        //private void ReCalculateManure(int id)
+        //{
+        //    CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
+        //    NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
-            List<Field> flds = _ud.GetFields();
+        //    List<Field> flds = _ud.GetFields();
 
-            foreach (var fld in flds)
-            {
-                List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.fieldName);
+        //    foreach (var fld in flds)
+        //    {
+        //        List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.fieldName);
 
-                foreach (var nm in mans)
-                {
-                    if (id.ToString() == nm.manureId)
-                    {
-                        int regionid = _ud.FarmDetails().farmRegion.Value;
-                        Region region = _sd.GetRegion(regionid);
-                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(nm.manureId), region.LocationId);
+        //        foreach (var nm in mans)
+        //        {
+        //            if (id.ToString() == nm.manureId)
+        //            {
+        //                int regionid = _ud.FarmDetails().farmRegion.Value;
+        //                Region region = _sd.GetRegion(regionid);
+        //                nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(nm.manureId), region.LocationId);
 
-                        string avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
+        //                string avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
 
-                        string nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(nm.manureId), Convert.ToInt16(nm.applicationId)) * 100).ToString("###");
+        //                string nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(nm.manureId), Convert.ToInt16(nm.applicationId)) * 100).ToString("###");
 
-                        NutrientInputs nutrientInputs = new NutrientInputs();
+        //                NutrientInputs nutrientInputs = new NutrientInputs();
 
-                        calculateNutrients.manure = nm.manureId;
-                        calculateNutrients.applicationSeason = nm.applicationId;
-                        calculateNutrients.applicationRate = Convert.ToDecimal(nm.rate);
-                        calculateNutrients.applicationRateUnits = nm.unitId;
-                        calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(nh4);
-                        calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(avail);
+        //                calculateNutrients.manure = nm.manureId;
+        //                calculateNutrients.applicationSeason = nm.applicationId;
+        //                calculateNutrients.applicationRate = Convert.ToDecimal(nm.rate);
+        //                calculateNutrients.applicationRateUnits = nm.unitId;
+        //                calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(nh4);
+        //                calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(avail);
 
-                        calculateNutrients.GetNutrientInputs(nutrientInputs);
+        //                calculateNutrients.GetNutrientInputs(nutrientInputs);
 
-                        nm.yrN = nutrientInputs.N_FirstYear;
-                        nm.yrP2o5 = nutrientInputs.P2O5_FirstYear;
-                        nm.yrK2o = nutrientInputs.K2O_FirstYear;
-                        nm.ltN = nutrientInputs.N_LongTerm;
-                        nm.ltP2o5 = nutrientInputs.P2O5_LongTerm;
-                        nm.ltK2o = nutrientInputs.K2O_LongTerm;
+        //                nm.yrN = nutrientInputs.N_FirstYear;
+        //                nm.yrP2o5 = nutrientInputs.P2O5_FirstYear;
+        //                nm.yrK2o = nutrientInputs.K2O_FirstYear;
+        //                nm.ltN = nutrientInputs.N_LongTerm;
+        //                nm.ltP2o5 = nutrientInputs.P2O5_LongTerm;
+        //                nm.ltK2o = nutrientInputs.K2O_LongTerm;
 
-                        _ud.UpdateFieldNutrientsManure(fld.fieldName, nm);
-                    }
-                }
-            }
-        }
+        //                _ud.UpdateFieldNutrientsManure(fld.fieldName, nm);
+        //            }
+        //        }
+        //    }
+        //}
         public ActionResult CompostDelete(int id, string target)
         {
             CompostDeleteViewModel dvm = new CompostDeleteViewModel();
