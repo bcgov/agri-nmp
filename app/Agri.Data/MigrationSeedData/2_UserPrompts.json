@@ -1,0 +1,12 @@
+{
+  "Id": 2,
+  "JsonFilename": "2_UserPrompts",
+  "ReasonReference": "R4E01-US06: Washwater (Animal Details)",
+  "Data": [
+    {
+      "Id": "40",
+      "Name": "ExplainWashWaterTypes",
+      "Text": "Enter total wash water volumes added daily.Typical wash water volumes range from x to z US gallons/day/animal."
+    }
+  ]
+}

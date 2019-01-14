@@ -144,6 +144,13 @@
             })
         });
 
+        $(document).ready(function () {
+            $("body").on("change", "#ddlWashWaterUnits", function () {
+                $('#buttonPressed').val("WashWaterUnitsChange");
+                $("#modForm").submit();
+            })
+        });
+
         $(document).on('change',
             '#averageAnimalNumber', function () {
                 NeedRefresh();
@@ -197,6 +204,5 @@
             $("#ok_button").css('background-color', '#1abbed');
             $("#btnText").val("Save");
         }
-      
     </script>
 }
