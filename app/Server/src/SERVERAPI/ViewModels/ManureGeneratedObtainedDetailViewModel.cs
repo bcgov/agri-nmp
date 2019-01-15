@@ -28,6 +28,9 @@ namespace SERVERAPI.ViewModels
         public string washWater { get; set; }
         public bool showWashWater { get; set; }
         public bool stdWashWater { get; set; }
+        public bool stdManureMaterialType { get; set; }
+        public bool hasLiquidManureType { get; set; }
+        public bool hasSolidManureType { get; set; }
         public string includeMilkProduction { get; set; }
         public string milkProduction { get; set; }
         public bool showMilkProduction { get; set; }
@@ -49,5 +52,7 @@ namespace SERVERAPI.ViewModels
         }
 
         public string ExplainWashWaterVolumesDaily;
+        public string liquidPerGalPerAnimalPerDay { get; set; }
+        public string solidPerPoundPerAnimalPerDay { get; set; }
     }
 }
