@@ -125,16 +125,13 @@
                             </div>
                         }
                     </div>
-                    @if (Model.ShowSeparatedValueFields)
-                    {
-                        <div class="col-sm-3">
-                            <div>Separated liquids,</div>
-                            <div><b>@Model.SeparatedLiquidsUSGallons</b> U.S. gallons</div>
-                            <br />
-                            <div>Separated solids,</div>
-                            <div><b>@Model.SeparatedSolidsTons</b> tons </div>
-                        </div>
-                    }
+                    <div class="col-sm-3">
+                        <div>Separated liquids</div>
+                        <div><b>@Model.SeparatedLiquidsUSGallons</b> U.S. gallons</div>
+                        <br />
+                        <div>Separated solids</div>
+                        <div><b>@Model.SeparatedSolidsTons</b> tons </div>
+                    </div>
                 </div>
             }
             @if (Model.ShowStructureFields)

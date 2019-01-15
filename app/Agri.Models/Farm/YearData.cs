@@ -13,6 +13,7 @@ namespace Agri.Models.Farm
         public List<FarmManure> farmManures { get; set; }
         public List<GeneratedManure> GeneratedManures { get; set; }
         public List<ImportedManure> ImportedManures { get; set; }
+        public List<SeparatedSolidManure> SeparatedSolidManures { get; set; }
         public List<ManureStorageSystem> ManureStorageSystems { get; set; }
 
         public int? GetManureStorageSystemId(string managedManureId)

@@ -11,7 +11,6 @@
 using Agri.CalculateService;
 using Agri.Data;
 using Agri.Interfaces;
-using Agri.LegacyData.Models.Impl;
 using Agri.Models.Settings;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -27,7 +26,6 @@ using SERVERAPI.Controllers;
 using SERVERAPI.Utility;
 using System;
 using System.Globalization;
-using IManureApplicationCalculator = Agri.Interfaces.IManureApplicationCalculator;
 
 namespace SERVERAPI
 {
@@ -114,6 +112,7 @@ namespace SERVERAPI
             services.AddScoped<IAgriConfigurationRepository, AgriConfigurationRepository>();
             services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
             services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
+            services.AddScoped<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
 
             services.AddOptions();
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();

@@ -515,10 +515,10 @@ namespace SERVERAPI.Controllers
                         _sd.GetUserPrompt("storagestructureliquidnameplaceholder") :
                         _sd.GetUserPrompt("storagestructuresolidnameplaceholder");
 
-                    //if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
-                    //{
-                    //    msdvm.ManagedManures.ForEach(mm => mm.);
-                    //}
+                    if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                    {
+                        msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm, msdvm.SelectedMaterialsToInclude, true);
+                    }
 
                     return View(msdvm);
                 }
@@ -551,6 +551,11 @@ namespace SERVERAPI.Controllers
                     if (!msdvm.IsThereSolidLiquidSeparation)
                     {
                         msdvm.ShowSeparatedValueFields = false;
+                        msdvm.PercentageOfLiquidVolumeSeparated = 0;
+                    }
+                    else
+                    {
+                        msdvm.PercentageOfLiquidVolumeSeparated = 10;
                     }
 
                     return View(msdvm);
@@ -728,6 +733,11 @@ namespace SERVERAPI.Controllers
 
         private List<MvcRendering.SelectListItem> GetFilteredMaterialsListForCurrentView(ManureStorageDetailViewModel msdvm, List<string> selectedMaterials)
         {
+            return GetFilteredMaterialsListForCurrentView(msdvm, selectedMaterials, false);
+        }
+
+        private List<MvcRendering.SelectListItem> GetFilteredMaterialsListForCurrentView(ManureStorageDetailViewModel msdvm, List<string> selectedMaterials, bool selectAllLiquidMaterial)
+        {
 
             if (msdvm.SelectedManureMaterialType > 0)
             {
@@ -761,8 +771,20 @@ namespace SERVERAPI.Controllers
                                         )
                                        && !materialIdsToExclude.Any(exclude => g.Id.HasValue && g.ManureId == exclude));
 
-                
+
                 var manureSelectItems = new List<MvcRendering.SelectListItem>();
+
+                if (selectAllLiquidMaterial)
+                {
+                    var unselectedLiquid = managedManures
+                        .Where(mm =>
+                            mm.ManureType == ManureMaterialType.Liquid && !selectedMaterials.Any(s =>
+                                s.Equals(mm.ManureId, StringComparison.CurrentCultureIgnoreCase)))
+                        .Select(m => m.ManureId);
+
+                    selectedMaterials.AddRange(unselectedLiquid);
+                }
+
                 foreach (var manure in managedManures)
                 {
                     var materialsToInclude = "";
