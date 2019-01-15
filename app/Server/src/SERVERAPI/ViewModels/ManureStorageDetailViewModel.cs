@@ -41,12 +41,17 @@ namespace SERVERAPI.ViewModels
         public int? UncoveredAreaOfStorageStructure { get; set; }
         public bool IsStructureCovered { get; set; }
         public bool IsThereSolidLiquidSeparation { get; set; }
+        public decimal PercentageOfLiquidVolumeSeparated { get; set; }
+        public decimal SeparatedLiquidsUSGallons { get; set; }
+        public decimal SeparatedSolidsTons { get; set; }
         public string ButtonText { get; set; }
         public string ButtonPressed { get; set; }
         public bool DisableMaterialTypeForEditMode { get; set; }
         public bool ShowRunOffQuestions => SelectedManureMaterialType == ManureMaterialType.Liquid;
         public bool ShowRunoffAreaField => GetsRunoffFromRoofsOrYards;
         public bool ShowSolidLiquidSeparation => SelectedManureMaterialType == ManureMaterialType.Liquid;
+        public bool ShowPercentageLiquidVolume { get; set; }
+        public bool ShowSeparatedValueFields { get; set; }
         public bool DisableSystemFields { get; set; }
         public bool ShowStructureFields { get; set; }
     }
