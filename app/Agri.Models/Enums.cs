@@ -49,9 +49,9 @@ namespace Agri.Models
 
     public enum WashWaterUnits
     {
-        [Description("US gallons/day")]
-        USGallonsPerDay = 1,
         [Description("US gallons/day/animal")]
-        USGallonsPerDayPerAnimal = 2
+        USGallonsPerDayPerAnimal = 1,
+        [Description("US gallons/day")]
+        USGallonsPerDay = 2
     }
 }
