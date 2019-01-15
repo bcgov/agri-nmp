@@ -5,6 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="MigrationSeedData\1_UserPrompts.json" />
+    <None Remove="MigrationSeedData\2_UserPrompts.json" />
+    <None Remove="MigrationSeedData\3_UserPrompts.json" />
+    <None Remove="MigrationSeedData\4_UserPrompts.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="MigrationSeedData\4_UserPrompts.json" />
+    <EmbeddedResource Include="MigrationSeedData\3_UserPrompts.json" />
+    <EmbeddedResource Include="MigrationSeedData\2_UserPrompts.json" />
+    <EmbeddedResource Include="MigrationSeedData\1_UserPrompts.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
       <PrivateAssets>all</PrivateAssets>

@@ -86,7 +86,7 @@ namespace Agri.Data
 
         public List<SelectListItem> GetAnimalTypesDll()
         {
-            return GetAnimals().Select(st => new SelectListItem {Id = st.Id, Value = st.Name}).ToList();
+            return GetAnimals().Select(st => new SelectListItem { Id = st.Id, Value = st.Name }).ToList();
         }
 
         public SeasonApplication GetApplication(string applId)
@@ -112,7 +112,7 @@ namespace Agri.Data
                 if (r.ManureType.Contains(manureType))
                 {
                     var li = new SelectListItem()
-                        { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                     applsOptions.Add(li);
                 }
             }
@@ -147,7 +147,7 @@ namespace Agri.Data
             var harvestUnitsOptions = new List<SelectListItem>();
             foreach (var r in harvestUnits)
             {
-                var li = new SelectListItem{ Id = r.Id, Value = r.Name };
+                var li = new SelectListItem { Id = r.Id, Value = r.Name };
                 harvestUnitsOptions.Add(li);
             }
 
@@ -187,7 +187,7 @@ namespace Agri.Data
                 if (r.CropTypeId == cropType)
                 {
                     var li = new SelectListItem()
-                        { Id = r.Id, Value = r.CropName };
+                    { Id = r.Id, Value = r.CropName };
                     cropsOptions.Add(li);
                 }
             }
@@ -238,7 +238,7 @@ namespace Agri.Data
             foreach (var r in types)
             {
                 var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                { Id = r.Id, Value = r.Name };
                 typesOptions.Add(li);
             }
 
@@ -284,7 +284,7 @@ namespace Agri.Data
             foreach (var r in units)
             {
                 var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                { Id = r.Id, Value = r.Name };
                 unitsOptions.Add(li);
             }
 
@@ -298,7 +298,7 @@ namespace Agri.Data
 
             foreach (var animalSubType in GetAnimalSubTypes().Where(ast => ast.WashWater > 0))
             {
-                animalsUsingWashWater.Animals.Add(new AnimalUsingWashWater {AnimalSubTypeId = animalSubType.Id});
+                animalsUsingWashWater.Animals.Add(new AnimalUsingWashWater { AnimalSubTypeId = animalSubType.Id });
             }
 
             return animalsUsingWashWater;
@@ -353,7 +353,7 @@ namespace Agri.Data
             foreach (var r in fertilizerMethods)
             {
                 SelectListItem li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                { Id = r.Id, Value = r.Name };
                 fertilizerMethodOptions.Add(li);
             }
 
@@ -394,7 +394,7 @@ namespace Agri.Data
                 if (r.DryLiquid.Equals(fertilizerType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
-                        { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                     typesOptions.Add(li);
                 }
             }
@@ -457,7 +457,7 @@ namespace Agri.Data
                 if (r.DryLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
-                        { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                     unitsOptions.Add(li);
                 }
             }
@@ -559,7 +559,7 @@ namespace Agri.Data
             foreach (var r in manures)
             {
                 var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                { Id = r.Id, Value = r.Name };
                 manOptions.Add(li);
             }
 
@@ -569,64 +569,91 @@ namespace Agri.Data
         public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance, bool legume)
         {
             var balanceMessages = GetMessages()
-                .Where(m => m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
-                            balance >= Convert.ToInt64(m.BalanceLow) &&
-                            balance <= Convert.ToInt64(m.BalanceHigh))
-                .Select(bm => new BalanceMessages
+                .SingleOrDefault(m =>
+                        m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
+                        balance >= Convert.ToInt64(m.BalanceLow) &&
+                        balance <= Convert.ToInt64(m.BalanceHigh));
+
+            if (balanceMessages != null)
+            {
+                var message = new BalanceMessages
                 {
                     Chemical = balanceType,
-                    Message = bm.DisplayMessage.Equals("Yes", StringComparison.CurrentCultureIgnoreCase)  ? 
-                        string.Format(bm.Text, Math.Abs(balance).ToString()) : null,
-                    Icon = bm.Icon,
-                    IconText = GetNutrientIcon(bm.Icon).Definition
-                })
-                .SingleOrDefault();
+                    Icon = balanceMessages.Icon
+                };
 
-            if (balanceMessages != null &&
-                balanceType.Equals("AgrN", StringComparison.CurrentCultureIgnoreCase) &&
-                balanceMessages.Icon.Equals("stop", StringComparison.CurrentCultureIgnoreCase))
-            {
-                // nitrogen does not need to be added even if there is a deficiency
-                balanceMessages.Icon = "good";
-                balanceMessages.Message = string.Empty;
+                if (balanceMessages.DisplayMessage.Equals("Yes", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    message.Message = string.Format(balanceMessages.Text, Math.Abs(balance).ToString());
+                }
+
+                if (balanceMessages != null &&
+                    balanceType.Equals("AgrN", StringComparison.CurrentCultureIgnoreCase) &&
+                    balanceMessages.Icon.Equals("stop", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    // nitrogen does not need to be added even if there is a deficiency
+                    message.Icon = "good";
+                    message.Message = string.Empty;
+                }
+
+                message.IconText = GetNutrientIcon(balanceMessages.Icon).Definition;
+                return message;
             }
-
-            return balanceMessages;
+            return new BalanceMessages();
         }
 
         public string GetMessageByChemicalBalance(string balanceType, long balance, bool legume, decimal soilTest)
         {
 
-            return GetMessages()
-                .Where(m => m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
+            var message = GetMessages()
+                .SingleOrDefault(m => m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
                             balance >= Convert.ToInt64(m.BalanceLow) &&
                             balance <= Convert.ToInt64(m.BalanceHigh) &&
                             soilTest >= m.SoilTestLow &&
-                            soilTest <= m.SoilTestHigh)
-                .Select(m => balanceType.Equals("AgrN", StringComparison.CurrentCultureIgnoreCase) && 
-                                    legume &&
-                                    m.BalanceHigh == 9999 ? 
-                                        string.Empty : // If legume crop in field never display that more N is required
-                                        string.Format(m.Text, Math.Abs(balance).ToString()))
-                .SingleOrDefault();
+                            soilTest <= m.SoilTestHigh);
+
+            if (message != null)
+            {
+                if (balanceType.Equals("AgrN", StringComparison.CurrentCultureIgnoreCase) &&
+                    legume &&
+                    message.BalanceHigh == 9999)
+                {
+                    return string.Empty; // If legume crop in field never display that more N is required
+                }
+                else
+                {
+                    return string.Format(message.Text, Math.Abs(balance).ToString());
+                }
+            }
+
+            return null;
+
         }
 
         public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance1, long balance2, string assignedChemical)
         {
 
-            return GetMessages()
-                .Where(m => m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
+            var message = GetMessages()
+                .SingleOrDefault(m => m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
                             balance1 >= Convert.ToInt64(m.BalanceLow) &&
                             balance1 <= Convert.ToInt64(m.BalanceHigh) &&
                    balance2 >= Convert.ToInt64(m.Balance1Low) &&
-                   balance2<= Convert.ToInt64(m.Balance1High))
-                .Select(m => new BalanceMessages
+                   balance2 <= Convert.ToInt64(m.Balance1High));
+
+            if (message != null)
+            {
+                var balanceMessage = new BalanceMessages
                 {
                     Chemical = assignedChemical,
-                    Message = m.DisplayMessage.Equals("Yes", StringComparison.CurrentCultureIgnoreCase) ? m.Text : null,
-                    Icon = m.Icon
-                })
-                .SingleOrDefault();
+                    Message = message.DisplayMessage.Equals("Yes", StringComparison.CurrentCultureIgnoreCase)
+                        ? message.Text
+                        : null,
+                    Icon = message.Icon
+                };
+
+                return balanceMessage;
+            }
+            return new BalanceMessages();
         }
 
         public List<Message> GetMessages()
@@ -680,7 +707,7 @@ namespace Agri.Data
                 if (r.PreviousCropCode.ToString() == prevCropCd)
                 {
                     var li = new SelectListItem()
-                        { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                     typesOptions.Add(li);
                 }
             }
@@ -725,7 +752,7 @@ namespace Agri.Data
             foreach (var r in regions)
             {
                 var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                { Id = r.Id, Value = r.Name };
                 regOptions.Add(li);
             }
 
@@ -775,7 +802,7 @@ namespace Agri.Data
             foreach (var r in soilTestMethods)
             {
                 SelectListItem li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                { Id = r.Id, Value = r.Name };
                 soilTestMethodOptions.Add(li);
             }
 
@@ -841,8 +868,8 @@ namespace Agri.Data
                 .SingleOrDefault(stp => ppm >= stp.RangeLow && ppm <= stp.RangeHigh);
         }
 
-        public SoilTestPotassiumRecommendation GetSTKRecommend(int stkKelownaRangeId, 
-            int soilTestPotassiumRegionCode, 
+        public SoilTestPotassiumRecommendation GetSTKRecommend(int stkKelownaRangeId,
+            int soilTestPotassiumRegionCode,
             int potassiumCropGroupRegionCode)
         {
             return GetSoilTestPotassiumRecommendations().SingleOrDefault(stp =>
@@ -878,7 +905,7 @@ namespace Agri.Data
                 if (r.AnimalId == animalType)
                 {
                     var li = new SelectListItem()
-                        { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                     animalSubTypesOptions.Add(li);
                 }
             }
@@ -907,7 +934,7 @@ namespace Agri.Data
                 if (r.SolidLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
-                        { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                     unitsOptions.Add(li);
                 }
             }
@@ -918,7 +945,7 @@ namespace Agri.Data
         public string GetUserPrompt(string name)
         {
             return GetUserPrompts()
-                .SingleOrDefault(up => up.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase)).Text;
+                .SingleOrDefault(up => up.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))?.Text;
         }
 
         public List<UserPrompt> GetUserPrompts()
@@ -1085,7 +1112,7 @@ namespace Agri.Data
             foreach (var r in mainMenus)
             {
                 var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                { Id = r.Id, Value = r.Name };
                 mainMenuOptions.Add(li);
             }
 
@@ -1108,7 +1135,7 @@ namespace Agri.Data
             foreach (var r in subMenus)
             {
                 var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                { Id = r.Id, Value = r.Name };
                 subMenuoptions.Add(li);
             }
 

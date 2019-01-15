@@ -4,6 +4,40 @@
     Layout = null;
 }
 
+<style>
+    .tooltip.top .tooltip-arrow {
+        bottom: 0;
+        left: 50%;
+        margin-left: -205px;
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 10px solid #23527C;
+        margin-left:-206px;
+    }
+    .tooltip-inner {
+        background: #ffffff;
+        color: #000000;
+        border: #23527C 1px solid;
+        max-width: 300px;
+        padding: 3px 8px;
+        text-align: left;
+        border-radius: 2px;
+        margin-left:-200px;
+        width:300px;
+    }
+
+    .tooltip .title {
+        background: #23527C;
+        color: #ffffff;
+        max-width: 300px;
+        padding: 3px 8px;
+        text-align: left;
+        border-radius: 2px;
+        margin-left: -200px;
+        margin-top: 70px;
+    }
+</style>
+
 <div id="target">
     <form asp-action="ManureGeneratedObtainedDetail" asp-controller="ManureManagement" id="modForm" method="post" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
         <div class="modal-header">
@@ -55,9 +89,9 @@
                     </div>
                     @if (Model.showWashWater)
                     {
-                        <div class="form-group col-sm-4">
+                        <div class="form-group col-sm-3"  style="padding-right: 0;">
                             <label>Milking Centre Wash Water</label>
-                            <div class="input-group col-sm-9">
+                            <div class="input-group col-sm-12">
                                 <input class="form-control" asp-for="washWater" id="washWater" type="text" />
                                 @if (!Model.stdWashWater)
                                 {
@@ -66,8 +100,24 @@
                                     </span>
                                 }
                             </div>
-                            <label>US gallons/day/animal</label>
                             <span asp-validation-for="washWater"></span>
+                        </div>
+                        <div class="form-group col-sm-6"  style="padding-left: 0;">
+                            <div class="form-group col-sm-6" style="padding-left:0px">
+                                <label>(Units)</label>
+                                <select class="form-control" asp-for="SelWashWaterUnit" asp-items="@Model.GetWashWaterUnits()" id="ddlWashWaterUnits">
+                                    @*<option>select type</option>*@
+                                </select>
+                                <span asp-validation-for="SelWashWaterUnit" class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-2" style="padding-left:0px">
+                                <br/>
+                                <div class="form-group col-sm-6" style="padding-left:0px">
+                                    <a href="#" data-toggle="tooltip" title="@Model.ExplainWashWaterVolumesDaily" id="toolTipWashWaterVolumesDaily">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of wash water volumes added daily" style="font-size:20px; padding-top:10px;width:400px"></span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     }
                     else
@@ -114,4 +164,21 @@
     </form>
 </div>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#toolTipWashWaterVolumesDaily').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipWashWaterVolumesDaily').click(function () {
+            triggerToolTip($('#toolTipWashWaterVolumesDaily'));
+        });
+    })
+</script>
+    
 
