@@ -34,7 +34,7 @@
                         <span asp-validation-for="SystemName" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group col-sm-3 agri-listbox" >
+                <div class="form-group col-sm-3 agri-listbox">
                     <label asp-for="SelectedMaterialsToInclude">Select materials to include</label>
                     <ul class="form-control  agri-listbox" id="SelectedMaterialsToInclude" style="width: 400px">
                         @if (Model.ManagedManures != null)
@@ -79,43 +79,24 @@
                             </label>
                         </div>
                     </div>
-                        @if (Model.ShowRunoffAreaField)
-                        {
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
-                                    <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"
-                                           disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
-                                    @if (Model.DisableSystemFields)
-                                    {
-                                        @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
-                                    }
-                                    <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
-                                </div>
-                                @if (Model.ShowPercentageLiquidVolume)
+                    @if (Model.ShowRunoffAreaField)
+                    {
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
+                                <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"
+                                       disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
+                                @if (Model.DisableSystemFields)
                                 {
-                                    <div class="form-group">
-                                        <label asp-for="PercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
-                                        <input class="form-control" asp-for="PercentageOfLiquidVolumeSeparated" type="text" id="txtPercentageOfLiquidVolumeSeparated"
-                                               disabled="@(Model.DisableSystemFields ? "disabled" : null)"/>
-                                        <span asp-validation-for="PercentageOfLiquidVolumeSeparated" class="text-danger"></span>
-                                    </div>
+                                    @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
                                 }
+                                <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
                             </div>
-                            @if (Model.ShowSeparatedValueFields)
-                             {
-                                 <div class="col-sm-3">
-                                     <div>Separated liquids,</div>
-                                     <div>@Model.SeparatedLiquidsUSGallons U.S. gallons</div>
-                                     <br/>
-                                     <div>Separated solids,</div>
-                                     <div>@Model.SeparatedSolidsTons tons</div>
-                                 </div>
-                             }
-                        }
+                        </div>
+                    }
                 </div>
             }
-            
+
             @if (Model.ShowSolidLiquidSeparation)
             {
                 <div class="form-row row" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
@@ -125,15 +106,35 @@
                             <label style="padding-right: 20px">
                                 <input asp-for="IsThereSolidLiquidSeparation" type="radio" value="true"
                                        disabled="@(Model.DisableSystemFields ? "disabled" : null)"
-                                       onchange="IsThereSolidLiquidSeparation()" /> Yes
+                                       onchange="IsThereSolidLiquidSeparationChanged()" /> Yes
                             </label>
                             <label>
                                 <input asp-for="IsThereSolidLiquidSeparation" type="radio" value="false"
                                        disabled="@(Model.DisableSystemFields ? "disabled" : null)"
-                                       onchange="IsThereSolidLiquidSeparation()" /> No
+                                       onchange="IsThereSolidLiquidSeparationChanged()" /> No
                             </label>
                         </div>
+                        @if (Model.IsThereSolidLiquidSeparation)
+                        {
+                            <div class="form-group">
+                                <label asp-for="PercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
+                                <input class="form-control" asp-for="PercentageOfLiquidVolumeSeparated" type="text" id="txtPercentageOfLiquidVolumeSeparated"
+                                       disabled="@(Model.DisableSystemFields ? "disabled" : null)"
+                                       onchange="RefreshSolidLiquidVolumeFields()" />
+                                <span asp-validation-for="PercentageOfLiquidVolumeSeparated" class="text-danger"></span>
+                            </div>
+                        }
                     </div>
+                    @if (Model.ShowSeparatedValueFields)
+                    {
+                        <div class="col-sm-3">
+                            <div>Separated liquids,</div>
+                            <div><b>@Model.SeparatedLiquidsUSGallons</b> U.S. gallons</div>
+                            <br />
+                            <div>Separated solids,</div>
+                            <div><b>@Model.SeparatedSolidsTons</b> tons </div>
+                        </div>
+                    }
                 </div>
             }
             @if (Model.ShowStructureFields)
@@ -184,6 +185,8 @@
         @Html.HiddenFor(x => x.StorageStructureNamePlaceholder)
         @Html.HiddenFor(x => x.DisableSystemFields)
         @Html.HiddenFor(x => x.ShowStructureFields)
+        @Html.HiddenFor(x => x.ShowSolidLiquidSeparation)
+        @Html.HiddenFor(x => x.ShowSeparatedValueFields)
         @Html.HiddenFor(x => x.ButtonText)
         @Html.HiddenFor(x => x.Target)
     </form>

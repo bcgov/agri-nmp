@@ -50,7 +50,6 @@ namespace SERVERAPI.ViewModels
         public bool ShowRunOffQuestions => SelectedManureMaterialType == ManureMaterialType.Liquid;
         public bool ShowRunoffAreaField => GetsRunoffFromRoofsOrYards;
         public bool ShowSolidLiquidSeparation => SelectedManureMaterialType == ManureMaterialType.Liquid;
-        public bool ShowPercentageLiquidVolume { get; set; }
         public bool ShowSeparatedValueFields { get; set; }
         public bool DisableSystemFields { get; set; }
         public bool ShowStructureFields { get; set; }

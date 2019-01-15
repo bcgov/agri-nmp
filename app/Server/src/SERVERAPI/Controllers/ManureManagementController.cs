@@ -515,6 +515,10 @@ namespace SERVERAPI.Controllers
                         _sd.GetUserPrompt("storagestructureliquidnameplaceholder") :
                         _sd.GetUserPrompt("storagestructuresolidnameplaceholder");
 
+                    //if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                    //{
+                    //    msdvm.ManagedManures.ForEach(mm => mm.);
+                    //}
 
                     return View(msdvm);
                 }
@@ -534,6 +538,31 @@ namespace SERVERAPI.Controllers
                     msdvm.ButtonPressed = "";
                     msdvm.ButtonText = "Save";
                     msdvm.RunoffAreaSquareFeet = null;
+
+                    return View(msdvm);
+                }
+
+                if (msdvm.ButtonPressed == "IsThereSolidLiquidSeparationChange")
+                {
+                    ModelState.Clear();
+                    msdvm.ButtonPressed = string.Empty;
+                    msdvm.ButtonText = "Save";
+
+                    if (!msdvm.IsThereSolidLiquidSeparation)
+                    {
+                        msdvm.ShowSeparatedValueFields = false;
+                    }
+
+                    return View(msdvm);
+                }
+
+                if (msdvm.ButtonPressed == "RefreshSolidLiquidVolumeFieldsChange")
+                {
+                    ModelState.Clear();
+                    msdvm.ButtonPressed = "";
+                    msdvm.ButtonText = "Save";
+
+                    msdvm.ShowSeparatedValueFields = true;
 
                     return View(msdvm);
                 }

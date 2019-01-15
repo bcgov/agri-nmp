@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Agri.Models.Configuration;
-using Newtonsoft.Json;
 
 namespace Agri.Models.Farm
 {
@@ -41,6 +39,10 @@ namespace Agri.Models.Farm
         }
         public bool GetsRunoffFromRoofsOrYards { get; set; }
         public int? RunoffAreaSquareFeet { get; set; }
+        public bool IsThereSolidLiquidSeparation { get; set; }
+        public decimal PercentageOfLiquidVolumeSeparated { get; set; }
+        public decimal SeparatedLiquidsUSGallons { get; set; }
+        public decimal SeparatedSolidsTons { get; set; }
         public List<ManureStorageStructure> ManureStorageStructures { get; }
 
         [JsonIgnore]
@@ -124,23 +126,6 @@ namespace Agri.Models.Farm
         {
             get
             {
-                //var totalAnnualGeneratedManure = 0m;
-                //foreach (var generatedManure in GeneratedManuresIncludedInSystem)
-                //{
-                //    var annualAmount = Convert.ToDecimal(generatedManure.annualAmount.Split(' ')[0]);
-                //    if (@ManureMaterialType != @generatedManure.ManureType && @generatedManure.ManureType == ManureMaterialType.Solid)
-                //    {
-                //        if (generatedManure.solidPerGalPerAnimalPerDay.HasValue)
-                //        {
-                //            // if solid material is added to the liquid system change the calculations to depict that of liquid
-                //            annualAmount = Math.Round(Convert.ToInt32(generatedManure.averageAnimalNumber) *
-                //                                              generatedManure.solidPerGalPerAnimalPerDay.Value) * 365;
-                //        }
-                //    }
-
-                //    totalAnnualGeneratedManure += Convert.ToInt32(generatedManure.washWaterGallons);
-                //    totalAnnualGeneratedManure += annualAmount;
-                //}
                 var totalAnnualGeneratedManure = ManureStorageItemSummaries
                     .Where(ms => ms.ManagedManure is GeneratedManure).Sum(ms => ms.ItemTotalAnnualStored);
 
@@ -153,15 +138,6 @@ namespace Agri.Models.Farm
         {
             get
             {
-                //var totalImportedManure = 0m;
-                //if (ManureMaterialType == ManureMaterialType.Liquid)
-                //{
-                //    totalImportedManure = ImportedManuresIncludedInSystem.Sum(im => im.AnnualAmountUSGallonsVolume);
-                //}
-                //else
-                //{
-                //    totalImportedManure = ImportedManuresIncludedInSystem.Sum(im => im.AnnualAmountTonsWeight);
-                //}
                 var totalImportedManure = ManureStorageItemSummaries.Where(ms => ms.ManagedManure is ImportedManure)
                     .Sum(ms => ms.ItemTotalAnnualStored);
 
