@@ -6,16 +6,19 @@ using Agri.Models.Configuration;
 using Agri.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Version = Agri.Models.Configuration.Version;
+using Agri.Interfaces;
 
 namespace Agri.Data
 {
     public class AgriSeeder
     {
         private AgriConfigurationContext _context;
+        private readonly IAgriConfigurationRepository _sd;
 
-        public AgriSeeder(AgriConfigurationContext context)
+        public AgriSeeder(AgriConfigurationContext context, IAgriConfigurationRepository sd)
         {
             _context = context;
+            _sd = sd;
         }
 
         public void Seed()
@@ -482,6 +485,20 @@ namespace Agri.Data
                     if (!_context.Breed.Any(up => up.Id == newBreed.Id))
                     {
                         _context.Breed.Add(newBreed);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("13_AnimalSubTypes", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<AnimalSubType>>("13_AnimalSubTypes");
+                foreach (var newSubType in migrationSeedData.Data)
+                {
+                    if (_context.AnimalSubType.Any(up => up.Id == newSubType.Id))
+                    {
+                        newSubType.Animal = _sd.GetAnimal(newSubType.AnimalId);
+                        _context.AnimalSubType.Update(newSubType);
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);

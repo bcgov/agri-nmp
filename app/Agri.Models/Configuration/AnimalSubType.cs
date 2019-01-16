@@ -1,4 +1,6 @@
-﻿namespace Agri.Models.Configuration
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Agri.Models.Configuration
 {
     public class AnimalSubType
     {
