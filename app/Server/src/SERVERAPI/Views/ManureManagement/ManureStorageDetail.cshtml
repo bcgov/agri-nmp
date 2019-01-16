@@ -125,13 +125,16 @@
                             </div>
                         }
                     </div>
-                    <div class="col-sm-3">
-                        <div>Separated liquids</div>
-                        <div><b>@Model.SeparatedLiquidsUSGallons</b> U.S. gallons</div>
-                        <br />
-                        <div>Separated solids</div>
-                        <div><b>@Model.SeparatedSolidsTons</b> tons </div>
-                    </div>
+                    @if (Model.IsThereSolidLiquidSeparation)
+                    {
+                        <div class="col-sm-3">
+                            <div>Separated liquids</div>
+                            <div><b>@Model.SeparatedLiquidsUSGallons</b> U.S. gallons</div>
+                            <br />
+                            <div>Separated solids</div>
+                            <div><b>@Model.SeparatedSolidsTons</b> tons </div>
+                        </div>
+                    }
                 </div>
             }
             @if (Model.ShowStructureFields)
@@ -183,7 +186,8 @@
         @Html.HiddenFor(x => x.DisableSystemFields)
         @Html.HiddenFor(x => x.ShowStructureFields)
         @Html.HiddenFor(x => x.ShowSolidLiquidSeparation)
-        @Html.HiddenFor(x => x.ShowSeparatedValueFields)
+        @Html.HiddenFor(x => x.SeparatedSolidsTons)
+        @Html.HiddenFor(x => x.SeparatedLiquidsUSGallons)
         @Html.HiddenFor(x => x.ButtonText)
         @Html.HiddenFor(x => x.Target)
     </form>

@@ -4,6 +4,6 @@ namespace Agri.Interfaces
 {
     public interface IManureLiquidSolidSeparationCalculator
     {
-        SeparatedManure CalculateSeparatedManure(int liquidVolumeGallons, int wholePercentLiquidSeparated);
+        SeparatedManure CalculateSeparatedManure(decimal liquidVolumeGallons, int wholePercentLiquidSeparated);
     }
 }

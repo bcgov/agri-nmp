@@ -41,7 +41,7 @@ namespace SERVERAPI.ViewModels
         public int? UncoveredAreaOfStorageStructure { get; set; }
         public bool IsStructureCovered { get; set; }
         public bool IsThereSolidLiquidSeparation { get; set; }
-        public decimal PercentageOfLiquidVolumeSeparated { get; set; }
+        public int PercentageOfLiquidVolumeSeparated { get; set; }
         public decimal SeparatedLiquidsUSGallons { get; set; }
         public decimal SeparatedSolidsTons { get; set; }
         public string ButtonText { get; set; }

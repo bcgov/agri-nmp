@@ -13,5 +13,6 @@ namespace Agri.Models.Farm
         public decimal AnnualAmountTonsWeight { get; set; }
         public override string ManureId => $"SeparatedSolid{Id ?? 0}";
         public override string ManagedManureName => Name;
+        public int SeparationSourceStorageSystemId { get; set; }
     }
 }

@@ -18,11 +18,11 @@ namespace Agri.CalculateService
             _manureUnitConversionCalculator = manureUnitConversionCalculator;
         }
 
-        public SeparatedManure CalculateSeparatedManure(int liquidVolumeGallons, int wholePercentLiquidSeparated)
+        public SeparatedManure CalculateSeparatedManure(decimal liquidVolumeGallons, int wholePercentLiquidSeparated)
         {
             var separatedManure = new SeparatedManure
             {
-                LiquidUSGallons = Convert.ToInt32(liquidVolumeGallons * (wholePercentLiquidSeparated / 100.0))
+                LiquidUSGallons = Convert.ToInt32(liquidVolumeGallons * (wholePercentLiquidSeparated / 100M))
             };
 
             var amountToConvert = (100 - wholePercentLiquidSeparated) / 100M * liquidVolumeGallons;

@@ -12,12 +12,14 @@ namespace Agri.Models.Farm
             ManureStorageStructures = new List<ManureStorageStructure>();
             GeneratedManuresIncludedInSystem = new List<GeneratedManure>();
             ImportedManuresIncludedInSystem = new List<ImportedManure>();
+            SeparatedSolidManuresIncludedInSystem = new List<SeparatedSolidManure>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
         public ManureMaterialType ManureMaterialType { get; set; }
         public List<GeneratedManure> GeneratedManuresIncludedInSystem { get; set; }
         public List<ImportedManure> ImportedManuresIncludedInSystem { get; set; }
+        public List<SeparatedSolidManure> SeparatedSolidManuresIncludedInSystem { get; set; }
         [JsonIgnore]
         public List<ManagedManure> MaterialsIncludedInSystem
         {
@@ -34,13 +36,18 @@ namespace Agri.Models.Farm
                     manures.AddRange(ImportedManuresIncludedInSystem);
                 }
 
+                if (SeparatedSolidManuresIncludedInSystem.Any())
+                {
+                    manures.AddRange(SeparatedSolidManuresIncludedInSystem);
+                }
+
                 return manures.ToList();
             }
         }
         public bool GetsRunoffFromRoofsOrYards { get; set; }
         public int? RunoffAreaSquareFeet { get; set; }
         public bool IsThereSolidLiquidSeparation { get; set; }
-        public decimal PercentageOfLiquidVolumeSeparated { get; set; }
+        public int PercentageOfLiquidVolumeSeparated { get; set; }
         public decimal SeparatedLiquidsUSGallons { get; set; }
         public decimal SeparatedSolidsTons { get; set; }
         public List<ManureStorageStructure> ManureStorageStructures { get; }

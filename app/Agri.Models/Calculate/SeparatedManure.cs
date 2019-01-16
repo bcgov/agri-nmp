@@ -8,7 +8,7 @@ namespace Agri.Models.Calculate
 {
     public class SeparatedManure
     {
-        public int LiquidUSGallons { get; set; }
-        public int SolidTons { get; set; }
+        public decimal LiquidUSGallons { get; set; }
+        public decimal SolidTons { get; set; }
     }
 }
