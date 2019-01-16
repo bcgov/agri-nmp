@@ -6,8 +6,11 @@ namespace Agri.Models.Configuration
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        [Column(TypeName = "decimal(16,3)")]
         public decimal? LiquidPerGalPerAnimalPerDay { get; set; }
+        [Column(TypeName = "decimal(16,3)")]
         public decimal? SolidPerGalPerAnimalPerDay { get; set; }
+        [Column(TypeName = "decimal(16,3)")]
         public decimal? SolidPerPoundPerAnimalPerDay { get; set; }
         public decimal SolidLiquidSeparationPercentage { get; set; }
         public decimal WashWater { get; set; }
