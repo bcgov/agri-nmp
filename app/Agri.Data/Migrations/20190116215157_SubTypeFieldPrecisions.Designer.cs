@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20190116212140_AnimalSubTypesDBSetAddition")]
-    partial class AnimalSubTypesDBSetAddition
+    [Migration("20190116215157_SubTypeFieldPrecisions")]
+    partial class SubTypeFieldPrecisions
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
