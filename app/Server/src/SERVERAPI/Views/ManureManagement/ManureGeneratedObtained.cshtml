@@ -170,6 +170,11 @@
 
         $(document).on('change','#milkProduction', function () {
                 NeedRefresh();
+        });
+
+        $(document).on('change',
+            '#grazingDaysPerYear', function () {
+                NeedRefresh();
             });
 
         $(document).ready(function () {
