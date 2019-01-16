@@ -60,7 +60,7 @@ namespace SERVERAPI.Controllers
             mgovm.stdWashWater = true;
             mgovm.stdMilkProduction = true;
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
-
+            
             if (id != null)
             {
                 GeneratedManure gm = _ud.GetGeneratedManure(id.Value);
@@ -68,6 +68,7 @@ namespace SERVERAPI.Controllers
                 mgovm.selSubTypeOption = gm.animalSubTypeId.ToString();
                 mgovm.averageAnimalNumber = gm.averageAnimalNumber.ToString();
                 mgovm.selManureMaterialTypeOption = gm.ManureType;
+                mgovm.SelWashWaterUnit = gm.washWaterUnits;
 
                 List<AnimalSubType> animalSubType = _sd.GetAnimalSubTypes(Convert.ToInt32(gm.animalId.ToString()));
                 if (animalSubType.Count > 0)
@@ -93,10 +94,22 @@ namespace SERVERAPI.Controllers
                     mgovm.milkProduction = gm.milkProduction.ToString("#.##");
                 }
 
-                if (mgovm.washWater != calculateAnimalRequirement.GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())
+                if (mgovm.SelWashWaterUnit == WashWaterUnits.USGallonsPerDay)
                 {
-                    mgovm.stdWashWater = false;
+                    if (mgovm.washWater != (Math.Round((calculateAnimalRequirement.GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption))??0) * Convert.ToInt32(mgovm.averageAnimalNumber))).ToString())
+                    {
+                        mgovm.stdWashWater = false;
+                    }
                 }
+                else if (mgovm.SelWashWaterUnit == WashWaterUnits.USGallonsPerDayPerAnimal)
+                {
+                    if (mgovm.washWater != calculateAnimalRequirement.GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())
+                    {
+                        mgovm.stdWashWater = false;
+                    }
+                }
+
+               
                 if (mgovm.milkProduction != calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())
                 {
                     mgovm.stdMilkProduction = false;
@@ -117,6 +130,8 @@ namespace SERVERAPI.Controllers
             CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
             mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
+            mgovm.ExplainWashWaterVolumesDaily = _sd.GetUserPrompt("ExplainWashWaterTypes");
+            
             animalTypeDetailsSetup(ref mgovm);
             try
             {
@@ -134,8 +149,6 @@ namespace SERVERAPI.Controllers
                     {
                         if (mgovm.showWashWater)
                         {
-                            mgovm.washWater = calculateAnimalRequirement
-                                .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                             mgovm.stdWashWater = true;
                         }
                         if (mgovm.showMilkProduction)
@@ -144,6 +157,45 @@ namespace SERVERAPI.Controllers
                                 .GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                             mgovm.stdMilkProduction = true;
                         }
+
+                        if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
+                        {
+                            mgovm.SelWashWaterUnit = WashWaterUnits.USGallonsPerDayPerAnimal;
+                            var washWaterUnits = mgovm.SelWashWaterUnit;
+                            if (washWaterUnits == WashWaterUnits.USGallonsPerDay && mgovm.averageAnimalNumber != null)
+                            {
+                                mgovm.washWater = (Math.Round((Convert.ToInt32(mgovm.averageAnimalNumber) *
+                                                               Convert.ToDecimal(
+                                                                   calculateAnimalRequirement
+                                                                       .GetWashWaterBySubTypeId(
+                                                                           Convert.ToInt16(mgovm.selSubTypeOption))
+                                                                       .ToString())))).ToString();
+                            }
+                            else if (washWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
+                            {
+                                mgovm.washWater = calculateAnimalRequirement
+                                    .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
+                            }
+                        }
+                    }
+
+
+                    AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                    mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                    mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                    if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                    {
+                        mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                        mgovm.stdManureMaterialType = false;
+                        mgovm.hasLiquidManureType = true;
+                    }
+                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                    {
+                        mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                        mgovm.stdManureMaterialType = false;
+                        mgovm.hasSolidManureType = true;
                     }
 
                     return View(mgovm);
@@ -168,8 +220,92 @@ namespace SERVERAPI.Controllers
                     mgovm.showWashWater = false;
                     mgovm.showMilkProduction = false;
                     mgovm.averageAnimalNumber = "";
+                    mgovm.hasLiquidManureType = false;
+                    mgovm.hasSolidManureType = false;
+
+                    if (!string.IsNullOrEmpty(mgovm.selAnimalTypeOption) &&
+                        mgovm.selAnimalTypeOption != "select animal")
+                    {
+                        mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
+                        if (mgovm.subTypeOptions.Count() > 1)
+                        {
+                            mgovm.subTypeOptions.Insert(0, new SelectListItem() {Id = 0, Value = "select subtype"});
+                            mgovm.selSubTypeOption = "select subtype";
+                            mgovm.selManureMaterialTypeOption = 0;
+                        }
+
+                        if (mgovm.subTypeOptions.Count() == 1)
+                        {
+                            mgovm.selSubTypeOption = mgovm.subTypeOptions[0].Id.ToString();
+
+                            AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                            mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                            mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                            if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                            {
+                                mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                                mgovm.stdManureMaterialType = false;
+                                mgovm.hasLiquidManureType = true;
+                            }
+                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0" &&
+                                     mgovm.liquidPerGalPerAnimalPerDay == "0")
+                            {
+                                mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                                mgovm.stdManureMaterialType = false;
+                                mgovm.hasSolidManureType = true;
+                            }
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
+                        mgovm.selSubTypeOption != "select subtype")
+                    {
+                        AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                        mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                        mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                        if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                        {
+                            mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                            mgovm.stdManureMaterialType = false;
+                            mgovm.hasLiquidManureType = true;
+                        }
+                        else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                        {
+                            mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                            mgovm.stdManureMaterialType = false;
+                            mgovm.hasSolidManureType = true;
+                        }
+                    }
+
 
                     return View(mgovm);
+                }
+
+                if (mgovm.buttonPressed == "WashWaterUnitsChange")
+                {
+                    ModelState.Clear();
+                    mgovm.buttonPressed = "";
+                    mgovm.btnText = "Save";
+                    mgovm.stdWashWater = true;
+
+                    var washWaterUnits = mgovm.SelWashWaterUnit;
+
+                    if (washWaterUnits == WashWaterUnits.USGallonsPerDay && mgovm.averageAnimalNumber != null)
+                    {
+                        mgovm.washWater = (Math.Round((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(calculateAnimalRequirement
+                                               .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())))).ToString();
+                    }
+                    else if (washWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
+                    {
+                        mgovm.washWater = calculateAnimalRequirement
+                            .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
+                    }
+
+                        return View(mgovm);
                 }
 
                 if (mgovm.buttonPressed == "ResetWashWater")
@@ -178,8 +314,22 @@ namespace SERVERAPI.Controllers
                     mgovm.buttonPressed = "";
                     mgovm.btnText = "Save";
                     mgovm.stdWashWater = true;
+                    var washWaterUnits = mgovm.SelWashWaterUnit;
 
-                    mgovm.washWater = calculateAnimalRequirement.GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
+                    if (washWaterUnits == WashWaterUnits.USGallonsPerDay && mgovm.averageAnimalNumber != null)
+                    {
+                        mgovm.washWater = (Math.Round((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(
+                                                           calculateAnimalRequirement
+                                                               .GetWashWaterBySubTypeId(
+                                                                   Convert.ToInt16(mgovm.selSubTypeOption))
+                                                               .ToString())))).ToString();
+                    }
+                    else if (washWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
+                    {
+                        mgovm.washWater = calculateAnimalRequirement
+                            .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
+                    }
+
                     return View(mgovm);
                 }
 
@@ -219,6 +369,28 @@ namespace SERVERAPI.Controllers
                             mgovm.stdMilkProduction = false;
                         }
 
+                        if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
+                            mgovm.selSubTypeOption != "select subtype")
+                        {
+                            AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                            mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                            mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                            if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                            {
+                                mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                                mgovm.stdManureMaterialType = false;
+                                mgovm.hasLiquidManureType = true;
+                            }
+                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                            {
+                                mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                                mgovm.stdManureMaterialType = false;
+                                mgovm.hasSolidManureType = true;
+                            }
+                        }
+
                         List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
                         if (mgovm.id == null)
                         {
@@ -235,6 +407,7 @@ namespace SERVERAPI.Controllers
                             gm.averageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
                             gm.ManureType = mgovm.selManureMaterialTypeOption;
                             gm.manureTypeName = EnumHelper<Agri.Models.ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
+                            gm.washWaterUnits = mgovm.SelWashWaterUnit;
                             if (mgovm.washWater != null)
                             {
                                 gm.washWater = Convert.ToDecimal(mgovm.washWater.ToString());
@@ -299,6 +472,7 @@ namespace SERVERAPI.Controllers
                             gm.manureTypeName = EnumHelper<ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
                             gm.milkProduction = Convert.ToDecimal(mgovm.milkProduction);
                             gm.solidPerGalPerAnimalPerDay = animalSubType.SolidPerGalPerAnimalPerDay;
+                            gm.washWaterUnits = mgovm.SelWashWaterUnit;
 
                             if (mgovm.washWater != null)
                             {
@@ -355,6 +529,7 @@ namespace SERVERAPI.Controllers
         {
             mgovm.showWashWater = false;
             mgovm.showMilkProduction = false;
+            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
             mgovm.animalTypeOptions = new List<SelectListItem>();
             mgovm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
@@ -365,7 +540,33 @@ namespace SERVERAPI.Controllers
                 mgovm.selAnimalTypeOption != "select animal")
             {
                 mgovm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
-                mgovm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select subtype" });
+                if (mgovm.subTypeOptions.Count() > 1)
+                {
+                    mgovm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select subtype" });
+                }
+
+                if (mgovm.subTypeOptions.Count() == 1)
+                {
+                    mgovm.selSubTypeOption = mgovm.subTypeOptions[0].Id.ToString();
+
+                    AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
+
+                    mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
+                    mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
+
+                    if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                    {
+                        mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
+                        mgovm.stdManureMaterialType = false;
+                        mgovm.hasLiquidManureType = true;
+                    }
+                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                    {
+                        mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                        mgovm.stdManureMaterialType = false;
+                        mgovm.hasSolidManureType = true;
+                    }
+                }
 
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
@@ -374,7 +575,7 @@ namespace SERVERAPI.Controllers
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;
-                        mgovm.showMilkProduction = true;
+                        mgovm.showMilkProduction = true; 
                     }
                 }
             }
@@ -427,6 +628,7 @@ namespace SERVERAPI.Controllers
         {
             var msvm = new ManureStorageDetailViewModel();
             var systemTitle = "Storage System Details";
+            msvm.ZeroManagedManuresMessage = _sd.GetUserPrompt("NoMaterialsForStorage");
 
             try
             {
@@ -502,6 +704,10 @@ namespace SERVERAPI.Controllers
             try
             {
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
+                if (msdvm.ManagedManures == null || !msdvm.ManagedManures.Any())
+                {
+                    ModelState.AddModelError("SelectedMaterialsToInclude", "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.");
+                }
 
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
                 {

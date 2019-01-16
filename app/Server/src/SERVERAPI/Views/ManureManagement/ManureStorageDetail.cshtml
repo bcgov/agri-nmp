@@ -58,6 +58,10 @@
                             }
                     </ul>
                     <span asp-validation-for="SelectedMaterialsToInclude" class="text-danger"></span>
+                    @if (!Model.AnyManagedManures)
+                    {
+                        <div class="text-danger" style="width: 400px">@Model.ZeroManagedManuresMessage</div>
+                    }
                 </div>
             </div>
 
@@ -190,5 +194,6 @@
         @Html.HiddenFor(x => x.SeparatedLiquidsUSGallons)
         @Html.HiddenFor(x => x.ButtonText)
         @Html.HiddenFor(x => x.Target)
+        @Html.HiddenFor(x => x.ZeroManagedManuresMessage)
     </form>
 </div>

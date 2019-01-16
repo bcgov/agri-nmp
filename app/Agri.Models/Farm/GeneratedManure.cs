@@ -1,5 +1,6 @@
 ﻿using Agri.Models.Configuration;
 using System;
+using Agri.Models;
 
 namespace Agri.Models.Farm
 {
@@ -14,8 +15,25 @@ namespace Agri.Models.Farm
         public string annualAmount { get; set; }
         public decimal annualAmountDecimal => annualAmount != null ? Convert.ToDecimal(annualAmount.Split(' ')[0]) : 0M;
         public string washWaterGallonsToString => string.Format("{0:#,##0}", washWaterGallons);
-        public decimal washWaterGallons => Math.Round(Convert.ToDecimal(washWater) * Convert.ToInt32(averageAnimalNumber) * 365);
+        public decimal washWaterGallons
+        {
+            get
+            {
+                var washWaterGallons = 0m;
+                if (washWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
+                {
+                    washWaterGallons= Math.Round(Convert.ToDecimal(washWater) * Convert.ToInt32(averageAnimalNumber) * 365);
+                }
+                else if (washWaterUnits == WashWaterUnits.USGallonsPerDay)
+                {
+                    washWaterGallons = Math.Round(Convert.ToDecimal(washWater) * 365);
+                }
+
+                return washWaterGallons;
+            }
+        }
         public decimal washWater { get; set; }
+        public WashWaterUnits washWaterUnits { get; set; }
         public decimal milkProduction { get; set; }
         public decimal? solidPerGalPerAnimalPerDay { get; set; }
         public override string ManureId => $"Generated{Id ?? 0}";
