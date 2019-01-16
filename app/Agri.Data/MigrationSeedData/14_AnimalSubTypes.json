@@ -10,7 +10,7 @@
             "solidPerGalPerAnimalPerDay": "8.983",
             "solidPerPoundPerAnimalPerDay": "60.046",
             "animalId": 1,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
 
           },
@@ -22,7 +22,7 @@
             "solidPerPoundPerAnimalPerDay": "32.425",
             "solidLiquidSeparationPercentage": "0",
             "animalId": 1,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -33,7 +33,7 @@
             "solidPerPoundPerAnimalPerDay": "43.869",
             "solidLiquidSeparationPercentage": "0",
             "animalId": 1,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -44,7 +44,7 @@
             "solidPerPoundPerAnimalPerDay": "15.541",
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0,
             "SortOrder": 6
           },
@@ -56,7 +56,7 @@
             "solidPerPoundPerAnimalPerDay": "31.082",
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0,
             "SortOrder": 5
           },
@@ -68,7 +68,7 @@
             "solidPerPoundPerAnimalPerDay": "71.490",
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0,
             "SortOrder": 4
           },
@@ -80,7 +80,7 @@
             "solidPerPoundPerAnimalPerDay": "123.482",
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0,
             "SortOrder": 3
           },
@@ -92,7 +92,7 @@
             "solidPerPoundPerAnimalPerDay": "205.992",
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0,
             "SortOrder": 2
           },
@@ -104,7 +104,7 @@
             "solidPerPoundPerAnimalPerDay": "221.251",
             "solidLiquidSeparationPercentage": 10,
             "animalId": 2,
-            "includeWashWater": 7.5,
+            "WashWater": 7.5,
             "milkProduction": 72.3,
             "SortOrder": 1 
           },
@@ -115,7 +115,7 @@
             "solidPerGalPerAnimalPerDay": "0.040",
             "solidPerPoundPerAnimalPerDay": "0.141",
             "animalId": 3,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -125,7 +125,7 @@
             "solidPerGalPerAnimalPerDay": "0.687",
             "solidPerPoundPerAnimalPerDay": "4.592",
             "animalId": 4,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -135,7 +135,7 @@
             "solidPerGalPerAnimalPerDay": "14.954",
             "solidPerPoundPerAnimalPerDay": "78.002",
             "animalId": 5,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -145,7 +145,7 @@
             "solidPerGalPerAnimalPerDay": "0.010",
             "solidPerPoundPerAnimalPerDay": "0.072",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -155,7 +155,7 @@
             "solidPerGalPerAnimalPerDay": "0.016",
             "solidPerPoundPerAnimalPerDay": "0.054",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -165,7 +165,7 @@
             "solidPerGalPerAnimalPerDay": "0.034",
             "solidPerPoundPerAnimalPerDay": "0.143",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -175,7 +175,7 @@
             "solidPerGalPerAnimalPerDay": "0.037",
             "solidPerPoundPerAnimalPerDay": "0.147",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -185,7 +185,7 @@
             "solidPerGalPerAnimalPerDay": "0.048",
             "solidPerPoundPerAnimalPerDay": "0.188",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -195,7 +195,7 @@
             "solidPerGalPerAnimalPerDay": "0.020",
             "solidPerPoundPerAnimalPerDay": "0.071",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -205,7 +205,7 @@
             "solidPerGalPerAnimalPerDay": "0.025",
             "solidPerPoundPerAnimalPerDay": "0.098",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -215,7 +215,7 @@
             "solidPerGalPerAnimalPerDay": "0.024",
             "solidPerPoundPerAnimalPerDay": "0.092",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -225,7 +225,7 @@
             "solidPerGalPerAnimalPerDay": "0.077",
             "solidPerPoundPerAnimalPerDay": "0.250",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -235,7 +235,7 @@
             "solidPerGalPerAnimalPerDay": "0.108",
             "solidPerPoundPerAnimalPerDay": "0.354",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -245,7 +245,7 @@
             "solidPerGalPerAnimalPerDay": "0.124",
             "solidPerPoundPerAnimalPerDay": "0.406",
             "animalId": 6,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -255,7 +255,7 @@
             "solidPerGalPerAnimalPerDay": "0.188",
             "solidPerPoundPerAnimalPerDay": "1.003",
             "animalId": 7,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -265,7 +265,7 @@
             "solidPerGalPerAnimalPerDay": "1.110",
             "solidPerPoundPerAnimalPerDay": "6.676",
             "animalId": 8,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -275,7 +275,7 @@
             "solidPerGalPerAnimalPerDay": "3.593",
             "solidPerPoundPerAnimalPerDay": "19.215",
             "animalId": 9,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -285,7 +285,7 @@
             "solidPerGalPerAnimalPerDay": "0",
             "solidPerPoundPerAnimalPerDay": "0",
             "animalId": 9,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -295,7 +295,7 @@
             "solidPerGalPerAnimalPerDay": "0",
             "solidPerPoundPerAnimalPerDay": "0",
             "animalId": 9,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -305,7 +305,7 @@
             "solidPerGalPerAnimalPerDay": "0",
             "solidPerPoundPerAnimalPerDay": "0",
             "animalId": 9,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -315,7 +315,7 @@
             "solidPerGalPerAnimalPerDay": "0",
             "solidPerPoundPerAnimalPerDay": "0",
             "animalId": 9,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -325,7 +325,7 @@
             "solidPerGalPerAnimalPerDay": "0",
             "solidPerPoundPerAnimalPerDay": "0",
             "animalId": 9,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           },
           {
@@ -335,7 +335,7 @@
             "solidPerGalPerAnimalPerDay": "1.480",
             "solidPerPoundPerAnimalPerDay": "8.901",
             "animalId": 10,
-            "includeWashWater": 0,
+            "WashWater": 0,
             "milkProduction": 0
           }
   ]
