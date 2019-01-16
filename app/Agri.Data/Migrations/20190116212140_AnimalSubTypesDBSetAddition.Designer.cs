@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20190116210624_SubTypeDBSet")]
-    partial class SubTypeDBSet
+    [Migration("20190116212140_AnimalSubTypesDBSetAddition")]
+    partial class AnimalSubTypesDBSetAddition
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,7 +58,7 @@ namespace Agri.Data.Migrations
                     b.Property<int>("AnimalId");
 
                     b.Property<decimal?>("LiquidPerGalPerAnimalPerDay")
-                        .HasColumnType("decimal(16,3)");
+                        .HasColumnType("decimal(16,4)");
 
                     b.Property<decimal>("MilkProduction");
 
@@ -67,10 +67,10 @@ namespace Agri.Data.Migrations
                     b.Property<decimal>("SolidLiquidSeparationPercentage");
 
                     b.Property<decimal?>("SolidPerGalPerAnimalPerDay")
-                        .HasColumnType("decimal(16,3)");
+                        .HasColumnType("decimal(16,4)");
 
                     b.Property<decimal?>("SolidPerPoundPerAnimalPerDay")
-                        .HasColumnType("decimal(16,3)");
+                        .HasColumnType("decimal(16,4)");
 
                     b.Property<int>("SortOrder");
 

@@ -490,19 +490,19 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
             }
 
-            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("13_AnimalSubTypes", StringComparison.CurrentCultureIgnoreCase)))
-            {
-                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<AnimalSubType>>("13_AnimalSubTypes");
-                foreach (var newSubType in migrationSeedData.Data)
-                {
-                    if (_context.AnimalSubType.Any(up => up.Id == newSubType.Id))
-                    {
-                        newSubType.Animal = _sd.GetAnimal(newSubType.AnimalId);
-                        _context.AnimalSubType.Update(newSubType);
-                    }
-                }
-                _context.AppliedMigrationSeedData.Add(migrationSeedData);
-            }
+            //if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("13_AnimalSubTypes", StringComparison.CurrentCultureIgnoreCase)))
+            //{
+            //    var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<AnimalSubType>>("13_AnimalSubTypes");
+            //    foreach (var newSubType in migrationSeedData.Data)
+            //    {
+            //        if (_context.AnimalSubType.Any(up => up.Id == newSubType.Id))
+            //        {
+            //            newSubType.Animal = _sd.GetAnimal(newSubType.AnimalId);
+            //            _context.AnimalSubType.Update(newSubType);
+            //        }
+            //    }
+            //    _context.AppliedMigrationSeedData.Add(migrationSeedData);
+            //}
 
 
             _context.SaveChanges();
