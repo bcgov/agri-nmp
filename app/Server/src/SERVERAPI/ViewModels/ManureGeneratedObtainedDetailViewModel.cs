@@ -54,6 +54,14 @@ namespace SERVERAPI.ViewModels
         }
 
         public string ExplainWashWaterVolumesDaily;
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public string selBreedOption { get; set; }
+        public List<SelectListItem> breedOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(0, 365, ErrorMessage = "Must be a value between 0 and 365")]
+        public string grazingDaysPerYear { get; set; }
+        public bool showBreedAndGrazingDaysPerYear { get; set; }
 
     }
 }

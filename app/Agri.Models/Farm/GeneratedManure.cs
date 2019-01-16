@@ -37,5 +37,9 @@ namespace Agri.Models.Farm
         public decimal? solidPerGalPerAnimalPerDay { get; set; }
         public override string ManureId => $"Generated{Id ?? 0}";
         public override string ManagedManureName => animalSubTypeName;
+        public int BreedId;
+        public string BreedName;
+        public int grazingDaysPerYear { get; set; }
+        public bool showBreedAndGrazingDaysPerYear { get; set; }
     }
 }

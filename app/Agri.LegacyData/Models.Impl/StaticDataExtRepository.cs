@@ -774,5 +774,63 @@ namespace Agri.LegacyData.Models.Impl
 
             return breeds;
         }
+        public List<SelectListItem> GetBreedsDll(int animalType)
+        {
+            var animalBreeds = GetBreeds();
+
+            animalBreeds = animalBreeds.OrderBy(n => n.Id).ToList();
+
+            List<SelectListItem> breedOptions = new List<SelectListItem>();
+
+            foreach (var r in animalBreeds)
+            {
+                if (r.AnimalId == animalType)
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.BreedName };
+                    breedOptions.Add(li);
+                }
+            }
+
+            return breedOptions;
+        }
+        public decimal GetBreedManureFactorByBreedId(int breedId)
+        {
+            Breed breed = new Breed();
+
+            JArray breeds = (JArray)rss["agri"]["nmp"]["breeds"]["breed"];
+
+            foreach (var r in breeds)
+            {
+                if (r["Id"].ToString() == breedId.ToString())
+                {
+                    breed.BreedManureFactor = Convert.ToDecimal(r["BreedManureFactor"].ToString());
+                }
+            }
+
+            return breed.BreedManureFactor;
+        }
+
+        public List<SelectListItem> GetBreed(int breedId)
+        {
+            var animalBreeds = GetBreeds();
+
+            animalBreeds = animalBreeds.OrderBy(n => n.Id).ToList();
+
+            List<SelectListItem> breedOptions = new List<SelectListItem>();
+
+            foreach (var r in animalBreeds)
+            {
+                if (r.Id == breedId)
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.BreedName };
+                    breedOptions.Add(li);
+                }
+            }
+
+            return breedOptions;
+        }
+
     }
 }

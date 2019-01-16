@@ -892,6 +892,11 @@ namespace SERVERAPI.Models.Impl
             farmDataGeneratedManure.annualAmount = updatedGeneratedManure.annualAmount;
             farmDataGeneratedManure.AssignedToStoredSystem = updatedGeneratedManure.AssignedToStoredSystem;
             farmDataGeneratedManure.solidPerGalPerAnimalPerDay = updatedGeneratedManure.solidPerGalPerAnimalPerDay;
+            farmDataGeneratedManure.BreedId = updatedGeneratedManure.BreedId;
+            farmDataGeneratedManure.BreedName = updatedGeneratedManure.BreedName;
+            farmDataGeneratedManure.showBreedAndGrazingDaysPerYear =
+                updatedGeneratedManure.showBreedAndGrazingDaysPerYear;
+            farmDataGeneratedManure.grazingDaysPerYear = updatedGeneratedManure.grazingDaysPerYear;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 

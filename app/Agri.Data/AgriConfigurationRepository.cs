@@ -1187,5 +1187,52 @@ namespace Agri.Data
                 .Include(a => a.Animal)
                 .ToList();
         }
+
+        public List<SelectListItem> GetBreedsDll(int animalType)
+        {
+            var animalBreeds = GetBreeds();
+
+            animalBreeds = animalBreeds.OrderBy(n => n.Id).ToList();
+
+            List<SelectListItem> breedOptions = new List<SelectListItem>();
+
+            foreach (var r in animalBreeds)
+            {
+                if (r.AnimalId == animalType)
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.BreedName };
+                    breedOptions.Add(li);
+                }
+            }
+
+            return breedOptions;
+        }
+
+        public decimal GetBreedManureFactorByBreedId(int breedId)
+        {
+            return GetBreeds().SingleOrDefault(br => br.Id==breedId).BreedManureFactor;
+        }
+
+        public List<SelectListItem> GetBreed(int breedId)
+        {
+            var animalBreeds = GetBreeds();
+
+            animalBreeds = animalBreeds.OrderBy(n => n.Id).ToList();
+
+            List<SelectListItem> breedOptions = new List<SelectListItem>();
+
+            foreach (var r in animalBreeds)
+            {
+                if (r.Id == breedId)
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.BreedName };
+                    breedOptions.Add(li);
+                }
+            }
+
+            return breedOptions;
+        }
     }
 }
