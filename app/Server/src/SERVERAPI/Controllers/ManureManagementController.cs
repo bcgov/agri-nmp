@@ -211,13 +211,13 @@ namespace SERVERAPI.Controllers
                     mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                     mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                    if (mgovm.liquidPerGalPerAnimalPerDay != "0.000" && mgovm.solidPerPoundPerAnimalPerDay == "0.000")
+                    if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                     {
                         mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                         mgovm.stdManureMaterialType = false;
                         mgovm.hasLiquidManureType = true;
                     }
-                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0.000" && mgovm.liquidPerGalPerAnimalPerDay == "0.000")
+                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                     {
                         mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                         mgovm.stdManureMaterialType = false;
@@ -269,13 +269,13 @@ namespace SERVERAPI.Controllers
                             mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                             mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                            if (mgovm.liquidPerGalPerAnimalPerDay != "0.000" && mgovm.solidPerPoundPerAnimalPerDay == "0.000")
+                            if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                             {
                                 mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                                 mgovm.stdManureMaterialType = false;
                                 mgovm.hasLiquidManureType = true;
                             }
-                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0.000" && mgovm.liquidPerGalPerAnimalPerDay == "0.000")
+                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                             {
                                 mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                                 mgovm.stdManureMaterialType = false;
@@ -292,13 +292,13 @@ namespace SERVERAPI.Controllers
                         mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                         mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                        if (mgovm.liquidPerGalPerAnimalPerDay != "0.000" && mgovm.solidPerPoundPerAnimalPerDay == "0.000")
+                        if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                         {
                             mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                             mgovm.stdManureMaterialType = false;
                             mgovm.hasLiquidManureType = true;
                         }
-                        else if (mgovm.solidPerPoundPerAnimalPerDay != "0.000" && mgovm.liquidPerGalPerAnimalPerDay == "0.000")
+                        else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                         {
                             mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                             mgovm.stdManureMaterialType = false;
@@ -427,13 +427,13 @@ namespace SERVERAPI.Controllers
                             mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                             mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                            if (mgovm.liquidPerGalPerAnimalPerDay != "0.000" && mgovm.solidPerPoundPerAnimalPerDay == "0.000")
+                            if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                             {
                                 mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                                 mgovm.stdManureMaterialType = false;
                                 mgovm.hasLiquidManureType = true;
                             }
-                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0.000" && mgovm.liquidPerGalPerAnimalPerDay == "0.000")
+                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                             {
                                 mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                                 mgovm.stdManureMaterialType = false;
@@ -775,13 +775,13 @@ namespace SERVERAPI.Controllers
                     mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                     mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                    if (mgovm.liquidPerGalPerAnimalPerDay != "0.000" && mgovm.solidPerPoundPerAnimalPerDay == "0.000")
+                    if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                     {
                         mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                         mgovm.stdManureMaterialType = false;
                         mgovm.hasLiquidManureType = true;
                     }
-                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0.000" && mgovm.liquidPerGalPerAnimalPerDay == "0.000")
+                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                     {
                         mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                         mgovm.stdManureMaterialType = false;
