@@ -8,6 +8,164 @@
     "creationTimestamp": null,
     "name": "nmp-postgresql-dc"
   },
+  "objects": [
+    {
+      "apiVersion": "v1",
+      "kind": "Secret",
+      "metadata": {
+        "annotations": {
+          "template.openshift.io/expose-database_name": "{.data['database_name']}",
+          "template.openshift.io/expose-password": "{.data['password']}",
+          "template.openshift.io/expose-username": "{.data['username']}",
+          "as-copy-of": "template-${NAME}-credentials "
+        },
+        "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
+      },
+      "stringData": {
+        "database_name": "${POSTGRESQL_DATABASE}",
+        "password": "${POSTGRESQL_PASSWORD}",
+        "username": "${POSTGRESQL_USER}"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "DeploymentConfig",
+      "metadata": {
+        "annotations": {
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        },
+        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
+        },
+        "strategy": {
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "capabilities": {},
+                "env": [
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "username",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "password",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_DATABASE",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database_name",
+                        "name": "${DATABASE_SERVICE_NAME}"
+                      }
+                    }
+                  }
+                ],
+                "image": " ",
+                "imagePullPolicy": "IfNotPresent",
+                "livenessProbe": {
+                  "exec": {
+                    "command": [
+                      "/usr/libexec/check-container",
+                      "--live"
+                    ]
+                  },
+                  "initialDelaySeconds": 120,
+                  "timeoutSeconds": 10
+                },
+                "name": "postgresql",
+                "ports": [
+                  {
+                    "containerPort": 5432,
+                    "protocol": "TCP"
+                  }
+                ],
+                "readinessProbe": {
+                  "exec": {
+                    "command": [
+                      "/usr/libexec/check-container"
+                    ]
+                  },
+                  "initialDelaySeconds": 5,
+                  "timeoutSeconds": 1
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                },
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/var/lib/pgsql/data",
+                    "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-data"
+                  }
+                ]
+              }
+            ],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "volumes": [
+              {
+                "emptyDir": {
+                  "medium": ""
+                },
+                "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-data"
+              }
+            ]
+          }
+        },
+        "triggers": [
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "postgresql"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "postgresql:${POSTGRESQL_VERSION}",
+                "namespace": "${NAMESPACE}"
+              },
+              "lastTriggeredImage": ""
+            },
+            "type": "ImageChange"
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ]
+      },
+      "status": {}
+    }
+
+  ],
   "parameters": [
     {
       "description": "The name of the OpenShift Service exposed for the database.",
@@ -77,26 +235,6 @@
       "name": "IMAGE_STREAM_VERSION",
       "required": true,
       "value": "v1-stable"
-    }
-  ],
-  "objects": [
-    {
-      "apiVersion": "v1",
-      "kind": "Secret",
-      "metadata": {
-        "annotations": {
-          "template.openshift.io/expose-database_name": "{.data['database_name']}",
-          "template.openshift.io/expose-password": "{.data['password']}",
-          "template.openshift.io/expose-username": "{.data['username']}",
-          "as-copy-of": "template-${NAME}-credentials "
-        },
-        "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
-      },
-      "stringData": {
-        "database_name": "${POSTGRESQL_DATABASE}",
-        "password": "${POSTGRESQL_PASSWORD}",
-        "username": "${POSTGRESQL_USER}"
-      }
     }
   ]
 }
