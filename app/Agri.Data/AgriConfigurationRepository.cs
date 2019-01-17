@@ -344,7 +344,7 @@ namespace Agri.Data
 
         public List<FertilizerMethod> GetFertilizerMethods()
         {
-            return _context.FertilizerMethods.ToList();
+            return _context.FertilizerMethods.ToList().OrderBy(ni => ni.Id).ToList();
         }
 
         public List<SelectListItem> GetFertilizerMethodsDll()
@@ -421,6 +421,7 @@ namespace Agri.Data
         public List<SelectListItem> GetFertilizerTypesDll()
         {
             var types = GetFertilizerTypes();
+            types = types.OrderBy(t => t.Id).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
@@ -897,7 +898,7 @@ namespace Agri.Data
         {
             var animalSubTypes = GetAnimalSubTypes();
 
-            animalSubTypes = animalSubTypes.OrderBy(n => n.Name).ToList();
+            animalSubTypes = animalSubTypes.OrderBy(ast => ast.SortOrder).ThenBy(ast => ast.Name).ToList();
 
             List<SelectListItem> animalSubTypesOptions = new List<SelectListItem>();
 
