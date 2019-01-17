@@ -4,12 +4,6 @@
     "metadata": {},
   "parameters": [
     {
-      "name": "NAME",
-      "displayName": "Name",
-      "description": "A name used for all objects",
-      "required": true
-    },
-    {
       "name": "NAME_SUFFIX",
       "displayName": "Name Suffix",
       "description": "A suffix appended to all objects",
@@ -21,7 +15,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
           "metadata": {
-            "name": "${NAME}",
+            "name": "postgres${NAME_SUFFIX}",
             "creationTimestamp": null,
             "labels": {
               "shared": "true"
