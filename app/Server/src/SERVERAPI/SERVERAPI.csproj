@@ -13,7 +13,7 @@
     <UserSecretsId>aspnet-Core2-37757D75-C7BA-4F7A-8B80-0040DB6484EA</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Bootstrap.Datepicker" Version="1.6.4" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />

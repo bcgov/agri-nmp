@@ -1,0 +1,280 @@
+{
+  "Id": 16,
+  "JsonFilename": "16_SubTypes",
+  "ReasonReference": "R4E06-US08: Select subregion for precipitation (details)",
+  "Data": [
+    {
+      "Id": "1",
+      "Name": "Fort St. James",
+      "AnnualPrecipitation": "488",
+      "AnnualPrecipitationOctToMar": "251",
+      "RegionId":"1"
+    },
+    {
+      "Id": "2",
+      "Name": "Smithers",
+      "AnnualPrecipitation": "512",
+      "AnnualPrecipitationOctToMar": "267",
+      "RegionId": "1"
+    },
+    {
+      "Id": "3",
+      "Name": "Vanderhoof",
+      "AnnualPrecipitation": "496",
+      "AnnualPrecipitationOctToMar": "244",
+      "RegionId":"1"
+    },
+    {
+      "Id": "4",
+      "Name": "Saanichton",
+      "AnnualPrecipitation": "909",
+      "AnnualPrecipitationOctToMar": "707",
+      "RegionId":"2"
+    },
+    {
+      "Id": "5",
+      "Name": "Quesnel",
+      "AnnualPrecipitation": "542",
+      "AnnualPrecipitationOctToMar": "253",
+      "RegionId":"3"
+    },
+    {
+      "Id": "6",
+      "Name": "Williams Lake",
+      "AnnualPrecipitation": "450",
+      "AnnualPrecipitationOctToMar": "194",
+      "RegionId":"3"
+    },
+    {
+      "Id": "7",
+      "Name": "Castlegar",
+      "AnnualPrecipitation": "754",
+      "AnnualPrecipitationOctToMar": "427",
+      "RegionId":"4"
+    },
+    {
+      "Id": "8",
+      "Name": "Creston",
+      "AnnualPrecipitation": "630",
+      "AnnualPrecipitationOctToMar": "357",
+      "RegionId":"4"
+    },
+    {
+      "Id": "9",
+      "Name": "Kelowna",
+      "AnnualPrecipitation": "410",
+      "AnnualPrecipitationOctToMar": "215",
+      "RegionId":"5"
+    },
+    {
+      "Id": "10",
+      "Name": "Salmon Arm",
+      "AnnualPrecipitation": "668",
+      "AnnualPrecipitationOctToMar": "364",
+      "RegionId":"6"
+    },
+    {
+      "Id": "11",
+      "Name": "Comox",
+      "AnnualPrecipitation": "1180",
+      "AnnualPrecipitationOctToMar": "917",
+      "RegionId":"7"
+    },
+    {
+      "Id": "12",
+      "Name": "Duncan",
+      "AnnualPrecipitation": "1365",
+      "AnnualPrecipitationOctToMar": "1103",
+      "RegionId":"8"
+    },
+    {
+      "Id": "13",
+      "Name": "Cranbrook",
+      "AnnualPrecipitation": "382",
+      "AnnualPrecipitationOctToMar": "161",
+      "RegionId":"9"
+    },
+    {
+      "Id": "14",
+      "Name": "Fernie",
+      "AnnualPrecipitation": "1217",
+      "AnnualPrecipitationOctToMar": "741",
+      "RegionId":"9"
+    },
+    {
+      "Id": "15",
+      "Name": "Abbotsford",
+      "AnnualPrecipitation": "1876",
+      "AnnualPrecipitationOctToMar": "1262",
+      "RegionId":"10"
+    },
+    {
+      "Id": "16",
+      "Name": "Agassiz",
+      "AnnualPrecipitation": "1755",
+      "AnnualPrecipitationOctToMar": "1223",
+      "RegionId":"10"
+    },
+    {
+      "Id": "17",
+      "Name": "Chilliwack",
+      "AnnualPrecipitation": "1776",
+      "AnnualPrecipitationOctToMar": "1230",
+      "RegionId":"10"
+    },
+    {
+      "Id": "18",
+      "Name": "Hope",
+      "AnnualPrecipitation": "2142",
+      "AnnualPrecipitationOctToMar": "1473",
+      "RegionId":"10"
+    },
+    {
+      "Id": "19",
+      "Name": "Mission",
+      "AnnualPrecipitation": "1876",
+      "AnnualPrecipitationOctToMar": "1262",
+      "RegionId":"10"
+    },
+    {
+      "Id": "20",
+      "Name": "Delta",
+      "AnnualPrecipitation": "918",
+      "AnnualPrecipitationOctToMar": "655",
+      "RegionId":"14"
+    },
+    {
+      "Id": "21",
+      "Name": "Pitt Medows",
+      "AnnualPrecipitation": "2253",
+      "AnnualPrecipitationOctToMar": "1591",
+      "RegionId":"14"
+    },
+    {
+      "Id": "22",
+      "Name": "Surrey",
+      "AnnualPrecipitation": "1354",
+      "AnnualPrecipitationOctToMar": "957",
+      "RegionId":"14"
+    },
+    {
+      "Id": "23",
+      "Name": "Prince George",
+      "AnnualPrecipitation": "556",
+      "AnnualPrecipitationOctToMar": "262",
+      "RegionId":"11"
+    },
+    {
+      "Id": "24",
+      "Name": "Hazelton",
+      "AnnualPrecipitation": "747",
+      "AnnualPrecipitationOctToMar": "362",
+      "RegionId":"12"
+    },
+    {
+      "Id": "25",
+      "Name": "Terrace",
+      "AnnualPrecipitation": "1160",
+      "AnnualPrecipitationOctToMar": "809",
+      "RegionId":"12"
+    },
+    {
+      "Id": "26",
+      "Name": "Grand Forks",
+      "AnnualPrecipitation": "510",
+      "AnnualPrecipitationOctToMar": "250",
+      "RegionId":"13"
+    },
+    {
+      "Id": "27",
+      "Name": "Nanaimo",
+      "AnnualPrecipitation": "846",
+      "AnnualPrecipitationOctToMar": "620",
+      "RegionId":"15"
+    },
+    {
+      "Id": "28",
+      "Name": "Enderby",
+      "AnnualPrecipitation": "480",
+      "AnnualPrecipitationOctToMar": "253",
+      "RegionId":"16"
+    },
+    {
+      "Id": "29",
+      "Name": "Vernon",
+      "AnnualPrecipitation": "445",
+      "AnnualPrecipitationOctToMar": "222",
+      "RegionId":"16"
+    },
+    {
+      "Id": "30",
+      "Name": "Keremos",
+      "AnnualPrecipitation": "326",
+      "AnnualPrecipitationOctToMar": "152",
+      "RegionId":"17"
+    },
+    {
+      "Id": "31",
+      "Name": "Penticton",
+      "AnnualPrecipitation": "333",
+      "AnnualPrecipitationOctToMar": "146",
+      "RegionId":"17"
+    },
+    {
+      "Id": "32",
+      "Name": "Princeton",
+      "AnnualPrecipitation": "358",
+      "AnnualPrecipitationOctToMar": "196",
+      "RegionId":"17"
+    },
+    {
+      "Id": "33",
+      "Name": "Dawson Creek",
+      "AnnualPrecipitation": "482",
+      "AnnualPrecipitationOctToMar": "160",
+      "RegionId":"18"
+    },
+    {
+      "Id": "34",
+      "Name": "Fort St. John",
+      "AnnualPrecipitation": "466",
+      "AnnualPrecipitationOctToMar": "150",
+      "RegionId":"18"
+    },
+    {
+      "Id": "35",
+      "Name": "Lillooet",
+      "AnnualPrecipitation": "369",
+      "AnnualPrecipitationOctToMar": "219",
+      "RegionId":"19"
+    },
+    {
+      "Id": "36",
+      "Name": "Pemberton",
+      "AnnualPrecipitation": "1060",
+      "AnnualPrecipitationOctToMar": "783",
+      "RegionId":"19"
+    },
+    {
+      "Id": "37",
+      "Name": "Kamloops",
+      "AnnualPrecipitation": "279",
+      "AnnualPrecipitationOctToMar": "118",
+      "RegionId":"20"
+    },
+    {
+      "Id": "38",
+      "Name": "Merritt",
+      "AnnualPrecipitation": "325",
+      "AnnualPrecipitationOctToMar": "177",
+      "RegionId":"20"
+    },
+    {
+      "Id": "39",
+      "Name": "Vavenby",
+      "AnnualPrecipitation": "474",
+      "AnnualPrecipitationOctToMar": "221",
+      "RegionId":"20"
+    }
+  ]
+}
