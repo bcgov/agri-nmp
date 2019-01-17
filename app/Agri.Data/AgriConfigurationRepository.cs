@@ -232,6 +232,7 @@ namespace Agri.Data
         public List<SelectListItem> GetCropTypesDll()
         {
             var types = GetCropTypes();
+            types = types.OrderBy(t => t.Id).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
@@ -688,7 +689,7 @@ namespace Agri.Data
 
         public List<NutrientIcon> GetNutrientIcons()
         {
-            return _context.NutrientIcons.ToList();
+            return _context.NutrientIcons.ToList().OrderBy(ni=>ni.Id).ToList();
         }
 
         public PreviousCropType GetPrevCropType(int id)
