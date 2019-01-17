@@ -3,10 +3,20 @@
     "apiVersion": "v1",
     "metadata": {},
     "parameters": [
-        {
-            "name": "ENV_NAME",
-            "required": true
-        }
+      {
+        "name": "ENV_NAME",
+        "required": true
+      },
+      {
+        "name": "NAME_SUFFIX",
+        "displayName": "Name Suffix",
+        "description": "A suffix appended to all objects",
+        "required": true
+      },
+      {
+        "name": "TAG_NAME",
+        "required": true
+      }
     ],
     "objects": [
         {
@@ -23,20 +33,21 @@
             "spec": {
                 "lookupPolicy": {
                     "local": false
-                },
-                "tags":[
-                    {
+                    },
+                    "tags":[
+                      {
+                        "name": "${TAG_NAME}",
                         "annotations": null,
                         "from": {
-                            "kind": "ImageStreamTag",
-                            "name": "postgresql-9.6-oracle-fdw:v1-stable",
-                            "namespace": "bcgov"
+                          "kind": "ImageStreamTag",
+                          "name": "postgresql-9.6:v1-stable",
+                          "namespace": "bcgov"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
-                            "type": "Source"
+                          "type": "Source"
                         }
-                    }
+                      }
                 ]
             }
         }
