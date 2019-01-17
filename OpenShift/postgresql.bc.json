@@ -12,10 +12,6 @@
         "displayName": "Name Suffix",
         "description": "A suffix appended to all objects",
         "required": true
-      },
-      {
-        "name": "TAG_NAME",
-        "required": true
       }
     ],
     "objects": [
@@ -36,7 +32,6 @@
                     },
                     "tags":[
                       {
-                        "name": "${TAG_NAME}",
                         "annotations": null,
                         "from": {
                           "kind": "ImageStreamTag",
