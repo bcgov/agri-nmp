@@ -1180,5 +1180,10 @@ namespace Agri.Data
 
             return stdUnit;
         }
+
+        public LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults()
+        {
+            return _context.LiquidSolidSeparationDefaults.Single();
+        }
     }
 }

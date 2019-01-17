@@ -768,7 +768,7 @@ namespace SERVERAPI.Controllers
                     }
                     else
                     {
-                        msdvm.PercentageOfLiquidVolumeSeparated = 10;
+                        msdvm.PercentageOfLiquidVolumeSeparated = _sd.GetLiquidSolidSeparationDefaults().PercentOfLiquidSeparation;
                         var separatedManure = GetSeparatedManure(msdvm);
                         msdvm.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;
                         msdvm.SeparatedSolidsTons = separatedManure.SolidTons;
