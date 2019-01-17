@@ -28,7 +28,6 @@ namespace Agri.Data
         {
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
-            _context.Database.EnsureDeleted();
             _context.Database.Migrate();
 
             var staticExtRepo = new StaticDataExtRepository();
