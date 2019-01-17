@@ -33,6 +33,7 @@ namespace SERVERAPI.Controllers
             var farmData = _ud.FarmDetails();
 
             FarmViewModel fvm = new FarmViewModel();
+            fvm.showSubRegion = false;
 
             fvm.regOptions = _sd.GetRegionsDll().ToList();
             fvm.selRegOption = null;
@@ -42,13 +43,31 @@ namespace SERVERAPI.Controllers
             fvm.farmName = farmData.farmName;
 
             fvm.selRegOption = farmData.farmRegion;
+            if (fvm.buttonPressed == "RegionChange")
+            {
+                fvm.showSubRegion = true;
+                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+                farmData.farmRegion = fvm.selRegOption;
+                _ud.UpdateFarmDetails(farmData);
+            }
 
             return View(fvm);
         }
+
         [HttpPost]
         public IActionResult Farm(FarmViewModel fvm)
         {
             fvm.regOptions = _sd.GetRegionsDll().ToList();
+
+            if (fvm.buttonPressed == "RegionChange")
+            {
+                fvm.showSubRegion = true;
+                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+                if (fvm.selSubRegOption == null)
+                {
+                    ModelState.AddModelError("","Select a sub region");
+                }
+            }
 
             if (ModelState.IsValid)
             {
@@ -59,6 +78,7 @@ namespace SERVERAPI.Controllers
                 farmData.year = fvm.year;
                 farmData.farmName = fvm.farmName;
                 farmData.farmRegion = fvm.selRegOption;
+                farmData.farmSubRegion = fvm.selSubRegOption;
 
                 _ud.UpdateFarmDetails(farmData);
                 HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
@@ -67,6 +87,7 @@ namespace SERVERAPI.Controllers
                 ModelState.Remove("userData");
 
                 return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
+                //return View(fvm);
             }
             else
             {

@@ -35,6 +35,7 @@ namespace Agri.Interfaces
         List<DryMatter> GetDryMatters();
         List<Region> GetRegions();
         List<SelectListItem> GetRegionsDll();
+        List<SelectListItem> GetSubRegionsDll(int? regionId);
         Manure GetManure(string manId);
         Manure GetManureByName(string manureName);
         List<Manure> GetManures();

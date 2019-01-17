@@ -71,6 +71,7 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             userData.farmDetails.farmName = fd.farmName;
             userData.farmDetails.farmRegion = fd.farmRegion;
+            userData.farmDetails.farmSubRegion = fd.farmSubRegion;
             userData.farmDetails.soilTests = fd.soilTests;
             userData.farmDetails.testingMethod = fd.testingMethod;
             userData.farmDetails.manure = fd.manure;

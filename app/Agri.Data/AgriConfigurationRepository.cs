@@ -759,6 +759,25 @@ namespace Agri.Data
             return regOptions;
         }
 
+        public List<SelectListItem> GetSubRegionsDll(int? regionId)
+        {
+            List<SubRegion> subRegions = _context.SubRegion.ToList();
+            var subRegOptions = new List<SelectListItem>();
+
+
+            foreach (var s in subRegions)
+            {
+                if (s.RegionId == regionId)
+                {
+                    var li = new SelectListItem()
+                        {Id = s.Id, Value = s.Name};
+                    subRegOptions.Add(li);
+                }
+            }
+
+            return subRegOptions;
+        }
+
         public RptCompletedFertilizerRequiredStdUnit GetRptCompletedFertilizerRequiredStdUnit()
         {
             return _context.RptCompletedFertilizerRequiredStdUnits.FirstOrDefault();
