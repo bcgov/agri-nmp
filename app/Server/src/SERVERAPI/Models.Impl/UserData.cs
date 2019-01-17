@@ -1010,12 +1010,14 @@ namespace SERVERAPI.Models.Impl
             }
 
             // Remove the NutrientAnalsis if the StorageSystem has no more materials.
+            var deleteStorageForSeparatedManure = false;
             if (!updatedSystem.MaterialsIncludedInSystem.Any())
             {
                 RemoveFarmManuresRelatedToManureStorageSystem(yd, updatedSystem);
+                deleteStorageForSeparatedManure = true;
             }
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
-            ProcessSeparatedManureForStorageSystem(savedSystem, false);
+            ProcessSeparatedManureForStorageSystem(updatedSystem, deleteStorageForSeparatedManure);
         }
 
         public void DeleteManureStorageSystem(int id)
@@ -1026,18 +1028,6 @@ namespace SERVERAPI.Models.Impl
             var storageSystem = yd.ManureStorageSystems.FirstOrDefault(mss => mss.Id == id);
             yd.ManureStorageSystems.Remove(storageSystem);
 
-            // Remove the NutrientAnalsis if the StorageSystem is removed.
-            if (yd.farmManures != null && yd.ManureStorageSystems.Count >0)
-            {
-                foreach (var s in yd.ManureStorageSystems)
-                {
-                    foreach (var m in s.MaterialsIncludedInSystem)
-                    {
-                        var farmManure = yd.farmManures.Single(im => im.sourceOfMaterialId.Split(",")[0] == m.ManureId);
-                        yd.farmManures.Remove(farmManure);
-                    }
-                }
-            }
             RemoveFarmManuresRelatedToManureStorageSystem(yd, storageSystem);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -1101,8 +1091,10 @@ namespace SERVERAPI.Models.Impl
 
                     if (currentStorageOfSeparatedSolid != null)
                     {
-                        currentStorageOfSeparatedSolid.SeparatedSolidManuresIncludedInSystem.Remove(
-                            separatedSolidManureToDrop);
+                        var storedSeparatedSolid =
+                            currentStorageOfSeparatedSolid.SeparatedSolidManuresIncludedInSystem.Single(m =>
+                                m.ManureId == separatedSolidManureToDrop.ManureId);
+                        currentStorageOfSeparatedSolid.SeparatedSolidManuresIncludedInSystem.Remove(storedSeparatedSolid);
                         UpdateManureStorageSystem(currentStorageOfSeparatedSolid);
                     }
                 }

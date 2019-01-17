@@ -76,6 +76,13 @@ namespace Agri.Models.Farm
                     summaries.Add(summary);
                 }
 
+                foreach (var separatedSolidManure in SeparatedSolidManuresIncludedInSystem)
+                {
+                    var summary = new ManureStorageItemSummary(separatedSolidManure,
+                        separatedSolidManure.AnnualAmountTonsWeight, AnnualAmountUnits.tons);
+                    summaries.Add(summary);
+                }
+
                 foreach (var importedManure in ImportedManuresIncludedInSystem)
                 {
                     decimal totalImportedManure;
@@ -134,7 +141,8 @@ namespace Agri.Models.Farm
             get
             {
                 var totalAnnualGeneratedManure = ManureStorageItemSummaries
-                    .Where(ms => ms.ManagedManure is GeneratedManure).Sum(ms => ms.ItemTotalAnnualStored);
+                    .Where(ms => ms.ManagedManure is GeneratedManure || ms.ManagedManure is SeparatedSolidManure)
+                    .Sum(ms => ms.ItemTotalAnnualStored);
 
                 return totalAnnualGeneratedManure;
             }
@@ -145,7 +153,8 @@ namespace Agri.Models.Farm
         {
             get
             {
-                var totalImportedManure = ManureStorageItemSummaries.Where(ms => ms.ManagedManure is ImportedManure)
+                var totalImportedManure = ManureStorageItemSummaries
+                    .Where(ms => ms.ManagedManure is ImportedManure)
                     .Sum(ms => ms.ItemTotalAnnualStored);
 
                 return totalImportedManure;
@@ -153,8 +162,22 @@ namespace Agri.Models.Farm
         }
 
         [JsonIgnore]
+        public decimal AnnualTotalSeparatedSolidManure
+        {
+            get
+            {
+                var totalSeparatedSolid = ManureStorageItemSummaries
+                    .Where(ms => ms.ManagedManure is SeparatedSolidManure)
+                    .Sum(ms => ms.ItemTotalAnnualStored);
+
+                return totalSeparatedSolid;
+            }
+        }
+
+        [JsonIgnore]
         public decimal AnnualTotalAmountofManureInStorage => AnnualTotalStoredGeneratedManure + 
                                                                                              AnnualTotalImportedManure + 
+                                                                                            AnnualTotalSeparatedSolidManure +
                                                                                              AnnualTotalPrecipitation;
 
         #region Methods
