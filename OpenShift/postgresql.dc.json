@@ -60,7 +60,7 @@
                     "valueFrom": {
                       "secretKeyRef": {
                         "key": "database-username",
-                        "name": "${DATABASE_SERVICE_NAME}"
+                        "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
                       }
                     }
                   },
@@ -69,7 +69,7 @@
                     "valueFrom": {
                       "secretKeyRef": {
                         "key": "database-password",
-                        "name": "${DATABASE_SERVICE_NAME}"
+                        "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
                       }
                     }
                   },
@@ -78,7 +78,7 @@
                     "valueFrom": {
                       "secretKeyRef": {
                         "key": "database-name",
-                        "name": "${DATABASE_SERVICE_NAME}"
+                        "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
                       }
                     }
                   }
@@ -151,7 +151,7 @@
               "from": {
                 "kind": "ImageStreamTag",
                 "name": "postgresql:${POSTGRESQL_VERSION}",
-                "namespace": "${NAMESPACE}"
+                "namespace": "${IMAGE_STREAM_NAMESPACE}"
               },
               "lastTriggeredImage": ""
             },
@@ -221,6 +221,20 @@
       "name": "POSTGRESQL_DATABASE",
       "required": true,
       "value": "AgriConfiguration"
+    },
+    {
+      "description": "Version of PostgreSQL image to be used (10 or latest).",
+      "displayName": "Version of PostgreSQL Image",
+      "name": "POSTGRESQL_VERSION",
+      "required": true,
+      "value": "10"
+    },
+    {
+      "description": "Maximum amount of memory the container can use.",
+      "displayName": "Memory Limit",
+      "name": "MEMORY_LIMIT",
+      "required": true,
+      "value": "512Mi"
     },
     {
       "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
