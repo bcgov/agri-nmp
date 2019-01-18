@@ -164,7 +164,6 @@
       },
       "status": {}
     }
-
   ],
   "parameters": [
     {
@@ -190,7 +189,7 @@
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "displayName": "Namespace",
       "name": "IMAGE_STREAM_NAMESPACE",
-      "value": "nmp-agri-dev"
+      "value": "bcgov"
     },
     {
       "description": "The name of the OpenShift Service exposed for the database.",
