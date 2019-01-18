@@ -18,6 +18,7 @@ namespace SERVERAPI.ViewModels
         public int? selSubRegOption { get; set; }
         public string currYear { get; set; }
         public bool showSubRegion { get; set; }
+        public bool multipleSubRegion { get; set; }
         public string buttonPressed { get; set; }
     }
 }

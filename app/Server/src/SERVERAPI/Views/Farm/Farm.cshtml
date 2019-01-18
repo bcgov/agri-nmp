@@ -59,7 +59,10 @@
                                     <select id="ddlSubRegion" class="form-control" asp-for="selSubRegOption" asp-items="@(new SelectList(Model.subRegionOptions,"Id","Value"))">
                                         <option>select subregion</option>
                                     </select>
-                                    <span asp-validation-for="selSubRegOption"></span>
+                                    @if (Model.multipleSubRegion)
+                                    {
+                                        <span asp-validation-for="selSubRegOption"></span>
+                                    }
                                 </div>
                             </div>
                         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Agri.Interfaces;
+using Agri.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.Models;
@@ -34,6 +35,7 @@ namespace SERVERAPI.Controllers
 
             FarmViewModel fvm = new FarmViewModel();
             fvm.showSubRegion = false;
+            fvm.multipleSubRegion = false;
 
             fvm.regOptions = _sd.GetRegionsDll().ToList();
             fvm.selRegOption = null;
@@ -43,12 +45,23 @@ namespace SERVERAPI.Controllers
             fvm.farmName = farmData.farmName;
 
             fvm.selRegOption = farmData.farmRegion;
-            if (fvm.buttonPressed == "RegionChange")
+            fvm.selSubRegOption = farmData.farmSubRegion;
+            fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+            
+
+            if (fvm.subRegionOptions.Count > 1)
             {
                 fvm.showSubRegion = true;
+                fvm.multipleSubRegion = true;
+                fvm.selSubRegOption = farmData.farmSubRegion;
+                fvm.selRegOption= farmData.farmRegion;
+            }
+            else
+            {
+                fvm.showSubRegion = false;
+                fvm.multipleSubRegion = false;
+                fvm.selRegOption=farmData.farmRegion;
                 fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
-                farmData.farmRegion = fvm.selRegOption;
-                _ud.UpdateFarmDetails(farmData);
             }
 
             return View(fvm);
@@ -65,11 +78,14 @@ namespace SERVERAPI.Controllers
                 fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
                 if (fvm.subRegionOptions.Count == 1)
                 {
-                    fvm.selSubRegOption = 1;
+                    fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
                 }
-                if (fvm.selSubRegOption == null)
+                else if (fvm.subRegionOptions.Count > 1)
                 {
-                    ModelState.AddModelError("","Select a sub region");
+                    if (fvm.selSubRegOption == null)
+                    {
+                        ModelState.AddModelError("", "Select a sub region");
+                    }
                 }
             }
 
