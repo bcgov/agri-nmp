@@ -549,7 +549,7 @@ namespace SERVERAPI.Controllers
             rmcvm.storages = new List<ReportStorage>();
             rmcvm.unstoredManures = new List<ReportManuress>();
             rmcvm.year = _ud.FarmDetails().year;
-            decimal rainInMM = 1000;
+            decimal rainInMM ;
             decimal conversionForLiquid = 0.024542388m;
             decimal conversionForSolid = 0.000102408m;
 
@@ -629,6 +629,8 @@ namespace SERVERAPI.Controllers
                 {
                     runoffAreaSquareFeet = s.RunoffAreaSquareFeet;
                 }
+
+                rainInMM = Convert.ToDecimal(s.AnnualPrecipitation);
 
                 foreach (var ss in s.ManureStorageStructures)
                 {

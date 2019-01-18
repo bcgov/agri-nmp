@@ -42,7 +42,7 @@ namespace Agri.Models.Farm
         public bool GetsRunoffFromRoofsOrYards { get; set; }
         public int? RunoffAreaSquareFeet { get; set; }
         public List<ManureStorageStructure> ManureStorageStructures { get; }
-
+        public int? AnnualPrecipitation { get; set; }
         [JsonIgnore]
         public List<ManureStorageItemSummary> ManureStorageItemSummaries
         {
@@ -95,19 +95,18 @@ namespace Agri.Models.Farm
         {
             get
             {
-                decimal rainInMM = 1000;
                 decimal conversionForLiquid = 0.024542388m;
                 decimal conversionForSolid = 0.000102408m;
                 var precipitation = 0m;
                 if (ManureMaterialType == ManureMaterialType.Liquid)
                 {
                      precipitation = Convert.ToDecimal(RunoffAreaSquareFeet) + 
-                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage) * rainInMM * conversionForLiquid;
+                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(AnnualPrecipitation) * conversionForLiquid;
                 }
                 else if (ManureMaterialType == ManureMaterialType.Solid)
                 {
                      precipitation = Convert.ToDecimal(RunoffAreaSquareFeet) + 
-                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage) * rainInMM * conversionForSolid;
+                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(AnnualPrecipitation) * conversionForSolid;
                 }
 
                 return precipitation;

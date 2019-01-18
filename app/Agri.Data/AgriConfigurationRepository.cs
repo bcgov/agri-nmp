@@ -932,6 +932,16 @@ namespace Agri.Data
             return animalSubTypesOptions;
         }
 
+        public SubRegion GetSubRegion(int? subRegionId)
+        {
+            return GetSubRegions().SingleOrDefault(sr => sr.Id == subRegionId);
+        }
+
+        public List<SubRegion> GetSubRegions()
+        {
+            return _context.SubRegion.ToList();
+        }
+
         public Unit GetUnit(string unitId)
         {
             return GetUnits().SingleOrDefault(u => u.Id == Convert.ToInt32(unitId));

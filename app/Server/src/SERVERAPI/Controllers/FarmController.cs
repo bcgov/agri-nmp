@@ -63,6 +63,10 @@ namespace SERVERAPI.Controllers
             {
                 fvm.showSubRegion = true;
                 fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+                if (fvm.subRegionOptions.Count == 1)
+                {
+                    fvm.selSubRegOption = 1;
+                }
                 if (fvm.selSubRegOption == null)
                 {
                     ModelState.AddModelError("","Select a sub region");
@@ -87,7 +91,6 @@ namespace SERVERAPI.Controllers
                 ModelState.Remove("userData");
 
                 return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
-                //return View(fvm);
             }
             else
             {

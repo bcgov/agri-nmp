@@ -770,5 +770,16 @@ namespace Agri.LegacyData.Models.Impl
             var subRegOptions = new List<SelectListItem>();
             return subRegOptions;
         }
+        public SubRegion GetSubRegion(int? subRegionId)
+        {
+            var subRegion = new SubRegion();
+            return subRegion;
+        }
+
+        public List<SubRegion> GetSubRegions()
+        {
+            var listSubRegion = new List<SubRegion>();
+            return listSubRegion;
+        }
     }
 }
