@@ -5,409 +5,346 @@
         "name": "nmp",
         "creationTimestamp": null
     },
-  "parameters": [
-      {
-        "name": "NAME_SUFFIX",
-        "displayName": "Name",
-        "description": "The suffix for all created objects",
-        "required": false,
-        "value": ""
-      },
-      {
-        "name": "ENV_NAME",
-        "displayName": "Name",
-        "description": "The suffix for all created objects",
-        "required": false,
-        "value": "dev"
-      },
-      {
-        "name": "HOST",
-        "displayName": "HOST",
-        "description": "Main host name",
-        "required": false,
-        "value": ""
-      },
-      {
-        "name": "DATABASE_NAME",
-        "displayName": "DB Name",
-        "description": "Name for NMP AgriConfiguration Database.",
-        "value": "AgriConfiguration"
-      },
-      {
-        "name": "DATABASE_USER",
-        "displayName": "DB Username",
-        "description": "Username for NMP AgriConfiguration Database user that will be used for accessing the database.",
-        "generate": "expression",
-        "from": "user[A-Z0-9]{3}"
-      },
-      {
-        "name": "DATABASE_PASSWORD",
-        "displayName": "Database Password",
-        "description": "Password for the NMP AgriConfiguration Database user.",
-        "generate": "expression",
-        "from": "[a-zA-Z0-9]{16}"
-      },
-      {
-        "name": "DATABASE_VOLUME_CAPACITY",
-        "displayName": "Database volume capacity",
-        "description": "Size of the database used for NMP",
-        "value": "5Gi"
-      },
-      {
-        "name": "DATABASE_SERVICE_NAME",
-        "displayName": "Database service name",
-        "description": "Name of the database service",
-        "value": "postgresql-nmp"
-      }
+    "parameters": [
+        {
+            "name": "NAME_SUFFIX",
+            "displayName": "Name",
+            "description": "The suffix for all created objects",
+            "required": false,
+            "value": ""
+        },
+        {
+            "name": "ENV_NAME",
+            "displayName": "Name",
+            "description": "The suffix for all created objects",
+            "required": false,
+            "value": "dev"
+        },
+        {
+            "name": "HOST",
+            "displayName": "HOST",
+            "description": "Main host name",
+            "required": false,
+            "value": ""
+        }
     ],
-  "objects": [
-    {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "nmp${NAME_SUFFIX}",
-        "creationTimestamp": null,
-        "labels": {
-          "base-name": "nmp"
-        }
-      }
-    },
-    {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "pdf${NAME_SUFFIX}",
-        "creationTimestamp": null,
-        "labels": {
-          "base-name": "pdf"
-        }
-      }
-    },
-    {
-      "kind": "DeploymentConfig",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "nmp${NAME_SUFFIX}",
-        "creationTimestamp": null,
-        "labels": null,
-        "annotations": {
-          "description": "Defines how to deploy the backend server"
-        }
-      },
-      "spec": {
-        "strategy": {
-          "type": "Rolling",
-          "rollingParams": {
-            "updatePeriodSeconds": 1,
-            "intervalSeconds": 1,
-            "timeoutSeconds": 600,
-            "maxUnavailable": "25%",
-            "maxSurge": "25%"
-          },
-          "resources": {},
-          "activeDeadlineSeconds": 21600
-        },
-        "triggers": [
-          {
-            "type": "ConfigChange"
-          },
-          {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "nmp${NAME_SUFFIX}"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "nmp${NAME_SUFFIX}:${ENV_NAME}"
-              }
-            }
-          }
-        ],
-        "replicas": 1,
-        "test": false,
-        "selector": {
-          "name": "nmp${NAME_SUFFIX}"
-        },
-        "template": {
-          "metadata": {
-            "name": "nmp${NAME_SUFFIX}",
-            "creationTimestamp": null,
-            "labels": {
-              "name": "nmp${NAME_SUFFIX}"
-            }
-          },
-          "spec": {
-            "containers": [
-              {
+    "objects": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
                 "name": "nmp${NAME_SUFFIX}",
-                "image": " ",
-                "ports": [
-                  {
-                    "containerPort": 8080,
-                    "protocol": "TCP"
-                  }
-                ],
-                "env": [
-                  {
-                    "name": "PDF_SERVICE_NAME",
-                    "value": "http://pdf${NAME_SUFFIX}:8080"
-                  },
-                  {
-                    "name": "POSTGRESQL_DATABASE",
-                    "value": "AgriConfiguration"
-                  },
-                  {
-                    "name": "POSTGRESQL_PASSWORD",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "postgres-secrets${NAME_SUFFIX}",
-                        "key": "database-password"
-                      }
-                    }
-                  },
-                  {
-                    "name": "POSTGRESQL_USER",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "postgres-secrets${NAME_SUFFIX}",
-                        "key": "database-user"
-                      }
-                    }
-                  },
-                  {
-                    "name": "PGSQL_URI",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "postgres-secrets${NAME_SUFFIX}",
-                        "key": "database-uri"
-                      }
-                    }
-                  }
-                ],
-                "resources": {
-                  "limits": {
-                    "memory": "2Gi"
-                  },
-                  "requests": {
-                    "memory": "1Gi"
-                  }
-                },
-                "livenessProbe": {
-                  "httpGet": {
-                    "path": "/",
-                    "port": 8080,
-                    "scheme": "HTTP"
-                  },
-                  "initialDelaySeconds": 15,
-                  "timeoutSeconds": 5,
-                  "periodSeconds": 10,
-                  "successThreshold": 1,
-                  "failureThreshold": 5
-                },
-                "readinessProbe": {
-                  "httpGet": {
-                    "path": "/",
-                    "port": 8080,
-                    "scheme": "HTTP"
-                  },
-                  "initialDelaySeconds": 15,
-                  "timeoutSeconds": 5,
-                  "periodSeconds": 10,
-                  "successThreshold": 1,
-                  "failureThreshold": 5
-                },
-                "terminationMessagePath": "/dev/termination-log",
-                "terminationMessagePolicy": "File",
-                "imagePullPolicy": "IfNotPresent"
-              }
-            ],
-            "restartPolicy": "Always",
-            "terminationGracePeriodSeconds": 30,
-            "dnsPolicy": "ClusterFirst",
-            "securityContext": {},
-            "schedulerName": "default-scheduler"
-          }
-        }
-      }
-    },
-    {
-      "kind": "DeploymentConfig",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "pdf${NAME_SUFFIX}",
-        "creationTimestamp": null,
-        "labels": null,
-        "annotations": {
-          "description": "Defines how to deploy the PDF server"
-        }
-      },
-      "spec": {
-        "strategy": {
-          "type": "Rolling",
-          "rollingParams": {
-            "updatePeriodSeconds": 1,
-            "intervalSeconds": 1,
-            "timeoutSeconds": 600,
-            "maxUnavailable": "25%",
-            "maxSurge": "25%"
-          },
-          "resources": {},
-          "activeDeadlineSeconds": 21600
-        },
-        "triggers": [
-          {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "pdf${NAME_SUFFIX}"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "pdf${NAME_SUFFIX}:${ENV_NAME}"
-              }
+                "creationTimestamp": null,
+                "labels": {
+                    "base-name":"nmp"
+                }
             }
-          },
-          {
-            "type": "ConfigChange"
-          }
-        ],
-        "replicas": 1,
-        "test": false,
-        "selector": {
-          "name": "pdf${NAME_SUFFIX}"
         },
-        "template": {
-          "metadata": {
-            "name": "pdf${NAME_SUFFIX}",
-            "creationTimestamp": null,
-            "labels": {
-              "name": "pdf${NAME_SUFFIX}"
-            }
-          },
-          "spec": {
-            "containers": [
-              {
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
                 "name": "pdf${NAME_SUFFIX}",
-                "image": " ",
+                "creationTimestamp": null,
+                "labels": {
+                    "base-name":"pdf"
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "nmp${NAME_SUFFIX}",
+                "creationTimestamp": null,
+                "labels": null,
+                "annotations": {
+                    "description": "Defines how to deploy the backend server"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Rolling",
+                    "rollingParams": {
+                        "updatePeriodSeconds": 1,
+                        "intervalSeconds": 1,
+                        "timeoutSeconds": 600,
+                        "maxUnavailable": "25%",
+                        "maxSurge": "25%"
+                    },
+                    "resources": {},
+                    "activeDeadlineSeconds": 21600
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "nmp${NAME_SUFFIX}"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "nmp${NAME_SUFFIX}:${ENV_NAME}"
+                            }
+                        }
+                    }
+                ],
+                "replicas": 1,
+                "test": false,
+                "selector": {
+                    "name": "nmp${NAME_SUFFIX}"
+                },
+                "template": {
+                    "metadata": {
+                        "name": "nmp${NAME_SUFFIX}",
+                        "creationTimestamp": null,
+                        "labels": {
+                            "name": "nmp${NAME_SUFFIX}"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "nmp${NAME_SUFFIX}",
+                                "image": " ",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "PDF_SERVICE_NAME",
+                                        "value": "http://pdf${NAME_SUFFIX}:8080"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "memory": "2Gi"
+                                    },
+                                    "requests": {
+                                        "memory": "1Gi"
+                                    }
+                                },
+                                "livenessProbe": {
+                                    "httpGet": {
+                                        "path": "/",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 15,
+                                    "timeoutSeconds": 5,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "failureThreshold": 5
+                                },
+                                "readinessProbe": {
+                                    "httpGet": {
+                                        "path": "/",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 15,
+                                    "timeoutSeconds": 5,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "failureThreshold": 5
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "imagePullPolicy": "IfNotPresent"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {},
+                        "schedulerName": "default-scheduler"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "pdf${NAME_SUFFIX}",
+                "creationTimestamp": null,
+                "labels": null,
+                "annotations": {
+                    "description": "Defines how to deploy the PDF server"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Rolling",
+                    "rollingParams": {
+                        "updatePeriodSeconds": 1,
+                        "intervalSeconds": 1,
+                        "timeoutSeconds": 600,
+                        "maxUnavailable": "25%",
+                        "maxSurge": "25%"
+                    },
+                    "resources": {},
+                    "activeDeadlineSeconds": 21600
+                },
+                "triggers": [
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "pdf${NAME_SUFFIX}"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "pdf${NAME_SUFFIX}:${ENV_NAME}"
+                            }
+                        }
+                    },
+                    {
+                        "type": "ConfigChange"
+                    }
+                ],
+                "replicas": 1,
+                "test": false,
+                "selector": {
+                    "name": "pdf${NAME_SUFFIX}"
+                },
+                "template": {
+                    "metadata": {
+                        "name": "pdf${NAME_SUFFIX}",
+                        "creationTimestamp": null,
+                        "labels": {
+                            "name": "pdf${NAME_SUFFIX}"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "pdf${NAME_SUFFIX}",
+                                "image": " ",
+                                "ports": [
+                                    {
+                                        "containerPort": 8080,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "ASPNETCORE_ENVIRONMENT",
+                                        "value": "Staging"
+                                    },
+                                    {
+                                        "name": "LC_ALL",
+                                        "value": "C"
+                                    }
+                                ],
+                                "resources": {
+                                    "limits": {
+                                        "memory": "512Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "imagePullPolicy": "IfNotPresent"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {},
+                        "schedulerName": "default-scheduler"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "nmp${NAME_SUFFIX}",
+                "creationTimestamp": null,
+                "labels": null,
+                "annotations": {
+                    "description": "Exposes and load balances the application pods"
+                }
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "web",
+                        "protocol": "TCP",
+                        "port": 8080,
+                        "targetPort": 8080
+                    }
+                ],
+                "selector": {
+                    "name": "nmp${NAME_SUFFIX}"
+                },
+                "type": "ClusterIP",
+                "sessionAffinity": "None"
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "pdf${NAME_SUFFIX}",
+                "creationTimestamp": null,
+                "labels": null,
+                "annotations": {
+                    "description": "Exposes and load balances the PDF pods"
+                }
+            },
+            "spec": {
                 "ports": [
                   {
-                    "containerPort": 8080,
-                    "protocol": "TCP"
+                    "name": "web",
+                    "protocol": "TCP",
+                    "port": 8080,
+                    "targetPort": 8080
                   }
                 ],
-                "env": [
-                  {
-                    "name": "ASPNETCORE_ENVIRONMENT",
-                    "value": "Staging"
-                  },
-                  {
-                    "name": "LC_ALL",
-                    "value": "C"
-                  }
-                ],
-                "resources": {
-                  "limits": {
-                    "memory": "512Mi"
-                  }
+                "selector": {
+                    "name": "pdf${NAME_SUFFIX}"
                 },
-                "terminationMessagePath": "/dev/termination-log",
-                "terminationMessagePolicy": "File",
-                "imagePullPolicy": "IfNotPresent"
-              }
-            ],
-            "restartPolicy": "Always",
-            "terminationGracePeriodSeconds": 30,
-            "dnsPolicy": "ClusterFirst",
-            "securityContext": {},
-            "schedulerName": "default-scheduler"
-          }
+                "type": "ClusterIP",
+                "sessionAffinity": "None"
+            }
+        },
+        {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "nmp${NAME_SUFFIX}",
+                "creationTimestamp": null,
+                "labels": {"frontend": "true"  },
+                "annotations": {
+                    "template.openshift.io.bcgov/tls-secret-name.prod": "nmp-route-cert${NAME_SUFFIX}"
+                }
+            },
+            "spec": {
+                "host": "${HOST}",
+                "to": {
+                    "kind": "Service",
+                    "name": "nmp${NAME_SUFFIX}",
+                    "weight": 100
+                },
+                "port": {
+                    "targetPort": "web"
+                },
+                "tls": {
+                    "termination": "edge",
+                    "insecureEdgeTerminationPolicy": "Redirect"
+                },
+                "wildcardPolicy": "None"
+            }
         }
-      }
-    },
-    {
-      "kind": "Service",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "nmp${NAME_SUFFIX}",
-        "creationTimestamp": null,
-        "labels": null,
-        "annotations": {
-          "description": "Exposes and load balances the application pods"
-        }
-      },
-      "spec": {
-        "ports": [
-          {
-            "name": "web",
-            "protocol": "TCP",
-            "port": 8080,
-            "targetPort": 8080
-          }
-        ],
-        "selector": {
-          "name": "nmp${NAME_SUFFIX}"
-        },
-        "type": "ClusterIP",
-        "sessionAffinity": "None"
-      }
-    },
-    {
-      "kind": "Service",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "pdf${NAME_SUFFIX}",
-        "creationTimestamp": null,
-        "labels": null,
-        "annotations": {
-          "description": "Exposes and load balances the PDF pods"
-        }
-      },
-      "spec": {
-        "ports": [
-          {
-            "name": "web",
-            "protocol": "TCP",
-            "port": 8080,
-            "targetPort": 8080
-          }
-        ],
-        "selector": {
-          "name": "pdf${NAME_SUFFIX}"
-        },
-        "type": "ClusterIP",
-        "sessionAffinity": "None"
-      }
-    },
-    {
-      "kind": "Route",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "nmp${NAME_SUFFIX}",
-        "creationTimestamp": null,
-        "labels": { "frontend": "true" },
-        "annotations": {
-          "template.openshift.io.bcgov/tls-secret-name.prod": "nmp-route-cert${NAME_SUFFIX}"
-        }
-      },
-      "spec": {
-        "host": "${HOST}",
-        "to": {
-          "kind": "Service",
-          "name": "nmp${NAME_SUFFIX}",
-          "weight": 100
-        },
-        "port": {
-          "targetPort": "web"
-        },
-        "tls": {
-          "termination": "edge",
-          "insecureEdgeTerminationPolicy": "Redirect"
-        },
-        "wildcardPolicy": "None"
-      }
-    }
-  ]
+    ]
 }
