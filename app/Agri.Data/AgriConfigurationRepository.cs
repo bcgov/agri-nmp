@@ -386,7 +386,7 @@ namespace Agri.Data
         {
             var types = GetFertilizers();
 
-            types = types.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
+            types = types.OrderBy(n => n.SortNum).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
