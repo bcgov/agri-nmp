@@ -1,7 +1,10 @@
 {
-    "kind": "Template",
-    "apiVersion": "v1",
-    "metadata": {},
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "postgres",
+    "creationTimestamp": null
+  },
   "parameters": [
     {
       "name": "NAME_SUFFIX",
@@ -10,37 +13,37 @@
       "required": true
     }
   ],
-    "objects": [
-        {
-            "kind": "ImageStream",
-            "apiVersion": "v1",
-          "metadata": {
-            "name": "postgres${NAME_SUFFIX}",
-            "creationTimestamp": null,
-            "labels": {
-              "shared": "true"
+  "objects": [
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "postgres${NAME_SUFFIX}",
+        "creationTimestamp": null,
+        "labels": {
+          "shared": "true"
+        },
+        "annotations": {}
+      },
+      "spec": {
+        "lookupPolicy": {
+          "local": false
+        },
+        "tags": [
+          {
+            "annotations": null,
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "postgresql:9.6",
+              "namespace": "openshift"
             },
-            "annotations": {}
-          },
-            "spec": {
-                "lookupPolicy": {
-                    "local": false
-                    },
-                    "tags":[
-                      {
-                        "annotations": null,
-                        "from": {
-                          "kind": "ImageStreamTag",
-                          "name": "postgresql:9.6",
-                          "namespace": "openshift"
-                        },
-                        "importPolicy": {},
-                        "referencePolicy": {
-                          "type": "Source"
-                        }
-                      }
-                ]
+            "importPolicy": {},
+            "referencePolicy": {
+              "type": "Source"
             }
-        }
-    ]
+          }
+        ]
+      }
+    }
+  ]
 }
