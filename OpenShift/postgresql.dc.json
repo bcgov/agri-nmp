@@ -227,7 +227,7 @@
       "displayName": "Version of PostgreSQL Image",
       "name": "POSTGRESQL_VERSION",
       "required": true,
-      "value": "10"
+      "value": "9.6"
     },
     {
       "description": "Maximum amount of memory the container can use.",
