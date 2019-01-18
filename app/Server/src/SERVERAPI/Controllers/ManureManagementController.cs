@@ -1250,33 +1250,18 @@ namespace SERVERAPI.Controllers
                 }
                 else if(cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
                 {
-                    var importedManure = _ud.GetImportedManureByManureId(cvm.selsourceOfMaterialOption.ToString().Split(",")[0]);
-                    if (importedManure.AssignedToStoredSystem == true)
+                    var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+
+                    var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() select manure;
+                    cvm.materialType = importedManure.ManureType;
+                    foreach (var manuresByMaterialType in manuresByMaterialTypes)
                     {
-                        var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
-                        var manuresByMaterialTypes1 = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
-                        cvm.materialType = storageSystem.ManureMaterialType;
-                        foreach (var manuresByMaterialType in manuresByMaterialTypes1)
-                        {
-                            var li = new SelectListItem()
-                                { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
-                            cvm.manOptions.Add(li);
-                            cvm.stored_imported = NutrientAnalysisTypes.Stored;
-                        }
+                        var li = new SelectListItem()
+                            { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
+                        cvm.manOptions.Add(li);
+                        cvm.stored_imported = NutrientAnalysisTypes.Imported;
                     }
-                    else if(importedManure.AssignedToStoredSystem == false)
-                    {
-                        var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() select manure;
-                        cvm.materialType = importedManure.ManureType;
-                        foreach (var manuresByMaterialType in manuresByMaterialTypes)
-                        {
-                            var li = new SelectListItem()
-                                { Id = manuresByMaterialType.Id, Value = manuresByMaterialType.Name };
-                            cvm.manOptions.Add(li);
-                            cvm.stored_imported = NutrientAnalysisTypes.Imported;
-                        }
-                    }
-                   
+
                 }
             }
 
@@ -1324,7 +1309,7 @@ namespace SERVERAPI.Controllers
                         }
                         else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
                         {
-                            var importedManure = _ud.GetImportedManureByManureId(cvm.selsourceOfMaterialOption.ToString().Split(",")[0]);
+                            var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = importedManure.MaterialName;
                             var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() select manure;
                             cvm.materialType = importedManure.ManureType;
@@ -1353,7 +1338,7 @@ namespace SERVERAPI.Controllers
                         }
                         else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
                         {
-                            var importedManure = _ud.GetImportedManureByManureId(cvm.selsourceOfMaterialOption.ToString().Split(",")[0]);
+                            var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = importedManure.MaterialName;
                         }
                     }
@@ -1501,18 +1486,10 @@ namespace SERVERAPI.Controllers
                         }
                         else if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("Imported"))
                         {
-                            var importedManure = _ud.GetImportedManureByManureId(cvm.selsourceOfMaterialOption.ToString().Split(",")[0]);
-                            if (importedManure.AssignedToStoredSystem == true)
-                            {
-                                var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
-                                cvm.sourceOfMaterialName = storageSystem.Name;
-                                cvm.IsAssignedToStorage = true;
-                            }
-                            else if (importedManure.AssignedToStoredSystem == false)
-                            {
-                                cvm.sourceOfMaterialName = importedManure.MaterialName;
-                                cvm.IsAssignedToStorage = false;
-                            }
+                            var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
+
+                            cvm.sourceOfMaterialName = importedManure.MaterialName;
+                            cvm.IsAssignedToStorage = false;
                         }
 
                     }
