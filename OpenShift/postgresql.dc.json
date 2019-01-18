@@ -150,7 +150,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "postgresql:${POSTGRESQL_VERSION}",
+                "name": "${IMAGE_STREAM_NAME}:${POSTGRESQL_VERSION}",
                 "namespace": "${IMAGE_STREAM_NAMESPACE}"
               },
               "lastTriggeredImage": ""

@@ -31,8 +31,8 @@
                         "annotations": null,
                         "from": {
                           "kind": "ImageStreamTag",
-                          "name": "postgresql-9.6",
-                          "namespace": "bcgov"
+                          "name": "postgresql:9.6",
+                          "namespace": "openshift"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
