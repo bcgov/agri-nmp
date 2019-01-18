@@ -1062,12 +1062,14 @@ namespace SERVERAPI.Models.Impl
                 if (separatedSolidManureToDrop == null)
                 {
                     //Create the Separated Manure and attach the Source System
+                    var newId = yd.SeparatedSolidManures.Any() ? yd.SeparatedSolidManures.Max(ssm => ssm.Id) + 1 : 1;
+                    var nameIndex = newId == 1 ? string.Empty : $" {newId}";
                     var separatedSolidManure = new SeparatedSolidManure
                     {
-                        Id = yd.SeparatedSolidManures.Any() ? yd.SeparatedSolidManures.Max(ssm => ssm.Id) + 1 : 1,
+                        Id = newId,
                         AnnualAmountTonsWeight = sourceManureStorageSystem.SeparatedSolidsTons,
                         SeparationSourceStorageSystemId = sourceManureStorageSystem.Id,
-                        Name = $"Separated solids from {sourceManureStorageSystem.Name}"
+                        Name = $"Separated solids{nameIndex}"
                     };
 
                     yd.SeparatedSolidManures.Add(separatedSolidManure);
