@@ -14,17 +14,17 @@
       "kind": "Secret",
       "metadata": {
         "annotations": {
-          "template.openshift.io/expose-database_name": "{.data['database_name']}",
-          "template.openshift.io/expose-password": "{.data['password']}",
-          "template.openshift.io/expose-username": "{.data['username']}",
+          "template.openshift.io/expose-database-name": "{.data['database-name']}",
+          "template.openshift.io/expose-database-password": "{.data['database-password']}",
+          "template.openshift.io/expose-database-username": "{.data['database-username']}",
           "as-copy-of": "template-${NAME}-credentials "
         },
         "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
       },
       "stringData": {
-        "database_name": "${POSTGRESQL_DATABASE}",
-        "password": "${POSTGRESQL_PASSWORD}",
-        "username": "${POSTGRESQL_USER}"
+        "database-name": "${POSTGRESQL_DATABASE}",
+        "database-password": "${POSTGRESQL_PASSWORD}",
+        "database-username": "${POSTGRESQL_USER}"
       }
     },
     {
@@ -59,7 +59,7 @@
                     "name": "POSTGRESQL_USER",
                     "valueFrom": {
                       "secretKeyRef": {
-                        "key": "username",
+                        "key": "database-username",
                         "name": "${DATABASE_SERVICE_NAME}"
                       }
                     }
@@ -68,7 +68,7 @@
                     "name": "POSTGRESQL_PASSWORD",
                     "valueFrom": {
                       "secretKeyRef": {
-                        "key": "password",
+                        "key": "database-password",
                         "name": "${DATABASE_SERVICE_NAME}"
                       }
                     }
@@ -77,7 +77,7 @@
                     "name": "POSTGRESQL_DATABASE",
                     "valueFrom": {
                       "secretKeyRef": {
-                        "key": "database_name",
+                        "key": "database-name",
                         "name": "${DATABASE_SERVICE_NAME}"
                       }
                     }
