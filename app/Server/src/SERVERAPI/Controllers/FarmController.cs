@@ -74,19 +74,47 @@ namespace SERVERAPI.Controllers
 
             if (fvm.buttonPressed == "RegionChange")
             {
+                ModelState.Clear();
+                fvm.buttonPressed = "";
                 fvm.showSubRegion = true;
                 fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
                 if (fvm.subRegionOptions.Count == 1)
                 {
                     fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
+                    fvm.showSubRegion = false;
+                    return View(fvm);
                 }
                 else if (fvm.subRegionOptions.Count > 1)
                 {
+                    fvm.showSubRegion = true;
                     if (fvm.selSubRegOption == null)
                     {
                         ModelState.AddModelError("", "Select a sub region");
                     }
                 }
+                return View(fvm);
+            }
+
+            if (fvm.buttonPressed == "SubRegionChange")
+            {
+                ModelState.Clear();
+                fvm.buttonPressed = "";
+                fvm.showSubRegion = true;
+                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+                if (fvm.subRegionOptions.Count == 1)
+                {
+                    fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
+                    fvm.showSubRegion = false;
+                }
+                else if (fvm.subRegionOptions.Count > 1)
+                {
+                    fvm.showSubRegion = true;
+                    if (fvm.selSubRegOption == null)
+                    {
+                        ModelState.AddModelError("", "Select a sub region");
+                    }
+                }
+                return View(fvm);
             }
 
             if (ModelState.IsValid)
@@ -110,6 +138,7 @@ namespace SERVERAPI.Controllers
             }
             else
             {
+                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
                 return View(fvm);
             }
         }
