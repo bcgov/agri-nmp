@@ -44,7 +44,9 @@ namespace SERVERAPI.ViewModels
         public bool IsThereSolidLiquidSeparation { get; set; }
         public int PercentageOfLiquidVolumeSeparated { get; set; }
         public decimal SeparatedLiquidsUSGallons { get; set; }
+        public string SeparatedLiquidsUSGallonsText => SeparatedLiquidsUSGallons.ToString("0");
         public decimal SeparatedSolidsTons { get; set; }
+        public string SeparatedSolidsTonsText => SeparatedSolidsTons.ToString("0");
         public string ButtonText { get; set; }
         public string ButtonPressed { get; set; }
         public bool DisableMaterialTypeForEditMode { get; set; }

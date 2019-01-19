@@ -94,6 +94,7 @@
                                 <div class="form-group">
                                     <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
                                     <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"
+                                           onchange="RefreshSolidLiquidVolumeFields()"
                                            disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
                                     @if (Model.DisableSystemFields)
                                     {
@@ -138,10 +139,10 @@
                         {
                             <div class="col-sm-3">
                                 <div>Separated liquids</div>
-                                <div><b>@Model.SeparatedLiquidsUSGallons</b> U.S. gallons</div>
+                                <div><b>@Model.SeparatedLiquidsUSGallonsText</b> U.S. gallons</div>
                                 <br />
                                 <div>Separated solids</div>
-                                <div><b>@Model.SeparatedSolidsTons</b> tons </div>
+                                <div><b>@Model.SeparatedSolidsTonsText</b> tons </div>
                             </div>
                         }
                     </div>
@@ -149,113 +150,114 @@
             }
             else  // Show System as Content Only
             {
-                <div class="form-row row">
-                    <div class="col-sm-3">
-                        <div class="form-group">
-                            <label asp-for="SelectedManureMaterialType">Liquid or Solid</label>
-                            @Html.HiddenFor(x => x.SelectedManureMaterialType)
-                            <div>@Model.SelectedManureMaterialType.ToString()</div>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="SystemName">System Name</label>
-                            @Html.HiddenFor(x => x.SystemName)
-                            <div>@Model.SystemName</div>
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-3 agri-listbox">
-                        <label asp-for="SelectedMaterialsToInclude">Materials selected to include</label>
-                        <ul class="form-control  agri-listbox" id="SelectedMaterialsToInclude" style="width: 400px">
-                            @if (Model.ManagedManures != null)
-                            {
-                                for (var index = 0; index < Model.ManagedManures.Count; index++)
-                                {
-
-                                    <li>
-                                        @Html.HiddenFor(x => Model.ManagedManures[index].Selected)
-                                        @Html.HiddenFor(m => Model.ManagedManures[index].Value)
-                                        @Html.HiddenFor(m => Model.ManagedManures[index].Text)
-                                        @if (Model.ManagedManures[index].Selected)
-                                        {
-                                            <span>@Model.ManagedManures[index].Text</span>
-                                        }
-                                    </li>
-                                }
-                            }
-                        </ul>
-                        @if (!Model.AnyManagedManures)
-                        {
-                            <div class="text-danger" style="width: 400px">@Model.ZeroManagedManuresMessage</div>
-                        }
-                    </div>
-                </div>
-
-                @if (Model.ShowRunOffQuestions)
-                {
+                <div class="readonly-form">
                     <div class="form-row row">
                         <div class="col-sm-3">
                             <div class="form-group">
-                                @Html.HiddenFor(x => x.GetsRunoffFromRoofsOrYards)
-                                <label>Does yard or roof runoff enter the storage?</label>
-                                @if (@Model.GetsRunoffFromRoofsOrYards)
-                                {
-                                    <div>Yes</div>
-                                }
-                                else
-                                {
-                                    <div>No</div>
-                                }
+                                <label asp-for="SelectedManureMaterialType">Liquid or Solid</label>
+                                @Html.HiddenFor(x => x.SelectedManureMaterialType)
+                                <div>@Model.SelectedManureMaterialType.ToString()</div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SystemName">System Name</label>
+                                @Html.HiddenFor(x => x.SystemName)
+                                <div>@Model.SystemName</div>
                             </div>
                         </div>
-                        @if (Model.ShowRunoffAreaField)
-                        {
+                        <div class="form-group col-sm-3">
+                            <label asp-for="SelectedMaterialsToInclude">Materials selected to include</label>
+                            <ul class="" id="SelectedMaterialsToInclude" style="width: 400px">
+                                @if (Model.ManagedManures != null)
+                                {
+                                    for (var index = 0; index < Model.ManagedManures.Count; index++)
+                                    {
+                                        <li>
+                                            @Html.HiddenFor(x => Model.ManagedManures[index].Selected)
+                                            @Html.HiddenFor(m => Model.ManagedManures[index].Value)
+                                            @Html.HiddenFor(m => Model.ManagedManures[index].Text)
+                                            @if (Model.ManagedManures[index].Selected)
+                                            {
+                                                @Model.ManagedManures[index].Text
+                                            }
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                            @if (!Model.AnyManagedManures)
+                            {
+                                <div class="text-danger" style="width: 400px">@Model.ZeroManagedManuresMessage</div>
+                            }
+                        </div>
+                    </div>
+
+                    @if (Model.ShowRunOffQuestions)
+                    {
+                        <div class="form-row row">
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
-                                    @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
-                                    <div>@Model.RunoffAreaSquareFeet</div>
+                                    @Html.HiddenFor(x => x.GetsRunoffFromRoofsOrYards)
+                                    <label>Does yard or roof runoff enter the storage?</label>
+                                    @if (@Model.GetsRunoffFromRoofsOrYards)
+                                    {
+                                        <div>Yes</div>
+                                    }
+                                    else
+                                    {
+                                        <div>No</div>
+                                    }
                                 </div>
                             </div>
-                        }
-                    </div>
-                }
+                            @if (Model.ShowRunoffAreaField)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
+                                        @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
+                                        <div>@Model.RunoffAreaSquareFeet</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
 
-                @if (Model.ShowSolidLiquidSeparation)
-                {
-                    <div class="form-row row" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <label>Is there solid/liquid separation?</label>
-                                @Html.HiddenFor(x => x.IsThereSolidLiquidSeparation)
-                                @if (@Model.IsThereSolidLiquidSeparation)
+                    @if (Model.ShowSolidLiquidSeparation)
+                    {
+                        <div class="form-row row" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Is there solid/liquid separation?</label>
+                                    @Html.HiddenFor(x => x.IsThereSolidLiquidSeparation)
+                                    @if (@Model.IsThereSolidLiquidSeparation)
+                                    {
+                                        <div>Yes</div>
+                                    }
+                                    else
+                                    {
+                                        <div>No</div>
+                                    }
+                                </div>
+                                @if (Model.IsThereSolidLiquidSeparation)
                                 {
-                                    <div>Yes</div>
-                                }
-                                else
-                                {
-                                    <div>No</div>
+                                    <div class="form-group">
+                                        <label asp-for="PercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
+                                        @Html.HiddenFor(x => x.PercentageOfLiquidVolumeSeparated)
+                                        <div>@Model.PercentageOfLiquidVolumeSeparated</div>
+                                    </div>
                                 }
                             </div>
                             @if (Model.IsThereSolidLiquidSeparation)
                             {
-                            <div class="form-group">
-                                <label asp-for="PercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
-                                @Html.HiddenFor(x => x.PercentageOfLiquidVolumeSeparated)
-                                <div>@Model.PercentageOfLiquidVolumeSeparated</div>
-                            </div>
+                                <div class="col-sm-3">
+                                    <div>Separated liquids</div>
+                                    <div><b>@Model.SeparatedLiquidsUSGallonsText</b> U.S. gallons</div>
+                                    <br />
+                                    <div>Separated solids</div>
+                                    <div><b>@Model.SeparatedSolidsTonsText</b> tons </div>
+                                </div>
                             }
                         </div>
-                        @if (Model.IsThereSolidLiquidSeparation)
-                        {
-                            <div class="col-sm-3">
-                                <div>Separated liquids</div>
-                                <div><b>@Model.SeparatedLiquidsUSGallons</b> U.S. gallons</div>
-                                <br />
-                                <div>Separated solids</div>
-                                <div><b>@Model.SeparatedSolidsTons</b> tons </div>
-                            </div>
-                        }
-                    </div>
-                }
+                    }
+                </div>
             }
 
 
@@ -285,7 +287,8 @@
                         {
                             <div class="form-group">
                                 <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
-                                <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure" />
+                                <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure"
+                                       onchange="RefreshSolidLiquidVolumeFields()"/>
                                 <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
                             </div>
                         }

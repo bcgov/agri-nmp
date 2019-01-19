@@ -708,7 +708,7 @@ namespace SERVERAPI.Controllers
                 {
                     ModelState.AddModelError("SelectedMaterialsToInclude", "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.");
                 }
-
+                
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
                 {
                     ModelState.Clear();
@@ -742,6 +742,7 @@ namespace SERVERAPI.Controllers
                     msdvm.ButtonPressed = "";
                     msdvm.ButtonText = "Save";
 
+                    msdvm = GetSeparatedManure(msdvm);
                     return View(msdvm);
                 }
 
@@ -750,7 +751,13 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     msdvm.ButtonPressed = "";
                     msdvm.ButtonText = "Save";
-                    msdvm.RunoffAreaSquareFeet = null;
+
+                    if (!msdvm.GetsRunoffFromRoofsOrYards)
+                    {
+                        msdvm.RunoffAreaSquareFeet = null;
+                    }
+
+                    msdvm = GetSeparatedManure(msdvm);
 
                     return View(msdvm);
                 }
@@ -769,25 +776,21 @@ namespace SERVERAPI.Controllers
                     else
                     {
                         msdvm.PercentageOfLiquidVolumeSeparated = _sd.GetLiquidSolidSeparationDefaults().PercentOfLiquidSeparation;
-                        var separatedManure = GetSeparatedManure(msdvm);
-                        msdvm.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;
-                        msdvm.SeparatedSolidsTons = separatedManure.SolidTons;
+
+                        msdvm = GetSeparatedManure(msdvm);
                     }
 
                     return View(msdvm);
                 }
 
-                if (msdvm.ButtonPressed == "RefreshSolidLiquidVolumeFieldsChange")
+                if (msdvm.ButtonPressed == "RefreshSolidLiquidVolumeFields")
                 {
                     ModelState.Clear();
                     msdvm.ButtonPressed = "";
                     msdvm.ButtonText = "Save";
 
-                    msdvm.ShowSeparatedValueFields = true;
-                    var separatedManure = GetSeparatedManure(msdvm);
-                    msdvm.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;
-                    msdvm.SeparatedSolidsTons = separatedManure.SolidTons;
-
+                    msdvm = GetSeparatedManure(msdvm);
+                    
                     return View(msdvm);
                 }
 
@@ -801,6 +804,8 @@ namespace SERVERAPI.Controllers
                     {
                         msdvm.UncoveredAreaOfStorageStructure = null;
                     }
+
+                    msdvm = GetSeparatedManure(msdvm);
                     return View(msdvm);
                 }
 
@@ -877,55 +882,7 @@ namespace SERVERAPI.Controllers
 
                     if (ModelState.IsValid)
                     {
-                        var includedManures = _ud.GetAllManagedManures().Where(gm =>
-                            msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.ManureId == includedIds)).ToList();
-                        includedManures.ForEach(m => { m.AssignedToStoredSystem = true; });
-
-                        ManureStorageSystem manureStorageSystem;
-
-                        if (msdvm.SystemId.HasValue)
-                        {
-                            manureStorageSystem = _ud.GetStorageSystem(msdvm.SystemId.Value);
-                        }
-                        else
-                        {
-                            manureStorageSystem = new ManureStorageSystem();
-                        }
-
-                        manureStorageSystem.Name = msdvm.SystemName;
-                        manureStorageSystem.ManureMaterialType = msdvm.SelectedManureMaterialType;
-                        manureStorageSystem.GeneratedManuresIncludedInSystem = includedManures.Where(m => m is GeneratedManure).Cast<GeneratedManure>().ToList();
-                        manureStorageSystem.ImportedManuresIncludedInSystem = includedManures.Where(m => m is ImportedManure).Cast<ImportedManure>().ToList();
-                        manureStorageSystem.SeparatedSolidManuresIncludedInSystem = includedManures.Where(m => m is SeparatedSolidManure).Cast<SeparatedSolidManure>().ToList();
-                        manureStorageSystem.GetsRunoffFromRoofsOrYards = msdvm.GetsRunoffFromRoofsOrYards;
-                        manureStorageSystem.RunoffAreaSquareFeet = msdvm.RunoffAreaSquareFeet;
-                        manureStorageSystem.IsThereSolidLiquidSeparation = msdvm.IsThereSolidLiquidSeparation;
-                        manureStorageSystem.PercentageOfLiquidVolumeSeparated = msdvm.PercentageOfLiquidVolumeSeparated;
-                        manureStorageSystem.SeparatedSolidsTons = msdvm.SeparatedSolidsTons;
-                        manureStorageSystem.SeparatedLiquidsUSGallons = msdvm.SeparatedLiquidsUSGallons;
-
-                        if (msdvm.ShowStructureFields)
-                        {
-                            ManureStorageStructure storageStructure;
-                            if (msdvm.StorageStructureId.HasValue)
-                            {
-                                storageStructure =
-                                    manureStorageSystem.ManureStorageStructures.Single(mss =>
-                                        mss.Id == msdvm.StorageStructureId);
-                            }
-                            else
-                            {
-                                storageStructure = new ManureStorageStructure();
-                            }
-
-                            storageStructure.Name = msdvm.StorageStructureName;
-                            storageStructure.UncoveredAreaSquareFeet = msdvm.UncoveredAreaOfStorageStructure;
-
-                            if (!msdvm.StorageStructureId.HasValue)
-                            {
-                                manureStorageSystem.AddUpdateManureStorageStructure(storageStructure);
-                            }
-                        }
+                        var manureStorageSystem = PopulateManureStorageSystem(msdvm);
 
                         if (msdvm.SystemId.HasValue)
                         {
@@ -950,6 +907,62 @@ namespace SERVERAPI.Controllers
             }
 
             return PartialView(msdvm);
+        }
+
+        private ManureStorageSystem PopulateManureStorageSystem(ManureStorageDetailViewModel msdvm)
+        {
+            ManureStorageSystem manureStorageSystem;
+
+            if (msdvm.SystemId.HasValue)
+            {
+                manureStorageSystem = _ud.GetStorageSystem(msdvm.SystemId.Value);
+            }
+            else
+            {
+                manureStorageSystem = new ManureStorageSystem();
+            }
+
+            var includedManures = _ud.GetAllManagedManures().Where(gm =>
+                            msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.ManureId == includedIds)).ToList();
+            includedManures.ForEach(m => { m.AssignedToStoredSystem = true; });
+
+
+            manureStorageSystem.Name = msdvm.SystemName;
+            manureStorageSystem.ManureMaterialType = msdvm.SelectedManureMaterialType;
+            manureStorageSystem.GeneratedManuresIncludedInSystem = includedManures.Where(m => m is GeneratedManure).Cast<GeneratedManure>().ToList();
+            manureStorageSystem.ImportedManuresIncludedInSystem = includedManures.Where(m => m is ImportedManure).Cast<ImportedManure>().ToList();
+            manureStorageSystem.SeparatedSolidManuresIncludedInSystem = includedManures.Where(m => m is SeparatedSolidManure).Cast<SeparatedSolidManure>().ToList();
+            manureStorageSystem.GetsRunoffFromRoofsOrYards = msdvm.GetsRunoffFromRoofsOrYards;
+            manureStorageSystem.RunoffAreaSquareFeet = msdvm.RunoffAreaSquareFeet;
+            manureStorageSystem.IsThereSolidLiquidSeparation = msdvm.IsThereSolidLiquidSeparation;
+            manureStorageSystem.PercentageOfLiquidVolumeSeparated = msdvm.PercentageOfLiquidVolumeSeparated;
+            manureStorageSystem.SeparatedSolidsTons = msdvm.SeparatedSolidsTons;
+            manureStorageSystem.SeparatedLiquidsUSGallons = msdvm.SeparatedLiquidsUSGallons;
+
+            if (msdvm.ShowStructureFields)
+            {
+                ManureStorageStructure storageStructure;
+                if (msdvm.StorageStructureId.HasValue)
+                {
+                    storageStructure =
+                        manureStorageSystem.ManureStorageStructures.Single(mss =>
+                            mss.Id == msdvm.StorageStructureId);
+                }
+                else
+                {
+                    storageStructure = new ManureStorageStructure();
+                }
+
+                storageStructure.Name = msdvm.StorageStructureName;
+                storageStructure.UncoveredAreaSquareFeet = msdvm.UncoveredAreaOfStorageStructure;
+
+                if (!msdvm.StorageStructureId.HasValue)
+                {
+                    manureStorageSystem.AddUpdateManureStorageStructure(storageStructure);
+                }
+            }
+
+            return manureStorageSystem;
         }
 
         private List<MvcRendering.SelectListItem> GetFilteredMaterialsListForCurrentView(ManureStorageDetailViewModel msdvm)
@@ -1043,29 +1056,28 @@ namespace SERVERAPI.Controllers
             return null;
         }
 
-        private SeparatedManure GetSeparatedManure(ManureStorageDetailViewModel msdvm)
+        private ManureStorageDetailViewModel GetSeparatedManure(ManureStorageDetailViewModel msdvm)
         {
-            var separatedManure = new SeparatedManure();
+            var result = msdvm;
 
-            //Determine the total Liquid Manure current selected
-
-            var selectedManures = _ud.GetManagedManures(msdvm.SelectedMaterialsToInclude).Where(mm => mm.ManureType == ManureMaterialType.Liquid);
-            var totalLiquidVolume = selectedManures.Where(sm => sm is GeneratedManure)
-                .Select(sm => sm as GeneratedManure).Sum(gm => gm.annualAmountDecimal + gm.washWaterGallons);
-
-            totalLiquidVolume += selectedManures.Where(sm => sm is ImportedManure).Select(im => im as ImportedManure)
-                .Sum(im => im.AnnualAmountUSGallonsVolume);
-
-            //Calculate Separation
-            if (totalLiquidVolume > 0)
+            if (msdvm.IsThereSolidLiquidSeparation)
             {
-                separatedManure =
-                    _manureLiquidSolidSeparationCalculator.CalculateSeparatedManure(totalLiquidVolume,
-                        msdvm.PercentageOfLiquidVolumeSeparated);
+                var manureStorageSystem = PopulateManureStorageSystem(msdvm);
+
+                //Calculate Separation
+                if (manureStorageSystem.AnnualTotalAmountofManureInStorage > 0)
+                {
+                    var separatedManure =
+                        _manureLiquidSolidSeparationCalculator.CalculateSeparatedManure(
+                            manureStorageSystem.AnnualTotalAmountofManureInStorage,
+                            manureStorageSystem.PercentageOfLiquidVolumeSeparated);
+
+                    result.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;
+                    result.SeparatedSolidsTons = separatedManure.SolidTons;
+                }
             }
 
-
-            return separatedManure;
+            return result;
         }
 
         public IActionResult RefreshStorageList()
