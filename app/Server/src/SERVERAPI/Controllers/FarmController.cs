@@ -120,24 +120,32 @@ namespace SERVERAPI.Controllers
                 var storageSystems = _ud.GetStorageSystems();
                 decimal conversionForLiquid = 0.024542388m;
                 decimal conversionForSolid = 0.000102408m;
-                foreach (var s in storageSystems)
+
+                if (storageSystems.Count() > 0)
                 {
-                    if (s.AnnualPrecipitation != null)
+                    foreach (var s in storageSystems)
                     {
-                        SubRegion subregion = _sd.GetSubRegion(fvm.selSubRegOption);
-                        s.AnnualPrecipitation = subregion.AnnualPrecipitation;
-                        if (s.ManureMaterialType == ManureMaterialType.Liquid)
+                        if (s.AnnualPrecipitation != null)
                         {
-                            s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
-                                                         Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForLiquid;
+                            SubRegion subregion = _sd.GetSubRegion(fvm.selSubRegOption);
+                            s.AnnualPrecipitation = subregion.AnnualPrecipitation;
+                            if (s.ManureMaterialType == ManureMaterialType.Liquid)
+                            {
+                                s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
+                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForLiquid;
+                            }
+                            else if (s.ManureMaterialType == ManureMaterialType.Solid)
+                            {
+                                s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
+                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForSolid;
+                            }
                         }
-                        else if (s.ManureMaterialType == ManureMaterialType.Solid)
-                        {
-                            s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
-                                                         Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForSolid;
-                        }
+                        _ud.UpdateManureStorageSystem(s);
                     }
-                    _ud.UpdateManureStorageSystem(s);
+
+                    var farmData = _ud.FarmDetails();
+                    farmData.farmSubRegion = fvm.selSubRegOption;
+                    _ud.UpdateFarmDetails(farmData);
                 }
 
                 return View(fvm);
