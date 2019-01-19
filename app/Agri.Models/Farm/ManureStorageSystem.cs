@@ -111,6 +111,7 @@ namespace Agri.Models.Farm
 
                 return precipitation;
             }
+            set { }
         }
 
         [JsonIgnore]

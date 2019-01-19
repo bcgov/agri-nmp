@@ -630,7 +630,11 @@ namespace SERVERAPI.Controllers
                     runoffAreaSquareFeet = s.RunoffAreaSquareFeet;
                 }
 
-                rainInMM = Convert.ToDecimal(s.AnnualPrecipitation);
+                var farmData = _ud.FarmDetails();
+                SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                rainInMM = subregion.AnnualPrecipitation;
+
+                // rainInMM = Convert.ToDecimal(s.AnnualPrecipitation);
 
                 foreach (var ss in s.ManureStorageStructures)
                 {
@@ -740,6 +744,8 @@ namespace SERVERAPI.Controllers
                 decimal annualAmountOfManurePerStorage = 0;
                 if (s.precipitation != null)
                 {
+                    //s.precipitation=Convert.ToDecimal(s.run) +
+                    //    Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(rainInMM) * conversionForLiquid;
                     annualAmountOfManurePerStorage = Convert.ToDecimal(s.precipitation);
                 }
 

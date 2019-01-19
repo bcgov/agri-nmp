@@ -10,7 +10,9 @@ using SERVERAPI.Models;
 using SERVERAPI.ViewModels;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SERVERAPI.Models.Impl;
+using Agri.Models;
 
 namespace SERVERAPI.Controllers
 {
@@ -114,6 +116,30 @@ namespace SERVERAPI.Controllers
                         ModelState.AddModelError("", "Select a sub region");
                     }
                 }
+
+                var storageSystems = _ud.GetStorageSystems();
+                decimal conversionForLiquid = 0.024542388m;
+                decimal conversionForSolid = 0.000102408m;
+                foreach (var s in storageSystems)
+                {
+                    if (s.AnnualPrecipitation != null)
+                    {
+                        SubRegion subregion = _sd.GetSubRegion(fvm.selSubRegOption);
+                        s.AnnualPrecipitation = subregion.AnnualPrecipitation;
+                        if (s.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
+                                                         Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForLiquid;
+                        }
+                        else if (s.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
+                                                         Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForSolid;
+                        }
+                    }
+                    _ud.UpdateManureStorageSystem(s);
+                }
+
                 return View(fvm);
             }
 
