@@ -1031,13 +1031,13 @@ label {
 
 .submenu-manure-wizard-item {
     float: left;
-    width: 25%;
+    width: 20.75%;
     position: relative;
 }
 
 .submenu-fields-wizard-item {
     float: left;
-    width: 50%;
+    width: 48.25%;
     position: relative;
 }
 
@@ -1047,6 +1047,13 @@ label {
 
 .lineheight{
     line-height: 23px;
+}
+
+.submenu-hovering {
+    background-color: #DAE8EF;
+}
+.submenu-display {
+    display:none;
 }
 
 
