@@ -160,6 +160,11 @@ namespace SERVERAPI.Controllers
                 farmData.year = fvm.year;
                 farmData.farmName = fvm.farmName;
                 farmData.farmRegion = fvm.selRegOption;
+                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+                if (fvm.subRegionOptions.Count == 1)
+                {
+                    fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
+                }
                 farmData.farmSubRegion = fvm.selSubRegOption;
 
                 _ud.UpdateFarmDetails(farmData);
