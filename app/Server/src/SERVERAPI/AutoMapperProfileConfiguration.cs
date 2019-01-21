@@ -27,7 +27,7 @@ namespace SERVERAPI
                 .ForMember(dest => dest.Units, x => x.MapFrom(src => src.SelectedAnnualAmountUnit))
                 .ReverseMap();
             CreateMap<ImportedManure, ImportedManure>();
-
+            CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
         }
     }
 }

@@ -121,7 +121,8 @@ namespace SERVERAPI.Controllers
                         {
                             rvm.RemainingManures.Add(appliedStoredManure);
                         }
-                        else if (appliedStoredManure.WholePercentRemaining == 0 && appliedStoredManure.TotalAnnualManureRemainingToApply < 0 && ((appliedStoredManure.TotalAnnualManureRemainingToApply / appliedStoredManure.TotalAnnualManureToApply) * 100 <= -10))
+                        else if (appliedStoredManure.WholePercentRemaining == 0 && appliedStoredManure.TotalAnnualManureRemainingToApply < 0 && 
+                                 ((appliedStoredManure.TotalAnnualManureRemainingToApply / appliedStoredManure.TotalAnnualManureToApply) * 100 <= -10))
                         {
                             rvm.OverUtilizedManures.Add(appliedStoredManure);
                         }

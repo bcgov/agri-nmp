@@ -8,11 +8,21 @@ namespace Agri.Models.Farm
 {
     public class YearData
     {
+        public YearData()
+        {
+            fields = new List<Field>();
+            farmManures = new List<FarmManure>();
+            GeneratedManures = new List<GeneratedManure>();
+            ImportedManures = new List<ImportedManure>();
+            SeparatedSolidManures = new List<SeparatedSolidManure>();
+            ManureStorageSystems = new List<ManureStorageSystem>();
+        }
         public string year { get; set; }
         public List<Field> fields { get; set; }
         public List<FarmManure> farmManures { get; set; }
         public List<GeneratedManure> GeneratedManures { get; set; }
         public List<ImportedManure> ImportedManures { get; set; }
+        public List<SeparatedSolidManure> SeparatedSolidManures { get; set; }
         public List<ManureStorageSystem> ManureStorageSystems { get; set; }
         
         public List<int> GetFarmManureIds(ManureStorageSystem manureStorageSystem)
