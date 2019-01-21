@@ -11,6 +11,8 @@ using Agri.Models;
 using Agri.Models.Configuration;
 using AutoMapper;
 using Version = Agri.Models.Configuration.Version;
+using SERVERAPI.Utility;
+using Agri.Models.Calculate;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -615,7 +617,7 @@ namespace SERVERAPI.Models.Impl
             }
 
             fm = yd.farmManures.FirstOrDefault(c => c.id == id);
-            if (!fm.customized)
+            if (fm != null && !fm.customized)
             {
                 Manure man = _sd.GetManure(fm.manureId.ToString());
                 fm.ammonia = man.Ammonia;
@@ -634,7 +636,7 @@ namespace SERVERAPI.Models.Impl
             return fm;
         }
 
-        public FarmManure GetFarmManureByManureId(string manureId)
+        public FarmManure GetFarmManureByImportedManure(ImportedManure importedManure)
         {
             FarmManure fm = new FarmManure();
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -646,7 +648,7 @@ namespace SERVERAPI.Models.Impl
                 yd.farmManures = new List<FarmManure>();
             }
 
-            fm = yd.farmManures.FirstOrDefault(c => c.managedManureId == manureId);
+            fm = yd.farmManures.FirstOrDefault(c => c.sourceOfMaterialImportedManureId == importedManure.Id);
             if (!fm.customized)
             {
                 Manure man = _sd.GetManure(fm.manureId.ToString());
@@ -781,6 +783,53 @@ namespace SERVERAPI.Models.Impl
             return manOptions;
         }
 
+        public void ReCalculateManure(int farmManureId)
+        {
+            var calculateNutrients = new CalculateNutrients(this, _sd);
+            var nOrganicMineralizations = new NOrganicMineralizations();
+
+            List<Field> flds = GetFields();
+
+            foreach (var fld in flds)
+            {
+                List<NutrientManure> mans = GetFieldNutrientsManures(fld.fieldName);
+
+                foreach (var nm in mans)
+                {
+                    if (farmManureId.ToString() == nm.manureId)
+                    {
+                        int regionid = FarmDetails().farmRegion.Value;
+                        Region region = _sd.GetRegion(regionid);
+                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(nm.manureId), region.LocationId);
+
+                        string avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
+
+                        string nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(nm.manureId), Convert.ToInt16(nm.applicationId)) * 100).ToString("###");
+
+                        NutrientInputs nutrientInputs = new NutrientInputs();
+
+                        calculateNutrients.manure = nm.manureId;
+                        calculateNutrients.applicationSeason = nm.applicationId;
+                        calculateNutrients.applicationRate = Convert.ToDecimal(nm.rate);
+                        calculateNutrients.applicationRateUnits = nm.unitId;
+                        calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(nh4);
+                        calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(avail);
+
+                        calculateNutrients.GetNutrientInputs(nutrientInputs);
+
+                        nm.yrN = nutrientInputs.N_FirstYear;
+                        nm.yrP2o5 = nutrientInputs.P2O5_FirstYear;
+                        nm.yrK2o = nutrientInputs.K2O_FirstYear;
+                        nm.ltN = nutrientInputs.N_LongTerm;
+                        nm.ltP2o5 = nutrientInputs.P2O5_LongTerm;
+                        nm.ltK2o = nutrientInputs.K2O_LongTerm;
+
+                        UpdateFieldNutrientsManure(fld.fieldName, nm);
+                    }
+                }
+            }
+        }
+
         public List<GeneratedManure> GetGeneratedManures()
         {
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -866,7 +915,7 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             var generatedManure = yd.GeneratedManures.FirstOrDefault(gm => gm.Id == id);
-
+            
             yd.GeneratedManures.Remove(generatedManure);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -876,9 +925,9 @@ namespace SERVERAPI.Models.Impl
                 .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.ManureId == generatedManure.ManureId));
             if (storageSystem != null)
             {
-                var oldMaterial =
+                var droppedGeneratedMaterial =
                     storageSystem.GeneratedManuresIncludedInSystem.Single(m => m.ManureId == generatedManure.ManureId);
-                storageSystem.GeneratedManuresIncludedInSystem.Remove(oldMaterial);
+                storageSystem.GeneratedManuresIncludedInSystem.Remove(droppedGeneratedMaterial);
                 UpdateManureStorageSystem(storageSystem);
             }
         }
@@ -953,6 +1002,11 @@ namespace SERVERAPI.Models.Impl
                 savedSystem.AddUpdateManureStorageStructure(updateStorageStructure);
             }
 
+            // Remove the NutrientAnalsis if the StorageSystem has no more materials.
+            if (!updatedSystem.MaterialsIncludedInSystem.Any())
+            {
+                RemoveFarmManuresRelatedToManureStorageSystem(yd, updatedSystem);
+            }
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
@@ -977,9 +1031,38 @@ namespace SERVERAPI.Models.Impl
                 }
             }
 
+            RemoveFarmManuresRelatedToManureStorageSystem(yd, storageSystem);
+
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
+        private void RemoveFarmManuresRelatedToManureStorageSystem(YearData yd, ManureStorageSystem storageSystem)
+        {
+            var farmManuresToDrop = yd.farmManures?.Where(im =>
+                im.sourceOfMaterialStoredSystemId.HasValue &&
+                im.sourceOfMaterialStoredSystemId == storageSystem.Id).ToList();
+
+            if (farmManuresToDrop != null && farmManuresToDrop.Any())
+            {
+                var nutrientManures =
+                    yd.GetNutrientManuresFromFields(farmManuresToDrop.Select(fm => fm.id).ToList());
+
+                foreach (var nutrientManure in nutrientManures)
+                {
+                    yd.fields
+                        .Single(f => f.nutrients.nutrientManures.Any(nm =>
+                            nm.id == nutrientManure.id && nm.manureId == nutrientManure.manureId))
+                        .nutrients.nutrientManures.Remove(nutrientManure);
+                }
+
+                foreach (var farmManureId in farmManuresToDrop.Select(fm => fm.id).ToList())
+                {
+                    //Drop the farm Manure
+                    var farmManure = yd.farmManures.Single(fm => fm.id == farmManureId);
+                    yd.farmManures.Remove(farmManure);
+                }
+            }
+        }
 
         public List<ImportedManure> GetImportedManures()
         {
@@ -1047,30 +1130,55 @@ namespace SERVERAPI.Models.Impl
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
             var importedManure = yd.ImportedManures.Single(im => im.Id == importedManureId);
 
-            //Update the Materials saved in the Storage Systems
-            var storageSystem = GetStorageSystems()
-                .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.ManureId == importedManure.ManureId));
-            if (storageSystem != null)
-            {
-                var oldMaterial =
-                    storageSystem.ImportedManuresIncludedInSystem.Single(m => m.ManureId == importedManure.ManureId);
-                storageSystem.ImportedManuresIncludedInSystem.Remove(oldMaterial);
-                UpdateManureStorageSystem(storageSystem);
-            }
             yd.ImportedManures.Remove(importedManure);
 
-            // Remove the Nutrient Analysis if the Imported Manure is removed.
-            if (importedManure.AssignedToStoredSystem == false)
+
+            //Update the Materials saved in the Storage Systems
+            if (importedManure.IsMaterialStored)
             {
-                if (yd.farmManures != null)
+                _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+                var storageSystem = GetStorageSystems()
+                    .SingleOrDefault(s => s.MaterialsIncludedInSystem.Any(m => m.ManureId == importedManure.ManureId));
+                if (storageSystem != null)
                 {
-                    var farmManure = yd.farmManures.Single(im => Convert.ToInt32(im.sourceOfMaterialId.Split(",")[1]) == importedManureId && im.sourceOfMaterialId.Split(",")[0].Contains("Imported"));
-                    yd.farmManures.Remove(farmManure);
+                    var oldMaterial =
+                        storageSystem.ImportedManuresIncludedInSystem.Single(m =>
+                            m.ManureId == importedManure.ManureId);
+                    storageSystem.ImportedManuresIncludedInSystem.Remove(oldMaterial);
+                    UpdateManureStorageSystem(storageSystem);
                 }
             }
+            else
+            {
+                var farmManuresToDrop = yd.farmManures?.Where(im =>
+                    im.sourceOfMaterialImportedManureId.HasValue &&
+                    im.sourceOfMaterialImportedManureId == importedManureId).ToList();
 
-            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+                if (farmManuresToDrop != null && farmManuresToDrop.Any())
+                {
+                    var nutrientManures =
+                        yd.GetNutrientManuresFromFields(farmManuresToDrop.Select(fm => fm.id).ToList());
+
+                    foreach (var nutrientManure in nutrientManures)
+                    {
+                        yd.fields
+                            .Single(f => f.nutrients.nutrientManures.Any(nm =>
+                                nm.id == nutrientManure.id && nm.manureId == nutrientManure.manureId))
+                            .nutrients.nutrientManures.Remove(nutrientManure);
+                    }
+
+                    foreach (var farmManureId in farmManuresToDrop.Select(fm => fm.id).ToList())
+                    {
+                        //Drop the farm Manure
+                        var farmManure = yd.farmManures.Single(fm => fm.id == farmManureId);
+                        yd.farmManures.Remove(farmManure);
+                    }
+                }
+                _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+            }
         }
+
+
 
         public List<ManagedManure> GetAllManagedManures()
         {
