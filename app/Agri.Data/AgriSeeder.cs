@@ -493,9 +493,9 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
-            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("16_SubTypes", StringComparison.CurrentCultureIgnoreCase)))
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("17_SubRegions", StringComparison.CurrentCultureIgnoreCase)))
             {
-                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubRegion>>("16_SubTypes");
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubRegion>>("17_SubRegions");
                 foreach (var newSubRegion in migrationSeedData.Data)
                 {
                     newSubRegion.Region = _sd.GetRegion(newSubRegion.RegionId);

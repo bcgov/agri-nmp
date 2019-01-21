@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="MigrationSeedData\16_SubTypes.json" />
+    <None Remove="MigrationSeedData\17_SubRegions.json" />
     <None Remove="MigrationSeedData\1_UserPrompts.json" />
     <None Remove="MigrationSeedData\2_UserPrompts.json" />
     <None Remove="MigrationSeedData\3_UserPrompts.json" />
@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="MigrationSeedData\16_SubTypes.json" />
+    <EmbeddedResource Include="MigrationSeedData\17_SubRegions.json" />
     <EmbeddedResource Include="MigrationSeedData\4_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\3_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\2_UserPrompts.json" />
