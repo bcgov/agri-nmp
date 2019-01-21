@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="MigrationSeedData\11_Breed.json" />
+    <None Remove="MigrationSeedData\14_AnimalSubTypes.json" />
+    <None Remove="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
     <None Remove="MigrationSeedData\1_UserPrompts.json" />
     <None Remove="MigrationSeedData\2_UserPrompts.json" />
     <None Remove="MigrationSeedData\3_UserPrompts.json" />
@@ -12,6 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="MigrationSeedData\14_AnimalSubTypes.json" />
+    <EmbeddedResource Include="MigrationSeedData\11_Breed.json" />
+    <EmbeddedResource Include="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
     <EmbeddedResource Include="MigrationSeedData\4_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\3_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\2_UserPrompts.json" />
@@ -19,6 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
       <PrivateAssets>all</PrivateAssets>

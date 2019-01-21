@@ -163,5 +163,11 @@ namespace Agri.Interfaces
         List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors();
         List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions();
         List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion();
+        List<Breed> GetBreeds();
+        List<SelectListItem> GetBreedsDll(int animalType);
+        decimal GetBreedManureFactorByBreedId(int breedId);
+        List<SelectListItem> GetBreed(int breedId);
+
+        LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults();
     }
 }

@@ -16,7 +16,9 @@ namespace Agri.Data
         #region DbSets 
         public DbSet<AmmoniaRetention> AmmoniaRetentions { get; set; }
         public DbSet<Animal> Animals { get; set; }
+        public DbSet<AnimalSubType> AnimalSubType { get; set; }
         public DbSet<BCSampleDateForNitrateCredit> BCSampleDateForNitrateCredit { get; set; }
+        public DbSet<Breed> Breed { get; set; }
         public DbSet<Browser> Browsers { get; set; }
         public DbSet<ConversionFactor> ConversionFactors { get; set; }
         public DbSet<Crop> Crops { get; set; }
@@ -36,6 +38,7 @@ namespace Agri.Data
         public DbSet<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
         public DbSet<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> LiquidMaterialApplicationUsGallonsPerAcreRateConversions { get; set; }
         public DbSet<LiquidMaterialsConversionFactor> LiquidMaterialsConversionFactors { get; set; }
+        public DbSet<LiquidSolidSeparationDefault> LiquidSolidSeparationDefaults { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<MainMenu> MainMenus { get; set; }
         public DbSet<ManureImportedDefault> ManureImportedDefaults { get; set; }

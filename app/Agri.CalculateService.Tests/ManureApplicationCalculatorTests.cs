@@ -31,8 +31,11 @@ namespace Agri.CalculateService.Tests
         [TestMethod]
         public void GetFieldsAppliedWithStoredManure()
         {
+            //Arrange
+            var storageSystem = new ManureStorageSystem {Id = 1};
+
             //act
-            var result = _yearData.GetFieldsAppliedWithManure("Generated1");
+            var result = _yearData.GetFieldsAppliedWithManure(storageSystem);
 
             //assess
             Assert.IsNotNull(result);
@@ -54,10 +57,10 @@ namespace Agri.CalculateService.Tests
                 });
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator);
-            var manureStorageSystemId = "Generated1";
+            var farmManure = new FarmManure() { sourceOfMaterialId = "StorageSystem, 1", stored_imported = NutrientAnalysisTypes.Stored};
 
             //Act
-            var result = calculator.GetAppliedStoredManure(_yearData, manureStorageSystemId);
+            var result = calculator.GetAppliedStoredManure(_yearData, farmManure);
 
             //Assess
             Assert.IsNotNull(result);
@@ -104,8 +107,11 @@ namespace Agri.CalculateService.Tests
         [TestMethod]
         public void GetFieldsAppliedWithImportedManure()
         {
+            //arrange
+            var farmManure = new FarmManure() { sourceOfMaterialId = "Imported, 1", stored_imported = NutrientAnalysisTypes.Imported};
+
             //act
-            var result = _yearData.GetFieldsAppliedWithManure("Imported1");
+            var result = _yearData.GetFieldsAppliedWithManure(farmManure);
 
             //assess
             Assert.IsNotNull(result);
@@ -127,10 +133,11 @@ namespace Agri.CalculateService.Tests
                 });
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator);
-            var importedManureId = "Imported1";
+            //var farmManure = new FarmManure {sourceOfMaterialId = "Imported, 1", stored_imported = NutrientAnalysisTypes.Imported};
+            var farmManure = _yearData.farmManures.Single(fm => fm.id == 2);
 
             //Act
-            var result = calculator.GetAppliedImportedManure(_yearData, importedManureId);
+            var result = calculator.GetAppliedImportedManure(_yearData, farmManure);
 
             //Assess
             Assert.IsNotNull(result);
