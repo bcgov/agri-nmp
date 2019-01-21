@@ -1474,7 +1474,7 @@ namespace SERVERAPI.Controllers
                 if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                 {
                     var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
-                    var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
+                    var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() orderby manure.SortNum, manure.Name select manure;
                     cvm.materialType = storageSystem.ManureMaterialType;
                     foreach (var manuresByMaterialType in manuresByMaterialTypes)
                     {
@@ -1534,7 +1534,7 @@ namespace SERVERAPI.Controllers
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = storageSystem.Name;
-                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
+                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() orderby manure.SortNum,manure.Name select manure;
                             cvm.materialType = storageSystem.ManureMaterialType;
                             foreach (var manuresByMaterialType in manuresByMaterialTypes)
                             {
@@ -1547,7 +1547,7 @@ namespace SERVERAPI.Controllers
                         {
                             var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = importedManure.MaterialName;
-                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() select manure;
+                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() orderby manure.SortNum, manure.Name select manure;
                             cvm.materialType = importedManure.ManureType;
                             foreach (var manuresByMaterialType in manuresByMaterialTypes)
                             {

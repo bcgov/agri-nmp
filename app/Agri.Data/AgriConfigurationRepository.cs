@@ -232,6 +232,7 @@ namespace Agri.Data
         public List<SelectListItem> GetCropTypesDll()
         {
             var types = GetCropTypes();
+            types = types.OrderBy(t => t.Id).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
@@ -343,7 +344,7 @@ namespace Agri.Data
 
         public List<FertilizerMethod> GetFertilizerMethods()
         {
-            return _context.FertilizerMethods.ToList();
+            return _context.FertilizerMethods.ToList().OrderBy(ni => ni.Id).ToList();
         }
 
         public List<SelectListItem> GetFertilizerMethodsDll()
@@ -385,7 +386,7 @@ namespace Agri.Data
         {
             var types = GetFertilizers();
 
-            types = types.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
+            types = types.OrderBy(n => n.SortNum).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
@@ -420,6 +421,7 @@ namespace Agri.Data
         public List<SelectListItem> GetFertilizerTypesDll()
         {
             var types = GetFertilizerTypes();
+            types = types.OrderBy(t => t.Id).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
@@ -687,7 +689,7 @@ namespace Agri.Data
 
         public List<NutrientIcon> GetNutrientIcons()
         {
-            return _context.NutrientIcons.ToList();
+            return _context.NutrientIcons.ToList().OrderBy(ni=>ni.Id).ToList();
         }
 
         public PreviousCropType GetPrevCropType(int id)
@@ -895,7 +897,7 @@ namespace Agri.Data
         {
             var animalSubTypes = GetAnimalSubTypes();
 
-            animalSubTypes = animalSubTypes.OrderBy(n => n.Name).ToList();
+            animalSubTypes = animalSubTypes.OrderBy(ast => ast.SortOrder).ThenBy(ast => ast.Name).ToList();
 
             List<SelectListItem> animalSubTypesOptions = new List<SelectListItem>();
 
