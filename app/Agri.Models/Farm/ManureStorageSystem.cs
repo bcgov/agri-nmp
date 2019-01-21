@@ -117,13 +117,13 @@ namespace Agri.Models.Farm
                 var precipitation = 0m;
                 if (ManureMaterialType == ManureMaterialType.Liquid)
                 {
-                     precipitation = Convert.ToDecimal(RunoffAreaSquareFeet) + 
-                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage) * rainInMM * conversionForLiquid;
+                     precipitation = (Convert.ToDecimal(RunoffAreaSquareFeet) + 
+                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage)) * rainInMM * conversionForLiquid;
                 }
                 else if (ManureMaterialType == ManureMaterialType.Solid)
                 {
-                     precipitation = Convert.ToDecimal(RunoffAreaSquareFeet) + 
-                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage) * rainInMM * conversionForSolid;
+                     precipitation = (Convert.ToDecimal(RunoffAreaSquareFeet) + 
+                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage)) * rainInMM * conversionForSolid;
                 }
 
                 return precipitation;
