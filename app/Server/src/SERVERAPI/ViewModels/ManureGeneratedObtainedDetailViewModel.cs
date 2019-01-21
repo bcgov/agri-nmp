@@ -59,8 +59,5 @@ namespace SERVERAPI.ViewModels
         //[Range(0, 365, ErrorMessage = "Must be a value between 0 and 365")]
         public string grazingDaysPerYear { get; set; }
         public bool showBreedAndGrazingDaysPerYear { get; set; }
-
-        public string liquidPerGalPerAnimalPerDay { get; set; }
-        public string solidPerPoundPerAnimalPerDay { get; set; }
     }
 }

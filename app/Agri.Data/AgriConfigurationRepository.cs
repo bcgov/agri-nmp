@@ -1234,5 +1234,10 @@ namespace Agri.Data
 
             return breedOptions;
         }
+
+        public LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults()
+        {
+            return _context.LiquidSolidSeparationDefaults.Single();
+        }
     }
 }
