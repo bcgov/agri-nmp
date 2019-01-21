@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
 using Agri.Models.Data;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Version = Agri.Models.Configuration.Version;
 
@@ -12,10 +14,14 @@ namespace Agri.Data
     public class AgriSeeder
     {
         private AgriConfigurationContext _context;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly IMapper _mapper;
 
-        public AgriSeeder(AgriConfigurationContext context)
+        public AgriSeeder(AgriConfigurationContext context, IAgriConfigurationRepository sd, IMapper mapper)
         {
             _context = context;
+            _sd = sd;
+            _mapper = mapper;
         }
 
         public void Seed()
@@ -421,6 +427,15 @@ namespace Agri.Data
 
             //Updates
 
+            _context.SaveChanges();
+
+            AppliedMigrationsSeedData();
+        }
+
+        public void AppliedMigrationsSeedData()
+        {
+            //Updates
+
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("1_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("1_UserPrompts");
@@ -432,6 +447,7 @@ namespace Agri.Data
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
             }
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("2_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
@@ -445,6 +461,7 @@ namespace Agri.Data
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
             }
 
 
@@ -459,23 +476,40 @@ namespace Agri.Data
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
             }
 
-           if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("4_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("4_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("4_UserPrompts");
                 foreach (var newUserPrompt in migrationSeedData.Data)
                 {
                     if (_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
                     {
-                        _context.UserPrompts.Update(newUserPrompt);
+                        var updated = _context.UserPrompts.Single(up => up.Id == newUserPrompt.Id);
+                        _mapper.Map(newUserPrompt, updated);
+                        _context.UserPrompts.Update(updated);
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
             }
 
 
-            _context.SaveChanges();
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("16_LiquidSolidSeparationDefault", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<LiquidSolidSeparationDefault>>("16_LiquidSolidSeparationDefault");
+                foreach (var liquidSolidSeparationDefault in migrationSeedData.Data)
+                {
+                    if (!_context.LiquidSolidSeparationDefaults.Any(up => up.Id == liquidSolidSeparationDefault.Id))
+                    {
+                        _context.LiquidSolidSeparationDefaults.Add(liquidSolidSeparationDefault);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
         }
     }
 }
