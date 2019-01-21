@@ -1,0 +1,11 @@
+{
+  "Id": 16,
+  "JsonFilename": "16_LiquidSolidSeparationDefault",
+  "ReasonReference": "R4E03-US03: Solid/Liquid Separation - New Table and data for default",
+  "Data": [
+    {
+      "Id": "1",
+      "PercentOfLiquidSeparation": "10"
+    }
+  ]
+}

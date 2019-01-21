@@ -31,6 +31,7 @@ namespace SERVERAPI
             CreateMap<UserPrompt, UserPrompt>();
             CreateMap<AnimalSubType, AnimalSubType>();
 
+            CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
         }
     }
 }

@@ -168,5 +168,6 @@ namespace Agri.Interfaces
         decimal GetBreedManureFactorByBreedId(int breedId);
         List<SelectListItem> GetBreed(int breedId);
 
+        LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults();
     }
 }

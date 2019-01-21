@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
 using Agri.Models.Data;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Version = Agri.Models.Configuration.Version;
 using Agri.Interfaces;
@@ -434,6 +436,15 @@ namespace Agri.Data
         {
             //Updates
 
+            _context.SaveChanges();
+
+            AppliedMigrationsSeedData();
+        }
+
+        public void AppliedMigrationsSeedData()
+        {
+            //Updates
+
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("1_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("1_UserPrompts");
@@ -523,6 +534,23 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
                 _context.SaveChanges();
             }
+        }
+    }
+}
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("16_LiquidSolidSeparationDefault", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<LiquidSolidSeparationDefault>>("16_LiquidSolidSeparationDefault");
+                foreach (var liquidSolidSeparationDefault in migrationSeedData.Data)
+                {
+                    if (!_context.LiquidSolidSeparationDefaults.Any(up => up.Id == liquidSolidSeparationDefault.Id))
+                    {
+                        _context.LiquidSolidSeparationDefaults.Add(liquidSolidSeparationDefault);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
         }
     }
 }

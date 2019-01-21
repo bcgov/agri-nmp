@@ -832,5 +832,10 @@ namespace Agri.LegacyData.Models.Impl
             return breedOptions;
         }
 
+
+        public LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -60,5 +60,7 @@ namespace SERVERAPI.ViewModels
         public string grazingDaysPerYear { get; set; }
         public bool showBreedAndGrazingDaysPerYear { get; set; }
 
+        public string liquidPerGalPerAnimalPerDay { get; set; }
+        public string solidPerPoundPerAnimalPerDay { get; set; }
     }
 }
