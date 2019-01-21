@@ -447,18 +447,6 @@ namespace Agri.Data.Migrations
                     b.ToTable("LiquidMaterialsConversionFactors");
                 });
 
-            modelBuilder.Entity("Agri.Models.Configuration.LiquidSolidSeparationDefault", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("PercentOfLiquidSeparation");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LiquidSolidSeparationDefaults");
-                });
-
             modelBuilder.Entity("Agri.Models.Configuration.Location", b =>
                 {
                     b.Property<int>("Id")

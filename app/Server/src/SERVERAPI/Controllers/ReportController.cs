@@ -121,8 +121,7 @@ namespace SERVERAPI.Controllers
                         {
                             rvm.RemainingManures.Add(appliedStoredManure);
                         }
-                        else if (appliedStoredManure.WholePercentRemaining == 0 && appliedStoredManure.TotalAnnualManureRemainingToApply < 0 && 
-                                 ((appliedStoredManure.TotalAnnualManureRemainingToApply / appliedStoredManure.TotalAnnualManureToApply) * 100 <= -10))
+                        else if (appliedStoredManure.WholePercentRemaining == 0 && appliedStoredManure.TotalAnnualManureRemainingToApply < 0 && ((appliedStoredManure.TotalAnnualManureRemainingToApply / appliedStoredManure.TotalAnnualManureToApply) * 100 <= -10))
                         {
                             rvm.OverUtilizedManures.Add(appliedStoredManure);
                         }
@@ -131,12 +130,12 @@ namespace SERVERAPI.Controllers
 
                 if (yearData.ImportedManures != null)
                 {
-                    foreach (var importedManure in yearData.ImportedManures)
+                    foreach (var importedManures in yearData.ImportedManures)
                     {
-                        if (!importedManure.IsMaterialStored)
+                        if (!importedManures.IsMaterialStored)
                         {
-                            var farmManure = _ud.GetFarmManureByImportedManure(importedManure);
-                            var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure);
+                            var farmManure = _ud.GetFarmManureByManureId(importedManures.ManureId);
+                            var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure.managedManureId);
                             if (appliedImportedManure.WholePercentRemaining >= 10)
                             {
                                 rvm.RemainingManures.Add(appliedImportedManure);

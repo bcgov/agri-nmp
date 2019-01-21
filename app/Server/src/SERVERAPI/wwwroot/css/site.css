@@ -285,18 +285,14 @@ body {
 
 .tree ul {
     list-style: none;
+    padding-left: 32px;
 }
 
-@media (min-width: 986px) {
-    .tree ul {
-        padding-left: 32px;
-    }
-
-    .tree li::before, .tree li::after {
-        content: "";
-        position: absolute;
-        left: -15px;
-    }
+.tree li::before, .tree li::after {
+    content: "";
+    position: absolute;
+    left: -15px;
+}
 
     .tree li::before {
         border-top: 1px solid #CCCCCC;
@@ -312,11 +308,9 @@ body {
         top: 2px;
     }
 
-    .tree ul > li:last-child::after {
-        height: 8px;
-    }
+.tree ul > li:last-child::after {
+    height: 8px;
 }
-
 
 /* Tooltip */
 .tooltip-inner {
@@ -355,7 +349,4 @@ body {
         color: #ffffff;
         float: right;
     }
-
-.readonly-form{
-    color: #808080
-}
+    

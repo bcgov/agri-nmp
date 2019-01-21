@@ -629,6 +629,7 @@ namespace Agri.Data
             }
 
             return null;
+
         }
 
         public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance1, long balance2, string assignedChemical)
@@ -1181,11 +1182,6 @@ namespace Agri.Data
                 stdUnit = stdUnit.Substring(0, idx);
 
             return stdUnit;
-        }
-
-        public LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults()
-        {
-            return _context.LiquidSolidSeparationDefaults.Single();
         }
     }
 }

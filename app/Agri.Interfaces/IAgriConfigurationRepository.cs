@@ -163,6 +163,5 @@ namespace Agri.Interfaces
         List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors();
         List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions();
         List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion();
-        LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults();
     }
 }

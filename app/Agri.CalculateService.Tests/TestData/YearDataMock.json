@@ -67,9 +67,10 @@
     {
       "id": 1,
       "customized": false,
-      "sourceOfMaterialId": "StorageSystem,1",
+      "sourceOfMaterialId": "Generated1,1",
       "sourceOfMaterialStorageSystemId": 1,
       "sourceOfMaterialImportedManureId": null,
+      "managedManureId": "Generated1",
       "sourceOfMaterialName": "Liquid Storage System ",
       "manureId": 3,
       "name": null,
@@ -88,9 +89,10 @@
     {
       "id": 2,
       "customized": false,
-      "sourceOfMaterialId": "Imported,1",
+      "sourceOfMaterialId": "Imported1,1",
       "sourceOfMaterialStorageSystemId": null,
       "sourceOfMaterialImportedManureId": 1,
+      "managedManureId": "Imported1",
       "sourceOfMaterialName": "Imported Solid",
       "manureId": 1,
       "name": null,

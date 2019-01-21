@@ -13,7 +13,6 @@ namespace Agri.Models.Farm
         public int averageAnimalNumber { get; set; }
         public string manureTypeName { get; set; }
         public string annualAmount { get; set; }
-        public decimal annualAmountDecimal => annualAmount != null ? Convert.ToDecimal(annualAmount.Split(' ')[0]) : 0M;
         public string washWaterGallonsToString => string.Format("{0:#,##0}", washWaterGallons);
         public decimal washWaterGallons
         {

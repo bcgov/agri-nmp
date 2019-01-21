@@ -32,7 +32,6 @@ namespace SERVERAPI.ViewComponents
             {
                 GeneratedManures = _userData.GetGeneratedManures(),
                 ImportedManures = _userData.GetImportedManures(), 
-                SeparatedSolidManures = _userData.GetSeparatedManures(),
                 ManureStorageSystems = _userData.GetStorageSystems()
             };
 

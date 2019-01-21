@@ -50,14 +50,11 @@ namespace Agri.Models.Calculate
         }
 
         public decimal TotalAnnualManureRemainingToApply => TotalAnnualManureToApply - TotalApplied;
-        public int WholePercentAppiled => TotalAnnualManureToApply > 0 ? 
-            Convert.ToInt32(TotalApplied / TotalAnnualManureToApply * 100) : 
-            0;
+        public int WholePercentAppiled => Convert.ToInt32(TotalApplied / TotalAnnualManureToApply * 100);
 
-        public int WholePercentRemaining => TotalAnnualManureToApply > 0 ?
+        public int WholePercentRemaining =>
             Convert.ToInt32((TotalAnnualManureRemainingToApply >= 0 ? TotalAnnualManureRemainingToApply : 0) /
-                            TotalAnnualManureToApply * 100) :
-                            0;
+                            TotalAnnualManureToApply * 100);
         public string AppliedMessage => $"{SourceName}: {WholePercentAppiled}%";
         public string RemainingToApplMessage => $"{SourceName}: {WholePercentRemaining}%";
     }

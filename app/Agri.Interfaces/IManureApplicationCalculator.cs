@@ -7,7 +7,7 @@ namespace Agri.Interfaces
     {
         AppliedManure GetAppliedManure(YearData yearData, FarmManure farmManure);
         AppliedStoredManure GetAppliedManureFromStorageSystem(YearData yearData, ManureStorageSystem manureStorageSystem);
-        AppliedStoredManure GetAppliedStoredManure(YearData yearData, FarmManure farmManure);
-        AppliedImportedManure GetAppliedImportedManure(YearData yearData, FarmManure farmManure);
+        AppliedStoredManure GetAppliedStoredManure(YearData yearData, string managedManureId);
+        AppliedImportedManure GetAppliedImportedManure(YearData yearData, string managedManureId);
     }
 }

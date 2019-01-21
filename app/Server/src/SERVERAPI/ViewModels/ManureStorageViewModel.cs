@@ -8,13 +8,11 @@ namespace SERVERAPI.ViewModels
     {
         public List<GeneratedManure> GeneratedManures { get; set; }
         public List<ImportedManure> ImportedManures { get; set; }
-        public List<SeparatedSolidManure> SeparatedSolidManures { get; set; }
         public List<ManureStorageSystem> ManureStorageSystems { get; set; }
         public string ExplainMaterialsNeedingStorageMessage { get; set; }
         public bool AnyUnallocatedManures =>
             GeneratedManures.Any(gm => !gm.AssignedToStoredSystem) ||
-            ImportedManures.Any(im => im.IsMaterialStored && !im.AssignedToStoredSystem) ||
-            SeparatedSolidManures.Any(ssm => !ssm.AssignedToStoredSystem);
+            ImportedManures.Any(im => im.IsMaterialStored && !im.AssignedToStoredSystem);
         public bool DisableAddStorageSystemButton
         {
             get { return !AnyUnallocatedManures; }
@@ -33,11 +31,6 @@ namespace SERVERAPI.ViewModels
                 if (ImportedManures.Any())
                 {
                     manures.AddRange(ImportedManures.Where(im => im.IsMaterialStored));
-                }
-
-                if (SeparatedSolidManures.Any())
-                {
-                    manures.AddRange(SeparatedSolidManures);
                 }
 
                 return manures;
