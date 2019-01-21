@@ -18,18 +18,19 @@ namespace Agri.CalculateService
             _manureUnitConversionCalculator = manureUnitConversionCalculator;
         }
 
-        public SeparatedManure CalculateSeparatedManure(decimal liquidVolumeGallons, int wholePercentLiquidSeparated)
+        public SeparatedManure CalculateSeparatedManure(decimal liquidVolumeToSeparateGallons, int wholePercentLiquidSeparated)
         {
+            var solidsSeparatedUSGallons = Convert.ToInt32(liquidVolumeToSeparateGallons * (wholePercentLiquidSeparated / 100M));
             var separatedManure = new SeparatedManure
             {
-                LiquidUSGallons = Convert.ToInt32(liquidVolumeGallons * (wholePercentLiquidSeparated / 100M))
+                LiquidUSGallons = liquidVolumeToSeparateGallons - solidsSeparatedUSGallons
             };
 
-            var amountToConvert = (100 - wholePercentLiquidSeparated) / 100M * liquidVolumeGallons;
+            //var amountToConvert = (100 - wholePercentLiquidSeparated) / 100M * liquidVolumeToSeparateGallons;
             var moistureWholePercent = 70;
 
             //Divide by Factor of 1 Gallon to Cubic Meter
-            var solidsSeperatedCubicMeters = amountToConvert/_manureUnitConversionCalculator.GetUSGallonsVolume(ManureMaterialType.Liquid,
+            var solidsSeperatedCubicMeters = solidsSeparatedUSGallons / _manureUnitConversionCalculator.GetUSGallonsVolume(ManureMaterialType.Liquid,
                                                                     1M,
                                                                     AnnualAmountUnits.CubicMeters);
 

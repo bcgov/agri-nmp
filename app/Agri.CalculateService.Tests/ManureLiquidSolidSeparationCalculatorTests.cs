@@ -43,14 +43,14 @@ namespace Agri.CalculateService.Tests
 
             var conversionCalculator = new ManureUnitConversionCalculator(repository);
 
-            var totalLiquidVolumeToSeparate = 850000;
+            var totalLiquidVolumeToSeparate = 2789687;
             var wholePercentSeparation = 10;
             var calculator = new ManureLiquidSolidSeparationCalculator(conversionCalculator);
             
             //Act
             var actual = calculator.CalculateSeparatedManure(totalLiquidVolumeToSeparate, wholePercentSeparation);
-            var expectedLiquidsUSGallons = 85000;
-            var expectedSolidsTons = 2537;
+            var expectedLiquidsUSGallons = 2510718;
+            var expectedSolidsTons = 925;
 
             //Assert
             Assert.AreEqual(expectedLiquidsUSGallons, actual.LiquidUSGallons);
