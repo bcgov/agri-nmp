@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20190114212152_AnimalBreeds")]
+    partial class AnimalBreeds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,8 +57,7 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("AnimalId");
 
-                    b.Property<decimal?>("LiquidPerGalPerAnimalPerDay")
-                        .HasColumnType("decimal(16,4)");
+                    b.Property<decimal?>("LiquidPerGalPerAnimalPerDay");
 
                     b.Property<decimal>("MilkProduction");
 
@@ -64,11 +65,9 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("SolidLiquidSeparationPercentage");
 
-                    b.Property<decimal?>("SolidPerGalPerAnimalPerDay")
-                        .HasColumnType("decimal(16,4)");
+                    b.Property<decimal?>("SolidPerGalPerAnimalPerDay");
 
-                    b.Property<decimal?>("SolidPerPoundPerAnimalPerDay")
-                        .HasColumnType("decimal(16,4)");
+                    b.Property<decimal?>("SolidPerPoundPerAnimalPerDay");
 
                     b.Property<int>("SortOrder");
 
@@ -466,18 +465,6 @@ namespace Agri.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LiquidMaterialsConversionFactors");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.LiquidSolidSeparationDefault", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("PercentOfLiquidSeparation");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LiquidSolidSeparationDefaults");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Location", b =>

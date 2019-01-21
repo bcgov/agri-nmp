@@ -35,6 +35,15 @@ namespace SERVERAPI.Utility
             return defaultMilkProduction;
         }
 
+        // breed manure factor for an animal by breed
+        public decimal? GetBreedManureFactorByBreedId(int _breedId)
+        {
+            decimal? breedManureFactor = null;
+            breedManureFactor = _sd.GetBreedManureFactorByBreedId(_breedId);
+
+            return breedManureFactor;
+        }
+
     }
 
 }

@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20190116215157_SubTypeFieldPrecisions")]
+    partial class SubTypeFieldPrecisions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -466,18 +468,6 @@ namespace Agri.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LiquidMaterialsConversionFactors");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.LiquidSolidSeparationDefault", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("PercentOfLiquidSeparation");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LiquidSolidSeparationDefaults");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Location", b =>
