@@ -888,6 +888,7 @@ namespace SERVERAPI.Models.Impl
             farmDataGeneratedManure.milkProduction = updatedGeneratedManure.milkProduction;
             farmDataGeneratedManure.animalSubTypeName = updatedGeneratedManure.animalSubTypeName;
             farmDataGeneratedManure.washWater = updatedGeneratedManure.washWater;
+            farmDataGeneratedManure.washWaterUnits = updatedGeneratedManure.washWaterUnits;
             farmDataGeneratedManure.annualAmount = updatedGeneratedManure.annualAmount;
             farmDataGeneratedManure.AssignedToStoredSystem = updatedGeneratedManure.AssignedToStoredSystem;
             farmDataGeneratedManure.solidPerGalPerAnimalPerDay = updatedGeneratedManure.solidPerGalPerAnimalPerDay;
