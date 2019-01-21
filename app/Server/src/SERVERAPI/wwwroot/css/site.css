@@ -355,4 +355,7 @@ body {
         color: #ffffff;
         float: right;
     }
-    
+
+.readonly-form{
+    color: #808080
+}

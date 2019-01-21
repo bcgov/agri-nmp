@@ -755,5 +755,10 @@ namespace Agri.LegacyData.Models.Impl
 
             return conversionFactors;
         }
+
+        public LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
