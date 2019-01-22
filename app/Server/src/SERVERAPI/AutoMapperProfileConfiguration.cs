@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Agri.Data.Migrations;
 using Agri.Models;
 using Agri.Models.Configuration;
 
@@ -32,6 +33,7 @@ namespace SERVERAPI
             CreateMap<AnimalSubType, AnimalSubType>();
 
             CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
+            CreateMap<SubRegions, SubRegions>();
         }
     }
 }

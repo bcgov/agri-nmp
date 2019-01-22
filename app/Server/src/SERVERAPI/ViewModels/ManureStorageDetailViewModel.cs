@@ -57,6 +57,7 @@ namespace SERVERAPI.ViewModels
         public bool DisableSystemFields { get; set; }
         public bool ShowStructureFields { get; set; }
         public string ZeroManagedManuresMessage { get; set; }
+        public int? AnnualPrecipitation { get; set; }
     }
 
 }

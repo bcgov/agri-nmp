@@ -540,6 +540,20 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("17_SubRegions", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubRegion>>("17_SubRegions");
+                foreach (var newSubRegion in migrationSeedData.Data)
+                {
+                    newSubRegion.Region = _sd.GetRegion(newSubRegion.RegionId);
+                    if (!_context.SubRegion.Any(up => up.Id == newSubRegion.Id))
+                    {
+                        _context.SubRegion.Add(newSubRegion);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
         }
     }
 }

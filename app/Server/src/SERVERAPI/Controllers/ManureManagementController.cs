@@ -932,7 +932,14 @@ namespace SERVERAPI.Controllers
                 {
                     ModelState.AddModelError("SelectedMaterialsToInclude", "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.");
                 }
-                
+
+                var farmData = _ud.FarmDetails();
+                if (farmData != null)
+                {
+                    SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                    msdvm.AnnualPrecipitation = subregion.AnnualPrecipitation;
+                }
+
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
                 {
                     ModelState.Clear();
@@ -1162,6 +1169,7 @@ namespace SERVERAPI.Controllers
             manureStorageSystem.PercentageOfLiquidVolumeSeparated = msdvm.PercentageOfLiquidVolumeSeparated;
             manureStorageSystem.SeparatedSolidsTons = msdvm.SeparatedSolidsTons;
             manureStorageSystem.SeparatedLiquidsUSGallons = msdvm.SeparatedLiquidsUSGallons;
+            manureStorageSystem.AnnualPrecipitation = msdvm.AnnualPrecipitation;
 
             if (msdvm.ShowStructureFields)
             {

@@ -14,7 +14,11 @@ namespace SERVERAPI.ViewModels
         public List<SelectListItem> regOptions { get; set; }
         [Display(Name = "Region")]
         public int? selRegOption { get; set; }
+        public List<SelectListItem> subRegionOptions { get; set; }
+        public int? selSubRegOption { get; set; }
         public string currYear { get; set; }
-
+        public bool showSubRegion { get; set; }
+        public bool multipleSubRegion { get; set; }
+        public string buttonPressed { get; set; }
     }
 }

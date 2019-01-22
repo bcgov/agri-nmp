@@ -598,21 +598,21 @@ namespace Agri.LegacyData.Models.Impl
         public List<NitrateCreditSampleDate> GetNitrateCreditSampleDates()
         {
             var samples = new List<NitrateCreditSampleDate>();
-            
+
             samples.Add(new NitrateCreditSampleDate
             {
                 Location = "CoastalBC",
-                FromDateMonth = (string)rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"][
+                FromDateMonth = (string) rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"][
                     "fromDateMonth"],
-                ToDateMonth = (string)rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"]["toDateMonth"]
+                ToDateMonth = (string) rss["agri"]["nmp"]["coastalBCSampleDtForNitrateCredit"]["toDateMonth"]
             });
 
             samples.Add(new NitrateCreditSampleDate
             {
                 Location = "InteriorBC",
-                FromDateMonth = (string)rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"][
+                FromDateMonth = (string) rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"][
                     "fromDateMonth"],
-                ToDateMonth = (string)rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"]["toDateMonth"]
+                ToDateMonth = (string) rss["agri"]["nmp"]["interiorBCSampleDtForNitrateCredit"]["toDateMonth"]
             });
 
             return samples;
@@ -622,7 +622,7 @@ namespace Agri.LegacyData.Models.Impl
         {
             var ranges = new List<SoilTestRange>();
 
-            JArray array = (JArray)rss["agri"]["nmp"]["soiltestranges"][chemical];
+            JArray array = (JArray) rss["agri"]["nmp"]["soiltestranges"][chemical];
 
             foreach (var r in array)
             {
@@ -659,9 +659,10 @@ namespace Agri.LegacyData.Models.Impl
             var ranges = GetSoilTestRanges("phosphorous");
 
             return ranges
-                .Select(r => new PhosphorusSoilTestRange { Rating = r.Rating, UpperLimit = r.UpperLimit})
+                .Select(r => new PhosphorusSoilTestRange {Rating = r.Rating, UpperLimit = r.UpperLimit})
                 .ToList();
         }
+
         public ManureImportedDefault GetManureImportedDefault()
         {
             var defaultMoistureRaw = rss["agri"]["nmp"]["ManureImportedDefaults"]["defaultSolidMoisture"];
@@ -678,13 +679,14 @@ namespace Agri.LegacyData.Models.Impl
         {
             var conversionFactors = new List<SolidMaterialsConversionFactor>();
 
-            var array = (JArray)rss["agri"]["nmp"]["SolidMaterialsConversionFactors"]["SolidMaterialsConversionFactor"];
+            var array =
+                (JArray) rss["agri"]["nmp"]["SolidMaterialsConversionFactors"]["SolidMaterialsConversionFactor"];
             foreach (var record in array)
             {
                 var conversionFactor = new SolidMaterialsConversionFactor()
                 {
                     Id = Convert.ToInt32(record["Id"].ToString()),
-                    InputUnit =  (AnnualAmountUnits)Convert.ToInt32(record["InputUnit"].ToString()),
+                    InputUnit = (AnnualAmountUnits) Convert.ToInt32(record["InputUnit"].ToString()),
                     InputUnitName = record["InputUnitName"].ToString(),
                     CubicYardsOutput = record["CubicYardsOutput"].ToString(),
                     CubicMetersOutput = record["CubicMetersOutput"].ToString(),
@@ -700,13 +702,14 @@ namespace Agri.LegacyData.Models.Impl
         {
             var conversionFactors = new List<LiquidMaterialsConversionFactor>();
 
-            var array = (JArray)rss["agri"]["nmp"]["LiquidMaterialsConversionFactors"]["LiquidMaterialsConversionFactor"];
+            var array =
+                (JArray) rss["agri"]["nmp"]["LiquidMaterialsConversionFactors"]["LiquidMaterialsConversionFactor"];
             foreach (var record in array)
             {
                 var conversionFactor = new LiquidMaterialsConversionFactor()
                 {
                     Id = Convert.ToInt32(record["Id"].ToString()),
-                    InputUnit = (AnnualAmountUnits)Convert.ToInt32(record["InputUnit"].ToString()),
+                    InputUnit = (AnnualAmountUnits) Convert.ToInt32(record["InputUnit"].ToString()),
                     InputUnitName = record["InputUnitName"].ToString(),
                     USGallonsOutput = Convert.ToDecimal(record["USGallonsOutput"].ToString())
                 };
@@ -716,17 +719,20 @@ namespace Agri.LegacyData.Models.Impl
             return conversionFactors;
         }
 
-        public List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions()
+        public List<SolidMaterialApplicationTonPerAcreRateConversion>
+            GetSolidMaterialApplicationTonPerAcreRateConversions()
         {
             var conversionFactors = new List<SolidMaterialApplicationTonPerAcreRateConversion>();
-            var array = (JArray)rss["agri"]["nmp"]["SolidMaterialApplicationTonPerAcreRateConversions"]["SolidMaterialApplicationTonPerAcreRateConversion"];
+            var array = (JArray) rss["agri"]["nmp"]["SolidMaterialApplicationTonPerAcreRateConversions"][
+                "SolidMaterialApplicationTonPerAcreRateConversion"];
 
             foreach (var record in array)
             {
                 var conversionFactor = new SolidMaterialApplicationTonPerAcreRateConversion
                 {
                     Id = Convert.ToInt32(record["Id"].ToString()),
-                    ApplicationRateUnit = (ApplicationRateUnits)Convert.ToInt32(record["ApplicationRateUnit"].ToString()),
+                    ApplicationRateUnit =
+                        (ApplicationRateUnits) Convert.ToInt32(record["ApplicationRateUnit"].ToString()),
                     ApplicationRateUnitName = record["ApplicationRateUnitName"].ToString(),
                     TonsPerAcreConversion = record["TonsPerAcreConversion"].ToString(),
                 };
@@ -736,17 +742,20 @@ namespace Agri.LegacyData.Models.Impl
             return conversionFactors;
         }
 
-        public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
+        public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>
+            GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
         {
             var conversionFactors = new List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>();
-            var array = (JArray)rss["agri"]["nmp"]["LiquidMaterialApplicationUSGallonsPerAcreRateConversions"]["LiquidMaterialApplicationUSGallonsPerAcreRateConversion"];
+            var array = (JArray) rss["agri"]["nmp"]["LiquidMaterialApplicationUSGallonsPerAcreRateConversions"][
+                "LiquidMaterialApplicationUSGallonsPerAcreRateConversion"];
 
             foreach (var record in array)
             {
                 var conversionFactor = new LiquidMaterialApplicationUSGallonsPerAcreRateConversion
                 {
                     Id = Convert.ToInt32(record["Id"].ToString()),
-                    ApplicationRateUnit = (ApplicationRateUnits)Convert.ToInt32(record["ApplicationRateUnit"].ToString()),
+                    ApplicationRateUnit =
+                        (ApplicationRateUnits) Convert.ToInt32(record["ApplicationRateUnit"].ToString()),
                     ApplicationRateUnitName = record["ApplicationRateUnitName"].ToString(),
                     USGallonsPerAcreConversion = Convert.ToDecimal(record["USGallonsPerAcreConversion"].ToString()),
                 };
@@ -836,6 +845,23 @@ namespace Agri.LegacyData.Models.Impl
         public LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults()
         {
             throw new NotImplementedException();
+        }
+
+        public List<SelectListItem> GetSubRegionsDll(int? regionId)
+        {
+            var subRegOptions = new List<SelectListItem>();
+            return subRegOptions;
+        }
+        public SubRegion GetSubRegion(int? subRegionId)
+        {
+            var subRegion = new SubRegion();
+            return subRegion;
+        }
+
+        public List<SubRegion> GetSubRegions()
+        {
+            var listSubRegion = new List<SubRegion>();
+            return listSubRegion;
         }
     }
 }
