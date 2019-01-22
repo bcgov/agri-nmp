@@ -557,9 +557,26 @@ namespace Agri.Data
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("18_PrevYearManureApplicationNitrogenDefaults", StringComparison.CurrentCultureIgnoreCase)))
             {
+                //var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
+                //foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
+                //{
+                //    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
+                //    {
+                //        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
+                //        _mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
+                //        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
+                //    }
+                //}
+                //_context.AppliedMigrationSeedData.Add(migrationSeedData);
+                //_context.SaveChanges();
+
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
                 foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
                 {
+                    newPrevManureApplicationNitrogenDefault.Crops = _sd.GetCropsByManureApplicationHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+                    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear =
+                        _sd.GetPrevManureApplicationInPrevYearsByManureAppHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+
                     if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
                     {
                         var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
