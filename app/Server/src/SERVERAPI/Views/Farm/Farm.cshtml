@@ -23,7 +23,7 @@
 <div class="container">
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
-        <form asp-controller="Farm" asp-action="Farm" method="post">
+        <form asp-controller="Farm" asp-action="Farm" method="post" id="modForm">
             <div class="form-box">
                 <div class="form-box-header clearfix">
                     <legend class="form-box-heading">Farm Information</legend>
@@ -46,21 +46,38 @@
                             <div class="col-sm-6">
                                 <label asp-for="selRegOption">Region</label>
                                 <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
-                                <select class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions,"Id","Value"))">
+                                <select id="ddlRegion" class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions,"Id","Value"))">
                                     <option>select region</option>
                                 </select>
                                 <span asp-validation-for="selRegOption"></span>
                             </div>
                         </div>
+                        @if (Model.showSubRegion)
+                        {
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <select id="ddlSubRegion" class="form-control" asp-for="selSubRegOption" asp-items="@(new SelectList(Model.subRegionOptions,"Id","Value"))">
+                                        <option>select subregion</option>
+                                    </select>
+                                    @if (Model.multipleSubRegion)
+                                    {
+                                        <span asp-validation-for="selSubRegOption"></span>
+                                    }
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
             <div class="form-box-submit">
                 <div class="form-box-fields text-right">
-                    <button class="btn btn-primary" type="submit" title="Next" aria-label="Next">Next</button>
+                    <button class="btn btn-primary" type="submit" title="Next" aria-label="Next" onclick="">Next</button>
                 </div>
             </div>
             @Html.HiddenFor(x => x.currYear)
+            @Html.HiddenFor(x => x.showSubRegion)
+            @Html.HiddenFor(x => x.multipleSubRegion)
+            @Html.HiddenFor(x => x.buttonPressed)
         </form>
         <!-- PAGE CONTENT -->
     </div>
@@ -114,6 +131,20 @@
 
         $(document).ready(function () {
             $("#submenu").addClass('padding');
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlRegion", function () {
+                $('#buttonPressed').val("RegionChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+        $("body").on("change", "#ddlSubRegion", function () {
+            $('#buttonPressed').val("SubRegionChange");
+            $("#modForm").submit();
+        })
         });
     </script>
 }

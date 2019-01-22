@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20190116215157_SubTypeFieldPrecisions")]
+    partial class SubTypeFieldPrecisions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -466,18 +468,6 @@ namespace Agri.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LiquidMaterialsConversionFactors");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.LiquidSolidSeparationDefault", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("PercentOfLiquidSeparation");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LiquidSolidSeparationDefaults");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Location", b =>
@@ -1011,26 +1001,6 @@ namespace Agri.Data.Migrations
                     b.ToTable("SubMenu");
                 });
 
-            modelBuilder.Entity("Agri.Models.Configuration.SubRegion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AnnualPrecipitation");
-
-                    b.Property<int>("AnnualPrecipitationOctToMar");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("RegionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("SubRegion");
-                });
-
             modelBuilder.Entity("Agri.Models.Configuration.Unit", b =>
                 {
                     b.Property<int>("Id")
@@ -1256,14 +1226,6 @@ namespace Agri.Data.Migrations
                     b.HasOne("Agri.Models.Configuration.MainMenu", "MainMenu")
                         .WithMany("SubMenus")
                         .HasForeignKey("MainMenuId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.SubRegion", b =>
-                {
-                    b.HasOne("Agri.Models.Configuration.Region", "Region")
-                        .WithMany("SubRegions")
-                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

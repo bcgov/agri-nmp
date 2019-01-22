@@ -8,6 +8,8 @@ using Agri.Models.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Version = Agri.Models.Configuration.Version;
+using Agri.Interfaces;
+using AutoMapper;
 
 namespace Agri.Data
 {
@@ -425,8 +427,6 @@ namespace Agri.Data
                 _context.SolidMaterialApplicationTonPerAcreRateConversions.AddRange(conversions);
             }
 
-            //Updates
-
             _context.SaveChanges();
 
             AppliedMigrationsSeedData();
@@ -495,7 +495,37 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("11_Breed", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<Breed>>("11_Breed");
+                foreach (var newBreed in migrationSeedData.Data)
+                {
+                    if (!_context.Breed.Any(up => up.Id == newBreed.Id))
+                    {
+                        _context.Breed.Add(newBreed);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
 
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("14_AnimalSubTypes", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<AnimalSubType>>("14_AnimalSubTypes");
+                foreach (var newSubType in migrationSeedData.Data)
+                {
+                    if (_context.AnimalSubType.Any(up => up.Id == newSubType.Id))
+                    {
+                        newSubType.Animal = _sd.GetAnimal(newSubType.AnimalId);
+                        var updated = _context.AnimalSubType.Single(up => up.Id == newSubType.Id);
+                        _mapper.Map(newSubType, updated);
+                        _context.AnimalSubType.Update(updated);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+        
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("16_LiquidSolidSeparationDefault", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<LiquidSolidSeparationDefault>>("16_LiquidSolidSeparationDefault");
@@ -510,6 +540,20 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("17_SubRegions", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubRegion>>("17_SubRegions");
+                foreach (var newSubRegion in migrationSeedData.Data)
+                {
+                    newSubRegion.Region = _sd.GetRegion(newSubRegion.RegionId);
+                    if (!_context.SubRegion.Any(up => up.Id == newSubRegion.Id))
+                    {
+                        _context.SubRegion.Add(newSubRegion);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
         }
     }
 }
