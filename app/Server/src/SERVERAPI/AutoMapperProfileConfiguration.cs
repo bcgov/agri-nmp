@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Agri.Data.Migrations;
 using Agri.Models;
+using Agri.Models.Configuration;
 
 namespace SERVERAPI
 {
@@ -27,7 +29,11 @@ namespace SERVERAPI
                 .ForMember(dest => dest.Units, x => x.MapFrom(src => src.SelectedAnnualAmountUnit))
                 .ReverseMap();
             CreateMap<ImportedManure, ImportedManure>();
+            CreateMap<UserPrompt, UserPrompt>();
+            CreateMap<AnimalSubType, AnimalSubType>();
 
+            CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
+            CreateMap<SubRegions, SubRegions>();
         }
     }
 }

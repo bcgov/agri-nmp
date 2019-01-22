@@ -1101,7 +1101,7 @@ namespace SERVERAPI.Controllers
                 cvm.remP2o5 = cp.remP2o5.ToString("G29");
                 cvm.remK2o = cp.remK2o.ToString("G29");
 
-                cvm.crude = cp.crudeProtien.ToString();
+                cvm.crude = cp.crudeProtien.ToString().Replace(".0", "");
                 cvm.selCropOption = cp.cropId;
                 cvm.selPrevOption = cp.prevCropId.ToString();
                 cvm.coverCropHarvested = cp.coverCropHarvested;
@@ -1190,13 +1190,12 @@ namespace SERVERAPI.Controllers
                 {
                     if (cvm.showCrude)
                     {
-                        if (cvm.crude != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
+                        if (cvm.crude.Replace(".0","") != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
                         {
                             cvm.stdCrude = false;
                         }
                     }
                 }
-
             }
             else
             {
@@ -1664,7 +1663,7 @@ namespace SERVERAPI.Controllers
                             cvm.remN = cropRequirementRemoval.N_Removal.ToString();
                             cvm.remP2o5 = cropRequirementRemoval.P2O5_Removal.ToString();
                             cvm.remK2o = cropRequirementRemoval.K2O_Removal.ToString();
-                            if (cvm.crude != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
+                            if (cvm.crude.Replace(".0", "") != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
                             {
                                 cvm.stdCrude = false;
                             }

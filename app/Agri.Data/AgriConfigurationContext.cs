@@ -1,5 +1,6 @@
 ﻿using Agri.LegacyData.Models;
 using Agri.Models.Configuration;
+using Agri.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Version = Agri.Models.Configuration.Version;
@@ -15,7 +16,9 @@ namespace Agri.Data
         #region DbSets 
         public DbSet<AmmoniaRetention> AmmoniaRetentions { get; set; }
         public DbSet<Animal> Animals { get; set; }
+        public DbSet<AnimalSubType> AnimalSubType { get; set; }
         public DbSet<BCSampleDateForNitrateCredit> BCSampleDateForNitrateCredit { get; set; }
+        public DbSet<Breed> Breed { get; set; }
         public DbSet<Browser> Browsers { get; set; }
         public DbSet<ConversionFactor> ConversionFactors { get; set; }
         public DbSet<Crop> Crops { get; set; }
@@ -35,6 +38,7 @@ namespace Agri.Data
         public DbSet<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
         public DbSet<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> LiquidMaterialApplicationUsGallonsPerAcreRateConversions { get; set; }
         public DbSet<LiquidMaterialsConversionFactor> LiquidMaterialsConversionFactors { get; set; }
+        public DbSet<LiquidSolidSeparationDefault> LiquidSolidSeparationDefaults { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<MainMenu> MainMenus { get; set; }
         public DbSet<ManureImportedDefault> ManureImportedDefaults { get; set; }
@@ -49,6 +53,7 @@ namespace Agri.Data
         public DbSet<PreviousManureApplicationYear> PrevManureApplicationYears { get; set; }
         public DbSet<PreviousYearManureApplicationNitrogenDefault> PrevYearManureApplicationNitrogenDefaults { get; set; }
         public DbSet<Region> Regions { get; set; }
+        public DbSet<SubRegion> SubRegion { get; set; }
         public DbSet<RptCompletedFertilizerRequiredStdUnit> RptCompletedFertilizerRequiredStdUnits { get; set; }
         public DbSet<RptCompletedManureRequiredStdUnit> RptCompletedManureRequiredStdUnits { get; set; }
         public DbSet<SeasonApplication> SeasonApplications { get; set; }
@@ -65,6 +70,8 @@ namespace Agri.Data
         public DbSet<UserPrompt> UserPrompts { get; set; }
         public DbSet<Version> Versions { get; set; }
         public DbSet<Yield> Yields { get; set; }
+
+        public DbSet<AppliedMigrationSeedData> AppliedMigrationSeedData { get; set; }
 
         #endregion
 

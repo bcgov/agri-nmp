@@ -144,6 +144,13 @@
             })
         });
 
+        $(document).ready(function () {
+            $("body").on("change", "#ddlWashWaterUnits", function () {
+                $('#buttonPressed').val("WashWaterUnitsChange");
+                $("#modForm").submit();
+            })
+        });
+
         $(document).on('change',
             '#averageAnimalNumber', function () {
                 NeedRefresh();
@@ -162,6 +169,11 @@
         });
 
         $(document).on('change','#milkProduction', function () {
+                NeedRefresh();
+        });
+
+        $(document).on('change',
+            '#grazingDaysPerYear', function () {
                 NeedRefresh();
             });
 
@@ -197,6 +209,12 @@
             $("#ok_button").css('background-color', '#1abbed');
             $("#btnText").val("Save");
         }
-      
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlBreed", function () {
+                $('#buttonPressed').val("BreedChange");
+                $("#modForm").submit();
+            })
+        });
     </script>
 }

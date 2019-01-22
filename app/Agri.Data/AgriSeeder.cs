@@ -1,17 +1,29 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
+using Agri.Models.Data;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Version = Agri.Models.Configuration.Version;
+using Agri.Interfaces;
+using AutoMapper;
 
 namespace Agri.Data
 {
     public class AgriSeeder
     {
         private AgriConfigurationContext _context;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly IMapper _mapper;
 
-        public AgriSeeder(AgriConfigurationContext context)
+        public AgriSeeder(AgriConfigurationContext context, IAgriConfigurationRepository sd, IMapper mapper)
         {
             _context = context;
+            _sd = sd;
+            _mapper = mapper;
         }
 
         public void Seed()
@@ -416,6 +428,132 @@ namespace Agri.Data
             }
 
             _context.SaveChanges();
+
+            AppliedMigrationsSeedData();
+        }
+
+        public void AppliedMigrationsSeedData()
+        {
+            //Updates
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("1_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("1_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("2_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("2_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("3_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("3_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("4_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("4_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        var updated = _context.UserPrompts.Single(up => up.Id == newUserPrompt.Id);
+                        _mapper.Map(newUserPrompt, updated);
+                        _context.UserPrompts.Update(updated);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("11_Breed", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<Breed>>("11_Breed");
+                foreach (var newBreed in migrationSeedData.Data)
+                {
+                    if (!_context.Breed.Any(up => up.Id == newBreed.Id))
+                    {
+                        _context.Breed.Add(newBreed);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("14_AnimalSubTypes", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<AnimalSubType>>("14_AnimalSubTypes");
+                foreach (var newSubType in migrationSeedData.Data)
+                {
+                    if (_context.AnimalSubType.Any(up => up.Id == newSubType.Id))
+                    {
+                        newSubType.Animal = _sd.GetAnimal(newSubType.AnimalId);
+                        var updated = _context.AnimalSubType.Single(up => up.Id == newSubType.Id);
+                        _mapper.Map(newSubType, updated);
+                        _context.AnimalSubType.Update(updated);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+        
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("16_LiquidSolidSeparationDefault", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<LiquidSolidSeparationDefault>>("16_LiquidSolidSeparationDefault");
+                foreach (var liquidSolidSeparationDefault in migrationSeedData.Data)
+                {
+                    if (!_context.LiquidSolidSeparationDefaults.Any(up => up.Id == liquidSolidSeparationDefault.Id))
+                    {
+                        _context.LiquidSolidSeparationDefaults.Add(liquidSolidSeparationDefault);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("17_SubRegions", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubRegion>>("17_SubRegions");
+                foreach (var newSubRegion in migrationSeedData.Data)
+                {
+                    newSubRegion.Region = _sd.GetRegion(newSubRegion.RegionId);
+                    if (!_context.SubRegion.Any(up => up.Id == newSubRegion.Id))
+                    {
+                        _context.SubRegion.Add(newSubRegion);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
         }
     }
 }

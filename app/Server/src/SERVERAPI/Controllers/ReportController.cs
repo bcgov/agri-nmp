@@ -121,7 +121,8 @@ namespace SERVERAPI.Controllers
                         {
                             rvm.RemainingManures.Add(appliedStoredManure);
                         }
-                        else if (appliedStoredManure.WholePercentRemaining == 0 && appliedStoredManure.TotalAnnualManureRemainingToApply < 0 && ((appliedStoredManure.TotalAnnualManureRemainingToApply / appliedStoredManure.TotalAnnualManureToApply) * 100 <= -10))
+                        else if (appliedStoredManure.WholePercentRemaining == 0 && appliedStoredManure.TotalAnnualManureRemainingToApply < 0 && 
+                                 ((appliedStoredManure.TotalAnnualManureRemainingToApply / appliedStoredManure.TotalAnnualManureToApply) * 100 <= -10))
                         {
                             rvm.OverUtilizedManures.Add(appliedStoredManure);
                         }
@@ -130,12 +131,12 @@ namespace SERVERAPI.Controllers
 
                 if (yearData.ImportedManures != null)
                 {
-                    foreach (var importedManures in yearData.ImportedManures)
+                    foreach (var importedManure in yearData.ImportedManures)
                     {
-                        if (!importedManures.IsMaterialStored)
+                        if (!importedManure.IsMaterialStored)
                         {
-                            var farmManure = _ud.GetFarmManureByManureId(importedManures.ManureId);
-                            var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure.managedManureId);
+                            var farmManure = _ud.GetFarmManureByImportedManure(importedManure);
+                            var appliedImportedManure = _manureApplicationCalculator.GetAppliedImportedManure(yearData, farmManure);
                             if (appliedImportedManure.WholePercentRemaining >= 10)
                             {
                                 rvm.RemainingManures.Add(appliedImportedManure);
@@ -549,7 +550,7 @@ namespace SERVERAPI.Controllers
             rmcvm.storages = new List<ReportStorage>();
             rmcvm.unstoredManures = new List<ReportManuress>();
             rmcvm.year = _ud.FarmDetails().year;
-            decimal rainInMM = 1000;
+            decimal rainInMM ;
             decimal conversionForLiquid = 0.024542388m;
             decimal conversionForSolid = 0.000102408m;
 
@@ -629,6 +630,12 @@ namespace SERVERAPI.Controllers
                 {
                     runoffAreaSquareFeet = s.RunoffAreaSquareFeet;
                 }
+
+                var farmData = _ud.FarmDetails();
+                SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                rainInMM = subregion.AnnualPrecipitation;
+
+                // rainInMM = Convert.ToDecimal(s.AnnualPrecipitation);
 
                 foreach (var ss in s.ManureStorageStructures)
                 {
@@ -738,6 +745,8 @@ namespace SERVERAPI.Controllers
                 decimal annualAmountOfManurePerStorage = 0;
                 if (s.precipitation != null)
                 {
+                    //s.precipitation=Convert.ToDecimal(s.run) +
+                    //    Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(rainInMM) * conversionForLiquid;
                     annualAmountOfManurePerStorage = Convert.ToDecimal(s.precipitation);
                 }
 
