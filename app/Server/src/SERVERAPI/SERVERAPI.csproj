@@ -41,6 +41,7 @@
     <Compile Remove="Utility\FertilizerNutrients.cs" />
     <Compile Remove="Utility\NOrganicMineralizations.cs" />
     <Compile Remove="Utility\NutrientInputs.cs" />
+    <Compile Remove="Utility\SoilTestConversions.cs" />
     <None Remove="PDF.js" />
     <Content Include="PDF.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

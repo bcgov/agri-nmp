@@ -63,7 +63,7 @@ namespace SERVERAPI.Utility
                 if (fd.testingMethod == null)
                     fd.testingMethod = _sd.GetDefaultSoilTestMethod();
 
-                SoilTestMethod soilTestMethod = _sd.GetSoilTestMethodById(fd.testingMethod);
+                var soilTestMethod = _sd.GetSoilTestMethodById(fd.testingMethod);
                 
                 convertedK = Convert.ToInt16(Decimal.Multiply(soilTestMethod.ConvertToKelownaK, soilTest.valK));
             }
