@@ -9,7 +9,9 @@
     <None Remove="MigrationSeedData\14_AnimalSubTypes.json" />
     <None Remove="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
     <None Remove="MigrationSeedData\17_SubRegions.json" />
+    <None Remove="MigrationSeedData\19_PotassiumSoilTestRanges.json" />
     <None Remove="MigrationSeedData\1_UserPrompts.json" />
+    <None Remove="MigrationSeedData\20_PhosphorusSoilTestRanges.json" />
     <None Remove="MigrationSeedData\2_UserPrompts.json" />
     <None Remove="MigrationSeedData\3_UserPrompts.json" />
     <None Remove="MigrationSeedData\4_UserPrompts.json" />
@@ -20,6 +22,8 @@
     <EmbeddedResource Include="MigrationSeedData\14_AnimalSubTypes.json" />
     <EmbeddedResource Include="MigrationSeedData\11_Breed.json" />
     <EmbeddedResource Include="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
+    <EmbeddedResource Include="MigrationSeedData\19_PotassiumSoilTestRanges.json" />
+    <EmbeddedResource Include="MigrationSeedData\20_PhosphorusSoilTestRanges.json" />
     <EmbeddedResource Include="MigrationSeedData\4_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\3_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\2_UserPrompts.json" />
