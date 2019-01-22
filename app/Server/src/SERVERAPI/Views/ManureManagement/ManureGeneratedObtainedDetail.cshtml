@@ -50,26 +50,26 @@
                 <div class="form-group">
                     <div class="form-group col-sm-3">
                         <label asp-for="selAnimalTypeOption">Animal Type</label>
-                        <select class="form-control" asp-for="selAnimalTypeOption" asp-items="@(new SelectList(Model.animalTypeOptions,"Id","Value"))" id="ddlAnimalType">
+                        <select class="form-control" asp-for="selAnimalTypeOption" asp-items="@(new SelectList(Model.animalTypeOptions,"Id","Value"))" id="selAnimalTypeOption">
                             <option>select animal</option>
                         </select>
                         <span asp-validation-for="selAnimalTypeOption" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
                         <label asp-for="selSubTypeOption">Sub Type</label>
-                        <select class="form-control" asp-for="selSubTypeOption" asp-items="@(new SelectList(Model.subTypeOptions,"Id","Value"))" id="ddlSubType"></select>
+                        <select class="form-control" asp-for="selSubTypeOption" asp-items="@(new SelectList(Model.subTypeOptions,"Id","Value"))" id="selSubTypeOption"></select>
                         <span asp-validation-for="selSubTypeOption" class="text-danger">Select a Subtype</span>
                     </div>
                     @if (Model.showBreedAndGrazingDaysPerYear)
                     {
                         <div class="form-group col-sm-3">
                             <label asp-for="selBreedOption">Breed</label>
-                            <select class="form-control" asp-for="selBreedOption" asp-items="@(new SelectList(Model.breedOptions, "Id", "Value"))" id="ddlBreed"></select>
+                            <select class="form-control" asp-for="selBreedOption" asp-items="@(new SelectList(Model.breedOptions, "Id", "Value"))" id="selBreedOption"></select>
                             <span asp-validation-for="selBreedOption" class="text-danger">Select a Breed</span>
                         </div>
                     }
                     <div class="form-group col-sm-3">
-                        <label>Average Animal Number on Farm</label>
+                        <label asp-for="averageAnimalNumber">Average Animal Number on Farm</label>
                         <input class="form-control" asp-for="averageAnimalNumber" id="averageAnimalNumber" type="text" placeholder="@Model.placehldr" />
                         <span asp-validation-for="averageAnimalNumber"></span>
                     </div>
@@ -77,20 +77,20 @@
                         <label asp-for="selManureMaterialTypeOption">Manure Type</label>
                         @if (Model.hasSolidManureType)
                         {
-                            <select class="form-control" asp-for="selManureMaterialTypeOption" id="ddlManureMaterialType">
+                            <select class="form-control" asp-for="selManureMaterialTypeOption" id="selManureMaterialTypeOption">
                                 <option>Solid</option>
                             </select>
 
                         }
                         else if (Model.hasLiquidManureType)
                         {
-                            <select class="form-control" asp-for="selManureMaterialTypeOption" id="ddlManureMaterialType">
+                            <select class="form-control" asp-for="selManureMaterialTypeOption" id="selManureMaterialTypeOption">
                                 <option>Liquid</option>
                             </select>
                         }
                         else
                         {
-                            <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
+                            <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="selManureMaterialTypeOption">
                                 <option>select type</option>
                             </select>
                         }
@@ -99,7 +99,7 @@
                     @if (Model.showBreedAndGrazingDaysPerYear)
                     {
                         <div class="form-group col-sm-3">
-                            <label>Grazing Days per Year</label>
+                            <label asp-for="grazingDaysPerYear">Grazing Days per Year</label>
                             <input class="form-control" asp-for="grazingDaysPerYear" id="grazingDaysPerYear" type="text" />
                             <span asp-validation-for="grazingDaysPerYear"></span>
                         </div>
@@ -107,17 +107,17 @@
                     @if (Model.showMilkProduction)
                     {
                         <div class="form-group col-sm-3">
-                            <label>Milk Production</label>
+                            <label asp-for="milkProduction">Milk Production</label>
                             <div class="input-group">
                                 <input class="form-control" asp-for="milkProduction" id="milkProduction" type="text" />
                                 @if (!Model.stdMilkProduction)
                                 {
-                                    <span class="input-group-btn" title="Reset to standard value">
-                                        <button class="btn btn-default" type="button" id="rstmilkProduction" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                    <span asp-for="milkProduction" class="input-group-btn" title="Reset to standard value">
+                                        <button class="btn btn-default" type="button" id="rstmilkProduction" style="background-color:orange" aria-label="Refresh Milk Production"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
                                     </span>
                                 }
                             </div>
-                            <label>lb/day/animal</label>
+                            <label asp-for="milkProduction">lb/day/animal</label>
                             <span asp-validation-for="milkProduction"></span>
                         </div>
                     }
@@ -129,7 +129,7 @@
                     @if (Model.showWashWater)
                     {
                         <div class="form-group col-sm-4" style="padding-right: 0;">
-                            <label>Milking Centre Wash Water</label>
+                            <label asp-for="washWater">Milking Centre Wash Water</label>
                             <div class="input-group col-sm-12">
                                 <input class="form-control" asp-for="washWater" id="washWater" type="text" />
                                 @if (!Model.stdWashWater)
@@ -143,8 +143,8 @@
                         </div>
                         <div class="form-group col-sm-6" style="padding-left: 0;">
                             <div class="form-group col-sm-6" style="padding-left:0px">
-                                <label>(Units)</label>
-                                <select class="form-control" asp-for="SelWashWaterUnit" asp-items="@Model.GetWashWaterUnits()" id="ddlWashWaterUnits"></select>
+                                <label asp-for="SelWashWaterUnit">(Units)</label>
+                                <select class="form-control" asp-for="SelWashWaterUnit" asp-items="@Model.GetWashWaterUnits()" id="SelWashWaterUnit"></select>
                                 <span asp-validation-for="SelWashWaterUnit" class="text-danger"></span>
                             </div>
                             <div class="col-sm-2" style="padding-left:0px">
