@@ -13,6 +13,7 @@ namespace Agri.Models.Farm
         public int averageAnimalNumber { get; set; }
         public string manureTypeName { get; set; }
         public string annualAmount { get; set; }
+        public decimal annualAmountDecimal => annualAmount != null ? Convert.ToDecimal(annualAmount.Split(' ')[0]) : 0M;
         public string washWaterGallonsToString => string.Format("{0:#,##0}", washWaterGallons);
         public decimal washWaterGallons
         {
@@ -37,5 +38,9 @@ namespace Agri.Models.Farm
         public decimal? solidPerGalPerAnimalPerDay { get; set; }
         public override string ManureId => $"Generated{Id ?? 0}";
         public override string ManagedManureName => animalSubTypeName;
+        public int BreedId;
+        public string BreedName;
+        public int grazingDaysPerYear { get; set; }
+        public bool showBreedAndGrazingDaysPerYear { get; set; }
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20190117191338_AddLiquidSolidSeparationDefaultTable")]
+    partial class AddLiquidSolidSeparationDefaultTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,8 +57,7 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("AnimalId");
 
-                    b.Property<decimal?>("LiquidPerGalPerAnimalPerDay")
-                        .HasColumnType("decimal(16,4)");
+                    b.Property<decimal?>("LiquidPerGalPerAnimalPerDay");
 
                     b.Property<decimal>("MilkProduction");
 
@@ -64,11 +65,9 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("SolidLiquidSeparationPercentage");
 
-                    b.Property<decimal?>("SolidPerGalPerAnimalPerDay")
-                        .HasColumnType("decimal(16,4)");
+                    b.Property<decimal?>("SolidPerGalPerAnimalPerDay");
 
-                    b.Property<decimal?>("SolidPerPoundPerAnimalPerDay")
-                        .HasColumnType("decimal(16,4)");
+                    b.Property<decimal?>("SolidPerPoundPerAnimalPerDay");
 
                     b.Property<int>("SortOrder");
 
@@ -95,24 +94,6 @@ namespace Agri.Data.Migrations
                     b.HasKey("CoastalFromDateMonth");
 
                     b.ToTable("BCSampleDateForNitrateCredit");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.Breed", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AnimalId");
-
-                    b.Property<decimal>("BreedManureFactor");
-
-                    b.Property<string>("BreedName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnimalId");
-
-                    b.ToTable("Breed");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Browser", b =>
@@ -1011,26 +992,6 @@ namespace Agri.Data.Migrations
                     b.ToTable("SubMenu");
                 });
 
-            modelBuilder.Entity("Agri.Models.Configuration.SubRegion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AnnualPrecipitation");
-
-                    b.Property<int>("AnnualPrecipitationOctToMar");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("RegionId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RegionId");
-
-                    b.ToTable("SubRegion");
-                });
-
             modelBuilder.Entity("Agri.Models.Configuration.Unit", b =>
                 {
                     b.Property<int>("Id")
@@ -1127,14 +1088,6 @@ namespace Agri.Data.Migrations
                 {
                     b.HasOne("Agri.Models.Configuration.Animal", "Animal")
                         .WithMany("AnimalSubTypes")
-                        .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.Breed", b =>
-                {
-                    b.HasOne("Agri.Models.Configuration.Animal", "Animal")
-                        .WithMany("Breeds")
                         .HasForeignKey("AnimalId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1256,14 +1209,6 @@ namespace Agri.Data.Migrations
                     b.HasOne("Agri.Models.Configuration.MainMenu", "MainMenu")
                         .WithMany("SubMenus")
                         .HasForeignKey("MainMenuId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.SubRegion", b =>
-                {
-                    b.HasOne("Agri.Models.Configuration.Region", "Region")
-                        .WithMany("SubRegions")
-                        .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

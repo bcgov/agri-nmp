@@ -1393,5 +1393,15 @@ namespace Agri.Data.TestHarness
             Assert.IsTrue(actual.Count > 0);
             Assert.AreEqual(expected.Count, actual.Count);
         }
+
+        [Ignore]
+        [TestMethod]
+        public void GetMessageByChemicalBalanceForSpecificValues()
+        {
+            var actual = _agriRepository.GetMessageByChemicalBalance("CropN", -5, false);
+            var expected = _staticExtRepo.GetMessageByChemicalBalance("CropN", -5, false);
+
+            Assert.IsNotNull(actual);
+        }
     }
 }
