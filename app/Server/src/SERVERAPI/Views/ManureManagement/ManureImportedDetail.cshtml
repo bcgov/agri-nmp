@@ -47,9 +47,9 @@
                 @if (Model.SelectedManureType == ManureMaterialType.Solid)
                 {
                 <div class="col-sm-2 form-group" style="padding-right: 0; max-width: 15%">
-                    <label asp-for="Moisture">Moisture (%)</label>
+                    <label for="txtMoisture">Moisture (%)</label>
                     <div class="input-group ">
-                        <input class="form-control" asp-for="Moisture" id="Moisture" type="text" />
+                        <input class="form-control" asp-for="Moisture" id="txtMoisture" type="text" />
                         @if (!Model.IsStdMoisture)
                         {
                             <span class="input-group-btn" title="Reset to standard value">
