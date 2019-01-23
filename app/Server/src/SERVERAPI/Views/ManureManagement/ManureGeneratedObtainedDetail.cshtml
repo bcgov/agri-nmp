@@ -108,9 +108,9 @@
                     @if (Model.showMilkProduction)
                     {
                         <div class="form-group col-sm-3">
-                            <label asp-for="milkProduction">Milk Production</label>
+                            <label id="labelMilkProduction">Milk Production</label>
                             <div class="input-group">
-                                <input class="form-control" asp-for="milkProduction" id="milkProduction" type="text" />
+                                <input class="form-control" asp-for="milkProduction" id="milkProduction" type="text" aria-labelledby="labelMilkProduction sublabelMilkProduction" />
                                 @if (!Model.stdMilkProduction)
                                 {
                                     <span class="input-group-btn" title="Reset to standard value">
@@ -118,7 +118,7 @@
                                     </span>
                                 }
                             </div>
-                            <label>lb/day/animal</label>
+                            <label id="sublabelMilkProduction">lb/day/animal</label>
                             <span asp-validation-for="milkProduction"></span>
                         </div>
                     }
