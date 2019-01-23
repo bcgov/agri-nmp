@@ -35,61 +35,61 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     @if (!Model.fldsFnd)
-                            {
-                                <div class="form-box">
-                                    <div class="form-box-header clearfix">
-                                        <h3>To add soil tests please add a field first</h3>
-                                    </div>
-                                </div>
-                    }
-                    else
-                    {
-                        if (!Model.testSelected)
-                        {
-                            <div class="form-box">
-                                <div class="form-box-header clearfix">
-                                    <h3>@Html.Raw(Model.warningMsg)</h3>
-                                </div>
-                            </div>
-                }
-            }
+                                    {
+                                        <div class="form-box">
+                                            <div class="form-box-header clearfix">
+                                                <h3>To add soil tests please add a field first</h3>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        if (!Model.testSelected)
+                                        {
+                                            <div class="form-box">
+                                                <div class="form-box-header clearfix">
+                                                    <h3>@Html.Raw(Model.warningMsg)</h3>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
                         <div class="form-box-fields">
                             @if (Model.fldsFnd)
-                    {
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <label asp-for="selTstOption">Lab (Soil Test Methods)</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-horizontal">
-                                <div class="form-group col-sm-7">
-                                    <select class="form-control" asp-for="selTstOption" asp-items="@(new SelectList(Model.tstOptions, "Id", "Value"))" id="selTstOption">
-                                        <option>select</option>
-                                    </select>
+                            {
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <label for="ddlMth">Lab (Soil Test Methods)</label>
+                                    </div>
                                 </div>
-                                <div class="form-group col-sm-1" style="padding-left:0px">
-                                    <a href="#" data_modal3="" data-type="@Url.Action("InfoMessage", "Nutrients", new { type = "soiltest" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Soil Tests" style="font-size:20px; padding-top:5px"></span></a>
+                                <div class="row">
+                                    <div class="form-horizontal">
+                                        <div class="form-group col-sm-7">
+                                            <select class="form-control" asp-for="selTstOption" asp-items="@(new SelectList(Model.tstOptions, "Id", "Value"))" id="ddlMth">
+                                                <option>select</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-sm-1" style="padding-left:0px">
+                                            <a href="#" data_modal3="" data-type="@Url.Action("InfoMessage", "Nutrients", new { type = "soiltest" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Soil Tests" style="font-size:20px; padding-top:5px"></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <span asp-validation-for="selTstOption"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-7">
-                                <span asp-validation-for="selTstOption"></span>
-                            </div>
-                        </div>
-            }
+                            }
                         </div>
                         <div class="form-box-fields">
                             <div class="row">
                                 <div class="col-sm-12">
                                     @if (Model.testSelected)
-                            {
-                                <div id="test">
-                                    @await Component.InvokeAsync("SoilTests")
-                                </div>
-                    }
+                                    {
+                                        <div id="test">
+                                            @await Component.InvokeAsync("SoilTests")
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
         });
 
         $(document).ready(function () {
-            $("body").on("change", "#selTstOption", function () {
+            $("body").on("change", "#ddlMth", function () {
                 $('#buttonPressed').val("MethodChange");
                 $("#modForm").submit();
             })
