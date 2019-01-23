@@ -17,16 +17,16 @@
             <div class="form-row row">
                 <div class="col-sm-3" style="padding-left: 0; padding-right: 0;">
                     <div class="form-group">
-                        <label asp-for="MaterialName">Material Name</label>
-                        <input class="form-control" asp-for="MaterialName" type="text" id="MaterialName" />
+                        <label for="txtMaterialName">Material Name</label>
+                        <input class="form-control" asp-for="MaterialName" type="text" id="txtMaterialName" />
                         <span asp-validation-for="MaterialName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-sm-2"  style="padding-right: 0;">
                     <div class="form-group" style="padding-right: 0;">
-                        <label asp-for="SelectedManureType">Liquid or Solid</label>
+                        <label for="ddlManureMaterialType">Liquid or Solid</label>
                         <select class="form-control" asp-for="SelectedManureType"
-                                asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="SelectedManureType"></select>
+                                asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType"></select>
                         <span asp-validation-for="SelectedManureType" class="text-danger">Select a Manure Material Type</span>
                     </div>
                 </div>

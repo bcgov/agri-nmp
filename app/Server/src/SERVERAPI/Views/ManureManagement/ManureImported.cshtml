@@ -24,13 +24,13 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
 
-        <form asp-controller="ManureManagement" asp-action="ManureNutrientAnalysis" method="post" >
+        <form asp-controller="ManureManagement" asp-action="ManureNutrientAnalysis" method="post">
             <div id="manureimported">
                 @await Component.InvokeAsync("ManureImported")
             </div>
             <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("ManureGeneratedObtained", "ManureManagement" )';" title="Previous"  aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureStorage", "ManureManagement" )';"  title="Next"  aria-label="Next"/>
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("ManureGeneratedObtained", "ManureManagement" )';" title="Previous" aria-label="Previous" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureStorage", "ManureManagement" )';" title="Next" aria-label="Next" />
             </div>
         </form>
         <!-- PAGE CONTENT -->
@@ -129,14 +129,14 @@
 
 
         $(document).ready(function () {
-            $("body").on("change", "#MaterialName", function () {
+            $("body").on("change", "#txtMaterialName", function () {
                 $('#ButtonPressed').val("MaterialNameChange");
                 $("#modForm").submit();
             })
         });
 
         $(document).ready(function () {
-            $("body").on("change", "#SelectedManureType", function () {
+            $("body").on("change", "#ddlManureMaterialType", function () {
                 $('#ButtonPressed').val("ManureMaterialTypeChange");
                 $("#modForm").submit();
             })
@@ -183,6 +183,6 @@
             $("#ok_button").css('background-color', '#1abbed');
             $("#btnText").val("Save");
         }
-        
+
     </script>
 }
