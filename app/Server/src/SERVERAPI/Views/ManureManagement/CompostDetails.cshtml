@@ -16,18 +16,18 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-3">
-                        <label asp-for="selsourceOfMaterialOption">Source of Material</label>
+                        <label for="ddlSourceOfMaterial">Source of Material</label>
                         <div>
-                            <select class="form-control" asp-for="selsourceOfMaterialOption" asp-items="@(new SelectList(Model.sourceOfMaterialOptions,"Text","Value"))" id="selsourceOfMaterialOption">
+                            <select class="form-control" asp-for="selsourceOfMaterialOption" asp-items="@(new SelectList(Model.sourceOfMaterialOptions,"Text","Value"))" id="ddlSourceOfMaterial">
                                 <option>select</option>
                             </select>
                             <span asp-validation-for="selsourceOfMaterialOption" class="text-danger">Select a Source of Material</span>
                         </div>
                     </div>
                     <div class="form-group col-sm-5" style="vertical-align:baseline">
-                        <label asp-for="selManOption">Material Type</label>
+                        <label for="ddlMan">Material Type</label>
                         <div>
-                            <select class="form-control" asp-for="selManOption" asp-items="@(new SelectList(Model.manOptions, "Id", "Value"))" id="selManOption">
+                            <select class="form-control" asp-for="selManOption" asp-items="@(new SelectList(Model.manOptions, "Id", "Value"))" id="ddlMan">
                                 <option>select</option>
                             </select>
                             <span asp-validation-for="selManOption" class="text-danger">Select a Material Type</span>
@@ -80,32 +80,32 @@
                         <div>&nbsp;</div>
                         <div>&nbsp;</div>
                         <div class="form-group col-sm-2">
-                            <label id="labelMoisture">Moisture&nbsp;(%)</label>
-                            <div class="input-group col-sm-6" aria-labelledby="labelMoisture">
+                            <span style="font-weight: bold">Moisture&nbsp;(%)</span>
+                            <div class="input-group col-sm-6">
                                 @Model.moisture
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label id="labelNitrogen">N&nbsp;(%)</label>
-                            <div class="input-group col-sm-6" aria-labelledby="labelMoisture">
+                            <span style="font-weight: bold">N&nbsp;(%)</span>
+                            <div class="input-group col-sm-6">
                                 @Model.nitrogen
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label id="labelAmmonia">NH<sub>4</sub>-N&nbsp;(ppm)</label>
-                            <div class="input-group col-sm-6" aria-labelledby="labelMoisture">
+                            <span style="font-weight: bold">NH<sub>4</sub>-N&nbsp;(ppm)</span>
+                            <div class="input-group col-sm-6">
                                 @Model.ammonia
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label id="labelPhosporous">P&nbsp;(%)</label>
-                            <div class="input-group col-sm-6" aria-labelledby="labelMoisture">
+                            <span style="font-weight: bold">P&nbsp;(%)</span>
+                            <div class="input-group col-sm-6">
                                 @Model.phosphorous
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label id="labelPotassium">K&nbsp;(%)</label>
-                            <div class="input-group col-sm-6" aria-labelledby="labelMoisture">
+                            <span style="font-weight: bold">K&nbsp;(%)</span>
+                            <div class="input-group col-sm-6">
                                 @Model.potassium
                             </div>
                         </div>
