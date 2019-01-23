@@ -61,8 +61,8 @@
                 </div>
                 }
                 <div class="col-sm-2" style="padding-right: 0;">
-                    <div class="form-group">
-                        <label asp-for="IsMaterialStored">@Model.IsMaterialStoredLabelText</label>
+                    <label id="IsMaterialStoredLabel">@Model.IsMaterialStoredLabelText</label>
+                    <div class="form-group" role="radiogroup" aria-labelledby="IsMaterialStoredLabel">
                         <label style="padding-right: 20px">
                             <input asp-for="IsMaterialStored" type="radio" value="true" id="rbIsMaterialStoredYes" /> Yes
                         </label>
