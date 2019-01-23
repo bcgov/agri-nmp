@@ -129,14 +129,14 @@
 
 
         $(document).ready(function () {
-            $("body").on("change", "#txtMaterialName", function () {
+            $("body").on("change", "#MaterialName", function () {
                 $('#ButtonPressed').val("MaterialNameChange");
                 $("#modForm").submit();
             })
         });
 
         $(document).ready(function () {
-            $("body").on("change", "#ddlManureMaterialType", function () {
+            $("body").on("change", "#SelectedManureType", function () {
                 $('#ButtonPressed').val("ManureMaterialTypeChange");
                 $("#modForm").submit();
             })
