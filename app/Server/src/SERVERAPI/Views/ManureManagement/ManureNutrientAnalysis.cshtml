@@ -81,14 +81,14 @@
         }
 
         $(document).ready(function () {
-            $("body").on("change", "#ddlSourceOfMaterial", function () {
+            $("body").on("change", "#selsourceOfMaterialOption", function () {
                 $('#buttonPressed').val("SourceOfMaterialChange");
                 $("#modForm").submit();
             })
         });
 
         $(document).ready(function () {
-            $("body").on("change", "#ddlMan", function () {
+            $("body").on("change", "#selManOption", function () {
                 $('#buttonPressed').val("ManureChange");
                 $("#modForm").submit();
             })
