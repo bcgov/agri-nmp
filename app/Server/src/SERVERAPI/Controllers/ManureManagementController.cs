@@ -937,7 +937,7 @@ namespace SERVERAPI.Controllers
                 if (farmData != null)
                 {
                     SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
-                    msdvm.AnnualPrecipitation = subregion.AnnualPrecipitation;
+                    msdvm.AnnualPrecipitation = subregion?.AnnualPrecipitation;
                 }
 
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
