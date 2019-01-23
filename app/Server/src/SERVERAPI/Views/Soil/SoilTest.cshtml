@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="form-horizontal">
                                 <div class="form-group col-sm-7">
-                                    <select class="form-control" asp-for="selTstOption" asp-items="@(new SelectList(Model.tstOptions, "Id", "Value"))" id="ddlMth">
+                                    <select class="form-control" asp-for="selTstOption" asp-items="@(new SelectList(Model.tstOptions, "Id", "Value"))" id="selTstOption">
                                         <option>select</option>
                                     </select>
                                 </div>
@@ -124,7 +124,7 @@
         });
 
         $(document).ready(function () {
-            $("body").on("change", "#ddlMth", function () {
+            $("body").on("change", "#selTstOption", function () {
                 $('#buttonPressed').val("MethodChange");
                 $("#modForm").submit();
             })

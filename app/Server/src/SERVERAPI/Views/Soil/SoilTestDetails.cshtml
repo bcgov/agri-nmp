@@ -18,7 +18,7 @@
 
                         <div class="form-group">
                             <div class="col-md-8">
-                                <label style="font-size:14px">Soil test values (top 6 inches of soil)&nbsp;&nbsp;</label>
+                                <h3 style="font-size:14px; font-weight: bold">Soil test values (top 6 inches of soil)&nbsp;&nbsp;</h3>
                                 <span>
                                     <a href="@Model.url" target="_blank">@Model.urlText</a>
                                 </span>
@@ -28,10 +28,10 @@
                 </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label>Sample Month</label>
+                                <label asp-for="sampleDate">Sample Month</label>
                             </div>
                             <div class="col-md-3">
-                                <input class="form-control" asp-for="sampleDate" id="sampleDt" type="text" />
+                                <input class="form-control" asp-for="sampleDate" id="sampleDate" type="text" />
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="sampleDate" class="text-danger"></span>
@@ -39,13 +39,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label>NO<sub>3</sub>-N (ppm)</label>
+                                <label asp-for="dispNO3H">NO<sub>3</sub>-N (ppm)</label>
                             </div>
                             <div class="col-md-2">
-                                <input class="form-control" asp-for="dispNO3H" id="sampleDt" type="text" />
+                                <input class="form-control" asp-for="dispNO3H" id="dispNO3H" type="text" />
                             </div>
                             <div class="col-md-4">
-                                <label>Nitrate-Nitrogen</label>
+                                <label asp-for="dispNO3H">Nitrate-Nitrogen</label>
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispNO3H" class="text-danger"></span>
@@ -53,13 +53,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label>P (ppm)</label>
+                                <label asp-for="dispP">P (ppm)</label>
                             </div>
                             <div class="col-md-2">
-                                <input class="form-control" asp-for="dispP" id="sampleDt" type="text" />
+                                <input class="form-control" asp-for="dispP" id="dispP" type="text" />
                             </div>
                             <div class="col-md-4">
-                                <label>Phosphorus</label>
+                                <label asp-for="dispP">Phosphorus</label>
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispP" class="text-danger"></span>
@@ -67,13 +67,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label>K (ppm)</label>
+                                <label asp-for="dispK">K (ppm)</label>
                             </div>
                             <div class="col-md-2">
-                                <input class="form-control" asp-for="dispK" id="sampleDt" type="text" />
+                                <input class="form-control" asp-for="dispK" id="dispK" type="text" />
                             </div>
                             <div class="col-md-4">
-                                <label>Potassium</label>
+                                <label asp-for="dispK">Potassium</label>
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispK" class="text-danger"></span>
@@ -81,10 +81,10 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label>pH</label>
+                                <label asp-for="dispPH">pH</label>
                             </div>
                             <div class="col-md-2">
-                                <input class="form-control" asp-for="dispPH" id="sampleDt" type="text" />
+                                <input class="form-control" asp-for="dispPH" id="dispPH" type="text" />
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispPH" class="text-danger"></span>
