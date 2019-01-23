@@ -554,6 +554,40 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
                 _context.SaveChanges();
             }
+
+            if (!_context.AppliedMigrationSeedData.Any(a =>
+                a.JsonFilename.Equals("19_PotassiumSoilTestRanges", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PotassiumSoilTestRange>>("19_PotassiumSoilTestRanges");
+
+                foreach (var testRange in migrationSeedData.Data)
+                {
+                    var currentTestRange = _context.PotassiumSoilTestRanges.Single(s => s.Id == testRange.Id);
+                    currentTestRange.LowerLimit = testRange.LowerLimit;
+                    currentTestRange.UpperLimit = testRange.UpperLimit;
+                    currentTestRange.Rating = testRange.Rating;
+                }
+
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a =>
+                a.JsonFilename.Equals("20_PhosphorusSoilTestRanges", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PhosphorusSoilTestRange>>("20_PhosphorusSoilTestRanges");
+
+                foreach (var testRange in migrationSeedData.Data)
+                {
+                    var currentTestRange = _context.PhosphorusSoilTestRanges.Single(s => s.Id == testRange.Id);
+                    currentTestRange.LowerLimit = testRange.LowerLimit;
+                    currentTestRange.UpperLimit = testRange.UpperLimit;
+                    currentTestRange.Rating = testRange.Rating;
+                }
+
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
         }
     }
 }
