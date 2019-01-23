@@ -20,17 +20,17 @@
                 <div class="form-row row">
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <label asp-for="SelectedManureMaterialType">Liquid or Solid</label>
+                            <label for="ddlManureMaterialType">Liquid or Solid</label>
                             <select class="form-control" asp-for="SelectedManureMaterialType"
-                                    asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="SelectedManureMaterialType"
+                                    asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType"
                                     disabled="@(Model.DisableMaterialTypeForEditMode || Model.DisableSystemFields ? "disabled" : null)">
                                 <option>Select Manure Type</option>
                             </select>
                             <span asp-validation-for="SelectedManureMaterialType" class="text-danger">Select a Manure Material Type</span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="SystemName">System Name</label>
-                            <input class="form-control" asp-for="SystemName" type="text" id="SystemName"
+                            <label for="txtSystemName">System Name</label>
+                            <input class="form-control" asp-for="SystemName" type="text" id="txtSystemName"
                                    disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
                             @if (Model.DisableSystemFields)
                             {
@@ -93,8 +93,8 @@
                         {
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
-                                    <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="RunoffAreaSquareFeet"
+                                    <label for="txtRooftopsRunOff">Yard and Roof Area (ft<sup>2</sup>)</label>
+                                    <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"
                                            onchange="RefreshSolidLiquidVolumeFields()"
                                            disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
                                     @if (Model.DisableSystemFields)
@@ -130,8 +130,8 @@
                             @if (Model.IsThereSolidLiquidSeparation)
                             {
                                 <div class="form-group">
-                                    <label asp-for="PercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
-                                    <input class="form-control" asp-for="PercentageOfLiquidVolumeSeparated" type="text" id="PercentageOfLiquidVolumeSeparated"
+                                    <label for="txtPercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
+                                    <input class="form-control" asp-for="PercentageOfLiquidVolumeSeparated" type="text" id="txtPercentageOfLiquidVolumeSeparated"
                                            disabled="@(Model.DisableSystemFields ? "disabled" : null)"
                                            onchange="RefreshSolidLiquidVolumeFields()" />
                                     <span asp-validation-for="PercentageOfLiquidVolumeSeparated" class="text-danger"></span>
@@ -268,8 +268,8 @@
             {
                 <div class="form-row row" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
                     <div class="form-group col-sm-3">
-                        <label asp-for="StorageStructureName">Storage Name</label>
-                        <input class="form-control" asp-for="StorageStructureName" type="text" id="StorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
+                        <label for="txtStorageStructureName">Storage Name</label>
+                        <input class="form-control" asp-for="StorageStructureName" type="text" id="txtStorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
                         <span asp-validation-for="StorageStructureName" class="text-danger"></span>
                     </div>
                     <div class="col-sm-3">
@@ -289,8 +289,8 @@
                         @if (!Model.IsStructureCovered)
                         {
                             <div class="form-group">
-                                <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
-                                <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="UncoveredAreaOfStorageStructure"
+                                <label for="txtUncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
+                                <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure"
                                        onchange="RefreshSolidLiquidVolumeFields()"/>
                                 <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
                             </div>
