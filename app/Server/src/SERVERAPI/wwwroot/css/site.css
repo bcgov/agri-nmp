@@ -359,3 +359,130 @@ body {
 .readonly-form{
     color: #808080
 }
+
+
+/*Chevron Navigation Style*/
+.top-level-nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 70px ;
+    list-style: none !important;
+    overflow: hidden !important;
+    font: 18px Sans-Serif !important;
+    background: #c1daea;
+    margin-bottom: 0px;
+}
+.top-level-nav li {
+    float: left !important;
+}
+.top-level-nav li a {
+    color: black;
+    text-decoration: none; 
+    padding: 10px;
+    padding-left: 30px;
+    background: #c1daea; 
+    position: relative; 
+    display: block;
+    float: left;
+}
+
+.top-level-nav li a:after {
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #c1daea;
+    position: absolute;
+    top: 122%;
+    margin-top: -50px;
+    left: 100%;
+    z-index: 2;
+}
+
+.top-level-nav .continue-link a {
+    padding-left: 70px;
+    color: blue !important;
+    font-size: 13px;
+}
+
+#current {
+    background: #a0c7de;
+}
+
+#current:after {
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #a0c7de;
+    position: absolute;
+    top: 122%;
+    margin-top: -50px;
+    left: 100%;
+    z-index: 2;
+}
+
+.second-level-nav {
+    list-style: none !important;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden !important;
+    font: 14px Sans-Serif !important;
+    margin-bottom: 0px;
+    background: #f2f2f2;
+}
+.second-level-nav li { 
+    float: left; 
+}
+.second-level-nav li a {
+    color: black;
+    text-decoration: none; 
+    padding: 10px;
+    padding-left: 30px;
+    background: #f2f2f2; 
+    position: relative; 
+    display: block;
+    float: left;
+}
+
+.second-level-nav li a:after { 
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 18px solid transparent; 
+    border-bottom: 18px solid transparent;
+    border-left: 18px solid #f2f2f2;
+    position: absolute;
+    top: 100%;
+    margin-top: -35px;
+    left: 100%;
+    z-index: 2;
+}
+
+#current2 {
+    background: #DAE8EF;
+}
+
+#current2:after {
+    content: " "; 
+    display: block; 
+    width: 0; 
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 20px solid #DAE8EF;
+    position: absolute;
+    top: 122%;
+    margin-top: -45px;
+    left: 100%;
+    z-index: 2;
+}
+
+
+
+
