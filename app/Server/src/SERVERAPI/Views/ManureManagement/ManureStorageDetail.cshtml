@@ -20,7 +20,7 @@
                 <div class="form-row row">
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <label asp-for="SelectedManureMaterialType">Liquid or Solid</label>
+                            <label for="ddlManureMaterialType">Liquid or Solid</label>
                             <select class="form-control" asp-for="SelectedManureMaterialType"
                                     asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType"
                                     disabled="@(Model.DisableMaterialTypeForEditMode || Model.DisableSystemFields ? "disabled" : null)">
@@ -29,7 +29,7 @@
                             <span asp-validation-for="SelectedManureMaterialType" class="text-danger">Select a Manure Material Type</span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="SystemName">System Name</label>
+                            <label for="txtSystemName">System Name</label>
                             <input class="form-control" asp-for="SystemName" type="text" id="txtSystemName"
                                    disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
                             @if (Model.DisableSystemFields)
@@ -40,17 +40,18 @@
                         </div>
                     </div>
                     <div class="form-group col-sm-3 agri-listbox">
-                        <label asp-for="SelectedMaterialsToInclude">Select materials to include</label>
-                        <ul class="form-control  agri-listbox" id="SelectedMaterialsToInclude" style="width: 400px">
+                        <label id="labelSelectedMaterialsToInclude">Select materials to include</label>
+                        <ul class="form-control  agri-listbox" id="SelectedMaterialsToInclude" style="width: 400px" aria-labelledby="labelSelectedMaterialsToInclude">
                             @if (Model.ManagedManures != null)
                             {
                                 for (var index = 0; index < Model.ManagedManures.Count; index++)
                                 {
                                     <li>
-                                        <label asp-for="@Model.ManagedManures[index]">
+                                        <label asp-for="@Model.ManagedManures[index]" for="ManagedManure@(index.ToString())">
                                             @Html.HiddenFor(m => Model.ManagedManures[index].Value)
                                             @Html.HiddenFor(m => Model.ManagedManures[index].Text)
                                             <input type="checkbox" asp-for="@Model.ManagedManures[index].Selected"
+                                                   id="ManagedManure@(index.ToString())"
                                                    onchange="SelectedMaterialsToIncludeChanged()"
                                                    disabled="@(Model.DisableSystemFields ? "disabled" : null)" /> @Model.ManagedManures[index].Text
                                                 @if (Model.DisableSystemFields)
@@ -74,8 +75,8 @@
                 {
                     <div class="form-row row">
                         <div class="col-sm-3">
-                            <div class="form-group">
-                                <label>Does yard or roof runoff enter the storage?</label>
+                            <label id="labelGetsRunoffFromRoofsOrYards">Does yard or roof runoff enter the storage?</label>
+                            <div class="form-group" role="radiogroup" aria-labelledby="labelGetsRunoffFromRoofsOrYards">
                                 <label style="padding-right: 20px">
                                     <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="true"
                                            disabled="@(Model.DisableSystemFields ? "disabled" : null)"
@@ -92,7 +93,7 @@
                         {
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
+                                    <label for="txtRooftopsRunOff">Yard and Roof Area (ft<sup>2</sup>)</label>
                                     <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"
                                            onchange="RefreshSolidLiquidVolumeFields()"
                                            disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
@@ -112,22 +113,24 @@
                     <div class="form-row row" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <label>Is there solid/liquid separation?</label>
-                                <label style="padding-right: 20px">
-                                    <input asp-for="IsThereSolidLiquidSeparation" type="radio" value="true"
-                                           disabled="@(Model.DisableSystemFields ? "disabled" : null)"
-                                           onchange="IsThereSolidLiquidSeparationChanged()" /> Yes
-                                </label>
-                                <label>
-                                    <input asp-for="IsThereSolidLiquidSeparation" type="radio" value="false"
-                                           disabled="@(Model.DisableSystemFields ? "disabled" : null)"
-                                           onchange="IsThereSolidLiquidSeparationChanged()" /> No
-                                </label>
+                                <label id="labelIsThereSolidLiquidSeparation">Is there solid/liquid separation?</label>
+                                <div role="radiogroup" aria-labelledby="labelIsThereSolidLiquidSeparation">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="IsThereSolidLiquidSeparation" type="radio" value="true"
+                                               disabled="@(Model.DisableSystemFields ? "disabled" : null)"
+                                               onchange="IsThereSolidLiquidSeparationChanged()" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="IsThereSolidLiquidSeparation" type="radio" value="false"
+                                               disabled="@(Model.DisableSystemFields ? "disabled" : null)"
+                                               onchange="IsThereSolidLiquidSeparationChanged()" /> No
+                                    </label>
+                                </div>
                             </div>
                             @if (Model.IsThereSolidLiquidSeparation)
                             {
                                 <div class="form-group">
-                                    <label asp-for="PercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
+                                    <label for="txtPercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
                                     <input class="form-control" asp-for="PercentageOfLiquidVolumeSeparated" type="text" id="txtPercentageOfLiquidVolumeSeparated"
                                            disabled="@(Model.DisableSystemFields ? "disabled" : null)"
                                            onchange="RefreshSolidLiquidVolumeFields()" />
@@ -265,14 +268,14 @@
             {
                 <div class="form-row row" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
                     <div class="form-group col-sm-3">
-                        <label asp-for="StorageStructureName">Storage Name</label>
+                        <label for="txtStorageStructureName">Storage Name</label>
                         <input class="form-control" asp-for="StorageStructureName" type="text" id="txtStorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
                         <span asp-validation-for="StorageStructureName" class="text-danger"></span>
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group">
-                            <div><label>Is the storage covered?</label></div>
-                            <div>
+                            <div><label id="labelIsStructureCovered">Is the storage covered?</label></div>
+                            <div class="form-group" role="radiogroup" aria-labelledby="labelIsStructureCovered">
                                 <label style="padding-right: 20px">
                                     <input asp-for="IsStructureCovered" type="radio" value="true"
                                            onchange="IsStructureCoveredChanged()" /> Yes
@@ -286,7 +289,7 @@
                         @if (!Model.IsStructureCovered)
                         {
                             <div class="form-group">
-                                <label asp-for="UncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
+                                <label for="txtUncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
                                 <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure"
                                        onchange="RefreshSolidLiquidVolumeFields()"/>
                                 <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
