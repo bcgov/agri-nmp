@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
 using Agri.Models.Calculate;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using SERVERAPI.Models.Impl;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.Models;
-using Agri.LegacyData.Models.Impl;
-using Agri.Models.Configuration;
+using System;
 
 namespace SERVERAPI.Utility
 {

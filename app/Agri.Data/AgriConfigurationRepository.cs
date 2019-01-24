@@ -1112,12 +1112,12 @@ namespace Agri.Data
 
         public string GetPotassiumSoilTestRating(decimal value)
         {
-            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public string GetPhosphorusSoilTestRating(decimal value)
         {
-            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges()
