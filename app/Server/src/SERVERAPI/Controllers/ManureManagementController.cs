@@ -69,6 +69,7 @@ namespace SERVERAPI.Controllers
                 mgovm.averageAnimalNumber = gm.averageAnimalNumber.ToString();
                 mgovm.selManureMaterialTypeOption = gm.ManureType;
                 mgovm.SelWashWaterUnit = gm.washWaterUnits;
+                mgovm.showBreedAndGrazingDaysPerYear = gm.showBreedAndGrazingDaysPerYear;
 
                 List<AnimalSubType> animalSubType = _sd.GetAnimalSubTypes(Convert.ToInt32(gm.animalId.ToString()));
                 if (animalSubType.Count > 0)
@@ -83,6 +84,12 @@ namespace SERVERAPI.Controllers
                         mgovm.showWashWater = true;
                         mgovm.showMilkProduction = true;
                     }
+                }
+
+                if (mgovm.showBreedAndGrazingDaysPerYear)
+                {
+                    mgovm.grazingDaysPerYear = gm.grazingDaysPerYear.ToString();
+                    mgovm.selBreedOption = gm.BreedId.ToString();
                 }
 
                 if (mgovm.showWashWater)
@@ -135,6 +142,28 @@ namespace SERVERAPI.Controllers
             animalTypeDetailsSetup(ref mgovm);
             try
             {
+                if (mgovm.buttonPressed == "BreedChange")
+                {
+                    ModelState.Clear();
+                    mgovm.buttonPressed = "";
+                    mgovm.btnText = "Save";
+                    mgovm.milkProduction = "";
+                    if (mgovm.selAnimalTypeOption != "" &&
+                        mgovm.selAnimalTypeOption != "0" &&
+                        mgovm.selAnimalTypeOption != "select animal")
+                    {
+                        var defaultMilkProd =
+                            calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                Convert.ToInt16(mgovm.selSubTypeOption));
+                        var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                        var milkProd = defaultMilkProd * breedManureFactor;
+
+                        mgovm.milkProduction = Math.Round(milkProd ?? 0M, 1).ToString();
+                        mgovm.stdMilkProduction = true;
+                    }
+                    return View(mgovm);
+                }
+
                 if (mgovm.buttonPressed == "SubTypeChange")
                 {
                     ModelState.Clear();
@@ -153,8 +182,8 @@ namespace SERVERAPI.Controllers
                         }
                         if (mgovm.showMilkProduction)
                         {
-                            mgovm.milkProduction = calculateAnimalRequirement
-                                .GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
+                            mgovm.milkProduction = (calculateAnimalRequirement
+                                .GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)) * calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption))).ToString();
                             mgovm.stdMilkProduction = true;
                         }
 
@@ -185,13 +214,13 @@ namespace SERVERAPI.Controllers
                     mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                     mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                    if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                    if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                     {
                         mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                         mgovm.stdManureMaterialType = false;
                         mgovm.hasLiquidManureType = true;
                     }
-                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                     {
                         mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                         mgovm.stdManureMaterialType = false;
@@ -243,14 +272,13 @@ namespace SERVERAPI.Controllers
                             mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                             mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                            if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                            if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                             {
                                 mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                                 mgovm.stdManureMaterialType = false;
                                 mgovm.hasLiquidManureType = true;
                             }
-                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0" &&
-                                     mgovm.liquidPerGalPerAnimalPerDay == "0")
+                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                             {
                                 mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                                 mgovm.stdManureMaterialType = false;
@@ -267,13 +295,13 @@ namespace SERVERAPI.Controllers
                         mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                         mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                        if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                        if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                         {
                             mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                             mgovm.stdManureMaterialType = false;
                             mgovm.hasLiquidManureType = true;
                         }
-                        else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                        else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                         {
                             mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                             mgovm.stdManureMaterialType = false;
@@ -340,8 +368,23 @@ namespace SERVERAPI.Controllers
                     mgovm.btnText = "Save";
 
                     mgovm.stdMilkProduction = true;
-                    mgovm.milkProduction = calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
+                    var defaultMilkProd =
+                        calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                            Convert.ToInt16(mgovm.selSubTypeOption));
+                    var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                    var milkProd = defaultMilkProd * breedManureFactor;
+
+                    mgovm.milkProduction = Math.Round(milkProd ?? 0M, 1).ToString();
+
                     return View(mgovm);
+                }
+
+                if (mgovm.showBreedAndGrazingDaysPerYear)
+                {
+                    if (!(Convert.ToInt32(mgovm.grazingDaysPerYear) >= 0 && Convert.ToInt32(mgovm.grazingDaysPerYear) <= 365))
+                    {
+                        ModelState.AddModelError("","Grazing must be a value between 0 and 365.");
+                    }
                 }
 
                 if (ModelState.IsValid)
@@ -364,9 +407,19 @@ namespace SERVERAPI.Controllers
                         {
                             mgovm.stdWashWater = false;
                         }
-                        if (mgovm.milkProduction != calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())
+
+                        if (mgovm.showMilkProduction)
                         {
-                            mgovm.stdMilkProduction = false;
+                            var defaultMilkProd =
+                                calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                    Convert.ToInt16(mgovm.selSubTypeOption));
+                            var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                            var milkProd = defaultMilkProd * breedManureFactor;
+
+                            if (mgovm.milkProduction != Math.Round(milkProd ?? 0M, 1).ToString())
+                            {
+                                mgovm.stdMilkProduction = false;
+                            }
                         }
 
                         if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
@@ -377,13 +430,13 @@ namespace SERVERAPI.Controllers
                             mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                             mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                            if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                            if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                             {
                                 mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                                 mgovm.stdManureMaterialType = false;
                                 mgovm.hasLiquidManureType = true;
                             }
-                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                            else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                             {
                                 mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                                 mgovm.stdManureMaterialType = false;
@@ -408,6 +461,15 @@ namespace SERVERAPI.Controllers
                             gm.ManureType = mgovm.selManureMaterialTypeOption;
                             gm.manureTypeName = EnumHelper<Agri.Models.ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
                             gm.washWaterUnits = mgovm.SelWashWaterUnit;
+                            gm.showBreedAndGrazingDaysPerYear = mgovm.showBreedAndGrazingDaysPerYear;
+                            if (mgovm.showBreedAndGrazingDaysPerYear)
+                            {
+                                gm.grazingDaysPerYear = Convert.ToInt32(mgovm.grazingDaysPerYear);
+                                List<SelectListItem> breedDetails = _sd.GetBreed(Convert.ToInt32(mgovm.selBreedOption));
+                                gm.BreedId = breedDetails[0].Id;
+                                gm.BreedName = breedDetails[0].Value;
+                            }
+                            
                             if (mgovm.washWater != null)
                             {
                                 gm.washWater = Convert.ToDecimal(mgovm.washWater.ToString());
@@ -428,19 +490,92 @@ namespace SERVERAPI.Controllers
 
                             AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
 
-                            // manure material type is liquid
-                            if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
+                            // annual manure generation for Dairy Cattle - Dairy cattle has Breed
+                            if (mgovm.breedOptions.Count() >0)
                             {
-                                if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                    gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * 365))) + " U.S. gallons";
-                            }
-                            // manure material type is solid
-                            else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
-                            {
-                                if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
-                                    gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * 365) / 2000)))) + " tons";
-                            }
+                                var defaultMilkProd =
+                                    calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                        Convert.ToInt16(mgovm.selSubTypeOption));
+                                var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                                var milkProd = defaultMilkProd * breedManureFactor;
 
+                                // annual manure generation for non milking cows
+                                if (mgovm.milkProduction == null)
+                                {
+                                    // manure material type is liquid
+                                    if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
+                                    {
+                                        if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
+                                            gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * breedManureFactor??0M))) + " U.S. gallons";
+                                    }
+                                    // manure material type is solid
+                                    else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
+                                    {
+                                        if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
+                                        {
+                                            var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
+                                            gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * breedManureFactor ?? 0M)))) + " tons";
+                                        }    
+                                    }
+                                }
+                                // annual manure generation for milking cows
+                                else
+                                {
+                                    if (mgovm.milkProduction != Math.Round(milkProd ?? 0M, 1).ToString())
+                                    {
+                                        // manure material type is liquid
+                                        if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
+                                        {
+                                            if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
+                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M))))) + " U.S. gallons";
+                                        }
+                                        // manure material type is solid
+                                        else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
+                                        {
+                                            if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
+                                            {
+                                                var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
+                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M)))))) + " tons";
+                                            }  
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // manure material type is liquid
+                                        if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
+                                        {
+                                            if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
+                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * (1)))) + " U.S. gallons";
+                                        }
+                                        // manure material type is solid
+                                        else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
+                                        {
+                                            if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
+                                            {
+                                                var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
+                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * (1))))) + " tons";
+                                            }
+                                                
+                                        }
+                                    }
+                                } 
+                            }
+                            // annual manure generation for non dairy animals
+                            else
+                            {
+                                // manure material type is liquid
+                                if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
+                                {
+                                    if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
+                                        gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * 365))) + " U.S. gallons";
+                                }
+                                // manure material type is solid
+                                else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
+                                {
+                                    if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
+                                        gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * 365) / 2000)))) + " tons";
+                                }
+                            }
                             _ud.AddGeneratedManure(gm);
                         }
                         else
@@ -473,6 +608,15 @@ namespace SERVERAPI.Controllers
                             gm.milkProduction = Convert.ToDecimal(mgovm.milkProduction);
                             gm.solidPerGalPerAnimalPerDay = animalSubType.SolidPerGalPerAnimalPerDay;
                             gm.washWaterUnits = mgovm.SelWashWaterUnit;
+                            gm.showBreedAndGrazingDaysPerYear = mgovm.showBreedAndGrazingDaysPerYear;
+                            gm.grazingDaysPerYear = Convert.ToInt32(mgovm.grazingDaysPerYear);
+                            if (mgovm.showBreedAndGrazingDaysPerYear)
+                            {
+                                gm.grazingDaysPerYear = Convert.ToInt32(mgovm.grazingDaysPerYear);
+                                List<SelectListItem> breedDetails = _sd.GetBreed(Convert.ToInt32(mgovm.selBreedOption));
+                                gm.BreedId = breedDetails[0].Id;
+                                gm.BreedName = breedDetails[0].Value;
+                            }
 
                             if (mgovm.washWater != null)
                             {
@@ -483,19 +627,91 @@ namespace SERVERAPI.Controllers
                                 gm.washWater = 0;
                             }
 
-
-                            // manure material type is liquid 
-                            if (Convert.ToInt32(mgovm.selManureMaterialTypeOption) == 1)
+                            if (mgovm.breedOptions.Count() > 0)
                             {
-                                if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                    gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * 365))) + " U.S. gallons";
+                                var defaultMilkProd =
+                                    calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                        Convert.ToInt16(mgovm.selSubTypeOption));
+                                var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                                var milkProd = defaultMilkProd * breedManureFactor;
+
+                                // annual manure generation for non milking cows
+                                if (mgovm.milkProduction == null)
+                                {
+                                    // manure material type is liquid
+                                    if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
+                                    {
+                                        if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
+                                            gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * breedManureFactor ?? 0M))) + " U.S. gallons";
+                                    }
+                                    // manure material type is solid
+                                    else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
+                                    {
+                                        if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
+                                        {
+                                            var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
+                                            gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * breedManureFactor ?? 0M)))) + " tons";
+
+                                        }
+                                    }
+                                }
+                                // annual manure generation for milking cows
+                                else
+                                {
+                                    if (mgovm.milkProduction != Math.Round(milkProd ?? 0M, 1).ToString())
+                                    {
+                                        // manure material type is liquid
+                                        if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
+                                        {
+                                            if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
+                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M))))) + " U.S. gallons";
+                                        }
+                                        // manure material type is solid
+                                        else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
+                                        {
+                                            if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
+                                            {
+                                                var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
+                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M)))))) + " tons";
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // manure material type is liquid
+                                        if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
+                                        {
+                                            if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
+                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * (1)))) + " U.S. gallons";
+                                        }
+                                        // manure material type is solid
+                                        else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
+                                        {
+                                            if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
+                                            {
+                                                var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
+                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * (1))))) + " tons";
+
+                                            }
+                                        }
+                                    }
+                                }
                             }
-                            // manure material type is solid
-                            else if (Convert.ToInt32(mgovm.selManureMaterialTypeOption) == 2)
+                            // annual manure generation for non dairy animals
+                            else
                             {
-
-                                if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
-                                    gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * 365) / 2000)))) + " tons";
+                                // manure material type is liquid
+                                if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
+                                {
+                                    if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
+                                        gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * 365))) + " U.S. gallons";
+                                }
+                                // manure material type is solid
+                                else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
+                                {
+                                    if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
+                                        gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * 365) / 2000)))) + " tons";
+                                }
                             }
 
                             _ud.UpdateGeneratedManures(gm);
@@ -529,12 +745,14 @@ namespace SERVERAPI.Controllers
         {
             mgovm.showWashWater = false;
             mgovm.showMilkProduction = false;
+            mgovm.showBreedAndGrazingDaysPerYear = false;
             CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
             mgovm.animalTypeOptions = new List<SelectListItem>();
             mgovm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
 
             mgovm.subTypeOptions = new List<SelectListItem>();
+            mgovm.breedOptions = new List<SelectListItem>();
 
             if (!string.IsNullOrEmpty(mgovm.selAnimalTypeOption) &&
                 mgovm.selAnimalTypeOption != "select animal")
@@ -543,6 +761,12 @@ namespace SERVERAPI.Controllers
                 if (mgovm.subTypeOptions.Count() > 1)
                 {
                     mgovm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select subtype" });
+                }
+
+                mgovm.breedOptions = _sd.GetBreedsDll(Convert.ToInt32(mgovm.selAnimalTypeOption)).ToList();
+                if (mgovm.breedOptions.Count() > 0)
+                {
+                    mgovm.showBreedAndGrazingDaysPerYear = true;
                 }
 
                 if (mgovm.subTypeOptions.Count() == 1)
@@ -554,13 +778,13 @@ namespace SERVERAPI.Controllers
                     mgovm.liquidPerGalPerAnimalPerDay = animalSubType.LiquidPerGalPerAnimalPerDay.ToString();
                     mgovm.solidPerPoundPerAnimalPerDay = animalSubType.SolidPerPoundPerAnimalPerDay.ToString();
 
-                    if (mgovm.liquidPerGalPerAnimalPerDay != "0" && mgovm.solidPerPoundPerAnimalPerDay == "0")
+                    if (mgovm.liquidPerGalPerAnimalPerDay != "0.0000" && mgovm.solidPerPoundPerAnimalPerDay == "0.0000")
                     {
                         mgovm.selManureMaterialTypeOption = ManureMaterialType.Liquid;
                         mgovm.stdManureMaterialType = false;
                         mgovm.hasLiquidManureType = true;
                     }
-                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0" && mgovm.liquidPerGalPerAnimalPerDay == "0")
+                    else if (mgovm.solidPerPoundPerAnimalPerDay != "0.0000" && mgovm.liquidPerGalPerAnimalPerDay == "0.0000")
                     {
                         mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                         mgovm.stdManureMaterialType = false;
@@ -708,7 +932,14 @@ namespace SERVERAPI.Controllers
                 {
                     ModelState.AddModelError("SelectedMaterialsToInclude", "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.");
                 }
-                
+
+                var farmData = _ud.FarmDetails();
+                if (farmData != null)
+                {
+                    SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                    msdvm.AnnualPrecipitation = subregion.AnnualPrecipitation;
+                }
+
                 if (msdvm.ButtonPressed == "ManureMaterialTypeChange")
                 {
                     ModelState.Clear();
@@ -938,6 +1169,7 @@ namespace SERVERAPI.Controllers
             manureStorageSystem.PercentageOfLiquidVolumeSeparated = msdvm.PercentageOfLiquidVolumeSeparated;
             manureStorageSystem.SeparatedSolidsTons = msdvm.SeparatedSolidsTons;
             manureStorageSystem.SeparatedLiquidsUSGallons = msdvm.SeparatedLiquidsUSGallons;
+            manureStorageSystem.AnnualPrecipitation = msdvm.AnnualPrecipitation;
 
             if (msdvm.ShowStructureFields)
             {
@@ -1250,7 +1482,7 @@ namespace SERVERAPI.Controllers
                 if (cvm.selsourceOfMaterialOption.ToString().Split(",")[0].Contains("StorageSystem"))
                 {
                     var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
-                    var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
+                    var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() orderby manure.SortNum, manure.Name select manure;
                     cvm.materialType = storageSystem.ManureMaterialType;
                     foreach (var manuresByMaterialType in manuresByMaterialTypes)
                     {
@@ -1310,7 +1542,7 @@ namespace SERVERAPI.Controllers
                         {
                             var storageSystem = _ud.GetStorageSystem(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = storageSystem.Name;
-                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() select manure;
+                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (storageSystem.ManureMaterialType).ToString() orderby manure.SortNum,manure.Name select manure;
                             cvm.materialType = storageSystem.ManureMaterialType;
                             foreach (var manuresByMaterialType in manuresByMaterialTypes)
                             {
@@ -1323,7 +1555,7 @@ namespace SERVERAPI.Controllers
                         {
                             var importedManure = _ud.GetImportedManure(Convert.ToInt32(cvm.selsourceOfMaterialOption.ToString().Split(",")[1]));
                             cvm.sourceOfMaterialName = importedManure.MaterialName;
-                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() select manure;
+                            var manuresByMaterialTypes = from manure in manures where manure.SolidLiquid == (importedManure.ManureType).ToString() orderby manure.SortNum, manure.Name select manure;
                             cvm.materialType = importedManure.ManureType;
                             foreach (var manuresByMaterialType in manuresByMaterialTypes)
                             {

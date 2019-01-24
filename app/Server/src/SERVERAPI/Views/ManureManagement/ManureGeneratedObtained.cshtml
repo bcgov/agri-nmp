@@ -170,6 +170,11 @@
 
         $(document).on('change','#milkProduction', function () {
                 NeedRefresh();
+        });
+
+        $(document).on('change',
+            '#grazingDaysPerYear', function () {
+                NeedRefresh();
             });
 
         $(document).ready(function () {
@@ -207,5 +212,12 @@
             $("#ok_button").css('background-color', '#1abbed');
             $("#btnText").val("Save");
         }
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlBreed", function () {
+                $('#buttonPressed').val("BreedChange");
+                $("#modForm").submit();
+            })
+        });
     </script>
 }

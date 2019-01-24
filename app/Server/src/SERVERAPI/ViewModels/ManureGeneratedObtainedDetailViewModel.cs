@@ -39,6 +39,8 @@ namespace SERVERAPI.ViewModels
         public string placehldr { get; set; }
         public string target { get; set; }
         public int? id { get; set; }
+        public string liquidPerGalPerAnimalPerDay { get; set; }
+        public string solidPerPoundPerAnimalPerDay { get; set; }
         [Required(ErrorMessage = "Select a Type")]
         public WashWaterUnits SelWashWaterUnit { get; set; }
         public List<MvcRendering.SelectListItem> GetWashWaterUnits()
@@ -52,7 +54,10 @@ namespace SERVERAPI.ViewModels
         }
 
         public string ExplainWashWaterVolumesDaily;
-        public string liquidPerGalPerAnimalPerDay { get; set; }
-        public string solidPerPoundPerAnimalPerDay { get; set; }
+        public string selBreedOption { get; set; }
+        public List<SelectListItem> breedOptions { get; set; }
+        //[Range(0, 365, ErrorMessage = "Must be a value between 0 and 365")]
+        public string grazingDaysPerYear { get; set; }
+        public bool showBreedAndGrazingDaysPerYear { get; set; }
     }
 }

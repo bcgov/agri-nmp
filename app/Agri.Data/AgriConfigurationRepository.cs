@@ -86,7 +86,7 @@ namespace Agri.Data
 
         public List<SelectListItem> GetAnimalTypesDll()
         {
-            return GetAnimals().Select(st => new SelectListItem { Id = st.Id, Value = st.Name }).ToList();
+            return GetAnimals().Select(st => new SelectListItem {Id = st.Id, Value = st.Name}).ToList();
         }
 
         public SeasonApplication GetApplication(string applId)
@@ -112,7 +112,7 @@ namespace Agri.Data
                 if (r.ManureType.Contains(manureType))
                 {
                     var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                        { Id = r.Id, Value = r.Name };
                     applsOptions.Add(li);
                 }
             }
@@ -147,7 +147,7 @@ namespace Agri.Data
             var harvestUnitsOptions = new List<SelectListItem>();
             foreach (var r in harvestUnits)
             {
-                var li = new SelectListItem { Id = r.Id, Value = r.Name };
+                var li = new SelectListItem{ Id = r.Id, Value = r.Name };
                 harvestUnitsOptions.Add(li);
             }
 
@@ -187,7 +187,7 @@ namespace Agri.Data
                 if (r.CropTypeId == cropType)
                 {
                     var li = new SelectListItem()
-                    { Id = r.Id, Value = r.CropName };
+                        { Id = r.Id, Value = r.CropName };
                     cropsOptions.Add(li);
                 }
             }
@@ -232,13 +232,14 @@ namespace Agri.Data
         public List<SelectListItem> GetCropTypesDll()
         {
             var types = GetCropTypes();
+            types = types.OrderBy(t => t.Id).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
             foreach (var r in types)
             {
                 var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                 typesOptions.Add(li);
             }
 
@@ -284,7 +285,7 @@ namespace Agri.Data
             foreach (var r in units)
             {
                 var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                 unitsOptions.Add(li);
             }
 
@@ -298,7 +299,7 @@ namespace Agri.Data
 
             foreach (var animalSubType in GetAnimalSubTypes().Where(ast => ast.WashWater > 0))
             {
-                animalsUsingWashWater.Animals.Add(new AnimalUsingWashWater { AnimalSubTypeId = animalSubType.Id });
+                animalsUsingWashWater.Animals.Add(new AnimalUsingWashWater {AnimalSubTypeId = animalSubType.Id});
             }
 
             return animalsUsingWashWater;
@@ -343,7 +344,7 @@ namespace Agri.Data
 
         public List<FertilizerMethod> GetFertilizerMethods()
         {
-            return _context.FertilizerMethods.ToList();
+            return _context.FertilizerMethods.ToList().OrderBy(ni => ni.Id).ToList();
         }
 
         public List<SelectListItem> GetFertilizerMethodsDll()
@@ -353,7 +354,7 @@ namespace Agri.Data
             foreach (var r in fertilizerMethods)
             {
                 SelectListItem li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                 fertilizerMethodOptions.Add(li);
             }
 
@@ -385,7 +386,7 @@ namespace Agri.Data
         {
             var types = GetFertilizers();
 
-            types = types.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
+            types = types.OrderBy(n => n.SortNum).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
@@ -394,7 +395,7 @@ namespace Agri.Data
                 if (r.DryLiquid.Equals(fertilizerType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                        { Id = r.Id, Value = r.Name };
                     typesOptions.Add(li);
                 }
             }
@@ -420,6 +421,7 @@ namespace Agri.Data
         public List<SelectListItem> GetFertilizerTypesDll()
         {
             var types = GetFertilizerTypes();
+            types = types.OrderBy(t => t.Id).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
@@ -457,7 +459,7 @@ namespace Agri.Data
                 if (r.DryLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                        { Id = r.Id, Value = r.Name };
                     unitsOptions.Add(li);
                 }
             }
@@ -559,7 +561,7 @@ namespace Agri.Data
             foreach (var r in manures)
             {
                 var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                 manOptions.Add(li);
             }
 
@@ -569,7 +571,7 @@ namespace Agri.Data
         public BalanceMessages GetMessageByChemicalBalance(string balanceType, long balance, bool legume)
         {
             var balanceMessages = GetMessages()
-                .SingleOrDefault(m =>
+                .SingleOrDefault(m => 
                         m.BalanceType.Equals(balanceType, StringComparison.CurrentCultureIgnoreCase) &&
                         balance >= Convert.ToInt64(m.BalanceLow) &&
                         balance <= Convert.ToInt64(m.BalanceHigh));
@@ -637,7 +639,7 @@ namespace Agri.Data
                             balance1 >= Convert.ToInt64(m.BalanceLow) &&
                             balance1 <= Convert.ToInt64(m.BalanceHigh) &&
                    balance2 >= Convert.ToInt64(m.Balance1Low) &&
-                   balance2 <= Convert.ToInt64(m.Balance1High));
+                   balance2<= Convert.ToInt64(m.Balance1High));
 
             if (message != null)
             {
@@ -687,7 +689,7 @@ namespace Agri.Data
 
         public List<NutrientIcon> GetNutrientIcons()
         {
-            return _context.NutrientIcons.ToList();
+            return _context.NutrientIcons.ToList().OrderBy(ni=>ni.Id).ToList();
         }
 
         public PreviousCropType GetPrevCropType(int id)
@@ -706,7 +708,7 @@ namespace Agri.Data
                 if (r.PreviousCropCode.ToString() == prevCropCd)
                 {
                     var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                        { Id = r.Id, Value = r.Name };
                     typesOptions.Add(li);
                 }
             }
@@ -751,11 +753,30 @@ namespace Agri.Data
             foreach (var r in regions)
             {
                 var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                 regOptions.Add(li);
             }
 
             return regOptions;
+        }
+
+        public List<SelectListItem> GetSubRegionsDll(int? regionId)
+        {
+            List<SubRegion> subRegions = _context.SubRegion.ToList();
+            var subRegOptions = new List<SelectListItem>();
+
+
+            foreach (var s in subRegions)
+            {
+                if (s.RegionId == regionId)
+                {
+                    var li = new SelectListItem()
+                        {Id = s.Id, Value = s.Name};
+                    subRegOptions.Add(li);
+                }
+            }
+
+            return subRegOptions;
         }
 
         public RptCompletedFertilizerRequiredStdUnit GetRptCompletedFertilizerRequiredStdUnit()
@@ -801,7 +822,7 @@ namespace Agri.Data
             foreach (var r in soilTestMethods)
             {
                 SelectListItem li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                 soilTestMethodOptions.Add(li);
             }
 
@@ -867,8 +888,8 @@ namespace Agri.Data
                 .SingleOrDefault(stp => ppm >= stp.RangeLow && ppm <= stp.RangeHigh);
         }
 
-        public SoilTestPotassiumRecommendation GetSTKRecommend(int stkKelownaRangeId,
-            int soilTestPotassiumRegionCode,
+        public SoilTestPotassiumRecommendation GetSTKRecommend(int stkKelownaRangeId, 
+            int soilTestPotassiumRegionCode, 
             int potassiumCropGroupRegionCode)
         {
             return GetSoilTestPotassiumRecommendations().SingleOrDefault(stp =>
@@ -895,7 +916,7 @@ namespace Agri.Data
         {
             var animalSubTypes = GetAnimalSubTypes();
 
-            animalSubTypes = animalSubTypes.OrderBy(n => n.Name).ToList();
+            animalSubTypes = animalSubTypes.OrderBy(ast => ast.SortOrder).ThenBy(ast => ast.Name).ToList();
 
             List<SelectListItem> animalSubTypesOptions = new List<SelectListItem>();
 
@@ -904,12 +925,22 @@ namespace Agri.Data
                 if (r.AnimalId == animalType)
                 {
                     var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                        { Id = r.Id, Value = r.Name };
                     animalSubTypesOptions.Add(li);
                 }
             }
 
             return animalSubTypesOptions;
+        }
+
+        public SubRegion GetSubRegion(int? subRegionId)
+        {
+            return GetSubRegions().SingleOrDefault(sr => sr.Id == subRegionId);
+        }
+
+        public List<SubRegion> GetSubRegions()
+        {
+            return _context.SubRegion.ToList();
         }
 
         public Unit GetUnit(string unitId)
@@ -933,7 +964,7 @@ namespace Agri.Data
                 if (r.SolidLiquid.Equals(unitType, StringComparison.CurrentCultureIgnoreCase))
                 {
                     var li = new SelectListItem()
-                    { Id = r.Id, Value = r.Name };
+                        { Id = r.Id, Value = r.Name };
                     unitsOptions.Add(li);
                 }
             }
@@ -1070,12 +1101,12 @@ namespace Agri.Data
 
         public string GetPotassiumSoilTestRating(decimal value)
         {
-            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public string GetPhosphorusSoilTestRating(decimal value)
         {
-            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges()
@@ -1111,7 +1142,7 @@ namespace Agri.Data
             foreach (var r in mainMenus)
             {
                 var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                 mainMenuOptions.Add(li);
             }
 
@@ -1134,7 +1165,7 @@ namespace Agri.Data
             foreach (var r in subMenus)
             {
                 var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
+                    { Id = r.Id, Value = r.Name };
                 subMenuoptions.Add(li);
             }
 
@@ -1179,6 +1210,60 @@ namespace Agri.Data
                 stdUnit = stdUnit.Substring(0, idx);
 
             return stdUnit;
+        }
+
+        public List<Breed> GetBreeds()
+        {
+            return _context.Breed
+                .Include(a => a.Animal)
+                .ToList();
+        }
+
+        public List<SelectListItem> GetBreedsDll(int animalType)
+        {
+            var animalBreeds = GetBreeds();
+
+            animalBreeds = animalBreeds.OrderBy(n => n.Id).ToList();
+
+            List<SelectListItem> breedOptions = new List<SelectListItem>();
+
+            foreach (var r in animalBreeds)
+            {
+                if (r.AnimalId == animalType)
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.BreedName };
+                    breedOptions.Add(li);
+                }
+            }
+
+            return breedOptions;
+        }
+
+        public decimal GetBreedManureFactorByBreedId(int breedId)
+        {
+            return GetBreeds().SingleOrDefault(br => br.Id==breedId).BreedManureFactor;
+        }
+
+        public List<SelectListItem> GetBreed(int breedId)
+        {
+            var animalBreeds = GetBreeds();
+
+            animalBreeds = animalBreeds.OrderBy(n => n.Id).ToList();
+
+            List<SelectListItem> breedOptions = new List<SelectListItem>();
+
+            foreach (var r in animalBreeds)
+            {
+                if (r.Id == breedId)
+                {
+                    var li = new SelectListItem()
+                        { Id = r.Id, Value = r.BreedName };
+                    breedOptions.Add(li);
+                }
+            }
+
+            return breedOptions;
         }
 
         public LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults()
