@@ -65,6 +65,36 @@
                                 </div>
                             </div>
                         }
+                        <div class="row" style="margin-bottom: 0px;">
+                            <div class="col-sm-3">
+                                <span id="labelHasAnimals" style="font-weight: bold">
+                                    This farm has animals
+                                </span>
+                            </div>
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals" style="margin-bottom: 0px;">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes" /> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo" /> No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <span id="labelImportsManureCompost" style="font-weight: bold">
+                                    This farm imports manure or compost
+                                </span>
+                            </div>
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelImportsManureCompost">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="ImportsManureCompost" type="radio" value="true" id="rbIsImportsManureCompostYes" /> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="ImportsManureCompost" type="radio" value="false" id="rbIsImportsManureCompostNo" /> No
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

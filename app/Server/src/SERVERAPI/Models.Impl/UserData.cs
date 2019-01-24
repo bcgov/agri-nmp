@@ -80,6 +80,8 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.testingMethod = fd.testingMethod;
             userData.farmDetails.manure = fd.manure;
             userData.farmDetails.year = fd.year;
+            userData.farmDetails.HasAnimals = fd.HasAnimals;
+            userData.farmDetails.ImportsManureCompost = fd.ImportsManureCompost;
 
             //change the year associated with the array
             YearData yd = userData.years.FirstOrDefault();
