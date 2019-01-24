@@ -9,6 +9,7 @@
     <None Remove="MigrationSeedData\14_AnimalSubTypes.json" />
     <None Remove="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
     <None Remove="MigrationSeedData\17_SubRegions.json" />
+    <None Remove="MigrationSeedData\18_PrevYearManureApplicationNitrogenDefaults.json" />
     <None Remove="MigrationSeedData\19_PotassiumSoilTestRanges.json" />
     <None Remove="MigrationSeedData\1_UserPrompts.json" />
     <None Remove="MigrationSeedData\20_PhosphorusSoilTestRanges.json" />
@@ -18,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="MigrationSeedData\18_PrevYearManureApplicationNitrogenDefaults.json" />
     <EmbeddedResource Include="MigrationSeedData\17_SubRegions.json" />
     <EmbeddedResource Include="MigrationSeedData\14_AnimalSubTypes.json" />
     <EmbeddedResource Include="MigrationSeedData\11_Breed.json" />

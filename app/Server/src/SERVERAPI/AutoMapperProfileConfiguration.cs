@@ -31,9 +31,9 @@ namespace SERVERAPI
             CreateMap<ImportedManure, ImportedManure>();
             CreateMap<UserPrompt, UserPrompt>();
             CreateMap<AnimalSubType, AnimalSubType>();
-
             CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
             CreateMap<SubRegions, SubRegions>();
+            CreateMap<PreviousYearManureApplicationNitrogenDefault, PreviousYearManureApplicationNitrogenDefault>();
         }
     }
 }

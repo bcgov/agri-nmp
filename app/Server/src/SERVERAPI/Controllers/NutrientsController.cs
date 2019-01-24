@@ -1663,9 +1663,12 @@ namespace SERVERAPI.Controllers
                             cvm.remN = cropRequirementRemoval.N_Removal.ToString();
                             cvm.remP2o5 = cropRequirementRemoval.P2O5_Removal.ToString();
                             cvm.remK2o = cropRequirementRemoval.K2O_Removal.ToString();
-                            if (cvm.crude.Replace(".0", "") != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
+                            if (cvm.crude != null)
                             {
-                                cvm.stdCrude = false;
+                                if (cvm.crude.Replace(".0", "") != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
+                                {
+                                    cvm.stdCrude = false;
+                                }
                             }
 
                             if (!cvm.modNitrogen)
