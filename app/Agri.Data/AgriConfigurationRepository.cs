@@ -174,6 +174,11 @@ namespace Agri.Data
             return GetCrops().Where(c => c.CropTypeId == cropType).ToList();
         }
 
+        public List<Crop> GetCropsByManureApplicationHistory(int manureAppHistory)
+        {
+            return GetCrops().Where(c => c.ManureApplicationHistory == manureAppHistory).ToList();
+        }
+
         public List<SelectListItem> GetCropsDll(int cropType)
         {
             var crops = GetCrops();
@@ -724,6 +729,12 @@ namespace Agri.Data
         public List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears()
         {
             return _context.PrevManureApplicationYears.ToList();
+        }
+
+        public PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(int manureAppHistory)
+        {
+            return GetPrevManureApplicationInPrevYears()
+                .Where(c => c.FieldManureApplicationHistory == manureAppHistory).First();
         }
 
         public List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults()
