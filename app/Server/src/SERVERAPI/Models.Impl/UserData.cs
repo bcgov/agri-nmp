@@ -1,18 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Agri.Interfaces;
+using Agri.Models.Calculate;
+using Agri.Models.Configuration;
+using Agri.Models.Farm;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SERVERAPI.Controllers;
+using SERVERAPI.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using SERVERAPI.ViewModels;
-using Agri.LegacyData.Models.Impl;
 using Agri.Models;
-using Agri.Models.Configuration;
-using AutoMapper;
-using Version = Agri.Models.Configuration.Version;
-using SERVERAPI.Utility;
-using Agri.Models.Calculate;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -20,12 +17,17 @@ namespace SERVERAPI.Models.Impl
     {
         private readonly IHttpContextAccessor _ctx;
         public IAgriConfigurationRepository _sd;
+        private ISoilTestConverter _soilTestConversions;
         private IMapper _mapper;
 
-        public UserData(IHttpContextAccessor ctx, IAgriConfigurationRepository sd, IMapper mapper)
+        public UserData(IHttpContextAccessor ctx, 
+            IAgriConfigurationRepository sd,
+            ISoilTestConverter soilTestConversions,
+            IMapper mapper)
         {
             _ctx = ctx;
             _sd = sd;
+            _soilTestConversions = soilTestConversions;
             _mapper = mapper;
         }
 
@@ -159,6 +161,23 @@ namespace SERVERAPI.Models.Impl
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void UpdateSTPSTK(List<Field> fields)
+        {
+            if (fields.Count > 0)
+            {
+                foreach (Field field in fields)
+                {
+                    if (field.soilTest != null)
+                    {
+                        field.soilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(FarmDetails()?.testingMethod, field.soilTest);
+                        field.soilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(FarmDetails()?.testingMethod, field.soilTest);
+                        UpdateFieldSoilTest(field);
+                    }
+                }
+            }
+
         }
 
         public void DeleteField(string name)
@@ -777,6 +796,11 @@ namespace SERVERAPI.Models.Impl
                 var name = manures.Count(m => m.manureId == r.manureId) == 1
                     ? r.name
                     : $"{r.sourceOfMaterialName}: {r.name}";
+                if (r.stored_imported == NutrientAnalysisTypes.Imported)
+                {
+                    name = $"{r.sourceOfMaterialName}";
+                }
+
                 SelectListItem li = new SelectListItem() { Id = r.id, Value = name };
                 manOptions.Add(li);
             }

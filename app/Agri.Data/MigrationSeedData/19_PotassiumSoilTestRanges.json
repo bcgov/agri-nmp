@@ -1,0 +1,31 @@
+{
+  "Id": 19,
+  "JsonFilename": "19_PotassiumSoilTestRanges",
+  "ReasonReference": "R4E06-SE01-B03: Bug - Soil Test Interpretations - Adding new lower limit column values",
+  "Data": [
+    {
+      "LowerLimit": 0,
+      "UpperLimit": 79,
+      "Rating": "Low",
+      "Id": 1
+    },
+    {
+      "LowerLimit": 80,
+      "UpperLimit": 174,
+      "Rating": "Med",
+      "Id": 2
+    },
+    {
+      "LowerLimit": 175,
+      "UpperLimit": 249,
+      "Rating": "High",
+      "Id": 3
+    },
+    {
+      "LowerLimit": 250,
+      "UpperLimit": 99999,
+      "Rating": "Very High",
+      "Id": 4
+    }
+  ]
+}

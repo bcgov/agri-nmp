@@ -174,6 +174,11 @@ namespace Agri.Data
             return GetCrops().Where(c => c.CropTypeId == cropType).ToList();
         }
 
+        public List<Crop> GetCropsByManureApplicationHistory(int manureAppHistory)
+        {
+            return GetCrops().Where(c => c.ManureApplicationHistory == manureAppHistory).ToList();
+        }
+
         public List<SelectListItem> GetCropsDll(int cropType)
         {
             var crops = GetCrops();
@@ -726,6 +731,12 @@ namespace Agri.Data
             return _context.PrevManureApplicationYears.ToList();
         }
 
+        public PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(int manureAppHistory)
+        {
+            return GetPrevManureApplicationInPrevYears()
+                .Where(c => c.FieldManureApplicationHistory == manureAppHistory).First();
+        }
+
         public List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults()
         {
             return _context.PrevYearManureApplicationNitrogenDefaults.ToList();
@@ -1101,12 +1112,12 @@ namespace Agri.Data
 
         public string GetPotassiumSoilTestRating(decimal value)
         {
-            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public string GetPhosphorusSoilTestRating(decimal value)
         {
-            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges()

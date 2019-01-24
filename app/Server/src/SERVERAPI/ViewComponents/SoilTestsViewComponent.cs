@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models;
-using SERVERAPI.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
 using Agri.Models.Farm;
-using Agri.LegacyData.Models.Impl;
-using Agri.Models.Configuration;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -17,11 +10,13 @@ namespace SERVERAPI.ViewComponents
     {
         private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
+        private ISoilTestConverter _soilTestConverter;
 
-        public SoilTests(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
+        public SoilTests(IAgriConfigurationRepository sd, Models.Impl.UserData ud, ISoilTestConverter soilTestConverter)
         {
             _sd = sd;
             _ud = ud;
+            _soilTestConverter = soilTestConverter;
         }
 
 
@@ -33,7 +28,6 @@ namespace SERVERAPI.ViewComponents
         private Task<SoilTestsViewModel> GetSoilTestAsync()
         {
             SoilTestsViewModel svm = new SoilTestsViewModel();
-            Utility.SoilTestConversions stc = new SoilTestConversions(_ud, _sd);
 
             svm.missingTests = false;
 
@@ -55,9 +49,8 @@ namespace SERVERAPI.ViewComponents
                     dc.dispP = m.soilTest.ValP.ToString("G29");
                     dc.dispK = m.soilTest.valK.ToString("G29");
                     dc.dispPH = m.soilTest.valPH.ToString("G29");
-                    dc.dispPRating = _sd.GetPhosphorusSoilTestRating(stc.GetConvertedSTP(m.soilTest));
-                    dc.dispKRating = _sd.GetPotassiumSoilTestRating(stc.GetConvertedSTK(m.soilTest));
-
+                    dc.dispPRating = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, m.soilTest));
+                    dc.dispKRating = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, m.soilTest));
                 }
                 else
                 {
