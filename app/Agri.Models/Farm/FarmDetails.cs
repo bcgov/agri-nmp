@@ -9,5 +9,7 @@
         public bool? soilTests { get; set; }
         public string testingMethod { get; set; }
         public bool? manure { get; set; }
+        public bool HasAnimals { get; set; }
+        public bool ImportsManureCompost { get; set; }
     }
 }
