@@ -9,6 +9,7 @@ using SERVERAPI.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.Models;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -795,6 +796,11 @@ namespace SERVERAPI.Models.Impl
                 var name = manures.Count(m => m.manureId == r.manureId) == 1
                     ? r.name
                     : $"{r.sourceOfMaterialName}: {r.name}";
+                if (r.stored_imported == NutrientAnalysisTypes.Imported)
+                {
+                    name = $"{r.sourceOfMaterialName}";
+                }
+
                 SelectListItem li = new SelectListItem() { Id = r.id, Value = name };
                 manOptions.Add(li);
             }
