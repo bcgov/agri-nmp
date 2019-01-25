@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using Agri.Models
 @model SERVERAPI.ViewModels.SoilTestViewModel
 
 @{
@@ -95,11 +95,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-box-submit">
-                    <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="Intercept('@Url.Action("Fields", "Fields" )');" title="Previous" aria-label="Previous" />
-                    <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="Intercept('@Url.Action("Calculate", "Nutrients" )');" title="Next" aria-label="Next" />
-                </div>
-
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.SoilTest})
             </form>
         </div>
     </div>

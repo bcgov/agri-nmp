@@ -2,6 +2,11 @@
 {
     public class FarmDetails
     {
+        public FarmDetails()
+        {
+            HasAnimals = true;
+            ImportsManureCompost = true;
+        }
         public string year { get; set; }
         public string farmName { get; set; }
         public int? farmRegion { get; set; }

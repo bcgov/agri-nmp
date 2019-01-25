@@ -1,4 +1,4 @@
-@using Microsoft.AspNetCore.Http;
+@using Agri.Models
 
 
 @{
@@ -28,10 +28,7 @@
             <div id="manureimported">
                 @await Component.InvokeAsync("ManureImported")
             </div>
-            <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("ManureGeneratedObtained", "ManureManagement" )';" title="Previous" aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureStorage", "ManureManagement" )';" title="Next" aria-label="Next" />
-            </div>
+            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureImported })
         </form>
         <!-- PAGE CONTENT -->
     </div>

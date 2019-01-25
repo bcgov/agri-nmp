@@ -2285,5 +2285,11 @@ namespace SERVERAPI.Controllers
             return PartialView("ManureImportedDelete", vm);
         }
         #endregion
+
+
+        public IActionResult RefreshNavigation()
+        {
+            return ViewComponent("Navigation");
+        }
     }
 }

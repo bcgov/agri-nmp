@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using Agri.Models
 @model SERVERAPI.ViewModels.CalculateViewModel
 
 @{
@@ -39,7 +39,7 @@
                 }
 
                 @if (Model.fldsFnd > 1 &&
-                   Model.itemsPresent)
+                 Model.itemsPresent)
                 {
                     <div>&nbsp;</div>
                     <button class="btn btn-default" type="button" style="width:90px" data_modal3="" data-type="@Url.Action("FieldCopy", "Fields", new { currFld = Model.currFld })">Copy field</button>
@@ -52,12 +52,12 @@
                         <div class="form-box">
                             <div class="form-box-header clearfix">
                                 <span>
-                                    <button title="Add a Crop to the Field"  aria-label="Add a Crop to the Field" class="btn btn-success" data_modal="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
+                                    <button title="Add a Crop to the Field" aria-label="Add a Crop to the Field" class="btn btn-success" data_modal="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
                                 </span>
                                 <span style="float:right;">
-                                    <button title="Add a Manure/Compost to the Field"  aria-label="Add a Manure/Compost to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
-                                    <button title="Add a Fertilizer to the Field"  aria-label="Add a Fertilizer to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertilizerDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertilizer</button>
-                                    <button title="Add Other Nutrient to the Field"  aria-label="Add Other Nutrient to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("OtherDetails", "Nutrients", new { fldName = Model.currFld })">Add Other</button>
+                                    <button title="Add a Manure/Compost to the Field" aria-label="Add a Manure/Compost to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
+                                    <button title="Add a Fertilizer to the Field" aria-label="Add a Fertilizer to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertilizerDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertilizer</button>
+                                    <button title="Add Other Nutrient to the Field" aria-label="Add Other Nutrient to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("OtherDetails", "Nutrients", new { fldName = Model.currFld })">Add Other</button>
                                 </span>
                             </div>
                         </div>
@@ -132,10 +132,8 @@
             <br />
             <br />
             <br />
-            <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("SoilTest", "Soil" )';" title="Previous"  aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("Report", "Report" )';" title="Next"  aria-label="Next" />
-            </div>
+            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Calculate })
+
             @Html.HiddenFor(x => x.fldsFnd)
             @Html.HiddenFor(x => x.currFld)
             @Html.HiddenFor(x => x.itemsPresent)
@@ -210,7 +208,6 @@
         });
         return false;
     });
-
 
     $(".modal").on("hidden.bs.modal", function () {
         $(".myModalContent").html("");
@@ -371,7 +368,6 @@
         })
     });
 
-  
     $(document).ready(function () {
         $("body").on("change", "#ddlHarvestUnits", function () {
             $('#buttonPressed').val("HarvestUnitChange");
@@ -442,7 +438,6 @@
         })
     });
 
-
     $(document).on("onload", "#fieldList", function () {
         current();
     });
@@ -461,8 +456,6 @@
             }
         });
     }
-
-
 
     $(document).on('propertychange input paste', '#rate', function () {
         NeedRefresh();
@@ -547,7 +540,6 @@
     $(document).on('change', '#valK', function () {
         NeedRefresh();
     });
-
 
     function NeedRefresh() {
         $("#ok_button").html('Calculate');

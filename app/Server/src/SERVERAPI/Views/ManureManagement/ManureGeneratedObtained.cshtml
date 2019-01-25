@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using Agri.Models
 @model SERVERAPI.ViewModels.ManureGeneratedObtainedDetailViewModel
 
 @{
@@ -28,10 +28,7 @@
                 @await Component.InvokeAsync("ManureGeneratedObtained")
             </div>
         </form>
-        <div class="form-box-submit">
-            <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Farm", "Farm" )';" title="Previous" aria-label="Previous" />
-            <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureImported", "ManureManagement" )';" title="Next" aria-label="Next" />
-        </div>
+        @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction =  CoreSiteActions.ManureGeneratedObtained})
         <!-- PAGE CONTENT -->
     </div>
 </div>

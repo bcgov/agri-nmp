@@ -177,7 +177,18 @@ namespace SERVERAPI.Controllers
                 fvm.currYear = fvm.year;
                 ModelState.Remove("userData");
 
-                return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
+                if (farmData.HasAnimals)
+                {
+                    return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
+                }
+                else if (farmData.ImportsManureCompost)
+                {
+                    return RedirectToAction("ManureImported", "ManureManagement");
+                }
+                else
+                {
+                    return RedirectToAction("Fields", "Fields");
+                }
             }
             else
             {

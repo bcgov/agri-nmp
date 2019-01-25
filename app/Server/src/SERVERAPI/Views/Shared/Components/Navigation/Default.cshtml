@@ -37,8 +37,9 @@
                     if (@item.MainMenuId == 2 || @item.MainMenuId == 3)
                     {
                         var current = item.IsSubMenuCurrent(ViewContext.RouteData.Values["Action"].ToString()) ? "current2" : string.Empty;
+                        var linkClass = item.GreyOutText ? "second-level-nav-greyedout" : string.Empty;
                         <li id="@item.Controller@item.Action@item.Id" style="display:none">
-                            <a id="@current" href='@Url.Action(@item.Action, @item.Controller)'>
+                            <a id="@current" href='@Url.Action(@item.Action, @item.Controller)' class="@linkClass" >
                                 <span>@item.Name</span>
                             </a>
                         </li>
