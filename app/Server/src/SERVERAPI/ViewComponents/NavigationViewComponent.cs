@@ -37,6 +37,12 @@ namespace SERVERAPI.ViewComponents
             ndvm.subMenuOptions = new List<SubMenu>();
             ndvm.subMenuOptions = _sd.GetSubMenus();
 
+            var noManureCompost = !_ud.GetAllManagedManures().Any();  //Want true to grey out Storage and Nutrient Analysis
+
+            ndvm.subMenuOptions
+                .Where(sm => sm.Id == 3 || sm.Id == 4).ToList()
+                .ForEach(xm => xm.GreyOutText = noManureCompost);
+
             return Task.FromResult(ndvm);
         }
 
