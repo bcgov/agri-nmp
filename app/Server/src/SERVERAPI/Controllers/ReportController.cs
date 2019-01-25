@@ -705,6 +705,28 @@ namespace SERVERAPI.Controllers
                                 rs.footnote = rff.id.ToString();
                                 rs.footnotes.Add(rff);
                             }
+
+                            if (generatedFarmManure.milkProduction.ToString() != "0.0")
+                            {
+                                var defaultMilkProd =
+                                    calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                        Convert.ToInt16(generatedFarmManure.animalSubTypeId));
+                                var breedManureFactor =
+                                    calculateAnimalRequirement.GetBreedManureFactorByBreedId(
+                                        Convert.ToInt32(generatedFarmManure.BreedId));
+                                var milkProd = defaultMilkProd * breedManureFactor;
+
+                                if (generatedFarmManure.milkProduction != milkProd)
+                                {
+                                    ReportFieldFootnote rff = new ReportFieldFootnote();
+                                    rff.id = rs.footnotes.Count() + 1;
+                                    rff.message = "Milk Production adjusted to " +
+                                                  generatedFarmManure.milkProduction.ToString("G29") +" lb/day/animal";
+                                    rs.footnote = rff.id.ToString();
+                                    rs.footnotes.Add(rff);
+                                }
+                            }
+
                             rs.reportManures.Add(rm);
                         }
                         else if (m.ManureId.Contains("Imported"))

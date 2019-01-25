@@ -60,6 +60,7 @@ namespace Agri.Interfaces
         List<Crop> GetCrops();
         List<SelectListItem> GetCropsDll(int cropType);
         List<Crop> GetCrops(int cropType);
+        List<Crop> GetCropsByManureApplicationHistory(int manureAppHistory);
         Crop GetCrop(int cropId);
         int GetCropPrevYearManureApplVolCatCd(int cropId);
         Yield GetYieldById(int yieldId);
@@ -117,6 +118,8 @@ namespace Agri.Interfaces
         Version GetVersionData();
         string GetStaticDataVersion();
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
+        PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(
+            int manureAppHistory);
         List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults();
         bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded);
         int GetInteriorId();

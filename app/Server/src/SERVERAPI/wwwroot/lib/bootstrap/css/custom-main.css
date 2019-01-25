@@ -996,57 +996,17 @@ label {
     margin: 0 auto 30px;
 }
 
-.wizardsubmenu {
-    padding: 0px 0;
-    border-bottom: 1px solid #b0cee2;
-}
-
-#submenu-manure-width {
-    width: 20%;
-}
-
-.submenu-manure-wrapper {
-    max-width: 1055px;
-    margin: 0 auto;
-    padding: 0 90px;
-    padding-left: 88px;
-}
-
-.submenu-fields-wrapper {
-    max-width: 1055px;
-    margin: 0 auto;
-    padding: 0 90px;
-    padding-left:88px;
-}
-
-.submenu-manure-wizard {
-    /*padding: 5px 0;*/
-    border-bottom: 1px solid #b0cee2;
-}
-
-.submenu-manure-wizard-list {
-    list-style: none;
-    text-align: center;
-}
-
-.submenu-manure-wizard-item {
-    float: left;
-    width: 25%;
-    position: relative;
-}
-
-.submenu-fields-wizard-item {
-    float: left;
-    width: 50%;
-    position: relative;
-}
 
 .padding {
     padding: 15px 0px;
 }
 
-.lineheight{
-    line-height: 23px;
+.submenu-hovering {
+    background-color: #DAE8EF;
+}
+
+.submenu-display {
+    display:none;
 }
 
 

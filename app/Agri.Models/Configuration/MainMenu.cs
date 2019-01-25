@@ -19,5 +19,16 @@ namespace Agri.Models.Configuration
 
         public string Action { get; set; }
         public List<SubMenu> SubMenus { get; set; }
+
+        public bool IsCurrentMainMenu(string currentAction)
+        {
+            var submenu = SubMenus.SingleOrDefault(sm => sm.Action == currentAction);
+            if (submenu != null)
+            {
+                return true;
+            }
+            var isCurrent = Action.Equals(currentAction, StringComparison.CurrentCulture);
+            return isCurrent;
+        }
     }
 }

@@ -137,7 +137,6 @@ namespace Agri.Data
                 .WithMany(manure => manure.PreviousYearManureApplicationNitrogenDefaults)
                 .HasForeignKey(p => p.FieldManureApplicationHistory)
                 .HasPrincipalKey(manure => manure.FieldManureApplicationHistory);
-
         }
     }
 }
