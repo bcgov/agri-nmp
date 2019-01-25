@@ -981,6 +981,39 @@ namespace SERVERAPI.Models.Impl
             }
         }
 
+        public void UpdateManagedImportedManuresAllocationToNutrientAnalysis()
+        {
+            var currentManures = GetAllManagedManures();
+            var currentFarmManures = GetFarmManures();
+
+            foreach (var manure in currentManures)
+            {
+                manure.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm =>
+                    (fm.sourceOfMaterialId.Split(',')[0] + fm.sourceOfMaterialId.Split(',')[1]) == manure.ManureId);
+
+                if (manure is ImportedManure)
+                {
+                    UpdateImportedManure(manure as ImportedManure);
+                }
+            }
+        }
+
+        public void UpdateStorageSystemsAllocationToNutrientAnalysis()
+        {
+            var currentManureStorageSystems = GetStorageSystems();
+            var currentFarmManures = GetFarmManures();
+
+            foreach (var manureStorageSystem in currentManureStorageSystems)
+            {
+                manureStorageSystem.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm => fm.sourceOfMaterialId.Split(',')[1] == manureStorageSystem.Id.ToString());
+
+                if (manureStorageSystem is ManureStorageSystem)
+                {
+                    UpdateManureStorageSystem(manureStorageSystem as ManureStorageSystem);
+                }
+            }
+        }
+
         public List<ManureStorageSystem> GetStorageSystems()
         {
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
