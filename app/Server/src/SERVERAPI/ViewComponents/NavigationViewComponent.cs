@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Models;
-using SERVERAPI.ViewModels;
+﻿using Agri.Interfaces;
 using Agri.Models.Configuration;
+using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.ViewModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -40,13 +36,5 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(ndvm);
         }
 
-        public class NavigationDetailViewModel
-        {
-            public string selMainMenuOption { get; set; }
-            public List<MainMenu> mainMenuOptions { get; set; }
-            public string selSubMenuOption { get; set; }
-            public string subTypeName { get; set; }
-            public List<SubMenu> subMenuOptions { get; set; }
-        }
     }
 }
