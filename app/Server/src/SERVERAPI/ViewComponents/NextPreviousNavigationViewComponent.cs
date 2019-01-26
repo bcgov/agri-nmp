@@ -97,9 +97,14 @@ namespace SERVERAPI.ViewComponents
                 if (hasAnimals || importsManureCompost)
                 {
                     mnvm.PreviousAction = CoreSiteActions.ManureNutrientAnalysis;
-                    mnvm.NextAction = CoreSiteActions.SoilTest;
-                    mnvm.NextController = AppControllers.Soil;
                 }
+                else
+                {
+                    mnvm.PreviousAction = CoreSiteActions.Farm;
+                    mnvm.PreviousController = AppControllers.Farm;
+                }
+                mnvm.NextAction = CoreSiteActions.SoilTest;
+                mnvm.NextController = AppControllers.Soil;
             }
 
             if (currentAction == CoreSiteActions.SoilTest)

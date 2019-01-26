@@ -893,6 +893,7 @@ namespace SERVERAPI.Models.Impl
             }
 
             yd.GeneratedManures.Add(generatedManure);
+            userData.farmDetails.HasAnimals = true;
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
@@ -1207,6 +1208,7 @@ namespace SERVERAPI.Models.Impl
                 newManure.Id = yd.ImportedManures.Max(im => im.Id) + 1;
             }
             yd.ImportedManures.Add(newManure);
+            userData.farmDetails.ImportsManureCompost = true;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

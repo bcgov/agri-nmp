@@ -11,14 +11,15 @@
             </li>
             @foreach (var item in Model.mainMenuOptions)
             {
-                <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
-                    @{
-                        var current = item.IsCurrentMainMenu(ViewContext.RouteData.Values["Action"].ToString()) ? "current" : string.Empty;
-                    }
-                    <a id="@current" href='@Url.Action(@item.Action, @item.Controller)'>
-                        @item.Name
-                    </a>
-                </li>
+            <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
+                @{
+                    var current = item.IsCurrentMainMenu(ViewContext.RouteData.Values["Action"].ToString()) ? "current" : string.Empty;
+                    var linkClass = item.GreyOutText ? "top-level-nav-greyedout" : string.Empty;
+                }
+                <a id="@current" href='@Url.Action(@item.Action, @item.Controller)' class="@linkClass">
+                    @item.Name
+                </a>
+            </li>
             }
             <li class="continue-link">
                 <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
@@ -39,7 +40,7 @@
                         var current = item.IsSubMenuCurrent(ViewContext.RouteData.Values["Action"].ToString()) ? "current2" : string.Empty;
                         var linkClass = item.GreyOutText ? "second-level-nav-greyedout" : string.Empty;
                         <li id="@item.Controller@item.Action@item.Id" style="display:none">
-                            <a id="@current" href='@Url.Action(@item.Action, @item.Controller)' class="@linkClass" >
+                            <a id="@current" href='@Url.Action(@item.Action, @item.Controller)' class="@linkClass">
                                 <span>@item.Name</span>
                             </a>
                         </li>

@@ -407,6 +407,10 @@ body {
     font-size: 13px;
 }
 
+.top-level-nav-greyedout {
+    color: #808080 !important;
+}
+
 #current {
     background: #a0c7de;
 }
