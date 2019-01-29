@@ -34,7 +34,7 @@ namespace SERVERAPI.Controllers
     }
 
     //[RedirectingAction]
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }

@@ -77,12 +77,7 @@
                 return false;
             });
         }
-
-        $(document).ready(function () {
-            $("#wizard-manureStorage").addClass('wizard-item-done');
-        });
-
-
+        
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');

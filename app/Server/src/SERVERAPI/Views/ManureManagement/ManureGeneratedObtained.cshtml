@@ -65,6 +65,7 @@
                         if (result.success) {
                             $('#myModal').modal('hide');
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            RefreshNavigation("ManureManagement", "ManureGeneratedObtained");
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);
@@ -74,11 +75,6 @@
                 return false;
             });
         }
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-        });
-
 
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
@@ -108,7 +104,7 @@
                     data: $(this).serialize(),
                     success: function (result) {
                         if (result.success) {
-                            $("#divSize").removeClass("modal-carousel");
+                            $("#divSize").removeClass("modal-carousel");    
                             $('#myModal').modal('hide');
                         } else {
                             $('#myModalContent').html(result);
@@ -179,23 +175,6 @@
                 $('#buttonPressed').val("ResetMilkProduction");
                 $("#modForm").submit();
             })
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-            $("#ManureManagementManureGeneratedObtained1").addClass('wizard-item-done');
-            $("#ManureManagementManureGeneratedObtained1").addClass('submenu-hovering');
-            
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained1").show();
-            $("#ManureManagementManureImported2").show();
-            $("#ManureManagementManureStorage3").show();
-            $("#ManureManagementManureNutrientAnalysis4").show();
-
-            $("#submenu-ul-fields").addClass('submenu-display');
-            return false;
         });
 
         function NeedRefresh() {

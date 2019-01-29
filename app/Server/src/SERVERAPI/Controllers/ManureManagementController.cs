@@ -17,7 +17,7 @@ using AutoMapper;
 
 namespace SERVERAPI.Controllers
 {
-    public class ManureManagementController : Controller
+    public class ManureManagementController : BaseController
     {
         private readonly IHostingEnvironment _env;
         private readonly UserData _ud;
@@ -2285,11 +2285,5 @@ namespace SERVERAPI.Controllers
             return PartialView("ManureImportedDelete", vm);
         }
         #endregion
-
-
-        public IActionResult RefreshNavigation()
-        {
-            return ViewComponent("Navigation");
         }
-    }
 }

@@ -69,6 +69,7 @@
                         if (result.success) {
                             $('#myModal').modal('hide');
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            RefreshNavigation("ManureManagement", "ManureImported");
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);
@@ -78,12 +79,7 @@
                 return false;
             });
         }
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-        });
-
-
+        
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
@@ -158,23 +154,6 @@
                 $('#ButtonPressed').val("ResetMoisture");
                 $("#modForm").submit();
             })
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained1").show();
-            $("#ManureManagementManureImported2").show();
-            $("#ManureManagementManureStorage3").show();
-            $("#ManureManagementManureNutrientAnalysis4").show();
-            return false;
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-            $("#ManureManagementManureImported2").addClass('submenu-hovering');
-            $("#ManureManagementManureImported2").addClass('wizard-item-done');
-
-
-            $("#submenu-ul-fields").addClass('submenu-display');
         });
 
         function NeedRefresh() {

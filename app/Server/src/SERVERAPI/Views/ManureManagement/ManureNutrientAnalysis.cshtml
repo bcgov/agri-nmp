@@ -103,12 +103,7 @@
                 $("#modForm").submit();
             })
         });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-        });
-
-
+        
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
@@ -162,22 +157,6 @@
                 $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
                 $("#modForm").submit();
             })
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained1").show();
-            $("#ManureManagementManureImported2").show();
-            $("#ManureManagementManureStorage3").show();
-            $("#ManureManagementManureNutrientAnalysis4").show();
-            return false;
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-            $("#ManureManagementManureNutrientAnalysis4").addClass('wizard-item-done');
-            $("#ManureManagementManureNutrientAnalysis4").addClass('submenu-hovering');
-
-            $("#submenu-ul-fields").addClass('submenu-display');
         });
 
     </script>
