@@ -9,6 +9,7 @@ using SERVERAPI.Models;
 using SERVERAPI.Controllers;
 using SERVERAPI.Models.Impl;
 using Microsoft.AspNetCore.Hosting;
+using SERVERAPI.ViewModels;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -47,7 +48,7 @@ namespace SERVERAPI.ViewComponents
         }
     }
 
-    public class CompostViewModel
+    public class CompostViewModel 
     {
         public List<FarmManure> composts { get; set; }
         public string compostMsg { get; set; }

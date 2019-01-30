@@ -13,7 +13,7 @@ using System.Linq;
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
-    public class SoilController : Controller
+    public class SoilController : BaseController
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }

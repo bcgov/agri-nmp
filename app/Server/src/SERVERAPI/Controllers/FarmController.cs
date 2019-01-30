@@ -17,7 +17,7 @@ using Agri.Models;
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
-    public class FarmController : Controller
+    public class FarmController : BaseController
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
@@ -49,7 +49,9 @@ namespace SERVERAPI.Controllers
             fvm.selRegOption = farmData.farmRegion;
             fvm.selSubRegOption = farmData.farmSubRegion;
             fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
-            
+
+            fvm.HasAnimals = farmData.HasAnimals;
+            fvm.ImportsManureCompost = farmData.ImportsManureCompost;
 
             if (fvm.subRegionOptions.Count > 1)
             {
@@ -166,6 +168,8 @@ namespace SERVERAPI.Controllers
                     fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
                 }
                 farmData.farmSubRegion = fvm.selSubRegOption;
+                farmData.HasAnimals = fvm.HasAnimals;
+                farmData.ImportsManureCompost = fvm.ImportsManureCompost;
 
                 _ud.UpdateFarmDetails(farmData);
                 HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
@@ -173,7 +177,18 @@ namespace SERVERAPI.Controllers
                 fvm.currYear = fvm.year;
                 ModelState.Remove("userData");
 
-                return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
+                if (farmData.HasAnimals)
+                {
+                    return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
+                }
+                else if (farmData.ImportsManureCompost)
+                {
+                    return RedirectToAction("ManureImported", "ManureManagement");
+                }
+                else
+                {
+                    return RedirectToAction("Fields", "Fields");
+                }
             }
             else
             {

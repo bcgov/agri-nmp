@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
-
+﻿@using Agri.Models
 
 @{
     ViewBag.Title = "Manure Storage Systems";
@@ -24,15 +23,14 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
 
-        <form asp-controller="ManureManagement" asp-action="ManureStorage" method="post" >
+        <form asp-controller="ManureManagement" asp-action="ManureStorage" method="post">
             <div id="manurestorage">
                 @await Component.InvokeAsync("ManureStorage")
             </div>
-            <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("ManureImported", "ManureManagement" )';" title="Previous"  aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureNutrientAnalysis", "ManureManagement" )';"  title="Next"  aria-label="Next"/>
+            <div id="next-previous-navigation">
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureStorage })
             </div>
-        </form>
+            </form>
         <!-- PAGE CONTENT -->
     </div>
 </div>
@@ -81,12 +79,7 @@
                 return false;
             });
         }
-
-        $(document).ready(function () {
-            $("#wizard-manureStorage").addClass('wizard-item-done');
-        });
-
-
+        
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
@@ -159,7 +152,7 @@
         });
 
         $(document).ready(function () {
-            $("body").on("change", "#txtSystemName", function() {
+            $("body").on("change", "#txtSystemName", function () {
                 $('#ButtonPressed').val("SystemNameChange");
                 $("#modForm").submit();
             })

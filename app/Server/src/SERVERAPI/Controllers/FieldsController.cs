@@ -18,7 +18,7 @@ using Agri.Models.Configuration;
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
-    public class FieldsController : Controller
+    public class FieldsController : BaseController
     {
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }

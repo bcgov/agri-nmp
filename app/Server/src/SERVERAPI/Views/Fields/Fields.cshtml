@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using Agri.Models
 @model SERVERAPI.ViewModels.FieldPageViewModel
 
 @{
@@ -27,9 +27,8 @@
             <div id="fields">
                 @await Component.InvokeAsync("Fields")
             </div>
-            <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href = '@Url.Action("ManureNutrientAnalysis", "ManureManagement" )';" title="Previous"  aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" type="button" value="Next" onclick="window.location.href='@Url.Action("SoilTest", "Soil")';" title="Next"  aria-label="Next" />
+            <div id="next-previous-navigation">
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Fields })
             </div>
         </form>
         <!-- PAGE CONTENT -->
