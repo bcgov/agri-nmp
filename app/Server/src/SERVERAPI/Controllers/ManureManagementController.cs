@@ -2267,6 +2267,13 @@ namespace SERVERAPI.Controllers
             vm.Target = target;
             vm.ImportManureName = manure.ManagedManureName;
             vm.ImportedManureId = id;
+            vm.AppliedToAField = false;
+
+            if (_ud.GetYearData().GetFieldsAppliedWithManure(manure).Any())
+            {
+                vm.AppliedToAField = true;
+                vm.DeleteWarningForUnstorableMaterial = _sd.GetUserPrompt("ImportMaterialNotStoredDeleteWarning");
+            }
 
             return PartialView("ManureImportedDelete", vm);
         }

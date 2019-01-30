@@ -1,0 +1,12 @@
+{
+  "Id": 5,
+  "JsonFilename": "5_UserPrompts",
+  "ReasonReference": "R4E03-USnew Warning about Deleting Imported Material not Stored - Insert",
+  "Data": [
+    {
+      "Id": "43",
+      "Name": "ImportMaterialNotStoredDeleteWarning",
+      "Text": "<p class='text-danger'>This manure/compost has been added to one or more fields.  Deleting it will remove this manure/compost from those field(s).</p>"
+    }
+  ]
+}

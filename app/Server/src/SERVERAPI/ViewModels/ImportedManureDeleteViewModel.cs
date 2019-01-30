@@ -13,5 +13,7 @@ namespace SERVERAPI.ViewModels
         public string manureId { get; set; }
         public string ImportManureName { get; set; }
         public string Target { get; set; }
+        public bool AppliedToAField { get; set; }
+        public string DeleteWarningForUnstorableMaterial { get; set; }
     }
 }
