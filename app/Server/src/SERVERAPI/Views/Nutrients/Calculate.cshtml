@@ -39,7 +39,7 @@
                 }
 
                 @if (Model.fldsFnd > 1 &&
-                 Model.itemsPresent)
+                Model.itemsPresent)
                 {
                     <div>&nbsp;</div>
                     <button class="btn btn-default" type="button" style="width:90px" data_modal3="" data-type="@Url.Action("FieldCopy", "Fields", new { currFld = Model.currFld })">Copy field</button>
@@ -132,8 +132,9 @@
             <br />
             <br />
             <br />
-            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Calculate })
-
+            <div id="next-previous-navigation">
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Calculate })
+            </div>
             @Html.HiddenFor(x => x.fldsFnd)
             @Html.HiddenFor(x => x.currFld)
             @Html.HiddenFor(x => x.itemsPresent)

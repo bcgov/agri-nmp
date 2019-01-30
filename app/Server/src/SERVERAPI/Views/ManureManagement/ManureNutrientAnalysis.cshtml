@@ -26,8 +26,10 @@
             <div id="compostmanure">
                 @await Component.InvokeAsync("Compost")
             </div>
-            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureNutrientAnalysis})
-        </form>
+            <div id="next-previous-navigation">
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureNutrientAnalysis })
+            </div>
+            </form>
     </div>
 </div>
 

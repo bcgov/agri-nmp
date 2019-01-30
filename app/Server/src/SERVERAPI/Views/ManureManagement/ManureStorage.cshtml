@@ -27,8 +27,10 @@
             <div id="manurestorage">
                 @await Component.InvokeAsync("ManureStorage")
             </div>
-            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureStorage})
-        </form>
+            <div id="next-previous-navigation">
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureStorage })
+            </div>
+            </form>
         <!-- PAGE CONTENT -->
     </div>
 </div>

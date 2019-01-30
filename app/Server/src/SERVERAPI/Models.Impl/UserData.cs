@@ -893,8 +893,9 @@ namespace SERVERAPI.Models.Impl
             }
 
             yd.GeneratedManures.Add(generatedManure);
-            userData.farmDetails.HasAnimals = true;
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+
+            UpdateFarmHasAnimalStatus();
         }
 
 
@@ -963,6 +964,8 @@ namespace SERVERAPI.Models.Impl
                 storageSystem.GeneratedManuresIncludedInSystem.Remove(droppedGeneratedMaterial);
                 UpdateManureStorageSystem(storageSystem);
             }
+
+            UpdateFarmHasAnimalStatus();
         }
 
         public void UpdateManagedManuresAllocationToStorage()
@@ -1208,9 +1211,10 @@ namespace SERVERAPI.Models.Impl
                 newManure.Id = yd.ImportedManures.Max(im => im.Id) + 1;
             }
             yd.ImportedManures.Add(newManure);
-            userData.farmDetails.ImportsManureCompost = true;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+
+            UpdateFarmImportsManureStatus();
         }
 
         public void UpdateImportedManure(ImportedManure updatedManure)
@@ -1289,9 +1293,32 @@ namespace SERVERAPI.Models.Impl
                 }
                 _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
             }
+
+            UpdateFarmImportsManureStatus();
         }
 
+        private void UpdateFarmHasAnimalStatus()
+        {
+            var hasAnimals = GetGeneratedManures().Any();
+            var importsManure = GetImportedManures().Any();
 
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            userData.farmDetails.HasAnimals = hasAnimals;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        private void UpdateFarmImportsManureStatus()
+        {
+            var importsManure = GetImportedManures().Any();
+
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            userData.farmDetails.ImportsManureCompost = importsManure;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
 
         public List<ManagedManure> GetAllManagedManures()
         {

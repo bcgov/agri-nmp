@@ -56,9 +56,14 @@ namespace SERVERAPI.ViewComponents
                 {
                     mnvm.NextAction = CoreSiteActions.ManureImported;
                 }
-                else
+                else if(hasAnimals)
                 {
                     mnvm.NextAction = CoreSiteActions.ManureStorage;
+                }
+                else
+                {
+                    mnvm.NextAction = CoreSiteActions.Fields;
+                    mnvm.NextController = AppControllers.Fields;
                 }
             }
 
@@ -73,21 +78,46 @@ namespace SERVERAPI.ViewComponents
                     mnvm.PreviousController = AppControllers.Farm;
                 }
                 mnvm.NextAction = CoreSiteActions.ManureStorage;
+                if (!hasAnimals && !importsManureCompost)
+                {
+                    mnvm.NextAction = CoreSiteActions.Fields;
+                    mnvm.NextController = AppControllers.Fields;
+                }
             }
 
             if (currentAction == CoreSiteActions.ManureStorage)
             {
                 mnvm.PreviousAction= CoreSiteActions.ManureImported;
-                if (!importsManureCompost)
+                if (!importsManureCompost && hasAnimals)
                 {
                     mnvm.PreviousAction = CoreSiteActions.ManureGeneratedObtained;
                 }
-                mnvm.NextAction = CoreSiteActions.ManureNutrientAnalysis;
+                else
+                {
+                    mnvm.PreviousAction = CoreSiteActions.Farm;
+                    mnvm.PreviousController = AppControllers.Farm;
+                }
+
+                if (hasAnimals || importsManureCompost)
+                {
+                    mnvm.NextAction = CoreSiteActions.ManureNutrientAnalysis;
+                }
+                else
+                {
+                    mnvm.NextAction = CoreSiteActions.Fields;
+                    mnvm.NextController = AppControllers.Fields;
+                }
             }
 
             if (currentAction == CoreSiteActions.ManureNutrientAnalysis)
             {
                 mnvm.PreviousAction = CoreSiteActions.ManureStorage;
+                if (!hasAnimals && !importsManureCompost)
+                {
+                    mnvm.PreviousAction = CoreSiteActions.Farm;
+                    mnvm.PreviousController = AppControllers.Farm;
+                }
+
                 mnvm.NextAction = CoreSiteActions.Fields;
                 mnvm.NextController = AppControllers.Fields;
             }

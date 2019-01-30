@@ -28,7 +28,9 @@
             <div id="manureimported">
                 @await Component.InvokeAsync("ManureImported")
             </div>
-            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureImported })
+            <div id="next-previous-navigation">
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureImported })
+            </div>
         </form>
         <!-- PAGE CONTENT -->
     </div>
@@ -70,6 +72,7 @@
                             $('#myModal').modal('hide');
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
                             RefreshNavigation("ManureManagement", "ManureImported");
+                            RefreshNextPreviousNavigation("ManureManagement", "ManureImported");
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);

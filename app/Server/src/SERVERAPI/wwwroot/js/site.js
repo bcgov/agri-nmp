@@ -38,3 +38,17 @@ function RefreshNavigation(controller, currentAction) {
         error: ""
     });
 }
+
+function RefreshNextPreviousNavigation(controller, currentAction) {
+    $.ajax({
+        type: "POST",
+        url: "/" + controller + "/CallRefreshOfNextPreviousNavigation?currentAction=" + currentAction,
+        data: param = "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+        },
+        error: ""
+    });
+}

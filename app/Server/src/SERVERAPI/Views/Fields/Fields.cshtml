@@ -27,7 +27,9 @@
             <div id="fields">
                 @await Component.InvokeAsync("Fields")
             </div>
-            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Fields })
+            <div id="next-previous-navigation">
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Fields })
+            </div>
         </form>
         <!-- PAGE CONTENT -->
     </div>

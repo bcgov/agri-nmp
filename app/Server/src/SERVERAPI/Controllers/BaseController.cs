@@ -17,5 +17,18 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("Navigation", new { currentAction = currentAction });
         }
+
+        [HttpPost]
+        public IActionResult CallRefreshOfNextPreviousNavigation(CoreSiteActions currentAction)
+        {
+            string controllerName = ControllerContext.RouteData.Values["controller"].ToString();
+            string url = Url.Action("RefreshNextPreviousNavigation", controllerName, new { currentAction = currentAction });
+            return Json(new { success = true, url = url, target = "#next-previous-navigation" });
+        }
+
+        public IActionResult RefreshNextPreviousNavigation(CoreSiteActions currentAction)
+        {
+            return ViewComponent("NextPreviousNavigation", new { currentAction = currentAction });
+        }
     }
 }
