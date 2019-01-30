@@ -84,7 +84,6 @@
                                     </div>
                                     <br/>
                                     <div class="Row">
-                                        <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new"/>
                                         @*@if (Model.unsavedData)
                                         {
                                             <button class="form-box-submit-button btn btn-primary" id="startBtn" style="width:90px;" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
@@ -93,6 +92,7 @@
                                         {
                                             <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new"/>
                                         }*@
+                                        <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new" />
                                     </div>
                                     
                                     
@@ -329,11 +329,7 @@
                     $(this).css('color', 'transparent');
                 }
             });
-        })
-
-        @*if (@Html.Raw(Json.Serialize(Model.unsavedData)) == true) {
-            window.location.href = '@Url.Action("NewWarning", "Home")';
-        }*@ 
+        }) 
 
     </script>
 

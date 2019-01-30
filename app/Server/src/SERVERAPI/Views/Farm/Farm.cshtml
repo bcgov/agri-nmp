@@ -178,84 +178,6 @@
         })
         });
 
-
-
-
-
-
-
-
-        // ensure this event handler is attached to current and future elements (after partial renders)
-        $(document).on("click",
-            '[data_modal]',
-            function (e) {
-                $.ajaxSetup({ cache: false });
-                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-                $('#myModalContent').load($type,
-                    function () {
-                        $('#myModal').modal({
-                            /*backdrop: 'static',*/
-                            //keyboard: true
-
-                        },
-                            'show');
-                        bindForm(this);
-                    });
-                return false;
-            });
-
-        function bindForm(dialog) {
-            $('form', dialog).submit(function () {
-                if ($("#unsavedData").val() == "False") {
-                    var fileUpload = $("#FileUpload1").get(0);
-                    var files = fileUpload.files;
-
-                    // Create FormData object
-                    var fileData = new FormData();
-
-                    // Looping over all files and add it to FormData object
-                    for (var i = 0; i < files.length; i++) {
-                        fileData.append(files[i].name, files[i]);
-                    }
-                    $.ajax({
-                        url: this.action,
-                        type: this.method,
-                        contentType: false,
-                        processData: false,
-                        data: fileData,
-                        success: function (result) {
-                            if (result.success) {
-                                $('#myModal').modal('hide');
-                                window.location.href = result.url;
-                            } else {
-                                $('#myModalContent').html(result);
-                                bindForm(dialog);
-                            }
-                        }
-                    });
-                } else {
-                    $.ajax({
-                        cache: false,
-                        url: this.action,
-                        type: this.method,
-                        data: $(this).serialize()
-                    })
-                        .done(function (result) {
-                            if (result.success) {
-                                $('#myModal').modal('hide');
-                                $(result.target)
-                                    .load(result
-                                        .url); //  Load data from the server and place the returned HTML into the matched element
-                            } else {
-                                $('#myModalContent').html(result);
-                                bindForm(dialog);
-                            }
-                        });
-                }
-                return false;
-            });
-        }
-
         $(document).on("click",
             '[data_modal2]',
             function (e) {
@@ -295,7 +217,6 @@
 
                 return false;
             });
-
         }
     </script>
 }

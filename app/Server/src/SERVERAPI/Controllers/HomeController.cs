@@ -150,12 +150,13 @@ namespace SERVERAPI.Controllers
                 FarmData fd;
 
                 var isFileUploaded = lvm.IsFileUploaded;
-                if (lvm.unsavedData)
-                {
-                    ModelState.Clear();
-                    lvm.unsavedData = false;
-                    return View(lvm);
-                }
+
+                //if (lvm.unsavedData)
+                //{
+                //    ModelState.Clear();
+                //    lvm.unsavedData = false;
+                //    return View(lvm);
+                //}
 
                 string fileContents = "";
 
