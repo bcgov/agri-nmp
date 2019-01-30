@@ -148,10 +148,10 @@ namespace SERVERAPI
             }
             else
             {
-                var server = Environment.GetEnvironmentVariable("PGSQL_URI");
-                var password = Environment.GetEnvironmentVariable("PGSQL_PASSWORD");
-                var username = Environment.GetEnvironmentVariable("PGSQL_USERNAME");
-                var database = Environment.GetEnvironmentVariable("PGSQL_DATABASE");
+                var server = Environment.GetEnvironmentVariable("POSTGRESQL_URI");
+                var password = Environment.GetEnvironmentVariable("POSTGRESQL_PASSWORD");
+                var username = Environment.GetEnvironmentVariable("POSTGRESQL_USERNAME");
+                var database = Environment.GetEnvironmentVariable("POSTGRESQL_DATABASE");
 
                 if (string.IsNullOrEmpty(server) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
                 {

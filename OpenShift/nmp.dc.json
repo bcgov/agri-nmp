@@ -155,11 +155,11 @@
                     "value": "http://pdf${NAME_SUFFIX}:8080"
                   },
                   {
-                    "name": "POSTGRESQL_DATABASE",
+                    "name": "PGSQL_DATABASE",
                     "value": "AgriConfiguration"
                   },
                   {
-                    "name": "POSTGRESQL_PASSWORD",
+                    "name": "PGSQL_PASSWORD",
                     "valueFrom": {
                       "secretKeyRef": {
                         "name": "postgresql-credentials${NAME_SUFFIX}",
@@ -168,7 +168,7 @@
                     }
                   },
                   {
-                    "name": "POSTGRESQL_USER",
+                    "name": "PGSQL_USERNAME",
                     "valueFrom": {
                       "secretKeyRef": {
                         "name": "postgresql-credentials${NAME_SUFFIX}",
