@@ -151,7 +151,7 @@ namespace SERVERAPI
             {
                 var server = Environment.GetEnvironmentVariable("POSTGRESQL_URI");
                 var password = Environment.GetEnvironmentVariable("POSTGRESQL_PASSWORD");
-                var username = Environment.GetEnvironmentVariable("POSTGRESQL_USERNAME");
+                var username = Environment.GetEnvironmentVariable("POSTGRESQL_USER");
                 var database = Environment.GetEnvironmentVariable("POSTGRESQL_DATABASE");
 
                 if (string.IsNullOrEmpty(server))
@@ -164,7 +164,7 @@ namespace SERVERAPI
                 }
                 if (string.IsNullOrEmpty(username))
                 {
-                    throw new Exception(@"Connection String Environment ""POSTGRESQL_USERNAME"" variable not found");
+                    throw new Exception(@"Connection String Environment ""POSTGRESQL_USER"" variable not found");
                 }
                 if (string.IsNullOrEmpty(password))
                 {

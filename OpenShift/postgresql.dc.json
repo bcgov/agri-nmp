@@ -24,7 +24,7 @@
       "stringData": {
         "database-name": "${POSTGRESQL_DATABASE}",
         "database-password": "${POSTGRESQL_PASSWORD}",
-        "database-username": "${POSTGRESQL_USERNAME}"
+        "database-username": "${POSTGRESQL_USER}"
       }
     },
     {
@@ -85,7 +85,7 @@
                 "capabilities": {},
                 "env": [
                   {
-                    "name": "POSTGRESQL_USERNAME",
+                    "name": "POSTGRESQL_USER",
                     "valueFrom": {
                       "secretKeyRef": {
                         "key": "database-username",
@@ -232,7 +232,7 @@
       "displayName": "PostgreSQL Connection Username",
       "from": "user[A-Z0-9]{3}",
       "generate": "expression",
-      "name": "POSTGRESQL_USERNAME",
+      "name": "POSTGRESQL_USER",
       "required": true
     },
     {
