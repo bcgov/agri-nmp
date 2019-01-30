@@ -57,7 +57,7 @@
       "name": "DATABASE_SERVICE_NAME",
       "displayName": "Database service name",
       "description": "Name of the database service",
-      "value": "postgresql-nmp"
+      "value": "postgresql"
     }
   ],
   "objects": [
@@ -180,7 +180,7 @@
                     "name": "PGSQL_URI",
                     "valueFrom": {
                       "secretKeyRef": {
-                        "name": "postgres-secrets${NAME_SUFFIX}",
+                        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
                         "key": "database-uri"
                       }
                     }
