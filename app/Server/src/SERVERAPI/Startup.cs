@@ -159,8 +159,9 @@ namespace SERVERAPI
                 }
 
                 //Just filter out the IP
-                server = server.Replace("postgres://", string.Empty).Replace(":5432", string.Empty);
-                return $"Server=localhost;Database={database};Username={username};Password={password}";
+                //server = server.Replace("postgres://", string.Empty).Replace(":5432", string.Empty);
+                
+                return $"Server={server};Database={database};Username={username};Password={password}";
             }
 
         }
