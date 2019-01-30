@@ -168,7 +168,7 @@
                     }
                   },
                   {
-                    "name": "POSTGRESQL_USER",
+                    "name": "POSTGRESQL_USERNAME",
                     "valueFrom": {
                       "secretKeyRef": {
                         "name": "postgresql-credentials${NAME_SUFFIX}",
