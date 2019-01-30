@@ -166,6 +166,7 @@ namespace Agri.Data
                 .Include(c => c.CropSoilTestPhosphorousRegions)
                 .Include(c => c.CropSoilTestPotassiumRegions)
                 .Include(c => c.PreviousCropTypes)
+                .OrderBy(c => c.SortNumber)
                 .ToList();
         }
 
@@ -384,7 +385,7 @@ namespace Agri.Data
 
         public List<Fertilizer> GetFertilizers()
         {
-            return _context.Fertilizers.ToList();
+            return _context.Fertilizers.OrderBy(f => f.SortNum).ToList();
         }
 
         public List<SelectListItem> GetFertilizersDll(string fertilizerType)
@@ -552,7 +553,7 @@ namespace Agri.Data
 
         public List<Manure> GetManures()
         {
-            return _context.Manures.ToList();
+            return _context.Manures.OrderBy(m => m.SortNum).ToList();
         }
 
         public List<SelectListItem> GetManuresDll()
@@ -749,7 +750,7 @@ namespace Agri.Data
 
         public List<Region> GetRegions()
         {
-            return _context.Regions.ToList();
+            return _context.Regions.OrderBy(r => r.SortNumber).ToList();
         }
 
         public List<SelectListItem> GetRegionsDll()
@@ -802,7 +803,7 @@ namespace Agri.Data
 
         public List<SeasonApplication> GetSeasonApplications()
         {
-            return _context.SeasonApplications.ToList();
+            return _context.SeasonApplications.OrderBy(sa => sa.SortNum).ToList();
         }
 
         public string GetSoilTestMethod(string id)
@@ -823,7 +824,7 @@ namespace Agri.Data
 
         public List<SoilTestMethod> GetSoilTestMethods()
         {
-            return _context.SoilTestMethods.ToList();
+            return _context.SoilTestMethods.OrderBy(stm => stm.SortNum).ToList();
         }
 
         public List<SelectListItem> GetSoilTestMethodsDll()
