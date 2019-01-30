@@ -84,14 +84,15 @@
                                     </div>
                                     <br/>
                                     <div class="Row">
-                                        @if (Model.unsavedData)
+                                        <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new"/>
+                                        @*@if (Model.unsavedData)
                                         {
                                             <button class="form-box-submit-button btn btn-primary" id="startBtn" style="width:90px;" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
                                         }
                                         else
                                         {
                                             <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new"/>
-                                        }
+                                        }*@
                                     </div>
                                     
                                     
@@ -329,6 +330,11 @@
                 }
             });
         })
+
+        @*if (@Html.Raw(Json.Serialize(Model.unsavedData)) == true) {
+            window.location.href = '@Url.Action("NewWarning", "Home")';
+        }*@ 
+
     </script>
 
 }
