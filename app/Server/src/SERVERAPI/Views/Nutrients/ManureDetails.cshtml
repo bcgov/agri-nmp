@@ -15,21 +15,21 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-4">
-                        <label asp-for="SelectedFarmManure">Material Type</label>
+                        <label for="ddlMan">Material Type</label>
                         <select class="form-control" asp-for="SelectedFarmManure" asp-items="@(new SelectList(Model.ManureTypeOptions,"Id","Value"))" id="ddlMan">
                             <option>select</option>
                         </select>
                         <span asp-validation-for="SelectedFarmManure" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label asp-for="selApplOption">Application Season/Method</label>
+                        <label for="ddlAppl">Application Season/Method</label>
                         <select class="form-control" asp-for="selApplOption" asp-items="@(new SelectList(Model.applOptions,"Id","Value"))" id="ddlAppl">
                             <option>select</option>
                         </select>
                         <span asp-validation-for="selApplOption" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px">
-                        <label asp-for="selApplOption"> Application Rate</label>
+                        <label for="rate"> Application Rate</label>
                         <div>
                             <input class="form-control" asp-for="ApplicationRate" id="rate" type="text" />
                             <span asp-validation-for="ApplicationRate" class="text-danger"></span>
@@ -38,7 +38,7 @@
                     <div class="form-group col-sm-3" style="margin-left:0px; padding-left:0px">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
-                                <label>Units</label>
+                                <label for="ddlRate">Units</label>
                             </div>
                             <div style="display:table-row">
                                 <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
@@ -52,7 +52,7 @@
                 <div style="clear:both"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-2">
-                        <label asp-for="selApplOption">Ammonium-N Retention (%)</label>
+                        <label for="nh4">Ammonium-N Retention (%)</label>
                         <div class="input-group">
                             <input class="form-control" asp-for="nh4" id="nh4" type="text" />
                             @if (!Model.stdN)
@@ -65,7 +65,7 @@
                         <span asp-validation-for="nh4" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
-                        <label asp-for="selApplOption">Organic N Available This Year (%)</label>
+                        <label asp-for="avail">Organic N Available This Year (%)</label>
                         <div class="input-group">
                             <input class="form-control col-sm-1" asp-for="avail" id="avail" type="text" />
                             @if (!Model.stdAvail)

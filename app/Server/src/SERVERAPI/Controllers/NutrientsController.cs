@@ -19,7 +19,7 @@ using Region = Agri.Models.Configuration.Region;
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
-    public class NutrientsController : Controller
+    public class NutrientsController : BaseController
     {
         public IHostingEnvironment _env;
         public UserData _ud;

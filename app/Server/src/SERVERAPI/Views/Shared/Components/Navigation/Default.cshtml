@@ -13,14 +13,11 @@
             </li>
             @foreach (var item in Model.mainMenuOptions)
             {
-                <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
-                    @{
-                        var current = item.IsCurrentMainMenu(ViewContext.RouteData.Values["Action"].ToString()) ? "current" : string.Empty;
-                    }
-                    <a id="@current" href='@Url.Action(@item.Action, @item.Controller)'>
-                        @item.Name
-                    </a>
-                </li>
+            <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
+                <a id="@item.ElementId" href='@Url.Action(@item.Action, @item.Controller)' class="@item.GreyOutClass">
+                    @item.Name
+                </a>
+            </li>
             }
             <li class="continue-link">
                 <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
@@ -36,15 +33,11 @@
             <ul class="second-level-nav">
                 @foreach (var item in Model.subMenuOptions)
                 {
-                    if (@item.MainMenuId == 2 || @item.MainMenuId == 3)
-                    {
-                        var current = item.IsSubMenuCurrent(ViewContext.RouteData.Values["Action"].ToString()) ? "current2" : string.Empty;
-                        <li id="@item.Controller@item.Action@item.Id" style="display:none">
-                            <a id="@current" href='@Url.Action(@item.Action, @item.Controller)'>
-                                <span>@item.Name</span>
-                            </a>
-                        </li>
-                    }
+                    <li id="@item.Controller@item.Action@item.Id">
+                        <a id="@item.ElementId" href='@Url.Action(@item.Action, @item.Controller)' class="@item.GreyOutClass">
+                            <span>@item.Name</span>
+                        </a>
+                    </li>
                 }
             </ul>
         </div>

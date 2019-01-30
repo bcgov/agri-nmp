@@ -252,7 +252,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
-    vertical-align: top
+    vertical-align: top;
 }
 
 .agri-listbox label:hover {
@@ -407,6 +407,10 @@ body {
     font-size: 13px;
 }
 
+.top-level-nav-greyedout {
+    color: #808080 !important;
+}
+
 #current {
     background: #a0c7de;
 }
@@ -464,9 +468,13 @@ body {
     z-index: 2;
 }
 
-#current2 {
-    background: #DAE8EF;
+.second-level-nav-greyedout {
+    color: #808080 !important;
 }
+
+    #current2 {
+        background: #DAE8EF;
+    }
 
 #current2:after {
     content: " "; 

@@ -16,13 +16,13 @@
                     <div class="Row">
                         <div class="Cell2" style="width:25%; text-align:center"></div>
                         <div class="Cell2" style="width:30%; text-align:center">
-                            <label>Available This Yr (lb/ac)</label><br />
+                            <span style="font-weight: bold">Available This Yr (lb/ac)</span><br />
                         </div>
                         <div class="Cell2" style="width:5%">
                             &nbsp;
                         </div>
                         <div class="Cell2" style="width:30%; text-align:center">
-                            <label>Available Long Term (lb/ac)</label><br />
+                            <span style="font-weight: bold">Available Long Term (lb/ac)</span><br />
                         </div>
                     </div>
                     <div class="Row">
@@ -35,15 +35,15 @@
                         <div class="Cell2" style="width:30%; text-align:center">
                             <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="ltN">N</label>
-                                <input class="form-control" asp-for="ltN" id="source" type="text" />
+                                <input class="form-control" asp-for="ltN" id="ltN" type="text" />
                             </div>
                             <div class="form-group col-sm-4" style="margin-bottom:0px">
-                                <label asp-for="ltP">P<sub>2</sub>O<sub>5</sub></label>
+                                <label for="phospherous">P<sub>2</sub>O<sub>5</sub></label>
                                 <input class="form-control" asp-for="ltP" id="phospherous" type="text" />
                             </div>
                             <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="ltK">K<sub>2</sub>O</label>
-                                <input class="form-control" asp-for="ltK" id="source" type="text" />
+                                <input class="form-control" asp-for="ltK" id="ltK" type="text" />
                             </div>
                         </div>
                         <div style="width:5%;">
@@ -51,16 +51,16 @@
                         </div>
                         <div class="Cell2" style="width:30%; text-align:center">
                             <div class="form-group col-sm-4" style="margin-bottom:0px">
-                                <label asp-for="yrN">N</label>
-                                <input class="form-control" asp-for="yrN" id="source" type="text" />
+                                <label for="yrN">N</label>
+                                <input class="form-control" asp-for="yrN" id="yrN" type="text" />
                             </div>
                             <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="yrP">P<sub>2</sub>O<sub>5</sub></label>
-                                <input class="form-control" asp-for="yrP" id="phospherous" type="text" />
+                                <input class="form-control" asp-for="yrP" id="yrP" type="text" />
                             </div>
                             <div class="form-group col-sm-4" style="margin-bottom:0px">
                                 <label asp-for="yrK">K<sub>2</sub>O</label>
-                                <input class="form-control" asp-for="yrK" id="source" type="text" />
+                                <input class="form-control" asp-for="yrK" id="yrK" type="text" />
                             </div>
                         </div>
                     </div>
