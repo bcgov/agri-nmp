@@ -178,12 +178,7 @@
                   },
                   {
                     "name": "PGSQL_URI",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
-                        "key": "database-uri"
-                      }
-                    }
+                    "value": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
                   }
                 ],
                 "resources": {
