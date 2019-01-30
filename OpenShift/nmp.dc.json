@@ -162,7 +162,7 @@
                     "name": "POSTGRESQL_PASSWORD",
                     "valueFrom": {
                       "secretKeyRef": {
-                        "name": "postgres-secrets${NAME_SUFFIX}",
+                        "name": "postgres-credentials${NAME_SUFFIX}",
                         "key": "database-password"
                       }
                     }
@@ -171,7 +171,7 @@
                     "name": "POSTGRESQL_USER",
                     "valueFrom": {
                       "secretKeyRef": {
-                        "name": "postgres-secrets${NAME_SUFFIX}",
+                        "name": "postgres-credentials${NAME_SUFFIX}",
                         "key": "database-user"
                       }
                     }
