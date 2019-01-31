@@ -403,7 +403,7 @@
       "displayName": "Persistent Volume Name",
       "description": "The name of the persistent volume associated with the deployment.",
       "required": true,
-      "value": "backup-pvc"
+      "value": "postgresql-dev"
     },
     {
       "name": "PERSISTENT_VOLUME_SIZE",
