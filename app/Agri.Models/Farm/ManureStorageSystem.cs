@@ -52,6 +52,7 @@ namespace Agri.Models.Farm
         public decimal SeparatedSolidsTons { get; set; }
         public List<ManureStorageStructure> ManureStorageStructures { get; }
         public int? AnnualPrecipitation { get; set; }
+        public bool AssignedWithNutrientAnalysis { get; set; }
         [JsonIgnore]
         public List<ManureStorageItemSummary> ManureStorageItemSummaries
         {
