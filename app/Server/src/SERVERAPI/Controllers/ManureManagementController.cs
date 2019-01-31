@@ -285,6 +285,11 @@ namespace SERVERAPI.Controllers
                                 mgovm.hasSolidManureType = true;
                             }
                         }
+
+                        if (mgovm.showBreedAndGrazingDaysPerYear)
+                        {
+                            mgovm.grazingDaysPerYear = "0";
+                        }
                     }
 
                     if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
