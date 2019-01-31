@@ -6,6 +6,17 @@
   },
   "objects": [
     {
+      "kind": "ConfigMap",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "backup-conf",
+        "creationTimestamp": null
+      },
+      "data": {
+        "backup.conf": "postgresql:5432/AgriConfiguration"
+      }
+    },
+    {
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
