@@ -153,7 +153,7 @@
                 "volumeMounts": [
                   {
                     "mountPath": "/var/lib/pgsql/data",
-                    "name": "postgresql-data"
+                    "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-data"
                   }
                 ]
               }
