@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using Agri.Models
+@using Microsoft.AspNetCore.Http;
 <!DOCTYPE html>
 
 <html lang="en">
@@ -124,7 +125,12 @@
         </div>
     </div>
     <div class="header-height"></div>
-    @await Component.InvokeAsync("Navigation")
+    <div id="navigation-container">
+        @{
+            var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"].ToString());
+        }
+        @await Component.InvokeAsync("Navigation", new {currentAction = currentAction})
+    </div>
     <!-- /Header -->
     <div>
         @RenderBody()

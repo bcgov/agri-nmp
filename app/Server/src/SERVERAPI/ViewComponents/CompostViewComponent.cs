@@ -54,7 +54,7 @@ namespace SERVERAPI.ViewComponents
         }
     }
 
-    public class CompostViewModel
+    public class CompostViewModel 
     {
         public List<FarmManure> composts { get; set; }
         public string compostMsg { get; set; } 

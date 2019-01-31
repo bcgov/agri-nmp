@@ -7,17 +7,12 @@ using System.Threading.Tasks;
 
 namespace Agri.Models.Configuration
 {
-    public class MainMenu
+    public class MainMenu : Menu
     {
         public MainMenu()
         {
             SubMenus = new List<SubMenu>();
         }
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Controller { get; set; }
-
-        public string Action { get; set; }
         public List<SubMenu> SubMenus { get; set; }
 
         public bool IsCurrentMainMenu(string currentAction)

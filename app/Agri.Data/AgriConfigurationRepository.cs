@@ -1281,5 +1281,16 @@ namespace Agri.Data
         {
             return _context.LiquidSolidSeparationDefaults.Single();
         }
+
+        public MainMenu GetMainMenu(CoreSiteActions action)
+        {
+            return GetMainMenus()
+                .SingleOrDefault(mm => mm.Action.Equals(action.ToString(), StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        public List<SubMenu> GetSubMenus(int mainMenuId)
+        {
+            return GetSubMenus().Where(sb => sb.MainMenuId == mainMenuId).ToList();
+        }
     }
 }

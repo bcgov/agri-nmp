@@ -54,4 +54,28 @@ namespace Agri.Models
         [Description("US gallons/day")]
         USGallonsPerDay = 2
     }
+
+    public enum CoreSiteActions
+    {
+        Home,
+        Farm,
+        ManureGeneratedObtained,
+        ManureImported,
+        ManureStorage,
+        ManureNutrientAnalysis,
+        Fields,
+        SoilTest,
+        Calculate,
+        Report 
+    }
+
+    public enum AppControllers
+    {
+        Farm,
+        ManureManagement,
+        Fields,
+        Soil,
+        Nutrients,
+        Report
+    }
 }

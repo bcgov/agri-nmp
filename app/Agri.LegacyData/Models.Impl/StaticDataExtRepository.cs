@@ -873,5 +873,10 @@ namespace Agri.LegacyData.Models.Impl
         {
             throw new NotImplementedException();
         }
+
+        public MainMenu GetMainMenu(CoreSiteActions action)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
