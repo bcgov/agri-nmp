@@ -13,6 +13,7 @@ basicPipeline {
 			['file':'OpenShift/backup-build.json']
         ],
         'deployment':[
+            ['file':'OpenShift/backup-deploy.overrides.sh'],
             ['file':'OpenShift/postgresql.dc.json'],
             ['file':'OpenShift/nmp.dc.json', 'params':['HOST':'${env[DEPLOY_ENV_NAME]?.params?.host?:""}']],
 			['file':'OpenShift/backup-deploy.json']
