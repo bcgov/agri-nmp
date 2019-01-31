@@ -7,5 +7,6 @@
         public bool AssignedToStoredSystem { get; set; }
         public abstract string ManureId { get; }
         public abstract string ManagedManureName { get; }
+        public bool AssignedWithNutrientAnalysis { get; set; }
     }
 }

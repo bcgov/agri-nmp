@@ -1753,6 +1753,12 @@ namespace SERVERAPI.Controllers
 
                     }
 
+                    var includedNutrients = _ud.GetFarmManures();
+                    //    .Where(gm =>
+                    //    msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.ManureId == includedIds)).ToList();
+                    //includedManures.ForEach(m => { m.AssignedToStoredSystem = true; });
+
+
                     if (cvm.selsourceOfMaterialOption == "select")
                     {
                         ModelState.AddModelError("selsourceOfMaterialOption", "Select a Source of Material");
@@ -1977,7 +1983,11 @@ namespace SERVERAPI.Controllers
                         _ud.UpdateFarmManure(fm);
 
                         _ud.ReCalculateManure(fm.id);
+                        
                     }
+
+                    _ud.UpdateManagedImportedManuresAllocationToNutrientAnalysis();
+                    _ud.UpdateStorageSystemsAllocationToNutrientAnalysis();
 
                     string url = Url.Action("RefreshCompostList", "Manure");
                     return Json(new { success = true, url = url, target = cvm.target });
