@@ -24,6 +24,7 @@ namespace SERVERAPI.Controllers
         private readonly IAgriConfigurationRepository _sd;
         private readonly IManureUnitConversionCalculator _manureUnitConversionCalculator;
         private readonly IManureLiquidSolidSeparationCalculator _manureLiquidSolidSeparationCalculator;
+        private IManureAnimalNumberCalculator _manureAnimalNumberCalculator;
         private readonly IViewRenderService _viewRenderService;
         private readonly IMapper _mapper;
 
@@ -32,6 +33,7 @@ namespace SERVERAPI.Controllers
             IAgriConfigurationRepository sd,
             IManureUnitConversionCalculator manureUnitConversionCalculator,
             IManureLiquidSolidSeparationCalculator manureLiquidSolidSeparationCalculator,
+            IManureAnimalNumberCalculator manureAnimalNumberCalculator,
             IMapper mapper)
         {
             _env = env;
@@ -39,6 +41,7 @@ namespace SERVERAPI.Controllers
             _sd = sd;
             _manureUnitConversionCalculator = manureUnitConversionCalculator;
             _manureLiquidSolidSeparationCalculator = manureLiquidSolidSeparationCalculator;
+            _manureAnimalNumberCalculator = manureAnimalNumberCalculator;
             _viewRenderService = viewRenderService;
             _mapper = mapper;
         }
@@ -55,11 +58,11 @@ namespace SERVERAPI.Controllers
         {
             CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
             ManureGeneratedObtainedDetailViewModel mgovm = new ManureGeneratedObtainedDetailViewModel();
-            //mgovm.btnText = id == null ? "Calculate" : "Return";
+
             mgovm.title = id == null ? "Add" : "Edit";
             mgovm.stdWashWater = true;
             mgovm.stdMilkProduction = true;
-            mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
+            // mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             
             if (id != null)
             {
@@ -137,7 +140,7 @@ namespace SERVERAPI.Controllers
         {
             CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
-            mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
+            // mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             mgovm.ExplainWashWaterVolumesDaily = _sd.GetUserPrompt("ExplainWashWaterTypes");
             
             animalTypeDetailsSetup(ref mgovm);
@@ -226,6 +229,15 @@ namespace SERVERAPI.Controllers
                         mgovm.selManureMaterialTypeOption = ManureMaterialType.Solid;
                         mgovm.stdManureMaterialType = false;
                         mgovm.hasSolidManureType = true;
+                    }
+
+                    // Calculate Average Animal Number hint text when the Milking cow is added to the list
+                    List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
+                    if (generatedManures.Any(gm => gm.milkProduction.ToString() != "0.0"))
+                    {
+                        int animalNumber = generatedManures.Single(gm => gm.milkProduction.ToString() != "0.0").averageAnimalNumber;
+                        mgovm.placehldr = _manureAnimalNumberCalculator.CalculateAverageAnimalNumber(animalNumber,
+                            mgovm.selSubTypeOption);
                     }
 
                     return View(mgovm);
@@ -722,21 +734,12 @@ namespace SERVERAPI.Controllers
 
                             _ud.UpdateGeneratedManures(gm);
                         }
-                        //mgovm.btnText = mgovm.id == null ? "Add to Field" : "Update Field";
 
                         string url = Url.Action("RefreshManureManagemetList", "ManureManagement");
                         return Json(new { success = true, url = url, target = mgovm.target });
 
 
                     }
-
-                    //string url1="";
-                    //if (mgovm.target == "#manuregeneratedobtained")
-                    //{
-                    //    url1 = Url.Action("RefreshManureManagemetList", "ManureManagement");
-                    //}
-                    //return Json(new { success = true, url = url1, target = mgovm.target });
-
                 }
             }
             catch (Exception ex)
