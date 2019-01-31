@@ -6,6 +6,6 @@
         "creationTimestamp": null
     },
     "data": {
-        "backup.conf": "# =========================================================\r\n# List the databases you want backed up here.\r\n# Databases will be backed up in the order they are listed.\r\n#\r\n# The entries must be in one of the following forms:\r\n# - \u003cHostname/\u003e/\u003cDatabaseName/\u003e\r\n# - \u003cHostname/\u003e:\u003cPort/\u003e/\u003cDatabaseName/\u003e\r\n#\r\n# Examples:\r\n# - postgresql/my_database\r\n# - postgresql:5432/my_database\r\n# --------------------------------------------------------"
+        "backup.conf": "postgresql:5432/AgriConfiguration"
     }
 }
