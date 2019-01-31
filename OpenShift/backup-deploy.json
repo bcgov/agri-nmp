@@ -151,82 +151,83 @@
                         "key": "database-name",
                         "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
                       }
-                    },
-                    {
-                      "name": "POSTGRESQL_USER",
-                      "valueFrom": {
-                        "secretKeyRef": {
-                          "key": "database-username",
-                          "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
-                        }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-username",
+                        "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
                       }
-                    },
-                    {
-                      "name": "POSTGRESQL_PASSWORD",
-                      "valueFrom": {
-                        "secretKeyRef": {
-                          "key": "database-password",
-                          "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
-                        }
+                    }
+                  },
+                  {
+                    "name": "POSTGRESQL_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "key": "database-password",
+                        "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
                       }
-                    },
-                    {
-                      "name": "FTP_URL",
-                      "value": "${FTP_URL}"
-                    },
-                    {
-                      "name": "FTP_USER",
-                      "valueFrom": {
-                        "secretKeyRef": {
-                          "name": "${FTP_SECRET_KEY}",
-                          "key": "ftp-user"
-                        }
+                    }
+                  },
+                  {
+                    "name": "FTP_URL",
+                    "value": "${FTP_URL}"
+                  },
+                  {
+                    "name": "FTP_USER",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "${FTP_SECRET_KEY}",
+                        "key": "ftp-user"
                       }
-                    },
-                    {
-                      "name": "FTP_PASSWORD",
-                      "valueFrom": {
-                        "secretKeyRef": {
-                          "name": "${FTP_SECRET_KEY}",
-                          "key": "ftp-password"
-                        }
+                    }
+                  },
+                  {
+                    "name": "FTP_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "${FTP_SECRET_KEY}",
+                        "key": "ftp-password"
                       }
-                    },
-                    {
-                      "name": "WEBHOOK_URL",
-                      "value": "${WEBHOOK_URL}"
-                    },
-                    {
-                      "name": "ENVIRONMENT_FRIENDLY_NAME",
-                      "value": "${ENVIRONMENT_FRIENDLY_NAME}"
-                    },
-                    {
-                      "name": "ENVIRONMENT_NAME",
-                      "value": "${ENVIRONMENT_NAME}"
-                    },
-
-                    "resources": {
-                      "requests": {
-                        "cpu": "${CPU_REQUEST}",
-                        "memory": "${MEMORY_REQUEST}"
-                      },
-                      "limits": {
-                        "cpu": "${CPU_LIMIT}",
-                        "memory": "${MEMORY_LIMIT}"
-                      }
-                    },
-                    "volumeMounts": [
-                      {
-                        "name": "${NAME}",
-                        "mountPath": "${BACKUP_DIR}"
-                      },
-                      {
-                        "name": "${NAME}-config-volume",
-                        "mountPath": "${CONFIG_MOUNT_PATH}${CONFIG_FILE_NAME}",
-                        "subPath": "${CONFIG_FILE_NAME}"
-                      }
-                    ]
+                    }
+                  },
+                  {
+                    "name": "WEBHOOK_URL",
+                    "value": "${WEBHOOK_URL}"
+                  },
+                  {
+                    "name": "ENVIRONMENT_FRIENDLY_NAME",
+                    "value": "${ENVIRONMENT_FRIENDLY_NAME}"
+                  },
+                  {
+                    "name": "ENVIRONMENT_NAME",
+                    "value": "${ENVIRONMENT_NAME}"
                   }
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "${CPU_REQUEST}",
+                    "memory": "${MEMORY_REQUEST}"
+                  },
+                  "limits": {
+                    "cpu": "${CPU_LIMIT}",
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "${NAME}",
+                    "mountPath": "${BACKUP_DIR}"
+                  },
+                  {
+                    "name": "${NAME}-config-volume",
+                    "mountPath": "${CONFIG_MOUNT_PATH}${CONFIG_FILE_NAME}",
+                    "subPath": "${CONFIG_FILE_NAME}"
+                  }
+                ]
+              }
             ]
           }
         }
@@ -285,7 +286,8 @@
     {
       "name": "DATABASE_DEPLOYMENT_NAME",
       "displayName": "Database Deployment Name",
-      "description": "The name associated to the database deployment resources.  In particular, this is used to wire up the credentials associated to the database.",
+      "description":
+        "The name associated to the database deployment resources.  In particular, this is used to wire up the credentials associated to the database.",
       "required": true,
       "value": "postgresql"
     },
@@ -327,21 +329,24 @@
     {
       "name": "WEBHOOK_URL",
       "displayName": "Webhook URL",
-      "description": "The URL of the webhook to use for notifications.  If not specified, the webhook integration feature is disabled.",
+      "description":
+        "The URL of the webhook to use for notifications.  If not specified, the webhook integration feature is disabled.",
       "required": false,
       "value": ""
     },
     {
       "name": "ENVIRONMENT_FRIENDLY_NAME",
       "displayName": "Friendly Environment Name",
-      "description": "The human readable name of the environment.  This variable is used by the webhook integration to identify the environment in which the backup notifications originate.",
+      "description":
+        "The human readable name of the environment.  This variable is used by the webhook integration to identify the environment in which the backup notifications originate.",
       "required": false,
       "value": ""
     },
     {
       "name": "ENVIRONMENT_NAME",
       "displayName": "Environment Name (Environment Id)",
-      "description": "The name or Id of the environment.  This variable is used by the webhook integration to identify the environment in which the backup notifications originate.",
+      "description":
+        "The name or Id of the environment.  This variable is used by the webhook integration to identify the environment in which the backup notifications originate.",
       "required": false,
       "value": ""
     },
@@ -355,7 +360,8 @@
     {
       "name": "NUM_BACKUPS",
       "displayName": "The number of backup files to be retained",
-      "description": "The number of backup files to be retained.  Used for the `daily` backup strategy.  Ignored when using the `rolling` backup strategy.",
+      "description":
+        "The number of backup files to be retained.  Used for the `daily` backup strategy.  Ignored when using the `rolling` backup strategy.",
       "required": false,
       "value": ""
     },
