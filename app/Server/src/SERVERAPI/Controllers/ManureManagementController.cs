@@ -125,6 +125,7 @@ namespace SERVERAPI.Controllers
             }
             else
             {
+                setAnimalFromGeneratedManureList(ref mgovm);
                 animalTypeDetailsSetup(ref mgovm);
             }
 
@@ -744,6 +745,15 @@ namespace SERVERAPI.Controllers
             }
 
             return PartialView(mgovm);
+        }
+
+        private void setAnimalFromGeneratedManureList(ref ManureGeneratedObtainedDetailViewModel mgovm)
+        {
+            List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
+            if (generatedManures.Count() > 0)
+            {
+                mgovm.selAnimalTypeOption = generatedManures[generatedManures.Count - 1].animalId.ToString();
+            }
         }
 
         private void animalTypeDetailsSetup(ref ManureGeneratedObtainedDetailViewModel mgovm)
