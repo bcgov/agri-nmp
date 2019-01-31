@@ -43,7 +43,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}",
+        "name": "${NAME}${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
         "labels": {
           "template": "${NAME}-deployment"
         },
@@ -146,83 +146,87 @@
                   },
                   {
                     "name": "POSTGRESQL_DATABASE",
-                    "value": "${DATABASE_NAME}"
-                  },
-                  {
-                    "name": "POSTGRESQL_USER",
                     "valueFrom": {
                       "secretKeyRef": {
-                        "name": "${DATABASE_DEPLOYMENT_NAME}",
-                        "key": "database-user"
+                        "key": "database-name",
+                        "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
                       }
-                    }
-                  },
-                  {
-                    "name": "POSTGRESQL_PASSWORD",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "${DATABASE_DEPLOYMENT_NAME}",
-                        "key": "database-password"
+                    },
+                    {
+                      "name": "POSTGRESQL_USER",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "key": "database-username",
+                          "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
+                        }
                       }
-                    }
-                  },
-                  {
-                    "name": "FTP_URL",
-                    "value": "${FTP_URL}"
-                  },
-                  {
-                    "name": "FTP_USER",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "${FTP_SECRET_KEY}",
-                        "key": "ftp-user"
+                    },
+                    {
+                      "name": "POSTGRESQL_PASSWORD",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "key": "database-password",
+                          "name": "${DATABASE_SERVICE_NAME}-credentials${NAME_SUFFIX}"
+                        }
                       }
-                    }
-                  },
-                  {
-                    "name": "FTP_PASSWORD",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "${FTP_SECRET_KEY}",
-                        "key": "ftp-password"
+                    },
+                    {
+                      "name": "FTP_URL",
+                      "value": "${FTP_URL}"
+                    },
+                    {
+                      "name": "FTP_USER",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "name": "${FTP_SECRET_KEY}",
+                          "key": "ftp-user"
+                        }
                       }
-                    }
-                  },
-                  {
-                    "name": "WEBHOOK_URL",
-                    "value": "${WEBHOOK_URL}"
-                  },
-                  {
-                    "name": "ENVIRONMENT_FRIENDLY_NAME",
-                    "value": "${ENVIRONMENT_FRIENDLY_NAME}"
-                  },
-                  {
-                    "name": "ENVIRONMENT_NAME",
-                    "value": "${ENVIRONMENT_NAME}"
+                    },
+                    {
+                      "name": "FTP_PASSWORD",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "name": "${FTP_SECRET_KEY}",
+                          "key": "ftp-password"
+                        }
+                      }
+                    },
+                    {
+                      "name": "WEBHOOK_URL",
+                      "value": "${WEBHOOK_URL}"
+                    },
+                    {
+                      "name": "ENVIRONMENT_FRIENDLY_NAME",
+                      "value": "${ENVIRONMENT_FRIENDLY_NAME}"
+                    },
+                    {
+                      "name": "ENVIRONMENT_NAME",
+                      "value": "${ENVIRONMENT_NAME}"
+                    },
+
+                    "resources": {
+                      "requests": {
+                        "cpu": "${CPU_REQUEST}",
+                        "memory": "${MEMORY_REQUEST}"
+                      },
+                      "limits": {
+                        "cpu": "${CPU_LIMIT}",
+                        "memory": "${MEMORY_LIMIT}"
+                      }
+                    },
+                    "volumeMounts": [
+                      {
+                        "name": "${NAME}",
+                        "mountPath": "${BACKUP_DIR}"
+                      },
+                      {
+                        "name": "${NAME}-config-volume",
+                        "mountPath": "${CONFIG_MOUNT_PATH}${CONFIG_FILE_NAME}",
+                        "subPath": "${CONFIG_FILE_NAME}"
+                      }
+                    ]
                   }
-                ],
-                "resources": {
-                  "requests": {
-                    "cpu": "${CPU_REQUEST}",
-                    "memory": "${MEMORY_REQUEST}"
-                  },
-                  "limits": {
-                    "cpu": "${CPU_LIMIT}",
-                    "memory": "${MEMORY_LIMIT}"
-                  }
-                },
-                "volumeMounts": [
-                  {
-                    "name": "${NAME}",
-                    "mountPath": "${BACKUP_DIR}"
-                  },
-                  {
-                    "name": "${NAME}-config-volume",
-                    "mountPath": "${CONFIG_MOUNT_PATH}${CONFIG_FILE_NAME}",
-                    "subPath": "${CONFIG_FILE_NAME}"
-                  }
-                ]
-              }
             ]
           }
         }
@@ -236,6 +240,12 @@
       "description": "The name assigned to all of the resources defined in this template.",
       "required": true,
       "value": "backup"
+    },
+    {
+      "name": "NAME_SUFFIX",
+      "description": "The suffix for all created objects",
+      "required": false,
+      "value": ""
     },
     {
       "name": "SOURCE_IMAGE_NAME",
@@ -270,7 +280,7 @@
       "displayName": "Database Name",
       "description": "The name of the database.",
       "required": true,
-      "value": "MyDatabase"
+      "value": "AgriConfiguration"
     },
     {
       "name": "DATABASE_DEPLOYMENT_NAME",
