@@ -15,6 +15,7 @@ basicPipeline {
         'deployment':[
             ['file':'OpenShift/postgresql.dc.json'],
             ['file':'OpenShift/nmp.dc.json', 'params':['HOST':'${env[DEPLOY_ENV_NAME]?.params?.host?:""}']],
+            ['file':'OpenShift/backup-conf-configmap_DeploymentConfig.json'],
 			['file':'OpenShift/backup-deploy.json']
         ]
     ]
