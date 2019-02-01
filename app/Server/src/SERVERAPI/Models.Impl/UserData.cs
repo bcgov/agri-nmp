@@ -10,21 +10,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Agri.Models;
+using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Models.Impl
 {
     public class UserData
     {
+        private readonly ILogger<UserData> _logger;
         private readonly IHttpContextAccessor _ctx;
         public IAgriConfigurationRepository _sd;
         private ISoilTestConverter _soilTestConversions;
         private IMapper _mapper;
 
-        public UserData(IHttpContextAccessor ctx, 
+        public UserData(ILogger<UserData> logger,
+            IHttpContextAccessor ctx, 
             IAgriConfigurationRepository sd,
             ISoilTestConverter soilTestConversions,
             IMapper mapper)
         {
+            _logger = logger;
             _ctx = ctx;
             _sd = sd;
             _soilTestConversions = soilTestConversions;
@@ -48,11 +52,11 @@ namespace SERVERAPI.Models.Impl
             FarmData farmData = null;
             try
             {
-                farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+                farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");    
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, "FarmData Exception");
             }
             return farmData;
         }
