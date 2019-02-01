@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
-using Agri.Models.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Version = Agri.Models.Configuration.Version;
-using Agri.Interfaces;
-using AutoMapper;
 
 namespace Agri.Data
 {

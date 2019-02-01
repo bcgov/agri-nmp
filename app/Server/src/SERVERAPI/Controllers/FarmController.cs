@@ -13,18 +13,24 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SERVERAPI.Models.Impl;
 using Agri.Models;
+using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
     public class FarmController : BaseController
     {
+        private ILogger<FarmController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
 
-        public FarmController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
+        public FarmController(ILogger<FarmController> logger, 
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;

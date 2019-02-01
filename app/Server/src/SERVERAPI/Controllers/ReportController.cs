@@ -7,6 +7,7 @@ using Agri.Models.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.NodeServices;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SERVERAPI.Models.Impl;
@@ -36,6 +37,7 @@ namespace SERVERAPI.Controllers
     //[RedirectingAction]
     public class ReportController : BaseController
     {
+        private ILogger<ReportController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
@@ -44,13 +46,15 @@ namespace SERVERAPI.Controllers
         private IManureApplicationCalculator _manureApplicationCalculator;
         private ISoilTestConverter _soilTestConverter;
 
-        public ReportController(IHostingEnvironment env, 
+        public ReportController(ILogger<ReportController> logger,
+            IHostingEnvironment env, 
             IViewRenderService viewRenderService, 
             UserData ud, 
             IAgriConfigurationRepository sd,
             IManureApplicationCalculator manureApplicationCalculator,
             ISoilTestConverter soilTestConverter)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
@@ -615,7 +619,6 @@ namespace SERVERAPI.Controllers
                 int? runoffAreaSquareFeet = 0;
                 int? areaOfUncoveredLiquidStorage = 0;
                 decimal washWaterAdjustedValue = 0;
-                decimal annualAmountOfManurePerStorage = 0;
 
                 rs.storageSystemName = s.Name;
                 rs.ManureMaterialType = s.ManureMaterialType;

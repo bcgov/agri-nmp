@@ -67,7 +67,7 @@ namespace SERVERAPI.Models.Impl
             catch (Exception ex)
             {
                 BrowserName = "Unknown";
-                throw new Exception("Could not retrieve browser type.!");
+                throw new Exception("Could not retrieve browser type.!", ex);
             }
         }
     }

@@ -4,6 +4,7 @@ using Agri.Models.Farm;
 using Agri.Models.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using System;
@@ -15,15 +16,20 @@ namespace SERVERAPI.Controllers
     //[RedirectingAction]
     public class SoilController : BaseController
     {
+        private ILogger<SoilController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
-
         private ISoilTestConverter _soilTestConversions;
         public AppSettings _settings;
 
-        public SoilController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd, ISoilTestConverter soilTestConversions)
+        public SoilController(ILogger<SoilController> logger,
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd, 
+            ISoilTestConverter soilTestConversions)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
