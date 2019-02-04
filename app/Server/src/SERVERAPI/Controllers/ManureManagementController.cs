@@ -130,6 +130,10 @@ namespace SERVERAPI.Controllers
             {
                 setAnimalFromGeneratedManureList(ref mgovm);
                 animalTypeDetailsSetup(ref mgovm);
+                if (mgovm.showBreedAndGrazingDaysPerYear)
+                {
+                    mgovm.grazingDaysPerYear = "0";
+                }
             }
 
             return PartialView("ManureGeneratedObtainedDetail", mgovm);
@@ -821,6 +825,7 @@ namespace SERVERAPI.Controllers
                     }
                 }
             }
+
             return;
         }
 
