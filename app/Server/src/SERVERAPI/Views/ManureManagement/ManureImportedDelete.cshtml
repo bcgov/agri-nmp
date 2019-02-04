@@ -15,6 +15,12 @@
                 <div>
                     @Model.ImportManureName
                 </div>
+                @if (Model.AppliedToAField)
+                {
+                    <div style="padding-top: 25px">
+                        @Html.Raw(Model.DeleteWarningForUnstorableMaterial)
+                    </div>
+                }
             </div>
             <br />
         </div>
