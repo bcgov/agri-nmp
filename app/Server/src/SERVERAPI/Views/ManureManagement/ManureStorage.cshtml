@@ -183,12 +183,12 @@
             $("#modForm").submit();
         }
 
-        //$(document).ready(function () {
-        //    $("body").on("change", "#ddlStorageShape", function () {
-        //        $('#ButtonPressed').val("StorageShapeChange");
-        //        $("#modForm").submit();
-        //    })
-        //});
+        $(document).ready(function () {
+            $("body").on("change", "#ddlStorageShape", function () {
+                $('#ButtonPressed').val("StorageShapeChange");
+                $("#modForm").submit();
+            })
+        });
         $(document).on("click",
             '[data_modal2]',
             function (e) {
