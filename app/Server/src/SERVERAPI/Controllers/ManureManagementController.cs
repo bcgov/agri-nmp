@@ -1044,6 +1044,15 @@ namespace SERVERAPI.Controllers
                     return View(msdvm);
                 }
 
+                if (msdvm.ButtonPressed == "StorageShapeChange")
+                {
+                    ModelState.Clear();
+                    msdvm.ButtonPressed = "";
+                    msdvm.ButtonText = "Save";
+
+                    return View(msdvm);
+                }
+
                 if (msdvm.ButtonText == "Save" || msdvm.SystemId.HasValue)
                 {
                     ModelState.Clear();
@@ -1114,6 +1123,52 @@ namespace SERVERAPI.Controllers
                                 $"\"{msdvm.StorageStructureName}\" has already been used, please enter a different structure name.");
                         }
                     }
+
+                    //if (msdvm.SelectedStorageShape == StorageShapes.Rectangular)
+                    //{
+                    //    if (string.IsNullOrWhiteSpace(msdvm.RectangularLength.ToString()))
+                    //    {
+                    //        ModelState.AddModelError("RectangularLength", "Required");
+                    //    }
+                    //    if (string.IsNullOrWhiteSpace(msdvm.RectangularHeight.ToString()))
+                    //    {
+                    //        ModelState.AddModelError("RectangularHeight", "Required");
+                    //    }
+                    //    if (string.IsNullOrWhiteSpace(msdvm.RectangularWidth.ToString()))
+                    //    {
+                    //        ModelState.AddModelError("RectangularWidth", "Required");
+                    //    }
+                    //}
+                    //else if (msdvm.SelectedStorageShape == StorageShapes.Circular)
+                    //{
+                    //    if (string.IsNullOrWhiteSpace(msdvm.CircularDiameter.ToString()))
+                    //    {
+                    //        ModelState.AddModelError("CircularDiameter", "Required");
+                    //    }
+                    //    if (string.IsNullOrWhiteSpace(msdvm.CircularHeight.ToString()))
+                    //    {
+                    //        ModelState.AddModelError("CircularHeight", "Required");
+                    //    }
+                    //}
+                    //else if (msdvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
+                    //{
+                    //    if (string.IsNullOrWhiteSpace(msdvm.SlopedWallTopLength.ToString()))
+                    //    {
+                    //        ModelState.AddModelError("SlopedWallTopLength", "Required");
+                    //    }
+                    //    if (string.IsNullOrWhiteSpace(msdvm.SlopedWallTopWidth.ToString()))
+                    //    {
+                    //        ModelState.AddModelError("SlopedWallTopWidth", "Required");
+                    //    }
+                    //    if (string.IsNullOrWhiteSpace(msdvm.SlopedWallHeight.ToString()))
+                    //    {
+                    //        ModelState.AddModelError("SlopedWallHeight", "Required");
+                    //    }
+                    //    if (string.IsNullOrWhiteSpace(msdvm.SlopedWallSlopeOfWall.ToString()))
+                    //    {
+                    //        ModelState.AddModelError("SlopedWallSlopeOfWall", "Required");
+                    //    }
+                    //}
 
                     if (ModelState.IsValid)
                     {
