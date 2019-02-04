@@ -1,14 +1,13 @@
-﻿using Agri.Data.Migrations;
+﻿using System.Collections.Generic;
+using Agri.Data.Migrations;
 using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using AutoMapper;
-using SERVERAPI.ViewModels;
-using System.Collections.Generic;
 using Version = Agri.Models.Configuration.Version;
 
 
-namespace SERVERAPI
+namespace Agri.Data.TestHarness
 {
     public class AutoMapperProfileConfiguration : Profile
     {
@@ -21,12 +20,6 @@ namespace SERVERAPI
         {
             CreateMap<AmmoniaRetention, AmmoniaRetention>();
             CreateMap<ManureStorageSystem, ManureStorageSystem>();
-            CreateMap<ManureImportedDetailViewModel, ImportedManure>()
-                .ForMember(dest => dest.Id, x => x.MapFrom(src => src.ManureImportId))
-                .ForMember(dest => dest.ManureType, x => x.MapFrom(src => src.SelectedManureType))
-                .ForMember(dest => dest.ManureTypeName, x => x.MapFrom(src => EnumHelper<ManureMaterialType>.GetDisplayValue(src.SelectedManureType)))
-                .ForMember(dest => dest.Units, x => x.MapFrom(src => src.SelectedAnnualAmountUnit))
-                .ReverseMap();
             CreateMap<ImportedManure, ImportedManure>();
             CreateMap<UserPrompt, UserPrompt>();
             CreateMap<AnimalSubType, AnimalSubType>();

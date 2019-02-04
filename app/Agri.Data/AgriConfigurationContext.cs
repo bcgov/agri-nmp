@@ -82,7 +82,8 @@ namespace Agri.Data
                 .HasKey(table => new
                 {
                     table.SeasonApplicationId,
-                    DM = table.DryMatter
+                    DM = table.DryMatter,
+                    table.VersionId 
                 });
 
             modelBuilder.Entity<CropSoilTestPotassiumRegion>()

@@ -1484,7 +1484,7 @@ namespace Agri.LegacyData.Models.Impl
             return result;
         }
 
-        public Version GetVersionData()
+        public Version GetLatestVersionDataTree()
         {
             var version = new Version();
 

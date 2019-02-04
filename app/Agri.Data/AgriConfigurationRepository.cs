@@ -7,6 +7,7 @@ using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Version = Agri.Models.Configuration.Version;
 
@@ -15,7 +16,7 @@ namespace Agri.Data
     public class AgriConfigurationRepository : IAgriConfigurationRepository
     {
         private AgriConfigurationContext _context;
-
+        private IMapper _mapper;
         private const string MANURE_CLASS_COMPOST = "Compost";
         private const string MANURE_CLASS_COMPOST_BOOK = "Compost_Book";
         private const string MANURE_CLASS_OTHER = "Other";
@@ -23,9 +24,10 @@ namespace Agri.Data
         private const int CROP_YIELD_DEFAULT_CALCULATION_UNIT = 1;
         private const int CROP_YIELD_DEFAULT_DISPLAY_UNIT = 2;
 
-        public AgriConfigurationRepository(AgriConfigurationContext context)
+        public AgriConfigurationRepository(AgriConfigurationContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public decimal ConvertYieldFromBushelToTonsPerAcre(int cropid, decimal yield)
@@ -995,9 +997,12 @@ namespace Agri.Data
             return _context.UserPrompts.ToList();
         }
 
-        public Version GetVersionData()
+        public Version GetLatestVersionDataTree()
         {
-            return _context.Versions.FirstOrDefault();
+            return _context.Versions
+                .OrderByDescending(v => v.Id)
+                .Include(x => x.AmmoniaRetentions)
+                .First();
         }
 
         public Yield GetYieldById(int yieldId)
@@ -1292,6 +1297,35 @@ namespace Agri.Data
         public List<SubMenu> GetSubMenus(int mainMenuId)
         {
             return GetSubMenus().Where(sb => sb.MainMenuId == mainMenuId).ToList();
+        }
+
+        public int ArchiveConfigurations()
+        {
+            var newId = 0;
+            var currentVersion = GetLatestVersionDataTree();
+            var datestamp = DateTime.Now;
+            var nextId = currentVersion.Id + 1;
+            var newVersion = new Version
+            {
+                Id = nextId,
+                StaticDataVersion = $"{datestamp.Year}.{datestamp.DayOfYear}.{nextId}",
+                CreatedDateTime = datestamp
+            };
+
+            //var currentVersionData = 
+            //Mapper.Initialize(cfg => cfg.CreateMap<AmmoniaRetention, AmmoniaRetention>());
+            var newAmmoniaRetentions =
+                _mapper.Map<List<AmmoniaRetention>, List<AmmoniaRetention>>(currentVersion.AmmoniaRetentions).ToList();
+            newAmmoniaRetentions.Select(ar => {
+                ar.Version = newVersion;
+                ar.VersionId = newVersion.Id;
+                return ar;
+            }).ToList(); 
+
+            newVersion.AmmoniaRetentions.AddRange(newAmmoniaRetentions);
+            _context.Versions.Add(newVersion);
+            _context.SaveChanges();
+            return newId;
         }
     }
 }

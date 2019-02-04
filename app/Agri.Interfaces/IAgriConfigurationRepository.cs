@@ -115,7 +115,7 @@ namespace Agri.Interfaces
         string GetSoilTestWarning();
         string GetExternalLink(string name);
         string GetUserPrompt(string name);
-        Version GetVersionData();
+        Version GetLatestVersionDataTree();
         string GetStaticDataVersion();
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
         PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(
@@ -175,7 +175,7 @@ namespace Agri.Interfaces
         List<SelectListItem> GetBreedsDll(int animalType);
         decimal GetBreedManureFactorByBreedId(int breedId);
         List<SelectListItem> GetBreed(int breedId);
-
         LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults();
+        int ArchiveConfigurations();
     }
 }
