@@ -78,4 +78,14 @@ namespace Agri.Models
         Nutrients,
         Report
     }
+
+    public enum StorageShapes
+    {
+        [Description("Rectangular")]
+        Rectangular = 1,
+        [Description("Circular")]
+        Circular = 2,
+        [Description("Sloped wall (Rectangular)")]
+        SlopedWallRectangular = 3
+    }
 }
