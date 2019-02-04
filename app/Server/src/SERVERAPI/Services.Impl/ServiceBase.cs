@@ -8,7 +8,7 @@
  
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Logging;
 using System;
 using System.Security.Claims;
 
@@ -16,13 +16,14 @@ namespace SERVERAPI.Services.Impl
 {
     public abstract class ServiceBase
     {
+        private readonly ILogger<ServiceBase> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
 
-        public ServiceBase(IHttpContextAccessor httpContextAccessor)
+        public ServiceBase(ILogger<ServiceBase> logger, IHttpContextAccessor httpContextAccessor)
         {
+            _logger = logger;
             _httpContextAccessor = httpContextAccessor;
-
         }
 
         protected HttpRequest Request
@@ -56,6 +57,7 @@ namespace SERVERAPI.Services.Impl
             catch (Exception e)
             {
                 result = null;
+                _logger.LogError(e, "ParseIntArray exception");
             }
             return result;
         }

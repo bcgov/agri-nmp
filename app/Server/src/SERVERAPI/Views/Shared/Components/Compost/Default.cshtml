@@ -8,10 +8,27 @@
                 <legend class="form-box-heading">@Model.compostMsg</legend>
             </div>
             <div class="form-box-body">
-
+                <div class="row">
+                    <div class="col-sm-8">
+                    </div>
+                    <div class="col-sm-4">
+                        <div>
+                            <b>Add a Nutrient Analysis for:</b>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainMaterialsNeedingNutrientAnalysisMessage" id="toolTipExplainMaterialsNeedingNutrientAnalysis">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Materials needing Nutrient Analysis" style="font-size:20px; padding-top:5px"></span>
+                            </a>
+                        </div>
+                        @foreach (var storageSystemAndImportedManureNotStored in Model.UnallocatedStorageAndImportedManureNames)
+                        {
+                            <div class="form-row">
+                                @storageSystemAndImportedManureNotStored
+                            </div>
+                        }
+                    </div>
+                </div>
                 <div class="form-box-table">
                     <div class="form-box-table-row form-box-table-header row row-eq-height">
-                        <div class="col-sm-12 form-box-table-cell" ></div>
+                        <div class="col-sm-12 form-box-table-cell"></div>
                     </div>
                 </div>
                 <div class="form-box-table-first text-center">
@@ -29,6 +46,25 @@
                 <legend class="form-box-heading">@Model.compostMsg</legend>
             </div>
             <div class="form-box-body">
+                <div class="row">
+                    <div class="col-sm-8">
+                    </div>
+                    <div class="col-sm-4">
+                        <div>
+                            <b>Add a Nutrient Analysis for:</b>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainMaterialsNeedingNutrientAnalysisMessage" id="toolTipExplainMaterialsNeedingNutrientAnalysis">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Materials needing Nutrient Analysis" style="font-size:20px; padding-top:5px"></span>
+                            </a>
+                        </div>
+                        @foreach (var storageSystemAndImportedManureNotStored in Model.UnallocatedStorageAndImportedManureNames)
+                        {
+                            <div class="form-row">
+                                @storageSystemAndImportedManureNotStored
+                            </div>
+                        }
+                    </div>
+                </div>
+                <br/>
                 <div class="form-box-table">
                     <div class="form-box-table-header form-box-table-row row row-eq-height">
                         <div class="col-sm-3 form-box-table-cell" style="vertical-align:middle">
@@ -49,7 +85,7 @@
                             </div>
                             <div class="col-sm-2 form-box-table-cell">
                                 <strong>K(%)</strong>
-                            </div>    
+                            </div>
                         </div>
                         <div class="col-sm-2 form-box-table-cell">
                         </div>
@@ -57,10 +93,10 @@
                     @foreach (var item in Model.composts)
                     {
                         <div class="form-box-table-row row row-eq-height">
-                            <div class="col-sm-3 form-box-table-cell"  style="vertical-align:middle">
+                            <div class="col-sm-3 form-box-table-cell" style="vertical-align:middle">
                                 @item.sourceOfMaterialName
                             </div>
-                            <div class="col-sm-3 form-box-table-cell"  style="vertical-align:middle">
+                            <div class="col-sm-3 form-box-table-cell" style="vertical-align:middle">
                                 @item.name
                             </div>
                             <div class="col-sm-4 form-box-table-cell">
@@ -95,11 +131,30 @@
         </div>
 
         @for (int i = 0; i < Model.composts.Count; i++)
-        {
+         {
             @*@Html.Hidden("fieldName[" + i + "]", Model.fields[i].fieldName)
             @Html.Hidden("area[" + i + "]", Model.fields[i].area)
             @Html.Hidden("comment[" + i + "]", Model.fields[i].comment)*@
-        }
+         }
     }
 
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#toolTipExplainMaterialsNeedingNutrientAnalysis').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainMaterialsNeedingNutrientAnalysis').click(function () {
+            triggerToolTip($('#toolTipExplainMaterialsNeedingNutrientAnalysis'));
+        });
+    })
+
+</script>

@@ -1,26 +1,25 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Agri.Interfaces;
+using Agri.Models.Calculate;
+using Agri.Models.Configuration;
+using Agri.Models.Farm;
+using Agri.Models.Settings;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Agri.Interfaces;
-using Agri.Models;
-using Agri.Models.Calculate;
-using Agri.Models.Farm;
-using Agri.Models.Settings;
-using Agri.Models.Configuration;
-using Region = Agri.Models.Configuration.Region;
 
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
     public class NutrientsController : BaseController
     {
+        private ILogger<NutrientsController> _logger;
         public IHostingEnvironment _env;
         public UserData _ud;
         public IAgriConfigurationRepository _sd;
@@ -28,9 +27,14 @@ namespace SERVERAPI.Controllers
         public AppSettings _settings;
         private IManureApplicationCalculator _manureApplicationCalculator;
 
-        public NutrientsController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd,
-            IOptions<AppSettings> settings, IManureApplicationCalculator manureApplicationCalculator)
+        public NutrientsController(ILogger<NutrientsController> logger,
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd,
+            IOptions<AppSettings> settings, 
+            IManureApplicationCalculator manureApplicationCalculator)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
@@ -439,6 +443,7 @@ namespace SERVERAPI.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Unexpected system error.");
+                _logger.LogError(ex, "ManureDetails Exception");
             }
 
             return PartialView(mvm);
@@ -905,6 +910,7 @@ namespace SERVERAPI.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Unexpected system error.");
+                _logger.LogError(ex, "FertilizerDetails Exception");
             }
 
             return PartialView(fvm);
@@ -2273,6 +2279,7 @@ namespace SERVERAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "SaveNitrogenCreditToField Exception");
                 return false;
             }
             return true;
@@ -2310,6 +2317,7 @@ namespace SERVERAPI.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("Nitrogen", "An invalid Nitrogen Credit value was entered. Nitrogen credit must be an integer with a value which is greater than or equal to zero");
+                    _logger.LogError(ex, "nitrogenCredit = Convert.ToInt32(model.nitrogen) failed");
                     return PartialView(model);
                 }
                 if  (nitrogenCredit >= 0)  {
@@ -2341,6 +2349,7 @@ namespace SERVERAPI.Controllers
             }
             catch (Exception e)
             {
+                _logger.LogError(e, "SaveSoilTestNitrogenCreditToField Exception");
                 return false;
             }
             return true;
@@ -2383,6 +2392,7 @@ namespace SERVERAPI.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("Nitrogen", "An invalid value was entered. Nitrogen credit must be greater than or equal to zero");
+                    _logger.LogError(ex, "nitrogenCredit = Convert.ToDecimal(model.nitrogen) failed");
                     return PartialView(model);
                 }
                 if (nitrogenCredit >= 0)

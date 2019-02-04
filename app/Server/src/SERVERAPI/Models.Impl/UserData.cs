@@ -10,21 +10,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Agri.Models;
+using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Models.Impl
 {
     public class UserData
     {
+        private readonly ILogger<UserData> _logger;
         private readonly IHttpContextAccessor _ctx;
         public IAgriConfigurationRepository _sd;
         private ISoilTestConverter _soilTestConversions;
         private IMapper _mapper;
 
-        public UserData(IHttpContextAccessor ctx, 
+        public UserData(ILogger<UserData> logger,
+            IHttpContextAccessor ctx, 
             IAgriConfigurationRepository sd,
             ISoilTestConverter soilTestConversions,
             IMapper mapper)
         {
+            _logger = logger;
             _ctx = ctx;
             _sd = sd;
             _soilTestConversions = soilTestConversions;
@@ -48,11 +52,11 @@ namespace SERVERAPI.Models.Impl
             FarmData farmData = null;
             try
             {
-                farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+                farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");    
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, "FarmData Exception");
             }
             return farmData;
         }
@@ -989,6 +993,39 @@ namespace SERVERAPI.Models.Impl
                 else
                 {
                     UpdateSeparatedSolidManure(manure as SeparatedSolidManure);
+                }
+            }
+        }
+
+        public void UpdateManagedImportedManuresAllocationToNutrientAnalysis()
+        {
+            var currentManures = GetAllManagedManures();
+            var currentFarmManures = GetFarmManures();
+
+            foreach (var manure in currentManures)
+            {
+                manure.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm =>
+                    (fm.sourceOfMaterialId.Split(',')[0] + fm.sourceOfMaterialId.Split(',')[1]) == manure.ManureId);
+
+                if (manure is ImportedManure)
+                {
+                    UpdateImportedManure(manure as ImportedManure);
+                }
+            }
+        }
+
+        public void UpdateStorageSystemsAllocationToNutrientAnalysis()
+        {
+            var currentManureStorageSystems = GetStorageSystems();
+            var currentFarmManures = GetFarmManures();
+
+            foreach (var manureStorageSystem in currentManureStorageSystems)
+            {
+                manureStorageSystem.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm => fm.sourceOfMaterialId.Split(',')[1] == manureStorageSystem.Id.ToString());
+
+                if (manureStorageSystem is ManureStorageSystem)
+                {
+                    UpdateManureStorageSystem(manureStorageSystem as ManureStorageSystem);
                 }
             }
         }

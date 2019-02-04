@@ -162,10 +162,10 @@
             "restartPolicy": "Always",
             "volumes": [
               {
-                "emptyDir": {
-                  "medium": ""
-                },
-                "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-data"
+                "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "postgresql-data"
+                }
               }
             ]
           }

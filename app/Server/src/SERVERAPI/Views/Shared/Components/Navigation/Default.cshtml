@@ -5,9 +5,7 @@
     <div class="top-level-nav">
         <ul class="top-level-nav">
             <li style="padding:0 40px 0 0">
-                <a href='@Url.Action("Index", "Home")' style="padding-left: 0px">
-                    <span>Home</span>
-                </a>
+                <input type="button" data_modal2="" data-type="@Url.Action("NewWarning", "Home")" value="Home" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;" />
             </li>
             @foreach (var item in Model.mainMenuOptions)
             {

@@ -12,18 +12,24 @@ using SERVERAPI.Models.Impl;
 using SERVERAPI.Models;
 using SERVERAPI.Utility;
 using Agri.Models.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
     public class ManureController : Controller
     {
+        private ILogger<ManureController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
 
-        public ManureController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
+        public ManureController(ILogger<ManureController> logger,
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
@@ -461,6 +467,7 @@ namespace SERVERAPI.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Unexpected system error.");
+                _logger.LogError(ex, "CompostDetail Exception");
             }
 
             return PartialView(cvm);
