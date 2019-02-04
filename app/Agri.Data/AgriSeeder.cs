@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
-using Agri.Models.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Version = Agri.Models.Configuration.Version;
-using Agri.Interfaces;
-using AutoMapper;
 
 namespace Agri.Data
 {
@@ -549,6 +546,103 @@ namespace Agri.Data
                     if (!_context.SubRegion.Any(up => up.Id == newSubRegion.Id))
                     {
                         _context.SubRegion.Add(newSubRegion);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a =>
+                a.JsonFilename.Equals("19_PotassiumSoilTestRanges", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PotassiumSoilTestRange>>("19_PotassiumSoilTestRanges");
+
+                foreach (var testRange in migrationSeedData.Data)
+                {
+                    var currentTestRange = _context.PotassiumSoilTestRanges.Single(s => s.Id == testRange.Id);
+                    currentTestRange.LowerLimit = testRange.LowerLimit;
+                    currentTestRange.UpperLimit = testRange.UpperLimit;
+                    currentTestRange.Rating = testRange.Rating;
+                }
+
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a =>
+                a.JsonFilename.Equals("20_PhosphorusSoilTestRanges", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PhosphorusSoilTestRange>>("20_PhosphorusSoilTestRanges");
+
+                foreach (var testRange in migrationSeedData.Data)
+                {
+                    var currentTestRange = _context.PhosphorusSoilTestRanges.Single(s => s.Id == testRange.Id);
+                    currentTestRange.LowerLimit = testRange.LowerLimit;
+                    currentTestRange.UpperLimit = testRange.UpperLimit;
+                    currentTestRange.Rating = testRange.Rating;
+                }
+
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("18_PrevYearManureApplicationNitrogenDefaults", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                //var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
+                //foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
+                //{
+                //    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
+                //    {
+                //        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
+                //        _mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
+                //        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
+                //    }
+                //}
+                //_context.AppliedMigrationSeedData.Add(migrationSeedData);
+                //_context.SaveChanges();
+
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
+                foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
+                {
+                    newPrevManureApplicationNitrogenDefault.Crops = _sd.GetCropsByManureApplicationHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+                    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear =
+                        _sd.GetPrevManureApplicationInPrevYearsByManureAppHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+
+                    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
+                    {
+                        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
+                        _mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
+                        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("21_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("21_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("22_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("22_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        var updated = _context.UserPrompts.Single(up => up.Id == newUserPrompt.Id);
+                        _mapper.Map(newUserPrompt, updated);
+                        _context.UserPrompts.Update(updated);
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);

@@ -12,22 +12,29 @@ using SERVERAPI.ViewModels;
 using SERVERAPI.Models;
 using Microsoft.Extensions.Options;
 using Agri.Models.Configuration;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
-    public class FieldsController : Controller
+    public class FieldsController : BaseController
     {
+        private ILogger<FieldsController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
         private readonly IOptions<AppSettings> _appSettings;
 
 
-        public FieldsController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd, IOptions<AppSettings> appSettings)
+        public FieldsController(ILogger<FieldsController> logger,
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd, 
+            IOptions<AppSettings> appSettings)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
@@ -68,7 +75,6 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public ActionResult FieldCopy(FieldCopyViewModel fvm)
         {
-            string url;
             int numSel = 0;
 
             if (ModelState.IsValid)
@@ -201,6 +207,7 @@ namespace SERVERAPI.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("fieldArea", "Invalid amount for area.");
+                    _logger.LogError(ex, "FieldDetail Exception");
                     return PartialView("FieldDetail", fvm);
                 }
                 if (fvm.selPrevYrManureOption == "select")

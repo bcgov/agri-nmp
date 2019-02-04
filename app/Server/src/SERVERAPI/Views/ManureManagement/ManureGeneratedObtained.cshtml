@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using Agri.Models
 @model SERVERAPI.ViewModels.ManureGeneratedObtainedDetailViewModel
 
 @{
@@ -28,9 +28,8 @@
                 @await Component.InvokeAsync("ManureGeneratedObtained")
             </div>
         </form>
-        <div class="form-box-submit">
-            <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("Farm", "Farm" )';" title="Previous"  aria-label="Previous" />
-            <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureImported", "ManureManagement" )';"  title="Next"  aria-label="Next"/>
+        <div id="next-previous-navigation">
+            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction =  CoreSiteActions.ManureGeneratedObtained})
         </div>
         <!-- PAGE CONTENT -->
     </div>
@@ -43,31 +42,40 @@
     <script type="text/javascript">
 
         // ensure this event handler is attached to current and future elements (after partial renders)
-        $(document).on("click", '[data_modal]', function (e) {
-            $.ajaxSetup({ cache: false });
-            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-            $("#divSize").removeClass("modal-carousel");
-            $("#divSize").addClass("modal-large");
-            $('#myModalContent').load($type, function () {
-                $('#myModal').modal({
-                    /*backdrop: 'static',*/
-                    //keyboard: true
-                }, 'show');
-                bindForm(this);
+        $(document).on("click",
+            '[data_modal]',
+            function(e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $("#divSize").removeClass("modal-carousel");
+                $("#divSize").addClass("modal-large");
+                $('#myModalContent').load($type,
+                    function() {
+                        $('#myModal').modal({
+                                /*backdrop: 'static',*/
+                                //keyboard: true
+                
+                            },
+                            'show');
+                        bindForm(this);
+                    });
+                return false;
             });
-            return false;
-        });
 
         function bindForm(dialog) {
-            $('form', dialog).submit(function () {
+            $('form', dialog).submit(function() {
                 $.ajax({
                     url: this.action,
                     type: this.method,
                     data: $(this).serialize(),
-                    success: function (result) {
+                    success: function(result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
-                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            $(result.target)
+                                .load(result
+                                    .url); //  Load data from the server and place the returned HTML into the matched element
+                            RefreshNavigation("ManureManagement", "ManureGeneratedObtained");
+                            RefreshNextPreviousNavigation("ManureManagement", "ManureGeneratedObtained");
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);
@@ -78,38 +86,39 @@
             });
         }
 
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-        });
-
-
-        $(document).on("click", '[data_modalI]', function (e) {
-            $.ajaxSetup({ cache: false });
-            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-            $("#divSize").removeClass("modal-large");
-            $("#divSize").addClass("modal-carousel");
-            $('#myModalContent').load($type, function () {
-                $('#myModal').modal({
-                    /*backdrop: 'static',*/
-                    //keyboard: true
-                }, 'show');
-                bindFormI(this);
+        $(document).on("click",
+            '[data_modalI]',
+            function(e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $("#divSize").removeClass("modal-large");
+                $("#divSize").addClass("modal-carousel");
+                $('#myModalContent').load($type,
+                    function() {
+                        $('#myModal').modal({
+                                /*backdrop: 'static',*/
+                                //keyboard: true
+                
+                            },
+                            'show');
+                        bindFormI(this);
+                    });
+                return false;
             });
-            return false;
-        });
 
-        $(".modal").on("hidden.bs.modal", function () {
-            $(".myModalContent").html("");
-        });
+        $(".modal").on("hidden.bs.modal",
+            function() {
+                $(".myModalContent").html("");
+            });
 
         function bindFormI(dialog) {
-            $('form', dialog).submit(function () {
+            $('form', dialog).submit(function() {
                 $.ajax({
                     cache: false,
                     url: this.action,
                     type: this.method,
                     data: $(this).serialize(),
-                    success: function (result) {
+                    success: function(result) {
                         if (result.success) {
                             $("#divSize").removeClass("modal-carousel");
                             $('#myModal').modal('hide');
@@ -123,85 +132,82 @@
             });
         }
 
-        $(document).ready(function () {
-            $("body").on("change", "#ddlAnimalType", function () {
-                $('#buttonPressed').val("AnimalTypeChange");
-                $("#modForm").submit();
-            })
+        $(document).ready(function() {
+            $("body").on("change",
+                "#ddlAnimalType",
+                function() {
+                    $('#buttonPressed').val("AnimalTypeChange");
+                    $("#modForm").submit();
+                })
         });
 
-        $(document).ready(function () {
-            $("body").on("change", "#ddlSubType", function () {
-                $('#buttonPressed').val("SubTypeChange");
-                $("#modForm").submit();
-            })
+        $(document).ready(function() {
+            $("body").on("change",
+                "#ddlSubType",
+                function() {
+                    $('#buttonPressed').val("SubTypeChange");
+                    $("#modForm").submit();
+                })
         });
 
-        $(document).ready(function () {
-            $("body").on("change", "#ddlManureMaterialType", function () {
-                $('#buttonPressed').val("ManureMaterialTypeChange");
-                $("#modForm").submit();
-            })
+        $(document).ready(function() {
+            $("body").on("change",
+                "#ddlManureMaterialType",
+                function() {
+                    $('#buttonPressed').val("ManureMaterialTypeChange");
+                    $("#modForm").submit();
+                })
         });
 
-        $(document).ready(function () {
-            $("body").on("change", "#ddlWashWaterUnits", function () {
-                $('#buttonPressed').val("WashWaterUnitsChange");
-                $("#modForm").submit();
-            })
+        $(document).ready(function() {
+            $("body").on("change",
+                "#ddlWashWaterUnits",
+                function() {
+                    $('#buttonPressed').val("WashWaterUnitsChange");
+                    $("#modForm").submit();
+                })
         });
 
         $(document).on('change',
-            '#averageAnimalNumber', function () {
+            '#averageAnimalNumber',
+            function() {
                 NeedRefresh();
             });
 
         $(document).on('change',
-            '#washWater', function () {
+            '#washWater',
+            function() {
                 NeedRefresh();
             });
- 
-        $(document).ready(function () {
-            $("body").on("click", "#rstWashWater", function () {
-                $('#buttonPressed').val("ResetWashWater");
-                $("#modForm").submit();
-            })
-        });
 
-        $(document).on('change','#milkProduction', function () {
-                NeedRefresh();
+        $(document).ready(function() {
+            $("body").on("click",
+                "#rstWashWater",
+                function() {
+                    $('#buttonPressed').val("ResetWashWater");
+                    $("#modForm").submit();
+                })
         });
 
         $(document).on('change',
-            '#grazingDaysPerYear', function () {
+            '#milkProduction',
+            function() {
                 NeedRefresh();
             });
 
-        $(document).ready(function () {
-            $("body").on("click", "#rstmilkProduction", function () {
-                $('#buttonPressed').val("ResetMilkProduction");
-                $("#modForm").submit();
-            })
-        });
+        $(document).on('change',
+            '#grazingDaysPerYear',
+            function() {
+                NeedRefresh();
+            });
 
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-            $("#ManureManagementManureGeneratedObtained1").addClass('wizard-item-done');
-            $("#ManureManagementManureImported2").addClass('lineheight');
-            $("#ManureManagementManureStorage3").addClass('lineheight');
-            
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained1").show();
-            $("#ManureManagementManureImported2").show();
-            $("#ManureManagementManureStorage3").show();
-            $("#ManureManagementManureNutrientAnalysis4").show();
-            $("#ManureManagementManureGeneratedObtained1").addClass('submenu-manure-width');
-            $("#ManureManagementManureImported2").addClass('submenu-manure-width');
-            $("#ManureManagementManureStorage3").addClass('submenu-manure-width');
-            $("#ManureManagementManureNutrientAnalysis4").addClass('submenu-manure-width');
-            return false;
+        $(document).ready(function() {
+            $("body").on("click",
+                "#rstmilkProduction",
+                function() {
+                    $('#buttonPressed').val("ResetMilkProduction");
+                    $("#modForm").submit();
+                })
         });
 
         function NeedRefresh() {
@@ -210,11 +216,55 @@
             $("#btnText").val("Save");
         }
 
-        $(document).ready(function () {
-            $("body").on("change", "#ddlBreed", function () {
-                $('#buttonPressed').val("BreedChange");
-                $("#modForm").submit();
-            })
+        $(document).ready(function() {
+            $("body").on("change",
+                "#ddlBreed",
+                function() {
+                    $('#buttonPressed').val("BreedChange");
+                    $("#modForm").submit();
+                })
         });
+
+        $(document).on("click",
+            '[data_modal2]',
+            function(e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $('#myModalContent').load($type,
+                    function() {
+                        $('#myModal').modal({
+                                /*backdrop: 'static',*/
+                                //keyboard: true
+                            
+                            },
+                            'show');
+                        bindForm2(this);
+                    });
+                return false;
+            });
+
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function() {
+                $.ajax({
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
+                    .done(function(result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            window.location.href = result.url;
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm2(dialog);
+                        }
+                    });
+
+                return false;
+            });
+        }
+
     </script>
 }

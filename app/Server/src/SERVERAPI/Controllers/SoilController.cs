@@ -1,33 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.Models;
-using SERVERAPI.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SERVERAPI.Models.Impl;
-using Agri.LegacyData.Models.Impl;
-using Agri.Models.Configuration;
+using SERVERAPI.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
-    public class SoilController : Controller
+    public class SoilController : BaseController
     {
+        private ILogger<SoilController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
+        private ISoilTestConverter _soilTestConversions;
         public AppSettings _settings;
 
-        public SoilController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
+        public SoilController(ILogger<SoilController> logger,
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd, 
+            ISoilTestConverter soilTestConversions)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
+            _soilTestConversions = soilTestConversions;
         }
         [HttpGet]
         public IActionResult SoilTest()
@@ -64,11 +70,10 @@ namespace SERVERAPI.Controllers
                 fd.testingMethod = fvm.selTstOption == "select" ? string.Empty : fvm.selTstOption;
                 _ud.UpdateFarmDetails(fd);
                 fvm.testSelected = string.IsNullOrEmpty(fd.testingMethod) ? false : true;
-                Utility.SoilTestConversions soilTestConversions = new Utility.SoilTestConversions(_ud, _sd);
                 List<Field> fl = _ud.GetFields();
                 
                 //update fields with convert STP and STK
-                soilTestConversions.UpdateSTPSTK(fl);
+                _ud.UpdateSTPSTK(fl);
                 
                 //update the Nutrient calculations with the new/changed soil test data
                 Utility.ChemicalBalanceMessage cbm = new Utility.ChemicalBalanceMessage(_ud, _sd);
@@ -156,7 +161,6 @@ namespace SERVERAPI.Controllers
                     return View(tvm);
                 }
 
-                Utility.SoilTestConversions soilTestConversions = new Utility.SoilTestConversions(_ud, _sd);
                 Field fld = _ud.GetFieldDetails(tvm.fieldName);
                 if(fld.soilTest == null)
                 {
@@ -167,8 +171,8 @@ namespace SERVERAPI.Controllers
                 fld.soilTest.valK = Convert.ToDecimal(tvm.dispK);
                 fld.soilTest.valNO3H = Convert.ToDecimal(tvm.dispNO3H);
                 fld.soilTest.valPH = Convert.ToDecimal(tvm.dispPH);
-                fld.soilTest.ConvertedKelownaK = soilTestConversions.GetConvertedSTK(fld.soilTest);
-                fld.soilTest.ConvertedKelownaP = soilTestConversions.GetConvertedSTP(fld.soilTest);
+                fld.soilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, fld.soilTest);
+                fld.soilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, fld.soilTest);
 
                 _ud.UpdateFieldSoilTest(fld);
 

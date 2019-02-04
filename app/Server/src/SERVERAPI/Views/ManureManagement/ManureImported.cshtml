@@ -1,4 +1,4 @@
-@using Microsoft.AspNetCore.Http;
+@using Agri.Models
 
 
 @{
@@ -24,13 +24,12 @@
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
 
-        <form asp-controller="ManureManagement" asp-action="ManureNutrientAnalysis" method="post" >
+        <form asp-controller="ManureManagement" asp-action="ManureNutrientAnalysis" method="post">
             <div id="manureimported">
                 @await Component.InvokeAsync("ManureImported")
             </div>
-            <div class="form-box-submit">
-                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href='@Url.Action("ManureGeneratedObtained", "ManureManagement" )';" title="Previous"  aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="window.location.href='@Url.Action("ManureStorage", "ManureManagement" )';"  title="Next"  aria-label="Next"/>
+            <div id="next-previous-navigation">
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureImported })
             </div>
         </form>
         <!-- PAGE CONTENT -->
@@ -72,6 +71,8 @@
                         if (result.success) {
                             $('#myModal').modal('hide');
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            RefreshNavigation("ManureManagement", "ManureImported");
+                            RefreshNextPreviousNavigation("ManureManagement", "ManureImported");
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);
@@ -81,12 +82,7 @@
                 return false;
             });
         }
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-        });
-
-
+        
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
@@ -163,26 +159,52 @@
             })
         });
 
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained1").show();
-            $("#ManureManagementManureImported2").show();
-            $("#ManureManagementManureStorage3").show();
-            $("#ManureManagementManureNutrientAnalysis4").show();
-            return false;
-        });
-
-        $(document).ready(function () {
-            $("#ManureManagementManureGeneratedObtained2").addClass('wizard-item-done');
-            $("#ManureManagementManureImported2").addClass('wizard-item-done');
-            $("#ManureManagementManureImported2").addClass('lineheight');
-            $("#ManureManagementManureStorage3").addClass('lineheight');
-        });
-
         function NeedRefresh() {
             $("#ok_button").html('Save');
             $("#ok_button").css('background-color', '#1abbed');
             $("#btnText").val("Save");
         }
-        
+
+        $(document).on("click",
+            '[data_modal2]',
+            function (e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $('#myModalContent').load($type,
+                    function () {
+                        $('#myModal').modal({
+                                /*backdrop: 'static',*/
+                                //keyboard: true
+
+                            },
+                            'show');
+                        bindForm2(this);
+                    });
+                return false;
+            });
+
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
+                    .done(function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            window.location.href = result.url;
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm2(dialog);
+                        }
+                    });
+
+                return false;
+            });
+        }
+
     </script>
 }

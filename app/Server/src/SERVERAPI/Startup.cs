@@ -114,6 +114,7 @@ namespace SERVERAPI
             services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
             services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
             services.AddScoped<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
+            services.AddScoped<ISoilTestConverter, SoilTestConverter>();
 
             services.AddOptions();
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
@@ -148,18 +149,29 @@ namespace SERVERAPI
             }
             else
             {
-                var server = Environment.GetEnvironmentVariable("pgsqluri");
-                var password = Environment.GetEnvironmentVariable("pgsqlpassword");
-                var username = Environment.GetEnvironmentVariable("pgsqlusername");
+                var server = Environment.GetEnvironmentVariable("POSTGRESQL_URI");
+                var password = Environment.GetEnvironmentVariable("POSTGRESQL_PASSWORD");
+                var username = Environment.GetEnvironmentVariable("POSTGRESQL_USER");
+                var database = Environment.GetEnvironmentVariable("POSTGRESQL_DATABASE");
 
-                if (string.IsNullOrEmpty(server) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(username))
+                if (string.IsNullOrEmpty(server))
                 {
-                    throw new Exception("Connection String Environment variables not found");
+                    throw new Exception(@"Connection String Environment ""POSTGRESQL_URI"" variable not found");
+                }
+                if (string.IsNullOrEmpty(database))
+                {
+                    throw new Exception(@"Connection String Environment ""POSTGRESQL_DATABASE"" variable not found");
+                }
+                if (string.IsNullOrEmpty(username))
+                {
+                    throw new Exception(@"Connection String Environment ""POSTGRESQL_USER"" variable not found");
+                }
+                if (string.IsNullOrEmpty(password))
+                {
+                    throw new Exception(@"Connection String Environment ""POSTGRESQL_PASSWORD"" variable not found");
                 }
 
-                //Just filter out the IP
-                server = server.Replace("postgres://", string.Empty).Replace(":5432", string.Empty);
-                return $"Server={server};Database=AgriConfiguration;Username={username};Password={password}";
+                return $"Server={server};Database={database};Username={username};Password={password}";
             }
 
         }

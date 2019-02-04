@@ -13,18 +13,24 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SERVERAPI.Models.Impl;
 using Agri.Models;
+using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
-    public class FarmController : Controller
+    public class FarmController : BaseController
     {
+        private ILogger<FarmController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
 
-        public FarmController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
+        public FarmController(ILogger<FarmController> logger, 
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
@@ -49,7 +55,9 @@ namespace SERVERAPI.Controllers
             fvm.selRegOption = farmData.farmRegion;
             fvm.selSubRegOption = farmData.farmSubRegion;
             fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
-            
+
+            fvm.HasAnimals = farmData.HasAnimals;
+            fvm.ImportsManureCompost = farmData.ImportsManureCompost;
 
             if (fvm.subRegionOptions.Count > 1)
             {
@@ -166,6 +174,8 @@ namespace SERVERAPI.Controllers
                     fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
                 }
                 farmData.farmSubRegion = fvm.selSubRegOption;
+                farmData.HasAnimals = fvm.HasAnimals;
+                farmData.ImportsManureCompost = fvm.ImportsManureCompost;
 
                 _ud.UpdateFarmDetails(farmData);
                 HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
@@ -173,7 +183,18 @@ namespace SERVERAPI.Controllers
                 fvm.currYear = fvm.year;
                 ModelState.Remove("userData");
 
-                return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
+                if (farmData.HasAnimals)
+                {
+                    return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
+                }
+                else if (farmData.ImportsManureCompost)
+                {
+                    return RedirectToAction("ManureImported", "ManureManagement");
+                }
+                else
+                {
+                    return RedirectToAction("Fields", "Fields");
+                }
             }
             else
             {

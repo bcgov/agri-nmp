@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
-@model SERVERAPI.ViewModels.FarmViewModel
+﻿@model FarmViewModel
 
 @{
     ViewBag.Title = "Farm Information";
@@ -44,7 +43,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <label asp-for="selRegOption">Region</label>
+                                <label asp-for="selRegOption" for="ddlRegion">Region</label>
                                 <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
                                 <select id="ddlRegion" class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions,"Id","Value"))">
                                     <option>select region</option>
@@ -66,6 +65,36 @@
                                 </div>
                             </div>
                         }
+                        <div class="row" style="margin-bottom: 0px;">
+                            <div class="col-sm-3">
+                                <span id="labelHasAnimals" style="font-weight: bold">
+                                    This farm has animals
+                                </span>
+                            </div>
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals" style="margin-bottom: 0px;">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes" /> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo" /> No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <span id="labelImportsManureCompost" style="font-weight: bold">
+                                    This farm imports manure or compost
+                                </span>
+                            </div>
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelImportsManureCompost">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="ImportsManureCompost" type="radio" value="true" id="rbIsImportsManureCompostYes" /> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="ImportsManureCompost" type="radio" value="false" id="rbIsImportsManureCompostNo" /> No
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -131,6 +160,8 @@
 
         $(document).ready(function () {
             $("#submenu").addClass('padding');
+            $("#submenu-ul-fields").addClass('submenu-display');
+            $("#submenu-ul-manure").addClass('submenu-display');
         });
 
         $(document).ready(function () {
@@ -146,5 +177,46 @@
             $("#modForm").submit();
         })
         });
+
+        $(document).on("click",
+            '[data_modal2]',
+            function (e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $('#myModalContent').load($type,
+                    function () {
+                        $('#myModal').modal({
+                            /*backdrop: 'static',*/
+                            //keyboard: true
+
+                        },
+                            'show');
+                        bindForm2(this);
+                    });
+                return false;
+            });
+
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
+                    .done(function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            window.location.href = result.url;
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm2(dialog);
+                        }
+                    });
+
+                return false;
+            });
+        }
     </script>
 }

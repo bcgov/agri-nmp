@@ -863,5 +863,20 @@ namespace Agri.LegacyData.Models.Impl
             var listSubRegion = new List<SubRegion>();
             return listSubRegion;
         }
+
+        public List<Crop> GetCropsByManureApplicationHistory(int manureAppHistory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(int manureAppHistory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public MainMenu GetMainMenu(CoreSiteActions action)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -166,12 +166,18 @@ namespace Agri.Data
                 .Include(c => c.CropSoilTestPhosphorousRegions)
                 .Include(c => c.CropSoilTestPotassiumRegions)
                 .Include(c => c.PreviousCropTypes)
+                .OrderBy(c => c.SortNumber)
                 .ToList();
         }
 
         public List<Crop> GetCrops(int cropType)
         {
             return GetCrops().Where(c => c.CropTypeId == cropType).ToList();
+        }
+
+        public List<Crop> GetCropsByManureApplicationHistory(int manureAppHistory)
+        {
+            return GetCrops().Where(c => c.ManureApplicationHistory == manureAppHistory).ToList();
         }
 
         public List<SelectListItem> GetCropsDll(int cropType)
@@ -379,7 +385,7 @@ namespace Agri.Data
 
         public List<Fertilizer> GetFertilizers()
         {
-            return _context.Fertilizers.ToList();
+            return _context.Fertilizers.OrderBy(f => f.SortNum).ToList();
         }
 
         public List<SelectListItem> GetFertilizersDll(string fertilizerType)
@@ -547,7 +553,7 @@ namespace Agri.Data
 
         public List<Manure> GetManures()
         {
-            return _context.Manures.ToList();
+            return _context.Manures.OrderBy(m => m.SortNum).ToList();
         }
 
         public List<SelectListItem> GetManuresDll()
@@ -726,6 +732,12 @@ namespace Agri.Data
             return _context.PrevManureApplicationYears.ToList();
         }
 
+        public PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(int manureAppHistory)
+        {
+            return GetPrevManureApplicationInPrevYears()
+                .Where(c => c.FieldManureApplicationHistory == manureAppHistory).First();
+        }
+
         public List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults()
         {
             return _context.PrevYearManureApplicationNitrogenDefaults.ToList();
@@ -738,7 +750,7 @@ namespace Agri.Data
 
         public List<Region> GetRegions()
         {
-            return _context.Regions.ToList();
+            return _context.Regions.OrderBy(r => r.SortNumber).ToList();
         }
 
         public List<SelectListItem> GetRegionsDll()
@@ -791,7 +803,7 @@ namespace Agri.Data
 
         public List<SeasonApplication> GetSeasonApplications()
         {
-            return _context.SeasonApplications.ToList();
+            return _context.SeasonApplications.OrderBy(sa => sa.SortNum).ToList();
         }
 
         public string GetSoilTestMethod(string id)
@@ -812,7 +824,7 @@ namespace Agri.Data
 
         public List<SoilTestMethod> GetSoilTestMethods()
         {
-            return _context.SoilTestMethods.ToList();
+            return _context.SoilTestMethods.OrderBy(stm => stm.SortNum).ToList();
         }
 
         public List<SelectListItem> GetSoilTestMethodsDll()
@@ -1101,12 +1113,12 @@ namespace Agri.Data
 
         public string GetPotassiumSoilTestRating(decimal value)
         {
-            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public string GetPhosphorusSoilTestRating(decimal value)
         {
-            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value < str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges()
@@ -1269,6 +1281,17 @@ namespace Agri.Data
         public LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults()
         {
             return _context.LiquidSolidSeparationDefaults.Single();
+        }
+
+        public MainMenu GetMainMenu(CoreSiteActions action)
+        {
+            return GetMainMenus()
+                .SingleOrDefault(mm => mm.Action.Equals(action.ToString(), StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        public List<SubMenu> GetSubMenus(int mainMenuId)
+        {
+            return GetSubMenus().Where(sb => sb.MainMenuId == mainMenuId).ToList();
         }
     }
 }

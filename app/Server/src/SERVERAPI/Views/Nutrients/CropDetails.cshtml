@@ -15,21 +15,21 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-4">
-                        <label asp-for="selTypOption">Crop Type</label>
+                        <label for="ddlTyp">Crop Type</label>
                         <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
                             <option>select</option>
                         </select>
                         <span asp-validation-for="selTypOption" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label asp-for="selCropOption">Crop</label>
+                        <label for="ddlCrop">Crop</label>
                         <select class="form-control" asp-for="selCropOption" asp-items="@(new SelectList(Model.cropOptions,"Id","Value"))" id="ddlCrop"></select>
                         <span asp-validation-for="selCropOption" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2">
-                        <label>Yield</label>
+                        <label id="labelYieldByHarvestUnit">Yield</label>
                         <div class="input-group">
-                            <input class="form-control" asp-for="yieldByHarvestUnit" id="yieldByHarvestUnit" type="text" />
+                            <input class="form-control" asp-for="yieldByHarvestUnit" id="yieldByHarvestUnit" type="text" aria-labelledby="labelYieldByHarvestUnit labelUnitForYieldByHarvestUnit" />
                             @if (!Model.stdYield)
                             {
                             <span class="input-group-btn" title="Reset to standard value">
@@ -39,7 +39,7 @@
                         </div>
                         @if (!Model.showHarvestUnitsDDL)
                         {
-                        <label>tons/ac&nbsp;@Model.yieldUnit</label>
+                        <label id="labelUnitForYieldByHarvestUnit">tons/ac&nbsp;@Model.yieldUnit</label>
                         }
                         <span asp-validation-for="yieldByHarvestUnit" class="text-danger"></span>
                     </div>
@@ -48,20 +48,20 @@
                     <div class="form-group col-sm-2" style="padding-right:0px">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
-                                <label>Units</label>
+                                <label for="ddlHarvestUnits">Units</label>
                             </div>
                             <div style="display:table-row">
                                 <select class="form-control" asp-for="selHarvestUnits" asp-items="@(new SelectList(Model.harvestUnitsOptions,"Id","Value"))" id="ddlHarvestUnits" style="width:70%; display:inline; vertical-align:top"></select>
                                 <br />
                             </div>
-                            <span asp-validation-for="selHarvestUnits" class="text-danger"></span>
+                            <span asp-validation-for="selHarvestUnits" class="text-danger" for="ddlHarvestUnits"></span>
                         </div>
                     </div>
                     }
                     @if (Model.showCrude)
                     {
                     <div class="form-group col-sm-2">
-                        <label>Crude Protein (%)</label>
+                        <label asp-for="crude">Crude Protein (%)</label>
                         <div class="input-group col-sm-12">
                             <input class="form-control" asp-for="crude" id="crude" type="text" />
                             @if (!Model.stdCrude)
@@ -82,27 +82,27 @@
                 <div style="clear:both"></div>
                 <div class="form-group">
                     <div class="form-group col-sm-5">
-                        <label>@Model.nCreditLabel</label>
+                        <label for="ddlPrev">@Model.nCreditLabel</label>
                         <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlPrev">
                         @if (Model.prevOptions.Count() > 1)
                         {
                             <option>select</option>
                         }
                         </select>
-                        <span asp-validation-for="selPrevOption" class="text-danger"></span>
+                        <span asp-validation-for="selPrevOption" class="text-danger" for="ddlPrev"></span>
                     </div>
                     <div class="form-group col-sm-2">
                         <div style="text-align:center">
-                            <label>N credit (lb/ac)</label>
+                            <label id="labelNCredit">N credit (lb/ac)</label>
                         </div>
-                        <div style="text-align:center; padding-top:10px;">
-                            <label>@Model.nCredit</label>
+                        <div style="text-align:center; padding-top:10px;" aria-labelledby="labelNCredit">
+                            <span style="font-weight: bold">@Model.nCredit</span>
                         </div>
                     </div>
                     @if (Model.manEntry)
                     {
                     <div class="form-group col-sm-5">
-                        <label>Crop Description</label>
+                        <label asp-for="cropDesc">Crop Description</label>
                         <div class="input-group col-sm-12">
                             <input class="form-control col-sm-12" asp-for="cropDesc" id="cropDesc" type="text" />
                         </div>
@@ -116,8 +116,8 @@
                     @if (Model.coverCrop)
                 {
                     <div class="form-group col-sm-5">
-                        <label>Cover crop harvested?</label>
-                        <div class="radio">
+                        <label id="labelCoverCropHarvested">Cover crop harvested?</label>
+                        <div class="radio" role="radiogroup" aria-labelledby="labelCoverCropHarvested">
                             <label style="padding-right:20px">
                                 <input asp-for="coverCropHarvested" type="radio" value="true" id="coverYes" /> Yes
                             </label>

@@ -60,6 +60,7 @@ namespace Agri.Interfaces
         List<Crop> GetCrops();
         List<SelectListItem> GetCropsDll(int cropType);
         List<Crop> GetCrops(int cropType);
+        List<Crop> GetCropsByManureApplicationHistory(int manureAppHistory);
         Crop GetCrop(int cropId);
         int GetCropPrevYearManureApplVolCatCd(int cropId);
         Yield GetYieldById(int yieldId);
@@ -117,6 +118,8 @@ namespace Agri.Interfaces
         Version GetVersionData();
         string GetStaticDataVersion();
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
+        PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(
+            int manureAppHistory);
         List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults();
         bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded);
         int GetInteriorId();
@@ -155,9 +158,11 @@ namespace Agri.Interfaces
         bool DoesAnimalUseWashWater(int animalSubTypeId);
         AnimalSubType GetAnimalSubType(int id);
         List<MainMenu> GetMainMenus();
+        MainMenu GetMainMenu(CoreSiteActions action);
         List<SelectListItem> GetMainMenusDll();
         List<SubMenu> GetSubMenus();
         List<SelectListItem> GetSubmenusDll();
+        List<SubMenu> GetSubMenus(int mainMenuId);
         [Obsolete]
         List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
             string parentNode, string parentfield);

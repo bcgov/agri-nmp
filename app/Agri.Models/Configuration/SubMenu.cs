@@ -1,12 +1,17 @@
-﻿namespace Agri.Models.Configuration
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Agri.Models.Configuration
 {
-    public class SubMenu
+    public class SubMenu : Menu
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Controller { get; set; }
-        public string Action { get; set; }
         public int MainMenuId { get; set; }
         public MainMenu MainMenu { get; set; }
+
+        public bool IsSubMenuCurrent(string currentAction)
+        {
+            var isCurrent = Action.Equals(currentAction, StringComparison.CurrentCulture);
+            return isCurrent;
+        }
     }
 }

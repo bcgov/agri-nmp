@@ -658,6 +658,8 @@ namespace Agri.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("LowerLimit");
+
                     b.Property<string>("Rating");
 
                     b.Property<int>("UpperLimit");
@@ -671,6 +673,8 @@ namespace Agri.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("LowerLimit");
 
                     b.Property<string>("Rating");
 

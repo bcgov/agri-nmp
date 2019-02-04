@@ -21,6 +21,7 @@ using System.Linq;
 using Agri.Interfaces;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
+using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Controllers
 {
@@ -62,14 +63,20 @@ namespace SERVERAPI.Controllers
     ////[SessionTimeout]
     public class HomeController : Controller
     {
+        private ILogger<HomeController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
         public AppSettings _settings;
         public BrowserData _bd { get; set; }
 
-        public HomeController(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd, BrowserData bd)
+        public HomeController(ILogger<HomeController> logger,
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd, 
+            BrowserData bd)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
@@ -88,11 +95,11 @@ namespace SERVERAPI.Controllers
             return Redirect(_sd.GetExternalLink("helpmessage"));
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             IndexViewModel lvm = new IndexViewModel();
             FarmData fd = _ud.FarmData();
-            if(fd != null && fd.unsaved)
+            if (fd != null && fd.unsaved)
             {
                 lvm.unsavedData = true;
             }
@@ -150,12 +157,13 @@ namespace SERVERAPI.Controllers
                 FarmData fd;
 
                 var isFileUploaded = lvm.IsFileUploaded;
-                if (lvm.unsavedData)
-                {
-                    ModelState.Clear();
-                    lvm.unsavedData = false;
-                    return View(lvm);
-                }
+
+                //if (lvm.unsavedData)
+                //{
+                //    ModelState.Clear();
+                //    lvm.unsavedData = false;
+                //    return View(lvm);
+                //}
 
                 string fileContents = "";
 
@@ -183,6 +191,7 @@ namespace SERVERAPI.Controllers
                             }
                             catch (Exception ex)
                             {
+                                _logger.LogError(ex, "JsonConvert.DeserializeObject<FarmData> Failed");
                                 ModelState.AddModelError("", "File does not appear to be a valid NMP data file.");
                                 return View(lvm);
                             }
@@ -287,6 +296,7 @@ namespace SERVERAPI.Controllers
             catch (Exception e)
             {
                 result = null;
+                _logger.LogError(e, "Print Exception");
             }
 
             return result;
@@ -380,6 +390,7 @@ namespace SERVERAPI.Controllers
                         }
                         catch(Exception ex)
                         {
+                            _logger.LogError(ex, "JsonConvert.DeserializeObject<FarmData> failed");
                             ModelState.AddModelError("", "File does not appear to be a valid NMP data file.");
                             return View(lvm);
                         }

@@ -1,31 +1,37 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Agri.Interfaces;
+using Agri.Models.Calculate;
+using Agri.Models.Configuration;
+using Agri.Models.Farm;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SERVERAPI.Controllers;
+using SERVERAPI.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using SERVERAPI.ViewModels;
-using Agri.LegacyData.Models.Impl;
 using Agri.Models;
-using Agri.Models.Configuration;
-using AutoMapper;
-using Version = Agri.Models.Configuration.Version;
-using SERVERAPI.Utility;
-using Agri.Models.Calculate;
+using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Models.Impl
 {
     public class UserData
     {
+        private readonly ILogger<UserData> _logger;
         private readonly IHttpContextAccessor _ctx;
         public IAgriConfigurationRepository _sd;
+        private ISoilTestConverter _soilTestConversions;
         private IMapper _mapper;
 
-        public UserData(IHttpContextAccessor ctx, IAgriConfigurationRepository sd, IMapper mapper)
+        public UserData(ILogger<UserData> logger,
+            IHttpContextAccessor ctx, 
+            IAgriConfigurationRepository sd,
+            ISoilTestConverter soilTestConversions,
+            IMapper mapper)
         {
+            _logger = logger;
             _ctx = ctx;
             _sd = sd;
+            _soilTestConversions = soilTestConversions;
             _mapper = mapper;
         }
 
@@ -46,11 +52,11 @@ namespace SERVERAPI.Models.Impl
             FarmData farmData = null;
             try
             {
-                farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+                farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");    
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, "FarmData Exception");
             }
             return farmData;
         }
@@ -78,6 +84,8 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.testingMethod = fd.testingMethod;
             userData.farmDetails.manure = fd.manure;
             userData.farmDetails.year = fd.year;
+            userData.farmDetails.HasAnimals = fd.HasAnimals;
+            userData.farmDetails.ImportsManureCompost = fd.ImportsManureCompost;
 
             //change the year associated with the array
             YearData yd = userData.years.FirstOrDefault();
@@ -159,6 +167,23 @@ namespace SERVERAPI.Models.Impl
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void UpdateSTPSTK(List<Field> fields)
+        {
+            if (fields.Count > 0)
+            {
+                foreach (Field field in fields)
+                {
+                    if (field.soilTest != null)
+                    {
+                        field.soilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(FarmDetails()?.testingMethod, field.soilTest);
+                        field.soilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(FarmDetails()?.testingMethod, field.soilTest);
+                        UpdateFieldSoilTest(field);
+                    }
+                }
+            }
+
         }
 
         public void DeleteField(string name)
@@ -777,6 +802,11 @@ namespace SERVERAPI.Models.Impl
                 var name = manures.Count(m => m.manureId == r.manureId) == 1
                     ? r.name
                     : $"{r.sourceOfMaterialName}: {r.name}";
+                if (r.stored_imported == NutrientAnalysisTypes.Imported)
+                {
+                    name = $"{r.sourceOfMaterialName}";
+                }
+
                 SelectListItem li = new SelectListItem() { Id = r.id, Value = name };
                 manOptions.Add(li);
             }
@@ -868,6 +898,8 @@ namespace SERVERAPI.Models.Impl
 
             yd.GeneratedManures.Add(generatedManure);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+
+            UpdateFarmHasAnimalStatus();
         }
 
 
@@ -936,6 +968,8 @@ namespace SERVERAPI.Models.Impl
                 storageSystem.GeneratedManuresIncludedInSystem.Remove(droppedGeneratedMaterial);
                 UpdateManureStorageSystem(storageSystem);
             }
+
+            UpdateFarmHasAnimalStatus();
         }
 
         public void UpdateManagedManuresAllocationToStorage()
@@ -959,6 +993,39 @@ namespace SERVERAPI.Models.Impl
                 else
                 {
                     UpdateSeparatedSolidManure(manure as SeparatedSolidManure);
+                }
+            }
+        }
+
+        public void UpdateManagedImportedManuresAllocationToNutrientAnalysis()
+        {
+            var currentManures = GetAllManagedManures();
+            var currentFarmManures = GetFarmManures();
+
+            foreach (var manure in currentManures)
+            {
+                manure.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm =>
+                    (fm.sourceOfMaterialId.Split(',')[0] + fm.sourceOfMaterialId.Split(',')[1]) == manure.ManureId);
+
+                if (manure is ImportedManure)
+                {
+                    UpdateImportedManure(manure as ImportedManure);
+                }
+            }
+        }
+
+        public void UpdateStorageSystemsAllocationToNutrientAnalysis()
+        {
+            var currentManureStorageSystems = GetStorageSystems();
+            var currentFarmManures = GetFarmManures();
+
+            foreach (var manureStorageSystem in currentManureStorageSystems)
+            {
+                manureStorageSystem.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm => fm.sourceOfMaterialId.Split(',')[1] == manureStorageSystem.Id.ToString());
+
+                if (manureStorageSystem is ManureStorageSystem)
+                {
+                    UpdateManureStorageSystem(manureStorageSystem as ManureStorageSystem);
                 }
             }
         }
@@ -1183,6 +1250,8 @@ namespace SERVERAPI.Models.Impl
             yd.ImportedManures.Add(newManure);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+
+            UpdateFarmImportsManureStatus();
         }
 
         public void UpdateImportedManure(ImportedManure updatedManure)
@@ -1261,9 +1330,32 @@ namespace SERVERAPI.Models.Impl
                 }
                 _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
             }
+
+            UpdateFarmImportsManureStatus();
         }
 
+        private void UpdateFarmHasAnimalStatus()
+        {
+            var hasAnimals = GetGeneratedManures().Any();
+            var importsManure = GetImportedManures().Any();
 
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            userData.farmDetails.HasAnimals = hasAnimals;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        private void UpdateFarmImportsManureStatus()
+        {
+            var importsManure = GetImportedManures().Any();
+
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            userData.farmDetails.ImportsManureCompost = importsManure;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
 
         public List<ManagedManure> GetAllManagedManures()
         {

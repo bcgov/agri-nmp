@@ -24,8 +24,9 @@
                 <button id="canBtn" class="btn" type="button" data-dismiss="modal">Cancel</button>
                 <input id="download" class="btn btn-primary" type="button" value="Download file" onclick="location.href='@Url.Action("Download", "Home")';this.style.display = 'none';document.getElementById('canBtn').style.display = 'none';" />
             </div>
-            <input class="btn btn-primary" type="submit" value="Continue" />
+            <input class="btn btn-primary" type="button" value="Continue" onclick="location.href='@Url.Action("Index", "Home")'" />
         </div>
         @Html.HiddenFor(x => x.msg)
     </form>
 </div>
+

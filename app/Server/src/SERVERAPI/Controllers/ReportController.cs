@@ -1,36 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.ViewModels;
-using SERVERAPI.Models;
-using System.Net.Http;
-using Newtonsoft.Json;
-using System.Text;
-using System.Net;
-using SERVERAPI.Utility;
-using System.IO;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
+using Agri.Models;
 using Agri.Models.Calculate;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using SERVERAPI.Models.Impl;
-using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.NodeServices;
-using Agri.LegacyData.Models.Impl;
-using Agri.Models;
-using Agri.Models.Configuration;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Fertilizer = Agri.Models.Configuration.Fertilizer;
-using FertilizerType = Agri.Models.Configuration.FertilizerType;
-using FertilizerUnit = Agri.Models.Configuration.FertilizerUnit;
-using Manure = Agri.Models.Configuration.Manure;
-using Region = Agri.Models.Configuration.Region;
-using Unit = Agri.Models.Configuration.Unit;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SERVERAPI.Models.Impl;
+using SERVERAPI.Utility;
+using SERVERAPI.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.Controllers
 {
@@ -46,22 +35,32 @@ namespace SERVERAPI.Controllers
     }
 
     //[RedirectingAction]
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
+        private ILogger<ReportController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
         public IViewRenderService _viewRenderService { get; set; }
         public AppSettings _settings;
         private IManureApplicationCalculator _manureApplicationCalculator;
+        private ISoilTestConverter _soilTestConverter;
 
-        public ReportController(IHostingEnvironment env, IViewRenderService viewRenderService, UserData ud, IAgriConfigurationRepository sd,IManureApplicationCalculator manureApplicationCalculator)
+        public ReportController(ILogger<ReportController> logger,
+            IHostingEnvironment env, 
+            IViewRenderService viewRenderService, 
+            UserData ud, 
+            IAgriConfigurationRepository sd,
+            IManureApplicationCalculator manureApplicationCalculator,
+            ISoilTestConverter soilTestConverter)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
             _viewRenderService = viewRenderService;
             _manureApplicationCalculator = manureApplicationCalculator;
+            _soilTestConverter = soilTestConverter;
         }
         [HttpGet]
         public IActionResult Report()
@@ -184,7 +183,6 @@ namespace SERVERAPI.Controllers
         {
             Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
-            Utility.SoilTestConversions stc = new SoilTestConversions(_ud, _sd);
             CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
 
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
@@ -211,8 +209,8 @@ namespace SERVERAPI.Controllers
                 {
                     rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
                     rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString("G29") + " ppm";
-                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + _sd.GetPhosphorusSoilTestRating(stc.GetConvertedSTP(f.soilTest)) + ")";
-                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + _sd.GetPotassiumSoilTestRating(stc.GetConvertedSTK(f.soilTest)) + ")";
+                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
+                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
                     rf.soiltest.dispPH = f.soilTest.valPH.ToString("G29");
                 }
 
@@ -621,7 +619,6 @@ namespace SERVERAPI.Controllers
                 int? runoffAreaSquareFeet = 0;
                 int? areaOfUncoveredLiquidStorage = 0;
                 decimal washWaterAdjustedValue = 0;
-                decimal annualAmountOfManurePerStorage = 0;
 
                 rs.storageSystemName = s.Name;
                 rs.ManureMaterialType = s.ManureMaterialType;
@@ -711,6 +708,28 @@ namespace SERVERAPI.Controllers
                                 rs.footnote = rff.id.ToString();
                                 rs.footnotes.Add(rff);
                             }
+
+                            if (generatedFarmManure.milkProduction.ToString() != "0.0")
+                            {
+                                var defaultMilkProd =
+                                    calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                        Convert.ToInt16(generatedFarmManure.animalSubTypeId));
+                                var breedManureFactor =
+                                    calculateAnimalRequirement.GetBreedManureFactorByBreedId(
+                                        Convert.ToInt32(generatedFarmManure.BreedId));
+                                var milkProd = defaultMilkProd * breedManureFactor;
+
+                                if (generatedFarmManure.milkProduction != milkProd)
+                                {
+                                    ReportFieldFootnote rff = new ReportFieldFootnote();
+                                    rff.id = rs.footnotes.Count() + 1;
+                                    rff.message = "Milk Production adjusted to " +
+                                                  generatedFarmManure.milkProduction.ToString("G29") +" lb/day/animal";
+                                    rs.footnote = rff.id.ToString();
+                                    rs.footnotes.Add(rff);
+                                }
+                            }
+
                             rs.reportManures.Add(rm);
                         }
                         else if (m.ManureId.Contains("Imported"))
@@ -1150,8 +1169,6 @@ namespace SERVERAPI.Controllers
         public async Task<string> RenderSummary()
         {
             string crpName = string.Empty;
-            Utility.SoilTestConversions stc = new SoilTestConversions(_ud, _sd);
-
             ReportSummaryViewModel rvm = new ReportSummaryViewModel();
 
             rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "Not Specified" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
@@ -1174,8 +1191,8 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = m.soilTest.ValP.ToString("G29");
                     dc.potassium = m.soilTest.valK.ToString("G29");
                     dc.pH = m.soilTest.valPH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(stc.GetConvertedSTP(m.soilTest));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(stc.GetConvertedSTK(m.soilTest));
+                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, m.soilTest));
+                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, m.soilTest));
                 }
                 else
                 {
@@ -1193,8 +1210,8 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = dt.Phosphorous.ToString("G29");
                     dc.potassium = dt.Potassium.ToString("G29");
                     dc.pH = dt.pH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(stc.GetConvertedSTP(st));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(stc.GetConvertedSTK(st));
+                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, st));
+                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, st));
                 }
                 dc.fieldCrops = null;
 
