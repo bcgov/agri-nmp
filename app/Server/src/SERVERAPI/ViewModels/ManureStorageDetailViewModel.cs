@@ -69,6 +69,7 @@ namespace SERVERAPI.ViewModels
         public decimal SlopedWallTopWidth { get; set; }
         public decimal SlopedWallHeight { get; set; }
         public decimal SlopedWallSlopeOfWall { get; set; }
+        public int? volumeUSGallons { get; set; }
     }
 
 }

@@ -1209,24 +1209,31 @@ namespace SERVERAPI.Controllers
                     {
                         if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
                         {
-                            var surfaceAreaOfRectangle=0;
+                            var surfaceArea=0;
+                            var volumeUSGallons = 0;
                             if (msdvm.SelectedStorageShape == StorageShapes.Rectangular)
                             {
-                                surfaceAreaOfRectangle = _storageVolumeCalculator.GetSurfaceAreaOfRectangle(msdvm.RectangularLength,
+                                surfaceArea = _storageVolumeCalculator.GetSurfaceAreaOfRectangle(msdvm.RectangularLength,
                                     msdvm.RectangularWidth, msdvm.RectangularHeight);
-                               
+                                volumeUSGallons = _storageVolumeCalculator.GetVolumeUSGallonsOfRectangle(msdvm.RectangularLength,
+                                    msdvm.RectangularWidth, msdvm.RectangularHeight);
+
                             }
                             else if (msdvm.SelectedStorageShape == StorageShapes.Circular)
                             {
-                                surfaceAreaOfRectangle =
-                                    _storageVolumeCalculator.GetSurfaceAreaOfCircle(msdvm.CircularDiameter);
+                                surfaceArea = _storageVolumeCalculator.GetSurfaceAreaOfCircle(msdvm.CircularDiameter);
+                                volumeUSGallons =
+                                    _storageVolumeCalculator.GetVolumeUSGallonsOfCircle(msdvm.CircularDiameter, msdvm.CircularHeight);
                             }
                             else if (msdvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
                             {
-                                surfaceAreaOfRectangle = _storageVolumeCalculator.GetSurfaceAreaOfSlopedWall(msdvm.SlopedWallTopLength, msdvm.SlopedWallTopWidth);
+                                surfaceArea = _storageVolumeCalculator.GetSurfaceAreaOfSlopedWall(msdvm.SlopedWallTopLength, msdvm.SlopedWallTopWidth);
+                                volumeUSGallons = _storageVolumeCalculator.GetVolumeUSGallonsOfSlopedWall(msdvm.SlopedWallTopLength, msdvm.SlopedWallTopWidth,msdvm.SlopedWallHeight,msdvm.SlopedWallSlopeOfWall);
                             }
 
-                            msdvm.UncoveredAreaOfStorageStructure = surfaceAreaOfRectangle;
+                            msdvm.UncoveredAreaOfStorageStructure = surfaceArea;
+                            msdvm.volumeUSGallons = volumeUSGallons;
+
                             if (msdvm.IsStructureCovered)
                             {
                                 msdvm.UncoveredAreaOfStorageStructure = null;
