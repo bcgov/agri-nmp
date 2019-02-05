@@ -311,7 +311,7 @@
                     {
                         @if (Model.SelectedStorageShape == StorageShapes.Rectangular)
                         {
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                         <div class="form-group">
@@ -355,7 +355,7 @@
                         }
                         @if (Model.SelectedStorageShape == StorageShapes.Circular)
                         {
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="col-sm-4">
                                         <div class="form-group">
@@ -386,7 +386,7 @@
                         }
                         @if (Model.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
                         {
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group">
                                     <div class="col-sm-5">
                                         <div class="form-group">
@@ -442,10 +442,13 @@
                             </div>
                         }
                     }
-                    <div class="form-group col-sm-2">
-                        <label for="txtStorageVolume">Storage Volume</label>
-                        <label for="txtStorageVolume">@Model.volumeUSGallons</label>
-                    </div>        
+                    @if (Model.volumeUSGallons != null)
+                    {
+                        <div class="form-group col-sm-3">
+                            <label for="txtStorageVolume">Storage Volume</label>
+                            <label for="txtStorageVolumeUSGallons">@Model.volumeOfStorageStructure</label>
+                        </div>
+                    }
                 </div>
             }
         </div>

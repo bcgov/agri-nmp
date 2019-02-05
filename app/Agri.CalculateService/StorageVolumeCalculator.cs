@@ -40,7 +40,7 @@ namespace Agri.CalculateService
 
         public int GetSurfaceAreaOfCircle(decimal diameter)
         {
-            var surfaceArea = (int)Math.Round((22 / 7) * Math.Pow(Convert.ToDouble(diameter) / 2, 2));
+            var surfaceArea = (int)Math.Round((3.1428) * Math.Pow(Convert.ToDouble(diameter) / 2, 2));
             return surfaceArea;
         }
 
@@ -48,12 +48,14 @@ namespace Agri.CalculateService
         {
             var freeBoard = 1;
             var activeHeight = height - freeBoard;
-            var volumeFT3 = (int)Math.Round(activeHeight * GetSurfaceAreaOfCircle(diameter));
+            var volumeFT3 = (int)Math.Round(Convert.ToDouble(activeHeight) * ((22/7.0) * Math.Pow(Convert.ToDouble(diameter) / 2, 2)));
             return volumeFT3;
         }
         public int GetVolumeUSGallonsOfCircle(decimal diameter,decimal height)
         {
-            var volumeUSGallons = (int)Math.Round(7.48052 * GetVolumeFT3OfCircle(diameter, height));
+            var freeBoard = 1;
+            var activeHeight = height - freeBoard;
+            var volumeUSGallons = (int)Math.Round(7.48052 * (Convert.ToDouble(activeHeight) * ((22 / 7.0) * Math.Pow(Convert.ToDouble(diameter) / 2, 2))));
             return volumeUSGallons;
         }
 
@@ -73,13 +75,20 @@ namespace Agri.CalculateService
             var areaBottom = bottomLength * bottomWidth;
 
             var volumeFT3 = (int) Math.Round(Convert.ToDouble(activeHeight / 3) *
-                                             (Convert.ToDouble(areaBottom) + Convert.ToDouble(GetSurfaceAreaOfSlopedWall(topLength, topWidth)) +
-                                              Math.Sqrt(Convert.ToDouble(areaBottom) + Convert.ToDouble(GetSurfaceAreaOfSlopedWall(topLength, topWidth)))));
+                                             (Convert.ToDouble(areaBottom) + Convert.ToDouble((topLength * topWidth)) +
+                                              Math.Sqrt(Convert.ToDouble(areaBottom) * Convert.ToDouble((topLength * topWidth)))));
             return volumeFT3;
         }
         public int GetVolumeUSGallonsOfSlopedWall(decimal topLength, decimal topWidth, decimal height, decimal slopeOfWall)
         {
-            var volumeUSGallons = (int)Math.Round(7.48052 * GetVolumeFT3OfSlopedWall(topLength, topWidth, height,slopeOfWall));
+            var freeBoard = 1;
+            var activeHeight = height - freeBoard;
+            var bottomLength = topLength - 2 * height / slopeOfWall;
+            var bottomWidth = topWidth - 2 * height / slopeOfWall;
+            var areaBottom = bottomLength * bottomWidth;
+            var volumeUSGallons = (int)Math.Round(7.48052 * (Convert.ToDouble(activeHeight / 3) *
+                                                             (Convert.ToDouble(areaBottom) + Convert.ToDouble((topLength * topWidth)) +
+                                                              Math.Sqrt(Convert.ToDouble(areaBottom) * Convert.ToDouble((topLength * topWidth))))));
             return volumeUSGallons;
         }
     }

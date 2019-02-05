@@ -22,5 +22,8 @@ namespace Agri.Models.Farm
         public decimal SlopedWallTopWidth { get; set; }
         public decimal SlopedWallHeight { get; set; }
         public decimal SlopedWallSlopeOfWall { get; set; }
+        public int? surfaceArea { get; set; }
+        public int? volumeUSGallons { get; set; }
+        public string volumeOfStorageStructure { get; set; }
     }
 }
