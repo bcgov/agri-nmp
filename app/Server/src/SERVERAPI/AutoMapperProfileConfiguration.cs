@@ -4,9 +4,6 @@ using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using AutoMapper;
 using SERVERAPI.ViewModels;
-using System.Collections.Generic;
-using Version = Agri.Models.Configuration.Version;
-
 
 namespace SERVERAPI
 {
@@ -34,7 +31,7 @@ namespace SERVERAPI
             CreateMap<SubRegions, SubRegions>();
             CreateMap<PreviousYearManureApplicationNitrogenDefault, PreviousYearManureApplicationNitrogenDefault>();
 
-            CreateMap<Version, Version>();
+            CreateMap<StaticDataVersion, StaticDataVersion>();
         }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-using Agri.Data.Migrations;
-using Agri.Models;
+﻿using Agri.Data.Migrations;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using AutoMapper;
-using Version = Agri.Models.Configuration.Version;
 
 
 namespace Agri.Data.TestHarness
@@ -27,7 +24,7 @@ namespace Agri.Data.TestHarness
             CreateMap<SubRegions, SubRegions>();
             CreateMap<PreviousYearManureApplicationNitrogenDefault, PreviousYearManureApplicationNitrogenDefault>();
 
-            CreateMap<Version, Version>();
+            CreateMap<StaticDataVersion, StaticDataVersion>();
         }
     }
 }

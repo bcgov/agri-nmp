@@ -1168,7 +1168,7 @@ namespace Agri.Data.TestHarness
             var expected = _staticExtRepo.GetLatestVersionDataTree();
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.StaticDataVersion, actual.StaticDataVersion);
+            Assert.AreEqual(expected.Version, actual.Version);
         }
 
         [TestMethod]

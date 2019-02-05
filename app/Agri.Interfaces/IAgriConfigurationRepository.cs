@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
-using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Interfaces
 {
@@ -115,7 +114,7 @@ namespace Agri.Interfaces
         string GetSoilTestWarning();
         string GetExternalLink(string name);
         string GetUserPrompt(string name);
-        Version GetLatestVersionDataTree();
+        StaticDataVersion GetLatestVersionDataTree();
         string GetStaticDataVersion();
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
         PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(

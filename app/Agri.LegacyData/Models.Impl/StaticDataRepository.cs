@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Agri.Models.Calculate;
+using Agri.Models.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using Agri.Models.Configuration;
-using Agri.Models.Calculate;
-using Version = Agri.Models.Configuration.Version;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Agri.LegacyData.Models.Impl
 {
@@ -1484,11 +1482,11 @@ namespace Agri.LegacyData.Models.Impl
             return result;
         }
 
-        public Version GetLatestVersionDataTree()
+        public StaticDataVersion GetLatestVersionDataTree()
         {
-            var version = new Version();
+            var version = new StaticDataVersion();
 
-            version.StaticDataVersion = (string)rss["agri"]["nmp"]["versions"]["staticDataVersion"];
+            version.Version = (string)rss["agri"]["nmp"]["versions"]["staticDataVersion"];
 
             return version;
         }

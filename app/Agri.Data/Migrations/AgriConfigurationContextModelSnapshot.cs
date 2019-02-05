@@ -25,15 +25,15 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("DryMatter");
 
-                    b.Property<int>("VersionId");
+                    b.Property<int?>("StaticDataVersionId");
 
                     b.Property<decimal?>("Value");
 
-                    b.HasKey("SeasonApplicationId", "DryMatter", "VersionId");
+                    b.HasKey("SeasonApplicationId", "DryMatter");
 
-                    b.HasAlternateKey("DryMatter", "SeasonApplicationId", "VersionId");
+                    b.HasAlternateKey("DryMatter", "SeasonApplicationId");
 
-                    b.HasIndex("VersionId");
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("AmmoniaRetentions");
                 });
@@ -999,6 +999,18 @@ namespace Agri.Data.Migrations
                     b.ToTable("SolidMaterialsConversionFactors");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.StaticDataVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Version");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StaticDataVersions");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.SubMenu", b =>
                 {
                     b.Property<int>("Id")
@@ -1091,20 +1103,6 @@ namespace Agri.Data.Migrations
                     b.ToTable("UserPrompts");
                 });
 
-            modelBuilder.Entity("Agri.Models.Configuration.Version", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedDateTime");
-
-                    b.Property<string>("StaticDataVersion");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Versions");
-                });
-
             modelBuilder.Entity("Agri.Models.Configuration.Yield", b =>
                 {
                     b.Property<int>("Id")
@@ -1135,10 +1133,9 @@ namespace Agri.Data.Migrations
 
             modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
                 {
-                    b.HasOne("Agri.Models.Configuration.Version", "Version")
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion")
                         .WithMany("AmmoniaRetentions")
-                        .HasForeignKey("VersionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("StaticDataVersionId");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.AnimalSubType", b =>

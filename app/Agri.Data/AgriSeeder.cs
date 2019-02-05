@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Data
 {
@@ -365,10 +364,10 @@ namespace Agri.Data
                 _context.NutrientIcons.AddRange(icons);
             }
 
-            if (!_context.Versions.Any())
+            if (!_context.StaticDataVersions.Any())
             {
                 var version = staticExtRepo.GetStaticDataVersion();
-                _context.Versions.Add(new Version { StaticDataVersion = version });
+                _context.StaticDataVersions.Add(new StaticDataVersion { Version = version });
             }
 
             if (!_context.NitrateCreditSampleDates.Any())

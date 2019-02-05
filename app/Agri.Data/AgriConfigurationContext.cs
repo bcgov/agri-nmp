@@ -1,9 +1,6 @@
-﻿using Agri.LegacyData.Models;
-using Agri.Models.Configuration;
+﻿using Agri.Models.Configuration;
 using Agri.Models.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Data
 {
@@ -68,7 +65,7 @@ namespace Agri.Data
         public DbSet<SolidMaterialsConversionFactor> SolidMaterialsConversionFactors { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<UserPrompt> UserPrompts { get; set; }
-        public DbSet<Version> Versions { get; set; }
+        public DbSet<StaticDataVersion> StaticDataVersions { get; set; }
         public DbSet<Yield> Yields { get; set; }
 
         public DbSet<AppliedMigrationSeedData> AppliedMigrationSeedData { get; set; }
@@ -83,7 +80,7 @@ namespace Agri.Data
                 {
                     table.SeasonApplicationId,
                     DM = table.DryMatter,
-                    table.VersionId 
+                    //table.VersionId 
                 });
 
             modelBuilder.Entity<CropSoilTestPotassiumRegion>()

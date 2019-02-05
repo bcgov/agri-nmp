@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Version = Agri.Models.Configuration.Version;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Agri.Data
 {
@@ -893,7 +890,7 @@ namespace Agri.Data
 
         public string GetStaticDataVersion()
         {
-            return _context.Versions.FirstOrDefault().StaticDataVersion;
+            return _context.StaticDataVersions.FirstOrDefault().Version;
         }
 
         public SoilTestPotassiumKelownaRange GetSTKKelownaRangeByPpm(int ppm)
@@ -997,9 +994,9 @@ namespace Agri.Data
             return _context.UserPrompts.ToList();
         }
 
-        public Version GetLatestVersionDataTree()
+        public StaticDataVersion GetLatestVersionDataTree()
         {
-            return _context.Versions
+            return _context.StaticDataVersions
                 .OrderByDescending(v => v.Id)
                 .Include(x => x.AmmoniaRetentions)
                 .First();
@@ -1305,26 +1302,26 @@ namespace Agri.Data
             var currentVersion = GetLatestVersionDataTree();
             var datestamp = DateTime.Now;
             var nextId = currentVersion.Id + 1;
-            var newVersion = new Version
+            var newVersion = new StaticDataVersion
             {
                 Id = nextId,
-                StaticDataVersion = $"{datestamp.Year}.{datestamp.DayOfYear}.{nextId}",
-                CreatedDateTime = datestamp
+                Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{nextId}",
+                //CreatedDateTime = datestamp
             };
 
             //var currentVersionData = 
             //Mapper.Initialize(cfg => cfg.CreateMap<AmmoniaRetention, AmmoniaRetention>());
-            var newAmmoniaRetentions =
-                _mapper.Map<List<AmmoniaRetention>, List<AmmoniaRetention>>(currentVersion.AmmoniaRetentions).ToList();
-            newAmmoniaRetentions.Select(ar => {
-                ar.Version = newVersion;
-                ar.VersionId = newVersion.Id;
-                return ar;
-            }).ToList(); 
+            //var newAmmoniaRetentions =
+            //    _mapper.Map<List<AmmoniaRetention>, List<AmmoniaRetention>>(currentVersion.AmmoniaRetentions).ToList();
+            //newAmmoniaRetentions.Select(ar => {
+            //    ar.Version = newVersion;
+            //    ar.VersionId = newVersion.Id;
+            //    return ar;
+            //}).ToList(); 
 
-            newVersion.AmmoniaRetentions.AddRange(newAmmoniaRetentions);
-            _context.Versions.Add(newVersion);
-            _context.SaveChanges();
+            //newVersion.AmmoniaRetentions.AddRange(newAmmoniaRetentions);
+            //_context.Versions.Add(newVersion);
+            //_context.SaveChanges();
             return newId;
         }
     }
