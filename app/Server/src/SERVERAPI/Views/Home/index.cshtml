@@ -32,6 +32,10 @@
                         @Html.Raw(Model.browserMsg)
                     </div>
                 }
+                
+                <div class="device-message">
+                    @Html.Raw(Model.DeviceTooSmallMessage)
+                </div>
                 <br />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <br />
