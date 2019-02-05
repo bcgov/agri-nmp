@@ -1209,18 +1209,30 @@ namespace SERVERAPI.Controllers
                     {
                         if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
                         {
+                            var surfaceAreaOfRectangle=0;
                             if (msdvm.SelectedStorageShape == StorageShapes.Rectangular)
                             {
-                                var surfaceAreaOfRectangle = _storageVolumeCalculator.GetSurfaceAreaOfRectangle(msdvm.RectangularLength,
+                                surfaceAreaOfRectangle = _storageVolumeCalculator.GetSurfaceAreaOfRectangle(msdvm.RectangularLength,
                                     msdvm.RectangularWidth, msdvm.RectangularHeight);
-                                msdvm.UncoveredAreaOfStorageStructure = surfaceAreaOfRectangle;
-                                if (msdvm.IsStructureCovered)
-                                {
-                                    msdvm.UncoveredAreaOfStorageStructure = null;
-                                }
-
-                                msdvm = GetSeparatedManure(msdvm);
+                               
                             }
+                            else if (msdvm.SelectedStorageShape == StorageShapes.Circular)
+                            {
+                                surfaceAreaOfRectangle =
+                                    _storageVolumeCalculator.GetSurfaceAreaOfCircle(msdvm.CircularDiameter);
+                            }
+                            else if (msdvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
+                            {
+                                surfaceAreaOfRectangle = _storageVolumeCalculator.GetSurfaceAreaOfSlopedWall(msdvm.SlopedWallTopLength, msdvm.SlopedWallTopWidth);
+                            }
+
+                            msdvm.UncoveredAreaOfStorageStructure = surfaceAreaOfRectangle;
+                            if (msdvm.IsStructureCovered)
+                            {
+                                msdvm.UncoveredAreaOfStorageStructure = null;
+                            }
+
+                            msdvm = GetSeparatedManure(msdvm);
                         }
 
                         var manureStorageSystem = PopulateManureStorageSystem(msdvm);
