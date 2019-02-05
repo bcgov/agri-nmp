@@ -273,14 +273,17 @@
                         <span asp-validation-for="StorageStructureName" class="text-danger"></span>
                     </div>
                     <div class="col-sm-3">
-                        <div class="form-group">
-                            <label for="ddlStorageShape">Storage shape</label>
-                            <select class="form-control" asp-for="SelectedStorageShape"
-                                    asp-items="@(Html.GetEnumSelectList<StorageShapes>())" id="ddlStorageShape">
-                                <option>Select Storage shape</option>
-                            </select>
-                            <span asp-validation-for="SelectedStorageShape" class="text-danger">Select a Storage shape</span>
-                        </div>
+                        @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            <div class="form-group">
+                                <label for="ddlStorageShape">Storage shape</label>
+                                <select class="form-control" asp-for="SelectedStorageShape"
+                                        asp-items="@(Html.GetEnumSelectList<StorageShapes>())" id="ddlStorageShape">
+                                    <option>Select Storage shape</option>
+                                </select>
+                                <span asp-validation-for="SelectedStorageShape" class="text-danger">Select a Storage shape</span>
+                            </div>
+                        }
                         <div class="form-group">
                             <div><label id="labelIsStructureCovered">Is the storage covered?</label></div>
                             <div class="form-group" role="radiogroup" aria-labelledby="labelIsStructureCovered">
@@ -294,7 +297,7 @@
                                 </label>
                             </div>
                         </div>
-                        @if (!Model.IsStructureCovered)
+                        @if (!Model.IsStructureCovered && Model.SelectedManureMaterialType == ManureMaterialType.Solid)
                         {
                             <div class="form-group">
                                 <label for="txtUncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
@@ -304,137 +307,142 @@
                             </div>
                         }
                     </div>
-                    @if (Model.SelectedStorageShape == StorageShapes.Rectangular)
+                    @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
                     {
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="txtRectangularLength">Length</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="form-group">
-                                        <input class="form-control" asp-for="RectangularLength" type="text" id="txtRectangularLength"/>
-                                        <span asp-validation-for="RectangularLength" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="RectangularWidth">Width</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="form-group">
-                                        <input class="form-control" asp-for="RectangularWidth" type="text" id="txtRectangularWidth"/>
-                                        <span asp-validation-for="RectangularWidth" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="txtRectangularHeight">Height</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="form-group">
-                                        <input class="form-control" asp-for="RectangularHeight" type="text" id="txtRectangularHeight"/>
-                                        <span asp-validation-for="RectangularHeight" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    @if (Model.SelectedStorageShape == StorageShapes.Circular)
-                    {
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="txtCircularDiameter">Diameter</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="form-group">
-                                        <input class="form-control" asp-for="CircularDiameter" type="text" id="txtCircularDiameter" />
-                                        <span asp-validation-for="CircularDiameter" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label for="txtCircularHeight">Height</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8">
-                                    <div class="form-group">
-                                        <input class="form-control" asp-for="CircularHeight" type="text" id="txtCircularHeight" />
-                                        <span asp-validation-for="CircularHeight" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    @if (Model.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
-                    {
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <label for="txtSlopedWallTopLength">Top-Length</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="form-group">
-                                        <input class="form-control" asp-for="SlopedWallTopLength" type="text" id="txtSlopedWallTopLength" />
-                                        <span asp-validation-for="SlopedWallTopLength" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <label for="txtSlopedWallTopWidth">Top-Width</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="form-group">
-                                        <input class="form-control" asp-for="SlopedWallTopWidth" type="text" id="txtSlopedWallTopWidth" />
-                                        <span asp-validation-for="SlopedWallTopWidth" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <label for="txtSlopedWallHeight">Height</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="form-group">
-                                        <input class="form-control" asp-for="SlopedWallHeight" type="text" id="txtSlopedWallHeight" />
-                                        <span asp-validation-for="SlopedWallHeight" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <label for="txtSlopedWallSlopeOfWall">Slope of wall</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-7">
-                                    <div class="form-group">
-                                        <input class="form-control" asp-for="SlopedWallSlopeOfWall" type="text" id="txtSlopedWallSlopeOfWall" />
-                                        <span asp-validation-for="SlopedWallSlopeOfWall" class="text-danger"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+
+                        @if (Model.SelectedStorageShape == StorageShapes.Rectangular)
+                         {
+                             <div class="col-sm-4">
+                                 <div class="form-group">
+                                     <div class="col-sm-4">
+                                         <div class="form-group">
+                                             <label for="txtRectangularLength">Length</label>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-8">
+                                         <div class="form-group">
+                                             <input class="form-control" asp-for="RectangularLength" type="text" id="txtRectangularLength"/>
+                                             <span asp-validation-for="RectangularLength" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="col-sm-4">
+                                         <div class="form-group">
+                                             <label for="RectangularWidth">Width</label>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-8">
+                                         <div class="form-group">
+                                             <input class="form-control" asp-for="RectangularWidth" type="text" id="txtRectangularWidth"/>
+                                             <span asp-validation-for="RectangularWidth" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="col-sm-4">
+                                         <div class="form-group">
+                                             <label for="txtRectangularHeight">Height</label>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-8">
+                                         <div class="form-group">
+                                             <input class="form-control" asp-for="RectangularHeight" type="text" id="txtRectangularHeight"/>
+                                             <span asp-validation-for="RectangularHeight" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         }
+                        @if (Model.SelectedStorageShape == StorageShapes.Circular)
+                         {
+                             <div class="col-sm-4">
+                                 <div class="form-group">
+                                     <div class="col-sm-4">
+                                         <div class="form-group">
+                                             <label for="txtCircularDiameter">Diameter</label>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-8">
+                                         <div class="form-group">
+                                             <input class="form-control" asp-for="CircularDiameter" type="text" id="txtCircularDiameter"/>
+                                             <span asp-validation-for="CircularDiameter" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="col-sm-4">
+                                         <div class="form-group">
+                                             <label for="txtCircularHeight">Height</label>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-8">
+                                         <div class="form-group">
+                                             <input class="form-control" asp-for="CircularHeight" type="text" id="txtCircularHeight"/>
+                                             <span asp-validation-for="CircularHeight" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         }
+                        @if (Model.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
+                         {
+                             <div class="col-sm-4">
+                                 <div class="form-group">
+                                     <div class="col-sm-5">
+                                         <div class="form-group">
+                                             <label for="txtSlopedWallTopLength">Top-Length</label>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-7">
+                                         <div class="form-group">
+                                             <input class="form-control" asp-for="SlopedWallTopLength" type="text" id="txtSlopedWallTopLength"/>
+                                             <span asp-validation-for="SlopedWallTopLength" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="col-sm-5">
+                                         <div class="form-group">
+                                             <label for="txtSlopedWallTopWidth">Top-Width</label>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-7">
+                                         <div class="form-group">
+                                             <input class="form-control" asp-for="SlopedWallTopWidth" type="text" id="txtSlopedWallTopWidth"/>
+                                             <span asp-validation-for="SlopedWallTopWidth" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="col-sm-5">
+                                         <div class="form-group">
+                                             <label for="txtSlopedWallHeight">Height</label>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-7">
+                                         <div class="form-group">
+                                             <input class="form-control" asp-for="SlopedWallHeight" type="text" id="txtSlopedWallHeight"/>
+                                             <span asp-validation-for="SlopedWallHeight" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <div class="col-sm-5">
+                                         <div class="form-group">
+                                             <label for="txtSlopedWallSlopeOfWall">Slope of wall</label>
+                                         </div>
+                                     </div>
+                                     <div class="col-sm-7">
+                                         <div class="form-group">
+                                             <input class="form-control" asp-for="SlopedWallSlopeOfWall" type="text" id="txtSlopedWallSlopeOfWall"/>
+                                             <span asp-validation-for="SlopedWallSlopeOfWall" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         }
                     }
                 </div>
             }

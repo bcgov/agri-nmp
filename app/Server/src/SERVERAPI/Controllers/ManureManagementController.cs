@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.CalculateService;
 using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Calculate;
@@ -26,6 +27,7 @@ namespace SERVERAPI.Controllers
         private readonly IAgriConfigurationRepository _sd;
         private readonly IManureUnitConversionCalculator _manureUnitConversionCalculator;
         private readonly IManureLiquidSolidSeparationCalculator _manureLiquidSolidSeparationCalculator;
+        private readonly IStorageVolumeCalculator _storageVolumeCalculator;
         private readonly IViewRenderService _viewRenderService;
         private readonly IMapper _mapper;
 
@@ -35,7 +37,8 @@ namespace SERVERAPI.Controllers
             IAgriConfigurationRepository sd,
             IManureUnitConversionCalculator manureUnitConversionCalculator,
             IManureLiquidSolidSeparationCalculator manureLiquidSolidSeparationCalculator,
-            IMapper mapper)
+            IStorageVolumeCalculator storageVolumeCalculator,
+        IMapper mapper)
         {
             _logger = logger;
             _env = env;
@@ -43,6 +46,7 @@ namespace SERVERAPI.Controllers
             _sd = sd;
             _manureUnitConversionCalculator = manureUnitConversionCalculator;
             _manureLiquidSolidSeparationCalculator = manureLiquidSolidSeparationCalculator;
+            _storageVolumeCalculator = storageVolumeCalculator;
             _viewRenderService = viewRenderService;
             _mapper = mapper;
         }
@@ -891,25 +895,28 @@ namespace SERVERAPI.Controllers
                         msvm.StorageStructureName = manureStorageStructure.Name;
                         msvm.UncoveredAreaOfStorageStructure = manureStorageStructure.UncoveredAreaSquareFeet;
                         msvm.IsStructureCovered = manureStorageStructure.IsStructureCovered;
-                        msvm.SelectedStorageShape = manureStorageStructure.SelectedStorageStructureShape;
-                        if (msvm.SelectedStorageShape == StorageShapes.Rectangular)
+                        if (msvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
                         {
-                            msvm.RectangularLength = manureStorageStructure.RectangularLength;
-                            msvm.RectangularWidth = manureStorageStructure.RectangularWidth;
-                            msvm.RectangularHeight = manureStorageStructure.RectangularHeight;
-                        }
-                        else if (msvm.SelectedStorageShape == StorageShapes.Circular)
-                        {
-                            msvm.CircularDiameter = manureStorageStructure.CircularDiameter;
-                            msvm.CircularHeight = manureStorageStructure.CircularHeight;
-                        }
-                        else if (msvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
-                        {
-                            msvm.SlopedWallTopLength = manureStorageStructure.SlopedWallTopLength;
-                            msvm.SlopedWallTopWidth = manureStorageStructure.SlopedWallTopWidth;
-                            msvm.SlopedWallHeight = manureStorageStructure.SlopedWallHeight;
-                            msvm.SlopedWallSlopeOfWall = manureStorageStructure.SlopedWallSlopeOfWall;
-                        }
+                            msvm.SelectedStorageShape = manureStorageStructure.SelectedStorageStructureShape;
+                            if (msvm.SelectedStorageShape == StorageShapes.Rectangular)
+                            {
+                                msvm.RectangularLength = manureStorageStructure.RectangularLength;
+                                msvm.RectangularWidth = manureStorageStructure.RectangularWidth;
+                                msvm.RectangularHeight = manureStorageStructure.RectangularHeight;
+                            }
+                            else if (msvm.SelectedStorageShape == StorageShapes.Circular)
+                            {
+                                msvm.CircularDiameter = manureStorageStructure.CircularDiameter;
+                                msvm.CircularHeight = manureStorageStructure.CircularHeight;
+                            }
+                            else if (msvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
+                            {
+                                msvm.SlopedWallTopLength = manureStorageStructure.SlopedWallTopLength;
+                                msvm.SlopedWallTopWidth = manureStorageStructure.SlopedWallTopWidth;
+                                msvm.SlopedWallHeight = manureStorageStructure.SlopedWallHeight;
+                                msvm.SlopedWallSlopeOfWall = manureStorageStructure.SlopedWallSlopeOfWall;
+                            }
+                        } 
                     }
 
                     msvm.StorageStructureNamePlaceholder = msvm.SelectedManureMaterialType == ManureMaterialType.Liquid ?
@@ -1127,7 +1134,7 @@ namespace SERVERAPI.Controllers
                         }
 
                         if (!msdvm.IsStructureCovered &&
-                            !msdvm.UncoveredAreaOfStorageStructure.HasValue)
+                            !msdvm.UncoveredAreaOfStorageStructure.HasValue && msdvm.SelectedManureMaterialType == ManureMaterialType.Solid)
                         {
                             ModelState.AddModelError("UncoveredAreaOfStorageStructure", "Required");
                         }
@@ -1143,54 +1150,79 @@ namespace SERVERAPI.Controllers
                         }
                     }
 
-                    if (msdvm.SelectedStorageShape == StorageShapes.Rectangular)
+                    if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
                     {
-                        if (string.IsNullOrWhiteSpace(msdvm.RectangularLength.ToString()))
+                        if (msdvm.SelectedStorageShape == StorageShapes.Rectangular)
                         {
-                            ModelState.AddModelError("RectangularLength", "Required");
+                            if (string.IsNullOrWhiteSpace(msdvm.RectangularLength.ToString()))
+                            {
+                                ModelState.AddModelError("RectangularLength", "Required");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(msdvm.RectangularHeight.ToString()))
+                            {
+                                ModelState.AddModelError("RectangularHeight", "Required");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(msdvm.RectangularWidth.ToString()))
+                            {
+                                ModelState.AddModelError("RectangularWidth", "Required");
+                            }
                         }
-                        if (string.IsNullOrWhiteSpace(msdvm.RectangularHeight.ToString()))
+                        else if (msdvm.SelectedStorageShape == StorageShapes.Circular)
                         {
-                            ModelState.AddModelError("RectangularHeight", "Required");
+                            if (string.IsNullOrWhiteSpace(msdvm.CircularDiameter.ToString()))
+                            {
+                                ModelState.AddModelError("CircularDiameter", "Required");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(msdvm.CircularHeight.ToString()))
+                            {
+                                ModelState.AddModelError("CircularHeight", "Required");
+                            }
                         }
-                        if (string.IsNullOrWhiteSpace(msdvm.RectangularWidth.ToString()))
+                        else if (msdvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
                         {
-                            ModelState.AddModelError("RectangularWidth", "Required");
-                        }
-                    }
-                    else if (msdvm.SelectedStorageShape == StorageShapes.Circular)
-                    {
-                        if (string.IsNullOrWhiteSpace(msdvm.CircularDiameter.ToString()))
-                        {
-                            ModelState.AddModelError("CircularDiameter", "Required");
-                        }
-                        if (string.IsNullOrWhiteSpace(msdvm.CircularHeight.ToString()))
-                        {
-                            ModelState.AddModelError("CircularHeight", "Required");
-                        }
-                    }
-                    else if (msdvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
-                    {
-                        if (string.IsNullOrWhiteSpace(msdvm.SlopedWallTopLength.ToString()))
-                        {
-                            ModelState.AddModelError("SlopedWallTopLength", "Required");
-                        }
-                        if (string.IsNullOrWhiteSpace(msdvm.SlopedWallTopWidth.ToString()))
-                        {
-                            ModelState.AddModelError("SlopedWallTopWidth", "Required");
-                        }
-                        if (string.IsNullOrWhiteSpace(msdvm.SlopedWallHeight.ToString()))
-                        {
-                            ModelState.AddModelError("SlopedWallHeight", "Required");
-                        }
-                        if (string.IsNullOrWhiteSpace(msdvm.SlopedWallSlopeOfWall.ToString()))
-                        {
-                            ModelState.AddModelError("SlopedWallSlopeOfWall", "Required");
+                            if (string.IsNullOrWhiteSpace(msdvm.SlopedWallTopLength.ToString()))
+                            {
+                                ModelState.AddModelError("SlopedWallTopLength", "Required");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(msdvm.SlopedWallTopWidth.ToString()))
+                            {
+                                ModelState.AddModelError("SlopedWallTopWidth", "Required");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(msdvm.SlopedWallHeight.ToString()))
+                            {
+                                ModelState.AddModelError("SlopedWallHeight", "Required");
+                            }
+
+                            if (string.IsNullOrWhiteSpace(msdvm.SlopedWallSlopeOfWall.ToString()))
+                            {
+                                ModelState.AddModelError("SlopedWallSlopeOfWall", "Required");
+                            }
                         }
                     }
 
                     if (ModelState.IsValid)
                     {
+                        if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            if (msdvm.SelectedStorageShape == StorageShapes.Rectangular)
+                            {
+                                var surfaceAreaOfRectangle = _storageVolumeCalculator.GetSurfaceAreaOfRectangle(msdvm.RectangularLength,
+                                    msdvm.RectangularWidth, msdvm.RectangularHeight);
+                                msdvm.UncoveredAreaOfStorageStructure = surfaceAreaOfRectangle;
+                                if (msdvm.IsStructureCovered)
+                                {
+                                    msdvm.UncoveredAreaOfStorageStructure = null;
+                                }
+
+                                msdvm = GetSeparatedManure(msdvm);
+                            }
+                        }
+
                         var manureStorageSystem = PopulateManureStorageSystem(msdvm);
 
                         if (msdvm.SystemId.HasValue)
@@ -1265,24 +1297,28 @@ namespace SERVERAPI.Controllers
 
                 storageStructure.Name = msdvm.StorageStructureName;
                 storageStructure.UncoveredAreaSquareFeet = msdvm.UncoveredAreaOfStorageStructure;
-                storageStructure.SelectedStorageStructureShape = msdvm.SelectedStorageShape;
-                if (msdvm.SelectedStorageShape == StorageShapes.Rectangular)
+
+                if (manureStorageSystem.ManureMaterialType == ManureMaterialType.Liquid)
                 {
-                    storageStructure.RectangularLength = msdvm.RectangularLength;
-                    storageStructure.RectangularWidth = msdvm.RectangularWidth;
-                    storageStructure.RectangularHeight = msdvm.RectangularHeight;
-                }
-                else if (msdvm.SelectedStorageShape == StorageShapes.Circular)
-                {
-                    storageStructure.CircularDiameter = msdvm.CircularDiameter;
-                    storageStructure.CircularHeight = msdvm.CircularHeight;
-                }
-                else if (msdvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
-                {
-                    storageStructure.SlopedWallTopLength = msdvm.SlopedWallTopLength;
-                    storageStructure.SlopedWallTopWidth = msdvm.SlopedWallTopWidth;
-                    storageStructure.SlopedWallHeight = msdvm.SlopedWallHeight;
-                    storageStructure.SlopedWallSlopeOfWall = msdvm.SlopedWallSlopeOfWall;
+                    storageStructure.SelectedStorageStructureShape = msdvm.SelectedStorageShape;
+                    if (msdvm.SelectedStorageShape == StorageShapes.Rectangular)
+                    {
+                        storageStructure.RectangularLength = msdvm.RectangularLength;
+                        storageStructure.RectangularWidth = msdvm.RectangularWidth;
+                        storageStructure.RectangularHeight = msdvm.RectangularHeight;
+                    }
+                    else if (msdvm.SelectedStorageShape == StorageShapes.Circular)
+                    {
+                        storageStructure.CircularDiameter = msdvm.CircularDiameter;
+                        storageStructure.CircularHeight = msdvm.CircularHeight;
+                    }
+                    else if (msdvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
+                    {
+                        storageStructure.SlopedWallTopLength = msdvm.SlopedWallTopLength;
+                        storageStructure.SlopedWallTopWidth = msdvm.SlopedWallTopWidth;
+                        storageStructure.SlopedWallHeight = msdvm.SlopedWallHeight;
+                        storageStructure.SlopedWallSlopeOfWall = msdvm.SlopedWallSlopeOfWall;
+                    }
                 }
 
                 if (!msdvm.StorageStructureId.HasValue)
