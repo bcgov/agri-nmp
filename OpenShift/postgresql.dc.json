@@ -60,7 +60,7 @@
       "apiVersion": "v1",
       "kind": "PersistentVolumeClaim",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}",
+        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
         "annotations": {
           "volume.beta.kubernetes.io/storage-class": "gluster-file-db",
           "volume.beta.kubernetes.io/storage-provisioner": "kubernetes.io/glusterfs"
