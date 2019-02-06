@@ -17,5 +17,6 @@
         public string ButtonPressed { get; set; }
         public string ExplainFileLoad { get; set; }
         public string fileLoadLabelText { get; set; }
+        public string DeviceTooSmallMessage { get; set; }
     }
 }

@@ -58,6 +58,7 @@ namespace SERVERAPI.Controllers
 
             fvm.HasAnimals = farmData.HasAnimals;
             fvm.ImportsManureCompost = farmData.ImportsManureCompost;
+            fvm.UsesFertilizer = farmData.UsesFertilizer;
 
             if (fvm.subRegionOptions.Count > 1)
             {
@@ -176,6 +177,7 @@ namespace SERVERAPI.Controllers
                 farmData.farmSubRegion = fvm.selSubRegOption;
                 farmData.HasAnimals = fvm.HasAnimals;
                 farmData.ImportsManureCompost = fvm.ImportsManureCompost;
+                farmData.UsesFertilizer = fvm.UsesFertilizer;
 
                 _ud.UpdateFarmDetails(farmData);
                 HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);

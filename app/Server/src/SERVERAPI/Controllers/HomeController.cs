@@ -110,6 +110,7 @@ namespace SERVERAPI.Controllers
             lvm.browserAgent = _bd.BrowserAgent;
             lvm.fileLoadLabelText = _sd.GetUserPrompt("FileLoadQuestion");
             lvm.ExplainFileLoad = _sd.GetUserPrompt("ExplainFileLoad");
+            lvm.DeviceTooSmallMessage = _sd.GetUserPrompt("DeviceTooSmallMessage");
 
             if (_bd.OSValid)
             {

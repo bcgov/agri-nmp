@@ -186,6 +186,11 @@ namespace SERVERAPI.Controllers
                 mvm.ltN = "  0";
                 mvm.ltP2o5 = "  0";
                 mvm.ltK2o = "  0";
+
+                if (!string.IsNullOrEmpty(_ud?.FarmData()?.LastAppliedFarmManureId))
+                {
+                    mvm.SelectedFarmManure = _ud?.FarmData().LastAppliedFarmManureId;
+                }
             }
 
             ManureDetailsSetup(ref mvm);
