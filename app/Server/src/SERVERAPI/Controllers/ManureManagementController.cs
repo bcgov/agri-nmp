@@ -1122,24 +1122,10 @@ namespace SERVERAPI.Controllers
 
                             msdvm = GetSeparatedManure(msdvm);
 
-                            if (msdvm.RectangularLength != null && msdvm.RectangularWidth != null &&
-                                msdvm.RectangularHeight != null)
+                            if (msdvm.SystemId != null)
                             {
-                                if (msdvm.SystemId != null)
-                                {
-                                    var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
-                                    msdvm.volumeOfStorageSystem =
-                                        savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons) +
-                                        msdvm.volumeUSGallons;
-                                    msdvm.volumeUSGallonsOfStorageSystem =
-                                        msdvm.volumeOfStorageSystem + " U.S. Gallons (" + savedStorageSystem.Name + ")";
-                                }
-                                else
-                                {
-                                    msdvm.volumeOfStorageSystem = msdvm.volumeUSGallons;
-                                    msdvm.volumeUSGallonsOfStorageSystem =
-                                        msdvm.volumeOfStorageSystem + " U.S. Gallons (" + msdvm.SystemName + ")";
-                                }
+                                var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
+                                msdvm.volumeUSGallonsOfStorageSystem = savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons) + " U.S. Gallons (" + savedStorageSystem.Name + ")";
                             }
                         }
                         else if (msdvm.SelectedStorageShape == StorageShapes.Circular)
@@ -1161,23 +1147,10 @@ namespace SERVERAPI.Controllers
 
                             msdvm = GetSeparatedManure(msdvm);
 
-                            if (msdvm.CircularDiameter != null && msdvm.CircularHeight != null)
+                            if (msdvm.SystemId != null)
                             {
-                                if (msdvm.SystemId != null)
-                                {
-                                    var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
-                                    msdvm.volumeOfStorageSystem =
-                                        savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons) +
-                                        msdvm.volumeUSGallons;
-                                    msdvm.volumeUSGallonsOfStorageSystem =
-                                        msdvm.volumeOfStorageSystem + " U.S. Gallons (" + savedStorageSystem.Name + ")";
-                                }
-                                else
-                                {
-                                    msdvm.volumeOfStorageSystem = msdvm.volumeUSGallons;
-                                    msdvm.volumeUSGallonsOfStorageSystem =
-                                        msdvm.volumeOfStorageSystem + " U.S. Gallons (" + msdvm.SystemName + ")";
-                                }
+                                var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
+                                msdvm.volumeUSGallonsOfStorageSystem = savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons) + " U.S. Gallons (" + savedStorageSystem.Name + ")";
                             }
                         }
                         else if (msdvm.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
@@ -1199,24 +1172,10 @@ namespace SERVERAPI.Controllers
 
                             msdvm = GetSeparatedManure(msdvm);
 
-                            if (msdvm.SlopedWallTopLength != null && msdvm.SlopedWallTopWidth != null &&
-                                msdvm.SlopedWallHeight != null && msdvm.SlopedWallSlopeOfWall != null)
+                            if (msdvm.SystemId != null)
                             {
-                                if (msdvm.SystemId != null)
-                                {
-                                    var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
-                                    msdvm.volumeOfStorageSystem =
-                                        savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons) +
-                                        msdvm.volumeUSGallons;
-                                    msdvm.volumeUSGallonsOfStorageSystem =
-                                        msdvm.volumeOfStorageSystem + " U.S. Gallons (" + savedStorageSystem.Name + ")";
-                                }
-                                else
-                                {
-                                    msdvm.volumeOfStorageSystem = msdvm.volumeUSGallons;
-                                    msdvm.volumeUSGallonsOfStorageSystem =
-                                        msdvm.volumeOfStorageSystem + " U.S. Gallons (" + msdvm.SystemName + ")";
-                                }
+                                var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
+                                msdvm.volumeUSGallonsOfStorageSystem = savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons) + " U.S. Gallons (" + savedStorageSystem.Name + ")";
                             }
                         }
                     }

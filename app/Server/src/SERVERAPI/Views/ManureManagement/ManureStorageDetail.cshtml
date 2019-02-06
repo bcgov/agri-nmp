@@ -452,6 +452,10 @@
                     @if (Model.volumeUSGallonsOfStorageSystem != null)
                     {
                         <div class="form-group col-sm-3">
+                            @if (Model.volumeUSGallons == null)
+                            {
+                                <label for="txtStorageVolume">Storage Volume</label>
+                            }
                             <label for="txtStorageSystemVolumeUSGallons">@Model.volumeUSGallonsOfStorageSystem</label>
                         </div>    
                     }
