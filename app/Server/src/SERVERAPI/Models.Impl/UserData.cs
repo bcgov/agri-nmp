@@ -86,6 +86,7 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.year = fd.year;
             userData.farmDetails.HasAnimals = fd.HasAnimals;
             userData.farmDetails.ImportsManureCompost = fd.ImportsManureCompost;
+            userData.farmDetails.UsesFertilizer = fd.UsesFertilizer;
 
             //change the year associated with the array
             YearData yd = userData.years.FirstOrDefault();
