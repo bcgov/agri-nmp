@@ -196,7 +196,7 @@
                 }
               },
               {
-                "name": "${DATABASE_SERVICE_NAME}-run",
+                "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-run",
                 "emptyDir": {}
               }
             ]
