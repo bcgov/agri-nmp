@@ -444,10 +444,16 @@
                     }
                     @if (Model.volumeUSGallons != null)
                     {
+                            <div class="form-group col-sm-3">
+                                <label for="txtStorageVolume">Storage Volume</label>
+                                <label for="txtStorageVolumeUSGallons" style="font-weight: normal !important">@Model.volumeOfStorageStructure</label>
+                            </div>
+                    }
+                    @if (Model.volumeUSGallonsOfStorageSystem != null)
+                    {
                         <div class="form-group col-sm-3">
-                            <label for="txtStorageVolume">Storage Volume</label>
-                            <label for="txtStorageVolumeUSGallons">@Model.volumeOfStorageStructure</label>
-                        </div>
+                            <label for="txtStorageSystemVolumeUSGallons">@Model.volumeUSGallonsOfStorageSystem</label>
+                        </div>    
                     }
                 </div>
             }
