@@ -160,7 +160,12 @@
                   "timeoutSeconds": 1
                 },
                 "resources": {
+                  "requests": {
+                    "cpu": "${CPU_REQUEST}",
+                    "memory": "${MEMORY_REQUEST}"
+                  },
                   "limits": {
+                    "cpu": "${CPU_LIMIT}",
                     "memory": "${MEMORY_LIMIT}"
                   }
                 },
@@ -173,6 +178,10 @@
                   {
                     "mountPath": "/var/lib/pgsql/data",
                     "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-data"
+                  },
+                  {
+                    "mountPath": "/var/run/postgresql",
+                    "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-run"
                   }
                 ]
               }
@@ -185,6 +194,10 @@
                 "persistentVolumeClaim": {
                   "claimName": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
                 }
+              },
+              {
+                "name": "${DATABASE_SERVICE_NAME}-run",
+                "emptyDir": {}
               }
             ]
           }
@@ -277,6 +290,10 @@
       "value": "9.6"
     },
     {
+      "name": "CPU_LIMIT",
+      "value": "500m"
+    },
+    {
       "description": "Maximum amount of memory the container can use.",
       "displayName": "Memory Limit",
       "name": "MEMORY_LIMIT",
@@ -289,6 +306,14 @@
       "name": "VOLUME_CAPACITY",
       "required": true,
       "value": "1Gi"
+    },
+    {
+      "name": "CPU_REQUEST",
+      "value": "200m"
+    },
+    {
+      "name": "MEMORY_REQUEST",
+      "value": "1.5Gi"
     },
     {
       "description": "Version of PostgreSQL image to be used (9.5 or 9.6).",
