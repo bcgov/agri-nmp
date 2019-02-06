@@ -78,4 +78,13 @@ namespace Agri.Models
         Nutrients,
         Report
     }
+
+    public enum DairyCattleAnimalSubTypes
+    {
+        Calves0To3Months = 4,
+        Calves3To6Months = 5,
+        Heifers6To15Months = 6,
+        Heifers15To26Months = 7,
+        DryCows = 8
+    }
 }
