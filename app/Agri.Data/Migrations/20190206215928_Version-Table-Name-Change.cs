@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agri.Data.Migrations
 {
-    public partial class ChangeNameStaticDataVersion : Migration
+    public partial class VersionTableNameChange : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,7 +22,8 @@ namespace Agri.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Version = table.Column<string>(nullable: true)
+                    Version = table.Column<string>(nullable: true),
+                    CreatedDateTime = table.Column<DateTime>(nullable: false, defaultValueSql: "NOW()")
                 },
                 constraints: table =>
                 {
@@ -40,6 +42,11 @@ namespace Agri.Data.Migrations
                 principalTable: "StaticDataVersions",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.InsertData(
+                table: "StaticDataVersions",
+                columns: new[] {"Id", "Version", "CreatedDateTime" },
+                values: new object[]{ 1, "2018.951", new DateTime(2018, 10, 1) });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

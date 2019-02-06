@@ -1004,6 +1004,10 @@ namespace Agri.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("CreatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NOW()");
+
                     b.Property<string>("Version");
 
                     b.HasKey("Id");

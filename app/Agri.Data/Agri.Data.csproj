@@ -7,6 +7,11 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190204220558_Versions-Update.cs" />
     <Compile Remove="Migrations\20190204222138_Versions-Update.cs" />
+    <Compile Remove="Migrations\20190205210459_ChangeNameStaticDataVersion.cs" />
+    <Compile Remove="Migrations\20190206213946_Configuration-Base-POC.cs" />
+    <Compile Remove="Migrations\20190206214140_Configuration-Base-POC.cs" />
+    <Compile Remove="Migrations\20190206215202_Configuration-Base-POC.cs" />
+    <Compile Remove="Migrations\20190206215304_Version-Table-Name-Change.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
@@ -13,7 +14,7 @@ namespace Agri.Models.Configuration
         [Key]
         public int Id { get; set; }
         public string Version { get; set; }
-        //public DateTime CreatedDateTime { get; set; }
+        public DateTime CreatedDateTime { get; set; }
 
         public List<AmmoniaRetention> AmmoniaRetentions { get; set; }
     }

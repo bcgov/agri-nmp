@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20190205210459_ChangeNameStaticDataVersion")]
-    partial class ChangeNameStaticDataVersion
+    [Migration("20190206215928_Version-Table-Name-Change")]
+    partial class VersionTableNameChange
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1005,6 +1005,10 @@ namespace Agri.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NOW()");
 
                     b.Property<string>("Version");
 

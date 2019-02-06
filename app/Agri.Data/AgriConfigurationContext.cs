@@ -1,4 +1,5 @@
-﻿using Agri.Models.Configuration;
+﻿using System;
+using Agri.Models.Configuration;
 using Agri.Models.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -80,7 +81,7 @@ namespace Agri.Data
                 {
                     table.SeasonApplicationId,
                     DM = table.DryMatter,
-                    //table.VersionId 
+                    //table.StaticDataVersionId
                 });
 
             modelBuilder.Entity<CropSoilTestPotassiumRegion>()
@@ -135,6 +136,11 @@ namespace Agri.Data
                 .WithMany(manure => manure.PreviousYearManureApplicationNitrogenDefaults)
                 .HasForeignKey(p => p.FieldManureApplicationHistory)
                 .HasPrincipalKey(manure => manure.FieldManureApplicationHistory);
+
+            //Default Values
+            modelBuilder.Entity<StaticDataVersion>()
+                .Property(s => s.CreatedDateTime)
+                .HasDefaultValueSql("NOW()");
         }
     }
 }
