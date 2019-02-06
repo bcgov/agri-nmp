@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
-using Agri.Models.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Version = Agri.Models.Configuration.Version;
-using Agri.Interfaces;
-using AutoMapper;
 
 namespace Agri.Data
 {
@@ -646,6 +643,35 @@ namespace Agri.Data
                         var updated = _context.UserPrompts.Single(up => up.Id == newUserPrompt.Id);
                         _mapper.Map(newUserPrompt, updated);
                         _context.UserPrompts.Update(updated);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("5_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("5_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("6_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("6_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);

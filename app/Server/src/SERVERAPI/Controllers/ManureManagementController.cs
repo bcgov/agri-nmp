@@ -14,11 +14,13 @@ using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
 using Agri.Models.Configuration;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Controllers
 {
     public class ManureManagementController : BaseController
     {
+        private readonly ILogger<ManureManagementController> _logger;
         private readonly IHostingEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
@@ -28,7 +30,8 @@ namespace SERVERAPI.Controllers
         private readonly IViewRenderService _viewRenderService;
         private readonly IMapper _mapper;
 
-        public ManureManagementController(IHostingEnvironment env, 
+        public ManureManagementController(ILogger<ManureManagementController> logger,
+            IHostingEnvironment env, 
             IViewRenderService viewRenderService, UserData ud,
             IAgriConfigurationRepository sd,
             IManureUnitConversionCalculator manureUnitConversionCalculator,
@@ -36,6 +39,7 @@ namespace SERVERAPI.Controllers
             IManureAnimalNumberCalculator manureAnimalNumberCalculator,
             IMapper mapper)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
@@ -2004,6 +2008,7 @@ namespace SERVERAPI.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Unexpected system error.");
+                _logger.LogError(ex, "CompostDetails Exception");
             }
 
             return PartialView(cvm);
@@ -2300,6 +2305,13 @@ namespace SERVERAPI.Controllers
             vm.Target = target;
             vm.ImportManureName = manure.ManagedManureName;
             vm.ImportedManureId = id;
+            vm.AppliedToAField = false;
+
+            if (_ud.GetYearData().GetFieldsAppliedWithManure(manure).Any())
+            {
+                vm.AppliedToAField = true;
+                vm.DeleteWarningForUnstorableMaterial = _sd.GetUserPrompt("ImportMaterialNotStoredDeleteWarning");
+            }
 
             return PartialView("ManureImportedDelete", vm);
         }

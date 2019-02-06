@@ -59,7 +59,15 @@ namespace Agri.Models.Farm
 
             return appliedFields;
         }
-        
+
+        public List<Field> GetFieldsAppliedWithManure(ImportedManure importedManure)
+        {
+            var farmManuresWithImported = GetFarmManureIds(importedManure);
+            var fields = GetFieldsAppliedWithFarmManure(farmManuresWithImported);
+
+            return fields;
+        }
+
         public List<Field> GetFieldsAppliedWithManure(FarmManure farmManure)
         {
             var appliedFields = GetFieldsAppliedWithFarmManure(new List<int> {farmManure.id});
