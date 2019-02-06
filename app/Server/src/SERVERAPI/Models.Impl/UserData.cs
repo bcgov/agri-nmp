@@ -86,6 +86,7 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.year = fd.year;
             userData.farmDetails.HasAnimals = fd.HasAnimals;
             userData.farmDetails.ImportsManureCompost = fd.ImportsManureCompost;
+            userData.farmDetails.UsesFertilizer = fd.UsesFertilizer;
 
             //change the year associated with the array
             YearData yd = userData.years.FirstOrDefault();
@@ -354,6 +355,7 @@ namespace SERVERAPI.Models.Impl
             newMan.id = nextId;
 
             fld.nutrients.nutrientManures.Add(newMan);
+            userData.LastAppliedFarmManureId = newMan.manureId;
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
             return newMan.id;
@@ -444,6 +446,8 @@ namespace SERVERAPI.Models.Impl
             nm.yrK2o = updtMan.yrK2o;
             nm.yrN = updtMan.yrN;
             nm.yrP2o5 = updtMan.yrP2o5;
+
+            userData.LastAppliedFarmManureId = updtMan.manureId;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
