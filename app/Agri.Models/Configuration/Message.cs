@@ -1,7 +1,10 @@
-﻿namespace Agri.Models.Configuration
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models.Configuration
 {
-    public class Message
+    public class Message : ConfigurationBase
     {
+        [Key]
         public int Id { get; set; }
         public string Text { get; set; }
         public string DisplayMessage { get; set; }

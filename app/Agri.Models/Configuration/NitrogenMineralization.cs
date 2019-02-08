@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class NitrogenMineralization
+    public class NitrogenMineralization : ConfigurationBase
     {
         public NitrogenMineralization()
         {
@@ -17,6 +17,7 @@ namespace Agri.Models.Configuration
         public decimal FirstYearValue { get; set; }
         public decimal LongTermValue { get; set; }
 
+        public Location Location { get; set; }
         public List<Manure> Manures { get; set; }
     }
 }

@@ -1,7 +1,10 @@
-﻿namespace Agri.Models.Configuration
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models.Configuration
 {
-    public class Manure
+    public class Manure : ConfigurationBase
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string ManureClass { get; set; }
@@ -18,6 +21,6 @@
         public decimal Nitrate { get; set; }
 
         public NitrogenMineralization NMineralization { get; set; }
-        public DryMatter Dm { get; set; }
+        public DryMatter DryMatter { get; set; }
     }
 }

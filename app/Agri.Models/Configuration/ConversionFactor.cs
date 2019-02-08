@@ -1,7 +1,10 @@
-﻿namespace Agri.Models.Configuration
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models.Configuration
 {
-    public class ConversionFactor
+    public class ConversionFactor : ConfigurationBase
     {
+        [Key]
         public int Id { get; set; }
         public decimal NitrogenProteinConversion { get; set; }
         public decimal UnitConversion { get; set; }

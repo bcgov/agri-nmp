@@ -1,7 +1,10 @@
-﻿namespace Agri.Models.Configuration
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models.Configuration
 {
-    public class FertilizerUnit
+    public class FertilizerUnit : ConfigurationBase
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string DryLiquid { get; set; }

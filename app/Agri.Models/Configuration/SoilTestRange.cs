@@ -1,6 +1,6 @@
 ﻿namespace Agri.Models.Configuration
 {
-    public class SoilTestRange
+    public class SoilTestRange : ConfigurationBase
     {
         public int LowerLimit { get; set; }
         public int UpperLimit { get; set; }

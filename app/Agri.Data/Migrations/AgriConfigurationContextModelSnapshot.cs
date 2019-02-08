@@ -25,15 +25,11 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("DryMatter");
 
-                    b.Property<int?>("StaticDataVersionId");
-
                     b.Property<decimal?>("Value");
 
                     b.HasKey("SeasonApplicationId", "DryMatter");
 
                     b.HasAlternateKey("DryMatter", "SeasonApplicationId");
-
-                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("AmmoniaRetentions");
                 });
@@ -1133,13 +1129,6 @@ namespace Agri.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppliedMigrationSeedData");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
-                {
-                    b.HasOne("Agri.Models.Configuration.StaticDataVersion")
-                        .WithMany("AmmoniaRetentions")
-                        .HasForeignKey("StaticDataVersionId");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.AnimalSubType", b =>

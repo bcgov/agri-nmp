@@ -1,7 +1,10 @@
-﻿namespace Agri.Models.Configuration
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models.Configuration
 {
-    public class DefaultSoilTest
+    public class DefaultSoilTest : ConfigurationBase
     {
+        [Key]
         public int Id { get; set; }
         public decimal Nitrogen { get; set; }
         public decimal Phosphorous { get; set; }

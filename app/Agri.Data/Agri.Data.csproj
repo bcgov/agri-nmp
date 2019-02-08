@@ -12,6 +12,24 @@
     <Compile Remove="Migrations\20190206214140_Configuration-Base-POC.cs" />
     <Compile Remove="Migrations\20190206215202_Configuration-Base-POC.cs" />
     <Compile Remove="Migrations\20190206215304_Version-Table-Name-Change.cs" />
+    <Compile Remove="Migrations\20190206215928_Version-Table-Name-Change.cs" />
+    <Compile Remove="Migrations\20190206221841_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190206223612_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207010430_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207010901_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207174559_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207192652_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207193425_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207210559_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207224633_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207225315_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207230252_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207231034_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207232313_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207232758_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207233111_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207233407_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190207234440_Add-StaticDataVersion-Relationships.cs" />
   </ItemGroup>
 
   <ItemGroup>
