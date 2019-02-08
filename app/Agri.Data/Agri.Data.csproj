@@ -30,6 +30,8 @@
     <Compile Remove="Migrations\20190207233111_Add-StaticDataVersion-Relationships.cs" />
     <Compile Remove="Migrations\20190207233407_Add-StaticDataVersion-Relationships.cs" />
     <Compile Remove="Migrations\20190207234440_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190208035524_Add-StaticDataVersion-Relationships.cs" />
+    <Compile Remove="Migrations\20190208040337_Add-StaticDataVersion-Relationships.cs" />
   </ItemGroup>
 
   <ItemGroup>

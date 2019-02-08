@@ -39,8 +39,9 @@ namespace Agri.Data
         public DbSet<LiquidSolidSeparationDefault> LiquidSolidSeparationDefaults { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<MainMenu> MainMenus { get; set; }
-        public DbSet<ManureImportedDefault> ManureImportedDefaults { get; set; }
         public DbSet<Manure> Manures { get; set; }
+        public DbSet<ManureImportedDefault> ManureImportedDefaults { get; set; }
+        public DbSet<ManureLocationNitrogenMineralization> ManureLocationNitrogenMineralizations { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<NitrateCreditSampleDate> NitrateCreditSampleDates { get; set; }
         public DbSet<NitrogenMineralization> NitrogenMineralizations { get; set; }
@@ -279,6 +280,15 @@ namespace Agri.Data
                 .HasKey(table => new
                 {
                     table.Id,
+                    table.StaticDataVersionId
+                });
+
+            modelBuilder.Entity<ManureLocationNitrogenMineralization>()
+                .HasKey(table => new
+                {
+                    table.ManureId,
+                    table.LocationId,
+                    table.NitrogenMineralizationId,
                     table.StaticDataVersionId
                 });
 
@@ -609,13 +619,18 @@ namespace Agri.Data
 
                 b.HasOne(manure => manure.DryMatter)
                     .WithMany(dm => dm.Manures)
-                    .HasForeignKey(manure => new {manure.DMId, manure.StaticDataVersionId})
+                    .HasForeignKey(manure => new {manure.DryMatterId, manure.StaticDataVersionId})
                     .HasPrincipalKey(dm => new {dm.Id, dm.StaticDataVersionId});
 
-                b.HasOne(manure => manure.NMineralization)
-                    .WithMany(nm => nm.Manures)
-                    .HasForeignKey(manure => new {manure.NMineralizationId, manure.StaticDataVersionId})
-                    .HasPrincipalKey(nm => new { nm.Id, nm.StaticDataVersionId});
+                b.HasOne(manure => manure.ManureLocationNitrogenMineralization)
+                    .WithMany(linkTable => linkTable.Manures)
+                    .HasForeignKey(manure => new {manure.Id, manure.StaticDataVersionId})
+                    .HasPrincipalKey(linkTable => new {linkTable.ManureId, linkTable.StaticDataVersionId});
+
+                //b.HasOne(manure => manure.NMineralization)
+                //    .WithMany(nm => nm.Manures)
+                //    .HasForeignKey(manure => new {manure.NMineralizationId, manure.StaticDataVersionId})
+                //    .HasPrincipalKey(nm => new { nm.Id, nm.StaticDataVersionId});
             });
 
             modelBuilder.Entity<NitrogenMineralization>(b =>
@@ -629,6 +644,12 @@ namespace Agri.Data
                     .WithMany(location => location.NitrogenMineralizations)
                     .HasForeignKey(nm => new {nm.LocationId, nm.StaticDataVersionId})
                     .HasPrincipalKey(location => new {location.Id, location.StaticDataVersionId});
+
+                b.HasOne(nm => nm.ManureLocationNitrogenMineralization)
+                    .WithMany(linkTable => linkTable.NitrogenMineralizations)
+                    .HasForeignKey(nm => new {nm.Id, nm.LocationId, nm.StaticDataVersionId})
+                    .HasPrincipalKey(linkTable => new
+                        {linkTable.NitrogenMineralizationId, linkTable.LocationId, linkTable.StaticDataVersionId});
             });
 
             modelBuilder.Entity<PreviousYearManureApplicationNitrogenDefault>(b =>
