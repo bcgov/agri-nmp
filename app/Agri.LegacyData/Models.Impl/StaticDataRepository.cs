@@ -87,7 +87,7 @@ namespace Agri.LegacyData.Models.Impl
                     man.Ammonia = Convert.ToInt32(r["ammonia"].ToString());
                     man.Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
                     man.Potassium = Convert.ToDecimal(r["potassium"].ToString());
-                    man.DMId = Convert.ToInt32(r["dmid"].ToString());
+                    man.DryMatterId = Convert.ToInt32(r["dmid"].ToString());
                     man.NMineralizationId = Convert.ToInt32(r["nminerizationid"].ToString());
                     if (man.SolidLiquid.ToUpper() == "SOLID")
                         man.CubicYardConversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
@@ -119,7 +119,7 @@ namespace Agri.LegacyData.Models.Impl
                 man.Ammonia = Convert.ToInt32(r["ammonia"].ToString());
                 man.Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
                 man.Potassium = Convert.ToDecimal(r["potassium"].ToString());
-                man.DMId = Convert.ToInt32(r["dmid"].ToString());
+                man.DryMatterId = Convert.ToInt32(r["dmid"].ToString());
                 man.NMineralizationId = Convert.ToInt32(r["nminerizationid"].ToString());
                 if (man.SolidLiquid.ToUpper() == "SOLID")
                     man.CubicYardConversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
@@ -148,7 +148,7 @@ namespace Agri.LegacyData.Models.Impl
                     Ammonia = Convert.ToInt32(r["ammonia"].ToString()),
                     Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString()),
                     Potassium = Convert.ToDecimal(r["potassium"].ToString()),
-                    DMId = Convert.ToInt32(r["dmid"].ToString()),
+                    DryMatterId = Convert.ToInt32(r["dmid"].ToString()),
                     NMineralizationId = Convert.ToInt32(r["nminerizationid"].ToString())
                 };
 

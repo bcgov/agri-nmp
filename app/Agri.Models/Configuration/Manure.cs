@@ -14,13 +14,14 @@ namespace Agri.Models.Configuration
         public int Ammonia { get; set; }
         public decimal Phosphorous { get; set; }
         public decimal Potassium { get; set; }
-        public int DMId { get; set; }
+        public int DryMatterId { get; set; }
         public int NMineralizationId { get; set; }
         public int SortNum { get; set; }
         public decimal CubicYardConversion { get; set; }
         public decimal Nitrate { get; set; }
 
         public NitrogenMineralization NMineralization { get; set; }
+        //public ManureLocationNitrogenMineralization ManureLocationNitrogenMineralization { get; set; }
         public DryMatter DryMatter { get; set; }
     }
 }
