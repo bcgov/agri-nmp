@@ -26,6 +26,7 @@ namespace SERVERAPI.Controllers
         private readonly IAgriConfigurationRepository _sd;
         private readonly IManureUnitConversionCalculator _manureUnitConversionCalculator;
         private readonly IManureLiquidSolidSeparationCalculator _manureLiquidSolidSeparationCalculator;
+        private readonly IManureOctoberToMarchCalculator _manureOctoberToMarchCalculator;
         private IManureAnimalNumberCalculator _manureAnimalNumberCalculator;
         private readonly IViewRenderService _viewRenderService;
         private readonly IMapper _mapper;
@@ -37,6 +38,7 @@ namespace SERVERAPI.Controllers
             IManureUnitConversionCalculator manureUnitConversionCalculator,
             IManureLiquidSolidSeparationCalculator manureLiquidSolidSeparationCalculator,
             IManureAnimalNumberCalculator manureAnimalNumberCalculator,
+            IManureOctoberToMarchCalculator manureOctoberToMarchCalculator,
             IMapper mapper)
         {
             _logger = logger;
@@ -46,6 +48,7 @@ namespace SERVERAPI.Controllers
             _manureUnitConversionCalculator = manureUnitConversionCalculator;
             _manureLiquidSolidSeparationCalculator = manureLiquidSolidSeparationCalculator;
             _manureAnimalNumberCalculator = manureAnimalNumberCalculator;
+            _manureOctoberToMarchCalculator = manureOctoberToMarchCalculator;
             _viewRenderService = viewRenderService;
             _mapper = mapper;
         }
@@ -905,6 +908,7 @@ namespace SERVERAPI.Controllers
                     msvm.PercentageOfLiquidVolumeSeparated = savedStorageSystem.PercentageOfLiquidVolumeSeparated;
                     msvm.SeparatedLiquidsUSGallons = savedStorageSystem.SeparatedLiquidsUSGallons;
                     msvm.SeparatedSolidsTons = savedStorageSystem.SeparatedSolidsTons;
+                    msvm.OctoberToMarchSeparatedLiquidUSGallons = savedStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons;
 
                     if (structureId.HasValue)
                     {
@@ -1001,6 +1005,7 @@ namespace SERVERAPI.Controllers
                     msdvm.ButtonText = "Save";
 
                     msdvm = GetSeparatedManure(msdvm);
+                    msdvm = GetOctoberToMarchSeparatedManure(msdvm);
                     return View(msdvm);
                 }
 
@@ -1016,6 +1021,7 @@ namespace SERVERAPI.Controllers
                     }
 
                     msdvm = GetSeparatedManure(msdvm);
+                    msdvm = GetOctoberToMarchSeparatedManure(msdvm);
 
                     return View(msdvm);
                 }
@@ -1036,6 +1042,7 @@ namespace SERVERAPI.Controllers
                         msdvm.PercentageOfLiquidVolumeSeparated = _sd.GetLiquidSolidSeparationDefaults().PercentOfLiquidSeparation;
 
                         msdvm = GetSeparatedManure(msdvm);
+                        msdvm = GetOctoberToMarchSeparatedManure(msdvm);
                     }
 
                     return View(msdvm);
@@ -1048,7 +1055,8 @@ namespace SERVERAPI.Controllers
                     msdvm.ButtonText = "Save";
 
                     msdvm = GetSeparatedManure(msdvm);
-                    
+                    msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+
                     return View(msdvm);
                 }
 
@@ -1064,6 +1072,8 @@ namespace SERVERAPI.Controllers
                     }
 
                     msdvm = GetSeparatedManure(msdvm);
+                    msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+
                     return View(msdvm);
                 }
 
@@ -1196,6 +1206,7 @@ namespace SERVERAPI.Controllers
             manureStorageSystem.PercentageOfLiquidVolumeSeparated = msdvm.PercentageOfLiquidVolumeSeparated;
             manureStorageSystem.SeparatedSolidsTons = msdvm.SeparatedSolidsTons;
             manureStorageSystem.SeparatedLiquidsUSGallons = msdvm.SeparatedLiquidsUSGallons;
+            manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons = msdvm.OctoberToMarchSeparatedLiquidUSGallons;
             manureStorageSystem.AnnualPrecipitation = msdvm.AnnualPrecipitation;
 
             if (msdvm.ShowStructureFields)
@@ -1333,6 +1344,26 @@ namespace SERVERAPI.Controllers
 
                     result.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;
                     result.SeparatedSolidsTons = separatedManure.SolidTons;
+                }
+            }
+
+            return result;
+        }
+
+        private ManureStorageDetailViewModel GetOctoberToMarchSeparatedManure(ManureStorageDetailViewModel msdvm)
+        {
+            var result = msdvm;
+
+            if (msdvm.IsThereSolidLiquidSeparation)
+            {
+                var manureStorageSystem = PopulateManureStorageSystem(msdvm);
+
+                //Calculate Separation
+                if (manureStorageSystem.AnnualTotalAmountofManureInStorage > 0)
+                {
+                    var octoberToMarchSeparatedLiquid =
+                        _manureOctoberToMarchCalculator.CalculateOctoberToMarchSeparatedLiquid(msdvm.SeparatedLiquidsUSGallons);
+                    result.OctoberToMarchSeparatedLiquidUSGallons = octoberToMarchSeparatedLiquid;
                 }
             }
 

@@ -58,6 +58,8 @@ namespace SERVERAPI.ViewModels
         public bool ShowStructureFields { get; set; }
         public string ZeroManagedManuresMessage { get; set; }
         public int? AnnualPrecipitation { get; set; }
+        public decimal OctoberToMarchSeparatedLiquidUSGallons { get; set; }
+        public string OctoberToMarchSeparatedLiquidUSGallonsText => OctoberToMarchSeparatedLiquidUSGallons.ToString("#,#");
     }
 
 }

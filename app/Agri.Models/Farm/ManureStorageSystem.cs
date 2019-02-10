@@ -50,6 +50,7 @@ namespace Agri.Models.Farm
         public int PercentageOfLiquidVolumeSeparated { get; set; }
         public decimal SeparatedLiquidsUSGallons { get; set; }
         public decimal SeparatedSolidsTons { get; set; }
+        public decimal OctoberToMarchSeparatedLiquidsUSGallons { get; set; }
         public List<ManureStorageStructure> ManureStorageStructures { get; }
         public int? AnnualPrecipitation { get; set; }
         public bool AssignedWithNutrientAnalysis { get; set; }
