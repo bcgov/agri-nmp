@@ -910,6 +910,7 @@ namespace SERVERAPI.Controllers
                     msvm.SeparatedSolidsTons = savedStorageSystem.SeparatedSolidsTons;
                     msvm.OctoberToMarchSeparatedLiquidUSGallons = savedStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons;
                     msvm.OctoberToMarchPrecipitation = savedStorageSystem.OctoberToMarchPrecipitation;
+                    msvm.OctoberToMarchManagedManures = savedStorageSystem.OctoberToManagedManures;
 
                     if (structureId.HasValue)
                     {
@@ -960,6 +961,8 @@ namespace SERVERAPI.Controllers
             try
             {
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
+                msdvm.OctoberToMarchManagedManures = GetOctoberToMarchMaterialVolumes(msdvm,msdvm.SelectedMaterialsToInclude,true,true);
+
                 if (msdvm.ManagedManures == null || !msdvm.ManagedManures.Any())
                 {
                     ModelState.AddModelError("SelectedMaterialsToInclude", "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.");
@@ -993,7 +996,7 @@ namespace SERVERAPI.Controllers
 
                     if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
                     {
-                        msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm, msdvm.SelectedMaterialsToInclude, true);
+                        msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm, msdvm.SelectedMaterialsToInclude, true); 
                     }
 
                     return View(msdvm);
@@ -1007,6 +1010,7 @@ namespace SERVERAPI.Controllers
 
                     msdvm = GetSeparatedManure(msdvm);
                     msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+                    msdvm.OctoberToMarchManagedManures = GetOctoberToMarchMaterialVolumes(msdvm, msdvm.SelectedMaterialsToInclude, true,false);
                     return View(msdvm);
                 }
 
@@ -1241,7 +1245,7 @@ namespace SERVERAPI.Controllers
             manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons = msdvm.OctoberToMarchSeparatedLiquidUSGallons;
             manureStorageSystem.AnnualPrecipitation = msdvm.AnnualPrecipitation;
             manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitation;
-
+            manureStorageSystem.OctoberToManagedManures = msdvm.OctoberToMarchManagedManures;
 
             if (msdvm.ShowStructureFields)
             {
@@ -1358,6 +1362,117 @@ namespace SERVERAPI.Controllers
             }
 
             return null;
+        }
+
+        private decimal GetOctoberToMarchMaterialVolumes(ManureStorageDetailViewModel msdvm, List<string> selectedMaterials, bool selectAllLiquidMaterial, bool includeAllMaterials)
+        {
+            if (msdvm.SelectedManureMaterialType > 0)
+            {
+                var selectedManuresToInclude = selectedMaterials.ToList();
+                //Materials already allocated
+                if (msdvm.SystemId.HasValue)
+                {
+                    selectedManuresToInclude.AddRange(_ud.GetStorageSystems()
+                                                                        .Single(ss => ss.Id == msdvm.SystemId).MaterialsIncludedInSystem
+                                                                        .Select(m => m.ManureId).ToList());
+                    selectedManuresToInclude = selectedManuresToInclude.GroupBy(s => s).Select(m => m.First()).ToList();
+                }
+
+                //Materials accounted in another system
+                var materialIdsToExclude = new List<string>();
+
+                foreach (var manureStorageSystem in _ud.GetStorageSystems())
+                {
+                    var accountedFor =
+                        manureStorageSystem.MaterialsIncludedInSystem.Where(m =>
+                            selectedManuresToInclude.All(include => include != m.ManureId)).Select(s => s.ManureId);
+                    materialIdsToExclude.AddRange(accountedFor);
+                }
+
+                var managedManures = _ud.GetAllManagedManures()
+                    .Where(g => (g is GeneratedManure || (g is ImportedManure && (g as ImportedManure).IsMaterialStored) || g is SeparatedSolidManure) &&
+                                        (
+                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Solid && g.ManureType == ManureMaterialType.Solid)
+                                            ||
+                                            (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid && (g.ManureType == ManureMaterialType.Liquid || g.ManureType == ManureMaterialType.Solid))
+                                        )
+                                       && !materialIdsToExclude.Any(exclude => g.Id.HasValue && g.ManureId == exclude));
+
+
+                var manureSelectItems = new List<MvcRendering.SelectListItem>();
+
+                if (selectAllLiquidMaterial)
+                {
+                    var unselectedLiquid = managedManures
+                        .Where(mm =>
+                            mm.ManureType == ManureMaterialType.Liquid && !selectedMaterials.Any(s =>
+                                s.Equals(mm.ManureId, StringComparison.CurrentCultureIgnoreCase)))
+                        .Select(m => m.ManureId);
+
+                    selectedMaterials.AddRange(unselectedLiquid);
+                }
+
+                var materialVolumes = 0m;
+                foreach (var manure in managedManures)
+                {
+                    if (includeAllMaterials == true)
+                    {
+                        if (manure.ManureId.Contains("Generated"))
+                        {
+                            var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
+                            materialVolumes += manureGenerated.annualAmountDecimal;
+                        }
+                        else if (manure.ManureId.Contains("Imported"))
+                        {
+                            var manureImported = _ud.GetImportedManure(manure.Id.GetValueOrDefault());
+                            materialVolumes += manureImported.AnnualAmount;
+                        }
+
+                        //else
+                        //{
+                        //    var manureSeparated = _ud.GetSeparatedManure(manure.Id.GetValueOrDefault());
+                        //    materialVolumes = manureSeparated.
+                        //}
+                        //manureSelectItems.Add(new MvcRendering.SelectListItem
+                        //{
+                        //    Value = manure.ManureId.ToString(),
+                        //    Text = materialsToInclude,
+                        //    Selected = selectedMaterials.Any(sm => sm == manure.ManureId)
+                        //});
+                    }
+                    else
+                    {
+                        if (selectedManuresToInclude.Contains(manure.ManureId))
+                        {
+                            if (manure.ManureId.Contains("Generated"))
+                            {
+                                var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
+                                materialVolumes += manureGenerated.annualAmountDecimal;
+                            }
+                            else if (manure.ManureId.Contains("Imported"))
+                            {
+                                var manureImported = _ud.GetImportedManure(manure.Id.GetValueOrDefault());
+                                materialVolumes += manureImported.AnnualAmount;
+                            }
+                            //else
+                            //{
+                            //    var manureSeparated = _ud.GetSeparatedManure(manure.Id.GetValueOrDefault());
+                            //    materialVolumes = manureSeparated.
+                            //}
+                            //manureSelectItems.Add(new MvcRendering.SelectListItem
+                            //{
+                            //    Value = manure.ManureId.ToString(),
+                            //    Text = materialsToInclude,
+                            //    Selected = selectedMaterials.Any(sm => sm == manure.ManureId)
+                            //});
+                        }
+                    } 
+                }
+
+                return materialVolumes;
+            }
+
+            return 0m;
         }
 
         private ManureStorageDetailViewModel GetSeparatedManure(ManureStorageDetailViewModel msdvm)

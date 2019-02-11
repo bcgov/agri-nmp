@@ -54,14 +54,14 @@
                                                    id="ManagedManure@(index.ToString())"
                                                    onchange="SelectedMaterialsToIncludeChanged()"
                                                    disabled="@(Model.DisableSystemFields ? "disabled" : null)" /> @Model.ManagedManures[index].Text
-                                                @if (Model.DisableSystemFields)
-                                                {
-                                                    @Html.HiddenFor(x => Model.ManagedManures[index].Selected)
-                                                }
-                                            </label>
-                                        </li>
-                                    }
+                                            @if (Model.DisableSystemFields)
+                                            {
+                                                @Html.HiddenFor(x => Model.ManagedManures[index].Selected)
+                                            }
+                                        </label>
+                                    </li>
                                 }
+                            }
                         </ul>
                         <span asp-validation-for="SelectedMaterialsToInclude" class="text-danger"></span>
                         @if (!Model.AnyManagedManures)
@@ -69,6 +69,16 @@
                             <div class="text-danger" style="width: 400px">@Model.ZeroManagedManuresMessage</div>
                         }
                     </div>
+                    <div class="col-sm-3"></div>
+                    @if (Model.ManagedManures != null)
+                    {
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div><b>October to March</b></div>
+                                <div><b>@Model.OctoberToMarchManagedManuresText</b> U.S. Gallons materials</div>
+                            </div>
+                        </div>
+                    }
                 </div>
 
                 @if (Model.ShowRunOffQuestions)
