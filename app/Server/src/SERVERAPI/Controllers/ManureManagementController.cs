@@ -1023,6 +1023,7 @@ namespace SERVERAPI.Controllers
 
                     msdvm = GetSeparatedManure(msdvm);
                     msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+                    msdvm.OctoberToMarchRunoff = GetRunoffToStorageOctoberToMarch(msdvm);
 
                     return View(msdvm);
                 }
@@ -1058,6 +1059,7 @@ namespace SERVERAPI.Controllers
                     msdvm = GetSeparatedManure(msdvm);
                     msdvm = GetOctoberToMarchSeparatedManure(msdvm);
                     msdvm.OctoberToMarchPrecipitation = GetPrecipitationOctoberToMarch(msdvm);
+                    msdvm.OctoberToMarchRunoff = GetRunoffToStorageOctoberToMarch(msdvm);
 
                     return View(msdvm);
                 }
@@ -1179,7 +1181,7 @@ namespace SERVERAPI.Controllers
             return PartialView(msdvm);
         }
 
-        private int GetPrecipitationOctoberToMarch(ManureStorageDetailViewModel msdvm)
+        private double GetPrecipitationOctoberToMarch(ManureStorageDetailViewModel msdvm)
         {
             var rainfallOctToMar = 0;
             var farmData = _ud.FarmDetails();
@@ -1189,8 +1191,22 @@ namespace SERVERAPI.Controllers
                 rainfallOctToMar = subregion.AnnualPrecipitationOctToMar;
             }
 
-            var precipitation = rainfallOctToMar * msdvm.UncoveredAreaOfStorageStructure;
-            return precipitation??0;
+            var precipitation = Math.Round(Convert.ToDouble(rainfallOctToMar * msdvm.UncoveredAreaOfStorageStructure * 0.0245424));
+            return precipitation;
+        }
+
+        private double GetRunoffToStorageOctoberToMarch(ManureStorageDetailViewModel msdvm)
+        {
+            var rainfallOctToMar = 0;
+            var farmData = _ud.FarmDetails();
+            if (farmData != null)
+            {
+                SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                rainfallOctToMar = subregion.AnnualPrecipitationOctToMar;
+            }
+
+            var runoff = Math.Round(Convert.ToDouble(rainfallOctToMar * msdvm.RunoffAreaSquareFeet * 0.0245424));
+            return runoff;
         }
 
         private ManureStorageSystem PopulateManureStorageSystem(ManureStorageDetailViewModel msdvm)

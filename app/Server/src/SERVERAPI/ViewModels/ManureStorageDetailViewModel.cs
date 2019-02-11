@@ -60,8 +60,10 @@ namespace SERVERAPI.ViewModels
         public int? AnnualPrecipitation { get; set; }
         public decimal OctoberToMarchSeparatedLiquidUSGallons { get; set; }
         public string OctoberToMarchSeparatedLiquidUSGallonsText => OctoberToMarchSeparatedLiquidUSGallons.ToString("#,#");
-        public int? OctoberToMarchPrecipitation { get; set; }
-        public string OctoberToMarchPrecipitationText => OctoberToMarchPrecipitation.GetValueOrDefault().ToString("#,#");
+        public double OctoberToMarchPrecipitation { get; set; }
+        public string OctoberToMarchPrecipitationText => OctoberToMarchPrecipitation.ToString("#,#");
+        public double OctoberToMarchRunoff { get; set; }
+        public string OctoberToMarchRunoffText => OctoberToMarchRunoff.ToString("#,#");
     }
 
 }
