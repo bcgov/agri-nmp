@@ -909,6 +909,7 @@ namespace SERVERAPI.Controllers
                     msvm.SeparatedLiquidsUSGallons = savedStorageSystem.SeparatedLiquidsUSGallons;
                     msvm.SeparatedSolidsTons = savedStorageSystem.SeparatedSolidsTons;
                     msvm.OctoberToMarchSeparatedLiquidUSGallons = savedStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons;
+                    msvm.OctoberToMarchPrecipitation = savedStorageSystem.OctoberToMarchPrecipitation;
 
                     if (structureId.HasValue)
                     {
@@ -1056,6 +1057,7 @@ namespace SERVERAPI.Controllers
 
                     msdvm = GetSeparatedManure(msdvm);
                     msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+                    msdvm.OctoberToMarchPrecipitation = GetPrecipitationOctoberToMarch(msdvm);
 
                     return View(msdvm);
                 }
@@ -1177,6 +1179,20 @@ namespace SERVERAPI.Controllers
             return PartialView(msdvm);
         }
 
+        private int GetPrecipitationOctoberToMarch(ManureStorageDetailViewModel msdvm)
+        {
+            var rainfallOctToMar = 0;
+            var farmData = _ud.FarmDetails();
+            if (farmData != null)
+            {
+                SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                rainfallOctToMar = subregion.AnnualPrecipitationOctToMar;
+            }
+
+            var precipitation = rainfallOctToMar * msdvm.UncoveredAreaOfStorageStructure;
+            return precipitation??0;
+        }
+
         private ManureStorageSystem PopulateManureStorageSystem(ManureStorageDetailViewModel msdvm)
         {
             ManureStorageSystem manureStorageSystem;
@@ -1208,6 +1224,8 @@ namespace SERVERAPI.Controllers
             manureStorageSystem.SeparatedLiquidsUSGallons = msdvm.SeparatedLiquidsUSGallons;
             manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons = msdvm.OctoberToMarchSeparatedLiquidUSGallons;
             manureStorageSystem.AnnualPrecipitation = msdvm.AnnualPrecipitation;
+            manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitation;
+
 
             if (msdvm.ShowStructureFields)
             {

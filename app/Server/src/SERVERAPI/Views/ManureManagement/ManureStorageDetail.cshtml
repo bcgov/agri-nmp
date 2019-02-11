@@ -308,6 +308,15 @@
                             </div>
                         }
                     </div>
+                    @if (Model.UncoveredAreaOfStorageStructure.HasValue)
+                    {
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <div><b>October to March</b></div>
+                                <div><b>@Model.OctoberToMarchPrecipitationText</b> U.S. Gallons precipitation</div>
+                            </div>
+                        </div>
+                    }
                 </div>
             }
         </div>
