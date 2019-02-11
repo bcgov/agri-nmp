@@ -1469,7 +1469,7 @@ namespace SERVERAPI.Controllers
                     } 
                 }
 
-                return materialVolumes;
+                return (materialVolumes / 365) * 180;
             }
 
             return 0m;
