@@ -724,7 +724,10 @@ namespace Agri.Data
 
         public List<PreviousCropType> GetPreviousCropTypes()
         {
-            return GetCrops().SelectMany(c => c.PreviousCropTypes).ToList();
+            return GetCrops()
+                .SelectMany(c => c.PreviousCropTypes)
+                .OrderBy(c=>c.Name)
+                .ToList();
         }
 
         public List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears()
