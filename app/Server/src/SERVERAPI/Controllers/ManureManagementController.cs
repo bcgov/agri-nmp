@@ -909,6 +909,7 @@ namespace SERVERAPI.Controllers
                     msvm.SeparatedLiquidsUSGallons = savedStorageSystem.SeparatedLiquidsUSGallons;
                     msvm.SeparatedSolidsTons = savedStorageSystem.SeparatedSolidsTons;
                     msvm.OctoberToMarchSeparatedLiquidUSGallons = savedStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons;
+                    msvm.OctoberToMarchRunoff = savedStorageSystem.OctoberToMarchRunoff;
                     msvm.OctoberToMarchPrecipitation = savedStorageSystem.OctoberToMarchPrecipitation;
                     msvm.OctoberToMarchManagedManures = savedStorageSystem.OctoberToManagedManures;
 
@@ -962,7 +963,7 @@ namespace SERVERAPI.Controllers
             {
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
                 msdvm.OctoberToMarchManagedManures = GetOctoberToMarchMaterialVolumes(msdvm,msdvm.SelectedMaterialsToInclude,true,true);
-
+                
                 if (msdvm.ManagedManures == null || !msdvm.ManagedManures.Any())
                 {
                     ModelState.AddModelError("SelectedMaterialsToInclude", "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.");
@@ -1244,6 +1245,7 @@ namespace SERVERAPI.Controllers
             manureStorageSystem.SeparatedLiquidsUSGallons = msdvm.SeparatedLiquidsUSGallons;
             manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons = msdvm.OctoberToMarchSeparatedLiquidUSGallons;
             manureStorageSystem.AnnualPrecipitation = msdvm.AnnualPrecipitation;
+            manureStorageSystem.OctoberToMarchRunoff = msdvm.OctoberToMarchRunoff;
             manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitation;
             manureStorageSystem.OctoberToManagedManures = msdvm.OctoberToMarchManagedManures;
 

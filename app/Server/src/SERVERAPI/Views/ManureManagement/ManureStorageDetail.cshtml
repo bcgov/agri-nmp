@@ -54,14 +54,14 @@
                                                    id="ManagedManure@(index.ToString())"
                                                    onchange="SelectedMaterialsToIncludeChanged()"
                                                    disabled="@(Model.DisableSystemFields ? "disabled" : null)" /> @Model.ManagedManures[index].Text
-                                            @if (Model.DisableSystemFields)
-                                            {
-                                                @Html.HiddenFor(x => Model.ManagedManures[index].Selected)
-                                            }
-                                        </label>
-                                    </li>
+                                                @if (Model.DisableSystemFields)
+                                                {
+                                                    @Html.HiddenFor(x => Model.ManagedManures[index].Selected)
+                                                }
+                                            </label>
+                                        </li>
+                                    }
                                 }
-                            }
                         </ul>
                         <span asp-validation-for="SelectedMaterialsToInclude" class="text-danger"></span>
                         @if (!Model.AnyManagedManures)
@@ -83,48 +83,48 @@
 
                 @if (Model.ShowRunOffQuestions)
                 {
-                <div class="form-row row">
-                    <div class="col-sm-3">
-                        <label id="labelGetsRunoffFromRoofsOrYards">Does yard or roof runoff enter the storage?</label>
-                        <div class="form-group" role="radiogroup" aria-labelledby="labelGetsRunoffFromRoofsOrYards">
-                            <label style="padding-right: 20px">
-                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="true"
-                                       disabled="@(Model.DisableSystemFields ? "disabled" : null)"
-                                       onchange="GetsRunoffFromRoofsOrYardsChanged()" /> Yes
-                            </label>
-                            <label>
-                                <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="false"
-                                       disabled="@(Model.DisableSystemFields ? "disabled" : null)"
-                                       onchange="GetsRunoffFromRoofsOrYardsChanged()" /> No
-                            </label>
-                        </div>
-                    </div>
-                    @if (Model.ShowRunoffAreaField)
-                    {
+                    <div class="form-row row">
                         <div class="col-sm-3">
-                            <div class="form-group">
-                                <label for="txtRooftopsRunOff">Yard and Roof Area (ft<sup>2</sup>)</label>
-                                <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"
-                                       onchange="RefreshSolidLiquidVolumeFields()"
-                                       disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
-                                @if (Model.DisableSystemFields)
-                                {
-                                    @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
-                                }
-                                <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
+                            <label id="labelGetsRunoffFromRoofsOrYards">Does yard or roof runoff enter the storage?</label>
+                            <div class="form-group" role="radiogroup" aria-labelledby="labelGetsRunoffFromRoofsOrYards">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="true"
+                                           disabled="@(Model.DisableSystemFields ? "disabled" : null)"
+                                           onchange="GetsRunoffFromRoofsOrYardsChanged()" /> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="GetsRunoffFromRoofsOrYards" type="radio" value="false"
+                                           disabled="@(Model.DisableSystemFields ? "disabled" : null)"
+                                           onchange="GetsRunoffFromRoofsOrYardsChanged()" /> No
+                                </label>
                             </div>
                         </div>
-                        @if (Model.RunoffAreaSquareFeet.HasValue)
+                        @if (Model.ShowRunoffAreaField)
                         {
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <div><b>October to March</b></div>
-                                    <div><b>@Model.OctoberToMarchRunoffText</b> U.S. Gallons runoff</div>
+                                    <label for="txtRooftopsRunOff">Yard and Roof Area (ft<sup>2</sup>)</label>
+                                    <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"
+                                           onchange="RefreshSolidLiquidVolumeFields()"
+                                           disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
+                                    @if (Model.DisableSystemFields)
+                                    {
+                                        @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
+                                    }
+                                    <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
                                 </div>
                             </div>
+                            @if (Model.RunoffAreaSquareFeet.HasValue)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div><b>October to March</b></div>
+                                        <div><b>@Model.OctoberToMarchRunoffText</b> U.S. Gallons runoff</div>
+                                    </div>
+                                </div>
+                            }
                         }
-                    }
-                </div>
+                    </div>
                 }
 
                 @if (Model.ShowSolidLiquidSeparation)
@@ -220,41 +220,41 @@
 
                     @if (Model.ShowRunOffQuestions)
                     {
-                    <div class="form-row row">
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                @Html.HiddenFor(x => x.GetsRunoffFromRoofsOrYards)
-                                <label>Does yard or roof runoff enter the storage?</label>
-                                @if (@Model.GetsRunoffFromRoofsOrYards)
-                                {
-                                    <div>Yes</div>
-                                }
-                                else
-                                {
-                                    <div>No</div>
-                                }
-                            </div>
-                        </div>
-                        @if (Model.ShowRunoffAreaField)
-                        {
+                        <div class="form-row row">
                             <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
-                                    @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
-                                    <div>@Model.RunoffAreaSquareFeet</div>
+                                    @Html.HiddenFor(x => x.GetsRunoffFromRoofsOrYards)
+                                    <label>Does yard or roof runoff enter the storage?</label>
+                                    @if (@Model.GetsRunoffFromRoofsOrYards)
+                                    {
+                                        <div>Yes</div>
+                                    }
+                                    else
+                                    {
+                                        <div>No</div>
+                                    }
                                 </div>
                             </div>
-                            @if (Model.RunoffAreaSquareFeet.HasValue)
-                             {
-                                 <div class="col-sm-3">
-                                     <div class="form-group">
-                                         <div><b>October to March</b></div>
-                                         <div><b>@Model.OctoberToMarchRunoffText</b> U.S. Gallons runoff</div>
-                                     </div>
-                                 </div>
-                             }
-                        }
-                    </div>
+                            @if (Model.ShowRunoffAreaField)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label asp-for="RunoffAreaSquareFeet">Yard and Roof Area (ft<sup>2</sup>)</label>
+                                        @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
+                                        <div>@Model.RunoffAreaSquareFeet</div>
+                                    </div>
+                                </div>
+                                @if (Model.RunoffAreaSquareFeet.HasValue)
+                                {
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <div><b>October to March</b></div>
+                                            <div><b>@Model.OctoberToMarchRunoffText</b> U.S. Gallons runoff</div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
                     }
 
                     @if (Model.ShowSolidLiquidSeparation)
@@ -287,7 +287,7 @@
                                 <div class="col-sm-3">
                                     <div>Separated liquids</div>
                                     <div><b>@Model.SeparatedLiquidsUSGallonsText</b> U.S. gallons</div>
-                                    <br/>
+                                    <br />
                                     <div>Separated solids</div>
                                     <div><b>@Model.SeparatedSolidsTonsText</b> tons </div>
                                 </div>
@@ -298,9 +298,9 @@
                                     <div><b>@Model.OctoberToMarchSeparatedLiquidUSGallonsText</b> U.S. Gallons stored</div>
                                 </div>
                             }
-                            </div>
+                        </div>
                     }
-                    </div>
+                </div>
             }
 
 
@@ -331,7 +331,7 @@
                             <div class="form-group">
                                 <label for="txtUncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
                                 <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure"
-                                       onchange="RefreshSolidLiquidVolumeFields()"/>
+                                       onchange="RefreshSolidLiquidVolumeFields()" />
                                 <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
                             </div>
                         }
@@ -365,6 +365,10 @@
         @Html.HiddenFor(x => x.ShowSolidLiquidSeparation)
         @Html.HiddenFor(x => x.SeparatedSolidsTons)
         @Html.HiddenFor(x => x.SeparatedLiquidsUSGallons)
+        @Html.HiddenFor(x => x.OctoberToMarchManagedManures)
+        @Html.HiddenFor(x => x.OctoberToMarchSeparatedLiquidUSGallons)
+        @Html.HiddenFor(x => x.OctoberToMarchPrecipitation)
+        @Html.HiddenFor(x => x.OctoberToMarchRunoff)
         @Html.HiddenFor(x => x.ButtonText)
         @Html.HiddenFor(x => x.Target)
         @Html.HiddenFor(x => x.ZeroManagedManuresMessage)
