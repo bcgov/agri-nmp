@@ -29,6 +29,7 @@ namespace SERVERAPI.ViewComponents
             var importsManureCompost = _ud.FarmDetails()?.ImportsManureCompost ?? true;
             var mnvm = new NextPreviousNavigationViewModel
             {
+                UseJSInterceptMethod = false,
                 PreviousController = AppControllers.ManureManagement,
                 NextController = AppControllers.ManureManagement
             };
@@ -139,6 +140,7 @@ namespace SERVERAPI.ViewComponents
 
             if (currentAction == CoreSiteActions.SoilTest)
             {
+                mnvm.UseJSInterceptMethod = true;
                 mnvm.PreviousAction = CoreSiteActions.Fields;
                 mnvm.PreviousController = AppControllers.Fields;
                 mnvm.NextAction = CoreSiteActions.Calculate;
