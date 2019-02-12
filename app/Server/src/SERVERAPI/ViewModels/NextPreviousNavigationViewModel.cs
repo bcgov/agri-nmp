@@ -9,6 +9,7 @@ namespace SERVERAPI.ViewModels
 {
     public class NextPreviousNavigationViewModel
     {
+        public bool UseJSInterceptMethod { get; set; }
         public CoreSiteActions PreviousAction { get; set; }
         public CoreSiteActions NextAction { get; set; }
         public AppControllers PreviousController { get; set; }
