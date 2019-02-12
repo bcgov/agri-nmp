@@ -58,8 +58,8 @@ namespace Agri.Models.Farm
         public string OctoberToMarchPrecipitationText => OctoberToMarchPrecipitation.ToString("#,#");
         public double OctoberToMarchRunoff { get; set; }
         public string OctoberToMarchRunoffText => OctoberToMarchRunoff.ToString("#,#");
-        public decimal OctoberToManagedManures { get; set; }
-        public string OctoberToManagedManuresText => OctoberToManagedManures.ToString("#,#");
+        public decimal OctoberToMarchManagedManures { get; set; }
+        public string OctoberToMarchManagedManuresText => OctoberToMarchManagedManures.ToString("#,#");
         [JsonIgnore]
         public List<ManureStorageItemSummary> ManureStorageItemSummaries
         {

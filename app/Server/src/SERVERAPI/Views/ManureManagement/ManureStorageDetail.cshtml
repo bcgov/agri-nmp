@@ -70,7 +70,7 @@
                         }
                     </div>
                     <div class="col-sm-3"></div>
-                    @if (Model.ManagedManures != null)
+                    @if (Model.ManagedManures != null && Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
                     {
                         <div class="col-sm-3">
                             <div class="form-group">
@@ -106,7 +106,7 @@
                                     <label for="txtRooftopsRunOff">Yard and Roof Area (ft<sup>2</sup>)</label>
                                     <input class="form-control" asp-for="RunoffAreaSquareFeet" type="text" id="txtRooftopsRunOff"
                                            onchange="RefreshSolidLiquidVolumeFields()"
-                                           disabled="@(Model.DisableSystemFields ? "disabled" : null)" />
+                                           disabled="@(Model.DisableSystemFields ? "disabled" : null)"/>
                                     @if (Model.DisableSystemFields)
                                     {
                                         @Html.HiddenFor(x => x.RunoffAreaSquareFeet)
@@ -114,17 +114,19 @@
                                     <span asp-validation-for="RunoffAreaSquareFeet" class="text-danger"></span>
                                 </div>
                             </div>
-                            @if (Model.RunoffAreaSquareFeet.HasValue)
-                            {
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <div><b>October to March</b></div>
-                                        <div><b>@Model.OctoberToMarchRunoffText</b> U.S. Gallons runoff</div>
-                                    </div>
-                                </div>
-                            }
+                            <div class="col-sm-3">
+                            </div>
+                            @if (Model.RunoffAreaSquareFeet.HasValue && Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                             {
+                                 <div class="col-sm-3">
+                                     <div class="form-group">
+                                         <div><b>October to March</b></div>
+                                         <div><b>@Model.OctoberToMarchRunoffText</b> U.S. Gallons runoff</div>
+                                     </div>
+                                 </div>
+                             }
                         }
-                    </div>
+                        </div>
                 }
 
                 @if (Model.ShowSolidLiquidSeparation)
@@ -168,10 +170,13 @@
                             </div>
                             <div class="col-sm-3">
                             </div>
-                            <div class="col-sm-3">
-                                <div><b>October to March</b></div>
-                                <div><b>@Model.OctoberToMarchSeparatedLiquidUSGallonsText</b> U.S. Gallons stored</div>
-                            </div>
+                            @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                            {
+                                <div class="col-sm-3">
+                                    <div><b>October to March</b></div>
+                                    <div><b>@Model.OctoberToMarchSeparatedLiquidUSGallonsText</b> U.S. Gallons stored</div>
+                                </div>
+                            }
                         }
                     </div>
                 }
@@ -216,6 +221,16 @@
                                 <div class="text-danger" style="width: 400px">@Model.ZeroManagedManuresMessage</div>
                             }
                         </div>
+                        <div class="col-sm-3"></div>
+                        @if (Model.ManagedManures != null && Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div><b>October to March</b></div>
+                                    <div><b>@Model.OctoberToMarchManagedManuresText</b> U.S. Gallons materials</div>
+                                </div>
+                            </div>
+                        }
                     </div>
 
                     @if (Model.ShowRunOffQuestions)
@@ -244,17 +259,19 @@
                                         <div>@Model.RunoffAreaSquareFeet</div>
                                     </div>
                                 </div>
-                                @if (Model.RunoffAreaSquareFeet.HasValue)
-                                {
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div><b>October to March</b></div>
-                                            <div><b>@Model.OctoberToMarchRunoffText</b> U.S. Gallons runoff</div>
-                                        </div>
-                                    </div>
-                                }
+                                <div class="col-sm-3">
+                                </div>
+                                @if (Model.RunoffAreaSquareFeet.HasValue && Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                                 {
+                                     <div class="col-sm-3">
+                                         <div class="form-group">
+                                             <div><b>October to March</b></div>
+                                             <div><b>@Model.OctoberToMarchRunoffText</b> U.S. Gallons runoff</div>
+                                         </div>
+                                     </div>
+                                 }
                             }
-                        </div>
+                            </div>
                     }
 
                     @if (Model.ShowSolidLiquidSeparation)
@@ -293,10 +310,13 @@
                                 </div>
                                 <div class="col-sm-3">
                                 </div>
-                                <div class="col-sm-3">
-                                    <div><b>October to March</b></div>
-                                    <div><b>@Model.OctoberToMarchSeparatedLiquidUSGallonsText</b> U.S. Gallons stored</div>
-                                </div>
+                                @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                                 {
+                                     <div class="col-sm-3">
+                                         <div><b>October to March</b></div>
+                                         <div><b>@Model.OctoberToMarchSeparatedLiquidUSGallonsText</b> U.S. Gallons stored</div>
+                                     </div>
+                                 }
                             }
                         </div>
                     }
@@ -336,18 +356,20 @@
                             </div>
                         }
                     </div>
-                    @if (Model.UncoveredAreaOfStorageStructure.HasValue)
-                    {
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <div><b>October to March</b></div>
-                                <div><b>@Model.OctoberToMarchPrecipitationText</b> U.S. Gallons precipitation</div>
+                    <div class="col-sm-3">
+                    </div>
+                        @if (Model.UncoveredAreaOfStorageStructure.HasValue && Model.SelectedManureMaterialType == ManureMaterialType.Liquid )
+                        {
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div><b>October to March</b></div>
+                                    <div><b>@Model.OctoberToMarchPrecipitationText</b> U.S. Gallons precipitation</div>
+                                </div>
                             </div>
-                        </div>
+                        }
+                    </div>
                     }
                 </div>
-            }
-        </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-primary" id="ok_button" @(Model.ButtonText == "Save" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>Save</button>

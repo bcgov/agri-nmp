@@ -908,10 +908,13 @@ namespace SERVERAPI.Controllers
                     msvm.PercentageOfLiquidVolumeSeparated = savedStorageSystem.PercentageOfLiquidVolumeSeparated;
                     msvm.SeparatedLiquidsUSGallons = savedStorageSystem.SeparatedLiquidsUSGallons;
                     msvm.SeparatedSolidsTons = savedStorageSystem.SeparatedSolidsTons;
-                    msvm.OctoberToMarchSeparatedLiquidUSGallons = savedStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons;
-                    msvm.OctoberToMarchRunoff = savedStorageSystem.OctoberToMarchRunoff;
-                    msvm.OctoberToMarchPrecipitation = savedStorageSystem.OctoberToMarchPrecipitation;
-                    msvm.OctoberToMarchManagedManures = savedStorageSystem.OctoberToManagedManures;
+                    if (msvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                    {
+                        msvm.OctoberToMarchSeparatedLiquidUSGallons = savedStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons;
+                        msvm.OctoberToMarchRunoff = savedStorageSystem.OctoberToMarchRunoff;
+                        msvm.OctoberToMarchPrecipitation = savedStorageSystem.OctoberToMarchPrecipitation;
+                        msvm.OctoberToMarchManagedManures = savedStorageSystem.OctoberToMarchManagedManures;
+                    }
 
                     if (structureId.HasValue)
                     {
@@ -962,8 +965,12 @@ namespace SERVERAPI.Controllers
             try
             {
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
-                msdvm.OctoberToMarchManagedManures = GetOctoberToMarchMaterialVolumes(msdvm,msdvm.SelectedMaterialsToInclude,true,true);
-                
+                if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                {
+                    msdvm.OctoberToMarchManagedManures =
+                        GetOctoberToMarchMaterialVolumes(msdvm, msdvm.SelectedMaterialsToInclude, true, true);
+                }
+
                 if (msdvm.ManagedManures == null || !msdvm.ManagedManures.Any())
                 {
                     ModelState.AddModelError("SelectedMaterialsToInclude", "No materials of this type have been added.  Return to Manure generated or imported pages to add materials to store.");
@@ -1010,8 +1017,13 @@ namespace SERVERAPI.Controllers
                     msdvm.ButtonText = "Save";
 
                     msdvm = GetSeparatedManure(msdvm);
-                    msdvm = GetOctoberToMarchSeparatedManure(msdvm);
-                    msdvm.OctoberToMarchManagedManures = GetOctoberToMarchMaterialVolumes(msdvm, msdvm.SelectedMaterialsToInclude, true,false);
+
+                    if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                    {
+                        msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+                        msdvm.OctoberToMarchManagedManures = GetOctoberToMarchMaterialVolumes(msdvm, msdvm.SelectedMaterialsToInclude, true, false);
+                    }
+                   
                     return View(msdvm);
                 }
 
@@ -1027,8 +1039,11 @@ namespace SERVERAPI.Controllers
                     }
 
                     msdvm = GetSeparatedManure(msdvm);
-                    msdvm = GetOctoberToMarchSeparatedManure(msdvm);
-                    msdvm.OctoberToMarchRunoff = GetRunoffToStorageOctoberToMarch(msdvm);
+                    if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                    {
+                        msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+                        msdvm.OctoberToMarchRunoff = GetRunoffToStorageOctoberToMarch(msdvm);
+                    }
 
                     return View(msdvm);
                 }
@@ -1062,9 +1077,12 @@ namespace SERVERAPI.Controllers
                     msdvm.ButtonText = "Save";
 
                     msdvm = GetSeparatedManure(msdvm);
-                    msdvm = GetOctoberToMarchSeparatedManure(msdvm);
-                    msdvm.OctoberToMarchPrecipitation = GetPrecipitationOctoberToMarch(msdvm);
-                    msdvm.OctoberToMarchRunoff = GetRunoffToStorageOctoberToMarch(msdvm);
+                    if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                    {
+                        msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+                        msdvm.OctoberToMarchPrecipitation = GetPrecipitationOctoberToMarch(msdvm);
+                        msdvm.OctoberToMarchRunoff = GetRunoffToStorageOctoberToMarch(msdvm);
+                    }
 
                     return View(msdvm);
                 }
@@ -1081,7 +1099,10 @@ namespace SERVERAPI.Controllers
                     }
 
                     msdvm = GetSeparatedManure(msdvm);
-                    msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+                    if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                    {
+                        msdvm = GetOctoberToMarchSeparatedManure(msdvm);
+                    }
 
                     return View(msdvm);
                 }
@@ -1243,11 +1264,14 @@ namespace SERVERAPI.Controllers
             manureStorageSystem.PercentageOfLiquidVolumeSeparated = msdvm.PercentageOfLiquidVolumeSeparated;
             manureStorageSystem.SeparatedSolidsTons = msdvm.SeparatedSolidsTons;
             manureStorageSystem.SeparatedLiquidsUSGallons = msdvm.SeparatedLiquidsUSGallons;
-            manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons = msdvm.OctoberToMarchSeparatedLiquidUSGallons;
             manureStorageSystem.AnnualPrecipitation = msdvm.AnnualPrecipitation;
-            manureStorageSystem.OctoberToMarchRunoff = msdvm.OctoberToMarchRunoff;
-            manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitation;
-            manureStorageSystem.OctoberToManagedManures = msdvm.OctoberToMarchManagedManures;
+            if (manureStorageSystem.ManureMaterialType == ManureMaterialType.Liquid)
+            {
+                manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons = msdvm.OctoberToMarchSeparatedLiquidUSGallons;
+                manureStorageSystem.OctoberToMarchRunoff = msdvm.OctoberToMarchRunoff;
+                manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitation;
+                manureStorageSystem.OctoberToMarchManagedManures = msdvm.OctoberToMarchManagedManures;
+            }
 
             if (msdvm.ShowStructureFields)
             {
