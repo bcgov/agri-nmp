@@ -38,7 +38,8 @@ namespace SERVERAPI.Controllers
             IManureUnitConversionCalculator manureUnitConversionCalculator,
             IManureLiquidSolidSeparationCalculator manureLiquidSolidSeparationCalculator,
             IStorageVolumeCalculator storageVolumeCalculator,
-        IMapper mapper)
+            IManureAnimalNumberCalculator manureAnimalNumberCalculator,
+            IMapper mapper)
         {
             _logger = logger;
             _env = env;
@@ -46,6 +47,7 @@ namespace SERVERAPI.Controllers
             _sd = sd;
             _manureUnitConversionCalculator = manureUnitConversionCalculator;
             _manureLiquidSolidSeparationCalculator = manureLiquidSolidSeparationCalculator;
+            _manureAnimalNumberCalculator = manureAnimalNumberCalculator;
             _storageVolumeCalculator = storageVolumeCalculator;
             _viewRenderService = viewRenderService;
             _mapper = mapper;
@@ -63,11 +65,11 @@ namespace SERVERAPI.Controllers
         {
             CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
             ManureGeneratedObtainedDetailViewModel mgovm = new ManureGeneratedObtainedDetailViewModel();
-            //mgovm.btnText = id == null ? "Calculate" : "Return";
+
             mgovm.title = id == null ? "Add" : "Edit";
             mgovm.stdWashWater = true;
             mgovm.stdMilkProduction = true;
-            mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
+            // mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             
             if (id != null)
             {
@@ -133,7 +135,12 @@ namespace SERVERAPI.Controllers
             }
             else
             {
+                setAnimalFromGeneratedManureList(ref mgovm);
                 animalTypeDetailsSetup(ref mgovm);
+                if (mgovm.showBreedAndGrazingDaysPerYear)
+                {
+                    mgovm.grazingDaysPerYear = "0";
+                }
             }
 
             return PartialView("ManureGeneratedObtainedDetail", mgovm);
@@ -144,7 +151,7 @@ namespace SERVERAPI.Controllers
         {
             CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
-            mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
+            // mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             mgovm.ExplainWashWaterVolumesDaily = _sd.GetUserPrompt("ExplainWashWaterTypes");
             
             animalTypeDetailsSetup(ref mgovm);
@@ -235,6 +242,15 @@ namespace SERVERAPI.Controllers
                         mgovm.hasSolidManureType = true;
                     }
 
+                    // Calculate Average Animal Number hint text when the Milking cow is added to the list
+                    List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
+                    if (generatedManures.Any(gm => gm.milkProduction.ToString() != "0.0"))
+                    {
+                        int animalNumber = generatedManures.Single(gm => gm.milkProduction.ToString() != "0.0").averageAnimalNumber;
+                        mgovm.placehldr = _manureAnimalNumberCalculator.CalculateAverageAnimalNumber(animalNumber,
+                            mgovm.selSubTypeOption);
+                    }
+
                     return View(mgovm);
                 }
 
@@ -292,6 +308,11 @@ namespace SERVERAPI.Controllers
                                 mgovm.stdManureMaterialType = false;
                                 mgovm.hasSolidManureType = true;
                             }
+                        }
+
+                        if (mgovm.showBreedAndGrazingDaysPerYear)
+                        {
+                            mgovm.grazingDaysPerYear = "0";
                         }
                     }
 
@@ -724,21 +745,12 @@ namespace SERVERAPI.Controllers
 
                             _ud.UpdateGeneratedManures(gm);
                         }
-                        //mgovm.btnText = mgovm.id == null ? "Add to Field" : "Update Field";
 
                         string url = Url.Action("RefreshManureManagemetList", "ManureManagement");
                         return Json(new { success = true, url = url, target = mgovm.target });
 
 
                     }
-
-                    //string url1="";
-                    //if (mgovm.target == "#manuregeneratedobtained")
-                    //{
-                    //    url1 = Url.Action("RefreshManureManagemetList", "ManureManagement");
-                    //}
-                    //return Json(new { success = true, url = url1, target = mgovm.target });
-
                 }
             }
             catch (Exception ex)
@@ -747,6 +759,15 @@ namespace SERVERAPI.Controllers
             }
 
             return PartialView(mgovm);
+        }
+
+        private void setAnimalFromGeneratedManureList(ref ManureGeneratedObtainedDetailViewModel mgovm)
+        {
+            List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
+            if (generatedManures.Count() > 0)
+            {
+                mgovm.selAnimalTypeOption = generatedManures[generatedManures.Count - 1].animalId.ToString();
+            }
         }
 
         private void animalTypeDetailsSetup(ref ManureGeneratedObtainedDetailViewModel mgovm)
@@ -811,6 +832,7 @@ namespace SERVERAPI.Controllers
                     }
                 }
             }
+
             return;
         }
 

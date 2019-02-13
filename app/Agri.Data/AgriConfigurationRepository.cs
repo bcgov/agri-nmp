@@ -166,7 +166,7 @@ namespace Agri.Data
                 .Include(c => c.CropSoilTestPhosphorousRegions)
                 .Include(c => c.CropSoilTestPotassiumRegions)
                 .Include(c => c.PreviousCropTypes)
-                .OrderBy(c => c.SortNumber)
+                .OrderBy(c => c.SortNumber).ThenBy(n => n.CropName)
                 .ToList();
         }
 
@@ -385,14 +385,14 @@ namespace Agri.Data
 
         public List<Fertilizer> GetFertilizers()
         {
-            return _context.Fertilizers.OrderBy(f => f.SortNum).ToList();
+            return _context.Fertilizers.OrderBy(f => f.SortNum).ThenBy(f => f.Name).ToList();
         }
 
         public List<SelectListItem> GetFertilizersDll(string fertilizerType)
         {
             var types = GetFertilizers();
 
-            types = types.OrderBy(n => n.SortNum).ToList();
+            types = types.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
 
             List<SelectListItem> typesOptions = new List<SelectListItem>();
 
@@ -553,7 +553,7 @@ namespace Agri.Data
 
         public List<Manure> GetManures()
         {
-            return _context.Manures.OrderBy(m => m.SortNum).ToList();
+            return _context.Manures.OrderBy(m => m.SortNum).ThenBy(n => n.Name).ToList();
         }
 
         public List<SelectListItem> GetManuresDll()
@@ -724,7 +724,10 @@ namespace Agri.Data
 
         public List<PreviousCropType> GetPreviousCropTypes()
         {
-            return GetCrops().SelectMany(c => c.PreviousCropTypes).ToList();
+            return GetCrops()
+                .SelectMany(c => c.PreviousCropTypes)
+                .OrderBy(c=>c.Name)
+                .ToList();
         }
 
         public List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears()
@@ -750,7 +753,7 @@ namespace Agri.Data
 
         public List<Region> GetRegions()
         {
-            return _context.Regions.OrderBy(r => r.SortNumber).ToList();
+            return _context.Regions.OrderBy(r => r.SortNumber).ThenBy(n => n.Name).ToList();
         }
 
         public List<SelectListItem> GetRegionsDll()
