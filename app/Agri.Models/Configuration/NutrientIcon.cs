@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class NutrientIcon : ConfigurationBase
+    public class NutrientIcon
     {
         [Key]
         public int Id { get; set; }

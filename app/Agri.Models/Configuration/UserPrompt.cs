@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class UserPrompt : ConfigurationBase
+    public class UserPrompt
     {
         [Key]
         public int Id { get; set; }

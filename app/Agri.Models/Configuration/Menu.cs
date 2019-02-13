@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agri.Models.Configuration
 {
-    public class Menu : ConfigurationBase
+    public class Menu
     {
         [Key]
         public int Id { get; set; }

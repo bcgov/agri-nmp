@@ -29,6 +29,7 @@ namespace Agri.Data
             _context.Database.Migrate();
 
             var staticExtRepo = new StaticDataExtRepository();
+            var currentVersion = _sd.GetCurrentStaticDataVersion();
 
             //AmoniaRetention
             if (!_context.AmmoniaRetentions.Any())
@@ -45,9 +46,15 @@ namespace Agri.Data
                 var animalSubtypes = staticExtRepo.GetAnimalSubTypes();
                 foreach (var animal in animals)
                 {
+                    animal.StaticDataVersionId = currentVersion.Id;
                     var subtypes = animalSubtypes.Where(s => s.AnimalId == animal.Id).ToList();
                     if (subtypes.Any())
                     {
+                        subtypes.Select(st =>
+                        {
+                            st.StaticDataVersionId = currentVersion.Id;
+                            return st;
+                        }).ToList();
                         animal.AnimalSubTypes.AddRange(subtypes);
                     }
                 }
@@ -123,6 +130,12 @@ namespace Agri.Data
             if (!_context.PrevYearManureApplicationNitrogenDefaults.Any())
             {
                 var nitrogenDefaults = staticExtRepo.GetPrevYearManureNitrogenCreditDefaults();
+                nitrogenDefaults.Select(nd =>
+                {
+                    nd.PreviousYearManureAplicationFrequency = nd.FieldManureApplicationHistory.ToString();
+                    nd.StaticDataVersionId = currentVersion.Id;
+                    return nd;
+                }).ToList();
                 _context.PrevYearManureApplicationNitrogenDefaults.AddRange(nitrogenDefaults);
             }
 
@@ -141,6 +154,7 @@ namespace Agri.Data
 
                 foreach (var crop in crops)
                 {
+                    crop.StaticDataVersionId = currentVersion.Id;
                     if (stksRegions.Any(s => s.CropId == crop.Id))
                     {
                         crop.CropSoilTestPotassiumRegions.AddRange(stksRegions.Where(s => s.CropId == crop.Id));
@@ -162,6 +176,7 @@ namespace Agri.Data
                     }
                 }
 
+                currentVersion.Crops.AddRange(crops);
                 _context.Crops.AddRange(crops);
             }
 
@@ -423,6 +438,7 @@ namespace Agri.Data
                 _context.SolidMaterialApplicationTonPerAcreRateConversions.AddRange(conversions);
             }
 
+            _context.StaticDataVersions.Update(currentVersion);
             _context.SaveChanges();
 
             AppliedMigrationsSeedData();
@@ -431,6 +447,7 @@ namespace Agri.Data
         public void AppliedMigrationsSeedData()
         {
             //Updates
+            var currentVersion = _sd.GetCurrentStaticDataVersion();
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("1_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
@@ -496,6 +513,7 @@ namespace Agri.Data
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<Breed>>("11_Breed");
                 foreach (var newBreed in migrationSeedData.Data)
                 {
+                    newBreed.StaticDataVersionId = currentVersion.Id;
                     if (!_context.Breed.Any(up => up.Id == newBreed.Id))
                     {
                         _context.Breed.Add(newBreed);
@@ -510,10 +528,9 @@ namespace Agri.Data
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<AnimalSubType>>("14_AnimalSubTypes");
                 foreach (var newSubType in migrationSeedData.Data)
                 {
-                    if (_context.AnimalSubType.Any(up => up.Id == newSubType.Id))
+                    if (_context.AnimalSubType.Any(up => up.Id == newSubType.Id && up.StaticDataVersionId == currentVersion.Id))
                     {
-                        newSubType.Animal = _sd.GetAnimal(newSubType.AnimalId);
-                        var updated = _context.AnimalSubType.Single(up => up.Id == newSubType.Id);
+                        var updated = _context.AnimalSubType.Single(up => up.Id == newSubType.Id && up.StaticDataVersionId == currentVersion.Id);
                         _mapper.Map(newSubType, updated);
                         _context.AnimalSubType.Update(updated);
                     }
@@ -521,12 +538,13 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
                 _context.SaveChanges();
             }
-        
+
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("16_LiquidSolidSeparationDefault", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<LiquidSolidSeparationDefault>>("16_LiquidSolidSeparationDefault");
                 foreach (var liquidSolidSeparationDefault in migrationSeedData.Data)
                 {
+                    liquidSolidSeparationDefault.StaticDataVersionId = currentVersion.Id;
                     if (!_context.LiquidSolidSeparationDefaults.Any(up => up.Id == liquidSolidSeparationDefault.Id))
                     {
                         _context.LiquidSolidSeparationDefaults.Add(liquidSolidSeparationDefault);
@@ -541,6 +559,7 @@ namespace Agri.Data
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubRegion>>("17_SubRegions");
                 foreach (var newSubRegion in migrationSeedData.Data)
                 {
+                    newSubRegion.StaticDataVersionId = currentVersion.Id;
                     newSubRegion.Region = _sd.GetRegion(newSubRegion.RegionId);
                     if (!_context.SubRegion.Any(up => up.Id == newSubRegion.Id))
                     {
@@ -562,6 +581,7 @@ namespace Agri.Data
                     currentTestRange.LowerLimit = testRange.LowerLimit;
                     currentTestRange.UpperLimit = testRange.UpperLimit;
                     currentTestRange.Rating = testRange.Rating;
+                    currentTestRange.StaticDataVersionId = currentVersion.Id;
                 }
 
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
@@ -579,6 +599,7 @@ namespace Agri.Data
                     currentTestRange.LowerLimit = testRange.LowerLimit;
                     currentTestRange.UpperLimit = testRange.UpperLimit;
                     currentTestRange.Rating = testRange.Rating;
+                    currentTestRange.StaticDataVersionId = currentVersion.Id;
                 }
 
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
@@ -600,22 +621,27 @@ namespace Agri.Data
                 //_context.AppliedMigrationSeedData.Add(migrationSeedData);
                 //_context.SaveChanges();
 
-                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
-                foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
-                {
-                    newPrevManureApplicationNitrogenDefault.Crops = _sd.GetCropsByManureApplicationHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
-                    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear =
-                        _sd.GetPrevManureApplicationInPrevYearsByManureAppHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+                //var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
+                //foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
+                //{
+                //    newPrevManureApplicationNitrogenDefault.Crops = _sd.GetCropsByManureApplicationHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+                //    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear =
+                //        _sd.GetPrevManureApplicationInPrevYearsByManureAppHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+                //    newPrevManureApplicationNitrogenDefault.StaticDataVersionId = currentVersion.Id;
 
-                    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
-                    {
-                        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
-                        _mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
-                        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
-                    }
-                }
-                _context.AppliedMigrationSeedData.Add(migrationSeedData);
-                _context.SaveChanges();
+                //    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
+                //    {
+                //        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
+                //        //_mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
+                //        updated.Crops = newPrevManureApplicationNitrogenDefault.Crops;
+                //        updated.PreviousManureApplicationYear =
+                //            newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear;
+                //        //updated.StaticDataVersionId = newPrevManureApplicationNitrogenDefault.StaticDataVersionId;
+                //        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
+                //    }
+                //}
+                //_context.AppliedMigrationSeedData.Add(migrationSeedData);
+                //_context.SaveChanges();
             }
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("21_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))

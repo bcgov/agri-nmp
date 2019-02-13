@@ -1296,6 +1296,11 @@ namespace Agri.Data
             return GetSubMenus().Where(sb => sb.MainMenuId == mainMenuId).ToList();
         }
 
+        public StaticDataVersion GetCurrentStaticDataVersion()
+        {
+            return _context.StaticDataVersions.OrderByDescending(sdv => sdv.Id).First();
+        }
+
         public int ArchiveConfigurations()
         {
             var newId = 0;
@@ -1324,5 +1329,6 @@ namespace Agri.Data
             //_context.SaveChanges();
             return newId;
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agri.Models.Configuration
 {
@@ -11,6 +12,7 @@ namespace Agri.Models.Configuration
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int FieldManureApplicationHistory { get; set; }
         public int[] DefaultNitrogenCredit { get; set; }

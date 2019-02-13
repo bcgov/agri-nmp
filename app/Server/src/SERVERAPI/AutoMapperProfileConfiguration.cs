@@ -26,7 +26,11 @@ namespace SERVERAPI
                 .ReverseMap();
             CreateMap<ImportedManure, ImportedManure>();
             CreateMap<UserPrompt, UserPrompt>();
-            CreateMap<AnimalSubType, AnimalSubType>();
+            CreateMap<AnimalSubType, AnimalSubType>()
+                .ForMember(x => x.Id, opt => opt.Ignore())
+                .ForMember(x => x.StaticDataVersionId, opt => opt.Ignore())
+                .ForMember(x => x.Version, opt => opt.Ignore())
+                .ForMember(x => x.Animal, opt => opt.Ignore());
             CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
             CreateMap<SubRegions, SubRegions>();
             CreateMap<PreviousYearManureApplicationNitrogenDefault, PreviousYearManureApplicationNitrogenDefault>();

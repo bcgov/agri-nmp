@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class Browser : ConfigurationBase
+    public class Browser
     {
         [Key]
         public int Id { get; set; }

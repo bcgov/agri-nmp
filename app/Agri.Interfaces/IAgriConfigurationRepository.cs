@@ -22,6 +22,7 @@ namespace Agri.Interfaces
         List<Yield> GetYields();
         List<NitrogenRecommendation> GetNitrogenRecommendations();
         RptCompletedManureRequiredStdUnit GetRptCompletedManureRequiredStdUnit();
+        StaticDataVersion GetCurrentStaticDataVersion();
         RptCompletedFertilizerRequiredStdUnit GetRptCompletedFertilizerRequiredStdUnit();
         BCSampleDateForNitrateCredit GetBCSampleDateForNitrateCredit();
         List<SoilTestPotassiumKelownaRange> GetSoilTestPotassiumKelownaRanges();

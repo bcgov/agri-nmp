@@ -20,8 +20,6 @@ namespace Agri.Models.Configuration
         public decimal CubicYardConversion { get; set; }
         public decimal Nitrate { get; set; }
 
-        //public NitrogenMineralization NMineralization { get; set; }
-        public ManureLocationNitrogenMineralization ManureLocationNitrogenMineralization { get; set; }
         public DryMatter DryMatter { get; set; }
     }
 }

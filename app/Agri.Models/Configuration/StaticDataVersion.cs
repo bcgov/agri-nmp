@@ -13,7 +13,6 @@ namespace Agri.Models.Configuration
             AnimalSubTypes = new List<AnimalSubType>();
             BCSampleDateForNitrateCredits = new List<BCSampleDateForNitrateCredit>();
             Breeds = new List<Breed>();
-            Browsers = new List<Browser>();
             ConversionFactors = new List<ConversionFactor>();
             Crops = new List<Crop>();
             CropSoilTestPhosphorousRegions = new List<CropSoilTestPhosphorousRegion>();
@@ -32,13 +31,11 @@ namespace Agri.Models.Configuration
             LiquidMaterialsConversionFactors = new List<LiquidMaterialsConversionFactor>();
             LiquidSolidSeparationDefaults = new List<LiquidSolidSeparationDefault>();
             Locations = new List<Location>();
-            MainMenus = new List<MainMenu>();
             ManureImportedDefaults = new List<ManureImportedDefault>();
             Manures = new List<Manure>();
             Messages = new List<Message>();
             NitrateCreditSampleDates = new List<NitrateCreditSampleDate>();
             NitrogenMineralizations = new List<NitrogenMineralization>();
-            NutrientIcons = new List<NutrientIcon>();
             NitrogenRecommendations = new List<NitrogenRecommendation>();
             PhosphorusSoilTestRanges = new List<PhosphorusSoilTestRange>();
             PotassiumSoilTestRanges = new List<PotassiumSoilTestRange>();
@@ -59,8 +56,6 @@ namespace Agri.Models.Configuration
             SolidMaterialApplicationTonPerAcreRateConversions = new List<SolidMaterialApplicationTonPerAcreRateConversion>();
             SolidMaterialsConversionFactors = new List<SolidMaterialsConversionFactor>();
             Units = new List<Unit>();
-            UserPrompts = new List<UserPrompt>();
-            SubMenus = new List<SubMenu>();
             SubRegions = new List<SubRegion>();
             Yields = new List<Yield>();
         }
@@ -76,7 +71,6 @@ namespace Agri.Models.Configuration
         public List<AnimalSubType> AnimalSubTypes { get; set; }
         public List<BCSampleDateForNitrateCredit> BCSampleDateForNitrateCredits { get; set; }
         public List<Breed> Breeds { get; set; }
-        public List<Browser> Browsers { get; set; }
         public List<ConversionFactor> ConversionFactors { get; set; }
         public List<Crop> Crops { get; set; }
         public List<CropSoilTestPhosphorousRegion> CropSoilTestPhosphorousRegions { get; set; }
@@ -95,13 +89,11 @@ namespace Agri.Models.Configuration
         public List<LiquidMaterialsConversionFactor> LiquidMaterialsConversionFactors { get; set; }
         public List<LiquidSolidSeparationDefault> LiquidSolidSeparationDefaults { get; set; }
         public List<Location> Locations { get; set; }
-        public List<MainMenu> MainMenus { get; set; }
         public List<ManureImportedDefault> ManureImportedDefaults { get; set; }
         public List<Manure> Manures { get; set; }
         public List<Message> Messages { get; set; }
         public List<NitrateCreditSampleDate> NitrateCreditSampleDates { get; set; }
         public List<NitrogenMineralization> NitrogenMineralizations { get; set; }
-        public List<NutrientIcon> NutrientIcons { get; set; }
         public List<NitrogenRecommendation> NitrogenRecommendations { get; set; }
         public List<PhosphorusSoilTestRange> PhosphorusSoilTestRanges { get; set; }
         public List<PotassiumSoilTestRange> PotassiumSoilTestRanges { get; set; }
@@ -122,9 +114,7 @@ namespace Agri.Models.Configuration
         public List<SolidMaterialApplicationTonPerAcreRateConversion> SolidMaterialApplicationTonPerAcreRateConversions { get; set; }
         public List<SolidMaterialsConversionFactor> SolidMaterialsConversionFactors { get; set; }
         public List<Unit> Units { get; set; }
-        public List<UserPrompt> UserPrompts { get; set; }
         public List<SubRegion> SubRegions { get; set; }
-        public List<SubMenu> SubMenus { get; set; }
         public List<Yield> Yields { get; set; }
     }
 }
