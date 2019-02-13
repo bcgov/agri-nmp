@@ -444,10 +444,10 @@
                     }
                     @if (Model.volumeUSGallons != null)
                     {
-                            <div class="form-group col-sm-3">
-                                <label for="txtStorageVolume">Storage Volume</label>
-                                <label for="txtStorageVolumeUSGallons" style="font-weight: normal !important">@Model.volumeOfStorageStructure</label>
-                            </div>
+                        <div class="form-group col-sm-3">
+                            <label for="txtStorageVolume">Storage Volume</label>
+                            <label for="txtStorageVolumeUSGallons" style="font-weight: normal !important">@Model.volumeOfStorageStructure</label>
+                        </div>
                     }
                     @if (Model.volumeUSGallonsOfStorageSystem != null)
                     {
@@ -457,7 +457,7 @@
                                 <label for="txtStorageVolume">Storage Volume</label>
                             }
                             <label for="txtStorageSystemVolumeUSGallons">@Model.volumeUSGallonsOfStorageSystem</label>
-                        </div>    
+                        </div>
                     }
                 </div>
             }
@@ -482,5 +482,15 @@
         @Html.HiddenFor(x => x.ButtonText)
         @Html.HiddenFor(x => x.Target)
         @Html.HiddenFor(x => x.ZeroManagedManuresMessage)
+        @Html.HiddenFor(x => x.SelectedStorageShape)
+        @Html.HiddenFor(x => x.RectangularLength)
+        @Html.HiddenFor(x => x.RectangularHeight)
+        @Html.HiddenFor(x => x.RectangularWidth)
+        @Html.HiddenFor(x => x.CircularDiameter)
+        @Html.HiddenFor(x => x.CircularHeight)
+        @Html.HiddenFor(x => x.SlopedWallTopLength)
+        @Html.HiddenFor(x => x.SlopedWallTopWidth)
+        @Html.HiddenFor(x => x.SlopedWallHeight)
+        @Html.HiddenFor(x => x.SlopedWallSlopeOfWall)
     </form>
 </div>
