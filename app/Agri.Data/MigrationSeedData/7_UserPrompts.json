@@ -1,0 +1,27 @@
+{
+  "Id": 7,
+  "JsonFilename": "7_UserPrompts",
+  "ReasonReference": "R4E05-US03: Still Needs Nutrient Analysis",
+  "Data": [
+    {
+      "Id": "45",
+      "Name": "MaterialsOctoberToMarchMessage",
+      "Text": "Volume of Materials October to March"
+    },
+    {
+      "Id": "46",
+      "Name": "RunoffOctoberToMarchMessage",
+      "Text": "Runoff October to March"
+    },
+    {
+      "Id": "47",
+      "Name": "MaterialsStoredOctoberToMarchMessage",
+      "Text": "Materials Stored October to March"
+    },
+    {
+      "Id": "48",
+      "Name": "PrecipitationOctoberToMarch",
+      "Text": "Precipitation October to March"
+    }
+  ]
+}

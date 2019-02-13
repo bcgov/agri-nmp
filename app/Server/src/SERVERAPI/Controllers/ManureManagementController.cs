@@ -883,6 +883,10 @@ namespace SERVERAPI.Controllers
             var msvm = new ManureStorageDetailViewModel();
             var systemTitle = "Storage System Details";
             msvm.ZeroManagedManuresMessage = _sd.GetUserPrompt("NoMaterialsForStorage");
+            msvm.ExplainMaterialsOctoberToMarch = _sd.GetUserPrompt("MaterialsOctoberToMarchMessage");
+            msvm.ExplainRunoffOctoberToMarch = _sd.GetUserPrompt("RunoffOctoberToMarchMessage");
+            msvm.ExplainStoredOctoberToMarch = _sd.GetUserPrompt("MaterialsStoredOctoberToMarchMessage");
+            msvm.ExplainPrecipitationOctoberToMarch = _sd.GetUserPrompt("PrecipitationOctoberToMarch");
 
             try
             {
@@ -964,6 +968,11 @@ namespace SERVERAPI.Controllers
         {
             try
             {
+                msdvm.ExplainMaterialsOctoberToMarch = _sd.GetUserPrompt("MaterialsOctoberToMarchMessage");
+                msdvm.ExplainRunoffOctoberToMarch = _sd.GetUserPrompt("RunoffOctoberToMarchMessage");
+                msdvm.ExplainStoredOctoberToMarch = _sd.GetUserPrompt("MaterialsStoredOctoberToMarchMessage");
+                msdvm.ExplainPrecipitationOctoberToMarch = _sd.GetUserPrompt("PrecipitationOctoberToMarch");
+
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
                 if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
                 {
