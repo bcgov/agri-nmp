@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class NitrogenMineralization : ConfigurationBase
+    public class NitrogenMineralization : Versionable
     {
         [Key]
         public int Id { get; set; }

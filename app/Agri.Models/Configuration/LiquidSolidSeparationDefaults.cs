@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class LiquidSolidSeparationDefault : ConfigurationBase
+    public class LiquidSolidSeparationDefault : Versionable
     {
         [Key]
         public int Id { get; set; }

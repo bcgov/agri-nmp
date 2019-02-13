@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class ConversionFactor : ConfigurationBase
+    public class ConversionFactor : Versionable
     {
         [Key]
         public int Id { get; set; }

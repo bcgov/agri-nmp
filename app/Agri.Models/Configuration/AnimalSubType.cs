@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agri.Models.Configuration
 {
-    public class AnimalSubType : ConfigurationBase
+    public class AnimalSubType : Versionable
     {
         [Key]
         public int Id { get; set; }

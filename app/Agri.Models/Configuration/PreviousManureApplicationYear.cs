@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agri.Models.Configuration
 {
-    public class PreviousManureApplicationYear : ConfigurationBase
+    public class PreviousManureApplicationYear : Versionable
     {
         public PreviousManureApplicationYear()
         {

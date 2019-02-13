@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class LiquidFertilizerDensity : ConfigurationBase
+    public class LiquidFertilizerDensity : Versionable
     {
         [Key]
         public int Id { get; set; }

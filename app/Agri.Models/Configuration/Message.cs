@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class Message : ConfigurationBase
+    public class Message : Versionable
     {
         [Key]
         public int Id { get; set; }

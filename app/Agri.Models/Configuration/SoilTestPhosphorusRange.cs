@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class SoilTestPhosphorusRange : ConfigurationBase
+    public class SoilTestPhosphorusRange : Versionable
     {
         [Key]
         public int UpperLimit { get; set; }

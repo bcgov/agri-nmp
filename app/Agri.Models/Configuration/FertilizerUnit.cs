@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class FertilizerUnit : ConfigurationBase
+    public class FertilizerUnit : Versionable
     {
         [Key]
         public int Id { get; set; }

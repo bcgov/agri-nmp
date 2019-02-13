@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class ManureImportedDefault : ConfigurationBase
+    public class ManureImportedDefault : Versionable
     {
         [Key]
         public int Id { get; set; }

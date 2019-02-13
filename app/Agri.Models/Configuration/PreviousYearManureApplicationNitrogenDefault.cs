@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agri.Models.Configuration
 {
-    public class PreviousYearManureApplicationNitrogenDefault : ConfigurationBase
+    public class PreviousYearManureApplicationNitrogenDefault : Versionable
     {
         public PreviousYearManureApplicationNitrogenDefault()
         {

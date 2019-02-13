@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class RptCompletedManureRequiredStdUnit : ConfigurationBase
+    public class RptCompletedManureRequiredStdUnit : Versionable
     {
         [Key]
         public int Id { get; set; }

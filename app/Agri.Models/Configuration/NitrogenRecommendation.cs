@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class NitrogenRecommendation : ConfigurationBase
+    public class NitrogenRecommendation : Versionable
     {
         [Key]
         public int Id { get; set; }

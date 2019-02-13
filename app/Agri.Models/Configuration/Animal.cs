@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class Animal : ConfigurationBase
+    public class Animal : Versionable
     {
         public Animal()
         {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class ConfigurationBase
+    public class Versionable
     {
         [Key]
         public int StaticDataVersionId { get; private set; }

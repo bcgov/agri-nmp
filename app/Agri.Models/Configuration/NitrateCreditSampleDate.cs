@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agri.Models.Configuration
 {
-    public class NitrateCreditSampleDate : ConfigurationBase
+    public class NitrateCreditSampleDate : Versionable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Agri.Models.Configuration
 {
-    public class ApplicationPerAcreConversion : ConfigurationBase
+    public class ApplicationPerAcreConversion : Versionable
     {
         [Key]
         public int Id { get; set; }

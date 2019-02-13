@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class Yield : ConfigurationBase
+    public class Yield : Versionable
     {
         [Key]
         public int Id { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class SoilTestPhosphorousKelownaRange : ConfigurationBase
+    public class SoilTestPhosphorousKelownaRange : Versionable
     {
         
         public SoilTestPhosphorousKelownaRange()

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class Fertilizer: ConfigurationBase
+    public class Fertilizer: Versionable
     {
         public Fertilizer()
         {

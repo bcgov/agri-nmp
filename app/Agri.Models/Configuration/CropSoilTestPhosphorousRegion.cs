@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class CropSoilTestPhosphorousRegion : ConfigurationBase
+    public class CropSoilTestPhosphorousRegion : Versionable
     {
         [Key]
         public int CropId { get; set; }

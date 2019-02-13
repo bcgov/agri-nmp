@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class CropType : ConfigurationBase
+    public class CropType : Versionable
     {
         public CropType()
         {

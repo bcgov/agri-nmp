@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class CropYield : ConfigurationBase
+    public class CropYield : Versionable
     {
         [Key]
         public int CropId { get; set; }

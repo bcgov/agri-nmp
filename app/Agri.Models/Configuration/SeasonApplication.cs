@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class SeasonApplication : ConfigurationBase
+    public class SeasonApplication : Versionable
     {
         [Key]
         public int Id { get; set; }

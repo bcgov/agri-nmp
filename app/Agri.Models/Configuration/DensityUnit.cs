@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class DensityUnit : ConfigurationBase
+    public class DensityUnit : Versionable
     {
         public DensityUnit()
         {

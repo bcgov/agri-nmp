@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class DefaultSoilTest : ConfigurationBase
+    public class DefaultSoilTest : Versionable
     {
         [Key]
         public int Id { get; set; }

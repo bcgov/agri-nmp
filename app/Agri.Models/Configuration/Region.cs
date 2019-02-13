@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class Region : ConfigurationBase
+    public class Region : Versionable
     {
         public Region()
         {

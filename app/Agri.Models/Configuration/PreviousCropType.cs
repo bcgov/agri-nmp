@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class PreviousCropType : ConfigurationBase
+    public class PreviousCropType : Versionable
     {
         [Key]
         public int Id { get; set; }

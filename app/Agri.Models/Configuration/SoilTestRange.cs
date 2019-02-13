@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agri.Models.Configuration
 {
-    public class SoilTestRange : ConfigurationBase
+    public class SoilTestRange : Versionable
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

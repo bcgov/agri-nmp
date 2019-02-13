@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class SubRegion : ConfigurationBase
+    public class SubRegion : Versionable
     {
         [Key]
         public int Id { get; set; }
