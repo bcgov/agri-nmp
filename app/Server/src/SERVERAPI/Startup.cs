@@ -115,6 +115,7 @@ namespace SERVERAPI
             services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
             services.AddScoped<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
             services.AddScoped<IManureAnimalNumberCalculator, ManureAnimalNumberCalculator>();
+            services.AddScoped<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
             services.AddScoped<ISoilTestConverter, SoilTestConverter>();
             services.AddScoped<IStorageVolumeCalculator, StorageVolumeCalculator>();
 
