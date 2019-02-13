@@ -30,7 +30,6 @@ namespace Agri.Models.Configuration
             LiquidMaterialApplicationUsGallonsPerAcreRateConversions = new List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>();
             LiquidMaterialsConversionFactors = new List<LiquidMaterialsConversionFactor>();
             LiquidSolidSeparationDefaults = new List<LiquidSolidSeparationDefault>();
-            Locations = new List<Location>();
             ManureImportedDefaults = new List<ManureImportedDefault>();
             Manures = new List<Manure>();
             Messages = new List<Message>();
@@ -88,7 +87,6 @@ namespace Agri.Models.Configuration
         public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> LiquidMaterialApplicationUsGallonsPerAcreRateConversions { get; set; }
         public List<LiquidMaterialsConversionFactor> LiquidMaterialsConversionFactors { get; set; }
         public List<LiquidSolidSeparationDefault> LiquidSolidSeparationDefaults { get; set; }
-        public List<Location> Locations { get; set; }
         public List<ManureImportedDefault> ManureImportedDefaults { get; set; }
         public List<Manure> Manures { get; set; }
         public List<Message> Messages { get; set; }

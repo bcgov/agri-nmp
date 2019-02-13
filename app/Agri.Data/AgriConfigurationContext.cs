@@ -247,13 +247,6 @@ namespace Agri.Data
                     table.StaticDataVersionId
                 });
 
-            modelBuilder.Entity<Location>()
-                .HasKey(table => new
-                {
-                    table.Id,
-                    table.StaticDataVersionId
-                });
-
             modelBuilder.Entity<Manure>()
                 .HasKey(table => new
                 {
@@ -509,8 +502,8 @@ namespace Agri.Data
 
                 b.HasOne(cropYield => cropYield.Location)
                     .WithMany(locaction => locaction.CropYields)
-                    .HasForeignKey(cropYield => new {cropYield.LocationId, cropYield.StaticDataVersionId})
-                    .HasPrincipalKey(location => new {location.Id, location.StaticDataVersionId});
+                    .HasForeignKey(cropYield => cropYield.LocationId)
+                    .HasPrincipalKey(location => location.Id);
             });
 
             modelBuilder.Entity<CropSoilTestPhosphorousRegion>(b =>
@@ -588,8 +581,8 @@ namespace Agri.Data
 
                 b.HasOne(nm => nm.Location)
                     .WithMany(location => location.NitrogenMineralizations)
-                    .HasForeignKey(nm => new { nm.LocationId, nm.StaticDataVersionId })
-                    .HasPrincipalKey(location => new { location.Id, location.StaticDataVersionId });
+                    .HasForeignKey(nm => nm.LocationId)
+                    .HasPrincipalKey(location => location.Id);
 
             });
 
@@ -615,8 +608,8 @@ namespace Agri.Data
 
                 b.HasOne(region => region.Location)
                     .WithMany(location => location.Regions)
-                    .HasForeignKey(region => new {region.LocationId, region.StaticDataVersionId})
-                    .HasPrincipalKey(location => new {location.Id, location.StaticDataVersionId});
+                    .HasForeignKey(region => region.LocationId)
+                    .HasPrincipalKey(location => location.Id);
             });
 
             modelBuilder.Entity<SoilTestPhosphorousRecommendation>(b =>
@@ -691,7 +684,6 @@ namespace Agri.Data
             modelBuilder.Entity<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<LiquidMaterialsConversionFactor>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<LiquidSolidSeparationDefault>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
-            modelBuilder.Entity<Location>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Manure>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<ManureImportedDefault>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Message>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190213185542_AddRelationshipToStaticDataVersion.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="MigrationSeedData\11_Breed.json" />
     <None Remove="MigrationSeedData\14_AnimalSubTypes.json" />
     <None Remove="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />

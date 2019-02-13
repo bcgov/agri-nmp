@@ -1311,22 +1311,19 @@ namespace Agri.Data
             {
                 Id = nextId,
                 Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{nextId}",
-                //CreatedDateTime = datestamp
+                CreatedDateTime = datestamp
             };
 
             //var currentVersionData = 
             //Mapper.Initialize(cfg => cfg.CreateMap<AmmoniaRetention, AmmoniaRetention>());
-            //var newAmmoniaRetentions =
-            //    _mapper.Map<List<AmmoniaRetention>, List<AmmoniaRetention>>(currentVersion.AmmoniaRetentions).ToList();
-            //newAmmoniaRetentions.Select(ar => {
-            //    ar.Version = newVersion;
-            //    ar.VersionId = newVersion.Id;
-            //    return ar;
-            //}).ToList(); 
+            var newAmmoniaRetentions =
+                _mapper.Map<List<AmmoniaRetention>, List<AmmoniaRetention>>(currentVersion.AmmoniaRetentions).ToList();
+            newAmmoniaRetentions.ForEach(n => n.SetVersion(newVersion));
+            newVersion.AmmoniaRetentions.AddRange(newAmmoniaRetentions);
 
-            //newVersion.AmmoniaRetentions.AddRange(newAmmoniaRetentions);
-            //_context.Versions.Add(newVersion);
-            //_context.SaveChanges();
+
+            _context.StaticDataVersions.Add(newVersion);
+            _context.SaveChanges();
             return newId;
         }
 

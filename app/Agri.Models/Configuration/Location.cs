@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class Location : ConfigurationBase
+    public class Location
     {
         public Location()
         {
