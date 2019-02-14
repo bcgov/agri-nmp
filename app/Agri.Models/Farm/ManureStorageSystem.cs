@@ -53,6 +53,7 @@ namespace Agri.Models.Farm
         public List<ManureStorageStructure> ManureStorageStructures { get; }
         public int? AnnualPrecipitation { get; set; }
         public bool AssignedWithNutrientAnalysis { get; set; }
+        public int? ManureStorageVolume { get; set; }
         [JsonIgnore]
         public List<ManureStorageItemSummary> ManureStorageItemSummaries
         {

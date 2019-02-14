@@ -66,7 +66,7 @@
                             </div>
                         }
                         <div class="row" style="margin-bottom: 0px;">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <span id="labelHasAnimals" style="font-weight: bold">
                                     This farm has animals
                                 </span>
@@ -80,18 +80,33 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-3">
+                        <div class="row" style="margin-bottom: 0px;">
+                            <div class="col-sm-4">
                                 <span id="labelImportsManureCompost" style="font-weight: bold">
                                     This farm imports manure or compost
                                 </span>
                             </div>
-                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelImportsManureCompost">
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelImportsManureCompost" style="margin-bottom: 0px;">
                                 <label style="padding-right: 20px">
                                     <input asp-for="ImportsManureCompost" type="radio" value="true" id="rbIsImportsManureCompostYes" /> Yes
                                 </label>
                                 <label>
                                     <input asp-for="ImportsManureCompost" type="radio" value="false" id="rbIsImportsManureCompostNo" /> No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span id="labelUsesFertilizer" style="font-weight: bold">
+                                    This farm uses fertilizer
+                                </span>
+                            </div>
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelUsesFertilizer">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="UsesFertilizer" type="radio" value="true" id="rbIsUsesFertilizerYes" /> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="UsesFertilizer" type="radio" value="false" id="rbIsUsesFertilizerNo" /> No
                                 </label>
                             </div>
                         </div>

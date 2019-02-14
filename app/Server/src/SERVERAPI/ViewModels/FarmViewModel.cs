@@ -22,5 +22,6 @@ namespace SERVERAPI.ViewModels
         public string buttonPressed { get; set; }
         public bool HasAnimals { get; set; }
         public bool ImportsManureCompost { get; set; }
+        public bool UsesFertilizer { get; set; }
     }
 }
