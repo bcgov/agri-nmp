@@ -96,7 +96,7 @@ namespace Agri.Data
 
         public List<SeasonApplication> GetApplications()
         {
-            return _context.SeasonApplications.ToList();
+            return _context.SeasonApplications.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
         }
 
         public List<SelectListItem> GetApplicationsDll(string manureType)
@@ -166,7 +166,8 @@ namespace Agri.Data
                 .Include(c => c.CropSoilTestPhosphorousRegions)
                 .Include(c => c.CropSoilTestPotassiumRegions)
                 .Include(c => c.PreviousCropTypes)
-                .OrderBy(c => c.SortNumber).ThenBy(n => n.CropName)
+                .OrderBy(c => c.SortNumber)
+                .ThenBy(n => n.CropName)
                 .ToList();
         }
 
