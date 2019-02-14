@@ -1011,12 +1011,12 @@ namespace SERVERAPI.Controllers
                         GetOctoberToMarchSeparatedManure(msdvm, msdvm.SelectedMaterialsToInclude, true,true);
 
                     msdvm.OctoberToMarchManagedManures = 0;
-                    if (msdvm.OctoberToMarchPrecipitation != 0)
-                        msdvm.OctoberToMarchManagedManures = Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
-                    if (msdvm.OctoberToMarchRunoff != 0)
-                        msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchManagedManures);
                     if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
                         msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
+                    if (msdvm.OctoberToMarchPrecipitation != 0)
+                        msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                    if (msdvm.OctoberToMarchRunoff != 0)
+                        msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                 }
 
                 if (msdvm.ManagedManures == null || !msdvm.ManagedManures.Any())
@@ -1056,9 +1056,9 @@ namespace SERVERAPI.Controllers
 
                         msdvm.OctoberToMarchManagedManures = 0;
                         if (msdvm.OctoberToMarchPrecipitation != 0)
-                            msdvm.OctoberToMarchManagedManures = Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
                         if (msdvm.OctoberToMarchRunoff != 0)
-                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchManagedManures);
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
                             msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                     }
@@ -1081,9 +1081,9 @@ namespace SERVERAPI.Controllers
 
                         msdvm.OctoberToMarchManagedManures = 0;
                         if (msdvm.OctoberToMarchPrecipitation != 0)
-                            msdvm.OctoberToMarchManagedManures = Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
                         if (msdvm.OctoberToMarchRunoff != 0)
-                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchManagedManures);
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
                             msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                     }
@@ -1111,9 +1111,9 @@ namespace SERVERAPI.Controllers
 
                         msdvm.OctoberToMarchManagedManures = 0;
                         if (msdvm.OctoberToMarchPrecipitation != 0)
-                            msdvm.OctoberToMarchManagedManures = Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
                         if (msdvm.OctoberToMarchRunoff != 0)
-                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchManagedManures);
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
                             msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                     }
@@ -1143,9 +1143,9 @@ namespace SERVERAPI.Controllers
 
                     msdvm.OctoberToMarchManagedManures = 0;
                     if (msdvm.OctoberToMarchPrecipitation != 0)
-                        msdvm.OctoberToMarchManagedManures = Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                        msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
                     if (msdvm.OctoberToMarchRunoff != 0)
-                        msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchManagedManures);
+                        msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                     if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
                         msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
 
@@ -1172,7 +1172,7 @@ namespace SERVERAPI.Controllers
                         if (msdvm.OctoberToMarchPrecipitation != 0)
                             msdvm.OctoberToMarchManagedManures = Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
                         if (msdvm.OctoberToMarchRunoff != 0)
-                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchManagedManures);
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
                             msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                     }
@@ -1201,7 +1201,7 @@ namespace SERVERAPI.Controllers
                         if (msdvm.OctoberToMarchPrecipitation != 0)
                             msdvm.OctoberToMarchManagedManures = Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
                         if (msdvm.OctoberToMarchRunoff != 0)
-                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchManagedManures);
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
                             msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                     }
@@ -1220,6 +1220,18 @@ namespace SERVERAPI.Controllers
                         var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
                         msdvm.volumeUSGallonsOfStorageSystem = savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons).Value.ToString("N0") + " U.S. Gallons (" + savedStorageSystem.Name + ")";
                     }
+                    if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                    {
+                        msdvm.OctoberToMarchSeparatedLiquidUSGallons = GetOctoberToMarchSeparatedManure(msdvm, msdvm.SelectedMaterialsToInclude, true, false);
+
+                        msdvm.OctoberToMarchManagedManures = 0;
+                        if (msdvm.OctoberToMarchPrecipitation != 0)
+                            msdvm.OctoberToMarchManagedManures = Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                        if (msdvm.OctoberToMarchRunoff != 0)
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
+                        if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
+                    }
 
                     return View(msdvm);
                 }
@@ -1231,6 +1243,18 @@ namespace SERVERAPI.Controllers
                     msdvm.ButtonText = "Save";
 
                     msdvm = StorageShapesCalculations(msdvm);
+                    if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
+                    {
+                        msdvm.OctoberToMarchSeparatedLiquidUSGallons = GetOctoberToMarchSeparatedManure(msdvm, msdvm.SelectedMaterialsToInclude, true, false);
+
+                        msdvm.OctoberToMarchManagedManures = 0;
+                        if (msdvm.OctoberToMarchPrecipitation != 0)
+                            msdvm.OctoberToMarchManagedManures = Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                        if (msdvm.OctoberToMarchRunoff != 0)
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
+                        if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
+                            msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
+                    }
 
                     return View(msdvm);
                 }
