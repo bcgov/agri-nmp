@@ -13,7 +13,7 @@ namespace Agri.CalculateService
     {
         public decimal CalculateOctoberToMarchSeparatedLiquid(decimal separatedLiquidsUSGallons)
         {
-            var daysInOctoberToMarch = 180;
+            var daysInOctoberToMarch = 182;
             var totalDays = 365;
             var octoberToMarchSeparatedLiquid = Math.Round((separatedLiquidsUSGallons / totalDays) * daysInOctoberToMarch);
             return octoberToMarchSeparatedLiquid;
