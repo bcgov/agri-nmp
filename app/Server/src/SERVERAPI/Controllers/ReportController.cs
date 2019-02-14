@@ -907,7 +907,15 @@ namespace SERVERAPI.Controllers
                             rs.totalStored = string.Format("{0:#,##0}", fm.OctoberToMarchManagedManures + Convert.ToDecimal(fm.OctoberToMarchRunoff) +
                                              Convert.ToDecimal(fm.OctoberToMarchPrecipitation));
                         }
-                        
+
+                        //if ()
+                        //{
+                        //    ReportFieldFootnote rff = new ReportFieldFootnote();
+                        //    rff.id = romssvm.footnotes.Count() + 1;
+                        //    rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
+                        //    rs.footNote = rff.id.ToString();
+                        //    romssvm.footnotes.Add(rff);
+                        //}
 
                         romssvm.storages.Add(rs);
                     }
@@ -1485,7 +1493,7 @@ namespace SERVERAPI.Controllers
             string reportAnalysis = await RenderAnalysis();
             string reportSummary = await RenderSummary();
 
-            string report = reportApplication + pageBreak + reportManureCompostInventory + pageBreakForManure + reportOctoberToMarchStorageVolumes + pageBreakForManure + reportManureUse + pageBreakForManure + reportFertilizers + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
+            string report = reportApplication + pageBreak + reportManureCompostInventory + pageBreakForManure + reportManureUse + pageBreakForManure + reportOctoberToMarchStorageVolumes + pageBreakForManure + reportFertilizers + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
 
             result = await PrintReportAsync(report, true);
 
