@@ -177,13 +177,6 @@ namespace Agri.Data
                     table.StaticDataVersionId
                 });
 
-            modelBuilder.Entity<ExternalLink>()
-                .HasKey(table => new
-                {
-                    table.Id,
-                    table.StaticDataVersionId
-                });
-
             modelBuilder.Entity<Fertilizer>()
                 .HasKey(table => new
                 {
@@ -674,7 +667,6 @@ namespace Agri.Data
             modelBuilder.Entity<DefaultSoilTest>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DensityUnit>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DryMatter>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
-            modelBuilder.Entity<ExternalLink>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Fertilizer>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<FertilizerMethod>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<FertilizerType>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);

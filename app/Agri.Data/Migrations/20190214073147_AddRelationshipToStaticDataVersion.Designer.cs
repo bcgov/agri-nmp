@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20190213202747_AddRelationshipToStaticDataVersion")]
+    [Migration("20190214073147_AddRelationshipToStaticDataVersion")]
     partial class AddRelationshipToStaticDataVersion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -404,19 +404,14 @@ namespace Agri.Data.Migrations
 
             modelBuilder.Entity("Agri.Models.Configuration.ExternalLink", b =>
                 {
-                    b.Property<int>("Id");
-
-                    b.Property<int>("StaticDataVersionId")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
                     b.Property<string>("Url");
 
-                    b.HasKey("Id", "StaticDataVersionId");
-
-                    b.HasIndex("StaticDataVersionId");
+                    b.HasKey("Id");
 
                     b.ToTable("ExternalLinks");
                 });
@@ -1533,14 +1528,6 @@ namespace Agri.Data.Migrations
                 {
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
                         .WithMany("DryMatters")
-                        .HasForeignKey("StaticDataVersionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.ExternalLink", b =>
-                {
-                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
-                        .WithMany("ExternalLinks")
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

@@ -270,10 +270,6 @@ namespace Agri.Data.Migrations
                 table: "FertilizerMethods");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_ExternalLinks",
-                table: "ExternalLinks");
-
-            migrationBuilder.DropPrimaryKey(
                 name: "PK_DryMatters",
                 table: "DryMatters");
 
@@ -786,19 +782,6 @@ namespace Agri.Data.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "Id",
-                table: "ExternalLinks",
-                nullable: false,
-                oldClrType: typeof(int))
-                .OldAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AddColumn<int>(
-                name: "StaticDataVersionId",
-                table: "ExternalLinks",
-                nullable: false,
-                defaultValue: 1);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
                 table: "DryMatters",
                 nullable: false,
                 oldClrType: typeof(int))
@@ -1155,11 +1138,6 @@ namespace Agri.Data.Migrations
                 columns: new[] { "Id", "StaticDataVersionId" });
 
             migrationBuilder.AddPrimaryKey(
-                name: "PK_ExternalLinks",
-                table: "ExternalLinks",
-                columns: new[] { "Id", "StaticDataVersionId" });
-
-            migrationBuilder.AddPrimaryKey(
                 name: "PK_DryMatters",
                 table: "DryMatters",
                 columns: new[] { "Id", "StaticDataVersionId" });
@@ -1450,11 +1428,6 @@ namespace Agri.Data.Migrations
                 column: "StaticDataVersionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExternalLinks_StaticDataVersionId",
-                table: "ExternalLinks",
-                column: "StaticDataVersionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_DryMatters_StaticDataVersionId",
                 table: "DryMatters",
                 column: "StaticDataVersionId");
@@ -1722,14 +1695,6 @@ namespace Agri.Data.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_DryMatters_StaticDataVersions_StaticDataVersionId",
                 table: "DryMatters",
-                column: "StaticDataVersionId",
-                principalTable: "StaticDataVersions",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ExternalLinks_StaticDataVersions_StaticDataVersionId",
-                table: "ExternalLinks",
                 column: "StaticDataVersionId",
                 principalTable: "StaticDataVersions",
                 principalColumn: "Id",
@@ -2191,10 +2156,6 @@ namespace Agri.Data.Migrations
                 table: "DryMatters");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_ExternalLinks_StaticDataVersions_StaticDataVersionId",
-                table: "ExternalLinks");
-
-            migrationBuilder.DropForeignKey(
                 name: "FK_FertilizerMethods_StaticDataVersions_StaticDataVersionId",
                 table: "FertilizerMethods");
 
@@ -2719,14 +2680,6 @@ namespace Agri.Data.Migrations
                 table: "FertilizerMethods");
 
             migrationBuilder.DropPrimaryKey(
-                name: "PK_ExternalLinks",
-                table: "ExternalLinks");
-
-            migrationBuilder.DropIndex(
-                name: "IX_ExternalLinks_StaticDataVersionId",
-                table: "ExternalLinks");
-
-            migrationBuilder.DropPrimaryKey(
                 name: "PK_DryMatters",
                 table: "DryMatters");
 
@@ -3024,10 +2977,6 @@ namespace Agri.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "StaticDataVersionId",
-                table: "ExternalLinks");
-
-            migrationBuilder.DropColumn(
-                name: "StaticDataVersionId",
                 table: "DryMatters");
 
             migrationBuilder.DropColumn(
@@ -3295,13 +3244,6 @@ namespace Agri.Data.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "Id",
-                table: "ExternalLinks",
-                nullable: false,
-                oldClrType: typeof(int))
-                .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn);
-
-            migrationBuilder.AlterColumn<int>(
-                name: "Id",
                 table: "DryMatters",
                 nullable: false,
                 oldClrType: typeof(int))
@@ -3561,11 +3503,6 @@ namespace Agri.Data.Migrations
             migrationBuilder.AddPrimaryKey(
                 name: "PK_FertilizerMethods",
                 table: "FertilizerMethods",
-                column: "Id");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_ExternalLinks",
-                table: "ExternalLinks",
                 column: "Id");
 
             migrationBuilder.AddPrimaryKey(

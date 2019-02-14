@@ -26,7 +26,7 @@ namespace Agri.Data.TestHarness
 
             services.AddDbContext<AgriConfigurationContext>(options =>
             {
-                options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Agri.Data"));
+                options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Agri.Data")).EnableSensitiveDataLogging();
             });
 
             services.AddTransient<AgriConfigurationRepository>();

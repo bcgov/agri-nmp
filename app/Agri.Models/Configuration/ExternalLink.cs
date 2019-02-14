@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class ExternalLink : Versionable
+    public class ExternalLink
     {
         [Key]
         public int Id { get; set; }
