@@ -873,6 +873,51 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
+        public async Task<string> RenderOctoberToMarchStorageVolumes()
+        {
+            ReportOctoberToMarchStorageSummaryViewModel romssvm = new ReportOctoberToMarchStorageSummaryViewModel();
+            romssvm.storages = new List<ReportStorages>();
+            romssvm.footnotes = new List<ReportFieldFootnote>();
+            romssvm.year = _ud.FarmDetails().year;
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.farmManures != null)
+            {
+                foreach (var fm in yearData.ManureStorageSystems)
+                {
+                    if (fm.ManureMaterialType == ManureMaterialType.Liquid)
+                    {
+                        ReportStorages rs = new ReportStorages();
+                        rs.storageName = fm.Name;
+                        rs.materialsGeneratedImported = fm.OctoberToMarchManagedManuresText;
+                        rs.yardRunoff = fm.OctoberToMarchRunoffText;
+                        rs.precipitationIntoStorage = fm.OctoberToMarchPrecipitationText;
+                        rs.totalStored = (fm.OctoberToMarchManagedManures + Convert.ToDecimal(fm.OctoberToMarchRunoff) + Convert.ToDecimal(fm.OctoberToMarchPrecipitation)).ToString();
+                        rs.storageVolume = fm.TotalAreaOfUncoveredLiquidStorage.ToString();
+                        rs.materialsStoredAfterSLSeparaton =string.Format("{0:#,##0}", fm.OctoberToMarchSeparatedLiquidsUSGallons);
+                        rs.isThereSolidLiquidSeparation = fm.IsThereSolidLiquidSeparation;
+
+                        if (fm.IsThereSolidLiquidSeparation)
+                        {
+                            rs.totalStored = string.Format("{0:#,##0}",fm.OctoberToMarchSeparatedLiquidsUSGallons + Convert.ToDecimal(fm.OctoberToMarchPrecipitation));
+                        }
+                        else
+                        {
+                            rs.totalStored = string.Format("{0:#,##0}", fm.OctoberToMarchManagedManures + Convert.ToDecimal(fm.OctoberToMarchRunoff) +
+                                             Convert.ToDecimal(fm.OctoberToMarchPrecipitation));
+                        }
+                        
+
+                        romssvm.storages.Add(rs);
+                    }
+                }
+            }
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportOctoberToMarchStorageSummary.cshtml", romssvm);
+
+            return result;
+        }
         public async Task<string> RenderFerilizers()
         {
             ReportSourcesViewModel rvm = new ReportSourcesViewModel();
@@ -1434,12 +1479,13 @@ namespace SERVERAPI.Controllers
             string reportApplication = await RenderApplication();
             string reportManureCompostInventory = await RenderManureCompostInventory();
             string reportManureUse = await RenderManureUse();
+            string reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes();
             string reportFertilizers = await RenderFerilizers();
             string reportFields = await RenderFields();
             string reportAnalysis = await RenderAnalysis();
             string reportSummary = await RenderSummary();
 
-            string report = reportApplication + pageBreak + reportManureCompostInventory + pageBreakForManure + reportManureUse + pageBreakForManure + reportFertilizers + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
+            string report = reportApplication + pageBreak + reportManureCompostInventory + pageBreakForManure + reportOctoberToMarchStorageVolumes + pageBreakForManure + reportManureUse + pageBreakForManure + reportFertilizers + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
 
             result = await PrintReportAsync(report, true);
 
