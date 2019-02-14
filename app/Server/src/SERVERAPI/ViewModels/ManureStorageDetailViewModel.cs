@@ -58,6 +58,22 @@ namespace SERVERAPI.ViewModels
         public bool ShowStructureFields { get; set; }
         public string ZeroManagedManuresMessage { get; set; }
         public int? AnnualPrecipitation { get; set; }
+        [Required(ErrorMessage = "Select a Storage Shape")]
+        public StorageShapes SelectedStorageShape { get; set; }
+        public decimal? RectangularLength { get; set; }
+        public decimal? RectangularWidth { get; set; }
+        public decimal? RectangularHeight { get; set; }
+        public decimal? CircularDiameter { get; set; }
+        public decimal? CircularHeight { get; set; }
+        public decimal? SlopedWallTopLength { get; set; }
+        public decimal? SlopedWallTopWidth { get; set; }
+        public decimal? SlopedWallHeight { get; set; }
+        public decimal? SlopedWallSlopeOfWall { get; set; }
+        public int? surfaceArea { get; set; }
+        public int? volumeUSGallons { get; set; }
+        public string volumeOfStorageStructure { get; set; }
+        public int? volumeOfStorageSystem { get; set; }
+        public string volumeUSGallonsOfStorageSystem { get; set; }
     }
 
 }

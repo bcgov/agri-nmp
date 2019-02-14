@@ -114,7 +114,9 @@ namespace SERVERAPI
             services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
             services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
             services.AddScoped<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
+            services.AddScoped<IManureAnimalNumberCalculator, ManureAnimalNumberCalculator>();
             services.AddScoped<ISoilTestConverter, SoilTestConverter>();
+            services.AddScoped<IStorageVolumeCalculator, StorageVolumeCalculator>();
 
             services.AddOptions();
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
