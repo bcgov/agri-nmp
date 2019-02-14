@@ -1364,7 +1364,7 @@ namespace Agri.Data
                 CreatedDateTime = datestamp
             };
 
-            newVersion.AmmoniaRetentions.ForEach(n => n.SetVersion(currentVersion));
+            newVersion.AmmoniaRetentions = _mapper.Map<List<AmmoniaRetention>, List<AmmoniaRetention>>(currentVersion.AmmoniaRetentions).ToList();
             newVersion.Animals = _mapper.Map<List<Animal>, List<Animal>>(currentVersion.Animals).ToList();
             newVersion.AnimalSubTypes = _mapper.Map<List<AnimalSubType>, List<AnimalSubType>>(currentVersion.AnimalSubTypes).ToList();
             newVersion.BCSampleDateForNitrateCredits = _mapper.Map<List<BCSampleDateForNitrateCredit>, List<BCSampleDateForNitrateCredit>>(currentVersion.BCSampleDateForNitrateCredits).ToList();
@@ -1413,6 +1413,7 @@ namespace Agri.Data
             newVersion.SubRegions = _mapper.Map<List<SubRegion>, List<SubRegion>>(currentVersion.SubRegions).ToList();
             newVersion.Yields = _mapper.Map<List<Yield>, List<Yield>>(currentVersion.Yields).ToList();
 
+            newVersion.AmmoniaRetentions.ForEach(n => n.SetVersion(currentVersion));
             newVersion.Animals.ForEach(n => n.SetVersion(newVersion));
             newVersion.AnimalSubTypes.ForEach(n => n.SetVersion(newVersion));
             newVersion.BCSampleDateForNitrateCredits.ForEach(n => n.SetVersion(newVersion));
