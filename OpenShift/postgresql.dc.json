@@ -2,7 +2,7 @@
   "apiVersion": "v1",
   "kind": "Template",
   "labels": {
-    "template": "postgresql-ephemeral-template"
+    "template": "postgresql-template"
   },
   "metadata": {
     "creationTimestamp": null,
@@ -60,17 +60,14 @@
       "apiVersion": "v1",
       "kind": "PersistentVolumeClaim",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
-        "annotations": {
-          "volume.beta.kubernetes.io/storage-class": "gluster-file-db",
-          "volume.beta.kubernetes.io/storage-provisioner": "kubernetes.io/glusterfs"
-        }
+        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
       },
       "spec": {
+        "storageClassName": "${PERSISTENT_VOLUME_CLASS}",
         "accessModes": [ "ReadWriteMany" ],
         "resources": {
           "requests": {
-            "storage": "${VOLUME_CAPACITY}"
+            "storage": "${PERSISTENT_VOLUME_SIZE}"
           }
         }
       }
@@ -303,9 +300,16 @@
     {
       "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
       "displayName": "Volume Capacity",
-      "name": "VOLUME_CAPACITY",
+      "name": "PERSISTENT_VOLUME_SIZE",
       "required": true,
       "value": "1Gi"
+    },
+    {
+      "name": "PERSISTENT_VOLUME_CLASS",
+      "displayName": "Persistent Volume Class name",
+      "description": "The class of the volume; gluster-file, gluster-block, gluster-file-db",
+      "required": false,
+      "value": "gluster-file-db"
     },
     {
       "name": "CPU_REQUEST",
