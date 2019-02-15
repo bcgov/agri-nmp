@@ -57,14 +57,14 @@
       }
     },
     {
-      "apiVersion": "v1",
       "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
       "metadata": {
         "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
       },
       "spec": {
         "storageClassName": "${PERSISTENT_VOLUME_CLASS}",
-        "accessModes": [ "ReadWriteMany" ],
+        "accessModes": [ "ReadWriteOnce" ],
         "resources": {
           "requests": {
             "storage": "${PERSISTENT_VOLUME_SIZE}"
