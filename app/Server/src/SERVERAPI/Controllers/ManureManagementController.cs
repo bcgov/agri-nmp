@@ -1082,8 +1082,6 @@ namespace SERVERAPI.Controllers
                         if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
                             msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
 
-
-
                         if (msdvm.IsThereSolidLiquidSeparation)
                         {
                             msdvm.TotalStored = 0;
@@ -1127,7 +1125,6 @@ namespace SERVERAPI.Controllers
                             msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         if (msdvm.OctoberToMarchSeparatedLiquidUSGallons != 0)
                             msdvm.OctoberToMarchManagedManures += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
-
 
                         if (msdvm.IsThereSolidLiquidSeparation)
                         {
@@ -1614,33 +1611,7 @@ namespace SERVERAPI.Controllers
 
                         var manureStorageSystem = PopulateManureStorageSystem(msdvm);
                         manureStorageSystem.ManureStorageVolume = manureStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons).Value.ToString("N0") + " U.S. Gallons (" + manureStorageSystem.Name + ")";
-                        if (manureStorageSystem.IsThereSolidLiquidSeparation)
-                        {
-                            manureStorageSystem.TotalStored = msdvm.TotalStored;    
-                        }
-                        else
-                        {
-                            //manureStorageSystem.TotalStored = 0;
-                            //if (manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons != 0)
-                            //{
-                            //    manureStorageSystem.TotalStored += manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons;
-                            //    msdvm.TotalStored += manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons;
-                            //}
-
-                            //if (manureStorageSystem.OctoberToMarchPrecipitation != 0)
-                            //{
-                            //    manureStorageSystem.TotalStored += Convert.ToDecimal(manureStorageSystem.OctoberToMarchPrecipitation);
-                            //    msdvm.TotalStored += Convert.ToDecimal(manureStorageSystem.OctoberToMarchPrecipitation);
-                            //}
-                               
-                            //if (manureStorageSystem.OctoberToMarchRunoff != 0)
-                            //{
-                            //    manureStorageSystem.TotalStored += Convert.ToDecimal(manureStorageSystem.OctoberToMarchRunoff);
-                            //    msdvm.TotalStored += Convert.ToDecimal(manureStorageSystem.OctoberToMarchRunoff);
-                            //}
-                               
-                        }
-                         
+                        manureStorageSystem.TotalStored = msdvm.TotalStored;
 
                         if (msdvm.SystemId.HasValue)
                         {
