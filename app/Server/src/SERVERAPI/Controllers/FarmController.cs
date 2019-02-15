@@ -204,5 +204,11 @@ namespace SERVERAPI.Controllers
                 return View(fvm);
             }
         }
+
+        public IActionResult FarmIncomplete()
+        {
+
+            return View();
+        }
     }
 }
