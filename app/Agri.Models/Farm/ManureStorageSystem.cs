@@ -53,7 +53,7 @@ namespace Agri.Models.Farm
         public List<ManureStorageStructure> ManureStorageStructures { get; }
         public int? AnnualPrecipitation { get; set; }
         public bool AssignedWithNutrientAnalysis { get; set; }
-        public int? ManureStorageVolume { get; set; }
+        public string ManureStorageVolume { get; set; }
         public decimal OctoberToMarchSeparatedLiquidsUSGallons { get; set; }
         public double OctoberToMarchPrecipitation { get; set; }
         public string OctoberToMarchPrecipitationText => OctoberToMarchPrecipitation.ToString("#,#");
@@ -61,7 +61,8 @@ namespace Agri.Models.Farm
         public string OctoberToMarchRunoffText => OctoberToMarchRunoff.ToString("#,#");
         public decimal OctoberToMarchManagedManures { get; set; }
         public string OctoberToMarchManagedManuresText => OctoberToMarchManagedManures.ToString("#,#");
-
+        public decimal TotalStored { get; set; }
+        public string TotalStoredText => TotalStored.ToString("#,#");
         [JsonIgnore]
         public List<ManureStorageItemSummary> ManureStorageItemSummaries
         {
