@@ -82,6 +82,8 @@ namespace SERVERAPI.ViewModels
         public string OctoberToMarchRunoffText => OctoberToMarchRunoff.ToString("#,#");
         public decimal OctoberToMarchManagedManures { get; set; }
         public string OctoberToMarchManagedManuresText => OctoberToMarchManagedManures.ToString("#,#");
+        public decimal TotalStored { get; set; }
+        public string TotalStoredText => TotalStored.ToString("#,#");
         public string ExplainMaterialsOctoberToMarch { get; set; }
         public string ExplainRunoffOctoberToMarch { get; set; }
         public string ExplainStoredOctoberToMarch { get; set; }
