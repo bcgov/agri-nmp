@@ -894,7 +894,7 @@ namespace SERVERAPI.Controllers
                         rs.yardRunoff = fm.OctoberToMarchRunoffText;
                         rs.precipitationIntoStorage = fm.OctoberToMarchPrecipitationText;
                         rs.totalStored = (fm.OctoberToMarchManagedManures + Convert.ToDecimal(fm.OctoberToMarchRunoff) + Convert.ToDecimal(fm.OctoberToMarchPrecipitation)).ToString();
-                        rs.storageVolume = fm.TotalAreaOfUncoveredLiquidStorage.ToString();
+                        rs.storageVolume = fm.ManureStorageVolume.ToString();
                         rs.materialsStoredAfterSLSeparaton =string.Format("{0:#,##0}", fm.OctoberToMarchSeparatedLiquidsUSGallons);
                         rs.isThereSolidLiquidSeparation = fm.IsThereSolidLiquidSeparation;
 
