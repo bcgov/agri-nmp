@@ -51,7 +51,6 @@ namespace SERVERAPI.ViewComponents
 
             if (currentAction == CoreSiteActions.ManureGeneratedObtained )
             {
-                mnvm.UseJSInterceptMethod = true;
                 mnvm.PreviousAction = CoreSiteActions.Farm;
                 mnvm.PreviousController = AppControllers.Farm;
                 if (importsManureCompost)

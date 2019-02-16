@@ -1,0 +1,12 @@
+{
+  "Id": 23,
+  "JsonFilename": "23_UserPrompts",
+  "ReasonReference": "R4E02-US08: Location entry for accurate calculations",
+  "Data": [
+    {
+      "Id": "45",
+      "Name": "RegionRequiredWarning",
+      "Text": "A region must be selected so that the nutrient management calculator can provide accurate estimates for climate and crop requirements"
+    }
+  ]
+}

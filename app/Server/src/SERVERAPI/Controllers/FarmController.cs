@@ -205,10 +205,22 @@ namespace SERVERAPI.Controllers
             }
         }
 
-        public IActionResult FarmIncomplete()
+        [HttpGet]
+        public object CheckCompleted()
         {
+            var result = new {incomplete = _ud.FarmData().unsaved.ToString()};
+            return result;
+        }
 
-            return View();
+        public IActionResult FarmIncomplete(string target)
+        {
+            var vm = new FarmIncompleteViewModel
+            {
+                Message = _sd.GetUserPrompt("RegionRequiredWarning"),
+                Target = target
+            };
+
+            return View(vm);
         }
     }
 }

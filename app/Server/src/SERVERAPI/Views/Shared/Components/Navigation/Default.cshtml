@@ -9,8 +9,14 @@
             </li>
             @foreach (var item in Model.mainMenuOptions)
             {
+                var url = Url.Action(item.Action, item.Controller);
+                var redirectFunction = $"window.location.href='{url}'";
+                if (Model.UseInterceptJS)
+                {
+                    redirectFunction = $"Intercept('{url}')";
+                }
             <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
-                <a id="@item.ElementId" href='@Url.Action(@item.Action, @item.Controller)' class="@item.GreyOutClass">
+                <a id="@item.ElementId" href='#' onclick="@redirectFunction" class="@item.GreyOutClass">
                     @item.Name
                 </a>
             </li>

@@ -48,6 +48,7 @@ namespace SERVERAPI.ViewComponents
 
             if (currentAction > CoreSiteActions.Home)
             {
+                ndvm.UseInterceptJS = currentAction == CoreSiteActions.Farm;
                 var currentMainMenu = ndvm.mainMenuOptions.Single(m => m.IsCurrentMainMenu(currentAction.ToString()));
                 currentMainMenu.ElementId = "current";
                 ndvm.subMenuOptions = currentMainMenu.SubMenus;
