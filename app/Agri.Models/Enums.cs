@@ -87,4 +87,14 @@ namespace Agri.Models
         Heifers15To26Months = 7,
         DryCows = 8
     }
+
+    public enum StorageShapes
+    {
+        [Description("Rectangular")]
+        Rectangular = 1,
+        [Description("Circular")]
+        Circular = 2,
+        [Description("Sloped wall (Rectangular)")]
+        SlopedWallRectangular = 3
+    }
 }
