@@ -1414,7 +1414,7 @@ namespace Agri.Data
             newVersion.SubRegions = _mapper.Map<List<SubRegion>, List<SubRegion>>(currentVersion.SubRegions).ToList();
             newVersion.Yields = _mapper.Map<List<Yield>, List<Yield>>(currentVersion.Yields).ToList();
 
-            newVersion.AmmoniaRetentions.ForEach(n => n.SetVersion(currentVersion));
+            newVersion.AmmoniaRetentions.ForEach(n => n.SetVersion(newVersion));
             newVersion.Animals.ForEach(n => n.SetVersion(newVersion));
             newVersion.AnimalSubTypes.ForEach(n => n.SetVersion(newVersion));
             newVersion.BCSampleDateForNitrateCredits.ForEach(n => n.SetVersion(newVersion));

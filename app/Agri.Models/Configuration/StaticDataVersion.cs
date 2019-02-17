@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Agri.Models.Configuration
 {
@@ -57,12 +58,14 @@ namespace Agri.Models.Configuration
             SubRegions = new List<SubRegion>();
             Yields = new List<Yield>();
         }
-
+        
         [Key]
         public int Id { get; set; }
+        [NotMapped]
         public string Version { get; set; }
         public DateTime CreatedDateTime { get; set; }
-
+        [Column(TypeName = "VARCHAR(4000)")]
+        public string Comments { get; set; }
 
         public List<AmmoniaRetention> AmmoniaRetentions { get; set; }
         public List<Animal> Animals { get; set; }
