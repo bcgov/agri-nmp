@@ -1195,6 +1195,7 @@ namespace Agri.Data
         {
             return _context.MainMenus
                 .Include(x => x.SubMenus)
+                .OrderBy(sm => sm.SortNumber)
                 .ToList();
         }
 
@@ -1344,7 +1345,10 @@ namespace Agri.Data
 
         public List<SubMenu> GetSubMenus(int mainMenuId)
         {
-            return GetSubMenus().Where(sb => sb.MainMenuId == mainMenuId).ToList();
+            return GetSubMenus()
+                .Where(sb => sb.MainMenuId == mainMenuId)
+                .OrderBy(sm => sm.SortNumber)
+                .ToList();
         }
 
         public StaticDataVersion GetCurrentStaticDataVersion()

@@ -712,6 +712,35 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
                 _context.SaveChanges();
             }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("24_MainMenu", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<MainMenu>>("24_MainMenu");
+                foreach (var menu in migrationSeedData.Data)
+                {
+                    var mainMenu = _context.MainMenus.Single(up => up.Id == menu.Id);
+                    mainMenu.SortNumber = menu.SortNumber;
+                    _context.MainMenus.Update(mainMenu);
+                }
+
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("25_SubMenu", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubMenu>>("25_SubMenu");
+                foreach (var updatedMenu in migrationSeedData.Data)
+                {
+                    var menu = _context.MainMenus.Single(up => up.Id == updatedMenu.MainMenuId);
+                    menu.SubMenus.Single(sb => sb.Id == updatedMenu.Id)
+                        .SortNumber = updatedMenu.SortNumber;
+                    _context.MainMenus.Update(menu);
+                }
+
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
         }
     }
 }

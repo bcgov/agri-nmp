@@ -10,6 +10,7 @@ namespace Agri.Models.Configuration
         public string Name { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
+        public int SortNumber { get; set; }
 
         private string _elementId;
         [NotMapped]
