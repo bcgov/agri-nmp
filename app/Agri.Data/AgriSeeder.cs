@@ -732,7 +732,9 @@ namespace Agri.Data
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubMenu>>("25_SubMenu");
                 foreach (var updatedMenu in migrationSeedData.Data)
                 {
-                    var menu = _context.MainMenus.Single(up => up.Id == updatedMenu.MainMenuId);
+                    var menu = _context.MainMenus
+                            .Include(m => m.SubMenus) 
+                            .Single(up => up.Id == updatedMenu.MainMenuId);
                     menu.SubMenus.Single(sb => sb.Id == updatedMenu.Id)
                         .SortNumber = updatedMenu.SortNumber;
                     _context.MainMenus.Update(menu);
