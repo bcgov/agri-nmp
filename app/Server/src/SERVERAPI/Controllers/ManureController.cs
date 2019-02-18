@@ -411,7 +411,7 @@ namespace SERVERAPI.Controllers
                             fm.customized = true;
                             fm.manureId = cvm.selManOption;
                             fm.ammonia = Convert.ToInt32(cvm.ammonia);
-                            fm.dmid = man.DMId;
+                            fm.dmid = man.DryMatterId;
                             fm.manure_class = man.ManureClass;
                             fm.moisture = cvm.moisture;
                             fm.name = cvm.manureName;
@@ -443,7 +443,7 @@ namespace SERVERAPI.Controllers
                             fm.customized = true;
                             fm.manureId = cvm.selManOption;
                             fm.ammonia = Convert.ToInt32(cvm.ammonia);
-                            fm.dmid = man.DMId;
+                            fm.dmid = man.DryMatterId;
                             fm.manure_class = man.ManureClass;
                             fm.moisture = cvm.moisture;
                             fm.name = cvm.manureName;

@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Data
 {
@@ -30,6 +29,7 @@ namespace Agri.Data
             _context.Database.Migrate();
 
             var staticExtRepo = new StaticDataExtRepository();
+            var currentVersion = _sd.GetCurrentStaticDataVersion();
 
             //AmoniaRetention
             if (!_context.AmmoniaRetentions.Any())
@@ -46,13 +46,18 @@ namespace Agri.Data
                 var animalSubtypes = staticExtRepo.GetAnimalSubTypes();
                 foreach (var animal in animals)
                 {
+                    animal.SetVersion(currentVersion);
                     var subtypes = animalSubtypes.Where(s => s.AnimalId == animal.Id).ToList();
                     if (subtypes.Any())
                     {
+                        subtypes.Select(st =>
+                        {
+                            st.SetVersion(currentVersion);
+                            return st;
+                        }).ToList();
                         animal.AnimalSubTypes.AddRange(subtypes);
                     }
                 }
-
                 _context.Animals.AddRange(animals);
             }
 
@@ -124,6 +129,12 @@ namespace Agri.Data
             if (!_context.PrevYearManureApplicationNitrogenDefaults.Any())
             {
                 var nitrogenDefaults = staticExtRepo.GetPrevYearManureNitrogenCreditDefaults();
+                nitrogenDefaults.Select(nd =>
+                {
+                    nd.PreviousYearManureAplicationFrequency = nd.FieldManureApplicationHistory.ToString();
+                    nd.SetVersion(currentVersion);
+                    return nd;
+                }).ToList();
                 _context.PrevYearManureApplicationNitrogenDefaults.AddRange(nitrogenDefaults);
             }
 
@@ -142,6 +153,7 @@ namespace Agri.Data
 
                 foreach (var crop in crops)
                 {
+                    crop.SetVersion(currentVersion);
                     if (stksRegions.Any(s => s.CropId == crop.Id))
                     {
                         crop.CropSoilTestPotassiumRegions.AddRange(stksRegions.Where(s => s.CropId == crop.Id));
@@ -163,6 +175,7 @@ namespace Agri.Data
                     }
                 }
 
+                currentVersion.Crops.AddRange(crops);
                 _context.Crops.AddRange(crops);
             }
 
@@ -365,10 +378,10 @@ namespace Agri.Data
                 _context.NutrientIcons.AddRange(icons);
             }
 
-            if (!_context.Versions.Any())
+            if (!_context.StaticDataVersions.Any())
             {
                 var version = staticExtRepo.GetStaticDataVersion();
-                _context.Versions.Add(new Version { StaticDataVersion = version });
+                _context.StaticDataVersions.Add(new StaticDataVersion { Version = version });
             }
 
             if (!_context.NitrateCreditSampleDates.Any())
@@ -424,6 +437,7 @@ namespace Agri.Data
                 _context.SolidMaterialApplicationTonPerAcreRateConversions.AddRange(conversions);
             }
 
+            _context.StaticDataVersions.Update(currentVersion);
             _context.SaveChanges();
 
             AppliedMigrationsSeedData();
@@ -432,7 +446,6 @@ namespace Agri.Data
         public void AppliedMigrationsSeedData()
         {
             //Updates
-
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("1_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("1_UserPrompts");
@@ -495,26 +508,30 @@ namespace Agri.Data
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("11_Breed", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<Breed>>("11_Breed");
+                var currentVersion = _sd.GetCurrentStaticDataVersion();
+
                 foreach (var newBreed in migrationSeedData.Data)
                 {
+                    newBreed.SetVersion(currentVersion);
                     if (!_context.Breed.Any(up => up.Id == newBreed.Id))
                     {
                         _context.Breed.Add(newBreed);
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.StaticDataVersions.Update(currentVersion);
                 _context.SaveChanges();
             }
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("14_AnimalSubTypes", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<AnimalSubType>>("14_AnimalSubTypes");
+                var currentVersion = _sd.GetCurrentStaticDataVersion();
                 foreach (var newSubType in migrationSeedData.Data)
                 {
-                    if (_context.AnimalSubType.Any(up => up.Id == newSubType.Id))
+                    if (_context.AnimalSubType.Any(up => up.Id == newSubType.Id && up.StaticDataVersionId == currentVersion.Id))
                     {
-                        newSubType.Animal = _sd.GetAnimal(newSubType.AnimalId);
-                        var updated = _context.AnimalSubType.Single(up => up.Id == newSubType.Id);
+                        var updated = _context.AnimalSubType.Single(up => up.Id == newSubType.Id && up.StaticDataVersionId == currentVersion.Id);
                         _mapper.Map(newSubType, updated);
                         _context.AnimalSubType.Update(updated);
                     }
@@ -522,26 +539,31 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
                 _context.SaveChanges();
             }
-        
+
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("16_LiquidSolidSeparationDefault", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<LiquidSolidSeparationDefault>>("16_LiquidSolidSeparationDefault");
+                var currentVersion = _sd.GetCurrentStaticDataVersion();
                 foreach (var liquidSolidSeparationDefault in migrationSeedData.Data)
                 {
+                    liquidSolidSeparationDefault.SetVersion(currentVersion);
                     if (!_context.LiquidSolidSeparationDefaults.Any(up => up.Id == liquidSolidSeparationDefault.Id))
                     {
                         _context.LiquidSolidSeparationDefaults.Add(liquidSolidSeparationDefault);
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.StaticDataVersions.Update(currentVersion);
                 _context.SaveChanges();
             }
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("17_SubRegions", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubRegion>>("17_SubRegions");
+                var currentVersion = _sd.GetCurrentStaticDataVersion();
                 foreach (var newSubRegion in migrationSeedData.Data)
                 {
+                    newSubRegion.SetVersion(currentVersion);
                     newSubRegion.Region = _sd.GetRegion(newSubRegion.RegionId);
                     if (!_context.SubRegion.Any(up => up.Id == newSubRegion.Id))
                     {
@@ -549,6 +571,7 @@ namespace Agri.Data
                     }
                 }
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.StaticDataVersions.Update(currentVersion);
                 _context.SaveChanges();
             }
 
@@ -556,6 +579,7 @@ namespace Agri.Data
                 a.JsonFilename.Equals("19_PotassiumSoilTestRanges", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PotassiumSoilTestRange>>("19_PotassiumSoilTestRanges");
+                var currentVersion = _sd.GetCurrentStaticDataVersion();
 
                 foreach (var testRange in migrationSeedData.Data)
                 {
@@ -563,9 +587,11 @@ namespace Agri.Data
                     currentTestRange.LowerLimit = testRange.LowerLimit;
                     currentTestRange.UpperLimit = testRange.UpperLimit;
                     currentTestRange.Rating = testRange.Rating;
+                    currentTestRange.SetVersion(currentVersion);
                 }
 
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.StaticDataVersions.Update(currentVersion);
                 _context.SaveChanges();
             }
 
@@ -573,6 +599,7 @@ namespace Agri.Data
                 a.JsonFilename.Equals("20_PhosphorusSoilTestRanges", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PhosphorusSoilTestRange>>("20_PhosphorusSoilTestRanges");
+                var currentVersion = _sd.GetCurrentStaticDataVersion();
 
                 foreach (var testRange in migrationSeedData.Data)
                 {
@@ -580,9 +607,11 @@ namespace Agri.Data
                     currentTestRange.LowerLimit = testRange.LowerLimit;
                     currentTestRange.UpperLimit = testRange.UpperLimit;
                     currentTestRange.Rating = testRange.Rating;
+                    currentTestRange.SetVersion(currentVersion);
                 }
 
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.StaticDataVersions.Update(currentVersion);
                 _context.SaveChanges();
             }
 
@@ -607,11 +636,17 @@ namespace Agri.Data
                     newPrevManureApplicationNitrogenDefault.Crops = _sd.GetCropsByManureApplicationHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
                     newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear =
                         _sd.GetPrevManureApplicationInPrevYearsByManureAppHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+                    //newPrevManureApplicationNitrogenDefault.StaticDataVersionId = currentVersion.Id;
+                    //newPrevManureApplicationNitrogenDefault.SetVersion(currentVersion);
 
                     if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
                     {
                         var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
-                        _mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
+                        //_mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
+                        updated.Crops = newPrevManureApplicationNitrogenDefault.Crops;
+                        //updated.PreviousManureApplicationYear =
+                        //    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear;
+                        //updated.StaticDataVersionId = newPrevManureApplicationNitrogenDefault.StaticDataVersionId;
                         _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
                     }
                 }
@@ -674,6 +709,35 @@ namespace Agri.Data
                         _context.UserPrompts.Add(newUserPrompt);
                     }
                 }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("24_MainMenu", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<MainMenu>>("24_MainMenu");
+                foreach (var menu in migrationSeedData.Data)
+                {
+                    var mainMenu = _context.MainMenus.Single(up => up.Id == menu.Id);
+                    mainMenu.SortNumber = menu.SortNumber;
+                    _context.MainMenus.Update(mainMenu);
+                }
+
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("25_SubMenu", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubMenu>>("25_SubMenu");
+                foreach (var updatedMenu in migrationSeedData.Data)
+                {
+                    var menu = _context.MainMenus.Single(up => up.Id == updatedMenu.MainMenuId);
+                    menu.SubMenus.Single(sb => sb.Id == updatedMenu.Id)
+                        .SortNumber = updatedMenu.SortNumber;
+                    _context.MainMenus.Update(menu);
+                }
+
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
                 _context.SaveChanges();
             }

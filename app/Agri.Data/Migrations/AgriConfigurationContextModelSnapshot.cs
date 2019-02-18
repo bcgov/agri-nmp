@@ -25,33 +25,47 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("DryMatter");
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<decimal?>("Value");
 
-                    b.HasKey("SeasonApplicationId", "DryMatter");
+                    b.HasKey("SeasonApplicationId", "DryMatter", "StaticDataVersionId");
 
-                    b.HasAlternateKey("DryMatter", "SeasonApplicationId");
+                    b.HasAlternateKey("DryMatter", "SeasonApplicationId", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("AmmoniaRetentions");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Animal", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Name");
 
                     b.Property<string>("UseSortOrder");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("Animals");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.AnimalSubType", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("AnimalId");
 
@@ -74,17 +88,22 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("WashWater");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
 
-                    b.HasIndex("AnimalId");
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("AnimalId", "StaticDataVersionId");
 
                     b.ToTable("AnimalSubType");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.BCSampleDateForNitrateCredit", b =>
                 {
-                    b.Property<string>("CoastalFromDateMonth")
-                        .ValueGeneratedOnAdd();
+                    b.Property<string>("CoastalFromDateMonth");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("CoastalToDateMonth");
 
@@ -92,15 +111,20 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("InteriorToDateMonth");
 
-                    b.HasKey("CoastalFromDateMonth");
+                    b.HasKey("CoastalFromDateMonth", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("BCSampleDateForNitrateCredit");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Breed", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("AnimalId");
 
@@ -108,9 +132,11 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("BreedName");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
 
-                    b.HasIndex("AnimalId");
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("AnimalId", "StaticDataVersionId");
 
                     b.ToTable("Breed");
                 });
@@ -131,8 +157,11 @@ namespace Agri.Data.Migrations
 
             modelBuilder.Entity("Agri.Models.Configuration.ConversionFactor", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("DefaultApplicationOfManureInPrevYears");
 
@@ -164,15 +193,20 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("UnitConversion");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("ConversionFactors");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Crop", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("CropName");
 
@@ -200,11 +234,13 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("YieldCd");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
 
-                    b.HasIndex("CropTypeId");
+                    b.HasIndex("StaticDataVersionId");
 
-                    b.HasIndex("ManureApplicationHistory");
+                    b.HasIndex("CropTypeId", "StaticDataVersionId");
+
+                    b.HasIndex("ManureApplicationHistory", "StaticDataVersionId");
 
                     b.ToTable("Crops");
                 });
@@ -215,9 +251,17 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("SoilTestPhosphorousRegionCode");
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<int?>("PhosphorousCropGroupRegionCode");
 
-                    b.HasKey("CropId", "SoilTestPhosphorousRegionCode");
+                    b.HasKey("CropId", "SoilTestPhosphorousRegionCode", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("CropId", "StaticDataVersionId");
 
                     b.ToTable("CropSoilTestPhosphorousRegions");
                 });
@@ -228,17 +272,28 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("SoilTestPotassiumRegionCode");
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<int?>("PotassiumCropGroupRegionCode");
 
-                    b.HasKey("CropId", "SoilTestPotassiumRegionCode");
+                    b.HasKey("CropId", "SoilTestPotassiumRegionCode", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("CropId", "StaticDataVersionId");
 
                     b.ToTable("CropSoilTestPotassiumRegions");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.CropType", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<bool>("CoverCrop");
 
@@ -250,7 +305,9 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("CropTypes");
                 });
@@ -261,19 +318,30 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("LocationId");
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<decimal?>("Amount");
 
-                    b.HasKey("CropId", "LocationId");
+                    b.HasKey("CropId", "LocationId", "StaticDataVersionId");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("CropId", "StaticDataVersionId");
 
                     b.ToTable("CropYields");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.DefaultSoilTest", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("ConvertedKelownaK");
 
@@ -289,33 +357,45 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("pH");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("DefaultSoilTests");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.DensityUnit", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<decimal>("ConvFactor");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("DensityUnits");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.DryMatter", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("DryMatters");
                 });
@@ -336,8 +416,11 @@ namespace Agri.Data.Migrations
 
             modelBuilder.Entity("Agri.Models.Configuration.Fertilizer", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("DryLiquid");
 
@@ -351,27 +434,37 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("SortNum");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("Fertilizers");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.FertilizerMethod", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("FertilizerMethods");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.FertilizerType", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<bool>("Custom");
 
@@ -379,15 +472,20 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("FertilizerTypes");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.FertilizerUnit", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<decimal>("ConversionToImperialGallonsPerAcre");
 
@@ -399,27 +497,37 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("FertilizerUnits");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.HarvestUnit", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("HarvestUnits");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.LiquidFertilizerDensity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("DensityUnitId");
 
@@ -427,19 +535,24 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("Value");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
 
-                    b.HasIndex("DensityUnitId");
+                    b.HasIndex("StaticDataVersionId");
 
-                    b.HasIndex("FertilizerId");
+                    b.HasIndex("DensityUnitId", "StaticDataVersionId");
+
+                    b.HasIndex("FertilizerId", "StaticDataVersionId");
 
                     b.ToTable("LiquidFertilizerDensities");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.LiquidMaterialApplicationUSGallonsPerAcreRateConversion", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("ApplicationRateUnit");
 
@@ -447,15 +560,20 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("USGallonsPerAcreConversion");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("LiquidMaterialApplicationUsGallonsPerAcreRateConversions");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.LiquidMaterialsConversionFactor", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("InputUnit");
 
@@ -463,19 +581,26 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("USGallonsOutput");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("LiquidMaterialsConversionFactors");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.LiquidSolidSeparationDefault", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("PercentOfLiquidSeparation");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("LiquidSolidSeparationDefaults");
                 });
@@ -503,6 +628,8 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("SortNumber");
+
                     b.HasKey("Id");
 
                     b.ToTable("MainMenus");
@@ -510,24 +637,23 @@ namespace Agri.Data.Migrations
 
             modelBuilder.Entity("Agri.Models.Configuration.Manure", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("Ammonia");
 
                     b.Property<decimal>("CubicYardConversion");
 
-                    b.Property<int>("DMId");
+                    b.Property<int>("DryMatterId");
 
                     b.Property<string>("ManureClass");
 
                     b.Property<string>("Moisture");
 
                     b.Property<int>("NMineralizationId");
-
-                    b.Property<int?>("NMineralizationId1");
-
-                    b.Property<int?>("NMineralizationLocationId");
 
                     b.Property<string>("Name");
 
@@ -543,31 +669,39 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("SortNum");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
 
-                    b.HasIndex("DMId");
+                    b.HasIndex("StaticDataVersionId");
 
-                    b.HasIndex("NMineralizationId1", "NMineralizationLocationId");
+                    b.HasIndex("DryMatterId", "StaticDataVersionId");
 
                     b.ToTable("Manures");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.ManureImportedDefault", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<decimal>("DefaultSolidMoisture");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("ManureImportedDefaults");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Message", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("Balance1High");
 
@@ -589,7 +723,9 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Text");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("Messages");
                 });
@@ -599,13 +735,19 @@ namespace Agri.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<string>("FromDateMonth");
 
                     b.Property<string>("Location");
 
                     b.Property<string>("ToDateMonth");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("NitrateCreditSampleDates");
                 });
@@ -616,25 +758,38 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("LocationId");
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<decimal>("FirstYearValue");
 
                     b.Property<decimal>("LongTermValue");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id", "LocationId");
+                    b.HasKey("Id", "LocationId", "StaticDataVersionId");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("NitrogenMineralizations");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.NitrogenRecommendation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("RecommendationDesc");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("NitrogenRecommendations");
                 });
@@ -658,13 +813,19 @@ namespace Agri.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<int>("LowerLimit");
 
                     b.Property<string>("Rating");
 
                     b.Property<int>("UpperLimit");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("PhosphorusSoilTestRanges");
                 });
@@ -674,25 +835,38 @@ namespace Agri.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<int>("LowerLimit");
 
                     b.Property<string>("Rating");
 
                     b.Property<int>("UpperLimit");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("PotassiumSoilTestRanges");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.PreviousCropType", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int?>("CropId");
 
+                    b.Property<int?>("CropStaticDataVersionId");
+
                     b.Property<int?>("CropTypeId");
+
+                    b.Property<int?>("CropTypeStaticDataVersionId");
 
                     b.Property<string>("Name");
 
@@ -702,11 +876,13 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("PreviousCropCode");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
 
-                    b.HasIndex("CropId");
+                    b.HasIndex("StaticDataVersionId");
 
-                    b.HasIndex("CropTypeId");
+                    b.HasIndex("CropId", "CropStaticDataVersionId");
+
+                    b.HasIndex("CropTypeId", "CropTypeStaticDataVersionId");
 
                     b.ToTable("PreviousCropType");
                 });
@@ -716,11 +892,17 @@ namespace Agri.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<int>("FieldManureApplicationHistory");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("PrevManureApplicationYears");
                 });
@@ -730,21 +912,30 @@ namespace Agri.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<int[]>("DefaultNitrogenCredit");
 
                     b.Property<int>("FieldManureApplicationHistory");
 
                     b.Property<string>("PreviousYearManureAplicationFrequency");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("PrevYearManureApplicationNitrogenDefaults");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Region", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("LocationId");
 
@@ -756,45 +947,60 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("SortNumber");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("Regions");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.RptCompletedFertilizerRequiredStdUnit", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("LiquidUnitId");
 
                     b.Property<int>("SolidUnitId");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("RptCompletedFertilizerRequiredStdUnits");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.RptCompletedManureRequiredStdUnit", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("LiquidUnitId");
 
                     b.Property<int>("SolidUnitId");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("RptCompletedManureRequiredStdUnits");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SeasonApplication", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("ApplicationMethod");
 
@@ -818,41 +1024,20 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("SortNum");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("SeasonApplications");
                 });
 
-            modelBuilder.Entity("Agri.Models.Configuration.SelectCodeItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Cd");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SelectCodeItems");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.SelectListItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SelectListItems");
-                });
-
             modelBuilder.Entity("Agri.Models.Configuration.SoilTestMethod", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<decimal>("ConvertToKelownaK");
 
@@ -864,15 +1049,20 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("SortNum");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("SoilTestMethods");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SoilTestPhosphorousKelownaRange", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Range");
 
@@ -880,7 +1070,9 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("RangeLow");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("SoilTestPhosphorousKelownaRanges");
                 });
@@ -893,31 +1085,47 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("PhosphorousCropGroupRegionCode");
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<int>("P2O5RecommendationKilogramPerHectare");
 
-                    b.HasKey("SoilTestPhosphorousKelownaRangeId", "SoilTestPhosphorousRegionCode", "PhosphorousCropGroupRegionCode");
+                    b.HasKey("SoilTestPhosphorousKelownaRangeId", "SoilTestPhosphorousRegionCode", "PhosphorousCropGroupRegionCode", "StaticDataVersionId");
 
-                    b.HasAlternateKey("PhosphorousCropGroupRegionCode", "SoilTestPhosphorousKelownaRangeId", "SoilTestPhosphorousRegionCode");
+                    b.HasAlternateKey("PhosphorousCropGroupRegionCode", "SoilTestPhosphorousKelownaRangeId", "SoilTestPhosphorousRegionCode", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("SoilTestPhosphorousKelownaRangeId", "StaticDataVersionId");
 
                     b.ToTable("SoilTestPhosphorousRecommendation");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SoilTestPhosphorusRange", b =>
                 {
-                    b.Property<int>("UpperLimit")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("UpperLimit");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Rating");
 
-                    b.HasKey("UpperLimit");
+                    b.HasKey("UpperLimit", "StaticDataVersionId");
+
+                    b.HasAlternateKey("StaticDataVersionId", "UpperLimit");
 
                     b.ToTable("SoilTestPhosphorusRanges");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SoilTestPotassiumKelownaRange", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Range");
 
@@ -925,19 +1133,26 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("RangeLow");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("SoilTestPotassiumKelownaRanges");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SoilTestPotassiumRange", b =>
                 {
-                    b.Property<int>("UpperLimit")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("UpperLimit");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Rating");
 
-                    b.HasKey("UpperLimit");
+                    b.HasKey("UpperLimit", "StaticDataVersionId");
+
+                    b.HasAlternateKey("StaticDataVersionId", "UpperLimit");
 
                     b.ToTable("SoilTestPotassiumRanges");
                 });
@@ -950,19 +1165,30 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("PotassiumCropGroupRegionCode");
 
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
                     b.Property<int>("K2ORecommendationKilogramPerHectare");
 
-                    b.HasKey("SoilTestPotassiumKelownaRangeId", "SoilTestPotassiumRegionCode", "PotassiumCropGroupRegionCode");
+                    b.HasKey("SoilTestPotassiumKelownaRangeId", "SoilTestPotassiumRegionCode", "PotassiumCropGroupRegionCode", "StaticDataVersionId");
 
-                    b.HasAlternateKey("PotassiumCropGroupRegionCode", "SoilTestPotassiumKelownaRangeId", "SoilTestPotassiumRegionCode");
+                    b.HasAlternateKey("PotassiumCropGroupRegionCode", "SoilTestPotassiumKelownaRangeId", "SoilTestPotassiumRegionCode", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("SoilTestPotassiumKelownaRangeId", "StaticDataVersionId");
 
                     b.ToTable("SoilTestPotassiumRecommendation");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SolidMaterialApplicationTonPerAcreRateConversion", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("ApplicationRateUnit");
 
@@ -970,15 +1196,20 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("TonsPerAcreConversion");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("SolidMaterialApplicationTonPerAcreRateConversions");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SolidMaterialsConversionFactor", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("CubicMetersOutput");
 
@@ -990,9 +1221,28 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("MetricTonsOutput");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("SolidMaterialsConversionFactors");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.StaticDataVersion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("VARCHAR(4000)");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("NOW()");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StaticDataVersions");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SubMenu", b =>
@@ -1008,6 +1258,8 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int>("SortNumber");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MainMenuId");
@@ -1017,8 +1269,11 @@ namespace Agri.Data.Migrations
 
             modelBuilder.Entity("Agri.Models.Configuration.SubRegion", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<int>("AnnualPrecipitation");
 
@@ -1028,17 +1283,22 @@ namespace Agri.Data.Migrations
 
                     b.Property<int>("RegionId");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
 
-                    b.HasIndex("RegionId");
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("RegionId", "StaticDataVersionId");
 
                     b.ToTable("SubRegion");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Unit", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<decimal>("ConversionlbTon");
 
@@ -1068,7 +1328,9 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("ValueP2O5");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("Units");
                 });
@@ -1087,26 +1349,19 @@ namespace Agri.Data.Migrations
                     b.ToTable("UserPrompts");
                 });
 
-            modelBuilder.Entity("Agri.Models.Configuration.Version", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("StaticDataVersion");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Versions");
-                });
-
             modelBuilder.Entity("Agri.Models.Configuration.Yield", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("YieldDesc");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("Yields");
                 });
@@ -1127,131 +1382,469 @@ namespace Agri.Data.Migrations
                     b.ToTable("AppliedMigrationSeedData");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("AmmoniaRetentions")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.Animal", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Animals")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.AnimalSubType", b =>
                 {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("AnimalSubTypes")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Agri.Models.Configuration.Animal", "Animal")
                         .WithMany("AnimalSubTypes")
-                        .HasForeignKey("AnimalId")
+                        .HasForeignKey("AnimalId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.BCSampleDateForNitrateCredit", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("BCSampleDateForNitrateCredits")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Breed", b =>
                 {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Breeds")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Agri.Models.Configuration.Animal", "Animal")
                         .WithMany("Breeds")
-                        .HasForeignKey("AnimalId")
+                        .HasForeignKey("AnimalId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.ConversionFactor", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("ConversionFactors")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Crop", b =>
                 {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Crops")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Agri.Models.Configuration.CropType", "CropType")
                         .WithMany("Crops")
-                        .HasForeignKey("CropTypeId")
+                        .HasForeignKey("CropTypeId", "StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Agri.Models.Configuration.PreviousYearManureApplicationNitrogenDefault", "PreviousYearManureApplicationNitrogenDefault")
                         .WithMany("Crops")
-                        .HasForeignKey("ManureApplicationHistory")
-                        .HasPrincipalKey("FieldManureApplicationHistory")
+                        .HasForeignKey("ManureApplicationHistory", "StaticDataVersionId")
+                        .HasPrincipalKey("FieldManureApplicationHistory", "StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.CropSoilTestPhosphorousRegion", b =>
                 {
-                    b.HasOne("Agri.Models.Configuration.Crop")
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
                         .WithMany("CropSoilTestPhosphorousRegions")
-                        .HasForeignKey("CropId")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Agri.Models.Configuration.Crop", "Crop")
+                        .WithMany("CropSoilTestPhosphorousRegions")
+                        .HasForeignKey("CropId", "StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.CropSoilTestPotassiumRegion", b =>
                 {
-                    b.HasOne("Agri.Models.Configuration.Crop")
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
                         .WithMany("CropSoilTestPotassiumRegions")
-                        .HasForeignKey("CropId")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Agri.Models.Configuration.Crop", "Crop")
+                        .WithMany("CropSoilTestPotassiumRegions")
+                        .HasForeignKey("CropId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.CropType", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("CropTypes")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.CropYield", b =>
                 {
-                    b.HasOne("Agri.Models.Configuration.Crop", "Crop")
-                        .WithMany("CropYields")
-                        .HasForeignKey("CropId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Agri.Models.Configuration.Location", "Location")
                         .WithMany("CropYields")
                         .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("CropYields")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Agri.Models.Configuration.Crop", "Crop")
+                        .WithMany("CropYields")
+                        .HasForeignKey("CropId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.DefaultSoilTest", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("DefaultSoilTests")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.DensityUnit", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("DensityUnits")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.DryMatter", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("DryMatters")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.Fertilizer", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Fertilizers")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FertilizerMethod", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("FertilizerMethods")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FertilizerType", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany()
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FertilizerUnit", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany()
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.HarvestUnit", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("HarvestUnits")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.LiquidFertilizerDensity", b =>
                 {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("LiquidFertilizerDensities")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Agri.Models.Configuration.DensityUnit", "DensityUnit")
                         .WithMany("LiquidFertilizerDensities")
-                        .HasForeignKey("DensityUnitId")
+                        .HasForeignKey("DensityUnitId", "StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Agri.Models.Configuration.Fertilizer", "Fertilizer")
                         .WithMany("LiquidFertilizerDensities")
-                        .HasForeignKey("FertilizerId")
+                        .HasForeignKey("FertilizerId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.LiquidMaterialApplicationUSGallonsPerAcreRateConversion", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("LiquidMaterialApplicationUsGallonsPerAcreRateConversions")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.LiquidMaterialsConversionFactor", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("LiquidMaterialsConversionFactors")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.LiquidSolidSeparationDefault", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("LiquidSolidSeparationDefaults")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Manure", b =>
                 {
-                    b.HasOne("Agri.Models.Configuration.DryMatter", "Dm")
-                        .WithMany()
-                        .HasForeignKey("DMId")
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Manures")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Agri.Models.Configuration.NitrogenMineralization", "NMineralization")
+                    b.HasOne("Agri.Models.Configuration.DryMatter", "DryMatter")
                         .WithMany("Manures")
-                        .HasForeignKey("NMineralizationId1", "NMineralizationLocationId");
+                        .HasForeignKey("DryMatterId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.ManureImportedDefault", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("ManureImportedDefaults")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.Message", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Messages")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.NitrateCreditSampleDate", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("NitrateCreditSampleDates")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.NitrogenMineralization", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.Location", "Location")
+                        .WithMany("NitrogenMineralizations")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("NitrogenMineralizations")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.NitrogenRecommendation", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("NitrogenRecommendations")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.PhosphorusSoilTestRange", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("PhosphorusSoilTestRanges")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.PotassiumSoilTestRange", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("PotassiumSoilTestRanges")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.PreviousCropType", b =>
                 {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("PreviousCropTypes")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Agri.Models.Configuration.Crop")
                         .WithMany("PreviousCropTypes")
-                        .HasForeignKey("CropId");
+                        .HasForeignKey("CropId", "CropStaticDataVersionId");
 
                     b.HasOne("Agri.Models.Configuration.CropType")
                         .WithMany("PrevCropTypes")
-                        .HasForeignKey("CropTypeId");
+                        .HasForeignKey("CropTypeId", "CropTypeStaticDataVersionId");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.PreviousManureApplicationYear", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("PrevManureApplicationYears")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.PreviousYearManureApplicationNitrogenDefault", b =>
                 {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("PrevYearManureApplicationNitrogenDefaults")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Agri.Models.Configuration.PreviousManureApplicationYear", "PreviousManureApplicationYear")
                         .WithMany("PreviousYearManureApplicationNitrogenDefaults")
-                        .HasForeignKey("FieldManureApplicationHistory")
-                        .HasPrincipalKey("FieldManureApplicationHistory")
+                        .HasForeignKey("FieldManureApplicationHistory", "StaticDataVersionId")
+                        .HasPrincipalKey("FieldManureApplicationHistory", "StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Region", b =>
                 {
-                    b.HasOne("Agri.Models.Configuration.Location")
+                    b.HasOne("Agri.Models.Configuration.Location", "Location")
                         .WithMany("Regions")
                         .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Regions")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.RptCompletedFertilizerRequiredStdUnit", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("RptCompletedFertilizerRequiredStdUnits")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.RptCompletedManureRequiredStdUnit", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("RptCompletedManureRequiredStdUnits")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SeasonApplication", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SeasonApplications")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SoilTestMethod", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SoilTestMethods")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SoilTestPhosphorousKelownaRange", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SoilTestPhosphorousKelownaRanges")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SoilTestPhosphorousRecommendation", b =>
                 {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SoilTestPhosphorousRecommendations")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Agri.Models.Configuration.SoilTestPhosphorousKelownaRange", "SoilTestPhosphorousKelownaRange")
                         .WithMany("SoilTestPhosphorousRecommendations")
-                        .HasForeignKey("SoilTestPhosphorousKelownaRangeId")
+                        .HasForeignKey("SoilTestPhosphorousKelownaRangeId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SoilTestPhosphorusRange", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SoilTestPhosphorusRanges")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SoilTestPotassiumKelownaRange", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SoilTestPotassiumKelownaRanges")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SoilTestPotassiumRange", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SoilTestPotassiumRanges")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.SoilTestPotassiumRecommendation", b =>
                 {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SoilTestPotassiumRecommendations")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Agri.Models.Configuration.SoilTestPotassiumKelownaRange", "SoilTestPotassiumKelownaRange")
                         .WithMany("SoilTestPotassiumRecommendations")
-                        .HasForeignKey("SoilTestPotassiumKelownaRangeId")
+                        .HasForeignKey("SoilTestPotassiumKelownaRangeId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SolidMaterialApplicationTonPerAcreRateConversion", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SolidMaterialApplicationTonPerAcreRateConversions")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.SolidMaterialsConversionFactor", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SolidMaterialsConversionFactors")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -1265,9 +1858,30 @@ namespace Agri.Data.Migrations
 
             modelBuilder.Entity("Agri.Models.Configuration.SubRegion", b =>
                 {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("SubRegions")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Agri.Models.Configuration.Region", "Region")
                         .WithMany("SubRegions")
-                        .HasForeignKey("RegionId")
+                        .HasForeignKey("RegionId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.Unit", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Units")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.Yield", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Yields")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

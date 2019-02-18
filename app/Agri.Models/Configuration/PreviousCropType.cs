@@ -1,7 +1,10 @@
-﻿namespace Agri.Models.Configuration
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models.Configuration
 {
-    public class PreviousCropType
+    public class PreviousCropType : Versionable
     {
+        [Key]
         public int Id { get; set; }
         public int PreviousCropCode { get; set; }
         public string Name { get; set; }
