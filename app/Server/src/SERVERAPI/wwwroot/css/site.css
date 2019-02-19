@@ -492,5 +492,18 @@ body {
 }
 
 
-
-
+/*Mobile*/
+@media (max-width: 767px) {
+    .device-message {
+        display: inline;
+        color: red;
+        background-color: yellow;
+        font-size: large;
+        width: 100%
+    }
+}
+@media (min-width: 768px) {
+     .device-message {
+         display:  none;
+     }
+ }

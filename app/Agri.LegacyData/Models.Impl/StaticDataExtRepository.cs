@@ -878,5 +878,15 @@ namespace Agri.LegacyData.Models.Impl
         {
             throw new NotImplementedException();
         }
+
+        public int ArchiveConfigurations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public StaticDataVersion GetCurrentStaticDataVersion()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

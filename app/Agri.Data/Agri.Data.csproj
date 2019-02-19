@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190217033332_AddCommentToStaticVersionData.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="MigrationSeedData\11_Breed.json" />
     <None Remove="MigrationSeedData\14_AnimalSubTypes.json" />
     <None Remove="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
@@ -15,9 +19,13 @@
     <None Remove="MigrationSeedData\20_PhosphorusSoilTestRanges.json" />
     <None Remove="MigrationSeedData\21_UserPrompts.json" />
     <None Remove="MigrationSeedData\22_UserPrompts.json" />
+    <None Remove="MigrationSeedData\24_MainMenu.json" />
+    <None Remove="MigrationSeedData\25_SubMenu.json" />
     <None Remove="MigrationSeedData\2_UserPrompts.json" />
     <None Remove="MigrationSeedData\3_UserPrompts.json" />
     <None Remove="MigrationSeedData\4_UserPrompts.json" />
+    <None Remove="MigrationSeedData\5_UserPrompts.json" />
+    <None Remove="MigrationSeedData\6_UserPrompts.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,9 +35,13 @@
     <EmbeddedResource Include="MigrationSeedData\11_Breed.json" />
     <EmbeddedResource Include="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
     <EmbeddedResource Include="MigrationSeedData\19_PotassiumSoilTestRanges.json" />
+    <EmbeddedResource Include="MigrationSeedData\25_SubMenu.json" />
+    <EmbeddedResource Include="MigrationSeedData\24_MainMenu.json" />
     <EmbeddedResource Include="MigrationSeedData\22_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\21_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\20_PhosphorusSoilTestRanges.json" />
+    <EmbeddedResource Include="MigrationSeedData\6_UserPrompts.json" />
+    <EmbeddedResource Include="MigrationSeedData\5_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\4_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\3_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\2_UserPrompts.json" />
