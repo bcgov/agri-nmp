@@ -921,20 +921,19 @@ namespace SERVERAPI.Controllers
                                              Convert.ToDecimal(fm.OctoberToMarchPrecipitation));
                         }
 
-                        if (Convert.ToInt32(rs.totalStored) > Convert.ToInt32(rs.storageVolume))
-                            rs.isThereAbundantStorageVolume = true;
+                        if (Convert.ToInt32(fm.TotalStored) >
+                            Convert.ToInt32(fm.ManureStorageVolume.Split(' ')[0].Replace(",", "")))
+                        {
+                            rs.isThereDeficitOfStorageVolume = true;
+
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = romssvm.footnotes.Count() + 1;
+                            rff.message = "There may not be enough capacity to contain the manure and water to be stored during the non-growing season of an average year";
+                            rs.footNote = rff.id.ToString();
+                            romssvm.footnotes.Add(rff);
+                        }
                         else
-                            rs.isThereAbundantStorageVolume = false;
-
-                        //if ()
-                        //{
-                        //    ReportFieldFootnote rff = new ReportFieldFootnote();
-                        //    rff.id = romssvm.footnotes.Count() + 1;
-                        //    rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
-                        //    rs.footNote = rff.id.ToString();
-                        //    romssvm.footnotes.Add(rff);
-                        //}
-
+                            rs.isThereDeficitOfStorageVolume = false;
                         romssvm.storages.Add(rs);
                     }
                 }

@@ -16,7 +16,7 @@ namespace SERVERAPI.ViewModels
         public string totalStored { get; set; }
         public string storageVolume { get; set; }
         public bool isThereSolidLiquidSeparation { get; set; }
-        public bool isThereAbundantStorageVolume { get; set; }
+        public bool isThereDeficitOfStorageVolume { get; set; }
         public string footNote { get; set; }
     }
 }

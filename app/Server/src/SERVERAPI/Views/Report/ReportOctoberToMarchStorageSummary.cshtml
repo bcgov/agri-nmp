@@ -50,14 +50,16 @@
                              <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
                          </tr>
                          <tr>
-                             <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;font-weight:bold">Total Stored
-                                 @if (s.isThereAbundantStorageVolume)
-                                 {
-                                     <img src="~/images/stop.svg" />
-                                 }
-                              </td>
+                             <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;font-weight:bold">Total Stored 
+                             </td>
                              <td class="CellDtl" style="text-align:right; width:80px;font-weight:bold">@s.totalStored</td>
-                             <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons</td>
+                             <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">
+                                 US gallons
+                                 @if (s.isThereDeficitOfStorageVolume)
+                                 {
+                                     <img src="~/images/dollar warning.svg" height='20' width='20'/>
+                                 }
+                             </td>
                          </tr>
                          <tr>
                              <td class="CellDtl" style="width:300px;font-weight:bold">Storage Volume</td>
@@ -90,10 +92,6 @@
                          <tr>
                              <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;font-weight:bold">
                                  Total Stored
-                                 @if (s.isThereAbundantStorageVolume)
-                                 {
-                                     <img src="~/images/stop.svg" />
-                                 }
                              </td>
                              <td class="CellDtl" style="text-align:right; width:80px;font-weight:bold">@s.totalStored</td>
                              <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons</td>
@@ -101,7 +99,12 @@
                          <tr>
                              <td class="CellDtl" style="width:300px;font-weight:bold">Storage Volume</td>
                              <td class="CellDtl" style="text-align:right; width:80px;font-weight:bold">@s.storageVolume</td>
-                             <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons</td>
+                             <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons
+                                 @if (s.isThereDeficitOfStorageVolume)
+                                 {
+                                 <img src="~/images/dollar warning.svg" height='20' width='20' />
+                                 }
+                             </td>
                          </tr>
                      }
                  </table>
@@ -109,16 +112,16 @@
                  {
                      <br/>
                      <br/>
-                     @*<table>
+                     <table>
                          @foreach (var fn in @Model.footnotes)
                          {
                              <tr>
                                  <td class="CellDtlNBd" style="padding:0px">
-                                     @fn.id.ToString() &nbsp;&nbsp; @fn.message
+                                     <img src="~/images/dollar warning.svg" height='20' width='20' /> &nbsp;&nbsp; @fn.message
                                  </td>
                              </tr>
                          }
-                     </table>*@
+                     </table>
                  }
              </div>
          </div>
