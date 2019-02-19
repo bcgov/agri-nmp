@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class SoilTestPotassiumRecommendation
+    public class SoilTestPotassiumRecommendation : Versionable
     {
         [Key]
         public int SoilTestPotassiumKelownaRangeId { get; set; }

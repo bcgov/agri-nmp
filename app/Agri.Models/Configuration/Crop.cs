@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class Crop
+    public class Crop : Versionable
     {
         public Crop()
         {
@@ -11,6 +12,8 @@ namespace Agri.Models.Configuration
             CropSoilTestPhosphorousRegions = new List<CropSoilTestPhosphorousRegion>();
             PreviousCropTypes = new List<PreviousCropType>();
         }
+
+        [Key]
         public int Id { get; set; }
         public string CropName { get; set; }
         public int CropTypeId { get; set; }
