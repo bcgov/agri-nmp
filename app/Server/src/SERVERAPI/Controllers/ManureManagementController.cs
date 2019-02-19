@@ -1020,6 +1020,8 @@ namespace SERVERAPI.Controllers
                             msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                         if (msdvm.OctoberToMarchPrecipitation != 0)
                             msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                        if (msdvm.OctoberToMarchRunoff != 0)
+                            msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                     }
                     else
                     {
@@ -1077,6 +1079,8 @@ namespace SERVERAPI.Controllers
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                             if (msdvm.OctoberToMarchPrecipitation != 0)
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                            if (msdvm.OctoberToMarchRunoff != 0)
+                                msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         }
                         else
                         {
@@ -1115,6 +1119,8 @@ namespace SERVERAPI.Controllers
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                             if (msdvm.OctoberToMarchPrecipitation != 0)
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                            if (msdvm.OctoberToMarchRunoff != 0)
+                                msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         }
                         else
                         {
@@ -1184,6 +1190,8 @@ namespace SERVERAPI.Controllers
                             msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                         if (msdvm.OctoberToMarchPrecipitation != 0)
                             msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                        if (msdvm.OctoberToMarchRunoff != 0)
+                            msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                     }
                     else
                     {
@@ -1222,6 +1230,8 @@ namespace SERVERAPI.Controllers
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                             if (msdvm.OctoberToMarchPrecipitation != 0)
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                            if (msdvm.OctoberToMarchRunoff != 0)
+                                msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         }
                         else
                         {
@@ -1264,6 +1274,8 @@ namespace SERVERAPI.Controllers
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                             if (msdvm.OctoberToMarchPrecipitation != 0)
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                            if (msdvm.OctoberToMarchRunoff != 0)
+                                msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         }
                         else
                         {
@@ -1304,6 +1316,8 @@ namespace SERVERAPI.Controllers
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                             if (msdvm.OctoberToMarchPrecipitation != 0)
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                            if (msdvm.OctoberToMarchRunoff != 0)
+                                msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         }
                         else
                         {
@@ -1340,6 +1354,8 @@ namespace SERVERAPI.Controllers
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchSeparatedLiquidUSGallons);
                             if (msdvm.OctoberToMarchPrecipitation != 0)
                                 msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchPrecipitation);
+                            if (msdvm.OctoberToMarchRunoff != 0)
+                                msdvm.TotalStored += Convert.ToDecimal(msdvm.OctoberToMarchRunoff);
                         }
                         else
                         {
