@@ -894,7 +894,7 @@ namespace SERVERAPI.Controllers
                         rs.yardRunoff = fm.OctoberToMarchRunoffText;
                         rs.precipitationIntoStorage = fm.OctoberToMarchPrecipitationText;
                         rs.totalStored = (fm.OctoberToMarchManagedManures + Convert.ToDecimal(fm.OctoberToMarchRunoff) + Convert.ToDecimal(fm.OctoberToMarchPrecipitation)).ToString();
-                        rs.storageVolume = fm.ManureStorageVolume.ToString();
+                        rs.storageVolume = fm.ManureStorageVolume.Split(' ')[0];
                         rs.materialsStoredAfterSLSeparaton =string.Format("{0:#,##0}", fm.OctoberToMarchSeparatedLiquidsUSGallons);
                         rs.isThereSolidLiquidSeparation = fm.IsThereSolidLiquidSeparation;
 
@@ -907,6 +907,11 @@ namespace SERVERAPI.Controllers
                             rs.totalStored = string.Format("{0:#,##0}", fm.OctoberToMarchManagedManures + Convert.ToDecimal(fm.OctoberToMarchRunoff) +
                                              Convert.ToDecimal(fm.OctoberToMarchPrecipitation));
                         }
+
+                        if (Convert.ToInt32(rs.totalStored) > Convert.ToInt32(rs.storageVolume))
+                            rs.isThereAbundantStorageVolume = true;
+                        else
+                            rs.isThereAbundantStorageVolume = false;
 
                         //if ()
                         //{
