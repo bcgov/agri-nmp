@@ -2324,7 +2324,7 @@ namespace SERVERAPI.Controllers
                             fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
                             fm.manureId = cvm.selManOption;
                             fm.ammonia = Convert.ToDecimal(cvm.ammonia);
-                            fm.dmid = man.DMId;
+                            fm.dmid = man.DryMatterId;
                             fm.manure_class = man.ManureClass;
                             fm.moisture = cvm.moisture;
                             fm.name = cvm.manureName;
@@ -2363,7 +2363,7 @@ namespace SERVERAPI.Controllers
                             fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
                             fm.manureId = cvm.selManOption;
                             fm.ammonia = Convert.ToDecimal(cvm.ammonia);
-                            fm.dmid = man.DMId;
+                            fm.dmid = man.DryMatterId;
                             fm.manure_class = man.ManureClass;
                             fm.moisture = cvm.moisture;
                             fm.name = cvm.manureName;
