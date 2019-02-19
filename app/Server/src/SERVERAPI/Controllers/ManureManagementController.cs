@@ -891,6 +891,7 @@ namespace SERVERAPI.Controllers
             msvm.ExplainRunoffOctoberToMarch = _sd.GetUserPrompt("RunoffOctoberToMarchMessage");
             msvm.ExplainStoredOctoberToMarch = _sd.GetUserPrompt("MaterialsStoredOctoberToMarchMessage");
             msvm.ExplainPrecipitationOctoberToMarch = _sd.GetUserPrompt("PrecipitationOctoberToMarch");
+            msvm.ExplainStorageDeficiency = _sd.GetUserPrompt("StorageDeficiencyMessage");
 
             try
             {
@@ -1004,12 +1005,11 @@ namespace SERVERAPI.Controllers
                 msdvm.ExplainRunoffOctoberToMarch = _sd.GetUserPrompt("RunoffOctoberToMarchMessage");
                 msdvm.ExplainStoredOctoberToMarch = _sd.GetUserPrompt("MaterialsStoredOctoberToMarchMessage");
                 msdvm.ExplainPrecipitationOctoberToMarch = _sd.GetUserPrompt("PrecipitationOctoberToMarch");
+                msdvm.ExplainStorageDeficiency = _sd.GetUserPrompt("StorageDeficiencyMessage");
 
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
                 if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
                 {
-                    //msdvm.OctoberToMarchSeparatedLiquidUSGallons =
-                    //    GetOctoberToMarchSeparatedManure(msdvm, msdvm.SelectedMaterialsToInclude, true,true);
                     msdvm.OctoberToMarchManagedManures =
                         GetOctoberToMarchMaterialVolumes(msdvm, msdvm.SelectedMaterialsToInclude, true, true);
 
@@ -1899,9 +1899,16 @@ namespace SERVERAPI.Controllers
                         if (msdvm.SystemId != null)
                         {
                             var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
+                            msdvm.volumeOfStorageSystem = savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons);
                             msdvm.volumeUSGallonsOfStorageSystem =
                                 savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons).Value
                                     .ToString("N0") + " U.S. Gallons (" + savedStorageSystem.Name + ")";
+                        }
+                        else
+                        {
+                            msdvm.volumeOfStorageSystem = msdvm.volumeUSGallons.Value;
+                            msdvm.volumeUSGallonsOfStorageSystem =
+                                msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" + msdvm.SystemName + ")";
                         }
                     }
                 }
@@ -1933,9 +1940,16 @@ namespace SERVERAPI.Controllers
                         if (msdvm.SystemId != null)
                         {
                             var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
+                            msdvm.volumeOfStorageSystem = savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons);
                             msdvm.volumeUSGallonsOfStorageSystem =
                                 savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons).Value
                                     .ToString("N0") + " U.S. Gallons (" + savedStorageSystem.Name + ")";
+                        }
+                        else
+                        {
+                            msdvm.volumeOfStorageSystem = msdvm.volumeUSGallons.Value;
+                            msdvm.volumeUSGallonsOfStorageSystem =
+                                msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" + msdvm.SystemName + ")";
                         }
                     }
                 }
@@ -1969,9 +1983,16 @@ namespace SERVERAPI.Controllers
                         if (msdvm.SystemId != null)
                         {
                             var savedStorageSystem = _ud.GetStorageSystem(msdvm.SystemId ?? 0);
+                            msdvm.volumeOfStorageSystem = savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons);
                             msdvm.volumeUSGallonsOfStorageSystem =
                                 savedStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons).Value
                                     .ToString("N0") + " U.S. Gallons (" + savedStorageSystem.Name + ")";
+                        }
+                        else
+                        {
+                            msdvm.volumeOfStorageSystem = msdvm.volumeUSGallons.Value;
+                            msdvm.volumeUSGallonsOfStorageSystem =
+                                msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" + msdvm.SystemName + ")";
                         }
                     }
                 }
