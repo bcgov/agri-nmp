@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class AmmoniaRetention
+    public class AmmoniaRetention : Versionable
     {
         [Key]
         public int SeasonApplicationId { get; set; }

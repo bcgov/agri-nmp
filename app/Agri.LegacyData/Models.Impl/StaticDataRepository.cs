@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Agri.Models.Calculate;
+using Agri.Models.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using Agri.Models.Configuration;
-using Agri.Models.Calculate;
-using Version = Agri.Models.Configuration.Version;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Agri.LegacyData.Models.Impl
 {
@@ -89,7 +87,7 @@ namespace Agri.LegacyData.Models.Impl
                     man.Ammonia = Convert.ToInt32(r["ammonia"].ToString());
                     man.Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
                     man.Potassium = Convert.ToDecimal(r["potassium"].ToString());
-                    man.DMId = Convert.ToInt32(r["dmid"].ToString());
+                    man.DryMatterId = Convert.ToInt32(r["dmid"].ToString());
                     man.NMineralizationId = Convert.ToInt32(r["nminerizationid"].ToString());
                     if (man.SolidLiquid.ToUpper() == "SOLID")
                         man.CubicYardConversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
@@ -121,7 +119,7 @@ namespace Agri.LegacyData.Models.Impl
                 man.Ammonia = Convert.ToInt32(r["ammonia"].ToString());
                 man.Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString());
                 man.Potassium = Convert.ToDecimal(r["potassium"].ToString());
-                man.DMId = Convert.ToInt32(r["dmid"].ToString());
+                man.DryMatterId = Convert.ToInt32(r["dmid"].ToString());
                 man.NMineralizationId = Convert.ToInt32(r["nminerizationid"].ToString());
                 if (man.SolidLiquid.ToUpper() == "SOLID")
                     man.CubicYardConversion = Convert.ToDecimal(r["cubic_yard_conversion"].ToString());
@@ -150,7 +148,7 @@ namespace Agri.LegacyData.Models.Impl
                     Ammonia = Convert.ToInt32(r["ammonia"].ToString()),
                     Phosphorous = Convert.ToDecimal(r["phosphorous"].ToString()),
                     Potassium = Convert.ToDecimal(r["potassium"].ToString()),
-                    DMId = Convert.ToInt32(r["dmid"].ToString()),
+                    DryMatterId = Convert.ToInt32(r["dmid"].ToString()),
                     NMineralizationId = Convert.ToInt32(r["nminerizationid"].ToString())
                 };
 
@@ -1484,11 +1482,11 @@ namespace Agri.LegacyData.Models.Impl
             return result;
         }
 
-        public Version GetVersionData()
+        public StaticDataVersion GetLatestVersionDataTree()
         {
-            var version = new Version();
+            var version = new StaticDataVersion();
 
-            version.StaticDataVersion = (string)rss["agri"]["nmp"]["versions"]["staticDataVersion"];
+            version.Version = (string)rss["agri"]["nmp"]["versions"]["staticDataVersion"];
 
             return version;
         }

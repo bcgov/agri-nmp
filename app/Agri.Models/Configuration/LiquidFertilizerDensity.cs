@@ -1,7 +1,10 @@
-﻿namespace Agri.Models.Configuration
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models.Configuration
 {
-    public class LiquidFertilizerDensity
+    public class LiquidFertilizerDensity : Versionable
     {
+        [Key]
         public int Id { get; set; }
         public int FertilizerId { get; set; }
         public int DensityUnitId { get; set; }
