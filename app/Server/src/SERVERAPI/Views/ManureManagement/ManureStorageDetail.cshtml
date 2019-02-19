@@ -6,13 +6,13 @@
     Layout = null;
 }
 <div id="target">
-<form asp-action="ManureStorageDetail" asp-controller="ManureManagement" id="modForm" method="post" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 class="modal-title" id="myModalLabel">@Model.Title</h4>
-</div>
-<div class="modal-body">
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <form asp-action="ManureStorageDetail" asp-controller="ManureManagement" id="modForm" method="post" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2 class="modal-title" id="myModalLabel">@Model.Title</h2>
+        </div>
+        <div class="modal-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
 @if (!Model.DisableSystemFields)
@@ -181,19 +181,17 @@
              }
              @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
              {
-                 @if (!Model.IsThereSolidLiquidSeparation)
+                 @if (Model.IsThereSolidLiquidSeparation)
                   {
-                      <div class="col-sm-3"></div> 
-                      <div class="col-sm-3"></div> 
-                  }
-                 <div class="col-sm-3">
-                     <div><b>October to March</b>
-                         <a href="#" data-toggle="tooltip" title="@Model.ExplainStoredOctoberToMarch" id="toolTipExplainStoredOctoberToMarch">
-                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Storage October to March" style="font-size:20px; padding-top:5px"></span>
-                         </a>
-                     </div>
-                     <div><b>@Model.OctoberToMarchSeparatedLiquidUSGallonsText</b> U.S. Gallons stored</div>
-                 </div>
+                      <div class="col-sm-3">
+                          <div><b>October to March</b>
+                              <a href="#" data-toggle="tooltip" title="@Model.ExplainStoredOctoberToMarch" id="toolTipExplainStoredOctoberToMarch">
+                                  <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Storage October to March" style="font-size:20px; padding-top:5px"></span>
+                              </a>
+                          </div>
+                          <div><b>@Model.OctoberToMarchSeparatedLiquidUSGallonsText</b> U.S. Gallons stored</div>
+                      </div>
+                  } 
              }
          </div>
      }
@@ -349,19 +347,17 @@ else  // Show System as Content Only
                 }
                 @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
                 {
-                    @if (!Model.IsThereSolidLiquidSeparation)
+                    @if (Model.IsThereSolidLiquidSeparation)
                      {
-                         <div class="col-sm-3"></div> 
-                         <div class="col-sm-3"></div> 
+                         <div class="col-sm-3">
+                             <div><b>October to March</b>
+                                 <a href="#" data-toggle="tooltip" title="@Model.ExplainStoredOctoberToMarch" id="toolTipExplainStoredOctoberToMarch">
+                                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Storage October to March" style="font-size:20px; padding-top:5px"></span>
+                                 </a>
+                             </div>
+                             <div><b>@Model.OctoberToMarchSeparatedLiquidUSGallonsText</b> U.S. Gallons stored</div>
+                         </div>
                      }
-                    <div class="col-sm-3">
-                        <div><b>October to March</b>
-                            <a href="#" data-toggle="tooltip" title="@Model.ExplainStoredOctoberToMarch" id="toolTipExplainStoredOctoberToMarch">
-                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Storage October to March" style="font-size:20px; padding-top:5px"></span>
-                            </a>
-                        </div>
-                        <div><b>@Model.OctoberToMarchSeparatedLiquidUSGallonsText</b> U.S. Gallons stored</div>
-                    </div>
                 }
             </div>
         }
@@ -577,7 +573,14 @@ else  // Show System as Content Only
                              </a>
                          </div>
                          <div><b>@Model.OctoberToMarchPrecipitationText</b> U.S. Gallons precipitation</div>
-                         <div><b>@Model.TotalStoredText U.S. Gallons total</b></div>
+                         <div><b>@Model.TotalStoredText U.S. Gallons total</b>
+                             @if (Model.volumeOfStorageSystem < Model.TotalStored)
+                             {
+                                 <a href="#" data-toggle="tooltip" title="@Model.ExplainStorageDeficiency" id="toolTipExplainStorageDeficiency">
+                                     <img src="~/images/dollar warning.svg" height='20' width='20'/>
+                                 </a>
+                             }   
+                             </div>
                      </div>
                  </div>
              }
@@ -588,6 +591,12 @@ else  // Show System as Content Only
                      <div class="form-group">
                          <div>
                              <b>@Model.TotalStoredText U.S. Gallons total</b>
+                             @if (Model.volumeOfStorageSystem < Model.TotalStored)
+                             {
+                             <a href="#" data-toggle="tooltip" title="@Model.ExplainStorageDeficiency" id="toolTipExplainStorageDeficiency">
+                                 <img src="~/images/dollar warning.svg" height='20' width='20' />
+                             </a>
+                             }
                          </div>
                      </div>
                  </div>
@@ -691,6 +700,21 @@ else  // Show System as Content Only
     $(document).ready(function () {
         $('#toolTipExplainPrecipitationOctoberToMarch').click(function () {
             triggerToolTip($('#toolTipExplainPrecipitationOctoberToMarch'));
+        });
+    })
+
+    $(document).ready(function () {
+        $('#toolTipExplainStorageDeficiency').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainStorageDeficiency').click(function () {
+            triggerToolTip($('#toolTipExplainStorageDeficiency'));
         });
     })
 </script>

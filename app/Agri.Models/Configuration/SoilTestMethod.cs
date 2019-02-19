@@ -1,7 +1,10 @@
-﻿namespace Agri.Models.Configuration
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Agri.Models.Configuration
 {
-    public class SoilTestMethod
+    public class SoilTestMethod : Versionable
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal ConvertToKelownaPHLessThan72 { get; set; }

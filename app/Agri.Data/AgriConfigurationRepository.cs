@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+﻿using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Version = Agri.Models.Configuration.Version;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Agri.Data
 {
     public class AgriConfigurationRepository : IAgriConfigurationRepository
     {
         private AgriConfigurationContext _context;
-
+        private IMapper _mapper;
         private const string MANURE_CLASS_COMPOST = "Compost";
         private const string MANURE_CLASS_COMPOST_BOOK = "Compost_Book";
         private const string MANURE_CLASS_OTHER = "Other";
@@ -23,9 +21,10 @@ namespace Agri.Data
         private const int CROP_YIELD_DEFAULT_CALCULATION_UNIT = 1;
         private const int CROP_YIELD_DEFAULT_DISPLAY_UNIT = 2;
 
-        public AgriConfigurationRepository(AgriConfigurationContext context)
+        public AgriConfigurationRepository(AgriConfigurationContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public decimal ConvertYieldFromBushelToTonsPerAcre(int cropid, decimal yield)
@@ -895,7 +894,7 @@ namespace Agri.Data
 
         public string GetStaticDataVersion()
         {
-            return _context.Versions.FirstOrDefault().StaticDataVersion;
+            return _context.StaticDataVersions.FirstOrDefault().Version;
         }
 
         public SoilTestPotassiumKelownaRange GetSTKKelownaRangeByPpm(int ppm)
@@ -999,9 +998,59 @@ namespace Agri.Data
             return _context.UserPrompts.ToList();
         }
 
-        public Version GetVersionData()
+        public StaticDataVersion GetLatestVersionDataTree()
         {
-            return _context.Versions.FirstOrDefault();
+            return _context.StaticDataVersions
+                .OrderByDescending(v => v.Id)
+                .Include(x => x.AmmoniaRetentions)
+                .Include(x => x.Animals)
+                .Include(x => x.AnimalSubTypes)
+                .Include(x => x.BCSampleDateForNitrateCredits)
+                .Include(x => x.Breeds)
+                .Include(x => x.ConversionFactors)
+                .Include(x => x.Crops)
+                .Include(x => x.CropSoilTestPhosphorousRegions)
+                .Include(x => x.CropSoilTestPotassiumRegions)
+                .Include(x => x.CropTypes)
+                .Include(x => x.CropYields)
+                .Include(x => x.DefaultSoilTests)
+                .Include(x => x.DensityUnits)
+                .Include(x => x.DryMatters)
+                .Include(x => x.Fertilizers)
+                .Include(x => x.FertilizerMethods)
+                .Include(x => x.HarvestUnits)
+                .Include(x => x.LiquidFertilizerDensities)
+                .Include(x => x.LiquidMaterialApplicationUsGallonsPerAcreRateConversions)
+                .Include(x => x.LiquidMaterialsConversionFactors)
+                .Include(x => x.LiquidSolidSeparationDefaults)
+                .Include(x => x.ManureImportedDefaults)
+                .Include(x => x.Manures)
+                .Include(x => x.Messages)
+                .Include(x => x.NitrateCreditSampleDates)
+                .Include(x => x.NitrogenMineralizations)
+                .Include(x => x.NitrogenRecommendations)
+                .Include(x => x.PhosphorusSoilTestRanges)
+                .Include(x => x.PotassiumSoilTestRanges)
+                .Include(x => x.PreviousCropTypes)
+                .Include(x => x.PrevManureApplicationYears)
+                .Include(x => x.PrevYearManureApplicationNitrogenDefaults)
+                .Include(x => x.Regions)
+                .Include(x => x.RptCompletedFertilizerRequiredStdUnits)
+                .Include(x => x.RptCompletedManureRequiredStdUnits)
+                .Include(x => x.SeasonApplications)
+                .Include(x => x.SoilTestMethods)
+                .Include(x => x.SoilTestPhosphorusRanges)
+                .Include(x => x.SoilTestPhosphorousKelownaRanges)
+                .Include(x => x.SoilTestPhosphorousRecommendations)
+                .Include(x => x.SoilTestPotassiumRanges)
+                .Include(x => x.SoilTestPotassiumKelownaRanges)
+                .Include(x => x.SoilTestPotassiumRecommendations)
+                .Include(x => x.SolidMaterialApplicationTonPerAcreRateConversions)
+                .Include(x => x.SolidMaterialsConversionFactors)
+                .Include(x => x.Units)
+                .Include(x => x.SubRegions)
+                .Include(x => x.Yields)
+                .First();
         }
 
         public Yield GetYieldById(int yieldId)
@@ -1146,6 +1195,7 @@ namespace Agri.Data
         {
             return _context.MainMenus
                 .Include(x => x.SubMenus)
+                .OrderBy(sm => sm.SortNumber)
                 .ToList();
         }
 
@@ -1295,7 +1345,132 @@ namespace Agri.Data
 
         public List<SubMenu> GetSubMenus(int mainMenuId)
         {
-            return GetSubMenus().Where(sb => sb.MainMenuId == mainMenuId).ToList();
+            return GetSubMenus()
+                .Where(sb => sb.MainMenuId == mainMenuId)
+                .OrderBy(sm => sm.SortNumber)
+                .ToList();
         }
+
+        public StaticDataVersion GetCurrentStaticDataVersion()
+        {
+            return _context.StaticDataVersions.OrderByDescending(sdv => sdv.Id).First();
+        }
+
+        public int ArchiveConfigurations()
+        {
+            var newId = 0;
+            var currentVersion = GetLatestVersionDataTree();
+            var datestamp = DateTime.Now;
+            var nextId = currentVersion.Id + 1;
+            var newVersion = new StaticDataVersion
+            {
+                Id = nextId,
+                Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{nextId}",
+                CreatedDateTime = datestamp
+            };
+
+            newVersion.AmmoniaRetentions = _mapper.Map<List<AmmoniaRetention>, List<AmmoniaRetention>>(currentVersion.AmmoniaRetentions).ToList();
+            newVersion.Animals = _mapper.Map<List<Animal>, List<Animal>>(currentVersion.Animals).ToList();
+            newVersion.AnimalSubTypes = _mapper.Map<List<AnimalSubType>, List<AnimalSubType>>(currentVersion.AnimalSubTypes).ToList();
+            newVersion.BCSampleDateForNitrateCredits = _mapper.Map<List<BCSampleDateForNitrateCredit>, List<BCSampleDateForNitrateCredit>>(currentVersion.BCSampleDateForNitrateCredits).ToList();
+            newVersion.Breeds = _mapper.Map<List<Breed>, List<Breed>>(currentVersion.Breeds).ToList();
+            newVersion.ConversionFactors = _mapper.Map<List<ConversionFactor>, List<ConversionFactor>>(currentVersion.ConversionFactors).ToList();
+            newVersion.Crops = _mapper.Map<List<Crop>, List<Crop>>(currentVersion.Crops).ToList();
+            newVersion.CropSoilTestPhosphorousRegions = _mapper.Map<List<CropSoilTestPhosphorousRegion>, List<CropSoilTestPhosphorousRegion>>(currentVersion.CropSoilTestPhosphorousRegions).ToList();
+            newVersion.CropSoilTestPotassiumRegions = _mapper.Map<List<CropSoilTestPotassiumRegion>, List<CropSoilTestPotassiumRegion>>(currentVersion.CropSoilTestPotassiumRegions).ToList();
+            newVersion.CropTypes = _mapper.Map<List<CropType>, List<CropType>>(currentVersion.CropTypes).ToList();
+            newVersion.CropYields = _mapper.Map<List<CropYield>, List<CropYield>>(currentVersion.CropYields).ToList();
+            newVersion.DefaultSoilTests = _mapper.Map<List<DefaultSoilTest>, List<DefaultSoilTest>>(currentVersion.DefaultSoilTests).ToList();
+            newVersion.DensityUnits = _mapper.Map<List<DensityUnit>, List<DensityUnit>>(currentVersion.DensityUnits).ToList();
+            newVersion.DryMatters = _mapper.Map<List<DryMatter>, List<DryMatter>>(currentVersion.DryMatters).ToList();
+            newVersion.Fertilizers = _mapper.Map<List<Fertilizer>, List<Fertilizer>>(currentVersion.Fertilizers).ToList();
+            newVersion.FertilizerMethods = _mapper.Map<List<FertilizerMethod>, List<FertilizerMethod>>(currentVersion.FertilizerMethods).ToList();
+            newVersion.HarvestUnits = _mapper.Map<List<HarvestUnit>, List<HarvestUnit>>(currentVersion.HarvestUnits).ToList();
+            newVersion.LiquidFertilizerDensities = _mapper.Map<List<LiquidFertilizerDensity>, List<LiquidFertilizerDensity>>(currentVersion.LiquidFertilizerDensities).ToList();
+            newVersion.LiquidMaterialApplicationUsGallonsPerAcreRateConversions = _mapper.Map<List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>, List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>>(currentVersion.LiquidMaterialApplicationUsGallonsPerAcreRateConversions).ToList();
+            newVersion.LiquidMaterialsConversionFactors = _mapper.Map<List<LiquidMaterialsConversionFactor>, List<LiquidMaterialsConversionFactor>>(currentVersion.LiquidMaterialsConversionFactors).ToList();
+            newVersion.LiquidSolidSeparationDefaults = _mapper.Map<List<LiquidSolidSeparationDefault>, List<LiquidSolidSeparationDefault>>(currentVersion.LiquidSolidSeparationDefaults).ToList();
+            newVersion.ManureImportedDefaults = _mapper.Map<List<ManureImportedDefault>, List<ManureImportedDefault>>(currentVersion.ManureImportedDefaults).ToList();
+            newVersion.Manures = _mapper.Map<List<Manure>, List<Manure>>(currentVersion.Manures).ToList();
+            newVersion.Messages = _mapper.Map<List<Message>, List<Message>>(currentVersion.Messages).ToList();
+            newVersion.NitrateCreditSampleDates = _mapper.Map<List<NitrateCreditSampleDate>, List<NitrateCreditSampleDate>>(currentVersion.NitrateCreditSampleDates).ToList();
+            newVersion.NitrogenMineralizations = _mapper.Map<List<NitrogenMineralization>, List<NitrogenMineralization>>(currentVersion.NitrogenMineralizations).ToList();
+            newVersion.NitrogenRecommendations = _mapper.Map<List<NitrogenRecommendation>, List<NitrogenRecommendation>>(currentVersion.NitrogenRecommendations).ToList();
+            newVersion.PhosphorusSoilTestRanges = _mapper.Map<List<PhosphorusSoilTestRange>, List<PhosphorusSoilTestRange>>(currentVersion.PhosphorusSoilTestRanges).ToList();
+            newVersion.PotassiumSoilTestRanges = _mapper.Map<List<PotassiumSoilTestRange>, List<PotassiumSoilTestRange>>(currentVersion.PotassiumSoilTestRanges).ToList();
+            newVersion.PreviousCropTypes = _mapper.Map<List<PreviousCropType>, List<PreviousCropType>>(currentVersion.PreviousCropTypes).ToList();
+            newVersion.PrevManureApplicationYears = _mapper.Map<List<PreviousManureApplicationYear>, List<PreviousManureApplicationYear>>(currentVersion.PrevManureApplicationYears).ToList();
+            newVersion.PrevYearManureApplicationNitrogenDefaults = _mapper.Map<List<PreviousYearManureApplicationNitrogenDefault>, List<PreviousYearManureApplicationNitrogenDefault>>(currentVersion.PrevYearManureApplicationNitrogenDefaults).ToList();
+            newVersion.Regions = _mapper.Map<List<Region>, List<Region>>(currentVersion.Regions).ToList();
+            newVersion.RptCompletedFertilizerRequiredStdUnits = _mapper.Map<List<RptCompletedFertilizerRequiredStdUnit>, List<RptCompletedFertilizerRequiredStdUnit>>(currentVersion.RptCompletedFertilizerRequiredStdUnits).ToList();
+            newVersion.RptCompletedManureRequiredStdUnits = _mapper.Map<List<RptCompletedManureRequiredStdUnit>, List<RptCompletedManureRequiredStdUnit>>(currentVersion.RptCompletedManureRequiredStdUnits).ToList();
+            newVersion.SeasonApplications = _mapper.Map<List<SeasonApplication>, List<SeasonApplication>>(currentVersion.SeasonApplications).ToList();
+            newVersion.SoilTestMethods = _mapper.Map<List<SoilTestMethod>, List<SoilTestMethod>>(currentVersion.SoilTestMethods).ToList();
+            newVersion.SoilTestPhosphorusRanges = _mapper.Map<List<SoilTestPhosphorusRange>, List<SoilTestPhosphorusRange>>(currentVersion.SoilTestPhosphorusRanges).ToList();
+            newVersion.SoilTestPhosphorousKelownaRanges = _mapper.Map<List<SoilTestPhosphorousKelownaRange>, List<SoilTestPhosphorousKelownaRange>>(currentVersion.SoilTestPhosphorousKelownaRanges).ToList();
+            newVersion.SoilTestPhosphorousRecommendations = _mapper.Map<List<SoilTestPhosphorousRecommendation>, List<SoilTestPhosphorousRecommendation>>(currentVersion.SoilTestPhosphorousRecommendations).ToList();
+            newVersion.SoilTestPotassiumRanges = _mapper.Map<List<SoilTestPotassiumRange>, List<SoilTestPotassiumRange>>(currentVersion.SoilTestPotassiumRanges).ToList();
+            newVersion.SoilTestPotassiumKelownaRanges = _mapper.Map<List<SoilTestPotassiumKelownaRange>, List<SoilTestPotassiumKelownaRange>>(currentVersion.SoilTestPotassiumKelownaRanges).ToList();
+            newVersion.SoilTestPotassiumRecommendations = _mapper.Map<List<SoilTestPotassiumRecommendation>, List<SoilTestPotassiumRecommendation>>(currentVersion.SoilTestPotassiumRecommendations).ToList();
+            newVersion.SolidMaterialApplicationTonPerAcreRateConversions = _mapper.Map<List<SolidMaterialApplicationTonPerAcreRateConversion>, List<SolidMaterialApplicationTonPerAcreRateConversion>>(currentVersion.SolidMaterialApplicationTonPerAcreRateConversions).ToList();
+            newVersion.SolidMaterialsConversionFactors = _mapper.Map<List<SolidMaterialsConversionFactor>, List<SolidMaterialsConversionFactor>>(currentVersion.SolidMaterialsConversionFactors).ToList();
+            newVersion.Units = _mapper.Map<List<Unit>, List<Unit>>(currentVersion.Units).ToList();
+            newVersion.SubRegions = _mapper.Map<List<SubRegion>, List<SubRegion>>(currentVersion.SubRegions).ToList();
+            newVersion.Yields = _mapper.Map<List<Yield>, List<Yield>>(currentVersion.Yields).ToList();
+
+            newVersion.AmmoniaRetentions.ForEach(n => n.SetVersion(newVersion));
+            newVersion.Animals.ForEach(n => n.SetVersion(newVersion));
+            newVersion.AnimalSubTypes.ForEach(n => n.SetVersion(newVersion));
+            newVersion.BCSampleDateForNitrateCredits.ForEach(n => n.SetVersion(newVersion));
+            newVersion.Breeds.ForEach(n => n.SetVersion(newVersion));
+            newVersion.ConversionFactors.ForEach(n => n.SetVersion(newVersion));
+            newVersion.Crops.ForEach(n => n.SetVersion(newVersion));
+            newVersion.CropSoilTestPhosphorousRegions.ForEach(n => n.SetVersion(newVersion));
+            newVersion.CropSoilTestPotassiumRegions.ForEach(n => n.SetVersion(newVersion));
+            newVersion.CropTypes.ForEach(n => n.SetVersion(newVersion));
+            newVersion.CropYields.ForEach(n => n.SetVersion(newVersion));
+            newVersion.DefaultSoilTests.ForEach(n => n.SetVersion(newVersion));
+            newVersion.DensityUnits.ForEach(n => n.SetVersion(newVersion));
+            newVersion.DryMatters.ForEach(n => n.SetVersion(newVersion));
+            newVersion.Fertilizers.ForEach(n => n.SetVersion(newVersion));
+            newVersion.FertilizerMethods.ForEach(n => n.SetVersion(newVersion));
+            newVersion.HarvestUnits.ForEach(n => n.SetVersion(newVersion));
+            newVersion.LiquidFertilizerDensities.ForEach(n => n.SetVersion(newVersion));
+            newVersion.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.ForEach(n => n.SetVersion(newVersion));
+            newVersion.LiquidMaterialsConversionFactors.ForEach(n => n.SetVersion(newVersion));
+            newVersion.LiquidSolidSeparationDefaults.ForEach(n => n.SetVersion(newVersion));
+            newVersion.ManureImportedDefaults.ForEach(n => n.SetVersion(newVersion));
+            newVersion.Manures.ForEach(n => n.SetVersion(newVersion));
+            newVersion.Messages.ForEach(n => n.SetVersion(newVersion));
+            newVersion.NitrateCreditSampleDates.ForEach(n => n.SetVersion(newVersion));
+            newVersion.NitrogenMineralizations.ForEach(n => n.SetVersion(newVersion));
+            newVersion.NitrogenRecommendations.ForEach(n => n.SetVersion(newVersion));
+            newVersion.PhosphorusSoilTestRanges.ForEach(n => n.SetVersion(newVersion));
+            newVersion.PotassiumSoilTestRanges.ForEach(n => n.SetVersion(newVersion));
+            newVersion.PreviousCropTypes.ForEach(n => n.SetVersion(newVersion));
+            newVersion.PrevManureApplicationYears.ForEach(n => n.SetVersion(newVersion));
+            newVersion.PrevYearManureApplicationNitrogenDefaults.ForEach(n => n.SetVersion(newVersion));
+            newVersion.Regions.ForEach(n => n.SetVersion(newVersion));
+            newVersion.RptCompletedFertilizerRequiredStdUnits.ForEach(n => n.SetVersion(newVersion));
+            newVersion.RptCompletedManureRequiredStdUnits.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SeasonApplications.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SoilTestMethods.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SoilTestPhosphorusRanges.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SoilTestPhosphorousKelownaRanges.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SoilTestPhosphorousRecommendations.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SoilTestPotassiumRanges.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SoilTestPotassiumKelownaRanges.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SoilTestPotassiumRecommendations.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SolidMaterialApplicationTonPerAcreRateConversions.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SolidMaterialsConversionFactors.ForEach(n => n.SetVersion(newVersion));
+            newVersion.Units.ForEach(n => n.SetVersion(newVersion));
+            newVersion.SubRegions.ForEach(n => n.SetVersion(newVersion));
+            newVersion.Yields.ForEach(n => n.SetVersion(newVersion));
+
+            _context.StaticDataVersions.Add(newVersion);
+            _context.SaveChanges();
+            return newId;
+        }
+
     }
 }

@@ -1,0 +1,55 @@
+{
+  "Id": 25,
+  "JsonFilename": "25_SubMenu",
+  "ReasonReference": "R4E07-SE01-TUS19: Create Repository Function to Version Database",
+  "Data": [
+    {
+      "id": 1,
+      "name": "Manure Generated",
+      "mainMenuId": 2,
+      "controller": "ManureManagement",
+      "action": "ManureGeneratedObtained",
+      "SortNumber": 1
+    },
+    {
+      "id": 2,
+      "name": "Manure/Compost Imported",
+      "mainMenuId": 2,
+      "controller": "ManureManagement",
+      "action": "ManureImported",
+      "SortNumber": 2
+    },
+    {
+      "id": 3,
+      "name": "Storage",
+      "mainMenuId": 2,
+      "controller": "ManureManagement",
+      "action": "ManureStorage",
+      "SortNumber": 3
+    },
+    {
+      "id": 4,
+      "name": "Nutrient Analysis",
+      "mainMenuId": 2,
+      "controller": "ManureManagement",
+      "action": "ManureNutrientAnalysis",
+      "SortNumber": 4
+    },
+    {
+      "id": 5,
+      "name": "Field List",
+      "mainMenuId": 3,
+      "controller": "Fields",
+      "action": "Fields",
+      "SortNumber": 1
+    },
+    {
+      "id": 6,
+      "name": "Soil Tests",
+      "mainMenuId": 3,
+      "controller": "Soil",
+      "action": "SoilTest",
+      "SortNumber": 2
+    }
+  ]
+}

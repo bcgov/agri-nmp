@@ -2,7 +2,7 @@
 
 namespace Agri.Models.Configuration
 {
-    public class BCSampleDateForNitrateCredit
+    public class BCSampleDateForNitrateCredit : Versionable
     {
         [Key]
         public string CoastalFromDateMonth { get; set; }

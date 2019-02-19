@@ -752,6 +752,19 @@ namespace SERVERAPI.Controllers
                                 rs.reportManures.Add(rm);
                             }
                         }
+                        else if(m is SeparatedSolidManure)
+                        {
+                            var separatedSolid = _ud.GetSeparatedManure(m.Id.Value);
+                            if (separatedSolid.AssignedToStoredSystem)
+                            {
+                                var rm = new ReportManuress();
+                                rm.animalManure = separatedSolid.ManagedManureName;
+
+                                rm.annualAmount = string.Format("{0:#,##0}", Math.Round(separatedSolid.AnnualAmountTonsWeight)).ToString();
+                                rm.units = "tons";
+                                rs.reportManures.Add(rm);
+                            }
+                        }
                     }
                 }
 
@@ -850,7 +863,7 @@ namespace SERVERAPI.Controllers
                         // Amount Remaining
                         if (appliedManure.WholePercentRemaining < 10)
                         {
-                            rm.AmountRemaining = "Insignificant";
+                            rm.AmountRemaining = "None";
 
                             ReportFieldFootnote rff = new ReportFieldFootnote();
                             rff.id = rmsvm.footnotes.Count() + 1;

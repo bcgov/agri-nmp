@@ -651,7 +651,7 @@ namespace SERVERAPI.Models.Impl
             {
                 Manure man = _sd.GetManure(fm.manureId.ToString());
                 fm.ammonia = man.Ammonia;
-                fm.dmid = man.DMId;
+                fm.dmid = man.DryMatterId;
                 fm.manure_class = man.ManureClass;
                 fm.moisture = man.Moisture;
                 fm.name = man.Name;
@@ -683,7 +683,7 @@ namespace SERVERAPI.Models.Impl
             {
                 Manure man = _sd.GetManure(fm.manureId.ToString());
                 fm.ammonia = man.Ammonia;
-                fm.dmid = man.DMId;
+                fm.dmid = man.DryMatterId;
                 fm.manure_class = man.ManureClass;
                 fm.moisture = man.Moisture;
                 fm.name = man.Name;
@@ -714,7 +714,7 @@ namespace SERVERAPI.Models.Impl
                 {
                     Manure man = _sd.GetManure(fm.manureId.ToString());
                     fm.ammonia = man.Ammonia;
-                    fm.dmid = man.DMId;
+                    fm.dmid = man.DryMatterId;
                     fm.manure_class = man.ManureClass;
                     fm.moisture = man.Moisture;
                     fm.name = man.Name;
