@@ -11,6 +11,25 @@
   "objects": [
     {
       "apiVersion": "v1",
+      "kind": "PersistentVolumeClaim",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
+        "annotations": {
+          "volume.beta.kubernetes.io/storage-class": "gluster-file-db",
+          "volume.beta.kubernetes.io/storage-provisioner": "kubernetes.io/glusterfs"
+        }
+      },
+      "spec": {
+        "accessModes": [ "ReadWriteOnce" ],
+        "resources": {
+          "requests": {
+            "storage": "${VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
       "kind": "Secret",
       "metadata": {
         "annotations": {
@@ -54,25 +73,6 @@
       },
       "status": {
         "loadBalancer": {}
-      }
-    },
-    {
-      "apiVersion": "v1",
-      "kind": "PersistentVolumeClaim",
-      "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
-        "annotations": {
-          "volume.beta.kubernetes.io/storage-class": "gluster-file-db",
-          "volume.beta.kubernetes.io/storage-provisioner": "kubernetes.io/glusterfs"
-        }
-      },
-      "spec": {
-        "accessModes": [ "ReadWriteOnce" ],
-        "resources": {
-          "requests": {
-            "storage": "${VOLUME_CAPACITY}"
-          }
-        }
       }
     },
     {
