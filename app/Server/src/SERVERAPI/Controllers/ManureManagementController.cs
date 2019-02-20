@@ -2323,6 +2323,7 @@ namespace SERVERAPI.Controllers
                 }
 
                 var materialVolumes = 0m;
+                var washWater = 0m;
                 foreach (var manure in managedManures)
                 {
                     if (includeAllManagedManures)
@@ -2331,6 +2332,10 @@ namespace SERVERAPI.Controllers
                         {
                             var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
                             materialVolumes += manureGenerated.annualAmountDecimal;
+                            if (manureGenerated.washWaterGallons != 0)
+                            {
+                                materialVolumes += manureGenerated.washWaterGallons;
+                            }
                         }
                         else if (manure.ManureId.Contains("Imported"))
                         {
@@ -2346,6 +2351,10 @@ namespace SERVERAPI.Controllers
                             {
                                 var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
                                 materialVolumes += manureGenerated.annualAmountDecimal;
+                                if (manureGenerated.washWaterGallons != 0)
+                                {
+                                    materialVolumes += manureGenerated.washWaterGallons;
+                                }
                             }
                             else if (manure.ManureId.Contains("Imported"))
                             {
@@ -2358,8 +2367,7 @@ namespace SERVERAPI.Controllers
 
                 if (msdvm.IsThereSolidLiquidSeparation && msdvm.PercentageOfLiquidVolumeSeparated != 0)
                 {
-                    materialVolumes = (1 - 1M / msdvm.PercentageOfLiquidVolumeSeparated) *
-                                      ((materialVolumes / 365) * 182);
+                    materialVolumes = (1 - 1M / msdvm.PercentageOfLiquidVolumeSeparated) *(materialVolumes / 365) * 182;
                 }
                 else
                 {
