@@ -13,5 +13,6 @@ namespace SERVERAPI.ViewModels
         public string selSubMenuOption { get; set; }
         public string subTypeName { get; set; }
         public List<SubMenu> subMenuOptions { get; set; }
+        public bool UseInterceptJS { get; set; }
     }
 }

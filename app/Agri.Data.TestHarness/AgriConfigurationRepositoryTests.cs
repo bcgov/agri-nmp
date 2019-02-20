@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
+using AutoMapper;
 
 namespace Agri.Data.TestHarness
 {
@@ -25,13 +26,15 @@ namespace Agri.Data.TestHarness
 
             services.AddDbContext<AgriConfigurationContext>(options =>
             {
-                options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Agri.Data"));
+                options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Agri.Data")).EnableSensitiveDataLogging();
             });
 
             services.AddTransient<AgriConfigurationRepository>();
             services.AddTransient<StaticDataExtRepository>();
+            services.AddAutoMapper();
 
             _serviceProvider = services.BuildServiceProvider();
+            //var mapper = new Mapper(new AutoMapperProfileConfiguration());
             _agriRepository = _serviceProvider.GetRequiredService<AgriConfigurationRepository>();
             _staticExtRepo = _serviceProvider.GetRequiredService<StaticDataExtRepository>();
         }
@@ -1161,11 +1164,11 @@ namespace Agri.Data.TestHarness
         [TestMethod]
         public void CompareGetVersionData()
         {
-            var actual = _agriRepository.GetVersionData();
-            var expected = _staticExtRepo.GetVersionData();
+            var actual = _agriRepository.GetLatestVersionDataTree();
+            var expected = _staticExtRepo.GetLatestVersionDataTree();
 
             Assert.IsNotNull(actual);
-            Assert.AreEqual(expected.StaticDataVersion, actual.StaticDataVersion);
+            Assert.AreEqual(expected.Version, actual.Version);
         }
 
         [TestMethod]
@@ -1402,6 +1405,12 @@ namespace Agri.Data.TestHarness
             var expected = _staticExtRepo.GetMessageByChemicalBalance("CropN", -5, false);
 
             Assert.IsNotNull(actual);
+        }
+
+        [TestMethod]
+        public void ArchiveConfigurationsTest()
+        {
+            var result = _agriRepository.ArchiveConfigurations();
         }
     }
 }

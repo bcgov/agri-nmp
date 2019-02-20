@@ -118,13 +118,15 @@ namespace Agri.Models.Farm
                 var precipitation = 0m;
                 if (ManureMaterialType == ManureMaterialType.Liquid)
                 {
-                     precipitation = Convert.ToDecimal(RunoffAreaSquareFeet) + 
-                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(AnnualPrecipitation) * conversionForLiquid;
+                     precipitation = 
+                         (Convert.ToDecimal(RunoffAreaSquareFeet) + Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage))
+                                     * Convert.ToDecimal(AnnualPrecipitation) * conversionForLiquid;
                 }
                 else if (ManureMaterialType == ManureMaterialType.Solid)
                 {
-                     precipitation = Convert.ToDecimal(RunoffAreaSquareFeet) + 
-                                     Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(AnnualPrecipitation) * conversionForSolid;
+                     precipitation = 
+                         (Convert.ToDecimal(RunoffAreaSquareFeet) + Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage)) 
+                                    * Convert.ToDecimal(AnnualPrecipitation) * conversionForSolid;
                 }
 
                 return precipitation;
@@ -179,7 +181,6 @@ namespace Agri.Models.Farm
         [JsonIgnore]
         public decimal AnnualTotalAmountofManureInStorage => AnnualTotalStoredGeneratedManure + 
                                                                                              AnnualTotalImportedManure + 
-                                                                                            AnnualTotalSeparatedSolidManure +
                                                                                              AnnualTotalPrecipitation;
 
         #region Methods

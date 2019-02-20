@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
-using Version = Agri.Models.Configuration.Version;
 
 namespace Agri.Interfaces
 {
@@ -23,6 +22,7 @@ namespace Agri.Interfaces
         List<Yield> GetYields();
         List<NitrogenRecommendation> GetNitrogenRecommendations();
         RptCompletedManureRequiredStdUnit GetRptCompletedManureRequiredStdUnit();
+        StaticDataVersion GetCurrentStaticDataVersion();
         RptCompletedFertilizerRequiredStdUnit GetRptCompletedFertilizerRequiredStdUnit();
         BCSampleDateForNitrateCredit GetBCSampleDateForNitrateCredit();
         List<SoilTestPotassiumKelownaRange> GetSoilTestPotassiumKelownaRanges();
@@ -115,7 +115,7 @@ namespace Agri.Interfaces
         string GetSoilTestWarning();
         string GetExternalLink(string name);
         string GetUserPrompt(string name);
-        Version GetVersionData();
+        StaticDataVersion GetLatestVersionDataTree();
         string GetStaticDataVersion();
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
         PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(
@@ -175,7 +175,7 @@ namespace Agri.Interfaces
         List<SelectListItem> GetBreedsDll(int animalType);
         decimal GetBreedManureFactorByBreedId(int breedId);
         List<SelectListItem> GetBreed(int breedId);
-
         LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults();
+        int ArchiveConfigurations();
     }
 }
