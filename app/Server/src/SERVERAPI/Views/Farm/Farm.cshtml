@@ -131,6 +131,44 @@
 @section Scripts {
     <script type="text/javascript">
 
+        function Intercept(x) {
+            var incomplete = "False";
+            var jqxhr = $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("CheckCompleted", "Farm")',
+                    data: '{}',
+                    async: false,
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                })
+                .done(function (result) {
+                    incomplete = result.incomplete;
+                })
+                .fail(function (result) {
+                    incomplete = "False";
+                });
+
+            if (incomplete == "True")
+            {
+                $.ajaxSetup({ cache: false });
+                var url = '@Url.Action("FarmIncomplete", "Farm", new { target = "zzz" })';
+                $type = url.replace('zzz', x);
+                $('#myModalContent').load($type, function () {
+                    $('#myModal').modal({
+                        /*backdrop: 'static',*/
+                        //keyboard: true
+                    }, 'show');
+                    bindFormI(this);
+                });
+                return false;
+            }
+            else
+            {
+                window.location.href = x;
+            }
+        }
+
         $(document).ready(function () {
             $("#FarmFarm1").addClass('wizard-item-done');
         });
@@ -187,10 +225,10 @@
         });
 
         $(document).ready(function () {
-        $("body").on("change", "#ddlSubRegion", function () {
-            $('#buttonPressed').val("SubRegionChange");
-            $("#modForm").submit();
-        })
+            $("body").on("change", "#ddlSubRegion", function () {
+                $('#buttonPressed').val("SubRegionChange");
+                $("#modForm").submit();
+            })
         });
 
         $(document).on("click",
@@ -201,10 +239,10 @@
                 $('#myModalContent').load($type,
                     function () {
                         $('#myModal').modal({
-                            /*backdrop: 'static',*/
-                            //keyboard: true
+                                /*backdrop: 'static',*/
+                                //keyboard: true
 
-                        },
+                            },
                             'show');
                         bindForm2(this);
                     });
@@ -214,11 +252,11 @@
         function bindForm2(dialog) {
             $('form', dialog).submit(function () {
                 $.ajax({
-                    cache: false,
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize()
-                })
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
                     .done(function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
