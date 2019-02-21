@@ -910,8 +910,8 @@ namespace SERVERAPI.Controllers
                         ReportStorages rs = new ReportStorages();
                         rs.storageName = fm.Name;
                         rs.materialsGeneratedImported = fm.OctoberToMarchManagedManuresText;
-                        rs.yardRunoff = fm.OctoberToMarchRunoffText;
-                        rs.precipitationIntoStorage = fm.OctoberToMarchPrecipitationText;
+                        rs.yardRunoff = string.IsNullOrEmpty(fm.OctoberToMarchRunoffText)? "0": fm.OctoberToMarchRunoffText;
+                        rs.precipitationIntoStorage = string.IsNullOrEmpty(fm.OctoberToMarchPrecipitationText) ? "0" : fm.OctoberToMarchPrecipitationText;
                         rs.totalStored = (fm.OctoberToMarchManagedManures + Convert.ToDecimal(fm.OctoberToMarchRunoff) + Convert.ToDecimal(fm.OctoberToMarchPrecipitation)).ToString();
                         rs.storageVolume = fm.ManureStorageVolume.Split(' ')[0];
                         rs.materialsStoredAfterSLSeparaton =string.Format("{0:#,##0}", fm.OctoberToMarchSeparatedLiquidsUSGallons);
