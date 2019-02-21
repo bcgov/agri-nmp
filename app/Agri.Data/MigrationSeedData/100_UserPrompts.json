@@ -1,0 +1,72 @@
+{
+  "Id": 100,
+  "JsonFilename": "100_UserPrompts",
+  "ReasonReference": "R4E06-US15: Tool Tips (replace links with info icons)",
+  "Data": [
+    {
+      "Id": "55",
+      "Name": "NutrientAnalysisMoistureMessage",
+      "Text": "This value should be a percentage of the moisture contained in the material as received.  It should not be a dry matter value"
+    },
+    {
+      "Id": "56",
+      "Name": "NutrientAnlalysisNitrogenMessage",
+      "Text": "NutrientAnlalysisNitrogenMessage"
+    },
+    {
+      "Id": "57",
+      "Name": "NutrientAnlalysisAmmoniaMessage",
+      "Text": "NutrientAnlalysisAmmoniaMessage"
+    },
+    {
+      "Id": "58",
+      "Name": "NutrientAnlalysisPhosphorousMessage",
+      "Text": "NutrientAnlalysisPhosphorousMessage"
+    },
+    {
+      "Id": "59",
+      "Name": "NutrientAnlalysisPotassiumMessage",
+      "Text": "NutrientAnlalysisPotassiumMessage"
+    },
+    {
+      "Id": "60",
+      "Name": "SoilTestSampleMonthsMessage",
+      "Text": "SoilTestSampleMonthsMessage"
+    },
+    {
+      "Id": "61",
+      "Name": "SoilTestNitrateMessage",
+      "Text": "SoilTestNitrateMessage"
+    },
+    {
+      "Id": "62",
+      "Name": "SoilTestPhosphorousMessage",
+      "Text": "SoilTestPhosphorousMessage"
+    },
+    {
+      "Id": "63",
+      "Name": "SoilTestPotassiumMessage",
+      "Text": "SoilTestPotassiumMessage"
+    },
+    {
+      "Id": "64",
+      "Name": "SoilTestPHMessage",
+      "Text": "SoilTestPHMessage"
+    },
+    {
+      "Id": "65",
+      "Name": "CalculateOtherNutrientSourceMessage",
+      "Text": "CalculateOtherNutrientSourceMessage"
+    },
+    {
+      "Id": "66",
+      "Name": "CalculateOtherNutrientAvailableThisYearMessage",
+      "Text": "CalculateOtherNutrientAvailableThisYearMessage"
+    },
+    {
+      "Id": "67",
+      "Name": "CalculateOtherNutrientAvailbleLongTermMessage",
+      "Text": "CalculateOtherNutrientAvailbleLongTermMessage"
+    }
+  ]
+}

@@ -1794,6 +1794,11 @@ namespace SERVERAPI.Controllers
             //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
             CompostDetailViewModel mvm = new CompostDetailViewModel();
+            mvm.ExplainNutrientAnalysisMoisture = _sd.GetUserPrompt("NutrientAnalysisMoistureMessage");
+            mvm.ExplainNutrientAnalysisNitrogen = _sd.GetUserPrompt("NutrientAnlalysisNitrogenMessage");
+            mvm.ExplainNutrientAnlalysisAmmonia = _sd.GetUserPrompt("NutrientAnlalysisAmmoniaMessage");
+            mvm.ExplainNutrientAnlalysisPhosphorous = _sd.GetUserPrompt("NutrientAnlalysisPhosphorousMessage");
+            mvm.ExplainNutrientAnlalysisPotassium = _sd.GetUserPrompt("NutrientAnlalysisPotassiumMessage");
 
             mvm.act = id == null ? "Add" : "Edit";
             mvm.url = _sd.GetExternalLink("labanalysisexplanation");
