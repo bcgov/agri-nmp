@@ -893,6 +893,12 @@ namespace SERVERAPI.Controllers
             romssvm.footnotes = new List<ReportFieldFootnote>();
             romssvm.year = _ud.FarmDetails().year;
 
+            var request = HttpContext.Request;
+            string scheme = request.Scheme;
+            string host = request.Host.ToString();
+            string imgLoc = scheme + "://" + host + "/images/dollar warning.svg";
+            romssvm.imageurl = imgLoc;
+
             var yearData = _ud.GetYearData();
 
             if (yearData.farmManures != null)

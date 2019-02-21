@@ -7,5 +7,6 @@ namespace SERVERAPI.ViewModels
         public string year { get; set; }
         public List<ReportStorages> storages { get; set; }
         public List<ReportFieldFootnote> footnotes { get; set; }
+        public string imageurl { get; set; }
     }
 }
