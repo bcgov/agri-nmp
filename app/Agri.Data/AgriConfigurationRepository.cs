@@ -598,11 +598,17 @@ namespace Agri.Data
 
             if (solidLiquid.Equals("solid", StringComparison.CurrentCultureIgnoreCase))
             {
-                stdUnit = GetUnit(_context.RptCompletedManureRequiredStdUnits.FirstOrDefault().SolidUnitId.ToString()).Name;
+                var unitId = _context.RptCompletedManureRequiredStdUnits
+                    .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                    .FirstOrDefault().SolidUnitId.ToString();
+                stdUnit = GetUnit(unitId).Name;
             }
             else
             {
-                stdUnit = GetUnit(_context.RptCompletedManureRequiredStdUnits.FirstOrDefault().LiquidUnitId.ToString()).Name;
+                var unitId = _context.RptCompletedManureRequiredStdUnits
+                    .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                    .FirstOrDefault().LiquidUnitId.ToString();
+                stdUnit = GetUnit(unitId).Name;
             }
 
             return ParseStdUnit(stdUnit);
@@ -852,7 +858,9 @@ namespace Agri.Data
 
         public List<SelectListItem> GetSubRegionsDll(int? regionId)
         {
-            List<SubRegion> subRegions = _context.SubRegion.ToList();
+            List<SubRegion> subRegions = _context.SubRegion
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
             var subRegOptions = new List<SelectListItem>();
 
 
