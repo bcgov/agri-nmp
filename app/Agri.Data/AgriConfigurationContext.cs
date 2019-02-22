@@ -579,7 +579,20 @@ namespace Agri.Data
 
             });
 
-            modelBuilder.Entity<PreviousYearManureApplicationNitrogenDefault>(b =>
+            modelBuilder.Entity<PreviousCropType>(b =>
+            {
+                b.HasOne(child => child.Version)
+                    .WithMany(version => version.PreviousCropTypes)
+                    .HasForeignKey(child => child.StaticDataVersionId)
+                    .HasPrincipalKey(version => version.Id);
+
+                b.HasOne(pct => pct.Crop)
+                    .WithMany(crop => crop.PreviousCropTypes)
+                    .HasForeignKey(pct => new {pct.CropId, pct.PreviousCropCode, pct.StaticDataVersionId})
+                    .HasPrincipalKey(crop => new {crop.Id, crop.PreviousCropCode, crop.StaticDataVersionId});
+            });
+
+                modelBuilder.Entity<PreviousYearManureApplicationNitrogenDefault>(b =>
             {
                 b.HasOne(child => child.Version)
                     .WithMany(version => version.PrevYearManureApplicationNitrogenDefaults)

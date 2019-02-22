@@ -25,6 +25,8 @@ namespace Agri.Models.Configuration
             DryMatters = new List<DryMatter>();
             Fertilizers = new List<Fertilizer>();
             FertilizerMethods = new List<FertilizerMethod>();
+            FertilizerTypes = new List<FertilizerType>();
+            FertilizerUnits = new List<FertilizerUnit>();
             HarvestUnits = new List<HarvestUnit>();
             LiquidFertilizerDensities = new List<LiquidFertilizerDensity>();
             LiquidMaterialApplicationUsGallonsPerAcreRateConversions = new List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>();
@@ -83,6 +85,8 @@ namespace Agri.Models.Configuration
         public List<DryMatter> DryMatters { get; set; }
         public List<Fertilizer> Fertilizers { get; set; }
         public List<FertilizerMethod> FertilizerMethods { get; set; }
+        public List<FertilizerType> FertilizerTypes { get; set; }
+        public List<FertilizerUnit> FertilizerUnits { get; set; }
         public List<HarvestUnit> HarvestUnits { get; set; }
         public List<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
         public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> LiquidMaterialApplicationUsGallonsPerAcreRateConversions { get; set; }
