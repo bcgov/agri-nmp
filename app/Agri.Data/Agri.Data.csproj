@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="MigrationSeedData\100_UserPrompts.json" />
     <None Remove="MigrationSeedData\11_Breed.json" />
     <None Remove="MigrationSeedData\14_AnimalSubTypes.json" />
     <None Remove="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
@@ -28,6 +27,7 @@
     <None Remove="MigrationSeedData\4_UserPrompts.json" />
     <None Remove="MigrationSeedData\5_UserPrompts.json" />
     <None Remove="MigrationSeedData\6_UserPrompts.json" />
+    <None Remove="MigrationSeedData\99_UserPrompts.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +37,7 @@
     <EmbeddedResource Include="MigrationSeedData\11_Breed.json" />
     <EmbeddedResource Include="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
     <EmbeddedResource Include="MigrationSeedData\19_PotassiumSoilTestRanges.json" />
-    <EmbeddedResource Include="MigrationSeedData\100_UserPrompts.json" />
+    <EmbeddedResource Include="MigrationSeedData\99_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\25_SubMenu.json" />
     <EmbeddedResource Include="MigrationSeedData\24_MainMenu.json" />
     <EmbeddedResource Include="MigrationSeedData\22_UserPrompts.json" />

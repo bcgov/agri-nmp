@@ -15,7 +15,9 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group col-md-offset-2">
                     <label for="tbNitrogen" style="padding-right:5px">Nitrogen available from previous year's manure applications</label>
-                    <a href="@Model.url" target="_blank">@Model.urlText</a>
+                    <a href="#" data-toggle="tooltip" title="@Model.ExplainNitrogenFromPrevManure" id="toolTipExplainNitrogenFromPrevManure">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of mineralization of organic nitrogen from manure" style="font-size:20px; padding-top:5px"></span>
+                    </a>
                 </div>
             </div>
             <div class="form-group">
@@ -70,5 +72,20 @@
         $('#tbNitrogen').val("@Model.defaultNitrogenCredit");
         $("#rstNitrogen").hide();
     });
+
+    $(document).ready(function () {
+        $('#toolTipExplainNitrogenFromPrevManure').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainNitrogenFromPrevManure').click(function () {
+            triggerToolTip($('#toolTipExplainNitrogenFromPrevManure'));
+        });
+    })
 
 </script>

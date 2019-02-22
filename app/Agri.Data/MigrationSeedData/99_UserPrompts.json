@@ -1,6 +1,6 @@
 {
-  "Id": 100,
-  "JsonFilename": "100_UserPrompts",
+  "Id": 99,
+  "JsonFilename": "99_UserPrompts",
   "ReasonReference": "R4E06-US15: Tool Tips (replace links with info icons)",
   "Data": [
     {
@@ -11,60 +11,40 @@
     {
       "Id": "56",
       "Name": "NutrientAnlalysisNitrogenMessage",
-      "Text": "NutrientAnlalysisNitrogenMessage"
+      "Text": "This value is the percentage of the manure/compost made up of total nitrogen (TN), which includes the organic and inorganic portions"
     },
     {
       "Id": "57",
       "Name": "NutrientAnlalysisAmmoniaMessage",
-      "Text": "NutrientAnlalysisAmmoniaMessage"
+      "Text": "This value is the portion of the manure/compost in the form of ammonium-nitrogen (NH4-N), an inorganic/mineral form of nitrogen. It may also be expressed in units of mg/kg or mg/L"
     },
     {
       "Id": "58",
       "Name": "NutrientAnlalysisPhosphorousMessage",
-      "Text": "NutrientAnlalysisPhosphorousMessage"
+      "Text": "This value is the percentage of the manure/compost made up of phosphorus (P)"
     },
     {
       "Id": "59",
       "Name": "NutrientAnlalysisPotassiumMessage",
-      "Text": "NutrientAnlalysisPotassiumMessage"
+      "Text": "This value is the percentage of the manure compost made up potassium (K)."
     },
     {
       "Id": "60",
-      "Name": "SoilTestSampleMonthsMessage",
-      "Text": "SoilTestSampleMonthsMessage"
+      "Name": "CalculateNutrientsPrevManureMessage",
+      "Text": "A significant factor in the amount of potentially mineralized nitrogen is the history of manure application. Mineralization of organic matter from previous years’ manure applications may be different from the given value depending on manure application frequency, rate, and farm location"
     },
     {
       "Id": "61",
-      "Name": "SoilTestNitrateMessage",
-      "Text": "SoilTestNitrateMessage"
-    },
-    {
-      "Id": "62",
-      "Name": "SoilTestPhosphorousMessage",
-      "Text": "SoilTestPhosphorousMessage"
-    },
-    {
-      "Id": "63",
-      "Name": "SoilTestPotassiumMessage",
-      "Text": "SoilTestPotassiumMessage"
-    },
-    {
-      "Id": "64",
-      "Name": "SoilTestPHMessage",
-      "Text": "SoilTestPHMessage"
-    },
-    {
-      "Id": "65",
       "Name": "CalculateOtherNutrientSourceMessage",
       "Text": "CalculateOtherNutrientSourceMessage"
     },
     {
-      "Id": "66",
+      "Id": "62",
       "Name": "CalculateOtherNutrientAvailableThisYearMessage",
       "Text": "CalculateOtherNutrientAvailableThisYearMessage"
     },
     {
-      "Id": "67",
+      "Id": "63",
       "Name": "CalculateOtherNutrientAvailbleLongTermMessage",
       "Text": "CalculateOtherNutrientAvailbleLongTermMessage"
     }

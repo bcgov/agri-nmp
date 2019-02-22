@@ -2296,6 +2296,7 @@ namespace SERVERAPI.Controllers
 
             model.url = _sd.GetExternalLink("prevmanureexplanation");
             model.urlText = _sd.GetUserPrompt("moreinfo");
+            model.ExplainNitrogenFromPrevManure = _sd.GetUserPrompt("CalculateNutrientsPrevManureMessage");
 
             SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
             model.defaultNitrogenCredit = calculator.calcPrevYearManureApplDefault(fldName).ToString();
