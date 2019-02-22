@@ -27,6 +27,11 @@ namespace Agri.Data
             _mapper = mapper;
         }
 
+        private int GetStaticDataVersionId()
+        {
+            return GetCurrentStaticDataVersion().Id;
+        }
+
         public decimal ConvertYieldFromBushelToTonsPerAcre(int cropid, decimal yield)
         {
             var crop = GetCrop(cropid);
@@ -42,19 +47,21 @@ namespace Agri.Data
 
         public AmmoniaRetention GetAmmoniaRetention(int seasonApplicatonId, int dm)
         {
-            return _context.AmmoniaRetentions.SingleOrDefault(ar =>
+            return GetAmmoniaRetentions().SingleOrDefault(ar =>
                 ar.SeasonApplicationId == seasonApplicatonId && ar.DryMatter == dm);
         }
 
         public List<AmmoniaRetention> GetAmmoniaRetentions()
         {
-            return _context.AmmoniaRetentions.ToList();
+            return _context.AmmoniaRetentions
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public Animal GetAnimal(int id)
         {
             return _context.Animals
-                .Where(a => a.Id == id)
+                .Where(a => a.StaticDataVersionId == GetStaticDataVersionId() && a.Id == id)
                 .Include(a => a.AnimalSubTypes)
                     .SingleOrDefault();
         }
@@ -62,6 +69,7 @@ namespace Agri.Data
         public List<Animal> GetAnimals()
         {
             return _context.Animals
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
                 .Include(a => a.AnimalSubTypes)
                     .ToList();
         }
@@ -95,7 +103,11 @@ namespace Agri.Data
 
         public List<SeasonApplication> GetApplications()
         {
-            return _context.SeasonApplications.OrderBy(n => n.SortNum).ThenBy(n => n.Name).ToList();
+            return _context.SeasonApplications
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .OrderBy(n => n.SortNum)
+                .ThenBy(n => n.Name)
+                    .ToList();
         }
 
         public List<SelectListItem> GetApplicationsDll(string manureType)
@@ -121,18 +133,22 @@ namespace Agri.Data
 
         public BCSampleDateForNitrateCredit GetBCSampleDateForNitrateCredit()
         {
-            return _context.BCSampleDateForNitrateCredit.FirstOrDefault();
+            return _context.BCSampleDateForNitrateCredit
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .FirstOrDefault();
         }
 
         public ConversionFactor GetConversionFactor()
         {
-            return _context.ConversionFactors.FirstOrDefault();
+            return _context.ConversionFactors
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .FirstOrDefault();
         }
 
         public Crop GetCrop(int cropId)
         {
             return _context.Crops
-                .Where(c => c.Id == cropId)
+                .Where(c => c.StaticDataVersionId == GetStaticDataVersionId() && c.Id == cropId)
                 .Include(c => c.CropYields)
                 .Include(c => c.CropSoilTestPhosphorousRegions)
                 .Include(c => c.CropSoilTestPotassiumRegions)
@@ -141,7 +157,9 @@ namespace Agri.Data
 
         public List<SelectListItem> GetCropHarvestUnitsDll()
         {
-            var harvestUnits = _context.HarvestUnits.ToList();
+            var harvestUnits = _context.HarvestUnits
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
 
             var harvestUnitsOptions = new List<SelectListItem>();
             foreach (var r in harvestUnits)
@@ -161,6 +179,7 @@ namespace Agri.Data
         public List<Crop> GetCrops()
         {
             return _context.Crops
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
                 .Include(c => c.CropYields)
                 .Include(c => c.CropSoilTestPhosphorousRegions)
                 .Include(c => c.CropSoilTestPotassiumRegions)
@@ -203,12 +222,16 @@ namespace Agri.Data
 
         public List<CropSoilTestPhosphorousRegion> GetCropSoilTestPhosphorousRegions()
         {
-            return _context.CropSoilTestPhosphorousRegions.ToList();
+            return _context.CropSoilTestPhosphorousRegions
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<CropSoilTestPotassiumRegion> GetCropSoilTestPotassiumRegions()
         {
-            return _context.CropSoilTestPotassiumRegions.ToList();
+            return _context.CropSoilTestPotassiumRegions
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropId, int soilTestPotassiumRegionCode)
@@ -232,7 +255,9 @@ namespace Agri.Data
 
         public List<CropType> GetCropTypes()
         {
-            return _context.CropTypes.ToList();
+            return _context.CropTypes
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<SelectListItem> GetCropTypesDll()
@@ -259,12 +284,16 @@ namespace Agri.Data
 
         public List<CropYield> GetCropYields()
         {
-            return _context.CropYields.ToList();
+            return _context.CropYields
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public DefaultSoilTest GetDefaultSoilTest()
         {
-            return _context.DefaultSoilTests.FirstOrDefault();
+            return _context.DefaultSoilTests
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .FirstOrDefault();
         }
 
         public string GetDefaultSoilTestMethod()
@@ -279,7 +308,9 @@ namespace Agri.Data
 
         public List<DensityUnit> GetDensityUnits()
         {
-            return _context.DensityUnits.ToList();
+            return _context.DensityUnits
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<SelectListItem> GetDensityUnitsDll()
@@ -318,12 +349,16 @@ namespace Agri.Data
 
         public DryMatter GetDryMatter(int ID)
         {
-            return GetDryMatters().SingleOrDefault(dm => dm.Id == ID);
+            return GetDryMatters()
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .SingleOrDefault(dm => dm.Id == ID);
         }
 
         public List<DryMatter> GetDryMatters()
         {
-            return _context.DryMatters.ToList();
+            return _context.DryMatters
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public string GetExternalLink(string name)
@@ -340,7 +375,9 @@ namespace Agri.Data
 
         public Fertilizer GetFertilizer(string id)
         {
-            return GetFertilizers().SingleOrDefault(f => f.Id == Convert.ToInt32(id));
+            return GetFertilizers()
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .SingleOrDefault(f => f.Id == Convert.ToInt32(id));
         }
 
         public FertilizerMethod GetFertilizerMethod(string id)
@@ -350,7 +387,9 @@ namespace Agri.Data
 
         public List<FertilizerMethod> GetFertilizerMethods()
         {
-            return _context.FertilizerMethods.ToList().OrderBy(ni => ni.Id).ToList();
+            return _context.FertilizerMethods
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList().OrderBy(ni => ni.Id).ToList();
         }
 
         public List<SelectListItem> GetFertilizerMethodsDll()
@@ -373,11 +412,17 @@ namespace Agri.Data
 
             if (dryLiquid.Equals("dry", StringComparison.CurrentCultureIgnoreCase))
             {
-                stdUnit = GetFertilizerUnit(Convert.ToInt16(_context.RptCompletedFertilizerRequiredStdUnits.FirstOrDefault().SolidUnitId)).Name;
+                var fertilizerUnitId = Convert.ToInt16(_context.RptCompletedFertilizerRequiredStdUnits
+                    .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                    .FirstOrDefault().SolidUnitId);
+                stdUnit = GetFertilizerUnit(fertilizerUnitId).Name;
             }
             else
             {
-                stdUnit = GetFertilizerUnit(Convert.ToInt16(_context.RptCompletedFertilizerRequiredStdUnits.FirstOrDefault().LiquidUnitId)).Name;
+                var fertilizerUnitId = Convert.ToInt16(_context.RptCompletedFertilizerRequiredStdUnits
+                    .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                    .FirstOrDefault().LiquidUnitId);
+                stdUnit = GetFertilizerUnit(fertilizerUnitId).Name;
             }
 
             return ParseStdUnit(stdUnit);
@@ -385,7 +430,11 @@ namespace Agri.Data
 
         public List<Fertilizer> GetFertilizers()
         {
-            return _context.Fertilizers.OrderBy(f => f.SortNum).ThenBy(f => f.Name).ToList();
+            return _context.Fertilizers
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .OrderBy(f => f.SortNum)
+                .ThenBy(f => f.Name)
+                    .ToList();
         }
 
         public List<SelectListItem> GetFertilizersDll(string fertilizerType)
@@ -421,7 +470,9 @@ namespace Agri.Data
 
         public List<FertilizerType> GetFertilizerTypes()
         {
-            return _context.FertilizerTypes.ToList();
+            return _context.FertilizerTypes
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<SelectListItem> GetFertilizerTypesDll()
@@ -451,7 +502,9 @@ namespace Agri.Data
 
         public List<FertilizerUnit> GetFertilizerUnits()
         {
-            return _context.FertilizerUnits.ToList();
+            return _context.FertilizerUnits
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<SelectListItem> GetFertilizerUnitsDll(string unitType)
@@ -475,7 +528,9 @@ namespace Agri.Data
 
         public List<HarvestUnit> GetHarvestUnits()
         {
-            return _context.HarvestUnits.ToList();
+            return _context.HarvestUnits
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public int GetHarvestYieldDefaultDisplayUnit()
@@ -510,7 +565,9 @@ namespace Agri.Data
 
         public List<LiquidFertilizerDensity> GetLiquidFertilizerDensities()
         {
-            return _context.LiquidFertilizerDensities.ToList();
+            return _context.LiquidFertilizerDensities
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public LiquidFertilizerDensity GetLiquidFertilizerDensity(int fertilizerId, int densityId)
@@ -553,7 +610,11 @@ namespace Agri.Data
 
         public List<Manure> GetManures()
         {
-            return _context.Manures.OrderBy(m => m.SortNum).ThenBy(n => n.Name).ToList();
+            return _context.Manures
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .OrderBy(m => m.SortNum)
+                .ThenBy(n => n.Name)
+                    .ToList();
         }
 
         public List<SelectListItem> GetManuresDll()
@@ -665,7 +726,9 @@ namespace Agri.Data
 
         public List<Message> GetMessages()
         {
-            return _context.Messages.ToList();
+            return _context.Messages
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public decimal GetMilkProduction(int Id)
@@ -674,12 +737,16 @@ namespace Agri.Data
         }
         public List<NitrogenMineralization> GetNitrogeMineralizations()
         {
-            return _context.NitrogenMineralizations.ToList();
+            return _context.NitrogenMineralizations
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<NitrogenRecommendation> GetNitrogenRecommendations()
         {
-            return _context.NitrogenRecommendations.ToList();
+            return _context.NitrogenRecommendations
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public NitrogenMineralization GetNMineralization(int id, int locationid)
@@ -732,7 +799,9 @@ namespace Agri.Data
 
         public List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears()
         {
-            return _context.PrevManureApplicationYears.ToList();
+            return _context.PrevManureApplicationYears
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(int manureAppHistory)
@@ -743,7 +812,9 @@ namespace Agri.Data
 
         public List<PreviousYearManureApplicationNitrogenDefault> GetPrevYearManureNitrogenCreditDefaults()
         {
-            return _context.PrevYearManureApplicationNitrogenDefaults.ToList();
+            return _context.PrevYearManureApplicationNitrogenDefaults
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public Region GetRegion(int id)
@@ -753,7 +824,11 @@ namespace Agri.Data
 
         public List<Region> GetRegions()
         {
-            return _context.Regions.OrderBy(r => r.SortNumber).ThenBy(n => n.Name).ToList();
+            return _context.Regions
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .OrderBy(r => r.SortNumber)
+                .ThenBy(n => n.Name)
+                    .ToList();
         }
 
         public List<SelectListItem> GetRegionsDll()
@@ -796,17 +871,23 @@ namespace Agri.Data
 
         public RptCompletedFertilizerRequiredStdUnit GetRptCompletedFertilizerRequiredStdUnit()
         {
-            return _context.RptCompletedFertilizerRequiredStdUnits.FirstOrDefault();
+            return _context.RptCompletedFertilizerRequiredStdUnits
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .FirstOrDefault();
         }
 
         public RptCompletedManureRequiredStdUnit GetRptCompletedManureRequiredStdUnit()
         {
-            return _context.RptCompletedManureRequiredStdUnits.FirstOrDefault();
+            return _context.RptCompletedManureRequiredStdUnits
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .FirstOrDefault();
         }
 
         public List<SeasonApplication> GetSeasonApplications()
         {
-            return _context.SeasonApplications.OrderBy(sa => sa.SortNum).ToList();
+            return _context.SeasonApplications
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .OrderBy(sa => sa.SortNum).ToList();
         }
 
         public string GetSoilTestMethod(string id)
@@ -827,7 +908,10 @@ namespace Agri.Data
 
         public List<SoilTestMethod> GetSoilTestMethods()
         {
-            return _context.SoilTestMethods.OrderBy(stm => stm.SortNum).ToList();
+            return _context.SoilTestMethods
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .OrderBy(stm => stm.SortNum)
+                .ToList();
         }
 
         public List<SelectListItem> GetSoilTestMethodsDll()
@@ -852,6 +936,7 @@ namespace Agri.Data
         public List<SoilTestPhosphorousKelownaRange> GetSoilTestPhosphorousKelownaRanges()
         {
             return _context.SoilTestPhosphorousKelownaRanges
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
                 .Include(stpk => stpk.SoilTestPhosphorousRecommendations)
                 .ToList();
         }
@@ -863,19 +948,24 @@ namespace Agri.Data
 
         public List<SoilTestPhosphorusRange> GetSoilTestPhosphorusRanges()
         {
-            return _context.SoilTestPhosphorusRanges.ToList();
+            return _context.SoilTestPhosphorusRanges
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<SoilTestPotassiumKelownaRange> GetSoilTestPotassiumKelownaRanges()
         {
             return _context.SoilTestPotassiumKelownaRanges
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
                 .Include(stpk => stpk.SoilTestPotassiumRecommendations)
                 .ToList();
         }
 
         public List<SoilTestPotassiumRange> GetSoilTestPotassiumRanges()
         {
-            return _context.SoilTestPotassiumRanges.ToList();
+            return _context.SoilTestPotassiumRanges
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<SoilTestPotassiumRecommendation> GetSoilTestPotassiumRecommendations()
@@ -894,7 +984,7 @@ namespace Agri.Data
 
         public string GetStaticDataVersion()
         {
-            return _context.StaticDataVersions.FirstOrDefault().Version;
+            return GetCurrentStaticDataVersion().Id.ToString();
         }
 
         public SoilTestPotassiumKelownaRange GetSTKKelownaRangeByPpm(int ppm)
@@ -955,7 +1045,9 @@ namespace Agri.Data
 
         public List<SubRegion> GetSubRegions()
         {
-            return _context.SubRegion.ToList();
+            return _context.SubRegion
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public Unit GetUnit(string unitId)
@@ -965,7 +1057,9 @@ namespace Agri.Data
 
         public List<Unit> GetUnits()
         {
-            return _context.Units.ToList();
+            return _context.Units
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<SelectListItem> GetUnitsDll(string unitType)
@@ -1018,6 +1112,8 @@ namespace Agri.Data
                 .Include(x => x.DryMatters)
                 .Include(x => x.Fertilizers)
                 .Include(x => x.FertilizerMethods)
+                .Include(x => x.FertilizerTypes)
+                .Include(x => x.FertilizerUnits)
                 .Include(x => x.HarvestUnits)
                 .Include(x => x.LiquidFertilizerDensities)
                 .Include(x => x.LiquidMaterialApplicationUsGallonsPerAcreRateConversions)
@@ -1060,7 +1156,9 @@ namespace Agri.Data
 
         public List<Yield> GetYields()
         {
-            return _context.Yields.ToList();
+            return _context.Yields
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public bool IsCropGrainsAndOilseeds(int cropType)
@@ -1123,6 +1221,7 @@ namespace Agri.Data
         private DateTime GetInteriorNitrateSampleFromDt(int yearOfAnalysis)
         {
             var fromDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                ncs.StaticDataVersionId == GetStaticDataVersionId() &&
                 ncs.Location.Equals("InteriorBC", StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault().FromDateMonth;
 
@@ -1132,6 +1231,7 @@ namespace Agri.Data
         private DateTime GetInteriorNitrateSampleToDt(int yearOfAnalysis)
         {
             var toDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                    ncs.StaticDataVersionId == GetStaticDataVersionId() &&
                     ncs.Location.Equals("InteriorBC", StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault().ToDateMonth;
 
@@ -1142,6 +1242,7 @@ namespace Agri.Data
         private DateTime GetCoastalNitrateSampleFromDt(int yearOfAnalysis)
         {
             var fromDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                    ncs.StaticDataVersionId == GetStaticDataVersionId() &&
                     ncs.Location.Equals("CoastalBC", StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault().FromDateMonth;
 
@@ -1151,6 +1252,7 @@ namespace Agri.Data
         private DateTime GetCoastalNitrateSampleToDt(int yearOfAnalysis)
         {
             var toDate = _context.NitrateCreditSampleDates.Where(ncs =>
+                    ncs.StaticDataVersionId == GetStaticDataVersionId() &&
                     ncs.Location.Equals("CoastalBC", StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault().ToDateMonth;
 
@@ -1166,28 +1268,37 @@ namespace Agri.Data
 
         public string GetPotassiumSoilTestRating(decimal value)
         {
-            return _context.PotassiumSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PotassiumSoilTestRanges
+                       .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                       .FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public string GetPhosphorusSoilTestRating(decimal value)
         {
-            return _context.PhosphorusSoilTestRanges.FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
+            return _context.PhosphorusSoilTestRanges
+                       .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                       .FirstOrDefault(str => value >= str.LowerLimit && value <= str.UpperLimit)?.Rating ?? "Ukn";
         }
 
         public List<PotassiumSoilTestRange> GetPotassiumSoilTestRanges()
         {
-            return _context.PotassiumSoilTestRanges.ToList();
+            return _context.PotassiumSoilTestRanges
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<PhosphorusSoilTestRange> GetPhosphorusSoilTestRanges()
         {
-            return _context.PhosphorusSoilTestRanges.ToList();
+            return _context.PhosphorusSoilTestRanges
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
 
         }
 
         public bool WasManureAddedInPreviousYear(string userSelectedPrevYearsManureAdded)
         {
             return _context.PrevManureApplicationYears
+                       .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
                        .First(pma => pma.FieldManureApplicationHistory == 0).Id != Convert.ToInt32(userSelectedPrevYearsManureAdded);
         }
 
@@ -1247,26 +1358,36 @@ namespace Agri.Data
 
         public ManureImportedDefault GetManureImportedDefault()
         {
-            return _context.ManureImportedDefaults.First();
+            return _context.ManureImportedDefaults
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .First();
         }
 
         public List<SolidMaterialsConversionFactor> GetSolidMaterialsConversionFactors()
         {
-            return _context.SolidMaterialsConversionFactors.ToList();
+            return _context.SolidMaterialsConversionFactors
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<LiquidMaterialsConversionFactor> GetLiquidMaterialsConversionFactors()
         {
-            return _context.LiquidMaterialsConversionFactors.ToList();
+            return _context.LiquidMaterialsConversionFactors
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
         public List<SolidMaterialApplicationTonPerAcreRateConversion> GetSolidMaterialApplicationTonPerAcreRateConversions()
         {
-            return _context.SolidMaterialApplicationTonPerAcreRateConversions.ToList();
+            return _context.SolidMaterialApplicationTonPerAcreRateConversions
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         public List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion()
         {
-            return _context.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.ToList();
+            return _context.LiquidMaterialApplicationUsGallonsPerAcreRateConversions
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
         }
 
         private string ParseStdUnit(string stdUnit)
@@ -1281,6 +1402,7 @@ namespace Agri.Data
         public List<Breed> GetBreeds()
         {
             return _context.Breed
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
                 .Include(a => a.Animal)
                 .ToList();
         }
@@ -1334,7 +1456,9 @@ namespace Agri.Data
 
         public LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults()
         {
-            return _context.LiquidSolidSeparationDefaults.Single();
+            return _context.LiquidSolidSeparationDefaults
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .Single();
         }
 
         public MainMenu GetMainMenu(CoreSiteActions action)
@@ -1385,6 +1509,8 @@ namespace Agri.Data
             newVersion.DryMatters = _mapper.Map<List<DryMatter>, List<DryMatter>>(currentVersion.DryMatters).ToList();
             newVersion.Fertilizers = _mapper.Map<List<Fertilizer>, List<Fertilizer>>(currentVersion.Fertilizers).ToList();
             newVersion.FertilizerMethods = _mapper.Map<List<FertilizerMethod>, List<FertilizerMethod>>(currentVersion.FertilizerMethods).ToList();
+            newVersion.FertilizerTypes = _mapper.Map<List<FertilizerType>, List<FertilizerType>>(currentVersion.FertilizerTypes).ToList();
+            newVersion.FertilizerUnits = _mapper.Map<List<FertilizerUnit>, List<FertilizerUnit>>(currentVersion.FertilizerUnits).ToList();
             newVersion.HarvestUnits = _mapper.Map<List<HarvestUnit>, List<HarvestUnit>>(currentVersion.HarvestUnits).ToList();
             newVersion.LiquidFertilizerDensities = _mapper.Map<List<LiquidFertilizerDensity>, List<LiquidFertilizerDensity>>(currentVersion.LiquidFertilizerDensities).ToList();
             newVersion.LiquidMaterialApplicationUsGallonsPerAcreRateConversions = _mapper.Map<List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>, List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion>>(currentVersion.LiquidMaterialApplicationUsGallonsPerAcreRateConversions).ToList();
@@ -1434,6 +1560,8 @@ namespace Agri.Data
             newVersion.DryMatters.ForEach(n => n.SetVersion(newVersion));
             newVersion.Fertilizers.ForEach(n => n.SetVersion(newVersion));
             newVersion.FertilizerMethods.ForEach(n => n.SetVersion(newVersion));
+            newVersion.FertilizerTypes.ForEach(n => n.SetVersion(newVersion));
+            newVersion.FertilizerUnits.ForEach(n => n.SetVersion(newVersion));
             newVersion.HarvestUnits.ForEach(n => n.SetVersion(newVersion));
             newVersion.LiquidFertilizerDensities.ForEach(n => n.SetVersion(newVersion));
             newVersion.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.ForEach(n => n.SetVersion(newVersion));
