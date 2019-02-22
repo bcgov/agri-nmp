@@ -1,6 +1,6 @@
 {
-  "Id": 99,
-  "JsonFilename": "99_UserPrompts",
+  "Id": 26,
+  "JsonFilename": "26_UserPrompts",
   "ReasonReference": "R4E06-US15: Tool Tips (replace links with info icons)",
   "Data": [
     {
@@ -31,22 +31,22 @@
     {
       "Id": "60",
       "Name": "CalculateNutrientsPrevManureMessage",
-      "Text": "A significant factor in the amount of potentially mineralized nitrogen is the history of manure application. Mineralization of organic matter from previous years’ manure applications may be different from the given value depending on manure application frequency, rate, and farm location"
+      "Text": "A significant factor in the amount of potentially mineralized nitrogen is the history of manure application. Mineralization of organic matter from previous years' manure applications may be different from the given value depending on manure application frequency, rate, and farm location"
     },
     {
       "Id": "61",
       "Name": "CalculateOtherNutrientSourceMessage",
-      "Text": "CalculateOtherNutrientSourceMessage"
+      "Text": "Nuttient Source"
     },
     {
       "Id": "62",
       "Name": "CalculateOtherNutrientAvailableThisYearMessage",
-      "Text": "CalculateOtherNutrientAvailableThisYearMessage"
+      "Text": "Nutrients available this year"
     },
     {
       "Id": "63",
       "Name": "CalculateOtherNutrientAvailbleLongTermMessage",
-      "Text": "CalculateOtherNutrientAvailbleLongTermMessage"
+      "Text": "Nutrients available long term"
     }
   ]
 }

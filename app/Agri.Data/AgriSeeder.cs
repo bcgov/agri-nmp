@@ -758,9 +758,9 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
-            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("100_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("26_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
-                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("100_UserPrompts");
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("26_UserPrompts");
                 foreach (var newUserPrompt in migrationSeedData.Data)
                 {
                     if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
