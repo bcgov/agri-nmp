@@ -1949,6 +1949,9 @@ namespace SERVERAPI.Controllers
             ovm.url = _sd.GetExternalLink("othernutrientexplanation");
             ovm.urlText = _sd.GetUserPrompt("moreinfo");
             ovm.placehldr = _sd.GetUserPrompt("othernutrientplaceholder");
+            ovm.ExplainCalculateOtherNutrientSource =_sd.GetUserPrompt("CalculateOtherNutrientSourceMessage");
+            ovm.ExplainCalculateOtherNutrientAvailableThisYear = _sd.GetUserPrompt("CalculateOtherNutrientAvailableThisYearMessage");
+            ovm.ExplainCalculateOtherNutrientAvailbleLongTerm = _sd.GetUserPrompt("CalculateOtherNutrientAvailbleLongTermMessage");
 
             if (id != null)
             {
