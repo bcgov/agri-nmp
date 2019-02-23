@@ -42,6 +42,11 @@ namespace SERVERAPI.Controllers
             var farmData = _ud.FarmDetails();
 
             FarmViewModel fvm = new FarmViewModel();
+            fvm.IsRelease1Data = farmData.farmRegion.HasValue && !farmData.farmSubRegion.HasValue;
+            if (fvm.IsRelease1Data)
+            {
+                fvm.LegacyNMPMessage = _sd.GetUserPrompt("FarmDataBackwardsCompatibility");
+            }
             fvm.showSubRegion = false;
             fvm.multipleSubRegion = false;
 
@@ -57,9 +62,8 @@ namespace SERVERAPI.Controllers
 
             if (fvm.selRegOption.HasValue)
             {
-                var legacyData = fvm.selRegOption.HasValue && !fvm.selSubRegOption.HasValue;
                 fvm = SetSubRegions(fvm);
-                if (legacyData && fvm.selSubRegOption.HasValue)
+                if (fvm.IsRelease1Data && fvm.selSubRegOption.HasValue)
                 {
                     _ud.UpdateFarmDetailsSubRegion(fvm.selSubRegOption.Value);
                 }
