@@ -103,6 +103,20 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
+        public void UpdateFarmDetailsSubRegion(int farmSubRegionId)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.farmDetails.farmSubRegion = farmSubRegionId;
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void SetLegacyDataToUnsaved()
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
         public void AddField(Field newFld)
         {
             int nextId = 1;

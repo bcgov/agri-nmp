@@ -54,28 +54,48 @@ namespace SERVERAPI.Controllers
 
             fvm.selRegOption = farmData.farmRegion;
             fvm.selSubRegOption = farmData.farmSubRegion;
-            fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+
+            if (fvm.selRegOption.HasValue)
+            {
+                var legacyData = fvm.selRegOption.HasValue && !fvm.selSubRegOption.HasValue;
+                fvm = SetSubRegions(fvm);
+                if (legacyData && fvm.selSubRegOption.HasValue)
+                {
+                    _ud.UpdateFarmDetailsSubRegion(fvm.selSubRegOption.Value);
+                }
+                else
+                {
+                    _ud.SetLegacyDataToUnsaved();
+                }
+            }
 
             fvm.HasAnimals = farmData.HasAnimals;
             fvm.ImportsManureCompost = farmData.ImportsManureCompost;
             fvm.UsesFertilizer = farmData.UsesFertilizer;
+            
+            return View(fvm);
+        }
 
-            if (fvm.subRegionOptions.Count > 1)
+        private FarmViewModel SetSubRegions(FarmViewModel fvm)
+        {
+            fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+            if (fvm.subRegionOptions.Count == 1)
+            {
+                fvm.selSubRegOption = fvm.selSubRegOption ?? fvm.subRegionOptions[0].Id;
+                fvm.showSubRegion = false;
+                fvm.multipleSubRegion = false;
+            }
+            else if (fvm.subRegionOptions.Count > 1)
             {
                 fvm.showSubRegion = true;
                 fvm.multipleSubRegion = true;
-                fvm.selSubRegOption = farmData.farmSubRegion;
-                fvm.selRegOption= farmData.farmRegion;
-            }
-            else
-            {
-                fvm.showSubRegion = false;
-                fvm.multipleSubRegion = false;
-                fvm.selRegOption=farmData.farmRegion;
-                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+                if (fvm.selSubRegOption == null)
+                {
+                    ModelState.AddModelError("", "Select a sub region");
+                }
             }
 
-            return View(fvm);
+            return fvm;
         }
 
         [HttpPost]
@@ -87,22 +107,7 @@ namespace SERVERAPI.Controllers
             {
                 ModelState.Clear();
                 fvm.buttonPressed = "";
-                fvm.showSubRegion = true;
-                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
-                if (fvm.subRegionOptions.Count == 1)
-                {
-                    fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
-                    fvm.showSubRegion = false;
-                    return View(fvm);
-                }
-                else if (fvm.subRegionOptions.Count > 1)
-                {
-                    fvm.showSubRegion = true;
-                    if (fvm.selSubRegOption == null)
-                    {
-                        ModelState.AddModelError("", "Select a sub region");
-                    }
-                }
+                fvm = SetSubRegions(fvm);
                 return View(fvm);
             }
 
@@ -110,21 +115,7 @@ namespace SERVERAPI.Controllers
             {
                 ModelState.Clear();
                 fvm.buttonPressed = "";
-                fvm.showSubRegion = true;
-                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
-                if (fvm.subRegionOptions.Count == 1)
-                {
-                    fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
-                    fvm.showSubRegion = false;
-                }
-                else if (fvm.subRegionOptions.Count > 1)
-                {
-                    fvm.showSubRegion = true;
-                    if (fvm.selSubRegOption == null)
-                    {
-                        ModelState.AddModelError("", "Select a sub region");
-                    }
-                }
+                fvm = SetSubRegions(fvm);
 
                 var storageSystems = _ud.GetStorageSystems();
                 decimal conversionForLiquid = 0.024542388m;
@@ -208,7 +199,7 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public object CheckCompleted()
         {
-            var result = new {incomplete = _ud.FarmData().unsaved.ToString()};
+            var result = new { incomplete = _ud.FarmData().unsaved.ToString() };
             return result;
         }
 
