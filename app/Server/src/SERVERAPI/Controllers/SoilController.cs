@@ -90,6 +90,11 @@ namespace SERVERAPI.Controllers
             tvm.title = "Update";
             tvm.url = _sd.GetExternalLink("soiltestexplanation");
             tvm.urlText = _sd.GetUserPrompt("moreinfo");
+            tvm.SoilTestValuesMsg = _sd.GetUserPrompt("SoilTestValuesMessage");
+            tvm.SoilTestNitrogenNitrateMsg = _sd.GetUserPrompt("SoilTestNitrogenNitrateMessage");
+            tvm.SoilTestPhosphorousMsg = _sd.GetUserPrompt("SoilTestPhosphorousMessage");
+            tvm.SoilTestPotassiumMsg = _sd.GetUserPrompt("SoilTestPotassiumMessage");
+            tvm.SoilTestPHMsg = _sd.GetUserPrompt("SoilTestPHMessage");
 
             Field fld = _ud.GetFieldDetails(fldName);
             tvm.fieldName = fldName;

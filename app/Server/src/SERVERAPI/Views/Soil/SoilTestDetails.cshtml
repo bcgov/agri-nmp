@@ -7,7 +7,7 @@
     <form asp-action="SoilTestDetails" asp-controller="Soil" id="modForm" method="post">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h2 class="modal-title" id="myModalLabel">Soil Test Details - @Model.title</h2>
+            <h2 class="modal-title" id="myModalLabel">Soil Test Details</h2>
         </div>
 
         <div class="modal-body">
@@ -18,10 +18,12 @@
 
                         <div class="form-group">
                             <div class="col-md-8">
-                                <h3 style="font-size:14px; font-weight: bold">Soil test values (top 6 inches of soil)&nbsp;&nbsp;</h3>
-                                <span>
-                                    <a href="@Model.url" target="_blank">@Model.urlText</a>
-                                </span>
+                                <h3 style="font-size:14px; font-weight: bold">
+                                    Soil test values (top 6 inches of soil)
+                                    <a href="#" data-toggle="tooltip" title="@Model.SoilTestValuesMsg" id="toolTipSoilTestValuesMsg">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Soil Test Values" style="font-size:20px; padding-top:5px"></span>
+                                    </a>
+                                </h3>&nbsp;&nbsp;
                             </div>
                         </div>                 
                     </div>
@@ -39,13 +41,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label id="labelDispNO3H">NO<sub>3</sub>-N (ppm)</label>
+                                <label id="labelDispNO3H">NO<sub>3</sub>-N (ppm), nitrate-nitrogen</label>
+                                <a href="#" data-toggle="tooltip" title="@Model.SoilTestNitrogenNitrateMsg" id="toolTipSoilTestNitrogenNitrateMsg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Nitrogen Nitrate" style="font-size:20px; padding-top:5px"></span>
+                                </a>
                             </div>
                             <div class="col-md-2">
                                 <input class="form-control" asp-for="dispNO3H" id="dispNO3H" type="text" aria-labelledby="labelDispNO3H subLabelDispNO3H" />
-                            </div>
-                            <div class="col-md-4">
-                                <label id="subLabelDispNO3H">Nitrate-Nitrogen</label>
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispNO3H" class="text-danger"></span>
@@ -53,13 +55,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label id="labelDispP">P (ppm)</label>
+                                <label id="labelDispP">P (ppm), phosphorous</label>
+                                <a href="#" data-toggle="tooltip" title="@Model.SoilTestPhosphorousMsg" id="toolTipSoilTestPhosphorousMsg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Phosphorous" style="font-size:20px; padding-top:5px"></span>
+                                </a>
                             </div>
                             <div class="col-md-2">
                                 <input class="form-control" asp-for="dispP" id="dispP" type="text" aria-labelledby="labelDispP sublabelDispP"/>
-                            </div>
-                            <div class="col-md-4">
-                                <label id="sublabelDispP">Phosphorus</label>
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispP" class="text-danger"></span>
@@ -67,13 +69,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label id="labelDispK">K (ppm)</label>
+                                <label id="labelDispK">K (ppm), potassium</label>
+                                <a href="#" data-toggle="tooltip" title="@Model.SoilTestPotassiumMsg" id="toolTipSoilTestPotassiumMsg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Potassium" style="font-size:20px; padding-top:5px"></span>
+                                </a>
                             </div>
                             <div class="col-md-2">
                                 <input class="form-control" asp-for="dispK" id="dispK" type="text" aria-labelledby="labelDispK sublabelDispK"/>
-                            </div>
-                            <div class="col-md-4">
-                                <label id="sublabelDispK">Potassium</label>
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispK" class="text-danger"></span>
@@ -82,6 +84,9 @@
                         <div class="form-group">
                             <div class="col-md-3">
                                 <label asp-for="dispPH">pH</label>
+                                <a href="#" data-toggle="tooltip" title="@Model.SoilTestPHMsg" id="toolTipSoilTestPHMsg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of PH" style="font-size:20px; padding-top:5px"></span>
+                                </a>
                             </div>
                             <div class="col-md-2">
                                 <input class="form-control" asp-for="dispPH" id="dispPH" type="text" />
@@ -118,4 +123,77 @@
                 autoclose: true
         });
     });
+
+        $(document).ready(function () {
+            $('#toolTipSoilTestValuesMsg').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipSoilTestValuesMsg').click(function () {
+                triggerToolTip($('#toolTipSoilTestValuesMsg'));
+            });
+    })   
+
+    $(document).ready(function () {
+        $('#toolTipSoilTestNitrogenNitrateMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipSoilTestNitrogenNitrateMsg').click(function () {
+            triggerToolTip($('#toolTipSoilTestNitrogenNitrateMsg'));
+        });
+    })   
+    $(document).ready(function () {
+        $('#toolTipSoilTestPhosphorousMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipSoilTestPhosphorousMsg').click(function () {
+            triggerToolTip($('#toolTipSoilTestPhosphorousMsg'));
+        });
+    })   
+    $(document).ready(function () {
+        $('#toolTipSoilTestPotassiumMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipSoilTestPotassiumMsg').click(function () {
+            triggerToolTip($('#toolTipSoilTestPotassiumMsg'));
+        });
+    })   
+    $(document).ready(function () {
+        $('#toolTipSoilTestPHMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipSoilTestPHMsg').click(function () {
+            triggerToolTip($('#toolTipSoilTestPHMsg'));
+        });
+    })   
+        
 </script>
