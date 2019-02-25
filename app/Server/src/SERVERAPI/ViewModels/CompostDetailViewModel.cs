@@ -48,6 +48,7 @@ namespace SERVERAPI.ViewModels
         public bool showNitrate { get; set; }
         public NutrientAnalysisTypes stored_imported { get; set; }
         public bool IsAssignedToStorage { get; set; }
-
+        public bool IsRelease1Data { get; set; }
+        public int? Release1ManureId { get; set; }
     }
 }

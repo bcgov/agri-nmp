@@ -1022,7 +1022,8 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var manure in currentManures)
             {
-                manure.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm =>
+                manure.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm => 
+                    !string.IsNullOrEmpty(fm.sourceOfMaterialId) &&
                     (fm.sourceOfMaterialId.Split(',')[0] + fm.sourceOfMaterialId.Split(',')[1]) == manure.ManureId);
 
                 if (manure is ImportedManure)
@@ -1039,7 +1040,9 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var manureStorageSystem in currentManureStorageSystems)
             {
-                manureStorageSystem.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm => fm.sourceOfMaterialId.Split(',')[1] == manureStorageSystem.Id.ToString());
+                manureStorageSystem.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm => 
+                                                                                                    !string.IsNullOrEmpty(fm.sourceOfMaterialId) &&
+                                                                                                    fm.sourceOfMaterialId.Split(',')[1] == manureStorageSystem.Id.ToString());
 
                 if (manureStorageSystem is ManureStorageSystem)
                 {
