@@ -20,7 +20,7 @@
                             <div class="col-md-8">
                                 <h3 style="font-size:14px; font-weight: bold">
                                     Soil test values (top 6 inches of soil)
-                                    <a href="#" data-toggle="tooltip" title="@Model.SoilTestValuesMsg" id="toolTipSoilTestValuesMsg">
+                                    <a href="#" aria-label="Soil Test Value Link" data-toggle="tooltip" title="@Model.SoilTestValuesMsg" id="toolTipSoilTestValuesMsg">
                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Soil Test Values" style="font-size:20px; padding-top:5px"></span>
                                     </a>
                                 </h3>&nbsp;&nbsp;
@@ -41,13 +41,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label id="labelDispNO3H">NO<sub>3</sub>-N (ppm), nitrate-nitrogen</label>
-                                <a href="#" data-toggle="tooltip" title="@Model.SoilTestNitrogenNitrateMsg" id="toolTipSoilTestNitrogenNitrateMsg">
+                                <label for="dispNO3H" id="labelDispNO3H">NO<sub>3</sub>-N (ppm), nitrate-nitrogen</label>
+                                <a href="#" aria-label="Soil Test Nitrogen Nitrate Link" data-toggle="tooltip" title="@Model.SoilTestNitrogenNitrateMsg" id="toolTipSoilTestNitrogenNitrateMsg">
                                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Nitrogen Nitrate" style="font-size:20px; padding-top:5px"></span>
                                 </a>
                             </div>
                             <div class="col-md-2">
-                                <input class="form-control" asp-for="dispNO3H" id="dispNO3H" type="text" aria-labelledby="labelDispNO3H subLabelDispNO3H" />
+                                <input class="form-control" asp-for="dispNO3H" id="dispNO3H" type="text" aria-labelledby="labelDispNO3H" />
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispNO3H" class="text-danger"></span>
@@ -55,13 +55,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label id="labelDispP">P (ppm), phosphorous</label>
-                                <a href="#" data-toggle="tooltip" title="@Model.SoilTestPhosphorousMsg" id="toolTipSoilTestPhosphorousMsg">
+                                <label for="dispP" id="labelDispP">P (ppm), phosphorous</label>
+                                <a href="#" aria-label="Soil Test Phosphorous Link" data-toggle="tooltip" title="@Model.SoilTestPhosphorousMsg" id="toolTipSoilTestPhosphorousMsg">
                                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Phosphorous" style="font-size:20px; padding-top:5px"></span>
                                 </a>
                             </div>
                             <div class="col-md-2">
-                                <input class="form-control" asp-for="dispP" id="dispP" type="text" aria-labelledby="labelDispP sublabelDispP"/>
+                                <input class="form-control" asp-for="dispP" id="dispP" type="text" aria-labelledby="labelDispP"/>
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispP" class="text-danger"></span>
@@ -69,13 +69,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label id="labelDispK">K (ppm), potassium</label>
-                                <a href="#" data-toggle="tooltip" title="@Model.SoilTestPotassiumMsg" id="toolTipSoilTestPotassiumMsg">
+                                <label asp-for="dispK" id="labelDispK">K (ppm), potassium</label>
+                                <a href="#" aria-label="Soil Test Potassium Link" data-toggle="tooltip" title="@Model.SoilTestPotassiumMsg" id="toolTipSoilTestPotassiumMsg">
                                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Potassium" style="font-size:20px; padding-top:5px"></span>
                                 </a>
                             </div>
                             <div class="col-md-2">
-                                <input class="form-control" asp-for="dispK" id="dispK" type="text" aria-labelledby="labelDispK sublabelDispK"/>
+                                <input class="form-control" asp-for="dispK" id="dispK" type="text" aria-labelledby="labelDispK"/>
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="dispK" class="text-danger"></span>
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <div class="col-md-3">
                                 <label asp-for="dispPH">pH</label>
-                                <a href="#" data-toggle="tooltip" title="@Model.SoilTestPHMsg" id="toolTipSoilTestPHMsg">
+                                <a href="#" aria-label="Soil Test PH Link" data-toggle="tooltip" title="@Model.SoilTestPHMsg" id="toolTipSoilTestPHMsg">
                                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of PH" style="font-size:20px; padding-top:5px"></span>
                                 </a>
                             </div>
