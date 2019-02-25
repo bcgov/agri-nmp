@@ -53,6 +53,8 @@ namespace SERVERAPI
             CreateMap<Fertilizer, Fertilizer>()
                 .ForMember(x => x.LiquidFertilizerDensities, opt => opt.Ignore());
             CreateMap<FertilizerMethod, FertilizerMethod>();
+            CreateMap<FertilizerType, FertilizerType>();
+            CreateMap<FertilizerUnit, FertilizerUnit>();
             CreateMap<HarvestUnit, HarvestUnit>();
             CreateMap<LiquidFertilizerDensity, LiquidFertilizerDensity>()
                 .ForMember(x => x.Fertilizer, opt => opt.Ignore())
