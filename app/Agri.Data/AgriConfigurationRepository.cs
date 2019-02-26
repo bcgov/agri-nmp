@@ -1492,14 +1492,13 @@ namespace Agri.Data
 
         public int ArchiveConfigurations()
         {
-            var newId = 0;
             var currentVersion = GetLatestVersionDataTree();
             var datestamp = DateTime.Now;
-            var nextId = currentVersion.Id + 1;
+            var newId = currentVersion.Id + 1;
             var newVersion = new StaticDataVersion
             {
-                Id = nextId,
-                Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{nextId}",
+                Id = newId,
+                Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{newId}",
                 CreatedDateTime = datestamp
             };
 
