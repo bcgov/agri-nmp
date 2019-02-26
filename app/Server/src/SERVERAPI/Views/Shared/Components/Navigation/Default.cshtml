@@ -1,4 +1,5 @@
-﻿@model NavigationDetailViewModel
+﻿@using Agri.Models
+@model NavigationDetailViewModel
 
 <!--MAIN MENU-->
 <div style="background: #c1daea;">
@@ -15,15 +16,21 @@
                 {
                     redirectFunction = $"Intercept('{url}')";
                 }
-            <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
-                <a id="@item.ElementId" href='#' onclick="@redirectFunction" class="@item.GreyOutClass">
-                    @item.Name
-                </a>
-            </li>
+                <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
+                    <a id="@item.ElementId" href='#' onclick="@redirectFunction" class="@item.GreyOutClass">
+                        @item.Name
+                    </a>
+                </li>
             }
-            <li class="continue-link">
-                <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
-            </li>
+            @{
+                var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"].ToString());
+            }
+            @if (currentAction != CoreSiteActions.Report)
+            {
+                <li class="continue-link">
+                    <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
+                </li>
+            }
         </ul>
     </div>
 </div>
