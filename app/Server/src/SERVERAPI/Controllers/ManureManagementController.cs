@@ -1991,7 +1991,16 @@ namespace SERVERAPI.Controllers
                             }
                         }
                     }
-                    return View(cvm);
+
+                    //For Legacy Release 1 NMP Files
+                    if (cvm.IsRelease1Data)
+                    {
+                        cvm.buttonPressed = "ManureChange";
+                    }
+                    else
+                    {
+                        return View(cvm);
+                    }
                 }
 
                 if (cvm.buttonPressed == "ManureChange")
