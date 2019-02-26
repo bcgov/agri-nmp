@@ -112,6 +112,9 @@ namespace SERVERAPI.Controllers
                 ModelState.Clear();
                 fvm.buttonPressed = "";
                 fvm = SetSubRegions(fvm);
+                var farmData = _ud.FarmDetails();
+                farmData.farmRegion = fvm.selRegOption;
+                _ud.UpdateFarmDetails(farmData);
                 return View(fvm);
             }
 
@@ -136,21 +139,27 @@ namespace SERVERAPI.Controllers
                             if (s.ManureMaterialType == ManureMaterialType.Liquid)
                             {
                                 s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
-                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForLiquid;
+                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) *
+                                                             Convert.ToDecimal(s.AnnualPrecipitation) *
+                                                             conversionForLiquid;
                             }
                             else if (s.ManureMaterialType == ManureMaterialType.Solid)
                             {
                                 s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
-                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForSolid;
+                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) *
+                                                             Convert.ToDecimal(s.AnnualPrecipitation) *
+                                                             conversionForSolid;
                             }
                         }
+
                         _ud.UpdateManureStorageSystem(s);
                     }
 
-                    var farmData = _ud.FarmDetails();
-                    farmData.farmSubRegion = fvm.selSubRegOption;
-                    _ud.UpdateFarmDetails(farmData);
                 }
+
+                var farmData = _ud.FarmDetails();
+                farmData.farmSubRegion = fvm.selSubRegOption;
+                _ud.UpdateFarmDetails(farmData);
 
                 return View(fvm);
             }
@@ -203,7 +212,10 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public object CheckCompleted()
         {
-            var result = new { incomplete = _ud.FarmData().unsaved.ToString() };
+            var regionsIncomplete = !_ud.FarmDetails().farmRegion.HasValue ||
+                                    !_ud.FarmDetails().farmSubRegion.HasValue;
+
+            var result = new { incomplete = regionsIncomplete.ToString() };
             return result;
         }
 
