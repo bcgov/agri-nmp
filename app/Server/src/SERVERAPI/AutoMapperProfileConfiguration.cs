@@ -106,6 +106,12 @@ namespace SERVERAPI
 
 
             CreateMap<ManureStorageSystem, ManureStorageSystem>();
+            CreateMap<ManureImportedDetailViewModel, ImportedManure>()
+                .ForMember(dest => dest.Id, x => x.MapFrom(src => src.ManureImportId))
+                .ForMember(dest => dest.ManureType, x => x.MapFrom(src => src.SelectedManureType))
+                .ForMember(dest => dest.ManureTypeName, x => x.MapFrom(src => EnumHelper<ManureMaterialType>.GetDisplayValue(src.SelectedManureType)))
+                .ForMember(dest => dest.Units, x => x.MapFrom(src => src.SelectedAnnualAmountUnit))
+                .ReverseMap();
             CreateMap<ImportedManure, ImportedManure>();
             CreateMap<UserPrompt, UserPrompt>();
             CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
