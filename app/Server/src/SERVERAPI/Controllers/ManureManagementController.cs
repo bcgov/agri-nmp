@@ -1940,6 +1940,12 @@ namespace SERVERAPI.Controllers
             decimal userNitrate = 0;
             Manure man;
 
+            cvm.ExplainNutrientAnalysisMoisture = _sd.GetUserPrompt("NutrientAnalysisMoistureMessage");
+            cvm.ExplainNutrientAnalysisNitrogen = _sd.GetUserPrompt("NutrientAnlalysisNitrogenMessage");
+            cvm.ExplainNutrientAnlalysisAmmonia = _sd.GetUserPrompt("NutrientAnlalysisAmmoniaMessage");
+            cvm.ExplainNutrientAnlalysisPhosphorous = _sd.GetUserPrompt("NutrientAnlalysisPhosphorousMessage");
+            cvm.ExplainNutrientAnlalysisPotassium = _sd.GetUserPrompt("NutrientAnlalysisPotassiumMessage");
+
             CompostDetailsSetup(ref cvm);
 
             try

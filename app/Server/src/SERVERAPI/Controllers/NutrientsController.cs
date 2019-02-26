@@ -2375,6 +2375,7 @@ namespace SERVERAPI.Controllers
 
             model.url = _sd.GetExternalLink("soilnitrateexplanation");
             model.urlText = _sd.GetUserPrompt("moreinfo");
+            model.ExplainCalculateNutrientsNitrogenNitrate = _sd.GetUserPrompt("CalculateNutrientsNitrogenNitrateMessage");
 
             SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
             model.defaultNitrogenCredit = calculator.calcSoitTestNitrateDefault(fldName).ToString();

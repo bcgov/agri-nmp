@@ -47,6 +47,11 @@
       "Id": "63",
       "Name": "CalculateOtherNutrientAvailbleLongTermMessage",
       "Text": "Nutrients available long term"
+    },
+    {
+      "Id": "64",
+      "Name": "CalculateNutrientsNitrogenNitrateMessage",
+      "Text": "Nutrients Nitrogen Nitrate"
     }
   ]
 }
