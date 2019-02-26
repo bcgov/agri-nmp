@@ -44,9 +44,9 @@ namespace SERVERAPI.ViewModels
         public bool IsThereSolidLiquidSeparation { get; set; }
         public int PercentageOfLiquidVolumeSeparated { get; set; }
         public decimal SeparatedLiquidsUSGallons { get; set; }
-        public string SeparatedLiquidsUSGallonsText => SeparatedLiquidsUSGallons.ToString("0");
+        public string SeparatedLiquidsUSGallonsText => SeparatedLiquidsUSGallons.ToString("#,#");
         public decimal SeparatedSolidsTons { get; set; }
-        public string SeparatedSolidsTonsText => SeparatedSolidsTons.ToString("0");
+        public string SeparatedSolidsTonsText => SeparatedSolidsTons.ToString("#,#");
         public string ButtonText { get; set; }
         public string ButtonPressed { get; set; }
         public bool DisableMaterialTypeForEditMode { get; set; }
@@ -74,6 +74,23 @@ namespace SERVERAPI.ViewModels
         public string volumeOfStorageStructure { get; set; }
         public int? volumeOfStorageSystem { get; set; }
         public string volumeUSGallonsOfStorageSystem { get; set; }
+        public decimal OctoberToMarchSeparatedLiquidUSGallons { get; set; }
+        public string OctoberToMarchSeparatedLiquidUSGallonsText => OctoberToMarchSeparatedLiquidUSGallons.ToString("#,#");
+        public double OctoberToMarchPrecipitation { get; set; }
+        public double OctoberToMarchPrecipitationStorageSystem { get; set; }
+        public string OctoberToMarchPrecipitationText => OctoberToMarchPrecipitation.ToString("#,#");
+        public string OctoberToMarchPrecipitationStorageSystemText => OctoberToMarchPrecipitationStorageSystem.ToString("#,#");
+        public double OctoberToMarchRunoff { get; set; }
+        public string OctoberToMarchRunoffText => OctoberToMarchRunoff.ToString("#,#");
+        public decimal OctoberToMarchManagedManures { get; set; }
+        public string OctoberToMarchManagedManuresText => OctoberToMarchManagedManures.ToString("#,#");
+        public decimal TotalStored { get; set; }
+        public string TotalStoredText => TotalStored.ToString("#,#");
+        public string ExplainMaterialsOctoberToMarch { get; set; }
+        public string ExplainRunoffOctoberToMarch { get; set; }
+        public string ExplainStoredOctoberToMarch { get; set; }
+        public string ExplainPrecipitationOctoberToMarch { get; set; }
+        public string ExplainStorageDeficiency { get; set; }
     }
 
 }

@@ -28,6 +28,7 @@
     <None Remove="MigrationSeedData\4_UserPrompts.json" />
     <None Remove="MigrationSeedData\5_UserPrompts.json" />
     <None Remove="MigrationSeedData\6_UserPrompts.json" />
+    <None Remove="MigrationSeedData\8_UserPrompts.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +43,7 @@
     <EmbeddedResource Include="MigrationSeedData\22_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\21_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\20_PhosphorusSoilTestRanges.json" />
+    <EmbeddedResource Include="MigrationSeedData\8_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\23_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\6_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\5_UserPrompts.json" />
