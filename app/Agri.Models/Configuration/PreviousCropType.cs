@@ -10,5 +10,8 @@ namespace Agri.Models.Configuration
         public string Name { get; set; }
         public int NitrogenCreditMetric { get; set; }  //Not being used
         public int NitrogenCreditImperial { get; set; }
+
+        public int CropId { get; set; }
+        public Crop Crop { get; set; }
     }
 }

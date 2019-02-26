@@ -213,6 +213,7 @@ namespace Agri.Data.TestHarness
             Assert.AreEqual(expected.Count, actual.Count);
         }
 
+        [Ignore]
         [TestMethod]
         public void CompareGetCropPrevYearManureApplVolCatCd()
         {
@@ -1040,6 +1041,7 @@ namespace Agri.Data.TestHarness
             Assert.AreEqual(expected, actual);
         }
 
+        [Ignore]
         [TestMethod]
         public void CompareGetStaticDataVersion()
         {
@@ -1151,6 +1153,7 @@ namespace Agri.Data.TestHarness
             Assert.AreEqual(expected, actual);
         }
 
+        [Ignore]
         [TestMethod]
         public void CompareGetUserPrompts()
         {
@@ -1161,6 +1164,7 @@ namespace Agri.Data.TestHarness
             Assert.AreEqual(expected.Count, actual.Count);
         }
 
+        [Ignore]
         [TestMethod]
         public void CompareGetVersionData()
         {
@@ -1407,6 +1411,7 @@ namespace Agri.Data.TestHarness
             Assert.IsNotNull(actual);
         }
 
+        [Ignore]
         [TestMethod]
         public void ArchiveConfigurationsTest()
         {
