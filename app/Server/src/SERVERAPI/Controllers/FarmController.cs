@@ -112,17 +112,28 @@ namespace SERVERAPI.Controllers
                 ModelState.Clear();
                 fvm.buttonPressed = "";
                 fvm = SetSubRegions(fvm);
+
                 var farmData = _ud.FarmDetails();
                 farmData.farmRegion = fvm.selRegOption;
                 _ud.UpdateFarmDetails(farmData);
-                return View(fvm);
+
+                if (fvm.multipleSubRegion)
+                {
+                    return View(fvm);
+                }
+
+                fvm.buttonPressed = "SubRegionChange";
             }
 
             if (fvm.buttonPressed == "SubRegionChange")
             {
                 ModelState.Clear();
                 fvm.buttonPressed = "";
-                fvm = SetSubRegions(fvm);
+
+                if (fvm.multipleSubRegion)
+                {
+                    fvm = SetSubRegions(fvm);
+                }
 
                 var storageSystems = _ud.GetStorageSystems();
                 decimal conversionForLiquid = 0.024542388m;

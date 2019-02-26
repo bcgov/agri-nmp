@@ -1954,7 +1954,6 @@ namespace SERVERAPI.Controllers
                     if (cvm.Release1ManureId.HasValue)
                     {
                         cvm.selManOption = cvm.Release1ManureId.Value;
-                        //cvm.Release1ManureId = null;
                     }
 
                     cvm.manOptions = new List<SelectListItem>();
