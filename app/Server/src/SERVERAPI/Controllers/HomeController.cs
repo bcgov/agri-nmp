@@ -447,30 +447,6 @@ namespace SERVERAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult ValidateStaticData()
-        {            
-            ValidateStaticDataViewModel vvm = new ValidateStaticDataViewModel();
-            Utility.ValidateStaticData validate = new Utility.ValidateStaticData(_sd);
-            StringBuilder sb = new StringBuilder("");
-
-            List<Agri.Models.Configuration.StaticDataValidationMessages>  messages = validate.PerformValidation();
-
-            if (messages.Count > 0)
-            {
-                foreach (Agri.Models.Configuration.StaticDataValidationMessages message in messages)
-                {
-                    sb.Append(String.Format("Validate error: {0} value of {1} does not exist in {2}. <br/>", message.Child, message.LinkData, message.Parent));
-                }
-                vvm.staticDataErrors = sb.ToString();
-            }
-            else
-            {
-                vvm.staticDataErrors = "No Errors";
-            }
-
-            return View(vvm);
-        }
-        [HttpGet]
         public IActionResult DownloadMessage()
         {
             var pathToFiles = _env.WebRootPath + @"/images/download/" + _bd.BrowserName;
@@ -491,6 +467,24 @@ namespace SERVERAPI.Controllers
             }
 
             return View(dvm);
+        }
+
+        [HttpGet]
+        public IActionResult CreateNewStaticDataVersion()
+        {
+            var vm = new CreateNewStaticDataVersionViewModel();
+
+            return View(vm);
+        }
+
+        public IActionResult CreateNewStaticDataVersion(CreateNewStaticDataVersionViewModel vm)
+        {
+            var newVersionId = _sd.ArchiveConfigurations();
+
+            vm.NewVersionId = newVersionId;
+            vm.ArchiveWasSuccessful = true;
+
+            return View(vm);
         }
     }
 }

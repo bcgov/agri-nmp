@@ -1,0 +1,70 @@
+﻿@model CreateNewStaticDataVersionViewModel
+@{
+    ViewBag.Title = "Create New Static Data Version";
+    Layout = "_LayoutNoNav";
+}
+
+<!-- BODY CONTENT -->
+<div id="topicTemplate" class="template container gov-container">
+    <!-- PAGE CONTENT -->
+    <form asp-controller="Home" method="post">
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <legend class="form-box-heading">Create a new version of the Static Configuration Data</legend>
+            </div>
+            <div class="form-box-body">
+                <div class="form-box-fields">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label asp-for="Username"></label>
+                            <input class="form-control" asp-for="Username" type="text" />
+                            <span asp-validation-for="Username"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <label asp-for="Password"></label>
+                            <input class="form-control" asp-for="Password" type="password" />
+                            <span asp-validation-for="Password"></span>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.ArchiveWasSuccessful)
+                {
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>New Version was Successfully Created</label>
+                            <span>New Version ID is <b>@Model.NewVersionId</b></span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label class="text-danger">New Version was not Created</label>
+                            <div>Error Message: <div>@Model.ErrorMessage</div></div>
+                        </div>
+                    </div>
+                }
+                <div class="form-box-submit">
+                    <div class="form-box-fields text-left">
+                        <button class="btn btn-primary" type="submit" title="CreateNewVersion" aria-label="CreateNewVersion" onclick="">Create New Version of Static Data</button>
+                    </div>
+                </div>
+            </div>
+                    </div>
+</form>
+
+    <!-- PAGE CONTENT -->
+</div>
+<!-- /BODY CONTENT -->
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+
+    </script>
+
+}
