@@ -1,6 +1,7 @@
 ﻿using System;
 using Agri.Models.Configuration;
 using Agri.Models.Data;
+using Agri.Models.Security;
 using Microsoft.EntityFrameworkCore;
 
 namespace Agri.Data
@@ -67,6 +68,7 @@ namespace Agri.Data
         public DbSet<StaticDataVersion> StaticDataVersions { get; set; }
         public DbSet<Yield> Yields { get; set; }
         public DbSet<AppliedMigrationSeedData> AppliedMigrationSeedData { get; set; }
+        public DbSet<ManageVersionUser> ManageVersionUsers { get; set; }
 
         #endregion
 
@@ -434,8 +436,6 @@ namespace Agri.Data
                     table.StaticDataVersionId
                 });
 
-
-
             //Foreign Keys
             modelBuilder.Entity<AnimalSubType>(b =>
             {
@@ -716,11 +716,15 @@ namespace Agri.Data
             modelBuilder.Entity<SubRegion>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Unit>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Yield>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
-
-
+            
             modelBuilder.Entity<StaticDataVersion>()
                 .Property(s => s.CreatedDateTime)
                 .HasDefaultValueSql("NOW()");
+
+            //Unique Columns
+            modelBuilder.Entity<ManageVersionUser>()
+                .HasIndex(table => table.UserName)
+                .IsUnique();
         }
     }
 }
