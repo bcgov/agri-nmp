@@ -11,6 +11,7 @@ namespace SERVERAPI.ViewModels
         public string Username { get; set; }
         public string Password { get; set; }
         public int NewVersionId { get; set; }
+        public bool ProcessingCompleted { get; set; }
         public bool ArchiveWasSuccessful { get; set; }
         public string ErrorMessage { get; set; }
     }
