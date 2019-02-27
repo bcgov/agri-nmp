@@ -479,11 +479,22 @@ namespace SERVERAPI.Controllers
 
         public IActionResult CreateNewStaticDataVersion(CreateNewStaticDataVersionViewModel vm)
         {
-            var newVersionId = _sd.ArchiveConfigurations();
 
-            vm.NewVersionId = newVersionId;
-            vm.ArchiveWasSuccessful = true;
+            try
+            {
+                //var newVersionId = _sd.ArchiveConfigurations();
+                System.Threading.Thread.Sleep(5000);
+                var newVersionId = 99;
 
+                vm.NewVersionId = newVersionId;
+                vm.ArchiveWasSuccessful = true;
+            }
+            catch (Exception ex)
+            {
+                vm.ErrorMessage = ex.Message;
+            }
+
+            vm.ProcessingCompleted = true;
             return View(vm);
         }
     }
