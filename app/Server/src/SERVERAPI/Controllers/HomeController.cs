@@ -515,6 +515,7 @@ namespace SERVERAPI.Controllers
                 vm.ProcessingCompleted = true;
             }
 
+            vm.ProcessingCompleted = true;
             return View(vm);
         }
     }
