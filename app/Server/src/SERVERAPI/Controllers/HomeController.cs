@@ -480,21 +480,30 @@ namespace SERVERAPI.Controllers
         public IActionResult CreateNewStaticDataVersion(CreateNewStaticDataVersionViewModel vm)
         {
 
-            try
+            if (ModelState.IsValid)
             {
-                //var newVersionId = _sd.ArchiveConfigurations();
-                System.Threading.Thread.Sleep(5000);
-                var newVersionId = 99;
+                try
+                {
+                    vm.Authenticated = _sd.AuthenticateManagerVersionUser(vm.Username, vm.Password);
 
-                vm.NewVersionId = newVersionId;
-                vm.ArchiveWasSuccessful = true;
-            }
-            catch (Exception ex)
-            {
-                vm.ErrorMessage = ex.Message;
+                    if (vm.Authenticated)
+                    {
+                        var user = _sd.GetManagerVersionUser(vm.Username);
+                        var newVersionId = _sd.ArchiveConfigurations(user);
+                        System.Threading.Thread.Sleep(5000);
+
+                        vm.NewVersionId = newVersionId;
+                        vm.ArchiveWasSuccessful = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    vm.ErrorMessage = ex.Message;
+                }
+
+                vm.ProcessingCompleted = true;
             }
 
-            vm.ProcessingCompleted = true;
             return View(vm);
         }
     }
