@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
+using Agri.Models.Security;
 using AutoMapper;
 
 namespace Agri.Data.TestHarness
@@ -1415,7 +1416,13 @@ namespace Agri.Data.TestHarness
         [TestMethod]
         public void ArchiveConfigurationsTest()
         {
-            var result = _agriRepository.ArchiveConfigurations();
+            var user = new ManageVersionUser
+            {
+                FirstName = "TestFirstName",
+                LastName = "TestLastName"
+            };
+
+            var result = _agriRepository.ArchiveConfigurations(user);
         }
     }
 }
