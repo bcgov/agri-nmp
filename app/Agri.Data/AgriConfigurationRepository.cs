@@ -1307,7 +1307,8 @@ namespace Agri.Data
         {
             return _context.PrevManureApplicationYears
                        .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
-                       .First(pma => pma.FieldManureApplicationHistory == 0).Id != Convert.ToInt32(userSelectedPrevYearsManureAdded);
+                       .First(pma => pma.FieldManureApplicationHistory == 0)
+                            .FieldManureApplicationHistory != Convert.ToInt32(userSelectedPrevYearsManureAdded);
         }
 
         public List<MainMenu> GetMainMenus()

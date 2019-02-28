@@ -19,13 +19,13 @@ namespace Agri.CalculateService
 
         public AppliedManure GetAppliedManure(YearData yearData, FarmManure farmManure)
         {
-            AppliedManure appliedManure;
+            AppliedManure appliedManure = null;
             if (farmManure.stored_imported == NutrientAnalysisTypes.Stored)
             {
                 //Stored Manure
                 appliedManure = GetAppliedStoredManure(yearData, farmManure);
             }
-            else
+            else if (farmManure.stored_imported == NutrientAnalysisTypes.Imported)
             {
                 appliedManure = GetAppliedImportedManure(yearData, farmManure);
             }
