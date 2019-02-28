@@ -555,14 +555,14 @@
                             </div>
                         }
                     }
-                    @if (Model.volumeUSGallons != null)
+                    @if (Model.volumeUSGallons != null && Model.SelectedManureMaterialType == ManureMaterialType.Liquid) 
                     {
                         <div class="form-group col-sm-3">
                             <label for="txtStorageVolume">Storage Volume</label>
                             <label for="txtStorageVolumeUSGallons" style="font-weight: normal !important">@Model.volumeOfStorageStructure</label>
                         </div>
                     }
-                    @if (Model.volumeUSGallonsOfStorageSystem != null)
+                    @if (Model.volumeUSGallonsOfStorageSystem != null && Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
                     {
                         <div class="form-group col-sm-3"></div>
                             <div class="form-group col-sm-3">
