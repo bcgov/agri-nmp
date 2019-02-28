@@ -162,6 +162,9 @@
                             {
                                 <div class="form-group">
                                     <label for="txtPercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
+                                    <a href="#" data-toggle="tooltip" title="@Model.ExplainPercentageOfLiquidSeparation" id="toolTipExplainPercentageOfLiquidSeparation">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Storage October to March" style="font-size:20px; padding-top:5px"></span>
+                                    </a>
                                     <input class="form-control" asp-for="PercentageOfLiquidVolumeSeparated" type="text" id="txtPercentageOfLiquidVolumeSeparated"
                                            disabled="@(Model.DisableSystemFields ? "disabled" : null)"
                                            onchange="RefreshSolidLiquidVolumeFields()" />
@@ -320,11 +323,14 @@
                                 </div>
                                 @if (Model.IsThereSolidLiquidSeparation)
                                 {
-                                    <div class="form-group">
-                                        <label asp-for="PercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
-                                        @Html.HiddenFor(x => x.PercentageOfLiquidVolumeSeparated)
-                                        <div>@Model.PercentageOfLiquidVolumeSeparated</div>
-                                    </div>
+                                <div class="form-group">
+                                    <label asp-for="PercentageOfLiquidVolumeSeparated">% of liquid volume separated</label>
+                                    <a href="#" data-toggle="tooltip" title="@Model.ExplainPercentageOfLiquidSeparation" id="toolTipExplainPercentageOfLiquidSeparation">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Storage October to March" style="font-size:20px; padding-top:5px"></span>
+                                    </a>
+                                    @Html.HiddenFor(x => x.PercentageOfLiquidVolumeSeparated)
+                                    <div>@Model.PercentageOfLiquidVolumeSeparated</div>
+                                </div>
                                 }
                             </div>
                             @if (Model.IsThereSolidLiquidSeparation)
@@ -730,6 +736,21 @@
     $(document).ready(function () {
         $('#toolTipExplainStorageDeficiency').click(function () {
             triggerToolTip($('#toolTipExplainStorageDeficiency'));
+        });
+    })
+
+    $(document).ready(function () {
+        $('#toolTipExplainPercentageOfLiquidSeparation').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainPercentageOfLiquidSeparation').click(function () {
+            triggerToolTip($('#toolTipExplainPercentageOfLiquidSeparation'));
         });
     })
 </script>

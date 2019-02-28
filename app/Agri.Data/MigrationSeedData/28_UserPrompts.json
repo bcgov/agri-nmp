@@ -1,0 +1,12 @@
+{
+  "Id": 28,
+  "JsonFilename": "28_UserPrompts",
+  "ReasonReference": "R4E02 - Add information icon to % of liquid volume separated",
+  "Data": [
+    {
+      "Id": "69",
+      "Name": "PercentageLiquidVolumeSeparatedMessage",
+      "Text": "Percentage of liquid volume separated"
+    }
+  ]
+}
