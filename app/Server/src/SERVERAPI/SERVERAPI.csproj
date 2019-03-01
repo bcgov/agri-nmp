@@ -101,6 +101,9 @@
     <Content Update="Views\Report\ReportManureCompostInventory.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Report\ReportOctoberToMarchStorageSummary.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Report\ReportManureSummary.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
