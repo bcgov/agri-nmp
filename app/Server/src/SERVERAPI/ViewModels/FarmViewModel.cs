@@ -23,5 +23,7 @@ namespace SERVERAPI.ViewModels
         public bool HasAnimals { get; set; }
         public bool ImportsManureCompost { get; set; }
         public bool UsesFertilizer { get; set; }
+        public bool IsRelease1Data { get; set; }
+        public string LegacyNMPMessage { get; set; }
     }
 }

@@ -2457,9 +2457,16 @@ namespace SERVERAPI.Controllers
             mvm.urlText = _sd.GetUserPrompt("moreinfo");
 
 
+
             if (id != null)
             {
                 FarmManure fm = _ud.GetFarmManure(id.Value);
+
+                if (string.IsNullOrEmpty(fm.sourceOfMaterialId))
+                {
+                    mvm.IsRelease1Data = true;
+                    mvm.Release1ManureId = fm.manureId;
+                }
 
                 mvm.selsourceOfMaterialOption = fm.sourceOfMaterialId;
                 mvm.stored_imported = fm.stored_imported;
@@ -2601,6 +2608,11 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     cvm.buttonPressed = "";
 
+                    if (cvm.Release1ManureId.HasValue)
+                    {
+                        cvm.selManOption = cvm.Release1ManureId.Value;
+                    }
+
                     cvm.manOptions = new List<SelectListItem>();
 
                     if (cvm.selsourceOfMaterialOption != "" && cvm.selsourceOfMaterialOption != "0" &&
@@ -2635,7 +2647,16 @@ namespace SERVERAPI.Controllers
                             }
                         }
                     }
-                    return View(cvm);
+
+                    //For Legacy Release 1 NMP Files
+                    if (cvm.IsRelease1Data)
+                    {
+                        cvm.buttonPressed = "ManureChange";
+                    }
+                    else
+                    {
+                        return View(cvm);
+                    }
                 }
 
                 if (cvm.buttonPressed == "ManureChange")
@@ -2665,22 +2686,27 @@ namespace SERVERAPI.Controllers
                         {
                             cvm.bookValue = false;
                             cvm.onlyCustom = true;
-                            cvm.nitrogen = string.Empty;
-                            cvm.moisture = string.Empty;
-                            cvm.ammonia = string.Empty;
-                            cvm.nitrate = string.Empty;
-                            cvm.phosphorous = string.Empty;
-                            cvm.potassium = string.Empty;
+                            if (!cvm.IsRelease1Data)
+                            {
+                                cvm.nitrogen = string.Empty;
+                                cvm.moisture = string.Empty;
+                                cvm.ammonia = string.Empty;
+                                cvm.nitrate = string.Empty;
+                                cvm.phosphorous = string.Empty;
+                                cvm.potassium = string.Empty;
+                            }
+
                             cvm.compost = _sd.IsManureClassCompostType(man.ManureClass);
                             cvm.showNitrate = cvm.compost;
                             cvm.manureName = cvm.compost ? "Custom - " + man.Name + " - " : "Custom - " + man.SolidLiquid + " - ";
                         }
                         else
                         {
+
                             cvm.showNitrate = _sd.IsManureClassCompostClassType(man.ManureClass);
-                            cvm.bookValue = !cvm.showNitrate;
+                            cvm.bookValue = !cvm.IsRelease1Data ? !cvm.showNitrate : cvm.bookValue;
                             cvm.compost = false;
-                            if (cvm.showNitrate)
+                            if ((cvm.IsRelease1Data && !cvm.bookValue) || cvm.showNitrate)
                             {
                                 cvm.moistureBook = man.Moisture.ToString();
                                 cvm.nitrogenBook = man.Nitrogen.ToString();
@@ -2689,7 +2715,7 @@ namespace SERVERAPI.Controllers
                                 cvm.phosphorousBook = man.Phosphorous.ToString();
                                 cvm.potassiumBook = man.Potassium.ToString();
                                 cvm.nitrateBook = man.Nitrate.ToString();
-                                cvm.manureName = "Custom - " + man.Name + " - ";
+                                cvm.manureName = !cvm.IsRelease1Data ? "Custom - " + man.Name + " - " : cvm.manureName;
                                 cvm.onlyCustom = cvm.showNitrate;
                                 cvm.bookValue = false;
                             }
