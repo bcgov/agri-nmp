@@ -53,6 +53,6 @@ namespace SERVERAPI.ViewModels
         public bool ShowMaterialRemaining => MaterialRemainingWholePercent.HasValue;
         public string MaterialRemainingLabel { get; set; }
         public decimal? MaterialRemainingWholePercent { get; set; }
-        public string MaterialRemainingToString => $"{MaterialRemainingLabel}:  {MaterialRemainingWholePercent} %";
+        public string MaterialRemainingToString => $"{MaterialRemainingLabel}:";
     }
 }
