@@ -186,12 +186,10 @@ namespace SERVERAPI.ViewComponents
             var currentFieldIndex = fields.FindIndex(f =>
                 f.fieldName.Equals(currentField.ToString(), StringComparison.CurrentCultureIgnoreCase));
 
-            if (fields.Count > 0 && (!currentField.Any() || currentFieldIndex == 0))
+            if (!currentField.Any() || currentFieldIndex == 0)
             {
                 result.PreviousAction = CoreSiteActions.SoilTest;
                 result.PreviousController = AppControllers.Soil;
-                result.NextParameters = new {nme = fields[1].fieldName};
-                return result;
             }
             else
             {
