@@ -807,6 +807,7 @@ namespace Agri.Data
         {
             return _context.PrevManureApplicationYears
                 .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .OrderBy(p => p.FieldManureApplicationHistory)
                 .ToList();
         }
 
