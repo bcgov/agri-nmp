@@ -2702,10 +2702,11 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
+
                             cvm.showNitrate = _sd.IsManureClassCompostClassType(man.ManureClass);
-                            cvm.bookValue = !cvm.showNitrate;
+                            cvm.bookValue = !cvm.IsRelease1Data ? !cvm.showNitrate : cvm.bookValue;
                             cvm.compost = false;
-                            if (cvm.showNitrate)
+                            if ((cvm.IsRelease1Data && !cvm.bookValue) || cvm.showNitrate)
                             {
                                 cvm.moistureBook = man.Moisture.ToString();
                                 cvm.nitrogenBook = man.Nitrogen.ToString();
@@ -2714,7 +2715,7 @@ namespace SERVERAPI.Controllers
                                 cvm.phosphorousBook = man.Phosphorous.ToString();
                                 cvm.potassiumBook = man.Potassium.ToString();
                                 cvm.nitrateBook = man.Nitrate.ToString();
-                                cvm.manureName = "Custom - " + man.Name + " - ";
+                                cvm.manureName = !cvm.IsRelease1Data ? "Custom - " + man.Name + " - " : cvm.manureName;
                                 cvm.onlyCustom = cvm.showNitrate;
                                 cvm.bookValue = false;
                             }
