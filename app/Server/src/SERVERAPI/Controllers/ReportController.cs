@@ -1170,7 +1170,7 @@ namespace SERVERAPI.Controllers
             if (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any())
             {
                 pageNumber = pageNumber + 1;
-                vm.ContentItems.Add(new ContentItem {SectionName = "Manure/Compost Inventory", PageNumber = 2});
+                vm.ContentItems.Add(new ContentItem {SectionName = "Manure/Compost Inventory", PageNumber = pageNumber });
             }
 
             //ReportManureSummary

@@ -183,10 +183,11 @@ namespace SERVERAPI.ViewComponents
             result.PreviousAction = CoreSiteActions.Calculate;
             result.PreviousController = AppControllers.Nutrients;
 
-            var currentFieldIndex = fields.FindIndex(f =>
+            var currentFieldIndex = !currentField.Any() ? 0 :
+                fields.FindIndex(f =>
                 f.fieldName.Equals(currentField.ToString(), StringComparison.CurrentCultureIgnoreCase));
 
-            if (!currentField.Any() || currentFieldIndex == 0)
+            if (currentFieldIndex == 0)
             {
                 result.PreviousAction = CoreSiteActions.SoilTest;
                 result.PreviousController = AppControllers.Soil;
