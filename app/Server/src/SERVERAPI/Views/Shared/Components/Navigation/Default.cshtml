@@ -25,7 +25,7 @@
             @{
                 var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"].ToString());
             }
-            @if (currentAction != CoreSiteActions.Report)
+            @if (currentAction != CoreSiteActions.Farm && currentAction != CoreSiteActions.Report)
             {
                 <li class="continue-link">
                     <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
