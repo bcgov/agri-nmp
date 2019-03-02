@@ -16,6 +16,7 @@ using SERVERAPI.ViewModels;
 using Agri.Models.Configuration;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Controllers
 {
@@ -32,6 +33,7 @@ namespace SERVERAPI.Controllers
         private readonly IStorageVolumeCalculator _storageVolumeCalculator;
         private readonly IViewRenderService _viewRenderService;
         private readonly IMapper _mapper;
+        private readonly IOptions<AppSettings> _appSettings;
 
         public ManureManagementController(ILogger<ManureManagementController> logger,
             IHostingEnvironment env, 
@@ -42,7 +44,8 @@ namespace SERVERAPI.Controllers
             IStorageVolumeCalculator storageVolumeCalculator,
             IManureAnimalNumberCalculator manureAnimalNumberCalculator,
             IManureOctoberToMarchCalculator manureOctoberToMarchCalculator,
-            IMapper mapper)
+            IMapper mapper,
+            IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _env = env;
@@ -55,6 +58,7 @@ namespace SERVERAPI.Controllers
             _storageVolumeCalculator = storageVolumeCalculator;
             _viewRenderService = viewRenderService;
             _mapper = mapper;
+            _appSettings = appSettings;
         }
 
         #region Manure Generated Obtained
@@ -2462,10 +2466,11 @@ namespace SERVERAPI.Controllers
             {
                 FarmManure fm = _ud.GetFarmManure(id.Value);
 
-                if (string.IsNullOrEmpty(fm.sourceOfMaterialId))
+                if (!_ud.FarmData().NMPReleaseVersion.HasValue || 
+                    _ud.FarmData().NMPReleaseVersion.Value != _appSettings.Value.NMPReleaseVersion)
                 {
-                    mvm.IsRelease1Data = true;
-                    mvm.Release1ManureId = fm.manureId;
+                    mvm.IsLegacyNMPReleaseVersion = true;
+                    mvm.LegacyNMPReleaseVersionManureId = fm.manureId;
                 }
 
                 mvm.selsourceOfMaterialOption = fm.sourceOfMaterialId;
@@ -2608,9 +2613,9 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     cvm.buttonPressed = "";
 
-                    if (cvm.Release1ManureId.HasValue)
+                    if (cvm.LegacyNMPReleaseVersionManureId.HasValue)
                     {
-                        cvm.selManOption = cvm.Release1ManureId.Value;
+                        cvm.selManOption = cvm.LegacyNMPReleaseVersionManureId.Value;
                     }
 
                     cvm.manOptions = new List<SelectListItem>();
@@ -2649,7 +2654,7 @@ namespace SERVERAPI.Controllers
                     }
 
                     //For Legacy Release 1 NMP Files
-                    if (cvm.IsRelease1Data)
+                    if (cvm.IsLegacyNMPReleaseVersion)
                     {
                         cvm.buttonPressed = "ManureChange";
                     }
@@ -2686,7 +2691,7 @@ namespace SERVERAPI.Controllers
                         {
                             cvm.bookValue = false;
                             cvm.onlyCustom = true;
-                            if (!cvm.IsRelease1Data)
+                            if (!cvm.IsLegacyNMPReleaseVersion)
                             {
                                 cvm.nitrogen = string.Empty;
                                 cvm.moisture = string.Empty;
@@ -2704,9 +2709,9 @@ namespace SERVERAPI.Controllers
                         {
 
                             cvm.showNitrate = _sd.IsManureClassCompostClassType(man.ManureClass);
-                            cvm.bookValue = !cvm.IsRelease1Data ? !cvm.showNitrate : cvm.bookValue;
+                            cvm.bookValue = !cvm.IsLegacyNMPReleaseVersion ? !cvm.showNitrate : cvm.bookValue;
                             cvm.compost = false;
-                            if ((cvm.IsRelease1Data && !cvm.bookValue) || cvm.showNitrate)
+                            if ((cvm.IsLegacyNMPReleaseVersion && !cvm.bookValue) || cvm.showNitrate)
                             {
                                 cvm.moistureBook = man.Moisture.ToString();
                                 cvm.nitrogenBook = man.Nitrogen.ToString();
@@ -2715,7 +2720,7 @@ namespace SERVERAPI.Controllers
                                 cvm.phosphorousBook = man.Phosphorous.ToString();
                                 cvm.potassiumBook = man.Potassium.ToString();
                                 cvm.nitrateBook = man.Nitrate.ToString();
-                                cvm.manureName = !cvm.IsRelease1Data ? "Custom - " + man.Name + " - " : cvm.manureName;
+                                cvm.manureName = !cvm.IsLegacyNMPReleaseVersion ? "Custom - " + man.Name + " - " : cvm.manureName;
                                 cvm.onlyCustom = cvm.showNitrate;
                                 cvm.bookValue = false;
                             }

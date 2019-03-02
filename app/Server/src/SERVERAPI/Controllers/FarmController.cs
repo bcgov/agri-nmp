@@ -14,6 +14,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SERVERAPI.Models.Impl;
 using Agri.Models;
 using Microsoft.Extensions.Logging;
+using Agri.Models.Settings;
+using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Controllers
 {
@@ -24,26 +26,29 @@ namespace SERVERAPI.Controllers
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
+        private IOptions<AppSettings> _appSettings;
 
         public FarmController(ILogger<FarmController> logger, 
             IHostingEnvironment env, 
             UserData ud, 
-            IAgriConfigurationRepository sd)
+            IAgriConfigurationRepository sd,
+            IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
+            _appSettings = appSettings;
         }
 
         [HttpGet]
         public IActionResult Farm()
         {
             var farmData = _ud.FarmDetails();
-
             FarmViewModel fvm = new FarmViewModel();
-            fvm.IsRelease1Data = farmData.farmRegion.HasValue && !farmData.farmSubRegion.HasValue;
-            if (fvm.IsRelease1Data)
+            fvm.IsLegacyNMPReleaseVersion = !_ud.FarmData().NMPReleaseVersion.HasValue || _ud.FarmData().NMPReleaseVersion.Value < _appSettings.Value.NMPReleaseVersion;
+
+            if (fvm.IsLegacyNMPReleaseVersion)
             {
                 fvm.LegacyNMPMessage = _sd.GetUserPrompt("FarmDataBackwardsCompatibility");
             }
@@ -63,7 +68,7 @@ namespace SERVERAPI.Controllers
             if (fvm.selRegOption.HasValue)
             {
                 fvm = SetSubRegions(fvm);
-                if (fvm.IsRelease1Data && fvm.selSubRegOption.HasValue)
+                if (fvm.IsLegacyNMPReleaseVersion && fvm.selSubRegOption.HasValue)
                 {
                     _ud.UpdateFarmDetailsSubRegion(fvm.selSubRegOption.Value);
                 }

@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Agri.Models;
 using Microsoft.Extensions.Logging;
+using Agri.Models.Settings;
+using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -21,18 +23,21 @@ namespace SERVERAPI.Models.Impl
         public IAgriConfigurationRepository _sd;
         private ISoilTestConverter _soilTestConversions;
         private IMapper _mapper;
+        private IOptions<AppSettings> _appSettings;
 
         public UserData(ILogger<UserData> logger,
             IHttpContextAccessor ctx, 
             IAgriConfigurationRepository sd,
             ISoilTestConverter soilTestConversions,
-            IMapper mapper)
+            IMapper mapper,
+            IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _ctx = ctx;
             _sd = sd;
             _soilTestConversions = soilTestConversions;
             _mapper = mapper;
+            _appSettings = appSettings;
         }
 
         public void NewFarm()
@@ -44,6 +49,7 @@ namespace SERVERAPI.Models.Impl
             userData.years = new List<YearData>();
             userData.years.Add(new YearData() { year = newYear });
             userData.unsaved = true;
+            userData.NMPReleaseVersion = _appSettings.Value.NMPReleaseVersion;
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
