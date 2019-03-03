@@ -334,6 +334,11 @@ body {
     margin-top:-10px;
 }
 
+.tooltip.bottom {
+    padding: -10px 0;
+    margin-bottom: 0px;
+}
+
 .tooltip.top .tooltip-arrow {
     bottom: 0;
     left: 50%;
@@ -341,6 +346,15 @@ body {
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     border-top: 10px solid #23527C;
+}
+
+.tooltip.bottom .tooltip-arrow {
+    top: -5px;
+    left: 50%;
+    margin-left: -15px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 10px solid #23527C;
 }
 
 .tooltip .title {
@@ -403,8 +417,6 @@ body {
 
 .top-level-nav .continue-link a {
     padding-left: 70px;
-    color: blue !important;
-    font-size: 13px;
 }
 
 .top-level-nav-greyedout {

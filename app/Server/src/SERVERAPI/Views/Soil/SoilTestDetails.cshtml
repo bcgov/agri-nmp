@@ -33,7 +33,7 @@
                                 <label asp-for="sampleDate">Sample Month</label>
                             </div>
                             <div class="col-md-3">
-                                <input class="form-control" asp-for="sampleDate" id="sampleDate" type="text" />
+                                <input class="form-control" asp-for="sampleDate" id="sampleDate" type="text" autocomplete="off" />
                             </div>
                             <div class="col-md-offset-3 col-md-8">
                                 <span asp-validation-for="sampleDate" class="text-danger"></span>
@@ -114,7 +114,7 @@
 <script>
         $(document).ready(function () {
 
-            $('#sampleDt').datepicker({
+            $('#sampleDate').datepicker({
                 useCurrent: false,
                 autoPick: false,
                 format: "M-yyyy",

@@ -23,6 +23,7 @@
     <None Remove="MigrationSeedData\24_MainMenu.json" />
     <None Remove="MigrationSeedData\25_SubMenu.json" />
     <None Remove="MigrationSeedData\23_UserPrompts.json" />
+    <None Remove="MigrationSeedData\26_UserPrompts.json" />
     <None Remove="MigrationSeedData\27_UserPrompts.json" />
     <None Remove="MigrationSeedData\2_UserPrompts.json" />
     <None Remove="MigrationSeedData\3_UserPrompts.json" />
@@ -39,7 +40,6 @@
     <EmbeddedResource Include="MigrationSeedData\11_Breed.json" />
     <EmbeddedResource Include="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
     <EmbeddedResource Include="MigrationSeedData\19_PotassiumSoilTestRanges.json" />
-    <EmbeddedResource Include="MigrationSeedData\27_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\25_SubMenu.json" />
     <EmbeddedResource Include="MigrationSeedData\24_MainMenu.json" />
     <EmbeddedResource Include="MigrationSeedData\22_UserPrompts.json" />

@@ -1949,6 +1949,9 @@ namespace SERVERAPI.Controllers
             ovm.url = _sd.GetExternalLink("othernutrientexplanation");
             ovm.urlText = _sd.GetUserPrompt("moreinfo");
             ovm.placehldr = _sd.GetUserPrompt("othernutrientplaceholder");
+            ovm.ExplainCalculateOtherNutrientSource =_sd.GetUserPrompt("CalculateOtherNutrientSourceMessage");
+            ovm.ExplainCalculateOtherNutrientAvailableThisYear = _sd.GetUserPrompt("CalculateOtherNutrientAvailableThisYearMessage");
+            ovm.ExplainCalculateOtherNutrientAvailbleLongTerm = _sd.GetUserPrompt("CalculateOtherNutrientAvailbleLongTermMessage");
 
             if (id != null)
             {
@@ -2296,6 +2299,7 @@ namespace SERVERAPI.Controllers
 
             model.url = _sd.GetExternalLink("prevmanureexplanation");
             model.urlText = _sd.GetUserPrompt("moreinfo");
+            model.ExplainNitrogenFromPrevManure = _sd.GetUserPrompt("CalculateNutrientsPrevManureMessage");
 
             SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
             model.defaultNitrogenCredit = calculator.calcPrevYearManureApplDefault(fldName).ToString();
@@ -2371,6 +2375,7 @@ namespace SERVERAPI.Controllers
 
             model.url = _sd.GetExternalLink("soilnitrateexplanation");
             model.urlText = _sd.GetUserPrompt("moreinfo");
+            model.ExplainCalculateNutrientsNitrogenNitrate = _sd.GetUserPrompt("CalculateNutrientsNitrogenNitrateMessage");
 
             SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
             model.defaultNitrogenCredit = calculator.calcSoitTestNitrateDefault(fldName).ToString();

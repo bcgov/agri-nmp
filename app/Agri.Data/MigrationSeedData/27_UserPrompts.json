@@ -1,32 +1,12 @@
 {
   "Id": 27,
   "JsonFilename": "27_UserPrompts",
-  "ReasonReference": "R4E06-US18: labels in Soil Test Details modal",
+  "ReasonReference": "R4E06-SE02-TUS01-Backwards Compatibility",
   "Data": [
     {
       "Id": "64",
-      "Name": "SoilTestValuesMessage",
-      "Text": "Do not enter results from soil samples taken deeper than 6 inches (15cm).Do not use post-harvest nitrate tests results here"
-    },
-    {
-      "Id": "65",
-      "Name": "SoilTestNitrogenNitrateMessage",
-      "Text": "Nitrogen Nitrate Message"
-    },
-    {
-      "Id": "66",
-      "Name": "SoilTestPhosphorousMessage",
-      "Text": "Phosphorous Message"
-    },
-    {
-      "Id": "67",
-      "Name": "SoilTestPotassiumMessage",
-      "Text": "Potassium Message"
-    },
-    {
-      "Id": "68",
-      "Name": "SoilTestPHMessage",
-      "Text": "PH Message"
+      "Name": "FarmDataBackwardsCompatibility",
+      "Text": "Warning: The loaded file is from a previous version of the Nutrient Management Calculator. Add new manure generation and manure storage information and/or modify the loaded information to create a new file compatible with this version of the Nutrient Management Calculator."
     }
   ]
 }
