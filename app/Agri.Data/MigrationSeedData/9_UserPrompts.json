@@ -1,0 +1,32 @@
+{
+  "Id": 9,
+  "JsonFilename": "9_UserPrompts",
+  "ReasonReference": "R4E06-US18: labels in Soil Test Details modal",
+  "Data": [
+    {
+      "Id": "66",
+      "Name": "SoilTestValuesMessage",
+      "Text": "Do not enter results from soil samples taken deeper than 6 inches (15cm).Do not use post-harvest nitrate tests results here"
+    },
+    {
+      "Id": "67",
+      "Name": "SoilTestNitrogenNitrateMessage",
+      "Text": "Nitrogen Nitrate Message"
+    },
+    {
+      "Id": "68",
+      "Name": "SoilTestPhosphorousMessage",
+      "Text": "Phosphorous Message"
+    },
+    {
+      "Id": "69",
+      "Name": "SoilTestPotassiumMessage",
+      "Text": "Potassium Message"
+    },
+    {
+      "Id": "70",
+      "Name": "SoilTestPHMessage",
+      "Text": "PH Message"
+    }
+  ]
+}
