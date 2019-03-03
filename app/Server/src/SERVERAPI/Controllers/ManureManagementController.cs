@@ -892,6 +892,7 @@ namespace SERVERAPI.Controllers
             msvm.ExplainStoredOctoberToMarch = _sd.GetUserPrompt("MaterialsStoredOctoberToMarchMessage");
             msvm.ExplainPrecipitationOctoberToMarch = _sd.GetUserPrompt("PrecipitationOctoberToMarch");
             msvm.ExplainStorageDeficiency = _sd.GetUserPrompt("StorageDeficiencyMessage");
+            msvm.ExplainPercentageOfLiquidSeparation = _sd.GetUserPrompt("PercentageLiquidVolumeSeparatedMessage");
 
             try
             {
@@ -1006,6 +1007,7 @@ namespace SERVERAPI.Controllers
                 msdvm.ExplainStoredOctoberToMarch = _sd.GetUserPrompt("MaterialsStoredOctoberToMarchMessage");
                 msdvm.ExplainPrecipitationOctoberToMarch = _sd.GetUserPrompt("PrecipitationOctoberToMarch");
                 msdvm.ExplainStorageDeficiency = _sd.GetUserPrompt("StorageDeficiencyMessage");
+                msdvm.ExplainPercentageOfLiquidSeparation = _sd.GetUserPrompt("PercentageLiquidVolumeSeparatedMessage");
 
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
                 if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
