@@ -62,8 +62,6 @@
                                     <input asp-for="bookValue" type="radio" value="false" id="lab" disabled="disabled" /> Lab Analysis
                                 </label>
                             }
-                            &nbsp;
-                            <a href="@Model.url" target="_blank">@Model.urlText</a>
                         </div>
                         <span asp-validation-for="bookValue"></span>
                     </div>
@@ -81,30 +79,45 @@
                         <div>&nbsp;</div>
                         <div class="form-group col-sm-2">
                             <span style="font-weight: bold">Moisture&nbsp;(%)</span>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnalysisMoisture" id="toolTipExplainNutrientAnalysisMoisture">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of moisture content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 @Model.moisture
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
                             <span style="font-weight: bold">N&nbsp;(%)</span>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnalysisNitrogen" id="toolTipExplainNutrientAnalysisNitrogen">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of nitrogen content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 @Model.nitrogen
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
                             <span style="font-weight: bold">NH<sub>4</sub>-N&nbsp;(ppm)</span>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnlalysisAmmonia" id="toolTipExplainNutrientAnlalysisAmmonia">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of NH4-N content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 @Model.ammonia
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
                             <span style="font-weight: bold">P&nbsp;(%)</span>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnlalysisPhosphorous" id="toolTipExplainNutrientAnlalysisPhosphorous">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of P content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 @Model.phosphorous
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
                             <span style="font-weight: bold">K&nbsp;(%)</span>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnlalysisPotassium" id="toolTipExplainNutrientAnlalysisPotassium">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of K content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 @Model.potassium
                             </div>
@@ -126,6 +139,9 @@
                     <div class="form-group">
                         <div class="form-group col-sm-2">
                             <label asp-for="moisture">Moisture&nbsp;(%)</label>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnalysisMoisture" id="toolTipExplainNutrientAnalysisMoisture">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of moisture content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 <input class="form-control" asp-for="moisture" id="moisture" type="text" placeholder="@Model.moistureBook" />
                             </div>
@@ -133,6 +149,9 @@
                         </div>
                         <div class="form-group col-sm-2">
                             <label asp-for="nitrogen">N&nbsp;(%)</label>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnalysisNitrogen" id="toolTipExplainNutrientAnalysisNitrogen">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of nitrogen content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 <input class="form-control" asp-for="nitrogen" id="nitrogen" type="text" placeholder="@Model.nitrogenBook" />
                             </div>
@@ -140,6 +159,9 @@
                         </div>
                         <div class="form-group col-sm-2">
                             <label asp-for="ammonia">NH<sub>4</sub>-N&nbsp;(ppm)</label>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnlalysisAmmonia" id="toolTipExplainNutrientAnlalysisAmmonia">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of NH4-N content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 <input class="form-control" asp-for="ammonia" id="ammonia" type="text" placeholder="@Model.ammoniaBook" />
                             </div>
@@ -147,6 +169,9 @@
                         </div>
                         <div class="form-group col-sm-2">
                             <label asp-for="phosphorous">P&nbsp;(%)</label>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnlalysisPhosphorous" id="toolTipExplainNutrientAnlalysisPhosphorous">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of P content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 <input class="form-control" asp-for="phosphorous" id="phosphorous" type="text" placeholder="@Model.phosphorousBook" />
                             </div>
@@ -154,6 +179,9 @@
                         </div>
                         <div class="form-group col-sm-2">
                             <label asp-for="potassium">K&nbsp;(%)</label>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnlalysisPotassium" id="toolTipExplainNutrientAnlalysisPotassium">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of K content" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                             <div class="input-group col-sm-6">
                                 <input class="form-control" asp-for="potassium" id="potassium" type="text" placeholder="@Model.potassiumBook" />
                             </div>
@@ -190,3 +218,80 @@
         @Html.HiddenFor(x => x.Release1ManureId)
     </form>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnalysisMoisture').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnalysisMoisture').click(function () {
+            triggerToolTip($('#toolTipExplainNutrientAnalysisMoisture'));
+        });
+    })
+
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnalysisNitrogen').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnalysisNitrogen').click(function () {
+            triggerToolTip($('#toolTipExplainNutrientAnalysisNitrogen'));
+        });
+    })
+
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnlalysisAmmonia').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnlalysisAmmonia').click(function () {
+            triggerToolTip($('#toolTipExplainNutrientAnlalysisAmmonia'));
+        });
+    })
+
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnlalysisPhosphorous').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnlalysisPhosphorous').click(function () {
+            triggerToolTip($('#toolTipExplainNutrientAnlalysisPhosphorous'));
+        });
+    })
+
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnlalysisPotassium').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainNutrientAnlalysisPotassium').click(function () {
+            triggerToolTip($('#toolTipExplainNutrientAnlalysisPotassium'));
+        });
+    })
+</script>
