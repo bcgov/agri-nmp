@@ -26,5 +26,8 @@ namespace SERVERAPI.ViewModels
         public string url { get; set; }
         public string urlText { get; set; }
         public string placehldr { get; set; }
+        public string ExplainCalculateOtherNutrientSource { get; set; }
+        public string ExplainCalculateOtherNutrientAvailableThisYear { get; set; }
+        public string ExplainCalculateOtherNutrientAvailbleLongTerm { get; set; }
     }
 }

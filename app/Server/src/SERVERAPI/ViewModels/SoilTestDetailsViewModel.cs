@@ -14,5 +14,10 @@
         public string dispPH { get; set; }
         public string url { get; set; }
         public string urlText { get; set; }
+        public string SoilTestValuesMsg { get; set; }
+        public string SoilTestNitrogenNitrateMsg { get; set; }
+        public string SoilTestPhosphorousMsg { get; set; }
+        public string SoilTestPotassiumMsg { get; set; }
+        public string SoilTestPHMsg { get; set; }
     }
 }

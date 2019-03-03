@@ -72,7 +72,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group col-sm-1" style="padding-left:0px">
-                                            <a href="#" data_modal3="" data-type="@Url.Action("InfoMessage", "Nutrients", new { type = "soiltest" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Soil Tests" style="font-size:20px; padding-top:5px"></span></a>
+                                            <a href="#" aria-label="Soil Test Methods Link" data_modal3="" data-type="@Url.Action("InfoMessage", "Nutrients", new { type = "soiltest" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Soil Tests" style="font-size:20px; padding-top:5px"></span></a>
                                         </div>
                                     </div>
                                     <div class="col-sm-7">
@@ -151,7 +151,7 @@
 
     $(document).ready(function () {
 
-        $('#sampleDt').datepicker({
+        $('#sampleDate').datepicker({
             format: "dd/mm/yyyy",
             autoclose: true
         });
