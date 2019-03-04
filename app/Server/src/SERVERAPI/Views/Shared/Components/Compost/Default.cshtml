@@ -50,18 +50,22 @@
                     <div class="col-sm-8">
                     </div>
                     <div class="col-sm-4">
-                        <div>
-                            <b>Add a Nutrient Analysis for:</b>
-                            <a href="#" data-toggle="tooltip" title="@Model.ExplainMaterialsNeedingNutrientAnalysisMessage" id="toolTipExplainMaterialsNeedingNutrientAnalysis">
-                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Materials needing Nutrient Analysis" style="font-size:20px; padding-top:5px"></span>
-                            </a>
-                        </div>
-                        @foreach (var storageSystemAndImportedManureNotStored in Model.UnallocatedStorageAndImportedManureNames)
+                        @if (Model.UnallocatedStorageAndImportedManureNames.Count != 0)
                         {
-                            <div class="form-row">
-                                @storageSystemAndImportedManureNotStored
+                            <div>
+                                <b>Add a Nutrient Analysis for:</b>
+                                <a href="#" data-toggle="tooltip" title="@Model.ExplainMaterialsNeedingNutrientAnalysisMessage" id="toolTipExplainMaterialsNeedingNutrientAnalysis">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Materials needing Nutrient Analysis" style="font-size:20px; padding-top:5px"></span>
+                                </a>
                             </div>
+                            @foreach (var storageSystemAndImportedManureNotStored in Model.UnallocatedStorageAndImportedManureNames)
+                             {
+                                 <div class="form-row">
+                                     @storageSystemAndImportedManureNotStored
+                                 </div>
+                             }
                         }
+                        
                     </div>
                 </div>
                 <br/>

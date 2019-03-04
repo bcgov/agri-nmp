@@ -7,5 +7,6 @@
         public string defaultNitrogenCredit { get; set; }
         public string url { get; set; }
         public string urlText { get; set; }
+        public string ExplainCalculateNutrientsNitrogenNitrate { get; set; }
     }
 }

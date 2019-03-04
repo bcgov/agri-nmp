@@ -896,6 +896,7 @@ namespace SERVERAPI.Controllers
             msvm.ExplainStoredOctoberToMarch = _sd.GetUserPrompt("MaterialsStoredOctoberToMarchMessage");
             msvm.ExplainPrecipitationOctoberToMarch = _sd.GetUserPrompt("PrecipitationOctoberToMarch");
             msvm.ExplainStorageDeficiency = _sd.GetUserPrompt("StorageDeficiencyMessage");
+            msvm.ExplainPercentageOfLiquidSeparation = _sd.GetUserPrompt("PercentageLiquidVolumeSeparatedMessage");
 
             try
             {
@@ -1010,6 +1011,7 @@ namespace SERVERAPI.Controllers
                 msdvm.ExplainStoredOctoberToMarch = _sd.GetUserPrompt("MaterialsStoredOctoberToMarchMessage");
                 msdvm.ExplainPrecipitationOctoberToMarch = _sd.GetUserPrompt("PrecipitationOctoberToMarch");
                 msdvm.ExplainStorageDeficiency = _sd.GetUserPrompt("StorageDeficiencyMessage");
+                msdvm.ExplainPercentageOfLiquidSeparation = _sd.GetUserPrompt("PercentageLiquidVolumeSeparatedMessage");
 
                 msdvm.ManagedManures = GetFilteredMaterialsListForCurrentView(msdvm);
                 if (msdvm.SelectedManureMaterialType == ManureMaterialType.Liquid)
@@ -2455,6 +2457,11 @@ namespace SERVERAPI.Controllers
             //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
             CompostDetailViewModel mvm = new CompostDetailViewModel();
+            mvm.ExplainNutrientAnalysisMoisture = _sd.GetUserPrompt("NutrientAnalysisMoistureMessage");
+            mvm.ExplainNutrientAnalysisNitrogen = _sd.GetUserPrompt("NutrientAnlalysisNitrogenMessage");
+            mvm.ExplainNutrientAnlalysisAmmonia = _sd.GetUserPrompt("NutrientAnlalysisAmmoniaMessage");
+            mvm.ExplainNutrientAnlalysisPhosphorous = _sd.GetUserPrompt("NutrientAnlalysisPhosphorousMessage");
+            mvm.ExplainNutrientAnlalysisPotassium = _sd.GetUserPrompt("NutrientAnlalysisPotassiumMessage");
 
             mvm.act = id == null ? "Add" : "Edit";
             mvm.url = _sd.GetExternalLink("labanalysisexplanation");
@@ -2603,6 +2610,12 @@ namespace SERVERAPI.Controllers
             decimal userMoisture = 0;
             decimal userNitrate = 0;
             Manure man;
+
+            cvm.ExplainNutrientAnalysisMoisture = _sd.GetUserPrompt("NutrientAnalysisMoistureMessage");
+            cvm.ExplainNutrientAnalysisNitrogen = _sd.GetUserPrompt("NutrientAnlalysisNitrogenMessage");
+            cvm.ExplainNutrientAnlalysisAmmonia = _sd.GetUserPrompt("NutrientAnlalysisAmmoniaMessage");
+            cvm.ExplainNutrientAnlalysisPhosphorous = _sd.GetUserPrompt("NutrientAnlalysisPhosphorousMessage");
+            cvm.ExplainNutrientAnlalysisPotassium = _sd.GetUserPrompt("NutrientAnlalysisPotassiumMessage");
 
             CompostDetailsSetup(ref cvm);
 

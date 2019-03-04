@@ -48,6 +48,11 @@ namespace SERVERAPI.ViewModels
         public bool showNitrate { get; set; }
         public NutrientAnalysisTypes stored_imported { get; set; }
         public bool IsAssignedToStorage { get; set; }
+        public string ExplainNutrientAnalysisMoisture { get; set; }
+        public string ExplainNutrientAnalysisNitrogen { get; set; }
+        public string ExplainNutrientAnlalysisAmmonia { get; set; }
+        public string ExplainNutrientAnlalysisPhosphorous { get; set; }
+        public string ExplainNutrientAnlalysisPotassium { get; set; }
         public bool IsLegacyNMPReleaseVersion { get; set; }
         public int? LegacyNMPReleaseVersionManureId { get; set; }
     }
