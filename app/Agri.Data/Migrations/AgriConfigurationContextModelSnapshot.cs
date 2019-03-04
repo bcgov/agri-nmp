@@ -860,9 +860,7 @@ namespace Agri.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(1);
 
-                    b.Property<int?>("CropId");
-
-                    b.Property<int?>("CropStaticDataVersionId");
+                    b.Property<int>("CropId");
 
                     b.Property<int?>("CropTypeId");
 
@@ -880,9 +878,9 @@ namespace Agri.Data.Migrations
 
                     b.HasIndex("StaticDataVersionId");
 
-                    b.HasIndex("CropId", "CropStaticDataVersionId");
-
                     b.HasIndex("CropTypeId", "CropTypeStaticDataVersionId");
+
+                    b.HasIndex("CropId", "PreviousCropCode", "StaticDataVersionId");
 
                     b.ToTable("PreviousCropType");
                 });
@@ -1554,7 +1552,7 @@ namespace Agri.Data.Migrations
             modelBuilder.Entity("Agri.Models.Configuration.FertilizerType", b =>
                 {
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
-                        .WithMany()
+                        .WithMany("FertilizerTypes")
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1562,7 +1560,7 @@ namespace Agri.Data.Migrations
             modelBuilder.Entity("Agri.Models.Configuration.FertilizerUnit", b =>
                 {
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
-                        .WithMany()
+                        .WithMany("FertilizerUnits")
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1698,13 +1696,15 @@ namespace Agri.Data.Migrations
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Agri.Models.Configuration.Crop")
-                        .WithMany("PreviousCropTypes")
-                        .HasForeignKey("CropId", "CropStaticDataVersionId");
-
                     b.HasOne("Agri.Models.Configuration.CropType")
                         .WithMany("PrevCropTypes")
                         .HasForeignKey("CropTypeId", "CropTypeStaticDataVersionId");
+
+                    b.HasOne("Agri.Models.Configuration.Crop", "Crop")
+                        .WithMany("PreviousCropTypes")
+                        .HasForeignKey("CropId", "PreviousCropCode", "StaticDataVersionId")
+                        .HasPrincipalKey("Id", "PreviousCropCode", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.PreviousManureApplicationYear", b =>

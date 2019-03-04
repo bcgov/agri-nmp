@@ -29,10 +29,18 @@
                 </div>
                 <div class="form-box-body">
                     <div class="form-box-fields">
+                        @if (Model.IsLegacyNMPReleaseVersion)
+                        {
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span class="text-danger">@Model.LegacyNMPMessage</span>
+                                </div>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col-sm-3">
                                 <label asp-for="year">Year</label>
-                                <input class="form-control" asp-for="year" id="year" type="text" />
+                                <input class="form-control" asp-for="year" id="year" type="text"/>
                                 <span asp-validation-for="year"></span>
                             </div>
                             <div class="col-sm-6">
@@ -45,7 +53,7 @@
                             <div class="col-sm-6">
                                 <label asp-for="selRegOption" for="ddlRegion">Region</label>
                                 <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
-                                <select id="ddlRegion" class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions,"Id","Value"))">
+                                <select id="ddlRegion" class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions, "Id", "Value"))">
                                     <option>select region</option>
                                 </select>
                                 <span asp-validation-for="selRegOption"></span>
@@ -55,12 +63,12 @@
                         {
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <select id="ddlSubRegion" class="form-control" asp-for="selSubRegOption" asp-items="@(new SelectList(Model.subRegionOptions,"Id","Value"))">
+                                    <select id="ddlSubRegion" class="form-control" asp-for="selSubRegOption" asp-items="@(new SelectList(Model.subRegionOptions, "Id", "Value"))">
                                         <option>select subregion</option>
                                     </select>
                                     @if (Model.multipleSubRegion)
                                     {
-                                        <span asp-validation-for="selSubRegOption"></span>
+                                        <span asp-validation-for="selSubRegOption" class="text-danger">A sub region must be selected</span>
                                     }
                                 </div>
                             </div>
@@ -73,10 +81,10 @@
                             </div>
                             <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals" style="margin-bottom: 0px;">
                                 <label style="padding-right: 20px">
-                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes" /> Yes
+                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes"/> Yes
                                 </label>
                                 <label>
-                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo" /> No
+                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo"/> No
                                 </label>
                             </div>
                         </div>
@@ -88,10 +96,10 @@
                             </div>
                             <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelImportsManureCompost" style="margin-bottom: 0px;">
                                 <label style="padding-right: 20px">
-                                    <input asp-for="ImportsManureCompost" type="radio" value="true" id="rbIsImportsManureCompostYes" /> Yes
+                                    <input asp-for="ImportsManureCompost" type="radio" value="true" id="rbIsImportsManureCompostYes"/> Yes
                                 </label>
                                 <label>
-                                    <input asp-for="ImportsManureCompost" type="radio" value="false" id="rbIsImportsManureCompostNo" /> No
+                                    <input asp-for="ImportsManureCompost" type="radio" value="false" id="rbIsImportsManureCompostNo"/> No
                                 </label>
                             </div>
                         </div>
@@ -103,10 +111,10 @@
                             </div>
                             <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelUsesFertilizer">
                                 <label style="padding-right: 20px">
-                                    <input asp-for="UsesFertilizer" type="radio" value="true" id="rbIsUsesFertilizerYes" /> Yes
+                                    <input asp-for="UsesFertilizer" type="radio" value="true" id="rbIsUsesFertilizerYes"/> Yes
                                 </label>
                                 <label>
-                                    <input asp-for="UsesFertilizer" type="radio" value="false" id="rbIsUsesFertilizerNo" /> No
+                                    <input asp-for="UsesFertilizer" type="radio" value="false" id="rbIsUsesFertilizerNo"/> No
                                 </label>
                             </div>
                         </div>
@@ -130,6 +138,44 @@
 <!-- /BODY CONTENT -->
 @section Scripts {
     <script type="text/javascript">
+
+        function Intercept(x) {
+            var incomplete = "False";
+            var jqxhr = $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("CheckCompleted", "Farm")',
+                    data: '{}',
+                    async: false,
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                })
+                .done(function (result) {
+                    incomplete = result.incomplete;
+                })
+                .fail(function (result) {
+                    incomplete = "False";
+                });
+
+            if (incomplete == "True")
+            {
+                $.ajaxSetup({ cache: false });
+                var url = '@Url.Action("FarmIncomplete", "Farm", new { target = "zzz" })';
+                $type = url.replace('zzz', x);
+                $('#myModalContent').load($type, function () {
+                    $('#myModal').modal({
+                        /*backdrop: 'static',*/
+                        //keyboard: true
+                    }, 'show');
+                    bindFormI(this);
+                });
+                return false;
+            }
+            else
+            {
+                window.location.href = x;
+            }
+        }
 
         $(document).ready(function () {
             $("#FarmFarm1").addClass('wizard-item-done');
@@ -187,10 +233,10 @@
         });
 
         $(document).ready(function () {
-        $("body").on("change", "#ddlSubRegion", function () {
-            $('#buttonPressed').val("SubRegionChange");
-            $("#modForm").submit();
-        })
+            $("body").on("change", "#ddlSubRegion", function () {
+                $('#buttonPressed').val("SubRegionChange");
+                $("#modForm").submit();
+            })
         });
 
         $(document).on("click",
@@ -201,10 +247,10 @@
                 $('#myModalContent').load($type,
                     function () {
                         $('#myModal').modal({
-                            /*backdrop: 'static',*/
-                            //keyboard: true
+                                /*backdrop: 'static',*/
+                                //keyboard: true
 
-                        },
+                            },
                             'show');
                         bindForm2(this);
                     });
@@ -214,11 +260,11 @@
         function bindForm2(dialog) {
             $('form', dialog).submit(function () {
                 $.ajax({
-                    cache: false,
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize()
-                })
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
                     .done(function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');

@@ -149,13 +149,65 @@ namespace SERVERAPI.ViewComponents
 
             if (currentAction == CoreSiteActions.Calculate)
             {
-                mnvm.PreviousAction = CoreSiteActions.SoilTest;
-                mnvm.PreviousController = AppControllers.Soil;
-                mnvm.NextAction = CoreSiteActions.Report;
-                mnvm.NextController = AppControllers.Report;
+                ProcessCalculateNavigation(mnvm);
             }
 
+            mnvm.ViewPreviousUrl = Url.Action(mnvm.ViewPreviousAction,
+                mnvm.ViewPreviousController,
+                mnvm.PreviousParameters);
+
+            mnvm.ViewNextUrl = Url.Action(mnvm.ViewNextAction,
+                mnvm.ViewNextController,
+                mnvm.NextParameters);
+
             return Task.FromResult(mnvm);
+        }
+
+        private NextPreviousNavigationViewModel ProcessCalculateNavigation(NextPreviousNavigationViewModel mnvm)
+        {
+            var result = mnvm;
+            var fields = _ud.GetFields();
+            var currentField = HttpContext.Request.Query["nme"];
+
+            if (fields.Count == 0)
+            {
+                result.PreviousAction = CoreSiteActions.SoilTest;
+                result.PreviousController = AppControllers.Soil;
+                result.NextAction = CoreSiteActions.Report;
+                result.NextController = AppControllers.Report;
+                return result;
+            }
+
+            result.NextAction = CoreSiteActions.Calculate;
+            result.NextController = AppControllers.Nutrients;
+            result.PreviousAction = CoreSiteActions.Calculate;
+            result.PreviousController = AppControllers.Nutrients;
+
+            var currentFieldIndex = !currentField.Any() ? 0 :
+                fields.FindIndex(f =>
+                f.fieldName.Equals(currentField.ToString(), StringComparison.CurrentCultureIgnoreCase));
+
+            if (currentFieldIndex == 0)
+            {
+                result.PreviousAction = CoreSiteActions.SoilTest;
+                result.PreviousController = AppControllers.Soil;
+            }
+            else
+            {
+                result.PreviousParameters = new { nme = fields[currentFieldIndex - 1].fieldName };
+            }
+
+            if (currentFieldIndex + 1 < fields.Count)
+            {
+                result.NextParameters = new {nme = fields[currentFieldIndex + 1].fieldName};
+            }
+            else
+            {
+                result.NextAction = CoreSiteActions.Report;
+                result.NextController = AppControllers.Report;
+            }
+            
+            return result;
         }
     }
 }

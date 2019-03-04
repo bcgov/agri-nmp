@@ -25,5 +25,6 @@ namespace Agri.Models.Farm
         public int? surfaceArea { get; set; }
         public int? volumeUSGallons { get; set; }
         public string volumeOfStorageStructure { get; set; }
+        public double OctoberToMarchPrecipitation { get; set; }
     }
 }

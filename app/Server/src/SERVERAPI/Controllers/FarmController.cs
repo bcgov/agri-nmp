@@ -14,6 +14,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SERVERAPI.Models.Impl;
 using Agri.Models;
 using Microsoft.Extensions.Logging;
+using Agri.Models.Settings;
+using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Controllers
 {
@@ -24,24 +26,32 @@ namespace SERVERAPI.Controllers
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
+        private IOptions<AppSettings> _appSettings;
 
         public FarmController(ILogger<FarmController> logger, 
             IHostingEnvironment env, 
             UserData ud, 
-            IAgriConfigurationRepository sd)
+            IAgriConfigurationRepository sd,
+            IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
+            _appSettings = appSettings;
         }
 
         [HttpGet]
         public IActionResult Farm()
         {
             var farmData = _ud.FarmDetails();
-
             FarmViewModel fvm = new FarmViewModel();
+            fvm.IsLegacyNMPReleaseVersion = !_ud.FarmData().NMPReleaseVersion.HasValue || _ud.FarmData().NMPReleaseVersion.Value < _appSettings.Value.NMPReleaseVersion;
+
+            if (fvm.IsLegacyNMPReleaseVersion)
+            {
+                fvm.LegacyNMPMessage = _sd.GetUserPrompt("FarmDataBackwardsCompatibility");
+            }
             fvm.showSubRegion = false;
             fvm.multipleSubRegion = false;
 
@@ -54,28 +64,47 @@ namespace SERVERAPI.Controllers
 
             fvm.selRegOption = farmData.farmRegion;
             fvm.selSubRegOption = farmData.farmSubRegion;
-            fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+
+            if (fvm.selRegOption.HasValue)
+            {
+                fvm = SetSubRegions(fvm);
+                if (fvm.IsLegacyNMPReleaseVersion && fvm.selSubRegOption.HasValue)
+                {
+                    _ud.UpdateFarmDetailsSubRegion(fvm.selSubRegOption.Value);
+                }
+                else
+                {
+                    _ud.SetLegacyDataToUnsaved();
+                }
+            }
 
             fvm.HasAnimals = farmData.HasAnimals;
             fvm.ImportsManureCompost = farmData.ImportsManureCompost;
             fvm.UsesFertilizer = farmData.UsesFertilizer;
+            
+            return View(fvm);
+        }
 
-            if (fvm.subRegionOptions.Count > 1)
+        private FarmViewModel SetSubRegions(FarmViewModel fvm)
+        {
+            fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+            if (fvm.subRegionOptions.Count == 1)
+            {
+                fvm.selSubRegOption = fvm.selSubRegOption ?? fvm.subRegionOptions[0].Id;
+                fvm.showSubRegion = false;
+                fvm.multipleSubRegion = false;
+            }
+            else if (fvm.subRegionOptions.Count > 1)
             {
                 fvm.showSubRegion = true;
                 fvm.multipleSubRegion = true;
-                fvm.selSubRegOption = farmData.farmSubRegion;
-                fvm.selRegOption= farmData.farmRegion;
-            }
-            else
-            {
-                fvm.showSubRegion = false;
-                fvm.multipleSubRegion = false;
-                fvm.selRegOption=farmData.farmRegion;
-                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+                if (fvm.selSubRegOption == null)
+                {
+                    ModelState.AddModelError("", "Select a sub region");
+                }
             }
 
-            return View(fvm);
+            return fvm;
         }
 
         [HttpPost]
@@ -87,43 +116,28 @@ namespace SERVERAPI.Controllers
             {
                 ModelState.Clear();
                 fvm.buttonPressed = "";
-                fvm.showSubRegion = true;
-                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
-                if (fvm.subRegionOptions.Count == 1)
+                fvm = SetSubRegions(fvm);
+
+                var farmData = _ud.FarmDetails();
+                farmData.farmRegion = fvm.selRegOption;
+                _ud.UpdateFarmDetails(farmData);
+
+                if (fvm.multipleSubRegion)
                 {
-                    fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
-                    fvm.showSubRegion = false;
                     return View(fvm);
                 }
-                else if (fvm.subRegionOptions.Count > 1)
-                {
-                    fvm.showSubRegion = true;
-                    if (fvm.selSubRegOption == null)
-                    {
-                        ModelState.AddModelError("", "Select a sub region");
-                    }
-                }
-                return View(fvm);
+
+                fvm.buttonPressed = "SubRegionChange";
             }
 
             if (fvm.buttonPressed == "SubRegionChange")
             {
                 ModelState.Clear();
                 fvm.buttonPressed = "";
-                fvm.showSubRegion = true;
-                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
-                if (fvm.subRegionOptions.Count == 1)
+
+                if (fvm.multipleSubRegion)
                 {
-                    fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
-                    fvm.showSubRegion = false;
-                }
-                else if (fvm.subRegionOptions.Count > 1)
-                {
-                    fvm.showSubRegion = true;
-                    if (fvm.selSubRegOption == null)
-                    {
-                        ModelState.AddModelError("", "Select a sub region");
-                    }
+                    fvm = SetSubRegions(fvm);
                 }
 
                 var storageSystems = _ud.GetStorageSystems();
@@ -141,21 +155,27 @@ namespace SERVERAPI.Controllers
                             if (s.ManureMaterialType == ManureMaterialType.Liquid)
                             {
                                 s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
-                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForLiquid;
+                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) *
+                                                             Convert.ToDecimal(s.AnnualPrecipitation) *
+                                                             conversionForLiquid;
                             }
                             else if (s.ManureMaterialType == ManureMaterialType.Solid)
                             {
                                 s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
-                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(s.AnnualPrecipitation) * conversionForSolid;
+                                                             Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) *
+                                                             Convert.ToDecimal(s.AnnualPrecipitation) *
+                                                             conversionForSolid;
                             }
                         }
+
                         _ud.UpdateManureStorageSystem(s);
                     }
 
-                    var farmData = _ud.FarmDetails();
-                    farmData.farmSubRegion = fvm.selSubRegOption;
-                    _ud.UpdateFarmDetails(farmData);
                 }
+
+                var farmData = _ud.FarmDetails();
+                farmData.farmSubRegion = fvm.selSubRegOption;
+                _ud.UpdateFarmDetails(farmData);
 
                 return View(fvm);
             }
@@ -203,6 +223,27 @@ namespace SERVERAPI.Controllers
                 fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
                 return View(fvm);
             }
+        }
+
+        [HttpGet]
+        public object CheckCompleted()
+        {
+            var regionsIncomplete = !_ud.FarmDetails().farmRegion.HasValue ||
+                                    !_ud.FarmDetails().farmSubRegion.HasValue;
+
+            var result = new { incomplete = regionsIncomplete.ToString() };
+            return result;
+        }
+
+        public IActionResult FarmIncomplete(string target)
+        {
+            var vm = new FarmIncompleteViewModel
+            {
+                Message = _sd.GetUserPrompt("RegionRequiredWarning"),
+                Target = target
+            };
+
+            return View(vm);
         }
     }
 }

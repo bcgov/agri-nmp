@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Agri.Models;
 using Microsoft.Extensions.Logging;
+using Agri.Models.Settings;
+using Microsoft.Extensions.Options;
 
 namespace SERVERAPI.Models.Impl
 {
@@ -21,18 +23,21 @@ namespace SERVERAPI.Models.Impl
         public IAgriConfigurationRepository _sd;
         private ISoilTestConverter _soilTestConversions;
         private IMapper _mapper;
+        private IOptions<AppSettings> _appSettings;
 
         public UserData(ILogger<UserData> logger,
             IHttpContextAccessor ctx, 
             IAgriConfigurationRepository sd,
             ISoilTestConverter soilTestConversions,
-            IMapper mapper)
+            IMapper mapper,
+            IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _ctx = ctx;
             _sd = sd;
             _soilTestConversions = soilTestConversions;
             _mapper = mapper;
+            _appSettings = appSettings;
         }
 
         public void NewFarm()
@@ -44,6 +49,7 @@ namespace SERVERAPI.Models.Impl
             userData.years = new List<YearData>();
             userData.years.Add(new YearData() { year = newYear });
             userData.unsaved = true;
+            userData.NMPReleaseVersion = _appSettings.Value.NMPReleaseVersion;
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
@@ -100,6 +106,20 @@ namespace SERVERAPI.Models.Impl
             {
                 yd.year = fd.year;
             }
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void UpdateFarmDetailsSubRegion(int farmSubRegionId)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.farmDetails.farmSubRegion = farmSubRegionId;
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void SetLegacyDataToUnsaved()
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
@@ -1008,7 +1028,8 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var manure in currentManures)
             {
-                manure.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm =>
+                manure.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm => 
+                    !string.IsNullOrEmpty(fm.sourceOfMaterialId) &&
                     (fm.sourceOfMaterialId.Split(',')[0] + fm.sourceOfMaterialId.Split(',')[1]) == manure.ManureId);
 
                 if (manure is ImportedManure)
@@ -1025,7 +1046,9 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var manureStorageSystem in currentManureStorageSystems)
             {
-                manureStorageSystem.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm => fm.sourceOfMaterialId.Split(',')[1] == manureStorageSystem.Id.ToString());
+                manureStorageSystem.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm => 
+                                                                                                    !string.IsNullOrEmpty(fm.sourceOfMaterialId) &&
+                                                                                                    fm.sourceOfMaterialId.Split(',')[1] == manureStorageSystem.Id.ToString());
 
                 if (manureStorageSystem is ManureStorageSystem)
                 {
