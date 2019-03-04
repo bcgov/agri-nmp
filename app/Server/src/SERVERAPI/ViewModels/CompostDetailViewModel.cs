@@ -53,7 +53,7 @@ namespace SERVERAPI.ViewModels
         public string ExplainNutrientAnlalysisAmmonia { get; set; }
         public string ExplainNutrientAnlalysisPhosphorous { get; set; }
         public string ExplainNutrientAnlalysisPotassium { get; set; }
-        public bool IsRelease1Data { get; set; }
-        public int? Release1ManureId { get; set; }
+        public bool IsLegacyNMPReleaseVersion { get; set; }
+        public int? LegacyNMPReleaseVersionManureId { get; set; }
     }
 }

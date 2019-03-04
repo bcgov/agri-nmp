@@ -1,0 +1,24 @@
+﻿@model ReportTableOfContentsViewModel
+
+<div id="pageHeader-first"></div>
+<div class="Row">
+    <div class="Cell">
+        <span style="font-size:12pt"><b>Table Of Contents</b></span>
+        <br />
+        <br />
+    </div>
+</div>
+
+<table>
+    @foreach (var contentItem in Model.ContentItems)
+    {
+    <tr>
+        <td class="CellDtlNBd" style="padding-right: 150px">
+            <span style="font-size:10pt"><b>@contentItem.SectionName</b></span>
+        </td>
+        <td class="CellDtlNBd" style="padding:0px">
+            <span style="font-size:10pt"><b>@contentItem.PageNumber</b></span>
+        </td>
+    </tr>
+    }
+</table>

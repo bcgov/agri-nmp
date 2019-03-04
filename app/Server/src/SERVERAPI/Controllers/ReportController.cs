@@ -1157,6 +1157,70 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+
+        public async Task<string> RenderTableOfContents()
+        {
+            var vm = new ReportTableOfContentsViewModel();
+            var yd = _ud.GetYearData();
+            var pageNumber = 2;
+
+            //ReportApplication
+            vm.ContentItems.Add(new ContentItem {SectionName = "Application Schedule", PageNumber = pageNumber});
+            //ReportManureCompostInventory
+            if (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any())
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem {SectionName = "Manure/Compost Inventory", PageNumber = pageNumber });
+            }
+
+            //ReportManureSummary
+            if (yd.farmManures.Any())
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem {SectionName = "Manure and Compost Use", PageNumber = pageNumber});
+            }
+
+            //ReportOctoberToMarchStorageVolumes
+            if (yd.farmManures.Any() &&
+                yd.ManureStorageSystems.Any() &&
+                yd.ManureStorageSystems.Any(mss => mss.ManureMaterialType == ManureMaterialType.Liquid))
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem
+                {
+                    SectionName = "Manure and Compost Use -- Liquid Storage Capacity: October to March",
+                    PageNumber = pageNumber
+                });
+            }
+
+            //ReportFertilizers
+            pageNumber = pageNumber + 1;
+            vm.ContentItems.Add(new ContentItem {SectionName = "Fertilizer Required", PageNumber = pageNumber});
+            //ReportFields
+            var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.fieldName}");
+            foreach (var fieldName in fieldNames)
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem {SectionName = fieldName, PageNumber = pageNumber});
+            }
+
+            //ReportAnalysis
+            if (yd.farmManures.Any())
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem
+                    {SectionName = "Manure and Compost Analysis", PageNumber = pageNumber });
+            }
+
+            //ReportSummary
+            pageNumber = pageNumber + 1;
+            vm.ContentItems.Add(new ContentItem {SectionName = "Soil Test Results", PageNumber = pageNumber });
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportTableOfContents.cshtml", vm);
+
+            return result;
+        }
+
         public async Task<string> RenderApplication()
         {
             string crpName = string.Empty;
@@ -1507,6 +1571,7 @@ namespace SERVERAPI.Controllers
             string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
             string pageBreakForManure = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
 
+            string reportTableOfContents = await RenderTableOfContents();
             string reportApplication = await RenderApplication();
             string reportManureCompostInventory = await RenderManureCompostInventory();
             string reportManureUse = await RenderManureUse();
@@ -1516,12 +1581,21 @@ namespace SERVERAPI.Controllers
             string reportAnalysis = await RenderAnalysis();
             string reportSummary = await RenderSummary();
 
-            string report = reportApplication + pageBreak + reportManureCompostInventory + pageBreakForManure + reportManureUse + pageBreakForManure + reportOctoberToMarchStorageVolumes + pageBreakForManure + reportFertilizers + pageBreak + reportFields + pageBreak + reportAnalysis + pageBreak + reportSummary;
+            string report = reportTableOfContents + pageBreak + 
+                            reportApplication + pageBreak + 
+                            reportManureCompostInventory + pageBreakForManure + 
+                            reportManureUse + pageBreakForManure + 
+                            reportOctoberToMarchStorageVolumes + pageBreakForManure + 
+                            reportFertilizers + pageBreak + 
+                            reportFields + pageBreak + 
+                            reportAnalysis + pageBreak + 
+                            reportSummary;
 
             result = await PrintReportAsync(report, true);
 
             return result;
         }
+
         public async Task<FileContentResult> PrintReportAsync(string content, bool portrait)
         {
             string reportHeader = string.Empty;
@@ -1535,6 +1609,7 @@ namespace SERVERAPI.Controllers
             options.border = new PDF_Border();
             options.header = new PDF_Header();
             options.footer = new PDF_Footer();
+            options.paginationOffset = -1;
 
             options.type = "pdf";
             options.quality = "75";

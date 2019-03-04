@@ -1,27 +1,26 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Agri.Interfaces;
+using Agri.Models.Farm;
+using Agri.Models.Settings;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.NodeServices;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Diagnostics;
-using System.Linq;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using Agri.Models.Settings;
-using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Controllers
 {
@@ -67,20 +66,22 @@ namespace SERVERAPI.Controllers
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
         public IAgriConfigurationRepository _sd { get; set; }
-        public AppSettings _settings;
         public BrowserData _bd { get; set; }
+        private IOptions<AppSettings> _appSettings;
 
         public HomeController(ILogger<HomeController> logger,
             IHostingEnvironment env, 
             UserData ud, 
             IAgriConfigurationRepository sd, 
-            BrowserData bd)
+            BrowserData bd,
+            IOptions<AppSettings> appSettings)
         {
             _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
             _bd = bd;
+            _appSettings = appSettings;
         }
         //public IActionResult Index()
         //{
@@ -334,6 +335,16 @@ namespace SERVERAPI.Controllers
         {
             FarmData farmData = _ud.FarmData();
             farmData.unsaved = false;
+
+            if (!farmData.NMPReleaseVersion.HasValue || farmData.NMPReleaseVersion != _appSettings.Value.NMPReleaseVersion)
+            {
+                if (_ud.FarmDetails().farmRegion.HasValue && _ud.GetYearData().farmManures
+                        .All(fm => !string.IsNullOrEmpty(fm.sourceOfMaterialId)))
+                {
+                    farmData.NMPReleaseVersion = _appSettings.Value.NMPReleaseVersion;
+                }
+            }
+
             _ud.SaveFarmData(farmData);
 
             var fileName = farmData.farmDetails.year + " - " + farmData.farmDetails.farmName + ".nmp";

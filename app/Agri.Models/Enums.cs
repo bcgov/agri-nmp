@@ -66,8 +66,9 @@ namespace Agri.Models
         Fields,
         SoilTest,
         Calculate,
-        Report,
-        RefreshNavigation
+        Report ,
+        RefreshNavigation,
+        RefreshNextPreviousNavigation
     }
 
     public enum AppControllers
