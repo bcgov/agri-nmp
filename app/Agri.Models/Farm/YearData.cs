@@ -27,6 +27,10 @@ namespace Agri.Models.Farm
         
         public List<int> GetFarmManureIds(ManureStorageSystem manureStorageSystem)
         {
+            if (manureStorageSystem == null)
+            {
+                return new List<int>();
+            }
             var farmManureIds = farmManures
                 .Where(fm => fm.sourceOfMaterialStoredSystemId == manureStorageSystem.Id)
                 .Select(fm => fm.id).ToList();
@@ -36,6 +40,10 @@ namespace Agri.Models.Farm
 
         public List<int> GetFarmManureIds(ImportedManure importedManure)
         {
+            if (importedManure == null)
+            {
+                return new List<int>();
+            }
             var farmManureIds = farmManures
                 .Where(fm => fm.sourceOfMaterialImportedManureId == importedManure.Id)
                 .Select(fm => fm.id).ToList();
@@ -70,7 +78,7 @@ namespace Agri.Models.Farm
 
         public List<Field> GetFieldsAppliedWithManure(FarmManure farmManure)
         {
-            var appliedFields = GetFieldsAppliedWithFarmManure(new List<int> {farmManure.id});
+            var appliedFields = GetFieldsAppliedWithFarmManure(farmManure != null ? new List<int> {farmManure.id} : new List<int>());
 
             return appliedFields;
         }

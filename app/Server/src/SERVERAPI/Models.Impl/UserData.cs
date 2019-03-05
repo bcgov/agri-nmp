@@ -699,7 +699,7 @@ namespace SERVERAPI.Models.Impl
             }
 
             fm = yd.farmManures.FirstOrDefault(c => c.sourceOfMaterialImportedManureId == importedManure.Id);
-            if (!fm.customized)
+            if (!fm?.customized == true)
             {
                 Manure man = _sd.GetManure(fm.manureId.ToString());
                 fm.ammonia = man.Ammonia;
