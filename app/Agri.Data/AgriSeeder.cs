@@ -595,25 +595,25 @@ namespace Agri.Data
             //    _context.SaveChanges();
             //}
 
-            if (!_context.AppliedMigrationSeedData.Any(a =>
-                a.JsonFilename.Equals("20_PhosphorusSoilTestRanges", StringComparison.CurrentCultureIgnoreCase)))
-            {
-                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PhosphorusSoilTestRange>>("20_PhosphorusSoilTestRanges");
-                var currentVersion = _sd.GetCurrentStaticDataVersion();
+            //if (!_context.AppliedMigrationSeedData.Any(a =>
+            //    a.JsonFilename.Equals("20_PhosphorusSoilTestRanges", StringComparison.CurrentCultureIgnoreCase)))
+            //{
+            //    var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PhosphorusSoilTestRange>>("20_PhosphorusSoilTestRanges");
+            //    var currentVersion = _sd.GetCurrentStaticDataVersion();
 
-                foreach (var testRange in migrationSeedData.Data)
-                {
-                    var currentTestRange = _context.PhosphorusSoilTestRanges.Single(s => s.Id == testRange.Id);
-                    currentTestRange.LowerLimit = testRange.LowerLimit;
-                    currentTestRange.UpperLimit = testRange.UpperLimit;
-                    currentTestRange.Rating = testRange.Rating;
-                    currentTestRange.SetVersion(currentVersion);
-                }
+            //    foreach (var testRange in migrationSeedData.Data)
+            //    {
+            //        var currentTestRange = _context.PhosphorusSoilTestRanges.Single(s => s.Id == testRange.Id);
+            //        currentTestRange.LowerLimit = testRange.LowerLimit;
+            //        currentTestRange.UpperLimit = testRange.UpperLimit;
+            //        currentTestRange.Rating = testRange.Rating;
+            //        currentTestRange.SetVersion(currentVersion);
+            //    }
 
-                _context.AppliedMigrationSeedData.Add(migrationSeedData);
-                _context.StaticDataVersions.Update(currentVersion);
-                _context.SaveChanges();
-            }
+            //    _context.AppliedMigrationSeedData.Add(migrationSeedData);
+            //    _context.StaticDataVersions.Update(currentVersion);
+            //    _context.SaveChanges();
+            //}
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("18_PrevYearManureApplicationNitrogenDefaults", StringComparison.CurrentCultureIgnoreCase)))
             {
