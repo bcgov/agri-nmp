@@ -91,7 +91,7 @@ namespace SERVERAPI.Utility
                     messages.Add(bm);
 
                 bm = _sd.GetMessageByChemicalBalance("CropK2O", chemicalBalances.balance_CropK2O, legume);
-                if (!string.IsNullOrEmpty(bm.Chemical))
+                if (!string.IsNullOrEmpty(bm?.Chemical))
                     messages.Add(bm);
 
                 bm = _sd.GetMessageByChemicalBalance("AgrP2O5CropP2O5", chemicalBalances.balance_AgrP2O5, chemicalBalances.balance_CropP2O5, "CropP2O5");
