@@ -190,6 +190,11 @@ namespace SERVERAPI.Controllers
                 if (!string.IsNullOrEmpty(_ud?.FarmData()?.LastAppliedFarmManureId))
                 {
                     mvm.SelectedFarmManure = _ud?.FarmData().LastAppliedFarmManureId;
+                    var man = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
+                    mvm.currUnit = man.solid_liquid;
+                    mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
+                    mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
+                    mvm.avail = GetOrganicNAvailableThisYear(Convert.ToInt16(mvm.SelectedFarmManure)).ToString("###");
                 }
             }
 
@@ -244,8 +249,7 @@ namespace SERVERAPI.Controllers
             int addedId = 0;
             NutrientManure origManure = new NutrientManure();
 
-            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
-            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+            var calculateNutrients = new CalculateNutrients(_ud, _sd);
 
             ManureDetailsSetup(ref mvm);
 
@@ -272,11 +276,7 @@ namespace SERVERAPI.Controllers
                     mvm.btnText = "Calculate";
 
                     // reset to calculated amount
-                    int regionid = _ud.FarmDetails().farmRegion.Value;
-                    Region region = _sd.GetRegion(regionid);
-                    nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.SelectedFarmManure), region.LocationId);
-
-                    mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
+                    mvm.avail = GetOrganicNAvailableThisYear(Convert.ToInt16(mvm.SelectedFarmManure)).ToString("###");
 
                     mvm.stdAvail = true;
                     return View(mvm);
@@ -299,12 +299,8 @@ namespace SERVERAPI.Controllers
                             mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
                         }
 
-                        // if application is present then recalc N and A
-                        int regionid = _ud.FarmDetails().farmRegion.Value;
-                        Region region = _sd.GetRegion(regionid);
-                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.SelectedFarmManure), region.LocationId);
-
-                        mvm.avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
+                        // if application is present then recalc N and A                      
+                        mvm.avail = GetOrganicNAvailableThisYear(Convert.ToInt16(mvm.SelectedFarmManure)).ToString("###");
 
                         if (mvm.selApplOption != "" &&
                             mvm.selApplOption != "select")
@@ -395,15 +391,11 @@ namespace SERVERAPI.Controllers
                         mvm.btnText = mvm.id == null ? "Add to Field" : "Update Field";
 
                         // determine if values on screen are book value or not
-                        int regionid = _ud.FarmDetails().farmRegion.Value;
-                        Region region = _sd.GetRegion(regionid);
-                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.SelectedFarmManure), region.LocationId);
-
                         if (Convert.ToDecimal(mvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.SelectedFarmManure), Convert.ToInt16(mvm.selApplOption)) * 100))
                         {
                             mvm.stdN = false;
                         }
-                        if (Convert.ToDecimal(mvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100))
+                        if (Convert.ToDecimal(mvm.avail) != GetOrganicNAvailableThisYear(Convert.ToInt16(mvm.SelectedFarmManure)))
                         {
                             mvm.stdAvail = false;
                         }
@@ -453,6 +445,16 @@ namespace SERVERAPI.Controllers
 
             return PartialView(mvm);
         }
+
+        private decimal GetOrganicNAvailableThisYear(int farmManureId)
+        {
+            var calculateNutrients = new CalculateNutrients(_ud, _sd);
+            int regionid = _ud.FarmDetails().farmRegion.Value;
+            Region region = _sd.GetRegion(regionid);
+            var nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(farmManureId), region.LocationId);
+            return nOrganicMineralizations.OrganicN_FirstYear * 100;
+        }
+
         private int ManureInsert(ManureDetailsViewModel mvm)
         {
             NutrientManure nm = new NutrientManure()
