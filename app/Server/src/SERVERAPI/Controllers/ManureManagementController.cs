@@ -1794,6 +1794,7 @@ namespace SERVERAPI.Controllers
             manureStorageSystem.SeparatedSolidsTons = msdvm.SeparatedSolidsTons;
             manureStorageSystem.SeparatedLiquidsUSGallons = msdvm.SeparatedLiquidsUSGallons;
             manureStorageSystem.AnnualPrecipitation = msdvm.AnnualPrecipitation;
+
             if (manureStorageSystem.ManureStorageStructures.Count() > 0)
             {
                 manureStorageSystem.ManureStorageVolume = manureStorageSystem.ManureStorageStructures.Sum(ss => ss.volumeUSGallons).ToString();
@@ -1887,8 +1888,11 @@ namespace SERVERAPI.Controllers
                             msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
                         storageStructure.surfaceArea = msdvm.surfaceArea;
                         storageStructure.volumeUSGallons = msdvm.volumeUSGallons;
-                        storageStructure.volumeOfStorageStructure =
-                            msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" + msdvm.StorageStructureName + ")";
+                        if (msdvm.volumeUSGallons.HasValue && !string.IsNullOrEmpty(msdvm.StorageStructureName))
+                        {
+                            storageStructure.volumeOfStorageStructure =
+                                msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" + msdvm.StorageStructureName + ")";
+                        }
                     }
                 }
 
@@ -2260,11 +2264,11 @@ namespace SERVERAPI.Controllers
                 var manureStorageSystem = PopulateManureStorageSystem(msdvm);
 
                 //Calculate Separation
-                if (manureStorageSystem.AnnualTotalAmountofManureInStorage > 0)
+                if (manureStorageSystem.AnnualTotalStoredGeneratedManure > 0 || manureStorageSystem.AnnualTotalImportedManure > 0)
                 {
                     var separatedManure =
                         _manureLiquidSolidSeparationCalculator.CalculateSeparatedManure(
-                            manureStorageSystem.AnnualTotalAmountofManureInStorage,
+                            (manureStorageSystem.AnnualTotalStoredGeneratedManure + manureStorageSystem.AnnualTotalImportedManure),
                             manureStorageSystem.PercentageOfLiquidVolumeSeparated);
 
                     result.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;

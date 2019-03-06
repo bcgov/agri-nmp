@@ -622,6 +622,7 @@ namespace SERVERAPI.Controllers
 
                 rs.storageSystemName = s.Name;
                 rs.ManureMaterialType = s.ManureMaterialType;
+                rs.annualAmountOfManurePerStorage = string.Format("{0:#,##0}", (s.AnnualTotalAmountofManureInStorage));
                 rs.footnotes = new List<ReportFieldFootnote>();
                 if (s.GetsRunoffFromRoofsOrYards)
                 {
@@ -772,34 +773,32 @@ namespace SERVERAPI.Controllers
             }
 
 
-            foreach (var s in rmcvm.storages)
-            {
-                decimal annualAmountOfManurePerStorage = 0;
-                if (s.precipitation != null)
-                {
-                    //s.precipitation=Convert.ToDecimal(s.run) +
-                    //    Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) * Convert.ToDecimal(rainInMM) * conversionForLiquid;
-                    annualAmountOfManurePerStorage = Convert.ToDecimal(s.precipitation);
-                }
+            //foreach (var s in rmcvm.storages)
+            //{
+            //    decimal annualAmountOfManurePerStorage = 0;
+            //    if (s.precipitation != null)
+            //    {
+            //        annualAmountOfManurePerStorage = Convert.ToDecimal(s.precipitation);
+            //    }
 
-                if (s.milkingCenterWashWater != null)
-                {
-                    annualAmountOfManurePerStorage += Convert.ToDecimal(s.milkingCenterWashWater);
-                }
+            //    if (s.milkingCenterWashWater != null)
+            //    {
+            //        annualAmountOfManurePerStorage += Convert.ToDecimal(s.milkingCenterWashWater);
+            //    }
 
-                foreach (var m in s.reportManures)
-                {
-                    if (m.annualAmount != null)
-                    {
-                        annualAmountOfManurePerStorage += Convert.ToDecimal(m.annualAmount);
-                    }
-                }
+            //    foreach (var m in s.reportManures)
+            //    {
+            //        if (m.annualAmount != null)
+            //        {
+            //            annualAmountOfManurePerStorage += Convert.ToDecimal(m.annualAmount);
+            //        }
+            //    }
 
-                if (s.annualAmountOfManurePerStorage != "")
-                {
-                    s.annualAmountOfManurePerStorage = string.Format("{0:#,##0}", (Math.Round(annualAmountOfManurePerStorage))).ToString();
-                }
-            }
+            //    if (s.annualAmountOfManurePerStorage != "")
+            //    {
+            //        s.annualAmountOfManurePerStorage = string.Format("{0:#,##0}", (Math.Round(annualAmountOfManurePerStorage))).ToString();
+            //    }
+            //}
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportManureCompostInventory.cshtml", rmcvm);
 
             return result;

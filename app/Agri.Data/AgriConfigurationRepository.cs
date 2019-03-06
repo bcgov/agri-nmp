@@ -664,7 +664,7 @@ namespace Agri.Data
 
                 if (balanceMessages != null &&
                     balanceType.Equals("AgrN", StringComparison.CurrentCultureIgnoreCase) &&
-                    balanceMessages.Icon.Equals("stop", StringComparison.CurrentCultureIgnoreCase))
+                    !balanceMessages.Icon.Equals("stop", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // nitrogen does not need to be added even if there is a deficiency
                     message.Icon = "good";
