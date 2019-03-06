@@ -1888,8 +1888,11 @@ namespace SERVERAPI.Controllers
                             msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
                         storageStructure.surfaceArea = msdvm.surfaceArea;
                         storageStructure.volumeUSGallons = msdvm.volumeUSGallons;
-                        storageStructure.volumeOfStorageStructure =
-                            msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" + msdvm.StorageStructureName + ")";
+                        if (msdvm.volumeUSGallons.HasValue && !string.IsNullOrEmpty(msdvm.StorageStructureName))
+                        {
+                            storageStructure.volumeOfStorageStructure =
+                                msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" + msdvm.StorageStructureName + ")";
+                        }
                     }
                 }
 
