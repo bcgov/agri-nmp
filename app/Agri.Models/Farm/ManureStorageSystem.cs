@@ -188,8 +188,24 @@ namespace Agri.Models.Farm
         }
 
         [JsonIgnore]
-        public decimal AnnualTotalAmountofManureInStorage => AnnualTotalStoredGeneratedManure +
-                                                             AnnualTotalImportedManure;
+        public decimal AnnualTotalAmountofManureInStorage
+        {
+            get
+            {
+                var total=0m;
+                if (IsThereSolidLiquidSeparation)
+                {
+                    total = SeparatedLiquidsUSGallons + AnnualTotalPrecipitation;
+                }
+                else
+                {
+                    total = AnnualTotalStoredGeneratedManure +
+                                AnnualTotalImportedManure + AnnualTotalPrecipitation;
+                }
+                
+                return total;
+            }
+        }
 
         #region Methods
         public void AddUpdateManureStorageStructure(ManureStorageStructure manureStorageStructure)
