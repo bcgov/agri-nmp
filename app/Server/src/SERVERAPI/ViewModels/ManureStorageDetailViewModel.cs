@@ -92,6 +92,7 @@ namespace SERVERAPI.ViewModels
         public string ExplainPrecipitationOctoberToMarch { get; set; }
         public string ExplainStorageDeficiency { get; set; }
         public string ExplainPercentageOfLiquidSeparation { get; set; }
+        public string StorageShapeMeasurementsChangeNextField { get; set; }
     }
 
 }
