@@ -81,6 +81,7 @@ app {
         host = "${app.deployment.id}-${app.deployment.namespace}.pathfinder.gov.bc.ca"
 
         templates = [
+				['file':'OpenShift/postgresql.dc.json'],
                 [
                     'file':'OpenShift/nmp.dc.json',
                     'params':[
