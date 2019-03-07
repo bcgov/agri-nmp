@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
-@model SERVERAPI.ViewModels.FarmViewModel
+﻿@model FarmViewModel
 
 @{
     ViewBag.Title = "Farm Information";
@@ -23,17 +22,25 @@
 <div class="container">
     <div class="step-forms col-sm-12">
         <!-- PAGE CONTENT -->
-        <form asp-controller="Farm" asp-action="Farm" method="post">
+        <form asp-controller="Farm" asp-action="Farm" method="post" id="modForm">
             <div class="form-box">
                 <div class="form-box-header clearfix">
                     <legend class="form-box-heading">Farm Information</legend>
                 </div>
                 <div class="form-box-body">
                     <div class="form-box-fields">
+                        @if (Model.IsLegacyNMPReleaseVersion)
+                        {
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span class="text-danger">@Model.LegacyNMPMessage</span>
+                                </div>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col-sm-3">
                                 <label asp-for="year">Year</label>
-                                <input class="form-control" asp-for="year" id="year" type="text" />
+                                <input class="form-control" asp-for="year" id="year" type="text"/>
                                 <span asp-validation-for="year"></span>
                             </div>
                             <div class="col-sm-6">
@@ -44,12 +51,71 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <label asp-for="selRegOption">Region</label>
+                                <label asp-for="selRegOption" for="ddlRegion">Region</label>
                                 <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
-                                <select class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions,"Id","Value"))">
+                                <select id="ddlRegion" class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions, "Id", "Value"))">
                                     <option>select region</option>
                                 </select>
                                 <span asp-validation-for="selRegOption"></span>
+                            </div>
+                        </div>
+                        @if (Model.showSubRegion)
+                        {
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <select id="ddlSubRegion" class="form-control" asp-for="selSubRegOption" asp-items="@(new SelectList(Model.subRegionOptions, "Id", "Value"))">
+                                        <option>select subregion</option>
+                                    </select>
+                                    @if (Model.multipleSubRegion)
+                                    {
+                                        <span asp-validation-for="selSubRegOption" class="text-danger">A sub region must be selected</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        <div class="row" style="margin-bottom: 0px;">
+                            <div class="col-sm-4">
+                                <span id="labelHasAnimals" style="font-weight: bold">
+                                    This farm has animals
+                                </span>
+                            </div>
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals" style="margin-bottom: 0px;">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes"/> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo"/> No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 0px;">
+                            <div class="col-sm-4">
+                                <span id="labelImportsManureCompost" style="font-weight: bold">
+                                    This farm imports manure or compost
+                                </span>
+                            </div>
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelImportsManureCompost" style="margin-bottom: 0px;">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="ImportsManureCompost" type="radio" value="true" id="rbIsImportsManureCompostYes"/> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="ImportsManureCompost" type="radio" value="false" id="rbIsImportsManureCompostNo"/> No
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <span id="labelUsesFertilizer" style="font-weight: bold">
+                                    This farm uses fertilizer
+                                </span>
+                            </div>
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelUsesFertilizer">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="UsesFertilizer" type="radio" value="true" id="rbIsUsesFertilizerYes"/> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="UsesFertilizer" type="radio" value="false" id="rbIsUsesFertilizerNo"/> No
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -57,10 +123,13 @@
             </div>
             <div class="form-box-submit">
                 <div class="form-box-fields text-right">
-                    <button class="btn btn-primary" type="submit" title="Next" aria-label="Next">Next</button>
+                    <button class="btn btn-primary" type="submit" title="Next" aria-label="Next" onclick="">Next</button>
                 </div>
             </div>
             @Html.HiddenFor(x => x.currYear)
+            @Html.HiddenFor(x => x.showSubRegion)
+            @Html.HiddenFor(x => x.multipleSubRegion)
+            @Html.HiddenFor(x => x.buttonPressed)
         </form>
         <!-- PAGE CONTENT -->
     </div>
@@ -70,8 +139,46 @@
 @section Scripts {
     <script type="text/javascript">
 
+        function Intercept(x) {
+            var incomplete = "False";
+            var jqxhr = $.ajax({
+                    type: "GET",
+                    url: '@Url.Action("CheckCompleted", "Farm")',
+                    data: '{}',
+                    async: false,
+                    cache: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json"
+                })
+                .done(function (result) {
+                    incomplete = result.incomplete;
+                })
+                .fail(function (result) {
+                    incomplete = "False";
+                });
+
+            if (incomplete == "True")
+            {
+                $.ajaxSetup({ cache: false });
+                var url = '@Url.Action("FarmIncomplete", "Farm", new { target = "zzz" })';
+                $type = url.replace('zzz', x);
+                $('#myModalContent').load($type, function () {
+                    $('#myModal').modal({
+                        /*backdrop: 'static',*/
+                        //keyboard: true
+                    }, 'show');
+                    bindFormI(this);
+                });
+                return false;
+            }
+            else
+            {
+                window.location.href = x;
+            }
+        }
+
         $(document).ready(function () {
-            $("#wizard-farm").addClass('wizard-item-done');
+            $("#FarmFarm1").addClass('wizard-item-done');
         });
 
         $(document).on("click", '[data_modalI]', function (e) {
@@ -108,6 +215,67 @@
                         }
                     }
                 });
+                return false;
+            });
+        }
+
+        $(document).ready(function () {
+            $("#submenu").addClass('padding');
+            $("#submenu-ul-fields").addClass('submenu-display');
+            $("#submenu-ul-manure").addClass('submenu-display');
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlRegion", function () {
+                $('#buttonPressed').val("RegionChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlSubRegion", function () {
+                $('#buttonPressed').val("SubRegionChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).on("click",
+            '[data_modal2]',
+            function (e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $('#myModalContent').load($type,
+                    function () {
+                        $('#myModal').modal({
+                                /*backdrop: 'static',*/
+                                //keyboard: true
+
+                            },
+                            'show');
+                        bindForm2(this);
+                    });
+                return false;
+            });
+
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
+                    .done(function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            window.location.href = result.url;
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm2(dialog);
+                        }
+                    });
+
                 return false;
             });
         }

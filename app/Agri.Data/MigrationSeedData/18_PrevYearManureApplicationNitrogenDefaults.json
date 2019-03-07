@@ -1,0 +1,37 @@
+{
+  "Id": 18,
+  "JsonFilename": "18_PrevYearManureApplicationNitrogenDefaults",
+  "ReasonReference": "R4E06-SE01-B04: Bug - Previous Years' Manure",
+  "Data": [
+    {
+      "Id": "1",
+      "PreviousYearManureAplicationFrequency": "2",
+      "FieldManureApplicationHistory": "2",
+      "defaultNitrogenCredit": [
+        "45",
+        "60",
+        "90"
+      ]
+    },
+    {
+      "Id": "2",
+      "PreviousYearManureAplicationFrequency": "1",
+      "FieldManureApplicationHistory": "1",
+      "defaultNitrogenCredit": [
+        "22",
+        "30",
+        "45"
+      ]
+    },
+    {
+      "Id": "3",
+      "PreviousYearManureAplicationFrequency": "0",
+      "FieldManureApplicationHistory": "0",
+      "defaultNitrogenCredit": [
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ]
+}

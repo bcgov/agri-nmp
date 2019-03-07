@@ -5,15 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcOther : ViewComponent
     {
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public CalcOther(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public CalcOther(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;
@@ -38,13 +40,13 @@ namespace SERVERAPI.ViewComponents
                 {
                     otherId = m.id,
                     description = m.description,
-                    ltN = m.ltN,
-                    ltP = m.ltP2o5,
-                    ltK = m.ltK,
-                    yrN = m.yrN,
-                    yrP = m.yrP2o5,
-                    yrK = m.yrK
-                };
+                    ltN = Convert.ToDecimal((m.ltN).ToString("G29")),
+                    ltP = Convert.ToDecimal((m.ltP2o5).ToString("G29")),
+                    ltK = Convert.ToDecimal((m.ltK).ToString("G29")),
+                    yrN = Convert.ToDecimal((m.yrN).ToString("G29")),
+                    yrP = Convert.ToDecimal((m.yrP2o5).ToString("G29")),
+                    yrK = Convert.ToDecimal((m.yrK).ToString("G29")),
+            };
                 ovm.others.Add(no);
             }
 

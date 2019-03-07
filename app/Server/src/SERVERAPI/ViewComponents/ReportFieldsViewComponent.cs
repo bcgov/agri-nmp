@@ -4,15 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
 
 namespace SERVERAPI.ViewComponents
 {
     public class ReportFields : ViewComponent
     {
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public ReportFields(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public ReportFields(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;

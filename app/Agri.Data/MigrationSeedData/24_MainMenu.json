@@ -1,0 +1,42 @@
+{
+  "Id": 24,
+  "JsonFilename": "24_MainMenu",
+  "ReasonReference": "R4E07-SE01-TUS19: Create Repository Function to Version Database",
+  "Data": [
+    {
+      "id": 1,
+      "name": "Farm Information",
+      "controller": "Farm",
+      "action": "Farm",
+      "SortNumber":  1 
+    },
+    {
+      "id": 2,
+      "name": "Manure/ Compost",
+      "controller": "ManureManagement",
+      "action": "ManureGeneratedObtained",
+      "SortNumber": 2
+    },
+    {
+      "id": 3,
+      "name": "Fields and Soil",
+      "controller": "Fields",
+      "action": "Fields",
+      "SortNumber": 3
+    },
+    {
+      "id": 4,
+      "name": "Calculate Nutrients",
+      "controller": "Nutrients",
+      "action": "Calculate",
+      "SortNumber": 4
+    },
+    {
+      "id": 5,
+      "name": "Reporting",
+      "controller": "Report",
+      "action": "Report",
+      "SortNumber": 5
+    }
+  ]
+}

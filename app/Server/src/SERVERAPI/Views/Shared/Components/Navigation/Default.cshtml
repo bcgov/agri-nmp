@@ -1,0 +1,54 @@
+﻿@using Agri.Models
+@model NavigationDetailViewModel
+
+<!--MAIN MENU-->
+<div style="background: #c1daea;">
+    <div class="top-level-nav">
+        <ul class="top-level-nav">
+            <li style="padding:0 40px 0 0">
+                <input type="button" data_modal2="" data-type="@Url.Action("NewWarning", "Home")" value="Home" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;" />
+            </li>
+            @foreach (var item in Model.mainMenuOptions)
+            {
+                var url = Url.Action(item.Action, item.Controller);
+                var redirectFunction = $"window.location.href='{url}'";
+                if (Model.UseInterceptJS)
+                {
+                    redirectFunction = $"Intercept('{url}')";
+                }
+                <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
+                    <a id="@item.ElementId" href='#' onclick="@redirectFunction" class="@item.GreyOutClass">
+                        @item.Name
+                    </a>
+                </li>
+            }
+            @{
+                var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"].ToString());
+            }
+            @if (currentAction != CoreSiteActions.Farm && currentAction != CoreSiteActions.Report)
+            {
+                <li class="continue-link">
+                    <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+<!--MAIN MENU-->
+<!--SUB MENU-->
+<div style="background: #f2f2f2;">
+    <div class="second-level-nav">
+        <div class="col-lg-offset-2 col-lg-10">
+            <ul class="second-level-nav">
+                @foreach (var item in Model.subMenuOptions)
+                {
+                    <li id="@item.Controller@item.Action@item.Id">
+                        <a id="@item.ElementId" href='@Url.Action(@item.Action, @item.Controller)' class="@item.GreyOutClass">
+                            <span>@item.Name</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

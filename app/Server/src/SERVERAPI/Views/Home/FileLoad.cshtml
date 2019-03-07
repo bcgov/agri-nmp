@@ -6,7 +6,7 @@
 <div id="target">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">File Load</h4>
+        <h2 class="modal-title" id="myModalLabel">File Load</h2>
     </div>
 
     <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="FileLoad">
@@ -35,14 +35,14 @@
         <div class="modal-footer">
             <button id="canBtn" class="btn" type="button" data-dismiss="modal">Cancel</button>
             @if (Model.unsavedData)
-    {
-        <input id="download" class="btn btn-primary" type="button" value="Download file" onclick="location.href='@Url.Action("Download", "Home")';this.style.display = 'none';document.getElementById('canBtn').style.display = 'none';" />
-        <input class="btn btn-primary" type="submit" value="Continue" />
-}
-else
-{
-        <input class="btn btn-primary" type="submit" value="Upload" />
-}
+            {
+                <input id="download" class="btn btn-primary" type="button" value="Download file" onclick="location.href='@Url.Action("Download", "Home")';this.style.display = 'none';document.getElementById('canBtn').style.display = 'none';" />
+                <input class="btn btn-primary" type="submit" value="Continue" />
+            }
+            else
+            {
+                <input class="btn btn-primary" type="submit" value="Upload" />
+            }
         </div>
         @Html.HiddenFor(x => x.unsavedData)
         @Html.HiddenFor(x => x.warningMsg)

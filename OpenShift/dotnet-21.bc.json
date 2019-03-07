@@ -1,0 +1,99 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "dotnet-21",
+        "creationTimestamp": null
+    },
+    "parameters": [
+        {
+            "name": "NAME_SUFFIX",
+            "displayName": "Name",
+            "description": "The name for all created objects",
+            "required": true,
+            "value": "dotnet-21"
+        }
+    ],
+    "objects": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "dotnet-21-rhel7${NAME_SUFFIX}",
+                "creationTimestamp": null,
+                "annotations": null
+            },
+            "spec": {
+                "lookupPolicy": {
+                    "local": false
+                },
+                "tags": [
+                    {
+                        "name": "2.1",
+                        "annotations": null,
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "registry.access.redhat.com/dotnet/dotnet-21-rhel7"
+                        },
+                        "importPolicy": {},
+                        "referencePolicy": {
+                            "type": "Source"
+                        }
+                    },
+                    {
+                        "name": "2.1-10",
+                        "annotations": null,
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "registry.access.redhat.com/dotnet/dotnet-21-rhel7"
+                        },
+                        "importPolicy": {},
+                        "referencePolicy": {
+                            "type": "Source"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "dotnet-21-runtime-rhel7${NAME_SUFFIX}",
+                "creationTimestamp": null,
+                "annotations": null
+            },
+            "spec": {
+                "lookupPolicy": {
+                    "local": false
+                },
+                "tags": [
+                    {
+                        "name": "2.1",
+                        "annotations": null,
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "registry.access.redhat.com/dotnet/dotnet-21-runtime-rhel7"
+                        },
+                        "importPolicy": {},
+                        "referencePolicy": {
+                            "type": "Source"
+                        }
+                    },
+                    {
+                        "name": "2.1-10",
+                        "annotations": null,
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "registry.access.redhat.com/dotnet/dotnet-21-runtime-rhel7"
+                        },
+                        "importPolicy": {},
+                        "referencePolicy": {
+                            "type": "Source"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

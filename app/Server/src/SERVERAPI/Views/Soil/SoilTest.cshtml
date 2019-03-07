@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using Agri.Models
 @model SERVERAPI.ViewModels.SoilTestViewModel
 
 @{
@@ -35,71 +35,69 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     @if (!Model.fldsFnd)
-                            {
-                                <div class="form-box">
-                                    <div class="form-box-header clearfix">
-                                        <h3>To add soil tests please add a field first</h3>
-                                    </div>
-                                </div>
-                    }
-                    else
-                    {
-                        if (!Model.testSelected)
-                        {
-                            <div class="form-box">
-                                <div class="form-box-header clearfix">
-                                    <h3>@Html.Raw(Model.warningMsg)</h3>
-                                </div>
-                            </div>
-                }
-            }
+                                    {
+                                        <div class="form-box">
+                                            <div class="form-box-header clearfix">
+                                                <h3>To add soil tests please add a field first</h3>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        if (!Model.testSelected)
+                                        {
+                                            <div class="form-box">
+                                                <div class="form-box-header clearfix">
+                                                    <h3>@Html.Raw(Model.warningMsg)</h3>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
                         <div class="form-box-fields">
                             @if (Model.fldsFnd)
-                    {
-                        <div class="row">
-                            <div class="col-sm-7">
-                                <label asp-for="selTstOption">Lab (Soil Test Methods)</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-horizontal">
-                                <div class="form-group col-sm-7">
-                                    <select class="form-control" asp-for="selTstOption" asp-items="@(new SelectList(Model.tstOptions, "Id", "Value"))" id="ddlMth">
-                                        <option>select</option>
-                                    </select>
+                            {
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <label for="ddlMth">Lab (Soil Test Methods)</label>
+                                    </div>
                                 </div>
-                                <div class="form-group col-sm-1" style="padding-left:0px">
-                                    <a href="#" data_modal3="" data-type="@Url.Action("InfoMessage", "Nutrients", new { type = "soiltest" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Soil Tests" style="font-size:20px; padding-top:5px"></span></a>
+                                <div class="row">
+                                    <div class="form-horizontal">
+                                        <div class="form-group col-sm-7">
+                                            <select class="form-control" asp-for="selTstOption" asp-items="@(new SelectList(Model.tstOptions, "Id", "Value"))" id="ddlMth">
+                                                <option>select</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-sm-1" style="padding-left:0px">
+                                            <a href="#" aria-label="Soil Test Methods Link" data_modal3="" data-type="@Url.Action("InfoMessage", "Nutrients", new { type = "soiltest" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Soil Tests" style="font-size:20px; padding-top:5px"></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <span asp-validation-for="selTstOption"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-7">
-                                <span asp-validation-for="selTstOption"></span>
-                            </div>
-                        </div>
-            }
+                            }
                         </div>
                         <div class="form-box-fields">
                             <div class="row">
                                 <div class="col-sm-12">
                                     @if (Model.testSelected)
-                            {
-                                <div id="test">
-                                    @await Component.InvokeAsync("SoilTests")
-                                </div>
-                    }
+                                    {
+                                        <div id="test">
+                                            @await Component.InvokeAsync("SoilTests")
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-box-submit">
-                    <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="Intercept('@Url.Action("Fields", "Fields" )');" title="Previous" aria-label="Previous" />
-                    <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="Intercept('@Url.Action("Manure", "Manure" )');" title="Next" aria-label="Next" />
+                <div id="next-previous-navigation">
+                    @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.SoilTest })
                 </div>
-
             </form>
         </div>
     </div>
@@ -153,7 +151,7 @@
 
     $(document).ready(function () {
 
-        $('#sampleDt').datepicker({
+        $('#sampleDate').datepicker({
             format: "dd/mm/yyyy",
             autoclose: true
         });
@@ -239,6 +237,61 @@
                 return false;
             });
         }
+        $(document).ready(function () {
+            $("#FieldsFields5").show();
+            $("#SoilSoilTest6").show();
+            return false;
+        });
+
+        $(document).ready(function () {
+            $("#FieldsFields3").addClass('wizard-item-done');
+            $("#SoilSoilTest6").addClass('wizard-item-done');
+            $("#SoilSoilTest6").addClass('submenu-hovering');
+
+            $("#submenu-ul-manure").addClass('submenu-display');
+        });
+
+        $(document).on("click",
+            '[data_modal2]',
+            function (e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $('#myModalContent').load($type,
+                    function () {
+                        $('#myModal').modal({
+                                /*backdrop: 'static',*/
+                                //keyboard: true
+
+                            },
+                            'show');
+                        bindForm2(this);
+                    });
+                return false;
+            });
+
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
+                    .done(function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            window.location.href = result.url;
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm2(dialog);
+                        }
+                    });
+
+                return false;
+            });
+        }
+
     </script>
 
 }

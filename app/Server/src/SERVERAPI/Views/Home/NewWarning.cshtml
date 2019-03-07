@@ -6,14 +6,15 @@
 <div id="target">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Warning - Unsaved Data</h4>
+        <h2 class="modal-title" id="myModalLabel">Warning - Unsaved Data</h2>
     </div>
 
     <form asp-action="NewWarning" asp-controller="Home" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target" id="warnForm">
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <p class="text-danger">@Model.msg</p>
+                @*<p class="text-danger">@Model.msg</p>*@
+                @Html.Raw(Model.msg)
             </div>
             <br />
             <br />
@@ -23,8 +24,9 @@
                 <button id="canBtn" class="btn" type="button" data-dismiss="modal">Cancel</button>
                 <input id="download" class="btn btn-primary" type="button" value="Download file" onclick="location.href='@Url.Action("Download", "Home")';this.style.display = 'none';document.getElementById('canBtn').style.display = 'none';" />
             </div>
-            <input class="btn btn-primary" type="submit" value="Continue" />
+            <input class="btn btn-primary" type="button" value="Continue" onclick="location.href='@Url.Action("Index", "Home")'" />
         </div>
         @Html.HiddenFor(x => x.msg)
     </form>
 </div>
+

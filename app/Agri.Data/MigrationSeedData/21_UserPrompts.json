@@ -1,0 +1,12 @@
+{
+  "Id": 21,
+  "JsonFilename": "21_UserPrompts",
+  "ReasonReference": "R4E05-US03: Still Needs Nutrient Analysis",
+  "Data": [
+    {
+      "Id": "43",
+      "Name": "nutrientAnalysisForMaterialsMessage",
+      "Text": "Add a nutrient Analysis for each of these storage systems or imported materials, if you intend to use the materials to grow crops or amend soil."
+    }
+  ]
+}

@@ -1,25 +1,22 @@
-﻿using System;
+﻿using Agri.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using static SERVERAPI.Models.StaticData;
 
 namespace SERVERAPI.Utility
 {
     public class ValidateStaticData
     {        
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
 
-        public ValidateStaticData(Models.Impl.StaticData sd)
+        public ValidateStaticData(IAgriConfigurationRepository sd)
         {            
             _sd = sd;
         }
 
-        public List<StaticDataValidationMessages> PerformValidation()
+        public List<Agri.Models.Configuration.StaticDataValidationMessages> PerformValidation()
         {
-            StaticDataValidationMessages sdvm = new StaticDataValidationMessages();
-            List<StaticDataValidationMessages> retMessages = new List<StaticDataValidationMessages>();
-            List<StaticDataValidationMessages> messages;
+            Agri.Models.Configuration.StaticDataValidationMessages sdvm = new Agri.Models.Configuration.StaticDataValidationMessages();
+            List<Agri.Models.Configuration.StaticDataValidationMessages> retMessages = new List<Agri.Models.Configuration.StaticDataValidationMessages>();
+            List<Agri.Models.Configuration.StaticDataValidationMessages> messages;
             // each region should have a location            
             messages = _sd.ValidateRelationship("['agri']['nmp']['regions']['region']", "locationid", "['agri']['nmp']['locations']['location']", "id");
             retMessages.AddRange(messages);

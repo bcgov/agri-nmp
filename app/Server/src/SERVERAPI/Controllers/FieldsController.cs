@@ -2,28 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
+using Agri.Models.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using SERVERAPI.Models;
 using Microsoft.Extensions.Options;
+using Agri.Models.Configuration;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
-    public class FieldsController : Controller
+    public class FieldsController : BaseController
     {
+        private ILogger<FieldsController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
-        public Models.Impl.StaticData _sd { get; set; }
+        public IAgriConfigurationRepository _sd { get; set; }
         private readonly IOptions<AppSettings> _appSettings;
 
 
-        public FieldsController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd, IOptions<AppSettings> appSettings)
+        public FieldsController(ILogger<FieldsController> logger,
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd, 
+            IOptions<AppSettings> appSettings)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
@@ -64,7 +75,6 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public ActionResult FieldCopy(FieldCopyViewModel fvm)
         {
-            string url;
             int numSel = 0;
 
             if (ModelState.IsValid)
@@ -140,7 +150,7 @@ namespace SERVERAPI.Controllers
         {
             FieldDetailViewModel fvm = new FieldDetailViewModel();
 
-            Models.StaticData.ConversionFactor cf = _sd.GetConversionFactor();
+           ConversionFactor cf = _sd.GetConversionFactor();
 
             fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
 
@@ -155,13 +165,13 @@ namespace SERVERAPI.Controllers
                 Field fld = _ud.GetFieldDetails(name);
                 fvm.currFieldName = fld.fieldName;
                 fvm.fieldName = fld.fieldName;
-                fvm.fieldArea = fld.area.ToString();
+                fvm.fieldArea = fld.area.ToString("G29");
                 fvm.fieldComment = fld.comment;
                 fvm.fieldId = fld.id;
                 // retrofit old saved NMP files
                 if (String.IsNullOrEmpty(fld.prevYearManureApplicationFrequency))
                     // set to default (no manure applied in the last two years)
-                    fvm.selPrevYrManureOption = cf.defaultApplicationOfManureInPrevYears;
+                    fvm.selPrevYrManureOption = cf.DefaultApplicationOfManureInPrevYears;
                 else
                     fvm.selPrevYrManureOption = fld.prevYearManureApplicationFrequency;
                 fvm.act = "Edit";
@@ -197,6 +207,7 @@ namespace SERVERAPI.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("fieldArea", "Invalid amount for area.");
+                    _logger.LogError(ex, "FieldDetail Exception");
                     return PartialView("FieldDetail", fvm);
                 }
                 if (fvm.selPrevYrManureOption == "select")
