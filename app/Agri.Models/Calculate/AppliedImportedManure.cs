@@ -21,7 +21,7 @@ namespace Agri.Models.Calculate
         public override string SourceName => ImportedManure.ManagedManureName;
 
         public override decimal TotalAnnualManureToApply => ManureMaterialType == Models.ManureMaterialType.Liquid
-            ? ImportedManure.AnnualAmountUSGallonsVolume
-            : ImportedManure.AnnualAmountTonsWeight;
+            ? ImportedManure?.AnnualAmountUSGallonsVolume ?? 0
+            : ImportedManure?.AnnualAmountTonsWeight ?? 0;
     }
 }
