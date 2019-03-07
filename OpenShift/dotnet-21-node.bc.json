@@ -14,14 +14,21 @@
             "value": ""
         },
         {
-            "name": "ENV_NAME"
+            "name": "VERSION",
+            "displayName": "VERSION",
+            "required": true
         },
         {
-            "name": "SOURCE_REPOSITORY_URL",
-            "displayName": "SOURCE_REPOSITORY_URL",
+            "name": "SOURCE_GIT_URL",
+            "displayName": "SOURCE_GIT_URL",
             "description": "The GIT repository URL",
             "required": true,
             "value": "https://github.com/bcgov/agri-nmp.git"
+        },
+        {
+            "name": "SOURCE_GIT_REF",
+            "displayName": "SOURCE_GIT_REF",
+            "required": true
         }
     ],
     "objects": [
@@ -29,9 +36,9 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-21-node${NAME_SUFFIX}",
+                "name": "dotnet-21-node",
                 "creationTimestamp": null,
-                "labels": null
+                "labels": { "shared": "true" }
             }
         },
         {
@@ -56,7 +63,8 @@
                 "source": {
                     "type": "Git",
                     "git": {
-                        "uri": "${SOURCE_REPOSITORY_URL}"
+                        "uri": "${SOURCE_GIT_URL}",
+                        "ref": "${SOURCE_GIT_REF}"
                     },
                     "contextDir": "OpenShift/s2i-dotnetcore-node"
                 },
@@ -65,7 +73,7 @@
                     "dockerStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-21-rhel7${NAME_SUFFIX}:2.1"
+                            "name": "dotnet-21-rhel7:2.1"
                         },
                         "dockerfilePath": "Dockerfile.rhel7"
                     }
@@ -73,7 +81,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "dotnet-21-node${NAME_SUFFIX}:${ENV_NAME}"
+                        "name": "dotnet-21-node:${VERSION}"
                     }
                 },
                 "resources": {},
