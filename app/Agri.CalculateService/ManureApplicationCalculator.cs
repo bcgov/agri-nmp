@@ -100,7 +100,7 @@ namespace Agri.CalculateService
         public AppliedImportedManure GetAppliedImportedManure(YearData yearData, FarmManure farmManure)
         {
             var fieldsAppliedWithImportedManure = yearData.GetFieldsAppliedWithManure(farmManure);
-            var importedManure = yearData.ImportedManures.SingleOrDefault(mss => mss.Id == farmManure.sourceOfMaterialImportedManureId.Value);
+            var importedManure = yearData.ImportedManures.SingleOrDefault(mss => mss.Id == farmManure?.sourceOfMaterialImportedManureId.Value);
             var farmManureIds = yearData.GetFarmManureIds(importedManure);
 
             var fieldAppliedManures = new List<FieldAppliedManure>();
