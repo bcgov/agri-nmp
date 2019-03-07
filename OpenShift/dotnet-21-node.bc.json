@@ -1,0 +1,90 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "dotnet-21-node",
+        "creationTimestamp": null
+    },
+    "parameters": [
+        {
+            "name": "NAME_SUFFIX",
+            "displayName": "Name",
+            "description": "The suffix for all created objects",
+            "required": false,
+            "value": ""
+        },
+        {
+            "name": "ENV_NAME"
+        },
+        {
+            "name": "SOURCE_REPOSITORY_URL",
+            "displayName": "SOURCE_REPOSITORY_URL",
+            "description": "The GIT repository URL",
+            "required": true,
+            "value": "https://github.com/bcgov/agri-nmp.git"
+        }
+    ],
+    "objects": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "dotnet-21-node${NAME_SUFFIX}",
+                "creationTimestamp": null,
+                "labels": null
+            }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "dotnet-21-node${NAME_SUFFIX}",
+                "creationTimestamp": null,
+                "labels": null
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    },
+                    {
+                        "type": "ConfigChange"
+                    }
+                ],
+                "runPolicy": "SerialLatestOnly",
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "${SOURCE_REPOSITORY_URL}"
+                    },
+                    "contextDir": "OpenShift/s2i-dotnetcore-node"
+                },
+                "strategy": {
+                    "type": "Docker",
+                    "dockerStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": "dotnet-21-rhel7${NAME_SUFFIX}:2.1"
+                        },
+                        "dockerfilePath": "Dockerfile.rhel7"
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "dotnet-21-node${NAME_SUFFIX}:${ENV_NAME}"
+                    }
+                },
+                "resources": {},
+                "postCommit": {},
+                "nodeSelector": null,
+                "successfulBuildsHistoryLimit": 5,
+                "failedBuildsHistoryLimit": 5
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        }
+    ]
+}

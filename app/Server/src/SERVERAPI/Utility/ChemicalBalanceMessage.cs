@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Agri.Interfaces;
 using SERVERAPI.Models.Impl;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.Models;
-using static SERVERAPI.Models.StaticData;
-using System.Data;
+//using static SERVERAPI.Models.StaticData;
+using Agri.Models.Calculate;
+using Agri.Models.Farm;
+using Agri.LegacyData.Models.Impl;
+using Agri.Models.Configuration;
 
 
 namespace SERVERAPI.Utility
@@ -14,7 +15,7 @@ namespace SERVERAPI.Utility
     public class ChemicalBalanceMessage
     {
         private UserData _ud;
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
 
         private const string MESSAGE_ICON_NONE = "none";
         private const string MESSAGE_ICON_GOOD = "good";
@@ -23,7 +24,7 @@ namespace SERVERAPI.Utility
         public ChemicalBalances chemicalBalances = new ChemicalBalances();        
         public bool displayBalances { get; set; }
 
-        public ChemicalBalanceMessage(UserData ud, Models.Impl.StaticData sd)
+        public ChemicalBalanceMessage(UserData ud, IAgriConfigurationRepository sd)
         {
             _ud = ud;
             _sd = sd;
@@ -51,7 +52,7 @@ namespace SERVERAPI.Utility
                 foreach (var _crop in fieldCrops)
                 {
                     Crop crop = _sd.GetCrop(Convert.ToInt16(_crop.cropId));
-                    if (crop.n_recommcd == 1) // no nitrogen need to be added
+                    if (crop.NitrogenRecommendationId == 1) // no nitrogen need to be added
                         legume = true;  
                 }
 
@@ -90,7 +91,7 @@ namespace SERVERAPI.Utility
                     messages.Add(bm);
 
                 bm = _sd.GetMessageByChemicalBalance("CropK2O", chemicalBalances.balance_CropK2O, legume);
-                if (!string.IsNullOrEmpty(bm.Chemical))
+                if (!string.IsNullOrEmpty(bm?.Chemical))
                     messages.Add(bm);
 
                 bm = _sd.GetMessageByChemicalBalance("AgrP2O5CropP2O5", chemicalBalances.balance_AgrP2O5, chemicalBalances.balance_CropP2O5, "CropP2O5");
@@ -180,7 +181,17 @@ namespace SERVERAPI.Utility
             }
 
             if (crps.Count > 0) //display balance messages when at least one Crop has been added
-                displayBalances = true;
+            {
+                foreach (var crp in crps)
+                {
+                    Crop cp = _sd.GetCrop(Convert.ToInt32(crp.cropId));
+                    if (cp.CropTypeId != 2)
+                    {
+                        displayBalances = true;
+                        break;
+                    }
+                }
+            }
 
             return chemicalBalances;
         }
@@ -203,11 +214,11 @@ namespace SERVERAPI.Utility
                     if (cf.cropId != null)
                     {
                         Crop cp = _sd.GetCrop(Convert.ToInt32(cf.cropId));
-                        crpTyp = _sd.GetCropType(cp.croptypeid);
+                        crpTyp = _sd.GetCropType(cp.CropTypeId);
                     }
                     else
                     {
-                        crpTyp.modifynitrogen = false;
+                        crpTyp.ModifyNitrogen = false;
                     }
 
                     CropRequirementRemoval crr = new CropRequirementRemoval();
@@ -220,7 +231,7 @@ namespace SERVERAPI.Utility
 
                     crr = ccrr.GetCropRequirementRemoval();
 
-                    if (!crpTyp.modifynitrogen)
+                    if (!crpTyp.ModifyNitrogen)
                     {
                         cf.reqN = crr.N_Requirement;
                     }
@@ -297,13 +308,13 @@ namespace SERVERAPI.Utility
 
         private int prevYearManureDefaultLookup(string prevYearManureAppl_volcatcd, string prevManureApplicationYearsFrequency)
         {
-            List<PrevYearManureApplDefaultNitrogen> defaultNitrogen = new List<PrevYearManureApplDefaultNitrogen>();
+            List<PreviousYearManureApplicationNitrogenDefault> defaultNitrogen = new List<PreviousYearManureApplicationNitrogenDefault>();
             defaultNitrogen = _sd.GetPrevYearManureNitrogenCreditDefaults(); 
             // loop through to find the default nitrogen credit
             foreach (var item in defaultNitrogen)
-                if (item.prevYearManureAppFrequency == prevManureApplicationYearsFrequency)
+                if (item.PreviousYearManureAplicationFrequency == prevManureApplicationYearsFrequency)
                     // refactor - check to make sure it can handle additional volCatCd 
-                    return item.defaultNitrogenCredit[Convert.ToInt16(prevYearManureAppl_volcatcd)];
+                    return item.DefaultNitrogenCredit[Convert.ToInt16(prevYearManureAppl_volcatcd)];
             return 0;
         }
 

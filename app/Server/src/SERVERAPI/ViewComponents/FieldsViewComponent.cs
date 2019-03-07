@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
 using SERVERAPI.Models;
 using SERVERAPI.Controllers;
 using SERVERAPI.Models.Impl;
@@ -14,9 +16,9 @@ namespace SERVERAPI.ViewComponents
     {
         private IHostingEnvironment _env;
         private UserData _ud;
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
 
-        public Fields(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
+        public Fields(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
         {
             _env = env;
             _ud = ud;
@@ -51,7 +53,7 @@ namespace SERVERAPI.ViewComponents
             {
                 Field nf = new Field();
                 nf.fieldName = f.fieldName;
-                nf.area = f.area;
+                nf.area = Convert.ToDecimal((f.area).ToString("G29"));
                 nf.comment = f.comment;
                 fvm.fields.Add(nf);
             }

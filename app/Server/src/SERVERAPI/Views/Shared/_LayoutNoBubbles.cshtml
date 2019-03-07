@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/css/ie10-viewport-bug-workaround.css" />
 
     <!-- STANDARD CSS -->
-    <link type="text/css" href="~/lib/bootstrap/css/main.css?refresh=160106102" rel="stylesheet" />
+    <link type="text/css" href="~/lib/bootstrap/css/main.css?refresh=@DateTime.Now.Ticks" rel="stylesheet" />
 
     <!-- FONTS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
@@ -55,6 +55,8 @@
     <script src="~/lib/jquery.validate.min.js"></script>
     <script src="~/lib/jquery.unobtrusive-ajax.min.js"></script>
     <script src="~/lib/jquery.validate.unobtrusive.min.js"></script>
+    <!--Site Javascript-->
+    <script src="~/js/site.js"></script>
     <!-- DatePicker CSS -->
     <link href="~/lib/bootstrap/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <script src="~/lib/bootstrap/js/bootstrap-datepicker.min.js"></script>
@@ -78,10 +80,10 @@
                     <!-- GOV & ENV TITLE -->
                     <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
                         <div id="logo">
-                            <a href="http://gov.bc.ca"><img src="~/images/gov3_bc_logo.png" alt="Government of B.C." title="Government of B.C." /></a>
+                            <a href="http://gov.bc.ca"><img src="~/images/gov3_bc_logo.png" alt="Government of B.C."/></a>
                         </div>
                         <div>
-                            <span style="padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Calculator</span>
+                            <h1 style="margin-top: 5px;padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Calculator</h1>
                         </div>
                         @*<div id="access">
                                 <ul>
@@ -97,7 +99,7 @@
                                 </ul>
                             </div>*@
                         <button type="button" class="navbar-toggle gov-button-custom collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-label="Burger Navigation">
-                            <img src="~/images/menu-open-mobile.png" />
+                            <img src="~/images/menu-open-mobile.png"  alt="Mobile Menu"/>
                         </button>
                     </div>
                     <!-- /GOV & ENV TITLE -->

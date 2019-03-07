@@ -1,23 +1,26 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Agri.Interfaces;
+using Agri.Models.Farm;
+using Agri.Models.Settings;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.NodeServices;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Diagnostics;
-using System.Linq;
 
 namespace SERVERAPI.Controllers
 {
@@ -59,18 +62,26 @@ namespace SERVERAPI.Controllers
     ////[SessionTimeout]
     public class HomeController : Controller
     {
+        private ILogger<HomeController> _logger;
         public IHostingEnvironment _env { get; set; }
         public UserData _ud { get; set; }
-        public Models.Impl.StaticData _sd { get; set; }
-        public AppSettings _settings;
+        public IAgriConfigurationRepository _sd { get; set; }
         public BrowserData _bd { get; set; }
+        private IOptions<AppSettings> _appSettings;
 
-        public HomeController(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd, BrowserData bd)
+        public HomeController(ILogger<HomeController> logger,
+            IHostingEnvironment env, 
+            UserData ud, 
+            IAgriConfigurationRepository sd, 
+            BrowserData bd,
+            IOptions<AppSettings> appSettings)
         {
+            _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
             _bd = bd;
+            _appSettings = appSettings;
         }
         //public IActionResult Index()
         //{
@@ -89,7 +100,7 @@ namespace SERVERAPI.Controllers
         {
             IndexViewModel lvm = new IndexViewModel();
             FarmData fd = _ud.FarmData();
-            if(fd != null && fd.unsaved)
+            if (fd != null && fd.unsaved)
             {
                 lvm.unsavedData = true;
             }
@@ -98,6 +109,9 @@ namespace SERVERAPI.Controllers
             lvm.disclaimerMsg = _sd.GetUserPrompt("disclaimer");
             lvm.staticDataVersionMsg = _sd.GetStaticDataVersion();
             lvm.browserAgent = _bd.BrowserAgent;
+            lvm.fileLoadLabelText = _sd.GetUserPrompt("FileLoadQuestion");
+            lvm.ExplainFileLoad = _sd.GetUserPrompt("ExplainFileLoad");
+            lvm.DeviceTooSmallMessage = _sd.GetUserPrompt("DeviceTooSmallMessage");
 
             if (_bd.OSValid)
             {
@@ -129,12 +143,89 @@ namespace SERVERAPI.Controllers
             return View(lvm);
 
         }
+
         [HttpPost]
-        public IActionResult Index(LaunchViewModel lvm)
+        public IActionResult Launch(LaunchViewModel lvm)
         {
             _ud.NewFarm();
-            return RedirectToAction("Farm","Farm");
+            return RedirectToAction("Farm", "Farm");
         }
+
+        [HttpPost]
+        public IActionResult Index(IndexViewModel lvm)
+        {
+            if (lvm.ButtonPressed == "startUpload")
+            {
+                FarmData fd;
+
+                var isFileUploaded = lvm.IsFileUploaded;
+
+                //if (lvm.unsavedData)
+                //{
+                //    ModelState.Clear();
+                //    lvm.unsavedData = false;
+                //    return View(lvm);
+                //}
+
+                string fileContents = "";
+
+                if (Request.Form.Files.Count > 0)
+                {
+                    if (Request.Form.Files.Count > 1)
+                    {
+                        ModelState.AddModelError("", "Only one file may be selected.");
+                    }
+                    else
+                    {
+                        try
+                        {
+                            foreach (var file in Request.Form.Files)
+                            {
+                                var fileBytes = new byte[file.Length];
+
+                                file.OpenReadStream().Read(fileBytes, 0, (int) file.Length);
+                                fileContents = System.Text.Encoding.Default.GetString(fileBytes);
+                            }
+
+                            try
+                            {
+                                fd = JsonConvert.DeserializeObject<FarmData>(fileContents);
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, "JsonConvert.DeserializeObject<FarmData> Failed");
+                                ModelState.AddModelError("", "File does not appear to be a valid NMP data file.");
+                                return View(lvm);
+                            }
+
+                            // Returns message that successfully uploaded  
+                            _ud.SaveFarmData(fd);
+                            HttpContext.Session.SetObject("Farm",
+                                _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
+
+                            return RedirectToAction("Farm", "Farm");
+                        }
+                        catch (Exception ex)
+                        {
+                            return Json("Error occurred. Error details: " + ex.Message);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "A file has not been selected.");
+                }
+
+                return View(lvm);
+
+            }
+            else
+            {
+                _ud.NewFarm();
+                return RedirectToAction("Farm", "Farm");
+            }
+        }
+
         public IActionResult NewWarning()
         {
             NewWarningViewModel nvm = new NewWarningViewModel();
@@ -207,6 +298,7 @@ namespace SERVERAPI.Controllers
             catch (Exception e)
             {
                 result = null;
+                _logger.LogError(e, "Print Exception");
             }
 
             return result;
@@ -243,6 +335,16 @@ namespace SERVERAPI.Controllers
         {
             FarmData farmData = _ud.FarmData();
             farmData.unsaved = false;
+
+            if (!farmData.NMPReleaseVersion.HasValue || farmData.NMPReleaseVersion != _appSettings.Value.NMPReleaseVersion)
+            {
+                if (_ud.FarmDetails().farmRegion.HasValue && _ud.GetYearData().farmManures
+                        .All(fm => !string.IsNullOrEmpty(fm.sourceOfMaterialId)))
+                {
+                    farmData.NMPReleaseVersion = _appSettings.Value.NMPReleaseVersion;
+                }
+            }
+
             _ud.SaveFarmData(farmData);
 
             var fileName = farmData.farmDetails.year + " - " + farmData.farmDetails.farmName + ".nmp";
@@ -300,6 +402,7 @@ namespace SERVERAPI.Controllers
                         }
                         catch(Exception ex)
                         {
+                            _logger.LogError(ex, "JsonConvert.DeserializeObject<FarmData> failed");
                             ModelState.AddModelError("", "File does not appear to be a valid NMP data file.");
                             return View(lvm);
                         }
@@ -361,11 +464,11 @@ namespace SERVERAPI.Controllers
             Utility.ValidateStaticData validate = new Utility.ValidateStaticData(_sd);
             StringBuilder sb = new StringBuilder("");
 
-            List<Utility.StaticDataValidationMessages>  messages = validate.PerformValidation();
+            List<Agri.Models.Configuration.StaticDataValidationMessages>  messages = validate.PerformValidation();
 
             if (messages.Count > 0)
             {
-                foreach (Utility.StaticDataValidationMessages message in messages)
+                foreach (Agri.Models.Configuration.StaticDataValidationMessages message in messages)
                 {
                     sb.Append(String.Format("Validate error: {0} value of {1} does not exist in {2}. <br/>", message.Child, message.LinkData, message.Parent));
                 }

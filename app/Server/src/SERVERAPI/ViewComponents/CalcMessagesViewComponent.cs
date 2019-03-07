@@ -5,16 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Calculate;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcMessages : ViewComponent
     {
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
         public IHostingEnvironment _env { get; set; }
 
-        public CalcMessages(Models.Impl.StaticData sd, Models.Impl.UserData ud, IHostingEnvironment env)
+        public CalcMessages(IAgriConfigurationRepository sd, Models.Impl.UserData ud, IHostingEnvironment env)
         {
             _sd = sd;
             _ud = ud;

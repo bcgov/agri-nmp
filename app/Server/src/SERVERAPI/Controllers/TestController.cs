@@ -12,6 +12,7 @@ using Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SERVERAPI.Services.Impl;
 
 namespace SERVERAPI.Controllers
@@ -61,7 +62,7 @@ namespace SERVERAPI.Controllers
     /// </remarks>
     public class TestService : ServiceBase, ITestService
     {
-        public TestService(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
+        public TestService(ILogger<TestService> logger, IHttpContextAccessor httpContextAccessor) : base(logger, httpContextAccessor)
         {
             // Just pass things along to the base class.
         }

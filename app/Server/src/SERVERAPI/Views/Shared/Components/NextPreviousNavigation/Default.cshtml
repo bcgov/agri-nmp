@@ -1,0 +1,16 @@
+﻿@model NextPreviousNavigationViewModel
+
+<div class="form-box-submit">
+    @{
+        var previousOnClick = $"window.location.href='{Model.ViewPreviousUrl}';";
+        var nextOnClick = $"window.location.href='{Model.ViewNextUrl}';";
+    }
+    @if (Model.UseJSInterceptMethod)
+    {
+        previousOnClick = $"Intercept('{Model.ViewPreviousUrl}');";
+        nextOnClick = $"Intercept('{Model.ViewNextUrl}');";
+    }
+
+    <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="@previousOnClick" title="Previous" aria-label="Previous"/>
+    <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Next" onclick="@nextOnClick" title="Next" aria-label="Next"/>
+</div>

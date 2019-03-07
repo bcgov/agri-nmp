@@ -7,15 +7,18 @@ using Microsoft.AspNetCore.Http;
 using System.Net;
 using Newtonsoft.Json;
 using System.Text.Encodings.Web;
+using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Controllers
 {
     public class ErrorHandlingMiddleware
     {
+        private readonly ILogger<ErrorHandlingMiddleware> _logger;
         private readonly RequestDelegate next;
 
-        public ErrorHandlingMiddleware(RequestDelegate next)
+        public ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger, RequestDelegate next)
         {
+            _logger = logger;
             this.next = next;
         }
 
@@ -28,12 +31,13 @@ namespace SERVERAPI.Controllers
             catch (Exception ex)
             {
                 await HandleExceptionAsync(context, ex);
+                _logger.LogError(ex, "ErrorHandlingMiddleware");
             }
         }
 
         private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            var code = HttpStatusCode.InternalServerError; // 500 if unexpected
+            //var code = HttpStatusCode.InternalServerError; // 500 if unexpected
             var exception2 = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
 
             //if (exception is MyNotFoundException) code = HttpStatusCode.NotFound;

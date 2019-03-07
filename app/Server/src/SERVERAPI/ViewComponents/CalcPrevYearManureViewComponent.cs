@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Agri.Interfaces;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models;
-using static SERVERAPI.Models.StaticData;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcPrevYearManure : ViewComponent
     {
 
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
 
-        public CalcPrevYearManure(Models.Impl.StaticData sd, Models.Impl.UserData ud)
+        public CalcPrevYearManure(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;
@@ -41,7 +38,7 @@ namespace SERVERAPI.ViewComponents
             {
                 if (fld.crops.Count() > 0)  
                 {
-                    manureVM.display = _sd.wasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
+                    manureVM.display = _sd.WasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
                     if (manureVM.display)
                     {
                         manureVM.fldName = fldName;

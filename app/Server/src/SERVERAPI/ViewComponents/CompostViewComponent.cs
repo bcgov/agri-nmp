@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Agri.Interfaces;
+using Agri.Models.Farm;
 using SERVERAPI.Models;
 using SERVERAPI.Controllers;
 using SERVERAPI.Models.Impl;
 using Microsoft.AspNetCore.Hosting;
+using SERVERAPI.ViewModels;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -14,9 +17,9 @@ namespace SERVERAPI.ViewComponents
     {
         private IHostingEnvironment _env;
         private UserData _ud;
-        private Models.Impl.StaticData _sd;
+        private IAgriConfigurationRepository _sd;
 
-        public Compost(IHostingEnvironment env, UserData ud, Models.Impl.StaticData sd)
+        public Compost(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
         {
             _env = env;
             _ud = ud;
@@ -32,7 +35,13 @@ namespace SERVERAPI.ViewComponents
         {
             CompostViewModel fvm = new CompostViewModel();
             fvm.composts = new List<FarmManure>();
+
+            fvm.GeneratedManures = _ud.GetGeneratedManures();
+            fvm.ImportedManures = _ud.GetImportedManures();
+            fvm.StorageSystems = _ud.GetStorageSystems();
+
             fvm.compostMsg = _sd.GetUserPrompt("compostmessage");
+            fvm.ExplainMaterialsNeedingNutrientAnalysisMessage = _sd.GetUserPrompt("nutrientAnalysisForMaterialsMessage");
 
             List<FarmManure> compostList = _ud.GetFarmManures();
 
@@ -45,9 +54,30 @@ namespace SERVERAPI.ViewComponents
         }
     }
 
-    public class CompostViewModel
+    public class CompostViewModel 
     {
         public List<FarmManure> composts { get; set; }
-        public string compostMsg { get; set; }
+        public string compostMsg { get; set; } 
+        public string ExplainMaterialsNeedingNutrientAnalysisMessage { get; set; }
+        public List<ManureStorageSystem> StorageSystems { get; set; }
+        public List<GeneratedManure> GeneratedManures { get; set; }
+        public List<ImportedManure> ImportedManures { get; set; }
+        public List<ManagedManure> ImportedMaterialsNotStored
+        {
+            get
+            {
+                var manures = new List<ManagedManure>();
+                if (ImportedManures.Any())
+                {
+                    manures.AddRange(ImportedManures.Where(im => !im.IsMaterialStored && !im.AssignedWithNutrientAnalysis));
+                }
+
+                return manures;
+            }
+        }
+
+        public List<string> UnallocatedStorageAndImportedManureNames => (ImportedMaterialsNotStored.Select(mm => mm.ManagedManureName)
+            .Concat(StorageSystems.Where(ss => !ss.AssignedWithNutrientAnalysis).Select(ss => ss.Name))).ToList();
+
     }
 }

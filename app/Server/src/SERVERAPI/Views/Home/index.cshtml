@@ -4,6 +4,12 @@
     Layout = "_LayoutNoNav";
 }
 @inject IJsonHelper Json;
+@*<style>
+    input[type=file].hidden {
+        color: transparent;
+    }
+</style>*@
+
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
     <div class="modal-dialog">
@@ -17,7 +23,7 @@
 <!-- BODY CONTENT -->
 <div id="topicTemplate" style="padding-top:0px" class="template container">
     <!-- PAGE CONTENT -->
-    <form asp-controller="Home" method="post">
+    <form asp-controller="Home" enctype="multipart/form-data" method="post">
         <div class="row">
             <div id="main-content" class="contentPageMainColumn col-xs-12">
                 @if (!string.IsNullOrEmpty(Model.browserMsg))
@@ -26,6 +32,10 @@
                         @Html.Raw(Model.browserMsg)
                     </div>
                 }
+                
+                <div class="device-message">
+                    @Html.Raw(Model.DeviceTooSmallMessage)
+                </div>
                 <br />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <br />
@@ -35,7 +45,7 @@
                             <div class="Table">
                                 <div class="TableBody">
                                     <div class="Row">
-                                        <div class="Cell3" style="text-align:center"><img src="~/images/dollar-sign.png" height="30" width="30" /></div>
+                                        <div class="Cell3" style="text-align:center"><img src="~/images/dollar-sign.png" alt="dollar sign" title="dollar sign" height="30" width="30" /></div>
                                         <div class="Cell3" style="padding-left:5px">@Model.pageMsg1</div>
                                     </div>
                                     <div class="Row">
@@ -43,80 +53,58 @@
                                         <div class="Cell3" style="padding-left:10px">&nbsp;</div>
                                     </div>
                                     <div class="Row">
-                                        <div class="Cell3" style="text-align:center"><img src="~/images/Water.png" height="20" width="20" /></div>
+                                        <div class="Cell3" style="text-align:center"><img src="~/images/Water.png" alt="water" title="water" height="20" width="20" /></div>
                                         <div class="Cell3" style="padding-left:5px">@Model.pageMsg2</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <hr />
+                        <br/>
+                        <br/>
                         <div class="Row">
                             <div class="Table">
                                 <div class="TableBody">
                                     <div class="Row">
-                                        <div style="display: table">
-                                            <div style="display:table-cell">
-                                                <table class="rnd-table rnd-table-rounded" style="width:250px; margin-right:0; margin-left:auto">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="border-radius: 10px 10px 0 0; text-align:center">Start a file</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody style="vertical-align:top">
-                                                        <tr style="height:100px">
-                                                            <td style="text-align:left; color:black">
-                                                                @Html.Raw(Model.newMsg)
-                                                            </td>
-                                                        </tr>
-                                                        <tr style="text-align:center">
-                                                            <td>
-                                                                @if (Model.unsavedData)
-                                                                {
-                                                                    <button class="form-box-submit-button btn btn-primary" style="width:90px" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <input class="form-box-submit-button btn btn-primary" style="width:90px" type="submit" value="Start" name="new" />
-                                                                }
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                    </tbody>
-
-                                                </table>
-                                            </div>
-                                            <div style="display:table-cell; padding:70px; vertical-align:middle; height:100px; text-align:center; font-size:large; font-weight:bold;">OR</div>
-                                            <div style="display:table-cell">
-                                                <table class="rnd-table rnd-table-rounded" style="width:250px">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="border-radius: 10px 10px 0 0; text-align:center">Continue a file</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody style="vertical-align:top">
-                                                        <tr style="height:100px">
-                                                            <td style="text-align:left; color:black">
-                                                                @Html.Raw(Model.loadMsg)
-                                                            </td>
-                                                        </tr>
-                                                        <tr style="text-align:center">
-                                                            <td>
-                                                                <button class="form-box-submit-button btn btn-primary" style="width:90px" data_modal="" type="button" data-type="@Url.Action("FileLoad", "Home")">Load file</button>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>&nbsp;</td>
-                                                        </tr>
-                                                    </tbody>
-
-                                                </table>
-                                            </div>
+                                        <div class="Cell3">
+                                            @Model.fileLoadLabelText
+                                            <a href="#" data-toggle="tooltip" title="@Model.ExplainFileLoad" id="toolTipExplainFileUpload">
+                                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of file" style="font-size:20px; padding-top:5px"></span>
+                                            </a>
                                         </div>
                                     </div>
+                                    <div id="radioFileUpload" class="Row">
+                                        <label style="padding-right: 20px">
+                                            <input asp-for="IsFileUploaded" name="file" type="radio" value="true"> Yes
+                                        </label>
+                                        <label>
+                                            <input asp-for="IsFileUploaded" name="file" type="radio" value="false" id="noFileUploaded"> No
+                                        </label>
+                                        <br />
+                                        <br />
+                                        <label>
+                                            <input type="file" title="Choose an &quot;nmp&quot; file" id="fileUpload" name="file" class='type' style="display:none;color: transparent;" accept=".nmp">
+                                        </label>
+                                    </div>
+                                    <br/>
+                                    <div class="Row">
+                                        @*@if (Model.unsavedData)
+                                        {
+                                            <button class="form-box-submit-button btn btn-primary" id="startBtn" style="width:90px;" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
+                                        }
+                                        else
+                                        {
+                                            <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new"/>
+                                        }*@
+                                        <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new" />
+                                    </div>
+                                    
+                                    
+                                    <div class="Row">
+                                         <button class="form-box-submit-button btn btn-primary" id="fileUploadStartBtn" onclick="startUpload()" style="width:90px;" data-type="@Url.Action("uploadFile", "Home")">Start</button>
+                                    </div>
                                 </div>
-                            </div>
+                                </div>
                         </div>
                         <br />
                         <hr />
@@ -135,6 +123,8 @@
         @Html.HiddenFor(x => x.unsavedData)
         @Html.HiddenFor(x => x.newMsg)
         @Html.HiddenFor(x => x.loadMsg)
+        @Html.HiddenFor(x => x.IsFileUploaded)
+        @Html.HiddenFor(x => x.ButtonPressed)
     </form>
 
     <!-- PAGE CONTENT -->
@@ -146,21 +136,26 @@
     <script type="text/javascript">
 
         // ensure this event handler is attached to current and future elements (after partial renders)
-        $(document).on("click", '[data_modal]', function (e) {
-            $.ajaxSetup({ cache: false });
-            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-            $('#myModalContent').load($type, function () {
-                $('#myModal').modal({
-                    /*backdrop: 'static',*/
-                    //keyboard: true
-                }, 'show');
-                bindForm(this);
+        $(document).on("click",
+            '[data_modal]',
+            function(e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $('#myModalContent').load($type,
+                    function() {
+                        $('#myModal').modal({
+                                /*backdrop: 'static',*/
+                                //keyboard: true
+                            
+                            },
+                            'show');
+                        bindForm(this);
+                    });
+                return false;
             });
-            return false;
-        });
 
         function bindForm(dialog) {
-            $('form', dialog).submit(function () {
+            $('form', dialog).submit(function() {
                 if ($("#unsavedData").val() == "False") {
                     var fileUpload = $("#FileUpload1").get(0);
                     var files = fileUpload.files;
@@ -178,7 +173,7 @@
                         contentType: false,
                         processData: false,
                         data: fileData,
-                        success: function (result) {
+                        success: function(result) {
                             if (result.success) {
                                 $('#myModal').modal('hide');
                                 window.location.href = result.url;
@@ -188,18 +183,19 @@
                             }
                         }
                     });
-                }
-                else {
+                } else {
                     $.ajax({
-                        cache: false,
-                        url: this.action,
-                        type: this.method,
-                        data: $(this).serialize()
-                    })
-                        .done(function (result) {
+                            cache: false,
+                            url: this.action,
+                            type: this.method,
+                            data: $(this).serialize()
+                        })
+                        .done(function(result) {
                             if (result.success) {
                                 $('#myModal').modal('hide');
-                                $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                                $(result.target)
+                                    .load(result
+                                        .url); //  Load data from the server and place the returned HTML into the matched element
                             } else {
                                 $('#myModalContent').html(result);
                                 bindForm(dialog);
@@ -210,28 +206,33 @@
             });
         }
 
-        $(document).on("click", '[data_modal2]', function (e) {
-            $.ajaxSetup({ cache: false });
-            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-            $('#myModalContent').load($type, function () {
-                $('#myModal').modal({
-                    /*backdrop: 'static',*/
-                    //keyboard: true
-                }, 'show');
-                bindForm2(this);
+        $(document).on("click",
+            '[data_modal2]',
+            function(e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $('#myModalContent').load($type,
+                    function() {
+                        $('#myModal').modal({
+                                /*backdrop: 'static',*/
+                                //keyboard: true
+                            
+                            },
+                            'show');
+                        bindForm2(this);
+                    });
+                return false;
             });
-            return false;
-        });
 
         function bindForm2(dialog) {
-            $('form', dialog).submit(function () {
+            $('form', dialog).submit(function() {
                 $.ajax({
-                    cache: false,
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize()
-                })
-                    .done(function (result) {
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
+                    .done(function(result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
                             //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
@@ -247,7 +248,7 @@
 
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $.ajaxSetup({ cache: false });
             $("#themeTemplate, #subthemeTemplate, #topicTemplate").css("padding-top", 5);
 
@@ -256,6 +257,83 @@
         function ResetWarning() {
             $("#unsavedData").val("False");
         }
+
+        $(document).ready(function() {
+            $('#toolTipExplainFileUpload').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainFileUpload').click(function() {
+                triggerToolTip($('#toolTipExplainFileUpload'));
+            });
+        })
+
+        $("#fileUpload").change(function (e) {
+            if (this.files.length > 0) {
+                $("#startBtn").hide();
+                $("#strtBtn").hide();
+                $("#fileUploadStartBtn").show();
+            } else {
+                $("#startBtn").hide();
+                $("#strtBtn").hide();
+                $("#fileUploadStartBtn").hide();
+            }
+        });
+
+        $(document).ready(function () {
+            $('#toolTipExplainFileUpload').click(function () {
+                triggerToolTip($('#toolTipExplainFileUpload'));
+            });
+        })
+
+        $(document).ready(function () {
+            $("#fileUploadStartBtn").hide();
+        });
+
+        $(document).ready(function() {
+            $('input:radio[name=file]').change(function() {
+                if (this.value == 'true') {
+                    $('#fileUpload').show();
+
+                    if ($('#fileUpload').filename) {
+                        $("#fileUploadStartBtn").show();
+                    } else {
+                        $("#startBtn").hide();
+                        $("#strtBtn").hide();
+                        $("#fileUploadStartBtn").hide();
+                    }
+                }
+                else if (this.value == 'false') {
+                    $('#fileUpload').hide();
+                    $("#startBtn").show();
+                    $("#strtBtn").show();
+                    $("#fileUploadStartBtn").hide();
+
+                    var $el = $('#fileUpload');
+                    $el.wrap('<form>').closest('form').get(0).reset();
+                    $el.unwrap();
+                }
+            });
+        });
+
+        function startUpload() {
+            $('#ButtonPressed').val("startUpload");
+        }
+
+        $(function () {
+            $('input[type="file"]').change(function () {
+                if ($(this).val() != "") {
+                    $(this).css('color', '#333');
+                }else{
+                    $(this).css('color', 'transparent');
+                }
+            });
+        }) 
 
     </script>
 

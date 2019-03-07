@@ -78,6 +78,7 @@ namespace SERVERAPI.Utility
         public string orientation { get; set; }
         public string fontbase { get; set; }
         public PDF_Border border { get; set; }
+        public int paginationOffset { get; set; }
         public PDF_Header header { get; set; }
         public PDF_Footer footer { get; set; }
     }

@@ -8,30 +8,23 @@
  * 
  */
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.XPath;
+using Agri.CalculateService;
+using Agri.Data;
+using Agri.Interfaces;
+using Agri.Models.Settings;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Http;
-
-using System.Reflection;
-using System.Runtime.Loader;
-using Microsoft.Extensions.FileProviders;
-using SERVERAPI.Models;
-using SERVERAPI.Utility;
 using SERVERAPI.Controllers;
-using Microsoft.AspNetCore.Localization;
+using SERVERAPI.Utility;
+using System;
 using System.Globalization;
 
 namespace SERVERAPI
@@ -55,6 +48,11 @@ namespace SERVERAPI
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
             Configuration = builder.Build();
         }
 
@@ -62,11 +60,18 @@ namespace SERVERAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddAuthorization();
+            var agriConnectionString = GetConnectionString();
+            //Creates the DbContext as a scoped Service
+            services.AddDbContext<AgriConfigurationContext>(options =>
+            {
+                options.UseNpgsql(agriConnectionString, b => b.MigrationsAssembly("Agri.Data"));
+            });
+            //services.AddScoped<IConfigurationRepository>(provider => new ConfigurationRepository(agriConnectionString));
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
+            services.AddTransient<AgriSeeder>();
 
             //// allow for large files to be uploaded
             services.Configure<FormOptions>(options =>
@@ -86,6 +91,9 @@ namespace SERVERAPI
             // Enable Node Services
             services.AddNodeServices();
 
+            //Automapper
+            services.AddAutoMapper();
+
             //// Add framework services.
             services.AddMvc()
                 .AddJsonOptions(
@@ -100,8 +108,17 @@ namespace SERVERAPI
                     });
 
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
-            services.AddScoped<SERVERAPI.Models.Impl.StaticData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
+            //services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
+            services.AddScoped<IAgriConfigurationRepository, AgriConfigurationRepository>();
+            services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
+            services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
+            services.AddScoped<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
+            services.AddScoped<IManureAnimalNumberCalculator, ManureAnimalNumberCalculator>();
+            services.AddScoped<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
+            services.AddScoped<ISoilTestConverter, SoilTestConverter>();
+            services.AddScoped<IStorageVolumeCalculator, StorageVolumeCalculator>();
+
             services.AddOptions();
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -126,5 +143,40 @@ namespace SERVERAPI
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
         }
-    }    
+
+        private string GetConnectionString()
+        {
+            if (_hostingEnv.IsDevelopment())
+            {
+                return Configuration["Agri:ConnectionString"];
+            }
+            else
+            {
+                var server = Environment.GetEnvironmentVariable("POSTGRESQL_URI");
+                var password = Environment.GetEnvironmentVariable("POSTGRESQL_PASSWORD");
+                var username = Environment.GetEnvironmentVariable("POSTGRESQL_USER");
+                var database = Environment.GetEnvironmentVariable("POSTGRESQL_DATABASE");
+
+                if (string.IsNullOrEmpty(server))
+                {
+                    throw new Exception(@"Connection String Environment ""POSTGRESQL_URI"" variable not found");
+                }
+                if (string.IsNullOrEmpty(database))
+                {
+                    throw new Exception(@"Connection String Environment ""POSTGRESQL_DATABASE"" variable not found");
+                }
+                if (string.IsNullOrEmpty(username))
+                {
+                    throw new Exception(@"Connection String Environment ""POSTGRESQL_USER"" variable not found");
+                }
+                if (string.IsNullOrEmpty(password))
+                {
+                    throw new Exception(@"Connection String Environment ""POSTGRESQL_PASSWORD"" variable not found");
+                }
+
+                return $"Server={server};Database={database};Username={username};Password={password}";
+            }
+
+        }
+    }
 }
