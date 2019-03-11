@@ -67,6 +67,11 @@
                                 <div class="TableBody">
                                     <div class="Row">
                                         <div class="Cell3">
+                                            <label style="color:red">@Model.ConcurrentNMPFilesMessage</label>
+                                        </div>
+                                    </div>
+                                    <div class="Row">
+                                        <div class="Cell3">
                                             @Model.fileLoadLabelText
                                             <a href="#" data-toggle="tooltip" title="@Model.ExplainFileLoad" id="toolTipExplainFileUpload">
                                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of file" style="font-size:20px; padding-top:5px"></span>
@@ -86,22 +91,22 @@
                                             <input type="file" title="Choose an &quot;nmp&quot; file" id="fileUpload" name="file" class='type' style="display:none;color: transparent;" accept=".nmp">
                                         </label>
                                     </div>
-                                    <br/>
+                                    <br />
                                     <div class="Row">
                                         @*@if (Model.unsavedData)
-                                        {
-                                            <button class="form-box-submit-button btn btn-primary" id="startBtn" style="width:90px;" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
-                                        }
-                                        else
-                                        {
-                                            <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new"/>
-                                        }*@
+            {
+                <button class="form-box-submit-button btn btn-primary" id="startBtn" style="width:90px;" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
+            }
+            else
+            {
+                <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new"/>
+            }*@
                                         <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new" />
                                     </div>
-                                    
-                                    
+
+
                                     <div class="Row">
-                                         <button class="form-box-submit-button btn btn-primary" id="fileUploadStartBtn" onclick="startUpload()" style="width:90px;" data-type="@Url.Action("uploadFile", "Home")">Start</button>
+                                        <button class="form-box-submit-button btn btn-primary" id="fileUploadStartBtn" onclick="startUpload()" style="width:90px;" data-type="@Url.Action("uploadFile", "Home")">Start</button>
                                     </div>
                                 </div>
                                 </div>

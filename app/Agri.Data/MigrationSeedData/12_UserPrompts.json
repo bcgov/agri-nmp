@@ -1,0 +1,12 @@
+{
+  "Id": 12,
+  "JsonFilename": "12_UserPrompts",
+  "ReasonReference": "R4E07-B01: Bug: overtaking a different .nmp if two .nmps are open",
+  "Data": [
+    {
+      "Id": "72",
+      "Name": "ConcurrentNMPFilesMessage",
+      "Text": "Warning! A second .nmp file is also open on your computer.Changes made to this file will also be made to the other open .nmp if you proceed from this point.Save the changes on your original file and close the tab or window to prevent losing any information."
+    }
+  ]
+}

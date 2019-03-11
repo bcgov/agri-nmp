@@ -103,6 +103,11 @@ namespace SERVERAPI.Controllers
             if (fd != null && fd.unsaved)
             {
                 lvm.unsavedData = true;
+                lvm.ConcurrentNMPFilesMessage = _sd.GetUserPrompt("ConcurrentNMPFilesMessage");
+            }
+            else
+            {
+                lvm.ConcurrentNMPFilesMessage = "";
             }
 
             lvm.welcomeMsg = _sd.GetUserPrompt("welcome");
@@ -112,6 +117,7 @@ namespace SERVERAPI.Controllers
             lvm.fileLoadLabelText = _sd.GetUserPrompt("FileLoadQuestion");
             lvm.ExplainFileLoad = _sd.GetUserPrompt("ExplainFileLoad");
             lvm.DeviceTooSmallMessage = _sd.GetUserPrompt("DeviceTooSmallMessage");
+            
 
             if (_bd.OSValid)
             {
