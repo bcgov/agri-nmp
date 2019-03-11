@@ -45,6 +45,7 @@ namespace SERVERAPI.Controllers
         public AppSettings _settings;
         private IManureApplicationCalculator _manureApplicationCalculator;
         private ISoilTestConverter _soilTestConverter;
+        private object _semaphore = new object();
 
         public ReportController(ILogger<ReportController> logger,
             IHostingEnvironment env, 
@@ -62,6 +63,15 @@ namespace SERVERAPI.Controllers
             _manureApplicationCalculator = manureApplicationCalculator;
             _soilTestConverter = soilTestConverter;
         }
+
+        private IAgriConfigurationRepository AgriRepoForParallel()
+        {
+            lock (_semaphore)
+            {
+                return _sd;
+            }
+        }
+
         [HttpGet]
         public IActionResult Report()
         {
@@ -181,15 +191,15 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderFields()
         {
-            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
+            var calculateNutrients = new CalculateNutrients(_ud, AgriRepoForParallel());
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
-            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
+            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, AgriRepoForParallel());
 
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
             rvm.fields = new List<ReportFieldsField>();
             rvm.year = _ud.FarmDetails().year;
-            rvm.methodName = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "not selected" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
-            rvm.prevHdg = _sd.GetUserPrompt("ncreditlabel");
+            rvm.methodName = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "not selected" : AgriRepoForParallel().GetSoilTestMethod(_ud.FarmDetails().testingMethod);
+            rvm.prevHdg = AgriRepoForParallel().GetUserPrompt("ncreditlabel");
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
@@ -209,8 +219,8 @@ namespace SERVERAPI.Controllers
                 {
                     rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
                     rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString("G29") + " ppm";
-                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
-                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
+                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + AgriRepoForParallel().GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
+                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + AgriRepoForParallel().GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
                     rf.soiltest.dispPH = f.soilTest.valPH.ToString("G29");
                 }
 
@@ -221,15 +231,15 @@ namespace SERVERAPI.Controllers
                     {
                         ReportFieldCrop fc = new ReportFieldCrop();
 
-                        fc.cropname = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
+                        fc.cropname = string.IsNullOrEmpty(c.cropOther) ? AgriRepoForParallel().GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         if (c.coverCropHarvested.HasValue)
                         {
                             fc.cropname = c.coverCropHarvested.Value ? fc.cropname + "(harvested)" : fc.cropname;
                         }
                         if (c.prevCropId > 0)
-                            fc.previousCrop = _sd.GetPrevCropType(c.prevCropId).Name;
+                            fc.previousCrop = AgriRepoForParallel().GetPrevCropType(c.prevCropId).Name;
 
-                        if (_sd.GetCropType(_sd.GetCrop(Convert.ToInt32(c.cropId)).CropTypeId).CrudeProteinRequired)
+                        if (AgriRepoForParallel().GetCropType(AgriRepoForParallel().GetCrop(Convert.ToInt32(c.cropId)).CropTypeId).CrudeProteinRequired)
                         {
                             if (c.crudeProtien.Value.ToString("#.#") != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt32(c.cropId)).ToString("#.#"))
                             {
@@ -241,7 +251,7 @@ namespace SERVERAPI.Controllers
                             }
                         }
 
-                        if (_sd.GetCropType(_sd.GetCrop(Convert.ToInt32(c.cropId)).CropTypeId).ModifyNitrogen)
+                        if (AgriRepoForParallel().GetCropType(AgriRepoForParallel().GetCrop(Convert.ToInt32(c.cropId)).CropTypeId).ModifyNitrogen)
                         {
                             // check for standard
                             CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
@@ -254,7 +264,7 @@ namespace SERVERAPI.Controllers
                                 calculateCropRequirementRemoval.crudeProtien = Convert.ToDecimal(c.crudeProtien);
                             calculateCropRequirementRemoval.coverCropHarvested = c.coverCropHarvested;
                             calculateCropRequirementRemoval.fieldName = f.fieldName;
-                            string nCredit = c.prevCropId != 0 ? _sd.GetPrevCropType(Convert.ToInt32(c.prevCropId)).NitrogenCreditImperial.ToString() : "0";
+                            string nCredit = c.prevCropId != 0 ? AgriRepoForParallel().GetPrevCropType(Convert.ToInt32(c.prevCropId)).NitrogenCreditImperial.ToString() : "0";
 
                             if (!string.IsNullOrEmpty(nCredit))
                                 calculateCropRequirementRemoval.nCredit = Convert.ToInt16(nCredit);
@@ -276,12 +286,12 @@ namespace SERVERAPI.Controllers
                         if (c.yieldHarvestUnit.HasValue)
                         {
                             fc.yield = c.yieldByHarvestUnit;
-                            fc.yieldInUnit = _sd.GetHarvestYieldUnitName(c.yieldHarvestUnit.ToString());
+                            fc.yieldInUnit = AgriRepoForParallel().GetHarvestYieldUnitName(c.yieldHarvestUnit.ToString());
                         }
                         else
                         {
                             fc.yield = c.yield;  // retrofit old versio data (E07US18)
-                            fc.yieldInUnit = _sd.GetHarvestYieldDefaultUnitName(); 
+                            fc.yieldInUnit = AgriRepoForParallel().GetHarvestYieldDefaultUnitName(); 
                         }
                         
                         fc.reqN = -Convert.ToDecimal((c.reqN).ToString("G29"));
@@ -309,7 +319,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (f.prevYearManureApplicationNitrogenCredit == null)
                             {   // calculate default value.
-                                SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
+                                SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, AgriRepoForParallel());
                                 rf.nitrogenCredit = calculator.calcPrevYearManureApplDefault(f.fieldName);
                             }
                             else
@@ -318,12 +328,12 @@ namespace SERVERAPI.Controllers
                         }
                         if (f.soilTest != null)
                         {
-                            rf.showSoilTestNitrogenCredit = _sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, f.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year));
+                            rf.showSoilTestNitrogenCredit = AgriRepoForParallel().IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, f.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year));
                             if (rf.showSoilTestNitrogenCredit)
                             {
                                 if (f.SoilTestNitrateOverrideNitrogenCredit == null)
                                 {   // calculate default value
-                                    SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
+                                    SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, AgriRepoForParallel());
                                     rf.soilTestNitrogenCredit = Math.Round(calculator.calcSoitTestNitrateDefault(f.fieldName));
                                 }
                                 else
@@ -345,9 +355,9 @@ namespace SERVERAPI.Controllers
 
                             rfn.nutrientName = manure.name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
-                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
-                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
-                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).Name;
+                            rfn.nutrientSeason = AgriRepoForParallel().GetApplication(m.applicationId.ToString()).Season;
+                            rfn.nutrientApplication = AgriRepoForParallel().GetApplication(m.applicationId.ToString()).ApplicationMethod;
+                            rfn.nutrientUnit = AgriRepoForParallel().GetUnit(m.unitId).Name;
                             rfn.reqN = Convert.ToDecimal((m.yrN).ToString("G29"));
                             rfn.reqP = Convert.ToDecimal((m.yrP2o5).ToString("G29"));
                             rfn.reqK = Convert.ToDecimal((m.yrK2o).ToString("G29"));
@@ -364,7 +374,7 @@ namespace SERVERAPI.Controllers
                             rf.remK = rf.remK + rfn.remK;
 
                             int regionid = _ud.FarmDetails().farmRegion.Value;
-                            Region region = _sd.GetRegion(regionid);
+                            Region region = AgriRepoForParallel().GetRegion(regionid);
                             nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt32(m.manureId), region.LocationId);
 
                             string footNote = "";
@@ -394,7 +404,7 @@ namespace SERVERAPI.Controllers
                         {
                             string fertilizerName = string.Empty;
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
-                            FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
+                            FertilizerType ftyp = AgriRepoForParallel().GetFertilizerType(ft.fertilizerTypeId.ToString());
 
                             if (ftyp.Custom)
                             {
@@ -409,7 +419,7 @@ namespace SERVERAPI.Controllers
                             }
                             else
                             {
-                                Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
+                                Fertilizer ff = AgriRepoForParallel().GetFertilizer(ft.fertilizerId.ToString());
                                 fertilizerName = ff.Name;
                                 rfn.reqN = Convert.ToDecimal((ft.fertN).ToString("G29"));
                                 rfn.reqP = Convert.ToDecimal((ft.fertP2o5).ToString("G29"));
@@ -420,8 +430,8 @@ namespace SERVERAPI.Controllers
                             }
 
                             rfn.nutrientName = fertilizerName;
-                            rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
-                            rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).Name;
+                            rfn.nutrientApplication = ft.applMethodId > 0 ? AgriRepoForParallel().GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
+                            rfn.nutrientUnit = AgriRepoForParallel().GetFertilizerUnit(ft.applUnitId).Name;
 
                             rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (ft.applRate));
                             rf.nutrients.Add(rfn);
@@ -439,7 +449,7 @@ namespace SERVERAPI.Controllers
                             {
                                 if (!ftyp.Custom)
                                 {
-                                    if (ft.liquidDensity.ToString("#.##") != _sd.GetLiquidFertilizerDensity(ft.fertilizerId, ft.liquidDensityUnitId).Value.ToString("#.##"))
+                                    if (ft.liquidDensity.ToString("#.##") != AgriRepoForParallel().GetLiquidFertilizerDensity(ft.fertilizerId, ft.liquidDensityUnitId).Value.ToString("#.##"))
                                     {
                                         footNote = "Liquid density adjusted to " + ft.liquidDensity.ToString("#.##");
                                     }
@@ -486,7 +496,7 @@ namespace SERVERAPI.Controllers
                     rfn.nutrientAmount = "";
                     rf.nutrients.Add(rfn);
                 }
-                ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
+                ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, AgriRepoForParallel());
 
                 var request = HttpContext.Request;
                 string scheme = request.Scheme;
@@ -543,7 +553,7 @@ namespace SERVERAPI.Controllers
         public async Task<string> RenderManureCompostInventory()
         {
             ReportManureCompostViewModel rmcvm = new ReportManureCompostViewModel();
-            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
+            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, AgriRepoForParallel());
 
             rmcvm.storages = new List<ReportStorage>();
             rmcvm.unstoredManures = new List<ReportManuress>();
@@ -630,7 +640,7 @@ namespace SERVERAPI.Controllers
                 }
 
                 var farmData = _ud.FarmDetails();
-                SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                SubRegion subregion = AgriRepoForParallel().GetSubRegion(farmData.farmSubRegion);
                 rainInMM = subregion.AnnualPrecipitation;
 
                 // rainInMM = Convert.ToDecimal(s.AnnualPrecipitation);
@@ -681,7 +691,7 @@ namespace SERVERAPI.Controllers
                             {
                                 // if solid material is added to the liquid system change the calculations to depict that of liquid
                                 AnimalSubType animalSubType =
-                                    _sd.GetAnimalSubType(Convert.ToInt32(generatedFarmManure.animalSubTypeId));
+                                    AgriRepoForParallel().GetAnimalSubType(Convert.ToInt32(generatedFarmManure.animalSubTypeId));
                                 if (animalSubType.SolidPerGalPerAnimalPerDay.HasValue)
                                 {
                                     rm.annualAmount =
@@ -1012,13 +1022,13 @@ namespace SERVERAPI.Controllers
         private decimal ConvertManureToStdRptUnits(FarmManure manure, decimal fieldSize, decimal applicationRate, string unitId)
         {
             decimal result = 0;
-            Unit unit = _sd.GetUnit(unitId);
+            Unit unit = AgriRepoForParallel().GetUnit(unitId);
 
             if ( unit.FarmReqdNutrientsStdUnitsConversion > 0)
                 result = unit.FarmReqdNutrientsStdUnitsAreaConversion * fieldSize * applicationRate * unit.FarmReqdNutrientsStdUnitsConversion;
             else
             {
-                Manure man = _sd.GetManure(manure.manureId.ToString());
+                Manure man = AgriRepoForParallel().GetManure(manure.manureId.ToString());
                 result = unit.FarmReqdNutrientsStdUnitsAreaConversion * fieldSize * applicationRate * man.CubicYardConversion;
             }
             return result;
@@ -1027,7 +1037,7 @@ namespace SERVERAPI.Controllers
         // standard units for reporting
         private decimal ConvertFertilizerToStdRptUnits(decimal fieldSize, decimal applicationRate, int unitId)
         {
-            FertilizerUnit unit = _sd.GetFertilizerUnit(unitId);
+            FertilizerUnit unit = AgriRepoForParallel().GetFertilizerUnit(unitId);
             return (unit.FarmRequiredNutrientsStdUnitsAreaConversion * fieldSize * applicationRate * unit.FarmRequiredNutrientsStdUnitsConversion);
         }
 
@@ -1050,7 +1060,7 @@ namespace SERVERAPI.Controllers
                 {
                     rd = new ReportSourcesDetail();
                     rd.nutrientName = manure.name;
-                    rd.nutrientUnit = _sd.GetManureRptStdUnit(manure.solid_liquid);
+                    rd.nutrientUnit = AgriRepoForParallel().GetManureRptStdUnit(manure.solid_liquid);
                     rd.nutrientAmount = String.Format((nutrientAmount) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", nutrientAmount );
                     details.Add(rd);
                 }
@@ -1061,9 +1071,9 @@ namespace SERVERAPI.Controllers
         private Fertilizer ConvertCustomFertilizerToStdFertilizer(NutrientFertilizer nf)
         {
             Fertilizer fert = new Fertilizer();
-            FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId);
+            FertilizerType ft = AgriRepoForParallel().GetFertilizerType(nf.fertilizerTypeId);
             fert.Id = nf.id;
-            if (_sd.IsFertilizerTypeDry(nf.fertilizerTypeId)) {
+            if (AgriRepoForParallel().IsFertilizerTypeDry(nf.fertilizerTypeId)) {
                 fert.Name = "Custom (Dry) " + nf.customN.ToString() + "-" + nf.customP2o5 + "-" + nf.customK2o.ToString();
                 fert.DryLiquid = ft.DryLiquid;
             }
@@ -1086,10 +1096,10 @@ namespace SERVERAPI.Controllers
 
             foreach (var m in nutrientFertilizers)
             {
-                if (_sd.IsCustomFertilizer(m.fertilizerTypeId))
+                if (AgriRepoForParallel().IsCustomFertilizer(m.fertilizerTypeId))
                     fert = ConvertCustomFertilizerToStdFertilizer(m);
                 else
-                    fert = _sd.GetFertilizer(m.fertilizerId.ToString());
+                    fert = AgriRepoForParallel().GetFertilizer(m.fertilizerId.ToString());
 
                 nutrientAmount = ConvertFertilizerToStdRptUnits(fieldArea, m.applRate, m.applUnitId);
 
@@ -1103,7 +1113,7 @@ namespace SERVERAPI.Controllers
                 {
                     rd = new ReportSourcesDetail();
                     rd.nutrientName = fert.Name;
-                    rd.nutrientUnit = _sd.GetFertilizerRptStdUnit(fert.DryLiquid);
+                    rd.nutrientUnit = AgriRepoForParallel().GetFertilizerRptStdUnit(fert.DryLiquid);
                     rd.nutrientAmount = String.Format((nutrientAmount) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", nutrientAmount);
                     details.Add(rd);
                 }
@@ -1248,9 +1258,9 @@ namespace SERVERAPI.Controllers
 
                             rfn.nutrientName = manure.name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", m.rate);
-                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
-                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
-                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).Name;
+                            rfn.nutrientSeason = AgriRepoForParallel().GetApplication(m.applicationId.ToString()).Season;
+                            rfn.nutrientApplication = AgriRepoForParallel().GetApplication(m.applicationId.ToString()).ApplicationMethod;
+                            rfn.nutrientUnit = AgriRepoForParallel().GetUnit(m.unitId).Name;
                             rf.nutrients.Add(rfn);
                         }
                     }
@@ -1260,7 +1270,7 @@ namespace SERVERAPI.Controllers
                         {
                             string fertilizerName = string.Empty;
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
-                            FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
+                            FertilizerType ftyp = AgriRepoForParallel().GetFertilizerType(ft.fertilizerTypeId.ToString());
 
                             if (ftyp.Custom)
                             {
@@ -1269,15 +1279,15 @@ namespace SERVERAPI.Controllers
                             }
                             else
                             {
-                                Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
+                                Fertilizer ff = AgriRepoForParallel().GetFertilizer(ft.fertilizerId.ToString());
                                 fertilizerName = ff.Name;
                             }
 
                             rfn.nutrientName = fertilizerName;
                             rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", ft.applRate);
                             rfn.nutrientSeason = ft.applDate != null ? ft.applDate.Value.ToString("MMM-yyyy") : "";
-                            rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
-                            rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).Name;
+                            rfn.nutrientApplication = ft.applMethodId > 0 ? AgriRepoForParallel().GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
+                            rfn.nutrientUnit = AgriRepoForParallel().GetFertilizerUnit(ft.applUnitId).Name;
 
                             rf.nutrients.Add(rfn);
                         }
@@ -1295,7 +1305,7 @@ namespace SERVERAPI.Controllers
                 {
                     foreach(var c in f.crops)
                     {
-                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
+                        crpName = string.IsNullOrEmpty(c.cropOther) ? AgriRepoForParallel().GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
                     }
                 }
@@ -1311,7 +1321,7 @@ namespace SERVERAPI.Controllers
             string crpName = string.Empty;
             ReportSummaryViewModel rvm = new ReportSummaryViewModel();
 
-            rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "Not Specified" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
+            rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "Not Specified" : AgriRepoForParallel().GetSoilTestMethod(_ud.FarmDetails().testingMethod);
             rvm.year = _ud.FarmDetails().year;
 
             FarmDetails fd = _ud.FarmDetails();
@@ -1331,12 +1341,12 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = m.soilTest.ValP.ToString("G29");
                     dc.potassium = m.soilTest.valK.ToString("G29");
                     dc.pH = m.soilTest.valPH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, m.soilTest));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, m.soilTest));
+                    dc.phosphorousRange = AgriRepoForParallel().GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, m.soilTest));
+                    dc.potassiumRange = AgriRepoForParallel().GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, m.soilTest));
                 }
                 else
                 {
-                    DefaultSoilTest dt = _sd.GetDefaultSoilTest();
+                    DefaultSoilTest dt = AgriRepoForParallel().GetDefaultSoilTest();
                     SoilTest st = new SoilTest();
                     st.valPH = dt.pH;
                     st.ValP = dt.Phosphorous;
@@ -1350,8 +1360,8 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = dt.Phosphorous.ToString("G29");
                     dc.potassium = dt.Potassium.ToString("G29");
                     dc.pH = dt.pH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, st));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, st));
+                    dc.phosphorousRange = AgriRepoForParallel().GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, st));
+                    dc.potassiumRange = AgriRepoForParallel().GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, st));
                 }
                 dc.fieldCrops = null;
 
@@ -1360,7 +1370,7 @@ namespace SERVERAPI.Controllers
                 {
                     foreach(var c in crps)
                     {
-                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
+                        crpName = string.IsNullOrEmpty(c.cropOther) ? AgriRepoForParallel().GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         dc.fieldCrops = string.IsNullOrEmpty(dc.fieldCrops) ? crpName : dc.fieldCrops + "\n" + crpName;
                     }
                 }
@@ -1398,9 +1408,9 @@ namespace SERVERAPI.Controllers
 
                             rfn.nutrientName = manure.name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
-                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
-                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
-                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).Name;
+                            rfn.nutrientSeason = AgriRepoForParallel().GetApplication(m.applicationId.ToString()).Season;
+                            rfn.nutrientApplication = AgriRepoForParallel().GetApplication(m.applicationId.ToString()).ApplicationMethod;
+                            rfn.nutrientUnit = AgriRepoForParallel().GetUnit(m.unitId).Name;
                             rf.nutrients.Add(rfn);
                         }
                     }
@@ -1410,7 +1420,7 @@ namespace SERVERAPI.Controllers
                         {
                             string fertilizerName = string.Empty;
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
-                            FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
+                            FertilizerType ftyp = AgriRepoForParallel().GetFertilizerType(ft.fertilizerTypeId.ToString());
 
                             if (ftyp.Custom)
                             {
@@ -1419,15 +1429,15 @@ namespace SERVERAPI.Controllers
                             }
                             else
                             {
-                                Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
+                                Fertilizer ff = AgriRepoForParallel().GetFertilizer(ft.fertilizerId.ToString());
                                 fertilizerName = ff.Name;
                             }
 
                             rfn.nutrientName = fertilizerName;
                             rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (ft.applRate));
                             rfn.nutrientSeason = ft.applDate != null ? ft.applDate.Value.ToString("MMM-yyyy") : "";
-                            rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
-                            rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).Name;
+                            rfn.nutrientApplication = ft.applMethodId > 0 ? AgriRepoForParallel().GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
+                            rfn.nutrientUnit = AgriRepoForParallel().GetFertilizerUnit(ft.applUnitId).Name;
 
                             rf.nutrients.Add(rfn);
                         }
@@ -1444,7 +1454,7 @@ namespace SERVERAPI.Controllers
                 {
                     foreach (var c in f.crops)
                     {
-                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
+                        crpName = string.IsNullOrEmpty(c.cropOther) ? AgriRepoForParallel().GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
                     }
                 }
@@ -1494,9 +1504,15 @@ namespace SERVERAPI.Controllers
             FileContentResult result = null;
             string pageBreak = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
 
-            string reportManureCompostInventory = await RenderManureCompostInventory();
-            string reportManureUse = await RenderManureUse();
-            string reportFertilizers = await RenderFerilizers();
+            var reportManureCompostInventory = string.Empty;
+            var reportManureUse = string.Empty;
+            var reportFertilizers = string.Empty;
+
+            Parallel.Invoke(
+                async () => { reportManureCompostInventory = await RenderManureCompostInventory(); },
+                async () => { reportManureUse = await RenderManureUse(); },
+                async () => { reportFertilizers = await RenderFerilizers(); }
+            );
 
             string report = reportManureCompostInventory + pageBreak + reportManureUse + pageBreak + reportFertilizers;
 
@@ -1571,15 +1587,31 @@ namespace SERVERAPI.Controllers
             string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
             string pageBreakForManure = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
 
-            string reportTableOfContents = await RenderTableOfContents();
-            string reportApplication = await RenderApplication();
-            string reportManureCompostInventory = await RenderManureCompostInventory();
-            string reportManureUse = await RenderManureUse();
-            string reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes();
-            string reportFertilizers = await RenderFerilizers();
-            string reportFields = await RenderFields();
-            string reportAnalysis = await RenderAnalysis();
-            string reportSummary = await RenderSummary();
+            var reportTableOfContents = string.Empty;
+            var reportApplication = string.Empty;
+            var reportManureCompostInventory = string.Empty;
+            var reportManureUse = string.Empty;
+            var reportOctoberToMarchStorageVolumes = string.Empty;
+            var reportFertilizers = string.Empty;
+            var reportFields = string.Empty;
+            var reportAnalysis = string.Empty;
+            var reportSummary = string.Empty;
+
+            Parallel.Invoke(
+                async () => { reportTableOfContents = await RenderTableOfContents(); },
+                async () => { reportApplication = await RenderApplication(); },
+                async () =>
+                {
+                    reportManureCompostInventory = await RenderManureCompostInventory();
+                    //reportManureUse = await RenderManureUse();
+                },
+                //async () => { reportManureUse = await RenderManureUse(); },
+                async () => { reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes(); },
+                async () => { reportFertilizers = await RenderFerilizers(); },
+                async () => { reportFields = await RenderFields(); },
+                async () => { reportAnalysis = await RenderAnalysis(); },
+                async () => { reportSummary = await RenderSummary(); }
+            );
 
             string report = reportTableOfContents + pageBreak + 
                             reportApplication + pageBreak + 
@@ -1624,7 +1656,7 @@ namespace SERVERAPI.Controllers
             options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
                                       "Planning Year: " + _ud.FarmDetails().year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
             options.footer.height = "15mm";
-            options.footer.contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
+            options.footer.contents = "<div></div><div style=\"float:right\">Version " + AgriRepoForParallel().GetStaticDataVersion() + "</div>";
 
             // call the microservice
             try
