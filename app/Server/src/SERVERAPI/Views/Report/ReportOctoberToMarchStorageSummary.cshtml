@@ -1,14 +1,13 @@
 ﻿@model SERVERAPI.ViewModels.ReportOctoberToMarchStorageSummaryViewModel
+if(@Model.storages.Count >0)
+{
 <div style="page-break-inside:avoid">
     <div class="Row">
-        if(@Model.storages.Count >0)
-        {
-            <div class="Cell">
-                <span style="font-size:10pt"><b>Liquid Storage Capacity: October to March</b></span>
-                <br />
-                <br />
-            </div>
-        }
+        <div class="Cell">
+            <span style="font-size:10pt"><b>Liquid Storage Capacity: October to March</b></span>
+            <br />
+            <br />
+        </div>
     </div>
     @foreach (var s in Model.storages)
     {
@@ -129,3 +128,4 @@
         <br/>
     }
 </div>
+}
