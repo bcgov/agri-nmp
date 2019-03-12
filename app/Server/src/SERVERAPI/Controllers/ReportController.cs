@@ -1188,7 +1188,7 @@ namespace SERVERAPI.Controllers
                 pageNumber = pageNumber + 1;
                 vm.ContentItems.Add(new ContentItem
                 {
-                    SectionName = "Manure and Compost Use -- Liquid Storage Capacity: October to March",
+                    SectionName = "Liquid Storage Capacity: October to March",
                     PageNumber = pageNumber
                 });
             }
