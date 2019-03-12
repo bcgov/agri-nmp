@@ -11,7 +11,6 @@ namespace SERVERAPI.Filters
             string x = context.HttpContext.Session.GetString("active");
             if (x == null)
             {
-                context.HttpContext.Session.SetString("active", "active");
                 context.Result = new RedirectToActionResult("SessionExpired", "Error", null);
             }
             base.OnActionExecuting(context);
