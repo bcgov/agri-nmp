@@ -23,12 +23,15 @@ namespace Agri.Data
         private List<AmmoniaRetention> _ammoniaRetentions;
         private List<Animal> _animals;
         private BCSampleDateForNitrateCredit _bcSampleDateForNitrateCredit;
+        private List<Breed> _breed;
+        private List<Browser> _browsers;
         private ConversionFactor _conversionFactors;
         private List<Crop> _crops;
         private List<CropType> _cropTypes;
         private List<CropYield> _cropYields;
         private List<CropSoilTestPhosphorousRegion> _cropSoilTestPhosphorousRegions;
         private List<CropSoilTestPotassiumRegion> _cropSoilTestPotassiumRegions;
+        private StaticDataVersion _currentStaticDataVersion;
         private DefaultSoilTest _defaultSoilTests;
         private List<DensityUnit> _densityUnits;
         private List<DryMatter> _dryMatters;
@@ -39,13 +42,20 @@ namespace Agri.Data
         private List<FertilizerUnit> _FertilizerUnits;
         private List<LiquidFertilizerDensity> _liquidFertilizerDensities;
         private List<HarvestUnit> _harvestUnits;
+        private List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> _liquidMaterialApplicationUsGallonsPerAcreRateConversions;
+        private List<LiquidMaterialsConversionFactor> _liquidMaterialsConversionFactors;
+        private LiquidSolidSeparationDefault _liquidSolidSeparationDefaults;
         private List<Location> _locations;
+        private List<MainMenu> _mainMenus;
         private List<Manure> _manures;
+        private ManureImportedDefault _manureImportedDefault;
         private List<Message> _messages;
         private List<NitrateCreditSampleDate> _nitrateCreditSampleDates;
         private List<NitrogenMineralization> _nitrogenMineralizations;
         private List<NitrogenRecommendation> _nitrogenRecommendations;
         private List<NutrientIcon> _nutrientIcons;
+        private List<PhosphorusSoilTestRange> _phosphorusSoilTestRanges;
+        private List<PotassiumSoilTestRange> _potassiumSoilTestRanges;
         private List<PreviousManureApplicationYear> _prevManureApplicationYears;
         private List<PreviousYearManureApplicationNitrogenDefault> _prevYearManureApplicationNitrogenDefaults;
         private List<Region> _regions;
@@ -57,20 +67,12 @@ namespace Agri.Data
         private List<SoilTestPhosphorusRange> _soilTestPhosphorusRanges;
         private List<SoilTestPotassiumKelownaRange> _soilTestPotassiumKelownaRanges;
         private List<SoilTestPotassiumRange> _soilTestPotassiumRanges;
+        private List<SolidMaterialApplicationTonPerAcreRateConversion> _solidMaterialApplicationTonPerAcreRateConversions;
+        private List<SolidMaterialsConversionFactor> _solidMaterialsConversionFactors;
         private List<SubRegion> _subRegions;
         private List<Yield> _yields;
         private List<Unit> _units;
-        private List<PotassiumSoilTestRange> _potassiumSoilTestRanges;
-        private List<PhosphorusSoilTestRange> _phosphorusSoilTestRanges;
-        private List<MainMenu> _mainMenus;
-        private ManureImportedDefault _manureImportedDefault;
-        private List<SolidMaterialsConversionFactor> _solidMaterialsConversionFactors;
-        private List<LiquidMaterialsConversionFactor> _liquidMaterialsConversionFactors;
-        private List<SolidMaterialApplicationTonPerAcreRateConversion> _solidMaterialApplicationTonPerAcreRateConversions;
-        private List<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> _liquidMaterialApplicationUsGallonsPerAcreRateConversions;
-        private List<Breed> _breed;
-        private LiquidSolidSeparationDefault _liquidSolidSeparationDefaults;
-        private StaticDataVersion _currentStaticDataVersion;
+        private List<UserPrompt> _userPrompts;
 
         public AgriConfigurationRepository(AgriConfigurationContext context, IMapper mapper)
         {
@@ -93,7 +95,12 @@ namespace Agri.Data
 
         public List<Browser> GetAllowableBrowsers()
         {
-            return _context.Browsers.AsNoTracking().ToList();
+            if (_browsers == null)
+            {
+                _browsers = _context.Browsers.AsNoTracking().ToList();
+            }
+
+            return _browsers;
         }
 
         public AmmoniaRetention GetAmmoniaRetention(int seasonApplicatonId, int dm)
@@ -1047,16 +1054,10 @@ namespace Agri.Data
 
         public List<SelectListItem> GetSubRegionsDll(int? regionId)
         {
-            if (_subRegions == null)
-            {
-                _subRegions = _context.SubRegion.AsNoTracking()
-                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
-                .ToList();
-            }
+            
             var subRegOptions = new List<SelectListItem>();
-
-
-            foreach (var s in _subRegions)
+            
+            foreach (var s in GetSubRegions())
             {
                 if (s.RegionId == regionId)
                 {
@@ -1284,9 +1285,14 @@ namespace Agri.Data
 
         public List<SubRegion> GetSubRegions()
         {
-            return _context.SubRegion.AsNoTracking()
-                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
-                .ToList();
+            if (_subRegions == null)
+            {
+                _subRegions = _context.SubRegion.AsNoTracking()
+                    .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                    .ToList();
+            }
+
+            return _subRegions;
         }
 
         public Unit GetUnit(string unitId)
@@ -1333,7 +1339,12 @@ namespace Agri.Data
 
         public List<UserPrompt> GetUserPrompts()
         {
-            return _context.UserPrompts.AsNoTracking().ToList();
+            if (_userPrompts == null)
+            {
+                _userPrompts = _context.UserPrompts.AsNoTracking().ToList();
+            }
+
+            return _userPrompts;
         }
 
         public StaticDataVersion GetLatestVersionDataTree()
