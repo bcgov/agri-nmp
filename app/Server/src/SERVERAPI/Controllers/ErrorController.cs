@@ -69,5 +69,10 @@ namespace SERVERAPI.Controllers
 
             return View();
         }
+
+        public IActionResult SessionExpired()
+        {
+            return View();
+        }
     }
 }

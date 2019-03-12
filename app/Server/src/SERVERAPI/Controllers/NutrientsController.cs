@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
@@ -16,7 +17,7 @@ using System.Linq;
 
 namespace SERVERAPI.Controllers
 {
-    //[RedirectingAction]
+    [SessionTimeout]
     public class NutrientsController : BaseController
     {
         private ILogger<NutrientsController> _logger;
