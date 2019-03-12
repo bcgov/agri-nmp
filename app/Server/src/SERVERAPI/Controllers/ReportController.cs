@@ -1587,7 +1587,7 @@ namespace SERVERAPI.Controllers
             {
                 hasFertilizers = true;
             }
-            if (reportFertilizers.Contains("div"))
+            if (reportSummary.Contains("div"))
             {
                 hasSoilTests = true;
             }
@@ -1608,12 +1608,29 @@ namespace SERVERAPI.Controllers
                 report += reportApplication;
             }
 
-            report += pageBreak;
-            report += reportManureCompostInventory;
-            report += pageBreakForManure;
-            report += reportManureUse;
-            report += reportOctoberToMarchStorageVolumes;
-            report += reportFertilizers;
+            if (reportManureCompostInventory.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportManureCompostInventory;
+            }
+
+            if (reportManureUse.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportManureUse;
+            }
+
+            if (reportOctoberToMarchStorageVolumes.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportOctoberToMarchStorageVolumes;
+            }
+
+            if (reportFertilizers.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportFertilizers;
+            }
 
             if (reportFields.Contains("div"))
             {
