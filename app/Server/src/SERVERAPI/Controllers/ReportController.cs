@@ -184,7 +184,6 @@ namespace SERVERAPI.Controllers
         public async Task<string> RenderFields()
         {
             var calculateNutrients = new CalculateNutrients(_ud, _sd);
-            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
             CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
 
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
@@ -365,16 +364,20 @@ namespace SERVERAPI.Controllers
                             rf.remP = rf.remP + rfn.remP;
                             rf.remK = rf.remK + rfn.remK;
 
-                            int regionid = _ud.FarmDetails().farmRegion.Value;
-                            Region region = _sd.GetRegion(regionid);
-                            nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt32(m.manureId), region.LocationId);
-
                             string footNote = "";
 
-                            if(m.nAvail != nOrganicMineralizations.OrganicN_FirstYear * 100)
+                            int regionid = _ud.FarmDetails().farmRegion.Value;
+                            var region = _sd.GetRegion(regionid);
+                            if (region != null)
                             {
-                                footNote = "1st Yr Organic N Availability adjusted to " + m.nAvail.ToString("###") + "%";
+                                var nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt32(m.manureId), region.LocationId);
+
+                                if (m.nAvail != nOrganicMineralizations.OrganicN_FirstYear * 100)
+                                {
+                                    footNote = "1st Yr Organic N Availability adjusted to " + m.nAvail.ToString("###") + "%";
+                                }
                             }
+
                             if(m.nh4Retention != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(m.manureId), Convert.ToInt16(m.applicationId)) * 100))
                             {
                                 footNote = string.IsNullOrEmpty(footNote) ? "" : footNote + ", ";
@@ -633,7 +636,7 @@ namespace SERVERAPI.Controllers
 
                 var farmData = _ud.FarmDetails();
                 SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
-                rainInMM = subregion.AnnualPrecipitation;
+                rainInMM = subregion?.AnnualPrecipitation ?? 0;
 
                 // rainInMM = Convert.ToDecimal(s.AnnualPrecipitation);
 
@@ -1610,9 +1613,9 @@ namespace SERVERAPI.Controllers
                     reportFields = await RenderFields();
                     reportManureUse = await RenderManureUse();
                     reportSummary = await RenderSummary();
+                    reportAnalysis = await RenderAnalysis();
                 },
-                async () => { reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes(); },
-                async () => { reportAnalysis = await RenderAnalysis(); }//,
+                async () => { reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes(); }
             );
 
             string report = reportTableOfContents + pageBreak +
