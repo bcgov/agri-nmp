@@ -1,5 +1,5 @@
 ﻿@model SERVERAPI.ViewModels.ReportManureCompostViewModel
-if(@Model.storages.Count > 0 || @Model.unstoredManures.Count > 0)
+@if(Model.storages.Count > 0 || Model.unstoredManures.Count > 0)
 {
 <div style="page-break-inside:avoid">
     <div class="Row">
