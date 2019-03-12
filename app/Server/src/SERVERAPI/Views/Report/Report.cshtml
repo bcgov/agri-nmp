@@ -149,6 +149,7 @@
                                    aria-label="Open Complete Report: Application Schedule, Manure and Fertilizer Required, Field Summaries, Manure and Compost Analysis, and Soil Test Results" 
                                    style="width:220px; padding:5px; font-size:large" type="button" value="Complete Report" 
                                    onclick="GenerateCompleteReport()"/>
+                            <a href="@Url.Action("PrintComplete", "Report")" target="_blank" id="printComplete"  style="display: none"><span></span></a>
                         </span>
                     </div>
                     <div style="margin-top:10px">
@@ -159,6 +160,7 @@
                                    style="width:220px; padding:5px; font-size:large" type="button" value="Record Keeping Sheets" 
                                    onclick="GenerateRecordKeepingSheets()"/>
                         </span>
+                        <a href="@Url.Action("PrintSheets", "Report")" target="_blank" id="printSheets"  style="display: none"><span></span></a>
                     </div>
                 </div>
             </div>
@@ -284,31 +286,35 @@
         }
 
         function GenerateCompleteReport() {
-            document.getElementById("overlay").style.display = "block";
+            $("#overlay").show();
             $.ajax({
                 cache: false,
                 url: '@Url.Action("GenerateCompleteReport", "Report")',
                 type: $(this).data('type')
             }).done(function(result) {
                 if (result.success) {
-                    window.open('@Url.Action("PrintComplete", "Report")', '_blank');
-                    document.getElementById("overlay").style.display = "none";
+                    $("#printComplete span").trigger("click");
+                    $("#overlay").hide();
                 }
+            }).fail(function() {
+                $("#overlay").hide();
             });
             return false;
         }
 
         function GenerateRecordKeepingSheets() {
-            document.getElementById("overlay").style.display = "block";
+            $("#overlay").show();
             $.ajax({
                 cache: false,
                 url: '@Url.Action("GenerateRecordKeepingSheets", "Report")',
                 type: $(this).data('type')
             }).done(function(result) {
                 if (result.success) {
-                    window.open('@Url.Action("PrintSheets", "Report")', '_blank');
-                    document.getElementById("overlay").style.display = "none";
+                    $("#printSheets span").trigger("click");
+                    $("#overlay").hide();
                 }
+            }).fail(function() {
+                $("#overlay").hide();
             });
             return false;
         }
