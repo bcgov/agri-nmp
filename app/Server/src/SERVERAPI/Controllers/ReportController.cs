@@ -1158,7 +1158,7 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
-        public async Task<string> RenderTableOfContents()
+        public async Task<string> RenderTableOfContents(bool hasFertilizers,bool hasSoilTests)
         {
             var vm = new ReportTableOfContentsViewModel();
             var yd = _ud.GetYearData();
@@ -1194,8 +1194,12 @@ namespace SERVERAPI.Controllers
             }
 
             //ReportFertilizers
-            pageNumber = pageNumber + 1;
-            vm.ContentItems.Add(new ContentItem {SectionName = "Fertilizer Required", PageNumber = pageNumber});
+            if (hasFertilizers)
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem {SectionName = "Fertilizer Required", PageNumber = pageNumber});
+            }
+
             //ReportFields
             var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.fieldName}");
             foreach (var fieldName in fieldNames)
@@ -1213,8 +1217,11 @@ namespace SERVERAPI.Controllers
             }
 
             //ReportSummary
-            pageNumber = pageNumber + 1;
-            vm.ContentItems.Add(new ContentItem {SectionName = "Soil Test Results", PageNumber = pageNumber });
+            if (hasSoilTests)
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem { SectionName = "Soil Test Results", PageNumber = pageNumber });
+            }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportTableOfContents.cshtml", vm);
 
@@ -1570,26 +1577,62 @@ namespace SERVERAPI.Controllers
             FileContentResult result = null;
             string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
             string pageBreakForManure = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
+            bool hasFertilizers = false;
+            bool hasSoilTests = false;
 
-            string reportTableOfContents = await RenderTableOfContents();
+            string reportFertilizers = await RenderFerilizers();
+            string reportSummary = await RenderSummary();
+
+            if (reportFertilizers.Contains("div"))
+            {
+                hasFertilizers = true;
+            }
+            if (reportFertilizers.Contains("div"))
+            {
+                hasSoilTests = true;
+            }
+
+            string reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests);
             string reportApplication = await RenderApplication();
             string reportManureCompostInventory = await RenderManureCompostInventory();
             string reportManureUse = await RenderManureUse();
             string reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes();
-            string reportFertilizers = await RenderFerilizers();
             string reportFields = await RenderFields();
             string reportAnalysis = await RenderAnalysis();
-            string reportSummary = await RenderSummary();
+            
 
-            string report = reportTableOfContents + pageBreak + 
-                            reportApplication + pageBreak + 
-                            reportManureCompostInventory + pageBreakForManure + 
-                            reportManureUse + pageBreakForManure + 
-                            reportOctoberToMarchStorageVolumes + pageBreakForManure + 
-                            reportFertilizers + pageBreak + 
-                            reportFields + pageBreak + 
-                            reportAnalysis + pageBreak + 
-                            reportSummary;
+            string report = reportTableOfContents;
+            if (reportApplication.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportApplication;
+            }
+
+            report += pageBreak;
+            report += reportManureCompostInventory;
+            report += pageBreakForManure;
+            report += reportManureUse;
+            report += reportOctoberToMarchStorageVolumes;
+            report += reportFertilizers;
+
+            if (reportFields.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportFields;
+            }
+
+            if (reportAnalysis.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportAnalysis;
+            }
+
+            if (reportSummary.Contains("div"))
+            {
+                report += pageBreak ;
+                report += reportSummary;
+            }
+            
 
             result = await PrintReportAsync(report, true);
 
