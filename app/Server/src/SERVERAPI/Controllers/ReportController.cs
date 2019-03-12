@@ -66,10 +66,10 @@ namespace SERVERAPI.Controllers
 
         private IAgriConfigurationRepository AgriRepoForParallel()
         {
-            lock (_semaphore)
-            {
+            //lock (_semaphore)
+            //{
                 return _sd;
-            }
+            //}
         }
 
         [HttpGet]
@@ -1599,18 +1599,18 @@ namespace SERVERAPI.Controllers
 
             Parallel.Invoke(
                 async () => { reportTableOfContents = await RenderTableOfContents(); },
-                async () => { reportApplication = await RenderApplication(); },
                 async () =>
                 {
-                    reportManureCompostInventory = await RenderManureCompostInventory();
-                    //reportManureUse = await RenderManureUse();
+                    //use AgriConfigurationRepostiory and since EF is not threadsafe, they need to 
+                    //run in sequence and not in parallel
+                    reportApplication = await RenderApplication();
+                    reportFertilizers = await RenderFerilizers();
+                    reportFields = await RenderFields();
+                    reportSummary = await RenderSummary();
                 },
-                //async () => { reportManureUse = await RenderManureUse(); },
+                async () => { reportManureUse = await RenderManureUse(); },
                 async () => { reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes(); },
-                async () => { reportFertilizers = await RenderFerilizers(); },
-                async () => { reportFields = await RenderFields(); },
-                async () => { reportAnalysis = await RenderAnalysis(); },
-                async () => { reportSummary = await RenderSummary(); }
+                async () => { reportAnalysis = await RenderAnalysis(); }//,
             );
 
             string report = reportTableOfContents + pageBreak + 
