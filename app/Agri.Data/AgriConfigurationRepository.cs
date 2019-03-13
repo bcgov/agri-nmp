@@ -822,9 +822,9 @@ namespace Agri.Data
                     message.Message = string.Format(balanceMessages.Text, Math.Abs(balance).ToString());
                 }
 
-                if (balanceMessages != null &&
-                    balanceType.Equals("AgrN", StringComparison.CurrentCultureIgnoreCase) &&
-                    !balanceMessages.Icon.Equals("stop", StringComparison.CurrentCultureIgnoreCase))
+                if (balanceType.Equals("AgrN", StringComparison.CurrentCultureIgnoreCase) &&
+                    legume &&
+                    !balanceMessages.Icon.Equals("stop triangle", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // nitrogen does not need to be added even if there is a deficiency
                     message.Icon = "good";

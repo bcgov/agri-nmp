@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
@@ -34,7 +35,7 @@ namespace SERVERAPI.Controllers
         public string options;
     }
 
-    //[RedirectingAction]
+    [SessionTimeout]
     public class ReportController : BaseController
     {
         private ILogger<ReportController> _logger;
@@ -1193,7 +1194,7 @@ namespace SERVERAPI.Controllers
                 pageNumber = pageNumber + 1;
                 vm.ContentItems.Add(new ContentItem
                 {
-                    SectionName = "Manure and Compost Use -- Liquid Storage Capacity: October to March",
+                    SectionName = "Liquid Storage Capacity: October to March",
                     PageNumber = pageNumber
                 });
             }
