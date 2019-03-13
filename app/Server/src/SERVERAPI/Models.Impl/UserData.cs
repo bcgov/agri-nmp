@@ -1442,5 +1442,24 @@ namespace SERVERAPI.Models.Impl
             return managedManures;
         }
 
+        public void SaveCompleteReport(string reportContent)
+        {
+            _ctx.HttpContext.Session.SetString("CompleteReport", reportContent);
+        }
+
+        public string GetCompleteReport()
+        {
+            return _ctx.HttpContext.Session.GetString("CompleteReport");
+        }
+
+        public void SaveRecordKeepingSheets(string reportContent)
+        {
+            _ctx.HttpContext.Session.SetString("RecordKeepingSheets", reportContent);
+        }
+
+        public string GetRecordKeepingSheets()
+        {
+            return _ctx.HttpContext.Session.GetString("RecordKeepingSheets");
+        }
     }
 }
