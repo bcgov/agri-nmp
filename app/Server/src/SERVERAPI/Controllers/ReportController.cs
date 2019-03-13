@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
@@ -34,7 +35,7 @@ namespace SERVERAPI.Controllers
         public string options;
     }
 
-    //[RedirectingAction]
+    [SessionTimeout]
     public class ReportController : BaseController
     {
         private ILogger<ReportController> _logger;

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Agri.CalculateService;
 using Agri.Interfaces;
 using Agri.Models;
-using Agri.Models.Calculate;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
 using Microsoft.AspNetCore.Hosting;
@@ -17,9 +15,11 @@ using Agri.Models.Configuration;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SERVERAPI.Filters;
 
 namespace SERVERAPI.Controllers
 {
+    [SessionTimeout]
     public class ManureManagementController : BaseController
     {
         private readonly ILogger<ManureManagementController> _logger;
