@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Agri.Interfaces;
 using Agri.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.Models;
 using SERVERAPI.ViewModels;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using SERVERAPI.Models.Impl;
 using Agri.Models;
 using Microsoft.Extensions.Logging;
 using Agri.Models.Settings;
 using Microsoft.Extensions.Options;
+using SERVERAPI.Filters;
 
 namespace SERVERAPI.Controllers
 {
-    //[RedirectingAction]
+    [SessionTimeout]
     public class FarmController : BaseController
     {
         private ILogger<FarmController> _logger;

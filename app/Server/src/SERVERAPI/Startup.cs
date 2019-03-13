@@ -23,6 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using SERVERAPI.Controllers;
+using SERVERAPI.Filters;
 using SERVERAPI.Utility;
 using System;
 using System.Globalization;
@@ -67,6 +68,7 @@ namespace SERVERAPI
                 options.UseNpgsql(agriConnectionString, b => b.MigrationsAssembly("Agri.Data"));
             });
             //services.AddScoped<IConfigurationRepository>(provider => new ConfigurationRepository(agriConnectionString));
+            services.AddScoped<SessionTimeoutAttribute>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);

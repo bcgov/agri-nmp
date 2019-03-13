@@ -28,60 +28,70 @@ namespace SERVERAPI.ViewComponents
 
         private Task<NavigationDetailViewModel> GetNavigationAsync(CoreSiteActions currentAction)
         {
-            NavigationDetailViewModel ndvm = new NavigationDetailViewModel();
-            var hasAnimals = _ud.FarmDetails()?.HasAnimals ?? true;
-            var importsManureCompost = _ud.FarmDetails()?.ImportsManureCompost ?? true;
-
+            var ndvm = new NavigationDetailViewModel();
             ndvm.mainMenuOptions = new List<MainMenu>();
-            ndvm.mainMenuOptions = _sd.GetMainMenus();
-
             ndvm.subMenuOptions = new List<SubMenu>();
 
-            var greyOutClass = "top-level-nav-greyedout";
-
-            var noManureCompost =
-                !_ud.GetAllManagedManures().Any(); //Want true to grey out Storage and Nutrient Analysis
-
-            ndvm.mainMenuOptions
-                    .Single(s => s.Action.Equals(CoreSiteActions.ManureGeneratedObtained.ToString()))
-                    .GreyOutClass = !hasAnimals && !importsManureCompost ? greyOutClass : string.Empty;
-
-            if (currentAction > CoreSiteActions.Home)
+            if (_ud.IsActiveSession())
             {
-                ndvm.UseInterceptJS = currentAction == CoreSiteActions.Farm;
-                var currentMainMenu = ndvm.mainMenuOptions.Single(m => m.IsCurrentMainMenu(currentAction.ToString()));
-                currentMainMenu.ElementId = "current";
-                ndvm.subMenuOptions = currentMainMenu.SubMenus;
+                ndvm.mainMenuOptions = _sd.GetMainMenus();
 
-                var currentSubMenu = ndvm.subMenuOptions.SingleOrDefault(sm =>
-                    sm.Action.Equals(currentAction.ToString(), StringComparison.CurrentCultureIgnoreCase));
+                var hasAnimals = _ud.FarmDetails()?.HasAnimals ?? true;
+                var importsManureCompost = _ud.FarmDetails()?.ImportsManureCompost ?? true;
 
-                if (currentSubMenu != null)
+                var greyOutClass = "top-level-nav-greyedout";
+
+                var noManureCompost = !_ud.GetAllManagedManures().Any(); //Want true to grey out Storage and Nutrient Analysis
+
+                ndvm.mainMenuOptions
+                        .Single(s => s.Action.Equals(CoreSiteActions.ManureGeneratedObtained.ToString()))
+                        .GreyOutClass = !hasAnimals && !importsManureCompost ? greyOutClass : string.Empty;
+
+                if (currentAction > CoreSiteActions.Home)
                 {
-                    currentSubMenu.ElementId = "current2";
-                }
-
-                if (currentMainMenu.Controller.Equals(AppControllers.ManureManagement.ToString()))
-                {
-
-                    if (currentMainMenu.Controller == AppControllers.ManureManagement.ToString())
+                    ndvm.UseInterceptJS = currentAction == CoreSiteActions.Farm;
+                    var currentMainMenu =
+                        ndvm.mainMenuOptions.SingleOrDefault(m => m.IsCurrentMainMenu(currentAction.ToString()));
+                    if (currentMainMenu != null)
                     {
-                        greyOutClass = "second-level-nav-greyedout";
-                        ndvm.subMenuOptions
-                            .Single(s => s.Action.Equals(CoreSiteActions.ManureGeneratedObtained.ToString()))
-                            .GreyOutClass = !hasAnimals ? greyOutClass : string.Empty;
+                        currentMainMenu.ElementId = "current";
+                        ndvm.subMenuOptions = currentMainMenu.SubMenus;
 
-                        ndvm.subMenuOptions
-                            .Single(s => s.Action.Equals(CoreSiteActions.ManureImported.ToString()))
-                            .GreyOutClass = !importsManureCompost ? greyOutClass : string.Empty;
+                        var currentSubMenu = ndvm.subMenuOptions.SingleOrDefault(sm =>
+                            sm.Action.Equals(currentAction.ToString(), StringComparison.CurrentCultureIgnoreCase));
 
-                        ndvm.subMenuOptions
-                                .Single(s => s.Action.Equals(CoreSiteActions.ManureStorage.ToString()))
-                                .GreyOutClass = !hasAnimals && !importsManureCompost ? greyOutClass : string.Empty;
+                        if (currentSubMenu != null)
+                        {
+                            currentSubMenu.ElementId = "current2";
+                        }
 
-                        ndvm.subMenuOptions
-                                .Single(s => s.Action.Equals(CoreSiteActions.ManureNutrientAnalysis.ToString()))
-                                .GreyOutClass = !hasAnimals && !importsManureCompost ? greyOutClass : string.Empty;
+                        if (currentMainMenu.Controller.Equals(AppControllers.ManureManagement.ToString()))
+                        {
+
+                            if (currentMainMenu.Controller == AppControllers.ManureManagement.ToString())
+                            {
+                                greyOutClass = "second-level-nav-greyedout";
+                                ndvm.subMenuOptions
+                                    .Single(s => s.Action.Equals(CoreSiteActions.ManureGeneratedObtained.ToString()))
+                                    .GreyOutClass = !hasAnimals ? greyOutClass : string.Empty;
+
+                                ndvm.subMenuOptions
+                                    .Single(s => s.Action.Equals(CoreSiteActions.ManureImported.ToString()))
+                                    .GreyOutClass = !importsManureCompost ? greyOutClass : string.Empty;
+
+                                ndvm.subMenuOptions
+                                        .Single(s => s.Action.Equals(CoreSiteActions.ManureStorage.ToString()))
+                                        .GreyOutClass = !hasAnimals && !importsManureCompost
+                                        ? greyOutClass
+                                        : string.Empty;
+
+                                ndvm.subMenuOptions
+                                        .Single(s => s.Action.Equals(CoreSiteActions.ManureNutrientAnalysis.ToString()))
+                                        .GreyOutClass = !hasAnimals && !importsManureCompost
+                                        ? greyOutClass
+                                        : string.Empty;
+                            }
+                        }
                     }
                 }
             }

@@ -68,7 +68,8 @@ namespace Agri.Models
         Calculate,
         Report ,
         RefreshNavigation,
-        RefreshNextPreviousNavigation
+        RefreshNextPreviousNavigation,
+        SessionExpired
     }
 
     public enum AppControllers
@@ -78,7 +79,8 @@ namespace Agri.Models
         Fields,
         Soil,
         Nutrients,
-        Report
+        Report,
+        Error
     }
 
     public enum DairyCattleAnimalSubTypes
