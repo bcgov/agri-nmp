@@ -523,9 +523,11 @@ namespace SERVERAPI.Controllers
                 var yearData = _ud.GetYearData();
                 FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
                 var appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
-
-                mvm.MaterialRemainingLabel = appliedManure.SourceName;
-                mvm.MaterialRemainingWholePercent = appliedManure.WholePercentRemaining;
+                if (appliedManure != null)
+                {
+                    mvm.MaterialRemainingLabel = appliedManure.SourceName;
+                    mvm.MaterialRemainingWholePercent = appliedManure.WholePercentRemaining;
+                }
             }
         }
 
