@@ -1,12 +1,22 @@
 ﻿@using Agri.Models
 @model NavigationDetailViewModel
 
+@{
+    var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"].ToString());
+}
 <!--MAIN MENU-->
 <div style="background: #c1daea;">
     <div class="top-level-nav">
         <ul class="top-level-nav">
             <li style="padding:0 40px 0 0">
-                <input type="button" data_modal2="" data-type="@Url.Action("NewWarning", "Home")" value="Home" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;" />
+                @if (currentAction != CoreSiteActions.SessionExpired)
+                {
+                    <input type="button" data_modal2="" data-type="@Url.Action("NewWarning", "Home")" value="Home" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;" />
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "Home")"  Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;">Home</a>
+                }
             </li>
             @foreach (var item in Model.mainMenuOptions)
             {
@@ -22,10 +32,9 @@
                     </a>
                 </li>
             }
-            @{
-                var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"].ToString());
-            }
-            @if (currentAction != CoreSiteActions.Farm && currentAction != CoreSiteActions.Report)
+            @if (currentAction != CoreSiteActions.Farm && 
+                 currentAction != CoreSiteActions.Report && 
+                 currentAction != CoreSiteActions.SessionExpired)
             {
                 <li class="continue-link">
                     <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>

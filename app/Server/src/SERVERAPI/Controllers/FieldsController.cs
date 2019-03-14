@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Agri.Interfaces;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -9,16 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
-using SERVERAPI.Models;
 using Microsoft.Extensions.Options;
 using Agri.Models.Configuration;
 using Microsoft.Extensions.Logging;
+using SERVERAPI.Filters;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SERVERAPI.Controllers
 {
-    //[RedirectingAction]
+    [SessionTimeout]
     public class FieldsController : BaseController
     {
         private ILogger<FieldsController> _logger;
