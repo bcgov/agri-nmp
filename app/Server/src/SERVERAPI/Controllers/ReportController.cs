@@ -1613,7 +1613,7 @@ namespace SERVERAPI.Controllers
             var reportSummary = string.Empty;
 
             Parallel.Invoke(
-                async () => { reportTableOfContents = await RenderTableOfContents(); },
+                //async () => { reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests); },
                 async () =>
                 {
                     //use AgriConfigurationRepostiory and since EF is not threadsafe, they need to 
@@ -1628,15 +1628,70 @@ namespace SERVERAPI.Controllers
                 async () => { reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes(); }
             );
 
-            string report = reportTableOfContents + pageBreak +
-                            reportApplication + pageBreak +
-                            reportManureCompostInventory + pageBreakForManure +
-                            reportManureUse + pageBreakForManure +
-                            reportOctoberToMarchStorageVolumes + pageBreakForManure +
-                            reportFertilizers + pageBreak +
-                            reportFields + pageBreak +
-                            reportAnalysis + pageBreak +
-                            reportSummary;
+            if (reportFertilizers.Contains("div"))
+            {
+                hasFertilizers = true;
+            }
+            if (reportSummary.Contains("div"))
+            {
+                hasSoilTests = true;
+            }
+
+            Parallel.Invoke(async () =>
+            {
+                reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests);
+            });
+
+
+
+            string report = reportTableOfContents;
+            if (reportApplication.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportApplication;
+            }
+
+            if (reportManureCompostInventory.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportManureCompostInventory;
+            }
+
+            if (reportManureUse.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportManureUse;
+            }
+
+            if (reportOctoberToMarchStorageVolumes.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportOctoberToMarchStorageVolumes;
+            }
+
+            if (reportFertilizers.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportFertilizers;
+            }
+
+            if (reportFields.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportFields;
+            }
+
+            if (reportAnalysis.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportAnalysis;
+            }
+
+            if (reportSummary.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportSummary;
+            }
 
             _ud.SaveCompleteReport(report);
             return Json(new { success = true });
