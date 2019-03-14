@@ -384,6 +384,7 @@
         "creationTimestamp": null,
         "labels": { "frontend": "true" },
         "annotations": {
+          "haproxy.router.openshift.io/timeout": "5m",
           "template.openshift.io.bcgov/tls-secret-name.prod": "nmp-route-cert${NAME_SUFFIX}"
         }
       },

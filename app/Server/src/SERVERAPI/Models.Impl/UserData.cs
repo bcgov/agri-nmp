@@ -40,6 +40,22 @@ namespace SERVERAPI.Models.Impl
             _appSettings = appSettings;
         }
 
+        public void SetActiveSession()
+        {
+            _ctx.HttpContext.Session.SetString("active", "active");
+        }
+        public bool IsActiveSession()
+        {
+            var active = _ctx.HttpContext.Session.GetString("active");
+            var farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            if (active != null && farmData != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void NewFarm()
         {
             string newYear = DateTime.Now.ToString("yyyy");
@@ -76,7 +92,12 @@ namespace SERVERAPI.Models.Impl
         public FarmDetails FarmDetails()
         {
             FarmData farmData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-            return farmData.farmDetails;
+            if (farmData != null)
+            {
+                return farmData.farmDetails;
+            }
+
+            return null;
         }
 
         public void UpdateFarmDetails(FarmDetails fd)
@@ -1421,5 +1442,24 @@ namespace SERVERAPI.Models.Impl
             return managedManures;
         }
 
+        public void SaveCompleteReport(string reportContent)
+        {
+            _ctx.HttpContext.Session.SetString("CompleteReport", reportContent);
+        }
+
+        public string GetCompleteReport()
+        {
+            return _ctx.HttpContext.Session.GetString("CompleteReport");
+        }
+
+        public void SaveRecordKeepingSheets(string reportContent)
+        {
+            _ctx.HttpContext.Session.SetString("RecordKeepingSheets", reportContent);
+        }
+
+        public string GetRecordKeepingSheets()
+        {
+            return _ctx.HttpContext.Session.GetString("RecordKeepingSheets");
+        }
     }
 }

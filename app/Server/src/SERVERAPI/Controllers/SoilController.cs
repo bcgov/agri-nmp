@@ -5,6 +5,7 @@ using Agri.Models.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using System;
@@ -13,7 +14,7 @@ using System.Linq;
 
 namespace SERVERAPI.Controllers
 {
-    //[RedirectingAction]
+    [SessionTimeout]
     public class SoilController : BaseController
     {
         private ILogger<SoilController> _logger;
