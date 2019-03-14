@@ -24,7 +24,7 @@
                             <select id="ddlRegionModal" class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions, "Id", "Value"))">
                                 <option>select region</option>
                             </select>
-                            <span asp-validation-for="selRegOption"></span>
+                            <span asp-validation-for="selRegOption" class="text-danger">A region must be selected</span>
                         </div>
                     </div>
                     @if (Model.showSubRegion)
@@ -46,10 +46,12 @@
         </div>
         <div class="modal-footer">
             <button id="canBtn" class="btn" type="button" data-dismiss="modal">Cancel</button>
-            @*<input class="btn btn-primary" type="button" value="Continue" onclick="window.location.href = '@Model.Target'" />*@
+            <input class="btn btn-primary" type="submit" value="Save" />
         </div>
         @Html.HiddenFor(x => x.Target)
         @Html.HiddenFor(x => x.Message)
+        @Html.HiddenFor(x => x.showSubRegion)
+        @Html.HiddenFor(x => x.multipleSubRegion)
         @Html.HiddenFor(x => x.buttonPressed)
 
     </form>

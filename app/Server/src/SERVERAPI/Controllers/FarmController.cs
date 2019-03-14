@@ -319,9 +319,15 @@ namespace SERVERAPI.Controllers
                 var farmData = _ud.FarmDetails();
                 farmData.farmSubRegion = fvm.selSubRegOption;
                 _ud.UpdateFarmDetails(farmData);
+                return View(fvm);
+            }
 
+            if (ModelState.IsValid)
+            {
                 return Json(new { success = true, url = fvm.Target });
             }
+
+            fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
             return View(fvm);
         }
     }
