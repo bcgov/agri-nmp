@@ -197,6 +197,10 @@
                 "persistentVolumeClaim": {
                   "claimName": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
                 }
+              },
+              {
+                "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-run",
+                "emptyDir": {}
               }
             ]
           }
