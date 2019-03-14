@@ -1616,19 +1616,19 @@ namespace SERVERAPI.Controllers
 
             if (reportManureUse.Contains("div"))
             {
-                report += pageBreak;
+                report += pageBreakForManure;
                 report += reportManureUse;
             }
 
             if (reportOctoberToMarchStorageVolumes.Contains("div"))
             {
-                report += pageBreak;
+                report += pageBreakForManure;
                 report += reportOctoberToMarchStorageVolumes;
             }
 
             if (reportFertilizers.Contains("div"))
             {
-                report += pageBreak;
+                report += pageBreakForManure;
                 report += reportFertilizers;
             }
 
