@@ -294,6 +294,7 @@
         $('#toolTipAmmoniumRetentionValuesMsg').tooltip({
             template: toolTipClickableInnerHtml,
             html: true,
+            placement: 'bottom',
             trigger: 'manual'
         });
     });
@@ -336,7 +337,7 @@
     })   
 
     $(document).ready(function () {
-        $('#toolTipAvailableNutrientsThisYearValuesMsg').tooltip({
+        $('#AvailableNutrientsLongTermMsg').tooltip({
             template: toolTipClickableInnerHtml,
             html: true,
             trigger: 'manual'
@@ -345,8 +346,8 @@
 
     //Using triggerToolTip function from ~/lib/site.js
     $(document).ready(function () {
-        $('#toolTipAvailableNutrientsThisYearValuesMsg').click(function () {
-            triggerToolTip($('#toolTipAvailableNutrientsThisYearValuesMsg'));
+        $('#AvailableNutrientsLongTermMsg').click(function () {
+            triggerToolTip($('#AvailableNutrientsLongTermMsg'));
         });
     })   
 
