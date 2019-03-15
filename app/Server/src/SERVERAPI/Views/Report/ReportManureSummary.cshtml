@@ -1,64 +1,67 @@
 ﻿@model SERVERAPI.ViewModels.ReportManureSummaryViewModel
 
-<div style="page-break-inside:avoid">
-    <div class="Row">
-        <div class="Cell">
-            <span style="font-size:10pt"><b>Manure and Compost Use</b></span>
-            <br />
-            <br />
+@if (Model.manures.Count > 0)
+{
+    <div style="page-break-inside:avoid">
+        <div class="Row">
+            <div class="Cell">
+                <span style="font-size:10pt"><b>Manure and Compost Use</b></span>
+                <br/>
+                <br/>
+            </div>
         </div>
-    </div>
-    <div class="Row">
-        <div class="Cell">
-            <table style="border-collapse: collapse;page-break-inside:avoid">
-                <tr style="padding-top:20px; padding-bottom:20px;align-items: right">
-                    <td class="CellHdg">
-                        Material
-                    </td>
-                    <td class="CellHdg" style="text-align:right">
-                        Annual Amount
-                    </td>
-                    <td class="CellHdg" style="text-align:right">
-                        Land-Applied
-                    </td>
-                    <td class="CellHdg" style="text-align:right">
-                        Amount Remaining
-                    </td>
-                </tr>
-                @foreach (var m in Model.manures)
-                {
-                    <tr style="padding-top:20px; padding-bottom:20px">
-                        <td class="CellDtl" style="width:300px;font-weight:bold">@m.MaterialName</td>
-                        <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AnnualAmount</td>
-                        <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.LandApplied</td>
-                        @if (@m.AmountRemaining == "None")
-                        {
-                            <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AmountRemaining<sup>@m.footnote</sup></td>
-                        }
-                        else
-                        {
-                            <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AmountRemaining</td>
-                        }
-
+        <div class="Row">
+            <div class="Cell">
+                <table style="border-collapse: collapse;page-break-inside:avoid">
+                    <tr style="padding-top:20px; padding-bottom:20px;align-items: right">
+                        <td class="CellHdg">
+                            Material
+                        </td>
+                        <td class="CellHdg" style="text-align:right">
+                            Annual Amount
+                        </td>
+                        <td class="CellHdg" style="text-align:right">
+                            Land-Applied
+                        </td>
+                        <td class="CellHdg" style="text-align:right">
+                            Amount Remaining
+                        </td>
                     </tr>
-                }
-
-            </table>
-            @if (Model.footnotes.Count() > 0)
-            {
-                <br />
-                <br />
-                <table>
-                    @foreach (var fn in @Model.footnotes)
+                    @foreach (var m in Model.manures)
                     {
-                        <tr>
-                            <td class="CellDtlNBd" style="padding:0px">
-                                @fn.id.ToString() &nbsp;&nbsp; @fn.message
-                            </td>
+                        <tr style="padding-top:20px; padding-bottom:20px">
+                            <td class="CellDtl" style="width:300px;font-weight:bold">@m.MaterialName</td>
+                            <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AnnualAmount</td>
+                            <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.LandApplied</td>
+                            @if (@m.AmountRemaining == "None")
+                            {
+                                <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AmountRemaining<sup>@m.footnote</sup></td>
+                            }
+                            else
+                            {
+                                <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AmountRemaining</td>
+                            }
+
                         </tr>
                     }
+
                 </table>
-            }
+                @if (Model.footnotes.Count() > 0)
+                {
+                    <br/>
+                    <br/>
+                    <table>
+                        @foreach (var fn in @Model.footnotes)
+                        {
+                            <tr>
+                                <td class="CellDtlNBd" style="padding:0px">
+                                    @fn.id.ToString() &nbsp;&nbsp; @fn.message
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </div>
         </div>
     </div>
-</div>
+}

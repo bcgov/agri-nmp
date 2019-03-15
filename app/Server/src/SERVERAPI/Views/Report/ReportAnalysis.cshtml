@@ -1,90 +1,93 @@
 ﻿@model SERVERAPI.ViewModels.ReportAnalysisViewModel
 
-<div class="Row">
-    <div class="Cell">
-        <span style="font-size:10pt"><b>Manure and Compost Analysis</b></span>
-        <br />
-        <br />
+@if (Model.details.Count > 0)
+{
+    <div class="Row">
+        <div class="Cell">
+            <span style="font-size:10pt"><b>Manure and Compost Analysis</b></span>
+            <br/>
+            <br/>
+        </div>
     </div>
-</div>
-<div class="Row">
-    <div class="Cell">
-        <table>
-            <tr>
-                <td class="CellDtlNBd" style="padding:0px">
-                    All results are provided on an as-received (wet weight) basis.
-                </td>
-                <br/>
-            </tr>
-        </table>
-        <table style="border-collapse: collapse;page-break-inside:avoid">
-            <tr style="padding-top:20px; padding-bottom:20px">
-                <td class="CellHdg">
-                    Source of Material
-                </td>
-                <td class="CellHdg">
-                    Material Type
-                </td>
-                <td class="CellHdg" style="text-align:center">
-                    Moisture (%)
-                </td>
-                <td class="CellHdg" style="text-align:center">
-                    Total N (%)
-                </td>
-                <td class="CellHdg" style="text-align:center">
-                    NH<sub>4</sub>-N (ppm)
-                </td>
-                <td class="CellHdg" style="text-align:center">
-                    P (%)
-                </td>
-                <td class="CellHdg" style="text-align:center">
-                    K (%)
-                </td>
-                @if (Model.nitratePresent)
-                {
-                    <td class="CellHdg" style="text-align:center">
-                        NO<sub>3</sub>N (ppm)
-                    </td>
-                }
-            </tr>
-            @foreach (var n in Model.details)
-            {
+    <div class="Row">
+        <div class="Cell">
+            <table>
                 <tr>
-                    @if (@n.isAssignedToStorage)
-                    {
-                        <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName</td>
-                    }
-                    else
-                    {
-                        <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName<sup>@n.footnote</sup></td>
-                    }
-                    <td class="CellDtl" style="width:300px;">@n.manureName</td>
-                    <td class="CellDtl" style="text-align:center; width:80px">@n.moisture</td>
-                    <td class="CellDtl" style="text-align:center; width:80px">@n.nitrogen</td>
-                    <td class="CellDtl" style="text-align:center; width:80px">@n.ammonia</td>
-                    <td class="CellDtl" style="text-align:center; width:80px">@n.phosphorous</td>
-                    <td class="CellDtl" style="text-align:center; width:80px">@n.potassium</td>
+                    <td class="CellDtlNBd" style="padding:0px">
+                        All results are provided on an as-received (wet weight) basis.
+                    </td>
+                    <br/>
+                </tr>
+            </table>
+            <table style="border-collapse: collapse;page-break-inside:avoid">
+                <tr style="padding-top:20px; padding-bottom:20px">
+                    <td class="CellHdg">
+                        Source of Material
+                    </td>
+                    <td class="CellHdg">
+                        Material Type
+                    </td>
+                    <td class="CellHdg" style="text-align:center">
+                        Moisture (%)
+                    </td>
+                    <td class="CellHdg" style="text-align:center">
+                        Total N (%)
+                    </td>
+                    <td class="CellHdg" style="text-align:center">
+                        NH<sub>4</sub>-N (ppm)
+                    </td>
+                    <td class="CellHdg" style="text-align:center">
+                        P (%)
+                    </td>
+                    <td class="CellHdg" style="text-align:center">
+                        K (%)
+                    </td>
                     @if (Model.nitratePresent)
                     {
-                        <td class="CellDtl" style="text-align:center; width:80px">@n.nitrate</td>
+                        <td class="CellHdg" style="text-align:center">
+                            NO<sub>3</sub>N (ppm)
+                        </td>
                     }
                 </tr>
-            }
-        </table>
-        @if (Model.footnotes.Count() > 0)
-        {
-            <br/>
-            <br/>
-            <table>
-                @foreach (var fn in Model.footnotes)
+                @foreach (var n in Model.details)
                 {
                     <tr>
-                        <td class="CellDtlNBd" style="padding:0px">
-                            @fn.id.ToString() &nbsp;&nbsp; @fn.message
-                        </td>
+                        @if (@n.isAssignedToStorage)
+                        {
+                            <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName</td>
+                        }
+                        else
+                        {
+                            <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName<sup>@n.footnote</sup></td>
+                        }
+                        <td class="CellDtl" style="width:300px;">@n.manureName</td>
+                        <td class="CellDtl" style="text-align:center; width:80px">@n.moisture</td>
+                        <td class="CellDtl" style="text-align:center; width:80px">@n.nitrogen</td>
+                        <td class="CellDtl" style="text-align:center; width:80px">@n.ammonia</td>
+                        <td class="CellDtl" style="text-align:center; width:80px">@n.phosphorous</td>
+                        <td class="CellDtl" style="text-align:center; width:80px">@n.potassium</td>
+                        @if (Model.nitratePresent)
+                        {
+                            <td class="CellDtl" style="text-align:center; width:80px">@n.nitrate</td>
+                        }
                     </tr>
                 }
             </table>
-        }
+            @if (Model.footnotes.Count() > 0)
+            {
+                <br/>
+                <br/>
+                <table>
+                    @foreach (var fn in Model.footnotes)
+                    {
+                        <tr>
+                            <td class="CellDtlNBd" style="padding:0px">
+                                @fn.id.ToString() &nbsp;&nbsp; @fn.message
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
     </div>
-</div>
+}
