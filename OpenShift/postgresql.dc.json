@@ -181,10 +181,6 @@
                   {
                     "mountPath": "/var/lib/pgsql/data",
                     "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-data"
-                  },
-                  {
-                    "mountPath": "/var/run/postgresql",
-                    "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-run"
                   }
                 ]
               }
@@ -197,10 +193,6 @@
                 "persistentVolumeClaim": {
                   "claimName": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}"
                 }
-              },
-              {
-                "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}-run",
-                "emptyDir": {}
               }
             ]
           }
