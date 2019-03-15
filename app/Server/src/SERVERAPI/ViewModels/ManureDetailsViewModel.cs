@@ -54,5 +54,10 @@ namespace SERVERAPI.ViewModels
         public string MaterialRemainingLabel { get; set; }
         public decimal? MaterialRemainingWholePercent { get; set; }
         public string MaterialRemainingToString => $"{MaterialRemainingLabel}:";
+        public string AmmoniumRetentionMsg;
+        public string AvailablOrganicNitrogranMsg;
+        public string AvailableNutrientsThisYearMsg;
+        public string AvailableNutrientsLongTermMsg;
+
     }
 }

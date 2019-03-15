@@ -141,6 +141,10 @@ namespace SERVERAPI.Controllers
             mvm.stdAvail = true;
             mvm.url = _sd.GetExternalLink("manureunitexplanation");
             mvm.urlText = _sd.GetUserPrompt("moreinfo");
+            mvm.AmmoniumRetentionMsg = _sd.GetUserPrompt("AmmoniumRetensionMessage");
+            mvm.AvailablOrganicNitrogranMsg = _sd.GetUserPrompt("AvailableOrganicNitrogenMessage");
+            mvm.AvailableNutrientsThisYearMsg = _sd.GetUserPrompt("AvailableNutrientsThisYearMessage");
+            mvm.AvailableNutrientsLongTermMsg = _sd.GetUserPrompt("AvaiableNutreintsLongTermMessage");
 
             mvm.totN = "0";
             mvm.totP2o5 = "0";

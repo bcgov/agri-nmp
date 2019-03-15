@@ -78,7 +78,12 @@
         <div style="clear:both"></div>
         <div class="form-group">
             <div class="form-group col-sm-2">
-                <label for="nh4">Ammonium-N Retention (%)</label>
+                <label for="nh4">
+                    Ammonium-N Retention (%)
+                    <a href="#" aria-label="Ammonium Retention Value Link" data-toggle="tooltip" title="@Model.AmmoniumRetentionMsg" id="toolTipAmmoniumRetentionValuesMsg">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Ammonium Retention" style="font-size:20px; padding-top:5px"></span>
+                    </a>
+                </label>
                 <div class="input-group">
                     <input class="form-control" asp-for="nh4" id="nh4" type="text" />
                     @if (!Model.stdN)
@@ -91,7 +96,12 @@
                 <span asp-validation-for="nh4" class="text-danger"></span>
             </div>
             <div class="form-group col-sm-2">
-                <label asp-for="avail">Organic N Available This Year (%)</label>
+                <label asp-for="avail">
+                    Organic N Available This Year (%)
+                    <a href="#" aria-label="Available Organic N Value Link" data-toggle="tooltip" title="@Model.AvailablOrganicNitrogranMsg" id="toolTipAvailableOrganicNitrogenValuesMsg">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of available Organic N" style="font-size:20px; padding-top:5px"></span>
+                    </a>
+                </label>
                 <div class="input-group">
                     <input class="form-control col-sm-1" asp-for="avail" id="avail" type="text" />
                     @if (!Model.stdAvail)
@@ -107,7 +117,12 @@
         <div class="form-group col-sm-4">
             <div class="Table">
                 <div class="Title">
-                    <p>Available This Year (lb/ac)</p>
+                    <p>
+                        Available This Year (lb/ac)
+                        <a href="#" aria-label="Available Organic Nutrients Value Link" data-toggle="tooltip" title="@Model.AvailableNutrientsThisYearMsg" id="toolTipAvailableNutrientsThisYearValuesMsg">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of available nutrients this year" style="font-size:20px; padding-top:5px"></span>
+                        </a>
+                    </p>
                 </div>
                 <div class="Heading">
                     <div class="Cell">
@@ -136,7 +151,11 @@
         <div class="form-group col-sm-4">
             <div class="Table">
                 <div class="Title">
-                    <p>Available Long Term (lb/ac)</p>
+                    <p>Available Long Term (lb/ac)
+                        <a href="#" aria-label="Available Nutrients Long Term Value Link" data-toggle="tooltip" title="@Model.AvailableNutrientsLongTermMsg" id="toolTipAvailableLongTermValuesMsg">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of nutrients available in the long term" style="font-size:20px; padding-top:5px"></span>
+                        </a>
+                     </p>
                 </div>
                 <div class="Heading">
                     <div class="Cell">
@@ -169,7 +188,7 @@
             @if (Model.ShowMaterialRemaining)
             {
             <div class="form-group">
-                <div style="margin-left:-50px" class="Title">
+                <div style="margin-left:-30px" class="Title">
                     Material Remaining
                 </div>
                 <input type="hidden" id="PercentageMaterialRemainingHiddem" value="@Model.MaterialRemainingWholePercent">
@@ -270,6 +289,66 @@
         width: '120%',
         marginleft:'30px'
     });
+
+    $(document).ready(function () {
+        $('#toolTipAmmoniumRetentionValuesMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipAmmoniumRetentionValuesMsg').click(function () {
+            triggerToolTip($('#toolTipAmmoniumRetentionValuesMsg'));
+        });
+    })   
+
+    $(document).ready(function () {
+        $('#toolTipAvailableOrganicNitrogenValuesMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipAvailableOrganicNitrogenValuesMsg').click(function () {
+            triggerToolTip($('#toolTipAvailableOrganicNitrogenValuesMsg'));
+        });
+    })   
+
+    $(document).ready(function () {
+        $('#toolTipAvailableNutrientsThisYearValuesMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipAvailableNutrientsThisYearValuesMsg').click(function () {
+            triggerToolTip($('#toolTipAvailableNutrientsThisYearValuesMsg'));
+        });
+    })   
+
+    $(document).ready(function () {
+        $('#toolTipAvailableNutrientsThisYearValuesMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipAvailableNutrientsThisYearValuesMsg').click(function () {
+            triggerToolTip($('#toolTipAvailableNutrientsThisYearValuesMsg'));
+        });
+    })   
 
 
 </script>
