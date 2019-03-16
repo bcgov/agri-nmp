@@ -1,5 +1,6 @@
 ﻿@model SERVERAPI.ViewModels.ReportManureCompostViewModel
-
+@if(Model.storages.Count > 0 || Model.unstoredManures.Count > 0)
+{
 <div style="page-break-inside:avoid">
     <div class="Row">
         <div class="Cell">
@@ -102,8 +103,8 @@
             {
                 @if (@s.footnotes.Count() > 0)
                  {
-                     <br/>
-                     <br/>
+                     <br />
+                     <br />
                      <table>
                          <tr>
                              <td>
@@ -129,4 +130,5 @@
         </div>
     </div>
 </div>
+}
 

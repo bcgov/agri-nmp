@@ -1,86 +1,89 @@
 ﻿@model SERVERAPI.ViewModels.ReportApplicationViewModel
 
-<div class="Row">
-    <div class="Cell">
-        <span style="font-size:10pt"><b>Application Schedule</b></span>
-        <br />
-        <br />
+@if (Model.fields.Count > 0)
+{
+    <div class="Row">
+        <div class="Cell">
+            <span style="font-size:10pt"><b>Application Schedule</b></span>
+            <br />
+            <br />
+        </div>
     </div>
-</div>
-<div class="Row">
-    <div class="Cell">
-        @foreach (var f in Model.fields)
-        {
-            <table style="border-collapse: collapse; border: 2px solid black; width: 100%;">
-                <tr style="border: 1px solid black;">
-                    <td colspan="3">
-                        <table style="width: 100%; border: none;">
-                            <tr>
-                                <td class="CellHdgBNd" style="width:20%; font-size:100%; vertical-align:top">
-                                    Field: @f.fieldName
-                                </td>
-                                <td class="CellHdgBNd" style="; font-size:100%; width:15%; vertical-align:top">
-                                    Area: @f.fieldArea ac
-                                </td>
-                                <td class="CellHdgBNd" style="; font-size:100%; width:10%; vertical-align:top">
-                                    @Model.year Crops:
-                                </td>
-                                <td class="CellHdgBNd" style="; font-size:100%; width:35%; vertical-align:top">
-                                    <span style="white-space: pre-line">@f.fieldCrops</span>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="CellHdg" style="width:45%">
-                        Nutrient Source
-                    </td>
-                    <td class="CellHdg" style="width:35%">
-                        Application Timing
-                    </td>
-                    <td class="CellHdg" style="text-align:center; width:20%">
-                        Rate
-                    </td>
-                </tr>
-                @foreach (var m in f.nutrients)
-                {
+    <div class="Row">
+        <div class="Cell">
+            @foreach (var f in Model.fields)
+            {
+                <table style="border-collapse: collapse; border: 2px solid black; width: 100%;page-break-inside:avoid">
                     <tr style="border: 1px solid black;">
-                        <td class="CellDtl">
-                            @m.nutrientName
-                        </td>
-                        <td class="CellDtl">
-                            @m.nutrientSeason
-                        </td>
-                        <td class="CellDtl" style="text-align:center">
-                            @m.nutrientAmount @m.nutrientUnit
+                        <td colspan="3">
+                            <table style="width: 100%; border: none;">
+                                <tr>
+                                    <td class="CellHdgBNd" style="width:20%; font-size:100%; vertical-align:top">
+                                        Field: @f.fieldName
+                                    </td>
+                                    <td class="CellHdgBNd" style="; font-size:100%; width:15%; vertical-align:top">
+                                        Area: @f.fieldArea ac
+                                    </td>
+                                    <td class="CellHdgBNd" style="; font-size:100%; width:10%; vertical-align:top">
+                                        @Model.year Crops:
+                                    </td>
+                                    <td class="CellHdgBNd" style="; font-size:100%; width:35%; vertical-align:top">
+                                        <span style="white-space: pre-line">@f.fieldCrops</span>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
-                }
-            </table>
-            <br />
-            <table style="border-collapse: collapse; border: none; width: 100%;">
-                <tr>
-                    <td class="CellDtl" style="border: none;border-bottom: 1px solid black; width:45%">
-                        Comments:
-                    </td>
-                    <td colspan="2" style="width:55%"></td>
-                </tr>
-                <tr>
-                    <td class="CellDtl" colspan="3" style="border:none">
-                        <table style=" word-wrap: break-word; table-layout:fixed; width:100%; vertical-align:top; margin-top:0;">
-                            <tr>
-                                <td style="padding-top:0px">
-                                    @f.fieldComment
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-            <br />
-            <br />
-        }
+                    <tr>
+                        <td class="CellHdg" style="width:45%">
+                            Nutrient Source
+                        </td>
+                        <td class="CellHdg" style="width:35%">
+                            Application Timing
+                        </td>
+                        <td class="CellHdg" style="text-align:center; width:20%">
+                            Rate
+                        </td>
+                    </tr>
+                    @foreach (var m in f.nutrients)
+                    {
+                        <tr style="border: 1px solid black;">
+                            <td class="CellDtl">
+                                @m.nutrientName
+                            </td>
+                            <td class="CellDtl">
+                                @m.nutrientSeason
+                            </td>
+                            <td class="CellDtl" style="text-align:center">
+                                @m.nutrientAmount @m.nutrientUnit
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <br/>
+                <table style="border-collapse: collapse; border: none; width: 100%;page-break-inside:avoid">
+                    <tr>
+                        <td class="CellDtl" style="border: none;border-bottom: 1px solid black; width:45%">
+                            Comments:
+                        </td>
+                        <td colspan="2" style="width:55%"></td>
+                    </tr>
+                    <tr>
+                        <td class="CellDtl" colspan="3" style="border:none">
+                            <table style=" word-wrap: break-word; table-layout:fixed; width:100%; vertical-align:top; margin-top:0;">
+                                <tr>
+                                    <td style="padding-top:0px">
+                                        @f.fieldComment
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <br/>
+            }
+        </div>
     </div>
-</div>
+}
 
