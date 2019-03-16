@@ -560,7 +560,7 @@ namespace Agri.Data
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("17_SubRegions", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<SubRegion>>("17_SubRegions");
-                var currentVersion = _sd.GetCurrentStaticDataVersion();
+                var currentVersion = _context.StaticDataVersions.Single(v => v.Id == _sd.GetCurrentStaticDataVersion().Id);
                 foreach (var newSubRegion in migrationSeedData.Data)
                 {
                     newSubRegion.SetVersion(currentVersion);
@@ -630,28 +630,28 @@ namespace Agri.Data
                 //_context.AppliedMigrationSeedData.Add(migrationSeedData);
                 //_context.SaveChanges();
 
-                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
-                foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
-                {
-                    newPrevManureApplicationNitrogenDefault.Crops = _sd.GetCropsByManureApplicationHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
-                    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear =
-                        _sd.GetPrevManureApplicationInPrevYearsByManureAppHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
-                    //newPrevManureApplicationNitrogenDefault.StaticDataVersionId = currentVersion.Id;
-                    //newPrevManureApplicationNitrogenDefault.SetVersion(currentVersion);
+                //var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
+                //foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
+                //{
+                //    newPrevManureApplicationNitrogenDefault.Crops = _sd.GetCropsByManureApplicationHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+                //    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear =
+                //        _sd.GetPrevManureApplicationInPrevYearsByManureAppHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+                //    //newPrevManureApplicationNitrogenDefault.StaticDataVersionId = currentVersion.Id;
+                //    //newPrevManureApplicationNitrogenDefault.SetVersion(currentVersion);
 
-                    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
-                    {
-                        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
-                        //_mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
-                        updated.Crops = newPrevManureApplicationNitrogenDefault.Crops;
-                        //updated.PreviousManureApplicationYear =
-                        //    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear;
-                        //updated.StaticDataVersionId = newPrevManureApplicationNitrogenDefault.StaticDataVersionId;
-                        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
-                    }
-                }
-                _context.AppliedMigrationSeedData.Add(migrationSeedData);
-                _context.SaveChanges();
+                //    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
+                //    {
+                //        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
+                //        //_mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
+                //        updated.Crops = newPrevManureApplicationNitrogenDefault.Crops;
+                //        //updated.PreviousManureApplicationYear =
+                //        //    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear;
+                //        //updated.StaticDataVersionId = newPrevManureApplicationNitrogenDefault.StaticDataVersionId;
+                //        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
+                //    }
+                //}
+                //_context.AppliedMigrationSeedData.Add(migrationSeedData);
+                //_context.SaveChanges();
             }
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("21_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
