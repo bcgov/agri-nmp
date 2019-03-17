@@ -125,7 +125,7 @@
             }
           }
         ],
-        "replicas": 1,
+        "replicas": 3,
         "test": false,
         "selector": {
           "name": "nmp${NAME_SUFFIX}"
@@ -269,7 +269,7 @@
             "type": "ConfigChange"
           }
         ],
-        "replicas": 1,
+        "replicas": 3,
         "test": false,
         "selector": {
           "name": "pdf${NAME_SUFFIX}"
