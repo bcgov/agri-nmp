@@ -44,10 +44,10 @@ namespace SERVERAPI.Controllers
             FarmViewModel fvm = new FarmViewModel();
             fvm.IsLegacyNMPReleaseVersion = !_ud.FarmData().NMPReleaseVersion.HasValue || _ud.FarmData().NMPReleaseVersion.Value < _appSettings.Value.NMPReleaseVersion;
 
-            if (fvm.IsLegacyNMPReleaseVersion)
-            {
+            //if (fvm.IsLegacyNMPReleaseVersion)
+            //{
                 fvm.LegacyNMPMessage = _sd.GetUserPrompt("FarmDataBackwardsCompatibility");
-            }
+            //}
             fvm.showSubRegion = false;
             fvm.multipleSubRegion = false;
 
