@@ -37,19 +37,21 @@
 </div>
 
 <div class="modal-body">
+@if (Model.areThereMaterialSources && Model.areThereNutrientAnalysis)
+{
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <div class="form-group col-sm-4">
                 <label for="ddlMan">Material Type</label>
-                <select class="form-control" asp-for="SelectedFarmManure" asp-items="@(new SelectList(Model.ManureTypeOptions,"Id","Value"))" id="ddlMan">
+                <select class="form-control" asp-for="SelectedFarmManure" asp-items="@(new SelectList(Model.ManureTypeOptions, "Id", "Value"))" id="ddlMan">
                     <option>select</option>
                 </select>
                 <span asp-validation-for="SelectedFarmManure" class="text-danger"></span>
             </div>
             <div class="form-group col-sm-3">
                 <label for="ddlAppl">Application Season/Method</label>
-                <select class="form-control" asp-for="selApplOption" asp-items="@(new SelectList(Model.applOptions,"Id","Value"))" id="ddlAppl">
+                <select class="form-control" asp-for="selApplOption" asp-items="@(new SelectList(Model.applOptions, "Id", "Value"))" id="ddlAppl">
                     <option>select</option>
                 </select>
                 <span asp-validation-for="selApplOption" class="text-danger"></span>
@@ -57,7 +59,7 @@
             <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px">
                 <label for="rate"> Application Rate</label>
                 <div>
-                    <input class="form-control" asp-for="ApplicationRate" id="rate" type="text" />
+                    <input class="form-control" asp-for="ApplicationRate" id="rate" type="text"/>
                     <span asp-validation-for="ApplicationRate" class="text-danger"></span>
                 </div>
             </div>
@@ -67,7 +69,7 @@
                         <label for="ddlRate">Units</label>
                     </div>
                     <div style="display:table-row">
-                        <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions,"Id","Value"))" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
+                        <select class="form-control" asp-for="selRateOption" asp-items="@(new SelectList(Model.rateOptions, "Id", "Value"))" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
                             <option>select</option>
                         </select>
                     </div>
@@ -85,7 +87,7 @@
                     </a>
                 </label>
                 <div class="input-group">
-                    <input class="form-control" asp-for="nh4" id="nh4" type="text" />
+                    <input class="form-control" asp-for="nh4" id="nh4" type="text"/>
                     @if (!Model.stdN)
                     {
                         <span class="input-group-btn" title="Reset to standard value">
@@ -103,7 +105,7 @@
                     </a>
                 </label>
                 <div class="input-group">
-                    <input class="form-control col-sm-1" asp-for="avail" id="avail" type="text" />
+                    <input class="form-control col-sm-1" asp-for="avail" id="avail" type="text"/>
                     @if (!Model.stdAvail)
                     {
                         <span class="input-group-btn" title="Reset to standard value">
@@ -155,7 +157,7 @@
                         <a href="#" aria-label="Available Nutrients Long Term Value Link" data-toggle="tooltip" title="@Model.AvailableNutrientsLongTermMsg" id="toolTipAvailableLongTermValuesMsg">
                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of nutrients available in the long term" style="font-size:15px; padding-top:5px"></span>
                         </a>
-                     </p>
+                    </p>
                 </div>
                 <div class="Heading">
                     <div class="Cell">
@@ -182,11 +184,29 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0" />
-        <div class="col-sm-4">
-            @if (Model.ShowMaterialRemaining)
-            {
+}
+else
+{
+    @if (!Model.areThereMaterialSources)
+    {
+        <div class="form-group">
+            <p class="text-danger"><img src="~/images/dollar warning.svg" height='20' width='20' />@Model.noManureSourceAddedWarningMsg</p>
+            <br/> <br/> <br/> <br/><br/><br/><br/><br/>
+        </div>
+    }
+    else if (!Model.areThereNutrientAnalysis)
+    {
+        <div class="form-group">
+            <p class="text-danger"><img src="~/images/dollar warning.svg" height='20' width='20' />@Model.noNutrientAnalysisWaningMsg</p>
+            <br/> <br/> <br/> <br/><br/><br/><br/><br/>
+        </div>
+    }
+}
+<div class="row">
+    <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0"/>
+    <div class="col-sm-4">
+        @if (Model.ShowMaterialRemaining)
+        {
             <div class="form-group">
                 <div style="margin-left:-30px" class="Title">
                     Material Remaining
@@ -198,56 +218,64 @@
                 <div style="width:100px;margin-left:30px" id="jq">
                 </div>
             </div>
-            }
-        </div>
-        <div class="form-group col-sm-4" style="margin-left:30px">
-            <div class="Table">
-                <div class="form-group">
-                    <div class="Title">
-                        <p>Still Required This Year (lb/ac)</p>
+        }
+    </div>
+    <div class="form-group col-sm-4" style="margin-left:30px">
+        <div class="Table">
+            <div class="form-group">
+                <div class="Title">
+                    <p>Still Required This Year (lb/ac)</p>
+                </div>
+                <div class="Heading">
+                    <div class="Cell">
+                        <p>N</p>
                     </div>
-                    <div class="Heading">
-                        <div class="Cell">
-                            <p>N</p>
-                        </div>
-                        <div class="Cell">
-                            <p>P<sub>2</sub>O<sub>5</sub></p>
-                        </div>
-                        <div class="Cell">
-                            <p>K<sub>2</sub>O</p>
-                        </div>
+                    <div class="Cell">
+                        <p>P<sub>2</sub>O<sub>5</sub></p>
                     </div>
-                    <div class="Row">
-                        <div class="Cell" style="text-align:center">
-                            @if (!string.IsNullOrEmpty(Model.totNIcon))
-                            {
-                                <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText" />
-                            }
-                            @Model.totN
-                        </div>
-                        <div class="Cell" style="text-align:center">
-                            @if (!string.IsNullOrEmpty(Model.totPIcon))
-                            {
-                                <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
-                            }
-                            @Model.totP2o5
-                        </div>
-                        <div class="Cell" style="text-align:center">
-                            @if (!string.IsNullOrEmpty(Model.totKIcon))
-                            {
-                                <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
-                            }
-                            @Model.totK2o
-                        </div>
+                    <div class="Cell">
+                        <p>K<sub>2</sub>O</p>
+                    </div>
+                </div>
+                <div class="Row">
+                    <div class="Cell" style="text-align:center">
+                        @if (!string.IsNullOrEmpty(Model.totNIcon))
+                        {
+                            <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText"/>
+                        }
+                        @Model.totN
+                    </div>
+                    <div class="Cell" style="text-align:center">
+                        @if (!string.IsNullOrEmpty(Model.totPIcon))
+                        {
+                            <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText"/>
+                        }
+                        @Model.totP2o5
+                    </div>
+                    <div class="Cell" style="text-align:center">
+                        @if (!string.IsNullOrEmpty(Model.totKIcon))
+                        {
+                            <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText"/>
+                        }
+                        @Model.totK2o
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 <div class="modal-footer">
     <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-    <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
+    @if (Model.areThereMaterialSources && Model.areThereNutrientAnalysis)
+    {
+        <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
+    }
+    else
+    {
+        <button class="btn btn-default" type="button" data_modal="" onclick='window.location = "@Url.Action("ManureGeneratedObtained", "ManureManagement")";' >Return To Manure</button>
+    }
+
 </div>
 @Html.HiddenFor(x => x.title)
 @Html.HiddenFor(x => x.id)
