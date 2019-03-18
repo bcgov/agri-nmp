@@ -6,14 +6,14 @@
 <div id="target">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel"><img src="~/images/dollar warning.svg" height='20' width='20' /> Warning</h2>
+        <h2 class="modal-title" id="myModalLabel">Warning</h2>
     </div>
 
     <form asp-action="NewWarning" asp-controller="Home" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target" id="warnForm">
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <p class="text-danger">@Html.Raw(Model.msg)</p>
+                <p class="text-danger"><img src="~/images/dollar warning.svg" height='20' width='20' /> @Html.Raw(Model.msg)</p>
             </div>
             <br />
             <br />
