@@ -29,15 +29,15 @@
                 </div>
                 <div class="form-box-body">
                     <div class="form-box-fields">
-                        @*@if (Model.IsLegacyNMPReleaseVersion)
-                        {*@
+                        @if (Model.IsLegacyNMPReleaseVersion)
+                        {
                             <div class="row">
                                 <div class="col-sm-12">
                                     <img src="~/images/dollar warning.svg" height='20' width='20' />
                                     <span class="text-danger">@Html.Raw(@Model.LegacyNMPMessage)</span>
                                 </div>
                             </div>
-                        @*}*@
+                        }
                         <div class="row">
                             <div class="col-sm-3">
                                 <label asp-for="year">Year</label>
