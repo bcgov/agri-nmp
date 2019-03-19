@@ -698,8 +698,8 @@ namespace Agri.Data.TestHarness
             Assert.AreEqual(expected.Message, actual.Message);
             Assert.AreEqual(expected.Icon, actual.Icon);
 
-            actual = _agriRepository.GetMessageByChemicalBalance("AgrN", 40, false);
-            expected = _staticExtRepo.GetMessageByChemicalBalance("AgrN", 40, false);
+            actual = _agriRepository.GetMessageByChemicalBalance("AgrN", 460, false);
+            expected = _staticExtRepo.GetMessageByChemicalBalance("AgrN", 460, false);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected.Message, actual.Message);
@@ -1402,7 +1402,7 @@ namespace Agri.Data.TestHarness
             Assert.AreEqual(expected.Count, actual.Count);
         }
 
-        [Ignore]
+        //[Ignore]
         [TestMethod]
         public void GetMessageByChemicalBalanceForSpecificValues()
         {

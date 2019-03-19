@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using SERVERAPI.ViewModels;
@@ -34,7 +35,7 @@ namespace SERVERAPI.Controllers
         public string options;
     }
 
-    //[RedirectingAction]
+    [SessionTimeout]
     public class ReportController : BaseController
     {
         private ILogger<ReportController> _logger;
@@ -45,6 +46,7 @@ namespace SERVERAPI.Controllers
         public AppSettings _settings;
         private IManureApplicationCalculator _manureApplicationCalculator;
         private ISoilTestConverter _soilTestConverter;
+        private object _semaphore = new object();
 
         public ReportController(ILogger<ReportController> logger,
             IHostingEnvironment env, 
@@ -62,6 +64,7 @@ namespace SERVERAPI.Controllers
             _manureApplicationCalculator = manureApplicationCalculator;
             _soilTestConverter = soilTestConverter;
         }
+
         [HttpGet]
         public IActionResult Report()
         {
@@ -181,8 +184,7 @@ namespace SERVERAPI.Controllers
         }
         public async Task<string> RenderFields()
         {
-            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
-            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+            var calculateNutrients = new CalculateNutrients(_ud, _sd);
             CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
 
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
@@ -363,16 +365,20 @@ namespace SERVERAPI.Controllers
                             rf.remP = rf.remP + rfn.remP;
                             rf.remK = rf.remK + rfn.remK;
 
-                            int regionid = _ud.FarmDetails().farmRegion.Value;
-                            Region region = _sd.GetRegion(regionid);
-                            nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt32(m.manureId), region.LocationId);
-
                             string footNote = "";
 
-                            if(m.nAvail != nOrganicMineralizations.OrganicN_FirstYear * 100)
+                            int regionid = _ud.FarmDetails().farmRegion.Value;
+                            var region = _sd.GetRegion(regionid);
+                            if (region != null)
                             {
-                                footNote = "1st Yr Organic N Availability adjusted to " + m.nAvail.ToString("###") + "%";
+                                var nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt32(m.manureId), region.LocationId);
+
+                                if (m.nAvail != nOrganicMineralizations.OrganicN_FirstYear * 100)
+                                {
+                                    footNote = "1st Yr Organic N Availability adjusted to " + m.nAvail.ToString("###") + "%";
+                                }
                             }
+
                             if(m.nh4Retention != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(m.manureId), Convert.ToInt16(m.applicationId)) * 100))
                             {
                                 footNote = string.IsNullOrEmpty(footNote) ? "" : footNote + ", ";
@@ -631,7 +637,7 @@ namespace SERVERAPI.Controllers
 
                 var farmData = _ud.FarmDetails();
                 SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
-                rainInMM = subregion.AnnualPrecipitation;
+                rainInMM = subregion?.AnnualPrecipitation ?? 0;
 
                 // rainInMM = Convert.ToDecimal(s.AnnualPrecipitation);
 
@@ -1158,7 +1164,7 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
-        public async Task<string> RenderTableOfContents()
+        public async Task<string> RenderTableOfContents(bool hasFertilizers,bool hasSoilTests)
         {
             var vm = new ReportTableOfContentsViewModel();
             var yd = _ud.GetYearData();
@@ -1188,14 +1194,18 @@ namespace SERVERAPI.Controllers
                 pageNumber = pageNumber + 1;
                 vm.ContentItems.Add(new ContentItem
                 {
-                    SectionName = "Manure and Compost Use -- Liquid Storage Capacity: October to March",
+                    SectionName = "Liquid Storage Capacity: October to March",
                     PageNumber = pageNumber
                 });
             }
 
             //ReportFertilizers
-            pageNumber = pageNumber + 1;
-            vm.ContentItems.Add(new ContentItem {SectionName = "Fertilizer Required", PageNumber = pageNumber});
+            if (hasFertilizers)
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem {SectionName = "Fertilizer Required", PageNumber = pageNumber});
+            }
+
             //ReportFields
             var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.fieldName}");
             foreach (var fieldName in fieldNames)
@@ -1213,8 +1223,11 @@ namespace SERVERAPI.Controllers
             }
 
             //ReportSummary
-            pageNumber = pageNumber + 1;
-            vm.ContentItems.Add(new ContentItem {SectionName = "Soil Test Results", PageNumber = pageNumber });
+            if (hasSoilTests)
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem { SectionName = "Soil Test Results", PageNumber = pageNumber });
+            }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportTableOfContents.cshtml", vm);
 
@@ -1494,9 +1507,15 @@ namespace SERVERAPI.Controllers
             FileContentResult result = null;
             string pageBreak = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
 
-            string reportManureCompostInventory = await RenderManureCompostInventory();
-            string reportManureUse = await RenderManureUse();
-            string reportFertilizers = await RenderFerilizers();
+            var reportManureCompostInventory = string.Empty;
+            var reportManureUse = string.Empty;
+            var reportFertilizers = string.Empty;
+
+            Parallel.Invoke(
+                async () => { reportManureCompostInventory = await RenderManureCompostInventory(); },
+                async () => { reportManureUse = await RenderManureUse(); },
+                async () => { reportFertilizers = await RenderFerilizers(); }
+            );
 
             string report = reportManureCompostInventory + pageBreak + reportManureUse + pageBreak + reportFertilizers;
 
@@ -1515,11 +1534,20 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+
+        public async Task<IActionResult> GenerateRecordKeepingSheets()
+        {
+            string reportSheets = await RenderSheets();
+            _ud.SaveRecordKeepingSheets(reportSheets);
+
+            return Json(new { success = true });
+        }
+
         public async Task<IActionResult> PrintSheets()
         {
             FileContentResult result = null;
 
-            string reportSheets = await RenderSheets();
+            string reportSheets = _ud.GetRecordKeepingSheets();
 
             result = await PrintReportAsync(reportSheets, false);
 
@@ -1565,31 +1593,116 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+
+        [HttpGet]
+        public IActionResult GenerateCompleteReport()
+        {
+            string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
+            string pageBreakForManure = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
+            bool hasFertilizers = false;
+            bool hasSoilTests = false;
+
+            var reportTableOfContents = string.Empty;
+            var reportApplication = string.Empty;
+            var reportManureCompostInventory = string.Empty;
+            var reportManureUse = string.Empty;
+            var reportOctoberToMarchStorageVolumes = string.Empty;
+            var reportFertilizers = string.Empty;
+            var reportFields = string.Empty;
+            var reportAnalysis = string.Empty;
+            var reportSummary = string.Empty;
+
+            Parallel.Invoke(
+                //async () => { reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests); },
+                async () =>
+                {
+                    //use AgriConfigurationRepostiory and since EF is not threadsafe, they need to 
+                    //run in sequence and not in parallel
+                    reportApplication = await RenderApplication();
+                    reportFertilizers = await RenderFerilizers();
+                    reportFields = await RenderFields();
+                    reportManureUse = await RenderManureUse();
+                    reportSummary = await RenderSummary();
+                    reportAnalysis = await RenderAnalysis();
+                },
+                async () => { reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes(); }
+            );
+
+            if (reportFertilizers.Contains("div"))
+            {
+                hasFertilizers = true;
+            }
+            if (reportSummary.Contains("div"))
+            {
+                hasSoilTests = true;
+            }
+
+            Parallel.Invoke(async () =>
+            {
+                reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests);
+            });
+
+
+
+            string report = reportTableOfContents;
+            if (reportApplication.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportApplication;
+            }
+
+            if (reportManureCompostInventory.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportManureCompostInventory;
+            }
+
+            if (reportManureUse.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportManureUse;
+            }
+
+            if (reportOctoberToMarchStorageVolumes.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportOctoberToMarchStorageVolumes;
+            }
+
+            if (reportFertilizers.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportFertilizers;
+            }
+
+            if (reportFields.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportFields;
+            }
+
+            if (reportAnalysis.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportAnalysis;
+            }
+
+            if (reportSummary.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportSummary;
+            }
+
+            _ud.SaveCompleteReport(report);
+            return Json(new { success = true });
+
+            //return report;
+        }
+
         public async Task<IActionResult> PrintComplete()
         {
             FileContentResult result = null;
-            string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
-            string pageBreakForManure = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
-
-            string reportTableOfContents = await RenderTableOfContents();
-            string reportApplication = await RenderApplication();
-            string reportManureCompostInventory = await RenderManureCompostInventory();
-            string reportManureUse = await RenderManureUse();
-            string reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes();
-            string reportFertilizers = await RenderFerilizers();
-            string reportFields = await RenderFields();
-            string reportAnalysis = await RenderAnalysis();
-            string reportSummary = await RenderSummary();
-
-            string report = reportTableOfContents + pageBreak + 
-                            reportApplication + pageBreak + 
-                            reportManureCompostInventory + pageBreakForManure + 
-                            reportManureUse + pageBreakForManure + 
-                            reportOctoberToMarchStorageVolumes + pageBreakForManure + 
-                            reportFertilizers + pageBreak + 
-                            reportFields + pageBreak + 
-                            reportAnalysis + pageBreak + 
-                            reportSummary;
+            var report = _ud.GetCompleteReport();
 
             result = await PrintReportAsync(report, true);
 

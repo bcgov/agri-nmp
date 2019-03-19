@@ -1097,7 +1097,7 @@ namespace Agri.LegacyData.Models.Impl
                         bm.Message = string.Format(r["text"].ToString(), Math.Abs(balance).ToString());
                     bm.Icon = r["icon"].ToString();
 
-                    if (balanceType == "AgrN" && legume && bm.Icon != "stop")
+                    if (balanceType == "AgrN" && legume && bm.Icon != "stop triangle")
                     {
                         // nitrogen does not need to be added even if there is a deficiency
                         bm.Icon = "good";
