@@ -274,6 +274,30 @@ namespace SERVERAPI.Controllers
         {
             decimal nmbr;
             int addedId = 0;
+            var managedManuresData = _ud.GetAllManagedManures();
+            var farmManuresData = _ud.GetFarmManures();
+
+            mvm.noManureSourceAddedWarningMsg = _sd.GetUserPrompt("NoManureSourceAddedWarning");
+            mvm.noNutrientAnalysisWaningMsg = _sd.GetUserPrompt("NoNutrientAnalysisAddedWarning");
+            if (managedManuresData.Count > 0)
+            {
+                mvm.areThereMaterialSources = true;
+            }
+            else
+            {
+                mvm.areThereMaterialSources = false;
+            }
+
+            if (farmManuresData.Count > 0)
+            {
+                mvm.areThereNutrientAnalysis = true;
+            }
+            else
+            {
+                mvm.areThereNutrientAnalysis = false;
+            }
+
+
             NutrientManure origManure = new NutrientManure();
 
             var calculateNutrients = new CalculateNutrients(_ud, _sd);
