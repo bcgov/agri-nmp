@@ -110,9 +110,10 @@
                     <div class="container">
                         <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
                             <span>
-                                <a href='@Url.Action("About", "Home" )' target="_blank">
+                                @Html.ActionLink("About", "About", new { controller = "Home" }, new { target = "_blank", @class = "edit" })
+                                @*<a href='@Url.Action("About", "Home" )' target="_blank">
                                     About
-                                </a>
+                                </a>*@
                             </span>
                             <span>
                                 <a href='@Url.Action("Help", "Home" )' target="_blank">
