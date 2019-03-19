@@ -210,6 +210,7 @@
                     success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
+                            window.location.href = result.url;
                         } else {
                             $('#myModalContent').html(result);
                             bindFormI(dialog);
@@ -237,6 +238,20 @@
             $("body").on("change", "#ddlSubRegion", function () {
                 $('#buttonPressed').val("SubRegionChange");
                 $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlRegionModal", function () {
+                $('#buttonPressed').val("RegionChange");
+                $("#warnForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlSubRegionModal", function () {
+                $('#buttonPressed').val("SubRegionChange");
+                $("#warnForm").submit();
             })
         });
 

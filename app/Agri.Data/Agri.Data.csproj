@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190217033332_AddCommentToStaticVersionData.cs" />
     <Compile Remove="Migrations\20190221235859_FixPreviousCropTypeForeignKey.cs" />
+    <Compile Remove="Migrations\20190227174319_AddTable-ManageVersionUser.cs" />
   </ItemGroup>
 
   <ItemGroup>

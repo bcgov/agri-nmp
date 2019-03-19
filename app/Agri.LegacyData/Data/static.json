@@ -193,164 +193,149 @@
       "regions": {
         "region": [
           {
-            "id": "1",
+            "id": 1,
             "name": "Bulkley-Nechako",
-            "soil_test_phospherous_region_cd": "2",
-            "soil_test_potassium_region_cd": "3",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 2,
+            "soil_test_potassium_region_cd": 3,
+            "locationid": 1,
+            "sortNum": 1
           },
           {
-            "id": "2",
-            "name": "Capital Regional District",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "1",
-            "locationid": "2",
-            "sortNum": "100"
-          },
-          {
-            "id": "3",
+            "id": 3,
             "name": "Cariboo",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 1,
+            "sortNum": 2
           },
           {
-            "id": "4",
-            "name": "Central Kootenay",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "1",
-            "sortNum": "100"
-          },
-          {
-            "id": "5",
+            "id": 5,
             "name": "Central Okanagan",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 1,
+            "sortNum": 12
           },
           {
-            "id": "6",
-            "name": "Columbia Shuswap",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "1",
-            "sortNum": "100"
-          },
-          {
-            "id": "7",
-            "name": "Comox Valley",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "1",
-            "locationid": "2",
-            "sortNum": "100"
-          },
-          {
-            "id": "8",
-            "name": "Cowichan Valley",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "1",
-            "locationid": "2",
-            "sortNum": "100"
-          },
-          {
-            "id": "9",
+            "id": 9,
             "name": "East Kootenay",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 1,
+            "sortNum": 6
           },
           {
-            "id": "10",
+            "id": 10,
             "name": "Fraser Valley, East (including Abbotsford/Mission)",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "1",
-            "locationid": "2",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 1,
+            "locationid": 2,
+            "sortNum": 8
           },
           {
-            "id": "11",
+            "id": 11,
             "name": "Fraser-Fort George",
-            "soil_test_phospherous_region_cd": "2",
-            "soil_test_potassium_region_cd": "3",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 2,
+            "soil_test_potassium_region_cd": 3,
+            "locationid": 1,
+            "sortNum": 10
           },
           {
-            "id": "12",
+            "id": 12,
             "name": "Kitimat-Stikine",
-            "soil_test_phospherous_region_cd": "2",
-            "soil_test_potassium_region_cd": "3",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 2,
+            "soil_test_potassium_region_cd": 3,
+            "locationid": 1,
+            "sortNum": 11
           },
           {
-            "id": "13",
+            "id": 13,
             "name": "Kootenay Boundary",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 1,
+            "sortNum": 7
           },
           {
-            "id": "14",
+            "id": 14,
             "name": "Fraser Valley, West (Delta to Langley/Maple Ridge)",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "1",
-            "locationid": "2",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 1,
+            "locationid": 2,
+            "sortNum": 9
           },
           {
-            "id": "15",
-            "name": "Nanaimo",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "1",
-            "locationid": "2",
-            "sortNum": "100"
-          },
-          {
-            "id": "16",
+            "id": 16,
             "name": "North Okanagan",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 1,
+            "sortNum": 13
           },
           {
-            "id": "17",
+            "id": 17,
             "name": "Okanagan-Similkameen",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 1,
+            "sortNum": 14
           },
           {
-            "id": "18",
+            "id": 18,
             "name": "Peace River",
-            "soil_test_phospherous_region_cd": "3",
-            "soil_test_potassium_region_cd": "3",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 3,
+            "soil_test_potassium_region_cd": 3,
+            "locationid": 1,
+            "sortNum": 15
           },
           {
-            "id": "19",
+            "id": 19,
             "name": "Squamish-Lilloeet",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "2",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 2,
+            "sortNum": 16
           },
           {
-            "id": "20",
+            "id": 20,
             "name": "Thompson-Nicola",
-            "soil_test_phospherous_region_cd": "1",
-            "soil_test_potassium_region_cd": "2",
-            "locationid": "1",
-            "sortNum": "100"
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 1,
+            "sortNum": 17
+          },
+          {
+            "id": 21,
+            "name": "Vancouver Island",
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 1,
+            "locationid": 2,
+            "sortNum": 18
+          },
+          {
+            "id": 4,
+            "name": "Central Kootenay",
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 1,
+            "sortNum": 4
+
+          },
+          {
+            "id": 6,
+            "name": "Columbia Shuswap",
+            "soil_test_phospherous_region_cd": 1,
+            "soil_test_potassium_region_cd": 2,
+            "locationid": 1,
+            "sortNum": 3
+          },
+          {
+            "id": 2,
+            "name": "Northern Rockies",
+            "soil_test_phospherous_region_cd": 3,
+            "soil_test_potassium_region_cd": 3,
+            "locationid": 1,
+            "sortNum": 19
           }
         ]
       },

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
+using Agri.Models.Security;
 
 namespace Agri.Interfaces
 {
@@ -176,6 +177,8 @@ namespace Agri.Interfaces
         decimal GetBreedManureFactorByBreedId(int breedId);
         List<SelectListItem> GetBreed(int breedId);
         LiquidSolidSeparationDefault GetLiquidSolidSeparationDefaults();
-        int ArchiveConfigurations();
+        int ArchiveConfigurations(ManageVersionUser manageVersionUser);
+        bool AuthenticateManagerVersionUser(string username, string password);
+        ManageVersionUser GetManagerVersionUser(string username);
     }
 }

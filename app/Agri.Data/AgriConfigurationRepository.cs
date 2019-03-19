@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.Models.Security;
 
 namespace Agri.Data
 {
@@ -1804,16 +1805,16 @@ namespace Agri.Data
             return _currentStaticDataVersion;
         }
 
-        public int ArchiveConfigurations()
+        public int ArchiveConfigurations(ManageVersionUser manageVersionUser)
         {
-            var newId = 0;
             var currentVersion = GetLatestVersionDataTree();
             var datestamp = DateTime.Now;
-            var nextId = currentVersion.Id + 1;
+            var newId = currentVersion.Id + 1;
             var newVersion = new StaticDataVersion
             {
-                Id = nextId,
-                Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{nextId}",
+                Id = newId,
+                Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{newId}",
+                CreatedBy = $"{manageVersionUser.FirstName} {manageVersionUser.LastName}",
                 CreatedDateTime = datestamp
             };
 
@@ -1924,5 +1925,16 @@ namespace Agri.Data
             return newId;
         }
 
+        public bool AuthenticateManagerVersionUser(string username, string password)
+        {
+            var result = _context.ManageVersionUsers.Any(m => m.UserName == username && m.Password == password);
+
+            return result;
+        }
+
+        public ManageVersionUser GetManagerVersionUser(string username)
+        {
+            return _context.ManageVersionUsers.SingleOrDefault(m => m.UserName == username);
+        }
     }
 }

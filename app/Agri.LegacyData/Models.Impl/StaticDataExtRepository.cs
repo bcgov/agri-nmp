@@ -4,6 +4,7 @@ using System.Linq;
 using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Configuration;
+using Agri.Models.Security;
 using Newtonsoft.Json.Linq;
 
 namespace Agri.LegacyData.Models.Impl
@@ -879,12 +880,22 @@ namespace Agri.LegacyData.Models.Impl
             throw new NotImplementedException();
         }
 
-        public int ArchiveConfigurations()
+        public int ArchiveConfigurations(ManageVersionUser manageVersionUser)
         {
             throw new NotImplementedException();
         }
 
         public StaticDataVersion GetCurrentStaticDataVersion()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AuthenticateManagerVersionUser(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ManageVersionUser GetManagerVersionUser(string username)
         {
             throw new NotImplementedException();
         }

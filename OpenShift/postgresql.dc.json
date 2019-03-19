@@ -2,7 +2,7 @@
   "apiVersion": "v1",
   "kind": "Template",
   "labels": {
-    "template": "postgresql-ephemeral-template"
+    "template": "postgresql-template"
   },
   "metadata": {
     "creationTimestamp": null,
@@ -54,6 +54,28 @@
       },
       "status": {
         "loadBalancer": {}
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}${NAME_SUFFIX}",
+        "annotations": {
+          "volume.beta.kubernetes.io/storage-class": "gluster-file-db",
+          "volume.beta.kubernetes.io/storage-provisioner": "kubernetes.io/glusterfs"
+        }
+      },
+      "spec": {
+        "storageClassName": "${PERSISTENT_VOLUME_CLASS}",
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${PERSISTENT_VOLUME_SIZE}"
+          }
+        }
       }
     },
     {
@@ -141,7 +163,12 @@
                   "timeoutSeconds": 1
                 },
                 "resources": {
+                  "requests": {
+                    "cpu": "${CPU_REQUEST}",
+                    "memory": "${MEMORY_REQUEST}"
+                  },
                   "limits": {
+                    "cpu": "${CPU_LIMIT}",
                     "memory": "${MEMORY_LIMIT}"
                   }
                 },
@@ -258,18 +285,37 @@
       "value": "9.6"
     },
     {
+      "name": "CPU_LIMIT",
+      "value": "500m"
+    },
+    {
       "description": "Maximum amount of memory the container can use.",
       "displayName": "Memory Limit",
       "name": "MEMORY_LIMIT",
       "required": true,
-      "value": "512Mi"
+      "value": "2Gi"
     },
     {
-      "description": "Volume space available for data, e.g. 512Mi, 2Gi.",
-      "displayName": "Volume Capacity",
-      "name": "VOLUME_CAPACITY",
+      "name": "PERSISTENT_VOLUME_SIZE",
+      "displayName": "Persistent Volume Size",
+      "description": "The size of the persistent volume , e.g. 512Mi, 1Gi, 2Gi.",
       "required": true,
       "value": "1Gi"
+    },
+    {
+      "name": "PERSISTENT_VOLUME_CLASS",
+      "displayName": "Persistent Volume Class name",
+      "description": "The class of the volume; gluster-file, gluster-block, gluster-file-db",
+      "required": false,
+      "value": "gluster-file-db"
+    },
+    {
+      "name": "CPU_REQUEST",
+      "value": "200m"
+    },
+    {
+      "name": "MEMORY_REQUEST",
+      "value": "1.5Gi"
     },
     {
       "description": "Version of PostgreSQL image to be used (9.5 or 9.6).",
