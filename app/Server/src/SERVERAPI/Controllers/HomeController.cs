@@ -442,30 +442,6 @@ namespace SERVERAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult ValidateStaticData()
-        {            
-            ValidateStaticDataViewModel vvm = new ValidateStaticDataViewModel();
-            Utility.ValidateStaticData validate = new Utility.ValidateStaticData(_sd);
-            StringBuilder sb = new StringBuilder("");
-
-            List<Agri.Models.Configuration.StaticDataValidationMessages>  messages = validate.PerformValidation();
-
-            if (messages.Count > 0)
-            {
-                foreach (Agri.Models.Configuration.StaticDataValidationMessages message in messages)
-                {
-                    sb.Append(String.Format("Validate error: {0} value of {1} does not exist in {2}. <br/>", message.Child, message.LinkData, message.Parent));
-                }
-                vvm.staticDataErrors = sb.ToString();
-            }
-            else
-            {
-                vvm.staticDataErrors = "No Errors";
-            }
-
-            return View(vvm);
-        }
-        [HttpGet]
         public IActionResult DownloadMessage()
         {
             var pathToFiles = _env.WebRootPath + @"/images/download/" + _bd.BrowserName;
@@ -486,6 +462,44 @@ namespace SERVERAPI.Controllers
             }
 
             return View(dvm);
+        }
+
+        [HttpGet]
+        public IActionResult CreateNewStaticDataVersion()
+        {
+            var vm = new CreateNewStaticDataVersionViewModel();
+
+            return View(vm);
+        }
+
+        public IActionResult CreateNewStaticDataVersion(CreateNewStaticDataVersionViewModel vm)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    vm.Authenticated = _sd.AuthenticateManagerVersionUser(vm.Username, vm.Password);
+
+                    if (vm.Authenticated)
+                    {
+                        var user = _sd.GetManagerVersionUser(vm.Username);
+                        var newVersionId = _sd.ArchiveConfigurations(user);
+                        System.Threading.Thread.Sleep(5000);
+
+                        vm.NewVersionId = newVersionId;
+                        vm.ArchiveWasSuccessful = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    vm.ErrorMessage = ex.Message;
+                }
+
+                vm.ProcessingCompleted = true;
+            }
+
+            return View(vm);
         }
     }
 }

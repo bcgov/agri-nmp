@@ -3,15 +3,17 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20190227190259_AddTable-ManageVersionUser")]
+    partial class AddTableManageVersionUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1233,8 +1235,6 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Comments")
                         .HasColumnType("VARCHAR(4000)");
-
-                    b.Property<string>("CreatedBy");
 
                     b.Property<DateTime>("CreatedDateTime")
                         .ValueGeneratedOnAdd()
