@@ -1,0 +1,17 @@
+{
+  "Id": 28,
+  "JsonFilename": "28_UserPrompts",
+  "ReasonReference": "R4E06-US22: Add manure when no sources are available",
+  "Data": [
+    {
+      "Id": "76",
+      "Name": "NoManureSourceAddedWarning",
+      "Text": "Warning: No manure or compost sources have been added to this farm, return to the manure section and add either animals or an imported material before adding manure applications to a field."
+    },
+    {
+      "Id": "77",
+      "Name": "NoNutrientAnalysisAddedWarning",
+      "Text": "Warning: To add manure applications to a field, the calculator requires some information about the kind of manure being applied.  Complete the information on the nutrient analysis screen for each source of manure."
+    }
+  ]
+}

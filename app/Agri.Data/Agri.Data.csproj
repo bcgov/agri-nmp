@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Remove="MigrationSeedData\10_UserPrompts.json" />
     <None Remove="MigrationSeedData\11_Breed.json" />
+    <None Remove="MigrationSeedData\12_UserPrompts.json" />
     <None Remove="MigrationSeedData\14_AnimalSubTypes.json" />
     <None Remove="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
     <None Remove="MigrationSeedData\17_SubRegions.json" />
@@ -27,6 +28,7 @@
     <None Remove="MigrationSeedData\23_UserPrompts.json" />
     <None Remove="MigrationSeedData\26_UserPrompts.json" />
     <None Remove="MigrationSeedData\27_UserPrompts.json" />
+    <None Remove="MigrationSeedData\28_UserPrompts.json" />
     <None Remove="MigrationSeedData\2_UserPrompts.json" />
     <None Remove="MigrationSeedData\3_UserPrompts.json" />
     <None Remove="MigrationSeedData\4_UserPrompts.json" />
@@ -37,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="MigrationSeedData\12_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\18_PrevYearManureApplicationNitrogenDefaults.json" />
     <EmbeddedResource Include="MigrationSeedData\17_SubRegions.json" />
     <EmbeddedResource Include="MigrationSeedData\14_AnimalSubTypes.json" />
@@ -47,6 +50,7 @@
     <EmbeddedResource Include="MigrationSeedData\25_SubMenu.json" />
     <EmbeddedResource Include="MigrationSeedData\24_MainMenu.json" />
     <EmbeddedResource Include="MigrationSeedData\26_UserPrompts.json" />
+    <EmbeddedResource Include="MigrationSeedData\28_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\27_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\22_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\21_UserPrompts.json" />
