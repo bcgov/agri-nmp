@@ -66,6 +66,7 @@ namespace Agri.Models.Configuration
         [NotMapped]
         public string Version { get; set; }
         public DateTime CreatedDateTime { get; set; }
+        public string CreatedBy { get; set; }
         [Column(TypeName = "VARCHAR(4000)")]
         public string Comments { get; set; }
 

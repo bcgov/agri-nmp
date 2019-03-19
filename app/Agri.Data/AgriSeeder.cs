@@ -30,6 +30,11 @@ namespace Agri.Data
 
             var staticExtRepo = new StaticDataExtRepository();
             var currentVersion = _sd.GetCurrentStaticDataVersion();
+            if (currentVersion.Id == 1 && string.IsNullOrEmpty(currentVersion.CreatedBy))
+            {
+                currentVersion.Comments = "Initial version migrated from Legacy StaticData.json file";
+                currentVersion.CreatedBy = "Agri.Data.AgriSeeder.cs";
+            }
 
             //AmoniaRetention
             if (!_context.AmmoniaRetentions.Any())

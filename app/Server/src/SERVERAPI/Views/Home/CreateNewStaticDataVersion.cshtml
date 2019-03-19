@@ -1,0 +1,119 @@
+﻿@model CreateNewStaticDataVersionViewModel
+@{
+    ViewBag.Title = "Create New Static Data Version";
+    Layout = "_LayoutNoNav";
+}
+
+<!-- Modal -->
+<div class="modal" id="modalProcessing" tabindex="-1" role="dialog" aria-labelledby="modalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle" style="color: white">Processing</h5>
+            </div>
+            <div class="modal-body">
+                <i class="fa fa-2x fa-spinner fa-spin" style="margin-right: 10px;"></i>
+                <label>Please wait while Static Data is Being Archived and a New Version is Created...</label>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- BODY CONTENT -->
+<div class="template container gov-container">
+    <!-- PAGE CONTENT -->
+    <form asp-controller="Home" method="post" id="versionForm">
+        <div class="form-box">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-box-header clearfix">
+                <legend class="form-box-heading">Create a new version of the Static Configuration Data</legend>
+            </div>
+            <div class="form-box-body">
+                <div class="form-box-fields">
+                    @if (!Model.ProcessingCompleted || (Model.ProcessingCompleted && !Model.Authenticated))
+                    {
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label asp-for="Username"></label>
+                                <input class="form-control" asp-for="Username" type="text" />
+                                <span asp-validation-for="Username"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label asp-for="Password"></label>
+                                <input class="form-control" asp-for="Password" type="password" />
+                                <span asp-validation-for="Password"></span>
+                            </div>
+                        </div>
+                        @if (Model.ProcessingCompleted && !Model.Authenticated)
+                        {
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="text-danger">Username or Password was not found</label>
+                                </div>
+                            </div>
+                        }
+                        <div class="form-box-submit">
+                            <div class="form-box-fields text-left">
+                                <button class="btn btn-primary" type="submit" title="CreateNewVersion" aria-label="CreateNewVersion"
+                                        onclick="return DisplayProgressMessage(this, 'Archiving Current Version...', $('#versionForm'));">
+                                    Create New Version of Static Data
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        if (Model.ArchiveWasSuccessful)
+                        {
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>New Version was Successfully Created</label>
+                                    <span>New Version ID is <b>@Model.NewVersionId</b></span>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="text-danger">New Version was not Created</label>
+                                    <div>
+                                        Error Message:
+                                        <div>@Model.ErrorMessage</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="form-box-submit">
+                            <div class="form-box-fields text-left">
+                                <input class="btn btn-primary" style="float:left" type="button" value="Home Page" onclick="window.location.href = '@Url.Action("Index", "Home")';" title="Home Page" aria-label="Home Page" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- PAGE CONTENT -->
+</div>
+<!-- /BODY CONTENT -->
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        function DisplayProgressMessage(ctl, msg, formElement) {
+            if ($(formElement).valid()) {
+                $(ctl).prop("disabled", true).text(msg);
+                $('#modalProcessing').modal('show')
+                $(formElement).submit();
+                return true;
+            }
+            return false;
+        }
+
+    </script>
+
+}
