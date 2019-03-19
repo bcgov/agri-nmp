@@ -381,253 +381,258 @@ else  // Show System as Content Only
 @if (Model.ShowStructureFields)
 {
     <div class="form-row row" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
-    <div class="form-group col-sm-3">
-        <label for="txtStorageStructureName">Storage Name</label>
-        <input class="form-control" asp-for="StorageStructureName" type="text" id="txtStorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
-        <span asp-validation-for="StorageStructureName" class="text-danger"></span>
-    </div>
-    <div class="col-sm-3">
-        @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
-        {
-            <div class="form-group">
-                <label for="ddlStorageShape">Storage shape</label>
-                <select class="form-control" asp-for="SelectedStorageShape"
-                        asp-items="@(Html.GetEnumSelectList<StorageShapes>())" id="ddlStorageShape">
-                    <option>Select Storage shape</option>
-                </select>
-                <span asp-validation-for="SelectedStorageShape" class="text-danger">Select a Storage shape</span>
-            </div>
-        }
-        <div class="form-group">
-            <div><label id="labelIsStructureCovered">Is the storage covered?</label></div>
-            <div class="form-group" role="radiogroup" aria-labelledby="labelIsStructureCovered">
-                <label style="padding-right: 20px">
-                    <input asp-for="IsStructureCovered" type="radio" value="true"
-                           onchange="IsStructureCoveredChanged()" /> Yes
-                </label>
-                <label>
-                    <input asp-for="IsStructureCovered" type="radio" value="false"
-                           onchange="IsStructureCoveredChanged()" /> No
-                </label>
-            </div>
+        <div class="form-group col-sm-3">
+            <label for="txtStorageStructureName">Storage Name</label>
+            <input class="form-control" asp-for="StorageStructureName" type="text" id="txtStorageStructureName" placeholder="@Model.StorageStructureNamePlaceholder" />
+            <span asp-validation-for="StorageStructureName" class="text-danger"></span>
         </div>
-        @if (!Model.IsStructureCovered && Model.SelectedManureMaterialType == ManureMaterialType.Solid)
-        {
+        <div class="col-sm-3">
+            @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+            {
+                <div class="form-group">
+                    <label for="ddlStorageShape">Storage shape</label>
+                    <select class="form-control" asp-for="SelectedStorageShape"
+                            asp-items="@(Html.GetEnumSelectList<StorageShapes>())" id="ddlStorageShape">
+                        <option>Select Storage shape</option>
+                    </select>
+                    <span asp-validation-for="SelectedStorageShape" class="text-danger">Select a Storage shape</span>
+                </div>
+            }
             <div class="form-group">
-                <label for="txtUncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
-                <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure"
-                       onchange="RefreshSolidLiquidVolumeFields()" />
-                <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
-            </div>
-        }
-    </div>
-    @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
-    {
-        @if (Model.SelectedStorageShape == StorageShapes.Rectangular)
-         {
-             <div class="col-sm-3">
-                 <div class="form-group">
-                     <div class="col-sm-7">
-                         <div class="form-group">
-                             <label for="txtRectangularLength">Length(ft)</label>
-                         </div>
-                     </div>
-                     <div class="col-sm-5">
-                         <div class="form-group">
-                             <input class="form-control" asp-for="RectangularLength" type="text" id="txtRectangularLength" />
-                             <span asp-validation-for="RectangularLength" class="text-danger"></span>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="form-group">
-                     <div class="col-sm-7">
-                         <div class="form-group">
-                             <label for="RectangularWidth">Width(ft)</label>
-                         </div>
-                     </div>
-                     <div class="col-sm-5">
-                         <div class="form-group">
-                             <input class="form-control" asp-for="RectangularWidth" type="text" id="txtRectangularWidth" />
-                             <span asp-validation-for="RectangularWidth" class="text-danger"></span>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="form-group">
-                     <div class="col-sm-7">
-                         <div class="form-group">
-                             <label for="txtRectangularHeight">Height(ft)</label>
-                         </div>
-                     </div>
-                     <div class="col-sm-5">
-                         <div class="form-group">
-                             <input class="form-control" asp-for="RectangularHeight" type="text" id="txtRectangularHeight" />
-                             <span asp-validation-for="RectangularHeight" class="text-danger"></span>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         }
-        @if (Model.SelectedStorageShape == StorageShapes.Circular)
-         {
-             <div class="col-sm-3">
-                 <div class="form-group">
-                     <div class="col-sm-7">
-                         <div class="form-group">
-                             <label for="txtCircularDiameter">Diameter(ft)</label>
-                         </div>
-                     </div>
-                     <div class="col-sm-5">
-                         <div class="form-group">
-                             <input class="form-control" asp-for="CircularDiameter" type="text" id="txtCircularDiameter" />
-                             <span asp-validation-for="CircularDiameter" class="text-danger"></span>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="form-group">
-                     <div class="col-sm-7">
-                         <div class="form-group">
-                             <label for="txtCircularHeight">Height(ft)</label>
-                         </div>
-                     </div>
-                     <div class="col-sm-5">
-                         <div class="form-group">
-                             <input class="form-control" asp-for="CircularHeight" type="text" id="txtCircularHeight" />
-                             <span asp-validation-for="CircularHeight" class="text-danger"></span>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         }
-        @if (Model.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
-         {
-             <div class="col-sm-3">
-                 <div class="form-group">
-                     <div class="col-sm-7">
-                         <div class="form-group">
-                             <label for="txtSlopedWallTopLength">Top-Length(ft)</label>
-                         </div>
-                     </div>
-                     <div class="col-sm-5">
-                         <div class="form-group">
-                             <input class="form-control" asp-for="SlopedWallTopLength" type="text" id="txtSlopedWallTopLength" />
-                             <span asp-validation-for="SlopedWallTopLength" class="text-danger"></span>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="form-group">
-                     <div class="col-sm-7">
-                         <div class="form-group">
-                             <label for="txtSlopedWallTopWidth">Top-Width(ft)</label>
-                         </div>
-                     </div>
-                     <div class="col-sm-5">
-                         <div class="form-group">
-                             <input class="form-control" asp-for="SlopedWallTopWidth" type="text" id="txtSlopedWallTopWidth" />
-                             <span asp-validation-for="SlopedWallTopWidth" class="text-danger"></span>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="form-group">
-                     <div class="col-sm-7">
-                         <div class="form-group">
-                             <label for="txtSlopedWallHeight">Height(ft)</label>
-                         </div>
-                     </div>
-                     <div class="col-sm-5">
-                         <div class="form-group">
-                             <input class="form-control" asp-for="SlopedWallHeight" type="text" id="txtSlopedWallHeight" />
-                             <span asp-validation-for="SlopedWallHeight" class="text-danger"></span>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="form-group">
-                     <div class="col-sm-7">
-                         <div class="form-group">
-                             <label for="txtSlopedWallSlopeOfWall">Slope of wall(ft)</label>
-                         </div>
-                     </div>
-                     <div class="col-sm-5">
-                         <div class="form-group">
-                             <input class="form-control" asp-for="SlopedWallSlopeOfWall" type="text" id="txtSlopedWallSlopeOfWall" />
-                             <span asp-validation-for="SlopedWallSlopeOfWall" class="text-danger"></span>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         }
-    }
-    <div class="col-sm-3">
-        @if (Model.volumeUSGallons != null && Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
-        {
-            <div class="row">
-                <div class="form-group">
-                    <label for="txtStorageVolume">Storage Volume</label>
-                    <label for="txtStorageVolumeUSGallons" style="font-weight: normal !important">@Model.volumeOfStorageStructure</label>
+                <div><label id="labelIsStructureCovered">Is the storage covered?</label></div>
+                <div class="form-group" role="radiogroup" aria-labelledby="labelIsStructureCovered">
+                    <label style="padding-right: 20px">
+                        <input asp-for="IsStructureCovered" type="radio" value="true"
+                               onchange="IsStructureCoveredChanged()" /> Yes
+                    </label>
+                    <label>
+                        <input asp-for="IsStructureCovered" type="radio" value="false"
+                               onchange="IsStructureCoveredChanged()" /> No
+                    </label>
                 </div>
             </div>
-        }
-        @if (Model.volumeUSGallonsOfStorageSystem != null && Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
-        {
-            <div class="row">
+            @if (!Model.IsStructureCovered && Model.SelectedManureMaterialType == ManureMaterialType.Solid)
+            {
                 <div class="form-group">
-                    @if (Model.volumeUSGallons == null)
-                    {
-                        <label for="txtStorageVolume">Storage Volume</label>
-                    }
-                    <label for="txtStorageSystemVolumeUSGallons">@Model.volumeUSGallonsOfStorageSystem</label>
+                    <label for="txtUncoveredAreaOfStorageStructure">Uncovered Area of Storage (ft<sup>2</sup>)</label>
+                    <input class="form-control" asp-for="UncoveredAreaOfStorageStructure" type="text" id="txtUncoveredAreaOfStorageStructure"
+                           onchange="RefreshSolidLiquidVolumeFields()" />
+                    <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
                 </div>
-            </div>
-        }
+            }
+        </div>
         @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
         {
-            <div class="row">
-                @if (Model.UncoveredAreaOfStorageStructure.HasValue)
-                {
+            @if (Model.SelectedStorageShape == StorageShapes.Rectangular)
+            {
+                <div class="col-sm-3">
                     <div class="form-group">
-                        <div>
-                            <b>October to March</b>
-                            <a href="#" data-toggle="tooltip" title="@Model.ExplainPrecipitationOctoberToMarch" id="toolTipExplainPrecipitationOctoberToMarch">
-                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Precipitation October to March" style="font-size:20px; padding-top:5px"></span>
-                            </a>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="txtRectangularLength">Length(ft)</label>
+                            </div>
                         </div>
-                        <div><b>@Model.OctoberToMarchPrecipitationStorageSystemText</b> U.S. Gallons precipitation</div>
-                        @if (Model.OctoberToMarchPrecipitationStorageSystemText != "")
-                        {
-                            <div>
-                                <b>@Model.TotalStoredText U.S. Gallons total</b>
-                                @if (Model.volumeOfStorageSystem < Model.TotalStored)
-                                {
-                                    <a href="#" data-toggle="tooltip" title="@Model.ExplainStorageDeficiency" id="toolTipExplainStorageDeficiency">
-                                        <img src="~/images/dollar warning.svg" height='20' width='20'/>
-                                    </a>
-                                }
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="RectangularLength" type="text" id="txtRectangularLength" />
+                                <span asp-validation-for="RectangularLength" class="text-danger"></span>
                             </div>
-                        }
+                        </div>
                     </div>
-                }
-                else
-                {
                     <div class="form-group">
-                        @if (Model.OctoberToMarchPrecipitationStorageSystemText != "")
-                        {
-                            <div>
-                                <b>@Model.TotalStoredText U.S. Gallons total</b>
-                                @if (Model.volumeOfStorageSystem < Model.TotalStored)
-                                {
-                                    <a href="#" data-toggle="tooltip" title="@Model.ExplainStorageDeficiency" id="toolTipExplainStorageDeficiency">
-                                        <img src="~/images/dollar warning.svg" height='20' width='20' />
-                                    </a>
-                                }
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="RectangularWidth">Width(ft)</label>
                             </div>
-                        }
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="RectangularWidth" type="text" id="txtRectangularWidth" />
+                                <span asp-validation-for="RectangularWidth" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-                }
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="txtRectangularHeight">Height(ft)</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="RectangularHeight" type="text" id="txtRectangularHeight" />
+                                <span asp-validation-for="RectangularHeight" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.SelectedStorageShape == StorageShapes.Circular)
+            {
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="txtCircularDiameter">Diameter(ft)</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="CircularDiameter" type="text" id="txtCircularDiameter" />
+                                <span asp-validation-for="CircularDiameter" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="txtCircularHeight">Height(ft)</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="CircularHeight" type="text" id="txtCircularHeight" />
+                                <span asp-validation-for="CircularHeight" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.SelectedStorageShape == StorageShapes.SlopedWallRectangular)
+            {
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="txtSlopedWallTopLength">Top-Length(ft)</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="SlopedWallTopLength" type="text" id="txtSlopedWallTopLength" />
+                                <span asp-validation-for="SlopedWallTopLength" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="txtSlopedWallTopWidth">Top-Width(ft)</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="SlopedWallTopWidth" type="text" id="txtSlopedWallTopWidth" />
+                                <span asp-validation-for="SlopedWallTopWidth" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="txtSlopedWallHeight">Height(ft)</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="SlopedWallHeight" type="text" id="txtSlopedWallHeight" />
+                                <span asp-validation-for="SlopedWallHeight" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label for="txtSlopedWallSlopeOfWall">Slope of wall(ft)</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <input class="form-control" asp-for="SlopedWallSlopeOfWall" type="text" id="txtSlopedWallSlopeOfWall" />
+                                <span asp-validation-for="SlopedWallSlopeOfWall" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        @if (Model.SelectedStorageShape == 0)
+        {
+            <div class="col-sm-3">
             </div>
         }
+        <div class="col-sm-3">
+            @if (Model.volumeUSGallons != null && Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+            {
+                <div class="row">
+                    <div class="form-group">
+                        <label for="txtStorageVolume">Storage Volume</label>
+                        <label for="txtStorageVolumeUSGallons" style="font-weight: normal !important">@Model.volumeOfStorageStructure</label>
+                    </div>
+                </div>
+            }
+            @if (Model.volumeUSGallonsOfStorageSystem != null && Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+            {
+                <div class="row">
+                    <div class="form-group">
+                        @if (Model.volumeUSGallons == null)
+                        {
+                            <label for="txtStorageVolume">Storage Volume</label>
+                        }
+                        <label for="txtStorageSystemVolumeUSGallons">@Model.volumeUSGallonsOfStorageSystem</label>
+                    </div>
+                </div>
+            }
+            @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
+            {
+                <div class="row">
+                    @if (Model.UncoveredAreaOfStorageStructure.HasValue)
+                    {
+                        <div class="form-group">
+                            <div>
+                                <b>October to March</b>
+                                <a href="#" data-toggle="tooltip" title="@Model.ExplainPrecipitationOctoberToMarch" id="toolTipExplainPrecipitationOctoberToMarch">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Precipitation October to March" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                            <div><b>@Model.OctoberToMarchPrecipitationStorageSystemText</b> U.S. Gallons precipitation</div>
+                            @if (Model.OctoberToMarchPrecipitationStorageSystemText != "")
+                            {
+                                <div>
+                                    <b>@Model.TotalStoredText U.S. Gallons total</b>
+                                    @if (Model.volumeOfStorageSystem < Model.TotalStored)
+                                    {
+                                        <a href="#" data-toggle="tooltip" title="@Model.ExplainStorageDeficiency" id="toolTipExplainStorageDeficiency">
+                                            <img src="~/images/dollar warning.svg" height='20' width='20'/>
+                                        </a>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            @if (Model.OctoberToMarchPrecipitationStorageSystemText != "")
+                            {
+                                <div>
+                                    <b>@Model.TotalStoredText U.S. Gallons total</b>
+                                    @if (Model.volumeOfStorageSystem < Model.TotalStored)
+                                    {
+                                        <a href="#" data-toggle="tooltip" title="@Model.ExplainStorageDeficiency" id="toolTipExplainStorageDeficiency">
+                                            <img src="~/images/dollar warning.svg" height='20' width='20'/>
+                                        </a>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     </div>
+        }
     </div>
-}
-</div>
 <div class="modal-footer">
     <button class="btn" type="button" data-dismiss="modal">Cancel</button>
     <button type="submit" class="btn btn-primary" id="ok_button" @(Model.ButtonText == "Save" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>Save</button>
