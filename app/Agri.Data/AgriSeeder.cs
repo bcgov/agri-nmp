@@ -1,4 +1,4 @@
-﻿using Agri.Interfaces;
+using Agri.Interfaces;
 using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
 using AutoMapper;
@@ -620,44 +620,44 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
-            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("18_PrevYearManureApplicationNitrogenDefaults", StringComparison.CurrentCultureIgnoreCase)))
-            {
-                //var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
-                //foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
-                //{
-                //    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
-                //    {
-                //        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
-                //        _mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
-                //        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
-                //    }
-                //}
-                //_context.AppliedMigrationSeedData.Add(migrationSeedData);
-                //_context.SaveChanges();
+            //if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("18_PrevYearManureApplicationNitrogenDefaults", StringComparison.CurrentCultureIgnoreCase)))
+            //{
+            //    //var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
+            //    //foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
+            //    //{
+            //    //    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
+            //    //    {
+            //    //        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
+            //    //        _mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
+            //    //        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
+            //    //    }
+            //    //}
+            //    //_context.AppliedMigrationSeedData.Add(migrationSeedData);
+            //    //_context.SaveChanges();
 
-                //var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
-                //foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
-                //{
-                //    newPrevManureApplicationNitrogenDefault.Crops = _sd.GetCropsByManureApplicationHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
-                //    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear =
-                //        _sd.GetPrevManureApplicationInPrevYearsByManureAppHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
-                //    //newPrevManureApplicationNitrogenDefault.StaticDataVersionId = currentVersion.Id;
-                //    //newPrevManureApplicationNitrogenDefault.SetVersion(currentVersion);
+            //    var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<PreviousYearManureApplicationNitrogenDefault>>("18_PrevYearManureApplicationNitrogenDefaults");
+            //    foreach (var newPrevManureApplicationNitrogenDefault in migrationSeedData.Data)
+            //    {
+            //        newPrevManureApplicationNitrogenDefault.Crops = _sd.GetCropsByManureApplicationHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+            //        newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear =
+            //            _sd.GetPrevManureApplicationInPrevYearsByManureAppHistory(newPrevManureApplicationNitrogenDefault.FieldManureApplicationHistory);
+            //        //newPrevManureApplicationNitrogenDefault.StaticDataVersionId = currentVersion.Id;
+            //        //newPrevManureApplicationNitrogenDefault.SetVersion(currentVersion);
 
-                //    if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
-                //    {
-                //        var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
-                //        //_mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
-                //        updated.Crops = newPrevManureApplicationNitrogenDefault.Crops;
-                //        //updated.PreviousManureApplicationYear =
-                //        //    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear;
-                //        //updated.StaticDataVersionId = newPrevManureApplicationNitrogenDefault.StaticDataVersionId;
-                //        _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
-                //    }
-                //}
-                //_context.AppliedMigrationSeedData.Add(migrationSeedData);
-                //_context.SaveChanges();
-            }
+            //        if (_context.PrevYearManureApplicationNitrogenDefaults.Any(up => up.Id == newPrevManureApplicationNitrogenDefault.Id))
+            //        {
+            //            var updated = _context.PrevYearManureApplicationNitrogenDefaults.Single(up => up.Id == newPrevManureApplicationNitrogenDefault.Id);
+            //            //_mapper.Map(newPrevManureApplicationNitrogenDefault, updated);
+            //            updated.Crops = newPrevManureApplicationNitrogenDefault.Crops;
+            //            //updated.PreviousManureApplicationYear =
+            //            //    newPrevManureApplicationNitrogenDefault.PreviousManureApplicationYear;
+            //            //updated.StaticDataVersionId = newPrevManureApplicationNitrogenDefault.StaticDataVersionId;
+            //            _context.PrevYearManureApplicationNitrogenDefaults.Update(updated);
+            //        }
+            //    }
+            //    _context.AppliedMigrationSeedData.Add(migrationSeedData);
+            //    _context.SaveChanges();
+            //}
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("21_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
@@ -738,7 +738,7 @@ namespace Agri.Data
                 foreach (var updatedMenu in migrationSeedData.Data)
                 {
                     var menu = _context.MainMenus
-                            .Include(m => m.SubMenus) 
+                            .Include(m => m.SubMenus)
                             .Single(up => up.Id == updatedMenu.MainMenuId);
                     menu.SubMenus.Single(sb => sb.Id == updatedMenu.Id)
                         .SortNumber = updatedMenu.SortNumber;
@@ -836,6 +836,34 @@ namespace Agri.Data
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("10_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("10_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("12_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("12_UserPrompts");
+                foreach (var newUserPrompt in migrationSeedData.Data)
+                {
+                    if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
+                    {
+                        _context.UserPrompts.Add(newUserPrompt);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("28_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("28_UserPrompts");
                 foreach (var newUserPrompt in migrationSeedData.Data)
                 {
                     if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))

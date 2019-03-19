@@ -128,6 +128,8 @@ namespace SERVERAPI.Controllers
         {
             CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+            var managedManuresData = _ud.GetAllManagedManures();
+            var farmManuresData = _ud.GetFarmManures();
 
             ManureDetailsViewModel mvm = new ManureDetailsViewModel();
 
@@ -141,6 +143,30 @@ namespace SERVERAPI.Controllers
             mvm.stdAvail = true;
             mvm.url = _sd.GetExternalLink("manureunitexplanation");
             mvm.urlText = _sd.GetUserPrompt("moreinfo");
+            mvm.AmmoniumRetentionMsg = _sd.GetUserPrompt("AmmoniumRetensionMessage");
+            mvm.AvailablOrganicNitrogranMsg = _sd.GetUserPrompt("AvailableOrganicNitrogenMessage");
+            mvm.AvailableNutrientsThisYearMsg = _sd.GetUserPrompt("AvailableNutrientsThisYearMessage");
+            mvm.AvailableNutrientsLongTermMsg = _sd.GetUserPrompt("AvaiableNutreintsLongTermMessage");
+            mvm.noManureSourceAddedWarningMsg = _sd.GetUserPrompt("NoManureSourceAddedWarning");
+            mvm.noNutrientAnalysisWaningMsg = _sd.GetUserPrompt("NoNutrientAnalysisAddedWarning");
+
+            if (managedManuresData.Count > 0)
+            {
+                mvm.areThereMaterialSources = true;
+            }
+            else
+            {
+                mvm.areThereMaterialSources = false;
+            }
+
+            if (farmManuresData.Count > 0)
+            {
+                mvm.areThereNutrientAnalysis = true;
+            }
+            else
+            {
+                mvm.areThereNutrientAnalysis = false;
+            }
 
             mvm.totN = "0";
             mvm.totP2o5 = "0";
@@ -248,6 +274,30 @@ namespace SERVERAPI.Controllers
         {
             decimal nmbr;
             int addedId = 0;
+            var managedManuresData = _ud.GetAllManagedManures();
+            var farmManuresData = _ud.GetFarmManures();
+
+            mvm.noManureSourceAddedWarningMsg = _sd.GetUserPrompt("NoManureSourceAddedWarning");
+            mvm.noNutrientAnalysisWaningMsg = _sd.GetUserPrompt("NoNutrientAnalysisAddedWarning");
+            if (managedManuresData.Count > 0)
+            {
+                mvm.areThereMaterialSources = true;
+            }
+            else
+            {
+                mvm.areThereMaterialSources = false;
+            }
+
+            if (farmManuresData.Count > 0)
+            {
+                mvm.areThereNutrientAnalysis = true;
+            }
+            else
+            {
+                mvm.areThereNutrientAnalysis = false;
+            }
+
+
             NutrientManure origManure = new NutrientManure();
 
             var calculateNutrients = new CalculateNutrients(_ud, _sd);
