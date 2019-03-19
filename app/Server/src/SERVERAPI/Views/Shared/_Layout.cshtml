@@ -111,14 +111,9 @@
                         <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
                             <span>
                                 @Html.ActionLink("About", "About", new { controller = "Home" }, new { target = "_blank", @class = "edit" })
-                                @*<a href='@Url.Action("About", "Home" )' target="_blank">
-                                    About
-                                </a>*@
                             </span>
                             <span>
-                                <a href='@Url.Action("Help", "Home" )' target="_blank">
-                                    Help
-                                </a>
+                                @Html.ActionLink("Help", "Help", new { controller = "Home" }, new { target = "_blank", @class = "edit" })
                             </span>
                         </div>
                     </div>
@@ -142,3 +137,13 @@
 @RenderSection("Scripts", required: true)
 </body>
 </html>
+
+<script type="text/javascript">
+    $(function () {
+        $('a.edit').click(function () {
+            var url = $(this).attr('href');
+            window.open(url, "popupWindow", "width=800,height=500,scrollbars=yes,left=-500,top=-500");
+        });
+        return false;
+    });
+</script>
