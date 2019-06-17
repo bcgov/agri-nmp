@@ -14,6 +14,7 @@ namespace Agri.Models.Configuration
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
         public int FieldManureApplicationHistory { get; set; }
         public int[] DefaultNitrogenCredit { get; set; }
         public string PreviousYearManureAplicationFrequency { get; set; }
