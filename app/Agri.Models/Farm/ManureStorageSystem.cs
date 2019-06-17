@@ -14,12 +14,14 @@ namespace Agri.Models.Farm
             ImportedManuresIncludedInSystem = new List<ImportedManure>();
             SeparatedSolidManuresIncludedInSystem = new List<SeparatedSolidManure>();
         }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public ManureMaterialType ManureMaterialType { get; set; }
         public List<GeneratedManure> GeneratedManuresIncludedInSystem { get; set; }
         public List<ImportedManure> ImportedManuresIncludedInSystem { get; set; }
         public List<SeparatedSolidManure> SeparatedSolidManuresIncludedInSystem { get; set; }
+
         [JsonIgnore]
         public List<ManagedManure> MaterialsIncludedInSystem
         {
@@ -44,6 +46,7 @@ namespace Agri.Models.Farm
                 return manures.ToList();
             }
         }
+
         public bool GetsRunoffFromRoofsOrYards { get; set; }
         public int? RunoffAreaSquareFeet { get; set; }
         public bool IsThereSolidLiquidSeparation { get; set; }
@@ -63,6 +66,7 @@ namespace Agri.Models.Farm
         public string OctoberToMarchManagedManuresText => OctoberToMarchManagedManures.ToString("#,#");
         public decimal TotalStored { get; set; }
         public string TotalStoredText => TotalStored.ToString("#,#");
+
         [JsonIgnore]
         public List<ManureStorageItemSummary> ManureStorageItemSummaries
         {
@@ -127,20 +131,20 @@ namespace Agri.Models.Farm
                 var precipitation = 0m;
                 if (ManureMaterialType == ManureMaterialType.Liquid)
                 {
-                     precipitation = 
-                         (Convert.ToDecimal(RunoffAreaSquareFeet) + Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage))
-                                     * Convert.ToDecimal(AnnualPrecipitation) * conversionForLiquid;
+                    precipitation =
+                        (Convert.ToDecimal(RunoffAreaSquareFeet) +
+                            Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage))
+                            * Convert.ToDecimal(AnnualPrecipitation) * conversionForLiquid;
                 }
                 else if (ManureMaterialType == ManureMaterialType.Solid)
                 {
-                     precipitation = 
-                         (Convert.ToDecimal(RunoffAreaSquareFeet) + Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage)) 
-                                    * Convert.ToDecimal(AnnualPrecipitation) * conversionForSolid;
+                    precipitation =
+                        (Convert.ToDecimal(RunoffAreaSquareFeet) + Convert.ToDecimal(TotalAreaOfUncoveredLiquidStorage))
+                                   * Convert.ToDecimal(AnnualPrecipitation) * conversionForSolid;
                 }
 
                 return precipitation;
             }
-            set { }
         }
 
         [JsonIgnore]
@@ -192,22 +196,29 @@ namespace Agri.Models.Farm
         {
             get
             {
-                var total=0m;
+                var total = 0m;
                 if (IsThereSolidLiquidSeparation)
                 {
-                    total = SeparatedLiquidsUSGallons + AnnualTotalPrecipitation;
+                    if (SeparatedLiquidsUSGallons > 0)
+                    {
+                        return SeparatedLiquidsUSGallons + AnnualTotalPrecipitation;
+                    }
+                    return 0;
                 }
                 else
                 {
-                    total = AnnualTotalStoredGeneratedManure +
-                                AnnualTotalImportedManure + AnnualTotalPrecipitation;
+                    total = AnnualTotalStoredGeneratedManure + AnnualTotalImportedManure;
+                    if (total > 0)
+                    {
+                        return total + AnnualTotalPrecipitation;
+                    }
+                    return 0;
                 }
-                
-                return total;
             }
         }
 
         #region Methods
+
         public void AddUpdateManureStorageStructure(ManureStorageStructure manureStorageStructure)
         {
             var savedStructure = ManureStorageStructures.SingleOrDefault(mss => mss.Id == manureStorageStructure.Id);
@@ -240,7 +251,8 @@ namespace Agri.Models.Farm
         public ManureStorageStructure GetManureStorageStructure(int id)
         {
             return ManureStorageStructures.Single(mss => mss.Id == id);
-        } 
-        #endregion
+        }
+
+        #endregion Methods
     }
 }
