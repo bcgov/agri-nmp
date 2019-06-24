@@ -26,7 +26,7 @@ namespace Agri.Data
         {
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
-            _context.Database.Migrate();
+            //_context.Database.Migrate();
 
             var staticExtRepo = new StaticDataExtRepository();
             var currentVersion = _sd.GetCurrentStaticDataVersion();
@@ -479,7 +479,6 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
-
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("3_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {
                 var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("3_UserPrompts");
@@ -688,7 +687,6 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
                 _context.SaveChanges();
             }
-
 
             if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("5_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
             {

@@ -1,11 +1,11 @@
 /*
- 
+
  *
- 
+
  *
  * OpenAPI spec version: v1
- * 
- * 
+ *
+ *
  */
 
 using Agri.CalculateService;
@@ -144,6 +144,8 @@ namespace SERVERAPI
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
+
+            UpdateDatabase(app);
         }
 
         private string GetConnectionString()
@@ -178,7 +180,17 @@ namespace SERVERAPI
 
                 return $"Server={server};Database={database};Username={username};Password={password}";
             }
+        }
 
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }
