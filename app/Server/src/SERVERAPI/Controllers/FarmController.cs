@@ -24,9 +24,9 @@ namespace SERVERAPI.Controllers
         public IAgriConfigurationRepository _sd { get; set; }
         private IOptions<AppSettings> _appSettings;
 
-        public FarmController(ILogger<FarmController> logger, 
-            IHostingEnvironment env, 
-            UserData ud, 
+        public FarmController(ILogger<FarmController> logger,
+            IHostingEnvironment env,
+            UserData ud,
             IAgriConfigurationRepository sd,
             IOptions<AppSettings> appSettings)
         {
@@ -77,14 +77,15 @@ namespace SERVERAPI.Controllers
             fvm.HasAnimals = farmData.HasAnimals;
             fvm.ImportsManureCompost = farmData.ImportsManureCompost;
             fvm.UsesFertilizer = farmData.UsesFertilizer;
-            
+
             return View(fvm);
         }
-        
+
         private FarmViewModel SetSubRegions(FarmViewModel fvm)
         {
             return SetSubRegionsForRegion(fvm) as FarmViewModel;
         }
+
         private FarmIncompleteViewModel SetSubRegions(FarmIncompleteViewModel fvm)
         {
             return SetSubRegionsForRegion(fvm) as FarmIncompleteViewModel;
@@ -129,20 +130,6 @@ namespace SERVERAPI.Controllers
                     {
                         SubRegion subregion = _sd.GetSubRegion(subRegionId);
                         s.AnnualPrecipitation = subregion.AnnualPrecipitation;
-                        if (s.ManureMaterialType == ManureMaterialType.Liquid)
-                        {
-                            s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
-                                                         Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) *
-                                                         Convert.ToDecimal(s.AnnualPrecipitation) *
-                                                         conversionForLiquid;
-                        }
-                        else if (s.ManureMaterialType == ManureMaterialType.Solid)
-                        {
-                            s.AnnualTotalPrecipitation = Convert.ToDecimal(s.RunoffAreaSquareFeet) +
-                                                         Convert.ToDecimal(s.TotalAreaOfUncoveredLiquidStorage) *
-                                                         Convert.ToDecimal(s.AnnualPrecipitation) *
-                                                         conversionForSolid;
-                        }
                     }
 
                     _ud.UpdateManureStorageSystem(s);
@@ -269,7 +256,7 @@ namespace SERVERAPI.Controllers
         public IActionResult FarmIncomplete(string target)
         {
             var farmData = _ud.FarmDetails();
-            
+
             var fvm = new FarmIncompleteViewModel
             {
                 Message = _sd.GetUserPrompt("RegionRequiredWarning"),
@@ -313,7 +300,7 @@ namespace SERVERAPI.Controllers
                 fvm.buttonPressed = "";
 
                 fvm = SetSubRegions(fvm);
-                
+
                 UpdateStorageSystemsForSubRegion(fvm.selSubRegOption.Value);
 
                 var farmData = _ud.FarmDetails();
