@@ -1,18 +1,13 @@
-﻿using FakeItEasy;
+﻿using Agri.Interfaces;
+using AutoMapper;
+using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SERVERAPI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.Threading.Tasks;
 using Xunit.Abstractions;
-using AutoMapper;
-using Agri.Interfaces;
 
 namespace Agri.Data.Tests
 {
@@ -21,7 +16,6 @@ namespace Agri.Data.Tests
         private ServiceProvider serviceProvider;
         protected AgriConfigurationContext agriConfigurationDb => serviceProvider.CreateScope().ServiceProvider.GetService<AgriConfigurationContext>();
         protected IMapper Mapper => serviceProvider.CreateScope().ServiceProvider.GetService<IMapper>();
-        protected IAgriConfigurationRepository Repo => serviceProvider.CreateScope().ServiceProvider.GetService<IAgriConfigurationRepository>();
 
         public TestBase(ITestOutputHelper output, params (Type svc, Type impl)[] additionalServices)
         {
@@ -50,7 +44,8 @@ namespace Agri.Data.Tests
 
             if (agriConfigurationDb.Database.IsInMemory())
             {
-                var seeder = new AgriSeeder(agriConfigurationDb, Repo, Mapper);
+                var repo = new AgriConfigurationRepository(agriConfigurationDb, Mapper);
+                var seeder = new AgriSeeder(agriConfigurationDb, repo, Mapper);
                 seeder.Seed();
             }
         }

@@ -40,6 +40,7 @@ namespace Agri.Data
             if (!_context.AmmoniaRetentions.Any())
             {
                 var ammoniaRetentions = staticExtRepo.GetAmmoniaRetentions();
+                ammoniaRetentions.Select(r => { r.SetVersion(currentVersion); return r; }).ToList();
                 _context.AmmoniaRetentions.AddRange(ammoniaRetentions);
             }
 
@@ -93,12 +94,14 @@ namespace Agri.Data
             if (!_context.PhosphorusSoilTestRanges.Any())
             {
                 var ranges = staticExtRepo.GetPhosphorusSoilTestRanges();
+                ranges.Select(r => { r.SetVersion(currentVersion); return r; }).ToList();
                 _context.PhosphorusSoilTestRanges.AddRange(ranges);
             }
 
             if (!_context.PotassiumSoilTestRanges.Any())
             {
                 var ranges = staticExtRepo.GetPotassiumSoilTestRanges();
+                ranges.Select(r => { r.SetVersion(currentVersion); return r; }).ToList();
                 _context.PotassiumSoilTestRanges.AddRange(ranges);
             }
 
@@ -587,11 +590,10 @@ namespace Agri.Data
 
                 foreach (var testRange in migrationSeedData.Data)
                 {
-                    var currentTestRange = _context.PotassiumSoilTestRanges.Single(s => s.Id == testRange.Id);
+                    var currentTestRange = _context.PotassiumSoilTestRanges.Include(s => s.Version).Single(s => s.Id == testRange.Id);
                     currentTestRange.LowerLimit = testRange.LowerLimit;
                     currentTestRange.UpperLimit = testRange.UpperLimit;
                     currentTestRange.Rating = testRange.Rating;
-                    currentTestRange.SetVersion(currentVersion);
                 }
 
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
@@ -607,11 +609,10 @@ namespace Agri.Data
 
                 foreach (var testRange in migrationSeedData.Data)
                 {
-                    var currentTestRange = _context.PhosphorusSoilTestRanges.Single(s => s.Id == testRange.Id);
+                    var currentTestRange = _context.PhosphorusSoilTestRanges.Include(s => s.Version).Single(s => s.Id == testRange.Id);
                     currentTestRange.LowerLimit = testRange.LowerLimit;
                     currentTestRange.UpperLimit = testRange.UpperLimit;
                     currentTestRange.Rating = testRange.Rating;
-                    currentTestRange.SetVersion(currentVersion);
                 }
 
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);

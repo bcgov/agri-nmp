@@ -1793,7 +1793,21 @@ namespace Agri.Data
             {
                 _currentStaticDataVersion = _context.StaticDataVersions.AsNoTracking()
                 .AsNoTracking()
-                .OrderByDescending(sdv => sdv.Id).First();
+                .OrderByDescending(sdv => sdv.Id).FirstOrDefault();
+            }
+
+            if (_currentStaticDataVersion == null)
+            {
+                _currentStaticDataVersion =
+                    new StaticDataVersion
+                    {
+                        Comments = "Initial version migrated from Legacy StaticData.json file",
+                        CreatedDateTime = new DateTime(2018, 10, 1),
+                        CreatedBy = "System"
+                    };
+                _context.StaticDataVersions.Add(_currentStaticDataVersion);
+
+                _context.SaveChanges();
             }
 
             return _currentStaticDataVersion;
