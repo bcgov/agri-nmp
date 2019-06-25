@@ -26,9 +26,9 @@ namespace Agri.Data.Tests
                 .AddAutoMapper(typeof(Startup))
                 .AddEntityFrameworkInMemoryDatabase()
                 .AddDbContext<AgriConfigurationContext>(options => options
-                    .EnableSensitiveDataLogging()
-                    //.EnableDetailedErrors()
-                    .UseInMemoryDatabase("Agri_Test")
+                   .EnableSensitiveDataLogging()
+                   //.EnableDetailedErrors()
+                   .UseInMemoryDatabase("Agri_Test")
                     )
                 .AddSingleton<IConfiguration>(configuration)
                 .AddHttpContextAccessor();

@@ -725,6 +725,21 @@ namespace Agri.Data
             modelBuilder.Entity<ManageVersionUser>()
                 .HasIndex(table => table.UserName)
                 .IsUnique();
+
+            if (!this.Database.IsNpgsql())
+            {
+                modelBuilder.Entity<PreviousYearManureApplicationNitrogenDefault>()
+                    .Property(e => e.DefaultNitrogenCredit)
+                    .HasConversion(v => new ArrayWrapper(v), v => v.Values);
+            }
+        }
+
+        // Note this makes the mapper happy, but won't be called in 2.1.
+        private struct ArrayWrapper
+        {
+            public ArrayWrapper(int[] values) => Values = values;
+
+            public int[] Values { get; }
         }
     }
 }

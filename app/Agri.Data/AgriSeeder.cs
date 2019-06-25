@@ -79,6 +79,7 @@ namespace Agri.Data
             {
                 var cFactor = staticExtRepo.GetConversionFactor();
                 cFactor.SoilTestPPMToPoundPerAcre = staticExtRepo.GetSoilTestNitratePPMToPoundPerAcreConversionFactor();
+                cFactor.SetVersion(currentVersion);
                 _context.ConversionFactors.Add(cFactor);
             }
 
@@ -87,6 +88,7 @@ namespace Agri.Data
             {
                 var test = staticExtRepo.GetDefaultSoilTest();
                 test.DefaultSoilTestMethodId = staticExtRepo.GetDefaultSoilTestMethod();
+                test.SetVersion(currentVersion);
                 _context.DefaultSoilTests.Add(test);
             }
 
@@ -116,6 +118,7 @@ namespace Agri.Data
             if (!_context.Regions.Any())
             {
                 var regions = staticExtRepo.GetRegions();
+                regions.Select(r => { r.SetVersion(currentVersion); return r; }).ToList();
                 _context.Regions.AddRange(regions);
             }
 
@@ -123,6 +126,7 @@ namespace Agri.Data
             if (!_context.CropTypes.Any())
             {
                 var types = staticExtRepo.GetCropTypes();
+                types.Select(t => { t.SetVersion(currentVersion); return t; }).ToList();
                 _context.CropTypes.AddRange(types);
             }
 
@@ -130,6 +134,7 @@ namespace Agri.Data
             if (!_context.PrevManureApplicationYears.Any())
             {
                 var years = staticExtRepo.GetPrevManureApplicationInPrevYears();
+                years.Select(y => { y.SetVersion(currentVersion); return y; }).ToList();
                 _context.PrevManureApplicationYears.AddRange(years);
             }
 
@@ -182,7 +187,7 @@ namespace Agri.Data
                         crop.PreviousCropTypes.AddRange(prevCropTypes.Where(c => c.PreviousCropCode == crop.PreviousCropCode));
                     }
                 }
-
+                crops.Select(c => { c.SetVersion(currentVersion); return c; }).ToList();
                 currentVersion.Crops.AddRange(crops);
                 _context.Crops.AddRange(crops);
             }
@@ -191,6 +196,7 @@ namespace Agri.Data
             if (!_context.DensityUnits.Any())
             {
                 var units = staticExtRepo.GetDensityUnits();
+                units.Select(u => { u.SetVersion(currentVersion); return u; }).ToList();
                 _context.DensityUnits.AddRange(units);
             }
 
@@ -198,6 +204,7 @@ namespace Agri.Data
             if (!_context.Fertilizers.Any())
             {
                 var fertilizers = staticExtRepo.GetFertilizers();
+                fertilizers.Select(f => { f.SetVersion(currentVersion); return f; }).ToList();
                 _context.Fertilizers.AddRange(fertilizers);
             }
 
@@ -205,6 +212,7 @@ namespace Agri.Data
             if (!_context.FertilizerTypes.Any())
             {
                 var types = staticExtRepo.GetFertilizerTypes();
+                types.Select(f => { f.SetVersion(currentVersion); return f; }).ToList();
                 _context.FertilizerTypes.AddRange(types);
             }
 
@@ -212,6 +220,7 @@ namespace Agri.Data
             if (!_context.FertilizerUnits.Any())
             {
                 var units = staticExtRepo.GetFertilizerUnits();
+                units.Select(f => { f.SetVersion(currentVersion); return f; }).ToList();
                 _context.FertilizerUnits.AddRange(units);
             }
 
@@ -219,6 +228,7 @@ namespace Agri.Data
             if (!_context.LiquidFertilizerDensities.Any())
             {
                 var densities = staticExtRepo.GetLiquidFertilizerDensities();
+                densities.Select(f => { f.SetVersion(currentVersion); return f; }).ToList();
                 _context.LiquidFertilizerDensities.AddRange(densities);
             }
 
@@ -226,6 +236,7 @@ namespace Agri.Data
             if (!_context.DryMatters.Any())
             {
                 var dms = staticExtRepo.GetDryMatters();
+                dms.Select(d => { d.SetVersion(currentVersion); return d; }).ToList();
                 _context.DryMatters.AddRange(dms);
             }
 
@@ -233,6 +244,7 @@ namespace Agri.Data
             if (!_context.NitrogenMineralizations.Any())
             {
                 var minerals = staticExtRepo.GetNitrogeMineralizations();
+                minerals.Select(m => { m.SetVersion(currentVersion); return m; }).ToList();
                 _context.NitrogenMineralizations.AddRange(minerals);
             }
 
@@ -240,6 +252,7 @@ namespace Agri.Data
             if (!_context.Manures.Any())
             {
                 var manures = staticExtRepo.GetManures();
+                manures.Select(m => { m.SetVersion(currentVersion); return m; }).ToList();
                 _context.Manures.AddRange(manures);
             }
 
@@ -255,7 +268,9 @@ namespace Agri.Data
             if (!_context.SoilTestPotassiumKelownaRanges.Any())
             {
                 var ranges = staticExtRepo.GetSoilTestPotassiumKelownaRanges();
+                ranges.Select(r => { r.SetVersion(currentVersion); return r; }).ToList();
                 var stks = staticExtRepo.GetSoilTestPotassiumRecommendations();
+                stks.Select(s => { s.SetVersion(currentVersion); return s; }).ToList();
 
                 foreach (var stkKelownaRange in ranges)
                 {
@@ -274,7 +289,9 @@ namespace Agri.Data
             if (!_context.SoilTestPhosphorousKelownaRanges.Any())
             {
                 var ranges = staticExtRepo.GetSoilTestPhosphorousKelownaRanges();
+                ranges.Select(r => { r.SetVersion(currentVersion); return r; }).ToList();
                 var stps = staticExtRepo.GetSoilTestPhosphorousRecommendations();
+                stps.Select(s => { s.SetVersion(currentVersion); return s; }).ToList();
 
                 foreach (var stpKelownaRange in ranges)
                 {
@@ -291,6 +308,7 @@ namespace Agri.Data
             if (!_context.FertilizerMethods.Any())
             {
                 var fertilizerMethods = staticExtRepo.GetFertilizerMethods();
+                fertilizerMethods.Select(f => { f.SetVersion(currentVersion); return f; }).ToList();
                 _context.FertilizerMethods.AddRange(fertilizerMethods);
             }
 
@@ -309,73 +327,85 @@ namespace Agri.Data
             if (!_context.Units.Any())
             {
                 var units = staticExtRepo.GetUnits();
+                units.Select(u => { u.SetVersion(currentVersion); return u; }).ToList();
                 _context.Units.AddRange(units);
             }
 
             if (!_context.SoilTestMethods.Any())
             {
                 var soilTestMethods = staticExtRepo.GetSoilTestMethods();
+                soilTestMethods.Select(s => { s.SetVersion(currentVersion); return s; }).ToList();
                 _context.SoilTestMethods.AddRange(soilTestMethods);
             }
 
             if (!_context.SoilTestPhosphorusRanges.Any())
             {
                 var getSoilTestPhosphorusRanges = staticExtRepo.GetSoilTestPhosphorusRanges();
+                getSoilTestPhosphorusRanges.Select(s => { s.SetVersion(currentVersion); return s; }).ToList();
                 _context.SoilTestPhosphorusRanges.AddRange(getSoilTestPhosphorusRanges);
             }
 
             if (!_context.SoilTestPotassiumRanges.Any())
             {
                 var getSoilTestPotassiumRanges = staticExtRepo.GetSoilTestPotassiumRanges();
+                getSoilTestPotassiumRanges.Select(s => { s.SetVersion(currentVersion); return s; }).ToList();
                 _context.SoilTestPotassiumRanges.AddRange(getSoilTestPotassiumRanges);
             }
 
             if (!_context.Messages.Any())
             {
                 var getMessages = staticExtRepo.GetMessages();
+                getMessages.Select(m => { m.SetVersion(currentVersion); return m; }).ToList();
                 _context.Messages.AddRange(getMessages);
             }
 
             if (!_context.SeasonApplications.Any())
             {
                 var getSeasonApplications = staticExtRepo.GetSeasonApplications();
+                getSeasonApplications.Select(s => { s.SetVersion(currentVersion); return s; }).ToList();
                 _context.SeasonApplications.AddRange(getSeasonApplications);
             }
 
             if (!_context.Yields.Any())
             {
                 var getYields = staticExtRepo.GetYields();
+                getYields.Select(s => { s.SetVersion(currentVersion); return s; }).ToList();
                 _context.Yields.AddRange(getYields);
             }
 
             if (!_context.NitrogenRecommendations.Any())
             {
                 var getNitrogenRecommendations = staticExtRepo.GetNitrogenRecommendations();
+                getNitrogenRecommendations.Select(n => { n.SetVersion(currentVersion); return n; }).ToList();
                 _context.NitrogenRecommendations.AddRange(getNitrogenRecommendations);
             }
 
             if (!_context.RptCompletedManureRequiredStdUnits.Any())
             {
                 var rptCompletedManureRequiredStdUnits = staticExtRepo.GetRptCompletedManureRequiredStdUnit();
+                rptCompletedManureRequiredStdUnits.SetVersion(currentVersion);
                 _context.RptCompletedManureRequiredStdUnits.AddRange(rptCompletedManureRequiredStdUnits);
             }
 
             if (!_context.RptCompletedFertilizerRequiredStdUnits.Any())
             {
-                var rptCompletedManureRequiredStdUnits = staticExtRepo.GetRptCompletedFertilizerRequiredStdUnit();
-                _context.RptCompletedFertilizerRequiredStdUnits.AddRange(rptCompletedManureRequiredStdUnits);
+                var rptCompletedFertilizerRequiredStdUnits = staticExtRepo.GetRptCompletedFertilizerRequiredStdUnit();
+                rptCompletedFertilizerRequiredStdUnits.SetVersion(currentVersion);
+                _context.RptCompletedFertilizerRequiredStdUnits.AddRange(rptCompletedFertilizerRequiredStdUnits);
             }
 
             //HarvestUnit
             if (!_context.HarvestUnits.Any())
             {
                 var units = staticExtRepo.GetHarvestUnits();
+                units.Select(u => { u.SetVersion(currentVersion); return u; }).ToList();
                 _context.HarvestUnits.AddRange(units);
             }
 
             if (!_context.BCSampleDateForNitrateCredit.Any())
             {
                 var bcSampleDateForNitrateCredit = staticExtRepo.GetBCSampleDateForNitrateCredit();
+                bcSampleDateForNitrateCredit.SetVersion(currentVersion);
                 _context.BCSampleDateForNitrateCredit.AddRange(bcSampleDateForNitrateCredit);
             }
 
@@ -395,12 +425,14 @@ namespace Agri.Data
             if (!_context.NitrateCreditSampleDates.Any())
             {
                 var dates = staticExtRepo.GetNitrateCreditSampleDates();
+                dates.Select(d => { d.SetVersion(currentVersion); return d; }).ToList();
                 _context.NitrateCreditSampleDates.AddRange(dates);
             }
 
             if (!_context.ManureImportedDefaults.Any())
             {
                 var defaultManure = staticExtRepo.GetManureImportedDefault();
+                defaultManure.SetVersion(currentVersion);
                 _context.Add(defaultManure);
             }
 
@@ -424,24 +456,28 @@ namespace Agri.Data
             if (!_context.LiquidMaterialsConversionFactors.Any())
             {
                 var conversions = staticExtRepo.GetLiquidMaterialsConversionFactors();
+                conversions.Select(c => { c.SetVersion(currentVersion); return c; }).ToList();
                 _context.LiquidMaterialsConversionFactors.AddRange(conversions);
             }
 
             if (!_context.SolidMaterialsConversionFactors.Any())
             {
                 var conversions = staticExtRepo.GetSolidMaterialsConversionFactors();
+                conversions.Select(c => { c.SetVersion(currentVersion); return c; }).ToList();
                 _context.SolidMaterialsConversionFactors.AddRange(conversions);
             }
 
             if (!_context.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.Any())
             {
                 var conversions = staticExtRepo.GetLiquidMaterialApplicationUSGallonsPerAcreRateConversion();
+                conversions.Select(c => { c.SetVersion(currentVersion); return c; }).ToList();
                 _context.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.AddRange(conversions);
             }
 
             if (!_context.SolidMaterialApplicationTonPerAcreRateConversions.Any())
             {
                 var conversions = staticExtRepo.GetSolidMaterialApplicationTonPerAcreRateConversions();
+                conversions.Select(c => { c.SetVersion(currentVersion); return c; }).ToList();
                 _context.SolidMaterialApplicationTonPerAcreRateConversions.AddRange(conversions);
             }
 

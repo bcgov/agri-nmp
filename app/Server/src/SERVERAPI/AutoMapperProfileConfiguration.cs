@@ -13,6 +13,7 @@ namespace SERVERAPI
             : this("MyProfile")
         {
         }
+
         protected AutoMapperProfileConfiguration(string profileName)
             : base(profileName)
         {
@@ -95,15 +96,12 @@ namespace SERVERAPI
                 .ForMember(x => x.SoilTestPotassiumRecommendations, opt => opt.Ignore());
             CreateMap<SoilTestPotassiumRecommendation, SoilTestPotassiumRecommendation>()
                 .ForMember(x => x.SoilTestPotassiumKelownaRange, opt => opt.Ignore());
-            CreateMap<SolidMaterialApplicationTonPerAcreRateConversion, SolidMaterialApplicationTonPerAcreRateConversion>()
-                .ForMember(x => x.ApplicationRateUnit, opt => opt.Ignore());
+            CreateMap<SolidMaterialApplicationTonPerAcreRateConversion, SolidMaterialApplicationTonPerAcreRateConversion>();
             CreateMap<SolidMaterialsConversionFactor, SolidMaterialsConversionFactor>();
             CreateMap<Unit, Unit>();
             CreateMap<SubRegion, SubRegion>()
                 .ForMember(x => x.Region, opt => opt.Ignore()); ;
             CreateMap<Yield, Yield>();
-
-
 
             CreateMap<ManureStorageSystem, ManureStorageSystem>();
             CreateMap<ManureImportedDetailViewModel, ImportedManure>()
