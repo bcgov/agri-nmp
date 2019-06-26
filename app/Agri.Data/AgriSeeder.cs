@@ -40,8 +40,9 @@ namespace Agri.Data
             if (!_context.AmmoniaRetentions.Any())
             {
                 var ammoniaRetentions = staticExtRepo.GetAmmoniaRetentions();
-                ammoniaRetentions.Select(r => { r.SetVersion(currentVersion); return r; }).ToList();
-                _context.AmmoniaRetentions.AddRange(ammoniaRetentions);
+                //ammoniaRetentions.Select(r => { r.SetVersion(currentVersion); return r; }).ToList();
+                //_context.AmmoniaRetentions.AddRange(ammoniaRetentions);
+                currentVersion.AmmoniaRetentions = ammoniaRetentions;
             }
 
             //Animal
