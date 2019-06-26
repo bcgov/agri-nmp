@@ -189,7 +189,6 @@ namespace SERVERAPI
             {
                 using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
                 {
-                    context.Database.EnsureDeleted();
                     context.Database.Migrate();
                 }
             }
