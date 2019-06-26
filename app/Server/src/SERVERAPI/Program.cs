@@ -25,7 +25,7 @@ namespace SERVERAPI
 
                 var host = BuildWebHost(args);
 
-                RunSeeding(host);
+                //RunSeeding(host);
 
                 host.Run();
             }
@@ -72,7 +72,6 @@ namespace SERVERAPI
                 .UseUrls("http://*:8080")
                 .Build();
 
-
         private static void SetupConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder builder)
         {
             builder.Sources.Clear();
@@ -80,5 +79,4 @@ namespace SERVERAPI
             builder.AddEnvironmentVariables();
         }
     }
-
 }
