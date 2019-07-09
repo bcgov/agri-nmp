@@ -28,7 +28,7 @@
             "name": "RHEL_ATOMIC_VERSION",
             "displayName": "version",
             "description": "A version used for the image tags",
-            "value": "7.5-408",
+            "value": "7.6-305",
             "required": true
         },
         {
