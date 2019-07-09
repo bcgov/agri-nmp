@@ -2,11 +2,12 @@ FROM registry.access.redhat.com/rhel7/rhel-atomic
 
 
 # https://blog.csanchez.org/2017/05/31/running-a-jvm-in-a-container-without-getting-killed/
+ENV JENKINS_VERSION=2.176.1
 
 RUN set -x && microdnf -h && \
     curl -so /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo && \
     rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key && \
-    microdnf --enablerepo=rhel-7-server-rpms --enablerepo=rhel-server-rhscl-7-rpms --enablerepo=jenkins install which gpg java-1.8.0-openjdk-devel shadow-utils jenkins zip unzip rsync elfutils rh-git29 --nodocs && \
+    microdnf --enablerepo=rhel-7-server-rpms --enablerepo=rhel-server-rhscl-7-rpms --enablerepo=jenkins install which gpg java-1.8.0-openjdk-devel shadow-utils "jenkins-$JENKINS_VERSION" zip unzip rsync elfutils rh-git29 --nodocs && \
     microdnf clean all && \
     echo "unset BASH_ENV PROMPT_COMMAND ENV" > /usr/local/bin/scl_enable && \
     echo "source scl_source enable rh-git29" >> /usr/local/bin/scl_enable && \
@@ -55,8 +56,7 @@ RUN set -x && \
     curl -sLo /usr/lib/jenkins/password-encoder.jar https://github.com/openshift/jenkins/raw/f080514d4370c64260e2301e76f30061c5dcc636/2/contrib/openshift/password-encoder.jar && \
     chmod 644 /usr/lib/jenkins/password-encoder.jar
 
-ENV JENKINS_VERSION=2 \
-    HOME=/var/lib/jenkins \
+ENV HOME=/var/lib/jenkins \
     JENKINS_REF_HOME=/opt/jenkins \
     JENKINS_HOME=/var/lib/jenkins \
     JENKINS_UC=https://updates.jenkins.io \
