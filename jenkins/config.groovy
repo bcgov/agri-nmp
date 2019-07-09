@@ -97,7 +97,7 @@ environments {
                 name = "${opt.'deployment-name'?:app.name}"
                 namespace = app.namespaces[env.name].namespace
                 version = "${vars.deployment.name}-${vars.deployment.env.name}-v${opt.'pr'}" //app-version  and tag
-                host = "${vars.deployment.name}${vars.deployment.suffix}-${vars.deployment.namespace}-pathfinder.gov.bc.ca"
+                host = "${vars.deployment.name}${vars.deployment.suffix}-${vars.deployment.namespace}.pathfinder.gov.bc.ca"
             }
         }
     }
