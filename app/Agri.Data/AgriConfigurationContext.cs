@@ -8,11 +8,12 @@ namespace Agri.Data
 {
     public class AgriConfigurationContext : DbContext
     {
-        public AgriConfigurationContext(DbContextOptions<AgriConfigurationContext> options) : base (options)
+        public AgriConfigurationContext(DbContextOptions<AgriConfigurationContext> options) : base(options)
         {
         }
 
-        #region DbSets 
+        #region DbSets
+
         public DbSet<AmmoniaRetention> AmmoniaRetentions { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<AnimalSubType> AnimalSubType { get; set; }
@@ -70,7 +71,7 @@ namespace Agri.Data
         public DbSet<AppliedMigrationSeedData> AppliedMigrationSeedData { get; set; }
         public DbSet<ManageVersionUser> ManageVersionUsers { get; set; }
 
-        #endregion
+        #endregion DbSets
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -110,7 +111,7 @@ namespace Agri.Data
                     table.Id,
                     table.StaticDataVersionId
                 });
-            
+
             modelBuilder.Entity<ConversionFactor>()
                 .HasKey(table => new
                 {
@@ -134,7 +135,7 @@ namespace Agri.Data
                     table.SoilTestPotassiumRegionCode,
                     table.StaticDataVersionId
                 });
-            
+
             modelBuilder.Entity<CropSoilTestPhosphorousRegion>()
                 .HasKey(table => new
                 {
@@ -284,7 +285,7 @@ namespace Agri.Data
                     table.Id,
                     table.StaticDataVersionId
                 });
-            
+
             modelBuilder.Entity<PhosphorusSoilTestRange>()
                 .HasKey(table => new
                 {
@@ -407,14 +408,14 @@ namespace Agri.Data
                     table.PotassiumCropGroupRegionCode,
                     table.StaticDataVersionId
                 });
-            
+
             modelBuilder.Entity<SolidMaterialApplicationTonPerAcreRateConversion>()
                 .HasKey(table => new
                 {
                     table.Id,
                     table.StaticDataVersionId
                 });
-            
+
             modelBuilder.Entity<SubRegion>()
                 .HasKey(table => new
                 {
@@ -428,7 +429,7 @@ namespace Agri.Data
                     table.Id,
                     table.StaticDataVersionId
                 });
-            
+
             modelBuilder.Entity<Yield>()
                 .HasKey(table => new
                 {
@@ -459,7 +460,7 @@ namespace Agri.Data
 
                 b.HasOne(breed => breed.Animal)
                     .WithMany(animal => animal.Breeds)
-                    .HasForeignKey(breed => new {breed.AnimalId, breed.StaticDataVersionId})
+                    .HasForeignKey(breed => new { breed.AnimalId, breed.StaticDataVersionId })
                     .HasPrincipalKey(animal => new { animal.Id, animal.StaticDataVersionId });
             });
 
@@ -472,13 +473,13 @@ namespace Agri.Data
 
                 b.HasOne(crop => crop.PreviousYearManureApplicationNitrogenDefault)
                     .WithMany(p => p.Crops)
-                    .HasForeignKey(crop => new {crop.ManureApplicationHistory, crop.StaticDataVersionId})
-                    .HasPrincipalKey(p => new {p.FieldManureApplicationHistory, p.StaticDataVersionId});
+                    .HasForeignKey(crop => new { crop.ManureApplicationHistory, crop.StaticDataVersionId })
+                    .HasPrincipalKey(p => new { p.FieldManureApplicationHistory, p.StaticDataVersionId });
 
                 b.HasOne(crop => crop.CropType)
                     .WithMany(p => p.Crops)
-                    .HasForeignKey(crop => new {crop.CropTypeId, crop.StaticDataVersionId})
-                    .HasPrincipalKey(p => new {p.Id, p.StaticDataVersionId});
+                    .HasForeignKey(crop => new { crop.CropTypeId, crop.StaticDataVersionId })
+                    .HasPrincipalKey(p => new { p.Id, p.StaticDataVersionId });
             });
 
             modelBuilder.Entity<CropYield>(b =>
@@ -490,8 +491,8 @@ namespace Agri.Data
 
                 b.HasOne(cropYield => cropYield.Crop)
                     .WithMany(crop => crop.CropYields)
-                    .HasForeignKey(cropYield => new {cropYield.CropId, cropYield.StaticDataVersionId})
-                    .HasPrincipalKey(crop => new {crop.Id, crop.StaticDataVersionId});
+                    .HasForeignKey(cropYield => new { cropYield.CropId, cropYield.StaticDataVersionId })
+                    .HasPrincipalKey(crop => new { crop.Id, crop.StaticDataVersionId });
 
                 b.HasOne(cropYield => cropYield.Location)
                     .WithMany(locaction => locaction.CropYields)
@@ -508,8 +509,8 @@ namespace Agri.Data
 
                 b.HasOne(test => test.Crop)
                     .WithMany(crop => crop.CropSoilTestPhosphorousRegions)
-                    .HasForeignKey(test => new {test.CropId, test.StaticDataVersionId})
-                    .HasPrincipalKey(crop => new {crop.Id, crop.StaticDataVersionId});
+                    .HasForeignKey(test => new { test.CropId, test.StaticDataVersionId })
+                    .HasPrincipalKey(crop => new { crop.Id, crop.StaticDataVersionId });
             });
 
             modelBuilder.Entity<CropSoilTestPotassiumRegion>(b =>
@@ -534,12 +535,12 @@ namespace Agri.Data
 
                 b.HasOne(density => density.Fertilizer)
                     .WithMany(fertilizer => fertilizer.LiquidFertilizerDensities)
-                    .HasForeignKey(density => new {density.FertilizerId, density.StaticDataVersionId})
-                    .HasPrincipalKey(fertilizer => new {fertilizer.Id, fertilizer.StaticDataVersionId});
+                    .HasForeignKey(density => new { density.FertilizerId, density.StaticDataVersionId })
+                    .HasPrincipalKey(fertilizer => new { fertilizer.Id, fertilizer.StaticDataVersionId });
 
                 b.HasOne(density => density.DensityUnit)
                     .WithMany(denisty => denisty.LiquidFertilizerDensities)
-                    .HasForeignKey(density => new {density.DensityUnitId, density.StaticDataVersionId})
+                    .HasForeignKey(density => new { density.DensityUnitId, density.StaticDataVersionId })
                     .HasPrincipalKey(denisty => new { denisty.Id, denisty.StaticDataVersionId });
             });
 
@@ -552,8 +553,8 @@ namespace Agri.Data
 
                 b.HasOne(manure => manure.DryMatter)
                     .WithMany(dm => dm.Manures)
-                    .HasForeignKey(manure => new {manure.DryMatterId, manure.StaticDataVersionId})
-                    .HasPrincipalKey(dm => new {dm.Id, dm.StaticDataVersionId});
+                    .HasForeignKey(manure => new { manure.DryMatterId, manure.StaticDataVersionId })
+                    .HasPrincipalKey(dm => new { dm.Id, dm.StaticDataVersionId });
 
                 //This join is forcing the creation of a Unique Constraint, which isn't possible with
                 //this current schema and would require too much refactoring.
@@ -576,7 +577,6 @@ namespace Agri.Data
                     .WithMany(location => location.NitrogenMineralizations)
                     .HasForeignKey(nm => nm.LocationId)
                     .HasPrincipalKey(location => location.Id);
-
             });
 
             modelBuilder.Entity<PreviousCropType>(b =>
@@ -588,22 +588,22 @@ namespace Agri.Data
 
                 b.HasOne(pct => pct.Crop)
                     .WithMany(crop => crop.PreviousCropTypes)
-                    .HasForeignKey(pct => new {pct.CropId, pct.PreviousCropCode, pct.StaticDataVersionId})
-                    .HasPrincipalKey(crop => new {crop.Id, crop.PreviousCropCode, crop.StaticDataVersionId});
+                    .HasForeignKey(pct => new { pct.CropId, pct.PreviousCropCode, pct.StaticDataVersionId })
+                    .HasPrincipalKey(crop => new { crop.Id, crop.PreviousCropCode, crop.StaticDataVersionId });
             });
 
-                modelBuilder.Entity<PreviousYearManureApplicationNitrogenDefault>(b =>
-            {
-                b.HasOne(child => child.Version)
-                    .WithMany(version => version.PrevYearManureApplicationNitrogenDefaults)
-                    .HasForeignKey(child => child.StaticDataVersionId)
-                    .HasPrincipalKey(version => version.Id);
+            modelBuilder.Entity<PreviousYearManureApplicationNitrogenDefault>(b =>
+        {
+            b.HasOne(child => child.Version)
+                .WithMany(version => version.PrevYearManureApplicationNitrogenDefaults)
+                .HasForeignKey(child => child.StaticDataVersionId)
+                .HasPrincipalKey(version => version.Id);
 
-                b.HasOne(p => p.PreviousManureApplicationYear)
-                    .WithMany(manure => manure.PreviousYearManureApplicationNitrogenDefaults)
-                    .HasForeignKey(p => new {p.FieldManureApplicationHistory, p.StaticDataVersionId})
-                    .HasPrincipalKey(manure => new {manure.FieldManureApplicationHistory, manure.StaticDataVersionId});
-            });
+            b.HasOne(p => p.PreviousManureApplicationYear)
+                .WithMany(manure => manure.PreviousYearManureApplicationNitrogenDefaults)
+                .HasForeignKey(p => new { p.FieldManureApplicationHistory, p.StaticDataVersionId })
+                .HasPrincipalKey(manure => new { manure.FieldManureApplicationHistory, manure.StaticDataVersionId });
+        });
 
             modelBuilder.Entity<Region>(b =>
             {
@@ -627,8 +627,8 @@ namespace Agri.Data
 
                 b.HasOne(test => test.SoilTestPhosphorousKelownaRange)
                     .WithMany(range => range.SoilTestPhosphorousRecommendations)
-                    .HasForeignKey(test => new {test.SoilTestPhosphorousKelownaRangeId, test.StaticDataVersionId})
-                    .HasPrincipalKey(range => new {range.Id, range.StaticDataVersionId});
+                    .HasForeignKey(test => new { test.SoilTestPhosphorousKelownaRangeId, test.StaticDataVersionId })
+                    .HasPrincipalKey(range => new { range.Id, range.StaticDataVersionId });
             });
 
             modelBuilder.Entity<SoilTestPotassiumRecommendation>(b =>
@@ -640,8 +640,8 @@ namespace Agri.Data
 
                 b.HasOne(test => test.SoilTestPotassiumKelownaRange)
                     .WithMany(range => range.SoilTestPotassiumRecommendations)
-                    .HasForeignKey(test => new {test.SoilTestPotassiumKelownaRangeId, test.StaticDataVersionId})
-                    .HasPrincipalKey(range => new {range.Id, range.StaticDataVersionId});
+                    .HasForeignKey(test => new { test.SoilTestPotassiumKelownaRangeId, test.StaticDataVersionId })
+                    .HasPrincipalKey(range => new { range.Id, range.StaticDataVersionId });
             });
 
             modelBuilder.Entity<SubMenu>(b =>
@@ -661,8 +661,8 @@ namespace Agri.Data
 
                 b.HasOne(subRegion => subRegion.Region)
                     .WithMany(region => region.SubRegions)
-                    .HasForeignKey(subRegion => new {subRegion.RegionId, subRegion.StaticDataVersionId})
-                    .HasPrincipalKey(region => new {region.Id, region.StaticDataVersionId});
+                    .HasForeignKey(subRegion => new { subRegion.RegionId, subRegion.StaticDataVersionId })
+                    .HasPrincipalKey(region => new { region.Id, region.StaticDataVersionId });
             });
 
             //Default Values
@@ -697,7 +697,7 @@ namespace Agri.Data
             modelBuilder.Entity<NitrogenRecommendation>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<PhosphorusSoilTestRange>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<PotassiumSoilTestRange>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
-            modelBuilder.Entity<PreviousCropType>().Property(x => x.StaticDataVersionId).HasDefaultValue(1); 
+            modelBuilder.Entity<PreviousCropType>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<PreviousManureApplicationYear>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<PreviousYearManureApplicationNitrogenDefault>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Region>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
@@ -716,7 +716,7 @@ namespace Agri.Data
             modelBuilder.Entity<SubRegion>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Unit>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Yield>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
-            
+
             modelBuilder.Entity<StaticDataVersion>()
                 .Property(s => s.CreatedDateTime)
                 .HasDefaultValueSql("NOW()");
@@ -725,6 +725,21 @@ namespace Agri.Data
             modelBuilder.Entity<ManageVersionUser>()
                 .HasIndex(table => table.UserName)
                 .IsUnique();
+
+            if (!this.Database.IsNpgsql())
+            {
+                modelBuilder.Entity<PreviousYearManureApplicationNitrogenDefault>()
+                    .Property(e => e.DefaultNitrogenCredit)
+                    .HasConversion(v => new ArrayWrapper(v), v => v.Values);
+            }
+        }
+
+        // Note this makes the mapper happy, but won't be called in 2.1.
+        private struct ArrayWrapper
+        {
+            public ArrayWrapper(int[] values) => Values = values;
+
+            public int[] Values { get; }
         }
     }
 }

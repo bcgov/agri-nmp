@@ -1,11 +1,11 @@
 /*
- 
+
  *
- 
+
  *
  * OpenAPI spec version: v1
- * 
- * 
+ *
+ *
  */
 
 using Agri.CalculateService;
@@ -144,6 +144,9 @@ namespace SERVERAPI
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
+
+            UpdateDatabase(app);
+            RunSeeding(app);
         }
 
         private string GetConnectionString()
@@ -178,7 +181,30 @@ namespace SERVERAPI
 
                 return $"Server={server};Database={database};Username={username};Password={password}";
             }
+        }
 
+        private static void UpdateDatabase(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
+                {
+                    context.Database.Migrate();
+                }
+            }
+        }
+
+        private static void RunSeeding(IApplicationBuilder app)
+        {
+            //Create a scope outside of the standard web server, which will only exist for the seeding
+            //of the database, which will only occur when the web server is started.
+            //This scope won't be affect or affect scopes of the EF activity
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                //Get the seeder within this scope
+                var seeder = serviceScope.ServiceProvider.GetService<AgriSeeder>();
+                seeder.Seed();
+            }  //Scope will be closed once seeding is completed
         }
     }
 }
