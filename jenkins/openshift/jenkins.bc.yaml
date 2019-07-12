@@ -3,40 +3,39 @@ kind: Template
 metadata:
   creationTimestamp: null
   name: jenkins
-  namespace: gtncer-tools
 objects:
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    creationTimestamp: null
-    name: rhel-atomic
-  spec:
-    lookupPolicy:
-      local: false
-    tags:
-    - annotations:
-        openshift.io/imported-from: registry.access.redhat.com/rhel-atomic:${RHEL_ATOMIC_VERSION}
-      from:
-        kind: DockerImage
-        name: registry.access.redhat.com/rhel-atomic:${RHEL_ATOMIC_VERSION}
-      importPolicy: {}
-      name: ${RHEL_ATOMIC_VERSION}
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    creationTimestamp: null
-    name: ${NAME}-core
-  spec:
-    lookupPolicy:
-      local: false
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    creationTimestamp: null
-    name: ${NAME}-basic
-  spec:
-    lookupPolicy:
-      local: false
+#- apiVersion: v1
+#  kind: ImageStream
+#  metadata:
+#    creationTimestamp: null
+#    name: rhel-atomic
+#  spec:
+#    lookupPolicy:
+#      local: false
+#    tags:
+#    - annotations:
+#        openshift.io/imported-from: registry.access.redhat.com/rhel-atomic:${RHEL_ATOMIC_VERSION}
+#      from:
+#        kind: DockerImage
+#        name: registry.access.redhat.com/rhel-atomic:${RHEL_ATOMIC_VERSION}
+#      importPolicy: {}
+#      name: ${RHEL_ATOMIC_VERSION}
+#- apiVersion: v1
+#  kind: ImageStream
+#  metadata:
+#    creationTimestamp: null
+#    name: ${NAME}-core
+#  spec:
+#    lookupPolicy:
+#      local: false
+#- apiVersion: v1
+#  kind: ImageStream
+#  metadata:
+#    creationTimestamp: null
+#    name: ${NAME}-basic
+#  spec:
+#    lookupPolicy:
+#      local: false
 - apiVersion: v1
   kind: ImageStream
   metadata:
@@ -45,80 +44,80 @@ objects:
   spec:
     lookupPolicy:
       local: false
-- apiVersion: v1
-  kind: BuildConfig
-  metadata:
-    creationTimestamp: null
-    name: ${NAME}-core${SUFFIX}
-  spec:
-    failedBuildsHistoryLimit: 2
-    output:
-      to:
-        kind: ImageStreamTag
-        name: ${NAME}-core:${VERSION}
-    postCommit: {}
-    resources:
-      limits:
-        cpu: "1"
-        memory: 1Gi
-      requests:
-        cpu: "1"
-        memory: 1Gi
-    runPolicy: SerialLatestOnly
-    source:
-      contextDir: jenkins/core
-      git:
-        ref: ${SOURCE_REPOSITORY_REF}
-        uri: ${SOURCE_REPOSITORY_URL}
-      type: Git
-    strategy:
-      dockerStrategy:
-        from:
-          kind: ImageStreamTag
-          name: rhel-atomic:${RHEL_ATOMIC_VERSION}
-      type: Docker
-    successfulBuildsHistoryLimit: 2
-    triggers:
-    - type: ConfigChange
-    - imageChange: {}
-      type: ImageChange
-- apiVersion: v1
-  kind: BuildConfig
-  metadata:
-    creationTimestamp: null
-    name: ${NAME}-basic${SUFFIX}
-  spec:
-    failedBuildsHistoryLimit: 2
-    output:
-      to:
-        kind: ImageStreamTag
-        name: ${NAME}-basic:${VERSION}
-    postCommit: {}
-    resources:
-      limits:
-        cpu: 250m
-        memory: 500Mi
-      requests:
-        cpu: 100m
-        memory: 256Mi
-    runPolicy: SerialLatestOnly
-    source:
-      contextDir: jenkins/basic
-      git:
-        ref: ${SOURCE_REPOSITORY_REF}
-        uri: ${SOURCE_REPOSITORY_URL}
-      type: Git
-    strategy:
-      dockerStrategy:
-        from:
-          kind: ImageStreamTag
-          name: ${NAME}-core:${VERSION}
-      type: Docker
-    successfulBuildsHistoryLimit: 2
-    triggers:
-    - type: ConfigChange
-    - imageChange: {}
-      type: ImageChange
+#- apiVersion: v1
+#  kind: BuildConfig
+#  metadata:
+#    creationTimestamp: null
+#    name: ${NAME}-core${SUFFIX}
+#  spec:
+#    failedBuildsHistoryLimit: 2
+#    output:
+#      to:
+#        kind: ImageStreamTag
+#        name: ${NAME}-core:${VERSION}
+#    postCommit: {}
+#    resources:
+#      limits:
+#        cpu: "1"
+#        memory: 1Gi
+#      requests:
+#        cpu: "1"
+#        memory: 1Gi
+#    runPolicy: SerialLatestOnly
+#    source:
+#      contextDir: jenkins/core
+#      git:
+#        ref: ${SOURCE_REPOSITORY_REF}
+#        uri: ${SOURCE_REPOSITORY_URL}
+#      type: Git
+#    strategy:
+#      dockerStrategy:
+#        from:
+#          kind: ImageStreamTag
+#          name: rhel-atomic:${RHEL_ATOMIC_VERSION}
+#      type: Docker
+#    successfulBuildsHistoryLimit: 2
+#    triggers:
+#    - type: ConfigChange
+#    - imageChange: {}
+#      type: ImageChange
+#- apiVersion: v1
+#  kind: BuildConfig
+#  metadata:
+#    creationTimestamp: null
+#    name: ${NAME}-basic${SUFFIX}
+#  spec:
+#    failedBuildsHistoryLimit: 2
+#    output:
+#      to:
+#        kind: ImageStreamTag
+#        name: ${NAME}-basic:${VERSION}
+#    postCommit: {}
+#    resources:
+#      limits:
+#        cpu: 250m
+#        memory: 500Mi
+#      requests:
+#        cpu: 100m
+#        memory: 256Mi
+#    runPolicy: SerialLatestOnly
+#    source:
+#      contextDir: jenkins/basic
+#      git:
+#        ref: ${SOURCE_REPOSITORY_REF}
+#        uri: ${SOURCE_REPOSITORY_URL}
+#      type: Git
+#    strategy:
+#      dockerStrategy:
+#        from:
+#          kind: ImageStreamTag
+#          name: ${NAME}-core:${VERSION}
+#      type: Docker
+#    successfulBuildsHistoryLimit: 2
+#    triggers:
+#    - type: ConfigChange
+#    - imageChange: {}
+#      type: ImageChange
 - apiVersion: v1
   kind: BuildConfig
   metadata:
@@ -149,7 +148,8 @@ objects:
       dockerStrategy:
         from:
           kind: ImageStreamTag
-          name: ${NAME}-basic:${VERSION}
+          name: jenkins-basic:v2-42
+          namespace: bcgov
       type: Docker
     successfulBuildsHistoryLimit: 2
     triggers:
