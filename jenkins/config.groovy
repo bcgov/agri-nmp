@@ -40,7 +40,7 @@ app {
         timeoutInSeconds = 60*20 // 20 minutes
         templates = [
             [
-                'file':'openshift/jenkins.bc.json',
+                'file':'openshift/jenkins.bc.yaml',
                 'params':[
                     'NAME': "${app.build.name}",
                     'SUFFIX': "${app.build.suffix}",
