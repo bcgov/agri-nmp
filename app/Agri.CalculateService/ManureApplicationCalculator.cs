@@ -49,9 +49,9 @@ namespace Agri.CalculateService
             var fieldAppliedManures = new List<FieldAppliedManure>();
             foreach (var field in fieldsAppliedWithStoredManure)
             {
-                var nutrientManures = field.nutrients.nutrientManures
+                var nutrientManures = field?.nutrients.nutrientManures
                     .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
-                    .ToList();
+                    .ToList() ?? new List<NutrientManure>();
 
                 foreach (var nutrientManure in nutrientManures)
                 {
@@ -106,9 +106,9 @@ namespace Agri.CalculateService
             var fieldAppliedManures = new List<FieldAppliedManure>();
             foreach (var field in fieldsAppliedWithImportedManure)
             {
-                var nutrientManures = field.nutrients.nutrientManures
+                var nutrientManures = field?.nutrients.nutrientManures
                     .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
-                    .ToList();
+                    .ToList() ?? new List<NutrientManure>();
 
                 foreach (var nutrientManure in nutrientManures)
                 {
@@ -126,7 +126,7 @@ namespace Agri.CalculateService
                     {
                         var convertedRate = _manureUnitConversionCalculator
                             .GetSolidsTonsPerAcreApplicationRate(importedManure.Moisture.Value, nutrientManure.rate,
-                                (ApplicationRateUnits) Convert.ToInt32(nutrientManure.unitId));
+                                (ApplicationRateUnits)Convert.ToInt32(nutrientManure.unitId));
 
                         fieldAppliedManure.TonsApplied = field.area * convertedRate;
                     }
