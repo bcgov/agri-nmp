@@ -54,10 +54,14 @@ namespace Agri.Models.Farm
 
         public List<NutrientManure> GetNutrientManuresFromFields(List<int> farmManureIds)
         {
-            return fields
-                .SelectMany(f => f?.nutrients.nutrientManures)
-                .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
-                .ToList();
+            if (fields.Any(f => f.nutrients != null))
+            {
+                return fields
+                    .SelectMany(f => f.nutrients.nutrientManures)
+                    .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
+                    .ToList();
+            }
+            return new List<NutrientManure>();
         }
 
         public List<Field> GetFieldsAppliedWithManure(ManureStorageSystem manureStorageSystem)
