@@ -17,6 +17,7 @@ namespace Agri.Models.Farm
             SeparatedSolidManures = new List<SeparatedSolidManure>();
             ManureStorageSystems = new List<ManureStorageSystem>();
         }
+
         public string year { get; set; }
         public List<Field> fields { get; set; }
         public List<FarmManure> farmManures { get; set; }
@@ -24,7 +25,7 @@ namespace Agri.Models.Farm
         public List<ImportedManure> ImportedManures { get; set; }
         public List<SeparatedSolidManure> SeparatedSolidManures { get; set; }
         public List<ManureStorageSystem> ManureStorageSystems { get; set; }
-        
+
         public List<int> GetFarmManureIds(ManureStorageSystem manureStorageSystem)
         {
             if (manureStorageSystem == null)
@@ -50,13 +51,17 @@ namespace Agri.Models.Farm
 
             return farmManureIds;
         }
-        
+
         public List<NutrientManure> GetNutrientManuresFromFields(List<int> farmManureIds)
         {
-            return fields
-                .SelectMany(f => f.nutrients.nutrientManures)
-                .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
-                .ToList();
+            if (fields.Any(f => f.nutrients != null))
+            {
+                return fields
+                    .SelectMany(f => f.nutrients.nutrientManures)
+                    .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
+                    .ToList();
+            }
+            return new List<NutrientManure>();
         }
 
         public List<Field> GetFieldsAppliedWithManure(ManureStorageSystem manureStorageSystem)
@@ -78,11 +83,11 @@ namespace Agri.Models.Farm
 
         public List<Field> GetFieldsAppliedWithManure(FarmManure farmManure)
         {
-            var appliedFields = GetFieldsAppliedWithFarmManure(farmManure != null ? new List<int> {farmManure.id} : new List<int>());
+            var appliedFields = GetFieldsAppliedWithFarmManure(farmManure != null ? new List<int> { farmManure.id } : new List<int>());
 
             return appliedFields;
         }
-        
+
         public List<Field> GetFieldsAppliedWithFarmManure(List<int> farmManureIds)
         {
             return fields
