@@ -68,6 +68,9 @@ parameters:
   value: v1.0.0
 - description: A version used for the image tags
   displayName: version
+  name: RHEL_ATOMIC_VERSION
+  required: true
+  value: 7.6-305
 - name: SOURCE_REPOSITORY_URL
   required: true
 - name: SOURCE_REPOSITORY_REF
