@@ -90,6 +90,7 @@ Next cert secret for Prod needs to be updated as the secret is used to recreate 
 - Click the `Add Item` button
 - Enter `caCertificate` in the new `key` field
 - Copy the text from the file `fullchain1.pem` to the text area following the label `Enter a value for the secret entry or use the contents of a file.`
+- Note that "Destination CA Certificate" is left blank
 - Click the `Create` button
   
 
