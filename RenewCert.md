@@ -40,6 +40,7 @@ On other OS's the command might be different - eg. on docker.
 The prompts are pretty obvious, with the only tricky one being the need to enter an email address for notifications.
 
 Above the `Press Enter to Continue` prompt, you will see a long string in two parts, with a "." separator.  Copy that string as it will be used on the next step.
+![cerbotscreen1](/screenshots/certbotscreen1.png)
 
 ## Updating the certbot pod - Proving Control
 
@@ -54,16 +55,21 @@ The copied string needs to be put into an OpenShift Config Map such that it prov
 - Set the Key to the first part of the copied string (up to the ".")
 - Set the Value to the entire string
 - Click Save
+![cerbotscreen1](/screenshots/configmap.png)
 
 Redeploy the `certbot` deployment (Applications -> Deployments -> certbot -> Deploy)
 
 To verify that the editing worked, go to the URL: https://nmp.apps.nrs.gov.bc.ca/.well-known/acme-challenge/VQq-yfgiqhq3YLFwSsOhhbKW7WNg6VBBe-71WVBML2I (replacing that last section with the first part of the copied string). You should get back in the browser the full copied string.
+![Browser](/screenshots/browser.png)
 
 Once completed, return to the `certbot` command line and hit `Enter` per the instructions.  You should see a `Congratulations` note and the directory where the certs can be found.
+![cerbotscreen1](/screenshots/certbotscreen2.png)
 
 ## Install the Certs
 
-Go to the directory where the certs were saved and display them such that you can copy the text.  As well, go in the OpenShift Agri-NMP Prod project to Applications -> Routes -> nmp-prod and then select Actions -> Edit.  Scroll down to where the values of the certificates are - there are three (`Certificate`, `Private Key` and `CA Certificate`).
+Go to the directory where the certs were saved and display them such that you can copy the text.  
+![cerbotscreen1](/screenshots/certbotscreen3.png)
+As well, go in the OpenShift Agri-NMP Prod project to Applications -> Routes -> nmp-prod and then select Actions -> Edit.  Scroll down to where the values of the certificates are - there are three (`Certificate`, `Private Key` and `CA Certificate`).
 
 - As a precaution - copy and paste the current values into a text editor in case you need to restore them.
 - From the directory where certbot put the certificate files (e.g. /etc/letsencrypt/live/nmp.apps.nrs.gov.bc.ca)
@@ -90,6 +96,7 @@ Next cert secret for Prod needs to be updated as the secret is used to recreate 
 - Click the `Add Item` button
 - Enter `caCertificate` in the new `key` field
 - Copy the text from the file `fullchain1.pem` to the text area following the label `Enter a value for the secret entry or use the contents of a file.`
+- Note that "Destination CA Certificate" is left blank
 - Click the `Create` button
   
 
