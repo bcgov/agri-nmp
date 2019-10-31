@@ -1642,9 +1642,11 @@ namespace SERVERAPI.Controllers
                 reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests);
             });
 
-
-
             string report = reportTableOfContents;
+
+            //insert disclaimer right after the table of contents
+            report += "<br/><br/><div></div><div></div><div style=\"float:left\">" + _sd.GetUserPrompt("disclaimer") + "</div>";
+
             if (reportApplication.Contains("div"))
             {
                 report += pageBreak;

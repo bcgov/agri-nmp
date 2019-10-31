@@ -2,7 +2,7 @@
   "agri": {
     "nmp": {
       "versions": {
-        "staticDataVersion": "2018.951"
+        "staticDataVersion": "2019.1958"
       },
       "conversions": {
         "n_protein_conversion": "0.625",
@@ -9057,7 +9057,7 @@
           {
             "id": "3",
             "name": "disclaimer",
-            "text": "Although every effort has been made to ensure that the information in the Nutrient Management Calculator is correct, the Governments of Canada and British Columbia will not be liable for any claims, damages or losses of any kind arising out of the use of, or reliance upon, the information provided through the use of this calculator.<p>Information requested by this website, such as farm name and field names, is not collected or saved anywhere except on your computer.</p>"
+            "text": "All information contained within the Nutrient Management Calculator is provided solely “as is” at the user’s own risk. Although every effort has been made to ensure that the information contained in  the Nutrient Management Calculator is accurate, the Government of British Columbia assumes no legal liabilityor responsibility for the completeness, accuracy, or usefulness of the information provided or any product resulting from the use of the Nutrient Management Calculator.<p>Information requested by this website, such as farm name and field names, is not collected or saved anywhere except on your computer.</p>"
           },
           {
             "id": "4",
