@@ -22,7 +22,10 @@
             "description": "The GIT repository URL",
             "required": true,
             "value": "https://github.com/bcgov/agri-nmp.git"
-        }
+            },{
+                "name": "GIT_REF",
+                "value": "master"
+            }
     ],
     "objects": [
         {
@@ -56,7 +59,8 @@
                 "source": {
                     "type": "Git",
                     "git": {
-                        "uri": "${SOURCE_REPOSITORY_URL}"
+                        "uri": "${SOURCE_REPOSITORY_URL}",
+                        "ref": "${GIT_REF}"
                     },
                     "contextDir": "OpenShift/s2i-dotnetcore-node"
                 },
