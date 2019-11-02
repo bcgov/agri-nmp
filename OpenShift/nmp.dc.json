@@ -28,22 +28,6 @@
       "value": ""
     },
     {
-      "name": "NMP_REPLICAS",
-      "displayName": "Nmp Replicas",
-      "description": "Number of NMP Replicas",
-      "required": false,
-      "type": "number",
-      "value": 1
-    },
-    {
-      "name": "PDF_REPLICAS",
-      "displayName": "Pdf Replicas",
-      "description": "Number of Pdf Replicas",
-      "required": false,
-      "type": "number",
-      "value": 1
-    },
-    {
       "name": "DATABASE_NAME",
       "displayName": "DB Name",
       "description": "Name for NMP AgriConfiguration Database.",
@@ -141,7 +125,7 @@
             }
           }
         ],
-        "replicas": "${NMP_REPLICAS}",
+        "replicas": 3,
         "test": false,
         "selector": {
           "name": "nmp${NAME_SUFFIX}"
@@ -285,7 +269,7 @@
             "type": "ConfigChange"
           }
         ],
-        "replicas": "${PDF_REPLICAS}",
+        "replicas": 3,
         "test": false,
         "selector": {
           "name": "pdf${NAME_SUFFIX}"
