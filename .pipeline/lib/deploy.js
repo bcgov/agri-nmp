@@ -12,6 +12,18 @@ module.exports = (settings)=>{
   var objects = []
 
   // The deployment of your cool app goes here ▼▼▼
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/postgresql.dc.json`, {
+    'param':{
+      'NAME_SUFFIX': phases[phase].suffix
+    }
+  }));
+
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/nmp.dc.json`, {
+    'param':{
+      'NAME_SUFFIX': phases[phase].suffix,
+      'ENV_NAME': phases[phase].tag
+    }
+  }));
 
   oc.applyRecommendedLabels(objects, phases[phase].name, phase, `${changeId}`, phases[phase].instance)
   oc.importImageStreams(objects, phases[phase].tag, phases.build.namespace, phases.build.tag)

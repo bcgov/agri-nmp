@@ -4,6 +4,14 @@ For running locally, it is recommended to use locally installed npm/node. The co
 
 For running from a Jenkinsfile, it is recommened to replace `npm` with the provided `npmw` as it will download and install node/npm using `nvm`.
 
+Before running in any of your projects ensure that you have created proper GitHub and Slave User secrets below:
+template.<Your Jenkins>-github
+template.<Your Jenkins>-slave-user
+
+Github Webhooks are only created during the PROD deployment.
+
+Windows users can just do the `cd` manually to the root folder of their repo and remove `$(git rev-parse --show-toplevel)/` from the commands below.
+
 # Build
 ```
 ( cd "$(git rev-parse --show-toplevel)/.jenkins/.pipeline" && npm run build -- --pr=0 --dev-mode=true )
