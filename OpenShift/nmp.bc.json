@@ -24,6 +24,9 @@
             "value": "https://github.com/bcgov/agri-nmp.git"
         },{
             "name": "ENV_NAME"
+        },{
+            "name": "GIT_REF",
+            "value": "master"
         }
     ],
     "objects": [
@@ -74,9 +77,9 @@
                     "type": "Git",
                     "git": {
                         "uri": "${SOURCE_REPOSITORY_URL}",
-                        "ref": "master"
+                        "ref": "${GIT_REF}"
                     },
-                    "contextDir": "/app"
+                    "contextDir": "app"
                 },
                 "strategy": {
                     "type": "Source",
@@ -139,9 +142,9 @@
                     "type": "Git",
                     "git": {
                         "uri": "${SOURCE_REPOSITORY_URL}",
-                        "ref": "master"
+                        "ref": "${GIT_REF}"
                     },
-                    "contextDir": "/PDF"
+                    "contextDir": "PDF"
                 },
                 "strategy": {
                     "type": "Source",
