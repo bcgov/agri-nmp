@@ -48,12 +48,6 @@
       "from": "[a-zA-Z0-9]{16}"
     },
     {
-      "name": "DATABASE_VOLUME_CAPACITY",
-      "displayName": "Database volume capacity",
-      "description": "Size of the database used for NMP",
-      "value": "5Gi"
-    },
-    {
       "name": "DATABASE_SERVICE_NAME",
       "displayName": "Database service name",
       "description": "Name of the database service",
