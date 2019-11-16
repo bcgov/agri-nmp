@@ -6,7 +6,6 @@ module.exports = (settings)=>{
   const phases = settings.phases
   const options= settings.options
   const phase=options.env
-  const nmpchangeId = '-pr-' + phases[phase].changeId
   const oc=new OpenShiftClientX(Object.assign({'namespace':phases[phase].namespace}, options));
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../OpenShift'))
   var objects = []
@@ -14,13 +13,13 @@ module.exports = (settings)=>{
   // The deployment of your cool app goes here ▼▼▼
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/postgresql.dc.json`, {
     'param':{
-      'NAME_SUFFIX': nmpchangeId
+      'NAME_SUFFIX': phases[phase].suffix
     }
   }));
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/nmp.dc.json`, {
     'param':{
-      'NAME_SUFFIX': nmpchangeId,
+      'NAME_SUFFIX': phases[phase].suffix,
       'ENV_NAME': phases[phase].tag,
       'HOST': phases[phase].host || '',
       'NMP_REPLICAS': phases[phase].nmpreplicas,

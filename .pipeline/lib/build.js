@@ -6,21 +6,20 @@ module.exports = (settings)=>{
   const phases = settings.phases
   const options = settings.options
   const phase='build'
-  const nmpchangeId = '-pr-' + phases[phase].changeId
   const oc=new OpenShiftClientX(Object.assign({'namespace':phases.build.namespace}, options));
-   const objects = []
+  const objects = []
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../OpenShift'))
 
   // The building of your cool app goes here ▼▼▼
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-21.bc.json`, {
     'param':{
-     'NAME_SUFFIX': nmpchangeId
+     'NAME_SUFFIX': phases[phase].suffix
     }
   }));
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-21-node.bc.json`, {
     'param':{
-      'NAME_SUFFIX': nmpchangeId,
+      'NAME_SUFFIX': phases[phase].suffix,
       'ENV_NAME': phases[phase].tag,
       'SOURCE_REPOSITORY_URL': oc.git.http_url,
       'GIT_REF': oc.git.ref
