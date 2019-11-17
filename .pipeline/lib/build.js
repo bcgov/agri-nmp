@@ -12,14 +12,14 @@ module.exports = (settings)=>{
 
   // The building of your cool app goes here ▼▼▼
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-21.bc.json`, {
-    //'param':{
-    // 'NAME_SUFFIX': phases[phase].suffix
-    //}
+    'param':{
+    'NAME_SUFFIX': phases[phase].suffix
+    }
   }));
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-21-node.bc.json`, {
     'param':{
-      // 'NAME_SUFFIX': phases[phase].suffix,
+      'NAME_SUFFIX': phases[phase].suffix,
       'ENV_NAME': phases[phase].tag,
       'SOURCE_REPOSITORY_URL': oc.git.http_url,
       'GIT_REF': oc.git.ref
@@ -28,7 +28,7 @@ module.exports = (settings)=>{
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/nmp.bc.json`, {
     'param':{
-      // 'NAME_SUFFIX': phases[phase].suffix,
+      'NAME_SUFFIX': phases[phase].suffix,
       'ENV_NAME': phases[phase].tag,
       'SOURCE_REPOSITORY_URL': oc.git.http_url,
       'GIT_REF': oc.git.ref
