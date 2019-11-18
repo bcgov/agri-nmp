@@ -378,7 +378,7 @@
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}-web${SUFFIX}",
+        "name": "${NAME}${SUFFIX}",
         "creationTimestamp": null,
         "labels": { "frontend": "true" },
         "annotations": {
