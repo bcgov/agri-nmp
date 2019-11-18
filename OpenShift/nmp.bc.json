@@ -10,10 +10,24 @@
     },
     "parameters": [
         {
-            "name": "NAME_SUFFIX",
+            "name": "NAME",
             "displayName": "Name",
-            "description": "The suffix for all created objects",
-            "required": false,
+            "description": "The name or prefix for all created objects",
+            "required": true,
+            "value": "nmp"
+        },
+        {
+            "name": "SUFFIX",
+            "displayName": "Name Suffix",
+            "description": "The name suffix for all created objects",
+            "required": true,
+            "value": ""
+        },
+        {
+            "name": "VERSION",
+            "displayName": "Tag Version",
+            "description": "Tag version for all created objects",
+            "required": true,
             "value": ""
         },
         {
@@ -22,8 +36,6 @@
             "description": "The suffix for all created objects",
             "required": false,
             "value": "https://github.com/bcgov/agri-nmp.git"
-        },{
-            "name": "ENV_NAME"
         },{
             "name": "GIT_REF",
             "value": "master"
@@ -34,11 +46,11 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "nmp${NAME_SUFFIX}",
+                "name": "${NAME}-web",
                 "generation": 1515,
                 "creationTimestamp": null,
                 "labels": {
-                    "base-name":"nmp"
+                    "base-name":"${NAME}-web"
                 }
             }
         },
@@ -46,11 +58,11 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "pdf${NAME_SUFFIX}",
+                "name": "${NAME}-pdf",
                 "generation": 1283,
                 "creationTimestamp": null,
                 "labels": {
-                    "base-name":"pdf"
+                    "base-name":"${NAME}-pdf"
                 }
             }
         },
@@ -58,7 +70,7 @@
             "kind": "BuildConfig",
             "apiVersion": "v1",
             "metadata": {
-                "name": "nmp${NAME_SUFFIX}",
+                "name": "${NAME}-web${SUFFIX}",
                 "creationTimestamp": null,
                 "labels": null
             },
@@ -86,7 +98,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-21-rhel7${NAME_SUFFIX}:2.1"
+                            "name": "${NAME}-dotnet-21-rhel7:2.1"
                         },
                         "env": [
                             {
@@ -103,7 +115,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "nmp${NAME_SUFFIX}:${ENV_NAME}"
+                        "name": "${NAME}-web:${VERSION}"
                     }
                 },
                 "resources": {
@@ -123,7 +135,7 @@
             "kind": "BuildConfig",
             "apiVersion": "v1",
             "metadata": {
-                "name": "pdf${NAME_SUFFIX}",
+                "name": "${NAME}-pdf${SUFFIX}",
                 "creationTimestamp": null,
                 "labels": null
             },
@@ -151,7 +163,7 @@
                     "sourceStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-21-node${NAME_SUFFIX}:${ENV_NAME}"
+                            "name": "${NAME}-dotnet-21-node:${VERSION}"
                         },
                         "env": [
                             {
@@ -169,7 +181,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "pdf${NAME_SUFFIX}:${ENV_NAME}"
+                        "name": "${NAME}-pdf:${VERSION}"
                     }
                 },
                 "resources": {},

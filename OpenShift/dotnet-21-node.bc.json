@@ -7,14 +7,25 @@
     },
     "parameters": [
         {
-            "name": "NAME_SUFFIX",
+            "name": "NAME",
             "displayName": "Name",
-            "description": "The suffix for all created objects",
-            "required": false,
+            "description": "The name or prefix for all created objects",
+            "required": true,
+            "value": "nmp"
+        },
+        {
+            "name": "SUFFIX",
+            "displayName": "Name Suffix",
+            "description": "The name suffix for all created objects",
+            "required": true,
             "value": ""
         },
         {
-            "name": "ENV_NAME"
+            "name": "VERSION",
+            "displayName": "Tag Version",
+            "description": "Tag version for all created objects",
+            "required": true,
+            "value": ""
         },
         {
             "name": "SOURCE_REPOSITORY_URL",
@@ -32,7 +43,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-21-node${NAME_SUFFIX}",
+                "name": "${NAME}-dotnet-21-node",
                 "creationTimestamp": null,
                 "labels": null
             }
@@ -41,7 +52,7 @@
             "kind": "BuildConfig",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-21-node${NAME_SUFFIX}",
+                "name": "${NAME}-dotnet-21-node",
                 "creationTimestamp": null,
                 "labels": null
             },
@@ -69,7 +80,7 @@
                     "dockerStrategy": {
                         "from": {
                             "kind": "ImageStreamTag",
-                            "name": "dotnet-21-rhel7${NAME_SUFFIX}:2.1"
+                            "name": "${NAME}-dotnet-21-rhel7:2.1"
                         },
                         "dockerfilePath": "Dockerfile.rhel7"
                     }
@@ -77,7 +88,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "dotnet-21-node${NAME_SUFFIX}:${ENV_NAME}"
+                        "name": "${NAME}-dotnet-21-node:${VERSION}"
                     }
                 },
                 "resources": {},
