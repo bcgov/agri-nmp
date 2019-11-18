@@ -13,15 +13,17 @@ module.exports = (settings)=>{
   // The deployment of your cool app goes here ▼▼▼
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/postgresql.dc.json`, {
     'param':{
-      'NAME_SUFFIX': phases[phase].suffix
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix
     }
   }));
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/nmp.dc.json`, {
     'param':{
-      'NAME_SUFFIX': phases[phase].suffix,
-      'ENV_NAME': phases[phase].tag,
-      'HOST': phases[phase].host || '',
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,
+      'VERSION': phases[phase].tag,
+      'HOST': phases[phase].host,
       'NMP_REPLICAS': phases[phase].nmpreplicas,
       'PDF_REPLICAS': phases[phase].pdfreplicas
     }
