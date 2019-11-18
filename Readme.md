@@ -25,6 +25,12 @@ You will need to install Visual Studio 2017 Preview 3 in order to effectively de
 
 Note that .NET Core is cross platform, so you can also use a Mac or Linux computer equipped with the appropriate build tools.  
 
+Jenkins Pipeline
+----------------
+This project uses BCDK pipeline.
+New Jenkins URL is https://nmp-jenkins-agri-nmp-tools.pathfinder.gov.bc.ca. 
+The old Jenkins pods (for jenkins-agri-nmp) have been stoped but have been retained for now. 
+
 Updates to code values without developer assistance
 ---------------------------------------------
 This project allows non-technical users (i.e. Product Owners) with business domain knowledge, to revise and update static code table values, message text, etc.  See the [instructions](app/Server/src/SERVERAPI/Data/README.md) for details.
