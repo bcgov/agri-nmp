@@ -77,17 +77,6 @@ pipeline {
                     bcgov.GitHubHelper.mergeAndClosePullRequest(this, "${MERGE_METHOD}")
                 }
             }
-        }
-        stage('Cleanup Build Environment?') {
-            agent { label 'deploy' }
-            input {
-                message "Should we continue and remove any PR based objects from the DEV environment?"
-                ok "Yes!"
-            }
-            steps {
-                echo "Removing PR based objects from the DEV envionment ..."
-                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=dev"
-            }
-        }       
+        }   
     }
 }
