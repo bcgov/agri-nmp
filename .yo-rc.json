@@ -1,0 +1,56 @@
+{
+  "generator-bcdk": {
+    "promptValues": {
+      "modules": {
+        "jenkins": {
+          "path": ".jenkins",
+          "name": "nmp-jenkins",
+          "namespace": "agri-nmp-tools",
+          "version": "1.0.0",
+          "environments": {
+            "build": {
+              "namespace": "agri-nmp-tools"
+            },
+            "dev": {
+              "namespace": "agri-nmp-tools"
+            },
+            "prod": {
+              "namespace": "agri-nmp-tools"
+            }
+          },
+          "jenkinsJobName": "_jenkins",
+          "github_owner": "bcgov",
+          "github_repo": "agri-nmp",
+          "jenkinsFilePath": ".jenkins/Jenkinsfile",
+          "uuid": "a4d8b211-33bd-4df5-a7cb-2194019d1e28"
+        },
+        "nmp": {
+          "name": "nmp",
+          "version": "1.0.0",
+          "path": ".",
+          "environments": {
+            "build": {
+              "namespace": "agri-nmp-tools"
+            },
+            "dev": {
+              "namespace": "agri-nmp-dev"
+            },
+            "test": {
+              "namespace": "agri-nmp-test"
+            },
+            "prod": {
+              "namespace": "agri-nmp-prod"
+            }
+          }
+        },
+        ".": {
+          "jenkinsJobName": "nmp",
+          "github_owner": "bcgov",
+          "github_repo": "agri-nmp",
+          "jenkinsFilePath": "Jenkinsfile",
+          "uuid": "c24e5b83-d86e-49d1-ad31-1d8479daf2c9"
+        }
+      }
+    }
+  }
+}

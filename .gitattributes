@@ -1,0 +1,10 @@
+* text eol=lf
+*.[bB][aA][tT] text eol=crlf
+*.[cC][mM][dD] text eol=crlf
+*.[pP][sS][1] text eol=crlf
+*.[pP][nN][gG] binary 
+*.[tT][tT][fF] binary 
+*.[eE][oO][tT] binary
+*.[jJ][pP][gG] binary
+*.[jJ][pP][eE][gG] binary
+*.[dD][bB] binary  
