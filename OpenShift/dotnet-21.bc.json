@@ -7,11 +7,25 @@
     },
     "parameters": [
         {
-            "name": "NAME_SUFFIX",
+            "name": "NAME",
             "displayName": "Name",
-            "description": "The name for all created objects",
+            "description": "The name or prefix for all created objects",
             "required": true,
-            "value": "dotnet-21"
+            "value": "nmp"
+        },
+        {
+            "name": "SUFFIX",
+            "displayName": "Name Suffix",
+            "description": "The name suffix for all created objects",
+            "required": true,
+            "value": ""
+        },
+        {
+            "name": "VERSION",
+            "displayName": "Tag Version",
+            "description": "Tag version for all created objects",
+            "required": true,
+            "value": ""
         }
     ],
     "objects": [
@@ -19,7 +33,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-21-rhel7${NAME_SUFFIX}",
+                "name": "${NAME}-dotnet-21-rhel7",
                 "creationTimestamp": null,
                 "annotations": null
             },
@@ -59,7 +73,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "dotnet-21-runtime-rhel7${NAME_SUFFIX}",
+                "name": "${NAME}-dotnet-21-runtime-rhel7",
                 "creationTimestamp": null,
                 "annotations": null
             },
