@@ -1955,5 +1955,10 @@ namespace Agri.Data
         {
             return _context.ManageVersionUsers.SingleOrDefault(m => m.UserName == username);
         }
+
+        public string GetCurrentVersionStaticDataJson()
+        {
+            var data = GetLatestVersionDataTree();
+        }
     }
 }

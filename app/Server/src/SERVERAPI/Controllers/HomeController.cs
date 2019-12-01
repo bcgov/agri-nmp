@@ -30,6 +30,7 @@ namespace SERVERAPI.Controllers
         {
             session.SetString(key, value);
         }
+
         public static void SetObjectAsJson(this ISession session, string key, object value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value));
@@ -53,9 +54,9 @@ namespace SERVERAPI.Controllers
         private IOptions<AppSettings> _appSettings;
 
         public HomeController(ILogger<HomeController> logger,
-            IHostingEnvironment env, 
-            UserData ud, 
-            IAgriConfigurationRepository sd, 
+            IHostingEnvironment env,
+            UserData ud,
+            IAgriConfigurationRepository sd,
             BrowserData bd,
             IOptions<AppSettings> appSettings)
         {
@@ -66,6 +67,7 @@ namespace SERVERAPI.Controllers
             _bd = bd;
             _appSettings = appSettings;
         }
+
         //public IActionResult Index()
         //{
         //    return View();
@@ -74,6 +76,7 @@ namespace SERVERAPI.Controllers
         {
             return Redirect(_sd.GetExternalLink("aboutmessage"));
         }
+
         public IActionResult Help()
         {
             return Redirect(_sd.GetExternalLink("helpmessage"));
@@ -125,7 +128,6 @@ namespace SERVERAPI.Controllers
             lvm.pageMsg2 = _sd.GetUserPrompt("launchMsg2");
 
             return View(lvm);
-
         }
 
         [HttpPost]
@@ -167,7 +169,7 @@ namespace SERVERAPI.Controllers
                             {
                                 var fileBytes = new byte[file.Length];
 
-                                file.OpenReadStream().Read(fileBytes, 0, (int) file.Length);
+                                file.OpenReadStream().Read(fileBytes, 0, (int)file.Length);
                                 fileContents = System.Text.Encoding.Default.GetString(fileBytes);
                             }
 
@@ -182,7 +184,7 @@ namespace SERVERAPI.Controllers
                                 return View(lvm);
                             }
 
-                            // Returns message that successfully uploaded  
+                            // Returns message that successfully uploaded
                             _ud.SaveFarmData(fd);
                             HttpContext.Session.SetObject("Farm",
                                 _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
@@ -201,7 +203,6 @@ namespace SERVERAPI.Controllers
                 }
 
                 return View(lvm);
-
             }
             else
             {
@@ -216,12 +217,13 @@ namespace SERVERAPI.Controllers
             nvm.msg = _sd.GetUserPrompt("fileoverwritewarning");
             return View(nvm);
         }
+
         [HttpPost]
         public IActionResult NewWarning(NewWarningViewModel nvm)
         {
-                _ud.NewFarm();
-                string url = Url.Action("Farm", "Farm");
-                return Json(new { success = true, url = url });
+            _ud.NewFarm();
+            string url = Url.Action("Farm", "Farm");
+            return Json(new { success = true, url = url });
         }
 
         [HttpGet]
@@ -287,6 +289,7 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+
         private async Task<JSONResponse> BuildReport(INodeServices nodeServices)
         {
             JSONResponse result = null;
@@ -295,7 +298,6 @@ namespace SERVERAPI.Controllers
             var opts = new
             {
                 orientation = "landscape",
-
             };
 
             string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
@@ -305,6 +307,7 @@ namespace SERVERAPI.Controllers
 
             return result;
         }
+
         public void LoadStatic()
         {
             var assembly = Assembly.GetEntryAssembly();
@@ -315,6 +318,7 @@ namespace SERVERAPI.Controllers
                 HttpContext.Session.Set("Static", Encoding.ASCII.GetBytes(staticValues));
             }
         }
+
         public IActionResult Download()
         {
             FarmData farmData = _ud.FarmData();
@@ -335,25 +339,27 @@ namespace SERVERAPI.Controllers
             byte[] fileBytes = Encoding.ASCII.GetBytes(HttpContext.Session.GetString("FarmData"));
             return File(fileBytes, "application/octet-stream", fileName);
         }
+
         public IActionResult FileLoad()
         {
             FileLoadViewModel lvm = new FileLoadViewModel();
             lvm.warningMsg = _sd.GetUserPrompt("fileoverwritewarning");
             FarmData farmData = _ud.FarmData();
 
-            if(farmData != null && farmData.unsaved)
+            if (farmData != null && farmData.unsaved)
             {
                 lvm.unsavedData = true;
             }
 
             return View(lvm);
         }
+
         [HttpPost]
         public IActionResult FileLoad(FileLoadViewModel lvm)
         {
             FarmData fd;
 
-            if(lvm.unsavedData)
+            if (lvm.unsavedData)
             {
                 ModelState.Clear();
                 lvm.unsavedData = false;
@@ -384,14 +390,14 @@ namespace SERVERAPI.Controllers
                         {
                             fd = JsonConvert.DeserializeObject<FarmData>(fileContents);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             _logger.LogError(ex, "JsonConvert.DeserializeObject<FarmData> failed");
                             ModelState.AddModelError("", "File does not appear to be a valid NMP data file.");
                             return View(lvm);
                         }
 
-                        // Returns message that successfully uploaded  
+                        // Returns message that successfully uploaded
                         _ud.SaveFarmData(fd);
                         HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
 
@@ -410,6 +416,7 @@ namespace SERVERAPI.Controllers
             }
             return View(lvm);
         }
+
         [HttpGet]
         public IActionResult SoilTests()
         {
@@ -419,12 +426,13 @@ namespace SERVERAPI.Controllers
 
             return View(fvm);
         }
+
         [HttpPost]
         public IActionResult SoilTests(FarmViewModel fvm)
         {
-
             return View(fvm);
         }
+
         [HttpGet]
         public IActionResult Manure()
         {
@@ -434,10 +442,10 @@ namespace SERVERAPI.Controllers
 
             return View(fvm);
         }
+
         [HttpPost]
         public IActionResult Manure(FarmViewModel fvm)
         {
-
             return View(fvm);
         }
 
@@ -456,7 +464,7 @@ namespace SERVERAPI.Controllers
             dvm.browserName = _bd.BrowserName;
             dvm.os = _bd.BrowserOs;
 
-            foreach(var h in sortedFiles)
+            foreach (var h in sortedFiles)
             {
                 dvm.images.Add(_bd.BrowserName.Trim() + @"/" + h.Name);
             }
@@ -474,7 +482,6 @@ namespace SERVERAPI.Controllers
 
         public IActionResult CreateNewStaticDataVersion(CreateNewStaticDataVersionViewModel vm)
         {
-
             if (ModelState.IsValid)
             {
                 try
@@ -500,6 +507,12 @@ namespace SERVERAPI.Controllers
             }
 
             return View(vm);
+        }
+
+        [HttpGet]
+        public IActionResult DownloadCurrentStaticDataAsJson()
+        {
+            return View();
         }
     }
 }
