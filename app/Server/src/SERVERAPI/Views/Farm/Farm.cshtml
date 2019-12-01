@@ -41,7 +41,7 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <label asp-for="year">Year</label>
-                                <input class="form-control" asp-for="year" id="year" type="text"/>
+                                <input class="form-control" asp-for="year" id="year" type="text" />
                                 <span asp-validation-for="year"></span>
                             </div>
                             <div class="col-sm-6">
@@ -50,6 +50,84 @@
                                 <span asp-validation-for="farmName"></span>
                             </div>
                         </div>
+                        <div class="row" style="margin-bottom: 0px;">
+                            <div class="col-sm-4">
+                                <span id="labelHasAnimals1" style="font-weight: bold">
+                                    I have animals
+                                </span>
+                            </div>
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals1" style="margin-bottom: 0px;">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="HasAnimals1" type="radio" value="true" id="rbIsHasAnimals1Yes" onchange="GetsAnimalsChanged()"/> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="HasAnimals1" type="radio" value="false" id="rbIsHasAnimals1No"  onchange="GetsAnimalsChanged()"/> No
+                                </label>
+                            </div>
+                        </div>
+                        @if (Model.showAnimals)
+                        {
+                            <div class="row" style="margin-bottom: 0px;margin-left:20px">
+                                <div class="col-sm-4">
+                                    <span id="labelHasDairyCows" style="font-weight: bold">
+                                        I have dairy cows
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasDairyCows" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasDairyCows" type="radio" value="true" id="rbIsHasDairyCowsYes"/> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasDairyCows" type="radio" value="false" id="rbIsHasDairyCowsNo"/> No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 0px;margin-left:20px">
+                                <div class="col-sm-4">
+                                    <span id="labelHasBeefCows" style="font-weight: bold">
+                                        I have beef cows
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasBeefCows" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasBeefCows" type="radio" value="true" id="rbIsHasBeefCowsYes" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasBeefCows" type="radio" value="false" id="rbIsHasBeefCowsNo" /> No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 0px;margin-left:20px">
+                                <div class="col-sm-4">
+                                    <span id="labelHasPoultry" style="font-weight: bold">
+                                        I have poultry
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasPoultry" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasPoultry" type="radio" value="true" id="rbIsHasPoultryYes" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasPoultry" type="radio" value="false" id="rbIsHasPoultryNo" /> No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 0px;margin-left:20px">
+                                <div class="col-sm-4">
+                                    <span id="labelHasMixedLiveStock" style="font-weight: bold">
+                                        I have mixed livestock
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasMixedLiveStock" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasMixedLiveStock" type="radio" value="true" id="rbIsHasMixedLiveStockYes" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasMixedLiveStock" type="radio" value="false" id="rbIsHasMixedLiveStockNo" /> No
+                                    </label>
+                                </div>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col-sm-6">
                                 <label asp-for="selRegOption" for="ddlRegion">Region</label>
@@ -60,7 +138,7 @@
                                 <span asp-validation-for="selRegOption"></span>
                             </div>
                         </div>
-                        @if (Model.showSubRegion)
+                        @if (Model.showSubRegion && Model.HasAnimals1)
                         {
                             <div class="row">
                                 <div class="col-sm-6">
@@ -82,10 +160,10 @@
                             </div>
                             <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals" style="margin-bottom: 0px;">
                                 <label style="padding-right: 20px">
-                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes"/> Yes
+                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes" /> Yes
                                 </label>
                                 <label>
-                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo"/> No
+                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo" /> No
                                 </label>
                             </div>
                         </div>
@@ -97,10 +175,10 @@
                             </div>
                             <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelImportsManureCompost" style="margin-bottom: 0px;">
                                 <label style="padding-right: 20px">
-                                    <input asp-for="ImportsManureCompost" type="radio" value="true" id="rbIsImportsManureCompostYes"/> Yes
+                                    <input asp-for="ImportsManureCompost" type="radio" value="true" id="rbIsImportsManureCompostYes" /> Yes
                                 </label>
                                 <label>
-                                    <input asp-for="ImportsManureCompost" type="radio" value="false" id="rbIsImportsManureCompostNo"/> No
+                                    <input asp-for="ImportsManureCompost" type="radio" value="false" id="rbIsImportsManureCompostNo" /> No
                                 </label>
                             </div>
                         </div>
@@ -112,10 +190,10 @@
                             </div>
                             <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelUsesFertilizer">
                                 <label style="padding-right: 20px">
-                                    <input asp-for="UsesFertilizer" type="radio" value="true" id="rbIsUsesFertilizerYes"/> Yes
+                                    <input asp-for="UsesFertilizer" type="radio" value="true" id="rbIsUsesFertilizerYes" /> Yes
                                 </label>
                                 <label>
-                                    <input asp-for="UsesFertilizer" type="radio" value="false" id="rbIsUsesFertilizerNo"/> No
+                                    <input asp-for="UsesFertilizer" type="radio" value="false" id="rbIsUsesFertilizerNo" /> No
                                 </label>
                             </div>
                         </div>
@@ -129,6 +207,7 @@
             </div>
             @Html.HiddenFor(x => x.currYear)
             @Html.HiddenFor(x => x.showSubRegion)
+            @Html.HiddenFor(x => x.showAnimals)
             @Html.HiddenFor(x => x.multipleSubRegion)
             @Html.HiddenFor(x => x.buttonPressed)
         </form>
@@ -254,6 +333,11 @@
                 $("#warnForm").submit();
             })
         });
+
+        function GetsAnimalsChanged() {
+            $('#buttonPressed').val("GetsAnimalsChange");
+            $("#modForm").submit();
+        }
 
         $(document).on("click",
             '[data_modal2]',

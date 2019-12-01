@@ -18,5 +18,6 @@ namespace SERVERAPI.ViewModels
         public bool showSubRegion { get; set; }
         public bool multipleSubRegion { get; set; }
         public string buttonPressed { get; set; }
+        public bool showAnimals { get; set; }
     }
 }
