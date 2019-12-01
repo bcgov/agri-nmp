@@ -7,12 +7,16 @@ namespace Agri.Models.Configuration
     {
         [Key]
         public int Id { get; set; }
+
         public string Name { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
         public int SortNumber { get; set; }
+        public int JourneyId { get; set; }
+        public Journey Journey { get; set; }
 
         private string _elementId;
+
         [NotMapped]
         public string ElementId
         {
@@ -28,6 +32,7 @@ namespace Agri.Models.Configuration
         }
 
         private string _greyOutClass;
+
         [NotMapped]
         public string GreyOutClass
         {

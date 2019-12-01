@@ -11,7 +11,7 @@ namespace Agri.Data
 {
     public class AgriSeeder
     {
-        private AgriConfigurationContext _context;
+        private readonly AgriConfigurationContext _context;
         private readonly IAgriConfigurationRepository _sd;
         private readonly IMapper _mapper;
 

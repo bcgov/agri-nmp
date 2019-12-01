@@ -9,7 +9,7 @@ namespace Agri.Models.Configuration
 
         public bool IsSubMenuCurrent(string currentAction)
         {
-            var isCurrent = Action.Equals(currentAction, StringComparison.CurrentCulture);
+            var isCurrent = Action.Equals(currentAction, StringComparison.OrdinalIgnoreCase);
             return isCurrent;
         }
     }
