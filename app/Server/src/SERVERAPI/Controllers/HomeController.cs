@@ -512,7 +512,48 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public IActionResult DownloadCurrentStaticDataAsJson()
         {
-            return View();
+            var vm = new DownloadCurrentStaticDataAsJsonViewModel();
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult DownloadCurrentStaticDataAsJson(DownloadCurrentStaticDataAsJsonViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    vm.Authenticated = _sd.AuthenticateManagerVersionUser(vm.Username, vm.Password);
+
+                    if (vm.Authenticated)
+                    {
+                        return RedirectToAction("Home", "DownloadStaticData");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    vm.ErrorMessage = ex.Message;
+                }
+
+                vm.ProcessingCompleted = true;
+            }
+
+            return View(vm);
+        }
+
+        public IActionResult DownloadStaticData()
+        {
+            var data = _sd.GetLatestVersionDataTree();
+
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                                new JsonSerializerSettings()
+                                {
+                                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                                });
+
+            var fileName = $"StaticData_Version_{data.Version}.nmp";
+            byte[] fileBytes = Encoding.ASCII.GetBytes(HttpContext.Session.GetString("FarmData"));
+            return File(fileBytes, "application/octet-stream", fileName);
         }
     }
 }
