@@ -20,5 +20,13 @@ namespace Agri.Data.TestHarness
             Assert.IsTrue(result.Data.Count > 0);
             Assert.IsTrue(result.AppliedDateTime > default(DateTime));
         }
+
+        [TestMethod]
+        public void GetSeedJsonData_Should_Load_Json()
+        {
+            var result = SeedDataLoader.GetSeedJsonData();
+
+            Assert.IsNotNull(result);
+        }
     }
 }

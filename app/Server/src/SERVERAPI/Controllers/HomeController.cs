@@ -534,7 +534,7 @@ namespace SERVERAPI.Controllers
                                                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                                             });
 
-                        var fileName = $"StaticData_Version_{data.Version}.nmp";
+                        var fileName = $"StaticData_Version_{data.Id}.nmp";
                         byte[] fileBytes = Encoding.ASCII.GetBytes(json);
                         return File(fileBytes, "application/octet-stream", fileName);
                     }
