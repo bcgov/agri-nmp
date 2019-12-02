@@ -1,5 +1,4 @@
 using Agri.Interfaces;
-using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +26,11 @@ namespace Agri.Data
             //If the database is not present or if migrations are required
             //create the database and/or run the migrations
             //_context.Database.Migrate();
+
+            if (_context.StaticDataVersions.Any())
+            {
+                return;
+            }
 
             var seedData = SeedDataLoader.GetSeedJsonData();
             _sd.LoadConfigurations(seedData);

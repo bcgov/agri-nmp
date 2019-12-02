@@ -81,7 +81,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Agri.Interfaces\Agri.Interfaces.csproj" />
-    <ProjectReference Include="..\Agri.LegacyData\Agri.LegacyData.csproj" />
     <ProjectReference Include="..\Agri.Models\Agri.Models.csproj" />
   </ItemGroup>
 
