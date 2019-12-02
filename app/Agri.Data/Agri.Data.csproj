@@ -5,31 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="MigrationSeedData\12_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\18_PrevYearManureApplicationNitrogenDefaults.json" />
-    <EmbeddedResource Include="MigrationSeedData\17_SubRegions.json" />
-    <EmbeddedResource Include="MigrationSeedData\14_AnimalSubTypes.json" />
-    <EmbeddedResource Include="MigrationSeedData\11_Breed.json" />
-    <EmbeddedResource Include="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
-    <EmbeddedResource Include="MigrationSeedData\19_PotassiumSoilTestRanges.json" />
-    <EmbeddedResource Include="MigrationSeedData\10_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\25_SubMenu.json" />
-    <EmbeddedResource Include="MigrationSeedData\24_MainMenu.json" />
-    <EmbeddedResource Include="MigrationSeedData\26_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\28_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\27_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\22_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\21_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\20_PhosphorusSoilTestRanges.json" />
-    <EmbeddedResource Include="MigrationSeedData\8_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\9_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\23_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\6_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\5_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\4_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\3_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\2_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\1_UserPrompts.json" />
     <EmbeddedResource Include="SeedData\StaticData_Version_4.json" />
   </ItemGroup>
 
