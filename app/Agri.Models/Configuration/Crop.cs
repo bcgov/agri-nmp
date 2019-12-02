@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Agri.Models.Configuration
 {
@@ -15,6 +17,7 @@ namespace Agri.Models.Configuration
 
         [Key]
         public int Id { get; set; }
+
         public string CropName { get; set; }
         public int CropTypeId { get; set; }
         public int YieldCd { get; set; }
@@ -29,7 +32,10 @@ namespace Agri.Models.Configuration
         public int ManureApplicationHistory { get; set; }   //was PrevYearManureAppl_VolCatCd
         public decimal? HarvestBushelsPerTon { get; set; }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public CropType CropType { get; set; }
+
         public List<CropYield> CropYields { get; set; }
         public List<CropSoilTestPotassiumRegion> CropSoilTestPotassiumRegions { get; set; }
         public List<CropSoilTestPhosphorousRegion> CropSoilTestPhosphorousRegions { get; set; }

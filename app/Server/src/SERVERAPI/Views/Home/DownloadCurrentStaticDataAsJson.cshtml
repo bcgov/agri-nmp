@@ -21,7 +21,7 @@
 <!-- BODY CONTENT -->
 <div class="template container gov-container">
     <!-- PAGE CONTENT -->
-    <form asp-controller="Home" method="post" id="versionForm">
+    <form asp-controller="Home" method="post" id="loginForm">
         <div class="form-box">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-box-header clearfix">
@@ -55,9 +55,9 @@
                         }
                         <div class="form-box-submit">
                             <div class="form-box-fields text-left">
-                                <button class="btn btn-primary" type="submit" title="CreateNewVersion" aria-label="CreateNewVersion"
-                                        onclick="return DisplayProgressMessage(this, 'Archiving Current Version...', $('#versionForm'));">
-                                    Create New Version of Static Data
+                                <button class="btn btn-primary" type="submit" title="Downloading Current Static Data Version" aria-label="Downloading Current Static Data Version"
+                                        onclick="return DisplayProgressMessage(this, 'Downloading Current Static Data Version...', $('#loginForm'));">
+                                    Download Current Static Data as JSON
                                 </button>
                             </div>
                         </div>

@@ -527,7 +527,16 @@ namespace SERVERAPI.Controllers
 
                     if (vm.Authenticated)
                     {
-                        return RedirectToAction("Home", "DownloadStaticData");
+                        var data = _sd.GetLatestVersionDataTree();
+                        var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                                            new JsonSerializerSettings()
+                                            {
+                                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                                            });
+
+                        var fileName = $"StaticData_Version_{data.Version}.nmp";
+                        byte[] fileBytes = Encoding.ASCII.GetBytes(json);
+                        return File(fileBytes, "application/octet-stream", fileName);
                     }
                 }
                 catch (Exception ex)
@@ -539,21 +548,6 @@ namespace SERVERAPI.Controllers
             }
 
             return View(vm);
-        }
-
-        public IActionResult DownloadStaticData()
-        {
-            var data = _sd.GetLatestVersionDataTree();
-
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                                new JsonSerializerSettings()
-                                {
-                                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                                });
-
-            var fileName = $"StaticData_Version_{data.Version}.nmp";
-            byte[] fileBytes = Encoding.ASCII.GetBytes(HttpContext.Session.GetString("FarmData"));
-            return File(fileBytes, "application/octet-stream", fileName);
         }
     }
 }
