@@ -17,6 +17,7 @@
         public bool HasAnimals { get; set; }
         public bool ImportsManureCompost { get; set; }
         public bool UsesFertilizer { get; set; }
+        //TODO: Remove HasAnimals1 when Menu has been revised
         public bool HasAnimals1 { get; set; }
         public bool HasDairyCows { get; set; }
         public bool HasBeefCows { get; set; }
