@@ -7,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Agri.Interfaces;
-using Agri.LegacyData.Models.Impl;
 using Agri.Models.Security;
 using AutoMapper;
 
@@ -31,13 +30,11 @@ namespace Agri.Data.TestHarness
             });
 
             services.AddTransient<AgriConfigurationRepository>();
-            services.AddTransient<StaticDataExtRepository>();
             services.AddAutoMapper();
 
             _serviceProvider = services.BuildServiceProvider();
             //var mapper = new Mapper(new AutoMapperProfileConfiguration());
             _agriRepository = _serviceProvider.GetRequiredService<AgriConfigurationRepository>();
-            _staticExtRepo = _serviceProvider.GetRequiredService<StaticDataExtRepository>();
         }
 
         [TestMethod]
@@ -735,7 +732,7 @@ namespace Agri.Data.TestHarness
             actual = _agriRepository.GetMessageByChemicalBalance("AgrP2O5CropP2O5", 40, 0, "CropP2O5");
             expected = _staticExtRepo.GetMessageByChemicalBalance("AgrP2O5CropP2O5", 40, 0, "CropP2O5");
         }
-        
+
         [TestMethod]
         public void CompareGetMessages()
         {
@@ -779,8 +776,8 @@ namespace Agri.Data.TestHarness
         [TestMethod]
         public void CompareGetNMineralization()
         {
-            var actual = _agriRepository.GetNMineralization(1,1);
-            var expected = _staticExtRepo.GetNMineralization(1,1);
+            var actual = _agriRepository.GetNMineralization(1, 1);
+            var expected = _staticExtRepo.GetNMineralization(1, 1);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected.Name, actual.Name);
@@ -1068,7 +1065,7 @@ namespace Agri.Data.TestHarness
         [TestMethod]
         public void CompareGetSTKRecommend()
         {
-            var actual = _agriRepository.GetSTKRecommend(1,1,1);
+            var actual = _agriRepository.GetSTKRecommend(1, 1, 1);
             var expected = _staticExtRepo.GetSTKRecommend(1, 1, 1);
 
             Assert.IsNotNull(actual);
@@ -1330,7 +1327,7 @@ namespace Agri.Data.TestHarness
             Assert.IsTrue(actual.Count > 0);
             Assert.AreEqual(expected.Count, actual.Count);
         }
-        
+
         [TestMethod]
         public void CompareGetMainMenusDll()
         {

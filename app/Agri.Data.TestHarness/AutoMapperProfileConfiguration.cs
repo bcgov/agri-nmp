@@ -1,8 +1,6 @@
-﻿using Agri.Data.Migrations;
-using Agri.Models.Configuration;
+﻿using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using AutoMapper;
-
 
 namespace Agri.Data.TestHarness
 {
@@ -12,6 +10,7 @@ namespace Agri.Data.TestHarness
             : this("MyProfile")
         {
         }
+
         protected AutoMapperProfileConfiguration(string profileName)
             : base(profileName)
         {
@@ -103,13 +102,11 @@ namespace Agri.Data.TestHarness
                 .ForMember(x => x.Region, opt => opt.Ignore()); ;
             CreateMap<Yield, Yield>();
 
-
-
             CreateMap<ManureStorageSystem, ManureStorageSystem>();
             CreateMap<ImportedManure, ImportedManure>();
             CreateMap<UserPrompt, UserPrompt>();
             CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
-            CreateMap<SubRegions, SubRegions>();
+            CreateMap<SubRegion, SubRegion>();
 
             CreateMap<StaticDataVersion, StaticDataVersion>();
         }

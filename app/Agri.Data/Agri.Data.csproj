@@ -5,67 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20190217033332_AddCommentToStaticVersionData.cs" />
-    <Compile Remove="Migrations\20190221235859_FixPreviousCropTypeForeignKey.cs" />
-    <Compile Remove="Migrations\20190227174319_AddTable-ManageVersionUser.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="MigrationSeedData\10_UserPrompts.json" />
-    <None Remove="MigrationSeedData\11_Breed.json" />
-    <None Remove="MigrationSeedData\12_UserPrompts.json" />
-    <None Remove="MigrationSeedData\14_AnimalSubTypes.json" />
-    <None Remove="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
-    <None Remove="MigrationSeedData\17_SubRegions.json" />
-    <None Remove="MigrationSeedData\18_PrevYearManureApplicationNitrogenDefaults.json" />
-    <None Remove="MigrationSeedData\19_PotassiumSoilTestRanges.json" />
-    <None Remove="MigrationSeedData\1_UserPrompts.json" />
-    <None Remove="MigrationSeedData\20_PhosphorusSoilTestRanges.json" />
-    <None Remove="MigrationSeedData\21_UserPrompts.json" />
-    <None Remove="MigrationSeedData\22_UserPrompts.json" />
-    <None Remove="MigrationSeedData\24_MainMenu.json" />
-    <None Remove="MigrationSeedData\25_SubMenu.json" />
-    <None Remove="MigrationSeedData\23_UserPrompts.json" />
-    <None Remove="MigrationSeedData\26_UserPrompts.json" />
-    <None Remove="MigrationSeedData\27_UserPrompts.json" />
-    <None Remove="MigrationSeedData\28_UserPrompts.json" />
-    <None Remove="MigrationSeedData\29_Journies.json" />
-    <None Remove="MigrationSeedData\2_UserPrompts.json" />
-    <None Remove="MigrationSeedData\3_UserPrompts.json" />
-    <None Remove="MigrationSeedData\4_UserPrompts.json" />
-    <None Remove="MigrationSeedData\5_UserPrompts.json" />
-    <None Remove="MigrationSeedData\6_UserPrompts.json" />
-    <None Remove="MigrationSeedData\8_UserPrompts.json" />
-    <None Remove="MigrationSeedData\9_UserPrompts.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="MigrationSeedData\12_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\18_PrevYearManureApplicationNitrogenDefaults.json" />
-    <EmbeddedResource Include="MigrationSeedData\17_SubRegions.json" />
-    <EmbeddedResource Include="MigrationSeedData\14_AnimalSubTypes.json" />
-    <EmbeddedResource Include="MigrationSeedData\11_Breed.json" />
-    <EmbeddedResource Include="MigrationSeedData\16_LiquidSolidSeparationDefault.json" />
-    <EmbeddedResource Include="MigrationSeedData\19_PotassiumSoilTestRanges.json" />
-    <EmbeddedResource Include="MigrationSeedData\10_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\25_SubMenu.json" />
-    <EmbeddedResource Include="MigrationSeedData\24_MainMenu.json" />
-    <EmbeddedResource Include="MigrationSeedData\26_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\29_Journies.json" />
-    <EmbeddedResource Include="MigrationSeedData\28_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\27_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\22_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\21_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\20_PhosphorusSoilTestRanges.json" />
-    <EmbeddedResource Include="MigrationSeedData\8_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\9_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\23_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\6_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\5_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\4_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\3_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\2_UserPrompts.json" />
-    <EmbeddedResource Include="MigrationSeedData\1_UserPrompts.json" />
+    <EmbeddedResource Include="SeedData\StaticData_Version_4.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,10 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Agri.Interfaces\Agri.Interfaces.csproj" />
-    <ProjectReference Include="..\Agri.LegacyData\Agri.LegacyData.csproj" />
     <ProjectReference Include="..\Agri.Models\Agri.Models.csproj" />
   </ItemGroup>
-
-
-
 </Project>

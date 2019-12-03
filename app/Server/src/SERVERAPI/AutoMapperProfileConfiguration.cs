@@ -1,5 +1,4 @@
-﻿using Agri.Data.Migrations;
-using Agri.Models;
+﻿using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using AutoMapper;
@@ -113,7 +112,7 @@ namespace SERVERAPI
             CreateMap<ImportedManure, ImportedManure>();
             CreateMap<UserPrompt, UserPrompt>();
             CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
-            CreateMap<SubRegions, SubRegions>();
+            CreateMap<SubRegion, SubRegion>();
 
             CreateMap<StaticDataVersion, StaticDataVersion>();
         }

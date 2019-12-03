@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Agri.Interfaces;
 using Agri.Models.Calculate;
 using SERVERAPI.Utility;
-using Agri.LegacyData.Models.Impl;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -21,6 +20,7 @@ namespace SERVERAPI.ViewComponents
             _sd = sd;
             _ud = ud;
         }
+
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
             return View(await GetSummaryAsync(fldName));
@@ -38,7 +38,7 @@ namespace SERVERAPI.ViewComponents
 
             List<BalanceMessages> msgs = cbm.DetermineBalanceMessages(fldName);
 
-            foreach(var m in msgs)
+            foreach (var m in msgs)
             {
                 switch (m.Chemical)
                 {
@@ -46,22 +46,27 @@ namespace SERVERAPI.ViewComponents
                         cvm.remNIcon = m.Icon;
                         cvm.remNIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
+
                     case "CropP2O5":
                         cvm.remPIcon = m.Icon;
                         cvm.remPIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
+
                     case "CropK2O":
                         cvm.remKIcon = m.Icon;
                         cvm.remKIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
+
                     case "AgrN":
                         cvm.reqNIcon = m.Icon;
                         cvm.reqNIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
+
                     case "AgrP2O5":
                         cvm.reqPIcon = m.Icon;
                         cvm.reqPIconText = _sd.GetNutrientIcon(m.Icon).Definition;
                         break;
+
                     case "AgrK2O":
                         cvm.reqKIcon = m.Icon;
                         cvm.reqKIconText = _sd.GetNutrientIcon(m.Icon).Definition;
@@ -80,6 +85,7 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(cvm);
         }
     }
+
     public class CalcSummaryViewModel
     {
         public bool summaryReqd { get; set; }

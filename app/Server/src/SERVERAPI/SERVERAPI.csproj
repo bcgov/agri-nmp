@@ -24,27 +24,6 @@
     <PackageReference Include="NLog" Version="4.5.11" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Mappings\**" />
-    <Compile Remove="Migrations\**" />
-    <Compile Remove="Services\**" />
-    <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
-    <Content Remove="Mappings\**" />
-    <Content Remove="Migrations\**" />
-    <Content Remove="Services\**" />
-    <EmbeddedResource Remove="Mappings\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Mappings\**" />
-    <None Remove="Migrations\**" />
-    <None Remove="Services\**" />
-    <Compile Remove="Utility\BalanceMessages.cs" />
-    <Compile Remove="Utility\ChemicalBalances.cs" />
-    <Compile Remove="Utility\CropRequirementRemoval.cs" />
-    <Compile Remove="Utility\FertilizerNutrients.cs" />
-    <Compile Remove="Utility\NOrganicMineralizations.cs" />
-    <Compile Remove="Utility\NutrientInputs.cs" />
-    <Compile Remove="Utility\SoilTestConversions.cs" />
-    <None Remove="PDF.js" />
     <Content Include="PDF.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -60,7 +39,7 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.3" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UserAgent\" />

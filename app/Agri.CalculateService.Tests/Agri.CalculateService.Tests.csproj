@@ -1,14 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="TestData\YearDataMock.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="TestData\YearDataMock.json" />
@@ -25,5 +21,4 @@
     <ProjectReference Include="..\Agri.CalculateService\Agri.CalculateService.csproj" />
     <ProjectReference Include="..\Agri.Interfaces\Agri.Interfaces.csproj" />
   </ItemGroup>
-
 </Project>

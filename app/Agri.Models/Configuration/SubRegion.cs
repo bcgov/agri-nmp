@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Agri.Models.Configuration
 {
@@ -6,10 +8,14 @@ namespace Agri.Models.Configuration
     {
         [Key]
         public int Id { get; set; }
+
         public string Name { get; set; }
         public int AnnualPrecipitation { get; set; }
         public int AnnualPrecipitationOctToMar { get; set; }
         public int RegionId { get; set; }
+
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Region Region { get; set; }
     }
 }

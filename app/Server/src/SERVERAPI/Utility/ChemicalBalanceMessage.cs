@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Agri.Interfaces;
 using SERVERAPI.Models.Impl;
-//using static SERVERAPI.Models.StaticData;
 using Agri.Models.Calculate;
 using Agri.Models.Farm;
-using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
-
 
 namespace SERVERAPI.Utility
 {
@@ -21,7 +18,7 @@ namespace SERVERAPI.Utility
         private const string MESSAGE_ICON_GOOD = "good";
         private const string MESSAGE_ICON_WARNING = "warning";
 
-        public ChemicalBalances chemicalBalances = new ChemicalBalances();        
+        public ChemicalBalances chemicalBalances = new ChemicalBalances();
         public bool displayBalances { get; set; }
 
         public ChemicalBalanceMessage(UserData ud, IAgriConfigurationRepository sd)
@@ -37,7 +34,6 @@ namespace SERVERAPI.Utility
             string message = string.Empty;
             BalanceMessages bm = new BalanceMessages();
 
-
             //get soil test values
             ConversionFactor _cf = _sd.GetConversionFactor();
 
@@ -47,13 +43,13 @@ namespace SERVERAPI.Utility
             //determine if a legume is included in the crops
             List<FieldCrop> fieldCrops = _ud.GetFieldCrops(fieldName);
 
-            if (fieldCrops.Count > 0) 
+            if (fieldCrops.Count > 0)
             {
                 foreach (var _crop in fieldCrops)
                 {
                     Crop crop = _sd.GetCrop(Convert.ToInt16(_crop.cropId));
                     if (crop.NitrogenRecommendationId == 1) // no nitrogen need to be added
-                        legume = true;  
+                        legume = true;
                 }
 
                 if (legume)
@@ -97,13 +93,12 @@ namespace SERVERAPI.Utility
                 bm = _sd.GetMessageByChemicalBalance("AgrP2O5CropP2O5", chemicalBalances.balance_AgrP2O5, chemicalBalances.balance_CropP2O5, "CropP2O5");
                 if (bm != null)
                     messages.Add(bm);
-
             }
             return messages;
         }
 
         public ChemicalBalances GetChemicalBalances(string fldName)
-        {            
+        {
             displayBalances = false;
 
             chemicalBalances.balance_AgrN = 0;
@@ -167,7 +162,7 @@ namespace SERVERAPI.Utility
                 else
                     // accomodate previous version of farm data - lookup default Nitrogen credit.
                     chemicalBalances.balance_AgrN += calcPrevYearManureApplDefault(fldName);
-                if (fld.soilTest != null)  
+                if (fld.soilTest != null)
                 {
                     if (_sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, fld.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year)))
                     {
@@ -278,7 +273,7 @@ namespace SERVERAPI.Utility
                 LegumeAgronomicN += Convert.ToInt64(m.yrN);
             }
 
-            Field fld =  _ud.GetFieldDetails(fldName);
+            Field fld = _ud.GetFieldDetails(fldName);
 
             if (fld.prevYearManureApplicationNitrogenCredit != null)
                 LegumeAgronomicN += Convert.ToInt64(fld.prevYearManureApplicationNitrogenCredit);
@@ -309,11 +304,11 @@ namespace SERVERAPI.Utility
         private int prevYearManureDefaultLookup(string prevYearManureAppl_volcatcd, string prevManureApplicationYearsFrequency)
         {
             List<PreviousYearManureApplicationNitrogenDefault> defaultNitrogen = new List<PreviousYearManureApplicationNitrogenDefault>();
-            defaultNitrogen = _sd.GetPrevYearManureNitrogenCreditDefaults(); 
+            defaultNitrogen = _sd.GetPrevYearManureNitrogenCreditDefaults();
             // loop through to find the default nitrogen credit
             foreach (var item in defaultNitrogen)
                 if (item.PreviousYearManureAplicationFrequency == prevManureApplicationYearsFrequency)
-                    // refactor - check to make sure it can handle additional volCatCd 
+                    // refactor - check to make sure it can handle additional volCatCd
                     return item.DefaultNitrogenCredit[Convert.ToInt16(prevYearManureAppl_volcatcd)];
             return 0;
         }
@@ -346,7 +341,7 @@ namespace SERVERAPI.Utility
             {
                 if (fld.crops != null)
                 {
-                    if ( (fld.crops.Count() > 0) && (fld.soilTest != null) )
+                    if ((fld.crops.Count() > 0) && (fld.soilTest != null))
                     {
                         return (fld.soilTest.valNO3H * _sd.GetSoilTestNitratePPMToPoundPerAcreConversionFactor());
                     }
@@ -354,7 +349,5 @@ namespace SERVERAPI.Utility
             }
             return 0;  // no Nitrogen credit as there are no crops
         }
-
     }
-
 }

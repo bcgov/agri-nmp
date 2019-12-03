@@ -21,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using SERVERAPI.Controllers;
 using SERVERAPI.Filters;
@@ -183,12 +184,21 @@ namespace SERVERAPI
             }
         }
 
-        private static void UpdateDatabase(IApplicationBuilder app)
+        private void UpdateDatabase(IApplicationBuilder app)
         {
+            var options = app.ApplicationServices.GetRequiredService<IOptions<AppSettings>>();
+
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
                 {
+                    if (options.Value.NMPRefreshDatabase && _hostingEnv.IsDevelopment())
+                    {
+                        context.Database.EnsureDeleted();
+                    }
+
+                    //If the database is not present or if migrations are required
+                    //create the database and/or run the migrations
                     context.Database.Migrate();
                 }
             }
