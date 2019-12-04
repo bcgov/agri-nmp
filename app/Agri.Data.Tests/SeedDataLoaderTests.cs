@@ -53,6 +53,17 @@ namespace Agri.Data.Tests
         }
 
         [Fact]
+        public void GetSeedJsonData_Should_Load_Journies_Json()
+        {
+            var result = SeedDataLoader.GetSeedJsonData<List<Journey>>(Constants.SeedDataFiles.Journey);
+
+            result.ShouldNotBeNull();
+            result.Count.ShouldBeGreaterThan(0);
+            result.Any(j => j.MainMenus.Count > 0).ShouldBeTrue();
+            result.Any(j => j.MainMenus.SelectMany(m => m.SubMenus).Count() > 0).ShouldBeTrue();
+        }
+
+        [Fact]
         public void GetSeedJsonData_Should_Load_MainMenus_Json()
         {
             var result = SeedDataLoader.GetSeedJsonData<List<MainMenu>>(Constants.SeedDataFiles.MainMenus);
