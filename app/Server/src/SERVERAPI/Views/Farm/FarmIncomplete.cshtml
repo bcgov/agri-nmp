@@ -27,7 +27,7 @@
                             <span asp-validation-for="selRegOption" class="text-danger">A region must be selected</span>
                         </div>
                     </div>
-                    @if (Model.showSubRegion)
+                    @if (Model.showSubRegion && Model.showAnimals)
                     {
                         <div class="row">
                             <div class="col-sm-6">
@@ -53,6 +53,7 @@
         @Html.HiddenFor(x => x.showSubRegion)
         @Html.HiddenFor(x => x.multipleSubRegion)
         @Html.HiddenFor(x => x.buttonPressed)
+        @Html.HiddenFor(x => x.showAnimals)
 
     </form>
 </div>
