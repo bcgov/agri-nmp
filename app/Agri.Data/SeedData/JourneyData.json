@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 1,
+    "Name": "Dairy"
+  },
+  {
+    "Id": 2,
+    "Name": "Ranch"
+  },
+  {
+    "Id": 3,
+    "Name": "Poultry"
+  },
+  {
+    "Id": 4,
+    "Name": "Crops"
+  },
+  {
+    "Id": 5,
+    "Name": "MIXED"
+  }
+]

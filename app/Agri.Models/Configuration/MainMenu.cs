@@ -10,6 +10,10 @@ namespace Agri.Models.Configuration
         {
             SubMenus = new List<SubMenu>();
         }
+
+        public int JourneyId { get; set; }
+        public Journey Journey { get; set; }
+
         public List<SubMenu> SubMenus { get; set; }
 
         public bool IsCurrentMainMenu(string currentAction)
