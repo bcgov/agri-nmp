@@ -97,7 +97,7 @@ namespace SERVERAPI.Utility
             //              get default yield = cropyield(cropid, locationid)
             //              N = (yield / default yield) * crop.n_recomm_lbperac
 
-            int regionid = _ud.FarmDetails().farmRegion.Value;
+            int regionid = _ud.FarmDetails().FarmRegion.Value;
             Region region = _sd.GetRegion(regionid);
 
             Field fld = _ud.GetFieldDetails(fieldName);
@@ -197,9 +197,9 @@ namespace SERVERAPI.Utility
         {
             decimal? defaultYield = null;
             int _locationid;
-            if (_ud.FarmDetails().farmRegion.HasValue)
+            if (_ud.FarmDetails().FarmRegion.HasValue)
             { 
-                _locationid = _sd.GetRegion(_ud.FarmDetails().farmRegion.Value).LocationId;
+                _locationid = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value).LocationId;
                 CropYield cy = _sd.GetCropYield(_cropid, _locationid);
                 if (cy.Amount.HasValue)
                         defaultYield = cy.Amount.Value;

@@ -54,12 +54,12 @@ namespace SERVERAPI.Controllers
             fvm.regOptions = _sd.GetRegionsDll().ToList();
             fvm.selRegOption = null;
 
-            fvm.year = farmData.year;
-            fvm.currYear = farmData.year;
-            fvm.farmName = farmData.farmName;
+            fvm.year = farmData.Year;
+            fvm.currYear = farmData.Year;
+            fvm.farmName = farmData.FarmName;
 
-            fvm.selRegOption = farmData.farmRegion;
-            fvm.selSubRegOption = farmData.farmSubRegion;
+            fvm.selRegOption = farmData.FarmRegion;
+            fvm.selSubRegOption = farmData.FarmSubRegion;
 
             if (fvm.selRegOption.HasValue)
             {
@@ -203,7 +203,7 @@ namespace SERVERAPI.Controllers
                 }
 
                 var farmData = _ud.FarmDetails();
-                farmData.farmRegion = fvm.selRegOption;
+                farmData.FarmRegion = fvm.selRegOption;
                 _ud.UpdateFarmDetails(farmData);
 
                 if (fvm.multipleSubRegion && fvm.showAnimals)
@@ -232,7 +232,7 @@ namespace SERVERAPI.Controllers
                 UpdateStorageSystemsForSubRegion(fvm.selSubRegOption.Value);
 
                 var farmData = _ud.FarmDetails();
-                farmData.farmSubRegion = fvm.selSubRegOption;
+                farmData.FarmSubRegion = fvm.selSubRegOption;
                 _ud.UpdateFarmDetails(farmData);
 
                 return View(fvm);
@@ -244,9 +244,9 @@ namespace SERVERAPI.Controllers
 
                 fvm.regOptions = _sd.GetRegionsDll().ToList();
 
-                farmData.year = fvm.year;
-                farmData.farmName = fvm.farmName;
-                farmData.farmRegion = fvm.selRegOption;
+                farmData.Year = fvm.year;
+                farmData.FarmName = fvm.farmName;
+                farmData.FarmRegion = fvm.selRegOption;
                 if(fvm.showAnimals)
                 {
                     fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
@@ -254,7 +254,7 @@ namespace SERVERAPI.Controllers
                     {
                         fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
                     }
-                    farmData.farmSubRegion = fvm.selSubRegOption;
+                    farmData.FarmSubRegion = fvm.selSubRegOption;
                 }
                 
                 farmData.HasAnimals = fvm.HasAnimals;
@@ -268,7 +268,7 @@ namespace SERVERAPI.Controllers
                 farmData.HasMixedLiveStock = fvm.HasMixedLiveStock;
 
                 _ud.UpdateFarmDetails(farmData);
-                HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
+                HttpContext.Session.SetObject("Farm", _ud.FarmDetails().FarmName + " " + _ud.FarmDetails().Year);
 
                 fvm.currYear = fvm.year;
                 ModelState.Remove("userData");
@@ -299,7 +299,7 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public object CheckCompleted()
         {
-            var regionId = _ud.FarmDetails().farmRegion;
+            var regionId = _ud.FarmDetails().FarmRegion;
             var regionsIncomplete = !regionId.HasValue;
 
             if (regionId.HasValue)
@@ -309,7 +309,7 @@ namespace SERVERAPI.Controllers
 
             if (!regionsIncomplete)
             {
-                var subRegionId = _ud.FarmDetails().farmSubRegion;
+                var subRegionId = _ud.FarmDetails().FarmSubRegion;
                 if (subRegionId.HasValue)
                 {
                     regionsIncomplete = _sd.GetSubRegion(subRegionId.Value) == null;
@@ -335,10 +335,10 @@ namespace SERVERAPI.Controllers
                 Target = target
             };
 
-            fvm.selRegOption = farmData.farmRegion;
+            fvm.selRegOption = farmData.FarmRegion;
             if (farmData.HasAnimals1)
             {
-                fvm.selSubRegOption = farmData.farmSubRegion;
+                fvm.selSubRegOption = farmData.FarmSubRegion;
                 fvm = SetSubRegions(fvm);
                 fvm.showAnimals = true;
 
@@ -368,7 +368,7 @@ namespace SERVERAPI.Controllers
                 
 
                 var farmData = _ud.FarmDetails();
-                farmData.farmRegion = fvm.selRegOption;
+                farmData.FarmRegion = fvm.selRegOption;
                 _ud.UpdateFarmDetails(farmData);
 
                 if (fvm.multipleSubRegion && fvm.showAnimals)
@@ -392,7 +392,7 @@ namespace SERVERAPI.Controllers
                 UpdateStorageSystemsForSubRegion(fvm.selSubRegOption.Value);
 
                 var farmData = _ud.FarmDetails();
-                farmData.farmSubRegion = fvm.selSubRegOption;
+                farmData.FarmSubRegion = fvm.selSubRegOption;
                 _ud.UpdateFarmDetails(farmData);
                 return View(fvm);
             }

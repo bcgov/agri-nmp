@@ -53,7 +53,7 @@ namespace SERVERAPI.Controllers
                 fields = new List<Field>()
             };
 
-            cvm.regionFnd = (fd.farmRegion.HasValue) ? true : false;
+            cvm.regionFnd = (fd.FarmRegion.HasValue) ? true : false;
             cvm.icons = _sd.GetNutrientIcons();
 
             // no name entered so default to the first one for the farm
@@ -196,7 +196,7 @@ namespace SERVERAPI.Controllers
                 mvm.currUnit = man.solid_liquid;
                 mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
 
-                int regionid = _ud.FarmDetails().farmRegion.Value;
+                int regionid = _ud.FarmDetails().FarmRegion.Value;
                 Region region = _sd.GetRegion(regionid);
                 nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(mvm.SelectedFarmManure), region.LocationId);
 
@@ -500,7 +500,7 @@ namespace SERVERAPI.Controllers
         private decimal GetOrganicNAvailableThisYear(int farmManureId)
         {
             var calculateNutrients = new CalculateNutrients(_ud, _sd);
-            int regionid = _ud.FarmDetails().farmRegion.Value;
+            int regionid = _ud.FarmDetails().FarmRegion.Value;
             Region region = _sd.GetRegion(regionid);
             var nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(farmManureId), region.LocationId);
             return nOrganicMineralizations.OrganicN_FirstYear * 100;

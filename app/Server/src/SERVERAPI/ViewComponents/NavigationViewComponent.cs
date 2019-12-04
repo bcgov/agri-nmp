@@ -10,7 +10,7 @@ using Agri.Models;
 
 namespace SERVERAPI.ViewComponents
 {
-    public class Navigation: ViewComponent
+    public class Navigation : ViewComponent
     {
         private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
@@ -34,7 +34,8 @@ namespace SERVERAPI.ViewComponents
 
             if (_ud.IsActiveSession())
             {
-                ndvm.mainMenuOptions = _sd.GetMainMenus();
+                var journey = _ud.FarmDetails().UserJourney;
+                ndvm.mainMenuOptions = _sd.GetJourney((int)journey).MainMenus;
 
                 var hasAnimals = _ud.FarmDetails()?.HasAnimals ?? true;
                 var importsManureCompost = _ud.FarmDetails()?.ImportsManureCompost ?? true;
@@ -67,7 +68,6 @@ namespace SERVERAPI.ViewComponents
 
                         if (currentMainMenu.Controller.Equals(AppControllers.ManureManagement.ToString()))
                         {
-
                             if (currentMainMenu.Controller == AppControllers.ManureManagement.ToString())
                             {
                                 greyOutClass = "second-level-nav-greyedout";
@@ -98,6 +98,5 @@ namespace SERVERAPI.ViewComponents
 
             return Task.FromResult(ndvm);
         }
-
     }
 }

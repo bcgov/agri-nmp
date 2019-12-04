@@ -1986,5 +1986,13 @@ namespace Agri.Data
 
             return response;
         }
+
+        public Journey GetJourney(int journeyId)
+        {
+            return _context.Journeys
+                .Include(j => j.MainMenus)
+                    .ThenInclude(m => m.SubMenus)
+                .Single(j => j.Id == journeyId);
+        }
     }
 }

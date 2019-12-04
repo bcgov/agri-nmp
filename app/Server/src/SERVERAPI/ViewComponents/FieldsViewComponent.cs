@@ -35,7 +35,7 @@ namespace SERVERAPI.ViewComponents
             FieldsViewModel fvm = new FieldsViewModel();
             FarmDetails fd = _ud.FarmDetails();
 
-            if(fd.farmRegion.HasValue)
+            if(fd.FarmRegion.HasValue)
             {
                 fvm.regionFnd = true;
             }

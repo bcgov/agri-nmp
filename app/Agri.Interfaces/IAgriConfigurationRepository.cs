@@ -334,5 +334,7 @@ namespace Agri.Interfaces
         ManageVersionUser GetManagerVersionUser(string username);
 
         void LoadConfigurations(StaticDataVersion staticDataVersionToLoad);
+
+        Journey GetJourney(int journeyId);
     }
 }

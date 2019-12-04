@@ -40,7 +40,7 @@ namespace SERVERAPI.ViewComponents
             {  
                 if  (fld.crops.Count() > 0)  
                 {
-                    soilvm.display = _sd.IsNitrateCreditApplicable(farmdtl.farmRegion, fld.soilTest.sampleDate, Convert.ToInt16(farmdtl.year));
+                    soilvm.display = _sd.IsNitrateCreditApplicable(farmdtl.FarmRegion, fld.soilTest.sampleDate, Convert.ToInt16(farmdtl.Year));
                     if (soilvm.display)
                     {
                         soilvm.fldName = fldName;
