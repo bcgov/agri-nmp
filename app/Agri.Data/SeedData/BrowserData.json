@@ -1,0 +1,27 @@
+[
+  {
+    "Id": 1,
+    "Name": "IE",
+    "MinVersion": "11.0"
+  },
+  {
+    "Id": 2,
+    "Name": "Chrome",
+    "MinVersion": "49.0"
+  },
+  {
+    "Id": 3,
+    "Name": "Firefox",
+    "MinVersion": "49.0"
+  },
+  {
+    "Id": 4,
+    "Name": "Safari",
+    "MinVersion": "500.0"
+  },
+  {
+    "Id": 5,
+    "Name": "Edge",
+    "MinVersion": "15.0"
+  }
+]

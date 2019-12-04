@@ -1,4 +1,4 @@
-﻿using Agri.Interfaces;
+﻿using Agri.Data;
 using AutoMapper;
 using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ using SERVERAPI;
 using System;
 using Xunit.Abstractions;
 
-namespace Agri.Data.Tests
+namespace Agri.Tests.Shared
 {
     public class TestBase
     {
@@ -30,7 +30,7 @@ namespace Agri.Data.Tests
                    //.EnableDetailedErrors()
                    .UseInMemoryDatabase("Agri_Test")
                     )
-                .AddSingleton<IConfiguration>(configuration)
+                .AddSingleton(configuration)
                 .AddHttpContextAccessor();
 
             foreach (var svc in additionalServices)
@@ -41,11 +41,14 @@ namespace Agri.Data.Tests
             serviceProvider = services.BuildServiceProvider();
 
             services.AddAutoMapper();
+        }
 
+        protected void SeedDatabase()
+        {
             if (agriConfigurationDb.Database.IsInMemory())
             {
                 var repo = new AgriConfigurationRepository(agriConfigurationDb, Mapper);
-                var seeder = new AgriSeeder(agriConfigurationDb, repo, Mapper);
+                var seeder = new AgriSeeder(agriConfigurationDb, repo);
                 seeder.Seed();
             }
         }
