@@ -13,6 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="SeedData\BrowserData.json" />
+    <EmbeddedResource Include="SeedData\ExternalLinksData.json" />
+    <EmbeddedResource Include="SeedData\LocationsData.json" />
+    <EmbeddedResource Include="SeedData\MainMenusData.json" />
+    <EmbeddedResource Include="SeedData\NutrientIconsData.json" />
+    <EmbeddedResource Include="SeedData\StaticDataVersion_4.json" />
+    <EmbeddedResource Include="SeedData\SubMenusData.json" />
+    <EmbeddedResource Include="SeedData\UserPromptsData.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
