@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace Agri.Models.Configuration
 {
@@ -19,7 +21,10 @@ namespace Agri.Models.Configuration
         public int[] DefaultNitrogenCredit { get; set; }
         public string PreviousYearManureAplicationFrequency { get; set; }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public PreviousManureApplicationYear PreviousManureApplicationYear { get; set; }
+
         public List<Crop> Crops { get; set; }
     }
 }

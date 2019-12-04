@@ -1,0 +1,17 @@
+[
+  {
+    "Id": 1,
+    "Name": "good",
+    "Definition": "Good"
+  },
+  {
+    "Id": 2,
+    "Name": "dollar warning",
+    "Definition": "Crop requirement not met OR nutrient application adds no benefit to the crop"
+  },
+  {
+    "Id": 3,
+    "Name": "stop triangle",
+    "Definition": "Reduce nutrient application"
+  }
+]

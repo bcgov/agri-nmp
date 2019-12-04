@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Agri.Models.Farm;
 using SERVERAPI.Models;
-using Agri.LegacyData.Models.Impl;
 using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
