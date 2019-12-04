@@ -28,9 +28,11 @@ namespace SERVERAPI.ViewComponents
 
         private Task<NavigationDetailViewModel> GetNavigationAsync(CoreSiteActions currentAction)
         {
-            var ndvm = new NavigationDetailViewModel();
-            ndvm.mainMenuOptions = new List<MainMenu>();
-            ndvm.subMenuOptions = new List<SubMenu>();
+            var ndvm = new NavigationDetailViewModel
+            {
+                mainMenuOptions = new List<MainMenu>(),
+                subMenuOptions = new List<SubMenu>()
+            };
 
             if (_ud.IsActiveSession())
             {
@@ -39,9 +41,6 @@ namespace SERVERAPI.ViewComponents
                     .MainMenus
                     .OrderBy(m => m.SortNumber)
                     .ToList();
-
-                var hasAnimals = _ud.FarmDetails()?.HasAnimals ?? true;
-                var importsManureCompost = _ud.FarmDetails()?.ImportsManureCompost ?? true;
 
                 if (currentAction > CoreSiteActions.Home)
                 {

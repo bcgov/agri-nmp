@@ -281,20 +281,6 @@ namespace SERVERAPI.Controllers
                     .Single(m => m.SortNumber == 2);
 
                 return RedirectToAction(initialNavigation.Action, initialNavigation.Controller);
-
-                //TODO: Clean up after Menu's stable
-                //if (farmData.HasAnimals)
-                //{
-                //    return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
-                //}
-                //else if (farmData.ImportsManureCompost)
-                //{
-                //    return RedirectToAction("ManureImported", "ManureManagement");
-                //}
-                //else
-                //{
-                //    return RedirectToAction("Fields", "Fields");
-                //}
             }
             else
             {

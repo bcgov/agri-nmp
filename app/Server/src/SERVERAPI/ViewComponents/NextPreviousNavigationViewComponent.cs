@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Agri.Interfaces;
 using Agri.Models;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
@@ -12,12 +13,15 @@ namespace SERVERAPI.ViewComponents
 {
     public class NextPreviousNavigationViewComponent : ViewComponent
     {
-        private UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
 
-        public NextPreviousNavigationViewComponent(UserData ud)
+        public NextPreviousNavigationViewComponent(IAgriConfigurationRepository sd, UserData ud)
         {
+            _sd = sd;
             _ud = ud;
         }
+
         public async Task<IViewComponentResult> InvokeAsync(CoreSiteActions currentAction)
         {
             return View(await GetManureNavigation(currentAction));
@@ -25,6 +29,12 @@ namespace SERVERAPI.ViewComponents
 
         private Task<NextPreviousNavigationViewModel> GetManureNavigation(CoreSiteActions currentAction)
         {
+            var journey = _ud.FarmDetails().UserJourney;
+            var mainMenuOptions = _sd.GetJourney((int)journey)
+                .MainMenus
+                .OrderBy(m => m.SortNumber)
+                .ToList();
+
             var hasAnimals = _ud.FarmDetails()?.HasAnimals ?? true;
             var importsManureCompost = _ud.FarmDetails()?.ImportsManureCompost ?? true;
             var mnvm = new NextPreviousNavigationViewModel
@@ -49,7 +59,7 @@ namespace SERVERAPI.ViewComponents
                 }
             }
 
-            if (currentAction == CoreSiteActions.ManureGeneratedObtained )
+            if (currentAction == CoreSiteActions.ManureGeneratedObtained)
             {
                 mnvm.PreviousAction = CoreSiteActions.Farm;
                 mnvm.PreviousController = AppControllers.Farm;
@@ -57,7 +67,7 @@ namespace SERVERAPI.ViewComponents
                 {
                     mnvm.NextAction = CoreSiteActions.ManureImported;
                 }
-                else if(hasAnimals)
+                else if (hasAnimals)
                 {
                     mnvm.NextAction = CoreSiteActions.ManureStorage;
                 }
@@ -88,7 +98,7 @@ namespace SERVERAPI.ViewComponents
 
             if (currentAction == CoreSiteActions.ManureStorage)
             {
-                mnvm.PreviousAction= CoreSiteActions.ManureImported;
+                mnvm.PreviousAction = CoreSiteActions.ManureImported;
                 if (!importsManureCompost && hasAnimals)
                 {
                     mnvm.PreviousAction = CoreSiteActions.ManureGeneratedObtained;
@@ -199,14 +209,14 @@ namespace SERVERAPI.ViewComponents
 
             if (currentFieldIndex + 1 < fields.Count)
             {
-                result.NextParameters = new {nme = fields[currentFieldIndex + 1].fieldName};
+                result.NextParameters = new { nme = fields[currentFieldIndex + 1].fieldName };
             }
             else
             {
                 result.NextAction = CoreSiteActions.Report;
                 result.NextController = AppControllers.Report;
             }
-            
+
             return result;
         }
     }
