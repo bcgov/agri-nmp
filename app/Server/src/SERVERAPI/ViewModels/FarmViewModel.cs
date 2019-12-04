@@ -18,5 +18,12 @@ namespace SERVERAPI.ViewModels
         public bool UsesFertilizer { get; set; }
         public bool IsLegacyNMPReleaseVersion { get; set; }
         public string LegacyNMPMessage { get; set; }
+        public bool HasAnimals1 { get; set; }
+        public bool HasDairyCows { get; set; }
+        public bool HasBeefCows { get; set; }
+        public bool HasPoultry { get; set; }
+        public bool HasMixedLiveStock { get; set; }
+        // public bool showAnimals => HasAnimals1;
+        public bool showAnimals { get; set; }
     }
 }

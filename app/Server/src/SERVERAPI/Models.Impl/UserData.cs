@@ -106,7 +106,10 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             userData.farmDetails.farmName = fd.farmName;
             userData.farmDetails.farmRegion = fd.farmRegion;
-            userData.farmDetails.farmSubRegion = fd.farmSubRegion;
+            if(fd.HasAnimals1)
+            {
+                userData.farmDetails.farmSubRegion = fd.farmSubRegion;
+            }
             userData.farmDetails.soilTests = fd.soilTests;
             userData.farmDetails.testingMethod = fd.testingMethod;
             userData.farmDetails.manure = fd.manure;
@@ -114,6 +117,12 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.HasAnimals = fd.HasAnimals;
             userData.farmDetails.ImportsManureCompost = fd.ImportsManureCompost;
             userData.farmDetails.UsesFertilizer = fd.UsesFertilizer;
+
+            userData.farmDetails.HasAnimals1 = fd.HasAnimals1;
+            userData.farmDetails.HasDairyCows = fd.HasDairyCows;
+            userData.farmDetails.HasBeefCows = fd.HasBeefCows;
+            userData.farmDetails.HasPoultry = fd.HasPoultry;
+            userData.farmDetails.HasMixedLiveStock = fd.HasMixedLiveStock;
 
             //change the year associated with the array
             YearData yd = userData.years.FirstOrDefault();
