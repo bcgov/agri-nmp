@@ -2,7 +2,7 @@
 using Agri.Models.Farm;
 using AutoMapper;
 
-namespace Agri.Data.TestHarness
+namespace Agri.Data.Tests
 {
     public class AutoMapperProfileConfiguration : Profile
     {

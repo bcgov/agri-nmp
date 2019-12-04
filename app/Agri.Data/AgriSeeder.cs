@@ -1,8 +1,5 @@
 using Agri.Interfaces;
 using Agri.Models.Configuration;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,42 +9,69 @@ namespace Agri.Data
     {
         private readonly AgriConfigurationContext _context;
         private readonly IAgriConfigurationRepository _sd;
-        private readonly IMapper _mapper;
 
-        public AgriSeeder(AgriConfigurationContext context, IAgriConfigurationRepository sd, IMapper mapper)
+        public AgriSeeder(AgriConfigurationContext context, IAgriConfigurationRepository sd)
         {
             _context = context;
             _sd = sd;
-            _mapper = mapper;
         }
 
         public void Seed()
         {
-            if (_context.StaticDataVersions.Any())
+            if (!_context.Browsers.Any())
             {
-                return;
+                var browsers = SeedDataLoader.GetSeedJsonData<List<Browser>>(Constants.SeedDataFiles.Browsers);
+                _context.Browsers.AddRange(browsers);
+                _context.SaveChanges();
             }
 
-            var seedData = SeedDataLoader.GetSeedJsonData();
-            _sd.LoadConfigurations(seedData);
-        }
+            if (!_context.ExternalLinks.Any())
+            {
+                var links = SeedDataLoader.GetSeedJsonData<List<ExternalLink>>(Constants.SeedDataFiles.ExternalLinks);
+                _context.ExternalLinks.AddRange(links);
+                _context.SaveChanges();
+            }
 
-        public void AppliedMigrationsSeedData()
-        {
-            ////Updates
-            //if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("1_UserPrompts", StringComparison.CurrentCultureIgnoreCase)))
+            if (!_context.Locations.Any())
+            {
+                var locations = SeedDataLoader.GetSeedJsonData<List<Location>>(Constants.SeedDataFiles.Location);
+                _context.Locations.AddRange(locations);
+                _context.SaveChanges();
+            }
+
+            if (!_context.MainMenus.Any())
+            {
+                var menus = SeedDataLoader.GetSeedJsonData<List<MainMenu>>(Constants.SeedDataFiles.MainMenus);
+                _context.MainMenus.AddRange(menus);
+                _context.SaveChanges();
+            }
+
+            //if (!_context.ManageVersionUsers.Any())
             //{
-            //    var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<UserPrompt>>("1_UserPrompts");
-            //    foreach (var newUserPrompt in migrationSeedData.Data)
-            //    {
-            //        if (!_context.UserPrompts.Any(up => up.Id == newUserPrompt.Id))
-            //        {
-            //            _context.UserPrompts.Add(newUserPrompt);
-            //        }
-            //    }
-            //    _context.AppliedMigrationSeedData.Add(migrationSeedData);
+            //    var locations = SeedDataLoader.GetSeedJsonData<>(Constants.SeedDataFiles.ManageVersionUsers);
+            //    _context.Locations.AddRange(locations);
             //    _context.SaveChanges();
             //}
+
+            if (!_context.NutrientIcons.Any())
+            {
+                var icons = SeedDataLoader.GetSeedJsonData<List<NutrientIcon>>(Constants.SeedDataFiles.NutrientIcons);
+                _context.NutrientIcons.AddRange(icons);
+                _context.SaveChanges();
+            }
+
+            if (!_context.UserPrompts.Any())
+            {
+                var prompts = SeedDataLoader.GetSeedJsonData<List<UserPrompt>>(Constants.SeedDataFiles.UserPrompts);
+                _context.UserPrompts.AddRange(prompts);
+                _context.SaveChanges();
+            }
+
+            if (!_context.StaticDataVersions.Any())
+            {
+                var staticDataVersion = SeedDataLoader.GetSeedJsonData<StaticDataVersion>(Constants.SeedDataFiles.StaticDataVersion);
+                _sd.LoadConfigurations(staticDataVersion);
+            }
         }
     }
 }

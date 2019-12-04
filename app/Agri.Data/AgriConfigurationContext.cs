@@ -69,7 +69,6 @@ namespace Agri.Data
         public DbSet<UserPrompt> UserPrompts { get; set; }
         public DbSet<StaticDataVersion> StaticDataVersions { get; set; }
         public DbSet<Yield> Yields { get; set; }
-        public DbSet<AppliedMigrationSeedData> AppliedMigrationSeedData { get; set; }
         public DbSet<ManageVersionUser> ManageVersionUsers { get; set; }
 
         #endregion DbSets

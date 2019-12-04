@@ -1,4 +1,5 @@
 using Agri.Models.Security;
+using Agri.Tests.Shared;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
@@ -16,6 +17,8 @@ namespace Agri.Data.Tests
         [Fact]
         public void ArchiveConfigurationsSuccessfully()
         {
+            SeedDatabase();
+
             var user = new ManageVersionUser
             {
                 FirstName = "TestFirstName",
