@@ -215,6 +215,8 @@ namespace Agri.Data
                     table.StaticDataVersionId
                 });
 
+            modelBuilder.Entity<Journey>().ToTable("Journey");
+
             modelBuilder.Entity<LiquidFertilizerDensity>()
                 .HasKey(table => new
                 {

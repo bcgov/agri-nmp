@@ -14,7 +14,7 @@ namespace Agri.Data.Migrations
                 defaultValue: 0);
 
             migrationBuilder.CreateTable(
-                name: "Journeys",
+                name: "Journey",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -23,7 +23,7 @@ namespace Agri.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Journeys", x => x.Id);
+                    table.PrimaryKey("PK_Journey", x => x.Id);
                 });
 
             migrationBuilder.CreateIndex(
@@ -32,10 +32,10 @@ namespace Agri.Data.Migrations
                 column: "JourneyId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_MainMenus_Journeys_JourneyId",
+                name: "FK_MainMenus_Journey_JourneyId",
                 table: "MainMenus",
                 column: "JourneyId",
-                principalTable: "Journeys",
+                principalTable: "Journey",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -43,11 +43,11 @@ namespace Agri.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_MainMenus_Journeys_JourneyId",
+                name: "FK_MainMenus_Journey_JourneyId",
                 table: "MainMenus");
 
             migrationBuilder.DropTable(
-                name: "Journeys");
+                name: "Journey");
 
             migrationBuilder.DropIndex(
                 name: "IX_MainMenus_JourneyId",

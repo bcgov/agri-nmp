@@ -530,7 +530,7 @@ namespace Agri.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Journeys");
+                    b.ToTable("Journey");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.LiquidFertilizerDensity", b =>

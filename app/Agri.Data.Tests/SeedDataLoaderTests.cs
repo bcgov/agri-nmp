@@ -58,9 +58,9 @@ namespace Agri.Data.Tests
             var result = SeedDataLoader.GetSeedJsonData<List<Journey>>(Constants.SeedDataFiles.Journey);
 
             result.ShouldNotBeNull();
-            result.Count.ShouldBeGreaterThan(0);
-            result.Any(j => j.MainMenus.Count > 0).ShouldBeTrue();
-            result.Any(j => j.MainMenus.SelectMany(m => m.SubMenus).Count() > 0).ShouldBeTrue();
+            result.Count.ShouldBe(5);
+            result.SelectMany(j => j.MainMenus).Count().ShouldBe(25);
+            result.SelectMany(j => j.MainMenus).SelectMany(m => m.SubMenus).Count().ShouldBe(28);
         }
 
         [Fact]

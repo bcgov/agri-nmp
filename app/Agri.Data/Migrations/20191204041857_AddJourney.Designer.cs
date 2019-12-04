@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20191204031623_AddJourney")]
+    [Migration("20191204041857_AddJourney")]
     partial class AddJourney
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -532,7 +532,7 @@ namespace Agri.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Journeys");
+                    b.ToTable("Journey");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.LiquidFertilizerDensity", b =>
