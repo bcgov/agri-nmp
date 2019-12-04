@@ -1625,13 +1625,6 @@ namespace Agri.Data
             return subMenuoptions;
         }
 
-        public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
-            string parentNode, string parentfield)
-        {
-            //TODO: Will be depricated
-            throw new NotImplementedException();
-        }
-
         public ManureImportedDefault GetManureImportedDefault()
         {
             if (_manureImportedDefault == null)

@@ -11,8 +11,10 @@ namespace SERVERAPI.ViewModels
     public class FarmViewModelBase
     {
         public List<SelectListItem> regOptions { get; set; }
+
         [Display(Name = "Region")]
         public int? selRegOption { get; set; }
+
         public List<SelectListItem> subRegionOptions { get; set; }
         public int? selSubRegOption { get; set; }
         public bool showSubRegion { get; set; }

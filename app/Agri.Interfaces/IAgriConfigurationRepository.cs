@@ -303,10 +303,6 @@ namespace Agri.Interfaces
 
         List<SubMenu> GetSubMenus(int mainMenuId);
 
-        [Obsolete]
-        List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
-            string parentNode, string parentfield);
-
         ManureImportedDefault GetManureImportedDefault();
 
         List<SolidMaterialsConversionFactor> GetSolidMaterialsConversionFactors();

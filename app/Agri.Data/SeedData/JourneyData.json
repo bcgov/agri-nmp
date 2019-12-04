@@ -1,6 +1,18 @@
 [
   {
     "Id": 1,
+    "Name": "Initial",
+    "MainMenus": [
+      {
+        "Name": "Farm Information",
+        "Controller": "Farm",
+        "Action": "Farm",
+        "SortNumber": 1
+      }
+    ]
+  },
+  {
+    "Id": 2,
     "Name": "Dairy",
     "MainMenus": [
       {
@@ -76,7 +88,7 @@
     ]
   },
   {
-    "Id": 2,
+    "Id": 3,
     "Name": "Ranch",
     "MainMenus": [
       {
@@ -152,7 +164,7 @@
     ]
   },
   {
-    "Id": 3,
+    "Id": 4,
     "Name": "Poultry",
     "MainMenus": [
       {
@@ -222,7 +234,7 @@
     ]
   },
   {
-    "Id": 4,
+    "Id": 5,
     "Name": "Crops",
     "MainMenus": [
       {
@@ -286,7 +298,7 @@
     ]
   },
   {
-    "Id": 5,
+    "Id": 6,
     "Name": "Mixed",
     "MainMenus": [
       {

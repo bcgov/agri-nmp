@@ -15,6 +15,7 @@
         public bool? SoilTests { get; set; }
         public string TestingMethod { get; set; }
         public bool? Manure { get; set; }
+        public bool HasSelectedFarmType { get; set; }
         public bool HasAnimals { get; set; }
         public bool ImportsManureCompost { get; set; }
         public bool UsesFertilizer { get; set; }
@@ -31,31 +32,38 @@
         {
             get
             {
-                var userJourney = UserJourney.Crops;
-                if (HasAnimals1)
+                var userJourney = UserJourney.Initial;
+                if (HasSelectedFarmType)
                 {
-                    var typeCount = 0;
-                    if (HasDairyCows)
+                    userJourney = UserJourney.Crops;
+                    if (HasAnimals1)
                     {
-                        typeCount += 1;
-                        userJourney = UserJourney.Dairy;
-                    }
-                    if (HasBeefCows)
-                    {
-                        typeCount += 1;
-                        userJourney = UserJourney.Ranch;
-                    }
-                    if (HasPoultry)
-                    {
-                        typeCount += 1;
-                        userJourney = UserJourney.Poultry;
-                    }
-                    if (typeCount > 1)
-                    {
-                        userJourney = UserJourney.Mixed;
+                        if (HasMixedLiveStock)
+                        {
+                            return UserJourney.Mixed;
+                        }
+                        var typeCount = 0;
+                        if (HasDairyCows)
+                        {
+                            typeCount += 1;
+                            userJourney = UserJourney.Dairy;
+                        }
+                        if (HasBeefCows)
+                        {
+                            typeCount += 1;
+                            userJourney = UserJourney.Ranch;
+                        }
+                        if (HasPoultry)
+                        {
+                            typeCount += 1;
+                            userJourney = UserJourney.Poultry;
+                        }
+                        if (typeCount > 1)
+                        {
+                            userJourney = UserJourney.Mixed;
+                        }
                     }
                 }
-
                 return userJourney;
             }
         }

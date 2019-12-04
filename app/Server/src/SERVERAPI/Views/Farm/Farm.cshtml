@@ -40,14 +40,14 @@
                         }
                         <div class="row">
                             <div class="col-sm-3">
-                                <label asp-for="year">Year</label>
-                                <input class="form-control" asp-for="year" id="year" type="text" />
-                                <span asp-validation-for="year"></span>
+                                <label asp-for="Year">Year</label>
+                                <input class="form-control" asp-for="Year" id="year" type="text" />
+                                <span asp-validation-for="Year"></span>
                             </div>
                             <div class="col-sm-6">
-                                <label asp-for="farmName">Farm name</label>
-                                <input class="form-control" asp-for="farmName" id="farmName" name="farmName" type="text">
-                                <span asp-validation-for="farmName"></span>
+                                <label asp-for="FarmName">Farm name</label>
+                                <input class="form-control" asp-for="FarmName" id="farmName" name="farmName" type="text">
+                                <span asp-validation-for="FarmName"></span>
                             </div>
                         </div>
                         <div class="row" style="margin-bottom: 0px;">
@@ -58,14 +58,14 @@
                             </div>
                             <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals1" style="margin-bottom: 0px;">
                                 <label style="padding-right: 20px">
-                                    <input asp-for="HasAnimals1" type="radio" value="true" id="rbIsHasAnimals1Yes" onchange="GetsAnimalsChanged()"/> Yes
+                                    <input asp-for="HasAnimals1" type="radio" value="true" id="rbIsHasAnimals1Yes" onchange="GetsAnimalsChanged()" /> Yes
                                 </label>
                                 <label>
-                                    <input asp-for="HasAnimals1" type="radio" value="false" id="rbIsHasAnimals1No"  onchange="GetsAnimalsChanged()"/> No
+                                    <input asp-for="HasAnimals1" type="radio" value="false" id="rbIsHasAnimals1No" onchange="GetsAnimalsChanged()" /> No
                                 </label>
                             </div>
                         </div>
-                        @if (Model.showAnimals)
+                        @if (Model.ShowAnimals)
                         {
                             <div class="row" style="margin-bottom: 0px;margin-left:20px">
                                 <div class="col-sm-4">
@@ -75,10 +75,10 @@
                                 </div>
                                 <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasDairyCows" style="margin-bottom: 0px;">
                                     <label style="padding-right: 20px">
-                                        <input asp-for="HasDairyCows" type="radio" value="true" id="rbIsHasDairyCowsYes"/> Yes
+                                        <input asp-for="HasDairyCows" type="radio" value="true" id="rbIsHasDairyCowsYes" /> Yes
                                     </label>
                                     <label>
-                                        <input asp-for="HasDairyCows" type="radio" value="false" id="rbIsHasDairyCowsNo"/> No
+                                        <input asp-for="HasDairyCows" type="radio" value="false" id="rbIsHasDairyCowsNo" /> No
                                     </label>
                                 </div>
                             </div>
@@ -205,9 +205,9 @@
                     <button class="btn btn-primary" type="submit" title="Next" aria-label="Next" onclick="">Next</button>
                 </div>
             </div>
-            @Html.HiddenFor(x => x.currYear)
+            @Html.HiddenFor(x => x.CurrentYear)
             @Html.HiddenFor(x => x.showSubRegion)
-            @Html.HiddenFor(x => x.showAnimals)
+            @Html.HiddenFor(x => x.ShowAnimals)
             @Html.HiddenFor(x => x.multipleSubRegion)
             @Html.HiddenFor(x => x.buttonPressed)
         </form>

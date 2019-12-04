@@ -85,11 +85,12 @@ namespace Agri.Models
 
     public enum UserJourney : int
     {
-        Dairy = 1,
-        Ranch = 2,
-        Poultry = 3,
-        Crops = 4,
-        Mixed = 5
+        Initial = 1,
+        Dairy = 2,
+        Ranch = 3,
+        Poultry = 4,
+        Crops = 5,
+        Mixed = 6
     }
 
     public enum ManureMaterialType

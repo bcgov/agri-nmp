@@ -28,21 +28,5 @@ namespace Agri.Models.Configuration
             }
             set { _elementId = value; }
         }
-
-        private string _greyOutClass;
-
-        [NotMapped]
-        public string GreyOutClass
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(_greyOutClass))
-                {
-                    return _greyOutClass;
-                }
-                return string.Empty;
-            }
-            set { _greyOutClass = value; }
-        }
     }
 }

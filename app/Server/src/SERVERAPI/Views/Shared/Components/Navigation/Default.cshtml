@@ -15,7 +15,7 @@
                 }
                 else
                 {
-                    <a href="@Url.Action("Index", "Home")"  Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;">Home</a>
+                    <a href="@Url.Action("Index", "Home")" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;">Home</a>
                 }
             </li>
             @foreach (var item in Model.mainMenuOptions)
@@ -27,14 +27,14 @@
                     redirectFunction = $"Intercept('{url}')";
                 }
                 <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
-                    <a id="@item.ElementId" href='#' onclick="@redirectFunction" class="@item.GreyOutClass">
+                    <a id="@item.ElementId" href='#' onclick="@redirectFunction">
                         @item.Name
                     </a>
                 </li>
             }
-            @if (currentAction != CoreSiteActions.Farm && 
-                 currentAction != CoreSiteActions.Report && 
-                 currentAction != CoreSiteActions.SessionExpired)
+            @if (currentAction != CoreSiteActions.Farm &&
+               currentAction != CoreSiteActions.Report &&
+               currentAction != CoreSiteActions.SessionExpired)
             {
                 <li class="continue-link">
                     <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
@@ -52,7 +52,7 @@
                 @foreach (var item in Model.subMenuOptions)
                 {
                     <li id="@item.Controller@item.Action@item.Id">
-                        <a id="@item.ElementId" href='@Url.Action(@item.Action, @item.Controller)' class="@item.GreyOutClass">
+                        <a id="@item.ElementId" href='@Url.Action(@item.Action, @item.Controller)'>
                             <span>@item.Name</span>
                         </a>
                     </li>
