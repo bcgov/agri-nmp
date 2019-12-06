@@ -34,15 +34,6 @@ namespace Agri.Data.Tests
             result.Count.ShouldBeGreaterThan(0);
         }
 
-        //[Fact]
-        //public void GetSeedJsonData_Should_Load_Journey_Json()
-        //{
-        //    var result = SeedDataLoader.GetSeedJsonData<List<Journey>>(Constants.SeedDataFiles.Journey);
-
-        //    result.ShouldNotBeNull();
-        //    result.Count.ShouldBeGreaterThan(0);
-        //}
-
         [Fact]
         public void GetSeedJsonData_Should_Load_Locations_Json()
         {
@@ -58,42 +49,15 @@ namespace Agri.Data.Tests
             var result = SeedDataLoader.GetSeedJsonData<List<Journey>>(Constants.SeedDataFiles.Journey);
 
             result.ShouldNotBeNull();
-            result.Count.ShouldBe(5);
-            result.SelectMany(j => j.MainMenus).Count().ShouldBe(25);
+            result.Count.ShouldBe(6);
+            result.SelectMany(j => j.MainMenus).Count().ShouldBe(26);
             result.SelectMany(j => j.MainMenus).SelectMany(m => m.SubMenus).Count().ShouldBe(28);
         }
 
         [Fact]
-        public void GetSeedJsonData_Should_Load_MainMenus_Json()
-        {
-            var result = SeedDataLoader.GetSeedJsonData<List<MainMenu>>(Constants.SeedDataFiles.MainMenus);
-
-            result.ShouldNotBeNull();
-            result.Count.ShouldBeGreaterThan(0);
-            result.Any(m => m.SubMenus.Count > 0).ShouldBeTrue();
-        }
-
-        //[Fact]
-        //public void GetSeedJsonData_Should_Load_MainMenus_Json()
-        //{
-        //    var result = SeedDataLoader.GetSeedJsonData<List<MainMenu>>(Constants.SeedDataFiles.ManageVersionUsers);
-
-        //    result.ShouldNotBeNull();
-        //    result.Count.ShouldBeGreaterThan(0);
-        //}
-        [Fact]
         public void GetSeedJsonData_Should_Load_NutrientIcons_Json()
         {
             var result = SeedDataLoader.GetSeedJsonData<List<NutrientIcon>>(Constants.SeedDataFiles.NutrientIcons);
-
-            result.ShouldNotBeNull();
-            result.Count.ShouldBeGreaterThan(0);
-        }
-
-        [Fact]
-        public void GetSeedJsonData_Should_Load_SubMenus_Json()
-        {
-            var result = SeedDataLoader.GetSeedJsonData<List<SubMenu>>(Constants.SeedDataFiles.SubMenus);
 
             result.ShouldNotBeNull();
             result.Count.ShouldBeGreaterThan(0);

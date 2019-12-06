@@ -73,7 +73,8 @@ namespace SERVERAPI
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AppSettings>(Configuration);
+            //services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<AgriSeeder>();
 
             //// allow for large files to be uploaded
@@ -192,7 +193,7 @@ namespace SERVERAPI
             {
                 using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
                 {
-                    if (options.Value.NMPRefreshDatabase && _hostingEnv.IsDevelopment())
+                    if (options.Value.RefreshDatabase && _hostingEnv.IsDevelopment())
                     {
                         context.Database.EnsureDeleted();
                     }
