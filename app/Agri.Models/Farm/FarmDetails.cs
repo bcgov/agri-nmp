@@ -2,12 +2,6 @@
 {
     public class FarmDetails
     {
-        public FarmDetails()
-        {
-            HasAnimals = true;
-            ImportsManureCompost = true;
-        }
-
         public string Year { get; set; }
         public string FarmName { get; set; }
         public int? FarmRegion { get; set; }
@@ -16,13 +10,8 @@
         public string TestingMethod { get; set; }
         public bool? Manure { get; set; }
         public bool HasSelectedFarmType { get; set; }
-        public bool HasAnimals { get; set; }
         public bool ImportsManureCompost { get; set; }
-        public bool UsesFertilizer { get; set; }
-
-        //TODO: Remove HasAnimals1 when Menu has been revised
-        public bool HasAnimals1 { get; set; }
-
+        public bool HasAnimals { get; set; }
         public bool HasDairyCows { get; set; }
         public bool HasBeefCows { get; set; }
         public bool HasPoultry { get; set; }
@@ -36,7 +25,7 @@
                 if (HasSelectedFarmType)
                 {
                     userJourney = UserJourney.Crops;
-                    if (HasAnimals1)
+                    if (HasAnimals)
                     {
                         if (HasMixedLiveStock)
                         {

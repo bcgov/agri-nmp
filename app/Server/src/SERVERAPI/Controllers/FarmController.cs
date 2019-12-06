@@ -63,12 +63,12 @@ namespace SERVERAPI.Controllers
 
             if (fvm.selRegOption.HasValue)
             {
-                if (farmData.HasAnimals1)
+                if (farmData.HasAnimals)
                 {
                     fvm = SetSubRegions(fvm);
                 }
 
-                if (fvm.IsLegacyNMPReleaseVersion && fvm.selSubRegOption.HasValue && farmData.HasAnimals1)
+                if (fvm.IsLegacyNMPReleaseVersion && fvm.selSubRegOption.HasValue && farmData.HasAnimals)
                 {
                     _ud.UpdateFarmDetailsSubRegion(fvm.selSubRegOption.Value);
                 }
@@ -79,16 +79,12 @@ namespace SERVERAPI.Controllers
             }
 
             fvm.HasAnimals = farmData.HasAnimals;
-            fvm.ImportsManureCompost = farmData.ImportsManureCompost;
-            fvm.UsesFertilizer = farmData.UsesFertilizer;
-
-            fvm.HasAnimals1 = farmData.HasAnimals1;
             fvm.HasDairyCows = farmData.HasDairyCows;
             fvm.HasBeefCows = farmData.HasBeefCows;
             fvm.HasPoultry = farmData.HasPoultry;
             fvm.HasMixedLiveStock = farmData.HasMixedLiveStock;
 
-            if (fvm.HasAnimals1)
+            if (fvm.HasAnimals)
             {
                 fvm.ShowAnimals = true;
             }
@@ -167,7 +163,7 @@ namespace SERVERAPI.Controllers
                 ModelState.Clear();
                 fvm.buttonPressed = "";
 
-                if (fvm.HasAnimals1)
+                if (fvm.HasAnimals)
                 {
                     fvm.ShowAnimals = true;
                     if (fvm.selRegOption.HasValue)
@@ -183,7 +179,7 @@ namespace SERVERAPI.Controllers
 
                 var farmData = _ud.FarmDetails();
                 farmData.HasSelectedFarmType = fvm.HasSelectedFarmType;
-                farmData.HasAnimals1 = fvm.HasAnimals1;
+                farmData.HasAnimals = fvm.HasAnimals;
                 fvm.HasDairyCows = farmData.HasDairyCows;
                 fvm.HasBeefCows = farmData.HasBeefCows;
                 fvm.HasPoultry = farmData.HasPoultry;
@@ -257,12 +253,8 @@ namespace SERVERAPI.Controllers
                     farmData.FarmSubRegion = fvm.selSubRegOption;
                 }
 
-                farmData.HasAnimals = fvm.HasAnimals;
-                farmData.ImportsManureCompost = fvm.ImportsManureCompost;
-                farmData.UsesFertilizer = fvm.UsesFertilizer;
-
                 farmData.HasSelectedFarmType = fvm.HasSelectedFarmType;
-                farmData.HasAnimals1 = fvm.HasAnimals1;
+                farmData.HasAnimals = fvm.HasAnimals;
                 farmData.HasDairyCows = fvm.HasDairyCows;
                 farmData.HasBeefCows = fvm.HasBeefCows;
                 farmData.HasPoultry = fvm.HasPoultry;
@@ -332,7 +324,7 @@ namespace SERVERAPI.Controllers
             };
 
             fvm.selRegOption = farmData.FarmRegion;
-            if (farmData.HasAnimals1)
+            if (farmData.HasAnimals)
             {
                 fvm.selSubRegOption = farmData.FarmSubRegion;
                 fvm = SetSubRegions(fvm);

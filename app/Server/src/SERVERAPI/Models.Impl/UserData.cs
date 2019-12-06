@@ -107,7 +107,7 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             userData.farmDetails.FarmName = fd.FarmName;
             userData.farmDetails.FarmRegion = fd.FarmRegion;
-            if (fd.HasAnimals1)
+            if (fd.HasAnimals)
             {
                 userData.farmDetails.FarmSubRegion = fd.FarmSubRegion;
             }
@@ -115,12 +115,9 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.TestingMethod = fd.TestingMethod;
             userData.farmDetails.Manure = fd.Manure;
             userData.farmDetails.Year = fd.Year;
-            userData.farmDetails.HasAnimals = fd.HasAnimals;
-            userData.farmDetails.ImportsManureCompost = fd.ImportsManureCompost;
-            userData.farmDetails.UsesFertilizer = fd.UsesFertilizer;
 
             userData.farmDetails.HasSelectedFarmType = fd.HasSelectedFarmType;
-            userData.farmDetails.HasAnimals1 = fd.HasAnimals1;
+            userData.farmDetails.HasAnimals = fd.HasAnimals;
             userData.farmDetails.HasDairyCows = fd.HasDairyCows;
             userData.farmDetails.HasBeefCows = fd.HasBeefCows;
             userData.farmDetails.HasPoultry = fd.HasPoultry;
