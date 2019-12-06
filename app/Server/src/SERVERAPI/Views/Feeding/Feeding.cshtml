@@ -1,7 +1,34 @@
-﻿
+﻿@using Agri.Models
+
 @{
     ViewData["Title"] = "Feeding";
 }
 
 <h2>Feeding</h2>
 
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<br />
+<br />
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="Farm" asp-action="Farm" method="post" id="modForm">
+            <div id="fields">
+                @*@await Component.InvokeAsync("Feeding")*@
+            </div>
+            <div id="next-previous-navigation">
+                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Feeding })
+            </div>
+        </form>
+        <!-- PAGE CONTENT -->
+    </div>
+</div>
+
+<!-- /BODY CONTENT -->
+
+@section Scripts {
+}

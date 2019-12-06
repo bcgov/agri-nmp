@@ -16,7 +16,7 @@ namespace Agri.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
@@ -642,7 +642,17 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("NextAction");
+
+                    b.Property<string>("NextController");
+
+                    b.Property<string>("PreviousAction");
+
+                    b.Property<string>("PreviousController");
+
                     b.Property<int>("SortNumber");
+
+                    b.Property<bool>("UseJavaScriptInterceptMethod");
 
                     b.HasKey("Id");
 
@@ -1274,7 +1284,17 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("NextAction");
+
+                    b.Property<string>("NextController");
+
+                    b.Property<string>("PreviousAction");
+
+                    b.Property<string>("PreviousController");
+
                     b.Property<int>("SortNumber");
+
+                    b.Property<bool>("UseJavaScriptInterceptMethod");
 
                     b.HasKey("Id");
 

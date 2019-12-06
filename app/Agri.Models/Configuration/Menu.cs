@@ -12,6 +12,12 @@ namespace Agri.Models.Configuration
         public string Controller { get; set; }
         public string Action { get; set; }
         public int SortNumber { get; set; }
+        public bool UseJavaScriptInterceptMethod { get; set; }
+
+        public string PreviousController { get; set; }
+        public string PreviousAction { get; set; }
+        public string NextController { get; set; }
+        public string NextAction { get; set; }
 
         private string _elementId;
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Agri.Interfaces;
 using Agri.Models;
+using Agri.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
@@ -24,10 +25,10 @@ namespace SERVERAPI.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(CoreSiteActions currentAction)
         {
-            return View(await GetManureNavigation(currentAction));
+            return View(await GetNavigation(currentAction));
         }
 
-        private Task<NextPreviousNavigationViewModel> GetManureNavigation(CoreSiteActions currentAction)
+        private Task<NextPreviousNavigationViewModel> GetNavigation(CoreSiteActions currentAction)
         {
             var journey = _ud.FarmDetails().UserJourney;
             var mainMenuOptions = _sd.GetJourney((int)journey)
@@ -35,131 +36,26 @@ namespace SERVERAPI.ViewComponents
                 .OrderBy(m => m.SortNumber)
                 .ToList();
 
-            var hasAnimals = _ud.FarmDetails()?.HasAnimals ?? true;
-            var importsManureCompost = _ud.FarmDetails()?.ImportsManureCompost ?? true;
+            var currentMainMenuItem = mainMenuOptions
+                    .Single(m => m.IsCurrentMainMenu(currentAction) ||
+                                    m.SubMenus.Any(sm => sm.IsSubMenuCurrent(currentAction)));
+
+            var currentMenuItem = currentMainMenuItem.SubMenus.Any() ?
+                currentMainMenuItem.SubMenus.Single(s => s.IsSubMenuCurrent(currentAction)) as Menu :
+                currentMainMenuItem as Menu;
+
             var mnvm = new NextPreviousNavigationViewModel
             {
-                UseJSInterceptMethod = false,
-                PreviousController = AppControllers.ManureManagement,
-                NextController = AppControllers.ManureManagement
+                UseJSInterceptMethod = currentMenuItem.UseJavaScriptInterceptMethod,
+                PreviousController = EnumHelper<AppControllers>.Parse(currentMenuItem.PreviousController),
+                PreviousAction = EnumHelper<CoreSiteActions>.Parse(currentMenuItem.PreviousAction),
+                NextController = EnumHelper<AppControllers>.Parse(currentMenuItem.NextController),
+                NextAction = EnumHelper<CoreSiteActions>.Parse(currentMenuItem.NextAction)
             };
-
-            if (currentAction == CoreSiteActions.Farm)
-            {
-                mnvm.NextAction = CoreSiteActions.ManureGeneratedObtained;
-                if (!hasAnimals)
-                {
-                    mnvm.NextAction = CoreSiteActions.ManureImported;
-                }
-
-                if (!importsManureCompost)
-                {
-                    mnvm.NextAction = CoreSiteActions.Fields;
-                    mnvm.NextController = AppControllers.Fields;
-                }
-            }
-
-            if (currentAction == CoreSiteActions.ManureGeneratedObtained)
-            {
-                mnvm.PreviousAction = CoreSiteActions.Farm;
-                mnvm.PreviousController = AppControllers.Farm;
-                if (importsManureCompost)
-                {
-                    mnvm.NextAction = CoreSiteActions.ManureImported;
-                }
-                else if (hasAnimals)
-                {
-                    mnvm.NextAction = CoreSiteActions.ManureStorage;
-                }
-                else
-                {
-                    mnvm.NextAction = CoreSiteActions.Fields;
-                    mnvm.NextController = AppControllers.Fields;
-                }
-            }
-
-            if (currentAction == CoreSiteActions.ManureImported)
-            {
-                mnvm.PreviousAction = CoreSiteActions.ManureGeneratedObtained;
-
-                if (!hasAnimals)
-                {
-                    //Skip Previous Generated
-                    mnvm.PreviousAction = CoreSiteActions.Farm;
-                    mnvm.PreviousController = AppControllers.Farm;
-                }
-                mnvm.NextAction = CoreSiteActions.ManureStorage;
-                if (!hasAnimals && !importsManureCompost)
-                {
-                    mnvm.NextAction = CoreSiteActions.Fields;
-                    mnvm.NextController = AppControllers.Fields;
-                }
-            }
-
-            if (currentAction == CoreSiteActions.ManureStorage)
-            {
-                mnvm.PreviousAction = CoreSiteActions.ManureImported;
-                if (!importsManureCompost && hasAnimals)
-                {
-                    mnvm.PreviousAction = CoreSiteActions.ManureGeneratedObtained;
-                }
-                else
-                {
-                    mnvm.PreviousAction = CoreSiteActions.Farm;
-                    mnvm.PreviousController = AppControllers.Farm;
-                }
-
-                if (hasAnimals || importsManureCompost)
-                {
-                    mnvm.NextAction = CoreSiteActions.ManureNutrientAnalysis;
-                }
-                else
-                {
-                    mnvm.NextAction = CoreSiteActions.Fields;
-                    mnvm.NextController = AppControllers.Fields;
-                }
-            }
-
-            if (currentAction == CoreSiteActions.ManureNutrientAnalysis)
-            {
-                mnvm.PreviousAction = CoreSiteActions.ManureStorage;
-                if (!hasAnimals && !importsManureCompost)
-                {
-                    mnvm.PreviousAction = CoreSiteActions.Farm;
-                    mnvm.PreviousController = AppControllers.Farm;
-                }
-
-                mnvm.NextAction = CoreSiteActions.Fields;
-                mnvm.NextController = AppControllers.Fields;
-            }
-
-            if (currentAction == CoreSiteActions.Fields)
-            {
-                if (hasAnimals || importsManureCompost)
-                {
-                    mnvm.PreviousAction = CoreSiteActions.ManureNutrientAnalysis;
-                }
-                else
-                {
-                    mnvm.PreviousAction = CoreSiteActions.Farm;
-                    mnvm.PreviousController = AppControllers.Farm;
-                }
-                mnvm.NextAction = CoreSiteActions.SoilTest;
-                mnvm.NextController = AppControllers.Soil;
-            }
-
-            if (currentAction == CoreSiteActions.SoilTest)
-            {
-                mnvm.UseJSInterceptMethod = true;
-                mnvm.PreviousAction = CoreSiteActions.Fields;
-                mnvm.PreviousController = AppControllers.Fields;
-                mnvm.NextAction = CoreSiteActions.Calculate;
-                mnvm.NextController = AppControllers.Nutrients;
-            }
 
             if (currentAction == CoreSiteActions.Calculate)
             {
-                ProcessCalculateNavigation(mnvm);
+                ProcessCalculateNavigation(currentMenuItem, mnvm);
             }
 
             mnvm.ViewPreviousUrl = Url.Action(mnvm.ViewPreviousAction,
@@ -173,7 +69,7 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(mnvm);
         }
 
-        private NextPreviousNavigationViewModel ProcessCalculateNavigation(NextPreviousNavigationViewModel mnvm)
+        private NextPreviousNavigationViewModel ProcessCalculateNavigation(Menu currentMenuItem, NextPreviousNavigationViewModel mnvm)
         {
             var result = mnvm;
             var fields = _ud.GetFields();
@@ -181,10 +77,6 @@ namespace SERVERAPI.ViewComponents
 
             if (fields.Count == 0)
             {
-                result.PreviousAction = CoreSiteActions.SoilTest;
-                result.PreviousController = AppControllers.Soil;
-                result.NextAction = CoreSiteActions.Report;
-                result.NextController = AppControllers.Report;
                 return result;
             }
 
@@ -199,8 +91,8 @@ namespace SERVERAPI.ViewComponents
 
             if (currentFieldIndex == 0)
             {
-                result.PreviousAction = CoreSiteActions.SoilTest;
-                result.PreviousController = AppControllers.Soil;
+                result.PreviousAction = EnumHelper<CoreSiteActions>.Parse(currentMenuItem.PreviousAction);
+                result.PreviousController = EnumHelper<AppControllers>.Parse(currentMenuItem.PreviousController);
             }
             else
             {
@@ -213,8 +105,8 @@ namespace SERVERAPI.ViewComponents
             }
             else
             {
-                result.NextAction = CoreSiteActions.Report;
-                result.NextController = AppControllers.Report;
+                result.NextAction = EnumHelper<CoreSiteActions>.Parse(currentMenuItem.NextAction);
+                result.NextController = EnumHelper<AppControllers>.Parse(currentMenuItem.NextController);
             }
 
             return result;

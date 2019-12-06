@@ -26,5 +26,10 @@ namespace Agri.Models.Configuration
             var isCurrent = Action.Equals(currentAction, StringComparison.CurrentCulture);
             return isCurrent;
         }
+
+        public bool IsCurrentMainMenu(CoreSiteActions currentAction)
+        {
+            return IsCurrentMainMenu(currentAction.ToString());
+        }
     }
 }
