@@ -52,16 +52,16 @@
                         </div>
                         <div class="row" style="margin-bottom: 0px;">
                             <div class="col-sm-4">
-                                <span id="labelHasAnimals1" style="font-weight: bold">
+                                <span id="labelHasAnimals" style="font-weight: bold">
                                     I have animals
                                 </span>
                             </div>
-                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals1" style="margin-bottom: 0px;">
+                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals" style="margin-bottom: 0px;">
                                 <label style="padding-right: 20px">
-                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimals1Yes" onchange="GetsAnimalsChanged()" /> Yes
+                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes" onchange="GetsAnimalsChanged()" /> Yes
                                 </label>
                                 <label>
-                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimals1No" onchange="GetsAnimalsChanged()" /> No
+                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo" onchange="GetsAnimalsChanged()" /> No
                                 </label>
                             </div>
                         </div>
@@ -75,10 +75,10 @@
                                 </div>
                                 <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasDairyCows" style="margin-bottom: 0px;">
                                     <label style="padding-right: 20px">
-                                        <input asp-for="HasDairyCows" type="radio" value="true" id="rbIsHasDairyCowsYes" /> Yes
+                                        <input asp-for="HasDairyCows" type="radio" value="true" id="rbIsHasDairyCowsYes" onchange="GetsAnimalsChanged()" /> Yes
                                     </label>
                                     <label>
-                                        <input asp-for="HasDairyCows" type="radio" value="false" id="rbIsHasDairyCowsNo" /> No
+                                        <input asp-for="HasDairyCows" type="radio" value="false" id="rbIsHasDairyCowsNo" onchange="GetsAnimalsChanged()" /> No
                                     </label>
                                 </div>
                             </div>
@@ -90,10 +90,10 @@
                                 </div>
                                 <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasBeefCows" style="margin-bottom: 0px;">
                                     <label style="padding-right: 20px">
-                                        <input asp-for="HasBeefCows" type="radio" value="true" id="rbIsHasBeefCowsYes" /> Yes
+                                        <input asp-for="HasBeefCows" type="radio" value="true" id="rbIsHasBeefCowsYes" onchange="GetsAnimalsChanged()" /> Yes
                                     </label>
                                     <label>
-                                        <input asp-for="HasBeefCows" type="radio" value="false" id="rbIsHasBeefCowsNo" /> No
+                                        <input asp-for="HasBeefCows" type="radio" value="false" id="rbIsHasBeefCowsNo" onchange="GetsAnimalsChanged()" /> No
                                     </label>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@
                                 </div>
                                 <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasPoultry" style="margin-bottom: 0px;">
                                     <label style="padding-right: 20px">
-                                        <input asp-for="HasPoultry" type="radio" value="true" id="rbIsHasPoultryYes" /> Yes
+                                        <input asp-for="HasPoultry" type="radio" value="true" id="rbIsHasPoultryYes" onchange="GetsAnimalsChanged()" /> Yes
                                     </label>
                                     <label>
                                         <input asp-for="HasPoultry" type="radio" value="false" id="rbIsHasPoultryNo" /> No
@@ -120,10 +120,10 @@
                                 </div>
                                 <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasMixedLiveStock" style="margin-bottom: 0px;">
                                     <label style="padding-right: 20px">
-                                        <input asp-for="HasMixedLiveStock" type="radio" value="true" id="rbIsHasMixedLiveStockYes" /> Yes
+                                        <input asp-for="HasMixedLiveStock" type="radio" value="true" id="rbIsHasMixedLiveStockYes" onchange="GetsAnimalsChanged()" /> Yes
                                     </label>
                                     <label>
-                                        <input asp-for="HasMixedLiveStock" type="radio" value="false" id="rbIsHasMixedLiveStockNo" /> No
+                                        <input asp-for="HasMixedLiveStock" type="radio" value="false" id="rbIsHasMixedLiveStockNo" onchange="GetsAnimalsChanged()" /> No
                                     </label>
                                 </div>
                             </div>

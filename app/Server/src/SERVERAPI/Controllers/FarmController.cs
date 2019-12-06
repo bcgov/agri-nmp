@@ -180,10 +180,10 @@ namespace SERVERAPI.Controllers
                 var farmData = _ud.FarmDetails();
                 farmData.HasSelectedFarmType = fvm.HasSelectedFarmType;
                 farmData.HasAnimals = fvm.HasAnimals;
-                fvm.HasDairyCows = farmData.HasDairyCows;
-                fvm.HasBeefCows = farmData.HasBeefCows;
-                fvm.HasPoultry = farmData.HasPoultry;
-                fvm.HasMixedLiveStock = farmData.HasMixedLiveStock;
+                farmData.HasDairyCows = fvm.HasDairyCows;
+                farmData.HasBeefCows = fvm.HasBeefCows;
+                farmData.HasPoultry = fvm.HasPoultry;
+                farmData.HasMixedLiveStock = fvm.HasMixedLiveStock;
                 _ud.UpdateFarmDetails(farmData);
 
                 return View(fvm);
