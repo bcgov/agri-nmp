@@ -1795,12 +1795,9 @@ namespace Agri.Data
                     new StaticDataVersion
                     {
                         Comments = "Initial version migrated from Legacy StaticData.json file",
-                        CreatedDateTime = new DateTime(2018, 10, 1),
+                        CreatedDateTime = DateTime.Today,
                         CreatedBy = "System"
                     };
-                _context.StaticDataVersions.Add(_currentStaticDataVersion);
-
-                _context.SaveChanges();
             }
 
             return _currentStaticDataVersion;
