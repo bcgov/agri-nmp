@@ -193,7 +193,10 @@ namespace SERVERAPI
             {
                 using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
                 {
-                    if (options.Value.RefreshDatabase && _hostingEnv.IsDevelopment())
+                    var refreshDatabase = Environment.GetEnvironmentVariable("REFRESH_DATABASE");
+
+                    if ((!string.IsNullOrEmpty(refreshDatabase) && refreshDatabase.ToLower() == "true") ||
+                        (options.Value.RefreshDatabase && _hostingEnv.IsDevelopment()))
                     {
                         context.Database.EnsureDeleted();
                     }
