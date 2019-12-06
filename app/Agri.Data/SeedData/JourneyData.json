@@ -131,14 +131,14 @@
       },
       {
         "Name": "Animals and Manure",
-        "Controller": "ManureManagement",
-        "Action": "ManureGeneratedObtained",
+        "Controller": "Animals",
+        "Action": "AddAnimals",
         "SortNumber": 2,
         "SubMenus": [
           {
-            "Name": "Animals",
-            "Controller": "ManureManagement",
-            "Action": "ManureGeneratedObtained",
+            "Name": "Add Animals",
+            "Controller": "Animals",
+            "Action": "AddAnimals",
             "PreviousController": "Farm",
             "PreviousAction": "Farm",
             "NextController": "ManureManagement",
