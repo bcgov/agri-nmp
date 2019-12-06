@@ -487,7 +487,7 @@ namespace SERVERAPI.Controllers
                 {
                     if (id.ToString() == nm.manureId)
                     {
-                        int regionid = _ud.FarmDetails().farmRegion.Value;
+                        int regionid = _ud.FarmDetails().FarmRegion.Value;
                         Region region = _sd.GetRegion(regionid);
                         nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(nm.manureId), region.LocationId);
 

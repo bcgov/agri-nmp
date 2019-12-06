@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{3B37712D-31DA-4EBE-9C81-5A9129389E51}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "..\Common\src\Common\Common.csproj", "{625AAF4B-2E78-4D06-BB62-CF53A97223AD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SERVERAPI", "src\SERVERAPI\SERVERAPI.csproj", "{02F54D73-717B-4D30-9939-C6901C29A56D}"
@@ -22,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{834B1FF4
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agri.Tests.Shared", "..\Agri.Tests.Shared\Agri.Tests.Shared.csproj", "{BA22E1FF-EE9D-4254-A75A-7B51FDEF7BE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agri.Data.Tests", "..\Agri.Data.Tests\Agri.Data.Tests.csproj", "{0DCDE81B-EA39-4281-BD19-02658F7A35AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agri.Data.Tests", "..\Agri.Data.Tests\Agri.Data.Tests.csproj", "{0DCDE81B-EA39-4281-BD19-02658F7A35AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,18 +32,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Debug|x64.Build.0 = Debug|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Debug|x86.Build.0 = Debug|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Release|x64.ActiveCfg = Release|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Release|x64.Build.0 = Release|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Release|x86.ActiveCfg = Release|Any CPU
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51}.Release|x86.Build.0 = Release|Any CPU
 		{625AAF4B-2E78-4D06-BB62-CF53A97223AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{625AAF4B-2E78-4D06-BB62-CF53A97223AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{625AAF4B-2E78-4D06-BB62-CF53A97223AD}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -159,7 +145,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3B37712D-31DA-4EBE-9C81-5A9129389E51} = {834B1FF4-2D28-4757-A05A-32F9E5A06A2B}
 		{1C6C11EC-5B5B-4B5C-9F82-13674B66D209} = {834B1FF4-2D28-4757-A05A-32F9E5A06A2B}
 		{BA22E1FF-EE9D-4254-A75A-7B51FDEF7BE8} = {834B1FF4-2D28-4757-A05A-32F9E5A06A2B}
 		{0DCDE81B-EA39-4281-BD19-02658F7A35AA} = {834B1FF4-2D28-4757-A05A-32F9E5A06A2B}

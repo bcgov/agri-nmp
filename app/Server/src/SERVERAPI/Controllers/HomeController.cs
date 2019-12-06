@@ -187,7 +187,7 @@ namespace SERVERAPI.Controllers
                             // Returns message that successfully uploaded
                             _ud.SaveFarmData(fd);
                             HttpContext.Session.SetObject("Farm",
-                                _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
+                                _ud.FarmDetails().FarmName + " " + _ud.FarmDetails().Year);
 
                             return RedirectToAction("Farm", "Farm");
                         }
@@ -326,7 +326,7 @@ namespace SERVERAPI.Controllers
 
             if (!farmData.NMPReleaseVersion.HasValue || farmData.NMPReleaseVersion != _appSettings.Value.NMPReleaseVersion)
             {
-                if (_ud.FarmDetails().farmRegion.HasValue && _ud.GetYearData().farmManures
+                if (_ud.FarmDetails().FarmRegion.HasValue && _ud.GetYearData().farmManures
                         .All(fm => !string.IsNullOrEmpty(fm.sourceOfMaterialId)))
                 {
                     farmData.NMPReleaseVersion = _appSettings.Value.NMPReleaseVersion;
@@ -335,7 +335,7 @@ namespace SERVERAPI.Controllers
 
             _ud.SaveFarmData(farmData);
 
-            var fileName = farmData.farmDetails.year + " - " + farmData.farmDetails.farmName + ".nmp";
+            var fileName = farmData.farmDetails.Year + " - " + farmData.farmDetails.FarmName + ".nmp";
             byte[] fileBytes = Encoding.ASCII.GetBytes(HttpContext.Session.GetString("FarmData"));
             return File(fileBytes, "application/octet-stream", fileName);
         }
@@ -399,7 +399,7 @@ namespace SERVERAPI.Controllers
 
                         // Returns message that successfully uploaded
                         _ud.SaveFarmData(fd);
-                        HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
+                        HttpContext.Session.SetObject("Farm", _ud.FarmDetails().FarmName + " " + _ud.FarmDetails().Year);
 
                         string url = Url.Action("Farm", "Farm");
                         return Json(new { success = true, url = url });

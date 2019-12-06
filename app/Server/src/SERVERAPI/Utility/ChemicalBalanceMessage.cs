@@ -164,7 +164,7 @@ namespace SERVERAPI.Utility
                     chemicalBalances.balance_AgrN += calcPrevYearManureApplDefault(fldName);
                 if (fld.soilTest != null)
                 {
-                    if (_sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, fld.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year)))
+                    if (_sd.IsNitrateCreditApplicable(_ud.FarmDetails().FarmRegion, fld.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().Year)))
                     {
                         if ((fld.SoilTestNitrateOverrideNitrogenCredit != null) && (fld.crops.Count() > 0))
                             chemicalBalances.balance_AgrN += Convert.ToInt32(Math.Round(Convert.ToDecimal(fld.SoilTestNitrateOverrideNitrogenCredit)));

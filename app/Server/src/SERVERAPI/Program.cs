@@ -76,6 +76,7 @@ namespace SERVERAPI
         {
             builder.Sources.Clear();
 
+            builder.AddJsonFile("appsettings.json");
             builder.AddEnvironmentVariables();
         }
     }

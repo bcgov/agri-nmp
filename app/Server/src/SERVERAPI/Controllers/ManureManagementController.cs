@@ -1065,7 +1065,7 @@ namespace SERVERAPI.Controllers
                 var farmData = _ud.FarmDetails();
                 if (farmData != null)
                 {
-                    SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                    SubRegion subregion = _sd.GetSubRegion(farmData.FarmSubRegion);
                     msdvm.AnnualPrecipitation = subregion?.AnnualPrecipitation;
                 }
 
@@ -1741,7 +1741,7 @@ namespace SERVERAPI.Controllers
 
             if (farmData != null)
             {
-                SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                SubRegion subregion = _sd.GetSubRegion(farmData.FarmSubRegion);
                 rainfallOctToMar = subregion.AnnualPrecipitationOctToMar;
             }
 
@@ -1755,7 +1755,7 @@ namespace SERVERAPI.Controllers
             var farmData = _ud.FarmDetails();
             if (farmData != null)
             {
-                SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                SubRegion subregion = _sd.GetSubRegion(farmData.FarmSubRegion);
                 rainfallOctToMar = subregion.AnnualPrecipitationOctToMar;
             }
 

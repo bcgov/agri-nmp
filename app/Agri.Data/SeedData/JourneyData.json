@@ -1,0 +1,534 @@
+[
+  {
+    "Id": 1,
+    "Name": "Initial",
+    "MainMenus": [
+      {
+        "Name": "Farm Information",
+        "Controller": "Farm",
+        "Action": "Farm",
+        "SortNumber": 1
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Name": "Dairy",
+    "MainMenus": [
+      {
+        "Name": "Farm Information",
+        "Controller": "Farm",
+        "Action": "Farm",
+        "SortNumber": 1
+      },
+      {
+        "Name": "Animals and Manure",
+        "Controller": "ManureManagement",
+        "Action": "ManureGeneratedObtained",
+        "SortNumber": 2,
+        "SubMenus": [
+          {
+            "Name": "Animals",
+            "Controller": "ManureManagement",
+            "Action": "ManureGeneratedObtained",
+            "PreviousController": "Farm",
+            "PreviousAction": "Farm",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureImported",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Manure and Imports",
+            "Controller": "ManureManagement",
+            "Action": "ManureImported",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureGeneratedObtained",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureStorage",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Storage",
+            "Controller": "ManureManagement",
+            "Action": "ManureStorage",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureImported",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureNutrientAnalysis",
+            "SortNumber": 3
+          },
+          {
+            "Name": "Nutrient Analysis",
+            "Controller": "ManureManagement",
+            "Action": "ManureNutrientAnalysis",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureStorage",
+            "NextController": "Fields",
+            "NextAction": "Fields",
+            "SortNumber": 4
+          }
+        ]
+      },
+      {
+        "Name": "Fields and Soil",
+        "Controller": "Fields",
+        "Action": "Fields",
+        "SortNumber": 3,
+        "SubMenus": [
+          {
+            "Name": "Field List",
+            "Controller": "Fields",
+            "Action": "Fields",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureNutrientAnalysis",
+            "NextController": "Soil",
+            "NextAction": "SoilTest",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Soil Tests",
+            "Controller": "Soil",
+            "Action": "SoilTest",
+            "PreviousController": "Fields",
+            "PreviousAction": "Fields",
+            "NextController": "Nutrients",
+            "NextAction": "Calculate",
+            "SortNumber": 2
+          }
+        ]
+      },
+      {
+        "Name": "Calculate Nutrients",
+        "Controller": "Nutrients",
+        "Action": "Calculate",
+        "PreviousController": "Fields",
+        "PreviousAction": "Fields",
+        "NextController": "Report",
+        "NextAction": "Report",
+        "SortNumber": 4
+      },
+      {
+        "Name": "Reporting",
+        "Controller": "Report",
+        "Action": "Report",
+        "PreviousController": "Nutrients",
+        "PreviousAction": "Calculate",
+        "NextController": null,
+        "NextAction": null,
+        "SortNumber": 5
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Name": "Ranch",
+    "MainMenus": [
+      {
+        "Name": "Farm Information",
+        "Controller": "Farm",
+        "Action": "Farm",
+        "SortNumber": 1
+      },
+      {
+        "Name": "Animals and Manure",
+        "Controller": "ManureManagement",
+        "Action": "ManureGeneratedObtained",
+        "SortNumber": 2,
+        "SubMenus": [
+          {
+            "Name": "Animals",
+            "Controller": "ManureManagement",
+            "Action": "ManureGeneratedObtained",
+            "PreviousController": "Farm",
+            "PreviousAction": "Farm",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureImported",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Manure and Imports",
+            "Controller": "ManureManagement",
+            "Action": "ManureImported",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureGeneratedObtained",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureNutrientAnalysis",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Nutrient Analysis",
+            "Controller": "ManureManagement",
+            "Action": "ManureNutrientAnalysis",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureImported",
+            "NextController": "Fields",
+            "NextAction": "Fields",
+            "SortNumber": 3
+          }
+        ]
+      },
+      {
+        "Name": "Fields and Soil",
+        "Controller": "Fields",
+        "Action": "Fields",
+        "SortNumber": 3,
+        "SubMenus": [
+          {
+            "Name": "Field List",
+            "Controller": "Fields",
+            "Action": "Fields",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureNutrientAnalysis",
+            "NextController": "Soil",
+            "NextAction": "SoilTest",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Soil Tests",
+            "Controller": "Soil",
+            "Action": "SoilTest",
+            "PreviousController": "Fields",
+            "PreviousAction": "Fields",
+            "NextController": "Feeding",
+            "NextAction": "Feeding",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Feeding Areas",
+            "Controller": "Feeding",
+            "Action": "Feeding",
+            "PreviousController": "Soil",
+            "PreviousAction": "SoilTest",
+            "NextController": "Nutrients",
+            "NextAction": "Calculate",
+            "SortNumber": 3
+          }
+        ]
+      },
+      {
+        "Name": "Calculate Nutrients",
+        "Controller": "Nutrients",
+        "Action": "Calculate",
+        "PreviousController": "Feeding",
+        "PreviousAction": "Feeding",
+        "NextController": "Report",
+        "NextAction": "Report",
+        "SortNumber": 4
+      },
+      {
+        "Name": "Reporting",
+        "Controller": "Report",
+        "Action": "Report",
+        "PreviousController": "Nutrients",
+        "PreviousAction": "Calculate",
+        "NextController": null,
+        "NextAction": null,
+        "SortNumber": 5
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "Name": "Poultry",
+    "MainMenus": [
+      {
+        "Name": "Farm Information",
+        "Controller": "Farm",
+        "Action": "Farm",
+        "SortNumber": 1
+      },
+      {
+        "Name": "Animals and Manure",
+        "Controller": "ManureManagement",
+        "Action": "ManureGeneratedObtained",
+        "SortNumber": 2,
+        "SubMenus": [
+          {
+            "Name": "Animals",
+            "Controller": "ManureManagement",
+            "Action": "ManureGeneratedObtained",
+            "PreviousController": "Farm",
+            "PreviousAction": "Farm",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureImported",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Manure and Imports",
+            "Controller": "ManureManagement",
+            "Action": "ManureImported",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureGeneratedObtained",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureNutrientAnalysis",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Nutrient Analysis",
+            "Controller": "ManureManagement",
+            "Action": "ManureNutrientAnalysis",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureImported",
+            "NextController": "Fields",
+            "NextAction": "Fields",
+            "SortNumber": 3
+          }
+        ]
+      },
+      {
+        "Name": "Fields and Soil",
+        "Controller": "Fields",
+        "Action": "Fields",
+        "SortNumber": 3,
+        "SubMenus": [
+          {
+            "Name": "Field List",
+            "Controller": "Fields",
+            "Action": "Fields",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureNutrientAnalysis",
+            "NextController": "Soil",
+            "NextAction": "SoilTest",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Soil Tests",
+            "Controller": "Soil",
+            "Action": "SoilTest",
+            "PreviousController": "Fields",
+            "PreviousAction": "Fields",
+            "NextController": "Nutrients",
+            "NextAction": "Calculate",
+            "SortNumber": 2
+          }
+        ]
+      },
+      {
+        "Name": "Calculate Nutrients",
+        "Controller": "Nutrients",
+        "Action": "Calculate",
+        "PreviousController": "Soil",
+        "PreviousAction": "SoilTest",
+        "NextController": "Report",
+        "NextAction": "Report",
+        "SortNumber": 4
+      },
+      {
+        "Name": "Reporting",
+        "Controller": "Report",
+        "Action": "Report",
+        "PreviousController": "Nutrients",
+        "PreviousAction": "Calculate",
+        "NextController": null,
+        "NextAction": null,
+        "SortNumber": 5
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "Name": "Crops",
+    "MainMenus": [
+      {
+        "Name": "Farm Information",
+        "Controller": "Farm",
+        "Action": "Farm",
+        "SortNumber": 1
+      },
+      {
+        "Name": "Fields and Soil",
+        "Controller": "Fields",
+        "Action": "Fields",
+        "SortNumber": 2,
+        "SubMenus": [
+          {
+            "Name": "Field List",
+            "Controller": "Fields",
+            "Action": "Fields",
+            "PreviousController": "Farm",
+            "PreviousAction": "Farm",
+            "NextController": "Soil",
+            "NextAction": "SoilTest",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Soil Tests",
+            "Controller": "Soil",
+            "Action": "SoilTest",
+            "PreviousController": "Fields",
+            "PreviousAction": "Fields",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureImported",
+            "SortNumber": 2
+          }
+        ]
+      },
+      {
+        "Name": "Manure and Compost",
+        "Controller": "ManureManagement",
+        "Action": "ManureGeneratedObtained",
+        "SortNumber": 3,
+        "SubMenus": [
+          {
+            "Name": "Manure and Imports",
+            "Controller": "ManureManagement",
+            "Action": "ManureImported",
+            "PreviousController": "Soil",
+            "PreviousAction": "SoilTest",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureNutrientAnalysis",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Nutrient Analysis",
+            "Controller": "ManureManagement",
+            "Action": "ManureNutrientAnalysis",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureImported",
+            "NextController": "Nutrients",
+            "NextAction": "Calculate",
+            "SortNumber": 2
+          }
+        ]
+      },
+      {
+        "Name": "Calculate Nutrients",
+        "Controller": "Nutrients",
+        "Action": "Calculate",
+        "PreviousController": "ManureManagement",
+        "PreviousAction": "ManureNutrientAnalysis",
+        "NextController": "Report",
+        "NextAction": "Report",
+        "SortNumber": 4
+      },
+      {
+        "Name": "Reporting",
+        "Controller": "Report",
+        "Action": "Report",
+        "PreviousController": "Nutrients",
+        "PreviousAction": "Calculate",
+        "NextController": null,
+        "NextAction": null,
+        "SortNumber": 5
+      }
+    ]
+  },
+  {
+    "Id": 6,
+    "Name": "Mixed",
+    "MainMenus": [
+      {
+        "Name": "Farm Information",
+        "Controller": "Farm",
+        "Action": "Farm",
+        "SortNumber": 1
+      },
+      {
+        "Name": "Animals and Manure",
+        "Controller": "ManureManagement",
+        "Action": "ManureGeneratedObtained",
+        "SortNumber": 2,
+        "SubMenus": [
+          {
+            "Name": "Animals",
+            "Controller": "ManureManagement",
+            "Action": "ManureGeneratedObtained",
+            "PreviousController": "Farm",
+            "PreviousAction": "Farm",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureImported",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Manure and Imports",
+            "Controller": "ManureManagement",
+            "Action": "ManureImported",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureGeneratedObtained",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureStorage",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Storage",
+            "Controller": "ManureManagement",
+            "Action": "ManureStorage",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureImported",
+            "NextController": "ManureManagement",
+            "NextAction": "ManureNutrientAnalysis",
+            "SortNumber": 3
+          },
+          {
+            "Name": "Nutrient Analysis",
+            "Controller": "ManureManagement",
+            "Action": "ManureNutrientAnalysis",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureStorage",
+            "NextController": "Fields",
+            "NextAction": "Fields",
+            "SortNumber": 4
+          }
+        ]
+      },
+      {
+        "Name": "Fields and Soil",
+        "Controller": "Fields",
+        "Action": "Fields",
+        "SortNumber": 3,
+        "SubMenus": [
+          {
+            "Name": "Field List",
+            "Controller": "Fields",
+            "Action": "Fields",
+            "PreviousController": "ManureManagement",
+            "PreviousAction": "ManureNutrientAnalysis",
+            "NextController": "Soil",
+            "NextAction": "SoilTest",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Soil Tests",
+            "Controller": "Soil",
+            "Action": "SoilTest",
+            "PreviousController": "Fields",
+            "PreviousAction": "Fields",
+            "NextController": "Feeding",
+            "NextAction": "Feeding",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Feeding Areas",
+            "Controller": "Feeding",
+            "Action": "Feeding",
+            "PreviousController": "Soil",
+            "PreviousAction": "SoilTest",
+            "NextController": "Nutrients",
+            "NextAction": "Calculate",
+            "SortNumber": 3
+          }
+        ]
+      },
+      {
+        "Name": "Calculate Nutrients",
+        "Controller": "Nutrients",
+        "Action": "Calculate",
+        "PreviousController": "Feeding",
+        "PreviousAction": "Feeding",
+        "NextController": "Report",
+        "NextAction": "Report",
+        "SortNumber": 4
+      },
+      {
+        "Name": "Reporting",
+        "Controller": "Report",
+        "Action": "Report",
+        "PreviousController": "Nutrients",
+        "PreviousAction": "Calculate",
+        "NextController": null,
+        "NextAction": null,
+        "SortNumber": 5
+      }
+    ]
+  }
+]

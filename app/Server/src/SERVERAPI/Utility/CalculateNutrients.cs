@@ -89,7 +89,7 @@ namespace SERVERAPI.Utility
 
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
-            int regionid = _ud.FarmDetails().farmRegion.Value;
+            int regionid = _ud.FarmDetails().FarmRegion.Value;
             Region region = _sd.GetRegion(regionid);
 
             nOrganicMineralizations = GetNMineralization(mymanure.id, region.LocationId);

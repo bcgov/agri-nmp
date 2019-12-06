@@ -1625,13 +1625,6 @@ namespace Agri.Data
             return subMenuoptions;
         }
 
-        public List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
-            string parentNode, string parentfield)
-        {
-            //TODO: Will be depricated
-            throw new NotImplementedException();
-        }
-
         public ManureImportedDefault GetManureImportedDefault()
         {
             if (_manureImportedDefault == null)
@@ -1802,12 +1795,9 @@ namespace Agri.Data
                     new StaticDataVersion
                     {
                         Comments = "Initial version migrated from Legacy StaticData.json file",
-                        CreatedDateTime = new DateTime(2018, 10, 1),
+                        CreatedDateTime = DateTime.Today,
                         CreatedBy = "System"
                     };
-                _context.StaticDataVersions.Add(_currentStaticDataVersion);
-
-                _context.SaveChanges();
             }
 
             return _currentStaticDataVersion;
@@ -1985,6 +1975,14 @@ namespace Agri.Data
             response.Yields.ForEach(n => n.SetVersion(response));
 
             return response;
+        }
+
+        public Journey GetJourney(int journeyId)
+        {
+            return _context.Journeys
+                .Include(j => j.MainMenus)
+                    .ThenInclude(m => m.SubMenus)
+                .Single(j => j.Id == journeyId);
         }
     }
 }

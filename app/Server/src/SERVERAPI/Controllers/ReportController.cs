@@ -189,8 +189,8 @@ namespace SERVERAPI.Controllers
 
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
             rvm.fields = new List<ReportFieldsField>();
-            rvm.year = _ud.FarmDetails().year;
-            rvm.methodName = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "not selected" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
+            rvm.year = _ud.FarmDetails().Year;
+            rvm.methodName = string.IsNullOrEmpty(_ud.FarmDetails().TestingMethod) ? "not selected" : _sd.GetSoilTestMethod(_ud.FarmDetails().TestingMethod);
             rvm.prevHdg = _sd.GetUserPrompt("ncreditlabel");
 
             List<Field> fldList = _ud.GetFields();
@@ -211,8 +211,8 @@ namespace SERVERAPI.Controllers
                 {
                     rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
                     rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString("G29") + " ppm";
-                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
-                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
+                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, f.soilTest)) + ")";
+                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, f.soilTest)) + ")";
                     rf.soiltest.dispPH = f.soilTest.valPH.ToString("G29");
                 }
 
@@ -320,7 +320,7 @@ namespace SERVERAPI.Controllers
                         }
                         if (f.soilTest != null)
                         {
-                            rf.showSoilTestNitrogenCredit = _sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, f.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year));
+                            rf.showSoilTestNitrogenCredit = _sd.IsNitrateCreditApplicable(_ud.FarmDetails().FarmRegion, f.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().Year));
                             if (rf.showSoilTestNitrogenCredit)
                             {
                                 if (f.SoilTestNitrateOverrideNitrogenCredit == null)
@@ -367,7 +367,7 @@ namespace SERVERAPI.Controllers
 
                             string footNote = "";
 
-                            int regionid = _ud.FarmDetails().farmRegion.Value;
+                            int regionid = _ud.FarmDetails().FarmRegion.Value;
                             var region = _sd.GetRegion(regionid);
                             if (region != null)
                             {
@@ -553,7 +553,7 @@ namespace SERVERAPI.Controllers
 
             rmcvm.storages = new List<ReportStorage>();
             rmcvm.unstoredManures = new List<ReportManuress>();
-            rmcvm.year = _ud.FarmDetails().year;
+            rmcvm.year = _ud.FarmDetails().Year;
             decimal rainInMM ;
             decimal conversionForLiquid = 0.024542388m;
             decimal conversionForSolid = 0.000102408m;
@@ -636,7 +636,7 @@ namespace SERVERAPI.Controllers
                 }
 
                 var farmData = _ud.FarmDetails();
-                SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                SubRegion subregion = _sd.GetSubRegion(farmData.FarmSubRegion);
                 rainInMM = subregion?.AnnualPrecipitation ?? 0;
 
                 // rainInMM = Convert.ToDecimal(s.AnnualPrecipitation);
@@ -815,7 +815,7 @@ namespace SERVERAPI.Controllers
             ReportManureSummaryViewModel rmsvm = new ReportManureSummaryViewModel();
             rmsvm.manures = new List<ReportManures>();
             rmsvm.footnotes = new List<ReportFieldFootnote>();
-            rmsvm.year = _ud.FarmDetails().year;
+            rmsvm.year = _ud.FarmDetails().Year;
 
             var yearData = _ud.GetYearData();
 
@@ -896,7 +896,7 @@ namespace SERVERAPI.Controllers
             ReportOctoberToMarchStorageSummaryViewModel romssvm = new ReportOctoberToMarchStorageSummaryViewModel();
             romssvm.storages = new List<ReportStorages>();
             romssvm.footnotes = new List<ReportFieldFootnote>();
-            romssvm.year = _ud.FarmDetails().year;
+            romssvm.year = _ud.FarmDetails().Year;
 
             var request = HttpContext.Request;
             string scheme = request.Scheme;
@@ -961,7 +961,7 @@ namespace SERVERAPI.Controllers
             List<ReportSourcesDetail> manureRequired = new List<ReportSourcesDetail>();
             List<ReportSourcesDetail> fertilizerRequired = new List<ReportSourcesDetail>();
 
-            rvm.year = _ud.FarmDetails().year;
+            rvm.year = _ud.FarmDetails().Year;
             rvm.details = new List<ReportSourcesDetail>();
 
 
@@ -989,7 +989,7 @@ namespace SERVERAPI.Controllers
             List<ReportSourcesDetail> manureRequired = new List<ReportSourcesDetail>();
             List<ReportSourcesDetail> fertilizerRequired = new List<ReportSourcesDetail>();
 
-            rvm.year = _ud.FarmDetails().year;
+            rvm.year = _ud.FarmDetails().Year;
             rvm.details = new List<ReportSourcesDetail>();
 
 
@@ -1240,7 +1240,7 @@ namespace SERVERAPI.Controllers
 
             ReportApplicationViewModel rvm = new ReportApplicationViewModel();
             rvm.fields = new List<ReportApplicationField>();
-            rvm.year = _ud.FarmDetails().year;
+            rvm.year = _ud.FarmDetails().Year;
 
             List<Field> fldList = _ud.GetFields();
             foreach(var f in fldList)
@@ -1324,8 +1324,8 @@ namespace SERVERAPI.Controllers
             string crpName = string.Empty;
             ReportSummaryViewModel rvm = new ReportSummaryViewModel();
 
-            rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "Not Specified" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
-            rvm.year = _ud.FarmDetails().year;
+            rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().TestingMethod) ? "Not Specified" : _sd.GetSoilTestMethod(_ud.FarmDetails().TestingMethod);
+            rvm.year = _ud.FarmDetails().Year;
 
             FarmDetails fd = _ud.FarmDetails();
 
@@ -1344,8 +1344,8 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = m.soilTest.ValP.ToString("G29");
                     dc.potassium = m.soilTest.valK.ToString("G29");
                     dc.pH = m.soilTest.valPH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, m.soilTest));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, m.soilTest));
+                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, m.soilTest));
+                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, m.soilTest));
                 }
                 else
                 {
@@ -1363,8 +1363,8 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = dt.Phosphorous.ToString("G29");
                     dc.potassium = dt.Potassium.ToString("G29");
                     dc.pH = dt.pH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, st));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, st));
+                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, st));
+                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, st));
                 }
                 dc.fieldCrops = null;
 
@@ -1389,7 +1389,7 @@ namespace SERVERAPI.Controllers
         {
             string crpName = string.Empty;
             ReportSheetsViewModel rvm = new ReportSheetsViewModel();
-            rvm.year = _ud.FarmDetails().year;
+            rvm.year = _ud.FarmDetails().Year;
 
             rvm.fields = new List<ReportSheetsField>();
 
@@ -1736,8 +1736,8 @@ namespace SERVERAPI.Controllers
             options.border.bottom = ".25in";
             options.border.left = ".25in";
             options.header.height = "20mm";
-            options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
-                                      "Planning Year: " + _ud.FarmDetails().year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
+            options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().FarmName + "<br />" +
+                                      "Planning Year: " + _ud.FarmDetails().Year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
             options.footer.height = "15mm";
             options.footer.contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
 

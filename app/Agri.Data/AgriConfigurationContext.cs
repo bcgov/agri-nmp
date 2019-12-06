@@ -35,6 +35,7 @@ namespace Agri.Data
         public DbSet<FertilizerType> FertilizerTypes { get; set; }
         public DbSet<FertilizerUnit> FertilizerUnits { get; set; }
         public DbSet<HarvestUnit> HarvestUnits { get; set; }
+        public DbSet<Journey> Journeys { get; set; }
         public DbSet<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
         public DbSet<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> LiquidMaterialApplicationUsGallonsPerAcreRateConversions { get; set; }
         public DbSet<LiquidMaterialsConversionFactor> LiquidMaterialsConversionFactors { get; set; }
@@ -213,6 +214,8 @@ namespace Agri.Data
                     table.Id,
                     table.StaticDataVersionId
                 });
+
+            modelBuilder.Entity<Journey>().ToTable("Journey");
 
             modelBuilder.Entity<LiquidFertilizerDensity>()
                 .HasKey(table => new

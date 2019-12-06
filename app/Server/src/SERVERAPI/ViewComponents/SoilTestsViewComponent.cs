@@ -32,7 +32,7 @@ namespace SERVERAPI.ViewComponents
             svm.missingTests = false;
 
             FarmDetails fd = _ud.FarmDetails();
-            svm.testingMethod = fd.testingMethod;
+            svm.testingMethod = fd.TestingMethod;
 
             svm.tests = new List<DisplaySoilTest>();
 
@@ -49,8 +49,8 @@ namespace SERVERAPI.ViewComponents
                     dc.dispP = m.soilTest.ValP.ToString("G29");
                     dc.dispK = m.soilTest.valK.ToString("G29");
                     dc.dispPH = m.soilTest.valPH.ToString("G29");
-                    dc.dispPRating = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, m.soilTest));
-                    dc.dispKRating = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, m.soilTest));
+                    dc.dispPRating = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, m.soilTest));
+                    dc.dispKRating = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, m.soilTest));
                 }
                 else
                 {

@@ -42,9 +42,9 @@ namespace SERVERAPI.Controllers
             SoilTestViewModel fvm = new SoilTestViewModel();
 
             FarmDetails fd = _ud.FarmDetails();
-            fvm.selTstOption = fd.testingMethod;
+            fvm.selTstOption = fd.TestingMethod;
 
-            if (!string.IsNullOrEmpty(fd.testingMethod))
+            if (!string.IsNullOrEmpty(fd.TestingMethod))
                 fvm.testSelected = true;
 
             fvm.tstOptions = new List<SelectListItem>();
@@ -68,9 +68,9 @@ namespace SERVERAPI.Controllers
             {
                 ModelState.Clear();
                 FarmDetails fd = _ud.FarmDetails();
-                fd.testingMethod = fvm.selTstOption == "select" ? string.Empty : fvm.selTstOption;
+                fd.TestingMethod = fvm.selTstOption == "select" ? string.Empty : fvm.selTstOption;
                 _ud.UpdateFarmDetails(fd);
-                fvm.testSelected = string.IsNullOrEmpty(fd.testingMethod) ? false : true;
+                fvm.testSelected = string.IsNullOrEmpty(fd.TestingMethod) ? false : true;
                 List<Field> fl = _ud.GetFields();
                 
                 //update fields with convert STP and STK
@@ -177,8 +177,8 @@ namespace SERVERAPI.Controllers
                 fld.soilTest.valK = Convert.ToDecimal(tvm.dispK);
                 fld.soilTest.valNO3H = Convert.ToDecimal(tvm.dispNO3H);
                 fld.soilTest.valPH = Convert.ToDecimal(tvm.dispPH);
-                fld.soilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, fld.soilTest);
-                fld.soilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, fld.soilTest);
+                fld.soilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, fld.soilTest);
+                fld.soilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, fld.soilTest);
 
                 _ud.UpdateFieldSoilTest(fld);
 

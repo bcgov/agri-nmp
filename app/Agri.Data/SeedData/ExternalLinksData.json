@@ -1,51 +1,41 @@
 [
   {
-    "Id": 1,
     "Name": "soiltestexplanation",
     "Url": "https://drive.google.com/open?id=1V3OUxM1Z16S8WVEE2Xg-8dHUFUier6N9"
   },
   {
-    "Id": 2,
     "Name": "soiltestvaluesexplanation",
     "Url": "https://drive.google.com/open?id=1V3OUxM1Z16S8WVEE2Xg-8dHUFUier6N9"
   },
   {
-    "Id": 3,
     "Name": "finishpagetarget",
     "Url": "http://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing"
   },
   {
-    "Id": 4,
     "Name": "aboutmessage",
     "Url": "https://www2.gov.bc.ca/assets/download/A419ABE942C84E809F5FE56FD264CD8C"
   },
   {
-    "Id": 5,
     "Name": "othernutrientexplanation",
     "Url": "https://drive.google.com/open?id=10uyFSFJAW5a5issWonCOxMsGnmfmVS_B"
   },
   {
-    "Id": 6,
     "Name": "helpmessage",
     "Url": "https://drive.google.com/open?id=17Tkzf0ocjThU5mqAo7I4b-yFyrJ-FUix"
   },
   {
-    "Id": 7,
     "Name": "manureunitexplanation",
     "Url": "https://drive.google.com/open?id=11Z3IGb2DhkugxnoOrj0OhCm3yQkBdsWY"
   },
   {
-    "Id": 8,
     "Name": "labanalysisexplanation",
     "Url": "https://drive.google.com/open?id=18ozkZnq5ngQ6D0ALrK1aR4rZasF6GoLM "
   },
   {
-    "Id": 9,
     "Name": "prevmanureexplanation",
     "Url": "https://drive.google.com/open?id=1J_LVtoctbVGmQuQJxJyzPe2N50mtTgg9 "
   },
   {
-    "Id": 10,
     "Name": "soilnitrateexplanation",
     "Url": "https://drive.google.com/open?id=1sRWDtXSxpgD0mrGLrmdHApuDlQa7SSdj "
   }

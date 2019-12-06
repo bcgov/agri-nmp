@@ -7,7 +7,7 @@ namespace Agri.Data
 {
     public class AgriSeeder
     {
-        private AgriConfigurationContext _context;
+        private readonly AgriConfigurationContext _context;
         private readonly IAgriConfigurationRepository _sd;
 
         public AgriSeeder(AgriConfigurationContext context, IAgriConfigurationRepository sd)
@@ -39,10 +39,10 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
-            if (!_context.MainMenus.Any())
+            if (!_context.Journeys.Any())
             {
-                var menus = SeedDataLoader.GetSeedJsonData<List<MainMenu>>(Constants.SeedDataFiles.MainMenus);
-                _context.MainMenus.AddRange(menus);
+                var journeys = SeedDataLoader.GetSeedJsonData<List<Journey>>(Constants.SeedDataFiles.Journey);
+                _context.Journeys.AddRange(journeys);
                 _context.SaveChanges();
             }
 

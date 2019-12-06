@@ -303,10 +303,6 @@ namespace Agri.Interfaces
 
         List<SubMenu> GetSubMenus(int mainMenuId);
 
-        [Obsolete]
-        List<StaticDataValidationMessages> ValidateRelationship(string childNode, string childfield,
-            string parentNode, string parentfield);
-
         ManureImportedDefault GetManureImportedDefault();
 
         List<SolidMaterialsConversionFactor> GetSolidMaterialsConversionFactors();
@@ -334,5 +330,7 @@ namespace Agri.Interfaces
         ManageVersionUser GetManagerVersionUser(string username);
 
         void LoadConfigurations(StaticDataVersion staticDataVersionToLoad);
+
+        Journey GetJourney(int journeyId);
     }
 }
