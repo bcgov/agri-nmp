@@ -18,20 +18,14 @@ namespace SERVERAPI.Controllers
     [SessionTimeout]
     public class FarmController : BaseController
     {
-        private ILogger<FarmController> _logger;
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
-        private IOptions<AppSettings> _appSettings;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly IOptions<AppSettings> _appSettings;
 
-        public FarmController(ILogger<FarmController> logger,
-            IHostingEnvironment env,
-            UserData ud,
+        public FarmController(UserData ud,
             IAgriConfigurationRepository sd,
             IOptions<AppSettings> appSettings)
         {
-            _logger = logger;
-            _env = env;
             _ud = ud;
             _sd = sd;
             _appSettings = appSettings;
@@ -134,8 +128,6 @@ namespace SERVERAPI.Controllers
         private void UpdateStorageSystemsForSubRegion(int subRegionId)
         {
             var storageSystems = _ud.GetStorageSystems();
-            decimal conversionForLiquid = 0.024542388m;
-            decimal conversionForSolid = 0.000102408m;
 
             if (storageSystems.Count() > 0)
             {

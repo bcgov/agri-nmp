@@ -5,7 +5,6 @@ using Agri.Models.Farm;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using SERVERAPI.Controllers;
-using SERVERAPI.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,20 +13,24 @@ using Microsoft.Extensions.Logging;
 using Agri.Models.Settings;
 using Microsoft.Extensions.Options;
 
+using Agri.CalculateService;
+
 namespace SERVERAPI.Models.Impl
 {
     public class UserData
     {
         private readonly ILogger<UserData> _logger;
         private readonly IHttpContextAccessor _ctx;
-        public IAgriConfigurationRepository _sd;
-        private ISoilTestConverter _soilTestConversions;
-        private IMapper _mapper;
-        private IOptions<AppSettings> _appSettings;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly ICalculateNutrients _calculateNutrients;
+        private readonly ISoilTestConverter _soilTestConversions;
+        private readonly IMapper _mapper;
+        private readonly IOptions<AppSettings> _appSettings;
 
         public UserData(ILogger<UserData> logger,
             IHttpContextAccessor ctx,
             IAgriConfigurationRepository sd,
+            ICalculateNutrients calculateNutrients,
             ISoilTestConverter soilTestConversions,
             IMapper mapper,
             IOptions<AppSettings> appSettings)
@@ -35,6 +38,7 @@ namespace SERVERAPI.Models.Impl
             _logger = logger;
             _ctx = ctx;
             _sd = sd;
+            _calculateNutrients = calculateNutrients;
             _soilTestConversions = soilTestConversions;
             _mapper = mapper;
             _appSettings = appSettings;
@@ -165,10 +169,10 @@ namespace SERVERAPI.Models.Impl
             }
             foreach (var f in yd.fields)
             {
-                nextId = nextId <= f.id ? f.id + 1 : nextId;
+                nextId = nextId <= f.Id ? f.Id + 1 : nextId;
             }
 
-            newFld.id = nextId;
+            newFld.Id = nextId;
             yd.fields.Add(newFld);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -178,7 +182,7 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.Year);
-            Field fld = yd.fields.FirstOrDefault(f => f.id == updtFld.id);
+            Field fld = yd.fields.FirstOrDefault(f => f.Id == updtFld.Id);
 
             fld.fieldName = updtFld.fieldName;
             fld.area = updtFld.area;
@@ -876,7 +880,6 @@ namespace SERVERAPI.Models.Impl
 
         public void ReCalculateManure(int farmManureId)
         {
-            var calculateNutrients = new CalculateNutrients(this, _sd);
             var nOrganicMineralizations = new NOrganicMineralizations();
 
             List<Field> flds = GetFields();
@@ -891,22 +894,19 @@ namespace SERVERAPI.Models.Impl
                     {
                         int regionid = FarmDetails().FarmRegion.Value;
                         Region region = _sd.GetRegion(regionid);
-                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(nm.manureId), region.LocationId);
+                        nOrganicMineralizations = _calculateNutrients.GetNMineralization(GetFarmManure(Convert.ToInt16(nm.manureId)), region.LocationId);
 
                         string avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
 
-                        string nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(nm.manureId), Convert.ToInt16(nm.applicationId)) * 100).ToString("###");
+                        string nh4 = (_calculateNutrients.GetAmmoniaRetention(GetFarmManure(Convert.ToInt16(nm.manureId)), Convert.ToInt16(nm.applicationId)) * 100).ToString("###");
 
-                        NutrientInputs nutrientInputs = new NutrientInputs();
-
-                        calculateNutrients.manure = nm.manureId;
-                        calculateNutrients.applicationSeason = nm.applicationId;
-                        calculateNutrients.applicationRate = Convert.ToDecimal(nm.rate);
-                        calculateNutrients.applicationRateUnits = nm.unitId;
-                        calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(nh4);
-                        calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(avail);
-
-                        calculateNutrients.GetNutrientInputs(nutrientInputs);
+                        var nutrientInputs = _calculateNutrients.GetNutrientInputs(
+                                                            GetFarmManure(Convert.ToInt32(nm.manureId)),
+                                                            region,
+                                                            Convert.ToDecimal(nm.rate),
+                                                            nm.unitId,
+                                                            Convert.ToDecimal(nh4),
+                                                            Convert.ToDecimal(avail));
 
                         nm.yrN = nutrientInputs.N_FirstYear;
                         nm.yrP2o5 = nutrientInputs.P2O5_FirstYear;

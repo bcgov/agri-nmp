@@ -1,6 +1,8 @@
-﻿using Agri.Interfaces;
+﻿using Agri.CalculateService;
+using Agri.Interfaces;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,35 +10,33 @@ namespace SERVERAPI.ViewComponents
 {
     public class CalcPrevYearManure : ViewComponent
     {
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
+        private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
 
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
-
-        public CalcPrevYearManure(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
+        public CalcPrevYearManure(IAgriConfigurationRepository sd, UserData ud, IChemicalBalanceMessage chemicalBalanceMessage)
         {
             _sd = sd;
             _ud = ud;
+            _chemicalBalanceMessage = chemicalBalanceMessage;
         }
-
 
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
             return View(await GetPrevYearManureAsync(fldName));
         }
 
-
         private Task<PrevYearManureApplViewModel> GetPrevYearManureAsync(string fldName)
         {
             PrevYearManureApplViewModel manureVM = new PrevYearManureApplViewModel();
 
             // get the current associated value for nitrogen credit.  Note, can be null
-            SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
 
             Field fld = _ud.GetFieldDetails(fldName);
             manureVM.display = false;
-            if (fld.crops != null) 
+            if (fld.crops != null)
             {
-                if (fld.crops.Count() > 0)  
+                if (fld.crops.Count() > 0)
                 {
                     manureVM.display = _sd.WasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
                     if (manureVM.display)
@@ -46,8 +46,8 @@ namespace SERVERAPI.ViewComponents
                             manureVM.nitrogen = fld.prevYearManureApplicationNitrogenCredit;
                         else
                         {
-                            // lookup default Nitrogen credit 
-                            manureVM.nitrogen = calculator.calcPrevYearManureApplDefault(fldName);
+                            // lookup default Nitrogen credit
+                            manureVM.nitrogen = _chemicalBalanceMessage.CalcPrevYearManureApplDefault(fld);
                         }
                     }
                     else
@@ -55,7 +55,6 @@ namespace SERVERAPI.ViewComponents
                         fld.prevYearManureApplicationNitrogenCredit = null;
                         _ud.UpdateField(fld);
                     }
-
                 }
                 else
                 {
@@ -81,6 +80,4 @@ namespace SERVERAPI.ViewComponents
         public string url { get; set; }
         public string urlText { get; set; }
     }
-
-
 }

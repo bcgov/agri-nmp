@@ -1,24 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Agri.Interfaces;
 using Agri.Models.Calculate;
-using SERVERAPI.Utility;
+using Agri.CalculateService;
+using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcSummary : ViewComponent
     {
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
+        private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
 
-        public CalcSummary(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
+        public CalcSummary(IAgriConfigurationRepository sd,
+            UserData ud,
+            IChemicalBalanceMessage chemicalBalanceMessage)
         {
             _sd = sd;
             _ud = ud;
+            _chemicalBalanceMessage = chemicalBalanceMessage;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
@@ -31,12 +33,8 @@ namespace SERVERAPI.ViewComponents
             CalcSummaryViewModel cvm = new CalcSummaryViewModel();
             cvm.summaryReqd = false;
 
-            ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
-            ChemicalBalances chemicalBalances = new ChemicalBalances();
-
-            chemicalBalances = cbm.GetChemicalBalances(fldName);
-
-            List<BalanceMessages> msgs = cbm.DetermineBalanceMessages(fldName);
+            var chemicalBalances = _chemicalBalanceMessage.GetChemicalBalances(_ud.GetFieldDetails(fldName), _ud.FarmDetails().FarmRegion.Value, _ud.FarmDetails().Year);
+            var msgs = _chemicalBalanceMessage.DetermineBalanceMessages(_ud.GetFieldDetails(fldName), _ud.FarmDetails().FarmRegion.Value, _ud.FarmDetails().Year);
 
             foreach (var m in msgs)
             {
@@ -80,7 +78,7 @@ namespace SERVERAPI.ViewComponents
             cvm.remN = chemicalBalances.balance_CropN.ToString();
             cvm.remP = chemicalBalances.balance_CropP2O5.ToString();
             cvm.remK = chemicalBalances.balance_CropK2O.ToString();
-            cvm.summaryReqd = cbm.displayBalances;
+            cvm.summaryReqd = _chemicalBalanceMessage.DisplayMessages(_ud.GetFieldDetails(fldName));
 
             return Task.FromResult(cvm);
         }

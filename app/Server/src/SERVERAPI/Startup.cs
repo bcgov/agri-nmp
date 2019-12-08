@@ -113,8 +113,12 @@ namespace SERVERAPI
 
             services.AddScoped<SERVERAPI.Models.Impl.UserData>();
             services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
-            //services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
             services.AddScoped<IAgriConfigurationRepository, AgriConfigurationRepository>();
+            services.AddScoped<ICalculateAnimalRequirement, CalculateAnimalRequirement>();
+            services.AddScoped<ICalculateCropRequirementRemoval, CalculateCropRequirementRemoval>();
+            services.AddScoped<ICalculateFertilizerNutrients, CalculateFertilizerNutrients>();
+            services.AddScoped<ICalculateNutrients, CalculateNutrients>();
+            services.AddScoped<IChemicalBalanceMessage, ChemicalBalanceMessage>();
             services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
             services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
             services.AddScoped<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
@@ -124,7 +128,6 @@ namespace SERVERAPI
             services.AddScoped<IStorageVolumeCalculator, StorageVolumeCalculator>();
 
             services.AddOptions();
-            //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
 

@@ -14,13 +14,11 @@ namespace SERVERAPI.ViewComponents
 {
     public class Fields : ViewComponent
     {
-        private IHostingEnvironment _env;
-        private UserData _ud;
-        private IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
 
-        public Fields(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
+        public Fields(UserData ud, IAgriConfigurationRepository sd)
         {
-            _env = env;
             _ud = ud;
             _sd = sd;
         }
@@ -35,7 +33,7 @@ namespace SERVERAPI.ViewComponents
             FieldsViewModel fvm = new FieldsViewModel();
             FarmDetails fd = _ud.FarmDetails();
 
-            if(fd.FarmRegion.HasValue)
+            if (fd.FarmRegion.HasValue)
             {
                 fvm.regionFnd = true;
             }

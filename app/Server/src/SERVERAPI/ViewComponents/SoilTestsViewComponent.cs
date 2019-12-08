@@ -1,6 +1,7 @@
 ﻿using Agri.Interfaces;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,9 +9,9 @@ namespace SERVERAPI.ViewComponents
 {
     public class SoilTests : ViewComponent
     {
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
-        private ISoilTestConverter _soilTestConverter;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
+        private readonly ISoilTestConverter _soilTestConverter;
 
         public SoilTests(IAgriConfigurationRepository sd, Models.Impl.UserData ud, ISoilTestConverter soilTestConverter)
         {
@@ -18,7 +19,6 @@ namespace SERVERAPI.ViewComponents
             _ud = ud;
             _soilTestConverter = soilTestConverter;
         }
-
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
@@ -62,12 +62,14 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(svm);
         }
     }
+
     public class SoilTestsViewModel
     {
         public string testingMethod { get; set; }
         public bool missingTests { get; set; }
         public List<DisplaySoilTest> tests { get; set; }
     }
+
     public class DisplaySoilTest
     {
         public string fldName { get; set; }
@@ -79,6 +81,6 @@ namespace SERVERAPI.ViewComponents
         public string dispPRating { get; set; }
         public string dispK { get; set; }
         public string dispKRating { get; set; }
-        public string dispPH { get; set; }        
+        public string dispPH { get; set; }
     }
 }
