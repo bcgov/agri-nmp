@@ -48,6 +48,7 @@ namespace Agri.Models
     {
         Farm,
         ManureManagement,
+        RanchManure,
         Fields,
         Soil,
         Feeding,
@@ -64,6 +65,7 @@ namespace Agri.Models
         ManureImported,
         ManureStorage,
         ManureNutrientAnalysis,
+        RanchManure,
         Fields,
         SoilTest,
         Feeding,

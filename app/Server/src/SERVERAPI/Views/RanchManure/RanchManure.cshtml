@@ -1,0 +1,38 @@
+﻿@using Agri.Models
+
+@{
+    ViewData["Title"] = "GeneratedImported";
+}
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog" id="divSize">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<br />
+<br />
+
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        <form asp-controller="RanchManure" asp-action="RanchManure" method="post" id="modForm">
+            <div id="ranchManure">
+                @await Component.InvokeAsync("RanchManure")
+            </div>
+        </form>
+        <div id="next-previous-navigation">
+            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.RanchManure })
+        </div>
+        <!-- PAGE CONTENT -->
+    </div>
+</div>
+
+@section Scripts {
+}
