@@ -14,7 +14,8 @@ module.exports = (settings)=>{
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/postgresql.dc.json`, {
     'param':{
       'NAME': phases[phase].name,
-      'SUFFIX': phases[phase].suffix
+      'SUFFIX': phases[phase].suffix,
+      'PERSISTENT_VOLUME_CLASS': phases[phase].persistentVolumeClass
     }
   }));
 

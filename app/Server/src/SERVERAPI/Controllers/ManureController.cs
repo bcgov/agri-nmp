@@ -1,44 +1,47 @@
-﻿using System;
+﻿using Agri.CalculateService;
+using Agri.Data;
+using Agri.Models.Calculate;
+using Agri.Models.Configuration;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SERVERAPI.Models.Impl;
+using SERVERAPI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Calculate;
-using Agri.Models.Farm;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.ViewModels;
-using SERVERAPI.Models.Impl;
-using SERVERAPI.Models;
-using SERVERAPI.Utility;
-using Agri.Models.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace SERVERAPI.Controllers
 {
     //[RedirectingAction]
     public class ManureController : Controller
     {
-        private ILogger<ManureController> _logger;
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
+        private readonly ILogger<ManureController> _logger;
+        private readonly IHostingEnvironment _env;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly ICalculateNutrients _calculateNutrients;
 
         public ManureController(ILogger<ManureController> logger,
-            IHostingEnvironment env, 
-            UserData ud, 
-            IAgriConfigurationRepository sd)
+            IHostingEnvironment env,
+            UserData ud,
+            IAgriConfigurationRepository sd,
+            ICalculateNutrients calculateNutrients)
         {
             _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
+            _calculateNutrients = calculateNutrients;
         }
+
         // GET: /<controller>/
         public IActionResult Manure()
-        {           
+        {
             return View();
         }
+
         public IActionResult CompostDetails(int? id, string target)
         {
             //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
@@ -49,7 +52,6 @@ namespace SERVERAPI.Controllers
             mvm.act = id == null ? "Add" : "Edit";
             mvm.url = _sd.GetExternalLink("labanalysisexplanation");
             mvm.urlText = _sd.GetUserPrompt("moreinfo");
-
 
             if (id != null)
             {
@@ -67,8 +69,8 @@ namespace SERVERAPI.Controllers
                 {
                     mvm.bookValue = false;
                     mvm.compost = _sd.IsManureClassCompostType(fm.manure_class);
-                    mvm.onlyCustom = ( _sd.IsManureClassOtherType(fm.manure_class) || _sd.IsManureClassCompostType(fm.manure_class) || _sd.IsManureClassCompostClassType(fm.manure_class));
-                    mvm.showNitrate = ( _sd.IsManureClassCompostType(fm.manure_class) || _sd.IsManureClassCompostClassType(fm.manure_class));
+                    mvm.onlyCustom = (_sd.IsManureClassOtherType(fm.manure_class) || _sd.IsManureClassCompostType(fm.manure_class) || _sd.IsManureClassCompostClassType(fm.manure_class));
+                    mvm.showNitrate = (_sd.IsManureClassCompostType(fm.manure_class) || _sd.IsManureClassCompostClassType(fm.manure_class));
                 }
                 mvm.manureName = fm.name;
                 mvm.moisture = fm.moisture;
@@ -97,6 +99,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView(mvm);
         }
+
         private void CompostDetailsSetup(ref CompostDetailViewModel cvm)
         {
             cvm.manOptions = new List<SelectListItem>();
@@ -104,6 +107,7 @@ namespace SERVERAPI.Controllers
 
             return;
         }
+
         [HttpPost]
         public IActionResult CompostDetails(CompostDetailViewModel cvm)
         {
@@ -119,7 +123,6 @@ namespace SERVERAPI.Controllers
 
             try
             {
-
                 if (cvm.buttonPressed == "ManureChange")
                 {
                     ModelState.Clear();
@@ -128,7 +131,7 @@ namespace SERVERAPI.Controllers
                     if (cvm.selManOption != 0)
                     {
                         man = _sd.GetManure(cvm.selManOption.ToString());
-                        if( _sd.IsManureClassOtherType(man.ManureClass) ||
+                        if (_sd.IsManureClassOtherType(man.ManureClass) ||
                            _sd.IsManureClassCompostType(man.ManureClass))
                         {
                             cvm.bookValue = false;
@@ -212,7 +215,6 @@ namespace SERVERAPI.Controllers
                             cvm.manureName = man.Name;
                             cvm.showNitrate = false;
                             cvm.compost = false;
-                            
                         }
                         else
                         {
@@ -273,10 +275,10 @@ namespace SERVERAPI.Controllers
                                 }
                                 else
                                 {
-                                    if(man.SolidLiquid.ToUpper() == "SOLID" &&
+                                    if (man.SolidLiquid.ToUpper() == "SOLID" &&
                                        man.ManureClass.ToUpper() == "OTHER")
                                     {
-                                        if(userMoisture > 80)
+                                        if (userMoisture > 80)
                                         {
                                             ModelState.AddModelError("moisture", "must be \u2264 80%.");
                                         }
@@ -381,9 +383,9 @@ namespace SERVERAPI.Controllers
                     }
 
                     List<FarmManure> manures = _ud.GetFarmManures();
-                    foreach(var m in manures)
+                    foreach (var m in manures)
                     {
-                        if(m.customized &&
+                        if (m.customized &&
                            m.name == cvm.manureName &&
                            m.id != cvm.id)
                         {
@@ -391,7 +393,6 @@ namespace SERVERAPI.Controllers
                             break;
                         }
                     }
-
 
                     if (!ModelState.IsValid)
                         return View(cvm);
@@ -422,7 +423,6 @@ namespace SERVERAPI.Controllers
                             fm.nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
                             fm.solid_liquid = man.SolidLiquid;
                         }
-
 
                         _ud.AddFarmManure(fm);
                     }
@@ -472,9 +472,9 @@ namespace SERVERAPI.Controllers
 
             return PartialView(cvm);
         }
+
         private void ReCalculateManure(int id)
         {
-            Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
             NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
 
             List<Field> flds = _ud.GetFields();
@@ -489,22 +489,21 @@ namespace SERVERAPI.Controllers
                     {
                         int regionid = _ud.FarmDetails().FarmRegion.Value;
                         Region region = _sd.GetRegion(regionid);
-                        nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt16(nm.manureId), region.LocationId);
+
+                        nOrganicMineralizations = _calculateNutrients.GetNMineralization(_ud.GetFarmManure(Convert.ToInt16(nm.manureId)), region.LocationId);
 
                         string avail = (nOrganicMineralizations.OrganicN_FirstYear * 100).ToString("###");
 
-                        string nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(nm.manureId), Convert.ToInt16(nm.applicationId)) * 100).ToString("###");
+                        string nh4 = (_calculateNutrients.GetAmmoniaRetention(_ud.GetFarmManure(Convert.ToInt16(nm.manureId)), Convert.ToInt16(nm.applicationId)) * 100).ToString("###");
 
-                        NutrientInputs nutrientInputs = new NutrientInputs();
-
-                        calculateNutrients.manure = nm.manureId;
-                        calculateNutrients.applicationSeason = nm.applicationId;
-                        calculateNutrients.applicationRate = Convert.ToDecimal(nm.rate);
-                        calculateNutrients.applicationRateUnits = nm.unitId;
-                        calculateNutrients.ammoniaNRetentionPct = Convert.ToDecimal(nh4);
-                        calculateNutrients.firstYearOrganicNAvailablityPct = Convert.ToDecimal(avail);
-
-                        calculateNutrients.GetNutrientInputs(nutrientInputs);
+                        var nutrientInputs = _calculateNutrients.GetNutrientInputs(
+                            _ud.GetFarmManure(Convert.ToInt32(nm.manureId)),
+                            region,
+                            Convert.ToDecimal(nm.rate),
+                            nm.unitId,
+                            Convert.ToDecimal(nh4),
+                            Convert.ToDecimal(avail)
+                            );
 
                         nm.yrN = nutrientInputs.N_FirstYear;
                         nm.yrP2o5 = nutrientInputs.P2O5_FirstYear;
@@ -518,6 +517,7 @@ namespace SERVERAPI.Controllers
                 }
             }
         }
+
         public ActionResult CompostDelete(int id, string target)
         {
             CompostDeleteViewModel dvm = new CompostDeleteViewModel();
@@ -555,13 +555,14 @@ namespace SERVERAPI.Controllers
 
             return PartialView("CompostDelete", dvm);
         }
+
         [HttpPost]
         public ActionResult CompostDelete(CompostDeleteViewModel dvm)
         {
             if (ModelState.IsValid)
             {
                 // first remove manure from all fields that had it applied
-                if(!string.IsNullOrEmpty(dvm.warning))
+                if (!string.IsNullOrEmpty(dvm.warning))
                 {
                     List<Field> flds = _ud.GetFields();
 
@@ -587,6 +588,7 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("CompostDelete", dvm);
         }
+
         public IActionResult RefreshCompostList()
         {
             return ViewComponent("Compost");

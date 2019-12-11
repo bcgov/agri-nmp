@@ -1,5 +1,4 @@
-﻿using Agri.Interfaces;
-using Agri.Models.Configuration;
+﻿using Agri.Data;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Linq;

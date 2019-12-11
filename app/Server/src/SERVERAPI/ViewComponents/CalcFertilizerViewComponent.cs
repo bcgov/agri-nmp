@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
+﻿using Agri.Data;
 using Agri.Models.Configuration;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -21,7 +17,6 @@ namespace SERVERAPI.ViewComponents
             _sd = sd;
             _ud = ud;
         }
-
 
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
@@ -41,7 +36,7 @@ namespace SERVERAPI.ViewComponents
 
                 FertilizerType ft = _sd.GetFertilizerType(f.fertilizerTypeId.ToString());
 
-                if(ft.Custom)
+                if (ft.Custom)
                 {
                     fertilizerName = ft.DryLiquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
                     fertilizerName = fertilizerName + f.customN.ToString() + "-" + f.customP2o5.ToString() + "-" + f.customK2o.ToString();
@@ -65,10 +60,12 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(fvm);
         }
     }
+
     public class CalcFertilizerViewModel
     {
         public List<DisplayNutrientFertilizer> fldFertilizers { get; set; }
     }
+
     public class DisplayNutrientFertilizer
     {
         public string fldName { get; set; }

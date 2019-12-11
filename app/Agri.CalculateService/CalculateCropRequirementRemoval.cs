@@ -1,42 +1,44 @@
-﻿using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
-using SERVERAPI.Models.Impl;
 using System;
 
-namespace SERVERAPI.Utility
+namespace Agri.CalculateService
 {
-    public class CalculateCropRequirementRemoval
-    { 
-    
-    private UserData _ud;
-    private IAgriConfigurationRepository _sd;
+    public interface ICalculateCropRequirementRemoval
+    {
+        CropRequirementRemoval GetCropRequirementRemoval(int cropid, decimal yield, decimal? crudeProtien, bool? coverCropHarvested, int nCredit, int regionId, Field field);
 
-        public CalculateCropRequirementRemoval(UserData ud,IAgriConfigurationRepository sd)
-        {            
-            _ud = ud;
+        decimal GetCrudeProtienByCropId(int cropid);
+
+        decimal? GetDefaultYieldByCropId(FarmDetails farmDetails, int cropid, bool useBushelPerAcreUnits);
+    }
+
+    public class CalculateCropRequirementRemoval : ICalculateCropRequirementRemoval
+    {
+        private readonly IAgriConfigurationRepository _sd;
+
+        public CalculateCropRequirementRemoval(IAgriConfigurationRepository sd)
+        {
             _sd = sd;
         }
 
-        public int cropid { get; set; }
-        public int previousCropid { get; set; }
-        public decimal yield { get; set; }
-        public decimal? crudeProtien { get; set; }
-        public CropRequirementRemoval cropRequirementRemoval { get; set; }
-        public bool? coverCropHarvested { get; set; }   
-        public string fieldName { get; set; }
-        public int nCredit { get; set; }        
-
-        public CropRequirementRemoval GetCropRequirementRemoval()
+        public CropRequirementRemoval GetCropRequirementRemoval(
+             int cropid,
+            decimal yield,
+            decimal? crudeProtien,
+            bool? coverCropHarvested,
+            int nCredit,
+            int regionId,
+            Field field)
         {
-            decimal n_removal = 0;
-
             ConversionFactor _cf = _sd.GetConversionFactor();
 
-            CropRequirementRemoval crr = new CropRequirementRemoval();
+            var crr = new CropRequirementRemoval();
             Crop crop = _sd.GetCrop(cropid);
 
+            decimal n_removal;
             //      For testing we're using Soil Test Kelowna of 65ppm, should actually by 100+ (say 101)
             //
             //      Nutrient removal
@@ -54,9 +56,9 @@ namespace SERVERAPI.Utility
             //              don't change numbers
             //          if Cover crop not harvested
             //              set all removal amts to zero
-            
-            if (!crudeProtien.HasValue || (crudeProtien.HasValue && crudeProtien.Value == 0))
-            { 
+
+            if (!crudeProtien.HasValue || crudeProtien.HasValue && crudeProtien.Value == 0)
+            {
                 decimal tmpDec;
                 if (decimal.TryParse(crop.CropRemovalFactorNitrogen.ToString(), out tmpDec))
                     n_removal = tmpDec * yield;
@@ -64,8 +66,8 @@ namespace SERVERAPI.Utility
                     n_removal = 0;
             }
             else
-                n_removal = decimal.Divide(Convert.ToDecimal(crudeProtien), (_cf.NitrogenProteinConversion * _cf.UnitConversion)) * yield;
-            
+                n_removal = decimal.Divide(Convert.ToDecimal(crudeProtien), _cf.NitrogenProteinConversion * _cf.UnitConversion) * yield;
+
             crr.P2O5_Removal = Convert.ToInt32(crop.CropRemovalFactorP2O5 * yield);
             crr.K2O_Removal = Convert.ToInt32(crop.CropRemovalFactorK2O * yield);
             crr.N_Removal = Convert.ToInt32(n_removal);
@@ -76,7 +78,6 @@ namespace SERVERAPI.Utility
                 crr.K2O_Removal = 0;
                 crr.N_Removal = 0;
             }
-
 
             //      Crop Requirement
             //          P205
@@ -97,33 +98,30 @@ namespace SERVERAPI.Utility
             //              get default yield = cropyield(cropid, locationid)
             //              N = (yield / default yield) * crop.n_recomm_lbperac
 
-            int regionid = _ud.FarmDetails().FarmRegion.Value;
-            Region region = _sd.GetRegion(regionid);
+            var region = _sd.GetRegion(regionId);
 
-            Field fld = _ud.GetFieldDetails(fieldName);
-
-            if(fld.soilTest == null)
+            if (field.soilTest == null)
             {
-                fld.soilTest = new SoilTest();
-                DefaultSoilTest dt = _sd.GetDefaultSoilTest();
-                fld.soilTest.valNO3H = dt.Nitrogen;
-                fld.soilTest.ValP = dt.Phosphorous;
-                fld.soilTest.valK = dt.Potassium;
-                fld.soilTest.valPH = dt.pH;
-                fld.soilTest.ConvertedKelownaK = dt.ConvertedKelownaK;
-                fld.soilTest.ConvertedKelownaP = dt.ConvertedKelownaP;
+                field.soilTest = new SoilTest();
+                var dt = _sd.GetDefaultSoilTest();
+                field.soilTest.valNO3H = dt.Nitrogen;
+                field.soilTest.ValP = dt.Phosphorous;
+                field.soilTest.valK = dt.Potassium;
+                field.soilTest.valPH = dt.pH;
+                field.soilTest.ConvertedKelownaK = dt.ConvertedKelownaK;
+                field.soilTest.ConvertedKelownaP = dt.ConvertedKelownaP;
             }
 
-            int _STP = fld.soilTest.ConvertedKelownaP;
+            int _STP = field.soilTest.ConvertedKelownaP;
             if (_STP == 0)
                 _STP = _cf.DefaultSoilTestKelownaPhosphorous;
 
-            int _STK = fld.soilTest.ConvertedKelownaK;
-            if (fld.soilTest.ConvertedKelownaK == 0)
+            int _STK = field.soilTest.ConvertedKelownaK;
+            if (field.soilTest.ConvertedKelownaK == 0)
                 _STK = _cf.DefaultSoilTestKelownaPotassium;
 
             // p2o5 recommend calculations
-            CropSoilTestPhosphorousRegion cropSTPRegionCd  = _sd.GetCropSTPRegionCd(cropid, region.SoilTestPhosphorousRegionCd);
+            CropSoilTestPhosphorousRegion cropSTPRegionCd = _sd.GetCropSTPRegionCd(cropid, region.SoilTestPhosphorousRegionCd);
             int? phosphorous_crop_group_region_cd = cropSTPRegionCd.PhosphorousCropGroupRegionCode;
             SoilTestPhosphorousKelownaRange sTPKelownaRange = _sd.GetSTPKelownaRangeByPpm(_STP);
             int stp_kelowna_range_id = sTPKelownaRange.Id;
@@ -154,12 +152,15 @@ namespace SERVERAPI.Utility
                 case 1:
                     crr.N_Requirement = Convert.ToInt16(crop.NitrogenRecommendationPoundPerAcre);
                     break;
+
                 case 2:
                     crr.N_Requirement = Convert.ToInt16(crop.NitrogenRecommendationPoundPerAcre);
                     break;
+
                 case 3:
                     crr.N_Requirement = crr.N_Removal;
                     break;
+
                 case 4:
                     CropYield cropYield = _sd.GetCropYield(cropid, region.LocationId);
                     if (cropYield.Amount != null)
@@ -173,44 +174,41 @@ namespace SERVERAPI.Utility
             crr.N_Requirement = crr.N_Requirement - nCredit;
 
             // only reduce to 0
-            crr.N_Requirement = (crr.N_Requirement < 0) ? 0 : crr.N_Requirement;
+            crr.N_Requirement = crr.N_Requirement < 0 ? 0 : crr.N_Requirement;
 
             return crr;
         }
 
-
         // default for % Crude Protien = crop.cropremovalfactor_N * 0.625 [N to protien conversion] * 0.5 [unit conversion]
-        public decimal GetCrudeProtienByCropId(int _cropid)
+        public decimal GetCrudeProtienByCropId(int cropid)
         {
             ConversionFactor _cf = _sd.GetConversionFactor();
-
-            decimal cp = 0;
-            decimal crfN = 0;
-            Crop crop = _sd.GetCrop(_cropid);
+            Crop crop = _sd.GetCrop(cropid);
+            decimal crfN;
             decimal.TryParse(crop.CropRemovalFactorNitrogen.ToString(), out crfN);
-            cp = crfN * _cf.NitrogenProteinConversion * _cf.UnitConversion;
+            decimal cp = crfN * _cf.NitrogenProteinConversion * _cf.UnitConversion;
 
             return cp;
         }
 
-        public decimal? GetDefaultYieldByCropId(int _cropid, bool useBushelPerAcreUnits)
+        public decimal? GetDefaultYieldByCropId(FarmDetails farmDetails, int _cropid, bool useBushelPerAcreUnits)
         {
             decimal? defaultYield = null;
             int _locationid;
-            if (_ud.FarmDetails().FarmRegion.HasValue)
-            { 
-                _locationid = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value).LocationId;
+            if (farmDetails.FarmRegion.HasValue)
+            {
+                _locationid = _sd.GetRegion(farmDetails.FarmRegion.Value).LocationId;
                 CropYield cy = _sd.GetCropYield(_cropid, _locationid);
                 if (cy.Amount.HasValue)
-                        defaultYield = cy.Amount.Value;
+                    defaultYield = cy.Amount.Value;
                 if (useBushelPerAcreUnits && defaultYield.HasValue)
                 {
                     //E07US18 - convert to bushels per acre
                     Crop crop = _sd.GetCrop(_cropid);
-                    if  (crop.HarvestBushelsPerTon.HasValue) 
+                    if (crop.HarvestBushelsPerTon.HasValue)
                         defaultYield = defaultYield * crop.HarvestBushelsPerTon;
                 }
-            }            
+            }
 
             return defaultYield;
         }

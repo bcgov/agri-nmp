@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Agri.Interfaces;
+﻿using Agri.Data;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
-using Microsoft.Extensions.Options;
-using Agri.Models.Configuration;
-using Microsoft.Extensions.Logging;
-using SERVERAPI.Filters;
+using System;
+using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,21 +18,17 @@ namespace SERVERAPI.Controllers
     [SessionTimeout]
     public class FieldsController : BaseController
     {
-        private ILogger<FieldsController> _logger;
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
+        private readonly ILogger<FieldsController> _logger;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
         private readonly IOptions<AppSettings> _appSettings;
 
-
         public FieldsController(ILogger<FieldsController> logger,
-            IHostingEnvironment env, 
-            UserData ud, 
-            IAgriConfigurationRepository sd, 
+            UserData ud,
+            IAgriConfigurationRepository sd,
             IOptions<AppSettings> appSettings)
         {
             _logger = logger;
-            _env = env;
             _ud = ud;
             _sd = sd;
             _appSettings = appSettings;
@@ -60,7 +55,7 @@ namespace SERVERAPI.Controllers
             foreach (var f in fldList)
             {
                 FieldListItem fli = new FieldListItem();
-                if(!(f.fieldName == currFld))
+                if (!(f.fieldName == currFld))
                 {
                     fli.fieldName = f.fieldName;
                     fli.fieldSelected = false;
@@ -70,6 +65,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView("FieldCopy", fvm);
         }
+
         [HttpPost]
         public ActionResult FieldCopy(FieldCopyViewModel fvm)
         {
@@ -77,9 +73,9 @@ namespace SERVERAPI.Controllers
 
             if (ModelState.IsValid)
             {
-                foreach(var fld in fvm.fieldList)
+                foreach (var fld in fvm.fieldList)
                 {
-                    if(fld.fieldSelected)
+                    if (fld.fieldSelected)
                     {
                         List<FieldCrop> toCrops = _ud.GetFieldCrops(fld.fieldName);
                         foreach (var c in toCrops)
@@ -105,25 +101,25 @@ namespace SERVERAPI.Controllers
                             _ud.DeleteFieldNutrientsOther(fld.fieldName, o.id);
                         }
                         List<FieldCrop> fromCrops = _ud.GetFieldCrops(fvm.fldName);
-                        foreach(var c in fromCrops)
+                        foreach (var c in fromCrops)
                         {
                             _ud.AddFieldCrop(fld.fieldName, c);
                         }
 
                         List<NutrientFertilizer> fromFert = _ud.GetFieldNutrientsFertilizers(fvm.fldName);
-                        foreach(var f in fromFert)
+                        foreach (var f in fromFert)
                         {
                             _ud.AddFieldNutrientsFertilizer(fld.fieldName, f);
                         }
 
                         List<NutrientManure> fromMan = _ud.GetFieldNutrientsManures(fvm.fldName);
-                        foreach(var m in fromMan)
+                        foreach (var m in fromMan)
                         {
                             _ud.AddFieldNutrientsManure(fld.fieldName, m);
                         }
 
                         List<NutrientOther> fromOther = _ud.GetFieldNutrientsOthers(fvm.fldName);
-                        foreach(var o in fromOther)
+                        foreach (var o in fromOther)
                         {
                             _ud.AddFieldNutrientsOther(fld.fieldName, o);
                         }
@@ -132,7 +128,7 @@ namespace SERVERAPI.Controllers
                     }
                 }
 
-                if(numSel == 0)
+                if (numSel == 0)
                 {
                     ModelState.AddModelError("", "No fields selected for copying of information.");
                     return PartialView("FieldCopy", fvm);
@@ -148,7 +144,7 @@ namespace SERVERAPI.Controllers
         {
             FieldDetailViewModel fvm = new FieldDetailViewModel();
 
-           ConversionFactor cf = _sd.GetConversionFactor();
+            ConversionFactor cf = _sd.GetConversionFactor();
 
             fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
 
@@ -165,7 +161,7 @@ namespace SERVERAPI.Controllers
                 fvm.fieldName = fld.fieldName;
                 fvm.fieldArea = fld.area.ToString("G29");
                 fvm.fieldComment = fld.comment;
-                fvm.fieldId = fld.id;
+                fvm.fieldId = fld.Id;
                 // retrofit old saved NMP files
                 if (String.IsNullOrEmpty(fld.prevYearManureApplicationFrequency))
                     // set to default (no manure applied in the last two years)
@@ -180,6 +176,7 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("FieldDetail", fvm);
         }
+
         [HttpPost]
         public ActionResult FieldDetail(FieldDetailViewModel fvm)
         {
@@ -242,8 +239,8 @@ namespace SERVERAPI.Controllers
                 fld.fieldName = fvm.fieldName;
                 fld.area = Math.Round(area, 1);
                 fld.comment = fvm.fieldComment;
-                fld.prevYearManureApplicationFrequency = fvm.selPrevYrManureOption;       
-        
+                fld.prevYearManureApplicationFrequency = fvm.selPrevYrManureOption;
+
                 if (fvm.act == "Add")
                 {
                     _ud.AddField(fld);
@@ -266,15 +263,18 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("FieldDetail", fvm);
         }
+
         public IActionResult RefreshFieldsList()
         {
             return ViewComponent("Fields");
         }
+
         public IActionResult RefreshList(string actn, string cntl, string currFld)
         {
             //return ViewComponent("FieldList", new { actn = actn, cntl = cntl });
             return RedirectToAction(actn, cntl, new { nme = currFld });
         }
+
         [HttpGet]
         public ActionResult FieldDelete(string name, string target)
         {
@@ -288,6 +288,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView("FieldDelete", fvm);
         }
+
         [HttpPost]
         public ActionResult FieldDelete(FieldDeleteViewModel fvm)
         {

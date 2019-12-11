@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
@@ -47,7 +44,7 @@ namespace Agri.CalculateService.Tests
             var totalLiquidVolumeToSeparate = 2789687;
             var wholePercentSeparation = 10;
             var calculator = new ManureLiquidSolidSeparationCalculator(conversionCalculator);
-            
+
             //Act
             var actual = calculator.CalculateSeparatedManure(totalLiquidVolumeToSeparate, wholePercentSeparation);
             var expectedLiquidsUSGallons = 2510718;
@@ -57,7 +54,6 @@ namespace Agri.CalculateService.Tests
             //Assert
             Assert.AreEqual(expectedLiquidsUSGallons, actual.LiquidUSGallons);
             Assert.AreEqual(expectedSolidsTons, actual.SolidTons);
-
         }
 
         [TestMethod]
@@ -112,7 +108,6 @@ namespace Agri.CalculateService.Tests
             var conversionCalculator = new ManureUnitConversionCalculator(repository);
             //171,797 + 100000 = 271797
 
-
             var totalLiquidVolumeToSeparate = storage.AnnualTotalAmountofManureInStorage;
             var wholePercentSeparation = 10;
             var calculator = new ManureLiquidSolidSeparationCalculator(conversionCalculator);
@@ -126,7 +121,6 @@ namespace Agri.CalculateService.Tests
             Assert.AreEqual(Convert.ToInt32(storage.AnnualTotalPrecipitation), 171797);
             Assert.AreEqual(expectedLiquidsUSGallons, Convert.ToInt32(actual.LiquidUSGallons));
             Assert.AreEqual(expectedSolidsTons, actual.SolidTons);
-
         }
     }
 }
