@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Calculate;
 
 namespace Agri.CalculateService
 {
+    public interface IManureLiquidSolidSeparationCalculator
+    {
+        SeparatedManure CalculateSeparatedManure(decimal liquidVolumeGallons, int wholePercentLiquidSeparated);
+    }
+
     public class ManureLiquidSolidSeparationCalculator : IManureLiquidSolidSeparationCalculator
     {
         private IManureUnitConversionCalculator _manureUnitConversionCalculator;
@@ -34,11 +34,10 @@ namespace Agri.CalculateService
                                                                     1M,
                                                                     AnnualAmountUnits.CubicMeters);
 
-            separatedManure.SolidTons = Convert.ToInt32( _manureUnitConversionCalculator.GetTonsWeight(ManureMaterialType.Solid,
-                                                            moistureWholePercent, 
-                                                            Convert.ToDecimal(solidsSeperatedCubicMeters), 
+            separatedManure.SolidTons = Convert.ToInt32(_manureUnitConversionCalculator.GetTonsWeight(ManureMaterialType.Solid,
+                                                            moistureWholePercent,
+                                                            Convert.ToDecimal(solidsSeperatedCubicMeters),
                                                             AnnualAmountUnits.CubicMeters));
-
 
             return separatedManure;
         }

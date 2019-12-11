@@ -1,9 +1,8 @@
-﻿using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using System;
-using static Agri.CalculateService.CalculateCropRequirementRemoval;
 
 namespace Agri.CalculateService
 {

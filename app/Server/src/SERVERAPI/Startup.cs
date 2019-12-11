@@ -1,16 +1,5 @@
-/*
-
- *
-
- *
- * OpenAPI spec version: v1
- *
- *
- */
-
 using Agri.CalculateService;
 using Agri.Data;
-using Agri.Interfaces;
 using Agri.Models.Settings;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;

@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Agri.CalculateService;
+using Agri.Data;
+using Agri.Models.Calculate;
+using Agri.Models.Configuration;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using SERVERAPI.Models.Impl;
+using SERVERAPI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Agri.Interfaces;
-using Agri.Models.Calculate;
-using Agri.Models.Farm;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.ViewModels;
-using SERVERAPI.Models.Impl;
-using Agri.Models.Configuration;
-using Microsoft.Extensions.Logging;
-using Agri.CalculateService;
 
 namespace SERVERAPI.Controllers
 {

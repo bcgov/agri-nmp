@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using Agri.Interfaces;
+﻿using Agri.Data;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
-using Microsoft.Extensions.Options;
-using Agri.Models.Configuration;
-using Microsoft.Extensions.Logging;
-using SERVERAPI.Filters;
+using System;
+using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

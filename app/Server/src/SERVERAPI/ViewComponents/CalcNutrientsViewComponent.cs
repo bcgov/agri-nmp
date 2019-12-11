@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Agri.Data;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -17,6 +15,7 @@ namespace SERVERAPI.ViewComponents
             _sd = sd;
             _ud = ud;
         }
+
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
             return View(await GetNutrientAsync(fldName));
@@ -36,7 +35,6 @@ namespace SERVERAPI.ViewComponents
 
             //    DisplayCrop dm = new DisplayCrop()
             //    {
-
             //        fldNm = fldName,
             //        cropId = Convert.ToInt32(m.id),
             //        cropName = cp.cropname,
@@ -56,9 +54,9 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(mvm);
         }
     }
+
     public class CalcNutrientsViewModel
     {
         public List<DisplayCrop> cropList { get; set; }
     }
-
 }

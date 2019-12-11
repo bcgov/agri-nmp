@@ -1,4 +1,4 @@
-﻿using Agri.Interfaces;
+﻿using Agri.Data;
 
 namespace Agri.CalculateService
 {

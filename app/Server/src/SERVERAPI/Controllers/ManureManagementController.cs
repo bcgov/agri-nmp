@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Agri.Interfaces;
+﻿using Agri.CalculateService;
+using Agri.Data;
 using Agri.Models;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
-using Microsoft.AspNetCore.Mvc;
-using MvcRendering = Microsoft.AspNetCore.Mvc.Rendering;
-using SERVERAPI.Models.Impl;
-using SERVERAPI.ViewModels;
-using Agri.Models.Configuration;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SERVERAPI.Filters;
-using Agri.CalculateService;
+using SERVERAPI.Models.Impl;
+using SERVERAPI.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MvcRendering = Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SERVERAPI.Controllers
 {

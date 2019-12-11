@@ -1,17 +1,13 @@
-﻿using System;
-using System.Linq;
-using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models.Configuration;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.ViewModels;
-using Microsoft.AspNetCore.Http;
-using SERVERAPI.Models.Impl;
-using Agri.Models;
-using Microsoft.Extensions.Logging;
 using Agri.Models.Settings;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SERVERAPI.Filters;
+using SERVERAPI.Models.Impl;
+using SERVERAPI.ViewModels;
+using System.Linq;
 
 namespace SERVERAPI.Controllers
 {

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Agri.CalculateService;
+using Agri.Data;
+using Agri.Models.Calculate;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Calculate;
-using Agri.CalculateService;
-using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.ViewComponents
 {

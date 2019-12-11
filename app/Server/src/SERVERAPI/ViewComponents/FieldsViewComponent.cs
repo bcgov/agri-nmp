@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Agri.Data;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using SERVERAPI.Models;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models.Impl;
-using Microsoft.AspNetCore.Hosting;
 
 namespace SERVERAPI.ViewComponents
 {

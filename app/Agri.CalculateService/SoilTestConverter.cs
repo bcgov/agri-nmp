@@ -1,9 +1,16 @@
-﻿using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models.Farm;
 using System;
 
 namespace Agri.CalculateService
 {
+    public interface ISoilTestConverter
+    {
+        int GetConvertedSTK(string testingMethod, SoilTest soilTest);
+
+        int GetConvertedSTP(string testingMethod, SoilTest soilTest);
+    }
+
     /// <summary>
     /// Replaces SERVERAPI/Utility/SoilTestConversions.cs
     /// </summary>

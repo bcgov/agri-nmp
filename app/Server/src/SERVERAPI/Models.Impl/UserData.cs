@@ -1,19 +1,18 @@
-﻿using Agri.Interfaces;
+﻿using Agri.CalculateService;
+using Agri.Data;
+using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
+using Agri.Models.Settings;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SERVERAPI.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Agri.Models;
-using Microsoft.Extensions.Logging;
-using Agri.Models.Settings;
-using Microsoft.Extensions.Options;
-
-using Agri.CalculateService;
 
 namespace SERVERAPI.Models.Impl
 {
