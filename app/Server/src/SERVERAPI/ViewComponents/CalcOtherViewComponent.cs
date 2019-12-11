@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models;
+﻿using Agri.Data;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -46,18 +43,20 @@ namespace SERVERAPI.ViewComponents
                     yrN = Convert.ToDecimal((m.yrN).ToString("G29")),
                     yrP = Convert.ToDecimal((m.yrP2o5).ToString("G29")),
                     yrK = Convert.ToDecimal((m.yrK).ToString("G29")),
-            };
+                };
                 ovm.others.Add(no);
             }
 
             return Task.FromResult(ovm);
         }
     }
+
     public class CalcOtherViewModel
     {
         public string fldName { get; set; }
         public List<DisplayNutrientOther> others { get; set; }
     }
+
     public class DisplayNutrientOther
     {
         public int otherId { get; set; }

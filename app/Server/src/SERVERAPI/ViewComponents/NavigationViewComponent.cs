@@ -1,12 +1,12 @@
-﻿using System;
-using Agri.Interfaces;
+﻿using Agri.Data;
+using Agri.Models;
 using Agri.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Agri.Models;
 
 namespace SERVERAPI.ViewComponents
 {

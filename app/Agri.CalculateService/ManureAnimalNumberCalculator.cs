@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models;
-using Agri.Models.Calculate;
-using Agri.Models.Farm;
+﻿using Agri.Models;
+using System;
 
 namespace Agri.CalculateService
 {
+    public interface IManureAnimalNumberCalculator
+    {
+        string CalculateAverageAnimalNumber(int milkingCowAnimalNumber, string subType);
+    }
+
     public class ManureAnimalNumberCalculator : IManureAnimalNumberCalculator
     {
         public ManureAnimalNumberCalculator()
@@ -40,7 +38,7 @@ namespace Agri.CalculateService
                 placehldr += Math.Round((milkingCowAnimalNumber * 0.20)).ToString();
             }
 
-            return placehldr ;
+            return placehldr;
         }
     }
 }

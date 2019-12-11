@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Models;
-using SERVERAPI.ViewModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
 {
-    public class ManureGeneratedObtained: ViewComponent
+    public class ManureGeneratedObtained : ViewComponent
     {
         private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;

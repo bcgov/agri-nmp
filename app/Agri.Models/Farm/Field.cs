@@ -9,7 +9,7 @@ namespace Agri.Models.Farm
             crops = new List<FieldCrop>();
         }
 
-        public int id { get; set; }
+        public int Id { get; set; }
         public string fieldName { get; set; }
         public decimal area { get; set; }
         public string comment { get; set; }

@@ -1,5 +1,4 @@
-﻿using Agri.Interfaces;
-using Agri.Models;
+﻿using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using AutoMapper;
