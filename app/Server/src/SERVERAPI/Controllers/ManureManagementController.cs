@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Agri.Interfaces;
+﻿using Agri.CalculateService;
+using Agri.Data;
 using Agri.Models;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using MvcRendering = Microsoft.AspNetCore.Mvc.Rendering;
-using SERVERAPI.Models.Impl;
-using SERVERAPI.Utility;
-using SERVERAPI.ViewModels;
-using Agri.Models.Configuration;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SERVERAPI.Filters;
+using SERVERAPI.Models.Impl;
+using SERVERAPI.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MvcRendering = Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SERVERAPI.Controllers
 {
@@ -23,40 +22,35 @@ namespace SERVERAPI.Controllers
     public class ManureManagementController : BaseController
     {
         private readonly ILogger<ManureManagementController> _logger;
-        private readonly IHostingEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
+        private readonly ICalculateAnimalRequirement _calculateAnimalRequirement;
         private readonly IManureUnitConversionCalculator _manureUnitConversionCalculator;
         private readonly IManureLiquidSolidSeparationCalculator _manureLiquidSolidSeparationCalculator;
         private readonly IManureAnimalNumberCalculator _manureAnimalNumberCalculator;
-        private readonly IManureOctoberToMarchCalculator _manureOctoberToMarchCalculator;
         private readonly IStorageVolumeCalculator _storageVolumeCalculator;
-        private readonly IViewRenderService _viewRenderService;
         private readonly IMapper _mapper;
         private readonly IOptions<AppSettings> _appSettings;
 
         public ManureManagementController(ILogger<ManureManagementController> logger,
-            IHostingEnvironment env,
-            IViewRenderService viewRenderService, UserData ud,
+            UserData ud,
             IAgriConfigurationRepository sd,
+            ICalculateAnimalRequirement calculateAnimalRequirement,
             IManureUnitConversionCalculator manureUnitConversionCalculator,
             IManureLiquidSolidSeparationCalculator manureLiquidSolidSeparationCalculator,
             IStorageVolumeCalculator storageVolumeCalculator,
             IManureAnimalNumberCalculator manureAnimalNumberCalculator,
-            IManureOctoberToMarchCalculator manureOctoberToMarchCalculator,
             IMapper mapper,
             IOptions<AppSettings> appSettings)
         {
             _logger = logger;
-            _env = env;
             _ud = ud;
             _sd = sd;
+            _calculateAnimalRequirement = calculateAnimalRequirement;
             _manureUnitConversionCalculator = manureUnitConversionCalculator;
             _manureLiquidSolidSeparationCalculator = manureLiquidSolidSeparationCalculator;
             _manureAnimalNumberCalculator = manureAnimalNumberCalculator;
-            _manureOctoberToMarchCalculator = manureOctoberToMarchCalculator;
             _storageVolumeCalculator = storageVolumeCalculator;
-            _viewRenderService = viewRenderService;
             _mapper = mapper;
             _appSettings = appSettings;
         }
@@ -71,7 +65,7 @@ namespace SERVERAPI.Controllers
 
         public IActionResult ManureGeneratedObtainedDetail(int? id, string target)
         {
-            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
+            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_sd);
             ManureGeneratedObtainedDetailViewModel mgovm = new ManureGeneratedObtainedDetailViewModel();
 
             mgovm.title = id == null ? "Add" : "Edit";
@@ -156,8 +150,6 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult ManureGeneratedObtainedDetail(ManureGeneratedObtainedDetailViewModel mgovm)
         {
-            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
-
             // mgovm.placehldr = _sd.GetUserPrompt("averageanimalnumberplaceholder");
             mgovm.ExplainWashWaterVolumesDaily = _sd.GetUserPrompt("ExplainWashWaterTypes");
 
@@ -175,9 +167,9 @@ namespace SERVERAPI.Controllers
                         mgovm.selAnimalTypeOption != "select animal")
                     {
                         var defaultMilkProd =
-                            calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                            _calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
                                 Convert.ToInt16(mgovm.selSubTypeOption));
-                        var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                        var breedManureFactor = _calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
                         var milkProd = defaultMilkProd * breedManureFactor;
 
                         mgovm.milkProduction = Math.Round(milkProd ?? 0M, 1).ToString();
@@ -204,8 +196,8 @@ namespace SERVERAPI.Controllers
                         }
                         if (mgovm.showMilkProduction)
                         {
-                            mgovm.milkProduction = (calculateAnimalRequirement
-                                .GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)) * calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption))).ToString();
+                            mgovm.milkProduction = (_calculateAnimalRequirement
+                                .GetDefaultMilkProductionBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)) * _calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption))).ToString();
                             mgovm.stdMilkProduction = true;
                         }
 
@@ -217,14 +209,14 @@ namespace SERVERAPI.Controllers
                             {
                                 mgovm.washWater = (Math.Round((Convert.ToInt32(mgovm.averageAnimalNumber) *
                                                                Convert.ToDecimal(
-                                                                   calculateAnimalRequirement
+                                                                   _calculateAnimalRequirement
                                                                        .GetWashWaterBySubTypeId(
                                                                            Convert.ToInt16(mgovm.selSubTypeOption))
                                                                        .ToString())))).ToString();
                             }
                             else if (washWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
                             {
-                                mgovm.washWater = calculateAnimalRequirement
+                                mgovm.washWater = _calculateAnimalRequirement
                                     .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                             }
                         }
@@ -358,12 +350,12 @@ namespace SERVERAPI.Controllers
 
                     if (washWaterUnits == WashWaterUnits.USGallonsPerDay && mgovm.averageAnimalNumber != null)
                     {
-                        mgovm.washWater = (Math.Round((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(calculateAnimalRequirement
+                        mgovm.washWater = (Math.Round((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(_calculateAnimalRequirement
                                                .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())))).ToString();
                     }
                     else if (washWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
                     {
-                        mgovm.washWater = calculateAnimalRequirement
+                        mgovm.washWater = _calculateAnimalRequirement
                             .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                     }
 
@@ -381,14 +373,14 @@ namespace SERVERAPI.Controllers
                     if (washWaterUnits == WashWaterUnits.USGallonsPerDay && mgovm.averageAnimalNumber != null)
                     {
                         mgovm.washWater = (Math.Round((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(
-                                                           calculateAnimalRequirement
+                                                           _calculateAnimalRequirement
                                                                .GetWashWaterBySubTypeId(
                                                                    Convert.ToInt16(mgovm.selSubTypeOption))
                                                                .ToString())))).ToString();
                     }
                     else if (washWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
                     {
-                        mgovm.washWater = calculateAnimalRequirement
+                        mgovm.washWater = _calculateAnimalRequirement
                             .GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString();
                     }
 
@@ -403,9 +395,9 @@ namespace SERVERAPI.Controllers
 
                     mgovm.stdMilkProduction = true;
                     var defaultMilkProd =
-                        calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                        _calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
                             Convert.ToInt16(mgovm.selSubTypeOption));
-                    var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                    var breedManureFactor = _calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
                     var milkProd = defaultMilkProd * breedManureFactor;
 
                     mgovm.milkProduction = Math.Round(milkProd ?? 0M, 1).ToString();
@@ -427,16 +419,16 @@ namespace SERVERAPI.Controllers
                     {
                         ModelState.Clear();
                         if (mgovm.washWater == null)
-                            calculateAnimalRequirement.washWater = null;
+                            _calculateAnimalRequirement.WashWater = null;
                         else
-                            calculateAnimalRequirement.washWater = Convert.ToDecimal(mgovm.washWater);
+                            _calculateAnimalRequirement.WashWater = Convert.ToDecimal(mgovm.washWater);
 
                         if (mgovm.milkProduction == null)
-                            calculateAnimalRequirement.milkProduction = null;
+                            _calculateAnimalRequirement.MilkProduction = null;
                         else
-                            calculateAnimalRequirement.milkProduction = Convert.ToDecimal(mgovm.milkProduction);
+                            _calculateAnimalRequirement.MilkProduction = Convert.ToDecimal(mgovm.milkProduction);
 
-                        if (mgovm.washWater != calculateAnimalRequirement.GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())
+                        if (mgovm.washWater != _calculateAnimalRequirement.GetWashWaterBySubTypeId(Convert.ToInt16(mgovm.selSubTypeOption)).ToString())
                         {
                             mgovm.stdWashWater = false;
                         }
@@ -444,9 +436,9 @@ namespace SERVERAPI.Controllers
                         if (mgovm.showMilkProduction)
                         {
                             var defaultMilkProd =
-                                calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                _calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
                                     Convert.ToInt16(mgovm.selSubTypeOption));
-                            var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                            var breedManureFactor = _calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
                             var milkProd = defaultMilkProd * breedManureFactor;
 
                             if (mgovm.milkProduction != Math.Round(milkProd ?? 0M, 1).ToString())
@@ -526,9 +518,9 @@ namespace SERVERAPI.Controllers
                             if (mgovm.breedOptions.Count() > 0)
                             {
                                 var defaultMilkProd =
-                                    calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                    _calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
                                         Convert.ToInt16(mgovm.selSubTypeOption));
-                                var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                                var breedManureFactor = _calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
                                 var milkProd = defaultMilkProd * breedManureFactor;
 
                                 // annual manure generation for non milking cows
@@ -661,9 +653,9 @@ namespace SERVERAPI.Controllers
                             if (mgovm.breedOptions.Count() > 0)
                             {
                                 var defaultMilkProd =
-                                    calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                    _calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
                                         Convert.ToInt16(mgovm.selSubTypeOption));
-                                var breedManureFactor = calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
+                                var breedManureFactor = _calculateAnimalRequirement.GetBreedManureFactorByBreedId(Convert.ToInt32(mgovm.selBreedOption));
                                 var milkProd = defaultMilkProd * breedManureFactor;
 
                                 // annual manure generation for non milking cows
@@ -773,7 +765,6 @@ namespace SERVERAPI.Controllers
             mgovm.showWashWater = false;
             mgovm.showMilkProduction = false;
             mgovm.showBreedAndGrazingDaysPerYear = false;
-            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
             mgovm.animalTypeOptions = new List<SelectListItem>();
             mgovm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
@@ -2372,7 +2363,6 @@ namespace SERVERAPI.Controllers
                 }
 
                 var materialVolumes = 0m;
-                var washWater = 0m;
                 foreach (var manure in managedManures)
                 {
                     if (includeAllManagedManures)

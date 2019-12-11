@@ -5,7 +5,7 @@ using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Security;
 
-namespace Agri.Interfaces
+namespace Agri.Data
 {
     public interface IAgriConfigurationRepository
     {

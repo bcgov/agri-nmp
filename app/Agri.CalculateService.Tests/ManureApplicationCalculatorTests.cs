@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Agri.Interfaces;
+using Agri.Data;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
@@ -17,6 +17,7 @@ namespace Agri.CalculateService.Tests
     public class ManureApplicationCalculatorTests
     {
         private readonly YearData _yearData;
+
         public ManureApplicationCalculatorTests()
         {
             var assembly = Assembly.GetExecutingAssembly();
@@ -32,7 +33,7 @@ namespace Agri.CalculateService.Tests
         public void GetFieldsAppliedWithStoredManure()
         {
             //Arrange
-            var storageSystem = new ManureStorageSystem {Id = 1};
+            var storageSystem = new ManureStorageSystem { Id = 1 };
 
             //act
             var result = _yearData.GetFieldsAppliedWithManure(storageSystem);
@@ -57,7 +58,7 @@ namespace Agri.CalculateService.Tests
                 });
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator);
-            var farmManure = new FarmManure() { sourceOfMaterialId = "StorageSystem, 1", stored_imported = NutrientAnalysisTypes.Stored};
+            var farmManure = new FarmManure() { sourceOfMaterialId = "StorageSystem, 1", stored_imported = NutrientAnalysisTypes.Stored };
 
             //Act
             var result = calculator.GetAppliedStoredManure(_yearData, farmManure);
@@ -103,12 +104,11 @@ namespace Agri.CalculateService.Tests
         //    Assert.IsTrue(result.WholePercentAppiled == 4);
         //}
 
-
         [TestMethod]
         public void GetFieldsAppliedWithImportedManure()
         {
             //arrange
-            var farmManure = new FarmManure() { sourceOfMaterialId = "Imported, 1", stored_imported = NutrientAnalysisTypes.Imported};
+            var farmManure = new FarmManure() { sourceOfMaterialId = "Imported, 1", stored_imported = NutrientAnalysisTypes.Imported };
 
             //act
             var result = _yearData.GetFieldsAppliedWithManure(farmManure);
@@ -116,7 +116,7 @@ namespace Agri.CalculateService.Tests
             //assess
             Assert.IsNotNull(result);
         }
-        
+
         [TestMethod]
         public void GetAppliedSolidImportedManure()
         {
@@ -171,7 +171,7 @@ namespace Agri.CalculateService.Tests
                 "Storage System: Liquid Storage System , Material: Heavy Feeders Unallocated 2868.905000000 US gallons - 100% of Total Stored";
 
             //Act
-            var result = calculator.GetAppliedManure(_yearData, farmManure );
+            var result = calculator.GetAppliedManure(_yearData, farmManure);
 
             //Assess
             Assert.IsNotNull(result);
@@ -184,7 +184,6 @@ namespace Agri.CalculateService.Tests
             Assert.IsTrue(result.WholePercentAppiled == 4);
             Assert.IsTrue((result as AppliedStoredManure).ListUnallocatedMaterialAsPercentOfTotalStored[0] == expectedUnAllocatedMessage);
         }
-
 
         [TestMethod]
         public void GetAppliedManureForImportedManure()
@@ -218,6 +217,4 @@ namespace Agri.CalculateService.Tests
             Assert.IsTrue(result.WholePercentAppiled == 10);
         }
     }
-
-     
 }

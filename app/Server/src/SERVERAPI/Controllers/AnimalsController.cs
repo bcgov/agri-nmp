@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
-using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
@@ -80,6 +78,7 @@ namespace SERVERAPI.Controllers
 
                 Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(aavm.selAnimalTypeOption));
                 anml.animalTypeOptions = aavm.animalTypeOptions;
+                anml.animalTypeName = animal.Name;
                 anml.selAnimalTypeOption = aavm.selAnimalTypeOption;
                 AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(aavm.selSubTypeOption));
                 anml.selSubTypeOption = aavm.selSubTypeOption;
@@ -88,6 +87,7 @@ namespace SERVERAPI.Controllers
                 anml.averageAnimalNumber = aavm.averageAnimalNumber;
                 anml.isManureCollected = aavm.isManureCollected;
                 anml.durationDays = anml.isManureCollected ? aavm.durationDays : 0;
+                anml.selManureMaterialTypeOption = ManureMaterialType.Solid;
 
                 if (aavm.act == "Add")
                 {
@@ -114,28 +114,29 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public ActionResult AnimalDelete(int id, string target)
         {
-            AnimalDeleteViewModel fvm = new AnimalDeleteViewModel();
-            fvm.target = target;
+            AnimalDeleteViewModel advm = new AnimalDeleteViewModel();
+            advm.target = target;
 
             Agri.Models.Farm.Animal anml = _ud.GetAnimalDetail(id);
 
-            fvm.id = anml.Id;
-            fvm.act = "Delete";
+            advm.id = anml.Id;
+            advm.subTypeName = anml.subTypeName;
+            advm.act = "Delete";
 
-            return PartialView("AnimalDelete", fvm);
+            return PartialView("AnimalDelete", advm);
         }
 
         [HttpPost]
-        public ActionResult AnimalDelete(AnimalDeleteViewModel fvm)
+        public ActionResult AnimalDelete(AnimalDeleteViewModel advm)
         {
             if (ModelState.IsValid)
             {
-                _ud.DeleteAnimal(fvm.id);
+                _ud.DeleteAnimal(advm.id);
 
                 string url = Url.Action("RefreshAnimalList", "Animals");
-                return Json(new { success = true, url = url, target = fvm.target });
+                return Json(new { success = true, url = url, target = advm.target });
             }
-            return PartialView("FieldDelete", fvm);
+            return PartialView("AnimalDelete", advm);
         }
 
         public IActionResult RefreshAnimalList()

@@ -1,4 +1,4 @@
-using Agri.Interfaces;
+using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -338,7 +338,7 @@ namespace Agri.CalculateService.Tests
             var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(moisture, amount, ApplicationRateUnits.TonsPerAcre);
 
             //Assert
-            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre,1));
+            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
         }
 
         [TestMethod]

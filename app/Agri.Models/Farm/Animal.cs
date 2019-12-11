@@ -16,6 +16,8 @@ namespace Agri.Models.Farm
         //[Range(1, 9999, ErrorMessage = "Required")]
         public string selAnimalTypeOption { get; set; }
 
+        public string animalTypeName { get; set; }
+
         public List<SelectListItem> animalTypeOptions { get; set; }
 
         [Required(ErrorMessage = "Required")]

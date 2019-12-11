@@ -1,12 +1,10 @@
-﻿using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.NodeServices;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -46,12 +44,12 @@ namespace SERVERAPI.Controllers
 
     public class HomeController : Controller
     {
-        private ILogger<HomeController> _logger;
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
-        public BrowserData _bd { get; set; }
-        private IOptions<AppSettings> _appSettings;
+        private readonly ILogger<HomeController> _logger;
+        private readonly IHostingEnvironment _env;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly BrowserData _bd;
+        private readonly IOptions<AppSettings> _appSettings;
 
         public HomeController(ILogger<HomeController> logger,
             IHostingEnvironment env,

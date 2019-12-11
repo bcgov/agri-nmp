@@ -1,12 +1,4 @@
-﻿/*
- *
- *
- * OpenAPI spec version: v1
- * 
- * 
- */
- 
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,7 +10,6 @@ namespace SERVERAPI.Services.Impl
     {
         private readonly ILogger<ServiceBase> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
-
 
         public ServiceBase(ILogger<ServiceBase> logger, IHttpContextAccessor httpContextAccessor)
         {
@@ -42,7 +33,7 @@ namespace SERVERAPI.Services.Impl
         }
 
         // parse a string of ints into an array.
-        public int?[] ParseIntArray (string source)
+        public int?[] ParseIntArray(string source)
         {
             int?[] result = null;
             try

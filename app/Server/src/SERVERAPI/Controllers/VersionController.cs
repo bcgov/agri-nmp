@@ -1,20 +1,8 @@
-/*
- 
- *
- 
- *
- * OpenAPI spec version: v1
- * 
- * 
- */
-
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-using System.Reflection;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
 using Common;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace SERVERAPI.Controllers
 {
@@ -30,7 +18,6 @@ namespace SERVERAPI.Controllers
         public VersionController(IConfiguration configuration)
         {
             _configuration = configuration;
-
         }
 
         private string CommitId
@@ -64,7 +51,5 @@ namespace SERVERAPI.Controllers
             Assembly assembly = this.GetType().GetTypeInfo().Assembly;
             return assembly.GetApplicationVersionInfo(this.CommitId);
         }
-
-        
     }
 }

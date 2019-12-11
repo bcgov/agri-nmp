@@ -1,16 +1,5 @@
-/*
-
- *
-
- *
- * OpenAPI spec version: v1
- *
- *
- */
-
 using Agri.CalculateService;
 using Agri.Data;
-using Agri.Interfaces;
 using Agri.Models.Settings;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +14,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using SERVERAPI.Controllers;
 using SERVERAPI.Filters;
+using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using System;
 using System.Globalization;
@@ -111,20 +101,23 @@ namespace SERVERAPI
                         opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     });
 
-            services.AddScoped<SERVERAPI.Models.Impl.UserData>();
-            services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
-            //services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
+            services.AddScoped<UserData>();
+            services.AddTransient<BrowserData>();
             services.AddScoped<IAgriConfigurationRepository, AgriConfigurationRepository>();
-            services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
-            services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
-            services.AddScoped<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
-            services.AddScoped<IManureAnimalNumberCalculator, ManureAnimalNumberCalculator>();
-            services.AddScoped<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
-            services.AddScoped<ISoilTestConverter, SoilTestConverter>();
-            services.AddScoped<IStorageVolumeCalculator, StorageVolumeCalculator>();
+            services.AddTransient<ICalculateAnimalRequirement, CalculateAnimalRequirement>();
+            services.AddTransient<ICalculateCropRequirementRemoval, CalculateCropRequirementRemoval>();
+            services.AddTransient<ICalculateFertilizerNutrients, CalculateFertilizerNutrients>();
+            services.AddTransient<ICalculateNutrients, CalculateNutrients>();
+            services.AddTransient<IChemicalBalanceMessage, ChemicalBalanceMessage>();
+            services.AddTransient<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
+            services.AddTransient<IManureApplicationCalculator, ManureApplicationCalculator>();
+            services.AddTransient<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
+            services.AddTransient<IManureAnimalNumberCalculator, ManureAnimalNumberCalculator>();
+            services.AddTransient<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
+            services.AddTransient<ISoilTestConverter, SoilTestConverter>();
+            services.AddTransient<IStorageVolumeCalculator, StorageVolumeCalculator>();
 
             services.AddOptions();
-            //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
 

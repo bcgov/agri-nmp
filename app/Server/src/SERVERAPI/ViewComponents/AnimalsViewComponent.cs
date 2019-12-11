@@ -1,7 +1,6 @@
-﻿using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
-using Agri.Models.Farm;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
@@ -100,9 +99,9 @@ namespace SERVERAPI.ViewComponents
         public string selAnimalTypeOption { get; set; }
 
         public List<SelectListItem> animalTypeOptions { get; set; }
+        public string animalTypeName { get; set; }
 
-        [Required(ErrorMessage = "Req" +
-            "uired")]
+        [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selSubTypeOption { get; set; }
 

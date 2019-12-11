@@ -8,6 +8,7 @@ namespace SERVERAPI.ViewModels
     public class AnimalDeleteViewModel
     {
         public int id { get; set; }
+        public string subTypeName { get; set; }
         public string act { get; set; }
         public string target { get; set; }
     }

@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Models;
-using System;
+﻿using Agri.Data;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -20,6 +17,7 @@ namespace SERVERAPI.ViewComponents
             _sd = sd;
             _ud = ud;
         }
+
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
             return View(await GetHeadingAsync(fldName));
@@ -51,6 +49,7 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(cvm);
         }
     }
+
     public class CalcHeadingViewModel
     {
         public bool headingReqd { get; set; }

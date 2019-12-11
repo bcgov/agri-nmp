@@ -12,6 +12,12 @@
     <form asp-action="AnimalDelete" asp-controller="Animals" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <div>
+                    @Model.subTypeName<br />
+                    <span asp-validation-for="subTypeName"></span>
+                </div>
+            </div>
             <br />
         </div>
         <div class="modal-footer">

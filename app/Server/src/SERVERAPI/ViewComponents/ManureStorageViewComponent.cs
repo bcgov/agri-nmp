@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models;
-using Agri.Models.Farm;
+﻿using Agri.Data;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -31,7 +27,7 @@ namespace SERVERAPI.ViewComponents
             var manureStorageVm = new ManureStorageViewModel
             {
                 GeneratedManures = _userData.GetGeneratedManures(),
-                ImportedManures = _userData.GetImportedManures(), 
+                ImportedManures = _userData.GetImportedManures(),
                 SeparatedSolidManures = _userData.GetSeparatedManures(),
                 ManureStorageSystems = _userData.GetStorageSystems()
             };
