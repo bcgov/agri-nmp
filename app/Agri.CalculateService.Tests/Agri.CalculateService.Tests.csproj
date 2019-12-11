@@ -19,6 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Agri.CalculateService\Agri.CalculateService.csproj" />
-    <ProjectReference Include="..\Agri.Interfaces\Agri.Interfaces.csproj" />
+    <ProjectReference Include="..\Agri.Data\Agri.Data.csproj" />
   </ItemGroup>
 </Project>

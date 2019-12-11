@@ -1,9 +1,16 @@
-﻿using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models.Farm;
 using System;
 
 namespace Agri.CalculateService
 {
+    public interface ISoilTestConverter
+    {
+        int GetConvertedSTK(string testingMethod, SoilTest soilTest);
+
+        int GetConvertedSTP(string testingMethod, SoilTest soilTest);
+    }
+
     /// <summary>
     /// Replaces SERVERAPI/Utility/SoilTestConversions.cs
     /// </summary>
@@ -20,28 +27,19 @@ namespace Agri.CalculateService
         {
             int convertedP = 0;
 
-            try
+            //get soil test method selected by user
+            if (selectedSoilTestMethod == null)
+                selectedSoilTestMethod = _sd.GetDefaultSoilTestMethod();
+
+            var retreivedSoilTestMethod = _sd.GetSoilTestMethodById(selectedSoilTestMethod);
+
+            if (soilTest.valPH >= 7.2M) //ph of 7.2 is a constant boundary
             {
-                //get soil test method selected by user
-                if (selectedSoilTestMethod == null)
-                    selectedSoilTestMethod = _sd.GetDefaultSoilTestMethod();
-
-                var retreivedSoilTestMethod = _sd.GetSoilTestMethodById(selectedSoilTestMethod);
-
-                if (soilTest.valPH >= 7.2M) //ph of 7.2 is a constant boundary
-                {
-                    convertedP = Convert.ToInt16(Decimal.Multiply(retreivedSoilTestMethod.ConvertToKelownaPHGreaterThanEqual72, soilTest.ValP));
-                }
-                else
-                {
-                    convertedP = Convert.ToInt16(Decimal.Multiply(retreivedSoilTestMethod.ConvertToKelownaPHLessThan72, soilTest.ValP));
-                }
-
+                convertedP = Convert.ToInt16(Decimal.Multiply(retreivedSoilTestMethod.ConvertToKelownaPHGreaterThanEqual72, soilTest.ValP));
             }
-            catch (Exception ex)
+            else
             {
-                // display error
-                throw;
+                convertedP = Convert.ToInt16(Decimal.Multiply(retreivedSoilTestMethod.ConvertToKelownaPHLessThan72, soilTest.ValP));
             }
 
             return convertedP;
@@ -49,23 +47,13 @@ namespace Agri.CalculateService
 
         public int GetConvertedSTK(string selectedSoilTestMethod, SoilTest soilTest)
         {
-            int convertedK = 0;
+            //get soil test method selected by user
+            if (selectedSoilTestMethod == null)
+                selectedSoilTestMethod = _sd.GetDefaultSoilTestMethod();
 
-            try
-            {
-                //get soil test method selected by user
-                if (selectedSoilTestMethod == null)
-                    selectedSoilTestMethod = _sd.GetDefaultSoilTestMethod();
+            var retreivedSoilTestMethod = _sd.GetSoilTestMethodById(selectedSoilTestMethod);
 
-                var retreivedSoilTestMethod = _sd.GetSoilTestMethodById(selectedSoilTestMethod);
-
-                convertedK = Convert.ToInt16(Decimal.Multiply(retreivedSoilTestMethod.ConvertToKelownaK, soilTest.valK));
-            }
-            catch (Exception ex)
-            {
-                // display error
-                throw;
-            }
+            var convertedK = Convert.ToInt16(Decimal.Multiply(retreivedSoilTestMethod.ConvertToKelownaK, soilTest.valK));
 
             return convertedK;
         }

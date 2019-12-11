@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Agri.Data;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using SERVERAPI.Models;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models.Impl;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.ViewModels;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -54,14 +50,15 @@ namespace SERVERAPI.ViewComponents
         }
     }
 
-    public class CompostViewModel 
+    public class CompostViewModel
     {
         public List<FarmManure> composts { get; set; }
-        public string compostMsg { get; set; } 
+        public string compostMsg { get; set; }
         public string ExplainMaterialsNeedingNutrientAnalysisMessage { get; set; }
         public List<ManureStorageSystem> StorageSystems { get; set; }
         public List<GeneratedManure> GeneratedManures { get; set; }
         public List<ImportedManure> ImportedManures { get; set; }
+
         public List<ManagedManure> ImportedMaterialsNotStored
         {
             get
@@ -78,6 +75,5 @@ namespace SERVERAPI.ViewComponents
 
         public List<string> UnallocatedStorageAndImportedManureNames => (ImportedMaterialsNotStored.Select(mm => mm.ManagedManureName)
             .Concat(StorageSystems.Where(ss => !ss.AssignedWithNutrientAnalysis).Select(ss => ss.Name))).ToList();
-
     }
 }
