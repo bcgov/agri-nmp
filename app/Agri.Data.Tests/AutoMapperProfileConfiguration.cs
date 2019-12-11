@@ -15,7 +15,7 @@ namespace Agri.Data.Tests
             : base(profileName)
         {
             CreateMap<AmmoniaRetention, AmmoniaRetention>();
-            CreateMap<Animal, Animal>()
+            CreateMap<Models.Configuration.Animal, Models.Configuration.Animal>()
                 .ForMember(x => x.AnimalSubTypes, opt => opt.Ignore())
                 .ForMember(x => x.Breeds, opt => opt.Ignore());
             CreateMap<AnimalSubType, AnimalSubType>()
