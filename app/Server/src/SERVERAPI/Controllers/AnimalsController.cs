@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
-using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;

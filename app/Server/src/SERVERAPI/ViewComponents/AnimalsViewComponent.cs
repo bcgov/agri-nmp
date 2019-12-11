@@ -1,7 +1,6 @@
-﻿using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
-using Agri.Models.Farm;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
