@@ -1,11 +1,10 @@
-﻿@model SERVERAPI.ViewModels.AddAnimalsViewModel
-@using Agri.Models
+﻿@using Agri.Models
 @{
-    ViewData["title"] = "Animal Information";
+    ViewBag.Title = "Add Animal";
 }
 <style>
-    .NextButton {
-        border: 0px !important
+    .hideDuration {
+        display: none;
     }
 </style>
 
@@ -26,142 +25,16 @@
 <br />
 <div class="container">
     <div class="step-forms col-sm-12">
-        <form asp-controller="Animals" asp-action="AddAnimals" method="post" id="animalForm">
-            <div class="form-box">
-                <div class="form-box-header clearfix">
-                    <legend class="form-box-heading">Add Animals</legend>
-                </div>
-
-                <div class="form-box-body">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-box-fields">
-                        <div class="row">
-                            <div class="form-group col-sm-3" style="display:none">
-                                <label for="ddlAnimalType">Animal Type</label>
-                                <select class="form-control" asp-for="selAnimalTypeOption" asp-items="@(new SelectList(Model.animalTypeOptions,"Id","Value"))" id="ddlAnimalType">
-                                    <option>select animal</option>
-                                </select>
-                                <span asp-validation-for="selAnimalTypeOption" class="text-danger"></span>
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label for="ddlSubType">Sub Type</label>
-                                <select class="form-control" asp-for="selSubTypeOption" asp-items="@(new SelectList(Model.subTypeOptions,"Id","Value"))" id="ddlSubType"></select>
-                                <span asp-validation-for="selSubTypeOption" class="text-danger">Select a Subtype</span>
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label for="averageAnimalNumber">Average Animal Number on Farm</label>
-                                <input class="form-control" asp-for="averageAnimalNumber" id="averageAnimalNumber" type="text" placeholder="@Model.placehldr" />
-                                <span asp-validation-for="averageAnimalNumber"></span>
-                            </div>
-                            <div class="form-group col-sm-2" style="display:none">
-                                <label for="ddlManureMaterialType">Manure Type</label>
-                                <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
-                                    <option>select type</option>
-                                </select>
-                                <span asp-validation-for="selManureMaterialTypeOption" class="text-danger">Select a Manure Material Type</span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-12" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
-                                <label for="isManureCollected">As a beef farmer,do you pile or collect manure from your animals?</label>
-                                <div class="form-group" role="radiogroup" aria-labelledby="labelisManureCollected">
-                                    <label style="padding-right: 20px">
-                                        <input asp-for="isManureCollected" type="radio" value="true" id="rbIsManureCollectedYes" onchange="IsManureCollectedChanged()" /> Yes
-                                    </label>
-                                    <label>
-                                        <input asp-for="isManureCollected" type="radio" value="false" id="rbIsManureCollectedNo" onchange="IsManureCollectedChanged()" /> No
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        @if (Model.showDurationDays)
-                        {
-                            <div class="row">
-                                <div class="form-group col-sm-1">
-                                    <label for="txtDuration">Duration</label>
-                                </div>
-                                <div class="form-group col-sm-2">
-                                    <input class="form-control" asp-for="durationDays" id="durationDays" type="text" />
-                                </div>
-                                <div class="form-group col-sm-3">
-                                    days
-                                </div>
-                            </div>
-                        }
-                        <div class="row">
-                            <div class="form-group col-sm-10">
-                                &nbsp;
-                            </div>
-                            <div class="form-box-fields text-right col-sm-1">
-                                <button class="btn" onclick="">Cancel</button>
-                            </div>
-                            <div class="form-box-fields text-right col-sm-1">
-                                <button class="btn btn-success" type="submit" title="Save" onclick="">Save</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @Html.HiddenFor(x => x.buttonPressed)
-            @Html.HiddenFor(x => x.showDurationDays)
-        </form>
-    </div>
-
-    <!-- PAGE CONTENT -->
-</div>
-
-@*@if (Model.animalDetails.Count > 0 && Model.isLoadAnimalDetails)
-        {
-            <div class="container">
-                <div class="step-forms col-sm-12">
-
-                    <div class="form-box">
-                        <div class="form-box-header clearfix">
-                            <legend class="form-box-heading">Add Animals</legend>
-                        </div>
-                        <div class="Row">
-                            <div class="Cell">
-                                <table>
-                                    <tr>
-                                        <td class="CellDtlNBd" style="padding:0px">
-                                            You have added the following animals to your Nutrient Management Plan.
-                                        </td>
-                                        <br />
-                                    </tr>
-                                </table>
-                                <table style="border-collapse: collapse;page-break-inside:avoid">
-                                    <tr style="padding-top:20px; padding-bottom:20px">
-                                        <td class="CellHdg">
-                                            Animal Type
-                                        </td>
-                                        <td class="CellHdg">
-                                            Sub Type
-                                        </td>
-                                </tr>
-    @foreach (var n in Model.animalDetails)
-    {
-        <tr>
-            <td class="CellDtl" style="width:300px;">@n.AnimalType</td>
-            <td class="CellDtl" style="width:80px">@n.SubType</td>
-        </tr>
-    }
-                            </table>
-                        </div>
-    <div>
-        <div class="form-box-fields text-right col-sm-1">
-            <button class="btn" id="AddNewAnimal" onclick="">Add New Animal</button>
+        <!-- PAGE CONTENT -->
+        @*  <form asp-controller="AnimalDetail" asp-action="Animals" method="post" id="modForm">*@
+        <div id="animals">
+            @await Component.InvokeAsync("Animals")
         </div>
-    </div>
-                    </div>
-                </div>
-            </div>
+        <div id="next-previous-navigation">
+            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Fields })
         </div>
-    }*@
-<div class="form-box NextButton">
-    <div class="row">
-        <div class="form-box-fields text-right">
-            <button class="btn btn-primary" type="submit" title="Next" aria-label="Next" onclick="">Next</button>
-        </div>
+        @* </form>*@
+        <!-- PAGE CONTENT -->
     </div>
 </div>
 
@@ -169,76 +42,85 @@
 @section Scripts {
     <script type="text/javascript">
 
-        @*function Intercept(x) {
-            var incomplete = "False";
-            var jqxhr = $.ajax({
-                    type: "GET",
-                    url: '@Url.Action("CheckCompleted", "AddAnimals")',
-                    data: '{}',
-                    async: false,
-                    cache: false,
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json"
-                })
-                .done(function (result) {
-                    incomplete = result.incomplete;
-                })
-                .fail(function (result) {
-                    incomplete = "False";
-                });*@
+        // ensure this event handler is attached to current and future elements (after partial renders)
+        $(document).on("click", '[data_modal]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").removeClass("modal-carousel");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
 
-            @*if (incomplete == "True")
-            {
-                $.ajaxSetup({ cache: false });
-                var url = '@Url.Action("AddAnimals", "Animals", new { target = "zzz" })';
-                $type = url.replace('zzz', x);
-                $('#myModalContent').load($type, function () {
-                    $('#myModal').modal({
-                        /*backdrop: 'static',*/
-                        //keyboard: true
-                    }, 'show');
-                    bindFormI(this);
+        function bindForm(dialog) {
+
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#myModalContent').html(result);
+                            $('#buttonPressed').val("");
+                            bindForm(dialog);
+                        }
+                    }
                 });
                 return false;
-            }
-            else
-            {
-                window.location.href = x;
-            }
-        }*@
-
-         $(document).ready(function() {
-            $("body").on("change",
-                "#ddlAnimalType",
-                function () {
-                    debugger;
-                    $('#buttonPressed').val("AnimalTypeChange");
-                    $("#animalForm").submit();
-                    console.log("this is triggered");
-                })
-        });
-
-        $(document).ready(function() {
-            $("body").on("change",
-                "#ddlSubType",
-                function() {
-                    $('#buttonPressed').val("SubTypeChange");
-                    $("#animalForm").submit();
-                })
-        });
-
-        function IsManureCollectedChanged() {
-            $('#buttonPressed').val("isManureCollectedChange");
-            $("#animalForm").submit();
+            });
         }
 
-        $(document).ready(function() {
-            $("body").on("change",
-                "#ddlManureMaterialType",
-                function() {
-                    $('#buttonPressed').val("ManureMaterialTypeChange");
-                    $("#animalForm").submit();
-                })
+        $(document).ready(function () {
+            bindFormDirectly();
+        });
+        function bindFormDirectly() {
+            $('#durationValue').addClass('hideDuration');
+            $('form').submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#buttonPressed').val("");
+                            bindForm(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+        function IsManureCollectedChanged(value) {
+            if (value) {
+                $('#durationValue').removeClass('hideDuration')
+            } else {
+                $('#durationValue').addClass('hideDuration');
+            }
+        }
+
+        $(document).on("click", '[data_modalI]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").addClass("modal-carousel");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindFormI(this);
+            });
+            return false;
         });
 
         $(".modal").on("hidden.bs.modal", function () {
@@ -254,8 +136,8 @@
                     data: $(this).serialize(),
                     success: function (result) {
                         if (result.success) {
+                            $("#divSize").removeClass("modal-carousel");
                             $('#myModal').modal('hide');
-                            window.location.href = result.url;
                         } else {
                             $('#myModalContent').html(result);
                             bindFormI(dialog);
@@ -267,8 +149,16 @@
         }
 
         //$(document).ready(function () {
-        //    $("#submenu").addClass('padding');
-        //    $("#submenu-ul-fields").addClass('submenu-display');
+        //    $("#FieldsFields5").show();
+        //    $("#SoilSoilTest6").show();
+        //    return false;
+        //});
+
+        //$(document).ready(function () {
+        //    $("#FieldsFields3").addClass('wizard-item-done');
+        //    $("#FieldsFields5").addClass('wizard-item-done');
+        //    $("#FieldsFields5").addClass('submenu-hovering');
+
         //    $("#submenu-ul-manure").addClass('submenu-display');
         //});
 
@@ -280,10 +170,10 @@
                 $('#myModalContent').load($type,
                     function () {
                         $('#myModal').modal({
-                                /*backdrop: 'static',*/
-                                //keyboard: true
+                            /*backdrop: 'static',*/
+                            //keyboard: true
 
-                            },
+                        },
                             'show');
                         bindForm2(this);
                     });
@@ -293,11 +183,11 @@
         function bindForm2(dialog) {
             $('form', dialog).submit(function () {
                 $.ajax({
-                        cache: false,
-                        url: this.action,
-                        type: this.method,
-                        data: $(this).serialize()
-                    })
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
                     .done(function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
@@ -311,6 +201,6 @@
 
                 return false;
             });
-         }
+        }
     </script>
 }

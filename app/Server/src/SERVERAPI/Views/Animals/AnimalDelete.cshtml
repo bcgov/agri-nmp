@@ -1,0 +1,25 @@
+﻿@model SERVERAPI.ViewModels.AnimalDeleteViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Animal Details - @Model.act</h2>
+    </div>
+
+    <form asp-action="AnimalDelete" asp-controller="Animals" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <br />
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="submit" value="Delete" />
+        </div>
+        @Html.HiddenFor(x => x.id)
+        @Html.HiddenFor(x => x.act)
+        @Html.HiddenFor(x => x.target)
+    </form>
+</div>

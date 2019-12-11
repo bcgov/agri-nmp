@@ -25,95 +25,122 @@ namespace SERVERAPI.Controllers
             _sd = sd;
         }
 
+        public ActionResult AddAnimals()
+        {
+            FieldPageViewModel fvm = new FieldPageViewModel();
+            return View(fvm);
+        }
+
         [HttpGet]
-        public IActionResult AddAnimals()
+        public IActionResult AnimalDetail(int id, string target, string actn, string cntl)
         {
             AddAnimalsViewModel aavm = new AddAnimalsViewModel();
-            // aavm.animalDetails = new List<AnimalDetails>();
-
+            aavm.actn = actn;
+            aavm.cntl = cntl;
+            Agri.Models.Farm.Animal an = _ud.GetAnimalDetail(id);
+            if (an != null)
+            {
+                aavm.act = "Edit";
+                aavm.selSubTypeOption = an.selSubTypeOption;
+                aavm.averageAnimalNumber = an.averageAnimalNumber;
+                aavm.isManureCollected = an.isManureCollected;
+                aavm.durationDays = an.durationDays;
+                aavm.Id = an.Id;
+            }
+            else
+            {
+                aavm.act = "Add";
+            }
+            aavm.target = target;
             animalTypeDetailsSetup(ref aavm);
-
-            //if (aavm.isManureCollected)
-            //{
-            //    aavm.showDurationDays = true;
-            //}
-            //else
-            //{
-            //    aavm.showDurationDays = false;
-            //}
-
-            //if (aavm.buttonPressed == "isManureCollectedChanged")
-            //{
-            //    if (aavm.isManureCollected)
-            //    {
-            //        aavm.showDurationDays = true;
-            //        //if (aavm.selRegOption.HasValue)
-            //        //{
-            //        //    fvm.buttonPressed = "RegionChange";
-            //        //    fvm = SetSubRegions(fvm);
-            //        //}
-            //    }
-            //    else
-            //    {
-            //        //fvm.showAnimals = false;
-            //    }
-            //}
-
             return View(aavm);
-
         }
+
         [HttpPost]
-        public IActionResult AddAnimals(AddAnimalsViewModel aavm)
+        public IActionResult AnimalDetail(AddAnimalsViewModel aavm)
         {
-            try
+            string url;
+            animalTypeDetailsSetup(ref aavm);
+            if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(aavm.buttonPressed))
+                Agri.Models.Farm.Animal anml = _ud.GetAnimalDetail(aavm.Id);
+
+                if (aavm.act == "Add")
                 {
-                    animalTypeDetailsSetup(ref aavm);
-                    aavm.showDurationDays = false;
-
-                    if (aavm.buttonPressed == "isManureCollectedChange")
-                    {
-                        if (aavm.isManureCollected)
-                        {
-                            aavm.showDurationDays = true;
-                        }
-                    }
-                    else
-                    {
-
-                        //aavm.isLoadAnimalDetails = true;
-                        //var animalDetail = new AnimalDetails();
-                        //animalDetail.AnimalType = aavm.selAnimalTypeOption;
-                        //animalDetail.SubType = aavm.selSubTypeOption;
-                        //if (aavm.animalDetails == null)
-                        //{
-                        //    aavm.animalDetails = new List<AnimalDetails>();
-                        //    aavm.animalDetails.Add(animalDetail);
-                        //}
-                        //else
-                        //{
-                        //    aavm.animalDetails.Add(animalDetail);
-                        //}
-                        animalTypeDetailsSetup(ref aavm);
-                        // return PartialView("", "");
-                    }
-
+                    anml = new Agri.Models.Farm.Animal();
                 }
+                else
+                {
+                    anml = _ud.GetAnimalDetail(aavm.Id);
+                    if (anml == null)
+                    {
+                        anml = new Agri.Models.Farm.Animal();
+                    }
+                }
+
+                Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(aavm.selAnimalTypeOption));
+                anml.animalTypeOptions = aavm.animalTypeOptions;
+                anml.selAnimalTypeOption = aavm.selAnimalTypeOption;
+                AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(aavm.selSubTypeOption));
+                anml.selSubTypeOption = aavm.selSubTypeOption;
+                anml.subTypeOptions = aavm.subTypeOptions;
+                anml.subTypeName = animalSubTypeDetails.Name;
+                anml.averageAnimalNumber = aavm.averageAnimalNumber;
+                anml.isManureCollected = aavm.isManureCollected;
+                anml.durationDays = anml.isManureCollected ? aavm.durationDays : 0;
+
+                if (aavm.act == "Add")
+                {
+                    _ud.AddAnimal(anml);
+                }
+                else
+                {
+                    _ud.UpdateAnimal(anml);
+                }
+                if (aavm.target == "#animals")
+                {
+                    url = Url.Action("RefreshAnimalList", "Animals");
+                }
+                else
+                {
+                    url = Url.Action(aavm.actn, aavm.cntl, new { id = anml.Id });
+                }
+                return Json(new { success = true, url = url, target = aavm.target });
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", "Unexpected system error -" + ex.Message);
-            }
-            return View(aavm);
+            aavm.buttonPressed = null;
+            return PartialView("AnimalDetail", aavm);
         }
 
-        public IActionResult AddNewAnimal(AddAnimalsViewModel aavm)
+        [HttpGet]
+        public ActionResult AnimalDelete(int id, string target)
         {
-            //var animalDetails = aavm.animalDetails;
-            //aavm = new AddAnimalsViewModel();
-            //aavm.animalDetails = animalDetails;
-            return View(aavm);
+            AnimalDeleteViewModel fvm = new AnimalDeleteViewModel();
+            fvm.target = target;
+
+            Agri.Models.Farm.Animal anml = _ud.GetAnimalDetail(id);
+
+            fvm.id = anml.Id;
+            fvm.act = "Delete";
+
+            return PartialView("AnimalDelete", fvm);
+        }
+
+        [HttpPost]
+        public ActionResult AnimalDelete(AnimalDeleteViewModel fvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _ud.DeleteAnimal(fvm.id);
+
+                string url = Url.Action("RefreshAnimalList", "Animals");
+                return Json(new { success = true, url = url, target = fvm.target });
+            }
+            return PartialView("FieldDelete", fvm);
+        }
+
+        public IActionResult RefreshAnimalList()
+        {
+            return ViewComponent("Animals");
         }
 
         private void animalTypeDetailsSetup(ref AddAnimalsViewModel aavm)
@@ -140,7 +167,6 @@ namespace SERVERAPI.Controllers
                 if (aavm.subTypeOptions.Count() == 1)
                 {
                     aavm.selSubTypeOption = aavm.subTypeOptions[0].Id.ToString();
-
                 }
             }
             return;
