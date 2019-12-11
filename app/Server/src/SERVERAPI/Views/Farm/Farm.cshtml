@@ -129,7 +129,7 @@
                             </div>
                         }
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-7">
                                 <label asp-for="SelRegOption" for="ddlRegion">Region</label>
                                 <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
                                 <select id="ddlRegion" class="form-control" asp-for="SelRegOption" asp-items="@(new SelectList(Model.RegOptions, "Id", "Value"))">
