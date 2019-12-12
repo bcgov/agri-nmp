@@ -1,0 +1,73 @@
+﻿@model SERVERAPI.ViewModels.AddAnimalsViewModel
+@using Agri.Models
+@{
+    Layout = null;
+}
+<div id="target">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Animal Details</h2>
+    </div>
+
+    <form asp-action="AnimalDetail" asp-controller="Animals" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-box-fields">
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="ddlSubType">Sub Type</label>
+                        <select class="form-control" asp-for="selSubTypeOption" asp-items="@(new SelectList(Model.subTypeOptions,"Id","Value"))" id="ddlSubType"></select>
+                        <span asp-validation-for="selSubTypeOption" class="text-danger">Select a Subtype</span>
+                    </div>
+                    <div class="form-group col-sm-5">
+                        <label for="averageAnimalNumber">Average Animal Number on Farm</label>
+                        <input class="form-control" asp-for="averageAnimalNumber" id="averageAnimalNumber" type="text" placeholder="@Model.placehldr" />
+                        <span asp-validation-for="averageAnimalNumber"></span>
+                    </div>
+                    <div class="form-group col-sm-3" style="display:none">
+                        <label for="ddlManureMaterialType">Manure Type</label>
+                        <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
+                            <option>select type</option>
+                        </select>
+                        <span asp-validation-for="selManureMaterialTypeOption" class="text-danger">Select a Manure Material Type</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12" style="border-top: #E5E5E5 1px solid; padding-top: 10px;">
+                        <label for="isManureCollected">As a beef farmer,do you pile or collect manure from your animals?</label>
+                        <div class="form-group" role="radiogroup" aria-labelledby="labelisManureCollected">
+                            <label style="padding-right: 20px">
+                                <input asp-for="isManureCollected" type="radio" value="true" id="rbIsManureCollectedYes" onchange="IsManureCollectedChanged(true)" /> Yes
+                            </label>
+                            <label>
+                                <input asp-for="isManureCollected" type="radio" value="false" id="rbIsManureCollectedNo" onchange="IsManureCollectedChanged(false)" /> No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="durationValue">
+                    <div class="form-group col-sm-2">
+                        <label for="txtDuration">Duration</label>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <input class="form-control" asp-for="durationDays" id="durationDays" type="text" />
+                    </div>
+                    <div class="form-group col-sm-4">
+                        days
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="submit" value="Save" />
+        </div>
+        @Html.HiddenFor(x => x.act)
+        @Html.HiddenFor(x => x.target)
+        @Html.HiddenFor(x => x.cntl)
+        @Html.HiddenFor(x => x.actn)
+        @Html.HiddenFor(x => x.animalTypeOptions)
+        @Html.HiddenFor(x => x.subTypeOptions)
+        @Html.HiddenFor(x => x.buttonPressed)
+    </form>
+</div>

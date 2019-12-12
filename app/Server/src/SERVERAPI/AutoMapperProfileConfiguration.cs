@@ -17,7 +17,7 @@ namespace SERVERAPI
             : base(profileName)
         {
             CreateMap<AmmoniaRetention, AmmoniaRetention>();
-            CreateMap<Animal, Animal>()
+            CreateMap<Agri.Models.Configuration.Animal, Agri.Models.Configuration.Animal>()
                 .ForMember(x => x.AnimalSubTypes, opt => opt.Ignore())
                 .ForMember(x => x.Breeds, opt => opt.Ignore());
             CreateMap<AnimalSubType, AnimalSubType>()

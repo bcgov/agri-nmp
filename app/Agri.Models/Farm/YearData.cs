@@ -20,6 +20,7 @@ namespace Agri.Models.Farm
 
         public string year { get; set; }
         public List<Field> fields { get; set; }
+        public List<Animal> animals { get; set; }
         public List<FarmManure> farmManures { get; set; }
         public List<GeneratedManure> GeneratedManures { get; set; }
         public List<ImportedManure> ImportedManures { get; set; }

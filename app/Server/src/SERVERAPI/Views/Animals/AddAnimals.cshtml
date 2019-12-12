@@ -1,0 +1,206 @@
+﻿@using Agri.Models
+@{
+    ViewBag.Title = "Add Animal";
+}
+<style>
+    .hideDuration {
+        display: none;
+    }
+</style>
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog" id="divSize">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<br />
+<br />
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <!-- PAGE CONTENT -->
+        @*  <form asp-controller="AnimalDetail" asp-action="Animals" method="post" id="modForm">*@
+        <div id="animals">
+            @await Component.InvokeAsync("Animals")
+        </div>
+        <div id="next-previous-navigation">
+            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Fields })
+        </div>
+        @* </form>*@
+        <!-- PAGE CONTENT -->
+    </div>
+</div>
+
+<!-- /BODY CONTENT -->
+@section Scripts {
+    <script type="text/javascript">
+
+        // ensure this event handler is attached to current and future elements (after partial renders)
+        $(document).on("click", '[data_modal]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").removeClass("modal-carousel");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+        });
+
+        function bindForm(dialog) {
+
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#myModalContent').html(result);
+                            $('#buttonPressed').val("");
+                            bindForm(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+
+        $(document).ready(function () {
+            bindFormDirectly();
+        });
+        function bindFormDirectly() {
+            $('#durationValue').addClass('hideDuration');
+            $('form').submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                        } else {
+                            $('#buttonPressed').val("");
+                            bindForm(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+        function IsManureCollectedChanged(value) {
+            if (value) {
+                $('#durationValue').removeClass('hideDuration')
+            } else {
+                $('#durationValue').addClass('hideDuration');
+            }
+        }
+
+        $(document).on("click", '[data_modalI]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").addClass("modal-carousel");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindFormI(this);
+            });
+            return false;
+        });
+
+        $(".modal").on("hidden.bs.modal", function () {
+            $(".myModalContent").html("");
+        });
+
+        function bindFormI(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            $("#divSize").removeClass("modal-carousel");
+                            $('#myModal').modal('hide');
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindFormI(dialog);
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+
+        //$(document).ready(function () {
+        //    $("#FieldsFields5").show();
+        //    $("#SoilSoilTest6").show();
+        //    return false;
+        //});
+
+        //$(document).ready(function () {
+        //    $("#FieldsFields3").addClass('wizard-item-done');
+        //    $("#FieldsFields5").addClass('wizard-item-done');
+        //    $("#FieldsFields5").addClass('submenu-hovering');
+
+        //    $("#submenu-ul-manure").addClass('submenu-display');
+        //});
+
+        $(document).on("click",
+            '[data_modal2]',
+            function (e) {
+                $.ajaxSetup({ cache: false });
+                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+                $('#myModalContent').load($type,
+                    function () {
+                        $('#myModal').modal({
+                            /*backdrop: 'static',*/
+                            //keyboard: true
+
+                        },
+                            'show');
+                        bindForm2(this);
+                    });
+                return false;
+            });
+
+        function bindForm2(dialog) {
+            $('form', dialog).submit(function () {
+                $.ajax({
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
+                    .done(function (result) {
+                        if (result.success) {
+                            $('#myModal').modal('hide');
+                            //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            window.location.href = result.url;
+                        } else {
+                            $('#myModalContent').html(result);
+                            bindForm2(dialog);
+                        }
+                    });
+
+                return false;
+            });
+        }
+    </script>
+}

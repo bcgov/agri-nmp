@@ -90,7 +90,7 @@ namespace SERVERAPI.Controllers
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
                 {
-                    Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                    Agri.Models.Configuration.Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;
@@ -472,7 +472,7 @@ namespace SERVERAPI.Controllers
                         List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
                         if (mgovm.id == null)
                         {
-                            Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                            Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
                             AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
 
                             GeneratedManure gm = new GeneratedManure();
@@ -618,7 +618,7 @@ namespace SERVERAPI.Controllers
                             if (mgovm.selManureMaterialTypeOption != 0)
                                 thisManureMaterialType = mgovm.selManureMaterialTypeOption;
 
-                            Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                            Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
 
                             gm.Id = mgovm.id;
                             gm.animalId = thisAnimalType;
@@ -813,7 +813,7 @@ namespace SERVERAPI.Controllers
                 if (!string.IsNullOrEmpty(mgovm.selSubTypeOption) &&
                     mgovm.selSubTypeOption != "select subtype")
                 {
-                    Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
+                    Agri.Models.Configuration.Animal animalType = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
                     if (_sd.DoesAnimalUseWashWater(Convert.ToInt32(mgovm.selSubTypeOption)))
                     {
                         mgovm.showWashWater = true;
