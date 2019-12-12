@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Agri.Models.Configuration;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SERVERAPI.ViewModels
 {
