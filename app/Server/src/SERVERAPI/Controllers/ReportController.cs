@@ -787,9 +787,9 @@ namespace SERVERAPI.Controllers
 
             var yearData = _ud.GetYearData();
 
-            if (yearData.farmManures != null)
+            if (yearData.FarmManures != null)
             {
-                foreach (var fm in yearData.farmManures)
+                foreach (var fm in yearData.FarmManures)
                 {
                     ReportManures rm = new ReportManures();
                     AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
@@ -872,7 +872,7 @@ namespace SERVERAPI.Controllers
 
             var yearData = _ud.GetYearData();
 
-            if (yearData.farmManures != null)
+            if (yearData.FarmManures != null)
             {
                 foreach (var fm in yearData.ManureStorageSystems)
                 {
@@ -1146,14 +1146,14 @@ namespace SERVERAPI.Controllers
             }
 
             //ReportManureSummary
-            if (yd.farmManures.Any())
+            if (yd.FarmManures.Any())
             {
                 pageNumber = pageNumber + 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
             }
 
             //ReportOctoberToMarchStorageVolumes
-            if (yd.farmManures.Any() &&
+            if (yd.FarmManures.Any() &&
                 yd.ManureStorageSystems.Any() &&
                 yd.ManureStorageSystems.Any(mss => mss.ManureMaterialType == ManureMaterialType.Liquid))
             {
@@ -1181,7 +1181,7 @@ namespace SERVERAPI.Controllers
             }
 
             //ReportAnalysis
-            if (yd.farmManures.Any())
+            if (yd.FarmManures.Any())
             {
                 pageNumber = pageNumber + 1;
                 vm.ContentItems.Add(new ContentItem
