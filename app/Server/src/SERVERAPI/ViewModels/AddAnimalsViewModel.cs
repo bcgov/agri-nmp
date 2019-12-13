@@ -9,38 +9,40 @@ namespace SERVERAPI.ViewModels
     public class AddAnimalsViewModel
     {
         public int Id { get; set; }
-        public string act { get; set; }
-        public string actn { get; set; }
-        public string cntl { get; set; }
-        public string title { get; set; }
-        public string btnText { get; set; }
+        public string Act { get; set; }
+        public string Actn { get; set; }
+        public string Cntl { get; set; }
+        public string Title { get; set; }
+        public string BtnText { get; set; }
 
         //[Required(ErrorMessage = "Required")]
         //[Range(1, 9999, ErrorMessage = "Required")]
-        public string selAnimalTypeOption { get; set; }
+        public string SelectAnimalTypeOption { get; set; }
 
-        public List<SelectListItem> animalTypeOptions { get; set; }
+        public List<SelectListItem> AnimalTypeOptions { get; set; }
 
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
-        public string selSubTypeOption { get; set; }
+        public string SelectSubTypeOption { get; set; }
 
-        public string subTypeName { get; set; }
-        public List<SelectListItem> subTypeOptions { get; set; }
+        public string SubTypeName { get; set; }
+        public List<SelectListItem> SubTypeOptions { get; set; }
 
         //[Required(ErrorMessage = "Required")]
         //[Range(1, 9999, ErrorMessage = "Required")]
-        public ManureMaterialType selManureMaterialTypeOption { get; set; }
+        public ManureMaterialType SelectManureMaterialTypeOption { get; set; }
 
         [Required(ErrorMessage = "Required")]
-        public string averageAnimalNumber { get; set; }
+        public string AverageAnimalNumber { get; set; }
 
-        public string buttonPressed { get; set; }
-        public string placehldr { get; set; }
-        public string target { get; set; }
-        public bool isManureCollected { get; set; }
-        public string manureCollected { get; set; }
-        public int durationDays { get; set; }
-        public bool showDurationDays { get; set; }
+        public string ButtonPressed { get; set; }
+
+        public string Placehldr { get; set; }
+        public string Target { get; set; }
+
+        public bool IsManureCollected { get; set; }
+        public string ManureCollected { get; set; }
+        public int DurationDays { get; set; }
+        public bool ShowDurationDays { get; set; }
     }
 }

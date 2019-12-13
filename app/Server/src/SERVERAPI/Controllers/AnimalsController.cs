@@ -33,23 +33,23 @@ namespace SERVERAPI.Controllers
         public IActionResult AnimalDetail(int id, string target, string actn, string cntl)
         {
             AddAnimalsViewModel aavm = new AddAnimalsViewModel();
-            aavm.actn = actn;
-            aavm.cntl = cntl;
+            aavm.Actn = actn;
+            aavm.Cntl = cntl;
             Agri.Models.Farm.Animal an = _ud.GetAnimalDetail(id);
             if (an != null)
             {
-                aavm.act = "Edit";
-                aavm.selSubTypeOption = an.selSubTypeOption;
-                aavm.averageAnimalNumber = an.averageAnimalNumber;
-                aavm.isManureCollected = an.manureCollected == "Yes" ? true : false;
-                aavm.durationDays = an.durationDays;
+                aavm.Act = "Edit";
+                aavm.SelectSubTypeOption = an.SelectSubTypeOption;
+                aavm.AverageAnimalNumber = an.AverageAnimalNumber;
+                aavm.IsManureCollected = an.ManureCollected == "Yes" ? true : false;
+                aavm.DurationDays = an.DurationDays;
                 aavm.Id = an.Id;
             }
             else
             {
-                aavm.act = "Add";
+                aavm.Act = "Add";
             }
-            aavm.target = target;
+            aavm.Target = target;
             animalTypeDetailsSetup(ref aavm);
             return View(aavm);
         }
@@ -63,7 +63,7 @@ namespace SERVERAPI.Controllers
             {
                 Agri.Models.Farm.Animal anml = _ud.GetAnimalDetail(aavm.Id);
 
-                if (aavm.act == "Add")
+                if (aavm.Act == "Add")
                 {
                     anml = new Agri.Models.Farm.Animal();
                 }
@@ -76,23 +76,23 @@ namespace SERVERAPI.Controllers
                     }
                 }
 
-                Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(aavm.selAnimalTypeOption));
-                anml.animalTypeOptions = aavm.animalTypeOptions;
-                anml.animalTypeName = animal.Name;
-                anml.animalId = animal.Id;
-                anml.selAnimalTypeOption = aavm.selAnimalTypeOption;
-                AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(aavm.selSubTypeOption));
-                anml.selSubTypeOption = aavm.selSubTypeOption;
-                anml.subTypeOptions = aavm.subTypeOptions;
-                anml.subTypeName = animalSubTypeDetails.Name.Trim();
-                anml.subTypeId = animalSubTypeDetails.Id;
-                anml.averageAnimalNumber = aavm.averageAnimalNumber;
-                anml.isManureCollected = aavm.isManureCollected;
-                anml.manureCollected = aavm.isManureCollected ? "Yes" : "No";
-                anml.durationDays = aavm.isManureCollected ? aavm.durationDays : 0;
-                anml.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(aavm.SelectAnimalTypeOption));
+                anml.AnimalTypeOptions = aavm.AnimalTypeOptions;
+                anml.AnimalTypeName = animal.Name;
+                anml.AnimalId = animal.Id;
+                anml.SelectAnimalTypeOption = aavm.SelectAnimalTypeOption;
+                AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(aavm.SelectSubTypeOption));
+                anml.SelectSubTypeOption = aavm.SelectSubTypeOption;
+                anml.SubTypeOptions = aavm.SubTypeOptions;
+                anml.SubTypeName = animalSubTypeDetails.Name.Trim();
+                anml.SubTypeId = animalSubTypeDetails.Id;
+                anml.AverageAnimalNumber = aavm.AverageAnimalNumber;
+                anml.IsManureCollected = aavm.IsManureCollected;
+                anml.ManureCollected = aavm.IsManureCollected ? "Yes" : "No";
+                anml.DurationDays = aavm.IsManureCollected ? aavm.DurationDays : 0;
+                anml.SelectManureMaterialTypeOption = ManureMaterialType.Solid;
 
-                if (aavm.act == "Add")
+                if (aavm.Act == "Add")
                 {
                     _ud.AddAnimal(anml);
                 }
@@ -100,17 +100,17 @@ namespace SERVERAPI.Controllers
                 {
                     _ud.UpdateAnimal(anml);
                 }
-                if (aavm.target == "#animals")
+                if (aavm.Target == "#animals")
                 {
                     url = Url.Action("RefreshAnimalList", "Animals");
                 }
                 else
                 {
-                    url = Url.Action(aavm.actn, aavm.cntl, new { id = anml.Id });
+                    url = Url.Action(aavm.Actn, aavm.Cntl, new { id = anml.Id });
                 }
-                return Json(new { success = true, url = url, target = aavm.target });
+                return Json(new { success = true, url = url, target = aavm.Target });
             }
-            aavm.buttonPressed = null;
+            aavm.ButtonPressed = null;
             return PartialView("AnimalDetail", aavm);
         }
 
@@ -118,13 +118,13 @@ namespace SERVERAPI.Controllers
         public ActionResult AnimalDelete(int id, string target)
         {
             AnimalDeleteViewModel advm = new AnimalDeleteViewModel();
-            advm.target = target;
+            advm.Target = target;
 
             Agri.Models.Farm.Animal anml = _ud.GetAnimalDetail(id);
 
-            advm.id = anml.Id;
-            advm.subTypeName = anml.subTypeName;
-            advm.act = "Delete";
+            advm.Id = anml.Id;
+            advm.SubTypeName = anml.SubTypeName;
+            advm.Act = "Delete";
 
             return PartialView("AnimalDelete", advm);
         }
@@ -134,10 +134,10 @@ namespace SERVERAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _ud.DeleteAnimal(advm.id);
+                _ud.DeleteAnimal(advm.Id);
 
                 string url = Url.Action("RefreshAnimalList", "Animals");
-                return Json(new { success = true, url = url, target = advm.target });
+                return Json(new { success = true, url = url, target = advm.Target });
             }
             return PartialView("AnimalDelete", advm);
         }
@@ -152,25 +152,25 @@ namespace SERVERAPI.Controllers
             var farmData = _ud.FarmDetails();
             if (farmData.HasBeefCows)
             {
-                aavm.animalTypeOptions = new List<SelectListItem>();
-                aavm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
-                aavm.selAnimalTypeOption = "1";
-                aavm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                aavm.AnimalTypeOptions = new List<SelectListItem>();
+                aavm.AnimalTypeOptions = _sd.GetAnimalTypesDll().ToList();
+                aavm.SelectAnimalTypeOption = "1";
+                aavm.SelectManureMaterialTypeOption = ManureMaterialType.Solid;
             }
 
-            aavm.subTypeOptions = new List<SelectListItem>();
-            if (!string.IsNullOrEmpty(aavm.selAnimalTypeOption) &&
-                aavm.selAnimalTypeOption != "select animal")
+            aavm.SubTypeOptions = new List<SelectListItem>();
+            if (!string.IsNullOrEmpty(aavm.SelectAnimalTypeOption) &&
+                aavm.SelectAnimalTypeOption != "select animal")
             {
-                aavm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(aavm.selAnimalTypeOption)).ToList();
-                if (aavm.subTypeOptions.Count() > 1)
+                aavm.SubTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(aavm.SelectAnimalTypeOption)).ToList();
+                if (aavm.SubTypeOptions.Count() > 1)
                 {
-                    aavm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select type" });
+                    aavm.SubTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select type" });
                 }
 
-                if (aavm.subTypeOptions.Count() == 1)
+                if (aavm.SubTypeOptions.Count() == 1)
                 {
-                    aavm.selSubTypeOption = aavm.subTypeOptions[0].Id.ToString();
+                    aavm.SelectSubTypeOption = aavm.SubTypeOptions[0].Id.ToString();
                 }
             }
             return;
