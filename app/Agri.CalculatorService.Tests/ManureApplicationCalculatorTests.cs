@@ -7,13 +7,13 @@ using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using NSubstitute;
+using Shouldly;
+using Xunit;
 
 namespace Agri.CalculateService.Tests
 {
-    [TestClass]
     public class ManureApplicationCalculatorTests
     {
         private readonly YearData _yearData;
@@ -29,7 +29,7 @@ namespace Agri.CalculateService.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void GetFieldsAppliedWithStoredManure()
         {
             //Arrange
@@ -39,10 +39,10 @@ namespace Agri.CalculateService.Tests
             var result = _yearData.GetFieldsAppliedWithManure(storageSystem);
 
             //assess
-            Assert.IsNotNull(result);
+            result.ShouldNotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void GetAppliedLiquidStoredManure()
         {
             //Arrange
@@ -64,16 +64,16 @@ namespace Agri.CalculateService.Tests
             var result = calculator.GetAppliedStoredManure(_yearData, farmManure);
 
             //Assess
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.FieldAppliedManures.Count > 0);
-            Assert.IsNotNull(result.FieldAppliedManures[0]);
-            Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied);
-            Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied.Value == 120.0950000M);
-            Assert.IsTrue(result.TotalAnnualManureToApply == 2989m);
-            Assert.IsTrue(result.WholePercentAppiled == 4);
+            result.ShouldNotBeNull();
+            result.FieldAppliedManures.Count.ShouldBeGreaterThan(0);
+            result.FieldAppliedManures[0].ShouldNotBeNull();
+            result.FieldAppliedManures[0].USGallonsApplied.ShouldNotBeNull();
+            result.FieldAppliedManures[0].USGallonsApplied.Value.ShouldBe(120.0950000M);
+            result.TotalAnnualManureToApply.ShouldBe(2989m);
+            result.WholePercentAppiled.ShouldBe(4);
         }
 
-        //[TestMethod]
+        //[Fact]
         //public void GetAppliedSolidStoredManure()
         //{
         //    //Arrange
@@ -95,16 +95,16 @@ namespace Agri.CalculateService.Tests
         //    var result = calculator.GetAppliedStoredManure(_yearData, manureStorageSystemId);
 
         //    //Assess
-        //    Assert.IsNotNull(result);
-        //    Assert.IsTrue(result.FieldAppliedManures.Count > 0);
-        //    Assert.IsNotNull(result.FieldAppliedManures[0]);
-        //    Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied);
-        //    Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied.Value == 120.0950000M);
-        //    Assert.IsTrue(result.TotalAnnualManureToApply == 2989m);
-        //    Assert.IsTrue(result.WholePercentAppiled == 4);
+        //    result.ShouldNotBeNull();
+        //    result.FieldAppliedManures.Count > 0);
+        //   result.FieldAppliedManures[0]);
+        //   result.FieldAppliedManures[0].USGallonsApplied);
+        //   result.FieldAppliedManures[0].USGallonsApplied.Value == 120.0950000M);
+        //    result.TotalAnnualManureToApply == 2989m);
+        //    result.WholePercentAppiled == 4);
         //}
 
-        [TestMethod]
+        [Fact]
         public void GetFieldsAppliedWithImportedManure()
         {
             //arrange
@@ -114,10 +114,10 @@ namespace Agri.CalculateService.Tests
             var result = _yearData.GetFieldsAppliedWithManure(farmManure);
 
             //assess
-            Assert.IsNotNull(result);
+            result.ShouldNotBeNull();
         }
 
-        [TestMethod]
+        [Fact]
         public void GetAppliedSolidImportedManure()
         {
             //Arrange
@@ -140,16 +140,16 @@ namespace Agri.CalculateService.Tests
             var result = calculator.GetAppliedImportedManure(_yearData, farmManure);
 
             //Assess
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.FieldAppliedManures.Count > 0);
-            Assert.IsNotNull(result.FieldAppliedManures[0]);
-            Assert.IsNotNull(result.FieldAppliedManures[0].TonsApplied);
-            Assert.IsNotNull(result.FieldAppliedManures[0].TonsApplied.Value == 100);
-            Assert.IsTrue(result.TotalAnnualManureToApply == 1000m);
-            Assert.IsTrue(result.WholePercentAppiled == 10);
+            result.ShouldNotBeNull();
+            result.FieldAppliedManures.Count.ShouldBeGreaterThan(0);
+            result.FieldAppliedManures[0].ShouldNotBeNull();
+            result.FieldAppliedManures[0].TonsApplied.ShouldNotBeNull();
+            result.FieldAppliedManures[0].TonsApplied.Value.ShouldBe(100);
+            result.TotalAnnualManureToApply.ShouldBe(1000m);
+            result.WholePercentAppiled.ShouldBe(10);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetAppliedManureForStoredFarmManure()
         {
             //Arrange
@@ -174,18 +174,18 @@ namespace Agri.CalculateService.Tests
             var result = calculator.GetAppliedManure(_yearData, farmManure);
 
             //Assess
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result as AppliedStoredManure);
-            Assert.IsTrue(result.FieldAppliedManures.Count > 0);
-            Assert.IsNotNull(result.FieldAppliedManures[0]);
-            Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied);
-            Assert.IsNotNull(result.FieldAppliedManures[0].USGallonsApplied.Value == 120.0950000M);
-            Assert.IsTrue(result.TotalAnnualManureToApply == 2989m);
-            Assert.IsTrue(result.WholePercentAppiled == 4);
-            Assert.IsTrue((result as AppliedStoredManure).ListUnallocatedMaterialAsPercentOfTotalStored[0] == expectedUnAllocatedMessage);
+            result.ShouldNotBeNull();
+            (result as AppliedStoredManure).ShouldNotBeNull();
+            result.FieldAppliedManures.Count.ShouldBeGreaterThan(0);
+            result.FieldAppliedManures[0].ShouldNotBeNull();
+            result.FieldAppliedManures[0].USGallonsApplied.ShouldNotBeNull();
+            result.FieldAppliedManures[0].USGallonsApplied.Value.ShouldBe(120.0950000M);
+            result.TotalAnnualManureToApply.ShouldBe(2989m);
+            result.WholePercentAppiled.ShouldBe(4);
+            (result as AppliedStoredManure).ListUnallocatedMaterialAsPercentOfTotalStored[0].ShouldBe(expectedUnAllocatedMessage);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetAppliedManureForImportedManure()
         {
             //Arrange
@@ -207,14 +207,14 @@ namespace Agri.CalculateService.Tests
             var result = calculator.GetAppliedManure(_yearData, farmManure);
 
             //Assess
-            Assert.IsNotNull(result);
-            Assert.IsNotNull(result as AppliedImportedManure);
-            Assert.IsTrue(result.FieldAppliedManures.Count > 0);
-            Assert.IsNotNull(result.FieldAppliedManures[0]);
-            Assert.IsNotNull(result.FieldAppliedManures[0].TonsApplied);
-            Assert.IsNotNull(result.FieldAppliedManures[0].TonsApplied.Value == 100);
-            Assert.IsTrue(result.TotalAnnualManureToApply == 1000m);
-            Assert.IsTrue(result.WholePercentAppiled == 10);
+            result.ShouldNotBeNull();
+            (result as AppliedImportedManure).ShouldNotBeNull();
+            result.FieldAppliedManures.Count.ShouldBe(0);
+            result.FieldAppliedManures[0].ShouldNotBeNull();
+            result.FieldAppliedManures[0].TonsApplied.ShouldNotBeNull();
+            result.FieldAppliedManures[0].TonsApplied.Value.ShouldBe(100);
+            result.TotalAnnualManureToApply.ShouldBe(1000m);
+            result.WholePercentAppiled.ShouldBe(10);
         }
     }
 }

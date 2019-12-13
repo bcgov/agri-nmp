@@ -21,6 +21,7 @@ namespace SERVERAPI.Models.Impl
         private readonly ILogger<UserData> _logger;
         private readonly IHttpContextAccessor _ctx;
         private readonly IAgriConfigurationRepository _sd;
+        private readonly ICalculateManureGeneration _calculateManureGeneration;
         private readonly ICalculateNutrients _calculateNutrients;
         private readonly ISoilTestConverter _soilTestConversions;
         private readonly IMapper _mapper;
@@ -29,6 +30,7 @@ namespace SERVERAPI.Models.Impl
         public UserData(ILogger<UserData> logger,
             IHttpContextAccessor ctx,
             IAgriConfigurationRepository sd,
+            ICalculateManureGeneration calculateManureGeneration,
             ICalculateNutrients calculateNutrients,
             ISoilTestConverter soilTestConversions,
             IMapper mapper,
@@ -37,6 +39,7 @@ namespace SERVERAPI.Models.Impl
             _logger = logger;
             _ctx = ctx;
             _sd = sd;
+            _calculateManureGeneration = calculateManureGeneration;
             _calculateNutrients = calculateNutrients;
             _soilTestConversions = soilTestConversions;
             _mapper = mapper;
@@ -168,6 +171,7 @@ namespace SERVERAPI.Models.Impl
             foreach (var a in yd.Animals)
             {
                 nextId = nextId <= a.Id ? a.Id + 1 : nextId;
+                //a.ManureGeneratedTonsPerYear = a.isManureCollected ? _calculateManureGeneration.GetSolidTonsGeneratedForAnimalSubType(a.selSubTypeOption)
             }
             newAnimal.Id = nextId;
             yd.Animals.Add(newAnimal);

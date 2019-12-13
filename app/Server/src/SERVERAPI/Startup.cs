@@ -107,6 +107,7 @@ namespace SERVERAPI
             services.AddTransient<ICalculateAnimalRequirement, CalculateAnimalRequirement>();
             services.AddTransient<ICalculateCropRequirementRemoval, CalculateCropRequirementRemoval>();
             services.AddTransient<ICalculateFertilizerNutrients, CalculateFertilizerNutrients>();
+            services.AddTransient<ICalculateManureGeneration, CalculateManureGeneration>();
             services.AddTransient<ICalculateNutrients, CalculateNutrients>();
             services.AddTransient<IChemicalBalanceMessage, ChemicalBalanceMessage>();
             services.AddTransient<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();

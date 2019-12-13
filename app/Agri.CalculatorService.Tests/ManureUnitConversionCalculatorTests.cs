@@ -1,21 +1,21 @@
 using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using Shouldly;
 using System;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Agri.CalculateService.Tests
 {
-    [TestClass]
     public class ManureUnitConversionCalculatorTests
     {
         public ManureUnitConversionCalculatorTests()
         {
         }
 
-        [TestMethod]
+        [Fact]
         public void GetDensityFactoredConversion()
         {
             //Arrange
@@ -30,12 +30,12 @@ namespace Agri.CalculateService.Tests
             var between40And82Result = calculator.GetDensity(50);
             var higherThan82Result = calculator.GetDensity(83);
 
-            Assert.AreEqual(expectedLessThan40, lessThan40Result);
-            Assert.AreEqual(expectedBetween40And82, between40And82Result);
-            Assert.AreEqual(expectedHigherThan82, higherThan82Result);
+            expectedLessThan40.ShouldBe(lessThan40Result);
+            expectedBetween40And82.ShouldBe(between40And82Result);
+            expectedHigherThan82.ShouldBe(higherThan82Result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetVolumeSuccessfullyForCubicYardsInput()
         {
             //Arrange
@@ -55,9 +55,9 @@ namespace Agri.CalculateService.Tests
             var calculator = new ManureUnitConversionCalculator(repository);
             var moisture = 50m;
             var amount = 5;
-            var expectedCubicYards = 5;
-            var expectedCubicMeters = 4;
-            var expectedMetricTons = 2;
+            var expectedCubicYards = 5m;
+            var expectedCubicMeters = 4m;
+            var expectedMetricTons = 2m;
 
             //Act
             var cubicYardsResult = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.CubicYards);
@@ -65,12 +65,12 @@ namespace Agri.CalculateService.Tests
             var tonsResult = calculator.GetTonsWeight(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.CubicYards);
 
             //Assert
-            Assert.AreEqual(expectedCubicYards, Math.Round(cubicYardsResult));
-            Assert.AreEqual(expectedCubicMeters, Math.Round(cubicMetersResult));
-            Assert.AreEqual(expectedMetricTons, Math.Round(tonsResult));
+            expectedCubicYards.ShouldBe(Math.Round(cubicYardsResult));
+            expectedCubicMeters.ShouldBe(Math.Round(cubicMetersResult));
+            expectedMetricTons.ShouldBe(Math.Round(tonsResult));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetVolumeSuccessfullyForTonsInput()
         {
             //Arrange
@@ -90,9 +90,9 @@ namespace Agri.CalculateService.Tests
             var calculator = new ManureUnitConversionCalculator(repository);
             var moisture = 50m;
             var amount = 6;
-            var expectedCubicYards = 12;
-            var expectedCubicMeters = 9;
-            var expectedMetricTons = 6;
+            var expectedCubicYards = 12m;
+            var expectedCubicMeters = 9m;
+            var expectedMetricTons = 6m;
 
             //Act
             var cubicYardsResult = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.tons);
@@ -100,12 +100,12 @@ namespace Agri.CalculateService.Tests
             var metricTonsResult = calculator.GetTonsWeight(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.tons);
 
             //Assert
-            Assert.AreEqual(expectedCubicYards, Math.Round(cubicYardsResult));
-            Assert.AreEqual(expectedCubicMeters, Math.Round(cubicMetersResult));
-            Assert.AreEqual(expectedMetricTons, Math.Round(metricTonsResult));
+            expectedCubicYards.ShouldBe(Math.Round(cubicYardsResult));
+            expectedCubicMeters.ShouldBe(Math.Round(cubicMetersResult));
+            expectedMetricTons.ShouldBe(Math.Round(metricTonsResult));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetVolumeSuccessfullyForCubicMetersInput()
         {
             //Arrange
@@ -126,9 +126,9 @@ namespace Agri.CalculateService.Tests
 
             var moisture = 50m;
             var amount = 5;
-            var expectedCubicYards = 7;
-            var expectedCubicMeters = 5;
-            var expectedMetricTons = 3;
+            var expectedCubicYards = 7m;
+            var expectedCubicMeters = 5m;
+            var expectedMetricTons = 3m;
 
             //Act
             var cubicYardsResult = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.CubicMeters);
@@ -136,12 +136,12 @@ namespace Agri.CalculateService.Tests
             var metricTonsResult = calculator.GetTonsWeight(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.CubicMeters);
 
             //Assert
-            Assert.AreEqual(expectedCubicYards, Math.Round(cubicYardsResult));
-            Assert.AreEqual(expectedCubicMeters, Math.Round(cubicMetersResult));
-            Assert.AreEqual(expectedMetricTons, Math.Round(metricTonsResult));
+            expectedCubicYards.ShouldBe(Math.Round(cubicYardsResult));
+            expectedCubicMeters.ShouldBe(Math.Round(cubicMetersResult));
+            expectedMetricTons.ShouldBe(Math.Round(metricTonsResult));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetVolumeSuccessfullyForTonnesInput()
         {
             //Arrange
@@ -162,9 +162,9 @@ namespace Agri.CalculateService.Tests
 
             var moisture = 50m;
             var amount = 40;
-            var expectedCubicYards = 91;
-            var expectedCubicMeters = 70;
-            var expectedMetricTons = 44;
+            var expectedCubicYards = 91m;
+            var expectedCubicMeters = 70m;
+            var expectedMetricTons = 44m;
 
             //Act
             var cubicYardsResult = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.tonnes);
@@ -172,12 +172,12 @@ namespace Agri.CalculateService.Tests
             var metricTonsResult = calculator.GetTonsWeight(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.tonnes);
 
             //Assert
-            Assert.AreEqual(expectedCubicYards, Math.Round(cubicYardsResult));
-            Assert.AreEqual(expectedCubicMeters, Math.Round(cubicMetersResult));
-            Assert.AreEqual(expectedMetricTons, Math.Round(metricTonsResult));
+            expectedCubicYards.ShouldBe(Math.Round(cubicYardsResult));
+            expectedCubicMeters.ShouldBe(Math.Round(cubicMetersResult));
+            expectedMetricTons.ShouldBe(Math.Round(metricTonsResult));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetWeightSuccessfullyForTonsInput()
         {
             //Arrange
@@ -198,9 +198,9 @@ namespace Agri.CalculateService.Tests
 
             var moisture = 50m;
             var amount = 6;
-            var expectedCubicYards = 12;
-            var expectedCubicMeters = 9;
-            var expectedMetricTons = 6;
+            var expectedCubicYards = 12m;
+            var expectedCubicMeters = 9m;
+            var expectedMetricTons = 6m;
 
             //Act
             var cubicYardsResult = calculator.GetCubicYardsVolume(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.tons);
@@ -208,12 +208,12 @@ namespace Agri.CalculateService.Tests
             var metricTonsResult = calculator.GetTonsWeight(ManureMaterialType.Solid, moisture, amount, AnnualAmountUnits.tons);
 
             //Assert
-            Assert.AreEqual(expectedCubicYards, Math.Round(cubicYardsResult));
-            Assert.AreEqual(expectedCubicMeters, Math.Round(cubicMetersResult));
-            Assert.AreEqual(expectedMetricTons, Math.Round(metricTonsResult));
+            expectedCubicYards.ShouldBe(Math.Round(cubicYardsResult));
+            expectedCubicMeters.ShouldBe(Math.Round(cubicMetersResult));
+            expectedMetricTons.ShouldBe(Math.Round(metricTonsResult));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetLiquidVolumeSuccessfullyForUSGallonsInput()
         {
             //Arrange
@@ -228,16 +228,16 @@ namespace Agri.CalculateService.Tests
                 });
 
             var calculator = new ManureUnitConversionCalculator(repository);
-            var expected = 1;
+            var expected = 1m;
 
             //Act
             var result = calculator.GetUSGallonsVolume(ManureMaterialType.Liquid, 1, AnnualAmountUnits.USGallons);
 
             //Assert
-            Assert.AreEqual(expected, result);
+            expected.ShouldBe(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetLiquidVolumeSuccessfullyForImpGallonsInput()
         {
             //Arrange
@@ -252,16 +252,16 @@ namespace Agri.CalculateService.Tests
                 });
 
             var calculator = new ManureUnitConversionCalculator(repository);
-            var expected = 1;
+            var expected = 1m;
 
             //Act
             var result = calculator.GetUSGallonsVolume(ManureMaterialType.Liquid, 1, AnnualAmountUnits.ImperialGallons);
 
             //Assert
-            Assert.AreEqual(expected, result);
+            expected.ShouldBe(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetLiquidVolumeSuccessfullyForCubicMetersInput()
         {
             //Arrange
@@ -276,16 +276,16 @@ namespace Agri.CalculateService.Tests
                 });
 
             var calculator = new ManureUnitConversionCalculator(repository);
-            var expectedUSGallons = 1;
+            var expectedUSGallons = 1m;
 
             //Act
             var usGallonsResult = calculator.GetUSGallonsVolume(ManureMaterialType.Liquid, 1, AnnualAmountUnits.CubicMeters);
 
             //Assert
-            Assert.AreEqual(expectedUSGallons, usGallonsResult);
+            expectedUSGallons.ShouldBe(usGallonsResult);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetSolidsTonsPerAcreApplicationRateCubicYardsInput()
         {
             //Arrange
@@ -304,16 +304,16 @@ namespace Agri.CalculateService.Tests
 
             var moisture = 75m;
             var amount = 10;
-            var expectedTonsPerAcre = 7;
+            var expectedTonsPerAcre = 7m;
 
             //Act
             var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(moisture, amount, ApplicationRateUnits.CubicYardsPerAcre);
 
             //Assert
-            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
+            expectedTonsPerAcre.ShouldBe(Math.Round(resultTonsPerAcre, 1));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetSolidsTonsPerAcreApplicationRateTonsInput()
         {
             //Arrange
@@ -332,16 +332,16 @@ namespace Agri.CalculateService.Tests
 
             var moisture = 75m;
             var amount = 6;
-            var expectedTonsPerAcre = 6;
+            var expectedTonsPerAcre = 6m;
 
             //Act
             var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(moisture, amount, ApplicationRateUnits.TonsPerAcre);
 
             //Assert
-            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
+            expectedTonsPerAcre.ShouldBe(Math.Round(resultTonsPerAcre, 1));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetSolidsTonsPerAcreApplicationRateCubicMetersPerHectareInput()
         {
             //Arrange
@@ -366,10 +366,10 @@ namespace Agri.CalculateService.Tests
             var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(moisture, amount, ApplicationRateUnits.CubicMetersPerHectare);
 
             //Assert
-            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
+            expectedTonsPerAcre.ShouldBe(Math.Round(resultTonsPerAcre, 1));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetSolidsTonsPerAcreApplicationRateTonnesPerHectareInput()
         {
             //Arrange
@@ -394,10 +394,10 @@ namespace Agri.CalculateService.Tests
             var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(moisture, amount, ApplicationRateUnits.TonnesPerHecatre);
 
             //Assert
-            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
+            expectedTonsPerAcre.ShouldBe(Math.Round(resultTonsPerAcre, 1));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetSolidsTonsPerAcreApplicationRateCubicYardsInputWithManureId()
         {
             //Arrange
@@ -427,7 +427,7 @@ namespace Agri.CalculateService.Tests
             var resultTonsPerAcre = calculator.GetSolidsTonsPerAcreApplicationRate(manureId, amount, ApplicationRateUnits.CubicYardsPerAcre);
 
             //Assert
-            Assert.AreEqual(expectedTonsPerAcre, Math.Round(resultTonsPerAcre, 1));
+            expectedTonsPerAcre.ShouldBe(Math.Round(resultTonsPerAcre, 1));
         }
     }
 }

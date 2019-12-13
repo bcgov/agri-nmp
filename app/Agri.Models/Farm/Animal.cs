@@ -40,5 +40,6 @@ namespace Agri.Models.Farm
         public bool isManureCollected { get; set; }
         public int durationDays { get; set; }
         public bool showDurationDays { get; set; }
+        public decimal? ManureGeneratedTonsPerYear { get; set; }
     }
 }

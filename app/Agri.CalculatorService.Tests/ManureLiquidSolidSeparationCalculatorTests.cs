@@ -4,15 +4,15 @@ using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using Shouldly;
+using Xunit;
 
 namespace Agri.CalculateService.Tests
 {
-    [TestClass]
     public class ManureLiquidSolidSeparationCalculatorTests
     {
-        [TestMethod]
+        [Fact]
         public void GetCalculatedSeparatedManure()
         {
             //Arrange
@@ -52,11 +52,11 @@ namespace Agri.CalculateService.Tests
             var expectedSolidsTons = 925;
 
             //Assert
-            Assert.AreEqual(expectedLiquidsUSGallons, actual.LiquidUSGallons);
-            Assert.AreEqual(expectedSolidsTons, actual.SolidTons);
+            expectedLiquidsUSGallons.ShouldBe((int)actual.LiquidUSGallons);
+            expectedSolidsTons.ShouldBe((int)actual.SolidTons);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCalculatedSeparatedManureWithRunOffAndUncoveredArea()
         {
             //Arrange
@@ -118,9 +118,9 @@ namespace Agri.CalculateService.Tests
             var expectedSolidsTons = 90;
 
             //Assert
-            Assert.AreEqual(Convert.ToInt32(storage.AnnualTotalPrecipitation), 171797);
-            Assert.AreEqual(expectedLiquidsUSGallons, Convert.ToInt32(actual.LiquidUSGallons));
-            Assert.AreEqual(expectedSolidsTons, actual.SolidTons);
+            Convert.ToInt32(storage.AnnualTotalPrecipitation).ShouldBe(171797);
+            expectedLiquidsUSGallons.ShouldBe(Convert.ToInt32(actual.LiquidUSGallons));
+            expectedSolidsTons.ShouldBe((int)actual.SolidTons);
         }
     }
 }
