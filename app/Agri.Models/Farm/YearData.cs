@@ -11,6 +11,7 @@ namespace Agri.Models.Farm
         public YearData()
         {
             fields = new List<Field>();
+            animals = new List<Animal>();
             farmManures = new List<FarmManure>();
             GeneratedManures = new List<GeneratedManure>();
             ImportedManures = new List<ImportedManure>();
