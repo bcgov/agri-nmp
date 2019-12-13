@@ -15,7 +15,7 @@
             <div class="form-box-fields">
                 <div class="row">
                     <div class="form-group col-sm-6">
-                        <label for="ddlSubType">Sub Type</label>
+                        <label for="ddlSubType">Cattle</label>
                         <select class="form-control" asp-for="selSubTypeOption" asp-items="@(new SelectList(Model.subTypeOptions,"Id","Value"))" id="ddlSubType"></select>
                         <span asp-validation-for="selSubTypeOption" class="text-danger">Select a Subtype</span>
                     </div>
