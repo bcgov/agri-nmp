@@ -20,9 +20,9 @@
                                 <span asp-validation-for="selAnimalTypeOption" class="text-danger"></span>
                             </div>
                             <div class="form-group col-sm-4">
-                                <label for="ddlSubType">Sub Type</label>
+                                <label for="ddlSubType">Cattle</label>
                                 <select class="form-control" asp-for="selSubTypeOption" asp-items="@(new SelectList(Model.subTypeOptions,"Id","Value"))" id="ddlSubType"></select>
-                                <span asp-validation-for="selSubTypeOption" class="text-danger">Select a Subtype</span>
+                                <span asp-validation-for="selSubTypeOption" class="text-danger">Select type</span>
                             </div>
                             <div class="form-group col-sm-4">
                                 <label for="averageAnimalNumber">Average Animal Number on Farm</label>
@@ -39,7 +39,7 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6">
-                                <label for="isManureCollected">As a beef farmer,do you pile or collect manure from your animals?</label>
+                                <label for="isManureCollected">Do you pile or collect manure from these animals?</label>
                                 <div class="form-group" role="radiogroup" aria-labelledby="labelisManureCollected">
                                     <label style="padding-right: 20px">
                                         <input asp-for="isManureCollected" type="radio" value="true" id="rbIsManureCollectedYes" onchange="IsManureCollectedChanged(true)" /> Yes
@@ -109,7 +109,7 @@
                             <strong>Animal Type</strong>
                         </div>
                         <div class="col-sm-3 form-box-table-cell">
-                            <strong>Sub Type</strong>
+                            <strong>Cattle</strong>
                         </div>
                         <div class="col-sm-1 form-box-table-cell">
                             <strong># of Animals</strong>
@@ -171,5 +171,5 @@
     }
 </div>
 <div id="next-previous-navigation">
-    @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureImported })
+    @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.AddAnimals })
 </div>

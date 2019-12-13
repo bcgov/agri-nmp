@@ -165,7 +165,7 @@ namespace SERVERAPI.Controllers
                 aavm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(aavm.selAnimalTypeOption)).ToList();
                 if (aavm.subTypeOptions.Count() > 1)
                 {
-                    aavm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select subtype" });
+                    aavm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select type" });
                 }
 
                 if (aavm.subTypeOptions.Count() == 1)
