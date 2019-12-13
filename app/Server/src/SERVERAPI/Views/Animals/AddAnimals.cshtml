@@ -29,10 +29,8 @@
         @*  <form asp-controller="AnimalDetail" asp-action="Animals" method="post" id="modForm">*@
         <div id="animals">
             @await Component.InvokeAsync("Animals")
-        </div>
-        <div id="next-previous-navigation">
-            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Fields })
-        </div>
+        </div>       
+
         @* </form>*@
         <!-- PAGE CONTENT -->
     </div>
@@ -54,6 +52,7 @@
                 }, 'show');
                 bindForm(this);
             });
+            //bindFormDirectly();
             return false;
         });
 
@@ -68,6 +67,8 @@
                         if (result.success) {
                             $('#myModal').modal('hide');
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            //RefreshNavigation("Farm", "Farm");
+                            //RefreshNextPreviousNavigation("Fields", "Fields");
                         } else {
                             $('#myModalContent').html(result);
                             $('#buttonPressed').val("");
@@ -81,9 +82,11 @@
 
         $(document).ready(function () {
             bindFormDirectly();
+            $('#animals').change(function () {
+                bindFormDirectly();
+            })
         });
-        function bindFormDirectly() {
-            $('#durationValue').addClass('hideDuration');
+        function bindFormDirectly() {            
             $('form').submit(function () {
                 $.ajax({
                     url: this.action,
@@ -92,6 +95,8 @@
                     success: function (result) {
                         if (result.success) {
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                            //RefreshNavigation("Farm", "Farm");
+                            //RefreshNextPreviousNavigation("Fields", "Fields");
                         } else {
                             $('#buttonPressed').val("");
                             bindForm(dialog);

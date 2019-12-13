@@ -118,6 +118,7 @@ namespace SERVERAPI.ViewComponents
         public string buttonPressed { get; set; }
         public string placehldr { get; set; }
         public bool isManureCollected { get; set; }
+        public string manureCollected { get; set; }
         public int durationDays { get; set; }
         public bool showDurationDays { get; set; }
         public List<Agri.Models.Farm.Animal> animals { get; set; }

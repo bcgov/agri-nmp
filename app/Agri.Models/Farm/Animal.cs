@@ -17,6 +17,7 @@ namespace Agri.Models.Farm
         public string selAnimalTypeOption { get; set; }
 
         public string animalTypeName { get; set; }
+        public int animalId { get; set; }
 
         public List<SelectListItem> animalTypeOptions { get; set; }
 
@@ -25,6 +26,7 @@ namespace Agri.Models.Farm
         public string selSubTypeOption { get; set; }
 
         public string subTypeName { get; set; }
+        public int subTypeId { get; set; }
         public List<SelectListItem> subTypeOptions { get; set; }
 
         //[Required(ErrorMessage = "Required")]
@@ -38,6 +40,7 @@ namespace Agri.Models.Farm
         public string placehldr { get; set; }
         public string target { get; set; }
         public bool isManureCollected { get; set; }
+        public string manureCollected { get; set; }
         public int durationDays { get; set; }
         public bool showDurationDays { get; set; }
         public decimal? ManureGeneratedTonsPerYear { get; set; }

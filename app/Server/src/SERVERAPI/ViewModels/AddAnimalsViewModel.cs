@@ -39,6 +39,7 @@ namespace SERVERAPI.ViewModels
         public string placehldr { get; set; }
         public string target { get; set; }
         public bool isManureCollected { get; set; }
+        public string manureCollected { get; set; }
         public int durationDays { get; set; }
         public bool showDurationDays { get; set; }
     }
