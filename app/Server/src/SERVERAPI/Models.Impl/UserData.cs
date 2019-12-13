@@ -182,8 +182,10 @@ namespace SERVERAPI.Models.Impl
             Agri.Models.Farm.Animal anml = yd.animals.FirstOrDefault(f => f.Id == updAnimal.Id);
 
             anml.subTypeName = updAnimal.subTypeName;
+            anml.subTypeId = updAnimal.subTypeId;
             anml.averageAnimalNumber = updAnimal.averageAnimalNumber;
             anml.isManureCollected = updAnimal.isManureCollected;
+            anml.manureCollected = updAnimal.manureCollected;
             anml.durationDays = updAnimal.durationDays;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);

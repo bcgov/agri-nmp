@@ -41,7 +41,7 @@ namespace SERVERAPI.Controllers
                 aavm.act = "Edit";
                 aavm.selSubTypeOption = an.selSubTypeOption;
                 aavm.averageAnimalNumber = an.averageAnimalNumber;
-                aavm.isManureCollected = an.isManureCollected;
+                aavm.isManureCollected = an.manureCollected == "Yes" ? true : false;
                 aavm.durationDays = an.durationDays;
                 aavm.Id = an.Id;
             }
@@ -79,14 +79,17 @@ namespace SERVERAPI.Controllers
                 Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(aavm.selAnimalTypeOption));
                 anml.animalTypeOptions = aavm.animalTypeOptions;
                 anml.animalTypeName = animal.Name;
+                anml.animalId = animal.Id;
                 anml.selAnimalTypeOption = aavm.selAnimalTypeOption;
                 AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(aavm.selSubTypeOption));
                 anml.selSubTypeOption = aavm.selSubTypeOption;
                 anml.subTypeOptions = aavm.subTypeOptions;
-                anml.subTypeName = animalSubTypeDetails.Name;
+                anml.subTypeName = animalSubTypeDetails.Name.Trim();
+                anml.subTypeId = animalSubTypeDetails.Id;
                 anml.averageAnimalNumber = aavm.averageAnimalNumber;
                 anml.isManureCollected = aavm.isManureCollected;
-                anml.durationDays = anml.isManureCollected ? aavm.durationDays : 0;
+                anml.manureCollected = aavm.isManureCollected ? "Yes" : "No";
+                anml.durationDays = aavm.isManureCollected ? aavm.durationDays : 0;
                 anml.selManureMaterialTypeOption = ManureMaterialType.Solid;
 
                 if (aavm.act == "Add")
