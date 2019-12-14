@@ -1,11 +1,7 @@
 ﻿using Agri.Models.Farm;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
@@ -28,7 +24,8 @@ namespace SERVERAPI.ViewComponents
         {
             var viewModel = new RanchManureViewModel
             {
-                Animals = _userData.GetAnimals()
+                Animals = _userData.GetAnimals(),
+                ImportedManures = _userData.GetImportedManures()
             };
 
             return Task.FromResult(viewModel);
@@ -38,7 +35,7 @@ namespace SERVERAPI.ViewComponents
         {
             public List<Animal> Animals { get; set; }
 
-            public bool ShowManureCollected => Animals.Any(a => a.isManureCollected);
+            public List<ImportedManure> ImportedManures { get; set; }
         }
     }
 }
