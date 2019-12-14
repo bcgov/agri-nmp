@@ -149,8 +149,8 @@
             "Name": "Manure and Imports",
             "Controller": "RanchManure",
             "Action": "RanchManure",
-            "PreviousController": "Farm",
-            "PreviousAction": "Farm",
+            "PreviousController": "Animals",
+            "PreviousAction": "AddAnimals",
             "NextController": "ManureManagement",
             "NextAction": "ManureNutrientAnalysis",
             "SortNumber": 2

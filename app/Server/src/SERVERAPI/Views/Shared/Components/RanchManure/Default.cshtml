@@ -15,27 +15,34 @@
                     <div class="col-sm-12 form-box-table-cell"></div>
                 </div>
                 <div class="form-box-table-row form-box-table-header row row-eq-height">
-                    <div class="col-sm-4 form-box-table-cell">
+                    <div class="col-sm-6 form-box-table-cell">
                         Animal Sub Type
                     </div>
                     <div class="col-sm-3 form-box-table-cell">
                         Manure Type
                     </div>
-                    <div class="col-sm-5 form-box-table-cell">
+                    <div class="col-sm-3 form-box-table-cell">
                         Amount Imported per year
                     </div>
                 </div>
                 @foreach (var animal in Model.Animals)
                 {
                     <div class="form-box-table-row  row row-eq-height">
-                        <div class="col-sm-4 form-box-table-cell">
+                        <div class="col-sm-6 form-box-table-cell">
                             @animal.subTypeName
                         </div>
                         <div class="col-sm-3 form-box-table-cell">
                             @animal.selManureMaterialTypeOption
                         </div>
-                        <div class="col-sm-5 form-box-table-cell">
-                            test
+                        <div class="col-sm-6 form-box-table-cell">
+                            @if (animal.isManureCollected)
+                            {
+                                @animal.ManureGeneratedTonsPerYear
+                            }
+                            else
+                            {
+                                <i>Manure not collected</i>
+                            }
                         </div>
                     </div>
                 }

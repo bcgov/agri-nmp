@@ -171,11 +171,27 @@ namespace SERVERAPI.Models.Impl
             foreach (var a in yd.Animals)
             {
                 nextId = nextId <= a.Id ? a.Id + 1 : nextId;
-                //a.ManureGeneratedTonsPerYear = a.isManureCollected ? _calculateManureGeneration.GetSolidTonsGeneratedForAnimalSubType(a.selSubTypeOption)
             }
             newAnimal.Id = nextId;
+            newAnimal.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(newAnimal);
+
             yd.Animals.Add(newAnimal);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        private decimal? GetSolidManureGeneratedTonsPerYear(Agri.Models.Farm.Animal animal)
+        {
+            var result = default(decimal?);
+
+            if (animal.isManureCollected)
+            {
+                result = _calculateManureGeneration
+                    .GetSolidTonsGeneratedForAnimalSubType(animal.subTypeId,
+                        Convert.ToInt32(animal.averageAnimalNumber),
+                        animal.durationDays);
+            }
+
+            return result;
         }
 
         public void UpdateAnimal(Agri.Models.Farm.Animal updAnimal)
@@ -191,6 +207,7 @@ namespace SERVERAPI.Models.Impl
             anml.isManureCollected = updAnimal.isManureCollected;
             anml.manureCollected = updAnimal.manureCollected;
             anml.durationDays = updAnimal.durationDays;
+            anml.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(anml);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
