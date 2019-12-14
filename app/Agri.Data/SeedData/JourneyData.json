@@ -366,7 +366,7 @@
       {
         "Name": "Manure and Compost",
         "Controller": "ManureManagement",
-        "Action": "ManureGeneratedObtained",
+        "Action": "ManureImported",
         "SortNumber": 3,
         "SubMenus": [
           {
