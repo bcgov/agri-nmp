@@ -1,7 +1,7 @@
 ﻿@using Agri.Models
 
 @{
-    ViewData["Title"] = "GeneratedImported";
+    ViewData["Title"] = "Manure and Imports";
 }
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
@@ -63,8 +63,6 @@
                         if (result.success) {
                             $('#myModal').modal('hide');
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                            RefreshNavigation("RanchManure", "RanchManureImported");
-                            RefreshNextPreviousNavigation("RanchManure", "RanchManureImported");
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);

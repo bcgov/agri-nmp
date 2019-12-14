@@ -60,7 +60,6 @@ namespace SERVERAPI.Controllers
 
             vm.Title = "Imported Material Details";
             vm.Target = target;
-            vm.IsMaterialStoredLabelText = _sd.GetUserPrompt("ImportMaterialIsMaterialAppliedQuestion");
 
             return PartialView("RanchManureImportedDetail", vm);
         }
@@ -90,14 +89,6 @@ namespace SERVERAPI.Controllers
                         vm.Moisture = null;
                     }
 
-                    return PartialView("RanchManureImportedDetail", vm);
-                }
-
-                if (vm.ButtonPressed == "IsMaterialStoredChange")
-                {
-                    ModelState.Clear();
-                    vm.ButtonPressed = "";
-                    vm.ButtonText = "Save";
                     return PartialView("RanchManureImportedDetail", vm);
                 }
 

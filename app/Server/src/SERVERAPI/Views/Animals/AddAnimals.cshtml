@@ -3,6 +3,7 @@
     ViewBag.Title = "Add Animal";
 }
 <style>
+
     .hideDuration {
         display: none;
     }
@@ -29,7 +30,7 @@
         @*  <form asp-controller="AnimalDetail" asp-action="Animals" method="post" id="modForm">*@
         <div id="animals">
             @await Component.InvokeAsync("Animals")
-        </div>       
+        </div>
 
         @* </form>*@
         <!-- PAGE CONTENT -->
@@ -67,8 +68,6 @@
                         if (result.success) {
                             $('#myModal').modal('hide');
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                            //RefreshNavigation("Farm", "Farm");
-                            //RefreshNextPreviousNavigation("Fields", "Fields");
                         } else {
                             $('#myModalContent').html(result);
                             $('#buttonPressed').val("");
@@ -86,7 +85,7 @@
                 bindFormDirectly();
             })
         });
-        function bindFormDirectly() {            
+        function bindFormDirectly() {
             $('form').submit(function () {
                 $.ajax({
                     url: this.action,
