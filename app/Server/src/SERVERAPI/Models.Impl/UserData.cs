@@ -169,6 +169,14 @@ namespace SERVERAPI.Models.Impl
             {
                 nextId = nextId <= a.Id ? a.Id + 1 : nextId;
             }
+
+            var animalDetail = yd.animals.Where(x => x.SubTypeName == newAnimal.SubTypeName && x.AverageAnimalNumber == newAnimal.AverageAnimalNumber && x.IsManureCollected == newAnimal.IsManureCollected && x.DurationDays == newAnimal.DurationDays);
+            if (animalDetail.Count() == 0)
+            {
+                newAnimal.Id = nextId;
+                yd.animals.Add(newAnimal);
+            }
+
             newAnimal.Id = nextId;
             yd.animals.Add(newAnimal);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
