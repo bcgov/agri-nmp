@@ -78,5 +78,12 @@ pipeline {
                 }
             }
         }   
+        stage('Cleanup DEV') {
+            agent { label 'cleanup' }
+            steps {
+                echo "Removing PR based artifacts from DEV namespace ..."
+                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=dev"
+            }
+        }
     }
 }
