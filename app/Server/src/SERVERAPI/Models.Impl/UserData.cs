@@ -201,13 +201,12 @@ namespace SERVERAPI.Models.Impl
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             Agri.Models.Farm.Animal anml = yd.Animals.FirstOrDefault(f => f.Id == updAnimal.Id);
 
-            anml.subTypeName = updAnimal.subTypeName;
-            anml.subTypeId = updAnimal.subTypeId;
-            anml.averageAnimalNumber = updAnimal.averageAnimalNumber;
-            anml.isManureCollected = updAnimal.isManureCollected;
-            anml.manureCollected = updAnimal.manureCollected;
-            anml.durationDays = updAnimal.durationDays;
-            anml.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(anml);
+            anml.SubTypeName = updAnimal.SubTypeName;
+            anml.SubTypeId = updAnimal.SubTypeId;
+            anml.AverageAnimalNumber = updAnimal.AverageAnimalNumber;
+            anml.IsManureCollected = updAnimal.IsManureCollected;
+            anml.ManureCollected = updAnimal.ManureCollected;
+            anml.DurationDays = updAnimal.DurationDays;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

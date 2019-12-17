@@ -11,13 +11,11 @@ namespace SERVERAPI.ViewComponents
 {
     public class Compost : ViewComponent
     {
-        private IHostingEnvironment _env;
         private UserData _ud;
         private IAgriConfigurationRepository _sd;
 
-        public Compost(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
+        public Compost(UserData ud, IAgriConfigurationRepository sd)
         {
-            _env = env;
             _ud = ud;
             _sd = sd;
         }

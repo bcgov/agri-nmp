@@ -14,13 +14,11 @@ namespace SERVERAPI.ViewComponents
 {
     public class Animals : ViewComponent
     {
-        private IHostingEnvironment _env;
         private UserData _ud;
         private IAgriConfigurationRepository _sd;
 
-        public Animals(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
+        public Animals(UserData ud, IAgriConfigurationRepository sd)
         {
-            _env = env;
             _ud = ud;
             _sd = sd;
         }
@@ -34,19 +32,19 @@ namespace SERVERAPI.ViewComponents
         {
             AnimalsViewModel avm = new AnimalsViewModel();
 
-            avm.animals = new List<Agri.Models.Farm.Animal>();
+            avm.Animals = new List<Agri.Models.Farm.Animal>();
             List<Agri.Models.Farm.Animal> animalList = _ud.GetAnimals();
 
             foreach (var a in animalList)
             {
-                avm.animals.Add(a);
+                avm.Animals.Add(a);
             }
-            if (avm.animals.Count == 0)
+            if (avm.Animals.Count == 0)
             {
-                avm.actn = null;
-                avm.cntl = "Animals";
-                avm.act = "Add";
-                avm.target = "#animals";
+                avm.Actn = null;
+                avm.Cntl = "Animals";
+                avm.Act = "Add";
+                avm.Target = "#animals";
                 animalTypeDetailsSetup(ref avm);
             }
 
@@ -58,25 +56,25 @@ namespace SERVERAPI.ViewComponents
             var farmData = _ud.FarmDetails();
             if (farmData.HasBeefCows)
             {
-                aavm.animalTypeOptions = new List<SelectListItem>();
-                aavm.animalTypeOptions = _sd.GetAnimalTypesDll().ToList();
-                aavm.selAnimalTypeOption = "1";
-                aavm.selManureMaterialTypeOption = ManureMaterialType.Solid;
+                aavm.AnimalTypeOptions = new List<SelectListItem>();
+                aavm.AnimalTypeOptions = _sd.GetAnimalTypesDll().ToList();
+                aavm.SelectAnimalTypeOption = "1";
+                aavm.SelectManureMaterialTypeOption = ManureMaterialType.Solid;
             }
 
-            aavm.subTypeOptions = new List<SelectListItem>();
-            if (!string.IsNullOrEmpty(aavm.selAnimalTypeOption) &&
-                aavm.selAnimalTypeOption != "select animal")
+            aavm.SubTypeOptions = new List<SelectListItem>();
+            if (!string.IsNullOrEmpty(aavm.SelectAnimalTypeOption) &&
+                aavm.SelectAnimalTypeOption != "select animal")
             {
-                aavm.subTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(aavm.selAnimalTypeOption)).ToList();
-                if (aavm.subTypeOptions.Count() > 1)
+                aavm.SubTypeOptions = _sd.GetSubtypesDll(Convert.ToInt32(aavm.SelectAnimalTypeOption)).ToList();
+                if (aavm.SubTypeOptions.Count() > 1)
                 {
-                    aavm.subTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select type" });
+                    aavm.SubTypeOptions.Insert(0, new SelectListItem() { Id = 0, Value = "select type" });
                 }
 
-                if (aavm.subTypeOptions.Count() == 1)
+                if (aavm.SubTypeOptions.Count() == 1)
                 {
-                    aavm.selSubTypeOption = aavm.subTypeOptions[0].Id.ToString();
+                    aavm.SelectSubTypeOption = aavm.SubTypeOptions[0].Id.ToString();
                 }
             }
             return;
@@ -86,41 +84,41 @@ namespace SERVERAPI.ViewComponents
     public class AnimalsViewModel
     {
         public int Id { get; set; }
-        public string act { get; set; }
-        public string cntl { get; set; }
-        public string target { get; set; }
-        public string actn { get; set; }
-        public string title { get; set; }
-        public string btnText { get; set; }
-        public bool isMainLoad { get; set; }
+        public string Act { get; set; }
+        public string Cntl { get; set; }
+        public string Target { get; set; }
+        public string Actn { get; set; }
+        public string Title { get; set; }
+        public string BtnText { get; set; }
+        public bool IsMainLoad { get; set; }
 
         //[Required(ErrorMessage = "Required")]
         //[Range(1, 9999, ErrorMessage = "Required")]
-        public string selAnimalTypeOption { get; set; }
+        public string SelectAnimalTypeOption { get; set; }
 
-        public List<SelectListItem> animalTypeOptions { get; set; }
-        public string animalTypeName { get; set; }
+        public List<SelectListItem> AnimalTypeOptions { get; set; }
+        public string AnimalTypeName { get; set; }
 
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
-        public string selSubTypeOption { get; set; }
+        public string SelectSubTypeOption { get; set; }
 
-        public string subTypeName { get; set; }
-        public List<SelectListItem> subTypeOptions { get; set; }
+        public string SubTypeName { get; set; }
+        public List<SelectListItem> SubTypeOptions { get; set; }
 
         //[Required(ErrorMessage = "Required")]
         //[Range(1, 9999, ErrorMessage = "Required")]
-        public ManureMaterialType selManureMaterialTypeOption { get; set; }
+        public ManureMaterialType SelectManureMaterialTypeOption { get; set; }
 
         [Required(ErrorMessage = "Required")]
-        public string averageAnimalNumber { get; set; }
+        public string AverageAnimalNumber { get; set; }
 
-        public string buttonPressed { get; set; }
-        public string placehldr { get; set; }
-        public bool isManureCollected { get; set; }
-        public string manureCollected { get; set; }
-        public int durationDays { get; set; }
-        public bool showDurationDays { get; set; }
-        public List<Agri.Models.Farm.Animal> animals { get; set; }
+        public string ButtonPressed { get; set; }
+        public string Placehldr { get; set; }
+        public bool IsManureCollected { get; set; }
+        public string ManureCollected { get; set; }
+        public int DurationDays { get; set; }
+        public bool ShowDurationDays { get; set; }
+        public List<Agri.Models.Farm.Animal> Animals { get; set; }
     }
 }
