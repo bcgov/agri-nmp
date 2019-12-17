@@ -61,18 +61,6 @@ pipeline {
                 sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=prod"
             }
         }
-        stage('Cleanup PR artifacts') {
-            agent { label 'deploy' }
-            input {
-                message "Should we continue with removing PR based artifacts from build and dev namespaces?"
-                ok "Yes!"
-            }
-            steps {
-                echo "Removing PR based artifacts from DEV namespace ..."
-                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=build"
-                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=dev"
-            }
-        }
         stage('Accept Pull Request?') {
             agent { label 'deploy' }
             input {
@@ -90,6 +78,17 @@ pipeline {
                 }
             }
         }   
-
+        stage('Cleanup PR artifacts') {
+            agent { label 'deploy' }
+            input {
+                message "Should we continue with removing PR based artifacts from build and dev namespaces?"
+                ok "Yes!"
+            }
+            steps {
+                echo "Removing PR based artifacts from DEV namespace ..."
+                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=build"
+                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=dev"
+            }
+        }
     }
 }
