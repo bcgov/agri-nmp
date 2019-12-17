@@ -51,6 +51,15 @@
       "displayName": "Number of Replicas for PDF",
       "description": "Number of Replicas for PDF",
       "value": "1"
+    },
+    {
+      "name": "MS_TEAMS_WEBHOOK",
+      "valueFrom": {
+        "secretKeyRef": {
+          "name": "ms-teams-webhook",
+          "key": "webhook-full-url"
+        }
+      }
     }
   ],
   "objects": [
@@ -95,7 +104,23 @@
             "intervalSeconds": 1,
             "timeoutSeconds": 600,
             "maxUnavailable": "25%",
-            "maxSurge": "25%"
+            "maxSurge": "25%",
+            "post": {
+              "execNewPod": {
+                  "command": [
+                      "curl",
+                      "-X",
+                      "POST",
+                      "-H",
+                      "Content-Type: application/json",
+                      "--data",
+                      "{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"themeColor\": \"0076D7\", \"summary\": \"\", \"sections\": [{ \"activityTitle\": \"Raj Bains Testig this\", \"activitySubtitle\": \"AGRI NMP project\", \"facts\": [{\"name\": \"Description\",\"value\": \"${HOST} has been deployed on ${NAME}-web${SUFFIX}\"}],\"markdown\": true}]}",
+                      "${MS_TEAMS_WEBHOOK}"
+                  ],
+                  "containerName": "${NAME}"
+              },
+              "failurePolicy": "Ignore"
+            }
           },
           "resources": {},
           "activeDeadlineSeconds": 21600
