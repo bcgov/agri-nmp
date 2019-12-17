@@ -61,8 +61,16 @@ pipeline {
                 sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=prod"
             }
         }
-        stage('Cleanup DEV') {
-            agent { label 'cleanup' }
+        stage('Cleanup PR artifacts') {
+            agent { label 'deploy' }
+            when {
+                expression { return env.CHANGE_TARGET == 'master';}
+                beforeInput true
+            }
+            input {
+                message "Should we continue with removing PR based artifacts from build and dev namespaces?"
+                ok "Yes!"
+            }
             steps {
                 echo "Removing PR based artifacts from DEV namespace ..."
                 sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=build"
