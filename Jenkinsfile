@@ -63,10 +63,6 @@ pipeline {
         }
         stage('Cleanup PR artifacts') {
             agent { label 'deploy' }
-            when {
-                expression { return env.CHANGE_TARGET == 'master';}
-                beforeInput true
-            }
             input {
                 message "Should we continue with removing PR based artifacts from build and dev namespaces?"
                 ok "Yes!"
