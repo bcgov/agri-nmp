@@ -183,12 +183,12 @@ namespace SERVERAPI.Models.Impl
         {
             var result = default(decimal?);
 
-            if (animal.isManureCollected)
+            if (animal.IsManureCollected)
             {
                 result = _calculateManureGeneration
-                    .GetSolidTonsGeneratedForAnimalSubType(animal.subTypeId,
-                        Convert.ToInt32(animal.averageAnimalNumber),
-                        animal.durationDays);
+                    .GetSolidTonsGeneratedForAnimalSubType(animal.SubTypeId,
+                        Convert.ToInt32(animal.AverageAnimalNumber),
+                        animal.DurationDays);
             }
 
             return result;
