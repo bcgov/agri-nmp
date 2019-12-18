@@ -1,10 +1,4 @@
-﻿using Agri.Models.Configuration;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace Agri.Models.Farm
+﻿namespace Agri.Models.Farm
 {
     public class Animal
     {

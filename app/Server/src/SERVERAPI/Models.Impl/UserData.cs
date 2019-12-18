@@ -9,6 +9,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using SERVERAPI.Controllers;
 using System;
 using System.Collections.Generic;
@@ -160,9 +161,15 @@ namespace SERVERAPI.Models.Impl
 
         public void AddAnimal(Agri.Models.Farm.Animal newAnimal)
         {
+            Console.WriteLine("AddAnimal: parameter");
+            Console.WriteLine(JsonConvert.SerializeObject(newAnimal));
             int nextId = 1;
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("FarmData");
+            Console.WriteLine(JsonConvert.SerializeObject(userData));
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             if (yd.Animals == null)
             {
@@ -175,7 +182,17 @@ namespace SERVERAPI.Models.Impl
             newAnimal.Id = nextId;
             newAnimal.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(newAnimal);
 
+            Console.WriteLine();
+            Console.WriteLine();
+
+            Console.WriteLine("yd.Animals");
+            Console.WriteLine(JsonConvert.SerializeObject(yd.Animals));
+
             yd.Animals.Add(newAnimal);
+
+            Console.WriteLine("yd.Animals -AFTER ");
+            Console.WriteLine(JsonConvert.SerializeObject(yd.Animals));
+
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
