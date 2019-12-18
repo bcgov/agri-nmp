@@ -11,6 +11,7 @@ namespace Agri.Models.Farm
         public YearData()
         {
             fields = new List<Field>();
+            rancherFields = new List<RancherField>();
             animals = new List<Animal>();
             farmManures = new List<FarmManure>();
             GeneratedManures = new List<GeneratedManure>();
@@ -21,6 +22,7 @@ namespace Agri.Models.Farm
 
         public string year { get; set; }
         public List<Field> fields { get; set; }
+        public List<RancherField> rancherFields { get; set; }
         public List<Animal> animals { get; set; }
         public List<FarmManure> farmManures { get; set; }
         public List<GeneratedManure> GeneratedManures { get; set; }

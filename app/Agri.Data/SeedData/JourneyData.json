@@ -169,14 +169,14 @@
       },
       {
         "Name": "Fields and Soil",
-        "Controller": "Fields",
-        "Action": "Fields",
+        "Controller": "RancherFields",
+        "Action": "RancherFields",
         "SortNumber": 3,
         "SubMenus": [
           {
             "Name": "Field List",
-            "Controller": "Fields",
-            "Action": "Fields",
+            "Controller": "RancherFields",
+            "Action": "RancherFields",
             "PreviousController": "ManureManagement",
             "PreviousAction": "ManureNutrientAnalysis",
             "NextController": "Soil",
@@ -187,8 +187,8 @@
             "Name": "Soil Tests",
             "Controller": "Soil",
             "Action": "SoilTest",
-            "PreviousController": "Fields",
-            "PreviousAction": "Fields",
+            "PreviousController": "RancherFields",
+            "PreviousAction": "RancherFields",
             "NextController": "Feeding",
             "NextAction": "Feeding",
             "SortNumber": 2

@@ -1,0 +1,33 @@
+﻿@model SERVERAPI.ViewModels.RancherFieldDeleteViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Field Details - @Model.Act</h2>
+    </div>
+
+    <form asp-action="RancherFieldDelete" asp-controller="RancherFields" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+        <div class="modal-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FieldName"></label>
+                <div>
+                    @Model.FieldName<br />
+                    <span asp-validation-for="FieldName"></span>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="submit" value="Delete" />
+        </div>
+        @Html.HiddenFor(x => x.FieldName)
+        @Html.HiddenFor(x => x.UserDataField)
+        @Html.HiddenFor(x => x.Act)
+        @Html.HiddenFor(x => x.Target)
+    </form>
+</div>

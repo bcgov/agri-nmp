@@ -272,6 +272,47 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
+        public void AddRancherField(RancherField newFld)
+        {
+            int nextId = 1;
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.Year);
+
+            if (yd.rancherFields == null)
+            {
+                yd.rancherFields = new List<RancherField>();
+            }
+            foreach (var f in yd.rancherFields)
+            {
+                nextId = nextId <= f.Id ? f.Id + 1 : nextId;
+            }
+
+            newFld.Id = nextId;
+            yd.rancherFields.Add(newFld);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void UpdateRancherField(RancherField updtFld)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.Year);
+            RancherField fld = yd.rancherFields.FirstOrDefault(f => f.Id == updtFld.Id);
+
+            fld.FieldName = updtFld.FieldName;
+            fld.Area = updtFld.Area;
+            fld.Comment = updtFld.Comment;
+            fld.IsSeasonalFeedingArea = updtFld.IsSeasonalFeedingArea;
+            fld.SeasonalFeedingArea = updtFld.SeasonalFeedingArea;
+
+            fld.PrevYearManureApplicationFrequency = updtFld.PrevYearManureApplicationFrequency;
+            fld.PrevYearManureApplicationNitrogenCredit = updtFld.PrevYearManureApplicationNitrogenCredit;
+            fld.SoilTestNitrateOverrideNitrogenCredit = updtFld.SoilTestNitrateOverrideNitrogenCredit;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
         public void UpdateFieldSoilTest(Field updtFld)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -340,6 +381,48 @@ namespace SERVERAPI.Models.Impl
             }
 
             fld = yd.fields.FirstOrDefault(y => y.fieldName == fieldName);
+
+            return fld;
+        }
+
+        public List<RancherField> GetRancherFields()
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.Year);
+
+            if (yd.rancherFields == null)
+            {
+                yd.rancherFields = new List<RancherField>();
+            }
+
+            return yd.rancherFields;
+        }
+
+        public void DeleteRancherField(string name)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.Year);
+            RancherField fld = yd.rancherFields.FirstOrDefault(f => f.FieldName == name);
+            yd.rancherFields.Remove(fld);
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public RancherField GetRancherFieldDetails(string fieldName)
+        {
+            RancherField fld = new RancherField();
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            YearData yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.Year);
+
+            if (yd.rancherFields == null)
+            {
+                yd.rancherFields = new List<RancherField>();
+            }
+
+            fld = yd.rancherFields.FirstOrDefault(y => y.FieldName == fieldName);
 
             return fld;
         }
