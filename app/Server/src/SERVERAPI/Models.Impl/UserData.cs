@@ -196,9 +196,9 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
-        private decimal? GetSolidManureGeneratedTonsPerYear(Agri.Models.Farm.Animal animal)
+        private int? GetSolidManureGeneratedTonsPerYear(Agri.Models.Farm.Animal animal)
         {
-            var result = default(decimal?);
+            var result = default(int?);
 
             if (animal.IsManureCollected)
             {

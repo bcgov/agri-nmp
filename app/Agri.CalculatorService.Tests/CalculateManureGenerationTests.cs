@@ -27,7 +27,7 @@ namespace Agri.CalculateService.Tests
 
             var result = calculator.GetSolidTonsGeneratedForAnimalSubType(calfToWeening.Id, 100, 12);
 
-            result.ShouldBe(9.3246m);
+            result.ShouldBe(9);
         }
     }
 }

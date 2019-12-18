@@ -11,7 +11,7 @@ namespace Agri.CalculateService
 {
     public interface ICalculateManureGeneration
     {
-        decimal GetSolidTonsGeneratedForAnimalSubType(int animalSubTypeId, int animalCount, int daysCollected);
+        int GetSolidTonsGeneratedForAnimalSubType(int animalSubTypeId, int animalCount, int daysCollected);
     }
 
     public class CalculateManureGeneration : ICalculateManureGeneration
@@ -23,15 +23,15 @@ namespace Agri.CalculateService
             _sd = sd;
         }
 
-        public decimal GetSolidTonsGeneratedForAnimalSubType(int animalSubTypeId,
+        public int GetSolidTonsGeneratedForAnimalSubType(int animalSubTypeId,
             int animalCount,
             int daysCollected)
         {
             var poundPerDay = _sd.GetAnimalSubType(animalSubTypeId).SolidPerPoundPerAnimalPerDay;
 
-            var result = (animalCount * poundPerDay * daysCollected) / 2000;
+            var result = (animalCount * poundPerDay * daysCollected / 2000);
 
-            return result ?? 0;
+            return Convert.ToInt32(result ?? 0);
         }
     }
 }

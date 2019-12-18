@@ -13,6 +13,6 @@
         public bool IsManureCollected { get; set; }
         public string ManureCollected { get; set; }
         public int DurationDays { get; set; }
-        public decimal? ManureGeneratedTonsPerYear { get; set; }
+        public int? ManureGeneratedTonsPerYear { get; set; }
     }
 }
