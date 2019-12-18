@@ -135,7 +135,6 @@ namespace SERVERAPI.Controllers
         public IActionResult Farm(FarmViewModel fvm)
         {
             fvm.RegOptions = _sd.GetRegionsDll().ToList();
-            fvm.HasSelectedFarmType = true;
 
             if (fvm.ButtonPressed == "GetsAnimalsChange")
             {
@@ -215,6 +214,7 @@ namespace SERVERAPI.Controllers
 
             if (ModelState.IsValid)
             {
+                fvm.HasSelectedFarmType = true;
                 var farmData = _ud.FarmDetails();
 
                 fvm.RegOptions = _sd.GetRegionsDll().ToList();
