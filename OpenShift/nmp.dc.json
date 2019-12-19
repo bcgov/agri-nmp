@@ -51,16 +51,6 @@
       "displayName": "Number of Replicas for PDF",
       "description": "Number of Replicas for PDF",
       "value": "1"
-    },
-    {
-      "name": "MS_TEAMS_WEBHOOK",
-      "valueFrom": {
-        "secretKeyRef": {
-          "namespace": "agri-nmp-tools",
-          "name": "ms-teams-webhook",
-          "key": "webhook-full-url"
-        }
-      }
     }
   ],
   "objects": [
@@ -116,7 +106,7 @@
                       "Content-Type: application/json",
                       "--data",
                       "{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"themeColor\": \"0076D7\", \"summary\": \"Openshift Deployment Status\", \"sections\": [{ \"activityTitle\": \"Openshift Deployment Status\", \"activitySubtitle\": \"AGRI NMP project\", \"facts\": [{\"name\": \"Description:\",\"value\": \"https://${HOST} has been deployed.\"}],\"markdown\": true}]}",
-                      "https://outlook.office.com/webhook/828344d2-ad62-4e9f-9d93-ebd120bbf87d@8d981e31-8642-4ee1-aa96-3f75071482c2/IncomingWebhook/7353e782829b432880c8a466af0948e2/e6cfe61c-3f01-48b9-b5e6-5322e9f9cb89"
+                      "${MS_TEAMS_WEBHOOK}"
                   ],
                   "containerName": "${NAME}-web${SUFFIX}"
               },
@@ -171,7 +161,13 @@
                 "env": [
                   {
                     "name": "MS_TEAMS_WEBHOOK",
-                    "value": "${MS_TEAMS_WEBHOOK}"
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "namespace": "agri-nmp-tools",
+                        "name": "ms-teams-webhook",
+                        "key": "webhook-full-url"
+                      }
+                    }
                   },
                   {
                     "name": "PDF_SERVICE_NAME",
