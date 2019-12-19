@@ -2,6 +2,7 @@ using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models.Settings;
 using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -86,7 +87,8 @@ namespace SERVERAPI
             services.AddNodeServices();
 
             //Automapper
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
+            services.AddMediatR(typeof(Startup));
 
             //// Add framework services.
             services.AddMvc()
@@ -99,6 +101,10 @@ namespace SERVERAPI
                         opts.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
                         // ReferenceLoopHandling is set to Ignore to prevent JSON parser issues with the user / roles model.
                         opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    })
+                .AddRazorPagesOptions(
+                    opts =>
+                    {
                     });
 
             services.AddScoped<UserData>();

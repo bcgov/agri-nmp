@@ -32,8 +32,8 @@ namespace SERVERAPI.ViewComponents
         {
             AnimalsViewModel avm = new AnimalsViewModel();
 
-            avm.Animals = new List<Agri.Models.Farm.Animal>();
-            List<Agri.Models.Farm.Animal> animalList = _ud.GetAnimals();
+            avm.Animals = new List<Agri.Models.Farm.FarmAnimal>();
+            List<Agri.Models.Farm.FarmAnimal> animalList = _ud.GetAnimals();
 
             foreach (var a in animalList)
             {
@@ -119,6 +119,6 @@ namespace SERVERAPI.ViewComponents
         public string ManureCollected { get; set; }
         public int DurationDays { get; set; }
         public bool ShowDurationDays { get; set; }
-        public List<Agri.Models.Farm.Animal> Animals { get; set; }
+        public List<Agri.Models.Farm.FarmAnimal> Animals { get; set; }
     }
 }

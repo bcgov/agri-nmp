@@ -33,7 +33,7 @@ namespace SERVERAPI.ViewComponents
 
         public class RanchManureViewModel
         {
-            public List<Animal> Animals { get; set; }
+            public List<FarmAnimal> Animals { get; set; }
 
             public List<ImportedManure> ImportedManures { get; set; }
         }

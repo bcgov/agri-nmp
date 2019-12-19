@@ -35,7 +35,7 @@ namespace SERVERAPI.Controllers
             AddAnimalsViewModel aavm = new AddAnimalsViewModel();
             aavm.Actn = actn;
             aavm.Cntl = cntl;
-            Agri.Models.Farm.Animal an = _ud.GetAnimalDetail(id);
+            Agri.Models.Farm.FarmAnimal an = _ud.GetAnimalDetail(id);
             if (an != null)
             {
                 aavm.Act = "Edit";
@@ -61,18 +61,18 @@ namespace SERVERAPI.Controllers
             animalTypeDetailsSetup(ref aavm);
             if (ModelState.IsValid)
             {
-                Agri.Models.Farm.Animal anml = _ud.GetAnimalDetail(aavm.Id);
+                Agri.Models.Farm.FarmAnimal anml = _ud.GetAnimalDetail(aavm.Id);
 
                 if (aavm.Act == "Add")
                 {
-                    anml = new Agri.Models.Farm.Animal();
+                    anml = new Agri.Models.Farm.FarmAnimal();
                 }
                 else
                 {
                     anml = _ud.GetAnimalDetail(aavm.Id);
                     if (anml == null)
                     {
-                        anml = new Agri.Models.Farm.Animal();
+                        anml = new Agri.Models.Farm.FarmAnimal();
                     }
                 }
 
@@ -117,7 +117,7 @@ namespace SERVERAPI.Controllers
             AnimalDeleteViewModel advm = new AnimalDeleteViewModel();
             advm.Target = target;
 
-            Agri.Models.Farm.Animal anml = _ud.GetAnimalDetail(id);
+            Agri.Models.Farm.FarmAnimal anml = _ud.GetAnimalDetail(id);
 
             advm.Id = anml.Id;
             advm.SubTypeName = anml.SubTypeName;

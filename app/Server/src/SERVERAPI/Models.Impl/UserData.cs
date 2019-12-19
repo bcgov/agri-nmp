@@ -158,38 +158,38 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
-        public void AddAnimal(Agri.Models.Farm.Animal newAnimal)
+        public void AddAnimal(FarmAnimal newAnimal)
         {
             int nextId = 1;
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
 
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            if (yd.Animals == null)
+            if (yd.FarmAnimals == null)
             {
-                yd.Animals = new List<Agri.Models.Farm.Animal>();
+                yd.FarmAnimals = new List<FarmAnimal>();
             }
-            foreach (var a in yd.Animals)
+            foreach (var a in yd.FarmAnimals)
             {
                 nextId = nextId <= a.Id ? a.Id + 1 : nextId;
             }
 
-            var animalDetail = yd.animals.Where(x => x.SubTypeName == newAnimal.SubTypeName && x.AverageAnimalNumber == newAnimal.AverageAnimalNumber && x.IsManureCollected == newAnimal.IsManureCollected && x.DurationDays == newAnimal.DurationDays);
+            var animalDetail = yd.FarmAnimals.Where(x => x.SubTypeName == newAnimal.SubTypeName && x.AverageAnimalNumber == newAnimal.AverageAnimalNumber && x.IsManureCollected == newAnimal.IsManureCollected && x.DurationDays == newAnimal.DurationDays);
             if (animalDetail.Count() == 0)
             {
                 newAnimal.Id = nextId;
-                yd.animals.Add(newAnimal);
+                yd.FarmAnimals.Add(newAnimal);
             }
 
             newAnimal.Id = nextId;
             newAnimal.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(newAnimal);
 
-            yd.Animals.Add(newAnimal);
+            yd.FarmAnimals.Add(newAnimal);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
-        private int? GetSolidManureGeneratedTonsPerYear(Agri.Models.Farm.Animal animal)
+        private int? GetSolidManureGeneratedTonsPerYear(FarmAnimal animal)
         {
             var result = default(int?);
 
@@ -204,12 +204,12 @@ namespace SERVERAPI.Models.Impl
             return result;
         }
 
-        public void UpdateAnimal(Agri.Models.Farm.Animal updAnimal)
+        public void UpdateAnimal(FarmAnimal updAnimal)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Agri.Models.Farm.Animal anml = yd.Animals.FirstOrDefault(f => f.Id == updAnimal.Id);
+            FarmAnimal anml = yd.FarmAnimals.FirstOrDefault(f => f.Id == updAnimal.Id);
 
             anml.SubTypeName = updAnimal.SubTypeName;
             anml.SubTypeId = updAnimal.SubTypeId;
@@ -227,41 +227,41 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Agri.Models.Farm.Animal anml = yd.Animals.FirstOrDefault(f => f.Id == id);
-            yd.Animals.Remove(anml);
+            FarmAnimal anml = yd.FarmAnimals.FirstOrDefault(f => f.Id == id);
+            yd.FarmAnimals.Remove(anml);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
-        public Agri.Models.Farm.Animal GetAnimalDetail(int id)
+        public FarmAnimal GetAnimalDetail(int id)
         {
-            Agri.Models.Farm.Animal anml = new Agri.Models.Farm.Animal();
+            FarmAnimal anml = new FarmAnimal();
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
 
-            if (yd.Animals == null)
+            if (yd.FarmAnimals == null)
             {
-                yd.Animals = new List<Agri.Models.Farm.Animal>();
+                yd.FarmAnimals = new List<FarmAnimal>();
             }
 
-            anml = yd.Animals.FirstOrDefault(y => y.Id == id);
+            anml = yd.FarmAnimals.FirstOrDefault(y => y.Id == id);
 
             return anml;
         }
 
-        public List<Agri.Models.Farm.Animal> GetAnimals()
+        public List<FarmAnimal> GetAnimals()
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
 
-            if (yd.Animals == null)
+            if (yd.FarmAnimals == null)
             {
-                yd.Animals = new List<Agri.Models.Farm.Animal>();
+                yd.FarmAnimals = new List<FarmAnimal>();
             }
 
-            return yd.Animals;
+            return yd.FarmAnimals;
         }
 
         public void AddField(Field newFld)
