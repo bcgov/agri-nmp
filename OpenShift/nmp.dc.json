@@ -56,6 +56,7 @@
       "name": "MS_TEAMS_WEBHOOK",
       "valueFrom": {
         "secretKeyRef": {
+          "namespace": "agri-nmp-tools",
           "name": "ms-teams-webhook",
           "key": "webhook-full-url"
         }
