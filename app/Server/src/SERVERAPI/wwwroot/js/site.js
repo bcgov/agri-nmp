@@ -1,5 +1,4 @@
-﻿
-//Tool tip customziation
+﻿//Tool tip customziation
 var toolTipClickableInnerHtml = '<div class="tooltip" role="tooltip"><div class="title">Information<button type="button" class="close" id="tooltipCloseButton">×</button></div><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>';
 
 //Enables the Close button in the above to close the passed parent of the tooltip
@@ -16,7 +15,7 @@ function triggerToolTip(element) {
     $(document).on('click touch', function (event) {
         if (!$(event.target).parents().addBack().is($toolTipElement) && !$(event.target).parents().addBack().is($toolTip)) {
             $toolTipElement.tooltip('hide');
-        } 
+        }
     });
 
     // Stop propagation to prevent hiding "#tooltip" when clicking on it
@@ -39,6 +38,7 @@ function RefreshNavigation(controller, currentAction) {
     });
 }
 
+//Used to refresh Navigation appearance in regards to Grayed Out font
 function RefreshNextPreviousNavigation(controller, currentAction) {
     $.ajax({
         type: "POST",

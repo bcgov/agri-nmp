@@ -131,26 +131,26 @@
       },
       {
         "Name": "Animals and Manure",
-        "Controller": "ManureManagement",
-        "Action": "ManureGeneratedObtained",
+        "Controller": "Animals",
+        "Action": "AddAnimals",
         "SortNumber": 2,
         "SubMenus": [
           {
-            "Name": "Animals",
-            "Controller": "ManureManagement",
-            "Action": "ManureGeneratedObtained",
+            "Name": "Add Animals",
+            "Controller": "Animals",
+            "Action": "AddAnimals",
             "PreviousController": "Farm",
             "PreviousAction": "Farm",
-            "NextController": "ManureManagement",
-            "NextAction": "ManureImported",
+            "NextController": "RanchManure",
+            "NextAction": "RanchManure",
             "SortNumber": 1
           },
           {
             "Name": "Manure and Imports",
-            "Controller": "ManureManagement",
-            "Action": "ManureImported",
-            "PreviousController": "ManureManagement",
-            "PreviousAction": "ManureGeneratedObtained",
+            "Controller": "RanchManure",
+            "Action": "RanchManure",
+            "PreviousController": "Animals",
+            "PreviousAction": "AddAnimals",
             "NextController": "ManureManagement",
             "NextAction": "ManureNutrientAnalysis",
             "SortNumber": 2
@@ -159,8 +159,8 @@
             "Name": "Nutrient Analysis",
             "Controller": "ManureManagement",
             "Action": "ManureNutrientAnalysis",
-            "PreviousController": "ManureManagement",
-            "PreviousAction": "ManureImported",
+            "PreviousController": "RanchManure",
+            "PreviousAction": "RanchManure",
             "NextController": "Fields",
             "NextAction": "Fields",
             "SortNumber": 3

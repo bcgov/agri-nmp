@@ -47,7 +47,9 @@ namespace Agri.Models
     public enum AppControllers
     {
         Farm,
+        Animals,
         ManureManagement,
+        RanchManure,
         Fields,
         Soil,
         Feeding,
@@ -60,10 +62,12 @@ namespace Agri.Models
     {
         Home,
         Farm,
+        AddAnimals,
         ManureGeneratedObtained,
         ManureImported,
         ManureStorage,
         ManureNutrientAnalysis,
+        RanchManure,
         Fields,
         SoilTest,
         Feeding,

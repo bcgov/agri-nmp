@@ -101,20 +101,11 @@ namespace SERVERAPI.Controllers
             if (fvm.SelRegOption.HasValue)
             {
                 fvm.SubRegionOptions = _sd.GetSubRegionsDll(fvm.SelRegOption);
-                if (fvm.SubRegionOptions.Count == 1)
+                fvm.ShowSubRegion = true;
+                fvm.MultipleSubRegion = true;
+                if (fvm.SelSubRegOption == null)
                 {
-                    fvm.SelSubRegOption = fvm.SelSubRegOption ?? fvm.SubRegionOptions[0].Id;
-                    fvm.ShowSubRegion = false;
-                    fvm.MultipleSubRegion = false;
-                }
-                else if (fvm.SubRegionOptions.Count > 1)
-                {
-                    fvm.ShowSubRegion = true;
-                    fvm.MultipleSubRegion = true;
-                    if (fvm.SelSubRegOption == null)
-                    {
-                        ModelState.AddModelError("", "Select a sub region");
-                    }
+                    ModelState.AddModelError("", "Select a sub region");
                 }
             }
 
@@ -144,7 +135,6 @@ namespace SERVERAPI.Controllers
         public IActionResult Farm(FarmViewModel fvm)
         {
             fvm.RegOptions = _sd.GetRegionsDll().ToList();
-            fvm.HasSelectedFarmType = true;
 
             if (fvm.ButtonPressed == "GetsAnimalsChange")
             {
@@ -224,6 +214,7 @@ namespace SERVERAPI.Controllers
 
             if (ModelState.IsValid)
             {
+                fvm.HasSelectedFarmType = true;
                 var farmData = _ud.FarmDetails();
 
                 fvm.RegOptions = _sd.GetRegionsDll().ToList();
