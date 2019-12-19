@@ -8,6 +8,9 @@ module.exports = (settings)=>{
   const phase=options.env
   const oc=new OpenShiftClientX(Object.assign({'namespace':phases[phase].namespace}, options));
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../OpenShift'))
+  const msTeamsWebhookSecret = new OpenShiftClient({namespace:namespace.build}).get('secret/ms-teams-webhook')[0];
+  const msTeamsWebhookURL = Buffer.from(msTeamsWebhookSecret.data.webhook-full-url, 'base64').toString('utf-8');
+
   var objects = []
 
   // The deployment of your cool app goes here ▼▼▼
@@ -26,7 +29,8 @@ module.exports = (settings)=>{
       'VERSION': phases[phase].tag,
       'HOST': phases[phase].host,
       'NMP_REPLICAS': phases[phase].nmpreplicas,
-      'PDF_REPLICAS': phases[phase].pdfreplicas
+      'PDF_REPLICAS': phases[phase].pdfreplicas,
+      'MS_TEAMS_WEBHOOK_URL': msTeamsWebhookURL
     }
   }));
 

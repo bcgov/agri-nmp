@@ -51,6 +51,12 @@
       "displayName": "Number of Replicas for PDF",
       "description": "Number of Replicas for PDF",
       "value": "1"
+    },
+    {
+      "name": "MS_TEAMS_WEBHOOK_URL",
+      "displayName": "MS Teams Webhook URL",
+      "description": "MS Teams Webhook URL",
+      "value": ""
     }
   ],
   "objects": [
@@ -106,20 +112,9 @@
                       "Content-Type: application/json",
                       "--data",
                       "{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"themeColor\": \"0076D7\", \"summary\": \"Openshift Deployment Status\", \"sections\": [{ \"activityTitle\": \"Openshift Deployment Status\", \"activitySubtitle\": \"AGRI NMP project\", \"facts\": [{\"name\": \"Description:\",\"value\": \"https://${HOST} has been deployed.\"}],\"markdown\": true}]}",
-                      "$(MS_TEAMS_WEBHOOK)"
+                      "${MS_TEAMS_WEBHOOK_URL}"
                   ],
-                  "containerName": "${NAME}-web${SUFFIX}",
-                  "env": [
-                    {
-                      "name": "MS_TEAMS_WEBHOOK",
-                      "valueFrom": {
-                        "secretKeyRef": {
-                          "namespace": "agri-nmp-tools",
-                          "name": "ms-teams-webhook",
-                          "key": "webhook-full-url"
-                        }
-                      }
-                    }]
+                  "containerName": "${NAME}-web${SUFFIX}"
               },
               "failurePolicy": "Ignore"
             }
@@ -170,16 +165,6 @@
                   }
                 ],
                 "env": [
-                  {
-                    "name": "MS_TEAMS_WEBHOOK",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "namespace": "agri-nmp-tools",
-                        "name": "ms-teams-webhook",
-                        "key": "webhook-full-url"
-                      }
-                    }
-                  },
                   {
                     "name": "PDF_SERVICE_NAME",
                     "value": "http://${NAME}-pdf${SUFFIX}:8080"
