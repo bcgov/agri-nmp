@@ -77,7 +77,7 @@ namespace Agri.CalculateService
                     }
                     else
                     {
-                        var farmManure = yearData.farmManures
+                        var farmManure = yearData.FarmManures
                             .Single(fm => fm.id == Convert.ToInt32(nutrientManure.manureId));
 
                         decimal convertedRate;

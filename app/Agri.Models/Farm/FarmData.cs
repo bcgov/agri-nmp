@@ -29,8 +29,8 @@ namespace Agri.Models.Farm
 
         private string VerifyAppliedFarmManureId(string appliedFarmManureId)
         {
-            var yearData = years.FirstOrDefault(y => y.year == farmDetails.Year);
-            if (yearData.farmManures.Any(c => c.id == Convert.ToInt32(appliedFarmManureId)))
+            var yearData = years.FirstOrDefault(y => y.Year == farmDetails.Year);
+            if (yearData.FarmManures.Any(c => c.id == Convert.ToInt32(appliedFarmManureId)))
             {
                 return appliedFarmManureId;
             }

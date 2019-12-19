@@ -324,7 +324,7 @@ namespace SERVERAPI.Controllers
 
             if (!farmData.NMPReleaseVersion.HasValue || farmData.NMPReleaseVersion != _appSettings.Value.NMPReleaseVersion)
             {
-                if (_ud.FarmDetails().FarmRegion.HasValue && _ud.GetYearData().farmManures
+                if (_ud.FarmDetails().FarmRegion.HasValue && _ud.GetYearData().FarmManures
                         .All(fm => !string.IsNullOrEmpty(fm.sourceOfMaterialId)))
                 {
                     farmData.NMPReleaseVersion = _appSettings.Value.NMPReleaseVersion;

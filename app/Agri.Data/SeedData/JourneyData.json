@@ -141,16 +141,16 @@
             "Action": "AddAnimals",
             "PreviousController": "Farm",
             "PreviousAction": "Farm",
-            "NextController": "ManureManagement",
-            "NextAction": "ManureImported",
+            "NextController": "RanchManure",
+            "NextAction": "RanchManure",
             "SortNumber": 1
           },
           {
             "Name": "Manure and Imports",
-            "Controller": "ManureManagement",
-            "Action": "ManureImported",
-            "PreviousController": "ManureManagement",
-            "PreviousAction": "ManureGeneratedObtained",
+            "Controller": "RanchManure",
+            "Action": "RanchManure",
+            "PreviousController": "Animals",
+            "PreviousAction": "AddAnimals",
             "NextController": "ManureManagement",
             "NextAction": "ManureNutrientAnalysis",
             "SortNumber": 2
@@ -159,8 +159,8 @@
             "Name": "Nutrient Analysis",
             "Controller": "ManureManagement",
             "Action": "ManureNutrientAnalysis",
-            "PreviousController": "ManureManagement",
-            "PreviousAction": "ManureImported",
+            "PreviousController": "RanchManure",
+            "PreviousAction": "RanchManure",
             "NextController": "Fields",
             "NextAction": "Fields",
             "SortNumber": 3
