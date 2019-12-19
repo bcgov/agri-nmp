@@ -111,7 +111,7 @@
                       "-H",
                       "Content-Type: application/json",
                       "--data",
-                      "{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"themeColor\": \"0076D7\", \"summary\": \"Openshift Deployment Status\", \"sections\": [{ \"activityTitle\": \"Openshift Deployment Status\", \"activitySubtitle\": \"AGRI NMP project\", \"facts\": [{\"name\": \"Description:\",\"value\": \"**[AGRI-NMP](https://${HOST})** has been deployed.\"}],\"markdown\": true}]}",
+                      "{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"themeColor\": \"0076D7\", \"summary\": \"Openshift Deployment Status\", \"sections\": [{ \"activityTitle\": \"Openshift Deployment Status\", \"activitySubtitle\": \"AGRI NMP project\", \"facts\": [{\"name\": \"Description:\",\"value\": \"**[https://${HOST}](https://${HOST})** has been deployed.\"}],\"markdown\": true}]}",
                       "${MS_TEAMS_WEBHOOK_URL}"
                   ],
                   "containerName": "${NAME}-web${SUFFIX}"
