@@ -209,6 +209,7 @@ namespace SERVERAPI.Models.Impl
             anml.IsManureCollected = updAnimal.IsManureCollected;
             anml.ManureCollected = updAnimal.ManureCollected;
             anml.DurationDays = updAnimal.DurationDays;
+            anml.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(anml);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

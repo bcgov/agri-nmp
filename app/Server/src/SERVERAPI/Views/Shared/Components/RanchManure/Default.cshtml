@@ -43,7 +43,7 @@
                         <div class="col-sm-3 form-box-table-cell">
                             @if (animal.IsManureCollected)
                             {
-                                @animal.ManureGeneratedTonsPerYear
+                                <span>@animal.ManureGeneratedTonsPerYear @(animal.ManureGeneratedTonsPerYear > 1 ? "tons" : "ton")</span>
                             }
                             else
                             {
