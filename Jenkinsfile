@@ -33,6 +33,12 @@ pipeline {
     environment {
         devSuffix = "dev"
         devHost = "nmp-pr-${CHANGE_ID}-agri-nmp-dev.pathfinder.gov.bc.ca"
+
+        testSuffix = "test"
+        testHost = "nmp-test-agri-nmp-test.pathfinder.gov.bc.ca"
+
+        prodSuffix = "prod"
+        prodHost = "nmp.apps.nrs.gov.bc.ca"
     }
     agent none
     options {
@@ -63,9 +69,13 @@ pipeline {
             agent { label 'deploy' }
             steps {
                 echo "Deploying ..."
-                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=dev"
 
-                // Report a pass to GitHub
+                // Report status to GitHub
+                createDeploymentStatus(devSuffix, 'PENDING', devHost)        
+
+                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${devSuffix}"
+
+                // Report status to GitHub
                 createDeploymentStatus(devSuffix, 'SUCCESS', devHost)                
             }
         }
@@ -81,7 +91,14 @@ pipeline {
             }
             steps {
                 echo "Deploying ..."
-                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=test"
+
+                // Report status to GitHub
+                createDeploymentStatus(testSuffix, 'PENDING', testHost)    
+
+                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${testSuffix}"
+
+                // Report status to GitHub
+                createDeploymentStatus(testSuffix, 'SUCCESS', testHost)     
             }
         }
         stage('Deploy (PROD)') {
@@ -96,7 +113,14 @@ pipeline {
             }
             steps {
                 echo "Deploying ..."
-                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=prod"
+
+                // Report status to GitHub
+                createDeploymentStatus(prodSuffix, 'PENDING', prodHost)    
+
+                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${prodSuffix}"
+
+                // Report status to GitHub
+                createDeploymentStatus(prodSuffix, 'SUCCESS', prodHost)    
             }
         }
         stage('Accept Pull Request?') {
