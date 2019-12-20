@@ -1,4 +1,39 @@
+#!groovy
+
+import groovy.json.JsonOutput
+import bcgov.GitHubHelper
+
+// Create deployment status and pass to Jenkins-GitHub library
+void createDeploymentStatus (String suffix, String status, String stageUrl) {
+    def ghDeploymentId = new GitHubHelper().createDeployment(
+        this,
+        "pull/${CHANGE_ID}/head",
+        [
+            'environment':"${suffix}",
+            'task':"deploy:pull:${CHANGE_ID}"
+        ]
+    )
+
+    new GitHubHelper().createDeploymentStatus(
+        this,
+        ghDeploymentId,
+        "${status}",
+        ['targetUrl':"https://${stageUrl}"]
+    )
+
+    if ('SUCCESS'.equalsIgnoreCase("${status}")) {
+        echo "${suffix} deployment successful!"
+    } else if ('PENDING'.equalsIgnoreCase("${status}")){
+        echo "${suffix} deployment pending."
+    }
+}
+
+
 pipeline {
+    environment {
+        devSuffix = "dev"
+        devHost = "nmp-pr-${CHANGE_ID}-agri-nmp-dev.pathfinder.gov.bc.ca"
+    }
     agent none
     options {
         disableResume()
@@ -29,6 +64,9 @@ pipeline {
             steps {
                 echo "Deploying ..."
                 sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=dev"
+
+                // Report a pass to GitHub
+                createDeploymentStatus(devSuffix, 'SUCCESS', devHost)                
             }
         }
         stage('Deploy (TEST)') {
