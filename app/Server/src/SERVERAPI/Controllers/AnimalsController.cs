@@ -77,20 +77,17 @@ namespace SERVERAPI.Controllers
                 }
 
                 Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(aavm.SelectAnimalTypeOption));
-                anml.AnimalTypeOptions = aavm.AnimalTypeOptions;
                 anml.AnimalTypeName = animal.Name;
                 anml.AnimalId = animal.Id;
-                anml.SelectAnimalTypeOption = aavm.SelectAnimalTypeOption;
                 AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(aavm.SelectSubTypeOption));
                 anml.SelectSubTypeOption = aavm.SelectSubTypeOption;
-                anml.SubTypeOptions = aavm.SubTypeOptions;
                 anml.SubTypeName = animalSubTypeDetails.Name.Trim();
                 anml.SubTypeId = animalSubTypeDetails.Id;
                 anml.AverageAnimalNumber = aavm.AverageAnimalNumber;
                 anml.IsManureCollected = aavm.IsManureCollected;
                 anml.ManureCollected = aavm.IsManureCollected ? "Yes" : "No";
                 anml.DurationDays = aavm.IsManureCollected ? aavm.DurationDays : 0;
-                anml.SelectManureMaterialTypeOption = ManureMaterialType.Solid;
+                anml.ManureMaterialType = ManureMaterialType.Solid;
 
                 if (aavm.Act == "Add")
                 {

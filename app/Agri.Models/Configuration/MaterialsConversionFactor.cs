@@ -9,8 +9,6 @@ namespace Agri.Models.Configuration
         [Key]
         public int Id { get; set; }
 
-        [JsonIgnore]
-        [IgnoreDataMember]
         public AnnualAmountUnits InputUnit { get; set; }
 
         public string InputUnitName { get; set; }
