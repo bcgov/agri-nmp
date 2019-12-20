@@ -72,7 +72,8 @@ pipeline {
 
                 // Report status to GitHub
                 createDeploymentStatus(devSuffix, 'PENDING', devHost)        
-
+                createDeploymentStatus(testSuffix, 'PENDING', testHost)
+                createDeploymentStatus(prodSuffix, 'PENDING', prodHost)
                 sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${devSuffix}"
 
                 // Report status to GitHub
