@@ -1,6 +1,6 @@
 ﻿@model RancherFieldsViewModel
 <div>
-    @if (Model.fields.Count == 0)
+    @if (Model.Fields.Count == 0)
     {
 
         <div class="form-box">
@@ -8,49 +8,49 @@
                 <legend class="form-box-heading">Field List</legend>
             </div>
             @*<div class="form-box-body">*@
-            @if (Model.regionFnd)
+            @if (Model.RegionFnd)
             {
                 <form asp-action="RancherFieldDetail" asp-controller="RancherFields" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
                     <div class="modal-body">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="row">
                             <div class="form-group col-sm-4">
-                                <label asp-for="fieldName"></label>
+                                <label asp-for="FieldName"></label>
                                 <div>
-                                    <input asp-for="fieldName" class="col-sm-12" />
-                                    <span asp-validation-for="fieldName"></span>
+                                    <input asp-for="FieldName" class="col-sm-12" />
+                                    <span asp-validation-for="FieldName"></span>
                                 </div>
                             </div>
                             <div class="form-group col-sm-6">
-                                <label asp-for="fieldComment"></label>
+                                <label asp-for="FieldComment"></label>
                                 <div>
-                                    <textarea asp-for="fieldComment" rows="2" cols="70" style="resize:none" placeholder="@Model.placehldr"></textarea>
-                                    <span asp-validation-for="fieldComment"></span>
+                                    <textarea asp-for="FieldComment" rows="2" cols="70" style="resize:none" placeholder="@Model.Placehldr"></textarea>
+                                    <span asp-validation-for="FieldComment"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6">
-                                <label asp-for="fieldArea"></label>
+                                <label asp-for="FieldArea"></label>
                                 <div>
-                                    <input asp-for="fieldArea" class="col-sm-6" />
+                                    <input asp-for="FieldArea" class="col-sm-6" />
                                     <div style="padding-top:5px">&nbsp;Acres&nbsp;</div>
-                                    <span asp-validation-for="fieldArea"></span>
+                                    <span asp-validation-for="FieldArea"></span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6">
-                                <label asp-for="selPrevYrManureOption">Manure application in previous years</label>
-                                <select class="form-control" asp-for="selPrevYrManureOption" asp-items="@(new SelectList(Model.selPrevYrManureOptions,"FieldManureApplicationHistory","Name"))">
+                                <label asp-for="SelectPrevYrManureOption">Manure application in previous years</label>
+                                <select class="form-control" asp-for="SelectPrevYrManureOption" asp-items="@(new SelectList(Model.SelectPrevYrManureOptions,"FieldManureApplicationHistory","Name"))">
                                     <option>select</option>
                                 </select>
-                                <span asp-validation-for="selPrevYrManureOption"></span>
+                                <span asp-validation-for="SelectPrevYrManureOption"></span>
                             </div>
                             <div class="form-group col-sm-6">
                                 <br />
                                 <label style="padding-right: 20px">
-                                    <input asp-for="isSeasonalFeedingArea" type="checkbox" />
+                                    <input asp-for="IsSeasonalFeedingArea" type="checkbox" />
                                 </label>
                                 <label i="labelIsSeasonalFeedingArea">This is a seasonal feeding area</label>
                             </div>
@@ -60,26 +60,26 @@
                         <button class="btn" type="button" data-dismiss="modal">Cancel</button>
                         <input class="btn btn-primary" type="submit" value="Save" />
                     </div>
-                    @Html.HiddenFor(x => x.userDataField)
-                    @Html.HiddenFor(x => x.act)
-                    @Html.HiddenFor(x => x.currFieldName)
-                    @Html.HiddenFor(x => x.target)
-                    @Html.HiddenFor(x => x.cntl)
-                    @Html.HiddenFor(x => x.actn)
-                    @Html.HiddenFor(x => x.currFld)
-                    @Html.HiddenFor(x => x.placehldr)
+                    @Html.HiddenFor(x => x.UserDataField)
+                    @Html.HiddenFor(x => x.Act)
+                    @Html.HiddenFor(x => x.CurrFieldName)
+                    @Html.HiddenFor(x => x.Target)
+                    @Html.HiddenFor(x => x.Cntl)
+                    @Html.HiddenFor(x => x.Actn)
+                    @Html.HiddenFor(x => x.CurrFld)
+                    @Html.HiddenFor(x => x.Placehldr)
                 </form>
             }
             else
             {
                 <div class="form-box-table-first text-center">
-                    <h3>@Html.Raw(Model.noRegion)</h3>
+                    <h3>@Html.Raw(Model.NoRegion)</h3>
                 </div>
             }
         </div>
     }
 
-    @if (Model.fields.Count() > 0)
+    @if (Model.Fields.Count() > 0)
     {
         <div class="form-box">
             <div class="form-box-header clearfix">
@@ -103,7 +103,7 @@
                         <div class="col-sm-2 form-box-table-cell">
                         </div>
                     </div>
-                    @foreach (var item in Model.fields)
+                    @foreach (var item in Model.Fields)
                     {
                         <div class="form-box-table-row row row-eq-height">
                             <div class="col-sm-3 form-box-table-cell">
@@ -141,11 +141,11 @@
             </div>
         </div>
 
-        @for (int i = 0; i < Model.fields.Count; i++)
+        @for (int i = 0; i < Model.Fields.Count; i++)
         {
-            @Html.Hidden("fieldName[" + i + "]", Model.fields[i].FieldName)
-            @Html.Hidden("area[" + i + "]", Model.fields[i].Area)
-            @Html.Hidden("comment[" + i + "]", Model.fields[i].Comment)
+            @Html.Hidden("fieldName[" + i + "]", Model.Fields[i].FieldName)
+            @Html.Hidden("area[" + i + "]", Model.Fields[i].Area)
+            @Html.Hidden("comment[" + i + "]", Model.Fields[i].Comment)
         }
     }
 </div>

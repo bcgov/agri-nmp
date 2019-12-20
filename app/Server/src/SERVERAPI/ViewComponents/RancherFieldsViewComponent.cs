@@ -29,19 +29,20 @@ namespace SERVERAPI.ViewComponents
         private Task<RancherFieldsViewModel> GetRancherFieldsAsync()
         {
             RancherFieldsViewModel fvm = new RancherFieldsViewModel();
+            fvm.Placehldr = _sd.GetUserPrompt("fieldcommentplaceholder");
             FarmDetails fd = _ud.FarmDetails();
 
             if (fd.FarmRegion.HasValue)
             {
-                fvm.regionFnd = true;
+                fvm.RegionFnd = true;
             }
             else
             {
-                fvm.regionFnd = false;
-                fvm.noRegion = _sd.GetUserPrompt("missingregion");
+                fvm.RegionFnd = false;
+                fvm.NoRegion = _sd.GetUserPrompt("missingregion");
             }
 
-            fvm.fields = new List<RancherField>();
+            fvm.Fields = new List<RancherField>();
 
             List<RancherField> fldList = _ud.GetRancherFields();
 
@@ -52,16 +53,16 @@ namespace SERVERAPI.ViewComponents
                 nf.Area = Convert.ToDecimal((f.Area).ToString("G29"));
                 nf.Comment = f.Comment;
                 nf.SeasonalFeedingArea = f.SeasonalFeedingArea;
-                fvm.fields.Add(nf);
+                fvm.Fields.Add(nf);
             }
 
-            if (fvm.fields.Count == 0)
+            if (fvm.Fields.Count == 0)
             {
-                fvm.actn = null;
-                fvm.cntl = "RancherFields";
-                fvm.act = "Add";
-                fvm.target = "#rancherFields";
-                fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
+                fvm.Actn = null;
+                fvm.Cntl = "RancherFields";
+                fvm.Act = "Add";
+                fvm.Target = "#rancherFields";
+                fvm.SelectPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
             }
 
             return Task.FromResult(fvm);
@@ -72,34 +73,34 @@ namespace SERVERAPI.ViewComponents
     {
         [Display(Name = "Field Name")]
         [Required]
-        public string fieldName { get; set; }
+        public string FieldName { get; set; }
 
         [Display(Name = "Area")]
         [Required]
-        public string fieldArea { get; set; }
+        public string FieldArea { get; set; }
 
         [Display(Name = "Comments (optional)")]
-        public string fieldComment { get; set; }
+        public string FieldComment { get; set; }
 
-        public List<PreviousManureApplicationYear> selPrevYrManureOptions { get; set; }
+        public List<PreviousManureApplicationYear> SelectPrevYrManureOptions { get; set; }
 
         [Display(Name = "Manure application in previous years")]
-        public string selPrevYrManureOption { get; set; }
+        public string SelectPrevYrManureOption { get; set; }
 
-        public bool isSeasonalFeedingArea { get; set; }
-        public string seasonalFeedingArea { get; set; }
+        public bool IsSeasonalFeedingArea { get; set; }
+        public string SeasonalFeedingArea { get; set; }
 
-        public string act { get; set; }
-        public string userDataField { get; set; }
-        public string currFieldName { get; set; }
-        public string target { get; set; }
-        public string cntl { get; set; }
-        public string actn { get; set; }
-        public string currFld { get; set; }
-        public int fieldId { get; set; }
-        public string placehldr { get; set; }
-        public bool regionFnd { get; set; }
-        public string noRegion { get; set; }
-        public List<RancherField> fields { get; set; }
+        public string Act { get; set; }
+        public string UserDataField { get; set; }
+        public string CurrFieldName { get; set; }
+        public string Target { get; set; }
+        public string Cntl { get; set; }
+        public string Actn { get; set; }
+        public string CurrFld { get; set; }
+        public int FieldId { get; set; }
+        public string Placehldr { get; set; }
+        public bool RegionFnd { get; set; }
+        public string NoRegion { get; set; }
+        public List<RancherField> Fields { get; set; }
     }
 }
