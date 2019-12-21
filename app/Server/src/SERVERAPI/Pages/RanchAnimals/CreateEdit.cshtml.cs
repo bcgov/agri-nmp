@@ -21,9 +21,15 @@ namespace SERVERAPI.Pages.RanchAnimals
         [BindProperty]
         public Command Data { get; set; }
 
+        public bool IsModal { get; set; }
+
         public CreateEdit(IMediator mediator) => _mediator = mediator;
 
-        public async Task OnGetCreateAsync() => await PopulateData();
+        public async Task OnGetCreateAsync(bool ismodal)
+        {
+            IsModal = ismodal;
+            await PopulateData();
+        }
 
         private async Task PopulateData()
         {

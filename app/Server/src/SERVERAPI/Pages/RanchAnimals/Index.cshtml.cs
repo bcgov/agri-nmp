@@ -28,7 +28,7 @@ namespace SERVERAPI.Pages.RanchAnimals
 
             if (!data.Animals.Any())
             {
-                return RedirectToPage("CreateEdit", "Create");
+                return RedirectToPage("CreateEdit", "Create", new { ismodal = false });
             }
 
             Data = data;

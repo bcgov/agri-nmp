@@ -1,9 +1,8 @@
-﻿@page "{handler?}"
+﻿@page "{handler?}/{ismodal:bool}"
 @model SERVERAPI.Pages.RanchAnimals.CreateEdit
 
 @{
-    //Layout = Model.Data.Id == null ? "_Layout" : null;
-    Layout = "_Layout";
+    Layout = Model.IsModal ? null : "_Layout";
 }
 
 @*

@@ -87,7 +87,8 @@
                         </div>
                     }
                     <div class="form-box-table-add text-right form-box-table-row row">
-                        <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("AnimalDetail", "Animals", new {target = "#animals"})">Add another animal</button>
+                        <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Page("CreateEdit", "Create", new { ismodal = true })">Add another animal</button>
+                        @*<button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("AnimalDetail", "Animals", new {target = "#animals"})">Add another animal</button>*@
                     </div>
                 </div>
             </div>
