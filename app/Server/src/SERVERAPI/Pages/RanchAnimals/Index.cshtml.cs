@@ -35,12 +35,13 @@ namespace SERVERAPI.Pages.RanchAnimals
             public class FarmAnimal
             {
                 public int Id { get; set; }
-                public string AnimalTypeName { get; set; }
-                public string SelectSubTypeOption { get; set; }
+                public string AnimalName { get; set; }
                 public string SubTypeName { get; set; }
                 public ManureMaterialType ManureMaterialType { get; set; }
                 public string AverageAnimalNumber { get; set; }
-                public string ManureCollected { get; set; }
+                public bool IsManureCollected { get; set; }
+
+                public string ManureCollected => IsManureCollected ? "Yes" : "No";
                 public int DurationDays { get; set; }
             }
         }

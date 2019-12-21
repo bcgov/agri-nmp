@@ -89,6 +89,7 @@ namespace SERVERAPI
 
             //Automapper
             services.AddAutoMapper(typeof(Startup));
+            //Mediatr
             services.AddMediatR(typeof(Startup));
 
             //// Add framework services.

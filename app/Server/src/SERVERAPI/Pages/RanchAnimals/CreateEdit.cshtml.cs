@@ -37,7 +37,7 @@ namespace SERVERAPI.Pages.RanchAnimals
             {
                 await _mediator.Send(Data);
 
-                return this.RedirectToPageJson(nameof(Index));
+                return this.RedirectToPage("Index");
             }
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
             return Page();
@@ -54,22 +54,17 @@ namespace SERVERAPI.Pages.RanchAnimals
         }
 
         [BindProperties]
-        public class Command : IRequest<int>
+        public class Command : IRequest<Unit>
         {
             public int? Id { get; set; }
-
-            public int CattleSubType { get; set; }
-
+            public int AnimalId { get; set; }
+            public string AnimalName { get; set; }
+            public int CattleSubTypeId { get; set; }
             public string CattleSubTypeName { get; set; }
-
             public SelectList CattleSubTypeOptions { get; set; }
-
             public ManureMaterialType ManureMaterialType => ManureMaterialType.Solid;
-
             public int AverageAnimalNumber { get; set; }
-
             public string ButtonPressed { get; set; }
-
             public string Placehldr { get; set; }
             public bool IsManureCollected { get; set; }
             public int DurationDays { get; set; }
@@ -79,7 +74,7 @@ namespace SERVERAPI.Pages.RanchAnimals
         {
             public CommandValidator()
             {
-                RuleFor(m => m.CattleSubType).GreaterThan(0).WithMessage("Cattle Type must be selected");
+                RuleFor(m => m.CattleSubTypeId).GreaterThan(0).WithMessage("Cattle Type must be selected");
                 RuleFor(m => m.AverageAnimalNumber).NotNull().NotEmpty().GreaterThan(0);
                 When(m => m.IsManureCollected, () =>
                 {
@@ -93,7 +88,10 @@ namespace SERVERAPI.Pages.RanchAnimals
         {
             public MappingProfile()
             {
-                CreateMap<FarmAnimal, Command>();
+                CreateMap<FarmAnimal, Command>()
+                    .ForMember(m => m.CattleSubTypeId, opts => opts.MapFrom(src => src.SubTypeId))
+                    .ForMember(m => m.CattleSubTypeName, opts => opts.MapFrom(src => src.SubTypeName))
+                    .ReverseMap();
             }
         }
 
@@ -108,7 +106,7 @@ namespace SERVERAPI.Pages.RanchAnimals
                 _mapper = mapper;
             }
 
-            public Task<Command> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Command> Handle(Query request, CancellationToken cancellationToken)
             {
                 var command = new Command();
                 if (request.Id.HasValue)
@@ -116,7 +114,7 @@ namespace SERVERAPI.Pages.RanchAnimals
                     command = _mapper.Map<FarmAnimal, Command>(_ud.GetAnimalDetail(request.Id.Value));
                 }
 
-                return Task.FromResult(command);
+                return await Task.FromResult(command);
             }
         }
 
@@ -129,21 +127,43 @@ namespace SERVERAPI.Pages.RanchAnimals
                 _sd = sd;
             }
 
-            public Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
+            public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
 
-                var cattleAnimalType = 1;
+                var beefCattle = _sd.GetAnimal(1);
+                command.AnimalId = beefCattle.Id;
+                command.AnimalName = beefCattle.Name;
 
-                var subTypeOptions = _sd.GetSubtypesDll(cattleAnimalType).ToList();
+                var subTypeOptions = _sd.GetSubtypesDll(beefCattle.Id).ToList();
 
                 if (subTypeOptions.Count() == 1)
                 {
-                    command.CattleSubType = subTypeOptions[0].Id;
+                    command.CattleSubTypeId = subTypeOptions[0].Id;
                 }
                 command.CattleSubTypeOptions = new SelectList(subTypeOptions, "Id", "Value");
 
-                return Task.FromResult(command);
+                return await Task.FromResult(command);
+            }
+        }
+
+        public class CommandHandler : IRequestHandler<Command, Unit>
+        {
+            private readonly UserData _ud;
+            private readonly IMapper _mapper;
+
+            public CommandHandler(UserData ud, IMapper mapper)
+            {
+                _ud = ud;
+                _mapper = mapper;
+            }
+
+            public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
+            {
+                var farmAnimal = _mapper.Map<Command, FarmAnimal>(message);
+                _ud.AddAnimal(farmAnimal);
+
+                return default;
             }
         }
     }

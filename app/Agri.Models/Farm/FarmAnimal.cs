@@ -11,9 +11,8 @@ namespace Agri.Models.Farm
         public int Id { get; set; }
         public string Title { get; set; }
         public string BtnText { get; set; }
-        public string SelectAnimalTypeOption { get; set; }
-        public string AnimalTypeName { get; set; }
         public int AnimalId { get; set; }
+        public string AnimalName { get; set; }
 
         public List<SelectListItem> AnimalTypeOptions { get; set; }
 

@@ -78,7 +78,7 @@ namespace SERVERAPI.Controllers
                 }
 
                 Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(aavm.SelectAnimalTypeOption));
-                anml.AnimalTypeName = animal.Name;
+                anml.AnimalName = animal.Name;
                 anml.AnimalId = animal.Id;
                 AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(aavm.SelectSubTypeOption));
                 anml.SelectSubTypeOption = aavm.SelectSubTypeOption;

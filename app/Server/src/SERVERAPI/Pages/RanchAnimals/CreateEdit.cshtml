@@ -35,11 +35,13 @@
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label for="ddlSubType">Cattle Type</label>
-                        <select class="form-control" asp-for="@Model.Data.CattleSubType"
-                                asp-items="@Model.Data.CattleSubTypeOptions" id="ddlSubType">
+                        <select class="form-control" asp-for="@Model.Data.CattleSubTypeId"
+                                asp-items="@Model.Data.CattleSubTypeOptions" id="ddlSubType"
+                                onchange="SetCattleSubTypeName(this.selectedOptions[0])">
                             <option value=0>Select Cattle Type</option>
                         </select>
-                        @Html.ValidationMessageFor(model => model.Data.CattleSubType)
+                        <input id="CattleSubTypeName" asp-for="@Model.Data.CattleSubTypeName" type="hidden" />
+                        @Html.ValidationMessageFor(model => model.Data.CattleSubTypeId)
                     </div>
                     <div class="form-group col-sm-4">
                         <label for="averageAnimalNumber">Average Animal Number on Farm</label>
@@ -91,6 +93,8 @@
                 </div>
             </div>
             @Html.HiddenFor(x => x.Data.ButtonPressed)
+            @Html.HiddenFor(x => x.Data.AnimalId)
+            @Html.HiddenFor(x => x.Data.AnimalName)
         </form>
     </div>
 </div>
@@ -105,6 +109,11 @@
             } else {
                 $('#durationValue').hide();
             }
+        }
+
+        function SetCattleSubTypeName(selectObject) {
+            var text = selectObject.text;
+            $('#CattleSubTypeName').val(text);
         }
     </script>
 }
