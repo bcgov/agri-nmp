@@ -157,7 +157,7 @@
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}${SUFFIX}",
+        "name": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}",
         "annotations": {
           "volume.beta.kubernetes.io/storage-class": "${PERSISTENT_VOLUME_CLASS}"
         }
@@ -276,7 +276,7 @@
                 "volumeMounts": [
                   {
                     "mountPath": "/var/lib/pgsql/data",
-                    "name": "${DATABASE_SERVICE_NAME}${SUFFIX}-data"
+                    "name": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}-data"
                   }
                 ]
               }
@@ -285,9 +285,9 @@
             "restartPolicy": "Always",
             "volumes": [
               {
-                "name": "${DATABASE_SERVICE_NAME}${SUFFIX}-data",
+                "name": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}-data",
                 "persistentVolumeClaim": {
-                  "claimName": "${DATABASE_SERVICE_NAME}${SUFFIX}"
+                  "claimName": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}"
                 }
               }
             ]
