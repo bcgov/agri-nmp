@@ -38,14 +38,14 @@ void createCommitStatus (String name, String status) {
 //      for the master branch you want it deployed in DEV, TEST, PROD before a PR can be merged
 //      for your sprint branch you want it deployed in DEV only
 //
-// Note: The below few lines of code really don't need to be run everytime, but because Github has no GUI
-//       to add these checks, we wil leave them here permanently. Otherwise, if you ever turn off the branch protection
-//       rules for more than a week, then you won't be able to select them back. This is why the title of the
-//       section is 'Status checks found in the last week for this repository'
-createCommitStatus (buildEnvironment, 'PENDING')
-createCommitStatus (devEnvironment, 'PENDING')
-createCommitStatus (testEnvironment, 'PENDING')
-createCommitStatus (prodEnvironment, 'PENDING')
+// Note: The below few lines of code really don't need to be run everytime. Once you have entered the status checks
+//       then they will stay there. If you ever turn off the branch protection
+//       rules for more than a week, then you won't be able to select them back. Uncomment the code below
+//       to add the status checks back. This is why the title of the section is 'Status checks found in the last week for this repository'
+// createCommitStatus (buildEnvironment, 'PENDING')
+// createCommitStatus (devEnvironment, 'PENDING')
+// createCommitStatus (testEnvironment, 'PENDING')
+// createCommitStatus (prodEnvironment, 'PENDING')
 
 // Create deployment status and pass to Jenkins-GitHub library
 void createDeploymentStatus (String suffix, String status, String stageUrl) {
