@@ -3,6 +3,20 @@
 import groovy.json.JsonOutput
 import bcgov.GitHubHelper
 
+// Notify stage status and pass to Jenkins-GitHub library
+void createCommitStatus (String name, String status) {
+    GitHubHelper.createCommitStatus(
+        this,
+        GitHubHelper.getPullRequestLastCommitId(this),
+        status,
+        "${env.BUILD_URL}",
+        "Stage '${name}'",
+        "Stage: ${name}"
+    )
+}
+
+createCommitStatus ('DEV ', 'PENDING')
+
 // Create deployment status and pass to Jenkins-GitHub library
 void createDeploymentStatus (String suffix, String status, String stageUrl) {
     def ghDeploymentId = new GitHubHelper().createDeployment(
