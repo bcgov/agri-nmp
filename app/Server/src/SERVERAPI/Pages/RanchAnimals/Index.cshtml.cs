@@ -22,7 +22,19 @@ namespace SERVERAPI.Pages.RanchAnimals
 
         public Index(IMediator mediator) => _mediator = mediator;
 
-        public async Task OnGetAsync(Query query) => Data = await _mediator.Send(query);
+        public async Task<IActionResult> OnGetAsync(Query query)
+        {
+            var data = await _mediator.Send(query);
+
+            if (!data.Animals.Any())
+            {
+                return RedirectToPage("CreateEdit", "Create");
+            }
+
+            Data = data;
+
+            return Page();
+        }
 
         public class Query : IRequest<Model>
         {
