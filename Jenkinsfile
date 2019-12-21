@@ -109,7 +109,7 @@ pipeline {
                 // Report status to GitHub
                 createDeploymentStatus(devEnvironment, 'PENDING', devHost)   
 
-                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${devSuffix}"
+                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${devEnvironment}"
 
                 // Report status to GitHub
                 createCommitStatus (devEnvironment, 'SUCCESS')
@@ -132,11 +132,11 @@ pipeline {
                 // Report status to GitHub
                 createDeploymentStatus(testEnvironment, 'PENDING', testHost)    
 
-                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${testSuffix}"
+                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${testEnvironment}"
 
                 // Report status to GitHub
                 createCommitStatus (testEnvironment, 'SUCCESS')
-                createDeploymentStatus(testSuffix, 'SUCCESS', testHost)     
+                createDeploymentStatus(testEnvironment, 'SUCCESS', testHost)     
             }
         }
         stage('Deploy (PROD)') {
@@ -155,7 +155,7 @@ pipeline {
                 // Report status to GitHub
                 createDeploymentStatus(prodEnvironment, 'PENDING', prodHost)    
 
-                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${prodSuffix}"
+                sh "cd .pipeline && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=${prodEnvironment}"
 
                 // Report status to GitHub
                 createCommitStatus (prodEnvironment, 'SUCCESS')
