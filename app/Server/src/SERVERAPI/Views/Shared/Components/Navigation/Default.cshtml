@@ -2,7 +2,7 @@
 @model NavigationDetailViewModel
 
 @{
-    var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"].ToString());
+    var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"]?.ToString() ?? "AddAnimals");
 }
 <!--MAIN MENU-->
 <div style="background: #c1daea;">

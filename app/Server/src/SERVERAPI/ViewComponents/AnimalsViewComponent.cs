@@ -1,6 +1,7 @@
 ﻿using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
+using Agri.Models.Farm;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
@@ -32,14 +33,14 @@ namespace SERVERAPI.ViewComponents
         {
             AnimalsViewModel avm = new AnimalsViewModel();
 
-            avm.Animals = new List<Agri.Models.Farm.Animal>();
-            List<Agri.Models.Farm.Animal> animalList = _ud.GetAnimals();
+            avm.FarmAnimals = new List<FarmAnimal>();
+            List<FarmAnimal> animalList = _ud.GetAnimals();
 
             foreach (var a in animalList)
             {
-                avm.Animals.Add(a);
+                avm.FarmAnimals.Add(a);
             }
-            if (avm.Animals.Count == 0)
+            if (avm.FarmAnimals.Count == 0)
             {
                 avm.Actn = null;
                 avm.Cntl = "Animals";
@@ -119,6 +120,6 @@ namespace SERVERAPI.ViewComponents
         public string ManureCollected { get; set; }
         public int DurationDays { get; set; }
         public bool ShowDurationDays { get; set; }
-        public List<Agri.Models.Farm.Animal> Animals { get; set; }
+        public List<FarmAnimal> FarmAnimals { get; set; }
     }
 }

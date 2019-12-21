@@ -1,102 +1,102 @@
 ﻿@model AnimalsViewModel
 @using Agri.Models
 <div>
-    @if (Model.Animals.Count == 0)
+    @if (Model.FarmAnimals.Count == 0)
     {
         <div class="form-box">
             <div class="form-box-header clearfix">
-                <legend class="form-box-heading">Add Animals</legend>
+                <div class="form-box-heading">Add Animals</div>
             </div>
-            <form asp-action="AnimalDetail" asp-controller="Animals">
-                <div class="modal-body">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-box-fields">
-                        <div class="row">
-                            <div class="form-group col-sm-3" style="display:none">
-                                <label for="ddlAnimalType">Animal Type</label>
-                                <select class="form-control" asp-for="SelectAnimalTypeOption" asp-items="@(new SelectList(Model.AnimalTypeOptions,"Id","Value"))" id="ddlAnimalType">
-                                    <option>select animal</option>
+            @*<form asp-action="AnimalDetail" asp-controller="Animals" method="post" id="modForm">*@
+            <div class="modal-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-box-fields">
+                    <div class="row">
+                        <div class="form-group col-sm-3" style="display:none">
+                            <label for="ddlAnimalType">Animal Type</label>
+                            <select class="form-control" asp-for="SelectAnimalTypeOption" asp-items="@(new SelectList(Model.AnimalTypeOptions,"Id","Value"))" id="ddlAnimalType">
+                                <option>select animal</option>
+                            </select>
+                            <span asp-validation-for="SelectAnimalTypeOption" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="ddlSubType">Cattle</label>
+                            <select class="form-control" asp-for="SelectSubTypeOption" asp-items="@(new SelectList(Model.SubTypeOptions,"Id","Value"))" id="ddlSubType"></select>
+                            <span asp-validation-for="SelectSubTypeOption" class="text-danger">Select type</span>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="averageAnimalNumber">Average Animal Number on Farm</label>
+                            <input class="form-control" asp-for="AverageAnimalNumber" id="averageAnimalNumber" type="text" placeholder="@Model.Placehldr" />
+                            <span asp-validation-for="AverageAnimalNumber"></span>
+                        </div>
+                        @*<div class="form-group col-sm-2" style="display:none">
+                                <label for="ddlManureMaterialType">Manure Type</label>
+                                <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
+                                    <option>select type</option>
                                 </select>
-                                <span asp-validation-for="SelectAnimalTypeOption" class="text-danger"></span>
+                                <span asp-validation-for="selManureMaterialTypeOption" class="text-danger">Select a Manure Material Type</span>
+                            </div>*@
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="isManureCollected">Do you pile or collect manure from these animals?</label>
+                            <div class="form-group" role="radiogroup" aria-labelledby="labelisManureCollected">
+                                <label style="padding-right: 20px">
+                                    <input asp-for="IsManureCollected" type="radio" value="true" id="rbIsManureCollectedYes" onchange="IsManureCollectedChanged(true)" /> Yes
+                                </label>
+                                <label>
+                                    <input asp-for="IsManureCollected" type="radio" value="false" id="rbIsManureCollectedNo" onchange="IsManureCollectedChanged(false)" /> No
+                                </label>
                             </div>
-                            <div class="form-group col-sm-4">
-                                <label for="ddlSubType">Cattle</label>
-                                <select class="form-control" asp-for="SelectSubTypeOption" asp-items="@(new SelectList(Model.SubTypeOptions,"Id","Value"))" id="ddlSubType"></select>
-                                <span asp-validation-for="SelectSubTypeOption" class="text-danger">Select type</span>
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label for="averageAnimalNumber">Average Animal Number on Farm</label>
-                                <input class="form-control" asp-for="AverageAnimalNumber" id="averageAnimalNumber" type="text" placeholder="@Model.Placehldr" />
-                                <span asp-validation-for="AverageAnimalNumber"></span>
-                            </div>
-                            @*<div class="form-group col-sm-2" style="display:none">
-                                    <label for="ddlManureMaterialType">Manure Type</label>
-                                    <select class="form-control" asp-for="selManureMaterialTypeOption" asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
-                                        <option>select type</option>
-                                    </select>
-                                    <span asp-validation-for="selManureMaterialTypeOption" class="text-danger">Select a Manure Material Type</span>
-                                </div>*@
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-sm-6">
-                                <label for="isManureCollected">Do you pile or collect manure from these animals?</label>
-                                <div class="form-group" role="radiogroup" aria-labelledby="labelisManureCollected">
-                                    <label style="padding-right: 20px">
-                                        <input asp-for="IsManureCollected" type="radio" value="true" id="rbIsManureCollectedYes" onchange="IsManureCollectedChanged(true)" /> Yes
-                                    </label>
-                                    <label>
-                                        <input asp-for="IsManureCollected" type="radio" value="false" id="rbIsManureCollectedNo" onchange="IsManureCollectedChanged(false)" /> No
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            @if (Model.IsManureCollected)
-                            {
-                                <div class="row" id="durationValue">
-                                    <div class="form-group col-sm-2">
-                                        <label for="txtDuration">Duration</label>
-                                    </div>
-                                    <div class="form-group col-sm-2">
-                                        <input class="form-control" asp-for="DurationDays" id="durationDays" type="text" />
-                                    </div>
-                                    <div class="form-group col-sm-4">
-                                        days
-                                    </div>
-                                </div>
-                            }
-                            @if (!Model.IsManureCollected)
-                            {
-                                <div class="row hideDuration" id="durationValue">
-                                    <div class="form-group col-sm-2">
-                                        <label for="txtDuration">Duration</label>
-                                    </div>
-                                    <div class="form-group col-sm-2">
-                                        <input class="form-control" asp-for="DurationDays" id="durationDays" type="text" />
-                                    </div>
-                                    <div class="form-group col-sm-4">
-                                        days
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-                            <input class="btn btn-primary" type="submit" value="Save" />
                         </div>
                     </div>
+                    <div class="row">
+                        @if (Model.IsManureCollected)
+                        {
+                            <div class="row" id="durationValue">
+                                <div class="form-group col-sm-2">
+                                    <label for="txtDuration">Duration</label>
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    <input class="form-control" asp-for="DurationDays" id="durationDays" type="text" />
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    days
+                                </div>
+                            </div>
+                        }
+                        @if (!Model.IsManureCollected)
+                        {
+                            <div class="row hideDuration" id="durationValue">
+                                <div class="form-group col-sm-2">
+                                    <label for="txtDuration">Duration</label>
+                                </div>
+                                <div class="form-group col-sm-2">
+                                    <input class="form-control" asp-for="DurationDays" id="durationDays" type="text" />
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    days
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+                        <input class="btn btn-primary" type="submit" value="Save" />
+                    </div>
                 </div>
-                @Html.HiddenFor(x => x.Act)
-                @Html.HiddenFor(x => x.Target)
-                @Html.HiddenFor(x => x.Cntl)
-                @Html.HiddenFor(x => x.Actn)
-                @Html.HiddenFor(x => x.ButtonPressed)
-                @Html.HiddenFor(x => x.IsMainLoad)
-            </form>
+            </div>
+            @Html.HiddenFor(x => x.Act)
+            @Html.HiddenFor(x => x.Target)
+            @Html.HiddenFor(x => x.Cntl)
+            @Html.HiddenFor(x => x.Actn)
+            @Html.HiddenFor(x => x.ButtonPressed)
+            @Html.HiddenFor(x => x.IsMainLoad)
+            @*</form>*@
         </div>
     }
 
-    @if (Model.Animals.Count() > 0)
+    @if (Model.FarmAnimals.Count() > 0)
     {
         <div class="form-box">
             <div class="form-box-header clearfix">
@@ -126,7 +126,7 @@
                         <div class="col-sm-2 form-box-table-cell">
                         </div>
                     </div>
-                    @foreach (var item in Model.Animals)
+                    @foreach (var item in Model.FarmAnimals)
                     {
                         <div class="form-box-table-row row row-eq-height">
                             <div class="col-sm-2 form-box-table-cell">
@@ -164,9 +164,9 @@
             </div>
         </div>
 
-        @for (int i = 0; i < Model.Animals.Count; i++)
+        @for (int i = 0; i < Model.FarmAnimals.Count; i++)
         {
-            @Html.Hidden("id[" + i + "]", Model.Animals[i].Id)
+            @Html.Hidden("id[" + i + "]", Model.FarmAnimals[i].Id)
         }
     }
 </div>

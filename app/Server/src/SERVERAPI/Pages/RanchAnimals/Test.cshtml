@@ -1,0 +1,32 @@
+﻿@page
+@model SERVERAPI.Pages.RanchAnimals.TestCreateEdit
+@{
+    ViewData["Title"] = "Test";
+    Layout = "_Layout";
+}
+
+<h2>Test</h2>
+
+<form method="post">
+    <div class="col-sm-4">
+        <label for="ddlSubType">Cattle</label>
+        <select class="form-control"
+                asp-for="@Model.Data.SubTypeOption"
+                asp-items="@Model.Data.SubTypeOptions" id="ddlSubType">
+            <option>Pick one</option>
+        </select>
+        <span asp-validation-for="@Model.Data.SubTypeOption" class="text-danger">Select type</span>
+    </div>
+</form>
+
+@section Scripts {
+    <script type="text/javascript">
+        function IsManureCollectedChanged(value) {
+            if (value) {
+                $('#durationValue').removeClass('hideDuration')
+            } else {
+                $('#durationValue').addClass('hideDuration');
+            }
+        }
+    </script>
+}
