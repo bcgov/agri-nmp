@@ -1,0 +1,67 @@
+﻿@page
+@model SERVERAPI.Pages.MiniApps.SoilTestConvertorModel
+@{
+    ViewData["Title"] = "SoilTestConvertor";
+    Layout = "~/Pages/MiniApps/_miniAppLayout.cshtml";
+}
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <legend class="form-box-heading">Soil test P Convertor</legend>
+            </div>
+            <div class="form-box-body">
+                <div class="form-box-fields">
+                    <div class="row">
+                        This Calculator will convert laboratory phorphorous
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="laboratory">Laboratory</label>
+                            <select class="form-control" asp-for="@Model.Data.selLaboratoryOption" asp-items="@(new SelectList(Model.Data.laboratoryOptions, "Id", "Value"))" id="ddlMth">
+                                <option>select</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="pHValue">pH</label>
+                            <input class="form-control" type="text" placeholder="@Model.Data.pH" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="pHValue">PhosPhorous (P)</label>
+                            <input class="form-control" type="text" placeholder="@Model.Data.phosphorous" />
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="pHValue">Kelowna Method</label>
+                            <input class="form-control" readonly type="text" placeholder="@Model.Data.kelowna" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input class="btn btn-primary" type="submit" value="Calculate" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            bindFormDirectly();
+        });
+        function bindFormDirectly() {
+            $('form').submit(function () {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                    }
+                });
+                return false;
+            });
+        }
+    </script>
+}
