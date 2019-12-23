@@ -57,6 +57,8 @@ namespace Agri.Data
 
         List<NitrogenMineralization> GetNitrogeMineralizations();
 
+        List<KeyValuePair<string, string>> GetSoilConvertorDetails();
+
         List<DryMatter> GetDryMatters();
 
         List<Region> GetRegions();

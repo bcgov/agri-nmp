@@ -20,12 +20,11 @@ namespace SERVERAPI.Pages.MiniApps
 
         [BindProperty]
         public Command Data { get; set; }
-        
 
         public SoilTestConvertorModel(IMediator mediator) => _mediator = mediator;
 
         public async Task OnGetAsync()
-        {            
+        {
             await PopulateData();
         }
 
@@ -35,9 +34,12 @@ namespace SERVERAPI.Pages.MiniApps
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
         }
 
-        public async Task<IActionResult> OnPostCreateAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
-            Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
+            if (ModelState.IsValid)
+            {
+                Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
+            }
             return Page();
         }
 
@@ -59,12 +61,21 @@ namespace SERVERAPI.Pages.MiniApps
             public decimal kelowna { get; set; }
             public List<SelectListItem> laboratoryOptions { get; set; }
             public string selLaboratoryOption { get; set; }
+            public string SoilTestConverterUserInstruction1 { get; set; }
+            public string SoilTestConverterUserInstruction2 { get; set; }
+            public string SoilTestingInformation { get; set; }
+            public string BCNutrientManagementCalculator { get; set; }
+            public string SoilTestInformationButtonLink { get; set; }
+            public string BCNutrientManagementCalculatorButtonLink { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
+                RuleFor(m => m.selLaboratoryOption).NotNull().NotEmpty().WithMessage("Laboratory must be selected");
+                RuleFor(m => m.pH).NotEqual(0).WithMessage("PH Field is required");
+                RuleFor(m => m.phosphorous).NotEqual(0).WithMessage("PhosPhorous Field is required");
             }
         }
 
@@ -127,6 +138,13 @@ namespace SERVERAPI.Pages.MiniApps
                 //}
                 //command.CattleSubTypeOptions = new SelectList(subTypeOptions, "Id", "Value");
                 command.laboratoryOptions = _sd.GetSoilTestMethodsDll().ToList();
+                var details = _sd.GetSoilConvertorDetails();
+                command.SoilTestConverterUserInstruction1 = details.Where(x => x.Key == "SoilTestConverterUserInstruction1").Select(x => x.Value).FirstOrDefault();
+                command.SoilTestConverterUserInstruction2 = details.Where(x => x.Key == "SoilTestConverterUserInstruction2").Select(x => x.Value).FirstOrDefault();
+                command.SoilTestingInformation = details.Where(x => x.Key == "SoilTestingInformation").Select(x => x.Value).FirstOrDefault();
+                command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
+                command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
+                command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
 
                 return await Task.FromResult(command);
             }
