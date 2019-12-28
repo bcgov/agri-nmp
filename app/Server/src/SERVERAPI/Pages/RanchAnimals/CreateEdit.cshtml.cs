@@ -21,7 +21,12 @@ namespace SERVERAPI.Pages.RanchAnimals
         [BindProperty]
         public Command Data { get; set; }
 
+        [BindProperty]
         public bool IsModal { get; set; }
+
+        public string PageLayout => IsModal ? null : PageConstants.PageLayout;
+        public string BodyClass => IsModal ? PageConstants.ModalBodyClass : "container";
+        public string FormBoxClass => IsModal ? string.Empty : "form-box";
 
         public CreateEdit(IMediator mediator) => _mediator = mediator;
 
@@ -43,7 +48,11 @@ namespace SERVERAPI.Pages.RanchAnimals
             {
                 await _mediator.Send(Data);
 
-                return this.RedirectToPage("Index");
+                if (IsModal)
+                {
+                    return new JsonResult(new { success = true, url = Url.Page("Index") });
+                }
+                return RedirectToPage("Index");
             }
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
             return Page();

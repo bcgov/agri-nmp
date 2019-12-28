@@ -15,12 +15,12 @@
 </style>
 
 <!-- modal placeholder-->
-<div id='myModal' class='modal'>
-    <div class="modal-dialog" id="divSize">
-        <div class="modal-content">
-            <div id='myModalContent'></div>
-        </div>
-    </div>
+<div id='modal-placeholder'>
+    @*<div class="modal-dialog" id="divSize">
+            <div class="modal-content">
+                <div id='modal-placeholder-content'></div>
+            </div>
+        </div>*@
 </div>
 
 <div class="header-height"></div>
@@ -31,7 +31,7 @@
     <div class="step-forms col-sm-12">
         <div class="form-box">
             <div class="form-box-header clearfix">
-                <legend class="form-box-heading">Add Animals - Razor page</legend>
+                <div class="form-box-heading">Add Animals - Razor page</div>
             </div>
             <div class="form-box-body">
                 <div class="form-box-table">
@@ -77,18 +77,17 @@
                                 @item.DurationDays
                             </div>
                             <div class="col-sm-2 form-box-table-cell text-center">
-                                <button title="Edit" aria-label="Edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("AnimalDetail", "Animals", new { id = item.Id, target = "#animals" })">
+                                <button title="Edit" aria-label="Edit" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("AnimalDetail", "Animals", new { id = item.Id, target = "#target" })">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
                                 </button>
-                                <button title="Delete" aria-label="Delete" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("AnimalDelete", "Animals", new { id = item.Id, target = "#animals" })">
+                                <button title="Delete" aria-label="Delete" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("AnimalDelete", "Animals", new { id = item.Id, target = "#target" })">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
                                 </button>
                             </div>
                         </div>
                     }
                     <div class="form-box-table-add text-right form-box-table-row row">
-                        <button class="btn btn-default" type="button" data_modal="" data-type="@Url.Page("CreateEdit", "Create", new { ismodal = true })">Add another animal</button>
-                        @*<button class="btn btn-default" type="button" data_modal="" data-type="@Url.Action("AnimalDetail", "Animals", new {target = "#animals"})">Add another animal</button>*@
+                        <button class="btn btn-default" type="button" data-toggle="razor-page-modal" data-target="#create-edit" data-url="@Url.Page("CreateEdit", "Create", new { ismodal = true })">Add another animal</button>
                     </div>
                 </div>
             </div>
@@ -98,160 +97,4 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    <script type="text/javascript">
-        // ensure this event handler is attached to current and future elements (after partial renders)
-        $(document).on("click", '[data_modal]', function (e) {
-            $.ajaxSetup({ cache: false });
-            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-            $("#divSize").removeClass("modal-carousel");
-            $('#myModalContent').load($type, function () {
-                $('#myModal').modal({
-                    /*backdrop: 'static',*/
-                    //keyboard: true
-                }, 'show');
-                bindForm(this);
-            });
-            //bindFormDirectly();
-            return false;
-        });
-
-        function bindForm(dialog) {
-
-            $('form', dialog).submit(function () {
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                            //RefreshNavigation("Farm", "Farm");
-                            //RefreshNextPreviousNavigation("Fields", "Fields");
-                        } else {
-                            $('#myModalContent').html(result);
-                            $('#buttonPressed').val("");
-                            bindForm(dialog);
-                        }
-                    }
-                });
-                return false;
-            });
-        }
-
-        $(document).ready(function () {
-            bindFormDirectly();
-            $('#animals').change(function () {
-                bindFormDirectly();
-            })
-        });
-        function bindFormDirectly() {
-            $('form').submit(function () {
-                $.ajax({
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                            //RefreshNavigation("Farm", "Farm");
-                            //RefreshNextPreviousNavigation("Fields", "Fields");
-                        } else {
-                            $('#buttonPressed').val("");
-                            bindForm(dialog);
-                        }
-                    }
-                });
-                return false;
-            });
-        }
-        function IsManureCollectedChanged(value) {
-            if (value) {
-                $('#durationValue').removeClass('hideDuration')
-            } else {
-                $('#durationValue').addClass('hideDuration');
-            }
-        }
-
-        $(document).on("click", '[data_modalI]', function (e) {
-            $.ajaxSetup({ cache: false });
-            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-            $("#divSize").addClass("modal-carousel");
-            $('#myModalContent').load($type, function () {
-                $('#myModal').modal({
-                    /*backdrop: 'static',*/
-                    //keyboard: true
-                }, 'show');
-                bindFormI(this);
-            });
-            return false;
-        });
-
-        $(".modal").on("hidden.bs.modal", function () {
-            $(".myModalContent").html("");
-        });
-
-        function bindFormI(dialog) {
-            $('form', dialog).submit(function () {
-                $.ajax({
-                    cache: false,
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize(),
-                    success: function (result) {
-                        if (result.success) {
-                            $("#divSize").removeClass("modal-carousel");
-                            $('#myModal').modal('hide');
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindFormI(dialog);
-                        }
-                    }
-                });
-                return false;
-            });
-        }
-
-        $(document).on("click",
-            '[data_modal2]',
-            function (e) {
-                $.ajaxSetup({ cache: false });
-                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-                $('#myModalContent').load($type,
-                    function () {
-                        $('#myModal').modal({
-                            /*backdrop: 'static',*/
-                            //keyboard: true
-
-                        },
-                            'show');
-                        bindForm2(this);
-                    });
-                return false;
-            });
-
-        function bindForm2(dialog) {
-            $('form', dialog).submit(function () {
-                $.ajax({
-                    cache: false,
-                    url: this.action,
-                    type: this.method,
-                    data: $(this).serialize()
-                })
-                    .done(function (result) {
-                        if (result.success) {
-                            $('#myModal').modal('hide');
-                            //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                            window.location.href = result.url;
-                        } else {
-                            $('#myModalContent').html(result);
-                            bindForm2(dialog);
-                        }
-                    });
-
-                return false;
-            });
-        }
-    </script>
-}
+@section Scripts {}

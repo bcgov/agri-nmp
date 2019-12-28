@@ -12,6 +12,10 @@
     width: 55%;
 }
 
+.modal-backdrop {
+    opacity: 0.5 !important;
+}
+
 .Table {
     display: table;
     width: 100%
