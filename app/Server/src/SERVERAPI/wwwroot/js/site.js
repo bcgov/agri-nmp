@@ -32,10 +32,10 @@ $(function () {
 
         $.post(actionUrl, dataToSend).done(function (result) {
             //If successfull json is expected { success: bool, url: string relative page url }
-            if (result.success) {
+            if (result.redirect) {
                 //Form has no errors hide modal and redirect to URL passed
                 placeholderElement.find('.modal').modal('hide');
-                $(location).attr('href', result.url)
+                $(location).attr('href', result.redirect)
             }
             else {
                 //Validation has failed reload form into modal with errors
@@ -98,5 +98,45 @@ function RefreshNextPreviousNavigation(controller, currentAction) {
             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
         },
         error: ""
+    });
+}
+
+$(document).on("click",
+    '[legacy_modal]',
+    function (e) {
+        $.ajaxSetup({ cache: false });
+        $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+        $('#myModalContent').load($type,
+            function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                },
+                    'show');
+                bindLegacyForm(this);
+            });
+        return false;
+    });
+
+function bindLegacyForm(dialog) {
+    $('form', dialog).submit(function () {
+        $.ajax({
+            cache: false,
+            url: this.action,
+            type: this.method,
+            data: $(this).serialize()
+        })
+            .done(function (result) {
+                if (result.success) {
+                    $('#myModal').modal('hide');
+                    //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
+                    window.location.href = result.url;
+                } else {
+                    $('#myModalContent').html(result);
+                    bindForm2(dialog);
+                }
+            });
+
+        return false;
     });
 }

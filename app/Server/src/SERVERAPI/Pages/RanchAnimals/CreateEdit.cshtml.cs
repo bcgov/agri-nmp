@@ -25,20 +25,24 @@ namespace SERVERAPI.Pages.RanchAnimals
         public bool IsModal { get; set; }
 
         public string PageLayout => IsModal ? null : PageConstants.PageLayout;
-        public string BodyClass => IsModal ? PageConstants.ModalBodyClass : "container";
-        public string FormBoxClass => IsModal ? string.Empty : "form-box";
 
         public CreateEdit(IMediator mediator) => _mediator = mediator;
 
         public async Task OnGetCreateAsync(bool ismodal)
         {
             IsModal = ismodal;
-            await PopulateData();
+            await PopulateData(new Query());
         }
 
-        private async Task PopulateData()
+        public async Task OnGetEditAsync(bool ismodal, Query query)
         {
-            Data = await _mediator.Send(new Query());
+            IsModal = ismodal;
+            await PopulateData(query);
+        }
+
+        private async Task PopulateData(Query query)
+        {
+            Data = await _mediator.Send(query);
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
         }
 
@@ -50,9 +54,9 @@ namespace SERVERAPI.Pages.RanchAnimals
 
                 if (IsModal)
                 {
-                    return new JsonResult(new { success = true, url = Url.Page("Index") });
+                    return this.RedirectToPageJson(nameof(Index));
                 }
-                return RedirectToPage("Index");
+                return RedirectToPage(nameof(Index));
             }
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
             return Page();
@@ -176,7 +180,15 @@ namespace SERVERAPI.Pages.RanchAnimals
             public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
             {
                 var farmAnimal = _mapper.Map<Command, FarmAnimal>(message);
-                _ud.AddAnimal(farmAnimal);
+
+                if (farmAnimal.Id == 0)
+                {
+                    _ud.AddAnimal(farmAnimal);
+                }
+                else
+                {
+                    _ud.UpdateAnimal(farmAnimal);
+                }
 
                 return default;
             }

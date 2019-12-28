@@ -11,7 +11,7 @@
             <li style="padding:0 40px 0 0">
                 @if (currentAction != CoreSiteActions.SessionExpired)
                 {
-                    <input type="button" data_modal2="" data-type="@Url.Action("NewWarning", "Home")" value="Home" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;" />
+                    <input type="button" legacy_modal="" data-type="@Url.Action("NewWarning", "Home")" value="Home" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;" />
                 }
                 else
                 {
@@ -33,8 +33,8 @@
                 </li>
             }
             @if (currentAction != CoreSiteActions.Farm &&
-               currentAction != CoreSiteActions.Report &&
-               currentAction != CoreSiteActions.SessionExpired)
+              currentAction != CoreSiteActions.Report &&
+              currentAction != CoreSiteActions.SessionExpired)
             {
                 <li class="continue-link">
                     <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
