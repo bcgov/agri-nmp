@@ -50,6 +50,16 @@ namespace SERVERAPI.Pages.RanchAnimals
 
         public async Task<IActionResult> OnPostCreateAsync()
         {
+            return await ProcessPost();
+        }
+
+        public async Task<IActionResult> OnPostEditAsync()
+        {
+            return await ProcessPost();
+        }
+
+        private async Task<IActionResult> ProcessPost()
+        {
             if (ModelState.IsValid)
             {
                 await _mediator.Send(Data);

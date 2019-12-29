@@ -6,10 +6,8 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h2 class="modal-title">@ViewBag.HeaderTitle</h2>
             </div>
-            <div class="modal-body" id="create-edit" role="dialog">
-                <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body">
-                    @RenderBody()
-                </form>
+            <div class="modal-body" role="dialog">
+                @RenderBody()
             </div>
         </div>
     </div>
