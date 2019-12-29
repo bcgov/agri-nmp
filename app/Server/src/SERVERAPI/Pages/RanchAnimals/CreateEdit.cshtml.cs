@@ -14,7 +14,7 @@ using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Pages.RanchAnimals
 {
-    public class CreateEdit : PageModel
+    public class CreateEdit : BasePageModel
     {
         private readonly IMediator _mediator;
 
@@ -31,12 +31,14 @@ namespace SERVERAPI.Pages.RanchAnimals
         public async Task OnGetCreateAsync(bool ismodal)
         {
             IsModal = ismodal;
+            Title = "Add Animal";
             await PopulateData(new Query());
         }
 
         public async Task OnGetEditAsync(bool ismodal, Query query)
         {
             IsModal = ismodal;
+            Title = "Edit Animal";
             await PopulateData(query);
         }
 

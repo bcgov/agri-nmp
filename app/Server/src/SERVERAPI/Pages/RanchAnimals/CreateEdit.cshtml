@@ -2,60 +2,27 @@
 @model SERVERAPI.Pages.RanchAnimals.CreateEdit
 
 @{
-    Layout = Model.PageLayout;
+    Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
+    ViewData["FormAction"] = @Url.Page("CreateEdit", "Create", new { ismodal = true });
 }
 
-@if (Model.IsModal)
-{
-    <div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document" id="divSize">
-            <div class="modal-content">
-                @* This puts the header as the bar on the Modal *@
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2 class="modal-title" id="myModalLabel">Add Animal</h2>
-                </div>
-                <div class="modal-body" id="create-edit" role="dialog">
-                    <form asp-page="CreateEdit" asp-page-handler="Create" asp-route-ismodal="True" method="post" class="form-box-body">
-                        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-else
-{
-    <div class="header-height"></div>
-    <br />
-    <br />
-    <div class="container" id="create-edit" role="dialog">
-        @* Puts a border around the form when not in a modal window *@
-        <div class="form-box">
-            <div class="form-box-header clearfix">
-                <div class="form-box-heading">Add Animal</div>
-            </div>
-            <form method="post" class="form-box-body">
-                @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
-            </form>
-        </div>
-    </div>
-}
+@await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
 
-<script type="text/javascript">
-    //Show the Duration Field when IsManureCollected True
-    function IsManureCollectedChanged(value) {
-        if (value) {
-            $('#durationValue').show();
-        } else {
-            $('#durationValue').hide();
+@section Scripts {
+    <script type="text/javascript">
+        //Show the Duration Field when IsManureCollected True
+        function IsManureCollectedChanged(value) {
+            if (value) {
+                $('#durationValue').show();
+            } else {
+                $('#durationValue').hide();
+            }
         }
-    }
 
-    //Record the CattleSubTypeName when Dropdown is changed
-    function SetCattleSubTypeName(selectObject) {
-        var text = selectObject.text;
-        $('#CattleSubTypeName').val(text);
-    }
-</script>
-@section Scripts {}
+        //Record the CattleSubTypeName when Dropdown is changed
+        function SetCattleSubTypeName(selectObject) {
+            var text = selectObject.text;
+            $('#CattleSubTypeName').val(text);
+        }
+    </script>
+}

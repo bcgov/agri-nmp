@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div class="header-height"></div>
+<br />
+<br />
+<div class="container" id="create-edit" role="dialog">
+    @* Puts a border around the form when not in a modal window *@
+    <div class="form-box">
+        <div class="form-box-header clearfix">
+            <div class="form-box-heading">@ViewBag.HeaderTitle</div>
+        </div>
+        <form method="post" class="form-box-body">
+            @RenderBody()
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: true)
+}
