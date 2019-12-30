@@ -66,5 +66,5 @@
 </div>
 @section PreviousNextNavigation
 {
-    @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.AddAnimals })
+    @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentPage = FeaturePages.RanchAnimalsIndex })
 }

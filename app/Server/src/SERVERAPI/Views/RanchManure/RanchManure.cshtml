@@ -28,7 +28,7 @@
             </div>
         </form>
         <div id="next-previous-navigation">
-            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.RanchManure })
+            @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.RanchManure })
         </div>
         <!-- PAGE CONTENT -->
     </div>

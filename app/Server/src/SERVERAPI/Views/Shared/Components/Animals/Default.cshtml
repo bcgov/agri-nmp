@@ -171,5 +171,5 @@
     }
 </div>
 <div id="next-previous-navigation">
-    @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.AddAnimals })
+    @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.AddAnimals })
 </div>

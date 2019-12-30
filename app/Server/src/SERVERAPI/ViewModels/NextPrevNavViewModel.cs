@@ -1,14 +1,11 @@
 ﻿using Agri.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewModels
 {
-    public class NextPreviousNavigationViewModel
+    public class NextPrevNavViewModel
     {
+        public CoreSiteActions CurrentAction { get; set; }
+        public FeaturePages CurrentPage { get; set; }
         public bool UseJSInterceptMethod { get; set; }
         public CoreSiteActions PreviousAction { get; set; }
         public CoreSiteActions NextAction { get; set; }
@@ -20,7 +17,10 @@ namespace SERVERAPI.ViewModels
         public string ViewNextAction => NextAction.ToString();
         public string ViewPreviousController => PreviousController.ToString();
         public string ViewNextController => NextController.ToString();
+        public FeaturePages PreviousPage { get; set; }
+        public FeaturePages NextPage { get; set; }
         public string ViewPreviousUrl { get; set; }
         public string ViewNextUrl { get; set; }
+        public bool UseFeaturePages => CurrentPage != FeaturePages.NotUsed;
     }
 }

@@ -1,10 +1,12 @@
 ﻿using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
+using Common;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,27 +16,47 @@ namespace SERVERAPI.ViewComponents
     {
         private readonly IAgriConfigurationRepository _sd;
         private readonly UserData _ud;
+        private readonly List<MainMenu> _mainMenuOptions;
 
         public NextPreviousNavigationViewComponent(IAgriConfigurationRepository sd, UserData ud)
         {
             _sd = sd;
             _ud = ud;
-        }
-
-        public async Task<IViewComponentResult> InvokeAsync(CoreSiteActions currentAction)
-        {
-            return View(await GetNavigation(currentAction));
-        }
-
-        private Task<NextPreviousNavigationViewModel> GetNavigation(CoreSiteActions currentAction)
-        {
             var journey = _ud.FarmDetails().UserJourney;
-            var mainMenuOptions = _sd.GetJourney((int)journey)
+            _mainMenuOptions = _sd.GetJourney((int)journey)
                 .MainMenus
                 .OrderBy(m => m.SortNumber)
                 .ToList();
+        }
 
-            var currentMainMenuItem = mainMenuOptions
+        public async Task<IViewComponentResult> InvokeAsync(NextPrevNavViewModel currentNextPrevVm)
+        {
+            if (currentNextPrevVm.UseFeaturePages)
+            {
+                return View(await GetNavigation(currentNextPrevVm.CurrentPage));
+            }
+            return View(await GetNavigation(currentNextPrevVm.CurrentAction));
+        }
+
+        private Task<NextPrevNavViewModel> GetNavigation(FeaturePages currentPage)
+        {
+            var pageRoute = currentPage.GetDescription();
+            var currentMainMenuItem = _mainMenuOptions
+                    .Single(m => m.IsCurrentMainMenu(pageRoute) ||
+                                    m.SubMenus.Any(sm => sm.IsSubMenuCurrent(pageRoute)));
+
+            var currentMenuItem = currentMainMenuItem.SubMenus.Any() ?
+                currentMainMenuItem.SubMenus.Single(s => s.IsSubMenuCurrent(pageRoute)) as Menu :
+                currentMainMenuItem as Menu;
+
+            var mnvm = PopulateViewModel(currentMenuItem);
+
+            return Task.FromResult(mnvm);
+        }
+
+        private Task<NextPrevNavViewModel> GetNavigation(CoreSiteActions currentAction)
+        {
+            var currentMainMenuItem = _mainMenuOptions
                     .Single(m => m.IsCurrentMainMenu(currentAction) ||
                                     m.SubMenus.Any(sm => sm.IsSubMenuCurrent(currentAction)));
 
@@ -42,32 +64,48 @@ namespace SERVERAPI.ViewComponents
                 currentMainMenuItem.SubMenus.Single(s => s.IsSubMenuCurrent(currentAction)) as Menu :
                 currentMainMenuItem as Menu;
 
-            var mnvm = new NextPreviousNavigationViewModel
-            {
-                UseJSInterceptMethod = currentMenuItem.UseJavaScriptInterceptMethod,
-                PreviousController = EnumHelper<AppControllers>.Parse(currentMenuItem.PreviousController),
-                PreviousAction = EnumHelper<CoreSiteActions>.Parse(currentMenuItem.PreviousAction),
-                NextController = EnumHelper<AppControllers>.Parse(currentMenuItem.NextController),
-                NextAction = EnumHelper<CoreSiteActions>.Parse(currentMenuItem.NextAction)
-            };
-
-            if (currentAction == CoreSiteActions.Calculate)
-            {
-                ProcessCalculateNavigation(currentMenuItem, mnvm);
-            }
-
-            mnvm.ViewPreviousUrl = Url.Action(mnvm.ViewPreviousAction,
-                mnvm.ViewPreviousController,
-                mnvm.PreviousParameters);
-
-            mnvm.ViewNextUrl = Url.Action(mnvm.ViewNextAction,
-                mnvm.ViewNextController,
-                mnvm.NextParameters);
+            var mnvm = PopulateViewModel(currentMenuItem);
 
             return Task.FromResult(mnvm);
         }
 
-        private NextPreviousNavigationViewModel ProcessCalculateNavigation(Menu currentMenuItem, NextPreviousNavigationViewModel mnvm)
+        private NextPrevNavViewModel PopulateViewModel(Menu currentMenuItem)
+        {
+            var viewModel = new NextPrevNavViewModel
+            {
+                UseJSInterceptMethod = currentMenuItem.UseJavaScriptInterceptMethod,
+                PreviousController = EnumHelper<AppControllers>.Exists(currentMenuItem.PreviousController) ?
+                    EnumHelper<AppControllers>.Parse(currentMenuItem.PreviousController) : AppControllers.NotUsed,
+                PreviousAction = EnumHelper<CoreSiteActions>.Exists(currentMenuItem.PreviousAction) ?
+                    EnumHelper<CoreSiteActions>.Parse(currentMenuItem.PreviousAction) : CoreSiteActions.NotUsed,
+                NextController = EnumHelper<AppControllers>.Exists(currentMenuItem.NextController) ?
+                    EnumHelper<AppControllers>.Parse(currentMenuItem.NextController) : AppControllers.NotUsed,
+                NextAction = EnumHelper<CoreSiteActions>.Exists(currentMenuItem.NextAction) ?
+                    EnumHelper<CoreSiteActions>.Parse(currentMenuItem.NextAction) : CoreSiteActions.NotUsed,
+                PreviousPage = EnumHelper<FeaturePages>.Exists(currentMenuItem.PreviousPage) ?
+                    EnumHelper<FeaturePages>.Parse(currentMenuItem.PreviousPage) : FeaturePages.NotUsed,
+                NextPage = EnumHelper<FeaturePages>.Exists(currentMenuItem.NextPage) ?
+                    EnumHelper<FeaturePages>.Parse(currentMenuItem.NextPage) : FeaturePages.NotUsed
+            };
+
+            if (currentMenuItem.Action != null &&
+                currentMenuItem.Action.Equals(CoreSiteActions.Calculate.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                ProcessCalculateNavigation(currentMenuItem, viewModel);
+            }
+
+            viewModel.ViewPreviousUrl = viewModel.UseFeaturePages ?
+                Url.Page(viewModel.PreviousPage.ToString()) :
+                Url.Action(viewModel.ViewPreviousAction, viewModel.ViewPreviousController, viewModel.PreviousParameters);
+
+            viewModel.ViewNextUrl = viewModel.UseFeaturePages ?
+                Url.Page(viewModel.NextPage.ToString()) :
+                Url.Action(viewModel.ViewNextAction, viewModel.ViewNextController, viewModel.NextParameters);
+
+            return viewModel;
+        }
+
+        private NextPrevNavViewModel ProcessCalculateNavigation(Menu currentMenuItem, NextPrevNavViewModel mnvm)
         {
             var result = mnvm;
             var fields = _ud.GetFields();

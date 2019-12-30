@@ -123,9 +123,13 @@
         <div class="header-height"></div>
         <div id="navigation-container">
             @{
-                var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData?.Values["Action"]?.ToString() ?? "AddAnimals");
+                var navigationDetailVM = new NavigationDetailViewModel
+                {
+                    CurrentAction = ViewContext.RouteData?.Values["Action"]?.ToString(),
+                    CurrentPage = ViewContext.RouteData?.Values["page"]?.ToString()
+                };
             }
-            @await Component.InvokeAsync("Navigation", new { currentAction = currentAction })
+            @await Component.InvokeAsync("Navigation", navigationDetailVM)
         </div>
         <!-- /Header -->
         <div>

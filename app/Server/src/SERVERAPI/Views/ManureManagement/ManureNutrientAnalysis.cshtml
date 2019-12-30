@@ -27,18 +27,15 @@
                 @await Component.InvokeAsync("Compost")
             </div>
             <div id="next-previous-navigation">
-                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureNutrientAnalysis })
+                @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.ManureNutrientAnalysis })
             </div>
-            </form>
+        </form>
     </div>
 </div>
 
 <!-- /BODY CONTENT -->
 
-
-
 @section Scripts {
-
 
     <script type="text/javascript">
 
@@ -105,7 +102,7 @@
                 $("#modForm").submit();
             })
         });
-        
+
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
@@ -146,7 +143,6 @@
             });
         }
 
-
         $(document).ready(function () {
             $("body").on("change", "#ddlManureMaterialType", function () {
                 $('#ButtonPressed').val("ManureMaterialTypeChange");
@@ -161,7 +157,6 @@
             })
         });
 
-
         $(document).on("click",
             '[data_modal2]',
             function (e) {
@@ -170,10 +165,10 @@
                 $('#myModalContent').load($type,
                     function () {
                         $('#myModal').modal({
-                                /*backdrop: 'static',*/
-                                //keyboard: true
+                            /*backdrop: 'static',*/
+                            //keyboard: true
 
-                            },
+                        },
                             'show');
                         bindForm2(this);
                     });
@@ -183,11 +178,11 @@
         function bindForm2(dialog) {
             $('form', dialog).submit(function () {
                 $.ajax({
-                        cache: false,
-                        url: this.action,
-                        type: this.method,
-                        data: $(this).serialize()
-                    })
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
                     .done(function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
@@ -202,6 +197,5 @@
                 return false;
             });
         }
-
     </script>
 }
