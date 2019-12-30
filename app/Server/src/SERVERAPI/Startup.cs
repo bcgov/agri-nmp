@@ -2,6 +2,8 @@ using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models.Settings;
 using AutoMapper;
+using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -86,10 +88,13 @@ namespace SERVERAPI
             services.AddNodeServices();
 
             //Automapper
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
+            //Mediatr
+            services.AddMediatR(typeof(Startup));
 
             //// Add framework services.
             services.AddMvc()
+                .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); })
                 .AddJsonOptions(
                     opts =>
                     {

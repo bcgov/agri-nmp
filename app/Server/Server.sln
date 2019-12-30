@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agri.Tests.Shared", "..\Agr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agri.Data.Tests", "..\Agri.Data.Tests\Agri.Data.Tests.csproj", "{0DCDE81B-EA39-4281-BD19-02658F7A35AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agri.CalculatorService.Tests", "..\Agri.CalculatorService.Tests\Agri.CalculatorService.Tests.csproj", "{306AB27C-475F-4D49-9FBD-8DF48D7954E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Agri.CalculatorService.Tests", "..\Agri.CalculatorService.Tests\Agri.CalculatorService.Tests.csproj", "{306AB27C-475F-4D49-9FBD-8DF48D7954E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{85A72DE6-C027-40CE-B8EC-542FE37DE72F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

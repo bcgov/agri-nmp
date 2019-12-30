@@ -46,6 +46,7 @@ namespace Agri.Models
 
     public enum AppControllers
     {
+        NotUsed = 0,
         Farm,
         Animals,
         ManureManagement,
@@ -60,6 +61,7 @@ namespace Agri.Models
 
     public enum CoreSiteActions
     {
+        NotUsed,
         Home,
         Farm,
         AddAnimals,
@@ -107,6 +109,15 @@ namespace Agri.Models
     {
         Stored = 1,
         Imported = 2
+    }
+
+    public enum FeaturePages
+    {
+        [Description("Pages Not Used")]
+        NotUsed = 0,
+
+        [Description("/RanchAnimals/Index")]
+        RanchAnimalsIndex,
     }
 
     public enum StorageShapes

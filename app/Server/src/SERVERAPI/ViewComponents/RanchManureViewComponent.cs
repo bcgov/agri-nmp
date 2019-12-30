@@ -24,7 +24,7 @@ namespace SERVERAPI.ViewComponents
         {
             var viewModel = new RanchManureViewModel
             {
-                Animals = _userData.GetAnimals(),
+                FarmAnimals = _userData.GetAnimals(),
                 ImportedManures = _userData.GetImportedManures()
             };
 
@@ -33,7 +33,7 @@ namespace SERVERAPI.ViewComponents
 
         public class RanchManureViewModel
         {
-            public List<Animal> Animals { get; set; }
+            public List<FarmAnimal> FarmAnimals { get; set; }
 
             public List<ImportedManure> ImportedManures { get; set; }
         }

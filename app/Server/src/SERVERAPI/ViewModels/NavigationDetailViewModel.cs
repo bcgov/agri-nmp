@@ -8,11 +8,11 @@ namespace SERVERAPI.ViewModels
 {
     public class NavigationDetailViewModel
     {
-        public string selMainMenuOption { get; set; }
-        public List<MainMenu> mainMenuOptions { get; set; }
-        public string selSubMenuOption { get; set; }
-        public string subTypeName { get; set; }
-        public List<SubMenu> subMenuOptions { get; set; }
+        public string CurrentAction { get; set; }
+        public string CurrentPage { get; set; }
+        public List<MainMenu> MainMenus { get; set; }
+        public List<SubMenu> SubMenus { get; set; }
         public bool UseInterceptJS { get; set; }
+        public bool UsesFeaturePages => !string.IsNullOrEmpty(CurrentPage);
     }
 }
