@@ -202,7 +202,7 @@ namespace SERVERAPI.Pages.RanchAnimals
                     _ud.UpdateAnimal(farmAnimal);
                 }
 
-                return default;
+                return await Task.FromResult(new Unit());
             }
         }
     }

@@ -89,19 +89,17 @@ namespace SERVERAPI.Pages.RanchAnimals
         public class CommandHandler : IRequestHandler<Command, Unit>
         {
             private readonly UserData _ud;
-            private readonly IMapper _mapper;
 
-            public CommandHandler(UserData ud, IMapper mapper)
+            public CommandHandler(UserData ud)
             {
                 _ud = ud;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
             {
                 _ud.DeleteAnimal(message.Id.Value);
 
-                return default;
+                return await Task.FromResult(new Unit());
             }
         }
     }
