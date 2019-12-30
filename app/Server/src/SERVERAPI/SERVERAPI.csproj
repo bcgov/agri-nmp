@@ -65,9 +65,6 @@
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Views\Animals\AddAnimals.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Views\ManureManagement\CompostDelete.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
