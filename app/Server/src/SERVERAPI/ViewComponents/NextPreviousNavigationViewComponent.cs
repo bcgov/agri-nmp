@@ -31,7 +31,7 @@ namespace SERVERAPI.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(NextPrevNavViewModel currentNextPrevVm)
         {
-            if (currentNextPrevVm.UseFeaturePages)
+            if (currentNextPrevVm.CurrentIsAPage)
             {
                 return View(await GetNavigation(currentNextPrevVm.CurrentPage));
             }
@@ -82,10 +82,10 @@ namespace SERVERAPI.ViewComponents
                     EnumHelper<AppControllers>.Parse(currentMenuItem.NextController) : AppControllers.NotUsed,
                 NextAction = EnumHelper<CoreSiteActions>.Exists(currentMenuItem.NextAction) ?
                     EnumHelper<CoreSiteActions>.Parse(currentMenuItem.NextAction) : CoreSiteActions.NotUsed,
-                PreviousPage = EnumHelper<FeaturePages>.Exists(currentMenuItem.PreviousPage) ?
-                    EnumHelper<FeaturePages>.Parse(currentMenuItem.PreviousPage) : FeaturePages.NotUsed,
-                NextPage = EnumHelper<FeaturePages>.Exists(currentMenuItem.NextPage) ?
-                    EnumHelper<FeaturePages>.Parse(currentMenuItem.NextPage) : FeaturePages.NotUsed
+                PreviousPage = EnumHelper<FeaturePages>.ExistsWithDescription(currentMenuItem.PreviousPage) ?
+                    EnumHelper<FeaturePages>.GetValueFromDescription(currentMenuItem.PreviousPage) : FeaturePages.NotUsed,
+                NextPage = EnumHelper<FeaturePages>.ExistsWithDescription(currentMenuItem.NextPage) ?
+                    EnumHelper<FeaturePages>.GetValueFromDescription(currentMenuItem.NextPage) : FeaturePages.NotUsed
             };
 
             if (currentMenuItem.Action != null &&
@@ -94,12 +94,12 @@ namespace SERVERAPI.ViewComponents
                 ProcessCalculateNavigation(currentMenuItem, viewModel);
             }
 
-            viewModel.ViewPreviousUrl = viewModel.UseFeaturePages ?
-                Url.Page(viewModel.PreviousPage.ToString()) :
+            viewModel.ViewPreviousUrl = viewModel.PreviousIsAPage ?
+                Url.Page(viewModel.PreviousPage.GetDescription()) :
                 Url.Action(viewModel.ViewPreviousAction, viewModel.ViewPreviousController, viewModel.PreviousParameters);
 
-            viewModel.ViewNextUrl = viewModel.UseFeaturePages ?
-                Url.Page(viewModel.NextPage.ToString()) :
+            viewModel.ViewNextUrl = viewModel.NextIsAPage ?
+                Url.Page(viewModel.NextPage.GetDescription()) :
                 Url.Action(viewModel.ViewNextAction, viewModel.ViewNextController, viewModel.NextParameters);
 
             return viewModel;

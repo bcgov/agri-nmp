@@ -52,6 +52,19 @@ public static class EnumHelper<T>
         return (descriptionAttributes.Length > 0) ? descriptionAttributes[0].Description : value.ToString();
     }
 
+    public static bool ExistsWithDescription(string description)
+    {
+        try
+        {
+            GetValueFromDescription(description);
+        }
+        catch(ArgumentException)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public static T GetValueFromDescription(string description)
     {
         var type = typeof(T);

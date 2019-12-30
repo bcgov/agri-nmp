@@ -21,6 +21,8 @@ namespace SERVERAPI.ViewModels
         public FeaturePages NextPage { get; set; }
         public string ViewPreviousUrl { get; set; }
         public string ViewNextUrl { get; set; }
-        public bool UseFeaturePages => CurrentPage != FeaturePages.NotUsed;
+        public bool CurrentIsAPage => CurrentPage != FeaturePages.NotUsed;
+        public bool PreviousIsAPage => PreviousPage != FeaturePages.NotUsed;
+        public bool NextIsAPage => NextPage != FeaturePages.NotUsed;
     }
 }
