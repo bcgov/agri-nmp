@@ -20,7 +20,7 @@
             </li>
             @foreach (var item in Model.MainMenus)
             {
-                var url = Url.Action(item.Action, item.Controller);
+                var url = item.UsesFeaturePages ? Url.Page(item.Page) : Url.Action(item.Action, item.Controller);
                 var redirectFunction = $"window.location.href='{url}'";
                 if (Model.UseInterceptJS)
                 {
@@ -33,8 +33,8 @@
                 </li>
             }
             @if (currentAction != CoreSiteActions.Farm &&
-            currentAction != CoreSiteActions.Report &&
-            currentAction != CoreSiteActions.SessionExpired)
+           currentAction != CoreSiteActions.Report &&
+           currentAction != CoreSiteActions.SessionExpired)
             {
                 <li class="continue-link">
                     <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
@@ -51,8 +51,10 @@
             <ul class="second-level-nav">
                 @foreach (var item in Model.SubMenus)
                 {
-                    <li id="@item.Controller@item.Action@item.Id">
-                        <a id="@item.ElementId" href='@Url.Action(@item.Action, @item.Controller)'>
+                    var url = item.UsesFeaturePages ? Url.Page(item.Page) : Url.Action(item.Action, item.Controller);
+
+                    <li id="@item.ElementId@item.Id">
+                        <a id="@item.ElementId" href='@url'>
                             <span>@item.Name</span>
                         </a>
                     </li>
