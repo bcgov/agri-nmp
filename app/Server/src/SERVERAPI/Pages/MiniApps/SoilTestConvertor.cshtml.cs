@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models.Configuration;
+using Agri.Models.Farm;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -53,12 +55,12 @@ namespace SERVERAPI.Pages.MiniApps
             public Command PopulatedData { get; set; }
         }
 
-        [BindProperties]
         public class Command : IRequest<MediatR.Unit>
         {
             public decimal pH { get; set; }
             public decimal phosphorous { get; set; }
-            public decimal kelowna { get; set; }
+            public int kelowna { get; set; }
+            public bool isShowKelowna { get; set; }
             public List<SelectListItem> laboratoryOptions { get; set; }
             public string selLaboratoryOption { get; set; }
             public string SoilTestConverterUserInstruction1 { get; set; }
@@ -74,8 +76,8 @@ namespace SERVERAPI.Pages.MiniApps
             public CommandValidator()
             {
                 RuleFor(m => m.selLaboratoryOption).NotNull().NotEmpty().WithMessage("Laboratory must be selected");
-                RuleFor(m => m.pH).NotEqual(0).WithMessage("PH Field is required");
-                RuleFor(m => m.phosphorous).NotEqual(0).WithMessage("PhosPhorous Field is required");
+                RuleFor(m => m.pH).NotNull().WithMessage("PH Field is required");
+                RuleFor(m => m.phosphorous).NotNull().WithMessage("PhosPhorous Field is required");
             }
         }
 
@@ -116,10 +118,12 @@ namespace SERVERAPI.Pages.MiniApps
         public class LookupDataHandler : IRequestHandler<LookupDataQuery, Command>
         {
             private readonly IAgriConfigurationRepository _sd;
+            private readonly ISoilTestConverter _soilTestConversions;
 
-            public LookupDataHandler(IAgriConfigurationRepository sd)
+            public LookupDataHandler(IAgriConfigurationRepository sd, ISoilTestConverter soilTestConversions)
             {
                 _sd = sd;
+                _soilTestConversions = soilTestConversions;
             }
 
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
@@ -145,7 +149,14 @@ namespace SERVERAPI.Pages.MiniApps
                 command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
-
+                if (!string.IsNullOrEmpty(command.selLaboratoryOption))
+                {
+                    var soilTest = new SoilTest();
+                    soilTest.ValP = command.phosphorous;
+                    soilTest.valPH = command.pH;
+                    command.kelowna = _soilTestConversions.GetConvertedSTP(command.selLaboratoryOption, soilTest);
+                    command.isShowKelowna = true;
+                }
                 return await Task.FromResult(command);
             }
         }
