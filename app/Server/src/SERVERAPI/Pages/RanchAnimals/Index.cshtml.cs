@@ -26,7 +26,8 @@ namespace SERVERAPI.Pages.RanchAnimals
         public async Task<IActionResult> OnGetAsync(Query query)
         {
             var data = await _mediator.Send(query);
-
+            
+            //If no animals exist redirect to the CreateEdit PAGE
             if (!data.Animals.Any())
             {
                 return RedirectToPage("CreateEdit", "Create", new { ismodal = false });
