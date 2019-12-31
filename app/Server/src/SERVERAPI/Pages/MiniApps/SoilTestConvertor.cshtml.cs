@@ -28,13 +28,7 @@ namespace SERVERAPI.Pages.MiniApps
 
         public async Task OnGetAsync()
         {
-            await PopulateData();
-        }
-
-        private async Task PopulateData()
-        {
-            Data = await _mediator.Send(new Query());
-            Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
+            Data = await _mediator.Send(new Query { PopulatedData = new ConverterQuery() });
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -44,16 +38,11 @@ namespace SERVERAPI.Pages.MiniApps
                 //Send the Data to Receive conversion result
                 Result = await _mediator.Send(Data);
             }
-            Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
+            Data = await _mediator.Send(new Query { PopulatedData = Data });
             return Page();
         }
 
         public class Query : IRequest<ConverterQuery>
-        {
-            public string laboratory { get; set; }
-        }
-
-        public class LookupDataQuery : IRequest<ConverterQuery>
         {
             public ConverterQuery PopulatedData { get; set; }
         }
@@ -90,7 +79,8 @@ namespace SERVERAPI.Pages.MiniApps
             }
         }
 
-        public class Handler : IRequestHandler<LookupDataQuery, ConverterQuery>,
+        public class Handler :
+            IRequestHandler<Query, ConverterQuery>,
             IRequestHandler<ConverterQuery, ResultModel>
         {
             private readonly IAgriConfigurationRepository _sd;
@@ -102,7 +92,7 @@ namespace SERVERAPI.Pages.MiniApps
                 _soilTestConversions = soilTestConversions;
             }
 
-            public async Task<ConverterQuery> Handle(LookupDataQuery request, CancellationToken cancellationToken)
+            public async Task<ConverterQuery> Handle(Query request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
 
@@ -138,7 +128,7 @@ namespace SERVERAPI.Pages.MiniApps
 
             public Task<ResultModel> Handle(ConverterQuery request, CancellationToken cancellationToken)
             {
-                throw new NotImplementedException();
+                return Task.FromResult(new ResultModel());
             }
         }
     }
