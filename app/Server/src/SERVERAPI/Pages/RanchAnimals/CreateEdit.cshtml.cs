@@ -14,36 +14,61 @@ using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Pages.RanchAnimals
 {
-    public class CreateEdit : PageModel
+    public class CreateEdit : BasePageModel
     {
         private readonly IMediator _mediator;
 
         [BindProperty]
         public Command Data { get; set; }
 
+        [BindProperty]
         public bool IsModal { get; set; }
+
+        public string PageLayout => IsModal ? null : PageConstants.PageLayout;
 
         public CreateEdit(IMediator mediator) => _mediator = mediator;
 
         public async Task OnGetCreateAsync(bool ismodal)
         {
             IsModal = ismodal;
-            await PopulateData();
+            Title = "Add Animal";
+            await PopulateData(new Query());
         }
 
-        private async Task PopulateData()
+        public async Task OnGetEditAsync(bool ismodal, Query query)
         {
-            Data = await _mediator.Send(new Query());
+            IsModal = ismodal;
+            Title = "Edit Animal";
+            await PopulateData(query);
+        }
+
+        private async Task PopulateData(Query query)
+        {
+            Data = await _mediator.Send(query);
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
         {
+            return await ProcessPost();
+        }
+
+        public async Task<IActionResult> OnPostEditAsync()
+        {
+            return await ProcessPost();
+        }
+
+        private async Task<IActionResult> ProcessPost()
+        {
             if (ModelState.IsValid)
             {
                 await _mediator.Send(Data);
 
-                return this.RedirectToPage("Index");
+                if (IsModal)
+                {
+                    return this.RedirectToPageJson(nameof(Index));
+                }
+                return RedirectToPage(nameof(Index));
             }
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
             return Page();
@@ -167,9 +192,17 @@ namespace SERVERAPI.Pages.RanchAnimals
             public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
             {
                 var farmAnimal = _mapper.Map<Command, FarmAnimal>(message);
-                _ud.AddAnimal(farmAnimal);
 
-                return default;
+                if (farmAnimal.Id == 0)
+                {
+                    _ud.AddAnimal(farmAnimal);
+                }
+                else
+                {
+                    _ud.UpdateAnimal(farmAnimal);
+                }
+
+                return await Task.FromResult(new Unit());
             }
         }
     }

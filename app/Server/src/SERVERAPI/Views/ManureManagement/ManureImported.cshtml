@@ -28,7 +28,7 @@
                 @await Component.InvokeAsync("ManureImported")
             </div>
             <div id="next-previous-navigation">
-                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureImported })
+                @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.ManureImported })
             </div>
         </form>
         <!-- PAGE CONTENT -->

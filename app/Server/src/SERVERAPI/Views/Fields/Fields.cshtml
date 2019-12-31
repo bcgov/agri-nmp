@@ -28,7 +28,7 @@
                 @await Component.InvokeAsync("Fields")
             </div>
             <div id="next-previous-navigation">
-                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Fields })
+                @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.Fields })
             </div>
         </form>
         <!-- PAGE CONTENT -->
@@ -37,7 +37,6 @@
 
 <!-- /BODY CONTENT -->
 @section Scripts {
-
 
     <script type="text/javascript">
 
@@ -79,7 +78,6 @@
         $(document).ready(function () {
             $("#FieldsFields3").addClass('wizard-item-done');
         });
-
 
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
@@ -134,10 +132,6 @@
             $("#submenu-ul-manure").addClass('submenu-display');
         });
 
-
-
-
-
         $(document).on("click",
             '[data_modal2]',
             function (e) {
@@ -146,10 +140,10 @@
                 $('#myModalContent').load($type,
                     function () {
                         $('#myModal').modal({
-                                /*backdrop: 'static',*/
-                                //keyboard: true
+                            /*backdrop: 'static',*/
+                            //keyboard: true
 
-                            },
+                        },
                             'show');
                         bindForm2(this);
                     });
@@ -159,11 +153,11 @@
         function bindForm2(dialog) {
             $('form', dialog).submit(function () {
                 $.ajax({
-                        cache: false,
-                        url: this.action,
-                        type: this.method,
-                        data: $(this).serialize()
-                    })
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
                     .done(function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
@@ -178,6 +172,5 @@
                 return false;
             });
         }
-
     </script>
 }

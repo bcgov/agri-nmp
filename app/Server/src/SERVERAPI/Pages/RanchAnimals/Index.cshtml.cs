@@ -9,11 +9,12 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Pages.RanchAnimals
 {
-    public class Index : PageModel
+    public class Index : BasePageModel
     {
         private readonly IMediator _mediator;
 

@@ -11,6 +11,7 @@ namespace Agri.Models.Configuration
         public string Name { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
+        public string Page { get; set; }
         public int SortNumber { get; set; }
         public bool UseJavaScriptInterceptMethod { get; set; }
 
@@ -18,6 +19,10 @@ namespace Agri.Models.Configuration
         public string PreviousAction { get; set; }
         public string NextController { get; set; }
         public string NextAction { get; set; }
+        public string PreviousPage { get; set; }
+        public string NextPage { get; set; }
+
+        public bool UsesFeaturePages => !string.IsNullOrEmpty(Page);
 
         private string _elementId;
 

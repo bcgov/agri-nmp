@@ -131,14 +131,12 @@
       },
       {
         "Name": "Animals and Manure",
-        "Controller": "Animals",
-        "Action": "AddAnimals",
+        "Page": "/RanchAnimals/Index",
         "SortNumber": 2,
         "SubMenus": [
           {
             "Name": "Add Animals",
-            "Controller": "Animals",
-            "Action": "AddAnimals",
+            "Page": "/RanchAnimals/Index",
             "PreviousController": "Farm",
             "PreviousAction": "Farm",
             "NextController": "RanchManure",
@@ -149,8 +147,7 @@
             "Name": "Manure and Imports",
             "Controller": "RanchManure",
             "Action": "RanchManure",
-            "PreviousController": "Animals",
-            "PreviousAction": "AddAnimals",
+            "PreviousPage": "/RanchAnimals/Index",
             "NextController": "ManureManagement",
             "NextAction": "ManureNutrientAnalysis",
             "SortNumber": 2

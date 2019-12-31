@@ -12,8 +12,8 @@ namespace SERVERAPI.ViewComponents
 {
     public class Navigation : ViewComponent
     {
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly Models.Impl.UserData _ud;
 
         public Navigation(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
@@ -21,39 +21,61 @@ namespace SERVERAPI.ViewComponents
             _ud = ud;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(CoreSiteActions currentAction)
+        public async Task<IViewComponentResult> InvokeAsync(NavigationDetailViewModel currentNavViewModel)
         {
-            return View(await GetNavigationAsync(currentAction));
+            return View(await GetNavigationAsync(currentNavViewModel));
         }
 
-        private Task<NavigationDetailViewModel> GetNavigationAsync(CoreSiteActions currentAction)
+        private Task<NavigationDetailViewModel> GetNavigationAsync(NavigationDetailViewModel currentNavViewModel)
         {
             var ndvm = new NavigationDetailViewModel
             {
-                mainMenuOptions = new List<MainMenu>(),
-                subMenuOptions = new List<SubMenu>()
+                MainMenus = new List<MainMenu>(),
+                SubMenus = new List<SubMenu>()
             };
 
             if (_ud.IsActiveSession())
             {
                 var journey = _ud.FarmDetails().UserJourney;
-                ndvm.mainMenuOptions = _sd.GetJourney((int)journey)
+                ndvm.MainMenus = _sd.GetJourney((int)journey)
                     .MainMenus
                     .OrderBy(m => m.SortNumber)
                     .ToList();
 
-                if (currentAction > CoreSiteActions.Home)
+                var currentAction = CoreSiteActions.NotUsed;
+                var currentPage = FeaturePages.NotUsed;
+
+                if (currentNavViewModel.UsesFeaturePages)
+                {
+                    if (currentNavViewModel.CurrentPage.ToLower().EndsWith("index"))
+                    {
+                        currentPage = EnumHelper<FeaturePages>.GetValueFromDescription(currentNavViewModel.CurrentPage);
+                    }
+                    else
+                    {
+                        var indexPage = currentNavViewModel
+                            .CurrentPage.Substring(0, currentNavViewModel.CurrentPage.LastIndexOf('/') + 1);
+                        currentPage = EnumHelper<FeaturePages>.GetValueFromDescription($"{indexPage}Index");
+                    }
+                }
+                else
+                {
+                    currentAction = EnumHelper<CoreSiteActions>.Parse(currentNavViewModel.CurrentAction);
+                }
+
+                if (currentNavViewModel.UsesFeaturePages || currentAction > CoreSiteActions.Home)
                 {
                     ndvm.UseInterceptJS = currentAction == CoreSiteActions.Farm;
-                    var currentMainMenu =
-                        ndvm.mainMenuOptions.SingleOrDefault(m => m.IsCurrentMainMenu(currentAction.ToString()));
+                    var currentMainMenu = ndvm.MainMenus
+                        .SingleOrDefault(m => m.IsCurrentMainMenu(currentAction) || m.IsCurrentMainMenu(currentPage));
+
                     if (currentMainMenu != null)
                     {
                         currentMainMenu.ElementId = "current";
-                        ndvm.subMenuOptions = currentMainMenu.SubMenus.OrderBy(s => s.SortNumber).ToList();
+                        ndvm.SubMenus = currentMainMenu.SubMenus.OrderBy(s => s.SortNumber).ToList();
 
-                        var currentSubMenu = ndvm.subMenuOptions.SingleOrDefault(sm =>
-                            sm.Action.Equals(currentAction.ToString(), StringComparison.CurrentCultureIgnoreCase));
+                        var currentSubMenu = ndvm.SubMenus.SingleOrDefault(sm =>
+                            sm.IsSubMenuCurrent(currentAction) || sm.IsSubMenuCurrent(currentPage));
 
                         if (currentSubMenu != null)
                         {

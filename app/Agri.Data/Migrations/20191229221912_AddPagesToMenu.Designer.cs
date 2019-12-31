@@ -3,20 +3,22 @@ using System;
 using Agri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    partial class AgriConfigurationContextModelSnapshot : ModelSnapshot
+    [Migration("20191229221912_AddPagesToMenu")]
+    partial class AddPagesToMenu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
@@ -760,36 +762,6 @@ namespace Agri.Data.Migrations
                     b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.MiniApp", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MiniApps");
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.MiniAppLabel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("LabelText");
-
-                    b.Property<int>("MiniAppId");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MiniAppId");
-
-                    b.ToTable("MiniAppLabels");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.NitrateCreditSampleDate", b =>
@@ -1734,14 +1706,6 @@ namespace Agri.Data.Migrations
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
                         .WithMany("Messages")
                         .HasForeignKey("StaticDataVersionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Agri.Models.Configuration.MiniAppLabel", b =>
-                {
-                    b.HasOne("Agri.Models.Configuration.MiniApp", "MiniApp")
-                        .WithMany()
-                        .HasForeignKey("MiniAppId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

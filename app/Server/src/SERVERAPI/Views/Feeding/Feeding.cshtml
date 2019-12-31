@@ -21,7 +21,7 @@
                 @*@await Component.InvokeAsync("Feeding")*@
             </div>
             <div id="next-previous-navigation">
-                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.Feeding })
+                @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.Feeding })
             </div>
         </form>
         <!-- PAGE CONTENT -->

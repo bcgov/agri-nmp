@@ -52,6 +52,13 @@ namespace Agri.Data.Tests
             result.Count.ShouldBe(6);
             result.SelectMany(j => j.MainMenus).Count().ShouldBe(26);
             result.SelectMany(j => j.MainMenus).SelectMany(m => m.SubMenus).Count().ShouldBe(28);
+
+            result.SingleOrDefault(r => r.Name.Equals("Ranch", StringComparison.OrdinalIgnoreCase)).ShouldNotBeNull();
+            result.SingleOrDefault(r => r.Name.Equals("Ranch", StringComparison.OrdinalIgnoreCase))
+                .MainMenus.Any(m => !string.IsNullOrWhiteSpace(m.Page) &&
+                    m.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase) &&
+                    m.SubMenus.Any(sb => sb.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase)))
+                .ShouldBeTrue();
         }
 
         [Fact]

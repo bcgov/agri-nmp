@@ -251,7 +251,14 @@ namespace SERVERAPI.Controllers
                     .MainMenus
                     .Single(m => m.SortNumber == 2);
 
-                return RedirectToAction(initialNavigation.Action, initialNavigation.Controller);
+                if (initialNavigation.UsesFeaturePages)
+                {
+                    return RedirectToPage(initialNavigation.Page);
+                }
+                else
+                {
+                    return RedirectToAction(initialNavigation.Action, initialNavigation.Controller);
+                }
             }
             else
             {
