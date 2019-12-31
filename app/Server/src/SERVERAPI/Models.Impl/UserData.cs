@@ -188,7 +188,7 @@ namespace SERVERAPI.Models.Impl
             if (animal.IsManureCollected)
             {
                 result = _calculateManureGeneration
-                    .GetSolidTonsGeneratedForAnimalSubType(animal.SubTypeId,
+                    .GetSolidTonsGeneratedForAnimalSubType(animal.AnimalSubTypeId,
                         Convert.ToInt32(animal.AverageAnimalNumber),
                         animal.DurationDays);
             }
@@ -203,8 +203,8 @@ namespace SERVERAPI.Models.Impl
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             FarmAnimal anml = yd.FarmAnimals.FirstOrDefault(f => f.Id == updAnimal.Id);
 
-            anml.SubTypeName = updAnimal.SubTypeName;
-            anml.SubTypeId = updAnimal.SubTypeId;
+            anml.AnimalSubTypeName = updAnimal.AnimalSubTypeName;
+            anml.AnimalSubTypeId = updAnimal.AnimalSubTypeId;
             anml.AverageAnimalNumber = updAnimal.AverageAnimalNumber;
             anml.IsManureCollected = updAnimal.IsManureCollected;
             anml.ManureCollected = updAnimal.ManureCollected;

@@ -9,10 +9,9 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 
-namespace SERVERAPI.Pages.RanchAnimals
+namespace SERVERAPI.Pages.RanchManure
 {
     public class Index : BasePageModel
     {
@@ -25,15 +24,7 @@ namespace SERVERAPI.Pages.RanchAnimals
 
         public async Task<IActionResult> OnGetAsync(Query query)
         {
-            var data = await _mediator.Send(query);
-
-            if (!data.Animals.Any())
-            {
-                return RedirectToPage("CreateEdit", "Create", new { ismodal = false });
-            }
-
-            Data = data;
-
+            Data = await _mediator.Send(query);
             return Page();
         }
 
@@ -43,18 +34,23 @@ namespace SERVERAPI.Pages.RanchAnimals
 
         public class Model
         {
-            public List<FarmAnimal> Animals { get; set; }
+            public List<FarmAnimal> FarmAnimals { get; set; }
+
+            public List<ImportedManure> ImportedManures { get; set; }
 
             public class FarmAnimal
             {
                 public int Id { get; set; }
+                public int AnimalId { get; set; }
                 public string AnimalName { get; set; }
                 public string AnimalSubTypeName { get; set; }
+                public int AnimalSubTypeId { get; set; }
                 public ManureMaterialType ManureMaterialType { get; set; }
                 public string AverageAnimalNumber { get; set; }
                 public bool IsManureCollected { get; set; }
                 public string ManureCollected => IsManureCollected ? "Yes" : "No";
                 public int DurationDays { get; set; }
+                public int? ManureGeneratedTonsPerYear { get; set; }
             }
         }
 
@@ -77,14 +73,15 @@ namespace SERVERAPI.Pages.RanchAnimals
                 _mapper = mapper;
             }
 
-            public Task<Model> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Model> Handle(Query request, CancellationToken cancellationToken)
             {
-                var animals = _ud.GetAnimals();
-
-                return Task.FromResult(new Model
+                var model = new Model
                 {
-                    Animals = _mapper.Map<List<FarmAnimal>, List<Model.FarmAnimal>>(animals)
-                });
+                    FarmAnimals = _mapper.Map<List<FarmAnimal>, List<Model.FarmAnimal>>(_ud.GetAnimals()),
+                    ImportedManures = _ud.GetImportedManures()
+                };
+
+                return await Task.FromResult(model);
             }
         }
     }

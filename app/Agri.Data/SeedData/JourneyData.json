@@ -139,14 +139,12 @@
             "Page": "/RanchAnimals/Index",
             "PreviousController": "Farm",
             "PreviousAction": "Farm",
-            "NextController": "RanchManure",
-            "NextAction": "RanchManure",
+            "NextPage": "/RanchManure/Index",
             "SortNumber": 1
           },
           {
             "Name": "Manure and Imports",
-            "Controller": "RanchManure",
-            "Action": "RanchManure",
+            "Page": "/RanchManure/Index",
             "PreviousPage": "/RanchAnimals/Index",
             "NextController": "ManureManagement",
             "NextAction": "ManureNutrientAnalysis",
@@ -156,8 +154,7 @@
             "Name": "Nutrient Analysis",
             "Controller": "ManureManagement",
             "Action": "ManureNutrientAnalysis",
-            "PreviousController": "RanchManure",
-            "PreviousAction": "RanchManure",
+            "PreviousPage": "/RanchManure/Index",
             "NextController": "Fields",
             "NextAction": "Fields",
             "SortNumber": 3
