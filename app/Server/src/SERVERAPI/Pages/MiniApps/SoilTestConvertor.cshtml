@@ -36,20 +36,14 @@
                                 <input class="form-control" type="text" asp-for="Data.phosphorous" />
                                 <span asp-validation-for="Data.phosphorous" class=""></span>
                             </div>
-                            @{
-                                var displayKelowna = "none";
-                            }
-                            @if (Model.Data.isShowKelowna)
+
+                            @if (Model.Result.ShowKelowna)
                             {
-                                displayKelowna = "inline";
+                                <div class="form-group col-sm-6" id="kelownaValue">
+                                    <label for="kelowna">Kelowna Method</label>
+                                    <input class="form-control" readonly type="text" asp-for="Result.KelownaConversion" />
+                                </div>
                             }
-                            @*@if (Model.Data.isShowKelowna)
-                                {*@
-                            <div class="form-group col-sm-6" id="kelownaValue" style="display:@displayKelowna">
-                                <label for="kelowna">Kelowna Method</label>
-                                <input class="form-control" readonly type="text" asp-for="Data.kelowna" />
-                            </div>
-                            @*}*@
                         </div>
                         <div class="modal-footer">
                             <input class="btn btn-primary" type="submit" value="Calculate" />
@@ -86,23 +80,23 @@
 
 @section Scripts{
     <script>
-                                //$(document).ready(function () {
-                                //    bindFormDirectly();
-                                //});
-                                //function bindFormDirectly() {
-                                //    $('form').submit(function () {
-                                //        $.ajax({
-                                //            url: this.action,
-                                //            type: this.method,
-                                //            data: $(this).serialize(),
-                                //            success: function (result) {
-                                //            }
-                                //        });
-                                //        return false;
-                                //    });
-                                //}
-                                                        //function showKelownaField() {
-                                                        //    $('#kelownaValue').show();
-                                                        //}
+                                                            //$(document).ready(function () {
+                                                            //    bindFormDirectly();
+                                                            //});
+                                                            //function bindFormDirectly() {
+                                                            //    $('form').submit(function () {
+                                                            //        $.ajax({
+                                                            //            url: this.action,
+                                                            //            type: this.method,
+                                                            //            data: $(this).serialize(),
+                                                            //            success: function (result) {
+                                                            //            }
+                                                            //        });
+                                                            //        return false;
+                                                            //    });
+                                                            //}
+                                                                                    //function showKelownaField() {
+                                                                                    //    $('#kelownaValue').show();
+                                                                                    //}
     </script>
 }

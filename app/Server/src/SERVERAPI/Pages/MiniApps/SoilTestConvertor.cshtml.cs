@@ -29,6 +29,7 @@ namespace SERVERAPI.Pages.MiniApps
         public async Task OnGetAsync()
         {
             Data = await _mediator.Send(new Query { PopulatedData = new ConverterQuery() });
+            Result = new ResultModel();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -51,8 +52,6 @@ namespace SERVERAPI.Pages.MiniApps
         {
             public decimal pH { get; set; }
             public decimal phosphorous { get; set; }
-            public int kelowna { get; set; }
-            public bool isShowKelowna { get; set; }
             public List<SelectListItem> laboratoryOptions { get; set; }
             public string selLaboratoryOption { get; set; }
             public string SoilTestConverterUserInstruction1 { get; set; }
@@ -65,14 +64,16 @@ namespace SERVERAPI.Pages.MiniApps
 
         public class ResultModel
         {
-            public string ExampleResultField { get; set; }
+            public int KelownaConversion { get; set; }
+            public bool ShowKelowna { get; set; }
         }
 
         public class ModelValidator : AbstractValidator<ConverterQuery>
         {
             public ModelValidator()
             {
-                RuleFor(m => m.selLaboratoryOption).NotNull().Must(m => !m.Equals("0"))
+                RuleFor(m => m.selLaboratoryOption).NotNull()
+                    .Must(m => !m.Equals("0"))
                     .WithMessage("Laboratory must be selected");
                 RuleFor(m => m.pH).GreaterThan(0).WithMessage("PH Field is required");
                 RuleFor(m => m.phosphorous).GreaterThan(0).WithMessage("PhosPhorous Field is required");
@@ -115,20 +116,23 @@ namespace SERVERAPI.Pages.MiniApps
                 command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
-                if (!string.IsNullOrEmpty(command.selLaboratoryOption) && !command.selLaboratoryOption.Equals("0"))
-                {
-                    var soilTest = new SoilTest();
-                    soilTest.ValP = command.phosphorous;
-                    soilTest.valPH = command.pH;
-                    command.kelowna = _soilTestConversions.GetConvertedSTP(command.selLaboratoryOption, soilTest);
-                    command.isShowKelowna = true;
-                }
+
                 return await Task.FromResult(command);
             }
 
             public Task<ResultModel> Handle(ConverterQuery request, CancellationToken cancellationToken)
             {
-                return Task.FromResult(new ResultModel());
+                var soilTest = new SoilTest();
+                soilTest.ValP = request.phosphorous;
+                soilTest.valPH = request.pH;
+
+                var result = new ResultModel
+                {
+                    KelownaConversion = _soilTestConversions.GetConvertedSTP(request.selLaboratoryOption, soilTest),
+                    ShowKelowna = true
+                };
+
+                return Task.FromResult(result);
             }
         }
     }
