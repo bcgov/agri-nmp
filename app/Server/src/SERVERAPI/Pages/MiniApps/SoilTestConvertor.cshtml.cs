@@ -16,14 +16,17 @@ using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Pages.MiniApps
 {
-    public class SoilTestConvertorModel : PageModel
+    public class SoilTestConvertor : PageModel
     {
         private readonly IMediator _mediator;
 
         [BindProperty]
-        public Command Data { get; set; }
+        public ConverterQuery Data { get; set; }
 
-        public SoilTestConvertorModel(IMediator mediator) => _mediator = mediator;
+        [BindProperty]
+        public ResultModel Result { get; set; }
+
+        public SoilTestConvertor(IMediator mediator) => _mediator = mediator;
 
         public async Task OnGetAsync()
         {
@@ -40,22 +43,24 @@ namespace SERVERAPI.Pages.MiniApps
         {
             if (ModelState.IsValid)
             {
-                Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
+                //Send the Data to Receive conversion result
+                Result = await _mediator.Send(Data);
             }
+            Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
             return Page();
         }
 
-        public class Query : IRequest<Command>
+        public class Query : IRequest<ConverterQuery>
         {
             public string laboratory { get; set; }
         }
 
-        public class LookupDataQuery : IRequest<Command>
+        public class LookupDataQuery : IRequest<ConverterQuery>
         {
-            public Command PopulatedData { get; set; }
+            public ConverterQuery PopulatedData { get; set; }
         }
 
-        public class Command : IRequest<MediatR.Unit>
+        public class ConverterQuery : IRequest<ResultModel>
         {
             public decimal pH { get; set; }
             public decimal phosphorous { get; set; }
@@ -71,62 +76,35 @@ namespace SERVERAPI.Pages.MiniApps
             public string BCNutrientManagementCalculatorButtonLink { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<Command>
+        public class ResultModel
         {
-            public CommandValidator()
+            public string ExampleResultField { get; set; }
+        }
+
+        public class ModelValidator : AbstractValidator<ConverterQuery>
+        {
+            public ModelValidator()
             {
-                RuleFor(m => m.selLaboratoryOption).NotNull().NotEmpty().WithMessage("Laboratory must be selected");
-                RuleFor(m => m.pH).NotNull().WithMessage("PH Field is required");
-                RuleFor(m => m.phosphorous).NotNull().WithMessage("PhosPhorous Field is required");
+                RuleFor(m => m.selLaboratoryOption).NotNull().Must(m => !m.Equals("0"))
+                    .WithMessage("Laboratory must be selected");
+                RuleFor(m => m.pH).GreaterThan(0).WithMessage("PH Field is required");
+                RuleFor(m => m.phosphorous).GreaterThan(0).WithMessage("PhosPhorous Field is required");
             }
         }
 
-        public class MappingProfile : Profile
-        {
-            public MappingProfile()
-            {
-                //CreateMap<FarmAnimal, Command>()
-                //    .ForMember(m => m.CattleSubTypeId, opts => opts.MapFrom(src => src.SubTypeId))
-                //    .ForMember(m => m.CattleSubTypeName, opts => opts.MapFrom(src => src.SubTypeName))
-                //    .ReverseMap();
-            }
-        }
-
-        public class Handler : IRequestHandler<Query, Command>
-        {
-            private readonly UserData _ud;
-            private readonly IMapper _mapper;
-
-            public Handler(UserData ud, IMapper mapper)
-            {
-                _ud = ud;
-                _mapper = mapper;
-            }
-
-            public async Task<Command> Handle(Query request, CancellationToken cancellationToken)
-            {
-                var command = new Command();
-                //if (request.Id.HasValue)
-                //{
-                //    command = _mapper.Map<FarmAnimal, Command>(_ud.GetAnimalDetail(request.Id.Value));
-                //}
-
-                return await Task.FromResult(command);
-            }
-        }
-
-        public class LookupDataHandler : IRequestHandler<LookupDataQuery, Command>
+        public class Handler : IRequestHandler<LookupDataQuery, ConverterQuery>,
+            IRequestHandler<ConverterQuery, ResultModel>
         {
             private readonly IAgriConfigurationRepository _sd;
             private readonly ISoilTestConverter _soilTestConversions;
 
-            public LookupDataHandler(IAgriConfigurationRepository sd, ISoilTestConverter soilTestConversions)
+            public Handler(IAgriConfigurationRepository sd, ISoilTestConverter soilTestConversions)
             {
                 _sd = sd;
                 _soilTestConversions = soilTestConversions;
             }
 
-            public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
+            public async Task<ConverterQuery> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
 
@@ -149,7 +127,7 @@ namespace SERVERAPI.Pages.MiniApps
                 command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
-                if (!string.IsNullOrEmpty(command.selLaboratoryOption))
+                if (!string.IsNullOrEmpty(command.selLaboratoryOption) && !command.selLaboratoryOption.Equals("0"))
                 {
                     var soilTest = new SoilTest();
                     soilTest.ValP = command.phosphorous;
@@ -159,26 +137,11 @@ namespace SERVERAPI.Pages.MiniApps
                 }
                 return await Task.FromResult(command);
             }
+
+            public Task<ResultModel> Handle(ConverterQuery request, CancellationToken cancellationToken)
+            {
+                throw new NotImplementedException();
+            }
         }
-
-        //public class CommandHandler : IRequestHandler<Command, MediatR.Unit>
-        //{
-        //    private readonly UserData _ud;
-        //    private readonly IMapper _mapper;
-
-        //    public CommandHandler(UserData ud, IMapper mapper)
-        //    {
-        //        _ud = ud;
-        //        _mapper = mapper;
-        //    }
-
-        //    public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
-        //    {
-        //        var farmAnimal = _mapper.Map<Command, FarmAnimal>(message);
-        //        _ud.AddAnimal(farmAnimal);
-
-        //        return default;
-        //    }
-        //}
     }
 }

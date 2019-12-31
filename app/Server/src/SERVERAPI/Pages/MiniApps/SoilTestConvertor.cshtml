@@ -1,5 +1,5 @@
 ﻿@page
-@model SERVERAPI.Pages.MiniApps.SoilTestConvertorModel
+@model SERVERAPI.Pages.MiniApps.SoilTestConvertor
 @{
     ViewData["Title"] = "SoilTestConvertor";
     Layout = "~/Pages/MiniApps/_miniAppLayout.cshtml";
@@ -8,7 +8,7 @@
     <div class="step-forms col-sm-12">
         <div class="form-box">
             <div class="form-box-header clearfix">
-                <legend class="form-box-heading">Soil test P Converter</legend>
+                <div class="form-box-heading">Soil test P Converter</div>
             </div>
             <div class="form-box-body">
                 <div class="form-box-fields">
@@ -19,22 +19,22 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for="laboratory">Laboratory</label>
-                                <select class="form-control" asp-for="@Model.Data.selLaboratoryOption" asp-items="@(new SelectList(Model.Data.laboratoryOptions, "Id", "Value"))" id="ddlMth">
-                                    <option>select</option>
+                                <select class="form-control" asp-for="Data.selLaboratoryOption" asp-items="@(new SelectList(Model.Data.laboratoryOptions, "Id", "Value"))" id="ddlMth">
+                                    <option value="0">select</option>
                                 </select>
-                                @Html.ValidationMessageFor(model => model.Data.selLaboratoryOption)
+                                <span asp-validation-for="Data.selLaboratoryOption" class=""></span>
                             </div>
                             <div class="form-group col-sm-6">
                                 <label for="pHValue">pH</label>
-                                <input class="form-control" type="text" asp-for="@Model.Data.pH" />
-                                @Html.ValidationMessageFor(model => model.Data.pH)
+                                <input class="form-control" type="text" asp-for="Data.pH" />
+                                <span asp-validation-for="Data.pH" class=""></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for="phosPhorous">Phosphorus (ppm)</label>
-                                <input class="form-control" type="text" asp-for="@Model.Data.phosphorous" />
-                                @Html.ValidationMessageFor(model => model.Data.phosphorous)
+                                <input class="form-control" type="text" asp-for="Data.phosphorous" />
+                                <span asp-validation-for="Data.phosphorous" class=""></span>
                             </div>
                             @{
                                 var displayKelowna = "none";
@@ -47,7 +47,7 @@
                                 {*@
                             <div class="form-group col-sm-6" id="kelownaValue" style="display:@displayKelowna">
                                 <label for="kelowna">Kelowna Method</label>
-                                <input class="form-control" readonly type="text" asp-for="@Model.Data.kelowna" />
+                                <input class="form-control" readonly type="text" asp-for="Data.kelowna" />
                             </div>
                             @*}*@
                         </div>
@@ -86,23 +86,23 @@
 
 @section Scripts{
     <script>
-            //$(document).ready(function () {
-            //    bindFormDirectly();
-            //});
-            //function bindFormDirectly() {
-            //    $('form').submit(function () {
-            //        $.ajax({
-            //            url: this.action,
-            //            type: this.method,
-            //            data: $(this).serialize(),
-            //            success: function (result) {
-            //            }
-            //        });
-            //        return false;
-            //    });
-            //}
-                                    //function showKelownaField() {
-                                    //    $('#kelownaValue').show();
-                                    //}
+                                //$(document).ready(function () {
+                                //    bindFormDirectly();
+                                //});
+                                //function bindFormDirectly() {
+                                //    $('form').submit(function () {
+                                //        $.ajax({
+                                //            url: this.action,
+                                //            type: this.method,
+                                //            data: $(this).serialize(),
+                                //            success: function (result) {
+                                //            }
+                                //        });
+                                //        return false;
+                                //    });
+                                //}
+                                                        //function showKelownaField() {
+                                                        //    $('#kelownaValue').show();
+                                                        //}
     </script>
 }
