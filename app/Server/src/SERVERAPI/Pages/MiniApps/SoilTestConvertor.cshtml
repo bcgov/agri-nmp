@@ -24,14 +24,14 @@
                                 </select>
                                 <span asp-validation-for="Data.selLaboratoryOption" class=""></span>
                             </div>
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-2">
                                 <label for="pHValue">pH</label>
                                 <input class="form-control" type="text" asp-for="Data.pH" />
                                 <span asp-validation-for="Data.pH" class=""></span>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-sm-6">
+                            <div class="form-group col-sm-2">
                                 <label for="phosPhorous">Phosphorus (ppm)</label>
                                 <input class="form-control" type="text" asp-for="Data.phosphorous" />
                                 <span asp-validation-for="Data.phosphorous" class=""></span>
@@ -39,8 +39,8 @@
 
                             @if (Model.Result.ShowKelowna)
                             {
-                                <div class="form-group col-sm-6" id="kelownaValue">
-                                    <label for="kelowna">Kelowna Method</label>
+                                <div class="form-group col-sm-2" id="kelownaValue">
+                                    <label for="kelowna">Kelowna Method (ppm)</label>
                                     <input class="form-control" readonly type="text" asp-for="Result.KelownaConversion" />
                                 </div>
                             }
