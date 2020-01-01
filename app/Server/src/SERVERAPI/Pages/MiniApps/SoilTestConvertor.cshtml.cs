@@ -97,17 +97,6 @@ namespace SERVERAPI.Pages.MiniApps
             {
                 var command = request.PopulatedData;
 
-                //var beefCattle = _sd.GetAnimal(1);
-                //command.AnimalId = beefCattle.Id;
-                //command.AnimalName = beefCattle.Name;
-
-                //var subTypeOptions = _sd.GetSubtypesDll(beefCattle.Id).ToList();
-
-                //if (subTypeOptions.Count() == 1)
-                //{
-                //    command.CattleSubTypeId = subTypeOptions[0].Id;
-                //}
-                //command.CattleSubTypeOptions = new SelectList(subTypeOptions, "Id", "Value");
                 command.laboratoryOptions = _sd.GetSoilTestMethodsDll().ToList();
                 var details = _sd.GetSoilConvertorDetails();
                 command.SoilTestConverterUserInstruction1 = details.Where(x => x.Key == "SoilTestConverterUserInstruction1").Select(x => x.Value).FirstOrDefault();

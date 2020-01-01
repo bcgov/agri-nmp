@@ -39,7 +39,7 @@
 
                             @if (Model.Result.ShowKelowna)
                             {
-                                <div class="form-group col-sm-2" id="kelownaValue">
+                                <div class="form-group col-sm-3" id="kelownaValue">
                                     <label for="kelowna">Kelowna Method (ppm)</label>
                                     <input class="form-control" readonly type="text" asp-for="Result.KelownaConversion" />
                                 </div>
@@ -80,23 +80,5 @@
 
 @section Scripts{
     <script>
-                                                            //$(document).ready(function () {
-                                                            //    bindFormDirectly();
-                                                            //});
-                                                            //function bindFormDirectly() {
-                                                            //    $('form').submit(function () {
-                                                            //        $.ajax({
-                                                            //            url: this.action,
-                                                            //            type: this.method,
-                                                            //            data: $(this).serialize(),
-                                                            //            success: function (result) {
-                                                            //            }
-                                                            //        });
-                                                            //        return false;
-                                                            //    });
-                                                            //}
-                                                                                    //function showKelownaField() {
-                                                                                    //    $('#kelownaValue').show();
-                                                                                    //}
     </script>
 }

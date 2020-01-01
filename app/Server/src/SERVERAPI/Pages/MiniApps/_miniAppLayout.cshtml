@@ -120,12 +120,6 @@
             </div>
         </div>
         <div class="header-height"></div>
-        @*<div id="navigation-container">
-                @{
-                    var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData?.Values["Action"]?.ToString() ?? "AddAnimals");
-                }
-                @await Component.InvokeAsync("Navigation", new { currentAction = currentAction })
-            </div>*@
         <!-- /Header -->
         <div>
             @RenderBody()
