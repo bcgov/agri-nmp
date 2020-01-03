@@ -75,8 +75,8 @@ namespace SERVERAPI.Pages.MiniApps
                 RuleFor(m => m.selLaboratoryOption).NotNull()
                     .Must(m => !m.Equals("0"))
                     .WithMessage("Laboratory must be selected");
-                RuleFor(m => m.pH).GreaterThan(0).WithMessage("PH Field is required");
-                RuleFor(m => m.phosphorous).GreaterThan(0).WithMessage("PhosPhorous Field is required");
+                RuleFor(m => m.pH).GreaterThan(0).WithMessage("pH Field is required");
+                RuleFor(m => m.phosphorous).GreaterThan(0).WithMessage("Phosphorous Field is required");
             }
         }
 
