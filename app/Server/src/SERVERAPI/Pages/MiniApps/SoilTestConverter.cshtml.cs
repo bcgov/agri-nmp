@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace SERVERAPI.Pages.MiniApps
 {
-    public class SoilTestConvertor : PageModel
+    public class SoilTestConverter : PageModel
     {
         private readonly IMediator _mediator;
 
@@ -24,7 +24,7 @@ namespace SERVERAPI.Pages.MiniApps
         [BindProperty]
         public ResultModel Result { get; set; }
 
-        public SoilTestConvertor(IMediator mediator) => _mediator = mediator;
+        public SoilTestConverter(IMediator mediator) => _mediator = mediator;
 
         public async Task OnGetAsync()
         {
@@ -98,7 +98,7 @@ namespace SERVERAPI.Pages.MiniApps
                 var command = request.PopulatedData;
 
                 command.laboratoryOptions = _sd.GetSoilTestMethodsDll().ToList();
-                var details = _sd.GetSoilConvertorDetails();
+                var details = _sd.GetSoilConverterDetails();
                 command.SoilTestConverterUserInstruction1 = details.Where(x => x.Key == "SoilTestConverterUserInstruction1").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestConverterUserInstruction2 = details.Where(x => x.Key == "SoilTestConverterUserInstruction2").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestingInformation = details.Where(x => x.Key == "SoilTestingInformation").Select(x => x.Value).FirstOrDefault();

@@ -141,7 +141,7 @@ namespace Agri.Data
             return _animals;
         }
 
-        public List<KeyValuePair<string, string>> GetSoilConvertorDetails()
+        public List<KeyValuePair<string, string>> GetSoilConverterDetails()
         {
             var details = _context.MiniAppLabels.Where(x => x.MiniAppId == 1).Select(x => new KeyValuePair<string, string>(x.Name, x.LabelText)).ToDictionary(x => x.Key, x => x.Value).ToList();
 
