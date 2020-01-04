@@ -39,9 +39,9 @@
 
                             @if (Model.Result.ShowKelowna)
                             {
-                                <div class="form-group col-sm-3" id="kelownaValue">
+                                <div class="form-group col-sm-3">
                                     <label for="kelowna">Kelowna Method (ppm)</label>
-                                    <input class="form-control" readonly type="text" asp-for="Result.KelownaConversion" />
+                                    <input class="form-control" readonly type="number" asp-for="Result.KelownaConversion" />
                                 </div>
                             }
                         </div>

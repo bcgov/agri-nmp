@@ -38,6 +38,7 @@ namespace SERVERAPI.Pages.MiniApps
             {
                 //Send the Data to Receive conversion result
                 Result = await _mediator.Send(Data);
+                ModelState.Remove("Result.KelownaConversion");
             }
             Data = await _mediator.Send(new Query { PopulatedData = Data });
             return Page();
