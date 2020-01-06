@@ -3,12 +3,40 @@
 <form asp-page="CreateEdit" method="post" class="form-box-body" id="manureForm">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-row row">
-        <div class="col-sm-3" style="padding-left: 0; padding-right: 0;">
+        <div class="col-md-12">
+            To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them
+        </div>
+    </div>
+
+    <div class="form-row row">
+        <div class="col-md-4 order-md-1">
+            <table class="table table-bordered table-sm">
+                <tr>
+                    <td>x</td>
+                    <td>Material name</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-8 order-md-2">
             <div class="form-group">
-                <label for="txtMaterialName">Material Name</label>
-                @*<input class="form-control" asp-for="" type="text" id="" />
-                    <span asp-validation-for="" class="text-danger"></span>*@
+                <label for="">Nutrient Anaylsis</label>
+                <div>
+                    <select class="form-control"
+                            asp-for="selManOption"
+                            asp-items="@(new SelectList(Model.manOptions, "Id", "Value"))" id="ddlMan">
+                        <option>select</option>
+                    </select>
+                    <span asp-validation-for="selManOption" class="text-danger">Select a Nutrient Analysis</span>
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="form-row row">
+        <div class="col-md-8">
+            <button value="Use a lab analysis or customize values" />
+        </div>
+        <div class="col-md-4">
+            <button value="Save" />
         </div>
     </div>
 </form>
