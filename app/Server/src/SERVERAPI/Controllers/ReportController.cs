@@ -344,7 +344,7 @@ namespace SERVERAPI.Controllers
                             FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
-                            rfn.nutrientName = manure.name;
+                            rfn.nutrientName = manure.Name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
@@ -796,11 +796,11 @@ namespace SERVERAPI.Controllers
 
                     if (appliedManure != null)
                     {
-                        if (fm.stored_imported == NutrientAnalysisTypes.Stored)
+                        if (fm.StoredImported == NutrientAnalysisTypes.Stored)
                         {
                             rm.MaterialName = "Material in ";
                         }
-                        else if (fm.stored_imported == NutrientAnalysisTypes.Imported)
+                        else if (fm.StoredImported == NutrientAnalysisTypes.Imported)
                         {
                             rm.MaterialName = "";
                         }
@@ -989,7 +989,7 @@ namespace SERVERAPI.Controllers
                 result = unit.FarmReqdNutrientsStdUnitsAreaConversion * fieldSize * applicationRate * unit.FarmReqdNutrientsStdUnitsConversion;
             else
             {
-                Manure man = _sd.GetManure(manure.manureId.ToString());
+                Manure man = _sd.GetManure(manure.ManureId.ToString());
                 result = unit.FarmReqdNutrientsStdUnitsAreaConversion * fieldSize * applicationRate * man.CubicYardConversion;
             }
             return result;
@@ -1011,7 +1011,7 @@ namespace SERVERAPI.Controllers
             {
                 FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                 nutrientAmount = ConvertManureToStdRptUnits(manure, fieldArea, m.rate, m.unitId);
-                ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == manure.name);
+                ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == manure.Name);
                 if (rd != null)
                 {
                     nutrientAmount += Convert.ToDecimal(rd.nutrientAmount);
@@ -1020,8 +1020,8 @@ namespace SERVERAPI.Controllers
                 else
                 {
                     rd = new ReportSourcesDetail();
-                    rd.nutrientName = manure.name;
-                    rd.nutrientUnit = _sd.GetManureRptStdUnit(manure.solid_liquid);
+                    rd.nutrientName = manure.Name;
+                    rd.nutrientUnit = _sd.GetManureRptStdUnit(manure.SolidLiquid);
                     rd.nutrientAmount = String.Format((nutrientAmount) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", nutrientAmount);
                     details.Add(rd);
                 }
@@ -1098,17 +1098,17 @@ namespace SERVERAPI.Controllers
             {
                 ReportAnalysisDetail rd = new ReportAnalysisDetail();
 
-                rd.sourceOfMaterialName = m.sourceOfMaterialName;
-                rd.manureName = m.name;
-                rd.moisture = m.moisture.ToString();
-                rd.ammonia = m.ammonia.ToString("#0");
-                rd.nitrogen = m.nitrogen.ToString("#0.00");
-                rd.phosphorous = m.phosphorous.ToString("#0.00");
-                rd.potassium = m.potassium.ToString("#0.00");
-                rd.nitrate = (m.nitrate.HasValue && m.nitrate > 0) ? m.nitrate.Value.ToString("#0") : "n/a";
+                rd.sourceOfMaterialName = m.SourceOfMaterialName;
+                rd.manureName = m.Name;
+                rd.moisture = m.Moisture.ToString();
+                rd.ammonia = m.Ammonia.ToString("#0");
+                rd.nitrogen = m.Nitrogen.ToString("#0.00");
+                rd.phosphorous = m.Phosphorous.ToString("#0.00");
+                rd.potassium = m.Potassium.ToString("#0.00");
+                rd.nitrate = (m.Nitrate.HasValue && m.Nitrate > 0) ? m.Nitrate.Value.ToString("#0") : "n/a";
                 rd.isAssignedToStorage = m.IsAssignedToStorage;
 
-                if (m.nitrate.HasValue && m.nitrate > 0)
+                if (m.Nitrate.HasValue && m.Nitrate > 0)
                 {
                     rvm.nitratePresent = true;
                 }
@@ -1225,7 +1225,7 @@ namespace SERVERAPI.Controllers
                             FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
-                            rfn.nutrientName = manure.name;
+                            rfn.nutrientName = manure.Name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", m.rate);
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
@@ -1376,7 +1376,7 @@ namespace SERVERAPI.Controllers
                             FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
-                            rfn.nutrientName = manure.name;
+                            rfn.nutrientName = manure.Name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;

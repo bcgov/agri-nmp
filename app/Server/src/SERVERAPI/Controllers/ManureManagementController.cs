@@ -2505,15 +2505,15 @@ namespace SERVERAPI.Controllers
                     _ud.FarmData().NMPReleaseVersion.Value != _appSettings.Value.NMPReleaseVersion)
                 {
                     mvm.IsLegacyNMPReleaseVersion = true;
-                    mvm.LegacyNMPReleaseVersionManureId = fm.manureId;
+                    mvm.LegacyNMPReleaseVersionManureId = fm.ManureId;
                 }
 
-                mvm.selsourceOfMaterialOption = fm.sourceOfMaterialId;
-                mvm.stored_imported = fm.stored_imported;
+                mvm.selsourceOfMaterialOption = fm.SourceOfMaterialId;
+                mvm.stored_imported = fm.StoredImported;
                 mvm.IsAssignedToStorage = fm.IsAssignedToStorage;
-                mvm.selManOption = fm.manureId;
+                mvm.selManOption = fm.ManureId;
 
-                if (!fm.customized)
+                if (!fm.Customized)
                 {
                     mvm.bookValue = true;
                     mvm.compost = false;
@@ -2523,17 +2523,17 @@ namespace SERVERAPI.Controllers
                 else
                 {
                     mvm.bookValue = false;
-                    mvm.compost = _sd.IsManureClassCompostType(fm.manure_class);
-                    mvm.onlyCustom = (_sd.IsManureClassOtherType(fm.manure_class) || _sd.IsManureClassCompostType(fm.manure_class) || _sd.IsManureClassCompostClassType(fm.manure_class));
-                    mvm.showNitrate = (_sd.IsManureClassCompostType(fm.manure_class) || _sd.IsManureClassCompostClassType(fm.manure_class));
+                    mvm.compost = _sd.IsManureClassCompostType(fm.ManureClass);
+                    mvm.onlyCustom = (_sd.IsManureClassOtherType(fm.ManureClass) || _sd.IsManureClassCompostType(fm.ManureClass) || _sd.IsManureClassCompostClassType(fm.ManureClass));
+                    mvm.showNitrate = (_sd.IsManureClassCompostType(fm.ManureClass) || _sd.IsManureClassCompostClassType(fm.ManureClass));
                 }
-                mvm.manureName = fm.name;
-                mvm.moisture = fm.moisture;
-                mvm.nitrogen = fm.nitrogen.ToString("#0.00");
-                mvm.ammonia = fm.ammonia.ToString("#0");
-                mvm.phosphorous = fm.phosphorous.ToString("#0.00");
-                mvm.potassium = fm.potassium.ToString("#0.00");
-                mvm.nitrate = fm.nitrate.HasValue ? fm.nitrate.Value.ToString("#0") : ""; // old version of datafile
+                mvm.manureName = fm.Name;
+                mvm.moisture = fm.Moisture;
+                mvm.nitrogen = fm.Nitrogen.ToString("#0.00");
+                mvm.ammonia = fm.Ammonia.ToString("#0");
+                mvm.phosphorous = fm.Phosphorous.ToString("#0.00");
+                mvm.potassium = fm.Potassium.ToString("#0.00");
+                mvm.nitrate = fm.Nitrate.HasValue ? fm.Nitrate.Value.ToString("#0") : ""; // old version of datafile
             }
             else
             {
@@ -3018,9 +3018,9 @@ namespace SERVERAPI.Controllers
                     List<FarmManure> manures = _ud.GetFarmManures();
                     foreach (var m in manures)
                     {
-                        if (m.customized &&
-                           m.name == cvm.manureName &&
-                           m.id != cvm.id)
+                        if (m.Customized &&
+                           m.Name == cvm.manureName &&
+                           m.Id != cvm.id)
                         {
                             ModelState.AddModelError("manureName", "Descriptions must be unique.");
                             break;
@@ -3035,33 +3035,33 @@ namespace SERVERAPI.Controllers
                         FarmManure fm = new FarmManure();
                         if (cvm.bookValue)
                         {
-                            fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
-                            fm.sourceOfMaterialName = cvm.sourceOfMaterialName;
-                            fm.stored_imported = cvm.stored_imported;
+                            fm.SourceOfMaterialId = cvm.selsourceOfMaterialOption;
+                            fm.SourceOfMaterialName = cvm.sourceOfMaterialName;
+                            fm.StoredImported = cvm.stored_imported;
                             fm.IsAssignedToStorage = cvm.IsAssignedToStorage;
-                            fm.manureId = cvm.selManOption;
-                            fm.customized = false;
+                            fm.ManureId = cvm.selManOption;
+                            fm.Customized = false;
                         }
                         else
                         {
                             man = _sd.GetManure(cvm.selManOption.ToString());
 
-                            fm.customized = true;
-                            fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
-                            fm.manureId = cvm.selManOption;
-                            fm.ammonia = Convert.ToDecimal(cvm.ammonia);
-                            fm.dmid = man.DryMatterId;
-                            fm.manure_class = man.ManureClass;
-                            fm.moisture = cvm.moisture;
-                            fm.name = cvm.manureName;
-                            fm.sourceOfMaterialName = cvm.sourceOfMaterialName;
-                            fm.nitrogen = Convert.ToDecimal(cvm.nitrogen);
-                            fm.nminerizationid = man.NMineralizationId;
-                            fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
-                            fm.potassium = Convert.ToDecimal(cvm.potassium);
-                            fm.nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
-                            fm.solid_liquid = man.SolidLiquid;
-                            fm.stored_imported = cvm.stored_imported;
+                            fm.Customized = true;
+                            fm.SourceOfMaterialId = cvm.selsourceOfMaterialOption;
+                            fm.ManureId = cvm.selManOption;
+                            fm.Ammonia = Convert.ToDecimal(cvm.ammonia);
+                            fm.DMId = man.DryMatterId;
+                            fm.ManureClass = man.ManureClass;
+                            fm.Moisture = cvm.moisture;
+                            fm.Name = cvm.manureName;
+                            fm.SourceOfMaterialName = cvm.sourceOfMaterialName;
+                            fm.Nitrogen = Convert.ToDecimal(cvm.nitrogen);
+                            fm.NMinerizationId = man.NMineralizationId;
+                            fm.Phosphorous = Convert.ToDecimal(cvm.phosphorous);
+                            fm.Potassium = Convert.ToDecimal(cvm.potassium);
+                            fm.Nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
+                            fm.SolidLiquid = man.SolidLiquid;
+                            fm.StoredImported = cvm.stored_imported;
                             fm.IsAssignedToStorage = cvm.IsAssignedToStorage;
                         }
 
@@ -3073,39 +3073,39 @@ namespace SERVERAPI.Controllers
                         if (cvm.bookValue)
                         {
                             fm = new FarmManure();
-                            fm.id = cvm.id.Value;
-                            fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
-                            fm.sourceOfMaterialName = cvm.sourceOfMaterialName;
-                            fm.manureId = cvm.selManOption;
-                            fm.customized = false;
-                            fm.stored_imported = cvm.stored_imported;
+                            fm.Id = cvm.id.Value;
+                            fm.SourceOfMaterialId = cvm.selsourceOfMaterialOption;
+                            fm.SourceOfMaterialName = cvm.sourceOfMaterialName;
+                            fm.ManureId = cvm.selManOption;
+                            fm.Customized = false;
+                            fm.StoredImported = cvm.stored_imported;
                         }
                         else
                         {
                             man = _sd.GetManure(cvm.selManOption.ToString());
 
-                            fm.customized = true;
-                            fm.sourceOfMaterialId = cvm.selsourceOfMaterialOption;
-                            fm.manureId = cvm.selManOption;
-                            fm.ammonia = Convert.ToDecimal(cvm.ammonia);
-                            fm.dmid = man.DryMatterId;
-                            fm.manure_class = man.ManureClass;
-                            fm.moisture = cvm.moisture;
-                            fm.name = cvm.manureName;
-                            fm.sourceOfMaterialName = cvm.sourceOfMaterialName;
-                            fm.nitrogen = Convert.ToDecimal(cvm.nitrogen);
-                            fm.nminerizationid = man.NMineralizationId;
-                            fm.phosphorous = Convert.ToDecimal(cvm.phosphorous);
-                            fm.potassium = Convert.ToDecimal(cvm.potassium);
-                            fm.solid_liquid = man.SolidLiquid;
-                            fm.nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
-                            fm.stored_imported = cvm.stored_imported;
+                            fm.Customized = true;
+                            fm.SourceOfMaterialId = cvm.selsourceOfMaterialOption;
+                            fm.ManureId = cvm.selManOption;
+                            fm.Ammonia = Convert.ToDecimal(cvm.ammonia);
+                            fm.DMId = man.DryMatterId;
+                            fm.ManureClass = man.ManureClass;
+                            fm.Moisture = cvm.moisture;
+                            fm.Name = cvm.manureName;
+                            fm.SourceOfMaterialName = cvm.sourceOfMaterialName;
+                            fm.Nitrogen = Convert.ToDecimal(cvm.nitrogen);
+                            fm.NMinerizationId = man.NMineralizationId;
+                            fm.Phosphorous = Convert.ToDecimal(cvm.phosphorous);
+                            fm.Potassium = Convert.ToDecimal(cvm.potassium);
+                            fm.SolidLiquid = man.SolidLiquid;
+                            fm.Nitrate = cvm.showNitrate ? Convert.ToDecimal(cvm.nitrate) : (decimal?)null;
+                            fm.StoredImported = cvm.stored_imported;
                             fm.IsAssignedToStorage = cvm.IsAssignedToStorage;
                         }
 
                         _ud.UpdateFarmManure(fm);
 
-                        _ud.ReCalculateManure(fm.id);
+                        _ud.ReCalculateManure(fm.Id);
                     }
 
                     _ud.UpdateManagedImportedManuresAllocationToNutrientAnalysis();
@@ -3180,7 +3180,7 @@ namespace SERVERAPI.Controllers
 
             FarmManure nm = _ud.GetFarmManure(id);
 
-            dvm.manureName = nm.name;
+            dvm.manureName = nm.Name;
 
             // determine if the selected manure is currently being used on any of the fields
             List<Field> flds = _ud.GetFields();

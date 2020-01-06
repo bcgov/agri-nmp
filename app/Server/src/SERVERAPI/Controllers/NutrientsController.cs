@@ -198,7 +198,7 @@ namespace SERVERAPI.Controllers
                 mvm.ltP2o5 = nm.ltP2o5.ToString("G29");
                 mvm.ltK2o = nm.ltK2o.ToString("G29");
                 FarmManure man = _ud.GetFarmManure(Convert.ToInt32(nm.manureId));
-                mvm.currUnit = man.solid_liquid;
+                mvm.currUnit = man.SolidLiquid;
                 mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
 
                 int regionid = _ud.FarmDetails().FarmRegion.Value;
@@ -226,7 +226,7 @@ namespace SERVERAPI.Controllers
                 {
                     mvm.SelectedFarmManure = _ud?.FarmData().LastAppliedFarmManureId;
                     var man = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
-                    mvm.currUnit = man.solid_liquid;
+                    mvm.currUnit = man.SolidLiquid;
                     mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
                     mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
                     mvm.avail = GetOrganicNAvailableThisYear(Convert.ToInt16(mvm.SelectedFarmManure)).ToString("###");
@@ -346,9 +346,9 @@ namespace SERVERAPI.Controllers
                         !mvm.SelectedFarmManure.Equals("selApplOption", StringComparison.CurrentCultureIgnoreCase))
                     {
                         FarmManure man = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
-                        if (mvm.currUnit != man.solid_liquid)
+                        if (mvm.currUnit != man.SolidLiquid)
                         {
-                            mvm.currUnit = man.solid_liquid;
+                            mvm.currUnit = man.SolidLiquid;
                             mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
                             mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
                         }
@@ -562,7 +562,7 @@ namespace SERVERAPI.Controllers
                 mvm.SelectedFarmManure != "")
             {
                 FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
-                mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.manureId.ToString()).SolidLiquid).ToList();
+                mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.ManureId.ToString()).SolidLiquid).ToList();
             }
 
             mvm.rateOptions = new List<SelectListItem>();
@@ -1928,7 +1928,7 @@ namespace SERVERAPI.Controllers
             dvm.fldName = fldName;
 
             NutrientManure nm = _ud.GetFieldNutrientsManure(fldName, id);
-            dvm.matType = _ud.GetFarmManure(Convert.ToInt32(nm.manureId)).name;
+            dvm.matType = _ud.GetFarmManure(Convert.ToInt32(nm.manureId)).Name;
 
             dvm.act = "Delete";
 
