@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Agri.Interfaces;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Farm;
 
 namespace Agri.CalculateService
 {
+    public interface IManureApplicationCalculator
+    {
+        AppliedManure GetAppliedManure(YearData yearData, FarmManure farmManure);
+
+        AppliedStoredManure GetAppliedManureFromStorageSystem(YearData yearData, ManureStorageSystem manureStorageSystem);
+
+        AppliedStoredManure GetAppliedStoredManure(YearData yearData, FarmManure farmManure);
+
+        AppliedImportedManure GetAppliedImportedManure(YearData yearData, FarmManure farmManure);
+    }
+
     public class ManureApplicationCalculator : IManureApplicationCalculator
     {
         private IManureUnitConversionCalculator _manureUnitConversionCalculator;
@@ -67,7 +77,7 @@ namespace Agri.CalculateService
                     }
                     else
                     {
-                        var farmManure = yearData.farmManures
+                        var farmManure = yearData.FarmManures
                             .Single(fm => fm.id == Convert.ToInt32(nutrientManure.manureId));
 
                         decimal convertedRate;

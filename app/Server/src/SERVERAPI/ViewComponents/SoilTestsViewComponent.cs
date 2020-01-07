@@ -1,6 +1,8 @@
-﻿using Agri.Interfaces;
+﻿using Agri.CalculateService;
+using Agri.Data;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,9 +10,9 @@ namespace SERVERAPI.ViewComponents
 {
     public class SoilTests : ViewComponent
     {
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
-        private ISoilTestConverter _soilTestConverter;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
+        private readonly ISoilTestConverter _soilTestConverter;
 
         public SoilTests(IAgriConfigurationRepository sd, Models.Impl.UserData ud, ISoilTestConverter soilTestConverter)
         {
@@ -18,7 +20,6 @@ namespace SERVERAPI.ViewComponents
             _ud = ud;
             _soilTestConverter = soilTestConverter;
         }
-
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
@@ -32,7 +33,7 @@ namespace SERVERAPI.ViewComponents
             svm.missingTests = false;
 
             FarmDetails fd = _ud.FarmDetails();
-            svm.testingMethod = fd.testingMethod;
+            svm.testingMethod = fd.TestingMethod;
 
             svm.tests = new List<DisplaySoilTest>();
 
@@ -49,8 +50,8 @@ namespace SERVERAPI.ViewComponents
                     dc.dispP = m.soilTest.ValP.ToString("G29");
                     dc.dispK = m.soilTest.valK.ToString("G29");
                     dc.dispPH = m.soilTest.valPH.ToString("G29");
-                    dc.dispPRating = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, m.soilTest));
-                    dc.dispKRating = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, m.soilTest));
+                    dc.dispPRating = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, m.soilTest));
+                    dc.dispKRating = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, m.soilTest));
                 }
                 else
                 {
@@ -62,12 +63,14 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(svm);
         }
     }
+
     public class SoilTestsViewModel
     {
         public string testingMethod { get; set; }
         public bool missingTests { get; set; }
         public List<DisplaySoilTest> tests { get; set; }
     }
+
     public class DisplaySoilTest
     {
         public string fldName { get; set; }
@@ -79,6 +82,6 @@ namespace SERVERAPI.ViewComponents
         public string dispPRating { get; set; }
         public string dispK { get; set; }
         public string dispKRating { get; set; }
-        public string dispPH { get; set; }        
+        public string dispPH { get; set; }
     }
 }

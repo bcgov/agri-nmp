@@ -1,29 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models;
+﻿using Agri.Data;
+using Agri.Models.Configuration;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using Agri.Models.Configuration;
-using Crop = Agri.Models.Configuration.Crop;
-using Yield = Agri.Models.Configuration.Yield;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcCrops : ViewComponent
     {
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
 
-        public CalcCrops(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
+        public CalcCrops(IAgriConfigurationRepository sd, UserData ud)
         {
             _sd = sd;
             _ud = ud;
         }
-
 
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
@@ -40,7 +35,7 @@ namespace SERVERAPI.ViewComponents
             foreach (var m in fldCrops)
             {
                 Crop cp = new Crop();
-                List<Yield> yld = new List<Yield>();
+                var yld = new List<Yield>();
 
                 if (!string.IsNullOrEmpty(m.cropOther))
                 {
@@ -53,19 +48,18 @@ namespace SERVERAPI.ViewComponents
                     yld = _sd.GetYields();
                 }
 
-                if(m.coverCropHarvested.HasValue)
+                if (m.coverCropHarvested.HasValue)
                 {
                     cp.CropName = m.coverCropHarvested.Value ? cp.CropName + "(harvested)" : cp.CropName;
                 }
 
                 DisplayCrop dm = new DisplayCrop()
                 {
-
                     fldNm = fldName,
                     cropId = Convert.ToInt32(m.id),
                     cropName = cp.CropName,
-                    yield = m.yield.ToString() + " tons/ac ("+ yld[0].YieldDesc + ")",
-                    reqN = (m.reqN * -1).ToString("G29"), 
+                    yield = m.yield.ToString() + " tons/ac (" + yld[0].YieldDesc + ")",
+                    reqN = (m.reqN * -1).ToString("G29"),
                     reqP = (m.reqP2o5 * -1).ToString("G29"),
                     reqK = (m.reqK2o * -1).ToString("G29"),
                     remN = (m.remN * -1).ToString("G29"),
@@ -78,10 +72,12 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(mvm);
         }
     }
+
     public class CalcCropsViewModel
     {
         public List<DisplayCrop> cropList { get; set; }
     }
+
     public class DisplayCrop
     {
         public string fldNm { get; set; }

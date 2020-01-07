@@ -29,7 +29,7 @@
             </div>
         </form>
         <div id="next-previous-navigation">
-            @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction =  CoreSiteActions.ManureGeneratedObtained})
+            @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.ManureGeneratedObtained })
         </div>
         <!-- PAGE CONTENT -->
     </div>
@@ -38,24 +38,23 @@
 <!-- /BODY CONTENT -->
 @section Scripts {
 
-
     <script type="text/javascript">
 
         // ensure this event handler is attached to current and future elements (after partial renders)
         $(document).on("click",
             '[data_modal]',
-            function(e) {
+            function (e) {
                 $.ajaxSetup({ cache: false });
                 $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
                 $("#divSize").removeClass("modal-carousel");
                 $("#divSize").addClass("modal-large");
                 $('#myModalContent').load($type,
-                    function() {
+                    function () {
                         $('#myModal').modal({
-                                /*backdrop: 'static',*/
-                                //keyboard: true
-                
-                            },
+                            /*backdrop: 'static',*/
+                            //keyboard: true
+
+                        },
                             'show');
                         bindForm(this);
                     });
@@ -63,19 +62,17 @@
             });
 
         function bindForm(dialog) {
-            $('form', dialog).submit(function() {
+            $('form', dialog).submit(function () {
                 $.ajax({
                     url: this.action,
                     type: this.method,
                     data: $(this).serialize(),
-                    success: function(result) {
+                    success: function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
                             $(result.target)
                                 .load(result
                                     .url); //  Load data from the server and place the returned HTML into the matched element
-                            RefreshNavigation("ManureManagement", "ManureGeneratedObtained");
-                            RefreshNextPreviousNavigation("ManureManagement", "ManureGeneratedObtained");
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);
@@ -88,18 +85,18 @@
 
         $(document).on("click",
             '[data_modalI]',
-            function(e) {
+            function (e) {
                 $.ajaxSetup({ cache: false });
                 $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
                 $("#divSize").removeClass("modal-large");
                 $("#divSize").addClass("modal-carousel");
                 $('#myModalContent').load($type,
-                    function() {
+                    function () {
                         $('#myModal').modal({
-                                /*backdrop: 'static',*/
-                                //keyboard: true
-                
-                            },
+                            /*backdrop: 'static',*/
+                            //keyboard: true
+
+                        },
                             'show');
                         bindFormI(this);
                     });
@@ -107,18 +104,18 @@
             });
 
         $(".modal").on("hidden.bs.modal",
-            function() {
+            function () {
                 $(".myModalContent").html("");
             });
 
         function bindFormI(dialog) {
-            $('form', dialog).submit(function() {
+            $('form', dialog).submit(function () {
                 $.ajax({
                     cache: false,
                     url: this.action,
                     type: this.method,
                     data: $(this).serialize(),
-                    success: function(result) {
+                    success: function (result) {
                         if (result.success) {
                             $("#divSize").removeClass("modal-carousel");
                             $('#myModal').modal('hide');
@@ -132,37 +129,37 @@
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("body").on("change",
                 "#ddlAnimalType",
-                function() {
+                function () {
                     $('#buttonPressed').val("AnimalTypeChange");
                     $("#modForm").submit();
                 })
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("body").on("change",
                 "#ddlSubType",
-                function() {
+                function () {
                     $('#buttonPressed').val("SubTypeChange");
                     $("#modForm").submit();
                 })
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("body").on("change",
                 "#ddlManureMaterialType",
-                function() {
+                function () {
                     $('#buttonPressed').val("ManureMaterialTypeChange");
                     $("#modForm").submit();
                 })
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("body").on("change",
                 "#ddlWashWaterUnits",
-                function() {
+                function () {
                     $('#buttonPressed').val("WashWaterUnitsChange");
                     $("#modForm").submit();
                 })
@@ -170,20 +167,20 @@
 
         $(document).on('change',
             '#averageAnimalNumber',
-            function() {
+            function () {
                 NeedRefresh();
             });
 
         $(document).on('change',
             '#washWater',
-            function() {
+            function () {
                 NeedRefresh();
             });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("body").on("click",
                 "#rstWashWater",
-                function() {
+                function () {
                     $('#buttonPressed').val("ResetWashWater");
                     $("#modForm").submit();
                 })
@@ -191,20 +188,20 @@
 
         $(document).on('change',
             '#milkProduction',
-            function() {
+            function () {
                 NeedRefresh();
             });
 
         $(document).on('change',
             '#grazingDaysPerYear',
-            function() {
+            function () {
                 NeedRefresh();
             });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("body").on("click",
                 "#rstmilkProduction",
-                function() {
+                function () {
                     $('#buttonPressed').val("ResetMilkProduction");
                     $("#modForm").submit();
                 })
@@ -216,10 +213,10 @@
             $("#btnText").val("Save");
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $("body").on("change",
                 "#ddlBreed",
-                function() {
+                function () {
                     $('#buttonPressed').val("BreedChange");
                     $("#modForm").submit();
                 })
@@ -227,16 +224,16 @@
 
         $(document).on("click",
             '[data_modal2]',
-            function(e) {
+            function (e) {
                 $.ajaxSetup({ cache: false });
                 $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
                 $('#myModalContent').load($type,
-                    function() {
+                    function () {
                         $('#myModal').modal({
-                                /*backdrop: 'static',*/
-                                //keyboard: true
-                            
-                            },
+                            /*backdrop: 'static',*/
+                            //keyboard: true
+
+                        },
                             'show');
                         bindForm2(this);
                     });
@@ -244,14 +241,14 @@
             });
 
         function bindForm2(dialog) {
-            $('form', dialog).submit(function() {
+            $('form', dialog).submit(function () {
                 $.ajax({
-                        cache: false,
-                        url: this.action,
-                        type: this.method,
-                        data: $(this).serialize()
-                    })
-                    .done(function(result) {
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
+                    .done(function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
                             //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
@@ -265,6 +262,5 @@
                 return false;
             });
         }
-
     </script>
 }

@@ -1,25 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Models;
-using System;
+﻿using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
 
 namespace SERVERAPI.ViewComponents
 {
     public class ReportFields : ViewComponent
     {
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
+        private readonly UserData _ud;
 
-        public ReportFields(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
+        public ReportFields(UserData ud)
         {
-            _sd = sd;
             _ud = ud;
         }
-
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
@@ -29,9 +23,6 @@ namespace SERVERAPI.ViewComponents
         private Task<ReportFieldsViewModel> ReportFieldsAsync()
         {
             ReportFieldsViewModel fvm = new ReportFieldsViewModel();
-
-            FarmDetails fd = _ud.FarmDetails();
-
 
             List<Field> flds = _ud.GetFields();
 
@@ -53,10 +44,12 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(fvm);
         }
     }
+
     public class ReportFieldsViewModel
     {
         public List<DisplayReportField> fields { get; set; }
     }
+
     public class DisplayReportField
     {
         public string fldName { get; set; }

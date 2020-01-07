@@ -1,15 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models;
-using Agri.Models.Configuration;
+﻿using Agri.Data;
+using System;
 
 namespace Agri.CalculateService
 {
+    public interface IStorageVolumeCalculator
+    {
+        int GetSurfaceAreaOfRectangle(decimal? length, decimal? width, decimal? height);
+
+        int GetVolumeFT3OfRectangle(decimal? length, decimal? width, decimal? height);
+
+        int GetVolumeUSGallonsOfRectangle(decimal? length, decimal? width, decimal? height);
+
+        int GetSurfaceAreaOfCircle(decimal? diameter);
+
+        int GetVolumeFT3OfCircle(decimal? diameter, decimal? height);
+
+        int GetVolumeUSGallonsOfCircle(decimal? diameter, decimal? height);
+
+        int GetSurfaceAreaOfSlopedWall(decimal? topLength, decimal? topWidth);
+
+        int GetVolumeFT3OfSlopedWall(decimal? topLength, decimal? topWidth, decimal? height, decimal? slopeOfWall);
+
+        int GetVolumeUSGallonsOfSlopedWall(decimal? topLength, decimal? topWidth, decimal? height, decimal? slopeOfWall);
+    }
+
     public class StorageVolumeCalculator : IStorageVolumeCalculator
     {
         private IAgriConfigurationRepository _repository;
@@ -21,7 +35,7 @@ namespace Agri.CalculateService
 
         public int GetSurfaceAreaOfRectangle(decimal? length, decimal? width, decimal? height)
         {
-            var surfaceArea = (int)Math.Round((length??0) * (width??0));
+            var surfaceArea = (int)Math.Round((length ?? 0) * (width ?? 0));
             return surfaceArea;
         }
 
@@ -29,9 +43,10 @@ namespace Agri.CalculateService
         {
             var freeBoard = 1;
             var activeHeight = height - freeBoard;
-            var volumeFT3 = (int)Math.Round((activeHeight??0) * GetSurfaceAreaOfRectangle(length, width, height));
+            var volumeFT3 = (int)Math.Round((activeHeight ?? 0) * GetSurfaceAreaOfRectangle(length, width, height));
             return volumeFT3;
         }
+
         public int GetVolumeUSGallonsOfRectangle(decimal? length, decimal? width, decimal? height)
         {
             var volumeUSGallons = (int)Math.Round(7.48052 * GetVolumeFT3OfRectangle(length, width, height));
@@ -44,14 +59,15 @@ namespace Agri.CalculateService
             return surfaceArea;
         }
 
-        public int GetVolumeFT3OfCircle(decimal? diameter,decimal? height)
+        public int GetVolumeFT3OfCircle(decimal? diameter, decimal? height)
         {
             var freeBoard = 1;
             var activeHeight = height - freeBoard;
-            var volumeFT3 = (int)Math.Round(Convert.ToDouble(activeHeight) * ((22/7.0) * Math.Pow(Convert.ToDouble(diameter) / 2, 2)));
+            var volumeFT3 = (int)Math.Round(Convert.ToDouble(activeHeight) * ((22 / 7.0) * Math.Pow(Convert.ToDouble(diameter) / 2, 2)));
             return volumeFT3;
         }
-        public int GetVolumeUSGallonsOfCircle(decimal? diameter,decimal? height)
+
+        public int GetVolumeUSGallonsOfCircle(decimal? diameter, decimal? height)
         {
             var freeBoard = 1;
             var activeHeight = height - freeBoard;
@@ -59,14 +75,13 @@ namespace Agri.CalculateService
             return volumeUSGallons;
         }
 
-
         public int GetSurfaceAreaOfSlopedWall(decimal? topLength, decimal? topWidth)
         {
-            var surfaceArea = (int)Math.Round((topLength??0) * (topWidth??0));
+            var surfaceArea = (int)Math.Round((topLength ?? 0) * (topWidth ?? 0));
             return surfaceArea;
         }
 
-        public int GetVolumeFT3OfSlopedWall(decimal? topLength, decimal? topWidth,decimal? height,decimal? slopeOfWall)
+        public int GetVolumeFT3OfSlopedWall(decimal? topLength, decimal? topWidth, decimal? height, decimal? slopeOfWall)
         {
             var freeBoard = 1;
             var activeHeight = height - freeBoard;
@@ -74,11 +89,12 @@ namespace Agri.CalculateService
             var bottomWidth = topWidth - 2 * height / slopeOfWall;
             var areaBottom = bottomLength * bottomWidth;
 
-            var volumeFT3 = (int) Math.Round(Convert.ToDouble(activeHeight / 3) *
+            var volumeFT3 = (int)Math.Round(Convert.ToDouble(activeHeight / 3) *
                                              (Convert.ToDouble(areaBottom) + Convert.ToDouble((topLength * topWidth)) +
                                               Math.Sqrt(Convert.ToDouble(areaBottom) * Convert.ToDouble((topLength * topWidth)))));
             return volumeFT3;
         }
+
         public int GetVolumeUSGallonsOfSlopedWall(decimal? topLength, decimal? topWidth, decimal? height, decimal? slopeOfWall)
         {
             var freeBoard = 1;

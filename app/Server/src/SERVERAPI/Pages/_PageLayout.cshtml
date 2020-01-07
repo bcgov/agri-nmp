@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<!-- legacy modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog" id="divSize">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- modal placeholder-->
+<div id='modal-placeholder'></div>
+
+<div class="header-height"></div>
+<br />
+<br />
+<div class="container">
+    @* Puts a border around the form when not in a modal window *@
+    <div class="form-box">
+        <div class="form-box-header clearfix">
+            <div class="form-box-heading">@ViewBag.HeaderTitle</div>
+        </div>
+        @RenderBody()
+    </div>
+    <div id="next-previous-navigation">
+        @RenderSection("PreviousNextNavigation", required: false)
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

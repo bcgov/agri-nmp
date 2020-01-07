@@ -16,6 +16,11 @@
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Bootstrap.Datepicker" Version="1.6.4" />
+    <PackageReference Include="FluentValidation" Version="8.6.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="8.6.0" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
     <PackageReference Include="Bootstrap.Datepicker" Version="1.8.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
@@ -24,27 +29,6 @@
     <PackageReference Include="NLog" Version="4.5.11" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Mappings\**" />
-    <Compile Remove="Migrations\**" />
-    <Compile Remove="Services\**" />
-    <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
-    <Content Remove="Mappings\**" />
-    <Content Remove="Migrations\**" />
-    <Content Remove="Services\**" />
-    <EmbeddedResource Remove="Mappings\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Mappings\**" />
-    <None Remove="Migrations\**" />
-    <None Remove="Services\**" />
-    <Compile Remove="Utility\BalanceMessages.cs" />
-    <Compile Remove="Utility\ChemicalBalances.cs" />
-    <Compile Remove="Utility\CropRequirementRemoval.cs" />
-    <Compile Remove="Utility\FertilizerNutrients.cs" />
-    <Compile Remove="Utility\NOrganicMineralizations.cs" />
-    <Compile Remove="Utility\NutrientInputs.cs" />
-    <Compile Remove="Utility\SoilTestConversions.cs" />
-    <None Remove="PDF.js" />
     <Content Include="PDF.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -60,19 +44,20 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.3" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Infrastructure\" />
     <Folder Include="UserAgent\" />
     <Folder Include="Services.Impl\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
     <None Include="Views\Home\temp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Agri.CalculateService\Agri.CalculateService.csproj" />
     <ProjectReference Include="..\..\..\Agri.Data\Agri.Data.csproj" />
-    <ProjectReference Include="..\..\..\Agri.Interfaces\Agri.Interfaces.csproj" />
     <ProjectReference Include="..\..\..\Agri.Models\Agri.Models.csproj" />
     <ProjectReference Include="..\..\..\Common\src\Common\Common.csproj" />
   </ItemGroup>

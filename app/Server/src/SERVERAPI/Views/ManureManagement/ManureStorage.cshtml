@@ -28,7 +28,7 @@
                 @await Component.InvokeAsync("ManureStorage")
             </div>
             <div id="next-previous-navigation">
-                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureStorage })
+                @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.ManureStorage })
             </div>
         </form>
         <!-- PAGE CONTENT -->
@@ -37,28 +37,25 @@
 
 <!-- /BODY CONTENT -->
 
-
-
 @section Scripts {
-
 
     <script type="text/javascript">
 
         // ensure this event handler is attached to current and future elements (after partial renders)
         $(document).on("click", '[data_modal]', function (e) {
-                $.ajaxSetup({ cache: false });
-                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-                $("#divSize").removeClass("modal-carousel");
-                $("#divSize").addClass("modal-large");
-                $('#myModalContent').load($type, function () {
-                        $('#myModal').modal({
-                            /*backdrop: 'static',*/
-                            //keyboard: true
-                        }, 'show');
-                        bindForm(this);
-                    });
-                return false;
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").removeClass("modal-carousel");
+            $("#divSize").addClass("modal-large");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
             });
+            return false;
+        });
 
         function bindForm(dialog) {
             $('form', dialog).submit(function () {
@@ -81,23 +78,23 @@
         }
 
         $(document).on("click", '[data_modalI]', function (e) {
-                $.ajaxSetup({ cache: false });
-                $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-                $("#divSize").removeClass("modal-large");
-                $("#divSize").addClass("modal-carousel");
-                $('#myModalContent').load($type, function () {
-                        $('#myModal').modal({
-                            /*backdrop: 'static',*/
-                            //keyboard: true
-                        }, 'show');
-                        bindFormI(this);
-                    });
-                return false;
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").removeClass("modal-large");
+            $("#divSize").addClass("modal-carousel");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindFormI(this);
             });
+            return false;
+        });
 
         $(".modal").on("hidden.bs.modal", function () {
-                $(".myModalContent").html("");
-            });
+            $(".myModalContent").html("");
+        });
 
         function bindFormI(dialog) {
             $('form', dialog).submit(function () {
@@ -120,19 +117,18 @@
             });
         }
 
-
         $(document).ready(function () {
             $("body").on("change", "#ddlManureMaterialType", function () {
-                    $('#ButtonPressed').val("ManureMaterialTypeChange");
-                    $("#modForm").submit();
-                })
+                $('#ButtonPressed').val("ManureMaterialTypeChange");
+                $("#modForm").submit();
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#ddlSelectedMaterialsToInclude", function () {
-                    $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
-                    $("#modForm").submit();
-                })
+                $('#ButtonPressed').val("SelectedMaterialsToIncludeChange");
+                $("#modForm").submit();
+            })
         });
 
         $(document).ready(function () {
@@ -153,9 +149,9 @@
 
         $(document).ready(function () {
             $("body").on("change", "#txtSystemName", function () {
-                    $('#ButtonPressed').val("SystemNameChange");
-                    $("#modForm").submit();
-                })
+                $('#ButtonPressed').val("SystemNameChange");
+                $("#modForm").submit();
+            })
         })
 
         function SelectedMaterialsToIncludeChanged() {
@@ -185,72 +181,72 @@
 
         $(document).ready(function () {
             $("body").on("change", "#ddlStorageShape", function () {
-                    $('#ButtonPressed').val("StorageShapeChange");
-                    $("#modForm").submit();
-                })
+                $('#ButtonPressed').val("StorageShapeChange");
+                $("#modForm").submit();
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#txtRectangularLength", function () {
-                    $('#ButtonPressed').val("StorageShapeMeasurementsChange");
-                    SubmitStorageShapeMeasurements('#txtRectangularWidth');
-                })
+                $('#ButtonPressed').val("StorageShapeMeasurementsChange");
+                SubmitStorageShapeMeasurements('#txtRectangularWidth');
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#txtRectangularWidth", function () {
-                    $('#ButtonPressed').val("StorageShapeMeasurementsChange");
-                    SubmitStorageShapeMeasurements("#txtRectangularHeight");
-                })
+                $('#ButtonPressed').val("StorageShapeMeasurementsChange");
+                SubmitStorageShapeMeasurements("#txtRectangularHeight");
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#txtRectangularHeight", function () {
-                    $('#ButtonPressed').val("StorageShapeMeasurementsChange");
-                    SubmitStorageShapeMeasurements();
-                })
+                $('#ButtonPressed').val("StorageShapeMeasurementsChange");
+                SubmitStorageShapeMeasurements();
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#txtCircularDiameter", function () {
-                    $('#ButtonPressed').val("StorageShapeMeasurementsChange");
-                    SubmitStorageShapeMeasurements("#txtCircularHeight");
-                })
+                $('#ButtonPressed').val("StorageShapeMeasurementsChange");
+                SubmitStorageShapeMeasurements("#txtCircularHeight");
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#txtCircularHeight", function () {
-                    $('#ButtonPressed').val("StorageShapeMeasurementsChange");
-                    SubmitStorageShapeMeasurements();
-                })
+                $('#ButtonPressed').val("StorageShapeMeasurementsChange");
+                SubmitStorageShapeMeasurements();
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#txtSlopedWallTopLength", function () {
-                    $('#ButtonPressed').val("StorageShapeMeasurementsChange");
-                    SubmitStorageShapeMeasurements("#txtSlopedWallTopWidth");
-                })
+                $('#ButtonPressed').val("StorageShapeMeasurementsChange");
+                SubmitStorageShapeMeasurements("#txtSlopedWallTopWidth");
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#txtSlopedWallTopWidth", function () {
-                    $('#ButtonPressed').val("StorageShapeMeasurementsChange");
-                    SubmitStorageShapeMeasurements("#txtSlopedWallHeight");
-                })
+                $('#ButtonPressed').val("StorageShapeMeasurementsChange");
+                SubmitStorageShapeMeasurements("#txtSlopedWallHeight");
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#txtSlopedWallHeight", function () {
-                    $('#ButtonPressed').val("StorageShapeMeasurementsChange");
-                    SubmitStorageShapeMeasurements("#txtSlopedWallSlopeOfWall");
-                })
+                $('#ButtonPressed').val("StorageShapeMeasurementsChange");
+                SubmitStorageShapeMeasurements("#txtSlopedWallSlopeOfWall");
+            })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#txtSlopedWallSlopeOfWall", function () {
-                    $('#ButtonPressed').val("StorageShapeMeasurementsChange");
-                    SubmitStorageShapeMeasurements();
-                })
+                $('#ButtonPressed').val("StorageShapeMeasurementsChange");
+                SubmitStorageShapeMeasurements();
+            })
         });
 
         function SubmitStorageShapeMeasurements(nextField) {
@@ -311,7 +307,5 @@
                 return false;
             });
         }
-
-
     </script>
 }

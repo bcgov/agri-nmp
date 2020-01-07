@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Agri.Models.Configuration;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SERVERAPI.ViewModels
 {
@@ -8,15 +6,23 @@ namespace SERVERAPI.ViewModels
     {
         [Display(Name = "Year")]
         [Required]
-        public string year { get; set; }
-        [Display(Name = "Farm Name")]
-        public string farmName { get; set; }
+        public string Year { get; set; }
 
-        public string currYear { get; set; }
-        public bool HasAnimals { get; set; }
+        [Display(Name = "Farm Name")]
+        public string FarmName { get; set; }
+
+        public string CurrentYear { get; set; }
+
         public bool ImportsManureCompost { get; set; }
+
         public bool UsesFertilizer { get; set; }
         public bool IsLegacyNMPReleaseVersion { get; set; }
         public string LegacyNMPMessage { get; set; }
+        public bool HasSelectedFarmType { get; set; }
+        public bool HasAnimals { get; set; }
+        public bool HasDairyCows { get; set; }
+        public bool HasBeefCows { get; set; }
+        public bool HasPoultry { get; set; }
+        public bool HasMixedLiveStock { get; set; }
     }
 }

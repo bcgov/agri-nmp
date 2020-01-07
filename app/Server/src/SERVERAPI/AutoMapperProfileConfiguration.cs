@@ -1,5 +1,4 @@
-﻿using Agri.Data.Migrations;
-using Agri.Models;
+﻿using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using AutoMapper;
@@ -18,7 +17,7 @@ namespace SERVERAPI
             : base(profileName)
         {
             CreateMap<AmmoniaRetention, AmmoniaRetention>();
-            CreateMap<Animal, Animal>()
+            CreateMap<Agri.Models.Configuration.Animal, Agri.Models.Configuration.Animal>()
                 .ForMember(x => x.AnimalSubTypes, opt => opt.Ignore())
                 .ForMember(x => x.Breeds, opt => opt.Ignore());
             CreateMap<AnimalSubType, AnimalSubType>()
@@ -113,7 +112,7 @@ namespace SERVERAPI
             CreateMap<ImportedManure, ImportedManure>();
             CreateMap<UserPrompt, UserPrompt>();
             CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
-            CreateMap<SubRegions, SubRegions>();
+            CreateMap<SubRegion, SubRegion>();
 
             CreateMap<StaticDataVersion, StaticDataVersion>();
         }

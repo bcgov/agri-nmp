@@ -40,85 +40,118 @@
                         }
                         <div class="row">
                             <div class="col-sm-3">
-                                <label asp-for="year">Year</label>
-                                <input class="form-control" asp-for="year" id="year" type="text"/>
-                                <span asp-validation-for="year"></span>
+                                <label asp-for="Year">Year</label>
+                                <input class="form-control" asp-for="Year" id="year" type="text" />
+                                <span asp-validation-for="Year"></span>
                             </div>
                             <div class="col-sm-6">
-                                <label asp-for="farmName">Farm name</label>
-                                <input class="form-control" asp-for="farmName" id="farmName" name="farmName" type="text">
-                                <span asp-validation-for="farmName"></span>
+                                <label asp-for="FarmName">Farm name</label>
+                                <input class="form-control" asp-for="FarmName" id="farmName" name="farmName" type="text">
+                                <span asp-validation-for="FarmName"></span>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label asp-for="selRegOption" for="ddlRegion">Region</label>
-                                <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
-                                <select id="ddlRegion" class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions, "Id", "Value"))">
-                                    <option>select region</option>
-                                </select>
-                                <span asp-validation-for="selRegOption"></span>
-                            </div>
-                        </div>
-                        @if (Model.showSubRegion)
-                        {
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <select id="ddlSubRegion" class="form-control" asp-for="selSubRegOption" asp-items="@(new SelectList(Model.subRegionOptions, "Id", "Value"))">
-                                        <option>select subregion</option>
-                                    </select>
-                                    @if (Model.multipleSubRegion)
-                                    {
-                                        <span asp-validation-for="selSubRegOption" class="text-danger">A sub region must be selected</span>
-                                    }
-                                </div>
-                            </div>
-                        }
                         <div class="row" style="margin-bottom: 0px;">
                             <div class="col-sm-4">
                                 <span id="labelHasAnimals" style="font-weight: bold">
-                                    This farm has animals
+                                    I have animals
                                 </span>
                             </div>
                             <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasAnimals" style="margin-bottom: 0px;">
                                 <label style="padding-right: 20px">
-                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes"/> Yes
+                                    <input asp-for="HasAnimals" type="radio" value="true" id="rbIsHasAnimalsYes" onchange="GetsAnimalsChanged()" /> Yes
                                 </label>
                                 <label>
-                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo"/> No
+                                    <input asp-for="HasAnimals" type="radio" value="false" id="rbIsHasAnimalsNo" onchange="GetsAnimalsChanged()" /> No
                                 </label>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 0px;">
-                            <div class="col-sm-4">
-                                <span id="labelImportsManureCompost" style="font-weight: bold">
-                                    This farm imports manure or compost
-                                </span>
+                        @if (Model.ShowAnimals)
+                        {
+                            <div class="row" style="margin-bottom: 0px;margin-left:20px">
+                                <div class="col-sm-4">
+                                    <span id="labelHasDairyCows" style="font-weight: bold">
+                                        I have dairy cows
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasDairyCows" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasDairyCows" type="radio" value="true" id="rbIsHasDairyCowsYes" onchange="GetsAnimalsChanged()" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasDairyCows" type="radio" value="false" id="rbIsHasDairyCowsNo" onchange="GetsAnimalsChanged()" /> No
+                                    </label>
+                                </div>
                             </div>
-                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelImportsManureCompost" style="margin-bottom: 0px;">
-                                <label style="padding-right: 20px">
-                                    <input asp-for="ImportsManureCompost" type="radio" value="true" id="rbIsImportsManureCompostYes"/> Yes
-                                </label>
-                                <label>
-                                    <input asp-for="ImportsManureCompost" type="radio" value="false" id="rbIsImportsManureCompostNo"/> No
-                                </label>
+                            <div class="row" style="margin-bottom: 0px;margin-left:20px">
+                                <div class="col-sm-4">
+                                    <span id="labelHasBeefCows" style="font-weight: bold">
+                                        I have beef cattle
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasBeefCows" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasBeefCows" type="radio" value="true" id="rbIsHasBeefCowsYes" onchange="GetsAnimalsChanged()" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasBeefCows" type="radio" value="false" id="rbIsHasBeefCowsNo" onchange="GetsAnimalsChanged()" /> No
+                                    </label>
+                                </div>
                             </div>
-                        </div>
+                            <div class="row" style="margin-bottom: 0px;margin-left:20px">
+                                <div class="col-sm-4">
+                                    <span id="labelHasPoultry" style="font-weight: bold">
+                                        I have poultry
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasPoultry" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasPoultry" type="radio" value="true" id="rbIsHasPoultryYes" onchange="GetsAnimalsChanged()" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasPoultry" type="radio" value="false" id="rbIsHasPoultryNo" /> No
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-bottom: 0px;margin-left:20px">
+                                <div class="col-sm-4">
+                                    <span id="labelHasMixedLiveStock" style="font-weight: bold">
+                                        I have other or mixed livestock
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasMixedLiveStock" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasMixedLiveStock" type="radio" value="true" id="rbIsHasMixedLiveStockYes" onchange="GetsAnimalsChanged()" /> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasMixedLiveStock" type="radio" value="false" id="rbIsHasMixedLiveStockNo" onchange="GetsAnimalsChanged()" /> No
+                                    </label>
+                                </div>
+                            </div>
+                        }
                         <div class="row">
-                            <div class="col-sm-4">
-                                <span id="labelUsesFertilizer" style="font-weight: bold">
-                                    This farm uses fertilizer
-                                </span>
-                            </div>
-                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelUsesFertilizer">
-                                <label style="padding-right: 20px">
-                                    <input asp-for="UsesFertilizer" type="radio" value="true" id="rbIsUsesFertilizerYes"/> Yes
-                                </label>
-                                <label>
-                                    <input asp-for="UsesFertilizer" type="radio" value="false" id="rbIsUsesFertilizerNo"/> No
-                                </label>
+                            <div class="col-sm-7">
+                                <label asp-for="SelRegOption" for="ddlRegion">Region</label>
+                                <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
+                                <select id="ddlRegion" class="form-control" asp-for="SelRegOption" asp-items="@(new SelectList(Model.RegOptions, "Id", "Value"))">
+                                    <option>select region</option>
+                                </select>
+                                <span asp-validation-for="SelRegOption"></span>
                             </div>
                         </div>
+                        @if (Model.ShowSubRegion && Model.HasAnimals && !Model.HasPoultry)
+                        {
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <select id="ddlSubRegion" class="form-control" asp-for="SelSubRegOption" asp-items="@(new SelectList(Model.SubRegionOptions, "Id", "Value"))">
+                                        <option>select subregion</option>
+                                    </select>
+                                    @if (Model.MultipleSubRegion)
+                                    {
+                                        <span asp-validation-for="SelSubRegOption" class="text-danger">A sub region must be selected</span>
+                                    }
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -127,10 +160,11 @@
                     <button class="btn btn-primary" type="submit" title="Next" aria-label="Next" onclick="">Next</button>
                 </div>
             </div>
-            @Html.HiddenFor(x => x.currYear)
-            @Html.HiddenFor(x => x.showSubRegion)
-            @Html.HiddenFor(x => x.multipleSubRegion)
-            @Html.HiddenFor(x => x.buttonPressed)
+            @Html.HiddenFor(x => x.CurrentYear)
+            @Html.HiddenFor(x => x.ShowSubRegion)
+            @Html.HiddenFor(x => x.ShowAnimals)
+            @Html.HiddenFor(x => x.MultipleSubRegion)
+            @Html.HiddenFor(x => x.ButtonPressed)
         </form>
         <!-- PAGE CONTENT -->
     </div>
@@ -229,31 +263,36 @@
 
         $(document).ready(function () {
             $("body").on("change", "#ddlRegion", function () {
-                $('#buttonPressed').val("RegionChange");
+                $('#ButtonPressed').val("RegionChange");
                 $("#modForm").submit();
             })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#ddlSubRegion", function () {
-                $('#buttonPressed').val("SubRegionChange");
+                $('#ButtonPressed').val("SubRegionChange");
                 $("#modForm").submit();
             })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#ddlRegionModal", function () {
-                $('#buttonPressed').val("RegionChange");
+                $('#ButtonPressed').val("RegionChange");
                 $("#warnForm").submit();
             })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#ddlSubRegionModal", function () {
-                $('#buttonPressed').val("SubRegionChange");
+                $('#ButtonPressed').val("SubRegionChange");
                 $("#warnForm").submit();
             })
         });
+
+        function GetsAnimalsChanged() {
+            $('#ButtonPressed').val("GetsAnimalsChange");
+            $("#modForm").submit();
+        }
 
         $(document).on("click",
             '[data_modal2]',

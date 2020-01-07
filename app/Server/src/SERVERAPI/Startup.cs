@@ -1,18 +1,9 @@
-/*
-
- *
-
- *
- * OpenAPI spec version: v1
- *
- *
- */
-
 using Agri.CalculateService;
 using Agri.Data;
-using Agri.Interfaces;
 using Agri.Models.Settings;
 using AutoMapper;
+using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,9 +12,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using SERVERAPI.Controllers;
 using SERVERAPI.Filters;
+using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using System;
 using System.Globalization;
@@ -72,7 +65,8 @@ namespace SERVERAPI
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AppSettings>(Configuration);
+            //services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<AgriSeeder>();
 
             //// allow for large files to be uploaded
@@ -94,10 +88,13 @@ namespace SERVERAPI
             services.AddNodeServices();
 
             //Automapper
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
+            //Mediatr
+            services.AddMediatR(typeof(Startup));
 
             //// Add framework services.
             services.AddMvc()
+                .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); })
                 .AddJsonOptions(
                     opts =>
                     {
@@ -109,20 +106,24 @@ namespace SERVERAPI
                         opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     });
 
-            services.AddScoped<SERVERAPI.Models.Impl.UserData>();
-            services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
-            //services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
+            services.AddScoped<UserData>();
+            services.AddTransient<BrowserData>();
             services.AddScoped<IAgriConfigurationRepository, AgriConfigurationRepository>();
-            services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
-            services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
-            services.AddScoped<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
-            services.AddScoped<IManureAnimalNumberCalculator, ManureAnimalNumberCalculator>();
-            services.AddScoped<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
-            services.AddScoped<ISoilTestConverter, SoilTestConverter>();
-            services.AddScoped<IStorageVolumeCalculator, StorageVolumeCalculator>();
+            services.AddTransient<ICalculateAnimalRequirement, CalculateAnimalRequirement>();
+            services.AddTransient<ICalculateCropRequirementRemoval, CalculateCropRequirementRemoval>();
+            services.AddTransient<ICalculateFertilizerNutrients, CalculateFertilizerNutrients>();
+            services.AddTransient<ICalculateManureGeneration, CalculateManureGeneration>();
+            services.AddTransient<ICalculateNutrients, CalculateNutrients>();
+            services.AddTransient<IChemicalBalanceMessage, ChemicalBalanceMessage>();
+            services.AddTransient<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
+            services.AddTransient<IManureApplicationCalculator, ManureApplicationCalculator>();
+            services.AddTransient<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
+            services.AddTransient<IManureAnimalNumberCalculator, ManureAnimalNumberCalculator>();
+            services.AddTransient<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
+            services.AddTransient<ISoilTestConverter, SoilTestConverter>();
+            services.AddTransient<IStorageVolumeCalculator, StorageVolumeCalculator>();
 
             services.AddOptions();
-            //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
 
@@ -183,12 +184,24 @@ namespace SERVERAPI
             }
         }
 
-        private static void UpdateDatabase(IApplicationBuilder app)
+        private void UpdateDatabase(IApplicationBuilder app)
         {
+            var options = app.ApplicationServices.GetRequiredService<IOptions<AppSettings>>();
+
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
                 {
+                    var refreshDatabase = Environment.GetEnvironmentVariable("REFRESH_DATABASE");
+
+                    if ((!string.IsNullOrEmpty(refreshDatabase) && refreshDatabase.ToLower() == "true") ||
+                        (options.Value.RefreshDatabase && _hostingEnv.IsDevelopment()))
+                    {
+                        context.Database.EnsureDeleted();
+                    }
+
+                    //If the database is not present or if migrations are required
+                    //create the database and/or run the migrations
                     context.Database.Migrate();
                 }
             }

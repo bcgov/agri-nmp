@@ -12,12 +12,10 @@ namespace SERVERAPI.ViewComponents
 {
     public class FieldList : ViewComponent
     {
-        private IHostingEnvironment _env;
         private UserData _ud;
 
-        public FieldList(IHostingEnvironment env, UserData ud)
+        public FieldList(UserData ud)
         {
-            _env = env;
             _ud = ud;
         }
 
@@ -47,7 +45,7 @@ namespace SERVERAPI.ViewComponents
                 nf.crops = f.crops;
 
                 fvm.fields.Add(nf);
-                if(f.crops == null)
+                if (f.crops == null)
                 {
                     fvm.noCrops = true;
                 }
