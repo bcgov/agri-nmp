@@ -19,5 +19,7 @@ namespace Agri.Models.Farm
         public string prevYearManureApplicationFrequency { get; set; }
         public int? prevYearManureApplicationNitrogenCredit { get; set; }
         public decimal? SoilTestNitrateOverrideNitrogenCredit { get; set; }
+        public bool IsSeasonalFeedingArea { get; set; }
+        public string SeasonalFeedingArea { get; set; }
     }
 }
