@@ -1,8 +1,11 @@
 ﻿@page "{handler?}/{ismodal:bool}"
+
+@using SERVERAPI.Pages.RanchNutrients;
 @model SERVERAPI.Pages.RanchNutrients.CreateEdit
 @{
-    ViewData["HeaderTitle"] = "CreateEdit";
-    Layout = "_ModalLayout";
+    Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
+    ViewData["HeaderTitle"] = Model.Title;
+    ViewData["Title"] = Model.Title;
 }
 
 @if (Model.IsModal)
@@ -20,4 +23,12 @@ else
 
 @section Scripts
 {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("body").on("click", "#btnUseCustomAnalysis", function () {
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.UseCustomAnalysis");
+                $("#btnSave").click();
+            })
+        });
+    </script>
 }
