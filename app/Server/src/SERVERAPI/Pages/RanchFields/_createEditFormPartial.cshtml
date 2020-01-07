@@ -1,0 +1,46 @@
+﻿@model SERVERAPI.Pages.RanchFields.CreateEdit
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-group">
+    <label asp-for="@Model.Data.FieldName"></label>
+    <div>
+        <input asp-for="@Model.Data.FieldName" class="col-sm-6" />
+        <span asp-validation-for="@Model.Data.FieldName"></span>
+    </div>
+</div>
+<br />
+<div class="form-group">
+    <label asp-for="@Model.Data.FieldArea"></label>
+    <div>
+        <input asp-for="@Model.Data.FieldArea" class="col-sm-2" />
+        <div style="padding-top:5px">&nbsp;Acres&nbsp;</div>
+        <span asp-validation-for="@Model.Data.FieldArea"></span>
+    </div>
+</div>
+<div class="form-group" style="max-width:350px">
+    <label asp-for="@Model.Data.SelectPrevYrManureOption">Manure application in previous years</label>
+    <select class="form-control" asp-for="@Model.Data.SelectPrevYrManureOption" asp-items="@(new SelectList(Model.Data.SelectPrevYrManureOptions,"FieldManureApplicationHistory","Name"))">
+        <option>select</option>
+    </select>
+    <span asp-validation-for="@Model.Data.SelectPrevYrManureOption"></span>
+</div>
+<div class="form-group" style="margin-width: 350px;">
+    <label style="padding-right: 20px">
+        <input asp-for="@Model.Data.IsSeasonalFeedingArea" type="checkbox" />
+    </label>
+    <label i="labelIsSeasonalFeedingArea">This is a seasonal feeding area</label>
+</div>
+<br />
+<div class="form-group">
+    <label asp-for="@Model.Data.FieldComment"></label>
+    <div>
+        <textarea asp-for="@Model.Data.FieldComment" rows="2" cols="80" style="resize:none" placeholder="@Model.Data.Placehldr"></textarea>
+        <span asp-validation-for="@Model.Data.FieldComment"></span>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+    <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" />
+</div>
+@Html.HiddenFor(x => x.Data.Id)

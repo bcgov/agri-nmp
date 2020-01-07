@@ -367,6 +367,23 @@ namespace SERVERAPI.Models.Impl
             return fld;
         }
 
+        public Field GetFieldDetailById(int id)
+        {
+            Field fld = new Field();
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+
+            if (yd.Fields == null)
+            {
+                yd.Fields = new List<Field>();
+            }
+
+            fld = yd.Fields.FirstOrDefault(y => y.Id == id);
+
+            return fld;
+        }
+
         public List<Field> GetFields()
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
