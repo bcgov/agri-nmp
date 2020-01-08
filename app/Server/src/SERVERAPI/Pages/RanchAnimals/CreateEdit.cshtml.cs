@@ -120,8 +120,8 @@ namespace SERVERAPI.Pages.RanchAnimals
             public MappingProfile()
             {
                 CreateMap<FarmAnimal, Command>()
-                    .ForMember(m => m.CattleSubTypeId, opts => opts.MapFrom(src => src.SubTypeId))
-                    .ForMember(m => m.CattleSubTypeName, opts => opts.MapFrom(src => src.SubTypeName))
+                    .ForMember(m => m.CattleSubTypeId, opts => opts.MapFrom(src => src.AnimalSubTypeId))
+                    .ForMember(m => m.CattleSubTypeName, opts => opts.MapFrom(src => src.AnimalSubTypeName))
                     .ReverseMap();
             }
         }
