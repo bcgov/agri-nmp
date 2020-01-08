@@ -51,10 +51,10 @@ namespace SERVERAPI.Pages.MiniApps
 
         public class ConverterQuery : IRequest<ResultModel>
         {
-            public decimal pH { get; set; }
-            public decimal phosphorous { get; set; }
-            public List<SelectListItem> laboratoryOptions { get; set; }
-            public string selLaboratoryOption { get; set; }
+            public decimal PH { get; set; }
+            public decimal Phosphorous { get; set; }
+            public List<SelectListItem> LaboratoryOptions { get; set; }
+            public string SelectLaboratoryOption { get; set; }
             public string SoilTestConverterUserInstruction1 { get; set; }
             public string SoilTestConverterUserInstruction2 { get; set; }
             public string SoilTestingInformation { get; set; }
@@ -73,11 +73,11 @@ namespace SERVERAPI.Pages.MiniApps
         {
             public ModelValidator()
             {
-                RuleFor(m => m.selLaboratoryOption).NotNull()
+                RuleFor(m => m.SelectLaboratoryOption).NotNull()
                     .Must(m => !m.Equals("0"))
                     .WithMessage("Laboratory must be selected");
-                RuleFor(m => m.pH).GreaterThan(0).WithMessage("pH Field is required");
-                RuleFor(m => m.phosphorous).GreaterThan(0).WithMessage("Phosphorous Field is required");
+                RuleFor(m => m.PH).GreaterThan(0).WithMessage("pH Field is required");
+                RuleFor(m => m.Phosphorous).GreaterThan(0).WithMessage("Phosphorous Field is required");
             }
         }
 
@@ -98,7 +98,7 @@ namespace SERVERAPI.Pages.MiniApps
             {
                 var command = request.PopulatedData;
 
-                command.laboratoryOptions = _sd.GetSoilTestMethodsDll().ToList();
+                command.LaboratoryOptions = _sd.GetSoilTestMethodsDll().ToList();
                 var details = _sd.GetSoilConverterDetails();
                 command.SoilTestConverterUserInstruction1 = details.Where(x => x.Key == "SoilTestConverterUserInstruction1").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestConverterUserInstruction2 = details.Where(x => x.Key == "SoilTestConverterUserInstruction2").Select(x => x.Value).FirstOrDefault();
@@ -113,12 +113,12 @@ namespace SERVERAPI.Pages.MiniApps
             public Task<ResultModel> Handle(ConverterQuery request, CancellationToken cancellationToken)
             {
                 var soilTest = new SoilTest();
-                soilTest.ValP = request.phosphorous;
-                soilTest.valPH = request.pH;
+                soilTest.ValP = request.Phosphorous;
+                soilTest.valPH = request.PH;
 
                 var result = new ResultModel
                 {
-                    KelownaConversion = _soilTestConversions.GetConvertedSTP(request.selLaboratoryOption, soilTest),
+                    KelownaConversion = _soilTestConversions.GetConvertedSTP(request.SelectLaboratoryOption, soilTest),
                     ShowKelowna = true
                 };
 

@@ -19,22 +19,22 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for="laboratory">Laboratory</label>
-                                <select class="form-control" asp-for="Data.selLaboratoryOption" asp-items="@(new SelectList(Model.Data.laboratoryOptions, "Id", "Value"))" id="ddlMth">
+                                <select class="form-control" asp-for="Data.SelectLaboratoryOption" asp-items="@(new SelectList(Model.Data.LaboratoryOptions, "Id", "Value"))" id="ddlMth">
                                     <option value="0">select</option>
                                 </select>
-                                <span asp-validation-for="Data.selLaboratoryOption" class=""></span>
+                                <span asp-validation-for="Data.SelectLaboratoryOption" class=""></span>
                             </div>
                             <div class="form-group col-sm-2">
                                 <label for="pHValue">pH</label>
-                                <input class="form-control" type="text" asp-for="Data.pH" />
-                                <span asp-validation-for="Data.pH" class=""></span>
+                                <input class="form-control" type="text" asp-for="Data.PH" />
+                                <span asp-validation-for="Data.PH" class=""></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-2">
                                 <label for="phosPhorous">Phosphorus (ppm)</label>
-                                <input class="form-control" type="text" asp-for="Data.phosphorous" />
-                                <span asp-validation-for="Data.phosphorous" class=""></span>
+                                <input class="form-control" type="text" asp-for="Data.Phosphorous" />
+                                <span asp-validation-for="Data.Phosphorous" class=""></span>
                             </div>
 
                             @if (Model.Result.ShowKelowna)
