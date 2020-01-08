@@ -16,7 +16,7 @@ namespace Common
             return enumValue.GetType()
                             .GetMember(enumValue.ToString())
                             .First().GetCustomAttribute<DescriptionAttribute>()
-                            .Description;
+                            ?.Description ?? enumValue.ToString();
         }
 
         public static string GetDisplayName(this Enum enumValue)
@@ -24,7 +24,7 @@ namespace Common
             return enumValue.GetType()
                             .GetMember(enumValue.ToString())
                             .First().GetCustomAttribute<DisplayAttribute>()
-                            .Name;
+                            ?.Name ?? enumValue.ToString();
         }
     }
 }
