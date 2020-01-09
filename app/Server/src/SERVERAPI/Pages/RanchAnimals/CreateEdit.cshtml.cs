@@ -95,7 +95,6 @@ namespace SERVERAPI.Pages.RanchAnimals
             public SelectList CattleSubTypeOptions { get; set; }
             public ManureMaterialType ManureMaterialType => ManureMaterialType.Solid;
             public int AverageAnimalNumber { get; set; }
-            public string ButtonPressed { get; set; }
             public string Placehldr { get; set; }
             public bool IsManureCollected { get; set; }
             public int DurationDays { get; set; }
