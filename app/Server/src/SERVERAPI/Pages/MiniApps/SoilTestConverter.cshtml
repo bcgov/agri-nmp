@@ -19,7 +19,8 @@
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for="laboratory">Laboratory</label>
-                                <select class="form-control" asp-for="Data.SelectLaboratoryOption" asp-items="@(new SelectList(Model.Data.LaboratoryOptions, "Id", "Value"))" id="ddlMth">
+                                <select class="form-control" asp-for="@Model.Data.SelectLaboratoryOption"
+                                        asp-items="@Model.Data.LaboratoryOptions" id="ddlMth">
                                     <option value="0">select</option>
                                 </select>
                                 <span asp-validation-for="Data.SelectLaboratoryOption" class=""></span>

@@ -6,6 +6,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +54,7 @@ namespace SERVERAPI.Pages.MiniApps
         {
             public decimal PH { get; set; }
             public decimal Phosphorous { get; set; }
-            public List<SelectListItem> LaboratoryOptions { get; set; }
+            public SelectList LaboratoryOptions { get; set; }
             public string SelectLaboratoryOption { get; set; }
             public string SoilTestConverterUserInstruction1 { get; set; }
             public string SoilTestConverterUserInstruction2 { get; set; }
@@ -98,7 +99,7 @@ namespace SERVERAPI.Pages.MiniApps
             {
                 var command = request.PopulatedData;
 
-                command.LaboratoryOptions = _sd.GetSoilTestMethodsDll().ToList();
+                command.LaboratoryOptions = new SelectList(_sd.GetSoilTestMethodsDll(), "Id", "Value");
                 var details = _sd.GetSoilConverterDetails();
                 command.SoilTestConverterUserInstruction1 = details.Where(x => x.Key == "SoilTestConverterUserInstruction1").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestConverterUserInstruction2 = details.Where(x => x.Key == "SoilTestConverterUserInstruction2").Select(x => x.Value).FirstOrDefault();
