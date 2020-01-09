@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Agri.Models.Farm;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +14,26 @@ namespace SERVERAPI.Pages.RanchNutrients
 {
     public class Index : BasePageModel
     {
+        private readonly IMediator _mediator;
+
         [BindProperty]
         public Model Data { get; set; }
 
-        public async Task OnGetAsync()
+        public Index(IMediator mediator)
         {
+            Title = "Nutrient Analysis";
+            _mediator = mediator;
+        }
+
+        public async Task<IActionResult> OnGetAsync()
+        {
+            Data = await _mediator.Send(new Query());
+
+            if (!Data.ManureAnalytics.Any())
+            {
+                return RedirectToPage("CreateEdit", "Create", new { ismodal = false });
+            }
+            return Page();
         }
 
         public class Query : IRequest<Model>
@@ -26,6 +42,29 @@ namespace SERVERAPI.Pages.RanchNutrients
 
         public class Model
         {
+            public List<ManureNutrientAnalysis> ManureAnalytics { get; set; }
+
+            public class ManureNutrientAnalysis
+            {
+                public string Name { get; set; }
+                public string ManureClass { get; set; }
+                public string SolidLiquid { get; set; }
+                public string Moisture { get; set; }
+                public decimal Nitrogen { get; set; }
+                public decimal Ammonia { get; set; }
+                public decimal Phosphorous { get; set; }
+                public decimal Potassium { get; set; }
+                public int DMId { get; set; }
+                public int NMinerizationId { get; set; }
+            }
+        }
+
+        public class MappingProfile : Profile
+        {
+            public MappingProfile()
+            {
+                CreateMap<FarmManure, Model.ManureNutrientAnalysis>();
+            }
         }
 
         public class Handler : IRequestHandler<Query, Model>
@@ -41,7 +80,14 @@ namespace SERVERAPI.Pages.RanchNutrients
 
             public async Task<Model> Handle(Query request, CancellationToken cancellationToken)
             {
-                throw new NotImplementedException();
+                var farmManures = _ud.GetFarmManures();
+
+                var model = new Model
+                {
+                    ManureAnalytics = _mapper.Map<List<Model.ManureNutrientAnalysis>>(farmManures)
+                };
+
+                return await Task.FromResult(model);
             }
         }
     }

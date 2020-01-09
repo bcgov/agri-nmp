@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Agri.Data;
 using Agri.Models;
 using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -31,39 +32,43 @@ namespace SERVERAPI.Pages.RanchNutrients
             _mediator = mediator;
         }
 
-        public async Task OnGetCreateAsync()
+        public async Task OnGetCreateAsync(bool ismodal)
         {
-            Data = await _mediator.Send(new Query());
+            IsModal = ismodal;
+            await PopulateData(new Query());
         }
 
-        public async Task OnGetEditAsync(Query query)
+        public async Task<IActionResult> OnGetEditAsync(bool ismodal, Query query)
+        {
+            IsModal = ismodal;
+            await PopulateData(query);
+            return Page();
+        }
+
+        private async Task PopulateData(Query query)
         {
             Data = await _mediator.Send(query);
+            Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
         }
 
-        protected async Task<IActionResult> OnPostCreateAsync()
-        {
-            return await HandlePostBack();
-        }
-
-        protected async Task<IActionResult> OnPostEditAsync()
-        {
-            return await HandlePostBack();
-        }
-
-        private async Task<IActionResult> HandlePostBack()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
             {
-                Data.UseBookValue = false;
+                Data.UseBookValue = !Data.UseCustomAnalysis;
             }
-            Data = await _mediator.Send(new Query());
+            Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
             return Page();
         }
 
         public class Query : IRequest<Command>
         {
             public int? Id { get; set; }
+        }
+
+        public class LookupDataQuery : IRequest<Command>
+        {
+            public Command PopulatedData { get; set; }
         }
 
         public class Command : IRequest<Unit>
@@ -116,6 +121,7 @@ namespace SERVERAPI.Pages.RanchNutrients
             public string ExplainNutrientAnlalysisPotassium { get; set; }
             public bool IsLegacyNMPReleaseVersion { get; set; }
             public int? LegacyNMPReleaseVersionManureId { get; set; }
+            public bool UseCustomAnalysis { get; set; }
             public ElementEvent PostedElementEvent { get; set; }
         }
 
@@ -125,32 +131,68 @@ namespace SERVERAPI.Pages.RanchNutrients
             UseCustomAnalysis
         }
 
-        public class Handler : IRequestHandler<Query, Command>
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+            }
+        }
+
+        public class Handler : IRequestHandler<Query, Command>,
+            IRequestHandler<LookupDataQuery, Command>
         {
             private readonly UserData _ud;
             private readonly IMapper _mapper;
             private readonly IAgriConfigurationRepository _sd;
+            private readonly AgriConfigurationContext _db;
 
-            public Handler(UserData ud, IMapper mapper, IAgriConfigurationRepository sd)
+            public Handler(UserData ud, IMapper mapper,
+                IAgriConfigurationRepository sd,
+                AgriConfigurationContext db)
             {
                 _ud = ud;
                 _mapper = mapper;
                 _sd = sd;
+                _db = db;
             }
 
-            public Task<Command> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Command> Handle(Query request, CancellationToken cancellationToken)
             {
+                return new Command();
+            }
+
+            public Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
+            {
+                var command = request.PopulatedData;
                 //var ranchManures = _ud.
                 var beefManuresNutrients = _sd.GetManures()
                     .Where(m => m.ManureClass.Contains("Beef"))
                     .Select(m => new { Id = m.Id, Name = m.Name })
                     .ToList();
 
-                //command.CattleSubTypeOptions = new SelectList(subTypeOptions, "Id", "Value");
-                var command = new Command
+                command.BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients, "Id", "Name");
+
+                if (request.PopulatedData.SelectedNutrientAnalysis > 0)
                 {
-                    BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients, "Id", "Name")
-                };
+                }
+
+                if (!request.PopulatedData.UseBookValue)
+                {
+                    var prompts = _db.UserPrompts
+                        .Where(p => new List<string>
+                        {
+                        "NutrientAnalysisMoistureMessage","NutrientAnlalysisNitrogenMessage", "NutrientAnlalysisAmmoniaMessage",
+                        "NutrientAnlalysisPhosphorousMessage", "NutrientAnlalysisPotassiumMessage"
+                        }.Any(s => s.Equals(p.Name)))
+                        .ToDictionary(p => p.Name, p => p.Text);
+
+                    command.ExplainNutrientAnalysisMoisture = prompts["NutrientAnalysisMoistureMessage"];
+                    command.ExplainNutrientAnalysisNitrogen = prompts["NutrientAnlalysisNitrogenMessage"];
+                    command.ExplainNutrientAnlalysisAmmonia = prompts["NutrientAnlalysisAmmoniaMessage"];
+                    command.ExplainNutrientAnlalysisPhosphorous = prompts["NutrientAnlalysisPhosphorousMessage"];
+                    command.ExplainNutrientAnlalysisPotassium = prompts["NutrientAnlalysisPotassiumMessage"];
+                }
+
                 return Task.FromResult(command);
             }
         }

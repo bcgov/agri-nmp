@@ -5,7 +5,7 @@
 @{
     Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
     ViewData["HeaderTitle"] = Model.Title;
-    ViewData["Title"] = Model.Title;
+    //ViewData["Title"] = Model.Title;
 }
 
 @if (Model.IsModal)
@@ -25,7 +25,7 @@ else
 {
     <script type="text/javascript">
         $(document).ready(function () {
-            $("body").on("click", "#btnUseCustomAnalysis", function () {
+            $("body").on("click", "#cbUseCustomAnalysis", function () {
                 $('#PostedElementEvent').val("@CreateEdit.ElementEvent.UseCustomAnalysis");
                 $("#btnSave").click();
             })

@@ -12,7 +12,7 @@
             <div class="form-group table-bordered">
                 <table class="table-borderless table-sm">
                     <tr>
-                        <td><input type="checkbox" /></td>
+                        <td><input type="checkbox" value="yes" /></td>
                         <td>Material name</td>
                     </tr>
                 </table>
@@ -29,6 +29,15 @@
                     </select>
                     <span asp-validation-for="@Model.Data.SelectedNutrientAnalysis" class="text-danger">Select a Nutrient Analysis</span>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-sm-8 order-md-2">
+            <div class="form-group">
+                <input class="checkbox-inline mr-3" type="checkbox" id="cbUseCustomAnalysis" asp-for="@Model.Data.UseCustomAnalysis" />
+                <label for="cbUseCustomAnalysis">Use custom analysis</label>
             </div>
         </div>
     </div>
@@ -109,12 +118,9 @@
             </div>
         </div>
     }
-    <div class="form-row row">
-        <div class="col-md-8">
-            <button class="btn btn-primary" id="btnUseCustomAnalysis">Use custom analysis</button>
-        </div>
-        <div class="col-md-4">
-            <input class="btn btn-primary" type="submit" id="btnSave" value="Save" data-save="razor-page-modal" />
+    <div class="modal-footer">
+        <div class="float-right">
+            <input class="btn btn-primary" id="btnSave" type="submit" value="Save" data-save="razor-page-modal" />
         </div>
     </div>
 </div>
