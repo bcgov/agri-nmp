@@ -33,6 +33,9 @@ namespace Agri.Interfaces
         List<HarvestUnit> GetHarvestUnits();
         List<LiquidFertilizerDensity> GetLiquidFertilizerDensities();
         List<NitrogenMineralization> GetNitrogeMineralizations();
+
+        List<KeyValuePair<string, string>> GetSoilConverterDetails();
+
         List<DryMatter> GetDryMatters();
         List<Region> GetRegions();
         List<SelectListItem> GetRegionsDll();

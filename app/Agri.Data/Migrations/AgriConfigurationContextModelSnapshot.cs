@@ -16,7 +16,7 @@ namespace Agri.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
@@ -521,6 +521,18 @@ namespace Agri.Data.Migrations
                     b.ToTable("HarvestUnits");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.Journey", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Journey");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.LiquidFertilizerDensity", b =>
                 {
                     b.Property<int>("Id");
@@ -626,11 +638,31 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Controller");
 
+                    b.Property<int>("JourneyId");
+
                     b.Property<string>("Name");
+
+                    b.Property<string>("NextAction");
+
+                    b.Property<string>("NextController");
+
+                    b.Property<string>("NextPage");
+
+                    b.Property<string>("Page");
+
+                    b.Property<string>("PreviousAction");
+
+                    b.Property<string>("PreviousController");
+
+                    b.Property<string>("PreviousPage");
 
                     b.Property<int>("SortNumber");
 
+                    b.Property<bool>("UseJavaScriptInterceptMethod");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("JourneyId");
 
                     b.ToTable("MainMenus");
                 });
@@ -728,6 +760,36 @@ namespace Agri.Data.Migrations
                     b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.MiniApp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MiniApps");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.MiniAppLabel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LabelText");
+
+                    b.Property<int>("MiniAppId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MiniAppId");
+
+                    b.ToTable("MiniAppLabels");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.NitrateCreditSampleDate", b =>
@@ -1258,7 +1320,23 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("NextAction");
+
+                    b.Property<string>("NextController");
+
+                    b.Property<string>("NextPage");
+
+                    b.Property<string>("Page");
+
+                    b.Property<string>("PreviousAction");
+
+                    b.Property<string>("PreviousController");
+
+                    b.Property<string>("PreviousPage");
+
                     b.Property<int>("SortNumber");
+
+                    b.Property<bool>("UseJavaScriptInterceptMethod");
 
                     b.HasKey("Id");
 
@@ -1364,22 +1442,6 @@ namespace Agri.Data.Migrations
                     b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("Yields");
-                });
-
-            modelBuilder.Entity("Agri.Models.Data.AppliedMigrationSeedData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("AppliedDateTime");
-
-                    b.Property<string>("JsonFilename");
-
-                    b.Property<string>("ReasonReference");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AppliedMigrationSeedData");
                 });
 
             modelBuilder.Entity("Agri.Models.Security.ManageVersionUser", b =>
@@ -1638,6 +1700,14 @@ namespace Agri.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.MainMenu", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.Journey", "Journey")
+                        .WithMany("MainMenus")
+                        .HasForeignKey("JourneyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.Manure", b =>
                 {
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
@@ -1664,6 +1734,14 @@ namespace Agri.Data.Migrations
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
                         .WithMany("Messages")
                         .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.MiniAppLabel", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.MiniApp", "MiniApp")
+                        .WithMany()
+                        .HasForeignKey("MiniAppId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

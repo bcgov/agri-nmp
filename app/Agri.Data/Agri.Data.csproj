@@ -37,6 +37,11 @@
     <None Remove="MigrationSeedData\8_UserPrompts.json" />
     <None Remove="MigrationSeedData\9_UserPrompts.json" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="SeedData\MiniAppData.json" />
+    <None Remove="SeedData\MiniAppLabelData.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="MigrationSeedData\12_UserPrompts.json" />
@@ -64,6 +69,11 @@
     <EmbeddedResource Include="MigrationSeedData\3_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\2_UserPrompts.json" />
     <EmbeddedResource Include="MigrationSeedData\1_UserPrompts.json" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <EmbeddedResource Include="SeedData\MiniAppData.json" />
+    <EmbeddedResource Include="SeedData\UserPromptsData.json" />
   </ItemGroup>
 
   <ItemGroup>
