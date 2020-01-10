@@ -220,7 +220,7 @@ namespace SERVERAPI.Pages.RanchFields
             public async Task<MediatR.Unit> Handle(Command message, CancellationToken cancellationToken)
             {
                 //var field = _mapper.Map<Command, Field>(message);
-                // var field = new Field();
+                var field = new Field();
                 //field.Id = message.Id;
                 //field.fieldName = message.FieldName;
                 //field.area = message.FieldArea != null ? Convert.ToDecimal(message.FieldArea) : 0;
