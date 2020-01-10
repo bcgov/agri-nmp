@@ -11,7 +11,7 @@ module.exports = (settings)=>{
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../OpenShift'))
 
   // The building of your cool app goes here ▼▼▼
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-21.bc.json`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet.bc.json`, {
     'param':{
     'NAME': phases[phase].name,
     'SUFFIX': phases[phase].suffix,
@@ -19,7 +19,7 @@ module.exports = (settings)=>{
     }
   }));
 
-  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-21-node.bc.json`, {
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-node.bc.json`, {
     'param':{
       'NAME': phases[phase].name,
       'SUFFIX': phases[phase].suffix,

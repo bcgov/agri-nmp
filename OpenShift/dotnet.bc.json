@@ -2,7 +2,7 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "dotnet-21",
+        "name": "dotnet",
         "creationTimestamp": null
     },
     "parameters": [
@@ -33,7 +33,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "${NAME}-dotnet-21-rhel7",
+                "name": "${NAME}-dotnet-31-rhel7",
                 "creationTimestamp": null,
                 "annotations": null
             },
@@ -43,11 +43,11 @@
                 },
                 "tags": [
                     {
-                        "name": "2.1",
+                        "name": "3.1",
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-21-rhel7"
+                            "name": "registry.access.redhat.com/dotnet/dotnet-31-rhel7"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
@@ -55,11 +55,11 @@
                         }
                     },
                     {
-                        "name": "2.1-10",
+                        "name": "3.1-1",
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-21-rhel7"
+                            "name": "registry.access.redhat.com/dotnet/dotnet-31-rhel7"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
@@ -73,7 +73,7 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "${NAME}-dotnet-21-runtime-rhel7",
+                "name": "${NAME}-dotnet-31-runtime-rhel7",
                 "creationTimestamp": null,
                 "annotations": null
             },
@@ -83,11 +83,11 @@
                 },
                 "tags": [
                     {
-                        "name": "2.1",
+                        "name": "3.1",
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-21-runtime-rhel7"
+                            "name": "registry.access.redhat.com/dotnet/dotnet-31-runtime-rhel7"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
@@ -95,11 +95,11 @@
                         }
                     },
                     {
-                        "name": "2.1-10",
+                        "name": "3.1-1",
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-21-runtime-rhel7"
+                            "name": "registry.access.redhat.com/dotnet/dotnet-31-runtime-rhel7"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
