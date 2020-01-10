@@ -39,8 +39,6 @@ namespace Agri.Tests.Shared
             }
 
             serviceProvider = services.BuildServiceProvider();
-
-            services.AddAutoMapper();
         }
 
         protected void SeedDatabase()

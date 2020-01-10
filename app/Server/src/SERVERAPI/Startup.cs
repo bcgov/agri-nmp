@@ -95,7 +95,7 @@ namespace SERVERAPI
             //// Add framework services.
             services.AddMvc()
                 .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); })
-                .AddJsonOptions(
+                .AddNewtonsoftJson(
                     opts =>
                     {
                         opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -128,7 +128,7 @@ namespace SERVERAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             var cultureInfo = new CultureInfo("en-US");
@@ -136,9 +136,6 @@ namespace SERVERAPI
 
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
 
             app.UseSession();
             app.UseResponseCompression();

@@ -4,7 +4,7 @@
     <Description>Common code for the application.</Description>
     <Copyright>Copyright© 2017, Province of British Columbia.</Copyright>
     <AssemblyTitle>Common</AssemblyTitle>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>Common</AssemblyName>
     <PackageId>Common</PackageId>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -23,5 +23,4 @@
       <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.configuration.abstractions\2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>

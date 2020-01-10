@@ -67,6 +67,8 @@ namespace SERVERAPI
                 {
                     logging.ClearProviders();
                     logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    logging.AddConsole();
+                    logging.AddDebug();
                 })
                 .UseNLog()  // NLog: setup NLog for Dependency injection
                 .UseUrls("http://*:8080")
