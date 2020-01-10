@@ -25,10 +25,22 @@ else
 {
     <script type="text/javascript">
         $(document).ready(function () {
+            $("body").on("change", "#Data_SelectedNutrientAnalysis", function () {
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.NutrientAnalysisChanged");
+                $("#btnSave").click();
+            })
+        });
+
+        $(document).ready(function () {
             $("body").on("click", "#cbUseCustomAnalysis", function () {
                 $('#PostedElementEvent').val("@CreateEdit.ElementEvent.UseCustomAnalysis");
                 $("#btnSave").click();
             })
         });
+
+        function MaterialChanged() {
+            $('#PostedElementEvent').val("@CreateEdit.ElementEvent.MaterialStateChanged");
+            $("#btnSave").click();
+        }
     </script>
 }

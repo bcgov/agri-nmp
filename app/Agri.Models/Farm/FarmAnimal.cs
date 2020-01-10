@@ -8,6 +8,7 @@ namespace Agri.Models.Farm
 {
     public class FarmAnimal : GeneratedManure
     {
+        public override string ManureId => $"FarmAnimal{Id ?? 0}";
         public bool IsManureCollected { get; set; }
         public string ManureCollected { get; set; }
         public int DurationDays { get; set; }

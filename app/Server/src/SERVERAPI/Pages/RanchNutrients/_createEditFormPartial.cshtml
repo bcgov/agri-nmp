@@ -11,10 +11,20 @@
         <div class="col-md-4 order-md-1">
             <div class="form-group table-bordered">
                 <table class="table-borderless table-sm">
-                    <tr>
-                        <td><input type="checkbox" value="yes" /></td>
-                        <td>Material name</td>
-                    </tr>
+                    @for (int i = 0; i < Model.Data.RanchManures.Count; i++)
+                    {
+                        <tr>
+                            <td style="vertical-align: text-top;">
+                                <input type="checkbox" asp-for="@Model.Data.RanchManures[i].Selected"
+                                       onclick="MaterialChanged()" />
+                            </td>
+                            <td>
+                                <label asp-for="@Model.Data.RanchManures[i].Selected">@Model.Data.RanchManures[i].ManureName</label>
+                                <input type="hidden" asp-for="@Model.Data.RanchManures[i].ManureId" />
+                                <input type="hidden" asp-for="@Model.Data.RanchManures[i].ManureName" />
+                            </td>
+                        </tr>
+                    }
                 </table>
             </div>
         </div>
@@ -24,7 +34,7 @@
                 <div>
                     <select class="form-control"
                             asp-for="@Model.Data.SelectedNutrientAnalysis"
-                            asp-items="@Model.Data.BeefNutrientAnalysisOptions" id="ddlMan">
+                            asp-items="@Model.Data.BeefNutrientAnalysisOptions">
                         <option>select</option>
                     </select>
                     <span asp-validation-for="@Model.Data.SelectedNutrientAnalysis" class="text-danger">Select a Nutrient Analysis</span>
@@ -32,15 +42,17 @@
             </div>
         </div>
     </div>
-    <div class="row">
-
-        <div class="col-sm-8 order-md-2">
-            <div class="form-group">
-                <input class="checkbox-inline mr-3" type="checkbox" id="cbUseCustomAnalysis" asp-for="@Model.Data.UseCustomAnalysis" />
-                <label for="cbUseCustomAnalysis">Use custom analysis</label>
+    @if (Model.Data.ShowCustomCheckbox)
+    {
+        <div class="row">
+            <div class="col-sm-8 order-md-2">
+                <div class="form-group align-top">
+                    <input class="checkbox-inline mr-3" type="checkbox" id="cbUseCustomAnalysis" asp-for="@Model.Data.UseCustomAnalysis" />
+                    <label for="cbUseCustomAnalysis">Use custom analysis</label>
+                </div>
             </div>
         </div>
-    </div>
+    }
     @if (!Model.Data.UseBookValue)
     {
         <div class="row">
@@ -125,4 +137,8 @@
     </div>
 </div>
 @*Need to be explicit with ID because Data_ is appended to these elements*@
-@Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
+<input type="hidden" asp-for="Data.PostedElementEvent" id="PostedElementEvent" />
+<input type="hidden" asp-for="Data.ShowCustomCheckbox" />
+<input type="hidden" asp-for="Data.UseBookValue" />
+<input type="hidden" asp-for="Data.ShowNitrate" />
+@*<input type="hidden" asp-for="Data." />*@
