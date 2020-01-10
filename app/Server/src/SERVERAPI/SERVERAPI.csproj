@@ -64,7 +64,7 @@
     <ProjectReference Include="..\..\..\Agri.CalculateService\Agri.CalculateService.csproj" />
     <ProjectReference Include="..\..\..\Agri.Data\Agri.Data.csproj" />
     <ProjectReference Include="..\..\..\Agri.Models\Agri.Models.csproj" />
-    <ProjectReference Include="..\..\..\Common\src\Common\Common.csproj" />
+    <ProjectReference Include="..\..\..\Agri.Shared\Agri.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="nlog.config">
