@@ -23,7 +23,7 @@ namespace Agri.Models.Farm
         public string Name { get; set; }
         public string ManureClass { get; set; }
         public string SolidLiquid { get; set; }
-        public string Moisture { get; set; }
+        public decimal? Moisture { get; set; }
         public decimal Nitrogen { get; set; }
         public decimal Ammonia { get; set; }
         public decimal Phosphorous { get; set; }

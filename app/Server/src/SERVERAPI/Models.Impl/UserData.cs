@@ -813,7 +813,7 @@ namespace SERVERAPI.Models.Impl
                 fm.Ammonia = man.Ammonia;
                 fm.DMId = man.DryMatterId;
                 fm.ManureClass = man.ManureClass;
-                fm.Moisture = man.Moisture;
+                fm.Moisture = decimal.TryParse(man.Moisture, out decimal moistureConverted) ? moistureConverted : default(decimal?); ;
                 fm.Name = man.Name;
                 fm.Nitrate = man.Nitrate;
                 fm.Nitrogen = man.Nitrogen;
@@ -845,7 +845,7 @@ namespace SERVERAPI.Models.Impl
                 fm.Ammonia = man.Ammonia;
                 fm.DMId = man.DryMatterId;
                 fm.ManureClass = man.ManureClass;
-                fm.Moisture = man.Moisture;
+                fm.Moisture = decimal.TryParse(man.Moisture, out decimal moistureConverted) ? moistureConverted : default(decimal?);
                 fm.Name = man.Name;
                 fm.Nitrate = man.Nitrate;
                 fm.Nitrogen = man.Nitrogen;
@@ -876,7 +876,7 @@ namespace SERVERAPI.Models.Impl
                     fm.Ammonia = man.Ammonia;
                     fm.DMId = man.DryMatterId;
                     fm.ManureClass = man.ManureClass;
-                    fm.Moisture = man.Moisture;
+                    fm.Moisture = decimal.TryParse(man.Moisture, out decimal moistureConverted) ? moistureConverted : default(decimal?);
                     fm.Name = man.Name;
                     fm.Nitrate = man.Nitrate;
                     fm.Nitrogen = man.Nitrogen;

@@ -81,7 +81,7 @@ namespace Agri.CalculateService
                             .Single(fm => fm.Id == Convert.ToInt32(nutrientManure.manureId));
 
                         decimal convertedRate;
-                        if (string.IsNullOrWhiteSpace(farmManure.Moisture))
+                        if (farmManure.Moisture.HasValue)
                         {
                             convertedRate = _manureUnitConversionCalculator
                                 .GetSolidsTonsPerAcreApplicationRate(farmManure.ManureId, nutrientManure.rate,
@@ -90,7 +90,7 @@ namespace Agri.CalculateService
                         else
                         {
                             convertedRate = _manureUnitConversionCalculator
-                                .GetSolidsTonsPerAcreApplicationRate(Convert.ToDecimal(farmManure.Moisture),
+                                .GetSolidsTonsPerAcreApplicationRate(farmManure.Moisture.Value,
                                     nutrientManure.rate,
                                     (ApplicationRateUnits)Convert.ToInt32(nutrientManure.unitId));
                         }

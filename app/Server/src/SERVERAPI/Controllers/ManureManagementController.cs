@@ -2528,7 +2528,7 @@ namespace SERVERAPI.Controllers
                     mvm.ShowNitrate = (_sd.IsManureClassCompostType(fm.ManureClass) || _sd.IsManureClassCompostClassType(fm.ManureClass));
                 }
                 mvm.ManureName = fm.Name;
-                mvm.Moisture = fm.Moisture;
+                mvm.Moisture = fm.Moisture.ToString();
                 mvm.Nitrogen = fm.Nitrogen.ToString("#0.00");
                 mvm.Ammonia = fm.Ammonia.ToString("#0");
                 mvm.Phosphorous = fm.Phosphorous.ToString("#0.00");
@@ -2927,6 +2927,7 @@ namespace SERVERAPI.Controllers
                                 }
                             }
                         }
+
                         if (string.IsNullOrEmpty(cvm.Nitrogen))
                         {
                             ModelState.AddModelError("Nitrogen", "Required.");
@@ -3052,7 +3053,7 @@ namespace SERVERAPI.Controllers
                             fm.Ammonia = Convert.ToDecimal(cvm.Ammonia);
                             fm.DMId = man.DryMatterId;
                             fm.ManureClass = man.ManureClass;
-                            fm.Moisture = cvm.Moisture;
+                            fm.Moisture = decimal.TryParse(cvm.Moisture, out decimal moistureConverted) ? moistureConverted : default(decimal?);
                             fm.Name = cvm.ManureName;
                             fm.SourceOfMaterialName = cvm.SourceOfMaterialName;
                             fm.Nitrogen = Convert.ToDecimal(cvm.Nitrogen);
@@ -3090,7 +3091,7 @@ namespace SERVERAPI.Controllers
                             fm.Ammonia = Convert.ToDecimal(cvm.Ammonia);
                             fm.DMId = man.DryMatterId;
                             fm.ManureClass = man.ManureClass;
-                            fm.Moisture = cvm.Moisture;
+                            fm.Moisture = decimal.TryParse(cvm.Moisture, out decimal moistureConverted) ? moistureConverted : default(decimal?);
                             fm.Name = cvm.ManureName;
                             fm.SourceOfMaterialName = cvm.SourceOfMaterialName;
                             fm.Nitrogen = Convert.ToDecimal(cvm.Nitrogen);
