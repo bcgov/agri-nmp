@@ -563,10 +563,10 @@ namespace SERVERAPI.Controllers
                     if (g.AssignedToStoredSystem == false)
                     {
                         ReportManuress rm = new ReportManuress();
-                        rm.animalManure = g.animalSubTypeName + "," +
-                                          g.averageAnimalNumber + " animals";
+                        rm.animalManure = g.AnimalSubTypeName + "," +
+                                          g.AverageAnimalNumber + " animals";
                         rm.annualAmount =
-                            string.Format("{0:#,##0}", g.annualAmount.Split(' ')[0]);
+                            string.Format("{0:#,##0}", g.AnnualAmount.Split(' ')[0]);
                         if (g.ManureType == ManureMaterialType.Liquid)
                         {
                             rm.units = "US Gallons";
@@ -576,9 +576,9 @@ namespace SERVERAPI.Controllers
                             rm.units = "tons";
                         }
 
-                        if (g.washWaterGallonsToString != "0")
+                        if (g.WashWaterGallonsToString != "0")
                         {
-                            rm.milkingCenterWashWater = g.washWaterGallonsToString;
+                            rm.milkingCenterWashWater = g.WashWaterGallonsToString;
                         }
 
                         rmcvm.unstoredManures.Add(rm);
@@ -665,10 +665,10 @@ namespace SERVERAPI.Controllers
                         {
                             var generatedFarmManure = _ud.GetGeneratedManure(m.Id);
                             ReportManuress rm = new ReportManuress();
-                            rm.animalManure = generatedFarmManure.animalSubTypeName + "," +
-                                              generatedFarmManure.averageAnimalNumber + " animals";
+                            rm.animalManure = generatedFarmManure.AnimalSubTypeName + "," +
+                                              generatedFarmManure.AverageAnimalNumber + " animals";
                             rm.annualAmount =
-                                string.Format("{0:#,##0}", generatedFarmManure.annualAmount.Split(' ')[0]);
+                                string.Format("{0:#,##0}", generatedFarmManure.AnnualAmount.Split(' ')[0]);
                             if (s.ManureMaterialType == ManureMaterialType.Liquid)
                             {
                                 rm.units = "US Gallons";
@@ -682,25 +682,25 @@ namespace SERVERAPI.Controllers
                             {
                                 // if solid material is added to the liquid system change the calculations to depict that of liquid
                                 AnimalSubType animalSubType =
-                                    _sd.GetAnimalSubType(Convert.ToInt32(generatedFarmManure.animalSubTypeId));
+                                    _sd.GetAnimalSubType(Convert.ToInt32(generatedFarmManure.AnimalSubTypeId));
                                 if (animalSubType.SolidPerGalPerAnimalPerDay.HasValue)
                                 {
                                     rm.annualAmount =
-                                        (Math.Round(Convert.ToInt32(generatedFarmManure.averageAnimalNumber) *
+                                        (Math.Round(Convert.ToInt32(generatedFarmManure.AverageAnimalNumber) *
                                                     Convert.ToDecimal(animalSubType.SolidPerGalPerAnimalPerDay) * 365))
                                         .ToString();
                                     rm.units = "US gallons";
                                 }
                             }
 
-                            if (generatedFarmManure.washWaterGallonsToString != "0")
+                            if (generatedFarmManure.WashWaterGallonsToString != "0")
                             {
-                                rs.milkingCenterWashWater = generatedFarmManure.washWaterGallonsToString;
-                                washWaterAdjustedValue = generatedFarmManure.washWater;
+                                rs.milkingCenterWashWater = generatedFarmManure.WashWaterGallonsToString;
+                                washWaterAdjustedValue = generatedFarmManure.WashWater;
                             }
 
-                            if (generatedFarmManure.washWater.ToString("#.##") != _calculateAnimalRequirement
-                                    .GetWashWaterBySubTypeId(generatedFarmManure.animalSubTypeId).Value
+                            if (generatedFarmManure.WashWater.ToString("#.##") != _calculateAnimalRequirement
+                                    .GetWashWaterBySubTypeId(generatedFarmManure.AnimalSubTypeId).Value
                                     .ToString("#.##"))
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
@@ -711,22 +711,22 @@ namespace SERVERAPI.Controllers
                                 rs.footnotes.Add(rff);
                             }
 
-                            if (generatedFarmManure.milkProduction.ToString() != "0.0")
+                            if (generatedFarmManure.MilkProduction.ToString() != "0.0")
                             {
                                 var defaultMilkProd =
                                     _calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
-                                        Convert.ToInt16(generatedFarmManure.animalSubTypeId));
+                                        Convert.ToInt16(generatedFarmManure.AnimalSubTypeId));
                                 var breedManureFactor =
                                     _calculateAnimalRequirement.GetBreedManureFactorByBreedId(
                                         Convert.ToInt32(generatedFarmManure.BreedId));
                                 var milkProd = defaultMilkProd * breedManureFactor;
 
-                                if (generatedFarmManure.milkProduction != milkProd)
+                                if (generatedFarmManure.MilkProduction != milkProd)
                                 {
                                     ReportFieldFootnote rff = new ReportFieldFootnote();
                                     rff.id = rs.footnotes.Count() + 1;
                                     rff.message = "Milk Production adjusted to " +
-                                                  generatedFarmManure.milkProduction.ToString("G29") + " lb/day/animal";
+                                                  generatedFarmManure.MilkProduction.ToString("G29") + " lb/day/animal";
                                     rs.footnote = rff.id.ToString();
                                     rs.footnotes.Add(rff);
                                 }

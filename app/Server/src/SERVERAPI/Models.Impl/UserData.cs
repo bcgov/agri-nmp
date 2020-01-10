@@ -1069,26 +1069,26 @@ namespace SERVERAPI.Models.Impl
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             GeneratedManure farmDataGeneratedManure = yd.GeneratedManures.FirstOrDefault(f => f.Id == updatedGeneratedManure.Id);
 
-            farmDataGeneratedManure.animalSubTypeId = updatedGeneratedManure.animalSubTypeId;
-            farmDataGeneratedManure.averageAnimalNumber = updatedGeneratedManure.averageAnimalNumber;
+            farmDataGeneratedManure.AnimalSubTypeId = updatedGeneratedManure.AnimalSubTypeId;
+            farmDataGeneratedManure.AverageAnimalNumber = updatedGeneratedManure.AverageAnimalNumber;
             farmDataGeneratedManure.Id = updatedGeneratedManure.Id;
             farmDataGeneratedManure.ManureType = updatedGeneratedManure.ManureType;
-            farmDataGeneratedManure.animalId = updatedGeneratedManure.animalId;
-            farmDataGeneratedManure.animalId = updatedGeneratedManure.animalId;
+            farmDataGeneratedManure.AnimalId = updatedGeneratedManure.AnimalId;
+            farmDataGeneratedManure.AnimalId = updatedGeneratedManure.AnimalId;
             farmDataGeneratedManure.ManureType = updatedGeneratedManure.ManureType;
-            farmDataGeneratedManure.manureTypeName = updatedGeneratedManure.manureTypeName;
-            farmDataGeneratedManure.milkProduction = updatedGeneratedManure.milkProduction;
-            farmDataGeneratedManure.animalSubTypeName = updatedGeneratedManure.animalSubTypeName;
-            farmDataGeneratedManure.washWater = updatedGeneratedManure.washWater;
-            farmDataGeneratedManure.washWaterUnits = updatedGeneratedManure.washWaterUnits;
-            farmDataGeneratedManure.annualAmount = updatedGeneratedManure.annualAmount;
+            farmDataGeneratedManure.ManureTypeName = updatedGeneratedManure.ManureTypeName;
+            farmDataGeneratedManure.MilkProduction = updatedGeneratedManure.MilkProduction;
+            farmDataGeneratedManure.AnimalSubTypeName = updatedGeneratedManure.AnimalSubTypeName;
+            farmDataGeneratedManure.WashWater = updatedGeneratedManure.WashWater;
+            farmDataGeneratedManure.WashWaterUnits = updatedGeneratedManure.WashWaterUnits;
+            farmDataGeneratedManure.AnnualAmount = updatedGeneratedManure.AnnualAmount;
             farmDataGeneratedManure.AssignedToStoredSystem = updatedGeneratedManure.AssignedToStoredSystem;
-            farmDataGeneratedManure.solidPerGalPerAnimalPerDay = updatedGeneratedManure.solidPerGalPerAnimalPerDay;
+            farmDataGeneratedManure.SolidPerGalPerAnimalPerDay = updatedGeneratedManure.SolidPerGalPerAnimalPerDay;
             farmDataGeneratedManure.BreedId = updatedGeneratedManure.BreedId;
             farmDataGeneratedManure.BreedName = updatedGeneratedManure.BreedName;
-            farmDataGeneratedManure.showBreedAndGrazingDaysPerYear =
-                updatedGeneratedManure.showBreedAndGrazingDaysPerYear;
-            farmDataGeneratedManure.grazingDaysPerYear = updatedGeneratedManure.grazingDaysPerYear;
+            farmDataGeneratedManure.ShowBreedAndGrazingDaysPerYear =
+                updatedGeneratedManure.ShowBreedAndGrazingDaysPerYear;
+            farmDataGeneratedManure.GrazingDaysPerYear = updatedGeneratedManure.GrazingDaysPerYear;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 

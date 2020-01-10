@@ -77,13 +77,13 @@ namespace SERVERAPI.Controllers
             {
                 GeneratedManure gm = _ud.GetGeneratedManure(id.Value);
                 mgovm.id = id;
-                mgovm.selSubTypeOption = gm.animalSubTypeId.ToString();
-                mgovm.averageAnimalNumber = gm.averageAnimalNumber.ToString();
+                mgovm.selSubTypeOption = gm.AnimalSubTypeId.ToString();
+                mgovm.averageAnimalNumber = gm.AverageAnimalNumber.ToString();
                 mgovm.selManureMaterialTypeOption = gm.ManureType;
-                mgovm.SelWashWaterUnit = gm.washWaterUnits;
-                mgovm.showBreedAndGrazingDaysPerYear = gm.showBreedAndGrazingDaysPerYear;
+                mgovm.SelWashWaterUnit = gm.WashWaterUnits;
+                mgovm.showBreedAndGrazingDaysPerYear = gm.ShowBreedAndGrazingDaysPerYear;
 
-                List<AnimalSubType> animalSubType = _sd.GetAnimalSubTypes(Convert.ToInt32(gm.animalId.ToString()));
+                List<AnimalSubType> animalSubType = _sd.GetAnimalSubTypes(Convert.ToInt32(gm.AnimalId.ToString()));
                 if (animalSubType.Count > 0)
                     mgovm.selAnimalTypeOption = animalSubType[0].AnimalId.ToString();
 
@@ -100,17 +100,17 @@ namespace SERVERAPI.Controllers
 
                 if (mgovm.showBreedAndGrazingDaysPerYear)
                 {
-                    mgovm.grazingDaysPerYear = gm.grazingDaysPerYear.ToString();
+                    mgovm.grazingDaysPerYear = gm.GrazingDaysPerYear.ToString();
                     mgovm.selBreedOption = gm.BreedId.ToString();
                 }
 
                 if (mgovm.showWashWater)
                 {
-                    mgovm.washWater = gm.washWater.ToString("#.##");
+                    mgovm.washWater = gm.WashWater.ToString("#.##");
                 }
                 if (mgovm.showMilkProduction)
                 {
-                    mgovm.milkProduction = gm.milkProduction.ToString("#.##");
+                    mgovm.milkProduction = gm.MilkProduction.ToString("#.##");
                 }
 
                 if (mgovm.SelWashWaterUnit == WashWaterUnits.USGallonsPerDay)
@@ -242,9 +242,9 @@ namespace SERVERAPI.Controllers
 
                     // Calculate Average Animal Number hint text when the Milking cow is added to the list
                     List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
-                    if (generatedManures.Any(gm => gm.milkProduction.ToString() != "0.0"))
+                    if (generatedManures.Any(gm => gm.MilkProduction.ToString() != "0.0"))
                     {
-                        int animalNumber = generatedManures.Single(gm => gm.milkProduction.ToString() != "0.0").averageAnimalNumber;
+                        int animalNumber = generatedManures.Single(gm => gm.MilkProduction.ToString() != "0.0").AverageAnimalNumber;
                         mgovm.placehldr = _manureAnimalNumberCalculator.CalculateAverageAnimalNumber(animalNumber,
                             mgovm.selSubTypeOption);
                     }
@@ -476,19 +476,19 @@ namespace SERVERAPI.Controllers
                             AnimalSubType animalSubTypeDetails = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
 
                             GeneratedManure gm = new GeneratedManure();
-                            gm.animalId = Convert.ToInt32(mgovm.selAnimalTypeOption);
-                            gm.animalName = animal.Name;
-                            gm.animalSubTypeId = Convert.ToInt32(mgovm.selSubTypeOption);
-                            gm.animalSubTypeName = animalSubTypeDetails.Name;
-                            gm.solidPerGalPerAnimalPerDay = animalSubTypeDetails.SolidPerGalPerAnimalPerDay;
-                            gm.averageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
+                            gm.AnimalId = Convert.ToInt32(mgovm.selAnimalTypeOption);
+                            gm.AnimalName = animal.Name;
+                            gm.AnimalSubTypeId = Convert.ToInt32(mgovm.selSubTypeOption);
+                            gm.AnimalSubTypeName = animalSubTypeDetails.Name;
+                            gm.SolidPerGalPerAnimalPerDay = animalSubTypeDetails.SolidPerGalPerAnimalPerDay;
+                            gm.AverageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
                             gm.ManureType = mgovm.selManureMaterialTypeOption;
-                            gm.manureTypeName = EnumHelper<Agri.Models.ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
-                            gm.washWaterUnits = mgovm.SelWashWaterUnit;
-                            gm.showBreedAndGrazingDaysPerYear = mgovm.showBreedAndGrazingDaysPerYear;
+                            gm.ManureTypeName = EnumHelper<Agri.Models.ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
+                            gm.WashWaterUnits = mgovm.SelWashWaterUnit;
+                            gm.ShowBreedAndGrazingDaysPerYear = mgovm.showBreedAndGrazingDaysPerYear;
                             if (mgovm.showBreedAndGrazingDaysPerYear)
                             {
-                                gm.grazingDaysPerYear = Convert.ToInt32(mgovm.grazingDaysPerYear);
+                                gm.GrazingDaysPerYear = Convert.ToInt32(mgovm.grazingDaysPerYear);
                                 List<SelectListItem> breedDetails = _sd.GetBreed(Convert.ToInt32(mgovm.selBreedOption));
                                 gm.BreedId = breedDetails[0].Id;
                                 gm.BreedName = breedDetails[0].Value;
@@ -496,20 +496,20 @@ namespace SERVERAPI.Controllers
 
                             if (mgovm.washWater != null)
                             {
-                                gm.washWater = Convert.ToDecimal(mgovm.washWater.ToString());
+                                gm.WashWater = Convert.ToDecimal(mgovm.washWater.ToString());
                             }
                             else
                             {
-                                gm.washWater = 0;
+                                gm.WashWater = 0;
                             }
 
                             if (mgovm.milkProduction != null)
                             {
-                                gm.milkProduction = Convert.ToDecimal(mgovm.milkProduction.ToString());
+                                gm.MilkProduction = Convert.ToDecimal(mgovm.milkProduction.ToString());
                             }
                             else
                             {
-                                gm.milkProduction = 0;
+                                gm.MilkProduction = 0;
                             }
 
                             AnimalSubType animalSubType = _sd.GetAnimalSubType(Convert.ToInt32(mgovm.selSubTypeOption));
@@ -530,7 +530,7 @@ namespace SERVERAPI.Controllers
                                     if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
                                     {
                                         if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                            gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * breedManureFactor ?? 0M))) + " U.S. gallons";
+                                            gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * breedManureFactor ?? 0M))) + " U.S. gallons";
                                     }
                                     // manure material type is solid
                                     else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
@@ -538,7 +538,7 @@ namespace SERVERAPI.Controllers
                                         if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
                                         {
                                             var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
-                                            gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * breedManureFactor ?? 0M)))) + " tons";
+                                            gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * breedManureFactor ?? 0M)))) + " tons";
                                         }
                                     }
                                 }
@@ -551,7 +551,7 @@ namespace SERVERAPI.Controllers
                                         if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
                                         {
                                             if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M))))) + " U.S. gallons";
+                                                gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M))))) + " U.S. gallons";
                                         }
                                         // manure material type is solid
                                         else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
@@ -559,7 +559,7 @@ namespace SERVERAPI.Controllers
                                             if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
                                             {
                                                 var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
-                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M)))))) + " tons";
+                                                gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M)))))) + " tons";
                                             }
                                         }
                                     }
@@ -569,7 +569,7 @@ namespace SERVERAPI.Controllers
                                         if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
                                         {
                                             if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * (1)))) + " U.S. gallons";
+                                                gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * (1)))) + " U.S. gallons";
                                         }
                                         // manure material type is solid
                                         else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
@@ -577,7 +577,7 @@ namespace SERVERAPI.Controllers
                                             if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
                                             {
                                                 var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
-                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * (1))))) + " tons";
+                                                gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * (1))))) + " tons";
                                             }
                                         }
                                     }
@@ -590,13 +590,13 @@ namespace SERVERAPI.Controllers
                                 if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
                                 {
                                     if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                        gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * 365))) + " U.S. gallons";
+                                        gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * 365))) + " U.S. gallons";
                                 }
                                 // manure material type is solid
                                 else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
                                 {
                                     if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
-                                        gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * 365) / 2000)))) + " tons";
+                                        gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * 365) / 2000)))) + " tons";
                                 }
                             }
                             _ud.AddGeneratedManure(gm);
@@ -621,21 +621,21 @@ namespace SERVERAPI.Controllers
                             Agri.Models.Configuration.Animal animal = _sd.GetAnimal(Convert.ToInt32(mgovm.selAnimalTypeOption));
 
                             gm.Id = mgovm.id;
-                            gm.animalId = thisAnimalType;
-                            gm.animalName = animal.Name;
-                            gm.animalSubTypeId = thisSubType;
-                            gm.animalSubTypeName = animalSubType.Name;
-                            gm.averageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
+                            gm.AnimalId = thisAnimalType;
+                            gm.AnimalName = animal.Name;
+                            gm.AnimalSubTypeId = thisSubType;
+                            gm.AnimalSubTypeName = animalSubType.Name;
+                            gm.AverageAnimalNumber = Convert.ToInt32(mgovm.averageAnimalNumber);
                             gm.ManureType = thisManureMaterialType;
-                            gm.manureTypeName = EnumHelper<ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
-                            gm.milkProduction = Convert.ToDecimal(mgovm.milkProduction);
-                            gm.solidPerGalPerAnimalPerDay = animalSubType.SolidPerGalPerAnimalPerDay;
-                            gm.washWaterUnits = mgovm.SelWashWaterUnit;
-                            gm.showBreedAndGrazingDaysPerYear = mgovm.showBreedAndGrazingDaysPerYear;
-                            gm.grazingDaysPerYear = Convert.ToInt32(mgovm.grazingDaysPerYear);
+                            gm.ManureTypeName = EnumHelper<ManureMaterialType>.GetDisplayValue(mgovm.selManureMaterialTypeOption);
+                            gm.MilkProduction = Convert.ToDecimal(mgovm.milkProduction);
+                            gm.SolidPerGalPerAnimalPerDay = animalSubType.SolidPerGalPerAnimalPerDay;
+                            gm.WashWaterUnits = mgovm.SelWashWaterUnit;
+                            gm.ShowBreedAndGrazingDaysPerYear = mgovm.showBreedAndGrazingDaysPerYear;
+                            gm.GrazingDaysPerYear = Convert.ToInt32(mgovm.grazingDaysPerYear);
                             if (mgovm.showBreedAndGrazingDaysPerYear)
                             {
-                                gm.grazingDaysPerYear = Convert.ToInt32(mgovm.grazingDaysPerYear);
+                                gm.GrazingDaysPerYear = Convert.ToInt32(mgovm.grazingDaysPerYear);
                                 List<SelectListItem> breedDetails = _sd.GetBreed(Convert.ToInt32(mgovm.selBreedOption));
                                 gm.BreedId = breedDetails[0].Id;
                                 gm.BreedName = breedDetails[0].Value;
@@ -643,11 +643,11 @@ namespace SERVERAPI.Controllers
 
                             if (mgovm.washWater != null)
                             {
-                                gm.washWater = Convert.ToDecimal(mgovm.washWater);
+                                gm.WashWater = Convert.ToDecimal(mgovm.washWater);
                             }
                             else
                             {
-                                gm.washWater = 0;
+                                gm.WashWater = 0;
                             }
 
                             if (mgovm.breedOptions.Count() > 0)
@@ -665,7 +665,7 @@ namespace SERVERAPI.Controllers
                                     if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
                                     {
                                         if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                            gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * breedManureFactor ?? 0M))) + " U.S. gallons";
+                                            gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * breedManureFactor ?? 0M))) + " U.S. gallons";
                                     }
                                     // manure material type is solid
                                     else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
@@ -673,7 +673,7 @@ namespace SERVERAPI.Controllers
                                         if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
                                         {
                                             var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
-                                            gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * breedManureFactor ?? 0M)))) + " tons";
+                                            gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * breedManureFactor ?? 0M)))) + " tons";
                                         }
                                     }
                                 }
@@ -686,7 +686,7 @@ namespace SERVERAPI.Controllers
                                         if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
                                         {
                                             if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M))))) + " U.S. gallons";
+                                                gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M))))) + " U.S. gallons";
                                         }
                                         // manure material type is solid
                                         else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
@@ -694,7 +694,7 @@ namespace SERVERAPI.Controllers
                                             if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
                                             {
                                                 var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
-                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M)))))) + " tons";
+                                                gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * ((Convert.ToDecimal(mgovm.milkProduction)) / (milkProd ?? 0M)))))) + " tons";
                                             }
                                         }
                                     }
@@ -704,7 +704,7 @@ namespace SERVERAPI.Controllers
                                         if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
                                         {
                                             if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * (1)))) + " U.S. gallons";
+                                                gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * (365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) * (1)))) + " U.S. gallons";
                                         }
                                         // manure material type is solid
                                         else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
@@ -712,7 +712,7 @@ namespace SERVERAPI.Controllers
                                             if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
                                             {
                                                 var grazingCal = Convert.ToDecimal(((365 - Convert.ToInt32(mgovm.grazingDaysPerYear)) / 2000.0).ToString());
-                                                gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * (1))))) + " tons";
+                                                gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * grazingCal) * (1))))) + " tons";
                                             }
                                         }
                                     }
@@ -725,13 +725,13 @@ namespace SERVERAPI.Controllers
                                 if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Liquid)
                                 {
                                     if (animalSubType.LiquidPerGalPerAnimalPerDay.HasValue)
-                                        gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * 365))) + " U.S. gallons";
+                                        gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.LiquidPerGalPerAnimalPerDay) * 365))) + " U.S. gallons";
                                 }
                                 // manure material type is solid
                                 else if (mgovm.selManureMaterialTypeOption == ManureMaterialType.Solid)
                                 {
                                     if (animalSubType.SolidPerPoundPerAnimalPerDay.HasValue)
-                                        gm.annualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * 365) / 2000)))) + " tons";
+                                        gm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(((Convert.ToInt32(mgovm.averageAnimalNumber) * Convert.ToDecimal(animalSubType.SolidPerPoundPerAnimalPerDay) * 365) / 2000)))) + " tons";
                                 }
                             }
 
@@ -756,7 +756,7 @@ namespace SERVERAPI.Controllers
             List<GeneratedManure> generatedManures = _ud.GetGeneratedManures();
             if (generatedManures.Count() > 0)
             {
-                mgovm.selAnimalTypeOption = generatedManures[generatedManures.Count - 1].animalId.ToString();
+                mgovm.selAnimalTypeOption = generatedManures[generatedManures.Count - 1].AnimalId.ToString();
             }
         }
 
@@ -837,7 +837,7 @@ namespace SERVERAPI.Controllers
             dvm.id = id;
 
             GeneratedManure gm = _ud.GetGeneratedManure(id);
-            dvm.subTypeName = _sd.GetAnimalSubType(Convert.ToInt32(gm.animalSubTypeId)).Name;
+            dvm.subTypeName = _sd.GetAnimalSubType(Convert.ToInt32(gm.AnimalSubTypeId)).Name;
 
             dvm.title = "Delete";
 
@@ -1950,7 +1950,7 @@ namespace SERVERAPI.Controllers
                     if (manure.ManureId.Contains("Generated"))
                     {
                         var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
-                        materialsToInclude = $"{manureGenerated.animalSubTypeName}({manureGenerated.averageAnimalNumber} animals), {manureGenerated.manureTypeName}";
+                        materialsToInclude = $"{manureGenerated.AnimalSubTypeName}({manureGenerated.AverageAnimalNumber} animals), {manureGenerated.ManureTypeName}";
                     }
                     else if (manure.ManureId.Contains("Imported"))
                     {
@@ -2246,10 +2246,10 @@ namespace SERVERAPI.Controllers
                         if (manure.ManureId.Contains("Generated"))
                         {
                             var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
-                            materialVolumes += manureGenerated.annualAmountDecimal;
-                            if (manureGenerated.washWaterGallons != 0)
+                            materialVolumes += manureGenerated.AnnualAmountDecimal;
+                            if (manureGenerated.WashWaterGallons != 0)
                             {
-                                materialVolumes += manureGenerated.washWaterGallons;
+                                materialVolumes += manureGenerated.WashWaterGallons;
                             }
                         }
                         else if (manure.ManureId.Contains("Imported"))
@@ -2265,10 +2265,10 @@ namespace SERVERAPI.Controllers
                             if (manure.ManureId.Contains("Generated"))
                             {
                                 var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
-                                materialVolumes += manureGenerated.annualAmountDecimal;
-                                if (manureGenerated.washWaterGallons != 0)
+                                materialVolumes += manureGenerated.AnnualAmountDecimal;
+                                if (manureGenerated.WashWaterGallons != 0)
                                 {
-                                    materialVolumes += manureGenerated.washWaterGallons;
+                                    materialVolumes += manureGenerated.WashWaterGallons;
                                 }
                             }
                             else if (manure.ManureId.Contains("Imported"))
@@ -2370,10 +2370,10 @@ namespace SERVERAPI.Controllers
                         if (manure.ManureId.Contains("Generated"))
                         {
                             var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
-                            materialVolumes += manureGenerated.annualAmountDecimal;
-                            if (manureGenerated.washWaterGallons != 0)
+                            materialVolumes += manureGenerated.AnnualAmountDecimal;
+                            if (manureGenerated.WashWaterGallons != 0)
                             {
-                                materialVolumes += manureGenerated.washWaterGallons;
+                                materialVolumes += manureGenerated.WashWaterGallons;
                             }
                         }
                         else if (manure.ManureId.Contains("Imported"))
@@ -2389,10 +2389,10 @@ namespace SERVERAPI.Controllers
                             if (manure.ManureId.Contains("Generated"))
                             {
                                 var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
-                                materialVolumes += manureGenerated.annualAmountDecimal;
-                                if (manureGenerated.washWaterGallons != 0)
+                                materialVolumes += manureGenerated.AnnualAmountDecimal;
+                                if (manureGenerated.WashWaterGallons != 0)
                                 {
-                                    materialVolumes += manureGenerated.washWaterGallons;
+                                    materialVolumes += manureGenerated.WashWaterGallons;
                                 }
                             }
                             else if (manure.ManureId.Contains("Imported"))
