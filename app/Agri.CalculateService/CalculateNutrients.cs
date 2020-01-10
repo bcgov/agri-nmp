@@ -51,7 +51,7 @@ namespace Agri.CalculateService
             // for solid manures specified in cubic yards per ac, convert application rate to tons/ac
             if (myunit.Id == 6 && farmManure.SolidLiquid.ToUpper() == "SOLID")
             {
-                Manure manure = _sd.GetManure(farmManure.ManureId.ToString());
+                Manure manure = _sd.GetManure(farmManure.ManureId);
                 applicationRate = applicationRate * manure.CubicYardConversion;
             }
 

@@ -562,7 +562,7 @@ namespace SERVERAPI.Controllers
                 mvm.SelectedFarmManure != "")
             {
                 FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
-                mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.ManureId.ToString()).SolidLiquid).ToList();
+                mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.ManureId).SolidLiquid).ToList();
             }
 
             mvm.rateOptions = new List<SelectListItem>();

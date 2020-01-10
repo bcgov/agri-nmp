@@ -2727,7 +2727,7 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.SelectedManureOption != 0)
                     {
-                        man = _sd.GetManure(cvm.SelectedManureOption.ToString());
+                        man = _sd.GetManure(cvm.SelectedManureOption);
                         if (_sd.IsManureClassOtherType(man.ManureClass) ||
                            _sd.IsManureClassCompostType(man.ManureClass))
                         {
@@ -2803,7 +2803,7 @@ namespace SERVERAPI.Controllers
 
                     if (cvm.SelectedManureOption != 0)
                     {
-                        man = _sd.GetManure(cvm.SelectedManureOption.ToString());
+                        man = _sd.GetManure(cvm.SelectedManureOption);
                         cvm.OnlyCustom = false;
                         if (cvm.BookValue)
                         {
@@ -2859,7 +2859,7 @@ namespace SERVERAPI.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    man = _sd.GetManure(cvm.SelectedManureOption.ToString());
+                    man = _sd.GetManure(cvm.SelectedManureOption);
 
                     if (cvm.SelectedSourceOfMaterialOption != "select")
                     {
@@ -3044,7 +3044,7 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            man = _sd.GetManure(cvm.SelectedManureOption.ToString());
+                            man = _sd.GetManure(cvm.SelectedManureOption);
 
                             fm.Customized = true;
                             fm.SourceOfMaterialId = cvm.SelectedSourceOfMaterialOption;
@@ -3082,7 +3082,7 @@ namespace SERVERAPI.Controllers
                         }
                         else
                         {
-                            man = _sd.GetManure(cvm.SelectedManureOption.ToString());
+                            man = _sd.GetManure(cvm.SelectedManureOption);
 
                             fm.Customized = true;
                             fm.SourceOfMaterialId = cvm.SelectedSourceOfMaterialOption;

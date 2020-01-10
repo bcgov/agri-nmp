@@ -809,7 +809,7 @@ namespace SERVERAPI.Models.Impl
             fm = yd.FarmManures.FirstOrDefault(c => c.Id == id);
             if (fm != null && !fm.Customized)
             {
-                Manure man = _sd.GetManure(fm.ManureId.ToString());
+                Manure man = _sd.GetManure(fm.ManureId);
                 fm.Ammonia = man.Ammonia;
                 fm.DMId = man.DryMatterId;
                 fm.ManureClass = man.ManureClass;
@@ -841,7 +841,7 @@ namespace SERVERAPI.Models.Impl
             fm = yd.FarmManures.FirstOrDefault(c => c.SourceOfMaterialImportedManureId == importedManure.Id);
             if (!fm?.Customized == true)
             {
-                Manure man = _sd.GetManure(fm.ManureId.ToString());
+                Manure man = _sd.GetManure(fm.ManureId);
                 fm.Ammonia = man.Ammonia;
                 fm.DMId = man.DryMatterId;
                 fm.ManureClass = man.ManureClass;
@@ -872,7 +872,7 @@ namespace SERVERAPI.Models.Impl
             {
                 if (!fm.Customized)
                 {
-                    Manure man = _sd.GetManure(fm.ManureId.ToString());
+                    Manure man = _sd.GetManure(fm.ManureId);
                     fm.Ammonia = man.Ammonia;
                     fm.DMId = man.DryMatterId;
                     fm.ManureClass = man.ManureClass;
@@ -1526,11 +1526,13 @@ namespace SERVERAPI.Models.Impl
             var generated = yd.GeneratedManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
             var imported = yd.ImportedManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
             var separatedSolids = yd.SeparatedSolidManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
+            var farmAnimals = yd.FarmAnimals?.ToList<ManagedManure>() ?? new List<ManagedManure>();
 
             var manures = new List<ManagedManure>();
             manures.AddRange(generated);
             manures.AddRange(imported);
             manures.AddRange(separatedSolids);
+            manures.AddRange(farmAnimals);
             return manures;
         }
 
