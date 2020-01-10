@@ -171,7 +171,7 @@ namespace SERVERAPI.Models.Impl
             }
             foreach (var a in yd.FarmAnimals)
             {
-                nextId = nextId <= a.Id ? a.Id + 1 : nextId;
+                nextId = nextId <= a.Id ? a.Id.Value + 1 : nextId;
             }
             newAnimal.Id = nextId;
             newAnimal.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(newAnimal);
