@@ -128,7 +128,15 @@ namespace SERVERAPI.Pages.RanchFields
         {
             public MappingProfile()
             {
-                CreateMap<Field, Command>();
+                CreateMap<Field, Command>()
+                //Command as Destination
+                .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.area.ToString("G29")))
+                .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.comment))
+                .ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.prevYearManureApplicationFrequency))
+                .ReverseMap()
+                //FarmField as Destination
+                .ForMember(m => m.area, opts => opts.MapFrom(s => s.FieldArea != null ? Convert.ToDecimal(s.FieldArea) : 0))
+                .ForMember(m => m.SeasonalFeedingArea, opts => opts.MapFrom(s => s.IsSeasonalFeedingArea ? "Yes" : "No")); ;
             }
         }
 
@@ -149,13 +157,7 @@ namespace SERVERAPI.Pages.RanchFields
                 if (request.Id != 0)
                 {
                     var field = _ud.GetFieldDetailById(request.Id);
-                    command.FieldName = field.fieldName;
-                    command.Id = field.Id;
-                    command.FieldArea = field.area.ToString("G29");
-                    command.IsSeasonalFeedingArea = field.IsSeasonalFeedingArea;
-                    command.SeasonalFeedingArea = field.SeasonalFeedingArea;
-                    command.FieldComment = field.comment;
-                    command.SelectPrevYrManureOption = field.prevYearManureApplicationFrequency;
+                    command = _mapper.Map<Command>(field);
                 }
 
                 return await Task.FromResult(command);
@@ -195,15 +197,8 @@ namespace SERVERAPI.Pages.RanchFields
 
             public async Task<MediatR.Unit> Handle(Command message, CancellationToken cancellationToken)
             {
-                //var field = _mapper.Map<Command, Field>(message);
                 var field = new Field();
-                field.Id = message.Id;
-                field.fieldName = message.FieldName;
-                field.area = message.FieldArea != null ? Convert.ToDecimal(message.FieldArea) : 0;
-                field.comment = message.FieldComment;
-                field.prevYearManureApplicationFrequency = message.SelectPrevYrManureOption;
-                field.IsSeasonalFeedingArea = message.IsSeasonalFeedingArea;
-                field.SeasonalFeedingArea = message.IsSeasonalFeedingArea ? "Yes" : "No";
+                field = _mapper.Map<Field>(message);
 
                 if (field.Id == 0)//Need to check here
                 {
