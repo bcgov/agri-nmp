@@ -46,9 +46,9 @@ namespace SERVERAPI.ViewComponents
             foreach (var f in fldList)
             {
                 Field nf = new Field();
-                nf.fieldName = f.fieldName;
-                nf.area = Convert.ToDecimal((f.area).ToString("G29"));
-                nf.comment = f.comment;
+                nf.FieldName = f.FieldName;
+                nf.Area = Convert.ToDecimal((f.Area).ToString("G29"));
+                nf.Comment = f.Comment;
                 fvm.fields.Add(nf);
             }
 

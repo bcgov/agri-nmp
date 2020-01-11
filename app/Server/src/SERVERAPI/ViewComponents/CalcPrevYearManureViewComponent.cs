@@ -38,12 +38,12 @@ namespace SERVERAPI.ViewComponents
             {
                 if (fld.crops.Count() > 0)
                 {
-                    manureVM.display = _sd.WasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
+                    manureVM.display = _sd.WasManureAddedInPreviousYear(fld.PreviousYearManureApplicationFrequency);
                     if (manureVM.display)
                     {
                         manureVM.fldName = fldName;
-                        if (fld.prevYearManureApplicationNitrogenCredit != null)
-                            manureVM.nitrogen = fld.prevYearManureApplicationNitrogenCredit;
+                        if (fld.PreviousYearManureApplicationNitrogenCredit != null)
+                            manureVM.nitrogen = fld.PreviousYearManureApplicationNitrogenCredit;
                         else
                         {
                             // lookup default Nitrogen credit
@@ -52,20 +52,20 @@ namespace SERVERAPI.ViewComponents
                     }
                     else
                     {
-                        fld.prevYearManureApplicationNitrogenCredit = null;
+                        fld.PreviousYearManureApplicationNitrogenCredit = null;
                         _ud.UpdateField(fld);
                     }
                 }
                 else
                 {
-                    fld.prevYearManureApplicationNitrogenCredit = null;
+                    fld.PreviousYearManureApplicationNitrogenCredit = null;
                     _ud.UpdateField(fld);
                 }
             }
             else
             {
                 //reset the nitrogen credit to null
-                fld.prevYearManureApplicationNitrogenCredit = null;
+                fld.PreviousYearManureApplicationNitrogenCredit = null;
                 _ud.UpdateField(fld);
             }
             return Task.FromResult(manureVM);
