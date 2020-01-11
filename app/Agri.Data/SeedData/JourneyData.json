@@ -155,8 +155,7 @@
             "Controller": "ManureManagement",
             "Action": "ManureNutrientAnalysis",
             "PreviousPage": "/RanchManure/Index",
-            "NextController": "Fields",
-            "NextAction": "Fields",
+            "NextPage": "/RanchFields/Index",
             "SortNumber": 3
           }
         ]
@@ -169,10 +168,12 @@
           {
             "Name": "Add Field",
             "Page": "/RanchFields/Index",
+            "PreviousPage": null,
             "PreviousController": "ManureManagement",
             "PreviousAction": "ManureNutrientAnalysis",
             "NextController": "Soil",
             "NextAction": "SoilTest",
+            "NextPage": null,
             "SortNumber": 1
           },
           {
