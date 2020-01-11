@@ -39,7 +39,7 @@
             },
             "spec": {
                 "lookupPolicy": {
-                    "local": false
+                    "local": true
                 },
                 "tags": [
                     {
@@ -47,24 +47,15 @@
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-31-rhel7"
+                            "name": "dotnet-31-rhel7:3.1"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
                             "type": "Source"
-                        }
-                    },
-                    {
-                        "name": "3.1-1",
-                        "annotations": null,
-                        "from": {
-                            "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-31-rhel7"
                         },
-                        "importPolicy": {},
-                        "referencePolicy": {
-                            "type": "Source"
-                        }
+                        "imagePullSecrets": {
+                            "name": "11390911-agrinmpredhataccount-pull-secret"
+                        }                        
                     }
                 ]
             }
@@ -79,7 +70,7 @@
             },
             "spec": {
                 "lookupPolicy": {
-                    "local": false
+                    "local": true
                 },
                 "tags": [
                     {
@@ -87,24 +78,15 @@
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-31-runtime-rhel7"
+                            "name": "dotnet-31-runtime-rhel7:3.1"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
                             "type": "Source"
-                        }
-                    },
-                    {
-                        "name": "3.1-1",
-                        "annotations": null,
-                        "from": {
-                            "kind": "DockerImage",
-                            "name": "registry.access.redhat.com/dotnet/dotnet-31-runtime-rhel7"
                         },
-                        "importPolicy": {},
-                        "referencePolicy": {
-                            "type": "Source"
-                        }
+                        "imagePullSecrets": {
+                            "name": "11390911-agrinmpredhataccount-pull-secret"
+                        }                          
                     }
                 ]
             }
