@@ -1896,6 +1896,7 @@ namespace Agri.Data
             response.CropSoilTestPotassiumRegions = _mapper.Map<List<CropSoilTestPotassiumRegion>, List<CropSoilTestPotassiumRegion>>(staticDataVersionToLoad.CropSoilTestPotassiumRegions).ToList();
             response.CropTypes = _mapper.Map<List<CropType>, List<CropType>>(staticDataVersionToLoad.CropTypes).ToList();
             response.CropYields = _mapper.Map<List<CropYield>, List<CropYield>>(staticDataVersionToLoad.CropYields).ToList();
+            response.DailyFeedRequirements = _mapper.Map<List<DailyFeedRequirement>, List<DailyFeedRequirement>>(staticDataVersionToLoad.DailyFeedRequirements).ToList();
             response.DefaultSoilTests = _mapper.Map<List<DefaultSoilTest>, List<DefaultSoilTest>>(staticDataVersionToLoad.DefaultSoilTests).ToList();
             response.DensityUnits = _mapper.Map<List<DensityUnit>, List<DensityUnit>>(staticDataVersionToLoad.DensityUnits).ToList();
             response.DryMatters = _mapper.Map<List<DryMatter>, List<DryMatter>>(staticDataVersionToLoad.DryMatters).ToList();
@@ -1947,6 +1948,7 @@ namespace Agri.Data
             response.CropSoilTestPotassiumRegions.ForEach(n => n.SetVersion(response));
             response.CropTypes.ForEach(n => n.SetVersion(response));
             response.CropYields.ForEach(n => n.SetVersion(response));
+            response.DailyFeedRequirements.ForEach(n => n.SetVersion(response));
             response.DefaultSoilTests.ForEach(n => n.SetVersion(response));
             response.DensityUnits.ForEach(n => n.SetVersion(response));
             response.DryMatters.ForEach(n => n.SetVersion(response));
