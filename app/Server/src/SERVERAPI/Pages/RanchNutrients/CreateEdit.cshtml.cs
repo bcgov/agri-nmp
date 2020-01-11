@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Agri.Data;
 using Agri.Models;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using AutoMapper;
 using FluentValidation;
@@ -68,11 +69,31 @@ namespace SERVERAPI.Pages.RanchNutrients
             else if (Data.PostedElementEvent == ElementEvent.NutrientAnalysisChanged)
             {
                 Data.ShowCustomCheckbox = Data.SelectedNutrientAnalysis > 0;
+
+                Data = await _mediator.Send(new BookValueQuery { PopulatedData = Data });
+
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
             }
             else
             {
+                if (Data.UseCustomAnalysis)
+                {
+                    var validations = await _mediator.Send(new ValidationListsQuery { ManureName = Data.ManureName });
+
+                    if (validations.FarmManures.Any(a => a.Customized && Data.UseCustomAnalysis &&
+                         a.Name.Equals(Data.ManureName) &&
+                         a.Id != Data.Id))
+                    {
+                        ModelState.AddModelError("ManureName", "Descriptions must be unique.");
+                    }
+
+                    if (validations.NutrientAnalyticNamesUsedAsManureName)
+                    {
+                        ModelState.AddModelError("ManureName", "Description cannot match predefined entries.");
+                    }
+                }
+
                 if (ModelState.IsValid)
                 {
                     if (IsModal)
@@ -97,7 +118,17 @@ namespace SERVERAPI.Pages.RanchNutrients
             public Command PopulatedData { get; set; }
         }
 
-        public class Command : IRequest<Unit>
+        public class BookValueQuery : IRequest<Command>
+        {
+            public Command PopulatedData { get; set; }
+        }
+
+        public class ValidationListsQuery : IRequest<ValidationLists>
+        {
+            public string ManureName { get; set; }
+        }
+
+        public class Command : IRequest<MediatR.Unit>
         {
             public int? Id { get; set; }
             public List<RanchManure> RanchManures { get; set; }
@@ -112,34 +143,39 @@ namespace SERVERAPI.Pages.RanchNutrients
 
             public ManureMaterialType MaterialType { get; set; }
 
-            [Display(Name = "Moisture (%)")]
-            public decimal? Moisture { get; set; }
+            //[Display(Name = "Moisture (%)")]
+            //public decimal? Moisture { get; set; }
 
-            [Display(Name = "N (%)")]
-            public decimal? Nitrogen { get; set; }
+            //[Display(Name = "N (%)")]
+            //public decimal? Nitrogen { get; set; }
 
-            [Display(Name = "NH<sub>4</sub>-N (ppm)")]
-            public decimal? Ammonia { get; set; }
+            //[Display(Name = "NH<sub>4</sub>-N (ppm)")]
+            //public decimal? Ammonia { get; set; }
 
-            [Display(Name = "P (%)")]
-            public decimal? Phosphorous { get; set; }
+            //[Display(Name = "P (%)")]
+            //public decimal? Phosphorous { get; set; }
 
-            [Display(Name = "K (%)")]
-            public decimal? Potassium { get; set; }
+            //[Display(Name = "K (%)")]
+            //public decimal? Potassium { get; set; }
 
-            [Display(Name = "NO<sub>3</sub>-N (ppm)")]
-            public decimal? Nitrate { get; set; }
+            //[Display(Name = "NO<sub>3</sub>-N (ppm)")]
+            //public decimal? Nitrate { get; set; }
+            public ManureAnalyticValues AnalyticValues { get; set; }
 
             public bool UseBookValue { get; set; } = true;
             public bool Compost { get; set; }
-            public decimal MoistureBook { get; set; }
-            public decimal NitrogenBook { get; set; }
-            public decimal AmmoniaBook { get; set; }
-            public decimal NitrateBook { get; set; }
-            public decimal PhosphorousBook { get; set; }
-            public decimal PotassiumBook { get; set; }
-            public bool ShowNitrate { get; set; }
+
+            public ManureNutrientBookValues BookValues { get; set; }
+
+            //public decimal MoistureBook { get; set; }
+            //public decimal NitrogenBook { get; set; }
+            //public decimal AmmoniaBook { get; set; }
+            //public decimal NitrateBook { get; set; }
+            //public decimal PhosphorousBook { get; set; }
+            //public decimal PotassiumBook { get; set; }
+            //public bool ShowNitrate { get; set; }
             public NutrientAnalysisTypes StoredImported { get; set; }
+
             public string ExplainNutrientAnalysisMoisture { get; set; }
             public string ExplainNutrientAnalysisNitrogen { get; set; }
             public string ExplainNutrientAnlalysisAmmonia { get; set; }
@@ -159,6 +195,49 @@ namespace SERVERAPI.Pages.RanchNutrients
                 [IgnoreMap]
                 public bool Selected { get; set; }
             }
+
+            public class ManureAnalyticValues
+            {
+                [Display(Name = "Moisture (%)")]
+                public decimal? Moisture { get; set; }
+
+                [Display(Name = "N (%)")]
+                public decimal? Nitrogen { get; set; }
+
+                [Display(Name = "NH<sub>4</sub>-N (ppm)")]
+                public decimal? Ammonia { get; set; }
+
+                [Display(Name = "P (%)")]
+                public decimal? Phosphorous { get; set; }
+
+                [Display(Name = "K (%)")]
+                public decimal? Potassium { get; set; }
+
+                [Display(Name = "NO<sub>3</sub>-N (ppm)")]
+                public decimal? Nitrate { get; set; }
+            }
+
+            public class ManureNutrientBookValues
+            {
+                public decimal Moisture { get; set; }
+
+                public decimal Nitrogen { get; set; }
+
+                public decimal Ammonia { get; set; }
+
+                public decimal Phosphorous { get; set; }
+
+                public decimal Potassium { get; set; }
+
+                public decimal Nitrate { get; set; }
+                public bool ShowNitrate { get; set; }
+            }
+        }
+
+        public class ValidationLists
+        {
+            public List<FarmManure> FarmManures { get; set; }
+            public bool NutrientAnalyticNamesUsedAsManureName { get; set; }
         }
 
         public enum ElementEvent
@@ -175,8 +254,10 @@ namespace SERVERAPI.Pages.RanchNutrients
             {
                 CreateMap<ManagedManure, Command.RanchManure>()
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
-                //CreateMap<ImportedManure, Command.RanchManure>()
-                //    .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
+                CreateMap<Manure, Command.ManureAnalyticValues>()
+                    .ForMember(m => m.Moisture, opts => opts.MapFrom(s => string.IsNullOrEmpty(s.Moisture) ? default(decimal?) : Convert.ToInt32(s.Moisture)));
+                CreateMap<Manure, Command.ManureNutrientBookValues>()
+                    .ForMember(m => m.Moisture, opts => opts.MapFrom(s => string.IsNullOrEmpty(s.Moisture) ? default(decimal?) : Convert.ToInt32(s.Moisture)));
             }
         }
 
@@ -188,26 +269,28 @@ namespace SERVERAPI.Pages.RanchNutrients
                 {
                     RuleFor(m => m.ManureName).NotNull().WithMessage("Material Name is required")
                         .NotEmpty().WithMessage("Material Name is required");
-                    RuleFor(m => m.Moisture).NotNull().WithMessage("Required")
+                    RuleFor(m => m.AnalyticValues.Moisture).NotNull().WithMessage("Required")
                         .InclusiveBetween(0, 100).WithMessage("Invalid %");
                     //TODO Moisture for Manure type
-                    RuleFor(m => m.Nitrogen).NotNull().WithMessage("Required")
+                    RuleFor(m => m.AnalyticValues.Nitrogen).NotNull().WithMessage("Required")
+                    .InclusiveBetween(0, 100).WithMessage("Invalid %");
+                    RuleFor(m => m.AnalyticValues.Ammonia).NotNull().WithMessage("Required");
+                    RuleFor(m => m.AnalyticValues.Phosphorous).NotNull().WithMessage("Required")
                         .InclusiveBetween(0, 100).WithMessage("Invalid %");
-                    RuleFor(m => m.Ammonia).NotNull().WithMessage("Required");
-                    RuleFor(m => m.Phosphorous).NotNull().WithMessage("Required")
+                    RuleFor(m => m.AnalyticValues.Potassium).NotNull().WithMessage("Required")
                         .InclusiveBetween(0, 100).WithMessage("Invalid %");
-                    RuleFor(m => m.Potassium).NotNull().WithMessage("Required")
-                        .InclusiveBetween(0, 100).WithMessage("Invalid %");
-                    When(m => m.ShowNitrate, () =>
+                    When(m => m.BookValues != null && m.BookValues.ShowNitrate, () =>
                     {
-                        RuleFor(m => m.Nitrate).NotNull().WithMessage("Required");
+                        RuleFor(m => m.AnalyticValues.Nitrate).NotNull().WithMessage("Required");
                     });
                 });
             }
         }
 
         public class Handler : IRequestHandler<Query, Command>,
-            IRequestHandler<LookupDataQuery, Command>
+            IRequestHandler<BookValueQuery, Command>,
+            IRequestHandler<LookupDataQuery, Command>,
+            IRequestHandler<ValidationListsQuery, ValidationLists>
         {
             private readonly UserData _ud;
             private readonly IMapper _mapper;
@@ -234,7 +317,7 @@ namespace SERVERAPI.Pages.RanchNutrients
                 return await Task.FromResult(command);
             }
 
-            public Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
+            public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
                 //var ranchManures = _ud.
@@ -265,6 +348,29 @@ namespace SERVERAPI.Pages.RanchNutrients
                     command.ExplainNutrientAnlalysisPhosphorous = prompts["NutrientAnlalysisPhosphorousMessage"];
                     command.ExplainNutrientAnlalysisPotassium = prompts["NutrientAnlalysisPotassiumMessage"];
                 }
+
+                return await Task.FromResult(command);
+            }
+
+            public async Task<ValidationLists> Handle(ValidationListsQuery request, CancellationToken cancellationToken)
+            {
+                var validationLists = new ValidationLists
+                {
+                    FarmManures = _ud.GetFarmManures(),
+                    NutrientAnalyticNamesUsedAsManureName = _sd.GetManures()
+                        .Any(m => m.Name.Equals(request.ManureName, StringComparison.CurrentCultureIgnoreCase))
+                };
+
+                return await Task.FromResult(validationLists);
+            }
+
+            public Task<Command> Handle(BookValueQuery request, CancellationToken cancellationToken)
+            {
+                var command = request.PopulatedData;
+
+                var manure = _sd.GetManure(request.PopulatedData.SelectedNutrientAnalysis);
+                command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(manure);
+                command.AnalyticValues = _mapper.Map<Command.ManureAnalyticValues>(manure);
 
                 return Task.FromResult(command);
             }
