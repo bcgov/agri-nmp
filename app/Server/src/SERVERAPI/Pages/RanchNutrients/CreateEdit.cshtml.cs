@@ -194,6 +194,14 @@ namespace SERVERAPI.Pages.RanchNutrients
                     RuleFor(m => m.Nitrogen).NotNull().WithMessage("Required")
                         .InclusiveBetween(0, 100).WithMessage("Invalid %");
                     RuleFor(m => m.Ammonia).NotNull().WithMessage("Required");
+                    RuleFor(m => m.Phosphorous).NotNull().WithMessage("Required")
+                        .InclusiveBetween(0, 100).WithMessage("Invalid %");
+                    RuleFor(m => m.Potassium).NotNull().WithMessage("Required")
+                        .InclusiveBetween(0, 100).WithMessage("Invalid %");
+                    When(m => m.ShowNitrate, () =>
+                    {
+                        RuleFor(m => m.Nitrate).NotNull().WithMessage("Required");
+                    });
                 });
             }
         }
