@@ -39,9 +39,9 @@ namespace SERVERAPI.ViewComponents
             foreach (var f in fldList)
             {
                 Field nf = new Field();
-                nf.fieldName = f.fieldName;
-                nf.area = f.area;
-                nf.comment = f.comment;
+                nf.FieldName = f.FieldName;
+                nf.Area = f.Area;
+                nf.Comment = f.Comment;
                 nf.crops = f.crops;
 
                 fvm.fields.Add(nf);

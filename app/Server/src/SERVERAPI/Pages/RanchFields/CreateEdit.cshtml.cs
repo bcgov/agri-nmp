@@ -135,15 +135,14 @@ namespace SERVERAPI.Pages.RanchFields
             public MappingProfile()
             {
                 CreateMap<Field, Command>()
-//Command as Destination
-.ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.area.ToString("G29")))
-.ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.comment))
-.ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.prevYearManureApplicationFrequency))
-.ReverseMap()
-//FarmField as Destination
-.ForMember(m => m.area, opts => opts.MapFrom(s => s.FieldArea != null ? Convert.ToDecimal(s.FieldArea) : 0))
-.ForMember(m => m.SeasonalFeedingArea, opts => opts.MapFrom(s => s.IsSeasonalFeedingArea ? "Yes" : "No"))
-;
+                //Command as Destination
+                .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area.ToString("G29")))
+                .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
+                .ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.PreviousYearManureApplicationFrequency))
+                .ReverseMap()
+                //FarmField as Destination
+                .ForMember(m => m.Area, opts => opts.MapFrom(s => s.FieldArea != null ? Convert.ToDecimal(s.FieldArea) : 0))
+                .ForMember(m => m.SeasonalFeedingArea, opts => opts.MapFrom(s => s.IsSeasonalFeedingArea ? "Yes" : "No")); ;
             }
         }
 
@@ -219,7 +218,6 @@ namespace SERVERAPI.Pages.RanchFields
 
             public async Task<MediatR.Unit> Handle(Command message, CancellationToken cancellationToken)
             {
-                //var field = _mapper.Map<Command, Field>(message);
                 var field = new Field();
                 //field.Id = message.Id;
                 //field.fieldName = message.FieldName;
