@@ -58,6 +58,12 @@ namespace SERVERAPI.Pages.RanchNutrients
             if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
             {
                 Data.UseBookValue = !Data.UseCustomAnalysis;
+
+                if (Data.UseCustomAnalysis)
+                {
+                    Data = await _mediator.Send(new BookValueQuery { PopulatedData = Data });
+                }
+
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
             }
@@ -69,8 +75,6 @@ namespace SERVERAPI.Pages.RanchNutrients
             else if (Data.PostedElementEvent == ElementEvent.NutrientAnalysisChanged)
             {
                 Data.ShowCustomCheckbox = Data.SelectedNutrientAnalysis > 0;
-
-                Data = await _mediator.Send(new BookValueQuery { PopulatedData = Data });
 
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
@@ -96,6 +100,11 @@ namespace SERVERAPI.Pages.RanchNutrients
 
                 if (ModelState.IsValid)
                 {
+                    if (Data.UseBookValue)
+                    {
+                        Data = await _mediator.Send(new BookValueQuery { PopulatedData = Data });
+                    }
+
                     if (IsModal)
                     {
                         return this.RedirectToPageJson(nameof(Index));
@@ -142,38 +151,11 @@ namespace SERVERAPI.Pages.RanchNutrients
             public string ManureName { get; set; }
 
             public ManureMaterialType MaterialType { get; set; }
-
-            //[Display(Name = "Moisture (%)")]
-            //public decimal? Moisture { get; set; }
-
-            //[Display(Name = "N (%)")]
-            //public decimal? Nitrogen { get; set; }
-
-            //[Display(Name = "NH<sub>4</sub>-N (ppm)")]
-            //public decimal? Ammonia { get; set; }
-
-            //[Display(Name = "P (%)")]
-            //public decimal? Phosphorous { get; set; }
-
-            //[Display(Name = "K (%)")]
-            //public decimal? Potassium { get; set; }
-
-            //[Display(Name = "NO<sub>3</sub>-N (ppm)")]
-            //public decimal? Nitrate { get; set; }
             public ManureAnalyticValues AnalyticValues { get; set; }
 
             public bool UseBookValue { get; set; } = true;
-            public bool Compost { get; set; }
 
             public ManureNutrientBookValues BookValues { get; set; }
-
-            //public decimal MoistureBook { get; set; }
-            //public decimal NitrogenBook { get; set; }
-            //public decimal AmmoniaBook { get; set; }
-            //public decimal NitrateBook { get; set; }
-            //public decimal PhosphorousBook { get; set; }
-            //public decimal PotassiumBook { get; set; }
-            //public bool ShowNitrate { get; set; }
             public NutrientAnalysisTypes StoredImported { get; set; }
 
             public string ExplainNutrientAnalysisMoisture { get; set; }
@@ -199,7 +181,7 @@ namespace SERVERAPI.Pages.RanchNutrients
             public class ManureAnalyticValues
             {
                 [Display(Name = "Moisture (%)")]
-                public decimal? Moisture { get; set; }
+                public string Moisture { get; set; }
 
                 [Display(Name = "N (%)")]
                 public decimal? Nitrogen { get; set; }
@@ -219,7 +201,7 @@ namespace SERVERAPI.Pages.RanchNutrients
 
             public class ManureNutrientBookValues
             {
-                public decimal Moisture { get; set; }
+                public string Moisture { get; set; }
 
                 public decimal Nitrogen { get; set; }
 
@@ -228,9 +210,7 @@ namespace SERVERAPI.Pages.RanchNutrients
                 public decimal Phosphorous { get; set; }
 
                 public decimal Potassium { get; set; }
-
-                public decimal Nitrate { get; set; }
-                public bool ShowNitrate { get; set; }
+                //Beef manures don't have Custom Only or Nitrate
             }
         }
 
@@ -254,10 +234,8 @@ namespace SERVERAPI.Pages.RanchNutrients
             {
                 CreateMap<ManagedManure, Command.RanchManure>()
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
-                CreateMap<Manure, Command.ManureAnalyticValues>()
-                    .ForMember(m => m.Moisture, opts => opts.MapFrom(s => string.IsNullOrEmpty(s.Moisture) ? default(decimal?) : Convert.ToInt32(s.Moisture)));
-                CreateMap<Manure, Command.ManureNutrientBookValues>()
-                    .ForMember(m => m.Moisture, opts => opts.MapFrom(s => string.IsNullOrEmpty(s.Moisture) ? default(decimal?) : Convert.ToInt32(s.Moisture)));
+                CreateMap<Manure, Command.ManureAnalyticValues>();
+                CreateMap<Manure, Command.ManureNutrientBookValues>();
             }
         }
 
@@ -265,12 +243,17 @@ namespace SERVERAPI.Pages.RanchNutrients
         {
             public CommandValidator()
             {
+                RuleFor(m => m.RanchManures).Must(m => m.Any(rm => rm.Selected))
+                    .WithMessage("One or more materials must be checked");
+                RuleFor(m => m.SelectedNutrientAnalysis).GreaterThan(0)
+                    .WithMessage("A nutrient analysis must be selected");
                 When(m => !m.UseBookValue, () =>
                 {
                     RuleFor(m => m.ManureName).NotNull().WithMessage("Material Name is required")
                         .NotEmpty().WithMessage("Material Name is required");
                     RuleFor(m => m.AnalyticValues.Moisture).NotNull().WithMessage("Required")
-                        .InclusiveBetween(0, 100).WithMessage("Invalid %");
+                        .NotEmpty().WithMessage("Required");
+                    //.InclusiveBetween(0, 100).WithMessage("Invalid %");
                     //TODO Moisture for Manure type
                     RuleFor(m => m.AnalyticValues.Nitrogen).NotNull().WithMessage("Required")
                     .InclusiveBetween(0, 100).WithMessage("Invalid %");
@@ -279,10 +262,6 @@ namespace SERVERAPI.Pages.RanchNutrients
                         .InclusiveBetween(0, 100).WithMessage("Invalid %");
                     RuleFor(m => m.AnalyticValues.Potassium).NotNull().WithMessage("Required")
                         .InclusiveBetween(0, 100).WithMessage("Invalid %");
-                    When(m => m.BookValues != null && m.BookValues.ShowNitrate, () =>
-                    {
-                        RuleFor(m => m.AnalyticValues.Nitrate).NotNull().WithMessage("Required");
-                    });
                 });
             }
         }
