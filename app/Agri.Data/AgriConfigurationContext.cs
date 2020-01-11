@@ -26,6 +26,7 @@ namespace Agri.Data
         public DbSet<CropSoilTestPotassiumRegion> CropSoilTestPotassiumRegions { get; set; }
         public DbSet<CropSoilTestPhosphorousRegion> CropSoilTestPhosphorousRegions { get; set; }
         public DbSet<CropType> CropTypes { get; set; }
+        public DbSet<DailyFeedRequirement> DailyFeedRequirements { get; set; }
         public DbSet<DefaultSoilTest> DefaultSoilTests { get; set; }
         public DbSet<DensityUnit> DensityUnits { get; set; }
         public DbSet<DryMatter> DryMatters { get; set; }
@@ -158,6 +159,13 @@ namespace Agri.Data
                     table.LocationId,
                     table.StaticDataVersionId
                 });
+
+            modelBuilder.Entity<DailyFeedRequirement>()
+               .HasKey(table => new
+               {
+                   table.Id,
+                   table.StaticDataVersionId
+               });
 
             modelBuilder.Entity<DefaultSoilTest>()
                 .HasKey(table => new
@@ -679,6 +687,7 @@ namespace Agri.Data
             modelBuilder.Entity<CropSoilTestPotassiumRegion>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<CropType>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<CropYield>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
+            modelBuilder.Entity<DailyFeedRequirement>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DefaultSoilTest>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DensityUnit>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DryMatter>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);

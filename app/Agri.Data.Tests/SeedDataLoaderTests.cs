@@ -105,6 +105,7 @@ namespace Agri.Data.Tests
             agriConfigurationDb.CropSoilTestPotassiumRegions.Any().ShouldBeTrue();
             agriConfigurationDb.CropTypes.Any().ShouldBeTrue();
             agriConfigurationDb.CropYields.Any().ShouldBeTrue();
+            agriConfigurationDb.DailyFeedRequirements.Any().ShouldBeTrue();
             agriConfigurationDb.DefaultSoilTests.Any().ShouldBeTrue();
             agriConfigurationDb.DensityUnits.Any().ShouldBeTrue();
             agriConfigurationDb.DryMatters.Any().ShouldBeTrue();
