@@ -481,7 +481,7 @@ namespace SERVERAPI.Controllers
 
             foreach (var fld in flds)
             {
-                List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.fieldName);
+                List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.FieldName);
 
                 foreach (var nm in mans)
                 {
@@ -512,7 +512,7 @@ namespace SERVERAPI.Controllers
                         nm.ltP2o5 = nutrientInputs.P2O5_LongTerm;
                         nm.ltK2o = nutrientInputs.K2O_LongTerm;
 
-                        _ud.UpdateFieldNutrientsManure(fld.fieldName, nm);
+                        _ud.UpdateFieldNutrientsManure(fld.FieldName, nm);
                     }
                 }
             }
@@ -535,7 +535,7 @@ namespace SERVERAPI.Controllers
 
             foreach (var fld in flds)
             {
-                List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.fieldName);
+                List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.FieldName);
 
                 foreach (var man in mans)
                 {
@@ -568,13 +568,13 @@ namespace SERVERAPI.Controllers
 
                     foreach (var fld in flds)
                     {
-                        List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.fieldName);
+                        List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.FieldName);
 
                         foreach (var man in mans)
                         {
                             if (dvm.id.ToString() == man.manureId)
                             {
-                                _ud.DeleteFieldNutrientsManure(fld.fieldName, man.id);
+                                _ud.DeleteFieldNutrientsManure(fld.FieldName, man.id);
                             }
                         }
                     }

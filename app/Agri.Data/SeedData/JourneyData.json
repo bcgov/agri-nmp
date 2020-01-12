@@ -155,34 +155,32 @@
             "Controller": "ManureManagement",
             "Action": "ManureNutrientAnalysis",
             "PreviousPage": "/RanchManure/Index",
-            "NextController": "Fields",
-            "NextAction": "Fields",
+            "NextPage": "/RanchFields/Index",
             "SortNumber": 3
           }
         ]
       },
       {
         "Name": "Fields and Soil",
-        "Controller": "Fields",
-        "Action": "Fields",
+        "Page": "/RanchFields/Index",
         "SortNumber": 3,
         "SubMenus": [
           {
-            "Name": "Field List",
-            "Controller": "Fields",
-            "Action": "Fields",
+            "Name": "Add Field",
+            "Page": "/RanchFields/Index",
+            "PreviousPage": null,
             "PreviousController": "ManureManagement",
             "PreviousAction": "ManureNutrientAnalysis",
             "NextController": "Soil",
             "NextAction": "SoilTest",
+            "NextPage": null,
             "SortNumber": 1
           },
           {
             "Name": "Soil Tests",
             "Controller": "Soil",
             "Action": "SoilTest",
-            "PreviousController": "Fields",
-            "PreviousAction": "Fields",
+            "PreviousPage": "/RanchFields/Index",
             "NextController": "Feeding",
             "NextAction": "Feeding",
             "SortNumber": 2

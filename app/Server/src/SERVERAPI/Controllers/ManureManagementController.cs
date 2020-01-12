@@ -3187,7 +3187,7 @@ namespace SERVERAPI.Controllers
 
             foreach (var fld in flds)
             {
-                List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.fieldName);
+                List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.FieldName);
 
                 foreach (var man in mans)
                 {
@@ -3220,13 +3220,13 @@ namespace SERVERAPI.Controllers
 
                     foreach (var fld in flds)
                     {
-                        List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.fieldName);
+                        List<NutrientManure> mans = _ud.GetFieldNutrientsManures(fld.FieldName);
 
                         foreach (var man in mans)
                         {
                             if (dvm.id.ToString() == man.manureId)
                             {
-                                _ud.DeleteFieldNutrientsManure(fld.fieldName, man.id);
+                                _ud.DeleteFieldNutrientsManure(fld.FieldName, man.id);
                             }
                         }
                     }
