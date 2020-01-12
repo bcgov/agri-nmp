@@ -32,7 +32,7 @@ namespace Agri.Data
         private List<CropSoilTestPhosphorousRegion> _cropSoilTestPhosphorousRegions;
         private List<CropSoilTestPotassiumRegion> _cropSoilTestPotassiumRegions;
         private StaticDataVersion _currentStaticDataVersion;
-        private DailyFeedRequirement _dailyFeedRequirements;
+        private List<DailyFeedRequirement> _dailyFeedRequirements;
         private DefaultSoilTest _defaultSoilTests;
         private List<DensityUnit> _densityUnits;
         private List<DryMatter> _dryMatters;
@@ -397,13 +397,13 @@ namespace Agri.Data
             return _cropYields;
         }
 
-        public DailyFeedRequirement GetDailyFeedRequirement()
+        public List<DailyFeedRequirement> GetDailyFeedRequirement()
         {
             if (_dailyFeedRequirements == null)
             {
                 _dailyFeedRequirements = _context.DailyFeedRequirements.AsNoTracking()
                 .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
-                .FirstOrDefault();
+                .ToList();
             }
 
             return _dailyFeedRequirements;

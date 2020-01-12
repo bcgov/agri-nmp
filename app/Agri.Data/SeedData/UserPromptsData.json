@@ -358,5 +358,10 @@
     "Id": 77,
     "Name": "NoNutrientAnalysisAddedWarning",
     "Text": "Warning: To add manure applications to a field, the calculator requires some information about the kind of manure being applied.  Complete the information on the nutrient analysis screen for each source of manure."
+  },
+  {
+    "Id": 78,
+    "Name": "DailyFeedWarning",
+    "Text": "The daily feed requirements used to estimate nutrients added in seasonal feeding area from feeds. Medium(2.6%) is appropriate for XX animals"
   }
 ]

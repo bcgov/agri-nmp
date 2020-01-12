@@ -291,7 +291,21 @@ namespace SERVERAPI.Models.Impl
             fld.PreviousYearManureApplicationFrequency = updtFld.PreviousYearManureApplicationFrequency;
             fld.PreviousYearManureApplicationNitrogenCredit = updtFld.PreviousYearManureApplicationNitrogenCredit;
             fld.SoilTestNitrateOverrideNitrogenCredit = updtFld.SoilTestNitrateOverrideNitrogenCredit;
-
+            fld.SelectMatureAnimalDailyFeed = updtFld.SelectMatureAnimalDailyFeed;
+            fld.SelectGrowingAnimalDailyFeed = updtFld.SelectGrowingAnimalDailyFeed;
+            fld.IsSeasonalFeedingArea = updtFld.IsSeasonalFeedingArea;
+            fld.SeasonalFeedingArea = updtFld.SeasonalFeedingArea;
+            if (!fld.IsSeasonalFeedingArea)
+            {
+                fld.SelectMatureAnimalDailyFeed = string.Empty;
+                fld.SelectGrowingAnimalDailyFeed = string.Empty;
+                fld.FeedingPercentage = null;
+                fld.FeedingValueDays = null;
+                fld.GrowingAnimalAverage = null;
+                fld.GrowingAnimalCount = null;
+                fld.MatureAnimalAverage = null;
+                fld.MatureAnimalCount = null;
+            }
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 

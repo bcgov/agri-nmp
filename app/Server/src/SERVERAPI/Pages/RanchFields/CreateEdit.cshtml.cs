@@ -108,12 +108,16 @@ namespace SERVERAPI.Pages.RanchFields
 
             public bool IsSeasonalFeedingArea { get; set; }
             public string SeasonalFeedingArea { get; set; }
-            public int? FeedingValueDays { get; set; }
+            public decimal? FeedingValueDays { get; set; }
             public decimal? FeedingPercentage { get; set; }
-            public int? MatureAnimalCount { get; set; }
-            public int? GrowingAnimalCount { get; set; }
+            public decimal? MatureAnimalCount { get; set; }
+            public decimal? GrowingAnimalCount { get; set; }
             public decimal? MatureAnimalAverage { get; set; }
             public decimal? GrowingAnimalAverage { get; set; }
+            public List<DailyFeedRequirement> SelectDailyFeedOptions { get; set; }
+            public string SelectMatureAnimalDailyFeed { get; set; }
+            public string SelectGrowingAnimalDailyFeed { get; set; }
+            public string DailyFeedWarning { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -198,7 +202,17 @@ namespace SERVERAPI.Pages.RanchFields
             {
                 var command = request.PopulatedData;
                 command.SelectPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
+                command.SelectDailyFeedOptions = _sd.GetDailyFeedRequirement();
+                if (command.SelectMatureAnimalDailyFeed == null)
+                {
+                    command.SelectMatureAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
+                }
+                if (command.SelectGrowingAnimalDailyFeed == null)
+                {
+                    command.SelectGrowingAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
+                }
                 command.Placehldr = _sd.GetUserPrompt("fieldcommentplaceholder");
+                command.DailyFeedWarning = _sd.GetUserPrompt("DailyFeedWarning");
                 return await Task.FromResult(command);
             }
         }
@@ -219,21 +233,7 @@ namespace SERVERAPI.Pages.RanchFields
             public async Task<MediatR.Unit> Handle(Command message, CancellationToken cancellationToken)
             {
                 var field = new Field();
-                //field.Id = message.Id;
-                //field.fieldName = message.FieldName;
-                //field.area = message.FieldArea != null ? Convert.ToDecimal(message.FieldArea) : 0;
-                //field.comment = message.FieldComment;
-                //field.prevYearManureApplicationFrequency = message.SelectPrevYrManureOption;
-                //field.IsSeasonalFeedingArea = message.IsSeasonalFeedingArea;
-                //field.SeasonalFeedingArea = message.IsSeasonalFeedingArea ? "Yes" : "No";
                 field = _mapper.Map<Field>(message);
-
-                //field.FeedingValueDays = message.FeedingValueDays;
-                //field.FeedingPercentage = message.FeedingPercentage;
-                //field.MatureAnimalAverage = message.MatureAnimalAverage;
-                //field.MatureAnimalCount = message.MatureAnimalCount;
-                //field.GrowingAnimalAverage = message.GrowingAnimalAverage;
-                //field.GrowingAnimalCount = message.GrowingAnimalCount;
 
                 if (field.Id == 0)//Need to check here
                 {
