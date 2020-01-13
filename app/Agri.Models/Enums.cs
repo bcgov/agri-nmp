@@ -123,7 +123,7 @@ namespace Agri.Models
         RanchManureIndex,
 
         [Description("/RanchNutrients/Index")]
-        RanchNutrients
+        RanchNutrients,
 
         [Description("/RanchFields/Index")]
         RanchFieldsIndex,
