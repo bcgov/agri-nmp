@@ -124,6 +124,9 @@ namespace Agri.Models
 
         [Description("/RanchNutrients/Index")]
         RanchNutrients
+
+        [Description("/RanchFields/Index")]
+        RanchFieldsIndex,
     }
 
     public enum StorageShapes

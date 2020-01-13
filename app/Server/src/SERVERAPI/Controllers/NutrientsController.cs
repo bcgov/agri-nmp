@@ -79,7 +79,7 @@ namespace SERVERAPI.Controllers
                     {
                         cvm.fields.Add(f);
                     }
-                    cvm.currFld = cvm.fields[0].fieldName;
+                    cvm.currFld = cvm.fields[0].FieldName;
                 }
             }
             else
@@ -2345,9 +2345,9 @@ namespace SERVERAPI.Controllers
                 Field fld;
                 fld = _ud.GetFieldDetails(fldName);
                 if (nitrogenCredit != nitrogenCreditDefault)
-                    fld.prevYearManureApplicationNitrogenCredit = nitrogenCredit;
+                    fld.PreviousYearManureApplicationNitrogenCredit = nitrogenCredit;
                 else // only save non-defaulted value (ie. over-ride)
-                    fld.prevYearManureApplicationNitrogenCredit = null;
+                    fld.PreviousYearManureApplicationNitrogenCredit = null;
                 _ud.UpdateField(fld);
             }
             catch (Exception e)
@@ -2369,8 +2369,8 @@ namespace SERVERAPI.Controllers
             var field = _ud.GetFieldDetails(fldName);
             model.defaultNitrogenCredit = _chemicalBalanceMessage.CalcPrevYearManureApplDefault(field).ToString();
             model.fldName = fldName;
-            if (field.prevYearManureApplicationNitrogenCredit != null)
-                model.nitrogen = Convert.ToInt32(field.prevYearManureApplicationNitrogenCredit).ToString();
+            if (field.PreviousYearManureApplicationNitrogenCredit != null)
+                model.nitrogen = Convert.ToInt32(field.PreviousYearManureApplicationNitrogenCredit).ToString();
             else
                 model.nitrogen = model.defaultNitrogenCredit;
 

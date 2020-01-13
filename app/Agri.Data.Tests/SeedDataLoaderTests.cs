@@ -55,10 +55,10 @@ namespace Agri.Data.Tests
 
             result.SingleOrDefault(r => r.Name.Equals("Ranch", StringComparison.OrdinalIgnoreCase)).ShouldNotBeNull();
             result.SingleOrDefault(r => r.Name.Equals("Ranch", StringComparison.OrdinalIgnoreCase))
-                .MainMenus.Any(m => !string.IsNullOrWhiteSpace(m.Page) &&
-                    m.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase) &&
-                    m.SubMenus.Any(sb => sb.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase)))
-                .ShouldBeTrue();
+                 .MainMenus.Any(m => !string.IsNullOrWhiteSpace(m.Page) &&
+                     m.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase) &&
+                     m.SubMenus.Any(sb => sb.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase)))
+                 .ShouldBeTrue();
         }
 
         [Fact]

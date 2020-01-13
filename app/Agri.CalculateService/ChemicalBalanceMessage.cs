@@ -136,7 +136,7 @@ namespace Agri.CalculateService
             }
 
             //List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName);
-            foreach (var m in field.nutrients.nutrientManures)
+            foreach (var m in field.Nutrients.nutrientManures)
             {
                 chemicalBalances.balance_AgrN += Convert.ToInt64(m.yrN);
                 chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.yrP2o5);
@@ -147,7 +147,7 @@ namespace Agri.CalculateService
             }
 
             //List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
-            foreach (var f in field.nutrients.nutrientFertilizers)
+            foreach (var f in field.Nutrients.nutrientFertilizers)
             {
                 chemicalBalances.balance_AgrN += Convert.ToInt64(f.fertN);
                 chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(f.fertP2o5);
@@ -158,7 +158,7 @@ namespace Agri.CalculateService
             }
 
             //List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
-            foreach (var m in field.nutrients.nutrientOthers)
+            foreach (var m in field.Nutrients.nutrientOthers)
             {
                 chemicalBalances.balance_AgrN += Convert.ToInt64(m.ltN);
                 chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.ltP2o5);
@@ -173,14 +173,14 @@ namespace Agri.CalculateService
             //Field field = _ud.GetFieldDetails(fldName);
             if (field.crops != null)
             {
-                if (field.prevYearManureApplicationNitrogenCredit != null && field.crops.Count() > 0)
-                    chemicalBalances.balance_AgrN += Convert.ToInt32(field.prevYearManureApplicationNitrogenCredit);
+                if (field.PreviousYearManureApplicationNitrogenCredit != null && field.crops.Count() > 0)
+                    chemicalBalances.balance_AgrN += Convert.ToInt32(field.PreviousYearManureApplicationNitrogenCredit);
                 else
                     // accomodate previous version of farm data - lookup default Nitrogen credit.
                     chemicalBalances.balance_AgrN += CalcPrevYearManureApplDefault(field);
-                if (field.soilTest != null)
+                if (field.SoilTest != null)
                 {
-                    if (_sd.IsNitrateCreditApplicable(farmRegionId, field.soilTest.sampleDate, Convert.ToInt16(year)))
+                    if (_sd.IsNitrateCreditApplicable(farmRegionId, field.SoilTest.sampleDate, Convert.ToInt16(year)))
                     {
                         if (field.SoilTestNitrateOverrideNitrogenCredit != null && field.crops.Count() > 0)
                             chemicalBalances.balance_AgrN += Convert.ToInt32(Math.Round(Convert.ToDecimal(field.SoilTestNitrateOverrideNitrogenCredit)));
@@ -256,21 +256,21 @@ namespace Agri.CalculateService
             long LegumeAgronomicN = 0;
 
             //List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName)
-            var manures = field.nutrients.nutrientManures;
+            var manures = field.Nutrients.nutrientManures;
             foreach (var m in manures)
             {
                 LegumeAgronomicN += Convert.ToInt64(m.yrN);
             }
 
             //List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
-            var fertilizers = field.nutrients.nutrientFertilizers;
+            var fertilizers = field.Nutrients.nutrientFertilizers;
             foreach (var f in fertilizers)
             {
                 LegumeAgronomicN += Convert.ToInt64(f.fertN);
             }
 
             //List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
-            var others = field.nutrients.nutrientOthers;
+            var others = field.Nutrients.nutrientOthers;
             foreach (var m in others)
             {
                 LegumeAgronomicN += Convert.ToInt64(m.yrN);
@@ -278,8 +278,8 @@ namespace Agri.CalculateService
 
             //Field field = _ud.GetFieldDetails(fldName);
 
-            if (field.prevYearManureApplicationNitrogenCredit != null)
-                LegumeAgronomicN += Convert.ToInt64(field.prevYearManureApplicationNitrogenCredit);
+            if (field.PreviousYearManureApplicationNitrogenCredit != null)
+                LegumeAgronomicN += Convert.ToInt64(field.PreviousYearManureApplicationNitrogenCredit);
             else
                 LegumeAgronomicN += Convert.ToInt64(CalcPrevYearManureApplDefault(field));
 
@@ -319,7 +319,7 @@ namespace Agri.CalculateService
         {
             if (field != null)
             {
-                string prevYearManureApplFrequency = field.prevYearManureApplicationFrequency;
+                string prevYearManureApplFrequency = field.PreviousYearManureApplicationFrequency;
                 int largestPrevYearManureVolumeCategory = 0;
                 if (field.crops != null)
                 {
@@ -341,9 +341,9 @@ namespace Agri.CalculateService
             {
                 if (field.crops != null)
                 {
-                    if (field.crops.Count() > 0 && field.soilTest != null)
+                    if (field.crops.Count() > 0 && field.SoilTest != null)
                     {
-                        return field.soilTest.valNO3H * _sd.GetSoilTestNitratePPMToPoundPerAcreConversionFactor();
+                        return field.SoilTest.valNO3H * _sd.GetSoilTestNitratePPMToPoundPerAcreConversionFactor();
                     }
                 }
             }
