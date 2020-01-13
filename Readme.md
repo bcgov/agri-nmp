@@ -61,14 +61,14 @@ RedHat requires authentication to the image repository where the Dotnet images a
 
 8) In a command line with an active connection to OpenShift, and the current project set to the Tools project, run the following commands:
 
-`oc secrets link default <SECRETNAME> --for=pull`
+`oc secrets link default <SECRETNAME> --for=pull`  
 `oc secrets add serviceaccount/builder secrets/<SECRETNAME>`
 
 Where `<SECRETNAME>` is the name you specified in step 7 when you imported the secret.
 
 9) You can now import images from the Redhat repository.  For example:
 
-`oc import-image dotnet/dotnet-30-rhel7 --from=registry.redhat.io/dotnet/dotnet-30-rhel7 --confirm` 
+`oc import-image dotnet/dotnet-31-rhel7 --from=registry.redhat.io/dotnet/dotnet-31-rhel7 --confirm` 
 
 10) Adjust your builds to use this imported image
 

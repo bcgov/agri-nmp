@@ -88,7 +88,7 @@
                 "output": {
                     "to": {
                         "kind": "ImageStreamTag",
-                        "name": "${NAME}-dotnet-node:${VERSION}"
+                        "name": "${NAME}-dotnet-31-node:${VERSION}"
                     }
                 },
                 "resources": {},
