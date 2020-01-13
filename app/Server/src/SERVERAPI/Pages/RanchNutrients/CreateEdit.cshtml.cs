@@ -55,6 +55,13 @@ namespace SERVERAPI.Pages.RanchNutrients
 
         public async Task<IActionResult> OnPostAsync()
         {
+            Data.IncludedSourceOfMaterialIds.Clear();
+
+            if (Data.RanchManures.Any(rm => rm.Selected))
+            {
+                Data.IncludedSourceOfMaterialIds.AddRange(Data.RanchManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
+            }
+
             if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
             {
                 Data.UseBookValue = !Data.UseCustomAnalysis;
@@ -64,11 +71,6 @@ namespace SERVERAPI.Pages.RanchNutrients
                     Data = await _mediator.Send(new BookValueQuery { PopulatedData = Data });
                 }
 
-                ModelState.Clear();
-                Data.PostedElementEvent = ElementEvent.None;
-            }
-            else if (Data.PostedElementEvent == ElementEvent.MaterialStateChanged)
-            {
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
             }
@@ -111,6 +113,8 @@ namespace SERVERAPI.Pages.RanchNutrients
                         Data.ManureName = null;
                     }
 
+                    await _mediator.Send(Data);
+
                     if (IsModal)
                     {
                         return this.RedirectToPageJson(nameof(Index));
@@ -149,14 +153,10 @@ namespace SERVERAPI.Pages.RanchNutrients
             public List<RanchManure> RanchManures { get; set; }
             public int SelectedNutrientAnalysis { get; set; }
             public SelectList BeefNutrientAnalysisOptions { get; set; }
-
-            public string Action { get; set; }
-            public string SourceOfMaterialName { get; set; }
+            public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
 
             [Display(Name = "Material Type")]
             public string ManureName { get; set; }
-
-            public ManureMaterialType MaterialType { get; set; }
 
             public bool UseBookValue { get; set; } = true;
 
@@ -186,8 +186,6 @@ namespace SERVERAPI.Pages.RanchNutrients
             public string ExplainNutrientAnlalysisAmmonia { get; set; }
             public string ExplainNutrientAnlalysisPhosphorous { get; set; }
             public string ExplainNutrientAnlalysisPotassium { get; set; }
-            public bool IsLegacyNMPReleaseVersion { get; set; }
-            public int? LegacyNMPReleaseVersionManureId { get; set; }
             public bool UseCustomAnalysis { get; set; }
             public bool ShowCustomCheckbox { get; set; }
             public ElementEvent PostedElementEvent { get; set; }
@@ -234,6 +232,9 @@ namespace SERVERAPI.Pages.RanchNutrients
         {
             public MappingProfile()
             {
+                CreateMap<FarmManure, Command>()
+                    .ForMember(m => m.SelectedNutrientAnalysis, opts => opts.MapFrom(s => s.ManureId))
+                    .ReverseMap();
                 CreateMap<ManagedManure, Command.RanchManure>()
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
                 CreateMap<Manure, Command.ManureNutrientBookValues>();
@@ -280,7 +281,7 @@ namespace SERVERAPI.Pages.RanchNutrients
             }
         }
 
-        public class Handler : IRequestHandler<Query, Command>,
+        public class QueryHandler : IRequestHandler<Query, Command>,
             IRequestHandler<BookValueQuery, Command>,
             IRequestHandler<LookupDataQuery, Command>,
             IRequestHandler<ValidationListsQuery, ValidationLists>
@@ -290,7 +291,7 @@ namespace SERVERAPI.Pages.RanchNutrients
             private readonly IAgriConfigurationRepository _sd;
             private readonly AgriConfigurationContext _db;
 
-            public Handler(UserData ud, IMapper mapper,
+            public QueryHandler(UserData ud, IMapper mapper,
                 IAgriConfigurationRepository sd,
                 AgriConfigurationContext db)
             {
@@ -304,8 +305,11 @@ namespace SERVERAPI.Pages.RanchNutrients
             {
                 var command = new Command();
 
-                var manures = _ud.GetAllManagedManures();
-                command.RanchManures = _mapper.Map<List<Command.RanchManure>>(manures);
+                if (request.Id.HasValue)
+                {
+                    var nutrientAnalytic = _ud.GetFarmManure(request.Id.Value);
+                    command = _mapper.Map<Command>(nutrientAnalytic);
+                }
 
                 return await Task.FromResult(command);
             }
@@ -313,7 +317,14 @@ namespace SERVERAPI.Pages.RanchNutrients
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
-                //var ranchManures = _ud.
+
+                var manures = _ud.GetAllManagedManures();
+                command.RanchManures = _mapper.Map<List<Command.RanchManure>>(manures);
+                foreach (var manure in command.RanchManures)
+                {
+                    manure.Selected = request.PopulatedData.IncludedSourceOfMaterialIds.Any(m => m.Equals(manure.ManureId));
+                }
+
                 var beefManuresNutrients = _sd.GetManures()
                     .Where(m => m.ManureClass.Contains("Beef"))
                     .ToList();
@@ -368,6 +379,36 @@ namespace SERVERAPI.Pages.RanchNutrients
                 command.ManureName = "Custom - " + manure.Name + " - ";
 
                 return Task.FromResult(command);
+            }
+        }
+
+        public class CommandHandler : IRequestHandler<Command, MediatR.Unit>
+        {
+            private readonly UserData _ud;
+            private readonly IMapper _mapper;
+
+            public CommandHandler(UserData ud, IMapper mapper)
+            {
+                _ud = ud;
+                _mapper = mapper;
+            }
+
+            public async Task<MediatR.Unit> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var farmManure = _mapper.Map<FarmManure>(request);
+
+                if (request.Id.HasValue)
+                {
+                    _ud.UpdateFarmManure(farmManure);
+                    _ud.ReCalculateManure(farmManure.Id);
+                }
+                else
+                {
+                    _ud.AddFarmManure(farmManure);
+                }
+                _ud.UpdateManagedImportedManuresAllocationToNutrientAnalysis();
+
+                return await Task.FromResult(new MediatR.Unit());
             }
         }
     }

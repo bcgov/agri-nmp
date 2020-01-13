@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Agri.Models.Farm
 {
@@ -33,5 +34,6 @@ namespace Agri.Models.Farm
         public decimal? Nitrate { get; set; }
         public NutrientAnalysisTypes StoredImported { get; set; }
         public bool IsAssignedToStorage { get; set; }
+        public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
     }
 }
