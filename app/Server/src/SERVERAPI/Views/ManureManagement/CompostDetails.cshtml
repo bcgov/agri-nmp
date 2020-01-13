@@ -204,7 +204,7 @@
             <input class="btn btn-primary" type="submit" value="Save" />
         </div>
         @Html.HiddenFor(x => x.Action)
-        @Html.HiddenFor(x => x.ButtonPressed)
+        @Html.HiddenFor(x => x.ButtonPressed, new { id = "buttonPressed" })
         @Html.HiddenFor(x => x.Compost)
         @Html.HiddenFor(x => x.Target)
         @Html.HiddenFor(x => x.ManureName)

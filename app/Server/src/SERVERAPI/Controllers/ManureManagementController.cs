@@ -3111,7 +3111,7 @@ namespace SERVERAPI.Controllers
                     _ud.UpdateManagedImportedManuresAllocationToNutrientAnalysis();
                     _ud.UpdateStorageSystemsAllocationToNutrientAnalysis();
 
-                    string url = Url.Action("RefreshCompostList", "Manure");
+                    string url = Url.Action("RefreshCompostList", "ManureManagement");
                     return Json(new { success = true, url = url, target = cvm.Target });
                 }
             }
@@ -3235,7 +3235,7 @@ namespace SERVERAPI.Controllers
                 // delete the actual manure
                 _ud.DeleteFarmManure(dvm.Id);
 
-                string url = Url.Action("RefreshCompostList", "Manure");
+                string url = Url.Action("RefreshCompostList", "ManureManagement");
                 return Json(new { success = true, url = url, target = dvm.Target });
             }
             return PartialView("CompostDelete", dvm);
