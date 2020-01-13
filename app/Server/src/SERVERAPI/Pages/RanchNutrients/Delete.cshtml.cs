@@ -115,6 +115,8 @@ namespace SERVERAPI.Pages.RanchNutrients
                 public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
                 {
                     _ud.DeleteFarmManure(request.Id);
+                    _ud.UpdateManagedFarmAnimalsAllocationToNutrientAnalysis();
+                    _ud.UpdateManagedImportedManuresAllocationToNutrientAnalysis();
 
                     return await Task.FromResult(new Unit());
                 }

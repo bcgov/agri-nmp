@@ -43,6 +43,7 @@ namespace SERVERAPI.Pages.RanchNutrients
         public class Model
         {
             public List<ManureNutrientAnalysis> ManureAnalytics { get; set; }
+            public List<RanchManure> RanchManures { get; set; }
 
             public class ManureNutrientAnalysis
             {
@@ -58,6 +59,12 @@ namespace SERVERAPI.Pages.RanchNutrients
                 public int DMId { get; set; }
                 public int NMinerizationId { get; set; }
             }
+
+            public class RanchManure
+            {
+                public string ManureId { get; set; }
+                public string ManureName { get; set; }
+            }
         }
 
         public class MappingProfile : Profile
@@ -65,6 +72,8 @@ namespace SERVERAPI.Pages.RanchNutrients
             public MappingProfile()
             {
                 CreateMap<FarmManure, Model.ManureNutrientAnalysis>();
+                CreateMap<ManagedManure, Model.RanchManure>()
+                    .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
             }
         }
 
@@ -82,10 +91,12 @@ namespace SERVERAPI.Pages.RanchNutrients
             public async Task<Model> Handle(Query request, CancellationToken cancellationToken)
             {
                 var farmManures = _ud.GetFarmManures();
+                var managedManure = _ud.GetAllManagedManures().Where(mm => !mm.AssignedWithNutrientAnalysis).ToList();
 
                 var model = new Model
                 {
-                    ManureAnalytics = _mapper.Map<List<Model.ManureNutrientAnalysis>>(farmManures)
+                    ManureAnalytics = _mapper.Map<List<Model.ManureNutrientAnalysis>>(farmManures),
+                    RanchManures = _mapper.Map<List<Model.RanchManure>>(managedManure)
                 };
 
                 return await Task.FromResult(model);

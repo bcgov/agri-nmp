@@ -196,20 +196,15 @@ namespace SERVERAPI.Models.Impl
             return result;
         }
 
-        public void UpdateAnimal(FarmAnimal updAnimal)
+        public void UpdateAnimal(FarmAnimal updatedAnimal)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            FarmAnimal anml = yd.FarmAnimals.FirstOrDefault(f => f.Id == updAnimal.Id);
+            FarmAnimal animal = yd.FarmAnimals.FirstOrDefault(f => f.Id == updatedAnimal.Id);
 
-            anml.AnimalSubTypeName = updAnimal.AnimalSubTypeName;
-            anml.AnimalSubTypeId = updAnimal.AnimalSubTypeId;
-            anml.AverageAnimalNumber = updAnimal.AverageAnimalNumber;
-            anml.IsManureCollected = updAnimal.IsManureCollected;
-            anml.ManureCollected = updAnimal.ManureCollected;
-            anml.DurationDays = updAnimal.DurationDays;
-            anml.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(anml);
+            _mapper.Map(updatedAnimal, animal);
+            animal.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(animal);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -254,6 +249,24 @@ namespace SERVERAPI.Models.Impl
             }
 
             return yd.FarmAnimals;
+        }
+
+        public void UpdateManagedFarmAnimalsAllocationToNutrientAnalysis()
+        {
+            var currentManures = GetAllManagedManures().Where(mm => mm is FarmAnimal).ToList();
+            var currentFarmManures = GetFarmManures();
+
+            foreach (var manure in currentManures)
+            {
+                manure.AssignedWithNutrientAnalysis = currentFarmManures
+                    .Any(fm => fm.IncludedSourceOfMaterialIds.Any(sm =>
+                                    sm.Equals(manure.ManureId, StringComparison.OrdinalIgnoreCase)));
+
+                if (manure is FarmAnimal)
+                {
+                    UpdateAnimal(manure as FarmAnimal);
+                }
+            }
         }
 
         public void AddField(Field newFld)
@@ -1179,9 +1192,12 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var manure in currentManures)
             {
-                manure.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm =>
-                    !string.IsNullOrEmpty(fm.SourceOfMaterialId) &&
-                    (fm.SourceOfMaterialId.Split(',')[0] + fm.SourceOfMaterialId.Split(',')[1]) == manure.ManureId);
+                manure.AssignedWithNutrientAnalysis = currentFarmManures
+                    .Any(fm =>
+                        (!string.IsNullOrEmpty(fm.SourceOfMaterialId) &&
+                                (fm.SourceOfMaterialId.Split(',')[0] + fm.SourceOfMaterialId.Split(',')[1]) == manure.ManureId) ||
+                        fm.IncludedSourceOfMaterialIds.Any(sm => sm.Equals(manure.ManureId, StringComparison.OrdinalIgnoreCase))
+                    );
 
                 if (manure is ImportedManure)
                 {

@@ -324,7 +324,12 @@ namespace SERVERAPI.Pages.RanchNutrients
             {
                 var command = request.PopulatedData;
 
-                var manures = _ud.GetAllManagedManures();
+                var manures = _ud.GetAllManagedManures()
+                    .Where(mm => !mm.AssignedWithNutrientAnalysis ||
+                        request.PopulatedData.IncludedSourceOfMaterialIds
+                            .Any(im => im.Equals(mm.ManureId, StringComparison.OrdinalIgnoreCase)))
+                    .ToList();
+
                 command.RanchManures = _mapper.Map<List<Command.RanchManure>>(manures);
                 foreach (var manure in command.RanchManures)
                 {
@@ -412,6 +417,7 @@ namespace SERVERAPI.Pages.RanchNutrients
                 {
                     _ud.AddFarmManure(farmManure);
                 }
+                _ud.UpdateManagedFarmAnimalsAllocationToNutrientAnalysis();
                 _ud.UpdateManagedImportedManuresAllocationToNutrientAnalysis();
 
                 return await Task.FromResult(new MediatR.Unit());
