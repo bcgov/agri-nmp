@@ -39,7 +39,7 @@
             },
             "spec": {
                 "lookupPolicy": {
-                    "local": true
+                    "local": false
                 },
                 "tags": [
                     {
@@ -47,15 +47,12 @@
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "dotnet-31-rhel7:3.1"
+                            "name": "registry.redhat.io/dotnet/dotnet-31-rhel7:3.1"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
                             "type": "Source"
-                        },
-                        "imagePullSecrets": {
-                            "name": "11390911-agrinmpredhataccount-pull-secret"
-                        }                        
+                        }                   
                     }
                 ]
             }
@@ -70,7 +67,7 @@
             },
             "spec": {
                 "lookupPolicy": {
-                    "local": true
+                    "local": false
                 },
                 "tags": [
                     {
@@ -78,15 +75,12 @@
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "dotnet-31-runtime-rhel7:3.1"
+                            "name": "registry.redhat.io/dotnet/dotnet-31-runtime-rhel7:3.1"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
                             "type": "Source"
-                        },
-                        "imagePullSecrets": {
-                            "name": "11390911-agrinmpredhataccount-pull-secret"
-                        }                          
+                        }                     
                     }
                 ]
             }
