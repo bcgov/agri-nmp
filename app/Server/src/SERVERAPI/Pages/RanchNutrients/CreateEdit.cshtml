@@ -34,6 +34,7 @@ else
         $(document).ready(function () {
             $("body").on("click", "#cbUseCustomAnalysis", function () {
                 $('#PostedElementEvent').val("@CreateEdit.ElementEvent.UseCustomAnalysis");
+                $("#manureName").val($("#PostedElementEvent option:selected").text());
                 $("#btnSave").click();
             })
         });

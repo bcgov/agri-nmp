@@ -46,6 +46,7 @@ namespace SERVERAPI.Pages.RanchNutrients
 
             public class ManureNutrientAnalysis
             {
+                public int Id { get; set; }
                 public string Name { get; set; }
                 public string ManureClass { get; set; }
                 public string SolidLiquid { get; set; }

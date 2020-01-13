@@ -121,6 +121,10 @@
             </div>
         </div>
     }
+    else
+    {
+        <input class="form-control" asp-for="@Model.Data.ManureName" id="manureName" type="hidden" />
+    }
     <div class="modal-footer">
         <div class="float-right">
             <input class="btn btn-primary" id="btnSave" type="submit" value="Save" data-save="razor-page-modal" />

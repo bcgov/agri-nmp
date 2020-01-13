@@ -234,6 +234,7 @@ namespace SERVERAPI.Pages.RanchNutrients
             {
                 CreateMap<FarmManure, Command>()
                     .ForMember(m => m.SelectedNutrientAnalysis, opts => opts.MapFrom(s => s.ManureId))
+                    .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.Name))
                     .ReverseMap();
                 CreateMap<ManagedManure, Command.RanchManure>()
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
