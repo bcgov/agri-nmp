@@ -102,7 +102,13 @@ namespace SERVERAPI.Pages.RanchNutrients
                 {
                     if (Data.UseBookValue)
                     {
-                        Data = await _mediator.Send(new BookValueQuery { PopulatedData = Data });
+                        Data.Moisture = null;
+                        Data.Nitrogen = null;
+                        Data.Ammonia = null;
+                        Data.Nitrate = null;
+                        Data.Phosphorous = null;
+                        Data.Potassium = null;
+                        Data.ManureName = null;
                     }
 
                     if (IsModal)
@@ -151,9 +157,26 @@ namespace SERVERAPI.Pages.RanchNutrients
             public string ManureName { get; set; }
 
             public ManureMaterialType MaterialType { get; set; }
-            public ManureAnalyticValues AnalyticValues { get; set; }
 
             public bool UseBookValue { get; set; } = true;
+
+            [Display(Name = "Moisture (%)")]
+            public string Moisture { get; set; }
+
+            [Display(Name = "N (%)")]
+            public decimal? Nitrogen { get; set; }
+
+            [Display(Name = "NH<sub>4</sub>-N (ppm)")]
+            public decimal? Ammonia { get; set; }
+
+            [Display(Name = "P (%)")]
+            public decimal? Phosphorous { get; set; }
+
+            [Display(Name = "K (%)")]
+            public decimal? Potassium { get; set; }
+
+            [Display(Name = "NO<sub>3</sub>-N (ppm)")]
+            public decimal? Nitrate { get; set; }
 
             public ManureNutrientBookValues BookValues { get; set; }
             public NutrientAnalysisTypes StoredImported { get; set; }
@@ -176,27 +199,6 @@ namespace SERVERAPI.Pages.RanchNutrients
 
                 [IgnoreMap]
                 public bool Selected { get; set; }
-            }
-
-            public class ManureAnalyticValues
-            {
-                [Display(Name = "Moisture (%)")]
-                public string Moisture { get; set; }
-
-                [Display(Name = "N (%)")]
-                public decimal? Nitrogen { get; set; }
-
-                [Display(Name = "NH<sub>4</sub>-N (ppm)")]
-                public decimal? Ammonia { get; set; }
-
-                [Display(Name = "P (%)")]
-                public decimal? Phosphorous { get; set; }
-
-                [Display(Name = "K (%)")]
-                public decimal? Potassium { get; set; }
-
-                [Display(Name = "NO<sub>3</sub>-N (ppm)")]
-                public decimal? Nitrate { get; set; }
             }
 
             public class ManureNutrientBookValues
@@ -234,7 +236,6 @@ namespace SERVERAPI.Pages.RanchNutrients
             {
                 CreateMap<ManagedManure, Command.RanchManure>()
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
-                CreateMap<Manure, Command.ManureAnalyticValues>();
                 CreateMap<Manure, Command.ManureNutrientBookValues>();
             }
         }
@@ -251,16 +252,29 @@ namespace SERVERAPI.Pages.RanchNutrients
                 {
                     RuleFor(m => m.ManureName).NotNull().WithMessage("Material Name is required")
                         .NotEmpty().WithMessage("Material Name is required");
-                    RuleFor(m => m.AnalyticValues.Moisture).NotNull().WithMessage("Required")
-                        .NotEmpty().WithMessage("Required");
-                    //.InclusiveBetween(0, 100).WithMessage("Invalid %");
-                    //TODO Moisture for Manure type
-                    RuleFor(m => m.AnalyticValues.Nitrogen).NotNull().WithMessage("Required")
+                    RuleFor(m => m.Moisture).NotNull().WithMessage("Required")
+                        .NotEmpty().WithMessage("Required")
+                        .Custom((moisture, context) =>
+                        {
+                            decimal moistureDecimal;
+                            if (!decimal.TryParse(moisture, out moistureDecimal))
+                            {
+                                context.AddFailure("Moisture", "Numbers only");
+                            }
+                            else
+                            {
+                                if (moistureDecimal < 0 || moistureDecimal > 100)
+                                {
+                                    context.AddFailure("Moisture", "Invalid %");
+                                }
+                            }
+                        });
+                    RuleFor(m => m.Nitrogen).NotNull().WithMessage("Required")
                     .InclusiveBetween(0, 100).WithMessage("Invalid %");
-                    RuleFor(m => m.AnalyticValues.Ammonia).NotNull().WithMessage("Required");
-                    RuleFor(m => m.AnalyticValues.Phosphorous).NotNull().WithMessage("Required")
+                    RuleFor(m => m.Ammonia).NotNull().WithMessage("Required");
+                    RuleFor(m => m.Phosphorous).NotNull().WithMessage("Required")
                         .InclusiveBetween(0, 100).WithMessage("Invalid %");
-                    RuleFor(m => m.AnalyticValues.Potassium).NotNull().WithMessage("Required")
+                    RuleFor(m => m.Potassium).NotNull().WithMessage("Required")
                         .InclusiveBetween(0, 100).WithMessage("Invalid %");
                 });
             }
@@ -302,17 +316,19 @@ namespace SERVERAPI.Pages.RanchNutrients
                 //var ranchManures = _ud.
                 var beefManuresNutrients = _sd.GetManures()
                     .Where(m => m.ManureClass.Contains("Beef"))
-                    .Select(m => new { Id = m.Id, Name = m.Name })
                     .ToList();
 
-                command.BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients, "Id", "Name");
-
-                if (request.PopulatedData.SelectedNutrientAnalysis > 0)
-                {
-                }
+                command.BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients
+                    .Select(m => new { Id = m.Id, Name = m.Name }).ToList(), "Id", "Name");
 
                 if (!request.PopulatedData.UseBookValue)
                 {
+                    if (request.PopulatedData.SelectedNutrientAnalysis > 0)
+                    {
+                        var manure = beefManuresNutrients.Single(m => m.Id == request.PopulatedData.SelectedNutrientAnalysis);
+                        command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(manure);
+                    }
+
                     var prompts = _db.UserPrompts
                         .Where(p => new List<string>
                         {
@@ -349,7 +365,7 @@ namespace SERVERAPI.Pages.RanchNutrients
 
                 var manure = _sd.GetManure(request.PopulatedData.SelectedNutrientAnalysis);
                 command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(manure);
-                command.AnalyticValues = _mapper.Map<Command.ManureAnalyticValues>(manure);
+                command.ManureName = "Custom - " + manure.Name + " - ";
 
                 return Task.FromResult(command);
             }

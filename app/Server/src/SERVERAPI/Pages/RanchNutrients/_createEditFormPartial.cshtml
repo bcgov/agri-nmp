@@ -69,54 +69,54 @@
             <div style="clear:both"></div>
             <div class="form-group">
                 <div class="form-group col-sm-2">
-                    <label asp-for="@Model.Data.AnalyticValues.Moisture">Moisture&nbsp;(%)</label>
+                    <label asp-for="@Model.Data.Moisture">Moisture&nbsp;(%)</label>
                     <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnalysisMoisture" id="toolTipExplainNutrientAnalysisMoisture">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of moisture content" style="font-size:20px; padding-top:5px"></span>
                     </a>
                     <div class="input-group col-sm-6">
-                        <input class="form-control" asp-for="@Model.Data.AnalyticValues.Moisture" id="moisture" type="text" placeholder="@Model.Data.BookValues.Moisture" />
+                        <input class="form-control" asp-for="@Model.Data.Moisture" id="moisture" type="text" placeholder="@Model.Data.BookValues.Moisture" />
                     </div>
-                    <span asp-validation-for="@Model.Data.AnalyticValues.Moisture" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Data.Moisture" class="text-danger"></span>
                 </div>
                 <div class="form-group col-sm-2">
-                    <label asp-for="@Model.Data.AnalyticValues.Nitrogen">N&nbsp;(%)</label>
+                    <label asp-for="@Model.Data.Nitrogen">N&nbsp;(%)</label>
                     <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnalysisNitrogen" id="toolTipExplainNutrientAnalysisNitrogen">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of nitrogen content" style="font-size:20px; padding-top:5px"></span>
                     </a>
                     <div class="input-group col-sm-6">
-                        <input class="form-control" asp-for="@Model.Data.AnalyticValues.Nitrogen" id="nitrogen" type="text" placeholder="@Model.Data.BookValues.Nitrogen" />
+                        <input class="form-control" asp-for="@Model.Data.Nitrogen" id="nitrogen" type="text" placeholder="@Model.Data.BookValues.Nitrogen" />
                     </div>
-                    <span asp-validation-for="@Model.Data.AnalyticValues.Nitrogen" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Data.Nitrogen" class="text-danger"></span>
                 </div>
                 <div class="form-group col-sm-2">
-                    <label asp-for="@Model.Data.AnalyticValues.Ammonia">NH<sub>4</sub>-N&nbsp;(ppm)</label>
+                    <label asp-for="@Model.Data.Ammonia">NH<sub>4</sub>-N&nbsp;(ppm)</label>
                     <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnlalysisAmmonia" id="toolTipExplainNutrientAnlalysisAmmonia">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of NH4-N content" style="font-size:20px; padding-top:5px"></span>
                     </a>
                     <div class="input-group col-sm-6">
-                        <input class="form-control" asp-for="@Model.Data.AnalyticValues.Ammonia" id="ammonia" type="text" placeholder="@Model.Data.BookValues.Ammonia" />
+                        <input class="form-control" asp-for="@Model.Data.Ammonia" id="ammonia" type="text" placeholder="@Model.Data.BookValues.Ammonia" />
                     </div>
-                    <span asp-validation-for="@Model.Data.AnalyticValues.Ammonia" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Data.Ammonia" class="text-danger"></span>
                 </div>
                 <div class="form-group col-sm-2">
-                    <label asp-for="@Model.Data.AnalyticValues.Phosphorous">P&nbsp;(%)</label>
+                    <label asp-for="@Model.Data.Phosphorous">P&nbsp;(%)</label>
                     <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnlalysisPhosphorous" id="toolTipExplainNutrientAnlalysisPhosphorous">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of P content" style="font-size:20px; padding-top:5px"></span>
                     </a>
                     <div class="input-group col-sm-6">
-                        <input class="form-control" asp-for="@Model.Data.AnalyticValues.Phosphorous" id="phosphorous" type="text" placeholder="@Model.Data.BookValues.Phosphorous" />
+                        <input class="form-control" asp-for="@Model.Data.Phosphorous" id="phosphorous" type="text" placeholder="@Model.Data.BookValues.Phosphorous" />
                     </div>
-                    <span asp-validation-for="@Model.Data.AnalyticValues.Phosphorous" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Data.Phosphorous" class="text-danger"></span>
                 </div>
                 <div class="form-group col-sm-2">
-                    <label asp-for="@Model.Data.AnalyticValues.Potassium">K&nbsp;(%)</label>
+                    <label asp-for="@Model.Data.Potassium">K&nbsp;(%)</label>
                     <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnlalysisPotassium" id="toolTipExplainNutrientAnlalysisPotassium">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of K content" style="font-size:20px; padding-top:5px"></span>
                     </a>
                     <div class="input-group col-sm-6">
-                        <input class="form-control" asp-for="@Model.Data.AnalyticValues.Potassium" id="potassium" type="text" placeholder="@Model.Data.BookValues.Potassium" />
+                        <input class="form-control" asp-for="@Model.Data.Potassium" id="potassium" type="text" placeholder="@Model.Data.BookValues.Potassium" />
                     </div>
-                    <span asp-validation-for="@Model.Data.AnalyticValues.Potassium" class="text-danger"></span>
+                    <span asp-validation-for="@Model.Data.Potassium" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -131,5 +131,4 @@
 <input type="hidden" asp-for="Data.PostedElementEvent" id="PostedElementEvent" />
 <input type="hidden" asp-for="Data.ShowCustomCheckbox" />
 <input type="hidden" asp-for="Data.UseBookValue" />
-<input type="hidden" asp-for="Data.BookValues.ShowNitrate" />
 @*<input type="hidden" asp-for="Data." />*@
