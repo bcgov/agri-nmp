@@ -15,8 +15,7 @@
                     {
                         <tr>
                             <td style="vertical-align: text-top;">
-                                <input type="checkbox" asp-for="@Model.Data.RanchManures[i].Selected"
-                                       onclick="MaterialChanged()" />
+                                <input type="checkbox" asp-for="@Model.Data.RanchManures[i].Selected" />
                             </td>
                             <td>
                                 <label asp-for="@Model.Data.RanchManures[i].Selected">@Model.Data.RanchManures[i].ManureName</label>
@@ -127,11 +126,12 @@
     }
     <div class="modal-footer">
         <div class="float-right">
-            <input class="btn btn-primary" id="btnSave" type="submit" value="Save" data-save="razor-page-modal" />
+            <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" id="btnSave" />
         </div>
     </div>
 </div>
 @*Need to be explicit with ID because Data_ is appended to these elements*@
+<input type="hidden" asp-for="Data.Id" />
 <input type="hidden" asp-for="Data.PostedElementEvent" id="PostedElementEvent" />
 <input type="hidden" asp-for="Data.ShowCustomCheckbox" />
 <input type="hidden" asp-for="Data.UseBookValue" />

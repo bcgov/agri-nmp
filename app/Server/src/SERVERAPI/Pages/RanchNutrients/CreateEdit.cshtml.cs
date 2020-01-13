@@ -127,6 +127,11 @@ namespace SERVERAPI.Pages.RanchNutrients
             return Page();
         }
 
+        //public async Task<IActionResult> OnPostEditAsync()
+        //{
+        //    return Page();
+        //}
+
         public class Query : IRequest<Command>
         {
             public int? Id { get; set; }

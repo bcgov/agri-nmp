@@ -10,7 +10,9 @@
 
 @if (Model.IsModal)
 {
-    <form asp-page="CreateEdit" asp-route-ismodal="true" method="post" class="form-box-body">
+    var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
+    var action = Url.Page("CreateEdit", handler, new { ismodal = true });
+    <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body">
         @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
     </form>
 }
