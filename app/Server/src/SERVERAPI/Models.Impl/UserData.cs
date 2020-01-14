@@ -23,7 +23,7 @@ namespace SERVERAPI.Models.Impl
         private readonly IAgriConfigurationRepository _sd;
         private readonly ICalculateManureGeneration _calculateManureGeneration;
         private readonly ICalculateNutrients _calculateNutrients;
-        private readonly ISoilTestConverter _soilTestConversions;
+        private readonly ISoilTestConverter _SoilTestConversions;
         private readonly IMapper _mapper;
         private readonly IOptions<AppSettings> _appSettings;
 
@@ -32,7 +32,7 @@ namespace SERVERAPI.Models.Impl
             IAgriConfigurationRepository sd,
             ICalculateManureGeneration calculateManureGeneration,
             ICalculateNutrients calculateNutrients,
-            ISoilTestConverter soilTestConversions,
+            ISoilTestConverter SoilTestConversions,
             IMapper mapper,
             IOptions<AppSettings> appSettings)
         {
@@ -41,7 +41,7 @@ namespace SERVERAPI.Models.Impl
             _sd = sd;
             _calculateManureGeneration = calculateManureGeneration;
             _calculateNutrients = calculateNutrients;
-            _soilTestConversions = soilTestConversions;
+            _SoilTestConversions = SoilTestConversions;
             _mapper = mapper;
             _appSettings = appSettings;
         }
@@ -284,14 +284,28 @@ namespace SERVERAPI.Models.Impl
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             Field fld = yd.Fields.FirstOrDefault(f => f.Id == updtFld.Id);
 
-            fld.fieldName = updtFld.fieldName;
-            fld.area = updtFld.area;
-            fld.comment = updtFld.comment;
+            fld.FieldName = updtFld.FieldName;
+            fld.Area = updtFld.Area;
+            fld.Comment = updtFld.Comment;
 
-            fld.prevYearManureApplicationFrequency = updtFld.prevYearManureApplicationFrequency;
-            fld.prevYearManureApplicationNitrogenCredit = updtFld.prevYearManureApplicationNitrogenCredit;
+            fld.PreviousYearManureApplicationFrequency = updtFld.PreviousYearManureApplicationFrequency;
+            fld.PreviousYearManureApplicationNitrogenCredit = updtFld.PreviousYearManureApplicationNitrogenCredit;
             fld.SoilTestNitrateOverrideNitrogenCredit = updtFld.SoilTestNitrateOverrideNitrogenCredit;
-
+            fld.SelectMatureAnimalDailyFeed = updtFld.SelectMatureAnimalDailyFeed;
+            fld.SelectGrowingAnimalDailyFeed = updtFld.SelectGrowingAnimalDailyFeed;
+            fld.IsSeasonalFeedingArea = updtFld.IsSeasonalFeedingArea;
+            fld.SeasonalFeedingArea = updtFld.SeasonalFeedingArea;
+            if (!fld.IsSeasonalFeedingArea)
+            {
+                fld.SelectMatureAnimalDailyFeed = string.Empty;
+                fld.SelectGrowingAnimalDailyFeed = string.Empty;
+                fld.FeedingPercentage = null;
+                fld.FeedingValueDays = null;
+                fld.GrowingAnimalAverage = null;
+                fld.GrowingAnimalCount = null;
+                fld.MatureAnimalAverage = null;
+                fld.MatureAnimalCount = null;
+            }
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
@@ -300,24 +314,24 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == updtFld.fieldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == updtFld.FieldName);
 
-            if (fld.soilTest == null)
-                fld.soilTest = new SoilTest();
+            if (fld.SoilTest == null)
+                fld.SoilTest = new SoilTest();
 
-            if (updtFld.soilTest == null)
+            if (updtFld.SoilTest == null)
             {
-                fld.soilTest = null;
+                fld.SoilTest = null;
             }
             else
             {
-                fld.soilTest.sampleDate = updtFld.soilTest.sampleDate;
-                fld.soilTest.ValP = updtFld.soilTest.ValP;
-                fld.soilTest.valK = updtFld.soilTest.valK;
-                fld.soilTest.valNO3H = updtFld.soilTest.valNO3H;
-                fld.soilTest.valPH = updtFld.soilTest.valPH;
-                fld.soilTest.ConvertedKelownaK = updtFld.soilTest.ConvertedKelownaK;
-                fld.soilTest.ConvertedKelownaP = updtFld.soilTest.ConvertedKelownaP;
+                fld.SoilTest.sampleDate = updtFld.SoilTest.sampleDate;
+                fld.SoilTest.ValP = updtFld.SoilTest.ValP;
+                fld.SoilTest.valK = updtFld.SoilTest.valK;
+                fld.SoilTest.valNO3H = updtFld.SoilTest.valNO3H;
+                fld.SoilTest.valPH = updtFld.SoilTest.valPH;
+                fld.SoilTest.ConvertedKelownaK = updtFld.SoilTest.ConvertedKelownaK;
+                fld.SoilTest.ConvertedKelownaP = updtFld.SoilTest.ConvertedKelownaP;
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -329,10 +343,10 @@ namespace SERVERAPI.Models.Impl
             {
                 foreach (Field field in fields)
                 {
-                    if (field.soilTest != null)
+                    if (field.SoilTest != null)
                     {
-                        field.soilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(FarmDetails()?.TestingMethod, field.soilTest);
-                        field.soilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(FarmDetails()?.TestingMethod, field.soilTest);
+                        field.SoilTest.ConvertedKelownaP = _SoilTestConversions.GetConvertedSTP(FarmDetails()?.TestingMethod, field.SoilTest);
+                        field.SoilTest.ConvertedKelownaK = _SoilTestConversions.GetConvertedSTK(FarmDetails()?.TestingMethod, field.SoilTest);
                         UpdateFieldSoilTest(field);
                     }
                 }
@@ -344,7 +358,7 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == name);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == name);
             yd.Fields.Remove(fld);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -362,7 +376,7 @@ namespace SERVERAPI.Models.Impl
                 yd.Fields = new List<Field>();
             }
 
-            fld = yd.Fields.FirstOrDefault(y => y.fieldName == fieldName);
+            fld = yd.Fields.FirstOrDefault(y => y.FieldName == fieldName);
 
             return fld;
         }
@@ -402,18 +416,18 @@ namespace SERVERAPI.Models.Impl
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
 
             if (fld == null)
             {
                 fld = new Field();
             }
 
-            if (fld.nutrients == null)
+            if (fld.Nutrients == null)
             {
-                fld.nutrients = new Nutrients();
+                fld.Nutrients = new Nutrients();
             }
-            List<NutrientManure> fldManures = fld.nutrients.nutrientManures;
+            List<NutrientManure> fldManures = fld.Nutrients.nutrientManures;
             if (fldManures == null)
             {
                 fldManures = new List<NutrientManure>();
@@ -425,18 +439,18 @@ namespace SERVERAPI.Models.Impl
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
 
             if (fld == null)
             {
                 fld = new Field();
             }
 
-            if (fld.nutrients == null)
+            if (fld.Nutrients == null)
             {
-                fld.nutrients = new Nutrients();
+                fld.Nutrients = new Nutrients();
             }
-            List<NutrientOther> fldManures = fld.nutrients.nutrientOthers;
+            List<NutrientOther> fldManures = fld.Nutrients.nutrientOthers;
             if (fldManures == null)
             {
                 fldManures = new List<NutrientOther>();
@@ -448,18 +462,18 @@ namespace SERVERAPI.Models.Impl
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
 
             if (fld == null)
             {
                 fld = new Field();
             }
 
-            if (fld.nutrients == null)
+            if (fld.Nutrients == null)
             {
-                fld.nutrients = new Nutrients();
+                fld.Nutrients = new Nutrients();
             }
-            List<NutrientFertilizer> fldFertilizers = fld.nutrients.nutrientFertilizers;
+            List<NutrientFertilizer> fldFertilizers = fld.Nutrients.nutrientFertilizers;
             if (fldFertilizers == null)
             {
                 fldFertilizers = new List<NutrientFertilizer>();
@@ -471,8 +485,8 @@ namespace SERVERAPI.Models.Impl
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
-            NutrientManure nm = fld.nutrients.nutrientManures.FirstOrDefault(m => m.id == manId);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
+            NutrientManure nm = fld.Nutrients.nutrientManures.FirstOrDefault(m => m.id == manId);
 
             return nm;
         }
@@ -481,8 +495,8 @@ namespace SERVERAPI.Models.Impl
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
-            NutrientOther no = fld.nutrients.nutrientOthers.FirstOrDefault(m => m.id == otherId);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
+            NutrientOther no = fld.Nutrients.nutrientOthers.FirstOrDefault(m => m.id == otherId);
 
             return no;
         }
@@ -491,8 +505,8 @@ namespace SERVERAPI.Models.Impl
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
-            NutrientFertilizer nf = fld.nutrients.nutrientFertilizers.FirstOrDefault(m => m.id == fertId);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
+            NutrientFertilizer nf = fld.Nutrients.nutrientFertilizers.FirstOrDefault(m => m.id == fertId);
 
             return nf;
         }
@@ -504,28 +518,28 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
 
-            if (fld.nutrients == null)
+            if (fld.Nutrients == null)
             {
-                fld.nutrients = new Nutrients();
-                fld.nutrients.nutrientManures = new List<NutrientManure>();
+                fld.Nutrients = new Nutrients();
+                fld.Nutrients.nutrientManures = new List<NutrientManure>();
             }
             else
             {
-                if (fld.nutrients.nutrientManures == null)
+                if (fld.Nutrients.nutrientManures == null)
                 {
-                    fld.nutrients.nutrientManures = new List<NutrientManure>();
+                    fld.Nutrients.nutrientManures = new List<NutrientManure>();
                 }
             }
 
-            foreach (var f in fld.nutrients.nutrientManures)
+            foreach (var f in fld.Nutrients.nutrientManures)
             {
                 nextId = nextId <= f.id ? f.id + 1 : nextId;
             }
             newMan.id = nextId;
 
-            fld.nutrients.nutrientManures.Add(newMan);
+            fld.Nutrients.nutrientManures.Add(newMan);
             userData.LastAppliedFarmManureId = newMan.manureId;
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
@@ -539,28 +553,28 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
 
-            if (fld.nutrients == null)
+            if (fld.Nutrients == null)
             {
-                fld.nutrients = new Nutrients();
-                fld.nutrients.nutrientFertilizers = new List<NutrientFertilizer>();
+                fld.Nutrients = new Nutrients();
+                fld.Nutrients.nutrientFertilizers = new List<NutrientFertilizer>();
             }
             else
             {
-                if (fld.nutrients.nutrientFertilizers == null)
+                if (fld.Nutrients.nutrientFertilizers == null)
                 {
-                    fld.nutrients.nutrientFertilizers = new List<NutrientFertilizer>();
+                    fld.Nutrients.nutrientFertilizers = new List<NutrientFertilizer>();
                 }
             }
 
-            foreach (var f in fld.nutrients.nutrientFertilizers)
+            foreach (var f in fld.Nutrients.nutrientFertilizers)
             {
                 nextId = nextId <= f.id ? f.id + 1 : nextId;
             }
             newFert.id = nextId;
 
-            fld.nutrients.nutrientFertilizers.Add(newFert);
+            fld.Nutrients.nutrientFertilizers.Add(newFert);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
             return newFert.id;
@@ -573,28 +587,28 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
 
-            if (fld.nutrients == null)
+            if (fld.Nutrients == null)
             {
-                fld.nutrients = new Nutrients();
-                fld.nutrients.nutrientOthers = new List<NutrientOther>();
+                fld.Nutrients = new Nutrients();
+                fld.Nutrients.nutrientOthers = new List<NutrientOther>();
             }
             else
             {
-                if (fld.nutrients.nutrientOthers == null)
+                if (fld.Nutrients.nutrientOthers == null)
                 {
-                    fld.nutrients.nutrientOthers = new List<NutrientOther>();
+                    fld.Nutrients.nutrientOthers = new List<NutrientOther>();
                 }
             }
 
-            foreach (var f in fld.nutrients.nutrientOthers)
+            foreach (var f in fld.Nutrients.nutrientOthers)
             {
                 nextId = nextId <= f.id ? f.id + 1 : nextId;
             }
             newOther.id = nextId;
 
-            fld.nutrients.nutrientOthers.Add(newOther);
+            fld.Nutrients.nutrientOthers.Add(newOther);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
@@ -603,8 +617,8 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
-            NutrientManure nm = fld.nutrients.nutrientManures.FirstOrDefault(m => m.id == updtMan.id);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
+            NutrientManure nm = fld.Nutrients.nutrientManures.FirstOrDefault(m => m.id == updtMan.id);
 
             nm.applicationId = updtMan.applicationId;
             nm.ltK2o = updtMan.ltK2o;
@@ -629,8 +643,8 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
-            NutrientOther no = fld.nutrients.nutrientOthers.FirstOrDefault(m => m.id == updtOther.id);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
+            NutrientOther no = fld.Nutrients.nutrientOthers.FirstOrDefault(m => m.id == updtOther.id);
 
             no.description = updtOther.description;
             no.yrN = updtOther.yrN;
@@ -648,8 +662,8 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
-            NutrientFertilizer nf = fld.nutrients.nutrientFertilizers.FirstOrDefault(m => m.id == updtFert.id);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
+            NutrientFertilizer nf = fld.Nutrients.nutrientFertilizers.FirstOrDefault(m => m.id == updtFert.id);
 
             nf.applDate = updtFert.applDate;
             nf.applMethodId = updtFert.applMethodId;
@@ -674,10 +688,10 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
-            NutrientManure nm = fld.nutrients.nutrientManures.FirstOrDefault(m => m.id == id);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
+            NutrientManure nm = fld.Nutrients.nutrientManures.FirstOrDefault(m => m.id == id);
 
-            fld.nutrients.nutrientManures.Remove(nm);
+            fld.Nutrients.nutrientManures.Remove(nm);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -687,10 +701,10 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
-            NutrientOther no = fld.nutrients.nutrientOthers.FirstOrDefault(m => m.id == id);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
+            NutrientOther no = fld.Nutrients.nutrientOthers.FirstOrDefault(m => m.id == id);
 
-            fld.nutrients.nutrientOthers.Remove(no);
+            fld.Nutrients.nutrientOthers.Remove(no);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -700,10 +714,10 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
-            NutrientFertilizer nf = fld.nutrients.nutrientFertilizers.FirstOrDefault(m => m.id == id);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
+            NutrientFertilizer nf = fld.Nutrients.nutrientFertilizers.FirstOrDefault(m => m.id == id);
 
-            fld.nutrients.nutrientFertilizers.Remove(nf);
+            fld.Nutrients.nutrientFertilizers.Remove(nf);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -712,7 +726,7 @@ namespace SERVERAPI.Models.Impl
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
 
             if (fld == null)
             {
@@ -721,7 +735,7 @@ namespace SERVERAPI.Models.Impl
 
             if (fld == null)
             {
-                fld.nutrients = new Nutrients();
+                fld.Nutrients = new Nutrients();
             }
             List<FieldCrop> fldCrops = fld.crops;
             if (fldCrops == null)
@@ -735,7 +749,7 @@ namespace SERVERAPI.Models.Impl
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
             FieldCrop crp = fld.crops.FirstOrDefault(m => m.id == cropId);
 
             return crp;
@@ -748,7 +762,7 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
 
             if (fld.crops == null)
             {
@@ -770,7 +784,7 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
             FieldCrop crp = fld.crops.FirstOrDefault(m => m.id == updtCrop.id);
 
             crp.cropId = updtCrop.cropId;
@@ -799,7 +813,7 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            Field fld = yd.Fields.FirstOrDefault(f => f.fieldName == fldName);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fldName);
             FieldCrop crp = fld.crops.FirstOrDefault(m => m.id == id);
 
             fld.crops.Remove(crp);
@@ -1003,7 +1017,7 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var fld in flds)
             {
-                List<NutrientManure> mans = GetFieldNutrientsManures(fld.fieldName);
+                List<NutrientManure> mans = GetFieldNutrientsManures(fld.FieldName);
 
                 foreach (var nm in mans)
                 {
@@ -1032,7 +1046,7 @@ namespace SERVERAPI.Models.Impl
                         nm.ltP2o5 = nutrientInputs.P2O5_LongTerm;
                         nm.ltK2o = nutrientInputs.K2O_LongTerm;
 
-                        UpdateFieldNutrientsManure(fld.fieldName, nm);
+                        UpdateFieldNutrientsManure(fld.FieldName, nm);
                     }
                 }
             }
@@ -1368,9 +1382,9 @@ namespace SERVERAPI.Models.Impl
                 foreach (var nutrientManure in nutrientManures)
                 {
                     yd.Fields
-                        .Single(f => f.nutrients.nutrientManures.Any(nm =>
+                        .Single(f => f.Nutrients.nutrientManures.Any(nm =>
                             nm.id == nutrientManure.id && nm.manureId == nutrientManure.manureId))
-                        .nutrients.nutrientManures.Remove(nutrientManure);
+                        .Nutrients.nutrientManures.Remove(nutrientManure);
                 }
 
                 foreach (var farmManureId in farmManuresToDrop.Select(fm => fm.id).ToList())
@@ -1494,9 +1508,9 @@ namespace SERVERAPI.Models.Impl
                     foreach (var nutrientManure in nutrientManures)
                     {
                         yd.Fields
-                            .Single(f => f.nutrients.nutrientManures.Any(nm =>
+                            .Single(f => f.Nutrients.nutrientManures.Any(nm =>
                                 nm.id == nutrientManure.id && nm.manureId == nutrientManure.manureId))
-                            .nutrients.nutrientManures.Remove(nutrientManure);
+                            .Nutrients.nutrientManures.Remove(nutrientManure);
                     }
 
                     foreach (var farmManureId in farmManuresToDrop.Select(fm => fm.id).ToList())

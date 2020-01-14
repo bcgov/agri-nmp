@@ -123,7 +123,7 @@ namespace SERVERAPI.ViewComponents
 
             var currentFieldIndex = !currentField.Any() ? 0 :
                 fields.FindIndex(f =>
-                f.fieldName.Equals(currentField.ToString(), StringComparison.CurrentCultureIgnoreCase));
+                f.FieldName.Equals(currentField.ToString(), StringComparison.CurrentCultureIgnoreCase));
 
             if (currentFieldIndex == 0)
             {
@@ -132,12 +132,12 @@ namespace SERVERAPI.ViewComponents
             }
             else
             {
-                result.PreviousParameters = new { nme = fields[currentFieldIndex - 1].fieldName };
+                result.PreviousParameters = new { nme = fields[currentFieldIndex - 1].FieldName };
             }
 
             if (currentFieldIndex + 1 < fields.Count)
             {
-                result.NextParameters = new { nme = fields[currentFieldIndex + 1].fieldName };
+                result.NextParameters = new { nme = fields[currentFieldIndex + 1].FieldName };
             }
             else
             {
