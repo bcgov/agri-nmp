@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191222182326_MiniAppTables.cs" />
+    <Compile Remove="Migrations\20191222182326_MiniAppTables.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="SeedData\MiniAppData.json" />
+    <None Remove="SeedData\MiniAppLabelData.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Migrations\20200111040424_DailyFeedRequirement.cs" />
     <Compile Remove="Migrations\20200111040424_DailyFeedRequirement.Designer.cs" />
     <Compile Remove="Migrations\20200111060026_DilyFeedRequirement.cs" />
@@ -16,8 +26,10 @@
     <EmbeddedResource Include="SeedData\ExternalLinksData.json" />
     <EmbeddedResource Include="SeedData\JourneyData.json" />
     <EmbeddedResource Include="SeedData\LocationsData.json" />
+    <EmbeddedResource Include="SeedData\MiniAppLabelData.json" />
     <EmbeddedResource Include="SeedData\NutrientIconsData.json" />
     <EmbeddedResource Include="SeedData\StaticDataVersion_4.json" />
+    <EmbeddedResource Include="SeedData\MiniAppData.json" />
     <EmbeddedResource Include="SeedData\UserPromptsData.json" />
   </ItemGroup>
 

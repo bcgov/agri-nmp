@@ -295,6 +295,12 @@ namespace SERVERAPI.Models.Impl
             fld.SelectGrowingAnimalDailyFeed = updtFld.SelectGrowingAnimalDailyFeed;
             fld.IsSeasonalFeedingArea = updtFld.IsSeasonalFeedingArea;
             fld.SeasonalFeedingArea = updtFld.SeasonalFeedingArea;
+            fld.FeedingPercentage = updtFld.FeedingPercentage;
+            fld.FeedingValueDays = updtFld.FeedingValueDays;
+            fld.GrowingAnimalAverage = updtFld.GrowingAnimalAverage;
+            fld.GrowingAnimalCount = updtFld.GrowingAnimalCount;
+            fld.MatureAnimalAverage = updtFld.MatureAnimalAverage;
+            fld.MatureAnimalCount = updtFld.MatureAnimalCount;
             if (!fld.IsSeasonalFeedingArea)
             {
                 fld.SelectMatureAnimalDailyFeed = string.Empty;

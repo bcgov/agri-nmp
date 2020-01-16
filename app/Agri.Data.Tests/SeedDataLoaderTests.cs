@@ -80,6 +80,24 @@ namespace Agri.Data.Tests
         }
 
         [Fact]
+        public void GetSeedJsonData_Should_Load_MiniApps_Json()
+        {
+            var result = SeedDataLoader.GetSeedJsonData<List<MiniApp>>(Constants.SeedDataFiles.MiniApps);
+
+            result.ShouldNotBeNull();
+            result.Count.ShouldBeGreaterThan(0);
+        }
+
+        [Fact]
+        public void GetSeedJsonData_Should_Load_MiniAppLabels_Json()
+        {
+            var result = SeedDataLoader.GetSeedJsonData<List<MiniAppLabel>>(Constants.SeedDataFiles.MiniAppLabels);
+
+            result.ShouldNotBeNull();
+            result.Count.ShouldBeGreaterThan(0);
+        }
+
+        [Fact]
         public void SeedData_Should_Load_Entire_Database()
         {
             var repo = new AgriConfigurationRepository(agriConfigurationDb, Mapper);
@@ -91,6 +109,8 @@ namespace Agri.Data.Tests
             agriConfigurationDb.Locations.Any().ShouldBeTrue();
             agriConfigurationDb.MainMenus.Any().ShouldBeTrue();
             agriConfigurationDb.MainMenus.Any(m => m.SubMenus.Count > 0).ShouldBeTrue();
+            agriConfigurationDb.MiniApps.Any().ShouldBeTrue();
+            agriConfigurationDb.MiniAppLabels.Any().ShouldBeTrue();
             agriConfigurationDb.NutrientIcons.Any().ShouldBeTrue();
             agriConfigurationDb.UserPrompts.Any().ShouldBeTrue();
 

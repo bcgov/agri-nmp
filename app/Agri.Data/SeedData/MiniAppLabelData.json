@@ -1,0 +1,38 @@
+[
+  {
+    "Id": 1,
+    "Name": "SoilTestConverterUserInstruction1",
+    "LabelText": "This calculator will convert laboratory phosphorous (P) and potassium (K) results from the original testing method to Kelowna method used in BC",
+    "MiniAppId": "1"
+  },
+  {
+    "Id": 2,
+    "Name": "SoilTestConverterUserInstruction2",
+    "LabelText": "Take action with the soil test results.Explore these resources to learn more about soil test phosphorous and tools to translate them into crop recommendations",
+    "MiniAppId": "1"
+  },
+  {
+    "Id": 3,
+    "Name": "SoilTestingInformation",
+    "LabelText": "Soil testing information",
+    "MiniAppId": "1"
+  },
+  {
+    "Id": 4,
+    "Name": "BCNutrientManagementCalculator",
+    "LabelText": "BC Nutrient Management Caculator",
+    "MiniAppId": "1"
+  },
+  {
+    "Id": 5,
+    "Name": "SoilTestInformationButtonLink",
+    "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing",
+    "MiniAppId": "1"
+  },
+  {
+    "Id": 6,
+    "Name": "BCNutrientManagementCalculatorButtonLink",
+    "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-management-calculator",
+    "MiniAppId": "1"
+  }
+]
