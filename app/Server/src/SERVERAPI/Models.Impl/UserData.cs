@@ -1559,7 +1559,8 @@ namespace SERVERAPI.Models.Impl
             var generated = yd.GeneratedManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
             var imported = yd.ImportedManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
             var separatedSolids = yd.SeparatedSolidManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
-            var farmAnimals = yd.FarmAnimals?.ToList<ManagedManure>() ?? new List<ManagedManure>();
+            var farmAnimals = yd.FarmAnimals?.Where(fa => fa.IsManureCollected)
+                ?.ToList<ManagedManure>() ?? new List<ManagedManure>();
 
             var manures = new List<ManagedManure>();
             manures.AddRange(generated);

@@ -111,6 +111,8 @@ namespace SERVERAPI.Pages.RanchNutrients
                         Data.Phosphorous = null;
                         Data.Potassium = null;
                         Data.ManureName = null;
+                        Data.ShowNitrate = false;
+                        Data.Compost = false;
                     }
 
                     await _mediator.Send(Data);
@@ -126,11 +128,6 @@ namespace SERVERAPI.Pages.RanchNutrients
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
             return Page();
         }
-
-        //public async Task<IActionResult> OnPostEditAsync()
-        //{
-        //    return Page();
-        //}
 
         public class Query : IRequest<Command>
         {
@@ -163,6 +160,8 @@ namespace SERVERAPI.Pages.RanchNutrients
             [Display(Name = "Material Type")]
             public string ManureName { get; set; }
 
+            public string ManureClass { get; set; }
+
             public bool UseBookValue { get; set; } = true;
 
             [Display(Name = "Moisture (%)")]
@@ -182,6 +181,10 @@ namespace SERVERAPI.Pages.RanchNutrients
 
             [Display(Name = "NO<sub>3</sub>-N (ppm)")]
             public decimal? Nitrate { get; set; }
+
+            public bool ShowNitrate { get; set; }
+            public bool OnlyCustom { get; set; }
+            public bool Compost { get; set; }
 
             public ManureNutrientBookValues BookValues { get; set; }
             public NutrientAnalysisTypes StoredImported { get; set; }
@@ -315,6 +318,11 @@ namespace SERVERAPI.Pages.RanchNutrients
                 {
                     var nutrientAnalytic = _ud.GetFarmManure(request.Id.Value);
                     command = _mapper.Map<Command>(nutrientAnalytic);
+
+                    command.Compost = _sd.IsManureClassCompostType(command.ManureClass);
+                    //mvm.OnlyCustom = (_sd.IsManureClassOtherType(fm.ManureClass) || _sd.IsManureClassCompostType(fm.ManureClass) || _sd.IsManureClassCompostClassType(fm.ManureClass));
+                    command.ShowNitrate = (_sd.IsManureClassCompostType(command.ManureClass) ||
+                        _sd.IsManureClassCompostClassType(command.ManureClass));
                 }
 
                 return await Task.FromResult(command);
@@ -336,12 +344,13 @@ namespace SERVERAPI.Pages.RanchNutrients
                     manure.Selected = request.PopulatedData.IncludedSourceOfMaterialIds.Any(m => m.Equals(manure.ManureId));
                 }
 
-                var beefManuresNutrients = _sd.GetManures()
-                    .Where(m => m.ManureClass.Contains("Beef"))
-                    .ToList();
+                var beefManuresNutrients = _sd.GetManures();
 
                 command.BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients
                     .Select(m => new { Id = m.Id, Name = m.Name }).ToList(), "Id", "Name");
+
+                //cvm.Compost = _sd.IsManureClassCompostType(man.ManureClass);
+                //cvm.ShowNitrate = _sd.IsManureClassCompostClassType(man.ManureClass) || _sd.IsManureClassCompostType(man.ManureClass);
 
                 if (!request.PopulatedData.UseBookValue)
                 {
@@ -387,7 +396,8 @@ namespace SERVERAPI.Pages.RanchNutrients
 
                 var manure = _sd.GetManure(request.PopulatedData.SelectedNutrientAnalysis);
                 command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(manure);
-                command.ManureName = "Custom - " + manure.Name + " - ";
+                command.ManureName = !request.PopulatedData.Compost ?
+                    "Custom - " + manure.Name + " - " : "Custom - " + manure.SolidLiquid + " - ";
 
                 return Task.FromResult(command);
             }

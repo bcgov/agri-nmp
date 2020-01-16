@@ -117,6 +117,16 @@
                     </div>
                     <span asp-validation-for="@Model.Data.Potassium" class="text-danger"></span>
                 </div>
+                @if (Model.Data.ShowNitrate)
+                {
+                    <div class="form-group col-sm-2">
+                        <label asp-for="@Model.Data.Nitrate">NO<sub>3</sub>-N&nbsp;(ppm)</label>
+                        <div class="input-group col-sm-6">
+                            <input class="form-control" asp-for="@Model.Data.Nitrate" id="nitrate" type="text" placeholder="@Model.Data.Nitrate" />
+                        </div>
+                        <span asp-validation-for="@Model.Data.Nitrate" class="text-danger"></span>
+                    </div>
+                }
             </div>
         </div>
     }
