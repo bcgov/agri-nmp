@@ -781,6 +781,36 @@ namespace Agri.Data.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.MiniApp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MiniApps");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.MiniAppLabel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("LabelText");
+
+                    b.Property<int>("MiniAppId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MiniAppId");
+
+                    b.ToTable("MiniAppLabels");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.NitrateCreditSampleDate", b =>
                 {
                     b.Property<int>("Id")
@@ -1731,6 +1761,14 @@ namespace Agri.Data.Migrations
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
                         .WithMany("Messages")
                         .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.MiniAppLabel", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.MiniApp", "MiniApp")
+                        .WithMany()
+                        .HasForeignKey("MiniAppId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

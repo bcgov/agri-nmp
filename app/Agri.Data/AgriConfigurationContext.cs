@@ -46,6 +46,8 @@ namespace Agri.Data
         public DbSet<Manure> Manures { get; set; }
         public DbSet<ManureImportedDefault> ManureImportedDefaults { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<MiniApp> MiniApps { get; set; }
+        public DbSet<MiniAppLabel> MiniAppLabels { get; set; }
         public DbSet<NitrateCreditSampleDate> NitrateCreditSampleDates { get; set; }
         public DbSet<NitrogenMineralization> NitrogenMineralizations { get; set; }
         public DbSet<NutrientIcon> NutrientIcons { get; set; }
