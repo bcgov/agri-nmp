@@ -89,12 +89,12 @@ namespace SERVERAPI.Pages.RanchNutrients
                          a.Name.Equals(Data.ManureName) &&
                          a.Id != Data.Id))
                     {
-                        ModelState.AddModelError("ManureName", "Descriptions must be unique.");
+                        ModelState.AddModelError("Data.ManureName", "Descriptions must be unique.");
                     }
 
                     if (validations.NutrientAnalyticNamesUsedAsManureName)
                     {
-                        ModelState.AddModelError("ManureName", "Description cannot match predefined entries.");
+                        ModelState.AddModelError("Data.ManureName", "Description cannot match predefined entries.");
                     }
                 }
 
@@ -368,7 +368,10 @@ namespace SERVERAPI.Pages.RanchNutrients
                         _sd.IsManureClassCompostClassType(nutrientAnalytic.ManureClass);
                     command.ShowNitrate = (_sd.IsManureClassCompostType(command.ManureClass) ||
                         _sd.IsManureClassCompostClassType(command.ManureClass));
-                    command.UseCustomAnalysis = command.OnlyCustom;
+                    if (command.OnlyCustom)
+                    {
+                        command.UseCustomAnalysis = true;
+                    }
                 }
 
                 return await Task.FromResult(command);
