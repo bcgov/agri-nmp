@@ -31,7 +31,14 @@ namespace SERVERAPI.Pages.RanchNutrients
 
             if (!Data.RanchManures.Any())
             {
-                return RedirectToPage("/RanchFields/Index");
+                if (Request.Headers["referer"].ToString().Contains("RanchManure"))
+                {
+                    return RedirectToPage("/RanchFields/Index");
+                }
+                else
+                {
+                    return RedirectToPage("/RanchManure/Index");
+                }
             }
             if (!Data.ManureAnalytics.Any())
             {
