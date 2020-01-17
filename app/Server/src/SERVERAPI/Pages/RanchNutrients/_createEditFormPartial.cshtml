@@ -47,7 +47,18 @@
         <div class="row">
             <div class="col-sm-8 order-md-2">
                 <div class="form-group align-top">
-                    <input class="checkbox-inline mr-3" type="checkbox" id="cbUseCustomAnalysis" asp-for="@Model.Data.UseCustomAnalysis" />
+
+                    @if (Model.Data.OnlyCustom)
+                    {
+                        <input class="checkbox-inline mr-3" type="checkbox" disabled checked />
+                        <input type="hidden" asp-for="Data.UseCustomAnalysis" />
+                    }
+                    else
+                    {
+                        <input class="checkbox-inline mr-3" type="checkbox" id="cbUseCustomAnalysis"
+                               asp-for="@Model.Data.UseCustomAnalysis" />
+                    }
+
                     <label for="cbUseCustomAnalysis">Use custom analysis</label>
                 </div>
             </div>
@@ -146,5 +157,5 @@
 <input type="hidden" asp-for="Data.ShowCustomCheckbox" />
 <input type="hidden" asp-for="Data.UseBookValue" />
 <input type="hidden" asp-for="Data.ManureClass" />
-
-@*<input type="hidden" asp-for="Data." />*@
+<input type="hidden" asp-for="Data.SolidLiquid" />
+<input type="hidden" asp-for="Data.OnlyCustom" />

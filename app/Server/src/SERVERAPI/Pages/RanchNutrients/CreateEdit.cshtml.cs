@@ -59,7 +59,8 @@ namespace SERVERAPI.Pages.RanchNutrients
 
             if (Data.RanchManures.Any(rm => rm.Selected))
             {
-                Data.IncludedSourceOfMaterialIds.AddRange(Data.RanchManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
+                Data.IncludedSourceOfMaterialIds
+                    .AddRange(Data.RanchManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
             }
 
             if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
@@ -74,6 +75,7 @@ namespace SERVERAPI.Pages.RanchNutrients
             }
             else if (Data.PostedElementEvent == ElementEvent.NutrientAnalysisChanged)
             {
+                Data.UseCustomAnalysis = false;
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
             }
@@ -181,6 +183,7 @@ namespace SERVERAPI.Pages.RanchNutrients
             public bool ShowNitrate { get; set; }
             public bool OnlyCustom { get; set; }
             public bool Compost { get; set; }
+            public string SolidLiquid { get; set; }
 
             public ManureNutrientBookValues BookValues { get; set; }
             public NutrientAnalysisTypes StoredImported { get; set; }
@@ -261,21 +264,11 @@ namespace SERVERAPI.Pages.RanchNutrients
                         .NotEmpty().WithMessage("Material Name is required");
                     RuleFor(m => m.Moisture).NotNull().WithMessage("Required")
                         .NotEmpty().WithMessage("Required")
-                        .Custom((moisture, context) =>
-                        {
-                            decimal moistureDecimal;
-                            if (!decimal.TryParse(moisture, out moistureDecimal))
-                            {
-                                context.AddFailure("Moisture", "Numbers only");
-                            }
-                            else
-                            {
-                                if (moistureDecimal < 0 || moistureDecimal > 100)
-                                {
-                                    context.AddFailure("Moisture", "Invalid %");
-                                }
-                            }
-                        });
+                    .Must(BeNumericMoisture).WithMessage("Numbers only")
+                    .Must(BeValidMosturePercent).WithMessage("Invalid %")
+                    .Must(BeIfOtherSolidValidPercent).WithMessage("Must be \u2264 80%.")
+                    .Must(BeIfOtherLiquidValidPercent).WithMessage("Must be > 80%.");
+
                     RuleFor(m => m.Nitrogen).NotNull().WithMessage("Required")
                     .InclusiveBetween(0, 100).WithMessage("Invalid %");
                     RuleFor(m => m.Ammonia).NotNull().WithMessage("Required");
@@ -284,6 +277,57 @@ namespace SERVERAPI.Pages.RanchNutrients
                     RuleFor(m => m.Potassium).NotNull().WithMessage("Required")
                         .InclusiveBetween(0, 100).WithMessage("Invalid %");
                 });
+            }
+
+            private static bool BeNumericMoisture(string moisture)
+            {
+                return IsMoistureNumeric(moisture, out decimal moistureDecimal);
+            }
+
+            private static bool BeValidMosturePercent(string moisture)
+            {
+                IsMoistureNumeric(moisture, out decimal moistureDecimal);
+
+                if (moistureDecimal < 0 || moistureDecimal > 100)
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            private static bool BeIfOtherSolidValidPercent(Command command, string moisture)
+            {
+                IsMoistureNumeric(moisture, out decimal moistureDecimal);
+
+                if (command.SolidLiquid.Equals("Solid", StringComparison.OrdinalIgnoreCase) &&
+                   command.ManureClass.Equals("Other", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (moistureDecimal > 80)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            private static bool BeIfOtherLiquidValidPercent(Command command, string moisture)
+            {
+                IsMoistureNumeric(moisture, out decimal moistureDecimal);
+
+                if (command.SolidLiquid.Equals("Liquid", StringComparison.OrdinalIgnoreCase) &&
+                   command.ManureClass.Equals("Other", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (moistureDecimal <= 80)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            private static bool IsMoistureNumeric(string moisture, out decimal moistureDecimal)
+            {
+                return decimal.TryParse(moisture, out moistureDecimal);
             }
         }
 
@@ -317,9 +361,12 @@ namespace SERVERAPI.Pages.RanchNutrients
                     command = _mapper.Map<Command>(nutrientAnalytic);
 
                     command.Compost = _sd.IsManureClassCompostType(command.ManureClass);
-                    //mvm.OnlyCustom = (_sd.IsManureClassOtherType(fm.ManureClass) || _sd.IsManureClassCompostType(fm.ManureClass) || _sd.IsManureClassCompostClassType(fm.ManureClass));
+                    command.OnlyCustom = _sd.IsManureClassOtherType(nutrientAnalytic.ManureClass) ||
+                        _sd.IsManureClassCompostType(nutrientAnalytic.ManureClass) ||
+                        _sd.IsManureClassCompostClassType(nutrientAnalytic.ManureClass);
                     command.ShowNitrate = (_sd.IsManureClassCompostType(command.ManureClass) ||
                         _sd.IsManureClassCompostClassType(command.ManureClass));
+                    command.UseCustomAnalysis = command.OnlyCustom;
                 }
 
                 return await Task.FromResult(command);
@@ -338,7 +385,8 @@ namespace SERVERAPI.Pages.RanchNutrients
                 command.RanchManures = _mapper.Map<List<Command.RanchManure>>(manures);
                 foreach (var manure in command.RanchManures)
                 {
-                    manure.Selected = request.PopulatedData.IncludedSourceOfMaterialIds.Any(m => m.Equals(manure.ManureId));
+                    manure.Selected = request.PopulatedData.IncludedSourceOfMaterialIds
+                        .Any(m => m.Equals(manure.ManureId));
                 }
 
                 var beefManuresNutrients = _sd.GetManures();
@@ -346,18 +394,32 @@ namespace SERVERAPI.Pages.RanchNutrients
                 command.BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients
                     .Select(m => new { Id = m.Id, Name = m.Name }).ToList(), "Id", "Name");
 
-                //cvm.Compost = _sd.IsManureClassCompostType(man.ManureClass);
-                //cvm.ShowNitrate = _sd.IsManureClassCompostClassType(man.ManureClass) || _sd.IsManureClassCompostType(man.ManureClass);
+                if (request.PopulatedData.SelectedNutrientAnalysis > 0)
+                {
+                    var nutrient = beefManuresNutrients.Single(m => m.Id == request.PopulatedData.SelectedNutrientAnalysis);
+                    command.ManureClass = nutrient.ManureClass;
+                    command.Compost = _sd.IsManureClassCompostType(nutrient.ManureClass);
+                    command.OnlyCustom = _sd.IsManureClassOtherType(nutrient.ManureClass) ||
+                        _sd.IsManureClassCompostType(nutrient.ManureClass) ||
+                        _sd.IsManureClassCompostClassType(nutrient.ManureClass);
+                    command.ShowNitrate = _sd.IsManureClassCompostClassType(nutrient.ManureClass) ||
+                        _sd.IsManureClassCompostType(nutrient.ManureClass);
+
+                    if (command.OnlyCustom)
+                    {
+                        command.UseCustomAnalysis = true;
+                    }
+
+                    if (command.UseCustomAnalysis)
+                    {
+                        command.SolidLiquid = nutrient.SolidLiquid;
+                    }
+
+                    command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(nutrient);
+                }
 
                 if (!request.PopulatedData.UseBookValue)
                 {
-                    if (request.PopulatedData.SelectedNutrientAnalysis > 0)
-                    {
-                        var manure = beefManuresNutrients.Single(m => m.Id == request.PopulatedData.SelectedNutrientAnalysis);
-                        command.ManureClass = manure.ManureClass;
-                        command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(manure);
-                    }
-
                     var prompts = _db.UserPrompts
                         .Where(p => new List<string>
                         {
