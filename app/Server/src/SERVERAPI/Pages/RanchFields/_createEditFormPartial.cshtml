@@ -17,7 +17,7 @@
 </div>
 <br />
 <div class="form-group col-sm-12">
-    <div class="col-sm-6">
+    <div class="col-sm-6" style="padding-left:0px !important;">
         <label asp-for="@Model.Data.FieldArea"></label></br>
         <input asp-for="@Model.Data.FieldArea" class="col-sm-10" />
         <div style="padding-top:5px">&nbsp;Acres&nbsp;</div>
@@ -48,26 +48,26 @@
 }
 <div class="col-sm-12"><hr /></div>
 <div class="form-group col-sm-12" id="FeedingValue" style="display:@displaySeasonal">
-    <label>Feeding Aread</label><!--Need to pass from model-->
-    <div class="col-sm-12">
-        <label asp-for="@Model.Data.FeedingValueDays" class="col-sm-6">Time Spend in Feeding Area</label>
-        <div class="col-sm-6">
-            <input asp-for="@Model.Data.FeedingValueDays" class="col-sm-6" />
+    <label>Feeding Area</label><!--Need to pass from model-->
+    <div class="col-sm-12" style="padding-left:0px !important;">
+        <label asp-for="@Model.Data.FeedingValueDays" class="col-sm-4" style="padding-left:0px !important;">Time Spent in Feeding Area</label>
+        <div class="col-sm-8">
+            <input asp-for="@Model.Data.FeedingValueDays" class="col-sm-3" />
             <div style="padding-top:5px">&nbsp;days&nbsp;</div><!--Need to add validation-->
-        </div>
-        <label asp-for="@Model.Data.FeedingPercentage" class="col-sm-6">Percentage spend outside feeding area</label>
-        <div class="col-sm-6">
-            <input asp-for="@Model.Data.FeedingPercentage" class="col-sm-6" />
+        </div>        
+        <label asp-for="@Model.Data.FeedingPercentage" class="col-sm-4" style="padding-left:0px !important;">Percentage spent outside feeding area</label>
+        <div class="col-sm-8">
+            <input asp-for="@Model.Data.FeedingPercentage" class="col-sm-3" />
             <div style="padding-top:5px">&nbsp;%&nbsp;</div><!--Need to add validation-->
         </div>
     </div>
 </div>
 <div class="form-group col-sm-12" id="MatureValue" style="display:@displaySeasonal">
     <label>Mature Animals</label>
-    <div class="col-sm-12">
-        <label asp-for="@Model.Data.MatureAnimalCount" class="col-sm-4">Number of mature animals</label>
-        <label asp-for="@Model.Data.MatureAnimalAverage" class="col-sm-4">Average weight</label>
-        <label asp-for="@Model.Data.SelectMatureAnimalDailyFeed" class="col-sm-4">
+    <div class="col-sm-12" style="padding-left:0px !important;">
+        <label asp-for="@Model.Data.MatureAnimalCount" class="col-sm-3" style="padding-left:0px !important;">Number of mature animals</label>
+        <label asp-for="@Model.Data.MatureAnimalAverage" class="col-sm-3">Average weight</label>
+        <label asp-for="@Model.Data.SelectMatureAnimalDailyFeed" class="col-sm-3">
             Daily feed requirement
             <a href="#" data-toggle="tooltip" title="@Model.Data.DailyFeedWarning" id="toolTipDailyFeedWarning">
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
@@ -75,15 +75,15 @@
             @*<span class="text-danger">@Html.Raw(@Model.Data.DailyFeedWarning)</span>*@
         </label>
     </div>
-    <div class="col-sm-12">
-        <div class="col-sm-4">
-            <input asp-for="@Model.Data.MatureAnimalCount" class="col-sm-10" />
+    <div class="col-sm-12" style="padding-left:0px !important;">
+        <div class="col-sm-3" style="padding-left:0px !important;">
+            <input asp-for="@Model.Data.MatureAnimalCount" class="col-sm-6" />
         </div>
-        <div class="col-sm-4">
-            <input asp-for="@Model.Data.MatureAnimalAverage" class="col-sm-8" />
-            <div class="col-sm-4" style="padding-top:5px">&nbsp;lbs&nbsp;</div><!--Need to add validation-->
+        <div class="col-sm-3">
+            <input asp-for="@Model.Data.MatureAnimalAverage" class="col-sm-6" />
+            <div class="col-sm-6" style="padding-top:5px">&nbsp;lbs&nbsp;</div><!--Need to add validation-->
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <select class="form-control col-sm-12" asp-for="@Model.Data.SelectMatureAnimalDailyFeed" asp-items="@(new SelectList(Model.Data.SelectDailyFeedOptions,"Id","Name"))">
             </select>
         </div>
@@ -91,9 +91,9 @@
 </div>
 <div class="form-group col-sm-12" id="GrowingValue" style="display:@displaySeasonal">
     <label>Growing Animals</label>
-    <div class="col-sm-12">
-        <label asp-for="@Model.Data.GrowingAnimalCount" class="col-sm-4">Number of mature animals</label>
-        <label asp-for="@Model.Data.GrowingAnimalAverage" class="col-sm-4">Average weight</label>
+    <div class="col-sm-12" style="padding-left:0px !important;">
+        <label asp-for="@Model.Data.GrowingAnimalCount" class="col-sm-3" style="padding-left:0px !important;">Number of mature animals</label>
+        <label asp-for="@Model.Data.GrowingAnimalAverage" class="col-sm-3">Average weight</label>
         <label asp-for="@Model.Data.SelectGrowingAnimalDailyFeed" class="col-sm-4">
             Daily Feed Requirements
             <a href="#" data-toggle="tooltip" title="@Model.Data.DailyFeedWarning" id="toolTipDailyFeedWarning">
@@ -102,15 +102,15 @@
             @*<span class="text-danger">@Html.Raw(@Model.Data.DailyFeedWarning)</span>*@
         </label>
     </div>
-    <div class="col-sm-12">
-        <div class="col-sm-4">
-            <input asp-for="@Model.Data.GrowingAnimalCount" class="col-sm-10" />
+    <div class="col-sm-12" style="padding-left:0px !important;">
+        <div class="col-sm-3" style="padding-left:0px !important;">
+            <input asp-for="@Model.Data.GrowingAnimalCount" class="col-sm-6" />
         </div>
-        <div class="col-sm-4">
-            <input asp-for="@Model.Data.GrowingAnimalAverage" class="col-sm-8" />
-            <div class="col-sm-4" style="padding-top:5px">&nbsp;lbs&nbsp;</div><!--Need to add validation-->
+        <div class="col-sm-3">
+            <input asp-for="@Model.Data.GrowingAnimalAverage" class="col-sm-6" />
+            <div class="col-sm-6" style="padding-top:5px">&nbsp;lbs&nbsp;</div><!--Need to add validation-->
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <select class="form-control col-sm-12" asp-for="@Model.Data.SelectGrowingAnimalDailyFeed" asp-items="@(new SelectList(Model.Data.SelectDailyFeedOptions,"Id","Name"))">
             </select>
         </div>
