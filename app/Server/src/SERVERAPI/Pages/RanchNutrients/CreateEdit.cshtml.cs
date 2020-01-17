@@ -299,7 +299,8 @@ namespace SERVERAPI.Pages.RanchNutrients
             {
                 IsMoistureNumeric(moisture, out decimal moistureDecimal);
 
-                if (command.SolidLiquid.Equals("Solid", StringComparison.OrdinalIgnoreCase) &&
+                if (!string.IsNullOrWhiteSpace(command.SolidLiquid) &&
+                    command.SolidLiquid.Equals("Solid", StringComparison.OrdinalIgnoreCase) &&
                    command.ManureClass.Equals("Other", StringComparison.OrdinalIgnoreCase))
                 {
                     if (moistureDecimal > 80)
@@ -314,7 +315,8 @@ namespace SERVERAPI.Pages.RanchNutrients
             {
                 IsMoistureNumeric(moisture, out decimal moistureDecimal);
 
-                if (command.SolidLiquid.Equals("Liquid", StringComparison.OrdinalIgnoreCase) &&
+                if (!string.IsNullOrWhiteSpace(command.SolidLiquid) &&
+                    command.SolidLiquid.Equals("Liquid", StringComparison.OrdinalIgnoreCase) &&
                    command.ManureClass.Equals("Other", StringComparison.OrdinalIgnoreCase))
                 {
                     if (moistureDecimal <= 80)
