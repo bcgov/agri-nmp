@@ -143,6 +143,35 @@ namespace Agri.Models
 
     public enum UserPromptPage
     {
+        Home,
+        Farm,
+        AnimalsList,
+        AnimalsCreateEdit,
+        ManureGeneratedObtained,
+        ManureGeneratedObtainedModal,
+        ManureImported,
+        ManureImportedModal,
+        ManureStorage,
+        ManureStorageModal,
+        ManureNutrientAnalysis,
+        ManureNutrientAnalysisModal,
+        RanchManureList,
+        RanchManureCreateEdit,
+        RanchNutrientsList,
+        RanchNutrientsCreateEdit,
+        Fields,
+        FieldsModal,
+        SoilTest,
+        SoilTestModal,
+        Feeding,
+        RanchFieldsList,
+        RanchFieldCreateEdit,
+        RanchSoilTestList,
+        RanchSoilCreateEdit,
+        RanchFeedingList,
+        RanchFeedingCreateEdit,
+        Calculate,
+        Report,
     }
 
     public enum WashWaterUnits
