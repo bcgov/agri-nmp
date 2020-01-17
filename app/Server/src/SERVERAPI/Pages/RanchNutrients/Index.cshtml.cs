@@ -29,6 +29,10 @@ namespace SERVERAPI.Pages.RanchNutrients
         {
             Data = await _mediator.Send(new Query());
 
+            if (!Data.RanchManures.Any())
+            {
+                return RedirectToPage("/RanchFields/Index");
+            }
             if (!Data.ManureAnalytics.Any())
             {
                 return RedirectToPage("CreateEdit", "Create", new { ismodal = false });
