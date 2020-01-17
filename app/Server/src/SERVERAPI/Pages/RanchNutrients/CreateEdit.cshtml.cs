@@ -64,8 +64,6 @@ namespace SERVERAPI.Pages.RanchNutrients
 
             if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
             {
-                Data.UseBookValue = !Data.UseCustomAnalysis;
-
                 if (Data.UseCustomAnalysis)
                 {
                     Data = await _mediator.Send(new BookValueQuery { PopulatedData = Data });
@@ -76,8 +74,6 @@ namespace SERVERAPI.Pages.RanchNutrients
             }
             else if (Data.PostedElementEvent == ElementEvent.NutrientAnalysisChanged)
             {
-                Data.ShowCustomCheckbox = Data.SelectedNutrientAnalysis > 0;
-
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
             }
@@ -162,7 +158,7 @@ namespace SERVERAPI.Pages.RanchNutrients
 
             public string ManureClass { get; set; }
 
-            public bool UseBookValue { get; set; } = true;
+            public bool UseBookValue => !UseCustomAnalysis;
 
             [Display(Name = "Moisture (%)")]
             public string Moisture { get; set; }
@@ -195,7 +191,7 @@ namespace SERVERAPI.Pages.RanchNutrients
             public string ExplainNutrientAnlalysisPhosphorous { get; set; }
             public string ExplainNutrientAnlalysisPotassium { get; set; }
             public bool UseCustomAnalysis { get; set; }
-            public bool ShowCustomCheckbox { get; set; }
+            public bool ShowCustomCheckbox => SelectedNutrientAnalysis > 0;
             public ElementEvent PostedElementEvent { get; set; }
 
             public class RanchManure
@@ -243,6 +239,7 @@ namespace SERVERAPI.Pages.RanchNutrients
                 CreateMap<FarmManure, Command>()
                     .ForMember(m => m.SelectedNutrientAnalysis, opts => opts.MapFrom(s => s.ManureId))
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.Name))
+                    .ForMember(m => m.UseCustomAnalysis, opts => opts.MapFrom(s => s.Customized))
                     .ReverseMap();
                 CreateMap<ManagedManure, Command.RanchManure>()
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
@@ -357,6 +354,7 @@ namespace SERVERAPI.Pages.RanchNutrients
                     if (request.PopulatedData.SelectedNutrientAnalysis > 0)
                     {
                         var manure = beefManuresNutrients.Single(m => m.Id == request.PopulatedData.SelectedNutrientAnalysis);
+                        command.ManureClass = manure.ManureClass;
                         command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(manure);
                     }
 

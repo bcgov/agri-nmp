@@ -958,6 +958,7 @@ namespace SERVERAPI.Models.Impl
             frm.Moisture = updtMan.Moisture;
             frm.Name = updtMan.Name;
             frm.SourceOfMaterialName = updtMan.SourceOfMaterialName;
+            frm.IncludedSourceOfMaterialIds = updtMan.IncludedSourceOfMaterialIds;
             frm.Nitrate = updtMan.Nitrate;
             frm.Nitrogen = updtMan.Nitrogen;
             frm.NMinerizationId = updtMan.NMinerizationId;

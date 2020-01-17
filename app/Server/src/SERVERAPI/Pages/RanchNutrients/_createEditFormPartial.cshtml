@@ -53,7 +53,7 @@
             </div>
         </div>
     }
-    @if (!Model.Data.UseBookValue)
+    @if (Model.Data.UseCustomAnalysis)
     {
         <div class="row">
             <div class="form-group">
@@ -145,4 +145,6 @@
 <input type="hidden" asp-for="Data.PostedElementEvent" id="PostedElementEvent" />
 <input type="hidden" asp-for="Data.ShowCustomCheckbox" />
 <input type="hidden" asp-for="Data.UseBookValue" />
+<input type="hidden" asp-for="Data.ManureClass" />
+
 @*<input type="hidden" asp-for="Data." />*@
