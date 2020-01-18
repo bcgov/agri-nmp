@@ -1,0 +1,114 @@
+﻿@page
+@using Agri.Models
+@model SERVERAPI.Pages.RanchNutrients.Index
+@{
+    ViewData["HeaderTitle"] = "Nutrient Analysis";
+    Layout = "_PageLayout";
+}
+
+<div class="form-box-body">
+    @if (Model.Data.RanchManures.Any())
+    {
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-box-table">
+                <div class="col-md-4">
+                    <div class="form-group table-bordered" style="padding-left: 5px !important; margin-top: 15px; position: relative;">
+                        <span style="background-color: white; position: absolute; top: -10px; font-weight: bold">
+                            Remaining material(s)
+                        </span>
+                        <table class="table-borderless table-sm">
+                            @for (int i = 0; i < Model.Data.RanchManures.Count; i++)
+                            {
+                                var newRow = false;
+                                if (i == 0 || (i % 12) == 0)
+                                {
+                                    newRow = true;
+                                }
+                                @(newRow ? Html.Raw("<tr>") : Html.Raw(string.Empty));
+
+                                <td>
+                                    <span asp-for="@Model.Data.RanchManures[i].ManureName">@Model.Data.RanchManures[i].ManureName</span>
+                                </td>
+
+                                @(newRow ? Html.Raw("</tr>") : Html.Raw(string.Empty));
+                            }
+                        </table>
+                        <span asp-validation-for="@Model.Data.RanchManures" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-box-table-row row" style="padding-bottom: 5px;">
+            <button class="btn btn-default mb-3" type="button" data-toggle="razor-page-modal"
+                    data-url="@Url.Page("CreateEdit", "Create", new { ismodal = true })">
+                Add Another Nutrient Analysis
+            </button>
+        </div>
+    }
+
+    <div class="form-box-table">
+        <div class="form-box-table-row form-box-table-header row row-eq-height">
+            <div class="col-sm-4 form-box-table-cell">
+                Nutrient Source Name
+            </div>
+            <div class="col-sm-4 form-box-table-cell">
+                <div class="col-sm-5 form-box-table-cell">
+                    Moisture(%)
+                </div>
+                <div class="col-sm-2 form-box-table-cell">
+                    N(%)
+                </div>
+                <div class="col-sm-2 form-box-table-cell">
+                    P(%)
+                </div>
+                <div class="col-sm-2 form-box-table-cell">
+                    K(%)
+                </div>
+            </div>
+            <div class="col-sm-4 form-box-table-cell">
+            </div>
+        </div>
+        @foreach (var item in Model.Data.ManureAnalytics)
+        {
+            <div class="form-box-table-row row row-eq-height">
+                <div class="col-sm-4 form-box-table-cell">
+                    @item.Name
+                </div>
+                <div class="col-sm-4 form-box-table-cell">
+                    <div class="col-sm-5 form-box-table-cell">
+                        @item.Moisture
+                    </div>
+                    <div class="col-sm-2 form-box-table-cell">
+                        @item.Nitrogen
+                    </div>
+                    <div class="col-sm-2 form-box-table-cell">
+                        @item.Phosphorous
+                    </div>
+                    <div class="col-sm-2 form-box-table-cell">
+                        @item.Potassium
+                    </div>
+                </div>
+                <div class="col-sm-1">
+
+                    <button title="Edit" aria-label="Edit" class="form-box-table-button" type="button" data-toggle="razor-page-modal" data-url="@Url.Page("CreateEdit", "Edit", new { ismodal = true, Id = item.Id })">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
+                    </button>
+                </div>
+                <div class="col-sm-1">
+                    <button title="Delete Import" aria-label="Delete" class="form-box-table-button" type="button" data-toggle="razor-page-modal" data-url="@Url.Page("Delete", "", new { id = item.Id})">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section PreviousNextNavigation
+{
+    @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentPage = FeaturePages.RanchNutrients })
+}

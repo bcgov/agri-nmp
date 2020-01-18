@@ -747,9 +747,9 @@ namespace Agri.Data
             return _locations;
         }
 
-        public Manure GetManure(string manId)
+        public Manure GetManure(int manId)
         {
-            return GetManures().SingleOrDefault(m => m.Id == Convert.ToInt32(manId));
+            return GetManures().SingleOrDefault(m => m.Id == manId);
         }
 
         public Manure GetManureByName(string manureName)

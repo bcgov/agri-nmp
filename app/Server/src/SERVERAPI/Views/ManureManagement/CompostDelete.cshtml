@@ -6,24 +6,24 @@
 <div id="target">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Manure/Compost Details - @Model.act</h2>
+        <h2 class="modal-title" id="myModalLabel">Manure/Compost Details - @Model.Action</h2>
     </div>
 
-    <form asp-action="CompostDelete" asp-controller="Manure" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
+    <form asp-action="CompostDelete" asp-controller="ManureManagement" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
         <div class="modal-body">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="manureName"></label>
+                <label asp-for="ManureName"></label>
                 <div>
-                    @Model.manureName<br />
-                    <span asp-validation-for="manureName"></span>
+                    @Model.ManureName<br />
+                    <span asp-validation-for="ManureName"></span>
                 </div>
             </div>
             <br />
-            @if (!string.IsNullOrEmpty(Model.warning))
+            @if (!string.IsNullOrEmpty(Model.Warning))
             {
                 <div class="form-group">
-                    <label class="text-danger">@Model.warning</label>
+                    <label class="text-danger">@Model.Warning</label>
                 </div>
                 <br />
             }
@@ -32,10 +32,10 @@
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
             <input class="btn btn-primary" type="submit" value="Delete" />
         </div>
-        @Html.HiddenFor(x => x.manureName)
-        @Html.HiddenFor(x => x.act)
-        @Html.HiddenFor(x => x.id)
-        @Html.HiddenFor(x => x.target)
-        @Html.HiddenFor(x => x.warning)
+        @Html.HiddenFor(x => x.ManureName)
+        @Html.HiddenFor(x => x.Action)
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => x.Target)
+        @Html.HiddenFor(x => x.Warning)
     </form>
 </div>

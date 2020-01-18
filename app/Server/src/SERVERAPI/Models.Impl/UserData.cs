@@ -171,7 +171,7 @@ namespace SERVERAPI.Models.Impl
             }
             foreach (var a in yd.FarmAnimals)
             {
-                nextId = nextId <= a.Id ? a.Id + 1 : nextId;
+                nextId = nextId <= a.Id ? a.Id.Value + 1 : nextId;
             }
             newAnimal.Id = nextId;
             newAnimal.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(newAnimal);
@@ -196,20 +196,15 @@ namespace SERVERAPI.Models.Impl
             return result;
         }
 
-        public void UpdateAnimal(FarmAnimal updAnimal)
+        public void UpdateAnimal(FarmAnimal updatedAnimal)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            FarmAnimal anml = yd.FarmAnimals.FirstOrDefault(f => f.Id == updAnimal.Id);
+            FarmAnimal animal = yd.FarmAnimals.FirstOrDefault(f => f.Id == updatedAnimal.Id);
 
-            anml.AnimalSubTypeName = updAnimal.AnimalSubTypeName;
-            anml.AnimalSubTypeId = updAnimal.AnimalSubTypeId;
-            anml.AverageAnimalNumber = updAnimal.AverageAnimalNumber;
-            anml.IsManureCollected = updAnimal.IsManureCollected;
-            anml.ManureCollected = updAnimal.ManureCollected;
-            anml.DurationDays = updAnimal.DurationDays;
-            anml.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(anml);
+            _mapper.Map(updatedAnimal, animal);
+            animal.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(animal);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -254,6 +249,24 @@ namespace SERVERAPI.Models.Impl
             }
 
             return yd.FarmAnimals;
+        }
+
+        public void UpdateManagedFarmAnimalsAllocationToNutrientAnalysis()
+        {
+            var currentManures = GetAllManagedManures().Where(mm => mm is FarmAnimal).ToList();
+            var currentFarmManures = GetFarmManures();
+
+            foreach (var manure in currentManures)
+            {
+                manure.AssignedWithNutrientAnalysis = currentFarmManures
+                    .Any(fm => fm.IncludedSourceOfMaterialIds.Any(sm =>
+                                    sm.Equals(manure.ManureId, StringComparison.OrdinalIgnoreCase)));
+
+                if (manure is FarmAnimal)
+                {
+                    UpdateAnimal(manure as FarmAnimal);
+                }
+            }
         }
 
         public void AddField(Field newFld)
@@ -823,21 +836,21 @@ namespace SERVERAPI.Models.Impl
                 yd.FarmManures = new List<FarmManure>();
             }
 
-            fm = yd.FarmManures.FirstOrDefault(c => c.id == id);
-            if (fm != null && !fm.customized)
+            fm = yd.FarmManures.FirstOrDefault(c => c.Id == id);
+            if (fm != null && !fm.Customized)
             {
-                Manure man = _sd.GetManure(fm.manureId.ToString());
-                fm.ammonia = man.Ammonia;
-                fm.dmid = man.DryMatterId;
-                fm.manure_class = man.ManureClass;
-                fm.moisture = man.Moisture;
-                fm.name = man.Name;
-                fm.nitrate = man.Nitrate;
-                fm.nitrogen = man.Nitrogen;
-                fm.nminerizationid = man.NMineralizationId;
-                fm.phosphorous = man.Phosphorous;
-                fm.potassium = man.Potassium;
-                fm.solid_liquid = man.SolidLiquid;
+                Manure man = _sd.GetManure(fm.ManureId);
+                fm.Ammonia = man.Ammonia;
+                fm.DMId = man.DryMatterId;
+                fm.ManureClass = man.ManureClass;
+                fm.Moisture = man.Moisture;
+                fm.Name = man.Name;
+                fm.Nitrate = man.Nitrate;
+                fm.Nitrogen = man.Nitrogen;
+                fm.NMinerizationId = man.NMineralizationId;
+                fm.Phosphorous = man.Phosphorous;
+                fm.Potassium = man.Potassium;
+                fm.SolidLiquid = man.SolidLiquid;
             }
 
             return fm;
@@ -855,21 +868,21 @@ namespace SERVERAPI.Models.Impl
                 yd.FarmManures = new List<FarmManure>();
             }
 
-            fm = yd.FarmManures.FirstOrDefault(c => c.sourceOfMaterialImportedManureId == importedManure.Id);
-            if (!fm?.customized == true)
+            fm = yd.FarmManures.FirstOrDefault(c => c.SourceOfMaterialImportedManureId == importedManure.Id);
+            if (!fm?.Customized == true)
             {
-                Manure man = _sd.GetManure(fm.manureId.ToString());
-                fm.ammonia = man.Ammonia;
-                fm.dmid = man.DryMatterId;
-                fm.manure_class = man.ManureClass;
-                fm.moisture = man.Moisture;
-                fm.name = man.Name;
-                fm.nitrate = man.Nitrate;
-                fm.nitrogen = man.Nitrogen;
-                fm.nminerizationid = man.NMineralizationId;
-                fm.phosphorous = man.Phosphorous;
-                fm.potassium = man.Potassium;
-                fm.solid_liquid = man.SolidLiquid;
+                Manure man = _sd.GetManure(fm.ManureId);
+                fm.Ammonia = man.Ammonia;
+                fm.DMId = man.DryMatterId;
+                fm.ManureClass = man.ManureClass;
+                fm.Moisture = man.Moisture;
+                fm.Name = man.Name;
+                fm.Nitrate = man.Nitrate;
+                fm.Nitrogen = man.Nitrogen;
+                fm.NMinerizationId = man.NMineralizationId;
+                fm.Phosphorous = man.Phosphorous;
+                fm.Potassium = man.Potassium;
+                fm.SolidLiquid = man.SolidLiquid;
             }
 
             return fm;
@@ -887,19 +900,19 @@ namespace SERVERAPI.Models.Impl
             }
             foreach (var fm in yd.FarmManures)
             {
-                if (!fm.customized)
+                if (!fm.Customized)
                 {
-                    Manure man = _sd.GetManure(fm.manureId.ToString());
-                    fm.ammonia = man.Ammonia;
-                    fm.dmid = man.DryMatterId;
-                    fm.manure_class = man.ManureClass;
-                    fm.moisture = man.Moisture;
-                    fm.name = man.Name;
-                    fm.nitrate = man.Nitrate;
-                    fm.nitrogen = man.Nitrogen;
-                    fm.nminerizationid = man.NMineralizationId;
-                    fm.phosphorous = man.Phosphorous;
-                    fm.potassium = man.Potassium;
+                    Manure man = _sd.GetManure(fm.ManureId);
+                    fm.Ammonia = man.Ammonia;
+                    fm.DMId = man.DryMatterId;
+                    fm.ManureClass = man.ManureClass;
+                    fm.Moisture = man.Moisture;
+                    fm.Name = man.Name;
+                    fm.Nitrate = man.Nitrate;
+                    fm.Nitrogen = man.Nitrogen;
+                    fm.NMinerizationId = man.NMineralizationId;
+                    fm.Phosphorous = man.Phosphorous;
+                    fm.Potassium = man.Potassium;
                 }
             }
 
@@ -921,9 +934,9 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var f in yd.FarmManures)
             {
-                nextId = nextId <= f.id ? f.id + 1 : nextId;
+                nextId = nextId <= f.Id ? f.Id + 1 : nextId;
             }
-            newManure.id = nextId;
+            newManure.Id = nextId;
 
             yd.FarmManures.Add(newManure);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -934,24 +947,25 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            FarmManure frm = yd.FarmManures.FirstOrDefault(f => f.id == updtMan.id);
+            FarmManure frm = yd.FarmManures.FirstOrDefault(f => f.Id == updtMan.Id);
 
-            frm.ammonia = updtMan.ammonia;
-            frm.customized = updtMan.customized;
-            frm.dmid = updtMan.dmid;
-            frm.manureId = updtMan.manureId;
-            frm.sourceOfMaterialId = updtMan.sourceOfMaterialId;
-            frm.manure_class = updtMan.manure_class;
-            frm.moisture = updtMan.moisture;
-            frm.name = updtMan.name;
-            frm.sourceOfMaterialName = updtMan.sourceOfMaterialName;
-            frm.nitrate = updtMan.nitrate;
-            frm.nitrogen = updtMan.nitrogen;
-            frm.nminerizationid = updtMan.nminerizationid;
-            frm.phosphorous = updtMan.phosphorous;
-            frm.potassium = updtMan.potassium;
-            frm.solid_liquid = updtMan.solid_liquid;
-            frm.stored_imported = updtMan.stored_imported;
+            frm.Ammonia = updtMan.Ammonia;
+            frm.Customized = updtMan.Customized;
+            frm.DMId = updtMan.DMId;
+            frm.ManureId = updtMan.ManureId;
+            frm.SourceOfMaterialId = updtMan.SourceOfMaterialId;
+            frm.ManureClass = updtMan.ManureClass;
+            frm.Moisture = updtMan.Moisture;
+            frm.Name = updtMan.Name;
+            frm.SourceOfMaterialName = updtMan.SourceOfMaterialName;
+            frm.IncludedSourceOfMaterialIds = updtMan.IncludedSourceOfMaterialIds;
+            frm.Nitrate = updtMan.Nitrate;
+            frm.Nitrogen = updtMan.Nitrogen;
+            frm.NMinerizationId = updtMan.NMinerizationId;
+            frm.Phosphorous = updtMan.Phosphorous;
+            frm.Potassium = updtMan.Potassium;
+            frm.SolidLiquid = updtMan.SolidLiquid;
+            frm.StoredImported = updtMan.StoredImported;
             frm.IsAssignedToStorage = updtMan.IsAssignedToStorage;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -962,7 +976,7 @@ namespace SERVERAPI.Models.Impl
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            FarmManure fm = yd.FarmManures.FirstOrDefault(f => f.id == id);
+            FarmManure fm = yd.FarmManures.FirstOrDefault(f => f.Id == id);
 
             yd.FarmManures.Remove(fm);
 
@@ -973,22 +987,22 @@ namespace SERVERAPI.Models.Impl
         {
             List<FarmManure> manures = GetFarmManures();
 
-            manures.Sort(delegate (FarmManure f1, FarmManure f2) { return f1.customized.CompareTo(f2.customized); });
+            manures.Sort(delegate (FarmManure f1, FarmManure f2) { return f1.Customized.CompareTo(f2.Customized); });
             manures.Reverse();
 
             List<SelectListItem> manOptions = new List<SelectListItem>();
 
             foreach (var r in manures)
             {
-                var name = manures.Count(m => m.manureId == r.manureId) == 1
-                    ? r.name
-                    : $"{r.sourceOfMaterialName}: {r.name}";
-                if (r.stored_imported == NutrientAnalysisTypes.Imported)
+                var name = manures.Count(m => m.ManureId == r.ManureId) == 1
+                    ? r.Name
+                    : $"{r.SourceOfMaterialName}: {r.Name}";
+                if (r.StoredImported == NutrientAnalysisTypes.Imported)
                 {
-                    name = $"{r.sourceOfMaterialName}";
+                    name = $"{r.SourceOfMaterialName}";
                 }
 
-                SelectListItem li = new SelectListItem() { Id = r.id, Value = name };
+                SelectListItem li = new SelectListItem() { Id = r.Id, Value = name };
                 manOptions.Add(li);
             }
 
@@ -1086,26 +1100,26 @@ namespace SERVERAPI.Models.Impl
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             GeneratedManure farmDataGeneratedManure = yd.GeneratedManures.FirstOrDefault(f => f.Id == updatedGeneratedManure.Id);
 
-            farmDataGeneratedManure.animalSubTypeId = updatedGeneratedManure.animalSubTypeId;
-            farmDataGeneratedManure.averageAnimalNumber = updatedGeneratedManure.averageAnimalNumber;
+            farmDataGeneratedManure.AnimalSubTypeId = updatedGeneratedManure.AnimalSubTypeId;
+            farmDataGeneratedManure.AverageAnimalNumber = updatedGeneratedManure.AverageAnimalNumber;
             farmDataGeneratedManure.Id = updatedGeneratedManure.Id;
             farmDataGeneratedManure.ManureType = updatedGeneratedManure.ManureType;
-            farmDataGeneratedManure.animalId = updatedGeneratedManure.animalId;
-            farmDataGeneratedManure.animalId = updatedGeneratedManure.animalId;
+            farmDataGeneratedManure.AnimalId = updatedGeneratedManure.AnimalId;
+            farmDataGeneratedManure.AnimalId = updatedGeneratedManure.AnimalId;
             farmDataGeneratedManure.ManureType = updatedGeneratedManure.ManureType;
-            farmDataGeneratedManure.manureTypeName = updatedGeneratedManure.manureTypeName;
-            farmDataGeneratedManure.milkProduction = updatedGeneratedManure.milkProduction;
-            farmDataGeneratedManure.animalSubTypeName = updatedGeneratedManure.animalSubTypeName;
-            farmDataGeneratedManure.washWater = updatedGeneratedManure.washWater;
-            farmDataGeneratedManure.washWaterUnits = updatedGeneratedManure.washWaterUnits;
-            farmDataGeneratedManure.annualAmount = updatedGeneratedManure.annualAmount;
+            farmDataGeneratedManure.ManureTypeName = updatedGeneratedManure.ManureTypeName;
+            farmDataGeneratedManure.MilkProduction = updatedGeneratedManure.MilkProduction;
+            farmDataGeneratedManure.AnimalSubTypeName = updatedGeneratedManure.AnimalSubTypeName;
+            farmDataGeneratedManure.WashWater = updatedGeneratedManure.WashWater;
+            farmDataGeneratedManure.WashWaterUnits = updatedGeneratedManure.WashWaterUnits;
+            farmDataGeneratedManure.AnnualAmount = updatedGeneratedManure.AnnualAmount;
             farmDataGeneratedManure.AssignedToStoredSystem = updatedGeneratedManure.AssignedToStoredSystem;
-            farmDataGeneratedManure.solidPerGalPerAnimalPerDay = updatedGeneratedManure.solidPerGalPerAnimalPerDay;
+            farmDataGeneratedManure.SolidPerGalPerAnimalPerDay = updatedGeneratedManure.SolidPerGalPerAnimalPerDay;
             farmDataGeneratedManure.BreedId = updatedGeneratedManure.BreedId;
             farmDataGeneratedManure.BreedName = updatedGeneratedManure.BreedName;
-            farmDataGeneratedManure.showBreedAndGrazingDaysPerYear =
-                updatedGeneratedManure.showBreedAndGrazingDaysPerYear;
-            farmDataGeneratedManure.grazingDaysPerYear = updatedGeneratedManure.grazingDaysPerYear;
+            farmDataGeneratedManure.ShowBreedAndGrazingDaysPerYear =
+                updatedGeneratedManure.ShowBreedAndGrazingDaysPerYear;
+            farmDataGeneratedManure.GrazingDaysPerYear = updatedGeneratedManure.GrazingDaysPerYear;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
@@ -1179,9 +1193,12 @@ namespace SERVERAPI.Models.Impl
 
             foreach (var manure in currentManures)
             {
-                manure.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm =>
-                    !string.IsNullOrEmpty(fm.sourceOfMaterialId) &&
-                    (fm.sourceOfMaterialId.Split(',')[0] + fm.sourceOfMaterialId.Split(',')[1]) == manure.ManureId);
+                manure.AssignedWithNutrientAnalysis = currentFarmManures
+                    .Any(fm =>
+                        (!string.IsNullOrEmpty(fm.SourceOfMaterialId) &&
+                                (fm.SourceOfMaterialId.Split(',')[0] + fm.SourceOfMaterialId.Split(',')[1]) == manure.ManureId) ||
+                        fm.IncludedSourceOfMaterialIds.Any(sm => sm.Equals(manure.ManureId, StringComparison.OrdinalIgnoreCase))
+                    );
 
                 if (manure is ImportedManure)
                 {
@@ -1198,8 +1215,8 @@ namespace SERVERAPI.Models.Impl
             foreach (var manureStorageSystem in currentManureStorageSystems)
             {
                 manureStorageSystem.AssignedWithNutrientAnalysis = currentFarmManures.Any(fm =>
-                                                                                                    !string.IsNullOrEmpty(fm.sourceOfMaterialId) &&
-                                                                                                    fm.sourceOfMaterialId.Split(',')[1] == manureStorageSystem.Id.ToString());
+                                                                                                    !string.IsNullOrEmpty(fm.SourceOfMaterialId) &&
+                                                                                                    fm.SourceOfMaterialId.Split(',')[1] == manureStorageSystem.Id.ToString());
 
                 if (manureStorageSystem is ManureStorageSystem)
                 {
@@ -1357,13 +1374,13 @@ namespace SERVERAPI.Models.Impl
         private void RemoveFarmManuresRelatedToManureStorageSystem(YearData yd, ManureStorageSystem storageSystem)
         {
             var farmManuresToDrop = yd.FarmManures?.Where(im =>
-                im.sourceOfMaterialStoredSystemId.HasValue &&
-                im.sourceOfMaterialStoredSystemId == storageSystem.Id).ToList();
+                im.SourceOfMaterialStoredSystemId.HasValue &&
+                im.SourceOfMaterialStoredSystemId == storageSystem.Id).ToList();
 
             if (farmManuresToDrop != null && farmManuresToDrop.Any())
             {
                 var nutrientManures =
-                    yd.GetNutrientManuresFromFields(farmManuresToDrop.Select(fm => fm.id).ToList());
+                    yd.GetNutrientManuresFromFields(farmManuresToDrop.Select(fm => fm.Id).ToList());
 
                 foreach (var nutrientManure in nutrientManures)
                 {
@@ -1373,10 +1390,10 @@ namespace SERVERAPI.Models.Impl
                         .Nutrients.nutrientManures.Remove(nutrientManure);
                 }
 
-                foreach (var farmManureId in farmManuresToDrop.Select(fm => fm.id).ToList())
+                foreach (var farmManureId in farmManuresToDrop.Select(fm => fm.Id).ToList())
                 {
                     //Drop the farm Manure
-                    var farmManure = yd.FarmManures.Single(fm => fm.id == farmManureId);
+                    var farmManure = yd.FarmManures.Single(fm => fm.Id == farmManureId);
                     yd.FarmManures.Remove(farmManure);
                 }
             }
@@ -1483,13 +1500,13 @@ namespace SERVERAPI.Models.Impl
             else
             {
                 var farmManuresToDrop = yd.FarmManures?.Where(im =>
-                    im.sourceOfMaterialImportedManureId.HasValue &&
-                    im.sourceOfMaterialImportedManureId == importedManureId).ToList();
+                    im.SourceOfMaterialImportedManureId.HasValue &&
+                    im.SourceOfMaterialImportedManureId == importedManureId).ToList();
 
                 if (farmManuresToDrop != null && farmManuresToDrop.Any())
                 {
                     var nutrientManures =
-                        yd.GetNutrientManuresFromFields(farmManuresToDrop.Select(fm => fm.id).ToList());
+                        yd.GetNutrientManuresFromFields(farmManuresToDrop.Select(fm => fm.Id).ToList());
 
                     foreach (var nutrientManure in nutrientManures)
                     {
@@ -1499,10 +1516,10 @@ namespace SERVERAPI.Models.Impl
                             .Nutrients.nutrientManures.Remove(nutrientManure);
                     }
 
-                    foreach (var farmManureId in farmManuresToDrop.Select(fm => fm.id).ToList())
+                    foreach (var farmManureId in farmManuresToDrop.Select(fm => fm.Id).ToList())
                     {
                         //Drop the farm Manure
-                        var farmManure = yd.FarmManures.Single(fm => fm.id == farmManureId);
+                        var farmManure = yd.FarmManures.Single(fm => fm.Id == farmManureId);
                         yd.FarmManures.Remove(farmManure);
                     }
                 }
@@ -1543,11 +1560,14 @@ namespace SERVERAPI.Models.Impl
             var generated = yd.GeneratedManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
             var imported = yd.ImportedManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
             var separatedSolids = yd.SeparatedSolidManures?.ToList<ManagedManure>() ?? new List<ManagedManure>();
+            var farmAnimals = yd.FarmAnimals?.Where(fa => fa.IsManureCollected)
+                ?.ToList<ManagedManure>() ?? new List<ManagedManure>();
 
             var manures = new List<ManagedManure>();
             manures.AddRange(generated);
             manures.AddRange(imported);
             manures.AddRange(separatedSolids);
+            manures.AddRange(farmAnimals);
             return manures;
         }
 

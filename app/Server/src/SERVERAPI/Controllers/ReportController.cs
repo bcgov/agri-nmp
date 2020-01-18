@@ -344,7 +344,7 @@ namespace SERVERAPI.Controllers
                             FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
-                            rfn.nutrientName = manure.name;
+                            rfn.nutrientName = manure.Name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
@@ -563,10 +563,10 @@ namespace SERVERAPI.Controllers
                     if (g.AssignedToStoredSystem == false)
                     {
                         ReportManuress rm = new ReportManuress();
-                        rm.animalManure = g.animalSubTypeName + "," +
-                                          g.averageAnimalNumber + " animals";
+                        rm.animalManure = g.AnimalSubTypeName + "," +
+                                          g.AverageAnimalNumber + " animals";
                         rm.annualAmount =
-                            string.Format("{0:#,##0}", g.annualAmount.Split(' ')[0]);
+                            string.Format("{0:#,##0}", g.AnnualAmount.Split(' ')[0]);
                         if (g.ManureType == ManureMaterialType.Liquid)
                         {
                             rm.units = "US Gallons";
@@ -576,9 +576,9 @@ namespace SERVERAPI.Controllers
                             rm.units = "tons";
                         }
 
-                        if (g.washWaterGallonsToString != "0")
+                        if (g.WashWaterGallonsToString != "0")
                         {
-                            rm.milkingCenterWashWater = g.washWaterGallonsToString;
+                            rm.milkingCenterWashWater = g.WashWaterGallonsToString;
                         }
 
                         rmcvm.unstoredManures.Add(rm);
@@ -665,10 +665,10 @@ namespace SERVERAPI.Controllers
                         {
                             var generatedFarmManure = _ud.GetGeneratedManure(m.Id);
                             ReportManuress rm = new ReportManuress();
-                            rm.animalManure = generatedFarmManure.animalSubTypeName + "," +
-                                              generatedFarmManure.averageAnimalNumber + " animals";
+                            rm.animalManure = generatedFarmManure.AnimalSubTypeName + "," +
+                                              generatedFarmManure.AverageAnimalNumber + " animals";
                             rm.annualAmount =
-                                string.Format("{0:#,##0}", generatedFarmManure.annualAmount.Split(' ')[0]);
+                                string.Format("{0:#,##0}", generatedFarmManure.AnnualAmount.Split(' ')[0]);
                             if (s.ManureMaterialType == ManureMaterialType.Liquid)
                             {
                                 rm.units = "US Gallons";
@@ -682,25 +682,25 @@ namespace SERVERAPI.Controllers
                             {
                                 // if solid material is added to the liquid system change the calculations to depict that of liquid
                                 AnimalSubType animalSubType =
-                                    _sd.GetAnimalSubType(Convert.ToInt32(generatedFarmManure.animalSubTypeId));
+                                    _sd.GetAnimalSubType(Convert.ToInt32(generatedFarmManure.AnimalSubTypeId));
                                 if (animalSubType.SolidPerGalPerAnimalPerDay.HasValue)
                                 {
                                     rm.annualAmount =
-                                        (Math.Round(Convert.ToInt32(generatedFarmManure.averageAnimalNumber) *
+                                        (Math.Round(Convert.ToInt32(generatedFarmManure.AverageAnimalNumber) *
                                                     Convert.ToDecimal(animalSubType.SolidPerGalPerAnimalPerDay) * 365))
                                         .ToString();
                                     rm.units = "US gallons";
                                 }
                             }
 
-                            if (generatedFarmManure.washWaterGallonsToString != "0")
+                            if (generatedFarmManure.WashWaterGallonsToString != "0")
                             {
-                                rs.milkingCenterWashWater = generatedFarmManure.washWaterGallonsToString;
-                                washWaterAdjustedValue = generatedFarmManure.washWater;
+                                rs.milkingCenterWashWater = generatedFarmManure.WashWaterGallonsToString;
+                                washWaterAdjustedValue = generatedFarmManure.WashWater;
                             }
 
-                            if (generatedFarmManure.washWater.ToString("#.##") != _calculateAnimalRequirement
-                                    .GetWashWaterBySubTypeId(generatedFarmManure.animalSubTypeId).Value
+                            if (generatedFarmManure.WashWater.ToString("#.##") != _calculateAnimalRequirement
+                                    .GetWashWaterBySubTypeId(generatedFarmManure.AnimalSubTypeId).Value
                                     .ToString("#.##"))
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
@@ -711,22 +711,22 @@ namespace SERVERAPI.Controllers
                                 rs.footnotes.Add(rff);
                             }
 
-                            if (generatedFarmManure.milkProduction.ToString() != "0.0")
+                            if (generatedFarmManure.MilkProduction.ToString() != "0.0")
                             {
                                 var defaultMilkProd =
                                     _calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
-                                        Convert.ToInt16(generatedFarmManure.animalSubTypeId));
+                                        Convert.ToInt16(generatedFarmManure.AnimalSubTypeId));
                                 var breedManureFactor =
                                     _calculateAnimalRequirement.GetBreedManureFactorByBreedId(
                                         Convert.ToInt32(generatedFarmManure.BreedId));
                                 var milkProd = defaultMilkProd * breedManureFactor;
 
-                                if (generatedFarmManure.milkProduction != milkProd)
+                                if (generatedFarmManure.MilkProduction != milkProd)
                                 {
                                     ReportFieldFootnote rff = new ReportFieldFootnote();
                                     rff.id = rs.footnotes.Count() + 1;
                                     rff.message = "Milk Production adjusted to " +
-                                                  generatedFarmManure.milkProduction.ToString("G29") + " lb/day/animal";
+                                                  generatedFarmManure.MilkProduction.ToString("G29") + " lb/day/animal";
                                     rs.footnote = rff.id.ToString();
                                     rs.footnotes.Add(rff);
                                 }
@@ -796,11 +796,11 @@ namespace SERVERAPI.Controllers
 
                     if (appliedManure != null)
                     {
-                        if (fm.stored_imported == NutrientAnalysisTypes.Stored)
+                        if (fm.StoredImported == NutrientAnalysisTypes.Stored)
                         {
                             rm.MaterialName = "Material in ";
                         }
-                        else if (fm.stored_imported == NutrientAnalysisTypes.Imported)
+                        else if (fm.StoredImported == NutrientAnalysisTypes.Imported)
                         {
                             rm.MaterialName = "";
                         }
@@ -989,7 +989,7 @@ namespace SERVERAPI.Controllers
                 result = unit.FarmReqdNutrientsStdUnitsAreaConversion * fieldSize * applicationRate * unit.FarmReqdNutrientsStdUnitsConversion;
             else
             {
-                Manure man = _sd.GetManure(manure.manureId.ToString());
+                Manure man = _sd.GetManure(manure.ManureId);
                 result = unit.FarmReqdNutrientsStdUnitsAreaConversion * fieldSize * applicationRate * man.CubicYardConversion;
             }
             return result;
@@ -1011,7 +1011,7 @@ namespace SERVERAPI.Controllers
             {
                 FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                 nutrientAmount = ConvertManureToStdRptUnits(manure, fieldArea, m.rate, m.unitId);
-                ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == manure.name);
+                ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == manure.Name);
                 if (rd != null)
                 {
                     nutrientAmount += Convert.ToDecimal(rd.nutrientAmount);
@@ -1020,8 +1020,8 @@ namespace SERVERAPI.Controllers
                 else
                 {
                     rd = new ReportSourcesDetail();
-                    rd.nutrientName = manure.name;
-                    rd.nutrientUnit = _sd.GetManureRptStdUnit(manure.solid_liquid);
+                    rd.nutrientName = manure.Name;
+                    rd.nutrientUnit = _sd.GetManureRptStdUnit(manure.SolidLiquid);
                     rd.nutrientAmount = String.Format((nutrientAmount) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", nutrientAmount);
                     details.Add(rd);
                 }
@@ -1098,17 +1098,17 @@ namespace SERVERAPI.Controllers
             {
                 ReportAnalysisDetail rd = new ReportAnalysisDetail();
 
-                rd.sourceOfMaterialName = m.sourceOfMaterialName;
-                rd.manureName = m.name;
-                rd.moisture = m.moisture.ToString();
-                rd.ammonia = m.ammonia.ToString("#0");
-                rd.nitrogen = m.nitrogen.ToString("#0.00");
-                rd.phosphorous = m.phosphorous.ToString("#0.00");
-                rd.potassium = m.potassium.ToString("#0.00");
-                rd.nitrate = (m.nitrate.HasValue && m.nitrate > 0) ? m.nitrate.Value.ToString("#0") : "n/a";
+                rd.sourceOfMaterialName = m.SourceOfMaterialName;
+                rd.manureName = m.Name;
+                rd.moisture = m.Moisture.ToString();
+                rd.ammonia = m.Ammonia.ToString("#0");
+                rd.nitrogen = m.Nitrogen.ToString("#0.00");
+                rd.phosphorous = m.Phosphorous.ToString("#0.00");
+                rd.potassium = m.Potassium.ToString("#0.00");
+                rd.nitrate = (m.Nitrate.HasValue && m.Nitrate > 0) ? m.Nitrate.Value.ToString("#0") : "n/a";
                 rd.isAssignedToStorage = m.IsAssignedToStorage;
 
-                if (m.nitrate.HasValue && m.nitrate > 0)
+                if (m.Nitrate.HasValue && m.Nitrate > 0)
                 {
                     rvm.nitratePresent = true;
                 }
@@ -1225,7 +1225,7 @@ namespace SERVERAPI.Controllers
                             FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
-                            rfn.nutrientName = manure.name;
+                            rfn.nutrientName = manure.Name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", m.rate);
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
@@ -1376,7 +1376,7 @@ namespace SERVERAPI.Controllers
                             FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
-                            rfn.nutrientName = manure.name;
+                            rfn.nutrientName = manure.Name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;

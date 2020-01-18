@@ -122,6 +122,9 @@ namespace Agri.Models
         [Description("/RanchManure/Index")]
         RanchManureIndex,
 
+        [Description("/RanchNutrients/Index")]
+        RanchNutrients,
+
         [Description("/RanchFields/Index")]
         RanchFieldsIndex,
     }
