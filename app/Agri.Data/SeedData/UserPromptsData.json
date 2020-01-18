@@ -3,505 +3,504 @@
     "Id": 1,
     "Name": "manuredeletewarning",
     "Text": "This manure/compost has been added to one or more fields. Deleting it will remove this manure/compost from those field(s).",
-    "PageName": "ManureGeneratedObtainedDelete",
+    "UserPromptPage": "ManureGeneratedObtainedDelete",
     "UserJourney": "Dairy"
   },
   {
     "Id": 2,
     "Name": "welcome",
-    "Text": "<h2>This is an archived message: How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Compare your manure and fertilizer applications with crop nutrient needs</li><li>Enter and download information confidentially</li><li>Create pdf reports for farm use</li></ul><br />This is a beta version that is being tested by farmers and consultants before its release in March 2018."
-    "PageName": null,
+    "Text": "<h2>This is an archived message: How Farmers and Consultants are using the Nutrient Management Calculator</h2><ul><li>Estimate nutrient requirements for crops</li><li>Compare your manure and fertilizer applications with crop nutrient needs</li><li>Enter and download information confidentially</li><li>Create pdf reports for farm use</li></ul><br />This is a beta version that is being tested by farmers and consultants before its release in March 2018.",
+    "UserPromptPage": null,
     "UserJourney": null
   },
   {
     "Id": 3,
     "Name": "disclaimer",
-    "Text": "All information contained within the Nutrient Management Calculator is provided solely \"as is\" at the user's own risk. Although every effort has been made to ensure that the information contained in the Nutrient Management Calculator is accurate, the Government of British Columbia assumes no legal liability or responsibility for the completeness, accuracy, or usefulness of the information provided or any product resulting from the use of the Nutrient Management Calculator.<p>Information requested by this website, such as farm name and field names, is not collected or saved anywhere except on your computer.</p>"
-    "PageName": "Home",
+    "Text": "All information contained within the Nutrient Management Calculator is provided solely \"as is\" at the user's own risk. Although every effort has been made to ensure that the information contained in the Nutrient Management Calculator is accurate, the Government of British Columbia assumes no legal liability or responsibility for the completeness, accuracy, or usefulness of the information provided or any product resulting from the use of the Nutrient Management Calculator.<p>Information requested by this website, such as farm name and field names, is not collected or saved anywhere except on your computer.</p>",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 4,
     "Name": "agriinfomessage",
     "Text": "<h1>Agronomic Balance</h1><ul><li>agronomic balances mainly indicate if crop nutrient requirements are met</li><li>crop removal balances can indicate if soil phosphorus (P) or potassium (K) levels will change</li></ul><p><a href=\"https://drive.google.com/file/d/1U9k7Yv_Ua-_DzD8jAibyhEaV--9UGsFW/view\" target=\"_blank\">Learn more (opens in new tab)</a></p>",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 5,
     "Name": "cropinfomessage",
     "Text": "<h1>Crop Removal Balance</h1><ul><li>Crop removal balances indicate if soil phosphorus (P) or potassium (K) levels will change</li><li>Agronomic balances mainly indicate if crop nutrient requirements are met</li><li>Increases in soil P in the long term are a possible water quality concern</li></ul><p><a href=\"https://drive.google.com/file/d/1U9k7Yv_Ua-_DzD8jAibyhEaV--9UGsFW/view\" target=\"_blank\">Learn more (opens in new tab)</a></p>",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 6,
     "Name": "fileoverwritewarning",
     "Text": "<p class='text-danger'><span style='font-weight:bold;'>Download file</span> to save the changes you made, or <span style='font-weight:bold;'>Continue</span> without saving.</p>",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 7,
     "Name": "finishwithoutsaving",
     "Text": "Download a file to save the changes you made, or Continue to close this session without saving.",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 8,
     "Name": "fieldcommentplaceholder",
     "Text": "e.g., poor drainage in southwest corner (no need to specify crop here)",
-    "PageName": "FieldsModal",
+    "UserPromptPage": "FieldsModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 9,
     "Name": "ncreditlabel",
     "Text": "Previous crop ploughed down (N credit)",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 11,
     "Name": "soiltestwarning",
     "Text": "Do you have soil tests from within the past 3 years?<p /><ul><li>Yes - Select the lab used (soil test methods)</li><li>No - Click Next</li></ul>",
-    "PageName": "SoilTest",
+    "UserPromptPage": "SoilTest",
     "UserJourney": "Mixed"
   },
   {
     "Id": 12,
     "Name": "compostmessage",
     "Text": "Manure/Compost Nutrient Analyses: Book Values or Lab Analyses",
-    "PageName": "ManureNutrientAnalysis",
+    "UserPromptPage": "ManureNutrientAnalysis",
     "UserJourney": "Dairy"
   },
   {
     "Id": 13,
     "Name": "nocropmessage",
-    "Text": "Forget something? Return to Calculate Nutrients to find fields without a crop (*)."
-    "PageName": "Report",
+    "Text": "Forget something? Return to Calculate Nutrients to find fields without a crop (*).",
+    "UserPromptPage": "Report",
     "UserJourney": "Mixed"
   },
   {
     "Id": 14,
     "Name": "reportdownload",
     "Text": "<div style='text-align: center; width: 300px'><p>To <b>continue later</b>, Download file to your computer</p><p>Load a file on the Home page when you want to continue<p><a href='#' data_modalI='' data-type='{0}'>How to use the data file</a></p></div>",
-    "PageName": "Report",
+    "UserPromptPage": "Report",
     "UserJourney": "Mixed"
   },
   {
     "Id": 15,
     "Name": "reportload",
     "Text": "<ul><li>Load data file from your comupter</li></ul>",
-    "PageName": "Report",
+    "UserPromptPage": "Report",
     "UserJourney": "Mixed"
   },
   {
     "Id": 16,
     "Name": "launchNew",
-    "Text": "<ul><li>Begin calculations</li><li>Start over</li></ul>"
-    "PageName": "Home",
+    "Text": "<ul><li>Begin calculations</li><li>Start over</li></ul>",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 17,
     "Name": "launchLoad",
     "Text": "<ul><li>Continue a file in progress</li><li>Copy and edit data from a previous year</li></ul>",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 18,
     "Name": "launchMsg1",
     "Text": "Make the most of manure and fertilizer to grow crops",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 19,
     "Name": "launchMsg2",
     "Text": "Keep nutrient losses to the environment to a minimum",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 20,
     "Name": "downloadinfomessage",
     "Text": "<h1>Downloading Files</h1>",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 21,
     "Name": "browseroutofdate",
     "Text": "<a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Update your browser for best performance with this website.</a>",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 22,
     "Name": "unknownbrowser",
     "Text": "<a href=\"http://outdatedbrowser.com/en\" target=\"_blank\">Click to download a supported browser.</a>",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 23,
     "Name": "moreinfo",
     "Text": "Learn more (opens in new tab)",
-    "PageName": "ManureNutrientAnalysisModal",
+    "UserPromptPage": "ManureNutrientAnalysisModal",
     "UserJourney": "Dairy"
   },
   {
     "Id": 24,
     "Name": "soiltest",
     "Text": "<h1>Lab (Soil Test Methods)</h1><ul><li>Different labs use different soil test methods for phosphorus (P) and potassium (K)</li><li>Different methods give different values for the same soil sample</li><li>This website converts lab report values to standard ('Kelowna' method-equivalent) values</li><li>Lab not listed? Click Learn more below</ul><p><a href=\"https://drive.google.com/file/d/1tMiWoV2pCdQ6HDJ4st-PqNiQc4t5lxRZ/view\" target=\"_blank\">Learn more (opens in new tab)</a></p>",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 25,
     "Name": "invaliddevice",
     "Text": "Use another device for best performance. This site has not been designed for iPhones or iPads.",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 26,
     "Name": "defaultsoiltest",
     "Text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<p class=\"text-danger\">Crop P and K requirements will be 0 on fields without a soil test.</p>",
-    "PageName": "SoilTestModal",
+    "UserPromptPage": "SoilTestModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 27,
     "Name": "missingregion",
-    "Text": "Before adding a field, you must specify a region under Farm Information."
-    "PageName": "Farm",
+    "Text": "Before adding a field, you must specify a region under Farm Information.",
+    "UserPromptPage": "Farm",
     "UserJourney": "Initial"
   },
   {
     "Id": 28,
     "Name": "othernutrientplaceholder",
     "Text": "e.g. irrigation water",
-    "PageName": "SoilTestModal",
+    "UserPromptPage": "SoilTestModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 29,
     "Name": "averageanimalnumberplaceholder",
     "Text": "e.g. 10",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 30,
     "Name": "deletewarningmanuregenerated",
-    "Text": "This deletes the manuregenerated/obtained details."
-    "PageName": null,
+    "Text": "This deletes the manuregenerated/obtained details.",
+    "UserPromptPage": null,
     "UserJourney": null
   },
   {
     "Id": 31,
     "Name": "storagesystemnamedefault",
     "Text": "{0} Storage System {1}",
-    "PageName": "ManureGeneratedObtainedModal",
+    "UserPromptPage": "ManureGeneratedObtainedModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 32,
     "Name": "storagestructureliquidnameplaceholder",
     "Text": "e.g. under-barn, or steel tank",
-    "PageName": "ManureGeneratedObtainedModal",
+    "UserPromptPage": "ManureGeneratedObtainedModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 33,
     "Name": "storagestructuresolidnameplaceholder",
     "Text": "e.g. concrete walled",
-    "PageName": "ManureGeneratedObtainedModal",
+    "UserPromptPage": "ManureGeneratedObtainedModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 34,
     "Name": "explainmaterialsneedingstorage",
     "Text": "These are the manure types, composts, etc. that should be stored but haven't been assigned to a storage system yet.",
-    "PageName": "ManureGeneratedObtained",
+    "UserPromptPage": "ManureGeneratedObtained",
     "UserJourney": "Mixed"
   },
   {
     "Id": 35,
     "Name": "ImportMaterialIsMaterialAppliedQuestion",
     "Text": "Is the material stored?",
-    "PageName": "ManureImportedModal",
+    "UserPromptPage": "ManureImportedModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 36,
     "Name": "remainingMaterialsMessage",
     "Text": "The following materials are not applied to a field                                  ",
-    "PageName": "Report",
+    "UserPromptPage": "Report",
     "UserJourney": "Mixed"
   },
   {
     "Id": 37,
     "Name": "overUtilizedMaterialsMessage",
     "Text": "There is not enough of the following materials to meet the planned application rates",
-    "PageName": "Report",
+    "UserPromptPage": "Report",
     "UserJourney": "Mixed"
   },
   {
     "Id": 38,
     "Name": "materialsNotStoredMessage",
     "Text": "The following materials are not stored",
-    "PageName": "Report",
+    "UserPromptPage": "Report",
     "UserJourney": "Mixed"
   },
   {
     "Id": 39,
     "Name": "NoMaterialsForStorage",
     "Text": "There are no materials of this type to store. To add materials, go back to add animals or add imported material.",
-    "PageName": "ManureStorageModal",
+    "UserPromptPage": "ManureStorageModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 40,
     "Name": "ExplainWashWaterTypes",
     "Text": "Enter total wash water volumes added daily.Typical wash water volumes range from 5 to 10 US gallons/day/cow.",
-    "PageName": "ManureGeneratedObtainedModal",
+    "UserPromptPage": "ManureGeneratedObtainedModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 41,
     "Name": "FileLoadQuestion",
     "Text": "Do you have a file to load?",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 42,
     "Name": "ExplainFileLoad",
     "Text": "An \".nmp file\" is the only place to save or store information that you will be asked to provide.You can load an .nmp file from your computer to continue work that has been started.",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 43,
     "Name": "nutrientAnalysisForMaterialsMessage",
     "Text": "Add a nutrient Analysis for each of these storage systems or imported materials, if you intend to use the materials to grow crops or amend soil.",
-    "PageName": "ManureNutrientAnalysis",
+    "UserPromptPage": "ManureNutrientAnalysis",
     "UserJourney": "Mixed"
   },
   {
     "Id": 44,
     "Name": "DeviceTooSmallMessage",
     "Text": "Use another device for best performance as this site requires a screen minimum width of 768 pixels",
-    "PageName": "Home",
+    "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
   {
     "Id": 45,
     "Name": "MaterialsOctoberToMarchMessage",
     "Text": "The total volume of manure generated from October to March",
-    "PageName": "ManureStorageModal",
+    "UserPromptPage": "ManureStorageModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 46,
     "Name": "RunoffOctoberToMarchMessage",
     "Text": "The volume of yard and roof runoff water entering the storage system from October to March",
-    "PageName": "ManureStorageModal",
+    "UserPromptPage": "ManureStorageModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 47,
     "Name": "MaterialsStoredOctoberToMarchMessage",
     "Text": "The total volume of liquid manure that is stored from October to March",
-    "PageName": "ManureStorageModal",
+    "UserPromptPage": "ManureStorageModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 48,
     "Name": "PrecipitationOctoberToMarch",
     "Text": "The total volume of manure, yard and roof runoff, and precipitation added to an uncovered storage structure from October to March",
-    "PageName": "ManureStorageModal",
+    "UserPromptPage": "ManureStorageModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 49,
     "Name": "RegionRequiredWarning",
-    "Text": "A region must be selected so that the nutrient management calculator can provide accurate estimates for climate and crop requirements"
-    "PageName": "Farm",
+    "Text": "A region must be selected so that the nutrient management calculator can provide accurate estimates for climate and crop requirements",
+    "UserPromptPage": "Farm",
     "UserJourney": "Initial"
   },
   {
     "Id": 50,
     "Name": "StorageDeficiencyMessage",
     "Text": "Materials to be stored is more than the Storage Volume",
-    "PageName": "ManureStorageModal",
+    "UserPromptPage": "ManureStorageModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 55,
     "Name": "NutrientAnalysisMoistureMessage",
     "Text": "This value should be a percentage of the moisture contained in the material as received.  It should not be a dry matter value",
-    "PageName": "ManureNutrientAnalysisModal",
+    "UserPromptPage": "ManureNutrientAnalysisModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 56,
     "Name": "NutrientAnlalysisNitrogenMessage",
     "Text": "This value is the percentage of the manure/compost made up of total nitrogen (TN), which includes the organic and inorganic portions",
-    "PageName": "ManureNutrientAnalysisModal",
+    "UserPromptPage": "ManureNutrientAnalysisModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 57,
     "Name": "NutrientAnlalysisAmmoniaMessage",
     "Text": "This value is the portion of the manure/compost in the form of ammonium-nitrogen (NH4-N), an inorganic/mineral form of nitrogen. It may also be expressed in units of mg/kg or mg/L",
-    "PageName": "ManureNutrientAnalysisModal",
+    "UserPromptPage": "ManureNutrientAnalysisModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 58,
     "Name": "NutrientAnlalysisPhosphorousMessage",
     "Text": "This value is the percentage of the manure/compost made up of phosphorus (P)",
-    "PageName": "ManureNutrientAnalysisModal",
+    "UserPromptPage": "ManureNutrientAnalysisModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 59,
     "Name": "NutrientAnlalysisPotassiumMessage",
     "Text": "This value is the percentage of the manure compost made up potassium (K).",
-    "PageName": "ManureNutrientAnalysisModal",
+    "UserPromptPage": "ManureNutrientAnalysisModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 60,
     "Name": "CalculateNutrientsPrevManureMessage",
     "Text": "A significant factor in the amount of potentially mineralized nitrogen is the history of manure application. Mineralization of organic matter from previous years' manure applications may be different from the given value depending on manure application frequency, rate, and farm location",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 61,
     "Name": "CalculateOtherNutrientSourceMessage",
     "Text": "Enter a description of the nutrient source",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 62,
     "Name": "CalculateOtherNutrientAvailableThisYearMessage",
     "Text": "These values represent the amount of nutrients available to the crop from the nutrient source during the growing season.  These will be added to the Agronomic Balance.",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 63,
     "Name": "CalculateOtherNutrientAvailbleLongTermMessage",
     "Text": "These values represent the amount of nutrients added to the soil from the nutrient source.  These will be added to the Crop Removal Balance.",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 64,
     "Name": "FarmDataBackwardsCompatibility",
-    "Text": "Warning: The loaded file is from a previous version of the Nutrient Management Calculator. If your file contained manure data, assign a source to each type of manure to avoid errors in the calculation and reporting functions."
-    "PageName": "Farm",
+    "Text": "Warning: The loaded file is from a previous version of the Nutrient Management Calculator. If your file contained manure data, assign a source to each type of manure to avoid errors in the calculation and reporting functions.",
+    "UserPromptPage": "Farm",
     "UserJourney": "Initial"
   },
   {
     "Id": 65,
     "Name": "CalculateNutrientsNitrogenNitrateMessage",
     "Text": "By default, this value calculates the nitrate available in the top 6\" of soil at the time the soil sample was taken.  In the South Coast where nitrate is leached overwinter, this value will be zero if the sample was taken before spring.",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 66,
     "Name": "SoilTestValuesMessage",
     "Text": "Do not enter results from soil samples taken deeper than 6 inches (15cm).Do not use post-harvest nitrate tests results here",
-    "PageName": "SoilTestModal",
+    "UserPromptPage": "SoilTestModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 67,
     "Name": "SoilTestNitrogenNitrateMessage",
     "Text": "The amount of nitrogen available in the form of nitrate (NO3-N), and is generally expressed in ppm or mg/kg. Found on a recent soil test report.",
-    "PageName": "SoilTestModal",
+    "UserPromptPage": "SoilTestModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 68,
     "Name": "SoilTestPhosphorousMessage",
     "Text": "The amount of available phosphorus given from a recent soil test. Generally expressed in ppm or mg/kg.",
-    "PageName": "SoilTestModal",
+    "UserPromptPage": "SoilTestModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 69,
     "Name": "SoilTestPotassiumMessage",
     "Text": "The amount of available potassium given from a recent soil test. Generally expressed in ppm or mg/kg.",
-    "PageName": "SoilTestModal",
+    "UserPromptPage": "SoilTestModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 70,
     "Name": "SoilTestPHMessage",
     "Text": "Soil pH is the measure of a soil's acidity or alkalinity. Ranges between 4 and 9 in most soils.",
-    "PageName": "SoilTestModal",
+    "UserPromptPage": "SoilTestModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 71,
     "Name": "PercentageLiquidVolumeSeparatedMessage",
     "Text": "Percentage of liquid volume separated into a solid manure.",
-    "PageName": "ManureStorageModal",
+    "UserPromptPage": "ManureStorageModal",
     "UserJourney": "Mixed"
   },
   {
     "Id": 72,
     "Name": "AmmoniumRetensionMessage",
-    "Text": "This value is an estimate of how much volatile ammoniums is retained in the manure after application.  Manure type, and the timing and method of application affect retention."
-    "PageName": "",
-
-    "UserJourney": ""
+    "Text": "This value is an estimate of how much volatile ammoniums is retained in the manure after application.  Manure type, and the timing and method of application affect retention.",
+    "UserPromptPage": "Calculate",
+    "UserJourney": "Mixed"
   },
   {
     "Id": 73,
     "Name": "AvailableOrganicNitrogenMessage",
     "Text": "This value is an estimate of how much of the stable organic nitrogen in manure will become available during the growing season.  ",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 74,
     "Name": "AvailableNutrientsThisYearMessage",
     "Text": "These values represent the estimated amount of nutrients available to the crop during the growing season from the manure at the calculated application rate.  These will be added to the Agronomic Balance.",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 75,
     "Name": "AvaiableNutreintsLongTermMessage",
     "Text": "These values represent the estimated amount nutrients added to the soil from the manure at the calculated application rate.  These will be added to the Crop Removal Balance.",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 76,
     "Name": "NoManureSourceAddedWarning",
     "Text": "Warning: No manure or compost sources have been added to this farm, return to the manure section and add either animals or an imported material before adding manure applications to a field.",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   },
   {
     "Id": 77,
     "Name": "NoNutrientAnalysisAddedWarning",
     "Text": "Warning: To add manure applications to a field, the calculator requires some information about the kind of manure being applied.  Complete the information on the nutrient analysis screen for each source of manure.",
-    "PageName": "Calculate",
+    "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   }
 ]
