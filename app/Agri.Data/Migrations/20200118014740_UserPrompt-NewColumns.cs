@@ -15,10 +15,20 @@ namespace Agri.Data.Migrations
                 name: "UserJourney",
                 table: "UserPrompts",
                 nullable: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPrompts_Name",
+                table: "UserPrompts",
+                column: "Name",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropIndex(
+                name: "IX_UserPrompts_Name",
+                table: "UserPrompts");
+
             migrationBuilder.DropColumn(
                 name: "UserJourney",
                 table: "UserPrompts");

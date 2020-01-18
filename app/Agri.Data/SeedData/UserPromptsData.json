@@ -502,5 +502,55 @@
     "Text": "Warning: To add manure applications to a field, the calculator requires some information about the kind of manure being applied.  Complete the information on the nutrient analysis screen for each source of manure.",
     "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
+  },
+
+  {
+    "Id": 78,
+    "Name": "ExplainNutrientAnalysisMoisture-Ranch",
+    "Text": "This value should be a percentage of the moisture contained in the material as received.  It should not be a dry matter value",
+    "UserPromptPage": "RanchNutrientsCreateEdit",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 79,
+    "Name": "ExplainNutrientAnalysisNitrogen-Ranch",
+    "Text": "This value is the percentage of the manure/compost made up of total nitrogen (TN), which includes the organic and inorganic portions",
+    "UserPromptPage": "RanchNutrientsCreateEdit",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 80,
+    "Name": "ExplainNutrientAnlalysisAmmonia-Ranch",
+    "Text": "This value is the portion of the manure/compost in the form of ammonium-nitrogen (NH4-N), an inorganic/mineral form of nitrogen. It may also be expressed in units of mg/kg or mg/L",
+    "UserPromptPage": "RanchNutrientsCreateEdit",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 81,
+    "Name": "ExplainNutrientAnlalysisPhosphorous-Ranch",
+    "Text": "This value is the percentage of the manure/compost made up of phosphorus (P)",
+    "UserPromptPage": "RanchNutrientsCreateEdit",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 82,
+    "Name": "ExplainNutrientAnlalysisPotassium-Ranch",
+    "Text": "This value is the percentage of the manure compost made up potassium (K).",
+    "UserPromptPage": "RanchNutrientsCreateEdit",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 83,
+    "Name": "RanchNutrientAnalysisEntryCreateEditMessage",
+    "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
+    "UserPromptPage": "RanchNutrientsCreateEdit",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 84,
+    "Name": "RanchNutrientAnalysisEntryListMessage",
+    "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
+    "UserPromptPage": "RanchNutrientsList",
+    "UserJourney": "Ranch"
   }
 ]

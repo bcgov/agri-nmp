@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Agri.Data;
+using Agri.Models;
 using Agri.Models.Farm;
 using AutoMapper;
 using MediatR;
@@ -55,6 +57,7 @@ namespace SERVERAPI.Pages.RanchNutrients
         {
             public List<ManureNutrientAnalysis> ManureAnalytics { get; set; }
             public List<RanchManure> RanchManures { get; set; }
+            public string RanchNutrientAnalysisEntryListMessage { get; set; }
 
             public class ManureNutrientAnalysis
             {
@@ -93,22 +96,26 @@ namespace SERVERAPI.Pages.RanchNutrients
         {
             private readonly UserData _ud;
             private readonly IMapper _mapper;
+            private readonly AgriConfigurationContext _db;
 
-            public Handler(UserData ud, IMapper mapper)
+            public Handler(UserData ud, IMapper mapper, AgriConfigurationContext db)
             {
                 _ud = ud;
                 _mapper = mapper;
+                _db = db;
             }
 
             public async Task<Model> Handle(Query request, CancellationToken cancellationToken)
             {
                 var farmManures = _ud.GetFarmManures();
                 var managedManure = _ud.GetAllManagedManures().Where(mm => !mm.AssignedWithNutrientAnalysis).ToList();
+                var message = _db.UserPrompts.Single(p => p.UserPromptPage == UserPromptPage.RanchNutrientsList.ToString()).Text;
 
                 var model = new Model
                 {
                     ManureAnalytics = _mapper.Map<List<Model.ManureNutrientAnalysis>>(farmManures),
-                    RanchManures = _mapper.Map<List<Model.RanchManure>>(managedManure)
+                    RanchManures = _mapper.Map<List<Model.RanchManure>>(managedManure),
+                    RanchNutrientAnalysisEntryListMessage = message
                 };
 
                 return await Task.FromResult(model);

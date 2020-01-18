@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20200118010130_UserPrompt-NewColumns")]
+    [Migration("20200118014740_UserPrompt-NewColumns")]
     partial class UserPromptNewColumns
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1429,6 +1429,9 @@ namespace Agri.Data.Migrations
                     b.Property<string>("UserPromptPage");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("UserPrompts");
                 });
