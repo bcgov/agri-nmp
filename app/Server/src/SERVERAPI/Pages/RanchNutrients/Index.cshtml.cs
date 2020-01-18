@@ -29,7 +29,7 @@ namespace SERVERAPI.Pages.RanchNutrients
         {
             Data = await _mediator.Send(new Query());
 
-            if (!Data.RanchManures.Any())
+            if (!Data.RanchManures.Any() && !Data.ManureAnalytics.Any())
             {
                 if (Request.Headers["referer"].ToString().Contains("RanchManure"))
                 {
@@ -82,7 +82,8 @@ namespace SERVERAPI.Pages.RanchNutrients
         {
             public MappingProfile()
             {
-                CreateMap<FarmManure, Model.ManureNutrientAnalysis>();
+                CreateMap<FarmManure, Model.ManureNutrientAnalysis>()
+                    .ForMember(m => m.Moisture, opts => opts.MapFrom(s => s.Customized ? $"{s.Moisture}%" : s.Moisture));
                 CreateMap<ManagedManure, Model.RanchManure>()
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
             }
