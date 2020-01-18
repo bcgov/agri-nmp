@@ -1428,6 +1428,9 @@ namespace Agri.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("UserPrompts");
                 });
 

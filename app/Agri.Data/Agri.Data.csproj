@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191222182326_MiniAppTables.cs" />
-    <Compile Remove="Migrations\20191222182326_MiniAppTables.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="SeedData\MiniAppData.json" />
     <None Remove="SeedData\MiniAppLabelData.json" />
   </ItemGroup>
