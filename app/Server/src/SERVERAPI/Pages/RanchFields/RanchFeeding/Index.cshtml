@@ -2,77 +2,77 @@
 @model SERVERAPI.Pages.RanchFields.RanchFeeding.Index
 @using Agri.Models
 @{
-    ViewData["Title"] = "Feeding Area";
+    ViewData["HeaderTitle"] = "Feeding Area";
     Layout = "_PageLayout";
 }
-<div class="form-box">
-    <div class="form-box-header">
-        <strong>Feeding Area</strong>
-    </div>
-    <div class="form-box-body">
-        <div class="form-box-table">
-            <div class="form-box-table-header form-box-table-row row row-eq-height">
-                <div class="col-sm-2 form-box-table-cell">
-                    &nbsp;
-                </div>
-                <div class="col-sm-3 form-box-table-cell">
-                    <strong>
-                        Nutrient additions (lb/ac)
-                        <a href="#" data-toggle="tooltip" id="toolTipFeedingAreaWarning" title="@Model.Data.feedingAreaWarning">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Nutrient" style="font-size:20px; padding-top:5px"></span>
-                        </a>
-                    </strong>
-                </div>
-                <div class="col-sm-7">
-                    &nbsp;
-                </div>
+<div class="form-box-body">
+    <div class="form-box-table">
+        <div class="form-box-table-header form-box-table-row row row-eq-height">
+            <div class="col-sm-2 form-box-table-cell">
+                &nbsp;
             </div>
-            <div class="form-box-table-header form-box-table-row row row-eq-height">
-                <div class="col-sm-2 form-box-table-cell text-left">
-                    <strong>Field Name</strong>
-                </div>
-                <div class="col-sm-3 form-box-table-cell">
-                    <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P2O3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K2O</strong>
-                </div>
-                <div class="col-sm-7">
-                    &nbsp;
-                </div>
+            <div class="col-sm-3 form-box-table-cell">
+                <strong>
+                    Nutrient additions (lb/ac)
+                    <a href="#" data-toggle="tooltip" id="toolTipFeedingAreaWarning" title="@Model.Data.feedingAreaWarning">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Nutrient" style="font-size:20px; padding-top:5px"></span>
+                    </a>
+                </strong>
             </div>
-            @foreach (var item in Model?.Data?.Fields)
-            {
-                <div class="form-box-table-row row row-eq-height">
-                    <div class="col-sm-2 form-box-table-cell text-left">
-                        @item.FieldName
-                    </div>
-                    <div class="col-sm-3 form-box-table-cell text-left">
-                        <button class="btn btn-default" id="@item.FieldName" type="button">Add Feed/Forage</button>
-                    </div>
-                    <div class="col-sm-7">
-                        &nbsp;
-                    </div>
-                </div>
-            }
+            <div class="col-sm-7">
+                &nbsp;
+            </div>
         </div>
+        <div class="form-box-table-header form-box-table-row row row-eq-height">
+            <div class="col-sm-2 form-box-table-cell text-left">
+                <strong>Field Name</strong>
+            </div>
+            <div class="col-sm-3 form-box-table-cell">
+                <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P<sub>2</sub>O<sub>3</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>2</sub>O</strong>
+            </div>
+            <div class="col-sm-7">
+                &nbsp;
+            </div>
+        </div>
+        @foreach (var item in Model?.Data?.Fields)
+        {
+            <div class="form-box-table-row row row-eq-height">
+                <div class="col-sm-2 form-box-table-cell text-left">
+                    @item.FieldName
+                </div>
+                <div class="col-sm-3 form-box-table-cell text-left">
+                    <button class="btn btn-default" id="@item.FieldName" type="button">Add Feed/Forage</button>
+                </div>
+                <div class="col-sm-7">
+                    &nbsp;
+                </div>
+            </div>
+        }
     </div>
 </div>
+@section PreviousNextNavigation
+{
+    @*Ensure that the new index page is added to FeaturePages Enum and it is correct for this index page*@
+    @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentPage = FeaturePages.RanchFeedingIndex })
+}
 
 @section Scripts {
     <script type="text/javascript">
 
-    $(document).ready(function () {
-        $('#toolTipFeedingAreaWarning').tooltip({
-            template: toolTipClickableInnerHtml,
-            html: true,
-            trigger: 'manual'
+        $(document).ready(function () {
+            $('#toolTipFeedingAreaWarning').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
         });
-    });
 
-    //Using triggerToolTip function from ~/lib/site.js
-    $(document).ready(function () {
-        $('#toolTipFeedingAreaWarning').click(function () {
-            debugger;
-            triggerToolTip($('#toolTipFeedingAreaWarning'));
-        });
-    })
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipFeedingAreaWarning').click(function () {
+                debugger;
+                triggerToolTip($('#toolTipFeedingAreaWarning'));
+            });
+        })
     </script>
 }
