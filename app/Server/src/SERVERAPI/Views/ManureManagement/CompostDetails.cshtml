@@ -8,7 +8,7 @@
     <form asp-action="CompostDetails" asp-controller="ManureManagement" id="modForm" method="post" data-ajax="true" data-ajax-method="POST" data-ajax-mode="REPLACE-WITH" data-ajax-update="#target">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h2 class="modal-title" id="myModalLabel">Manure/Compost Details - @Model.act</h2>
+            <h2 class="modal-title" id="myModalLabel">Manure/Compost Details - @Model.Action</h2>
         </div>
 
         <div class="modal-body">
@@ -18,19 +18,19 @@
                     <div class="form-group col-sm-3">
                         <label for="ddlSourceOfMaterial">Source of Material</label>
                         <div>
-                            <select class="form-control" asp-for="selsourceOfMaterialOption" asp-items="@(new SelectList(Model.sourceOfMaterialOptions,"Text","Value"))" id="ddlSourceOfMaterial">
+                            <select class="form-control" asp-for="SelectedSourceOfMaterialOption" asp-items="@(new SelectList(Model.SourceOfMaterialOptions,"Text","Value"))" id="ddlSourceOfMaterial">
                                 <option>select</option>
                             </select>
-                            <span asp-validation-for="selsourceOfMaterialOption" class="text-danger">Select a Source of Material</span>
+                            <span asp-validation-for="SelectedSourceOfMaterialOption" class="text-danger">Select a Source of Material</span>
                         </div>
                     </div>
                     <div class="form-group col-sm-5" style="vertical-align:baseline">
                         <label for="ddlMan">Material Type</label>
                         <div>
-                            <select class="form-control" asp-for="selManOption" asp-items="@(new SelectList(Model.manOptions, "Id", "Value"))" id="ddlMan">
+                            <select class="form-control" asp-for="SelectedManureOption" asp-items="@(new SelectList(Model.ManureOptions, "Id", "Value"))" id="ddlMan">
                                 <option>select</option>
                             </select>
-                            <span asp-validation-for="selManOption" class="text-danger">Select a Material Type</span>
+                            <span asp-validation-for="SelectedManureOption" class="text-danger">Select a Material Type</span>
                         </div>
                     </div>
                 </div>
@@ -38,38 +38,37 @@
                     <div class="form-group col-sm-6">
                         <div>&nbsp;</div>
                         <div class="radio" style="margin-top:0px">
-                            @if (Model.onlyCustom)
+                            @if (Model.OnlyCustom)
                             {
                                 <label style="padding-right:20px">
-                                    <input asp-for="bookValue" type="radio" value="true" id="book" disabled="disabled" /> Book Value
+                                    <input asp-for="BookValue" type="radio" value="true" id="book" disabled="disabled" /> Book Value
                                 </label>
                             }
                             else
                             {
                                 <label style="padding-right:20px">
-                                    <input asp-for="bookValue" type="radio" value="true" id="book" /> Book Value
+                                    <input asp-for="BookValue" type="radio" value="true" id="book" /> Book Value
                                 </label>
                             }
-                            @if (Model.selManOption != 0)
+                            @if (Model.SelectedManureOption != 0)
                             {
                                 <label>
-                                    <input asp-for="bookValue" type="radio" value="false" id="lab" /> Lab Analysis
+                                    <input asp-for="BookValue" type="radio" value="false" id="lab" /> Lab Analysis
                                 </label>
                             }
                             else
                             {
                                 <label>
-                                    <input asp-for="bookValue" type="radio" value="false" id="lab" disabled="disabled" /> Lab Analysis
+                                    <input asp-for="BookValue" type="radio" value="false" id="lab" disabled="disabled" /> Lab Analysis
                                 </label>
                             }
                         </div>
-                        <span asp-validation-for="bookValue"></span>
+                        <span asp-validation-for="BookValue"></span>
                     </div>
                 </div>
                 <div style="clear:both"></div>
-                @if (Model.bookValue)
+                @if (Model.BookValue)
                 {
-
 
                     <div style="clear:both"></div>
                     <div class="form-group">
@@ -83,7 +82,7 @@
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of moisture content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                @Model.moisture
+                                @Model.Moisture
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
@@ -92,7 +91,7 @@
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of nitrogen content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                @Model.nitrogen
+                                @Model.Nitrogen
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
@@ -101,7 +100,7 @@
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of NH4-N content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                @Model.ammonia
+                                @Model.Ammonia
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
@@ -110,7 +109,7 @@
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of P content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                @Model.phosphorous
+                                @Model.Phosphorous
                             </div>
                         </div>
                         <div class="form-group col-sm-2">
@@ -119,7 +118,7 @@
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of K content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                @Model.potassium
+                                @Model.Potassium
                             </div>
                         </div>
                     </div>
@@ -128,92 +127,91 @@
                 {
                     <div class="form-group">
                         <div class="form-group col-sm-6">
-                            <label asp-for="manureName">Material Name</label>
+                            <label asp-for="ManureName">Material Name</label>
                             <div class="input-group col-sm-12">
-                                <input class="form-control" asp-for="manureName" id="manureName" type="text" />
+                                <input class="form-control" asp-for="ManureName" id="manureName" type="text" />
                             </div>
-                            <span asp-validation-for="manureName" class="text-danger"></span>
+                            <span asp-validation-for="ManureName" class="text-danger"></span>
                         </div>
                     </div>
                     <div style="clear:both"></div>
                     <div class="form-group">
                         <div class="form-group col-sm-2">
-                            <label asp-for="moisture">Moisture&nbsp;(%)</label>
+                            <label asp-for="Moisture">Moisture&nbsp;(%)</label>
                             <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnalysisMoisture" id="toolTipExplainNutrientAnalysisMoisture">
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of moisture content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="moisture" id="moisture" type="text" placeholder="@Model.moistureBook" />
+                                <input class="form-control" asp-for="Moisture" id="moisture" type="text" placeholder="@Model.MoistureBook" />
                             </div>
-                            <span asp-validation-for="moisture" class="text-danger"></span>
+                            <span asp-validation-for="Moisture" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label asp-for="nitrogen">N&nbsp;(%)</label>
+                            <label asp-for="Nitrogen">N&nbsp;(%)</label>
                             <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnalysisNitrogen" id="toolTipExplainNutrientAnalysisNitrogen">
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of nitrogen content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="nitrogen" id="nitrogen" type="text" placeholder="@Model.nitrogenBook" />
+                                <input class="form-control" asp-for="Nitrogen" id="nitrogen" type="text" placeholder="@Model.NitrogenBook" />
                             </div>
-                            <span asp-validation-for="nitrogen" class="text-danger"></span>
+                            <span asp-validation-for="Nitrogen" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label asp-for="ammonia">NH<sub>4</sub>-N&nbsp;(ppm)</label>
+                            <label asp-for="Ammonia">NH<sub>4</sub>-N&nbsp;(ppm)</label>
                             <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnlalysisAmmonia" id="toolTipExplainNutrientAnlalysisAmmonia">
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of NH4-N content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="ammonia" id="ammonia" type="text" placeholder="@Model.ammoniaBook" />
+                                <input class="form-control" asp-for="Ammonia" id="ammonia" type="text" placeholder="@Model.AmmoniaBook" />
                             </div>
-                            <span asp-validation-for="ammonia" class="text-danger"></span>
+                            <span asp-validation-for="Ammonia" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label asp-for="phosphorous">P&nbsp;(%)</label>
+                            <label asp-for="Phosphorous">P&nbsp;(%)</label>
                             <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnlalysisPhosphorous" id="toolTipExplainNutrientAnlalysisPhosphorous">
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of P content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="phosphorous" id="phosphorous" type="text" placeholder="@Model.phosphorousBook" />
+                                <input class="form-control" asp-for="Phosphorous" id="phosphorous" type="text" placeholder="@Model.PhosphorousBook" />
                             </div>
-                            <span asp-validation-for="phosphorous" class="text-danger"></span>
+                            <span asp-validation-for="Phosphorous" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-2">
-                            <label asp-for="potassium">K&nbsp;(%)</label>
+                            <label asp-for="Potassium">K&nbsp;(%)</label>
                             <a href="#" data-toggle="tooltip" title="@Model.ExplainNutrientAnlalysisPotassium" id="toolTipExplainNutrientAnlalysisPotassium">
                                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of K content" style="font-size:20px; padding-top:5px"></span>
                             </a>
                             <div class="input-group col-sm-6">
-                                <input class="form-control" asp-for="potassium" id="potassium" type="text" placeholder="@Model.potassiumBook" />
+                                <input class="form-control" asp-for="Potassium" id="potassium" type="text" placeholder="@Model.PotassiumBook" />
                             </div>
-                            <span asp-validation-for="potassium" class="text-danger"></span>
+                            <span asp-validation-for="Potassium" class="text-danger"></span>
                         </div>
-                        @if (Model.showNitrate)
+                        @if (Model.ShowNitrate)
                         {
                             <div class="form-group col-sm-2">
-                                <label asp-for="nitrate">NO<sub>3</sub>-N&nbsp;(ppm)</label>
+                                <label asp-for="Nitrate">NO<sub>3</sub>-N&nbsp;(ppm)</label>
                                 <div class="input-group col-sm-6">
-                                    <input class="form-control" asp-for="nitrate" id="nitrate" type="text" placeholder="@Model.nitrateBook" />
+                                    <input class="form-control" asp-for="Nitrate" id="nitrate" type="text" placeholder="@Model.NitrateBook" />
                                 </div>
-                                <span asp-validation-for="nitrate" class="text-danger"></span>
+                                <span asp-validation-for="Nitrate" class="text-danger"></span>
                             </div>
                         }
                     </div>}
-
             </div>
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
             <input class="btn btn-primary" type="submit" value="Save" />
         </div>
-        @Html.HiddenFor(x => x.act)
-        @Html.HiddenFor(x => x.buttonPressed)
-        @Html.HiddenFor(x => x.compost)
-        @Html.HiddenFor(x => x.target)
-        @Html.HiddenFor(x => x.manureName)
-        @Html.HiddenFor(x => x.url)
-        @Html.HiddenFor(x => x.urlText)
-        @Html.HiddenFor(x => x.onlyCustom)
-        @Html.HiddenFor(x => x.showNitrate)
+        @Html.HiddenFor(x => x.Action)
+        @Html.HiddenFor(x => x.ButtonPressed, new { id = "buttonPressed" })
+        @Html.HiddenFor(x => x.Compost)
+        @Html.HiddenFor(x => x.Target)
+        @Html.HiddenFor(x => x.ManureName)
+        @Html.HiddenFor(x => x.Url)
+        @Html.HiddenFor(x => x.UrlText)
+        @Html.HiddenFor(x => x.OnlyCustom)
+        @Html.HiddenFor(x => x.ShowNitrate)
         @Html.HiddenFor(x => x.IsLegacyNMPReleaseVersion)
         @Html.HiddenFor(x => x.LegacyNMPReleaseVersionManureId)
     </form>

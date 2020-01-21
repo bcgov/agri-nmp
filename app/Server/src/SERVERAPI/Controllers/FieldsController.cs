@@ -55,9 +55,9 @@ namespace SERVERAPI.Controllers
             foreach (var f in fldList)
             {
                 FieldListItem fli = new FieldListItem();
-                if (!(f.fieldName == currFld))
+                if (!(f.FieldName == currFld))
                 {
-                    fli.fieldName = f.fieldName;
+                    fli.fieldName = f.FieldName;
                     fli.fieldSelected = false;
                     fvm.fieldList.Add(fli);
                 }
@@ -157,17 +157,17 @@ namespace SERVERAPI.Controllers
             if (!string.IsNullOrEmpty(name))
             {
                 Field fld = _ud.GetFieldDetails(name);
-                fvm.currFieldName = fld.fieldName;
-                fvm.fieldName = fld.fieldName;
-                fvm.fieldArea = fld.area.ToString("G29");
-                fvm.fieldComment = fld.comment;
+                fvm.currFieldName = fld.FieldName;
+                fvm.fieldName = fld.FieldName;
+                fvm.fieldArea = fld.Area.ToString("G29");
+                fvm.fieldComment = fld.Comment;
                 fvm.fieldId = fld.Id;
                 // retrofit old saved NMP files
-                if (String.IsNullOrEmpty(fld.prevYearManureApplicationFrequency))
+                if (String.IsNullOrEmpty(fld.PreviousYearManureApplicationFrequency))
                     // set to default (no manure applied in the last two years)
                     fvm.selPrevYrManureOption = cf.DefaultApplicationOfManureInPrevYears;
                 else
-                    fvm.selPrevYrManureOption = fld.prevYearManureApplicationFrequency;
+                    fvm.selPrevYrManureOption = fld.PreviousYearManureApplicationFrequency;
                 fvm.act = "Edit";
             }
             else
@@ -236,10 +236,10 @@ namespace SERVERAPI.Controllers
                     }
                 }
 
-                fld.fieldName = fvm.fieldName;
-                fld.area = Math.Round(area, 1);
-                fld.comment = fvm.fieldComment;
-                fld.prevYearManureApplicationFrequency = fvm.selPrevYrManureOption;
+                fld.FieldName = fvm.fieldName;
+                fld.Area = Math.Round(area, 1);
+                fld.Comment = fvm.fieldComment;
+                fld.PreviousYearManureApplicationFrequency = fvm.selPrevYrManureOption;
 
                 if (fvm.act == "Add")
                 {
@@ -255,7 +255,7 @@ namespace SERVERAPI.Controllers
                 }
                 else
                 {
-                    url = Url.Action(fvm.actn, fvm.cntl, new { nme = fld.fieldName });
+                    url = Url.Action(fvm.actn, fvm.cntl, new { nme = fld.FieldName });
 
                     //url = Url.Action("RefreshList", "Fields", new { cntl = fvm.cntl, actn = fvm.actn, currFld = fvm.currFld });
                 }
@@ -283,7 +283,7 @@ namespace SERVERAPI.Controllers
 
             Field fld = _ud.GetFieldDetails(name);
 
-            fvm.fieldName = fld.fieldName;
+            fvm.fieldName = fld.FieldName;
             fvm.act = "Delete";
 
             return PartialView("FieldDelete", fvm);

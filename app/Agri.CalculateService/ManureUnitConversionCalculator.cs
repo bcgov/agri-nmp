@@ -175,7 +175,7 @@ namespace Agri.CalculateService
             decimal amountToConvert,
             ApplicationRateUnits applicationRateUnit)
         {
-            var density = _repository.GetManure(manureId.ToString()).CubicYardConversion;
+            var density = _repository.GetManure(manureId).CubicYardConversion;
             var conversionFactor = _repository
                 .GetSolidMaterialApplicationTonPerAcreRateConversions()
                 .Single(cf => cf.ApplicationRateUnit == applicationRateUnit);

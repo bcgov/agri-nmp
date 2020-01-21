@@ -66,6 +66,20 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
+            if (!_context.MiniApps.Any())
+            {
+                var miniapps = SeedDataLoader.GetSeedJsonData<List<MiniApp>>(Constants.SeedDataFiles.MiniApps);
+                _context.MiniApps.AddRange(miniapps);
+                _context.SaveChanges();
+            }
+
+            if (!_context.MiniAppLabels.Any())
+            {
+                var miniapplabels = SeedDataLoader.GetSeedJsonData<List<MiniAppLabel>>(Constants.SeedDataFiles.MiniAppLabels);
+                _context.MiniAppLabels.AddRange(miniapplabels);
+                _context.SaveChanges();
+            }
+
             if (!_context.StaticDataVersions.Any())
             {
                 var staticDataVersion = SeedDataLoader.GetSeedJsonData<StaticDataVersion>(Constants.SeedDataFiles.StaticDataVersion);

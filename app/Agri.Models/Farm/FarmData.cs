@@ -30,7 +30,7 @@ namespace Agri.Models.Farm
         private string VerifyAppliedFarmManureId(string appliedFarmManureId)
         {
             var yearData = years.FirstOrDefault(y => y.Year == farmDetails.Year);
-            if (yearData.FarmManures.Any(c => c.id == Convert.ToInt32(appliedFarmManureId)))
+            if (yearData.FarmManures.Any(c => c.Id == Convert.ToInt32(appliedFarmManureId)))
             {
                 return appliedFarmManureId;
             }

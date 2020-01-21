@@ -411,7 +411,7 @@ namespace Agri.CalculateService.Tests
                         TonsPerAcreConversion = "1*density"
                     }
                 });
-            repository.GetManure("1")
+            repository.GetManure(1)
                 .ReturnsForAnyArgs(new Manure
                 {
                     CubicYardConversion = .51m

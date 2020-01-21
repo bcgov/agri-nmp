@@ -84,7 +84,7 @@ namespace SERVERAPI.Controllers
                 {
                     foreach (var crop in field.crops)
                     {
-                        _ud.UpdateFieldCrop(field.fieldName, crop);
+                        _ud.UpdateFieldCrop(field.FieldName, crop);
                     }
                 }
 
@@ -108,13 +108,13 @@ namespace SERVERAPI.Controllers
 
             Field fld = _ud.GetFieldDetails(fldName);
             tvm.fieldName = fldName;
-            if (fld.soilTest != null)
+            if (fld.SoilTest != null)
             {
-                tvm.sampleDate = fld.soilTest.sampleDate.ToString("MMM-yyyy");
-                tvm.dispK = fld.soilTest.valK.ToString("G29");
-                tvm.dispNO3H = fld.soilTest.valNO3H.ToString("G29");
-                tvm.dispP = fld.soilTest.ValP.ToString("G29");
-                tvm.dispPH = fld.soilTest.valPH.ToString("G29");
+                tvm.sampleDate = fld.SoilTest.sampleDate.ToString("MMM-yyyy");
+                tvm.dispK = fld.SoilTest.valK.ToString("G29");
+                tvm.dispNO3H = fld.SoilTest.valNO3H.ToString("G29");
+                tvm.dispP = fld.SoilTest.ValP.ToString("G29");
+                tvm.dispPH = fld.SoilTest.valPH.ToString("G29");
             }
 
             return View(tvm);
@@ -178,17 +178,17 @@ namespace SERVERAPI.Controllers
                 }
 
                 Field fld = _ud.GetFieldDetails(tvm.fieldName);
-                if (fld.soilTest == null)
+                if (fld.SoilTest == null)
                 {
-                    fld.soilTest = new SoilTest();
+                    fld.SoilTest = new SoilTest();
                 }
-                fld.soilTest.sampleDate = Convert.ToDateTime(tvm.sampleDate);
-                fld.soilTest.ValP = Convert.ToDecimal(tvm.dispP);
-                fld.soilTest.valK = Convert.ToDecimal(tvm.dispK);
-                fld.soilTest.valNO3H = Convert.ToDecimal(tvm.dispNO3H);
-                fld.soilTest.valPH = Convert.ToDecimal(tvm.dispPH);
-                fld.soilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, fld.soilTest);
-                fld.soilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, fld.soilTest);
+                fld.SoilTest.sampleDate = Convert.ToDateTime(tvm.sampleDate);
+                fld.SoilTest.ValP = Convert.ToDecimal(tvm.dispP);
+                fld.SoilTest.valK = Convert.ToDecimal(tvm.dispK);
+                fld.SoilTest.valNO3H = Convert.ToDecimal(tvm.dispNO3H);
+                fld.SoilTest.valPH = Convert.ToDecimal(tvm.dispPH);
+                fld.SoilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, fld.SoilTest);
+                fld.SoilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, fld.SoilTest);
 
                 _ud.UpdateFieldSoilTest(fld);
 
@@ -196,7 +196,7 @@ namespace SERVERAPI.Controllers
                 var updatedField = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByField(fld, _ud.FarmDetails().FarmRegion.Value);
                 foreach (var crop in updatedField.crops)
                 {
-                    _ud.UpdateFieldCrop(updatedField.fieldName, crop);
+                    _ud.UpdateFieldCrop(updatedField.FieldName, crop);
                 }
 
                 string target = "#test";
@@ -224,7 +224,7 @@ namespace SERVERAPI.Controllers
             {
                 Field fld = _ud.GetFieldDetails(dvm.fieldName);
 
-                fld.soilTest = null;
+                fld.SoilTest = null;
 
                 _ud.UpdateFieldSoilTest(fld);
 
