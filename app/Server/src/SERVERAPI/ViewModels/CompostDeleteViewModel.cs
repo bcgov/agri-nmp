@@ -4,11 +4,13 @@ namespace SERVERAPI.ViewModels
 {
     public class CompostDeleteViewModel
     {
-        public string act { get; set; }
-        public int id { get; set; }
-        public string target { get; set; }
+        public string Action { get; set; }
+        public int Id { get; set; }
+        public string Target { get; set; }
+
         [Display(Name = "Compost/Manure")]
-        public string manureName { get; set; }
-        public string warning { get; set; }
+        public string ManureName { get; set; }
+
+        public string Warning { get; set; }
     }
 }

@@ -6,18 +6,14 @@ using System.Text;
 
 namespace Agri.Models.Farm
 {
-    public class FarmAnimal
+    public class FarmAnimal : GeneratedManure
     {
-        public int Id { get; set; }
-        public int AnimalId { get; set; }
-        public string AnimalName { get; set; }
-        public string AnimalSubTypeName { get; set; }
-        public int AnimalSubTypeId { get; set; }
-        public ManureMaterialType ManureMaterialType { get; set; }
-        public string AverageAnimalNumber { get; set; }
+        public override string ManureId => $"FarmAnimal{Id ?? 0}";
         public bool IsManureCollected { get; set; }
         public string ManureCollected { get; set; }
         public int DurationDays { get; set; }
         public int? ManureGeneratedTonsPerYear { get; set; }
+
+        public override bool AssignedToStoredSystem => false;
     }
 }

@@ -58,7 +58,7 @@ namespace Agri.CalculateService.Tests
                 });
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator);
-            var farmManure = new FarmManure() { sourceOfMaterialId = "StorageSystem, 1", stored_imported = NutrientAnalysisTypes.Stored };
+            var farmManure = new FarmManure() { SourceOfMaterialId = "StorageSystem, 1", StoredImported = NutrientAnalysisTypes.Stored };
 
             //Act
             var result = calculator.GetAppliedStoredManure(_yearData, farmManure);
@@ -108,7 +108,7 @@ namespace Agri.CalculateService.Tests
         public void GetFieldsAppliedWithImportedManure()
         {
             //arrange
-            var farmManure = new FarmManure() { sourceOfMaterialId = "Imported, 1", stored_imported = NutrientAnalysisTypes.Imported };
+            var farmManure = new FarmManure() { SourceOfMaterialId = "Imported, 1", StoredImported = NutrientAnalysisTypes.Imported };
 
             //act
             var result = _yearData.GetFieldsAppliedWithManure(farmManure);
@@ -134,7 +134,7 @@ namespace Agri.CalculateService.Tests
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator);
             //var farmManure = new FarmManure {sourceOfMaterialId = "Imported, 1", stored_imported = NutrientAnalysisTypes.Imported};
-            var farmManure = _yearData.FarmManures.Single(fm => fm.id == 2);
+            var farmManure = _yearData.FarmManures.Single(fm => fm.Id == 2);
 
             //Act
             var result = calculator.GetAppliedImportedManure(_yearData, farmManure);
@@ -166,7 +166,7 @@ namespace Agri.CalculateService.Tests
 
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator);
-            var farmManure = _yearData.FarmManures.Single(fm => fm.id == 1);
+            var farmManure = _yearData.FarmManures.Single(fm => fm.Id == 1);
             var expectedUnAllocatedMessage =
                 "Storage System: Liquid Storage System , Material: Heavy Feeders Unallocated 2868.905000000 US gallons - 100% of Total Stored";
 
@@ -201,7 +201,7 @@ namespace Agri.CalculateService.Tests
                 });
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator);
-            var farmManure = _yearData.FarmManures.Single(fm => fm.id == 2);
+            var farmManure = _yearData.FarmManures.Single(fm => fm.Id == 2);
 
             //Act
             var result = calculator.GetAppliedManure(_yearData, farmManure);

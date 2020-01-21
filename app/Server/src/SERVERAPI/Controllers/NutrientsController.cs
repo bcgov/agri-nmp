@@ -79,7 +79,7 @@ namespace SERVERAPI.Controllers
                     {
                         cvm.fields.Add(f);
                     }
-                    cvm.currFld = cvm.fields[0].fieldName;
+                    cvm.currFld = cvm.fields[0].FieldName;
                 }
             }
             else
@@ -198,7 +198,7 @@ namespace SERVERAPI.Controllers
                 mvm.ltP2o5 = nm.ltP2o5.ToString("G29");
                 mvm.ltK2o = nm.ltK2o.ToString("G29");
                 FarmManure man = _ud.GetFarmManure(Convert.ToInt32(nm.manureId));
-                mvm.currUnit = man.solid_liquid;
+                mvm.currUnit = man.SolidLiquid;
                 mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
 
                 int regionid = _ud.FarmDetails().FarmRegion.Value;
@@ -226,7 +226,7 @@ namespace SERVERAPI.Controllers
                 {
                     mvm.SelectedFarmManure = _ud?.FarmData().LastAppliedFarmManureId;
                     var man = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
-                    mvm.currUnit = man.solid_liquid;
+                    mvm.currUnit = man.SolidLiquid;
                     mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
                     mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
                     mvm.avail = GetOrganicNAvailableThisYear(Convert.ToInt16(mvm.SelectedFarmManure)).ToString("###");
@@ -346,9 +346,9 @@ namespace SERVERAPI.Controllers
                         !mvm.SelectedFarmManure.Equals("selApplOption", StringComparison.CurrentCultureIgnoreCase))
                     {
                         FarmManure man = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
-                        if (mvm.currUnit != man.solid_liquid)
+                        if (mvm.currUnit != man.SolidLiquid)
                         {
-                            mvm.currUnit = man.solid_liquid;
+                            mvm.currUnit = man.SolidLiquid;
                             mvm.rateOptions = _sd.GetUnitsDll(mvm.currUnit).ToList();
                             mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
                         }
@@ -562,7 +562,7 @@ namespace SERVERAPI.Controllers
                 mvm.SelectedFarmManure != "")
             {
                 FarmManure fm = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
-                mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.manureId.ToString()).SolidLiquid).ToList();
+                mvm.applOptions = _sd.GetApplicationsDll(_sd.GetManure(fm.ManureId).SolidLiquid).ToList();
             }
 
             mvm.rateOptions = new List<SelectListItem>();
@@ -1928,7 +1928,7 @@ namespace SERVERAPI.Controllers
             dvm.fldName = fldName;
 
             NutrientManure nm = _ud.GetFieldNutrientsManure(fldName, id);
-            dvm.matType = _ud.GetFarmManure(Convert.ToInt32(nm.manureId)).name;
+            dvm.matType = _ud.GetFarmManure(Convert.ToInt32(nm.manureId)).Name;
 
             dvm.act = "Delete";
 
@@ -2345,9 +2345,9 @@ namespace SERVERAPI.Controllers
                 Field fld;
                 fld = _ud.GetFieldDetails(fldName);
                 if (nitrogenCredit != nitrogenCreditDefault)
-                    fld.prevYearManureApplicationNitrogenCredit = nitrogenCredit;
+                    fld.PreviousYearManureApplicationNitrogenCredit = nitrogenCredit;
                 else // only save non-defaulted value (ie. over-ride)
-                    fld.prevYearManureApplicationNitrogenCredit = null;
+                    fld.PreviousYearManureApplicationNitrogenCredit = null;
                 _ud.UpdateField(fld);
             }
             catch (Exception e)
@@ -2369,8 +2369,8 @@ namespace SERVERAPI.Controllers
             var field = _ud.GetFieldDetails(fldName);
             model.defaultNitrogenCredit = _chemicalBalanceMessage.CalcPrevYearManureApplDefault(field).ToString();
             model.fldName = fldName;
-            if (field.prevYearManureApplicationNitrogenCredit != null)
-                model.nitrogen = Convert.ToInt32(field.prevYearManureApplicationNitrogenCredit).ToString();
+            if (field.PreviousYearManureApplicationNitrogenCredit != null)
+                model.nitrogen = Convert.ToInt32(field.PreviousYearManureApplicationNitrogenCredit).ToString();
             else
                 model.nitrogen = model.defaultNitrogenCredit;
 

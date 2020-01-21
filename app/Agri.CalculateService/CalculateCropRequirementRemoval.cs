@@ -100,24 +100,24 @@ namespace Agri.CalculateService
 
             var region = _sd.GetRegion(regionId);
 
-            if (field.soilTest == null)
+            if (field.SoilTest == null)
             {
-                field.soilTest = new SoilTest();
+                field.SoilTest = new SoilTest();
                 var dt = _sd.GetDefaultSoilTest();
-                field.soilTest.valNO3H = dt.Nitrogen;
-                field.soilTest.ValP = dt.Phosphorous;
-                field.soilTest.valK = dt.Potassium;
-                field.soilTest.valPH = dt.pH;
-                field.soilTest.ConvertedKelownaK = dt.ConvertedKelownaK;
-                field.soilTest.ConvertedKelownaP = dt.ConvertedKelownaP;
+                field.SoilTest.valNO3H = dt.Nitrogen;
+                field.SoilTest.ValP = dt.Phosphorous;
+                field.SoilTest.valK = dt.Potassium;
+                field.SoilTest.valPH = dt.pH;
+                field.SoilTest.ConvertedKelownaK = dt.ConvertedKelownaK;
+                field.SoilTest.ConvertedKelownaP = dt.ConvertedKelownaP;
             }
 
-            int _STP = field.soilTest.ConvertedKelownaP;
+            int _STP = field.SoilTest.ConvertedKelownaP;
             if (_STP == 0)
                 _STP = _cf.DefaultSoilTestKelownaPhosphorous;
 
-            int _STK = field.soilTest.ConvertedKelownaK;
-            if (field.soilTest.ConvertedKelownaK == 0)
+            int _STK = field.SoilTest.ConvertedKelownaK;
+            if (field.SoilTest.ConvertedKelownaK == 0)
                 _STK = _cf.DefaultSoilTestKelownaPotassium;
 
             // p2o5 recommend calculations

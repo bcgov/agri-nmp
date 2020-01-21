@@ -35,8 +35,8 @@ namespace Agri.Models.Farm
                 return new List<int>();
             }
             var farmManureIds = FarmManures
-                .Where(fm => fm.sourceOfMaterialStoredSystemId == manureStorageSystem.Id)
-                .Select(fm => fm.id).ToList();
+                .Where(fm => fm.SourceOfMaterialStoredSystemId == manureStorageSystem.Id)
+                .Select(fm => fm.Id).ToList();
 
             return farmManureIds;
         }
@@ -48,18 +48,18 @@ namespace Agri.Models.Farm
                 return new List<int>();
             }
             var farmManureIds = FarmManures
-                .Where(fm => fm.sourceOfMaterialImportedManureId == importedManure.Id)
-                .Select(fm => fm.id).ToList();
+                .Where(fm => fm.SourceOfMaterialImportedManureId == importedManure.Id)
+                .Select(fm => fm.Id).ToList();
 
             return farmManureIds;
         }
 
         public List<NutrientManure> GetNutrientManuresFromFields(List<int> farmManureIds)
         {
-            if (Fields.Any(f => f.nutrients != null))
+            if (Fields.Any(f => f.Nutrients != null))
             {
                 return Fields
-                    .SelectMany(f => f.nutrients.nutrientManures)
+                    .SelectMany(f => f.Nutrients.nutrientManures)
                     .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
                     .ToList();
             }
@@ -85,7 +85,7 @@ namespace Agri.Models.Farm
 
         public List<Field> GetFieldsAppliedWithManure(FarmManure farmManure)
         {
-            var appliedFields = GetFieldsAppliedWithFarmManure(farmManure != null ? new List<int> { farmManure.id } : new List<int>());
+            var appliedFields = GetFieldsAppliedWithFarmManure(farmManure != null ? new List<int> { farmManure.Id } : new List<int>());
 
             return appliedFields;
         }
@@ -93,7 +93,7 @@ namespace Agri.Models.Farm
         public List<Field> GetFieldsAppliedWithFarmManure(List<int> farmManureIds)
         {
             return Fields
-                .Where(f => f.nutrients != null && f.nutrients.nutrientManures
+                .Where(f => f.Nutrients != null && f.Nutrients.nutrientManures
                                 .Any(nm => farmManureIds
                                             .Any(fm => fm == Convert.ToInt32(nm.manureId)))).ToList();
         }

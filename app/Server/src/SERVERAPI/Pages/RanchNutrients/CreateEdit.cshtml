@@ -1,0 +1,44 @@
+﻿@page "{handler?}/{ismodal:bool}"
+
+@using SERVERAPI.Pages.RanchNutrients;
+@model SERVERAPI.Pages.RanchNutrients.CreateEdit
+@{
+    Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
+    ViewData["HeaderTitle"] = Model.Title;
+    //ViewData["Title"] = Model.Title;
+}
+
+@if (Model.IsModal)
+{
+    var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
+    var action = Url.Page("CreateEdit", handler, new { ismodal = true });
+    <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body">
+        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+    </form>
+}
+else
+{
+    <form method="post" class="form-box-body">
+        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+    </form>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("body").on("change", "#Data_SelectedNutrientAnalysis", function () {
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.NutrientAnalysisChanged");
+                $("#btnSave").click();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("click", "#cbUseCustomAnalysis", function () {
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.UseCustomAnalysis");
+                $("#manureName").val($("#PostedElementEvent option:selected").text());
+                $("#btnSave").click();
+            })
+        });
+    </script>
+}
