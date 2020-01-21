@@ -506,7 +506,9 @@
   {
     "Id": 78,
     "Name": "DailyFeedWarning",
-    "Text": "The daily feed requirements used to estimate nutrients added in seasonal feeding area from feeds. Medium(2.6%) is appropriate for XX animals"
+    "Text": "The daily feed requirements used to estimate nutrients added in seasonal feeding area from feeds. Medium(2.6%) is appropriate for XX animals",
+    "UserPromptPage": "FieldCreateEdit",
+    "UserJourney": "Ranch"
   },
 
   {
@@ -556,6 +558,13 @@
     "Name": "RanchNutrientAnalysisEntryListMessage",
     "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
     "UserPromptPage": "NutrientsAnalysisList",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 86,
+    "Name": "fieldcommentplaceholder-Ranch",
+    "Text": "e.g., poor drainage in southwest corner (no need to specify crop here)",
+    "UserPromptPage": "FieldCreateEdit",
     "UserJourney": "Ranch"
   }
 ]

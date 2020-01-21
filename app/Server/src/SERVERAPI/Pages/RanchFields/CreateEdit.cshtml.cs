@@ -1,4 +1,5 @@
 ﻿using Agri.Data;
+using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Options;
 using SERVERAPI.Models.Impl;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -198,10 +200,13 @@ namespace SERVERAPI.Pages.RanchFields
         public class LookupDataHandler : IRequestHandler<LookupDataQuery, Command>
         {
             private readonly IAgriConfigurationRepository _sd;
+            private readonly AgriConfigurationContext _db;
 
-            public LookupDataHandler(IAgriConfigurationRepository sd)
+            public LookupDataHandler(IAgriConfigurationRepository sd,
+                AgriConfigurationContext db)
             {
                 _sd = sd;
+                _db = db;
             }
 
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
@@ -217,8 +222,15 @@ namespace SERVERAPI.Pages.RanchFields
                 {
                     command.SelectGrowingAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
                 }
-                command.Placehldr = _sd.GetUserPrompt("fieldcommentplaceholder");
-                command.DailyFeedWarning = _sd.GetUserPrompt("DailyFeedWarning");
+
+                var prompts = _db.UserPrompts
+                    .Where(p => p.UserPromptPage == UserPromptPage.FieldCreateEdit.ToString() &&
+                                    p.UserJourney == UserJourney.Ranch.ToString())
+                    .ToDictionary(p => p.Name, p => p.Text);
+
+                command.Placehldr = prompts["fieldcommentplaceholder-Ranch"];
+                command.DailyFeedWarning = prompts["DailyFeedWarning"];
+
                 return await Task.FromResult(command);
             }
         }
