@@ -426,12 +426,8 @@ namespace SERVERAPI.Pages.RanchNutrients
                 if (!request.PopulatedData.UseBookValue)
                 {
                     var prompts = _db.UserPrompts
-                        .Where(p => p.UserPromptPage == UserPromptPage.RanchNutrientsCreateEdit.ToString())
-                        //.Where(p => new List<string>
-                        //{
-                        //"NutrientAnalysisMoistureMessage","NutrientAnlalysisNitrogenMessage", "NutrientAnlalysisAmmoniaMessage",
-                        //"NutrientAnlalysisPhosphorousMessage", "NutrientAnlalysisPotassiumMessage"
-                        //}.Any(s => s.Equals(p.Name)))
+                        .Where(p => p.UserPromptPage == UserPromptPage.NutrientsAnalysisCreateEdit.ToString() &&
+                                        p.UserJourney == UserJourney.Ranch.ToString())
                         .ToDictionary(p => p.Name, p => p.Text);
 
                     command.ExplainNutrientAnalysisMoisture = prompts["ExplainNutrientAnalysisMoisture-Ranch"];
