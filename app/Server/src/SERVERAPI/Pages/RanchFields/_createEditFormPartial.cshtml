@@ -20,11 +20,13 @@
     <label asp-for="@Model.Data.FieldArea">Area</label>
     <br />
     <div class="col-sm-6" style="padding-left:0px !important;">
-        <input type="text" asp-for="@Model.Data.FieldArea" class="form-control col-sm-10" />
-        <span asp-validation-for="@Model.Data.FieldArea"></span>
-        <div style="position: absolute; left: 403px; top: 10px">Acres</div>
+        <div class="form-group-right-side-label">
+            <input type="text" asp-for="@Model.Data.FieldArea" class="form-control col-sm-10" />
+            <span class="right-side-label-span">Acres</span>
+        </div>
+            <span asp-validation-for="@Model.Data.FieldArea"></span>
+        </div>
     </div>
-</div>
 <br />
 <div class="form-group col-sm-6">
     <label asp-for="@Model.Data.SelectPrevYrManureOption">Manure application in previous years</label>
@@ -52,17 +54,23 @@
     <label class="form-box-heading mb-3" style="padding-bottom: 15px">Feeding Area</label><!--Need to pass from model-->
     <div class="row" style="margin-bottom: 5px;">
         <label asp-for="@Model.Data.FeedingValueDays" class="col-sm-4" style="padding-left:0px !important;">Time Spent in Feeding Area</label>
-        <div class="col-sm-3">
-            <input type="text" asp-for="@Model.Data.FeedingValueDays" class="form-control" />
+        <div class="col-sm-2">
+            <div class="form-group-right-side-label">
+                <input type="text" asp-for="@Model.Data.FeedingValueDays" class="form-control" style="width: 75px" />
+                <span class="right-side-label-span">days</span>
+            </div>
+            <!--Need to add validation-->
         </div>
-        <div class="col-sm-5" style="padding-top:5px;padding-left:0px;">&nbsp;days&nbsp;</div><!--Need to add validation-->
     </div>
     <div class="row">
         <label asp-for="@Model.Data.FeedingPercentage" class="col-sm-4" style="padding-left:0px !important;">Percent of time spent outside of feeding area</label>
-        <div class="col-sm-3">
-            <input type="text" asp-for="@Model.Data.FeedingPercentage" class="form-control" />
+        <div class="col-sm-2">
+            <div class="form-group-right-side-label">
+                <input type="text" asp-for="@Model.Data.FeedingPercentage" class="form-control" style="width: 75px" />
+                <span class="right-side-label-span">%</span>
+            </div>
+            <!--Need to add validation-->
         </div>
-        <div class="col-sm-5" style="padding-top:5px;padding-left:0px;">&nbsp;%&nbsp;</div><!--Need to add validation-->
     </div>
 </div>
 <div class="row" id="MatureValue" style="display:@displaySeasonal">
@@ -73,11 +81,13 @@
     </div>
     <div class="col-sm-2" style="padding-top: 13px">
         <label asp-for="@Model.Data.MatureAnimalAverage">Average weight</label>
-        <input type="text" asp-for="@Model.Data.MatureAnimalAverage" class="form-control" style="width: 75px" />
-        <div style="position: absolute; left: 93px; top: 45px">lbs</div>
+        <div class="form-group-right-side-label">
+            <input type="text" asp-for="@Model.Data.MatureAnimalAverage" class="form-control" style="width: 75px" />
+            <span class="right-side-label-span">lbs</span>
+        </div>
         <!--Need to add validation-->
     </div>
-    <div class="col-sm-5">
+    <div class="col-sm-5 ">
         <label asp-for="@Model.Data.SelectMatureAnimalDailyFeed">
             Daily feed requirement
 
@@ -98,8 +108,10 @@
     </div>
     <div class="col-sm-2" style="padding-top: 13px">
         <label asp-for="@Model.Data.GrowingAnimalAverage">Average weight</label>
-        <input type="text" asp-for="@Model.Data.GrowingAnimalAverage" class="form-control " style="width: 75px" />
-        <div style="position: absolute; left: 93px; top: 45px">lbs</div>
+        <div class="form-group-right-side-label">
+            <input type="text" asp-for="@Model.Data.GrowingAnimalAverage" class="form-control " style="width: 75px" />
+            <div class="right-side-label-span">lbs</div>
+        </div>
         <!--Need to add validation-->
     </div>
     <div class="col-sm-5">
