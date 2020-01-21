@@ -57,6 +57,8 @@ namespace Agri.Data
 
         List<NitrogenMineralization> GetNitrogeMineralizations();
 
+        List<KeyValuePair<string, string>> GetSoilConverterDetails();
+
         List<DryMatter> GetDryMatters();
 
         List<Region> GetRegions();
@@ -69,7 +71,7 @@ namespace Agri.Data
 
         List<SelectListItem> GetSubRegionsDll(int? regionId);
 
-        Manure GetManure(string manId);
+        Manure GetManure(int manId);
 
         Manure GetManureByName(string manureName);
 

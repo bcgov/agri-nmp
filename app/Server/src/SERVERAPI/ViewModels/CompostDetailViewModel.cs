@@ -7,46 +7,59 @@ namespace SERVERAPI.ViewModels
 {
     public class CompostDetailViewModel
     {
-        public string title { get; set; }
-        public int? id { get; set; }
-        public string target { get; set; }
+        public string Title { get; set; }
+        public int? Id { get; set; }
+        public string Target { get; set; }
+
         //[Required]
-        public int selManOption { get; set; }
-        public List<SelectListItem> sourceOfMaterialOptions { get; set; }
+        public int SelectedManureOption { get; set; }
+
+        public List<SelectListItem> SourceOfMaterialOptions { get; set; }
+
         //[Required(ErrorMessage = "Required")]
-        public string selsourceOfMaterialOption { get; set; }
-        public List<Agri.Models.Configuration.SelectListItem> manOptions { get; set; }
-        public string act { get; set; }
-        public string sourceOfMaterialName { get; set; }
+        public string SelectedSourceOfMaterialOption { get; set; }
+
+        public List<Agri.Models.Configuration.SelectListItem> ManureOptions { get; set; }
+        public string Action { get; set; }
+        public string SourceOfMaterialName { get; set; }
+
         [Display(Name = "Material Type")]
-        public string manureName { get; set; }
-        public ManureMaterialType materialType { get; set; }
+        public string ManureName { get; set; }
+
+        public ManureMaterialType MaterialType { get; set; }
+
         [Display(Name = "Moisture (%)")]
-        public string moisture { get; set; }
+        public string Moisture { get; set; }
+
         [Display(Name = "N (%)")]
-        public string nitrogen { get; set; }
+        public string Nitrogen { get; set; }
+
         [Display(Name = "NH<sub>4</sub>-N (ppm)")]
-        public string ammonia { get; set; }
+        public string Ammonia { get; set; }
+
         [Display(Name = "P (%)")]
-        public string phosphorous { get; set; }
+        public string Phosphorous { get; set; }
+
         [Display(Name = "K (%)")]
-        public string potassium { get; set; }
+        public string Potassium { get; set; }
+
         [Display(Name = "NO<sub>3</sub>-N (ppm)")]
-        public string nitrate { get; set; }
-        public bool bookValue { get; set; }
-        public bool onlyCustom { get; set; }
-        public bool compost { get; set; }
-        public string buttonPressed { get; set; }
-        public string url { get; set; }
-        public string urlText { get; set; }
-        public string moistureBook { get; set; }
-        public string nitrogenBook { get; set; }
-        public string ammoniaBook { get; set; }
-        public string nitrateBook { get; set; }
-        public string phosphorousBook { get; set; }
-        public string potassiumBook { get; set; }
-        public bool showNitrate { get; set; }
-        public NutrientAnalysisTypes stored_imported { get; set; }
+        public string Nitrate { get; set; }
+
+        public bool BookValue { get; set; }
+        public bool OnlyCustom { get; set; }
+        public bool Compost { get; set; }
+        public string ButtonPressed { get; set; }
+        public string Url { get; set; }
+        public string UrlText { get; set; }
+        public string MoistureBook { get; set; }
+        public string NitrogenBook { get; set; }
+        public string AmmoniaBook { get; set; }
+        public string NitrateBook { get; set; }
+        public string PhosphorousBook { get; set; }
+        public string PotassiumBook { get; set; }
+        public bool ShowNitrate { get; set; }
+        public NutrientAnalysisTypes StoredImported { get; set; }
         public bool IsAssignedToStorage { get; set; }
         public string ExplainNutrientAnalysisMoisture { get; set; }
         public string ExplainNutrientAnalysisNitrogen { get; set; }
