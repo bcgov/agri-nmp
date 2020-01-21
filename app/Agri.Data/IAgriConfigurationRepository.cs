@@ -71,7 +71,7 @@ namespace Agri.Data
 
         List<SelectListItem> GetSubRegionsDll(int? regionId);
 
-        Manure GetManure(string manId);
+        Manure GetManure(int manId);
 
         Manure GetManureByName(string manureName);
 

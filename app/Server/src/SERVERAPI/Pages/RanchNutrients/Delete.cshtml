@@ -1,0 +1,30 @@
+﻿@page
+@model SERVERAPI.Pages.RanchNutrients.Delete
+@{
+    ViewData["HeaderTitle"] = "Delete";
+    Layout = "_ModalLayout";
+}
+
+<form asp-page="Delete" method="post" class="form-box-body">
+    <div class="modal-body">
+        <div class="form-group">
+            <div>
+                @Model.Data.ManureName
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Data.Warning))
+            {
+                <div style="padding-top: 25px">
+                    @Html.Raw(Model.Data.Warning)
+                </div>
+            }
+        </div>
+        <br />
+    </div>
+    <div class="modal-footer">
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+        <input class="btn btn-primary" type="submit" value="Delete" data-save="razor-page-modal" />
+    </div>
+    @Html.HiddenFor(x => x.Data.ManureName)
+    @Html.HiddenFor(x => x.Data.Id)
+    @Html.HiddenFor(x => x.Data.Warning)
+</form>

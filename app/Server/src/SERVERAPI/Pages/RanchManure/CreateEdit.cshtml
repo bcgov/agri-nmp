@@ -5,74 +5,71 @@
 @{
     ViewData["HeaderTitle"] = "Imported Material Details";
     Layout = "_ModalLayout";
-    var handler = Model.Data.ManureImportId.HasValue ? "Edit" : "Create";
-    var action = Url.Page("CreateEdit");
 }
-
-    <form asp-antiforgery="true" action="@action" method="post" class="form-box-body" id="manureForm">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-row row">
-            <div class="col-sm-3" style="padding-left: 0; padding-right: 0;">
-                <div class="form-group">
-                    <label for="txtMaterialName">Material Name</label>
-                    <input class="form-control" asp-for="Data.MaterialName" type="text" id="txtMaterialName" />
-                    <span asp-validation-for="Data.MaterialName" class="text-danger"></span>
-                </div>
+<form asp-page="CreateEdit" method="post" class="form-box-body" id="manureForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-row row">
+        <div class="col-sm-3" style="padding-left: 0; padding-right: 0;">
+            <div class="form-group">
+                <label for="txtMaterialName">Material Name</label>
+                <input class="form-control" asp-for="Data.MaterialName" type="text" id="txtMaterialName" />
+                <span asp-validation-for="Data.MaterialName" class="text-danger"></span>
             </div>
-            <div class="col-sm-2" style="padding-right: 0;">
-                <div class="form-group" style="padding-right: 0;">
-                    <label for="ddlManureMaterialType">Liquid or Solid</label>
-                    <select class="form-control" asp-for="Data.SelectedManureType"
-                            asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType"></select>
-                    <span asp-validation-for="Data.SelectedManureType" class="text-danger">Select a Manure Material Type</span>
-                </div>
-            </div>
-            <div class="col-sm-2" style="padding-right: 0;">
-                <div class="form-group">
-                    <label asp-for="Data.AnnualAmount">Amount per year</label>
-                    <input class="form-control" asp-for="Data.AnnualAmount" type="text" id="AnnualAmount" />
-                    <span asp-validation-for="Data.AnnualAmount" class="text-danger">Enter a numeric value</span>
-                </div>
-            </div>
-            <div class="col-sm-1" style="padding-left: 0; padding-right: 0; width: auto">
-                <div class="form-group">
-                    <label for="ddlAnnualAmountUnit">(Units)</label>
-                    <select class="form-control" asp-for="Data.SelectedAnnualAmountUnit" asp-items="@Model.Data.GetAnnualAmountUnits()" id="ddlAnnualAmountUnit"></select>
-                    <span asp-validation-for="Data.SelectedAnnualAmountUnit" class="text-danger"></span>
-                </div>
-            </div>
-            @if (Model.Data.SelectedManureType == ManureMaterialType.Solid)
-            {
-                <div class="col-sm-2 form-group" style="padding-right: 0; max-width: 15%">
-                    <label for="txtMoisture">Moisture (%)</label>
-                    <div class="input-group ">
-                        <input class="form-control" asp-for="Data.Moisture" id="txtMoisture" type="text" />
-                        @if (!Model.Data.IsStdMoisture)
-                        {
-                            <span class="input-group-btn" title="Reset to standard value">
-                                <button class="btn btn-default" type="button" id="rstMoisture" style="background-color:orange;" aria-label="Reset to standard value"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                            </span>
-                        }
-                    </div>
-                    <span asp-validation-for="Data.Moisture" class="text-danger"></span>
-                </div>
-            }
         </div>
-        <div class="modal-footer">
-            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary"
-                    id="saveButton" data-save="razor-page-modal"
-                    @(Model.Data.StateChanged ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>
-                Save
-            </button>
+        <div class="col-sm-2" style="padding-right: 0;">
+            <div class="form-group" style="padding-right: 0;">
+                <label for="ddlManureMaterialType">Liquid or Solid</label>
+                <select class="form-control" asp-for="Data.SelectedManureType"
+                        asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType"></select>
+                <span asp-validation-for="Data.SelectedManureType" class="text-danger">Select a Manure Material Type</span>
+            </div>
         </div>
-        @Html.HiddenFor(x => x.Data.ManureImportId)
-        @Html.HiddenFor(x => x.Data.SelectedAnnualAmountUnit)
-        @Html.HiddenFor(x => x.Data.StandardSolidMoisture)
-        @Html.HiddenFor(x => x.Data.StateChanged)
-        @*Need to be explicit with ID because Data_ is appended to these elements*@
-        @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
-    </form>
+        <div class="col-sm-2" style="padding-right: 0;">
+            <div class="form-group">
+                <label asp-for="Data.AnnualAmount">Amount per year</label>
+                <input class="form-control" asp-for="Data.AnnualAmount" type="text" id="AnnualAmount" />
+                <span asp-validation-for="Data.AnnualAmount" class="text-danger">Enter a numeric value</span>
+            </div>
+        </div>
+        <div class="col-sm-1" style="padding-left: 0; padding-right: 0; width: auto">
+            <div class="form-group">
+                <label for="ddlAnnualAmountUnit">(Units)</label>
+                <select class="form-control" asp-for="Data.SelectedAnnualAmountUnit" asp-items="@Model.Data.GetAnnualAmountUnits()" id="ddlAnnualAmountUnit"></select>
+                <span asp-validation-for="Data.SelectedAnnualAmountUnit" class="text-danger"></span>
+            </div>
+        </div>
+        @if (Model.Data.SelectedManureType == ManureMaterialType.Solid)
+        {
+            <div class="col-sm-2 form-group" style="padding-right: 0; max-width: 15%">
+                <label for="txtMoisture">Moisture (%)</label>
+                <div class="input-group ">
+                    <input class="form-control" asp-for="Data.Moisture" id="txtMoisture" type="text" />
+                    @if (!Model.Data.IsStdMoisture)
+                    {
+                        <span class="input-group-btn" title="Reset to standard value">
+                            <button class="btn btn-default" type="button" id="rstMoisture" style="background-color:orange;" aria-label="Reset to standard value"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                        </span>
+                    }
+                </div>
+                <span asp-validation-for="Data.Moisture" class="text-danger"></span>
+            </div>
+        }
+    </div>
+    <div class="modal-footer">
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary"
+                id="saveButton" data-save="razor-page-modal"
+                @(Model.Data.StateChanged ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>
+            Save
+        </button>
+    </div>
+    @Html.HiddenFor(x => x.Data.ManureImportId)
+    @Html.HiddenFor(x => x.Data.SelectedAnnualAmountUnit)
+    @Html.HiddenFor(x => x.Data.StandardSolidMoisture)
+    @Html.HiddenFor(x => x.Data.StateChanged)
+    @*Need to be explicit with ID because Data_ is appended to these elements*@
+    @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
+</form>
 
 @section Scripts
 {
@@ -93,7 +90,7 @@
 
         $(document).ready(function () {
             $("body").on("click", "#rstMoisture", function () {
-                $('#PostedElementEvent').val("@SERVERAPI.Pages.RanchManure.CreateEdit.ElementEvent.ResetMoisture");
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.ResetMoisture");
                 $("#saveButton").click();
             })
         });

@@ -146,14 +146,12 @@
             "Name": "Manure and Imports",
             "Page": "/RanchManure/Index",
             "PreviousPage": "/RanchAnimals/Index",
-            "NextController": "ManureManagement",
-            "NextAction": "ManureNutrientAnalysis",
+            "NextPage": "/RanchNutrients/Index",
             "SortNumber": 2
           },
           {
             "Name": "Nutrient Analysis",
-            "Controller": "ManureManagement",
-            "Action": "ManureNutrientAnalysis",
+            "Page": "/RanchNutrients/Index",
             "PreviousPage": "/RanchManure/Index",
             "NextPage": "/RanchFields/Index",
             "SortNumber": 3
@@ -168,9 +166,7 @@
           {
             "Name": "Add Field",
             "Page": "/RanchFields/Index",
-            "PreviousPage": null,
-            "PreviousController": "ManureManagement",
-            "PreviousAction": "ManureNutrientAnalysis",
+            "PreviousPage": "/RanchNutrients/Index",
             "NextController": "Soil",
             "NextAction": "SoilTest",
             "NextPage": null,
