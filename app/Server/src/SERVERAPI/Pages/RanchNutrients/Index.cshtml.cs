@@ -109,7 +109,9 @@ namespace SERVERAPI.Pages.RanchNutrients
             {
                 var farmManures = _ud.GetFarmManures();
                 var managedManure = _ud.GetAllManagedManures().Where(mm => !mm.AssignedWithNutrientAnalysis).ToList();
-                var message = _db.UserPrompts.Single(p => p.UserPromptPage == UserPromptPage.RanchNutrientsList.ToString()).Text;
+                var message = _db.UserPrompts
+                    .Single(p => p.UserPromptPage == UserPromptPage.NutrientsAnalysisList.ToString() &&
+                                p.UserJourney == UserJourney.Ranch.ToString()).Text;
 
                 var model = new Model
                 {
