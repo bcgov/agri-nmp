@@ -1,4 +1,5 @@
 ﻿using Agri.Data;
+using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Options;
 using SERVERAPI.Models.Impl;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -108,6 +110,16 @@ namespace SERVERAPI.Pages.RanchFields
 
             public bool IsSeasonalFeedingArea { get; set; }
             public string SeasonalFeedingArea { get; set; }
+            public string FeedingValueDays { get; set; }
+            public string FeedingPercentage { get; set; }
+            public string MatureAnimalCount { get; set; }
+            public string GrowingAnimalCount { get; set; }
+            public string MatureAnimalAverage { get; set; }
+            public string GrowingAnimalAverage { get; set; }
+            public List<DailyFeedRequirement> SelectDailyFeedOptions { get; set; }
+            public string SelectMatureAnimalDailyFeed { get; set; }
+            public string SelectGrowingAnimalDailyFeed { get; set; }
+            public string DailyFeedWarning { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -131,6 +143,12 @@ namespace SERVERAPI.Pages.RanchFields
                 CreateMap<Field, Command>()
                 //Command as Destination
                 .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area.ToString("G29")))
+                .ForMember(m => m.FeedingPercentage, opts => opts.MapFrom(s => s.FeedingPercentage != null ? s.FeedingPercentage.Value.ToString("G29") : null))
+                .ForMember(m => m.FeedingValueDays, opts => opts.MapFrom(s => s.FeedingValueDays != null ? s.FeedingValueDays.Value.ToString("G29") : null))
+                .ForMember(m => m.MatureAnimalCount, opts => opts.MapFrom(s => s.MatureAnimalCount != null ? s.MatureAnimalCount.Value.ToString("G29") : null))
+                .ForMember(m => m.GrowingAnimalCount, opts => opts.MapFrom(s => s.GrowingAnimalCount != null ? s.GrowingAnimalCount.Value.ToString("G29") : null))
+                .ForMember(m => m.MatureAnimalAverage, opts => opts.MapFrom(s => s.MatureAnimalAverage != null ? s.MatureAnimalAverage.Value.ToString("G29") : null))
+                .ForMember(m => m.GrowingAnimalAverage, opts => opts.MapFrom(s => s.GrowingAnimalAverage != null ? s.GrowingAnimalAverage.Value.ToString("G29") : null))
                 .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
                 .ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.PreviousYearManureApplicationFrequency))
                 .ReverseMap()
@@ -158,6 +176,21 @@ namespace SERVERAPI.Pages.RanchFields
                 {
                     var field = _ud.GetFieldDetailById(request.Id);
                     command = _mapper.Map<Command>(field);
+                    //command.FieldName = field.fieldName;
+                    //command.Id = field.Id;
+                    //command.FieldArea = field.area.ToString("G29");
+                    //command.IsSeasonalFeedingArea = field.IsSeasonalFeedingArea;
+                    //command.SeasonalFeedingArea = field.SeasonalFeedingArea;
+                    //command.FieldComment = field.comment;
+                    //command.SelectPrevYrManureOption = field.prevYearManureApplicationFrequency;
+                    //command.FeedingValueDays = field.FeedingValueDays;
+                    //command.FeedingPercentage = field.FeedingPercentage;
+                    //command.MatureAnimalAverage = field.MatureAnimalAverage;
+                    //command.MatureAnimalCount = field.MatureAnimalCount;
+                    //command.GrowingAnimalAverage = field.GrowingAnimalAverage;
+                    //command.GrowingAnimalCount = field.GrowingAnimalCount;
+
+                    //command.FeedingValueDays = field.feedingValueDays;
                 }
 
                 return await Task.FromResult(command);
@@ -167,17 +200,37 @@ namespace SERVERAPI.Pages.RanchFields
         public class LookupDataHandler : IRequestHandler<LookupDataQuery, Command>
         {
             private readonly IAgriConfigurationRepository _sd;
+            private readonly AgriConfigurationContext _db;
 
-            public LookupDataHandler(IAgriConfigurationRepository sd)
+            public LookupDataHandler(IAgriConfigurationRepository sd,
+                AgriConfigurationContext db)
             {
                 _sd = sd;
+                _db = db;
             }
 
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
                 command.SelectPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
-                command.Placehldr = _sd.GetUserPrompt("fieldcommentplaceholder");
+                command.SelectDailyFeedOptions = _sd.GetDailyFeedRequirement();
+                if (command.SelectMatureAnimalDailyFeed == null)
+                {
+                    command.SelectMatureAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
+                }
+                if (command.SelectGrowingAnimalDailyFeed == null)
+                {
+                    command.SelectGrowingAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
+                }
+
+                var prompts = _db.UserPrompts
+                    .Where(p => p.UserPromptPage == UserPromptPage.FieldCreateEdit.ToString() &&
+                                    p.UserJourney == UserJourney.Ranch.ToString())
+                    .ToDictionary(p => p.Name, p => p.Text);
+
+                command.Placehldr = prompts["fieldcommentplaceholder-Ranch"];
+                command.DailyFeedWarning = prompts["DailyFeedWarning"];
+
                 return await Task.FromResult(command);
             }
         }

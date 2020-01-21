@@ -335,6 +335,25 @@ namespace Agri.Data.Migrations
                     b.ToTable("CropYields");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.DailyFeedRequirement", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("Name");
+
+                    b.Property<decimal?>("Value");
+
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.ToTable("DailyFeedRequirements");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.DefaultSoilTest", b =>
                 {
                     b.Property<int>("Id");
@@ -1598,6 +1617,14 @@ namespace Agri.Data.Migrations
                     b.HasOne("Agri.Models.Configuration.Crop", "Crop")
                         .WithMany("CropYields")
                         .HasForeignKey("CropId", "StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.DailyFeedRequirement", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("DailyFeedRequirements")
+                        .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
