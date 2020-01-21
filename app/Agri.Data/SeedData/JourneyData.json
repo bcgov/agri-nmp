@@ -177,14 +177,12 @@
             "Controller": "Soil",
             "Action": "SoilTest",
             "PreviousPage": "/RanchFields/Index",
-            "NextController": "Feeding",
-            "NextAction": "Feeding",
+            "NextPage": "/RanchFields/RanchFeeding/index",
             "SortNumber": 2
           },
           {
             "Name": "Feeding Areas",
-            "Controller": "Feeding",
-            "Action": "Feeding",
+            "Page": "/RanchFields/RanchFeeding/index",
             "PreviousController": "Soil",
             "PreviousAction": "SoilTest",
             "NextController": "Nutrients",

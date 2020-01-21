@@ -186,6 +186,8 @@ namespace Agri.Data
 
         LiquidFertilizerDensity GetLiquidFertilizerDensity(int fertilizerId, int densityId);
 
+        List<DailyFeedRequirement> GetDailyFeedRequirement();
+
         DefaultSoilTest GetDefaultSoilTest();
 
         string GetDefaultSoilTestMethod();
