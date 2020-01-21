@@ -184,10 +184,9 @@ namespace SERVERAPI.Pages.RanchNutrients
             public bool OnlyCustom { get; set; }
             public bool Compost { get; set; }
             public string SolidLiquid { get; set; }
-
             public ManureNutrientBookValues BookValues { get; set; }
             public NutrientAnalysisTypes StoredImported { get; set; }
-
+            public string RanchNutrientAnalysisEntryCreateEditMessage { get; set; }
             public string ExplainNutrientAnalysisMoisture { get; set; }
             public string ExplainNutrientAnalysisNitrogen { get; set; }
             public string ExplainNutrientAnlalysisAmmonia { get; set; }
@@ -380,6 +379,7 @@ namespace SERVERAPI.Pages.RanchNutrients
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
+                command.RanchNutrientAnalysisEntryCreateEditMessage = _sd.GetUserPrompt("RanchNutrientAnalysisEntryCreateEditMessage");
 
                 var manures = _ud.GetAllManagedManures()
                     .Where(mm => !mm.AssignedWithNutrientAnalysis ||
@@ -426,18 +426,15 @@ namespace SERVERAPI.Pages.RanchNutrients
                 if (!request.PopulatedData.UseBookValue)
                 {
                     var prompts = _db.UserPrompts
-                        .Where(p => new List<string>
-                        {
-                        "NutrientAnalysisMoistureMessage","NutrientAnlalysisNitrogenMessage", "NutrientAnlalysisAmmoniaMessage",
-                        "NutrientAnlalysisPhosphorousMessage", "NutrientAnlalysisPotassiumMessage"
-                        }.Any(s => s.Equals(p.Name)))
+                        .Where(p => p.UserPromptPage == UserPromptPage.NutrientsAnalysisCreateEdit.ToString() &&
+                                        p.UserJourney == UserJourney.Ranch.ToString())
                         .ToDictionary(p => p.Name, p => p.Text);
 
-                    command.ExplainNutrientAnalysisMoisture = prompts["NutrientAnalysisMoistureMessage"];
-                    command.ExplainNutrientAnalysisNitrogen = prompts["NutrientAnlalysisNitrogenMessage"];
-                    command.ExplainNutrientAnlalysisAmmonia = prompts["NutrientAnlalysisAmmoniaMessage"];
-                    command.ExplainNutrientAnlalysisPhosphorous = prompts["NutrientAnlalysisPhosphorousMessage"];
-                    command.ExplainNutrientAnlalysisPotassium = prompts["NutrientAnlalysisPotassiumMessage"];
+                    command.ExplainNutrientAnalysisMoisture = prompts["ExplainNutrientAnalysisMoisture-Ranch"];
+                    command.ExplainNutrientAnalysisNitrogen = prompts["ExplainNutrientAnalysisNitrogen-Ranch"];
+                    command.ExplainNutrientAnlalysisAmmonia = prompts["ExplainNutrientAnlalysisAmmonia-Ranch"];
+                    command.ExplainNutrientAnlalysisPhosphorous = prompts["ExplainNutrientAnlalysisPhosphorous-Ranch"];
+                    command.ExplainNutrientAnlalysisPotassium = prompts["ExplainNutrientAnlalysisPotassium-Ranch"];
                 }
 
                 return await Task.FromResult(command);
