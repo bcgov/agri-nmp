@@ -15,7 +15,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SERVERAPI.Pages.RanchManure
+namespace SERVERAPI.Pages.Ranch.RanchManure
 {
     public class CreateEdit : BasePageModel
     {

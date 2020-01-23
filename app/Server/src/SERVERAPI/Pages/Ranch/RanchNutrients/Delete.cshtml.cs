@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SERVERAPI.Models.Impl;
 
-namespace SERVERAPI.Pages.RanchNutrients
+namespace SERVERAPI.Pages.Ranch.RanchNutrients
 {
     public class Delete : PageModel
     {

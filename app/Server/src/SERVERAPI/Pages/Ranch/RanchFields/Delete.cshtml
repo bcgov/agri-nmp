@@ -1,15 +1,15 @@
 ﻿@page "{id:int}"
-@model SERVERAPI.Pages.RanchAnimals.Delete
+@model SERVERAPI.Pages.Ranch.RanchFields.Delete
 @{
     Layout = "_ModalLayout";
-    ViewData["HeaderTitle"] = "Delete Animal";
+    ViewData["HeaderTitle"] = "Delete Field";
 }
 
 <form asp-page="Delete" method="post" class="form-box-body">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <div>
-            @Model.Data.CattleSubTypeName<br />
+            @Model.Data.FieldName<br />
         </div>
     </div>
     <br />
@@ -17,6 +17,6 @@
         <button class="btn" type="button" data-dismiss="modal">Cancel</button>
         <input class="btn btn-primary" type="submit" value="Delete" data-save="razor-page-modal" />
     </div>
+    @Html.HiddenFor(x => x.Data.FieldName)
     @Html.HiddenFor(x => x.Data.Id)
-    @Html.HiddenFor(x => x.Data.CattleSubTypeId)
 </form>

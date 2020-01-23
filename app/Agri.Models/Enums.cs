@@ -106,19 +106,19 @@ namespace Agri.Models
         [Description("Pages Not Used")]
         NotUsed = 0,
 
-        [Description("/RanchAnimals/Index")]
+        [Description("/Ranch/RanchAnimals/Index")]
         RanchAnimalsIndex,
 
-        [Description("/RanchManure/Index")]
+        [Description("/Ranch/RanchManure/Index")]
         RanchManureIndex,
 
-        [Description("/RanchNutrients/Index")]
+        [Description("/Ranch/RanchNutrients/Index")]
         RanchNutrients,
 
-        [Description("/RanchFields/Index")]
+        [Description("/Ranch/RanchFields/Index")]
         RanchFieldsIndex,
 
-        [Description("/RanchFields/RanchFeeding/Index")]
+        [Description("/Ranch/RanchFeeding/Index")]
         RanchFeedingIndex,
     }
 

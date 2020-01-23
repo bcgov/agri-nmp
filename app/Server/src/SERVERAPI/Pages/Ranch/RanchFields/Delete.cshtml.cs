@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SERVERAPI.Models.Impl;
 
-namespace SERVERAPI.Pages.RanchFields
+namespace SERVERAPI.Pages.Ranch.RanchFields
 {
     public class Delete : PageModel
     {

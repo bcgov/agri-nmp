@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SERVERAPI.Models.Impl;
 
-namespace SERVERAPI.Pages.RanchAnimals
+namespace SERVERAPI.Pages.Ranch.RanchAnimals
 {
     public class CreateEdit : BasePageModel
     {

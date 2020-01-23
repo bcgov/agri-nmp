@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SERVERAPI.Pages.RanchFields
+namespace SERVERAPI.Pages.Ranch.RanchFields
 {
     public class Index : BasePageModel
     {

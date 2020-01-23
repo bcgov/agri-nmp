@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SERVERAPI.Models.Impl;
 
-namespace SERVERAPI.Pages.RanchNutrients
+namespace SERVERAPI.Pages.Ranch.RanchNutrients
 {
     public class CreateEdit : BasePageModel
     {

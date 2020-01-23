@@ -1,7 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Agri.Data;
 using Agri.Models.Farm;
 using AutoMapper;
 using FluentValidation;
@@ -10,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SERVERAPI.Models.Impl;
 
-namespace SERVERAPI.Pages.RanchManure
+namespace SERVERAPI.Pages.Ranch.RanchAnimals
 {
     public class Delete : PageModel
     {
@@ -44,23 +45,21 @@ namespace SERVERAPI.Pages.RanchManure
             }
         }
 
-        public class Command : IRequest<Unit>
+        public class Command : IRequest
         {
-            public int ImportedManureId { get; set; }
-            public string manureId { get; set; }
-            public string ImportManureName { get; set; }
-            public string Target { get; set; }
-            public bool AppliedToAField { get; set; }
-            public string DeleteWarningForUnstorableMaterial { get; set; }
+            public int? Id { get; set; }
+            public int CattleSubTypeId { get; set; }
+            public string CattleSubTypeName { get; set; }
         }
 
         public class MappingProfile : Profile
         {
             public MappingProfile()
             {
-                CreateMap<ImportedManure, Command>()
-                    .ForMember(m => m.ImportedManureId, opts => opts.MapFrom(src => src.Id))
-                    .ForMember(m => m.ImportManureName, opts => opts.MapFrom(src => src.ManagedManureName));
+                CreateMap<FarmAnimal, Command>()
+                    .ForMember(m => m.CattleSubTypeId, opts => opts.MapFrom(src => src.AnimalSubTypeId))
+                    .ForMember(m => m.CattleSubTypeName, opts => opts.MapFrom(src => src.AnimalSubTypeName))
+                    .ReverseMap();
             }
         }
 
@@ -68,24 +67,19 @@ namespace SERVERAPI.Pages.RanchManure
         {
             private readonly UserData _ud;
             private readonly IMapper _mapper;
-            private readonly IAgriConfigurationRepository _sd;
 
-            public Handler(UserData ud, IMapper mapper, IAgriConfigurationRepository sd)
+            public Handler(UserData ud, IMapper mapper)
             {
                 _ud = ud;
                 _mapper = mapper;
-                _sd = sd;
             }
 
             public async Task<Command> Handle(Query request, CancellationToken cancellationToken)
             {
-                var manure = _ud.GetImportedManure(request.Id.Value);
-                var command = _mapper.Map<Command>(manure);
-
-                if (_ud.GetYearData().GetFieldsAppliedWithManure(manure).Any())
+                var command = new Command();
+                if (request.Id.HasValue)
                 {
-                    command.AppliedToAField = true;
-                    command.DeleteWarningForUnstorableMaterial = _sd.GetUserPrompt("ImportMaterialNotStoredDeleteWarning");
+                    command = _mapper.Map<FarmAnimal, Command>(_ud.GetAnimalDetail(request.Id.Value));
                 }
 
                 return await Task.FromResult(command);
@@ -103,7 +97,7 @@ namespace SERVERAPI.Pages.RanchManure
 
             public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
             {
-                _ud.DeleteImportedManure(message.ImportedManureId);
+                _ud.DeleteAnimal(message.Id.Value);
 
                 return await Task.FromResult(new Unit());
             }

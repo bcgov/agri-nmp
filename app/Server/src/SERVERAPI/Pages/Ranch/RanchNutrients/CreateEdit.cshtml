@@ -1,7 +1,7 @@
 ﻿@page "{handler?}/{ismodal:bool}"
 
-@using SERVERAPI.Pages.RanchNutrients;
-@model SERVERAPI.Pages.RanchNutrients.CreateEdit
+@using SERVERAPI.Pages.Ranch.RanchNutrients;
+@model SERVERAPI.Pages.Ranch.RanchNutrients.CreateEdit
 @{
     Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
     ViewData["HeaderTitle"] = Model.Title;
