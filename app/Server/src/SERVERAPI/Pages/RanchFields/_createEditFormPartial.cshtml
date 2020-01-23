@@ -9,7 +9,7 @@
     </div>
 </div>
 <div class="form-group col-sm-6">
-    <label asp-for="@Model.Data.FieldComment">Comments(Optionals)</label>
+    <label asp-for="@Model.Data.FieldComment">Comments  (Optional)</label>
     <div>
         <textarea asp-for="@Model.Data.FieldComment" style="resize:none" placeholder="@Model.Data.Placehldr" class="form-control col-sm-12"></textarea>
         <span asp-validation-for="@Model.Data.FieldComment"></span>
@@ -76,7 +76,7 @@
 <div class="row" id="MatureValue" style="display:@displaySeasonal">
     @*<label class="form-box-heading">Mature Animals</label>*@
     <div class="col-sm-3" style="padding-top: 13px">
-        <label asp-for="@Model.Data.MatureAnimalCount">Number of mature animals</label>
+        <label asp-for="@Model.Data.MatureAnimalCount">Number of Mature Animals</label>
         <input type="text" asp-for="@Model.Data.MatureAnimalCount" class="form-control" style="width: 75px" />
     </div>
     <div class="col-sm-2" style="padding-top: 13px">

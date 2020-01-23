@@ -739,6 +739,10 @@ namespace Agri.Data
                 .HasIndex(table => table.UserName)
                 .IsUnique();
 
+            modelBuilder.Entity<UserPrompt>()
+                .HasIndex(table => table.Name)
+                .IsUnique();
+
             if (!this.Database.IsNpgsql())
             {
                 modelBuilder.Entity<PreviousYearManureApplicationNitrogenDefault>()
