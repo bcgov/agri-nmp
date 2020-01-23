@@ -6,7 +6,7 @@ namespace Agri.Models.Farm
     {
         public Field()
         {
-            crops = new List<FieldCrop>();
+            Crops = new List<FieldCrop>();
         }
 
         public int Id { get; set; }
@@ -14,7 +14,8 @@ namespace Agri.Models.Farm
         public decimal Area { get; set; }
         public string Comment { get; set; }
         public Nutrients Nutrients { get; set; }
-        public List<FieldCrop> crops { get; set; }
+        public List<FieldCrop> Crops { get; set; }
+        public List<FeedForageAnalysis> FeedForageAnalyses { get; set; }
         public SoilTest SoilTest { get; set; }
         public string PreviousYearManureApplicationFrequency { get; set; }
         public int? PreviousYearManureApplicationNitrogenCredit { get; set; }
