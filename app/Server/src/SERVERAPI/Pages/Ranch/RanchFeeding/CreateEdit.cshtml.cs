@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SERVERAPI.Pages.RanchFields.RanchFeeding
+namespace SERVERAPI.Pages.Ranch.RanchFeeding
 {
     public class CreateEdit : BasePageModel
     {
