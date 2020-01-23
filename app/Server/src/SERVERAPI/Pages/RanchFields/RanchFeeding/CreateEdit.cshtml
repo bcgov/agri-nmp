@@ -1,0 +1,13 @@
+﻿@page "{handler?}/{fieldName}"
+@model SERVERAPI.Pages.RanchFields.RanchFeeding.CreateEdit
+
+@{
+    Layout = "_ModalLayout";
+    ViewData["HeaderTitle"] = Model.Title;
+}
+
+    @*var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
+    var action = Url.Page("CreateEdit", "Create",new {fieldName=Model.FieldName});*@
+<form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body" style="padding:0px">
+    @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+</form>
