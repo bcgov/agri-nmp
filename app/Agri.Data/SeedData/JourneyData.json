@@ -131,60 +131,58 @@
       },
       {
         "Name": "Animals and Manure",
-        "Page": "/RanchAnimals/Index",
+        "Page": "/Ranch/RanchAnimals/Index",
         "SortNumber": 2,
         "SubMenus": [
           {
             "Name": "Add Animals",
-            "Page": "/RanchAnimals/Index",
+            "Page": "/Ranch/RanchAnimals/Index",
             "PreviousController": "Farm",
             "PreviousAction": "Farm",
-            "NextPage": "/RanchManure/Index",
+            "NextPage": "/Ranch/RanchManure/Index",
             "SortNumber": 1
           },
           {
             "Name": "Manure and Imports",
-            "Page": "/RanchManure/Index",
-            "PreviousPage": "/RanchAnimals/Index",
-            "NextPage": "/RanchNutrients/Index",
+            "Page": "/Ranch/RanchManure/Index",
+            "PreviousPage": "/Ranch/RanchAnimals/Index",
+            "NextPage": "/Ranch/RanchNutrients/Index",
             "SortNumber": 2
           },
           {
             "Name": "Nutrient Analysis",
-            "Page": "/RanchNutrients/Index",
-            "PreviousPage": "/RanchManure/Index",
-            "NextPage": "/RanchFields/Index",
+            "Page": "/Ranch/RanchNutrients/Index",
+            "PreviousPage": "/Ranch/RanchManure/Index",
+            "NextPage": "/Ranch/RanchFields/Index",
             "SortNumber": 3
           }
         ]
       },
       {
         "Name": "Fields and Soil",
-        "Page": "/RanchFields/Index",
+        "Page": "/Ranch/RanchFields/Index",
         "SortNumber": 3,
         "SubMenus": [
           {
             "Name": "Add Field",
-            "Page": "/RanchFields/Index",
-            "PreviousPage": "/RanchNutrients/Index",
+            "Page": "/Ranch/RanchFields/Index",
+            "PreviousPage": "/Ranch/RanchNutrients/Index",
+            "NextPage": "/Ranch/RanchFeeding/Index",
+            "SortNumber": 1
+          },
+          {
+            "Name": "Feeding Areas",
+            "Page": "/Ranch/RanchFeeding/Index",
+            "PreviousPage": "/Ranch/RanchFields/Index",
             "NextController": "Soil",
             "NextAction": "SoilTest",
-            "NextPage": null,
-            "SortNumber": 1
+            "SortNumber": 2
           },
           {
             "Name": "Soil Tests",
             "Controller": "Soil",
             "Action": "SoilTest",
-            "PreviousPage": "/RanchFields/Index",
-            "NextPage": "/RanchFields/RanchFeeding/index",
-            "SortNumber": 2
-          },
-          {
-            "Name": "Feeding Areas",
-            "Page": "/RanchFields/RanchFeeding/index",
-            "PreviousController": "Soil",
-            "PreviousAction": "SoilTest",
+            "PreviousPage": "/Ranch/RanchFeeding/Index",
             "NextController": "Nutrients",
             "NextAction": "Calculate",
             "SortNumber": 3
@@ -195,8 +193,8 @@
         "Name": "Calculate Nutrients",
         "Controller": "Nutrients",
         "Action": "Calculate",
-        "PreviousController": "Feeding",
-        "PreviousAction": "Feeding",
+        "PreviousController": "Soil",
+        "PreviousAction": "SoilTest",
         "NextController": "Report",
         "NextAction": "Report",
         "SortNumber": 4
@@ -469,26 +467,26 @@
             "Action": "Fields",
             "PreviousController": "ManureManagement",
             "PreviousAction": "ManureNutrientAnalysis",
-            "NextController": "Soil",
-            "NextAction": "SoilTest",
-            "SortNumber": 1
-          },
-          {
-            "Name": "Soil Tests",
-            "Controller": "Soil",
-            "Action": "SoilTest",
-            "PreviousController": "Fields",
-            "PreviousAction": "Fields",
             "NextController": "Feeding",
             "NextAction": "Feeding",
-            "SortNumber": 2
+            "SortNumber": 1
           },
           {
             "Name": "Feeding Areas",
             "Controller": "Feeding",
             "Action": "Feeding",
-            "PreviousController": "Soil",
-            "PreviousAction": "SoilTest",
+            "PreviousController": "Fields",
+            "PreviousAction": "Fields",
+            "NextController": "Soil",
+            "NextAction": "SoilTest",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Soil Tests",
+            "Controller": "Soil",
+            "Action": "SoilTest",
+            "PreviousController": "Feeding",
+            "PreviousAction": "Feeding",
             "NextController": "Nutrients",
             "NextAction": "Calculate",
             "SortNumber": 3
@@ -499,8 +497,8 @@
         "Name": "Calculate Nutrients",
         "Controller": "Nutrients",
         "Action": "Calculate",
-        "PreviousController": "Feeding",
-        "PreviousAction": "Feeding",
+        "PreviousController": "Soil",
+        "PreviousAction": "SoilTest",
         "NextController": "Report",
         "NextAction": "Report",
         "SortNumber": 4
