@@ -116,6 +116,21 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             public string ForageName { get; set; }
             public bool IsBookAnalysis { get; set; }
             public bool IsCustomValues { get; set; }
+            public List<FeedForageAnalysis> FeedForageAnalyses { get; set; }
+
+            public class FeedForageAnalysis
+            {
+                public int Id { get; set; }
+                public int FeedForageTypeId { get; set; }
+                public int FeedForageId { get; set; }
+                public bool UseBookValues { get; set; }
+                public decimal DryMatterPercent { get; set; }
+                public decimal CrudeProteinPercent { get; set; }
+                public decimal Phosphorus { get; set; }
+                public decimal Potassium { get; set; }
+                public decimal PercentOfTotalFeedForageToAnimals { get; set; }
+                public decimal PercentOfFeedForageWastage { get; set; }
+            }
         }
 
         public class CommandValidator : AbstractValidator<Command>
