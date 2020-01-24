@@ -1875,7 +1875,7 @@ namespace Agri.Data
                 newId = staticDataVersionToLoad.Id + 1;
             }
 
-            if (maxStaticDataVersion.HasValue && newId > maxStaticDataVersion)
+            if (maxStaticDataVersion.GetValueOrDefault(0) > 0 && newId > maxStaticDataVersion)
             {
                 return;
             }
