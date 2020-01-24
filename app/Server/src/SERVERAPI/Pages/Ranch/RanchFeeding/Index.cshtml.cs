@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Agri.Data;
+using Agri.Models;
 using AutoMapper;
+using Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -25,11 +27,18 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         {
             var data = await _mediator.Send(query);
 
-            ////If no fields exist redirect to the CreateEdit PAGE
-            //if (!data.Fields.Any())
-            //{
-            //    return RedirectToPage("CreateEdit", "Create", new { ismodal = false });
-            //}
+            ////If no fields exist with seasonal feed skip
+            if (!data.Fields.Any())
+            {
+                if (Request.Headers["referer"].ToString().Contains("RanchFields"))
+                {
+                    return RedirectToAction(CoreSiteActions.SoilTest.ToString(), AppControllers.Soil.ToString());
+                }
+                else
+                {
+                    return RedirectToPage(FeaturePages.RanchFieldsIndex.GetDescription());
+                }
+            }
 
             Data = data;
 

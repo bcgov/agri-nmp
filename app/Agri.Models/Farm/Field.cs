@@ -4,18 +4,15 @@ namespace Agri.Models.Farm
 {
     public class Field
     {
-        public Field()
-        {
-            crops = new List<FieldCrop>();
-        }
-
         public int Id { get; set; }
         public string FieldName { get; set; }
         public decimal Area { get; set; }
         public string Comment { get; set; }
         public Nutrients Nutrients { get; set; }
-        public List<FieldCrop> crops { get; set; }
+        public bool HasNutrients => Nutrients != null;
+        public List<FieldCrop> crops { get; set; } = new List<FieldCrop>();
         public SoilTest SoilTest { get; set; }
+        public bool HasSoilTest => SoilTest != null;
         public string PreviousYearManureApplicationFrequency { get; set; }
         public int? PreviousYearManureApplicationNitrogenCredit { get; set; }
         public decimal? SoilTestNitrateOverrideNitrogenCredit { get; set; }
