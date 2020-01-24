@@ -7,6 +7,7 @@ using Agri.Data;
 using Agri.Models;
 using Agri.Models.Farm;
 using AutoMapper;
+using Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -35,11 +36,11 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             {
                 if (Request.Headers["referer"].ToString().Contains("RanchManure"))
                 {
-                    return RedirectToPage("/RanchFields/Index");
+                    return RedirectToPage(FeaturePages.RanchFieldsIndex.GetDescription());
                 }
                 else
                 {
-                    return RedirectToPage("/RanchManure/Index");
+                    return RedirectToPage(FeaturePages.RanchManureIndex.GetDescription());
                 }
             }
             if (!Data.ManureAnalytics.Any())

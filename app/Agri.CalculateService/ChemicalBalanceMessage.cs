@@ -136,7 +136,7 @@ namespace Agri.CalculateService
             }
 
             //List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName);
-            foreach (var m in field.Nutrients.nutrientManures)
+            foreach (var m in field?.Nutrients.nutrientManures)
             {
                 chemicalBalances.balance_AgrN += Convert.ToInt64(m.yrN);
                 chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.yrP2o5);
@@ -147,7 +147,7 @@ namespace Agri.CalculateService
             }
 
             //List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
-            foreach (var f in field.Nutrients.nutrientFertilizers)
+            foreach (var f in field?.Nutrients.nutrientFertilizers)
             {
                 chemicalBalances.balance_AgrN += Convert.ToInt64(f.fertN);
                 chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(f.fertP2o5);
@@ -158,7 +158,7 @@ namespace Agri.CalculateService
             }
 
             //List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
-            foreach (var m in field.Nutrients.nutrientOthers)
+            foreach (var m in field?.Nutrients.nutrientOthers)
             {
                 chemicalBalances.balance_AgrN += Convert.ToInt64(m.ltN);
                 chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.ltP2o5);
