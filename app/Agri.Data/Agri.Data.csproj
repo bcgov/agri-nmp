@@ -5,13 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20191222182326_MiniAppTables.cs" />
-    <Compile Remove="Migrations\20191222182326_MiniAppTables.Designer.cs" />
+    <None Remove="SeedData\MiniAppData.json" />
+    <None Remove="SeedData\MiniAppLabelData.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="SeedData\MiniAppData.json" />
-    <None Remove="SeedData\MiniAppLabelData.json" />
+    <Compile Remove="Migrations\20200111040424_DailyFeedRequirement.cs" />
+    <Compile Remove="Migrations\20200111040424_DailyFeedRequirement.Designer.cs" />
+    <Compile Remove="Migrations\20200111060026_DilyFeedRequirement.cs" />
+    <Compile Remove="Migrations\20200111060026_DilyFeedRequirement.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace Agri.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
@@ -333,6 +333,25 @@ namespace Agri.Data.Migrations
                     b.HasIndex("CropId", "StaticDataVersionId");
 
                     b.ToTable("CropYields");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.DailyFeedRequirement", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("Name");
+
+                    b.Property<decimal?>("Value");
+
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.ToTable("DailyFeedRequirements");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.DefaultSoilTest", b =>
@@ -1422,7 +1441,14 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Text");
 
+                    b.Property<string>("UserJourney");
+
+                    b.Property<string>("UserPromptPage");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("UserPrompts");
                 });
@@ -1594,6 +1620,14 @@ namespace Agri.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.DailyFeedRequirement", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("DailyFeedRequirements")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.DefaultSoilTest", b =>
                 {
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
@@ -1740,7 +1774,7 @@ namespace Agri.Data.Migrations
             modelBuilder.Entity("Agri.Models.Configuration.MiniAppLabel", b =>
                 {
                     b.HasOne("Agri.Models.Configuration.MiniApp", "MiniApp")
-                        .WithMany()
+                        .WithMany("MiniAppLabels")
                         .HasForeignKey("MiniAppId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

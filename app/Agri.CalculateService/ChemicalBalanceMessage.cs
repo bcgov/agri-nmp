@@ -135,37 +135,40 @@ namespace Agri.CalculateService
                 chemicalBalances.balance_CropK2O -= Convert.ToInt64(c.remK2o);
             }
 
-            //List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName);
-            foreach (var m in field.Nutrients.nutrientManures)
+            if (field.HasNutrients)
             {
-                chemicalBalances.balance_AgrN += Convert.ToInt64(m.yrN);
-                chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.yrP2o5);
-                chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.yrK2o);
-                chemicalBalances.balance_CropN += Convert.ToInt64(m.ltN);
-                chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.ltP2o5);
-                chemicalBalances.balance_CropK2O += Convert.ToInt64(m.ltK2o);
-            }
+                //List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName);
+                foreach (var m in field.Nutrients.nutrientManures)
+                {
+                    chemicalBalances.balance_AgrN += Convert.ToInt64(m.yrN);
+                    chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.yrP2o5);
+                    chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.yrK2o);
+                    chemicalBalances.balance_CropN += Convert.ToInt64(m.ltN);
+                    chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.ltP2o5);
+                    chemicalBalances.balance_CropK2O += Convert.ToInt64(m.ltK2o);
+                }
 
-            //List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
-            foreach (var f in field.Nutrients.nutrientFertilizers)
-            {
-                chemicalBalances.balance_AgrN += Convert.ToInt64(f.fertN);
-                chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(f.fertP2o5);
-                chemicalBalances.balance_AgrK2O += Convert.ToInt64(f.fertK2o);
-                chemicalBalances.balance_CropN += Convert.ToInt64(f.fertN);
-                chemicalBalances.balance_CropP2O5 += Convert.ToInt64(f.fertP2o5);
-                chemicalBalances.balance_CropK2O += Convert.ToInt64(f.fertK2o);
-            }
+                //List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
+                foreach (var f in field.Nutrients.nutrientFertilizers)
+                {
+                    chemicalBalances.balance_AgrN += Convert.ToInt64(f.fertN);
+                    chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(f.fertP2o5);
+                    chemicalBalances.balance_AgrK2O += Convert.ToInt64(f.fertK2o);
+                    chemicalBalances.balance_CropN += Convert.ToInt64(f.fertN);
+                    chemicalBalances.balance_CropP2O5 += Convert.ToInt64(f.fertP2o5);
+                    chemicalBalances.balance_CropK2O += Convert.ToInt64(f.fertK2o);
+                }
 
-            //List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
-            foreach (var m in field.Nutrients.nutrientOthers)
-            {
-                chemicalBalances.balance_AgrN += Convert.ToInt64(m.ltN);
-                chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.ltP2o5);
-                chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.ltK);
-                chemicalBalances.balance_CropN += Convert.ToInt64(m.yrN);
-                chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.yrP2o5);
-                chemicalBalances.balance_CropK2O += Convert.ToInt64(m.yrK);
+                //List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
+                foreach (var m in field.Nutrients.nutrientOthers)
+                {
+                    chemicalBalances.balance_AgrN += Convert.ToInt64(m.ltN);
+                    chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.ltP2o5);
+                    chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.ltK);
+                    chemicalBalances.balance_CropN += Convert.ToInt64(m.yrN);
+                    chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.yrP2o5);
+                    chemicalBalances.balance_CropK2O += Convert.ToInt64(m.yrK);
+                }
             }
 
             // include the Nitrogren credit as a result of adding manure in previous years

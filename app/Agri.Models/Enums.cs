@@ -89,16 +89,6 @@ namespace Agri.Models
         DryCows = 8
     }
 
-    public enum UserJourney : int
-    {
-        Initial = 1,
-        Dairy = 2,
-        Ranch = 3,
-        Poultry = 4,
-        Crops = 5,
-        Mixed = 6
-    }
-
     public enum ManureMaterialType
     {
         Liquid = 1,
@@ -116,17 +106,20 @@ namespace Agri.Models
         [Description("Pages Not Used")]
         NotUsed = 0,
 
-        [Description("/RanchAnimals/Index")]
+        [Description("/Ranch/RanchAnimals/Index")]
         RanchAnimalsIndex,
 
-        [Description("/RanchManure/Index")]
+        [Description("/Ranch/RanchManure/Index")]
         RanchManureIndex,
 
-        [Description("/RanchNutrients/Index")]
+        [Description("/Ranch/RanchNutrients/Index")]
         RanchNutrients,
 
-        [Description("/RanchFields/Index")]
+        [Description("/Ranch/RanchFields/Index")]
         RanchFieldsIndex,
+
+        [Description("/Ranch/RanchFeeding/Index")]
+        RanchFeedingIndex,
     }
 
     public enum StorageShapes
@@ -139,6 +132,59 @@ namespace Agri.Models
 
         [Description("Sloped wall (Rectangular)")]
         SlopedWallRectangular = 3
+    }
+
+    public enum UserJourney : int
+    {
+        Initial = 1,
+        Dairy = 2,
+        Ranch = 3,
+        Poultry = 4,
+        Crops = 5,
+        Mixed = 6
+    }
+
+    public enum UserPromptPage
+    {
+        Home,
+        Farm,
+        AnimalsList,
+        AnimalsCreateEdit,
+        AnimalsDelete,
+        ManureGeneratedObtained,
+        ManureGeneratedObtainedModal,
+        ManureGeneratedObtainedDelete,
+        ManureImported,
+        ManureImportedModal,
+        ManureImportedDelete,
+        ManureStorage,
+        ManureStorageModal,
+        ManureStorageDelete,
+        ManureNutrientAnalysis,
+        ManureNutrientAnalysisModal,
+        ManureNutrientDelete,
+        ManureList,
+        ManureCreateEdit,
+        ManureDelete,
+        NutrientsAnalysisList,
+        NutrientsAnalysisCreateEdit,
+        NutrientsAnalysisDelete,
+        Fields,
+        FieldsModal,
+        FieldsDelete,
+        SoilTest,
+        SoilTestModal,
+        SoilTestDelete,
+        Feeding,
+        FieldsList,
+        FieldCreateEdit,
+        SoilTestList,
+        SoilCreateEdit,
+        FeedingList,
+        FeedingCreateEdit,
+        FeedingDelete,
+        Calculate,
+        Report
     }
 
     public enum WashWaterUnits

@@ -1,6 +1,7 @@
 ﻿using Agri.Data;
 using Agri.Models;
 using Agri.Models.Configuration;
+using Common;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.ViewModels;
 using System;
@@ -74,6 +75,8 @@ namespace SERVERAPI.ViewComponents
                         currentMainMenu.ElementId = "current";
                         ndvm.SubMenus = currentMainMenu.SubMenus.OrderBy(s => s.SortNumber).ToList();
 
+                        ndvm.SubMenus = FilterRanchSubMenus(journey, ndvm.SubMenus);
+
                         var currentSubMenu = ndvm.SubMenus.SingleOrDefault(sm =>
                             sm.IsSubMenuCurrent(currentAction) || sm.IsSubMenuCurrent(currentPage));
 
@@ -86,6 +89,37 @@ namespace SERVERAPI.ViewComponents
             }
 
             return Task.FromResult(ndvm);
+        }
+
+        private List<SubMenu> FilterRanchSubMenus(UserJourney journey, List<SubMenu> subMenus)
+        {
+            //Skip Nutrients Menu for Ranch if Nothing to Analyze
+            if (journey == UserJourney.Ranch)
+            {
+                if (subMenus.Any(sm => sm.UsesFeaturePages &&
+                        sm.Page.Equals(FeaturePages.RanchNutrients.GetDescription())) &&
+                    !_ud.GetFarmManures().Any() &&
+                    !_ud.GetAllManagedManures().Any(mm => !mm.AssignedWithNutrientAnalysis))
+                {
+                    //Hide Nutrient Analysis Sub Menu
+                    subMenus
+                        .Remove(subMenus
+                        .Single(sm => sm.Page.Equals(FeaturePages.RanchNutrients.GetDescription())));
+                }
+
+                if (subMenus.Any(sm => sm.UsesFeaturePages &&
+                         sm.Page.Equals(FeaturePages.RanchFeedingIndex.GetDescription())) &&
+                        !_ud.GetFields().Any(x => x.IsSeasonalFeedingArea))
+                {
+                    //Hide Nutrient Analysis Sub Menu
+                    subMenus
+                        .Remove(subMenus
+                        .Single(sm => sm.UsesFeaturePages &&
+                            sm.Page.Equals(FeaturePages.RanchFeedingIndex.GetDescription())));
+                }
+            }
+
+            return subMenus;
         }
     }
 }
