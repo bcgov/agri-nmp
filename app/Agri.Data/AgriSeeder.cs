@@ -24,11 +24,23 @@ namespace Agri.Data
 
         public void Seed()
         {
-            var refreshDatabase = Environment.GetEnvironmentVariable("LOAD_SEED_DATA");
+            var refreshDatabaseEnv = Environment.GetEnvironmentVariable("LOAD_SEED_DATA");
+            var refreshDatabase = (!string.IsNullOrEmpty(refreshDatabaseEnv) && refreshDatabaseEnv.ToLower() == "true") ||
+                _options.Value.LoadSeedData;
+
             var loadSeedConfigDataAsNewVersion = false;
 
-            if ((!string.IsNullOrEmpty(refreshDatabase) && refreshDatabase.ToLower() == "true") ||
-                _options.Value.LoadSeedData)
+            var expectedSeedDataVersionEnv = Environment.GetEnvironmentVariable("EXPECTED_SEED_DATA_VERSION");
+            var expectedSeedDataVersion = _options.Value.ExpectedSeedDataVersion;
+
+            if (!string.IsNullOrEmpty(expectedSeedDataVersionEnv) && int.TryParse(expectedSeedDataVersionEnv, out int parsedVersion))
+            {
+                expectedSeedDataVersion = parsedVersion;
+            }
+
+            var currentVersion = _sd.GetCurrentStaticDataVersion().Id;
+
+            if (refreshDatabase && currentVersion < expectedSeedDataVersion)
             {
                 _context.Database.ExecuteSqlCommand(@"TRUNCATE TABLE ""Browsers"",
                                                                                     ""ExternalLinks"",
@@ -108,13 +120,6 @@ namespace Agri.Data
 
             if (!_context.StaticDataVersions.Any() || loadSeedConfigDataAsNewVersion)
             {
-                var expectedSeedDataVersionEnv = Environment.GetEnvironmentVariable("EXPECTED_SEED_DATA_VERSION");
-                var expectedSeedDataVersion = _options.Value.ExpectedSeedDataVersion;
-
-                if (!string.IsNullOrEmpty(expectedSeedDataVersionEnv) && int.TryParse(expectedSeedDataVersionEnv, out int parsedVersion))
-                {
-                    expectedSeedDataVersion = parsedVersion;
-                }
                 var staticDataVersion = SeedDataLoader.GetSeedJsonData<StaticDataVersion>(Constants.SeedDataFiles.StaticDataVersion);
                 _sd.LoadConfigurations(staticDataVersion, expectedSeedDataVersion);
             }
