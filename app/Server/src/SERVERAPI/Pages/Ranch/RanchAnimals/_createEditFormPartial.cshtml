@@ -59,8 +59,12 @@
         </div>
     </div>
 </div>
-<div class="modal-footer">
-    <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+
+<div class="modal-footer" style="border-top:none !important;">
+    @if (Model.IsModal)
+    {
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+    }
     <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" />
 </div>
 @Html.HiddenFor(x => x.Data.Id)
