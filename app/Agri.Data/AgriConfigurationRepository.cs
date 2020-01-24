@@ -1870,15 +1870,20 @@ namespace Agri.Data
         {
             var datestamp = DateTime.Now;
             var newId = staticDataVersionToLoad.Id;
-            if (GetCurrentStaticDataVersion().Id >= staticDataVersionToLoad.Id)
+            if (GetCurrentStaticDataVersion().Id <= staticDataVersionToLoad.Id)
             {
                 newId = staticDataVersionToLoad.Id + 1;
             }
+            else
+            {
+                newId = GetCurrentStaticDataVersion().Id + 1;
+            }
+
             var newVersion = new StaticDataVersion
             {
                 Id = newId,
                 Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{newId}",
-                CreatedBy = staticDataVersionToLoad.CreatedBy,
+                CreatedBy = "System Load Configurations",
                 CreatedDateTime = staticDataVersionToLoad.CreatedDateTime
             };
             newVersion = MapFullGraphToStaticDataVersion(staticDataVersionToLoad, newVersion);
