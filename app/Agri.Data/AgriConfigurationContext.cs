@@ -31,6 +31,7 @@ namespace Agri.Data
         public DbSet<DensityUnit> DensityUnits { get; set; }
         public DbSet<DryMatter> DryMatters { get; set; }
         public DbSet<ExternalLink> ExternalLinks { get; set; }
+        public DbSet<FeedEfficiency> FeedEfficiencies { get; set; }
         public DbSet<Fertilizer> Fertilizers { get; set; }
         public DbSet<FertilizerMethod> FertilizerMethods { get; set; }
         public DbSet<FertilizerType> FertilizerTypes { get; set; }
@@ -189,6 +190,13 @@ namespace Agri.Data
                     table.Id,
                     table.StaticDataVersionId
                 });
+
+            modelBuilder.Entity<FeedEfficiency>()
+              .HasKey(table => new
+              {
+                  table.Id,
+                  table.StaticDataVersionId
+              });
 
             modelBuilder.Entity<Fertilizer>()
                 .HasKey(table => new

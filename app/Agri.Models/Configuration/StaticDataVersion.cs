@@ -24,6 +24,7 @@ namespace Agri.Models.Configuration
             DefaultSoilTests = new List<DefaultSoilTest>();
             DensityUnits = new List<DensityUnit>();
             DryMatters = new List<DryMatter>();
+            FeedEfficiencies = new List<FeedEfficiency>();
             Fertilizers = new List<Fertilizer>();
             FertilizerMethods = new List<FertilizerMethod>();
             FertilizerTypes = new List<FertilizerType>();
@@ -89,6 +90,7 @@ namespace Agri.Models.Configuration
         public List<DefaultSoilTest> DefaultSoilTests { get; set; }
         public List<DensityUnit> DensityUnits { get; set; }
         public List<DryMatter> DryMatters { get; set; }
+        public List<FeedEfficiency> FeedEfficiencies { get; set; }
         public List<Fertilizer> Fertilizers { get; set; }
         public List<FertilizerMethod> FertilizerMethods { get; set; }
         public List<FertilizerType> FertilizerTypes { get; set; }
