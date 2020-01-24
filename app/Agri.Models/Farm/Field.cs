@@ -14,9 +14,11 @@ namespace Agri.Models.Farm
         public decimal Area { get; set; }
         public string Comment { get; set; }
         public Nutrients Nutrients { get; set; }
-        public List<FieldCrop> Crops { get; set; }
+        public bool HasNutrients => Nutrients != null;
+        public List<FieldCrop> crops { get; set; } = new List<FieldCrop>();
         public List<FeedForageAnalysis> FeedForageAnalyses { get; set; }
         public SoilTest SoilTest { get; set; }
+        public bool HasSoilTest => SoilTest != null;
         public string PreviousYearManureApplicationFrequency { get; set; }
         public int? PreviousYearManureApplicationNitrogenCredit { get; set; }
         public decimal? SoilTestNitrateOverrideNitrogenCredit { get; set; }
