@@ -203,6 +203,10 @@
                   {
                     "name": "LOAD_SEED_DATA",
                     "value": "false"
+                  },
+                  {
+                    "name": "EXPECTED_SEED_DATA_VERSION",
+                    "value": "0"
                   }
                 ],
                 "resources": {

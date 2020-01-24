@@ -1866,17 +1866,18 @@ namespace Agri.Data
             return _context.ManageVersionUsers.SingleOrDefault(m => m.UserName == username);
         }
 
-        public void LoadConfigurations(StaticDataVersion staticDataVersionToLoad)
+        public void LoadConfigurations(StaticDataVersion staticDataVersionToLoad, int? maxStaticDataVersion = null)
         {
             var datestamp = DateTime.Now;
-            var newId = staticDataVersionToLoad.Id;
+            var newId = GetCurrentStaticDataVersion().Id + 1;
             if (GetCurrentStaticDataVersion().Id <= staticDataVersionToLoad.Id)
             {
                 newId = staticDataVersionToLoad.Id + 1;
             }
-            else
+
+            if (maxStaticDataVersion.HasValue && newId > maxStaticDataVersion)
             {
-                newId = GetCurrentStaticDataVersion().Id + 1;
+                return;
             }
 
             var newVersion = new StaticDataVersion

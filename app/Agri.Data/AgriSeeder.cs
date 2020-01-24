@@ -108,8 +108,15 @@ namespace Agri.Data
 
             if (!_context.StaticDataVersions.Any() || loadSeedConfigDataAsNewVersion)
             {
+                var expectedSeedDataVersionEnv = Environment.GetEnvironmentVariable("EXPECTED_SEED_DATA_VERSION");
+                var expectedSeedDataVersion = _options.Value.ExpectedSeedDataVersion;
+
+                if (!string.IsNullOrEmpty(expectedSeedDataVersionEnv) && int.TryParse(expectedSeedDataVersionEnv, out int parsedVersion))
+                {
+                    expectedSeedDataVersion = parsedVersion;
+                }
                 var staticDataVersion = SeedDataLoader.GetSeedJsonData<StaticDataVersion>(Constants.SeedDataFiles.StaticDataVersion);
-                _sd.LoadConfigurations(staticDataVersion);
+                _sd.LoadConfigurations(staticDataVersion, expectedSeedDataVersion);
             }
         }
     }
