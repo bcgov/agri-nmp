@@ -93,7 +93,20 @@ namespace SERVERAPI
             services.AddMediatR(typeof(Startup));
 
             //// Add framework services.
-            services.AddMvc()
+            //services.AddMvc()
+            //    .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); })
+            //    .AddNewtonsoftJson(
+            //        opts =>
+            //        {
+            //            opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            //            opts.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            //            opts.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
+            //            opts.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+            //            // ReferenceLoopHandling is set to Ignore to prevent JSON parser issues with the user / roles model.
+            //            opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            //        });
+
+            services.AddRazorPages()
                 .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); })
                 .AddNewtonsoftJson(
                     opts =>
@@ -141,7 +154,13 @@ namespace SERVERAPI
             app.UseResponseCompression();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+            });
 
             UpdateDatabase(app);
             RunSeeding(app);
