@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Agri.Data;
+using Agri.Models.Farm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,30 +10,37 @@ namespace Agri.CalculateService
 {
     public interface IFeedAreaCalculator
     {
-        decimal K20AgronomicBalance();
+        decimal K20AgronomicBalance(Field field);
 
-        decimal NAgronomicBalance();
+        decimal NAgronomicBalance(Field field);
 
-        decimal P205AgronomicBalance();
+        decimal P205AgronomicBalance(Field field);
     }
 
     public class FeedAreaCalculator : IFeedAreaCalculator
     {
-        public decimal NAgronomicBalance()
+        private readonly AgriConfigurationRepository _repo;
+
+        public FeedAreaCalculator(AgriConfigurationRepository repo)
+        {
+            _repo = repo;
+        }
+
+        public decimal NAgronomicBalance(Field field)
         {
             var result = 0M;
 
             return result;
         }
 
-        public decimal P205AgronomicBalance()
+        public decimal P205AgronomicBalance(Field field)
         {
             var result = 0M;
 
             return result;
         }
 
-        public decimal K20AgronomicBalance()
+        public decimal K20AgronomicBalance(Field field)
         {
             var result = 0M;
 
