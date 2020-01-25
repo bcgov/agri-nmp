@@ -526,6 +526,7 @@ namespace SERVERAPI.Controllers
                     if (vm.Authenticated)
                     {
                         var data = _sd.GetLatestVersionDataTree();
+
                         var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                                             new JsonSerializerSettings()
                                             {
@@ -533,7 +534,7 @@ namespace SERVERAPI.Controllers
                                             });
 
                         var fileName = $"StaticData_Version_{data.Id}.nmp";
-                        byte[] fileBytes = Encoding.ASCII.GetBytes(json);
+                        byte[] fileBytes = Encoding.UTF8.GetBytes(json);
                         return File(fileBytes, "application/octet-stream", fileName);
                     }
                 }
