@@ -105,8 +105,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             public string FeedingPercentage { get; set; }
             public string MatureAnimalCount { get; set; }
             public string GrowingAnimalCount { get; set; }
-            public string MatureAnimalAverage { get; set; }
-            public string GrowingAnimalAverage { get; set; }
+            public string MatureAnimalAverageWeight { get; set; }
+            public string GrowingAnimalAverageWeight { get; set; }
             public List<DailyFeedRequirement> SelectDailyFeedOptions { get; set; }
             public string SelectMatureAnimalDailyFeed { get; set; }
             public string SelectGrowingAnimalDailyFeed { get; set; }
@@ -158,8 +158,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 .ForMember(m => m.FeedingValueDays, opts => opts.MapFrom(s => s.FeedingValueDays != null ? s.FeedingValueDays.Value.ToString("G29") : null))
                 .ForMember(m => m.MatureAnimalCount, opts => opts.MapFrom(s => s.MatureAnimalCount != null ? s.MatureAnimalCount.Value.ToString("G29") : null))
                 .ForMember(m => m.GrowingAnimalCount, opts => opts.MapFrom(s => s.GrowingAnimalCount != null ? s.GrowingAnimalCount.Value.ToString("G29") : null))
-                .ForMember(m => m.MatureAnimalAverage, opts => opts.MapFrom(s => s.MatureAnimalAverage != null ? s.MatureAnimalAverage.Value.ToString("G29") : null))
-                .ForMember(m => m.GrowingAnimalAverage, opts => opts.MapFrom(s => s.GrowingAnimalAverage != null ? s.GrowingAnimalAverage.Value.ToString("G29") : null))
+                .ForMember(m => m.MatureAnimalAverageWeight, opts => opts.MapFrom(s => s.MatureAnimalAverageWeight != null ? s.MatureAnimalAverageWeight.Value.ToString("G29") : null))
+                .ForMember(m => m.GrowingAnimalAverageWeight, opts => opts.MapFrom(s => s.GrowingAnimalAverageWeight != null ? s.GrowingAnimalAverageWeight.Value.ToString("G29") : null))
                 .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
                 .ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.PreviousYearManureApplicationFrequency))
                 .ReverseMap()
@@ -187,21 +187,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 {
                     var field = _ud.GetFieldDetailById(request.Id);
                     command = _mapper.Map<Command>(field);
-                    //command.FieldName = field.fieldName;
-                    //command.Id = field.Id;
-                    //command.FieldArea = field.area.ToString("G29");
-                    //command.IsSeasonalFeedingArea = field.IsSeasonalFeedingArea;
-                    //command.SeasonalFeedingArea = field.SeasonalFeedingArea;
-                    //command.FieldComment = field.comment;
-                    //command.SelectPrevYrManureOption = field.prevYearManureApplicationFrequency;
-                    //command.FeedingValueDays = field.FeedingValueDays;
-                    //command.FeedingPercentage = field.FeedingPercentage;
-                    //command.MatureAnimalAverage = field.MatureAnimalAverage;
-                    //command.MatureAnimalCount = field.MatureAnimalCount;
-                    //command.GrowingAnimalAverage = field.GrowingAnimalAverage;
-                    //command.GrowingAnimalCount = field.GrowingAnimalCount;
-
-                    //command.FeedingValueDays = field.feedingValueDays;
                 }
 
                 return await Task.FromResult(command);

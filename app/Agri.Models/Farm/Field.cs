@@ -28,8 +28,8 @@ namespace Agri.Models.Farm
         public decimal? FeedingPercentage { get; set; }
         public decimal? MatureAnimalCount { get; set; }
         public decimal? GrowingAnimalCount { get; set; }
-        public decimal? MatureAnimalAverage { get; set; }
-        public decimal? GrowingAnimalAverage { get; set; }
+        public decimal? MatureAnimalAverageWeight { get; set; }
+        public decimal? GrowingAnimalAverageWeight { get; set; }
         public string SelectMatureAnimalDailyFeed { get; set; }
         public string SelectGrowingAnimalDailyFeed { get; set; }
     }

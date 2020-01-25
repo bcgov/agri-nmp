@@ -310,9 +310,9 @@ namespace SERVERAPI.Models.Impl
             fld.SeasonalFeedingArea = updtFld.SeasonalFeedingArea;
             fld.FeedingPercentage = updtFld.FeedingPercentage;
             fld.FeedingValueDays = updtFld.FeedingValueDays;
-            fld.GrowingAnimalAverage = updtFld.GrowingAnimalAverage;
+            fld.GrowingAnimalAverageWeight = updtFld.GrowingAnimalAverageWeight;
             fld.GrowingAnimalCount = updtFld.GrowingAnimalCount;
-            fld.MatureAnimalAverage = updtFld.MatureAnimalAverage;
+            fld.MatureAnimalAverageWeight = updtFld.MatureAnimalAverageWeight;
             fld.MatureAnimalCount = updtFld.MatureAnimalCount;
             if (!fld.IsSeasonalFeedingArea)
             {
@@ -320,9 +320,9 @@ namespace SERVERAPI.Models.Impl
                 fld.SelectGrowingAnimalDailyFeed = string.Empty;
                 fld.FeedingPercentage = null;
                 fld.FeedingValueDays = null;
-                fld.GrowingAnimalAverage = null;
+                fld.GrowingAnimalAverageWeight = null;
                 fld.GrowingAnimalCount = null;
-                fld.MatureAnimalAverage = null;
+                fld.MatureAnimalAverageWeight = null;
                 fld.MatureAnimalCount = null;
             }
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
