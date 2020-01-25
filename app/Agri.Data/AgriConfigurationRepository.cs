@@ -37,6 +37,7 @@ namespace Agri.Data
         private List<DensityUnit> _densityUnits;
         private List<DryMatter> _dryMatters;
         private List<ExternalLink> _externalLinks;
+        private List<Feed> _feeds;
         private List<FeedConsumption> _feedConsumptions;
         private List<FeedEfficiency> _feedEfficiencies;
         private List<FertilizerMethod> _fertilizerMethods;
@@ -521,6 +522,43 @@ namespace Agri.Data
             }
 
             return _externalLinks;
+        }
+
+        public Feed GetFeed(int id)
+        {
+            return GetFeeds()
+                .Where(a => a.StaticDataVersionId == GetStaticDataVersionId() && a.Id == id)
+                .SingleOrDefault();
+        }
+
+        public List<Feed> GetFeeds()
+        {
+            if (_feeds == null)
+            {
+                _feeds = _context.Feeds.AsNoTracking()
+                    .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                    .Include(a => a.FeedForageTypes)
+                    .ToList();
+            }
+
+            return _feeds;
+        }
+
+        public FeedForageType GetFeedForageType(int id)
+        {
+            return GetFeedForageTypes().SingleOrDefault(ast => ast.Id == id);
+        }
+
+        public List<FeedForageType> GetFeedForageTypes(int feeId)
+        {
+            return GetFeed(feeId)
+                .FeedForageTypes
+                    .ToList();
+        }
+
+        public List<FeedForageType> GetFeedForageTypes()
+        {
+            return GetFeeds().SelectMany(a => a.FeedForageTypes).ToList();
         }
 
         public List<FeedConsumption> GetFeedConsumption()
@@ -1410,6 +1448,8 @@ namespace Agri.Data
                 .Include(x => x.DefaultSoilTests)
                 .Include(x => x.DensityUnits)
                 .Include(x => x.DryMatters)
+                .Include(x => x.Feeds)
+                .Include(x => x.FeedForageTypes)
                  .Include(x => x.FeedConsumptions)
                 .Include(x => x.FeedEfficiencies)
                 .Include(x => x.Fertilizers)
@@ -1936,6 +1976,8 @@ namespace Agri.Data
             response.DefaultSoilTests = _mapper.Map<List<DefaultSoilTest>, List<DefaultSoilTest>>(staticDataVersionToLoad.DefaultSoilTests).ToList();
             response.DensityUnits = _mapper.Map<List<DensityUnit>, List<DensityUnit>>(staticDataVersionToLoad.DensityUnits).ToList();
             response.DryMatters = _mapper.Map<List<DryMatter>, List<DryMatter>>(staticDataVersionToLoad.DryMatters).ToList();
+            response.Feeds = _mapper.Map<List<Feed>, List<Feed>>(staticDataVersionToLoad.Feeds).ToList();
+            response.FeedForageTypes = _mapper.Map<List<FeedForageType>, List<FeedForageType>>(staticDataVersionToLoad.FeedForageTypes).ToList();
             response.FeedConsumptions = _mapper.Map<List<FeedConsumption>, List<FeedConsumption>>(staticDataVersionToLoad.FeedConsumptions).ToList();
             response.FeedEfficiencies = _mapper.Map<List<FeedEfficiency>, List<FeedEfficiency>>(staticDataVersionToLoad.FeedEfficiencies).ToList();
             response.Fertilizers = _mapper.Map<List<Fertilizer>, List<Fertilizer>>(staticDataVersionToLoad.Fertilizers).ToList();
@@ -1990,6 +2032,8 @@ namespace Agri.Data
             response.DefaultSoilTests.ForEach(n => n.SetVersion(response));
             response.DensityUnits.ForEach(n => n.SetVersion(response));
             response.DryMatters.ForEach(n => n.SetVersion(response));
+            response.Feeds.ForEach(n => n.SetVersion(response));
+            response.FeedForageTypes.ForEach(n => n.SetVersion(response));
             response.FeedConsumptions.ForEach(n => n.SetVersion(response));
             response.FeedEfficiencies.ForEach(n => n.SetVersion(response));
             response.Fertilizers.ForEach(n => n.SetVersion(response));
