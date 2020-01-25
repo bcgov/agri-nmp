@@ -30,7 +30,7 @@ namespace Agri.Models.Farm
         public decimal? GrowingAnimalCount { get; set; }
         public decimal? MatureAnimalAverageWeight { get; set; }
         public decimal? GrowingAnimalAverageWeight { get; set; }
-        public string SelectMatureAnimalDailyFeedReq { get; set; }
-        public string SelectGrowingAnimalDailyFeedReq { get; set; }
+        public int? MatureAnimalDailyFeedRequirementId { get; set; }
+        public int? GrowingAnimalDailyFeedRequirementId { get; set; }
     }
 }

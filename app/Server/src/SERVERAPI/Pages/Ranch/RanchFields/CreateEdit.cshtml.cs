@@ -117,8 +117,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
             public string MatureAnimalAverageWeight { get; set; }
             public string GrowingAnimalAverageWeight { get; set; }
             public List<DailyFeedRequirement> SelectDailyFeedOptions { get; set; }
-            public string SelectMatureAnimalDailyFeedReq { get; set; }
-            public string SelectGrowingAnimalDailyFeedReq { get; set; }
+            public int? MatureAnimalDailyFeedRequirementId { get; set; }
+            public int? GrowingAnimalDailyFeedRequirementId { get; set; }
             public string DailyFeedWarning { get; set; }
         }
 
@@ -199,13 +199,13 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
                 var command = request.PopulatedData;
                 command.SelectPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
                 command.SelectDailyFeedOptions = _sd.GetDailyFeedRequirement();
-                if (command.SelectMatureAnimalDailyFeedReq == null)
+                if (command.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0) == 0)
                 {
-                    command.SelectMatureAnimalDailyFeedReq = command.SelectDailyFeedOptions[0].Name;
+                    command.MatureAnimalDailyFeedRequirementId = command.SelectDailyFeedOptions[0].Id;
                 }
-                if (command.SelectGrowingAnimalDailyFeedReq == null)
+                if (command.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0) == 0)
                 {
-                    command.SelectGrowingAnimalDailyFeedReq = command.SelectDailyFeedOptions[0].Name;
+                    command.GrowingAnimalDailyFeedRequirementId = command.SelectDailyFeedOptions[0].Id;
                 }
 
                 var prompts = _db.UserPrompts

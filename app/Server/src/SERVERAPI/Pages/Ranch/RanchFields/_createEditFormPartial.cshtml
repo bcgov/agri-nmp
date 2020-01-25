@@ -94,7 +94,7 @@
             <!--Need to add validation-->
         </div>
         <div class="col-sm-5 ">
-            <label asp-for="@Model.Data.SelectMatureAnimalDailyFeedReq">
+            <label asp-for="@Model.Data.MatureAnimalDailyFeedRequirementId">
                 Daily feed requirement
 
                 <a href="#" data-toggle="tooltip" title="@Model.Data.DailyFeedWarning" id="toolTipDailyFeedWarning">
@@ -103,7 +103,8 @@
 
                 @*<span class="text-danger">@Html.Raw(@Model.Data.DailyFeedWarning)</span>*@
             </label>
-            <select class="form-control" asp-for="@Model.Data.SelectMatureAnimalDailyFeedReq" asp-items="@(new SelectList(Model.Data.SelectDailyFeedOptions,"Id","Name"))">
+            <select class="form-control" asp-for="@Model.Data.MatureAnimalDailyFeedRequirementId"
+                    asp-items="@(new SelectList(Model.Data.SelectDailyFeedOptions,"Id","Name"))">
             </select>
         </div>
     </div>
@@ -121,14 +122,14 @@
             <!--Need to add validation-->
         </div>
         <div class="col-sm-5">
-            <label asp-for="@Model.Data.SelectGrowingAnimalDailyFeedReq">
+            <label asp-for="@Model.Data.GrowingAnimalDailyFeedRequirementId">
                 Daily Feed Requirements
                 <a href="#" data-toggle="tooltip" title="@Model.Data.DailyFeedWarning">
                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                 </a>
                 @*<span class="text-danger">@Html.Raw(@Model.Data.DailyFeedWarning)</span>*@
             </label>
-            <select class="form-control" asp-for="@Model.Data.SelectGrowingAnimalDailyFeedReq" asp-items="@(new SelectList(Model.Data.SelectDailyFeedOptions,"Id","Name"))">
+            <select class="form-control" asp-for="@Model.Data.GrowingAnimalDailyFeedRequirementId" asp-items="@(new SelectList(Model.Data.SelectDailyFeedOptions,"Id","Name"))">
             </select>
         </div>
     </div>

@@ -297,27 +297,12 @@ namespace SERVERAPI.Models.Impl
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             Field fld = yd.Fields.FirstOrDefault(f => f.Id == updtFld.Id);
 
-            fld.FieldName = updtFld.FieldName;
-            fld.Area = updtFld.Area;
-            fld.Comment = updtFld.Comment;
+            fld = _mapper.Map<Field>(updtFld);
 
-            fld.PreviousYearManureApplicationFrequency = updtFld.PreviousYearManureApplicationFrequency;
-            fld.PreviousYearManureApplicationNitrogenCredit = updtFld.PreviousYearManureApplicationNitrogenCredit;
-            fld.SoilTestNitrateOverrideNitrogenCredit = updtFld.SoilTestNitrateOverrideNitrogenCredit;
-            fld.SelectMatureAnimalDailyFeedReq = updtFld.SelectMatureAnimalDailyFeedReq;
-            fld.SelectGrowingAnimalDailyFeedReq = updtFld.SelectGrowingAnimalDailyFeedReq;
-            fld.IsSeasonalFeedingArea = updtFld.IsSeasonalFeedingArea;
-            fld.SeasonalFeedingArea = updtFld.SeasonalFeedingArea;
-            fld.FeedingPercentage = updtFld.FeedingPercentage;
-            fld.FeedingValueDays = updtFld.FeedingValueDays;
-            fld.GrowingAnimalAverageWeight = updtFld.GrowingAnimalAverageWeight;
-            fld.GrowingAnimalCount = updtFld.GrowingAnimalCount;
-            fld.MatureAnimalAverageWeight = updtFld.MatureAnimalAverageWeight;
-            fld.MatureAnimalCount = updtFld.MatureAnimalCount;
             if (!fld.IsSeasonalFeedingArea)
             {
-                fld.SelectMatureAnimalDailyFeedReq = string.Empty;
-                fld.SelectGrowingAnimalDailyFeedReq = string.Empty;
+                fld.MatureAnimalDailyFeedRequirementId = 0;
+                fld.GrowingAnimalDailyFeedRequirementId = 0;
                 fld.FeedingPercentage = null;
                 fld.FeedingValueDays = null;
                 fld.GrowingAnimalAverageWeight = null;
