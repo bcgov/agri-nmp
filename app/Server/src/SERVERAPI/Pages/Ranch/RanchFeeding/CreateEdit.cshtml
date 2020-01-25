@@ -1,0 +1,41 @@
+﻿@page "{handler?}/{fieldName}"
+@model SERVERAPI.Pages.Ranch.RanchFeeding.CreateEdit
+
+@{
+    Layout = "_ModalLayout";
+    ViewData["HeaderTitle"] = Model.Title;
+}
+
+@*var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
+    var action = Url.Page("CreateEdit", "Create",new {fieldName=Model.FieldName});*@
+<form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body" style="padding:0px">
+    @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+</form>
+
+@section Scripts {
+<script type="text/javascript">
+
+        function AddNewFeedForage3() {
+            $('#btnFeedForage2').hide();
+            $('#feedForage3').show();
+        }
+        function AddNewFeedForage2() {
+            $('#btnFeedForage1').hide();
+            $('#feedForage2').show();
+        }
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning').click(function () {
+                triggerToolTip($('#toolTipDailyFeedWarning'));
+            });
+        })
+</script>
+}

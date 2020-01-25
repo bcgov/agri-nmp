@@ -31,6 +31,10 @@ namespace Agri.Data
         public DbSet<DensityUnit> DensityUnits { get; set; }
         public DbSet<DryMatter> DryMatters { get; set; }
         public DbSet<ExternalLink> ExternalLinks { get; set; }
+        public DbSet<Feed> Feeds { get; set; }
+        public DbSet<FeedForageType> FeedForageType { get; set; }
+        public DbSet<FeedConsumption> FeedConsumptions { get; set; }
+        public DbSet<FeedEfficiency> FeedEfficiencies { get; set; }
         public DbSet<Fertilizer> Fertilizers { get; set; }
         public DbSet<FertilizerMethod> FertilizerMethods { get; set; }
         public DbSet<FertilizerType> FertilizerTypes { get; set; }
@@ -189,6 +193,34 @@ namespace Agri.Data
                     table.Id,
                     table.StaticDataVersionId
                 });
+
+            modelBuilder.Entity<Feed>()
+               .HasKey(table => new
+               {
+                   table.Id,
+                   table.StaticDataVersionId
+               });
+
+            modelBuilder.Entity<FeedForageType>()
+                .HasKey(table => new
+                {
+                    table.Id,
+                    table.StaticDataVersionId
+                });
+
+            modelBuilder.Entity<FeedConsumption>()
+             .HasKey(table => new
+             {
+                 table.Id,
+                 table.StaticDataVersionId
+             });
+
+            modelBuilder.Entity<FeedEfficiency>()
+              .HasKey(table => new
+              {
+                  table.Id,
+                  table.StaticDataVersionId
+              });
 
             modelBuilder.Entity<Fertilizer>()
                 .HasKey(table => new
@@ -536,6 +568,20 @@ namespace Agri.Data
                     .WithMany(crop => crop.CropSoilTestPotassiumRegions)
                     .HasForeignKey(test => new { test.CropId, test.StaticDataVersionId })
                     .HasPrincipalKey(crop => new { crop.Id, crop.StaticDataVersionId });
+            });
+
+            //Foreign Keys
+            modelBuilder.Entity<FeedForageType>(b =>
+            {
+                b.HasOne(child => child.Version)
+                    .WithMany(version => version.FeedForageTypes)
+                    .HasForeignKey(child => child.StaticDataVersionId)
+                    .HasPrincipalKey(version => version.Id);
+
+                b.HasOne(subtype => subtype.Feed)
+                    .WithMany(feed => feed.FeedForageTypes)
+                    .HasForeignKey(feedforagetype => new { feedforagetype.FeedId, feedforagetype.StaticDataVersionId })
+                    .HasPrincipalKey(feed => new { feed.Id, feed.StaticDataVersionId });
             });
 
             modelBuilder.Entity<LiquidFertilizerDensity>(b =>
