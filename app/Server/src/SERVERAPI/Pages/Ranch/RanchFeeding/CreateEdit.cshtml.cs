@@ -101,8 +101,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
             public bool IsSeasonalFeedingArea { get; set; }
             public string SeasonalFeedingArea { get; set; }
-            public string FeedingValueDays { get; set; }
-            public string FeedingPercentage { get; set; }
+            public string FeedingDaysSpentInFeedingArea { get; set; }
+            public string FeedingPercentageOutsideFeeingArea { get; set; }
             public string MatureAnimalCount { get; set; }
             public string GrowingAnimalCount { get; set; }
             public string MatureAnimalAverageWeight { get; set; }
@@ -154,8 +154,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 CreateMap<Field, Command>()
                 //Command as Destination
                 .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area.ToString("G29")))
-                .ForMember(m => m.FeedingPercentage, opts => opts.MapFrom(s => s.FeedingPercentage != null ? s.FeedingPercentage.Value.ToString("G29") : null))
-                .ForMember(m => m.FeedingValueDays, opts => opts.MapFrom(s => s.FeedingValueDays != null ? s.FeedingValueDays.Value.ToString("G29") : null))
+                .ForMember(m => m.FeedingPercentageOutsideFeeingArea, opts => opts.MapFrom(s => s.FeedingPercentageOutsideFeeingArea != null ? s.FeedingPercentageOutsideFeeingArea.Value.ToString("G29") : null))
+                .ForMember(m => m.FeedingDaysSpentInFeedingArea, opts => opts.MapFrom(s => s.FeedingDaysSpentInFeedingArea != null ? s.FeedingDaysSpentInFeedingArea.Value.ToString("G29") : null))
                 .ForMember(m => m.MatureAnimalCount, opts => opts.MapFrom(s => s.MatureAnimalCount != null ? s.MatureAnimalCount.Value.ToString("G29") : null))
                 .ForMember(m => m.GrowingAnimalCount, opts => opts.MapFrom(s => s.GrowingAnimalCount != null ? s.GrowingAnimalCount.Value.ToString("G29") : null))
                 .ForMember(m => m.MatureAnimalAverageWeight, opts => opts.MapFrom(s => s.MatureAnimalAverageWeight != null ? s.MatureAnimalAverageWeight.Value.ToString("G29") : null))

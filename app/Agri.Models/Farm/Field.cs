@@ -24,8 +24,8 @@ namespace Agri.Models.Farm
         public decimal? SoilTestNitrateOverrideNitrogenCredit { get; set; }
         public bool IsSeasonalFeedingArea { get; set; }
         public string SeasonalFeedingArea { get; set; }
-        public decimal? FeedingValueDays { get; set; }
-        public decimal? FeedingPercentage { get; set; }
+        public decimal? FeedingDaysSpentInFeedingArea { get; set; }
+        public decimal? FeedingPercentageOutsideFeeingArea { get; set; }
         public decimal? MatureAnimalCount { get; set; }
         public decimal? GrowingAnimalCount { get; set; }
         public decimal? MatureAnimalAverageWeight { get; set; }

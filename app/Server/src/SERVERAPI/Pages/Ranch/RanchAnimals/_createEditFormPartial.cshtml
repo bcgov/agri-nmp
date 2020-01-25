@@ -16,7 +16,7 @@
         <div class="form-group col-sm-6">
             <label for="averageAnimalNumber">Average Animal Number on Farm</label>
             <input class="form-control" asp-for="@Model.Data.AverageAnimalNumber"
-                   id="averageAnimalNumber" type="number" placeholder="@Model.Data.Placehldr"
+                   id="averageAnimalNumber" type="number" step="0.01" placeholder="@Model.Data.Placehldr"
                    style="width: 100px" />
             @Html.ValidationMessageFor(model => model.Data.AverageAnimalNumber)
         </div>

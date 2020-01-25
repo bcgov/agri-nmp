@@ -97,7 +97,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
             //public List<FieldCrop> Crops { get; set; }
             //public SoilTest SoilTest { get; set; }
 
-            public string FieldArea { get; set; }
+            public decimal? FieldArea { get; set; }
             public string FieldComment { get; set; }
 
             public List<PreviousManureApplicationYear> SelectPrevYrManureOptions { get; set; }
@@ -110,12 +110,12 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
 
             public bool IsSeasonalFeedingArea { get; set; }
             public string SeasonalFeedingArea { get; set; }
-            public string FeedingValueDays { get; set; }
-            public string FeedingPercentage { get; set; }
-            public string MatureAnimalCount { get; set; }
-            public string GrowingAnimalCount { get; set; }
-            public string MatureAnimalAverageWeight { get; set; }
-            public string GrowingAnimalAverageWeight { get; set; }
+            public int? FeedingDaysSpentInFeedingArea { get; set; }
+            public int? FeedingPercentageOutsideFeeingArea { get; set; }
+            public int? MatureAnimalCount { get; set; }
+            public int? GrowingAnimalCount { get; set; }
+            public int? MatureAnimalAverageWeight { get; set; }
+            public int? GrowingAnimalAverageWeight { get; set; }
             public List<DailyFeedRequirement> SelectDailyFeedOptions { get; set; }
             public int? MatureAnimalDailyFeedRequirementId { get; set; }
             public int? GrowingAnimalDailyFeedRequirementId { get; set; }
@@ -142,18 +142,11 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
             {
                 CreateMap<Field, Command>()
                 //Command as Destination
-                .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area.ToString("G29")))
-                .ForMember(m => m.FeedingPercentage, opts => opts.MapFrom(s => s.FeedingPercentage != null ? s.FeedingPercentage.Value.ToString("G29") : null))
-                .ForMember(m => m.FeedingValueDays, opts => opts.MapFrom(s => s.FeedingValueDays != null ? s.FeedingValueDays.Value.ToString("G29") : null))
-                .ForMember(m => m.MatureAnimalCount, opts => opts.MapFrom(s => s.MatureAnimalCount != null ? s.MatureAnimalCount.Value.ToString("G29") : null))
-                .ForMember(m => m.GrowingAnimalCount, opts => opts.MapFrom(s => s.GrowingAnimalCount != null ? s.GrowingAnimalCount.Value.ToString("G29") : null))
-                .ForMember(m => m.MatureAnimalAverageWeight, opts => opts.MapFrom(s => s.MatureAnimalAverageWeight != null ? s.MatureAnimalAverageWeight.Value.ToString("G29") : null))
-                .ForMember(m => m.GrowingAnimalAverageWeight, opts => opts.MapFrom(s => s.GrowingAnimalAverageWeight != null ? s.GrowingAnimalAverageWeight.Value.ToString("G29") : null))
+
                 .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
                 .ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.PreviousYearManureApplicationFrequency))
                 .ReverseMap()
                 //FarmField as Destination
-                .ForMember(m => m.Area, opts => opts.MapFrom(s => s.FieldArea != null ? Convert.ToDecimal(s.FieldArea) : 0))
                 .ForMember(m => m.SeasonalFeedingArea, opts => opts.MapFrom(s => s.IsSeasonalFeedingArea ? "Yes" : "No")); ;
             }
         }

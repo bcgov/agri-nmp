@@ -303,8 +303,8 @@ namespace SERVERAPI.Models.Impl
             {
                 fld.MatureAnimalDailyFeedRequirementId = 0;
                 fld.GrowingAnimalDailyFeedRequirementId = 0;
-                fld.FeedingPercentage = null;
-                fld.FeedingValueDays = null;
+                fld.FeedingPercentageOutsideFeeingArea = null;
+                fld.FeedingDaysSpentInFeedingArea = null;
                 fld.GrowingAnimalAverageWeight = null;
                 fld.GrowingAnimalCount = null;
                 fld.MatureAnimalAverageWeight = null;
