@@ -433,6 +433,23 @@ namespace Agri.Data.Migrations
                     b.ToTable("ExternalLinks");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.FeedConsumption", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId");
+
+                    b.Property<string>("Label");
+
+                    b.Property<decimal>("Value");
+
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.ToTable("FeedConsumptions");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.FeedEfficiency", b =>
                 {
                     b.Property<int>("Id");
@@ -1669,6 +1686,14 @@ namespace Agri.Data.Migrations
                 {
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
                         .WithMany("DryMatters")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FeedConsumption", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("FeedConsumptions")
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

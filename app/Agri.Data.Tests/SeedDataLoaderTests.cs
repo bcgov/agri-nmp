@@ -129,6 +129,7 @@ namespace Agri.Data.Tests
             agriConfigurationDb.DefaultSoilTests.Any().ShouldBeTrue();
             agriConfigurationDb.DensityUnits.Any().ShouldBeTrue();
             agriConfigurationDb.DryMatters.Any().ShouldBeTrue();
+            agriConfigurationDb.FeedConsumptions.Any().ShouldBeTrue();
             agriConfigurationDb.FeedEfficiencies.Any().ShouldBeTrue();
             agriConfigurationDb.Fertilizers.Any().ShouldBeTrue();
             agriConfigurationDb.FertilizerMethods.Any().ShouldBeTrue();

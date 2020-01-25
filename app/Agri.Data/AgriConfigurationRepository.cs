@@ -37,6 +37,7 @@ namespace Agri.Data
         private List<DensityUnit> _densityUnits;
         private List<DryMatter> _dryMatters;
         private List<ExternalLink> _externalLinks;
+        private List<FeedConsumption> _feedConsumptions;
         private List<FeedEfficiency> _feedEfficiencies;
         private List<FertilizerMethod> _fertilizerMethods;
         private List<Fertilizer> _fertilizers;
@@ -520,6 +521,18 @@ namespace Agri.Data
             }
 
             return _externalLinks;
+        }
+
+        public List<FeedConsumption> GetFeedConsumption()
+        {
+            if (_feedConsumptions == null)
+            {
+                _feedConsumptions = _context.FeedConsumptions.AsNoTracking()
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
+            }
+
+            return _feedConsumptions;
         }
 
         public List<FeedEfficiency> GetFeedEfficiency()
@@ -1397,6 +1410,7 @@ namespace Agri.Data
                 .Include(x => x.DefaultSoilTests)
                 .Include(x => x.DensityUnits)
                 .Include(x => x.DryMatters)
+                 .Include(x => x.FeedConsumptions)
                 .Include(x => x.FeedEfficiencies)
                 .Include(x => x.Fertilizers)
                 .Include(x => x.FertilizerMethods)
@@ -1922,6 +1936,7 @@ namespace Agri.Data
             response.DefaultSoilTests = _mapper.Map<List<DefaultSoilTest>, List<DefaultSoilTest>>(staticDataVersionToLoad.DefaultSoilTests).ToList();
             response.DensityUnits = _mapper.Map<List<DensityUnit>, List<DensityUnit>>(staticDataVersionToLoad.DensityUnits).ToList();
             response.DryMatters = _mapper.Map<List<DryMatter>, List<DryMatter>>(staticDataVersionToLoad.DryMatters).ToList();
+            response.FeedConsumptions = _mapper.Map<List<FeedConsumption>, List<FeedConsumption>>(staticDataVersionToLoad.FeedConsumptions).ToList();
             response.FeedEfficiencies = _mapper.Map<List<FeedEfficiency>, List<FeedEfficiency>>(staticDataVersionToLoad.FeedEfficiencies).ToList();
             response.Fertilizers = _mapper.Map<List<Fertilizer>, List<Fertilizer>>(staticDataVersionToLoad.Fertilizers).ToList();
             response.FertilizerMethods = _mapper.Map<List<FertilizerMethod>, List<FertilizerMethod>>(staticDataVersionToLoad.FertilizerMethods).ToList();
@@ -1975,6 +1990,7 @@ namespace Agri.Data
             response.DefaultSoilTests.ForEach(n => n.SetVersion(response));
             response.DensityUnits.ForEach(n => n.SetVersion(response));
             response.DryMatters.ForEach(n => n.SetVersion(response));
+            response.FeedConsumptions.ForEach(n => n.SetVersion(response));
             response.FeedEfficiencies.ForEach(n => n.SetVersion(response));
             response.Fertilizers.ForEach(n => n.SetVersion(response));
             response.FertilizerMethods.ForEach(n => n.SetVersion(response));
