@@ -108,8 +108,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             public string MatureAnimalAverageWeight { get; set; }
             public string GrowingAnimalAverageWeight { get; set; }
             public List<DailyFeedRequirement> SelectDailyFeedOptions { get; set; }
-            public string SelectMatureAnimalDailyFeed { get; set; }
-            public string SelectGrowingAnimalDailyFeed { get; set; }
+            public string SelectMatureAnimalDailyFeedReq { get; set; }
+            public string SelectGrowingAnimalDailyFeedReq { get; set; }
             public string DailyFeedWarning { get; set; }
             public string FeedName { get; set; }
             public string FeedType { get; set; }
@@ -207,13 +207,13 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 var command = request.PopulatedData;
                 //command.SelectPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
                 //command.SelectDailyFeedOptions = _sd.GetDailyFeedRequirement();
-                //if (command.SelectMatureAnimalDailyFeed == null)
+                //if (command.SelectMatureAnimalDailyFeedReq == null)
                 //{
-                //    command.SelectMatureAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
+                //    command.SelectMatureAnimalDailyFeedReq = command.SelectDailyFeedOptions[0].Name;
                 //}
-                //if (command.SelectGrowingAnimalDailyFeed == null)
+                //if (command.SelectGrowingAnimalDailyFeedReq == null)
                 //{
-                //    command.SelectGrowingAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
+                //    command.SelectGrowingAnimalDailyFeedReq = command.SelectDailyFeedOptions[0].Name;
                 //}
                 //command.Placehldr = _sd.GetUserPrompt("fieldcommentplaceholder");
                 //command.DailyFeedWarning = _sd.GetUserPrompt("DailyFeedWarning");

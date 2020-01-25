@@ -304,8 +304,8 @@ namespace SERVERAPI.Models.Impl
             fld.PreviousYearManureApplicationFrequency = updtFld.PreviousYearManureApplicationFrequency;
             fld.PreviousYearManureApplicationNitrogenCredit = updtFld.PreviousYearManureApplicationNitrogenCredit;
             fld.SoilTestNitrateOverrideNitrogenCredit = updtFld.SoilTestNitrateOverrideNitrogenCredit;
-            fld.SelectMatureAnimalDailyFeed = updtFld.SelectMatureAnimalDailyFeed;
-            fld.SelectGrowingAnimalDailyFeed = updtFld.SelectGrowingAnimalDailyFeed;
+            fld.SelectMatureAnimalDailyFeedReq = updtFld.SelectMatureAnimalDailyFeedReq;
+            fld.SelectGrowingAnimalDailyFeedReq = updtFld.SelectGrowingAnimalDailyFeedReq;
             fld.IsSeasonalFeedingArea = updtFld.IsSeasonalFeedingArea;
             fld.SeasonalFeedingArea = updtFld.SeasonalFeedingArea;
             fld.FeedingPercentage = updtFld.FeedingPercentage;
@@ -316,8 +316,8 @@ namespace SERVERAPI.Models.Impl
             fld.MatureAnimalCount = updtFld.MatureAnimalCount;
             if (!fld.IsSeasonalFeedingArea)
             {
-                fld.SelectMatureAnimalDailyFeed = string.Empty;
-                fld.SelectGrowingAnimalDailyFeed = string.Empty;
+                fld.SelectMatureAnimalDailyFeedReq = string.Empty;
+                fld.SelectGrowingAnimalDailyFeedReq = string.Empty;
                 fld.FeedingPercentage = null;
                 fld.FeedingValueDays = null;
                 fld.GrowingAnimalAverageWeight = null;
