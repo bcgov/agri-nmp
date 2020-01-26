@@ -333,7 +333,7 @@ namespace Agri.Data
 
         ManageVersionUser GetManagerVersionUser(string username);
 
-        void LoadConfigurations(StaticDataVersion staticDataVersionToLoad);
+        void LoadConfigurations(StaticDataVersion staticDataVersionToLoad, int? maxStaticDataVersion = null);
 
         Journey GetJourney(int journeyId);
     }
