@@ -133,7 +133,7 @@ namespace Agri.Data.Tests
             agriConfigurationDb.DensityUnits.Any().ShouldBeTrue();
             agriConfigurationDb.DryMatters.Any().ShouldBeTrue();
             agriConfigurationDb.Feeds.Any().ShouldBeTrue();
-            agriConfigurationDb.Feeds.SelectMany(a => a.FeedForageTypes).Any().ShouldBeTrue();
+            agriConfigurationDb.FeedForageTypes.Any().ShouldBeTrue();
             agriConfigurationDb.FeedConsumptions.Any().ShouldBeTrue();
             agriConfigurationDb.FeedEfficiencies.Any().ShouldBeTrue();
             agriConfigurationDb.Fertilizers.Any().ShouldBeTrue();

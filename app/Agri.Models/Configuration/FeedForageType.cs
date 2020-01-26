@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -11,10 +12,6 @@ namespace Agri.Models.Configuration
         public int Id { get; set; }
 
         public string Name { get; set; }
-        public int FeedId { get; set; }
-
-        [JsonIgnore]
-        [IgnoreDataMember]
-        public Feed Feed { get; set; }
+        public List<Feed> Feeds { get; set; }
     }
 }
