@@ -6,14 +6,10 @@ namespace Agri.Models.Configuration
 {
     public class Feed : Versionable
     {
-        public Feed()
-        {
-            FeedForageTypes = new List<FeedForageType>();
-        }
-
         [Key]
         public int Id { get; set; }
 
+        public int FeedForageTypeId { get; set; }
         public string Name { get; set; }
 
         [Column(TypeName = "decimal(16,4)")]
@@ -25,6 +21,6 @@ namespace Agri.Models.Configuration
         [Column(TypeName = "decimal(16,4)")]
         public decimal? PotassiumPercent { get; set; }
 
-        public List<FeedForageType> FeedForageTypes { get; set; }
+        public FeedForageType GetFeedForageType { get; set; }
     }
 }
