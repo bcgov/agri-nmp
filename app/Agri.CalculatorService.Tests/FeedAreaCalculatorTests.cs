@@ -2,6 +2,7 @@
 using Agri.Data;
 using Agri.Models.Farm;
 using Agri.Tests.Shared;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Agri.CalculatorService.Tests
+namespace Agri.CalculateService.Tests
 {
     public class FeedAreaCalculatorTests : TestBase
     {
@@ -19,23 +20,32 @@ namespace Agri.CalculatorService.Tests
         public FeedAreaCalculatorTests(ITestOutputHelper output) : base(output)
         {
             var repo = new AgriConfigurationRepository(agriConfigurationDb, Mapper);
-            _calculator = new FeedAreaCalculator(repo);
+            _calculator = new FeedAreaCalculator(repo, agriConfigurationDb);
             SeedDatabase();
         }
 
         [Fact]
-        public void NAgronomicBalanceShouldBeCorrectValue()
+        public void GetNitrogenAgronomicBalanceShouldBeCorrectValue()
         {
+            var result = _calculator.GetNitrogenAgronomicBalance(GetTestField());
+
+            result.ShouldBe(81);
         }
 
         [Fact]
-        public void P205AgronomicBalanceShouldBeCorrectValue()
+        public void GetP205AgronomicBalanceShouldBeCorrectValue()
         {
+            var result = _calculator.GetP205AgronomicBalance(GetTestField());
+
+            result.ShouldBe(99);
         }
 
         [Fact]
-        public void K20AgronomicBalanceShouldBeCorrectValue()
+        public void GetK20AgronomicBalanceShouldBeCorrectValue()
         {
+            var result = _calculator.GetK20AgronomicBalance(GetTestField());
+
+            result.ShouldBe(556);
         }
 
         private Field GetTestField()

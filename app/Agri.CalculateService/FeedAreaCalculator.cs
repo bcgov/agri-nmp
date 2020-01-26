@@ -10,37 +10,39 @@ namespace Agri.CalculateService
 {
     public interface IFeedAreaCalculator
     {
-        decimal K20AgronomicBalance(Field field);
+        decimal GetK20AgronomicBalance(Field field);
 
-        decimal NAgronomicBalance(Field field);
+        decimal GetNitrogenAgronomicBalance(Field field);
 
-        decimal P205AgronomicBalance(Field field);
+        decimal GetP205AgronomicBalance(Field field);
     }
 
     public class FeedAreaCalculator : IFeedAreaCalculator
     {
         private readonly AgriConfigurationRepository _repo;
+        private readonly AgriConfigurationContext _context;
 
-        public FeedAreaCalculator(AgriConfigurationRepository repo)
+        public FeedAreaCalculator(AgriConfigurationRepository repo, AgriConfigurationContext context)
         {
             _repo = repo;
+            _context = context;
         }
 
-        public decimal NAgronomicBalance(Field field)
+        public decimal GetNitrogenAgronomicBalance(Field field)
         {
             var result = 0M;
 
             return result;
         }
 
-        public decimal P205AgronomicBalance(Field field)
+        public decimal GetP205AgronomicBalance(Field field)
         {
             var result = 0M;
 
             return result;
         }
 
-        public decimal K20AgronomicBalance(Field field)
+        public decimal GetK20AgronomicBalance(Field field)
         {
             var result = 0M;
 
