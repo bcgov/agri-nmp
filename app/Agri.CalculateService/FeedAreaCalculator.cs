@@ -35,56 +35,81 @@ namespace Agri.CalculateService
                 return 0m;
             }
 
-            //(((
+            //((
             //  (
-            //     (mature animal average weight* daily feed requirement for mature animals/ 100) *
-            //        number of mature animals * number of days spent in seas feeding area *
-            //        (
-            //          (100 - % of time spent outside seas feeding area for mature animals) / 100) *
+            //      (
+
+            //          (mature animal average weight * daily feed requirement for mature animals/ 100) *
+            //              number of mature animals * number of days spent in seas feeding area *
+            //              ((100 - % of time spent outside seas feeding area for mature animals) / 100) *
             //              (Crude protein for feed 1 / 6.25 / 100 * mature animal feed efficiency constant for N)
-            //        )
-            //          +
-            //        (
+            //      )
+            //       +
+            //      (
             //          (growing animal average weight * daily feed requirement for growing animals/ 100) *
             //              number of growing animals * number of days spend in seas feeding area *
             //              (
             //                  (100 - % of time spent outside seas feeding area for mature animals)/ 100) *
             //                      (crude protein for feed 1 / 6.25 / 100 * growing animal feed efficiency constant for N)
             //              )
-            //         )
+            //      )
+            //       *
+            //      (% of total feedforage for feed 1 / 100)
+            //       *
+            //      ((100 - % of time spent outside seas feeding area)/ 100) * N mineralization constant for short term)
+            //       +
+            //      (
+            //          (
+            //              (
+            //                  (mature animal average weight * daily feed requirement for mature animals/ 100) *
+            //                      number of mature animals * number of days spent in seas feeding area *
+            //                      ((100 - % of time spent outside seas feeding area for mature animals) / 100) *
+            //                      (Crude protein for feed 2 / 6.25 / 100 * mature animal feed efficiency constant for N)
+            //              )
+            //              +
+            //              (
+            //                  (growing animal average weight * daily feed requirement for growing animals/ 100) *
+            //                      number of growing animals * number of days spend in seas feeding area *
+            //                      ((100 - % of time spent outside seas feeding area for mature animals) / 100) *
+            //                      (crude protein for feed 2 / 6.25 / 100 * growing animal feed efficiency constant for N)
+            //              )
+            //          )
             //           *
-            //         (% of total feedforage for feed 1 / 100)
+            //          (% of total feedforage for feed 2 / 100)
             //           *
-            //         (
-            //              (100 - % of time spent outside seas feeding area)/ 100) * N mineralization constant for short term
-            //         )
+            //          ((100 - % of time spent outside seas feeding area) / 100) * N mineralization constant for short term)
             //           +
-            //         (
+            //          (
             //              (
             //                  (
             //                      (mature animal average weight * daily feed requirement for mature animals/ 100) *
             //                          number of mature animals * number of days spent in seas feeding area *
-            //                          ((100 - % of time spent outside seas feeding area for mature animals) / 100) *
-            //                          (Crude protein for feed 2 / 6.25 / 100 * mature animal feed efficiency constant for N)
+            //                          ((100 - % of time spent outside seas feeding area for mature animals)/ 100) *
+            //                          (Crude protein for feed 3 / 6.25 / 100 * mature animal feed efficiency constant for N)
             //                  )
-            //                  +
+            //                   +
             //                  (
             //                      (growing animal average weight * daily feed requirement for growing animals/ 100) *
             //                          number of growing animals * number of days spend in seas feeding area *
-            //                          ((100 - % of time spent outside seas feeding area for mature animals) / 100) *
-            //                          (crude protein for feed 2 / 6.25 / 100 * growing animal feed efficiency constant for N)
+            //                          ((100 - % of time spent outside seas feeding area for mature animals)/ 100) *
+            //                          (crude protein for feed 3 / 6.25 / 100 * growing animal feed efficiency constant for N)
             //                  )
             //              )
             //               *
-            //              (% of total feedforage for feed 2 / 100)
+            //              (% of total feedforage for feed 3 / 100)
             //               *
-            //              ((100 - % of time spent outside seas feeding area) / 100)
-            //               * N mineralization constant for short term) +((((mature animal average weight* daily feed requirement for mature animals/ 100) *number of mature animals* number of days spent in seas feeding area * ((100 - % of time spent outside seas feeding area for mature animals)/ 100)*(Crude protein for feed 3 / 6.25 / 100 * mature animal feed efficiency constant for N))+((growing animal average weight* daily feed requirement for growing animals/ 100) *number of growing animals* number of days spend in seas feeding area * ((100 - % of time spent outside seas feeding area for mature animals)/ 100)*(crude protein for feed 3 / 6.25 / 100 * growing animal feed efficiency constant for N)))*(% of total feedforage for feed 3 / 100) *((100 - % of time spent outside seas feeding area)/ 100)*N mineralization constant for short term))/ field size
+            //              ((100 - % of time spent outside seas feeding area)/ 100) * N mineralization constant for short term)
+            //      )
+            //      / field size
+
             var dailyFeedRequirementForMatureAnimals = _db.DailyFeedRequirements.Single(d => d.Id == field.MatureAnimalDailyFeedRequirementId).Value;
 
             var result =
                 (
-                    (field.MatureAnimalAverageWeight.Value * dailyFeedRequirementForMatureAnimals / 100)
+                    (field.MatureAnimalAverageWeight.Value * dailyFeedRequirementForMatureAnimals / 100) *
+                        field.MatureAnimalCount * field.FeedingDaysSpentInFeedingArea *
+                            ((100 - field.FeedingPercentageOutsideFeeingArea) / 100) *
+                                ()
 
                 )
                 / (field.Area * 1M);
