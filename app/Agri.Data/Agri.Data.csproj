@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SeedData\FeedData.json" />
+    <None Remove="SeedData\FeedForageTypeData.json" />
     <None Remove="SeedData\MiniAppData.json" />
     <None Remove="SeedData\MiniAppLabelData.json" />
   </ItemGroup>
@@ -14,6 +16,8 @@
     <Compile Remove="Migrations\20200111040424_DailyFeedRequirement.Designer.cs" />
     <Compile Remove="Migrations\20200111060026_DilyFeedRequirement.cs" />
     <Compile Remove="Migrations\20200111060026_DilyFeedRequirement.Designer.cs" />
+    <Compile Remove="Migrations\20200126190428_FeedTables.cs" />
+    <Compile Remove="Migrations\20200126190428_FeedTables.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

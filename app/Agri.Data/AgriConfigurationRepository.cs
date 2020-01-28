@@ -37,8 +37,10 @@ namespace Agri.Data
         private List<DensityUnit> _densityUnits;
         private List<DryMatter> _dryMatters;
         private List<ExternalLink> _externalLinks;
-        private List<Feed> _feeds;
+
+        //private List<Feed> _feeds;
         private List<FeedConsumption> _feedConsumptions;
+
         private List<FeedEfficiency> _feedEfficiencies;
         private List<FertilizerMethod> _fertilizerMethods;
         private List<Fertilizer> _fertilizers;
@@ -524,42 +526,42 @@ namespace Agri.Data
             return _externalLinks;
         }
 
-        public Feed GetFeed(int id)
-        {
-            return GetFeeds()
-                .Where(a => a.StaticDataVersionId == GetStaticDataVersionId() && a.Id == id)
-                .SingleOrDefault();
-        }
+        //public Feed GetFeed(int id)
+        //{
+        //    return GetFeeds()
+        //        .Where(a => a.StaticDataVersionId == GetStaticDataVersionId() && a.Id == id)
+        //        .SingleOrDefault();
+        //}
 
-        public List<Feed> GetFeeds()
-        {
-            if (_feeds == null)
-            {
-                _feeds = _context.Feeds.AsNoTracking()
-                    .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
-                    .Include(a => a.FeedForageTypes)
-                    .ToList();
-            }
+        ////public List<Feed> GetFeeds()
+        ////{
+        ////    if (_feeds == null)
+        ////    {
+        ////        _feeds = _context.Feeds.AsNoTracking()
+        ////            .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+        ////            .Include(a => a.FeedForageTypes)
+        ////            .ToList();
+        ////    }
 
-            return _feeds;
-        }
+        ////    return _feeds;
+        ////}
 
-        public FeedForageType GetFeedForageType(int id)
-        {
-            return GetFeedForageTypes().SingleOrDefault(ast => ast.Id == id);
-        }
+        ////public FeedForageType GetFeedForageType(int id)
+        ////{
+        ////    return GetFeedForageTypes().SingleOrDefault(ast => ast.Id == id);
+        ////}
 
-        public List<FeedForageType> GetFeedForageTypes(int feeId)
-        {
-            return GetFeed(feeId)
-                .FeedForageTypes
-                    .ToList();
-        }
+        //public List<FeedForageType> GetFeedForageTypes(int feeId)
+        //{
+        //    return GetFeed(feeId)
+        //        .FeedForageTypes
+        //            .ToList();
+        //}
 
-        public List<FeedForageType> GetFeedForageTypes()
-        {
-            return GetFeeds().SelectMany(a => a.FeedForageTypes).ToList();
-        }
+        //public List<FeedForageType> GetFeedForageTypes()
+        //{
+        //    return GetFeeds().SelectMany(a => a.FeedForageTypes).ToList();
+        //}
 
         public List<FeedConsumption> GetFeedConsumption()
         {
@@ -1448,8 +1450,8 @@ namespace Agri.Data
                 .Include(x => x.DefaultSoilTests)
                 .Include(x => x.DensityUnits)
                 .Include(x => x.DryMatters)
-                .Include(x => x.Feeds)
-                .Include(x => x.FeedForageTypes)
+                 .Include(x => x.Feeds)
+                 .Include(x => x.FeedForageTypes)
                  .Include(x => x.FeedConsumptions)
                 .Include(x => x.FeedEfficiencies)
                 .Include(x => x.Fertilizers)
@@ -1935,19 +1937,25 @@ namespace Agri.Data
             return _context.ManageVersionUsers.SingleOrDefault(m => m.UserName == username);
         }
 
-        public void LoadConfigurations(StaticDataVersion staticDataVersionToLoad)
+        public void LoadConfigurations(StaticDataVersion staticDataVersionToLoad, int? maxStaticDataVersion = null)
         {
             var datestamp = DateTime.Now;
-            var newId = staticDataVersionToLoad.Id;
-            if (GetCurrentStaticDataVersion().Id >= staticDataVersionToLoad.Id)
+            var newId = GetCurrentStaticDataVersion().Id + 1;
+            if (GetCurrentStaticDataVersion().Id <= staticDataVersionToLoad.Id)
             {
                 newId = staticDataVersionToLoad.Id + 1;
             }
+
+            if (maxStaticDataVersion.GetValueOrDefault(0) > 0 && newId > maxStaticDataVersion)
+            {
+                return;
+            }
+
             var newVersion = new StaticDataVersion
             {
                 Id = newId,
                 Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{newId}",
-                CreatedBy = staticDataVersionToLoad.CreatedBy,
+                CreatedBy = "System Load Configurations",
                 CreatedDateTime = staticDataVersionToLoad.CreatedDateTime
             };
             newVersion = MapFullGraphToStaticDataVersion(staticDataVersionToLoad, newVersion);

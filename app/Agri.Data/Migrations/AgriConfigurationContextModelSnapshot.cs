@@ -437,10 +437,18 @@ namespace Agri.Data.Migrations
                 {
                     b.Property<int>("Id");
 
-                    b.Property<int>("StaticDataVersionId");
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<decimal?>("CPPercent")
                         .HasColumnType("decimal(16,4)");
+
+                    b.Property<int>("FeedForageTypeId");
+
+                    b.Property<int?>("FeedForageTypeId1");
+
+                    b.Property<int?>("FeedForageTypeStaticDataVersionId");
 
                     b.Property<string>("Name");
 
@@ -453,6 +461,8 @@ namespace Agri.Data.Migrations
                     b.HasKey("Id", "StaticDataVersionId");
 
                     b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("FeedForageTypeId1", "FeedForageTypeStaticDataVersionId");
 
                     b.ToTable("Feeds");
                 });
@@ -499,9 +509,9 @@ namespace Agri.Data.Migrations
                 {
                     b.Property<int>("Id");
 
-                    b.Property<int>("StaticDataVersionId");
-
-                    b.Property<int>("FeedId");
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Name");
 
@@ -509,9 +519,7 @@ namespace Agri.Data.Migrations
 
                     b.HasIndex("StaticDataVersionId");
 
-                    b.HasIndex("FeedId", "StaticDataVersionId");
-
-                    b.ToTable("FeedForageType");
+                    b.ToTable("FeedForageTypes");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Fertilizer", b =>
@@ -1739,6 +1747,10 @@ namespace Agri.Data.Migrations
                         .WithMany("Feeds")
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Agri.Models.Configuration.FeedForageType", "FeedForageType")
+                        .WithMany("Feeds")
+                        .HasForeignKey("FeedForageTypeId1", "FeedForageTypeStaticDataVersionId");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.FeedConsumption", b =>
@@ -1762,11 +1774,6 @@ namespace Agri.Data.Migrations
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
                         .WithMany("FeedForageTypes")
                         .HasForeignKey("StaticDataVersionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Agri.Models.Configuration.Feed", "Feed")
-                        .WithMany("FeedForageTypes")
-                        .HasForeignKey("FeedId", "StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
