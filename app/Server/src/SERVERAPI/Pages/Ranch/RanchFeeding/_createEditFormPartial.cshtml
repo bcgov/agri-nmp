@@ -5,29 +5,34 @@
             <div class="form-box-heading">Feed 1</div>
         </div>
     </div>
+    @*<div class="col-sm-8">
+            <div class="form-box-heading">Feed 1</div>
+        </div>*@
     <div class="row">
         <div class="form-group col-sm-4">
-            <label asp-for="@Model.Data.FeedType">Feed/forage Type</label>
+            <label >Feed/forage Type</label>
             <div>
-                <select class="form-control" asp-for="@Model.Data.FeedType">
+                <select class="form-control" >@* asp-for="@Model.Data.FeedType" *@
                     <option>select</option>
                     <option>Test1</option>
                     <option>SATest12</option>
                     <option>Test123</option>
                     <option>Test1234</option>
                 </select>
+                @*<span asp-validation-for="@Model.Data.FeedType1"></span>*@
             </div>
         </div>
         <div class="form-group col-sm-4">
-            <label asp-for="@Model.Data.ForageName">Feed/forage</label>
+            <label >Feed/forage</label>
             <div>
-                <select class="form-control" asp-for="@Model.Data.ForageName">
+                <select class="form-control">
                     <option>select</option>
                     <option>Test1</option>
                     <option>Test12</option>
                     <option>Test123</option>
                     <option>Test1234</option>
                 </select>
+                @*<span asp-validation-for="@Model.Data.ForageName1"></span>*@
             </div>
         </div>
     </div>
@@ -37,19 +42,21 @@
         </div>
         <div class="form-group col-sm-5">
             <label style="padding-right: 20px">
-                Use book analysis
-                <input type="radio" asp-for="@Model.Data.IsBookAnalysis" value="true" />
+                Use Book Analysis
+                <input type="radio" value="true" />
             </label>
         </div>
         <div class="form-group col-sm-5">
             <label style="padding-right: 20px">
-                Use custom values
-                <input type="radio" asp-for="@Model.Data.IsCustomValues" value="true" />
+                Use Custom Values
+                <input type="radio" value="true" />
             </label>
         </div>
     </div>
     <div class="row">
         <div class="form-group col-sm-4 row">
+            @*<div class="col-sm-12" style="padding-left:0px !important;">
+                <div class="form-group-right-side-label">*@
             <div class="col-sm-3" style="padding:0px !important">
                 <input type="text" class="form-control" />
             </div>
@@ -58,6 +65,8 @@
                 </div>*@
         </div>
         <div class="form-group col-sm-2 row">
+            @*<div class="col-sm-12" style="padding-left:0px !important;">
+                <div class="form-group-right-side-label">*@
             <div class="col-sm-7" style="padding:0px !important">
                 <input type="text" class="form-control" />
             </div>
@@ -65,7 +74,17 @@
             @*</div>
                 </div>*@
         </div>
+        @*<div class="form-group col-sm-2">
+                <div class="col-sm-12" style="padding-left:0px !important;">
+                    <div class="form-group-right-side-label">
+                        <input type="text" class="form-control" />
+                        <span class="right-side-label-span" style="padding:5px;width:10px">%&nbsp;P</span>
+                    </div>
+                </div>
+            </div>*@
         <div class="form-group col-sm-2 row">
+            @*<div class="col-sm-12" style="padding-left:0px !important;">
+                <div class="form-group-right-side-label">*@
             <div class="col-sm-7" style="padding:0px !important">
                 <input type="text" class="form-control" />
             </div>
@@ -74,8 +93,22 @@
                 </div>*@
         </div>
     </div>
+    @*<div class="form-group col-sm-2">
+                <div class="col-sm-12" style="padding-left:0px !important;">
+                    <div class="form-group-right-side-label">
+                        <input type="text" class="form-control" />
+                        <span class="right-side-label-span" style="padding:5px;width:10px">%&nbsp;K</span>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    @*<div class="col-sm-4">
+            &nbsp;&nbsp;
+        </div>*@
     <div class="row" style="padding-top:10px;">
         <div class="form-group col-sm-6 row">
+            @*<div class="col-sm-12 row" style="padding-left:0px !important;">*@
+            @*<div class="form-group-right-side-label">*@
             <div class="col-sm-2" style="padding:0px !important;">
                 <input type="text" class="form-control" />
             </div>
@@ -89,6 +122,8 @@
             @*</div>*@
         </div>
         <div class="form-group col-sm-6 row">
+            @*<div class="col-sm-12 row" style="padding-left:0px !important;">*@
+            @*<div class="form-group-right-side-label">*@
             <div class="col-sm-2" style="padding:0px !important;">
                 <input type="text" class="form-control" />
             </div>
@@ -101,19 +136,17 @@
             @*</div>*@
             @*</div>*@
         </div>
+        @*<div class="form-group col-sm-4">
+                <div class="col-sm-12" style="padding-left:0px !important;">
+                    <div class="form-group-right-side-label">
+                        <input type="text" class="form-control" />
+                        <span class="right-side-label-span" style="width:496px;padding:0px;">
+                            &nbsp;%&nbsp;feed/forage wastage
+                            <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>*@
     </div>
-    <div class="row" style="padding-top:25px;">
-        <div class="form-group col-sm-12">
-            <div class="col-sm-4">&nbsp;&nbsp;</div>
-            <button class="btn btn-default col-sm-4" id="btnFeedForage1" type="button" data-toggle="razor-page-modal" onclick="AddNewFeedForage2()">Add Another Feed/Forage</button>
-            <div class="col-sm-4">&nbsp;&nbsp;</div>
-        </div>
-    </div>
-</div>
-<div class="col-sm-12">
-    <hr style="border:0.2px solid lightgray" />
-</div>
-<div class="modal-footer" style="border:0px;">
-    <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-    <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" />
-</div>
