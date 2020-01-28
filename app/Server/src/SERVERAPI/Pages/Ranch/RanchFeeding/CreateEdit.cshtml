@@ -8,7 +8,10 @@
 
 @*var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
     var action = Url.Page("CreateEdit", "Create",new {fieldName=Model.FieldName});*@
-<form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body" style="padding:0px">
+    <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body" style="padding:0px">
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-box-fields">
+
     @foreach (var item in Model?.Data?.feedingArea)
     {
         @await Html.PartialAsync("_createEditFormPartial", item, new ViewDataDictionary(ViewData))
@@ -21,15 +24,15 @@
             <div class="col-sm-4">&nbsp;&nbsp;</div>
         </div>
     </div>
-    </div>
     <div class="col-sm-12">
         <hr style="border:0.2px solid lightgray" />
     </div>
-    <div class="modal-footer" style="border:0px;">
-        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-        <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" />
-    </div>
-</form>
+</div>
+        <div class="modal-footer" style="border:0px;">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" />
+        </div>
+    </form>
 
 @section Scripts {
     <script type="text/javascript">
