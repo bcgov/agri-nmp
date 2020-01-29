@@ -14,6 +14,13 @@ module.exports = (settings)=>{
   var objects = []
 
   // The deployment of your cool app goes here ▼▼▼
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/weasyprint-dc.json`, {
+    'param':{
+      'NAME': phases[phase].name,
+      'WEASYPRINT_REPLICAS': phases[phase].weasyprintreplicas
+    }
+  }));
+
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/postgresql.dc.json`, {
     'param':{
       'NAME': phases[phase].name,

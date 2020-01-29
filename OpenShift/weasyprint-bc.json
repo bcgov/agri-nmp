@@ -1,0 +1,42 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "annotations": {
+      "description": "Build template for a weasyprint server."
+    },
+    "name": "weasyprint"
+  },
+  "parameters": [
+    {
+        "name": "NAME",
+        "displayName": "Name",
+        "description": "The name or prefix for all created objects",
+        "required": true,
+        "value": "nmp"
+    }
+],
+  "objects": [
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-weasyprint"
+      },
+      "spec": {
+        "tags": [
+          {
+            "name": "latest",
+            "from": {
+              "kind": "DockerImage",
+              "name": "bcgovimages/weasyprint:latest"
+            },
+            "importPolicy": {
+              "scheduled": true
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
