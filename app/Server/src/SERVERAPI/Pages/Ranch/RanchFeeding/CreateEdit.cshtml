@@ -10,14 +10,14 @@
     var action = Url.Page("CreateEdit", "Create",new {fieldName=Model.FieldName});*@
     <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body" style="padding:0px">
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<div class="form-box-fields">
+<div>
 
     @foreach (var item in Model?.Data?.feedingArea)
     {
         @await Html.PartialAsync("_createEditFormPartial", item, new ViewDataDictionary(ViewData))
 
     }
-    <div class="row" style="padding-top:25px;">
+    <div class="row" style="margin-top:50px;">
         <div class="form-group col-sm-12">
             <div class="col-sm-4">&nbsp;&nbsp;</div>
             <button class="btn btn-default col-sm-4" id="btnFeedForage1" type="button" data-toggle="razor-page-modal" onclick="AddNewFeedForage(@Model.Data.feedingArea.Count)">Add Another Feed/Forage</button>
