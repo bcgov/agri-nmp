@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace SERVERAPI.Pages.MiniApps
 {
-    public class SoilTestConverter : PageModel
+    public class Index : PageModel
     {
         private readonly IMediator _mediator;
 
@@ -25,7 +25,7 @@ namespace SERVERAPI.Pages.MiniApps
         [BindProperty]
         public ResultModel Result { get; set; }
 
-        public SoilTestConverter(IMediator mediator) => _mediator = mediator;
+        public Index(IMediator mediator) => _mediator = mediator;
 
         public async Task OnGetAsync()
         {
