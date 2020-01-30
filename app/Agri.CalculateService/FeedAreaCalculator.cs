@@ -1,4 +1,5 @@
 ﻿using Agri.Data;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace Agri.CalculateService
 {
     public interface IFeedAreaCalculator
     {
-        decimal GetK20AgronomicBalance(Field field);
+        decimal GetK20AgronomicBalance(Field field, Region region);
 
-        decimal GetNitrogenAgronomicBalance(Field field);
+        decimal GetNitrogenAgronomicBalance(Field field, Region region);
 
-        decimal GetP205AgronomicBalance(Field field);
+        decimal GetP205AgronomicBalance(Field field, Region region);
     }
 
     public class FeedAreaCalculator : IFeedAreaCalculator
@@ -28,7 +29,7 @@ namespace Agri.CalculateService
             _db = db;
         }
 
-        public decimal GetNitrogenAgronomicBalance(Field field)
+        public decimal GetNitrogenAgronomicBalance(Field field, Region region)
         {
             if (!field.IsSeasonalFeedingArea)
             {
@@ -48,11 +49,10 @@ namespace Agri.CalculateService
             //      (
             //          (growing animal average weight * daily feed requirement for growing animals/ 100) *
             //              number of growing animals * number of days spend in seas feeding area *
-            //              (
-            //                  (100 - % of time spent outside seas feeding area for mature animals)/ 100) *
-            //                      (crude protein for feed 1 / 6.25 / 100 * growing animal feed efficiency constant for N)
-            //              )
+            //              ((100 - % of time spent outside seas feeding area for mature animals)/ 100) *
+            //              (crude protein for feed 1 / 6.25 / 100 * growing animal feed efficiency constant for N)
             //      )
+            //  )
             //       *
             //      (% of total feedforage for feed 1 / 100)
             //       *
@@ -103,28 +103,35 @@ namespace Agri.CalculateService
             //      / field size
 
             var dailyFeedRequirementForMatureAnimals = _db.DailyFeedRequirements.Single(d => d.Id == field.MatureAnimalDailyFeedRequirementId).Value;
+            var feedEfficiencies = _db.FeedEfficiencies.ToList();
+            var matureFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("mature", StringComparison.OrdinalIgnoreCase));
+            var growingFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("growing", StringComparison.OrdinalIgnoreCase));
+            var NMineralization = _repo
+                .GetNitrogeMineralizations()
+                .Single(nm => nm.LocationId == region.LocationId &&
+                                nm.Name.Contains("Solid - Other (<50%)", StringComparison.OrdinalIgnoreCase));
 
-            var result =
-                (
-                    (field.MatureAnimalAverageWeight.Value * dailyFeedRequirementForMatureAnimals / 100) *
-                        field.MatureAnimalCount * field.FeedingDaysSpentInFeedingArea *
-                            ((100 - field.FeedingPercentageOutsideFeeingArea) / 100) *
-                                ()
+            var result = 0M;
+            //(
+            //    (field.MatureAnimalAverageWeight.Value * dailyFeedRequirementForMatureAnimals / 100) *
+            //        field.MatureAnimalCount * field.FeedingDaysSpentInFeedingArea *
+            //            ((100 - field.FeedingPercentageOutsideFeeingArea) / 100) *
+            //                ()
 
-                )
-                / (field.Area * 1M);
+            //)
+            /// (field.Area * 1M);
 
             return result;
         }
 
-        public decimal GetP205AgronomicBalance(Field field)
+        public decimal GetP205AgronomicBalance(Field field, Region region)
         {
             var result = 0M;
 
             return result;
         }
 
-        public decimal GetK20AgronomicBalance(Field field)
+        public decimal GetK20AgronomicBalance(Field field, Region region)
         {
             var result = 0M;
 
