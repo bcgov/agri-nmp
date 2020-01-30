@@ -11,11 +11,12 @@ module.exports = (settings)=>{
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../OpenShift'))
 
   // For weasyprint we  won't create containers for each PR. Just one for the whole DEV.
-  // objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/weasyprint-bc.json`, {
-  //   'param':{
-  //   'NAME': phases[phase].name
-  //   }
-  // }));
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/weasyprint-bc.json`, {
+    'param':{
+    'NAME': phases[phase].name,
+    'VERSION': phases[phase].tag,
+    }
+  }));
 
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-21.bc.json`, {
     'param':{

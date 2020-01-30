@@ -16,6 +16,13 @@
         "value": "nmp"
     },
     {
+        "name": "VERSION",
+        "displayName": "Tag Version",
+        "description": "Tag version for all created objects",
+        "required": true,
+        "value": ""
+    },
+    {
       "name": "WEASYPRINT_REPLICAS",
       "displayName": "Number of Replicas for WEASYPRINT",
       "description": "Number of Replicas for WEASYPRINT",
@@ -24,6 +31,17 @@
   ],
   "objects": [
     {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-weasyprint",
+        "creationTimestamp": null,
+        "labels": {
+          "base-name": "${NAME}-weasyprint"
+        }
+      }
+    },
+    {      
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
@@ -54,8 +72,8 @@
               "automatic": true,
               "containerNames": [ "${NAME}-weasyprint" ],
               "from": {
-                "kind": "DockerImage",
-                "name": "bcgovimages/weasyprint:latest"
+                "kind": "ImageStreamTag",
+                "name": "${NAME}-weasyprint:${VERSION}"
               }
             }
           },

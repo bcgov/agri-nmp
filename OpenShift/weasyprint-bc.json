@@ -14,6 +14,13 @@
         "description": "The name or prefix for all created objects",
         "required": true,
         "value": "nmp"
+    },
+    {
+        "name": "VERSION",
+        "displayName": "Tag Version",
+        "description": "Tag version for all created objects",
+        "required": true,
+        "value": ""
     }
 ],
   "objects": [
@@ -26,13 +33,14 @@
       "spec": {
         "tags": [
           {
-            "name": "latest",
+            "name": "${VERSION}",
             "from": {
               "kind": "DockerImage",
               "name": "bcgovimages/weasyprint:latest"
             },
-            "importPolicy": {
-              "scheduled": true
+            "importPolicy": {},
+            "referencePolicy": {
+                "type": "Source"
             }
           }
         ]
