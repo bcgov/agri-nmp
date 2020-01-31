@@ -60,6 +60,15 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
         private async Task<IActionResult> ProcessPost()
         {
+            if (Data.PostedElementEvent == "AddFeedForageAnalysis")
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = "None";
+                Data.StateChanged = true;
+
+                return Page();
+            }
+
             if (ModelState.IsValid)
             {
                 await _mediator.Send(Data);
@@ -85,6 +94,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             public string FieldName { get; set; }
 
             public List<FeedingArea> feedingArea { get; set; }
+            public string PostedElementEvent { get; set; }
+            public bool StateChanged { get; set; }
 
             public class FeedingArea
             {

@@ -8,43 +8,53 @@
 
 @*var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
     var action = Url.Page("CreateEdit", "Create",new {fieldName=Model.FieldName});*@
-    <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body" style="padding:0px">
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-<div>
+<form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body" style="padding:0px">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div>
 
-    @foreach (var item in Model?.Data?.feedingArea)
-    {
-        @await Html.PartialAsync("_createEditFormPartial", item, new ViewDataDictionary(ViewData))
+        @foreach (var item in Model?.Data?.feedingArea)
+        {
+            @await Html.PartialAsync("_createEditFormPartial", item, new ViewDataDictionary(ViewData))
 
-    }
-    <div class="row" style="margin-top:50px;">
-        <div class="form-group col-sm-12">
-            <div class="col-sm-4">&nbsp;&nbsp;</div>
-            <button class="btn btn-default col-sm-4" id="btnFeedForage1" type="button" data-toggle="razor-page-modal" onclick="AddNewFeedForage(@Model.Data.feedingArea.Count)">Add Another Feed/Forage</button>
-            <div class="col-sm-4">&nbsp;&nbsp;</div>
+        }
+        <div class="row" style="margin-top:50px;">
+            <div class="form-group col-sm-12">
+                <div class="col-sm-4">&nbsp;&nbsp;</div>
+                <button class="btn btn-default col-sm-4" id="btnFeedForage1" type="button">Add Another Feed/Forage</button>
+                <div class="col-sm-4">&nbsp;&nbsp;</div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <hr style="border:0.2px solid lightgray" />
         </div>
     </div>
-    <div class="col-sm-12">
-        <hr style="border:0.2px solid lightgray" />
+    <div class="modal-footer" style="border:0px;">
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+        <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" />
     </div>
-</div>
-        <div class="modal-footer" style="border:0px;">
-            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" />
-        </div>
-    </form>
+    @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
+</form>
 
 @section Scripts {
     <script type="text/javascript">
 
-        function AddNewFeedForage3() {
-            $('#btnFeedForage2').hide();
-            $('#feedForage3').show();
-        }
-        function AddNewFeedForage(count) {
-            $('#btnFeedForage1').hide();
-            $('#feedForage2').show();
-        }
+        //function AddNewFeedForage3() {
+        //    $('#btnFeedForage2').hide();
+        //    $('#feedForage3').show();
+        //}
+
+        $(document).ready(function () {
+            $("body").on("click", "#btnFeedForage1", function () {
+                $('#PostedElementEvent').val("AddFeedForageAnalysis");
+                $("#saveButton").click();
+            })
+        });
+
+        //function AddNewFeedForage() {
+        //    $('#btnFeedForage1').on('click', function () {
+        //        $('#grid').load('/ajaxpartial?handler=_createEditFormPartial');
+        //    });
+        //}
         $(document).ready(function () {
             $('#toolTipDailyFeedWarning').tooltip({
                 template: toolTipClickableInnerHtml,
