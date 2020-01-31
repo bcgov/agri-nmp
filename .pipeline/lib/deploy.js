@@ -17,6 +17,7 @@ module.exports = (settings)=>{
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/weasyprint-dc.json`, {
     'param':{
       'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,      
       'VERSION': phases[phase].tag,
       'WEASYPRINT_REPLICAS': phases[phase].weasyprintreplicas
     }

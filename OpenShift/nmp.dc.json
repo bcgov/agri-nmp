@@ -210,7 +210,7 @@
                   },
                   {
                     "name": "WEASYPRINT_URL",
-                    "value": "http://${NAME}-weasyprint:5001"
+                    "value": "http://${NAME}-weasyprint${SUFFIX}:5001"
                   }
                 ],
                 "resources": {

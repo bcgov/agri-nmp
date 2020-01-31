@@ -16,6 +16,12 @@
         "value": "nmp"
     },
     {
+        "name": "SUFFIX",
+        "description": "The suffix for all created objects",
+        "required": false,
+        "value": ""
+    },    
+    {
         "name": "VERSION",
         "displayName": "Tag Version",
         "description": "Tag version for all created objects",
@@ -30,22 +36,11 @@
     }
   ],
   "objects": [
-    {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-weasyprint",
-        "creationTimestamp": null,
-        "labels": {
-          "base-name": "${NAME}-weasyprint"
-        }
-      }
-    },
     {      
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}-weasyprint",
+        "name": "${NAME}-weasyprint${SUFFIX}",
         "generation": 1,
         "labels": null,
         "annotations": {
@@ -70,7 +65,7 @@
             "type": "ImageChange",
             "imageChangeParams": {
               "automatic": true,
-              "containerNames": [ "${NAME}-weasyprint" ],
+              "containerNames": [ "${NAME}-weasyprint${SUFFIX}" ],
               "from": {
                 "kind": "ImageStreamTag",
                 "name": "${NAME}-weasyprint:${VERSION}"
@@ -84,21 +79,21 @@
         "replicas": "${{WEASYPRINT_REPLICAS}}",
         "test": false,
         "selector": {
-          "name": "${NAME}-weasyprint"
+          "name": "${NAME}-weasyprint${SUFFIX}"
         },
         "template": {
           "metadata": {
-            "name": "${NAME}-weasyprint",
+            "name": "${NAME}-weasyprint${SUFFIX}",
             "creationTimestamp": null,
             "labels": {
-              "name": "${NAME}-weasyprint"
+              "name": "${NAME}-weasyprint${SUFFIX}"
             }
           },
           "spec": {
             "volumes": [],
             "containers": [
               {
-                "name": "${NAME}-weasyprint",
+                "name": "${NAME}-weasyprint${SUFFIX}",
                 "image": " ",
                 "ports": [
                   {
@@ -164,7 +159,7 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}-weasyprint",
+        "name": "${NAME}-weasyprint${SUFFIX}",
         "creationTimestamp": null,
         "labels": null,
         "annotations": {
@@ -181,7 +176,7 @@
           }
         ],
         "selector": {
-          "name": "${NAME}-weasyprint"
+          "name": "${NAME}-weasyprint${SUFFIX}"
         },
         "type": "ClusterIP",
         "sessionAffinity": "None"
