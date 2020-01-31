@@ -207,6 +207,10 @@
                   {
                     "name": "EXPECTED_SEED_DATA_VERSION",
                     "value": "0"
+                  },
+                  {
+                    "name": "WEASYPRINT_URL",
+                    "value": "http://${NAME}-weasyprint${SUFFIX}:5001"
                   }
                 ],
                 "resources": {
