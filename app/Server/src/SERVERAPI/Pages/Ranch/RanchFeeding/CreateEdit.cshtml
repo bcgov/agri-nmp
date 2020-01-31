@@ -6,9 +6,7 @@
     ViewData["HeaderTitle"] = Model.Title;
 }
 
-@*var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
-    var action = Url.Page("CreateEdit", "Create",new {fieldName=Model.FieldName});*@
-<form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body" style="padding:0px">
+<form asp-page="CreateEdit" method="post" class="form-box-body" style="padding:0px">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div>
 
@@ -30,7 +28,7 @@
     </div>
     <div class="modal-footer" style="border:0px;">
         <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-        <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" />
+        <button type="submit" class="btn btn-primary" id="saveButton" data-save="razor-page-modal">Save</button>
     </div>
     @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
 </form>

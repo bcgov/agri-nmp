@@ -48,17 +48,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
         }
 
-        public async Task<IActionResult> OnPostCreateAsync()
-        {
-            return await ProcessPost();
-        }
-
-        public async Task<IActionResult> OnPostEditAsync()
-        {
-            return await ProcessPost();
-        }
-
-        private async Task<IActionResult> ProcessPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (Data.PostedElementEvent == "AddFeedForageAnalysis")
             {
