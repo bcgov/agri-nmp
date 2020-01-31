@@ -7,6 +7,7 @@ namespace Agri.Models.Farm
         public Field()
         {
             Crops = new List<FieldCrop>();
+            FeedForageAnalyses = new List<FeedForageAnalysis>();
         }
 
         public int Id { get; set; }
