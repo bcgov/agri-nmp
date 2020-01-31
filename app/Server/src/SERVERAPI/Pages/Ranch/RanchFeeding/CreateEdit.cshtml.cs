@@ -35,9 +35,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             await PopulateData(new Query());
         }
 
-        public async Task OnGetEditAsync(string fieldName, Query query)
+        public async Task OnGetEditAsync(Query query)
         {
-            FieldName = fieldName;
             Title = "Edit Field";
             await PopulateData(query);
         }
@@ -55,6 +54,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 ModelState.Clear();
                 Data.PostedElementEvent = "None";
                 Data.StateChanged = true;
+                Data.feedingAreas.Add(new FeedingArea());
 
                 return Page();
             }
@@ -83,7 +83,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         {
             public string FieldName { get; set; }
 
-            public List<FeedingArea> feedingArea { get; set; }
+            public List<FeedingArea> feedingAreas { get; set; }
             public string PostedElementEvent { get; set; }
             public bool StateChanged { get; set; }
 
@@ -168,8 +168,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
-                command.feedingArea = new List<FeedingArea>();
-                command.feedingArea.Add(new FeedingArea()
+                command.feedingAreas = new List<FeedingArea>();
+                command.feedingAreas.Add(new FeedingArea()
                 {
                     FeedName = "Feed 1",
                     isAvailable = true

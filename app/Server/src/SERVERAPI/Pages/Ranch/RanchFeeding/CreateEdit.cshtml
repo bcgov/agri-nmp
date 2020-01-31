@@ -1,4 +1,4 @@
-﻿@page "{handler?}/{fieldName}"
+﻿@page "{handler?}"
 @model SERVERAPI.Pages.Ranch.RanchFeeding.CreateEdit
 
 @{
@@ -10,7 +10,7 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div>
 
-        @foreach (var item in Model?.Data?.feedingArea)
+        @foreach (var item in Model?.Data?.feedingAreas)
         {
             @await Html.PartialAsync("_createEditFormPartial", item, new ViewDataDictionary(ViewData))
 
@@ -35,12 +35,6 @@
 
 @section Scripts {
     <script type="text/javascript">
-
-        //function AddNewFeedForage3() {
-        //    $('#btnFeedForage2').hide();
-        //    $('#feedForage3').show();
-        //}
-
         $(document).ready(function () {
             $("body").on("click", "#btnFeedForage1", function () {
                 $('#PostedElementEvent').val("AddFeedForageAnalysis");
@@ -48,11 +42,6 @@
             })
         });
 
-        //function AddNewFeedForage() {
-        //    $('#btnFeedForage1').on('click', function () {
-        //        $('#grid').load('/ajaxpartial?handler=_createEditFormPartial');
-        //    });
-        //}
         $(document).ready(function () {
             $('#toolTipDailyFeedWarning').tooltip({
                 template: toolTipClickableInnerHtml,
