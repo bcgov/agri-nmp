@@ -46,7 +46,7 @@ namespace Agri.CalculateService.Tests
         {
             var result = _calculator.GetK20AgronomicBalance(GetTestField(), new Region { LocationId = 1 });
 
-            result.ShouldBe(556);
+            result.ShouldBe(555);
         }
 
         private Field GetTestField()
