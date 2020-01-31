@@ -297,32 +297,17 @@ namespace SERVERAPI.Models.Impl
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             Field fld = yd.Fields.FirstOrDefault(f => f.Id == updtFld.Id);
 
-            fld.FieldName = updtFld.FieldName;
-            fld.Area = updtFld.Area;
-            fld.Comment = updtFld.Comment;
+            fld = _mapper.Map<Field>(updtFld);
 
-            fld.PreviousYearManureApplicationFrequency = updtFld.PreviousYearManureApplicationFrequency;
-            fld.PreviousYearManureApplicationNitrogenCredit = updtFld.PreviousYearManureApplicationNitrogenCredit;
-            fld.SoilTestNitrateOverrideNitrogenCredit = updtFld.SoilTestNitrateOverrideNitrogenCredit;
-            fld.SelectMatureAnimalDailyFeed = updtFld.SelectMatureAnimalDailyFeed;
-            fld.SelectGrowingAnimalDailyFeed = updtFld.SelectGrowingAnimalDailyFeed;
-            fld.IsSeasonalFeedingArea = updtFld.IsSeasonalFeedingArea;
-            fld.SeasonalFeedingArea = updtFld.SeasonalFeedingArea;
-            fld.FeedingPercentage = updtFld.FeedingPercentage;
-            fld.FeedingValueDays = updtFld.FeedingValueDays;
-            fld.GrowingAnimalAverage = updtFld.GrowingAnimalAverage;
-            fld.GrowingAnimalCount = updtFld.GrowingAnimalCount;
-            fld.MatureAnimalAverage = updtFld.MatureAnimalAverage;
-            fld.MatureAnimalCount = updtFld.MatureAnimalCount;
             if (!fld.IsSeasonalFeedingArea)
             {
-                fld.SelectMatureAnimalDailyFeed = string.Empty;
-                fld.SelectGrowingAnimalDailyFeed = string.Empty;
-                fld.FeedingPercentage = null;
-                fld.FeedingValueDays = null;
-                fld.GrowingAnimalAverage = null;
+                fld.MatureAnimalDailyFeedRequirementId = 0;
+                fld.GrowingAnimalDailyFeedRequirementId = 0;
+                fld.FeedingPercentageOutsideFeeingArea = null;
+                fld.FeedingDaysSpentInFeedingArea = null;
+                fld.GrowingAnimalAverageWeight = null;
                 fld.GrowingAnimalCount = null;
-                fld.MatureAnimalAverage = null;
+                fld.MatureAnimalAverageWeight = null;
                 fld.MatureAnimalCount = null;
             }
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);

@@ -94,10 +94,10 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
             public string CattleSubTypeName { get; set; }
             public SelectList CattleSubTypeOptions { get; set; }
             public ManureMaterialType ManureMaterialType => ManureMaterialType.Solid;
-            public int AverageAnimalNumber { get; set; }
+            public int? AverageAnimalNumber { get; set; }
             public string Placehldr { get; set; }
             public bool IsManureCollected { get; set; }
-            public int DurationDays { get; set; }
+            public int? DurationDays { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -105,10 +105,10 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
             public CommandValidator()
             {
                 RuleFor(m => m.CattleSubTypeId).GreaterThan(0).WithMessage("Cattle Type must be selected");
-                RuleFor(m => m.AverageAnimalNumber).NotNull().NotEmpty().GreaterThan(0);
+                RuleFor(m => m.AverageAnimalNumber).NotEmpty().GreaterThan(0);
                 When(m => m.IsManureCollected, () =>
                 {
-                    RuleFor(m => m.DurationDays).NotNull().NotEmpty().GreaterThan(0)
+                    RuleFor(m => m.DurationDays).NotEmpty().GreaterThan(0)
                         .WithMessage("Duration must be greater than 0");
                 });
             }

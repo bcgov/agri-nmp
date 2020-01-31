@@ -152,21 +152,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 {
                     var field = _ud.GetFieldDetailById(request.Id);
                     command = _mapper.Map<Command>(field);
-                    //command.FieldName = field.fieldName;
-                    //command.Id = field.Id;
-                    //command.FieldArea = field.area.ToString("G29");
-                    //command.IsSeasonalFeedingArea = field.IsSeasonalFeedingArea;
-                    //command.SeasonalFeedingArea = field.SeasonalFeedingArea;
-                    //command.FieldComment = field.comment;
-                    //command.SelectPrevYrManureOption = field.prevYearManureApplicationFrequency;
-                    //command.FeedingValueDays = field.FeedingValueDays;
-                    //command.FeedingPercentage = field.FeedingPercentage;
-                    //command.MatureAnimalAverage = field.MatureAnimalAverage;
-                    //command.MatureAnimalCount = field.MatureAnimalCount;
-                    //command.GrowingAnimalAverage = field.GrowingAnimalAverage;
-                    //command.GrowingAnimalCount = field.GrowingAnimalCount;
-
-                    //command.FeedingValueDays = field.feedingValueDays;
                 }
                 else
                 {

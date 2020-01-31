@@ -9,6 +9,7 @@ namespace Agri.Models.Configuration
         [Key]
         public int Id { get; set; }
 
+        public int FeedForageTypeId { get; set; }
         public string Name { get; set; }
 
         [Column(TypeName = "decimal(16,4)")]
@@ -20,8 +21,6 @@ namespace Agri.Models.Configuration
         [Column(TypeName = "decimal(16,4)")]
         public decimal? PotassiumPercent { get; set; }
 
-        public FeedForageType FeedForageType { get; set; }
-
-        public int FeedForageTypeId { get; set; }
+        public FeedForageType GetFeedForageType { get; set; }
     }
 }
