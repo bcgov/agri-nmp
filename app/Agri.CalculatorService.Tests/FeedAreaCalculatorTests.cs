@@ -1,5 +1,6 @@
 ﻿using Agri.CalculateService;
 using Agri.Data;
+using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Tests.Shared;
 using Shouldly;
@@ -27,7 +28,7 @@ namespace Agri.CalculateService.Tests
         [Fact]
         public void GetNitrogenAgronomicBalanceShouldBeCorrectValue()
         {
-            var result = _calculator.GetNitrogenAgronomicBalance(GetTestField());
+            var result = _calculator.GetNitrogenAgronomicBalance(GetTestField(), new Region { LocationId = 1 });
 
             result.ShouldBe(81);
         }
@@ -35,7 +36,7 @@ namespace Agri.CalculateService.Tests
         [Fact]
         public void GetP205AgronomicBalanceShouldBeCorrectValue()
         {
-            var result = _calculator.GetP205AgronomicBalance(GetTestField());
+            var result = _calculator.GetP205AgronomicBalance(GetTestField(), new Region { LocationId = 1 });
 
             result.ShouldBe(99);
         }
@@ -43,7 +44,7 @@ namespace Agri.CalculateService.Tests
         [Fact]
         public void GetK20AgronomicBalanceShouldBeCorrectValue()
         {
-            var result = _calculator.GetK20AgronomicBalance(GetTestField());
+            var result = _calculator.GetK20AgronomicBalance(GetTestField(), new Region { LocationId = 1 });
 
             result.ShouldBe(556);
         }
@@ -52,6 +53,7 @@ namespace Agri.CalculateService.Tests
         {
             var field = new Field
             {
+                IsSeasonalFeedingArea = true,
                 Area = 12, //acres
                 MatureAnimalCount = 60,
                 MatureAnimalAverageWeight = 1200,
@@ -87,8 +89,8 @@ namespace Agri.CalculateService.Tests
                         CrudeProteinPercent = 10M,
                         Phosphorus = .29m,
                         Potassium = .37m,
-                        PercentOfTotalFeedForageToAnimals = 30,
-                        PercentOfFeedForageWastage = 15
+                        PercentOfTotalFeedForageToAnimals = 10,
+                        PercentOfFeedForageWastage = 10
                     }
                 }
             };
