@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models;
 using AutoMapper;
@@ -58,6 +59,10 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             {
                 public int Id { get; set; }
                 public string FieldName { get; set; }
+
+                public decimal NBalance { get; set; }
+                public decimal P205Balance { get; set; }
+                public decimal K20Balance { get; set; }
             }
         }
 
@@ -74,21 +79,32 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             private readonly UserData _ud;
             private readonly IAgriConfigurationRepository _sd;
             private readonly IMapper _mapper;
+            //private readonly IFeedAreaCalculator _feedCalculator;
 
-            public Handler(UserData ud, IMapper mapper, IAgriConfigurationRepository sd)
+            public Handler(UserData ud, IMapper mapper,
+                IAgriConfigurationRepository sd
+                //IFeedAreaCalculator feedCalculator
+                )
             {
                 _ud = ud;
                 _sd = sd;
                 _mapper = mapper;
+                //_feedCalculator = feedCalculator;
             }
 
             public Task<Model> Handle(Query request, CancellationToken cancellationToken)
             {
                 var fields = _ud.GetFields().Where(x => x.IsSeasonalFeedingArea == true).ToList();
+                var calculatedFields = _mapper.Map<List<Agri.Models.Farm.Field>, List<Model.Field>>(fields);
+
+                foreach (var field in calculatedFields)
+                {
+                    //field.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, _ud.FarmDetails().FarmRegion);
+                }
 
                 return Task.FromResult(new Model
                 {
-                    Fields = _mapper.Map<List<Agri.Models.Farm.Field>, List<Model.Field>>(fields),
+                    Fields = calculatedFields,
                     feedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
                 }); ;
             }
