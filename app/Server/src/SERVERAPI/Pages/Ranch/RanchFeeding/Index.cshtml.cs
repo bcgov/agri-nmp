@@ -59,7 +59,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             {
                 public int Id { get; set; }
                 public string FieldName { get; set; }
-
                 public decimal NBalance { get; set; }
                 public decimal P205Balance { get; set; }
                 public decimal K20Balance { get; set; }
@@ -79,17 +78,17 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             private readonly UserData _ud;
             private readonly IAgriConfigurationRepository _sd;
             private readonly IMapper _mapper;
-            //private readonly IFeedAreaCalculator _feedCalculator;
+            private readonly IFeedAreaCalculator _feedCalculator;
 
             public Handler(UserData ud, IMapper mapper,
-                IAgriConfigurationRepository sd
-                //IFeedAreaCalculator feedCalculator
+                IAgriConfigurationRepository sd,
+                IFeedAreaCalculator feedCalculator
                 )
             {
                 _ud = ud;
                 _sd = sd;
                 _mapper = mapper;
-                //_feedCalculator = feedCalculator;
+                _feedCalculator = feedCalculator;
             }
 
             public Task<Model> Handle(Query request, CancellationToken cancellationToken)
@@ -97,16 +96,23 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 var fields = _ud.GetFields().Where(x => x.IsSeasonalFeedingArea == true).ToList();
                 var calculatedFields = _mapper.Map<List<Agri.Models.Farm.Field>, List<Model.Field>>(fields);
 
-                foreach (var field in calculatedFields)
+                var region = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value);
+                foreach (var field in fields)
                 {
-                    //field.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, _ud.FarmDetails().FarmRegion);
+                    if (field.FeedForageAnalyses.Any())
+                    {
+                        var calculatedValue = calculatedFields.Single(f => f.Id == field.Id);
+                        calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
+                        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
+                        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
+                    }
                 }
 
                 return Task.FromResult(new Model
                 {
                     Fields = calculatedFields,
                     feedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
-                }); ;
+                });
             }
         }
     }
