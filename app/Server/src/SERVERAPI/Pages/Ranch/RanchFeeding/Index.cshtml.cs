@@ -81,14 +81,14 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             private readonly IFeedAreaCalculator _feedCalculator;
 
             public Handler(UserData ud, IMapper mapper,
-                IAgriConfigurationRepository sd,
-                IFeedAreaCalculator feedCalculator
+                IAgriConfigurationRepository sd
+
                 )
             {
                 _ud = ud;
                 _sd = sd;
                 _mapper = mapper;
-                _feedCalculator = feedCalculator;
+                // _feedCalculator = feedCalculator;
             }
 
             public Task<Model> Handle(Query request, CancellationToken cancellationToken)
@@ -102,9 +102,9 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                     if (field.FeedForageAnalyses.Any())
                     {
                         var calculatedValue = calculatedFields.Single(f => f.Id == field.Id);
-                        calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
-                        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
-                        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
+                        //calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
+                        //calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
+                        //calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
                     }
                 }
 
