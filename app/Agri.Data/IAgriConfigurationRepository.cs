@@ -214,6 +214,8 @@ namespace Agri.Data
 
         string GetStaticDataVersion();
 
+        int GetStaticDataVersionId();
+
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
 
         PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(
