@@ -26,7 +26,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
         public async Task<IActionResult> OnGetAsync(Query query)
         {
-            var data = await _mediator.Send(query);
+            var data = await _mediator.Send(new Query());
 
             ////If no fields exist with seasonal feed skip
             if (!data.Fields.Any())
@@ -53,7 +53,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         public class Model
         {
             public List<Field> Fields { get; set; }
-            public string feedingAreaWarning { get; set; }
+            public string FeedingAreaWarning { get; set; }
 
             public class Field
             {
@@ -81,14 +81,14 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             private readonly IFeedAreaCalculator _feedCalculator;
 
             public Handler(UserData ud, IMapper mapper,
-                IAgriConfigurationRepository sd,
-                IFeedAreaCalculator feedCalculator
+                IAgriConfigurationRepository sd
+                //IFeedAreaCalculator feedCalculator
                 )
             {
                 _ud = ud;
                 _sd = sd;
                 _mapper = mapper;
-                _feedCalculator = feedCalculator;
+                //_feedCalculator = feedCalculator;
             }
 
             public Task<Model> Handle(Query request, CancellationToken cancellationToken)
@@ -97,21 +97,21 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 var calculatedFields = _mapper.Map<List<Agri.Models.Farm.Field>, List<Model.Field>>(fields);
 
                 var region = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value);
-                foreach (var field in fields)
-                {
-                    if (field.FeedForageAnalyses.Any())
-                    {
-                        var calculatedValue = calculatedFields.Single(f => f.Id == field.Id);
-                        calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
-                        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
-                        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
-                    }
-                }
+                //foreach (var field in fields)
+                //{
+                //    if (field.FeedForageAnalyses.Any())
+                //    {
+                //        var calculatedValue = calculatedFields.Single(f => f.Id == field.Id);
+                //        calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
+                //        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
+                //        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
+                //    }
+                //}
 
                 return Task.FromResult(new Model
                 {
                     Fields = calculatedFields,
-                    feedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
+                    FeedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
                 });
             }
         }
