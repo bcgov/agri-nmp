@@ -81,7 +81,7 @@ namespace Agri.Data
             _mapper = mapper;
         }
 
-        private int GetStaticDataVersionId()
+        public int GetStaticDataVersionId()
         {
             return GetCurrentStaticDataVersion().Id;
         }
