@@ -20,12 +20,10 @@ namespace Agri.CalculateService
 
     public class FeedAreaCalculator : IFeedAreaCalculator
     {
-        private readonly AgriConfigurationRepository _repo;
+        private readonly IAgriConfigurationRepository _repo;
         private readonly AgriConfigurationContext _db;
-        private readonly decimal _matureFeedEfficiency;
-        private readonly decimal _growingFeedEfficiency;
 
-        public FeedAreaCalculator(AgriConfigurationRepository repo, AgriConfigurationContext db)
+        public FeedAreaCalculator(IAgriConfigurationRepository repo, AgriConfigurationContext db)
         {
             _repo = repo;
             _db = db;
