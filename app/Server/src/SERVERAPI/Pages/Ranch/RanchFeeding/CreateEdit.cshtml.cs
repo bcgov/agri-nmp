@@ -19,6 +19,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
     public class CreateEdit : BasePageModel
     {
         private readonly IMediator _mediator;
+        private IAgriConfigurationRepository _sd;
 
         [BindProperty]
         public Command Data { get; set; }
@@ -26,7 +27,11 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         [BindProperty]
         public string FieldName { get; set; }
 
-        public CreateEdit(IMediator mediator) => _mediator = mediator;
+        public CreateEdit(IMediator mediator, IAgriConfigurationRepository sd)
+        {
+            _mediator = mediator;
+            _sd = sd;
+        }
 
         public async Task OnGetCreateAsync(string fieldName)
         {
@@ -57,6 +62,12 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
                 var newId = Data.FeedForageAnalyses.Count + 1;
                 Data.FeedForageAnalyses.Add(new Command.FeedForageAnalysis { Id = newId });
+            }
+            else if (Data.PostedElementEvent == "FeedForageChange")
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = "None";
+                Data.StateChanged = true;
             }
             else
             {
@@ -113,6 +124,9 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 public decimal Potassium { get; set; }
                 public decimal PercentOfTotalFeedForageToAnimals { get; set; }
                 public decimal PercentOfFeedForageWastage { get; set; }
+
+                public List<FeedForageType> selectFeedTypeOptions { get; set; }
+                public List<Feed> selectFeedNameOptions { get; set; }
             }
         }
 
@@ -177,6 +191,43 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
+                foreach (var feedAnalysis in command.FeedForageAnalyses)
+                {
+                    feedAnalysis.selectFeedTypeOptions = _sd.GetFeedForageTypes();
+                    feedAnalysis.selectFeedNameOptions = _sd.GetFeedForageNames();
+                    if (feedAnalysis.FeedForageId == 0 && feedAnalysis.FeedForageTypeId == 0)
+                    {
+                        feedAnalysis.UseBookValues = true;
+                    }
+                    if (feedAnalysis.FeedForageTypeId != 0)
+                    {
+                        var selectedFeedType = feedAnalysis.selectFeedTypeOptions.Find(x => x.Id == feedAnalysis.FeedForageTypeId);
+                        if (selectedFeedType != null)
+                        {
+                            var nameOptions = new List<Feed>();
+                            foreach (var feedName in feedAnalysis.selectFeedNameOptions)
+                            {
+                                if (feedName.FeedForageTypeId == feedAnalysis.FeedForageTypeId)
+                                {
+                                    nameOptions.Add(feedName);
+                                }
+                            }
+                            feedAnalysis.selectFeedNameOptions = nameOptions;
+                        }
+                    }
+
+                    if (feedAnalysis.FeedForageId != 0)
+                    {
+                        var selectedFeedName = feedAnalysis.selectFeedNameOptions.Find(x => x.Id == feedAnalysis.FeedForageId);
+                        if (selectedFeedName != null)
+                        {
+                            feedAnalysis.CrudeProteinPercent = Convert.ToDecimal(selectedFeedName.CPPercent);
+                            feedAnalysis.Phosphorus = Convert.ToDecimal(selectedFeedName.PhosphorousPercent);
+                            feedAnalysis.Potassium = Convert.ToDecimal(selectedFeedName.PotassiumPercent);
+                        }
+                    }
+                }
+
                 //command.feedingAreas = new List<FeedingArea>();
                 //command.feedingAreas.Add(new FeedingArea()
                 //{
