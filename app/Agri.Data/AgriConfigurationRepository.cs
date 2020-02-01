@@ -38,7 +38,8 @@ namespace Agri.Data
         private List<DryMatter> _dryMatters;
         private List<ExternalLink> _externalLinks;
 
-        //private List<Feed> _feeds;
+        private List<FeedForageType> _feedForageType;
+        private List<Feed> _feedName;
         private List<FeedConsumption> _feedConsumptions;
 
         private List<FeedEfficiency> _feedEfficiencies;
@@ -524,6 +525,24 @@ namespace Agri.Data
             }
 
             return _externalLinks;
+        }
+
+        public List<FeedForageType> GetFeedForageTypes()
+        {
+            if (_feedForageType == null)
+            {
+                _feedForageType = _context.FeedForageTypes.AsNoTracking().Where(x => x.StaticDataVersionId == GetStaticDataVersionId()).ToList();
+            }
+            return _feedForageType;
+        }
+
+        public List<Feed> GetFeedForageNames()
+        {
+            if (_feedName == null)
+            {
+                _feedName = _context.Feeds.Where(x => x.StaticDataVersionId == GetStaticDataVersionId()).ToList();
+            }
+            return _feedName;
         }
 
         //public Feed GetFeed(int id)
