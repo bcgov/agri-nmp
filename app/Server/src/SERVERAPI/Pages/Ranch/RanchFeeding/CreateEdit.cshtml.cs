@@ -19,7 +19,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
     public class CreateEdit : BasePageModel
     {
         private readonly IMediator _mediator;
-        private IAgriConfigurationRepository _sd;
 
         [BindProperty]
         public Command Data { get; set; }
@@ -27,10 +26,9 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         [BindProperty]
         public string FieldName { get; set; }
 
-        public CreateEdit(IMediator mediator, IAgriConfigurationRepository sd)
+        public CreateEdit(IMediator mediator)
         {
             _mediator = mediator;
-            _sd = sd;
         }
 
         public async Task OnGetCreateAsync(string fieldName)
@@ -40,9 +38,9 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             await PopulateData(new Query());
         }
 
-        public async Task OnGetEditAsync(Query query)
+        public async Task OnGetEditAsync(string fieldName, Query query)
         {
-            Title = "Edit Field";
+            Title = fieldName + " Feeding Area - Edit Feed/Forage";
             await PopulateData(query);
         }
 
@@ -83,7 +81,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
         public class Query : IRequest<Command>
         {
-            public int Id { get; set; }
+            public string fieldName { get; set; }
         }
 
         public class LookupDataQuery : IRequest<Command>
@@ -162,10 +160,25 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             public async Task<Command> Handle(Query request, CancellationToken cancellationToken)
             {
                 var command = new Command();
-                if (request.Id != 0)
+                if (!string.IsNullOrEmpty(request.fieldName))
                 {
-                    var field = _ud.GetFieldDetailById(request.Id);
-                    command = _mapper.Map<Command>(field);
+                    command.FieldName = request.fieldName;
+                    var feedForageAnalyses = _ud.GetFeedForageAnalysis(request.fieldName);
+                    foreach (var feed in feedForageAnalyses)
+                    {
+                        command.FeedForageAnalyses.Add(new Command.FeedForageAnalysis()
+                        {
+                            Id = feed.Id,
+                            FeedForageId = feed.FeedForageId,
+                            FeedForageTypeId = feed.FeedForageTypeId,
+                            UseBookValues = feed.UseBookValues,
+                            CrudeProteinPercent = feed.CrudeProteinPercent,
+                            Phosphorus = feed.Phosphorus,
+                            Potassium = feed.Potassium,
+                            PercentOfTotalFeedForageToAnimals = feed.PercentOfTotalFeedForageToAnimals,
+                            PercentOfFeedForageWastage = feed.PercentOfFeedForageWastage
+                        });
+                    }
                 }
                 else
                 {
@@ -221,42 +234,16 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                         var selectedFeedName = feedAnalysis.selectFeedNameOptions.Find(x => x.Id == feedAnalysis.FeedForageId);
                         if (selectedFeedName != null)
                         {
-                            feedAnalysis.CrudeProteinPercent = Convert.ToDecimal(selectedFeedName.CPPercent);
-                            feedAnalysis.Phosphorus = Convert.ToDecimal(selectedFeedName.PhosphorousPercent);
-                            feedAnalysis.Potassium = Convert.ToDecimal(selectedFeedName.PotassiumPercent);
+                            if (feedAnalysis.UseBookValues)
+                            {
+                                feedAnalysis.CrudeProteinPercent = Convert.ToDecimal(selectedFeedName.CPPercent);
+                                feedAnalysis.Phosphorus = Convert.ToDecimal(selectedFeedName.PhosphorousPercent);
+                                feedAnalysis.Potassium = Convert.ToDecimal(selectedFeedName.PotassiumPercent);
+                            }
                         }
                     }
                 }
 
-                //command.feedingAreas = new List<FeedingArea>();
-                //command.feedingAreas.Add(new FeedingArea()
-                //{
-                //    FeedName = "Feed 1",
-                //    isAvailable = true
-                //});
-
-                //command.feedingArea.Add(new FeedingArea()
-                //{
-                //    FeedName = "Feed 2",
-                //    isAvailable = false
-                //});
-                //command.feedingArea.Add(new FeedingArea()
-                //{
-                //    FeedName = "Feed 3",
-                //    isAvailable = false
-                //});
-                //command.SelectPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
-                //command.SelectDailyFeedOptions = _sd.GetDailyFeedRequirement();
-                //if (command.SelectMatureAnimalDailyFeed == null)
-                //{
-                //    command.SelectMatureAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
-                //}
-                //if (command.SelectGrowingAnimalDailyFeed == null)
-                //{
-                //    command.SelectGrowingAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
-                //}
-                //command.Placehldr = _sd.GetUserPrompt("fieldcommentplaceholder");
-                //command.DailyFeedWarning = _sd.GetUserPrompt("DailyFeedWarning");
                 return await Task.FromResult(command);
             }
         }
@@ -276,16 +263,20 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
             public async Task<MediatR.Unit> Handle(Command message, CancellationToken cancellationToken)
             {
-                var field = new Field();
-                field = _mapper.Map<Field>(message);
-
-                if (field.Id == 0)//Need to check here
+                //var field = new Field();
+                //vb wer sxfield = _mapper.Map<Field>(message);
+                foreach (var feed in message.FeedForageAnalyses)
                 {
-                    _ud.AddField(field);
-                }
-                else
-                {
-                    _ud.UpdateField(field);
+                    var feedAnalysis = _ud.GetFeedForageAnalysisDetail(feed.Id, "Test123");//message.FieldName
+                    var feedForage = _mapper.Map<Agri.Models.Farm.FeedForageAnalysis>(feed);
+                    if (feedAnalysis != null)
+                    {
+                        _ud.UpdateFeedForageAnalysis(feedForage, "Test123");// message.FieldName
+                    }
+                    else
+                    {
+                        _ud.AddFeedForageAnalysis(feedForage, "Test123");// message.FieldName
+                    }
                 }
 
                 return await Task.FromResult(new MediatR.Unit());

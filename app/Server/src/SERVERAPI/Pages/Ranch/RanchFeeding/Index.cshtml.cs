@@ -105,6 +105,10 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                         //calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
                         //calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
                         //calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
+                        //HardCode to check
+                        calculatedValue.NBalance = 10;
+                        calculatedValue.P205Balance = 20;
+                        calculatedValue.K20Balance = 30;
                     }
                 }
 

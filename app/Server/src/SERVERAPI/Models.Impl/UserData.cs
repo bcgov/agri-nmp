@@ -290,6 +290,48 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
+        public void AddFeedForageAnalysis(FeedForageAnalysis newFeed, string fieldName)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+
+            foreach (var field in yd.Fields)
+            {
+                if (field.FieldName == fieldName)
+                {
+                    field.FeedForageAnalyses.Add(newFeed);
+                }
+            }
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void UpdateFeedForageAnalysis(FeedForageAnalysis updFeed, string fieldName)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fieldName);
+            if (fld != null)
+            {
+                var feedForageAnalysis = fld.FeedForageAnalyses;
+                fld.FeedForageAnalyses = new List<FeedForageAnalysis>();
+
+                foreach (var feed in feedForageAnalysis)
+                {
+                    if (feed.Id == updFeed.Id)
+                    {
+                        fld.FeedForageAnalyses.Add(_mapper.Map<FeedForageAnalysis>(updFeed));
+                    }
+                    else
+                    {
+                        fld.FeedForageAnalyses.Add(feed);
+                    }
+                }
+            }
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
         public void UpdateField(Field updtFld)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
@@ -368,6 +410,30 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
+        public void DeleteFeedForageAnalysis(string fieldName)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == fieldName);
+            if (fld != null)
+            {
+                fld.FeedForageAnalyses = new List<FeedForageAnalysis>();
+            }
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public FeedForageAnalysis GetFeedForageAnalysisDetail(int id, string fieldName)
+        {
+            FeedForageAnalysis feed = new FeedForageAnalysis();
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+            var fld = yd.Fields.FirstOrDefault(y => y.FieldName == fieldName);
+            feed = fld.FeedForageAnalyses.FirstOrDefault(x => x.Id == id);
+            return feed;
+        }
+
         public Field GetFieldDetails(string fieldName)
         {
             Field fld = new Field();
@@ -414,6 +480,24 @@ namespace SERVERAPI.Models.Impl
             }
 
             return yd.Fields;
+        }
+
+        public List<FeedForageAnalysis> GetFeedForageAnalysis(string fieldName)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+
+            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+            var fld = yd.Fields.FirstOrDefault(x => x.FieldName == fieldName);
+            if (fld.FeedForageAnalyses == null)
+            {
+                fld.FeedForageAnalyses = new List<FeedForageAnalysis>();
+
+                fld.FeedForageAnalyses.Add(new FeedForageAnalysis
+                {
+                    Id = 1
+                });
+            }
+            return fld.FeedForageAnalyses;
         }
 
         public List<NutrientManure> GetFieldNutrientsManures(string fldName)
