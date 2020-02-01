@@ -26,7 +26,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
         public async Task<IActionResult> OnGetAsync(Query query)
         {
-            var data = await _mediator.Send(query);
+            var data = await _mediator.Send(new Query());
 
             ////If no fields exist with seasonal feed skip
             if (!data.Fields.Any())
@@ -53,7 +53,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         public class Model
         {
             public List<Field> Fields { get; set; }
-            public string feedingAreaWarning { get; set; }
+            public string FeedingAreaWarning { get; set; }
 
             public class Field
             {
@@ -99,7 +99,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 var region = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value);
                 foreach (var field in fields)
                 {
-                    if (field.FeedForageAnalyses.Any())
+                    if (field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
                     {
                         var calculatedValue = calculatedFields.Single(f => f.Id == field.Id);
                         //calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
@@ -111,7 +111,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 return Task.FromResult(new Model
                 {
                     Fields = calculatedFields,
-                    feedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
+                    FeedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
                 });
             }
         }
