@@ -145,6 +145,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
 
                 .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
                 .ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.PreviousYearManureApplicationFrequency))
+                .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area))
                 .ReverseMap()
                 //FarmField as Destination
                 .ForMember(m => m.SeasonalFeedingArea, opts => opts.MapFrom(s => s.IsSeasonalFeedingArea ? "Yes" : "No")); ;
