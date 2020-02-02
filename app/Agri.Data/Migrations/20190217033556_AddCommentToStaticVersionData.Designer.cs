@@ -10,15 +10,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Agri.Data.Migrations
 {
     [DbContext(typeof(AgriConfigurationContext))]
-    [Migration("20191202022313_InitialDB_Release3")]
-    partial class InitialDB_Release3
+    [Migration("20190217033556_AddCommentToStaticVersionData")]
+    partial class AddCommentToStaticVersionData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
@@ -630,8 +630,6 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("SortNumber");
-
                     b.HasKey("Id");
 
                     b.ToTable("MainMenus");
@@ -862,7 +860,9 @@ namespace Agri.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasDefaultValue(1);
 
-                    b.Property<int>("CropId");
+                    b.Property<int?>("CropId");
+
+                    b.Property<int?>("CropStaticDataVersionId");
 
                     b.Property<int?>("CropTypeId");
 
@@ -880,9 +880,9 @@ namespace Agri.Data.Migrations
 
                     b.HasIndex("StaticDataVersionId");
 
-                    b.HasIndex("CropTypeId", "CropTypeStaticDataVersionId");
+                    b.HasIndex("CropId", "CropStaticDataVersionId");
 
-                    b.HasIndex("CropId", "PreviousCropCode", "StaticDataVersionId");
+                    b.HasIndex("CropTypeId", "CropTypeStaticDataVersionId");
 
                     b.ToTable("PreviousCropType");
                 });
@@ -1236,8 +1236,6 @@ namespace Agri.Data.Migrations
                     b.Property<string>("Comments")
                         .HasColumnType("VARCHAR(4000)");
 
-                    b.Property<string>("CreatedBy");
-
                     b.Property<DateTime>("CreatedDateTime")
                         .ValueGeneratedOnAdd()
                         .HasDefaultValueSql("NOW()");
@@ -1259,8 +1257,6 @@ namespace Agri.Data.Migrations
                     b.Property<int>("MainMenuId");
 
                     b.Property<string>("Name");
-
-                    b.Property<int>("SortNumber");
 
                     b.HasKey("Id");
 
@@ -1382,27 +1378,6 @@ namespace Agri.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AppliedMigrationSeedData");
-                });
-
-            modelBuilder.Entity("Agri.Models.Security.ManageVersionUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("LastName");
-
-                    b.Property<string>("Password");
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserName")
-                        .IsUnique();
-
-                    b.ToTable("ManageVersionUsers");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
@@ -1577,7 +1552,7 @@ namespace Agri.Data.Migrations
             modelBuilder.Entity("Agri.Models.Configuration.FertilizerType", b =>
                 {
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
-                        .WithMany("FertilizerTypes")
+                        .WithMany()
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1585,7 +1560,7 @@ namespace Agri.Data.Migrations
             modelBuilder.Entity("Agri.Models.Configuration.FertilizerUnit", b =>
                 {
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
-                        .WithMany("FertilizerUnits")
+                        .WithMany()
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -1721,15 +1696,13 @@ namespace Agri.Data.Migrations
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Agri.Models.Configuration.Crop")
+                        .WithMany("PreviousCropTypes")
+                        .HasForeignKey("CropId", "CropStaticDataVersionId");
+
                     b.HasOne("Agri.Models.Configuration.CropType")
                         .WithMany("PrevCropTypes")
                         .HasForeignKey("CropTypeId", "CropTypeStaticDataVersionId");
-
-                    b.HasOne("Agri.Models.Configuration.Crop", "Crop")
-                        .WithMany("PreviousCropTypes")
-                        .HasForeignKey("CropId", "PreviousCropCode", "StaticDataVersionId")
-                        .HasPrincipalKey("Id", "PreviousCropCode", "StaticDataVersionId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.PreviousManureApplicationYear", b =>
