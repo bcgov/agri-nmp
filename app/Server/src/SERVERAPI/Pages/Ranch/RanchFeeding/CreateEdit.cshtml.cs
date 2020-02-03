@@ -123,7 +123,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
             public class FeedForageAnalysis
             {
-                private decimal? dryMatterPercent;
                 private decimal? crudeProteinPercent;
                 private decimal? phosphorus;
                 private decimal? potassium;
@@ -134,12 +133,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 public int? FeedForageTypeId { get; set; }
                 public int? FeedForageId { get; set; }
                 public bool UseBookValues { get; set; } = true;
-
-                public decimal? DryMatterPercent
-                {
-                    get => dryMatterPercent.HasValue ? Math.Round(dryMatterPercent.Value, 2) : default(decimal?);
-                    set => dryMatterPercent = value;
-                }
 
                 public decimal? CrudeProteinPercent
                 {
@@ -185,8 +178,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                     .When(m => m.FeedForageTypeId > 0).WithMessage("Feed Forage must be selected");
                 When(m => !m.UseBookValues, () =>
                 {
-                    RuleFor(m => m.DryMatterPercent).NotEmpty().WithMessage("Must be a valid percent")
-                        .GreaterThanOrEqualTo(0).WithMessage("Must be a valid percent");
                     RuleFor(m => m.CrudeProteinPercent).NotEmpty().WithMessage("Must be a valid percent")
                         .GreaterThanOrEqualTo(0).WithMessage("Must be a valid percent");
                     RuleFor(m => m.Phosphorus).NotEmpty().WithMessage("Must be a valid percent")
@@ -374,7 +365,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 foreach (var feed in message.FeedForageAnalyses)
                 {
                     var feedAnalysis = _ud.GetFeedForageAnalysisDetail(feed.Id, message.FieldName);
-                    var feedForage = _mapper.Map<Agri.Models.Farm.FeedForageAnalysis>(feed);
+                    var feedForage = _mapper.Map<FeedForageAnalysis>(feed);
                     if (feedAnalysis != null)
                     {
                         _ud.UpdateFeedForageAnalysis(feedForage, message.FieldName);

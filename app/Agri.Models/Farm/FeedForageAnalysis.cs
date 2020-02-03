@@ -12,7 +12,6 @@ namespace Agri.Models.Farm
         public int FeedForageTypeId { get; set; }
         public int FeedForageId { get; set; }
         public bool UseBookValues { get; set; }
-        public decimal DryMatterPercent { get; set; }
         public decimal CrudeProteinPercent { get; set; }
         public decimal Phosphorus { get; set; }
         public decimal Potassium { get; set; }

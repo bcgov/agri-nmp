@@ -71,43 +71,33 @@
             }
             <div class="row">
                 <div class="form-group col-sm-4 row" style="pointer-events:@disabledFields">
-                    @*<div class="col-sm-12" style="padding-left:0px !important;">
-                        <div class="form-group-right-side-label">*@
+
                     <div class="col-sm-3" style="padding:0px !important">
                         <input type="number" class="form-control" step=".01" asp-for="@Model.Data.FeedForageAnalyses[i].CrudeProteinPercent" />
                     </div>
                     <span class="col-sm-9" style="padding-top: 7px;">% Crude protein (CP)</span>
                     <span asp-validation-for="Data.FeedForageAnalyses[i].CrudeProteinPercent"></span>
-                    @*</div>
-                        </div>*@
                 </div>
                 <div class="form-group col-sm-2 row" style="pointer-events:@disabledFields">
-                    @*<div class="col-sm-12" style="padding-left:0px !important;">
-                        <div class="form-group-right-side-label">*@
+
                     <div class="col-sm-7" style="padding:0px !important">
                         <input type="number" class="form-control" asp-for="@Model.Data.FeedForageAnalyses[i].Phosphorus" />
                     </div>
                     <span class="col-sm-5" style="padding-top: 7px;">%&nbsp;P</span>
                     <span asp-validation-for="Data.FeedForageAnalyses[i].Phosphorus"></span>
-                    @*</div>
-                        </div>*@
                 </div>
                 <div class="form-group col-sm-2 row" style="pointer-events:@disabledFields">
-                    @*<div class="col-sm-12" style="padding-left:0px !important;">
-                        <div class="form-group-right-side-label">*@
+
                     <div class="col-sm-7" style="padding:0px !important">
                         <input type="number" class="form-control" asp-for="@Model.Data.FeedForageAnalyses[i].Potassium" />
                     </div>
                     <span class="col-sm-5" style="padding-top: 7px;">%&nbsp;K</span>
                     <span asp-validation-for="Data.FeedForageAnalyses[i].Potassium"></span>
-                    @*</div>
-                        </div>*@
                 </div>
             </div>
             <div class="row" style="padding-top:10px;">
                 <div class="form-group col-sm-6 row">
-                    @*<div class="col-sm-12 row" style="padding-left:0px !important;">*@
-                    @*<div class="form-group-right-side-label">*@
+
                     <div class="col-sm-2" style="padding:0px !important;">
                         <input type="number" class="form-control" asp-for="Data.FeedForageAnalyses[i].PercentOfTotalFeedForageToAnimals" />
                     </div>
@@ -118,12 +108,9 @@
                         </a>
                     </span>
                     <span asp-validation-for="Data.FeedForageAnalyses[i].PercentOfTotalFeedForageToAnimals"></span>
-                    @*</div>*@
-                    @*</div>*@
                 </div>
                 <div class="form-group col-sm-6 row">
-                    @*<div class="col-sm-12 row" style="padding-left:0px !important;">*@
-                    @*<div class="form-group-right-side-label">*@
+
                     <div class="col-sm-2" style="padding:0px !important;">
                         <input type="number" class="form-control" asp-for="Data.FeedForageAnalyses[i].PercentOfFeedForageWastage" />
                     </div>
@@ -134,8 +121,6 @@
                         </a>
                     </span>
                     <span asp-validation-for="Data.FeedForageAnalyses[i].PercentOfFeedForageWastage"></span>
-                    @*</div>*@
-                    @*</div>*@
                 </div>
             </div>
             <input type="hidden" asp-for="@Model.Data.FeedForageAnalyses[i].Id" />
