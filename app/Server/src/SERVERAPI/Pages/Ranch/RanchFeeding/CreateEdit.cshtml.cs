@@ -53,19 +53,25 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (Data.PostedElementEvent == "AddFeedForageAnalysis")
+            if (Data.PostedElementEvent == ElementEvent.AddFeedForageAnalysis)
             {
                 ModelState.Clear();
-                Data.PostedElementEvent = "None";
+                Data.PostedElementEvent = ElementEvent.None;
                 Data.StateChanged = true;
 
                 var newId = Data.FeedForageAnalyses.Count + 1;
                 Data.FeedForageAnalyses.Add(new Command.FeedForageAnalysis { Id = newId });
             }
-            else if (Data.PostedElementEvent == "FeedForageChange")
+            else if (Data.PostedElementEvent == ElementEvent.FeedForageChange)
             {
                 ModelState.Clear();
-                Data.PostedElementEvent = "None";
+                Data.PostedElementEvent = ElementEvent.None;
+                Data.StateChanged = true;
+            }
+            else if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = ElementEvent.None;
                 Data.StateChanged = true;
             }
             else
@@ -110,23 +116,60 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
             public List<FeedForageAnalysis> FeedForageAnalyses { get; set; } = new List<FeedForageAnalysis>();
 
-            public string PostedElementEvent { get; set; } = "None";
+            public ElementEvent PostedElementEvent { get; set; }
             public bool StateChanged { get; set; }
 
             public string FeedingAreaWarning { get; set; }
 
             public class FeedForageAnalysis
             {
+                private decimal? dryMatterPercent;
+                private decimal? crudeProteinPercent;
+                private decimal? phosphorus;
+                private decimal? potassium;
+                private decimal? percentOfTotalFeedForageToAnimals;
+                private decimal? percentOfFeedForageWastage;
+
                 public int Id { get; set; }
                 public int? FeedForageTypeId { get; set; }
                 public int? FeedForageId { get; set; }
-                public bool UseBookValues { get; set; }
-                public decimal? DryMatterPercent { get; set; }
-                public decimal? CrudeProteinPercent { get; set; }
-                public decimal? Phosphorus { get; set; }
-                public decimal? Potassium { get; set; }
-                public decimal? PercentOfTotalFeedForageToAnimals { get; set; }
-                public decimal? PercentOfFeedForageWastage { get; set; }
+                public bool UseBookValues { get; set; } = true;
+
+                public decimal? DryMatterPercent
+                {
+                    get => dryMatterPercent.HasValue ? Math.Round(dryMatterPercent.Value, 2) : default(decimal?);
+                    set => dryMatterPercent = value;
+                }
+
+                public decimal? CrudeProteinPercent
+                {
+                    get => crudeProteinPercent.HasValue ? Math.Round(crudeProteinPercent.Value, 2) : default(decimal?);
+                    set => crudeProteinPercent = value;
+                }
+
+                public decimal? Phosphorus
+                {
+                    get => phosphorus.HasValue ? Math.Round(phosphorus.Value, 2) : default(decimal?);
+                    set => phosphorus = value;
+                }
+
+                public decimal? Potassium
+                {
+                    get => potassium.HasValue ? Math.Round(potassium.Value, 2) : default(decimal?);
+                    set => potassium = value;
+                }
+
+                public decimal? PercentOfTotalFeedForageToAnimals
+                {
+                    get => percentOfTotalFeedForageToAnimals.HasValue ? Math.Round(percentOfTotalFeedForageToAnimals.Value, 2) : default(decimal?);
+                    set => percentOfTotalFeedForageToAnimals = value;
+                }
+
+                public decimal? PercentOfFeedForageWastage
+                {
+                    get => percentOfFeedForageWastage.HasValue ? Math.Round(percentOfFeedForageWastage.Value, 2) : default(decimal?);
+                    set => percentOfFeedForageWastage = value;
+                }
 
                 public List<FeedForageType> SelectFeedTypeOptions { get; set; }
                 public List<Feed> SelectFeedNameOptions { get; set; }
@@ -140,6 +183,24 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 RuleFor(m => m.FeedForageTypeId).GreaterThan(0).WithMessage("Feed Forage Type must be selected");
                 RuleFor(m => m.FeedForageId).GreaterThan(0)
                     .When(m => m.FeedForageTypeId > 0).WithMessage("Feed Forage must be selected");
+                When(m => !m.UseBookValues, () =>
+                {
+                    RuleFor(m => m.DryMatterPercent).NotEmpty().WithMessage("Must be a valid percent")
+                        .GreaterThanOrEqualTo(0).WithMessage("Must be a valid percent");
+                    RuleFor(m => m.CrudeProteinPercent).NotEmpty().WithMessage("Must be a valid percent")
+                        .GreaterThanOrEqualTo(0).WithMessage("Must be a valid percent");
+                    RuleFor(m => m.Phosphorus).NotEmpty().WithMessage("Must be a valid percent")
+                        .GreaterThanOrEqualTo(0).WithMessage("Must be a valid percent");
+                    RuleFor(m => m.Potassium).NotEmpty().WithMessage("Must be a valid percent")
+                        .GreaterThanOrEqualTo(0).WithMessage("Must be a valid percent");
+                });
+
+                RuleFor(m => m.PercentOfTotalFeedForageToAnimals)
+                    .NotEmpty().WithMessage("Requires a valid number less than or equal to 100")
+                    .LessThanOrEqualTo(100).WithMessage("Requires a valid number less than or equal to 100");
+                RuleFor(m => m.PercentOfFeedForageWastage)
+                    .NotEmpty().WithMessage("Requires a valid number less than or equal to 100")
+                    .LessThanOrEqualTo(100).WithMessage("Requires a valid number less than or equal to 100");
             }
         }
 
@@ -162,6 +223,14 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 //    }
                 //});
             }
+        }
+
+        public enum ElementEvent
+        {
+            None,
+            UseCustomAnalysis,
+            AddFeedForageAnalysis,
+            FeedForageChange,
         }
 
         public class MappingProfile : Profile
