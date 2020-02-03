@@ -430,7 +430,7 @@ namespace SERVERAPI.Models.Impl
 
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             var fld = yd.Fields.FirstOrDefault(y => y.FieldName == fieldName);
-            feed = fld?.FeedForageAnalyses.FirstOrDefault(x => x.Id == id);
+            feed = fld?.FeedForageAnalyses?.FirstOrDefault(x => x.Id == id);
             return feed;
         }
 
