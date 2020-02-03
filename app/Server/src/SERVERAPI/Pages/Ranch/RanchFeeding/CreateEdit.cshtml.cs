@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using static SERVERAPI.Pages.Ranch.RanchFeeding.CreateEdit.Command;
 
 namespace SERVERAPI.Pages.Ranch.RanchFeeding
 {
@@ -87,7 +86,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 if (ModelState.IsValid)
                 {
                     await _mediator.Send(Data);
-                    return RedirectToPage(nameof(Index));
+                    return this.RedirectToPageJson(nameof(Index));
                 }
             }
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
