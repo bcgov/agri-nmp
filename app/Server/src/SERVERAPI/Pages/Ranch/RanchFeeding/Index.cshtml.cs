@@ -59,6 +59,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             {
                 public int Id { get; set; }
                 public string FieldName { get; set; }
+                public bool isFeedForageAvailable { get; set; }
                 public decimal NBalance { get; set; }
                 public decimal P205Balance { get; set; }
                 public decimal K20Balance { get; set; }
@@ -81,14 +82,14 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             private readonly IFeedAreaCalculator _feedCalculator;
 
             public Handler(UserData ud, IMapper mapper,
-                IAgriConfigurationRepository sd
-
+                IAgriConfigurationRepository sd,
+                IFeedAreaCalculator feedCalculator
                 )
             {
                 _ud = ud;
                 _sd = sd;
                 _mapper = mapper;
-                // _feedCalculator = feedCalculator;
+                _feedCalculator = feedCalculator;
             }
 
             public Task<Model> Handle(Query request, CancellationToken cancellationToken)
@@ -102,13 +103,14 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                     if (field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
                     {
                         var calculatedValue = calculatedFields.Single(f => f.Id == field.Id);
-                        //calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
-                        //calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
-                        //calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
-                        //HardCode to check
-                        calculatedValue.NBalance = 10;
-                        calculatedValue.P205Balance = 20;
-                        calculatedValue.K20Balance = 30;
+                        calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
+                        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
+                        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
+                        calculatedValue.isFeedForageAvailable = true;
+                        ////HardCode to check
+                        //calculatedValue.NBalance = 10;
+                        //calculatedValue.P205Balance = 20;
+                        //calculatedValue.K20Balance = 30;
                     }
                 }
 

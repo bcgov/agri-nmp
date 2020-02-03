@@ -40,7 +40,7 @@
                 <div class="col-sm-2 form-box-table-cell text-left">
                     @item.FieldName
                 </div>
-                @if (item.K20Balance != 0 || item.NBalance != 0 || item.P205Balance != 0)
+                @if (item.isFeedForageAvailable)
                 {
                     <div class="col-sm-3 form-box-table-cell">
                         @item.NBalance &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @item.P205Balance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@item.K20Balance
@@ -59,7 +59,7 @@
                 else
                 {
                     <div class="col-sm-3 form-box-table-cell text-left">
-                        <button class="btn btn-default" type="button" data-toggle="razor-page-modal" data-url="@Url.Page("CreateEdit", "Create", new { Id = @item.FieldName })">Add Feed/Forage</button>
+                        <button class="btn btn-default" type="button" data-toggle="razor-page-modal" data-url="@Url.Page("CreateEdit", "Create", new { FieldName = @item.FieldName })">Add Feed/Forage</button>
                     </div>
                     <div class="col-sm-7">
                         &nbsp;

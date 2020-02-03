@@ -31,11 +31,11 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             _mediator = mediator;
         }
 
-        public async Task OnGetCreateAsync(string fieldName)
+        public async Task OnGetCreateAsync(string fieldName, Query query)
         {
             FieldName = fieldName;
             Title = fieldName + " Feeding Area - Add Feed/Forage";
-            await PopulateData(new Query());
+            await PopulateData(query);
         }
 
         public async Task OnGetEditAsync(string fieldName, Query query)
@@ -179,6 +179,13 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                             PercentOfFeedForageWastage = feed.PercentOfFeedForageWastage
                         });
                     }
+                    if (feedForageAnalyses.Count == 0)
+                    {
+                        command.FeedForageAnalyses.Add(new Command.FeedForageAnalysis
+                        {
+                            Id = 1
+                        });
+                    }
                 }
                 else
                 {
@@ -267,15 +274,15 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 //vb wer sxfield = _mapper.Map<Field>(message);
                 foreach (var feed in message.FeedForageAnalyses)
                 {
-                    var feedAnalysis = _ud.GetFeedForageAnalysisDetail(feed.Id, "Test123");//message.FieldName
+                    var feedAnalysis = _ud.GetFeedForageAnalysisDetail(feed.Id, message.FieldName);
                     var feedForage = _mapper.Map<Agri.Models.Farm.FeedForageAnalysis>(feed);
                     if (feedAnalysis != null)
                     {
-                        _ud.UpdateFeedForageAnalysis(feedForage, "Test123");// message.FieldName
+                        _ud.UpdateFeedForageAnalysis(feedForage, message.FieldName);
                     }
                     else
                     {
-                        _ud.AddFeedForageAnalysis(feedForage, "Test123");// message.FieldName
+                        _ud.AddFeedForageAnalysis(feedForage, message.FieldName);
                     }
                 }
 

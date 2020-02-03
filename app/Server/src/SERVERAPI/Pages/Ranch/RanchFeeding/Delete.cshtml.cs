@@ -47,7 +47,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
         public class Command : IRequest
         {
-            public int? Id { get; set; }
             public string FieldName { get; set; }
         }
 
@@ -75,7 +74,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 var command = new Command();
                 if (!string.IsNullOrEmpty(request.FieldName))
                 {
-                    command = _mapper.Map<List<FeedForageAnalysis>, Command>(_ud.GetFeedForageAnalysis(request.FieldName));
+                    command.FieldName = request.FieldName;
                 }
 
                 return await Task.FromResult(command);
