@@ -154,13 +154,13 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
                 public decimal? PercentOfTotalFeedForageToAnimals
                 {
-                    get => percentOfTotalFeedForageToAnimals.HasValue ? Math.Round(percentOfTotalFeedForageToAnimals.Value, 2) : default(decimal?);
+                    get => percentOfTotalFeedForageToAnimals.HasValue ? Math.Round(percentOfTotalFeedForageToAnimals.Value, 0) : default(decimal?);
                     set => percentOfTotalFeedForageToAnimals = value;
                 }
 
                 public decimal? PercentOfFeedForageWastage
                 {
-                    get => percentOfFeedForageWastage.HasValue ? Math.Round(percentOfFeedForageWastage.Value, 2) : default(decimal?);
+                    get => percentOfFeedForageWastage.HasValue ? Math.Round(percentOfFeedForageWastage.Value, 0) : default(decimal?);
                     set => percentOfFeedForageWastage = value;
                 }
 
