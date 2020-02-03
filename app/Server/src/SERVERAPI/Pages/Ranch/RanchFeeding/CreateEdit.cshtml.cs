@@ -179,19 +179,19 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 When(m => !m.UseBookValues, () =>
                 {
                     RuleFor(m => m.CrudeProteinPercent).NotEmpty().WithMessage("Must be a valid percent")
-                        .GreaterThanOrEqualTo(0).WithMessage("Must be a valid percent");
+                        .InclusiveBetween(0, 100).WithMessage("Must be a valid percent");
                     RuleFor(m => m.Phosphorus).NotEmpty().WithMessage("Must be a valid percent")
-                        .GreaterThanOrEqualTo(0).WithMessage("Must be a valid percent");
+                        .InclusiveBetween(0, 100).WithMessage("Must be a valid percent");
                     RuleFor(m => m.Potassium).NotEmpty().WithMessage("Must be a valid percent")
-                        .GreaterThanOrEqualTo(0).WithMessage("Must be a valid percent");
+                        .InclusiveBetween(0, 100).WithMessage("Must be a valid percent");
                 });
 
                 RuleFor(m => m.PercentOfTotalFeedForageToAnimals)
                     .NotEmpty().WithMessage("Requires a valid number less than or equal to 100")
-                    .LessThanOrEqualTo(100).WithMessage("Requires a valid number less than or equal to 100");
+                    .InclusiveBetween(0, 100).WithMessage("Requires a valid number less than or equal to 100");
                 RuleFor(m => m.PercentOfFeedForageWastage)
                     .NotEmpty().WithMessage("Requires a valid number less than or equal to 100")
-                    .LessThanOrEqualTo(100).WithMessage("Requires a valid number less than or equal to 100");
+                    .InclusiveBetween(0, 100).WithMessage("Requires a valid number less than or equal to 100");
             }
         }
 
