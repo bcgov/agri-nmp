@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using SERVERAPI.Models.Impl;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static SERVERAPI.Pages.Ranch.RanchFeeding.CreateEdit.Command;
@@ -131,10 +132,15 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         public class CommandValidator : AbstractValidator<Command>
         {
             private readonly IOptions<AppSettings> _appSettings;
+            private IAgriConfigurationRepository _sd;
 
-            public CommandValidator(IOptions<AppSettings> appSettings)
+            public CommandValidator(IOptions<AppSettings> appSettings, IAgriConfigurationRepository sd)
             {
                 _appSettings = appSettings;
+                _sd = sd;
+
+                //FeedingAreaWarning = _sd.GetUserPrompt("feedingcommentplaceholder-Ranch")
+                RuleFor(x => x.FeedForageAnalyses.Sum(y => y.PercentOfTotalFeedForageToAnimals)).Equal(100).WithMessage(_sd.GetUserPrompt("feedingcommentplaceholder-Ranch"));
             }
         }
 
