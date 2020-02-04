@@ -220,6 +220,8 @@ namespace Agri.Data
 
         List<Feed> GetFeedForageNames();
 
+        int GetStaticDataVersionId();
+
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
 
         PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(
