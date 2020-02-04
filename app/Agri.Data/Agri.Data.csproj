@@ -5,18 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="SeedData\MiniAppData.json" />
-    <None Remove="SeedData\MiniAppLabelData.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Migrations\20200111040424_DailyFeedRequirement.cs" />
-    <Compile Remove="Migrations\20200111040424_DailyFeedRequirement.Designer.cs" />
-    <Compile Remove="Migrations\20200111060026_DilyFeedRequirement.cs" />
-    <Compile Remove="Migrations\20200111060026_DilyFeedRequirement.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="SeedData\BrowserData.json" />
     <EmbeddedResource Include="SeedData\ExternalLinksData.json" />
     <EmbeddedResource Include="SeedData\JourneyData.json" />

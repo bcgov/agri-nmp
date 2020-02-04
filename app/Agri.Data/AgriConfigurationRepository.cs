@@ -37,6 +37,12 @@ namespace Agri.Data
         private List<DensityUnit> _densityUnits;
         private List<DryMatter> _dryMatters;
         private List<ExternalLink> _externalLinks;
+
+        private List<FeedForageType> _feedForageType;
+        private List<Feed> _feedName;
+        private List<FeedConsumption> _feedConsumptions;
+
+        private List<FeedEfficiency> _feedEfficiencies;
         private List<FertilizerMethod> _fertilizerMethods;
         private List<Fertilizer> _fertilizers;
         private List<FertilizerType> _fertilizerTypes;
@@ -515,9 +521,89 @@ namespace Agri.Data
             if (_externalLinks == null)
             {
                 _externalLinks = _context.ExternalLinks.AsNoTracking().ToList();
+                _externalLinks = _context.ExternalLinks.AsNoTracking().ToList();
             }
 
             return _externalLinks;
+        }
+
+        public List<FeedForageType> GetFeedForageTypes()
+        {
+            if (_feedForageType == null)
+            {
+                _feedForageType = _context.FeedForageTypes.AsNoTracking().Where(x => x.StaticDataVersionId == GetStaticDataVersionId()).ToList();
+            }
+            return _feedForageType;
+        }
+
+        public List<Feed> GetFeedForageNames()
+        {
+            if (_feedName == null)
+            {
+                _feedName = _context.Feeds.Where(x => x.StaticDataVersionId == GetStaticDataVersionId()).ToList();
+            }
+            return _feedName;
+        }
+
+        //public Feed GetFeed(int id)
+        //{
+        //    return GetFeeds()
+        //        .Where(a => a.StaticDataVersionId == GetStaticDataVersionId() && a.Id == id)
+        //        .SingleOrDefault();
+        //}
+
+        ////public List<Feed> GetFeeds()
+        ////{
+        ////    if (_feeds == null)
+        ////    {
+        ////        _feeds = _context.Feeds.AsNoTracking()
+        ////            .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+        ////            .Include(a => a.FeedForageTypes)
+        ////            .ToList();
+        ////    }
+
+        ////    return _feeds;
+        ////}
+
+        ////public FeedForageType GetFeedForageType(int id)
+        ////{
+        ////    return GetFeedForageTypes().SingleOrDefault(ast => ast.Id == id);
+        ////}
+
+        //public List<FeedForageType> GetFeedForageTypes(int feeId)
+        //{
+        //    return GetFeed(feeId)
+        //        .FeedForageTypes
+        //            .ToList();
+        //}
+
+        //public List<FeedForageType> GetFeedForageTypes()
+        //{
+        //    return GetFeeds().SelectMany(a => a.FeedForageTypes).ToList();
+        //}
+
+        public List<FeedConsumption> GetFeedConsumption()
+        {
+            if (_feedConsumptions == null)
+            {
+                _feedConsumptions = _context.FeedConsumptions.AsNoTracking()
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
+            }
+
+            return _feedConsumptions;
+        }
+
+        public List<FeedEfficiency> GetFeedEfficiency()
+        {
+            if (_feedEfficiencies == null)
+            {
+                _feedEfficiencies = _context.FeedEfficiencies.AsNoTracking()
+                .Where(x => x.StaticDataVersionId == GetStaticDataVersionId())
+                .ToList();
+            }
+
+            return _feedEfficiencies;
         }
 
         public Fertilizer GetFertilizer(string id)
@@ -1383,6 +1469,10 @@ namespace Agri.Data
                 .Include(x => x.DefaultSoilTests)
                 .Include(x => x.DensityUnits)
                 .Include(x => x.DryMatters)
+                 .Include(x => x.Feeds)
+                 .Include(x => x.FeedForageTypes)
+                 .Include(x => x.FeedConsumptions)
+                .Include(x => x.FeedEfficiencies)
                 .Include(x => x.Fertilizers)
                 .Include(x => x.FertilizerMethods)
                 .Include(x => x.FertilizerTypes)
@@ -1913,6 +2003,10 @@ namespace Agri.Data
             response.DefaultSoilTests = _mapper.Map<List<DefaultSoilTest>, List<DefaultSoilTest>>(staticDataVersionToLoad.DefaultSoilTests).ToList();
             response.DensityUnits = _mapper.Map<List<DensityUnit>, List<DensityUnit>>(staticDataVersionToLoad.DensityUnits).ToList();
             response.DryMatters = _mapper.Map<List<DryMatter>, List<DryMatter>>(staticDataVersionToLoad.DryMatters).ToList();
+            response.Feeds = _mapper.Map<List<Feed>, List<Feed>>(staticDataVersionToLoad.Feeds).ToList();
+            response.FeedForageTypes = _mapper.Map<List<FeedForageType>, List<FeedForageType>>(staticDataVersionToLoad.FeedForageTypes).ToList();
+            response.FeedConsumptions = _mapper.Map<List<FeedConsumption>, List<FeedConsumption>>(staticDataVersionToLoad.FeedConsumptions).ToList();
+            response.FeedEfficiencies = _mapper.Map<List<FeedEfficiency>, List<FeedEfficiency>>(staticDataVersionToLoad.FeedEfficiencies).ToList();
             response.Fertilizers = _mapper.Map<List<Fertilizer>, List<Fertilizer>>(staticDataVersionToLoad.Fertilizers).ToList();
             response.FertilizerMethods = _mapper.Map<List<FertilizerMethod>, List<FertilizerMethod>>(staticDataVersionToLoad.FertilizerMethods).ToList();
             response.FertilizerTypes = _mapper.Map<List<FertilizerType>, List<FertilizerType>>(staticDataVersionToLoad.FertilizerTypes).ToList();
@@ -1965,6 +2059,10 @@ namespace Agri.Data
             response.DefaultSoilTests.ForEach(n => n.SetVersion(response));
             response.DensityUnits.ForEach(n => n.SetVersion(response));
             response.DryMatters.ForEach(n => n.SetVersion(response));
+            response.Feeds.ForEach(n => n.SetVersion(response));
+            response.FeedForageTypes.ForEach(n => n.SetVersion(response));
+            response.FeedConsumptions.ForEach(n => n.SetVersion(response));
+            response.FeedEfficiencies.ForEach(n => n.SetVersion(response));
             response.Fertilizers.ForEach(n => n.SetVersion(response));
             response.FertilizerMethods.ForEach(n => n.SetVersion(response));
             response.FertilizerTypes.ForEach(n => n.SetVersion(response));
