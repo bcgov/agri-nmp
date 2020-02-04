@@ -11,7 +11,7 @@
     <EmbeddedResource Include="SeedData\LocationsData.json" />
     <EmbeddedResource Include="SeedData\MiniAppLabelData.json" />
     <EmbeddedResource Include="SeedData\NutrientIconsData.json" />
-    <EmbeddedResource Include="SeedData\StaticDataVersion_4.json" />
+    <EmbeddedResource Include="SeedData\StaticDataVersion_5.json" />
     <EmbeddedResource Include="SeedData\MiniAppData.json" />
     <EmbeddedResource Include="SeedData\UserPromptsData.json" />
   </ItemGroup>
