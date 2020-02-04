@@ -31,6 +31,10 @@ namespace Agri.Data
         public DbSet<DensityUnit> DensityUnits { get; set; }
         public DbSet<DryMatter> DryMatters { get; set; }
         public DbSet<ExternalLink> ExternalLinks { get; set; }
+        public DbSet<Feed> Feeds { get; set; }
+        public DbSet<FeedForageType> FeedForageTypes { get; set; }
+        public DbSet<FeedConsumption> FeedConsumptions { get; set; }
+        public DbSet<FeedEfficiency> FeedEfficiencies { get; set; }
         public DbSet<Fertilizer> Fertilizers { get; set; }
         public DbSet<FertilizerMethod> FertilizerMethods { get; set; }
         public DbSet<FertilizerType> FertilizerTypes { get; set; }
@@ -189,6 +193,34 @@ namespace Agri.Data
                     table.Id,
                     table.StaticDataVersionId
                 });
+
+            modelBuilder.Entity<FeedConsumption>()
+             .HasKey(table => new
+             {
+                 table.Id,
+                 table.StaticDataVersionId
+             });
+
+            modelBuilder.Entity<FeedEfficiency>()
+              .HasKey(table => new
+              {
+                  table.Id,
+                  table.StaticDataVersionId
+              });
+
+            modelBuilder.Entity<Feed>()
+              .HasKey(table => new
+              {
+                  table.Id,
+                  table.StaticDataVersionId
+              });
+
+            modelBuilder.Entity<FeedForageType>()
+              .HasKey(table => new
+              {
+                  table.Id,
+                  table.StaticDataVersionId
+              });
 
             modelBuilder.Entity<Fertilizer>()
                 .HasKey(table => new
@@ -693,6 +725,8 @@ namespace Agri.Data
             modelBuilder.Entity<DefaultSoilTest>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DensityUnit>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DryMatter>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
+            modelBuilder.Entity<Feed>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
+            modelBuilder.Entity<FeedForageType>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Fertilizer>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<FertilizerMethod>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<FertilizerType>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);

@@ -59,7 +59,7 @@ namespace Agri.CalculateService
             ChemicalBalances cb = GetChemicalBalances(field, farmRegionId, year);
 
             //determine if a legume is included in the crops
-            var fieldCrops = field.crops;
+            var fieldCrops = field.Crops;
 
             if (fieldCrops.Count > 0)
             {
@@ -125,7 +125,7 @@ namespace Agri.CalculateService
             chemicalBalances.balance_CropK2O = 0;
 
             //List<FieldCrop> crps = _ud.GetFieldCrops(fldName);
-            foreach (var c in field.crops)
+            foreach (var c in field.Crops)
             {
                 chemicalBalances.balance_AgrN -= Convert.ToInt64(c.reqN);
                 chemicalBalances.balance_AgrP2O5 -= Convert.ToInt64(c.reqP2o5);
@@ -174,9 +174,9 @@ namespace Agri.CalculateService
             // include the Nitrogren credit as a result of adding manure in previous years
             // lookup default Nitrogen credit.
             //Field field = _ud.GetFieldDetails(fldName);
-            if (field.crops != null)
+            if (field.Crops != null)
             {
-                if (field.PreviousYearManureApplicationNitrogenCredit != null && field.crops.Count() > 0)
+                if (field.PreviousYearManureApplicationNitrogenCredit != null && field.Crops.Count() > 0)
                     chemicalBalances.balance_AgrN += Convert.ToInt32(field.PreviousYearManureApplicationNitrogenCredit);
                 else
                     // accomodate previous version of farm data - lookup default Nitrogen credit.
@@ -185,7 +185,7 @@ namespace Agri.CalculateService
                 {
                     if (_sd.IsNitrateCreditApplicable(farmRegionId, field.SoilTest.sampleDate, Convert.ToInt16(year)))
                     {
-                        if (field.SoilTestNitrateOverrideNitrogenCredit != null && field.crops.Count() > 0)
+                        if (field.SoilTestNitrateOverrideNitrogenCredit != null && field.Crops.Count() > 0)
                             chemicalBalances.balance_AgrN += Convert.ToInt32(Math.Round(Convert.ToDecimal(field.SoilTestNitrateOverrideNitrogenCredit)));
                         else
                             // accomodate previous version of farm data - lookup default Nitrogen credit.
@@ -203,7 +203,7 @@ namespace Agri.CalculateService
         {
             //iterate through the crops and update the crop requirements
             var fieldResult = field;
-            var fieldCrops = fieldResult.crops;
+            var fieldCrops = fieldResult.Crops;
 
             if (fieldCrops.Count > 0)
             {
@@ -298,7 +298,7 @@ namespace Agri.CalculateService
         {
             int LegumeRemovalN = 0;
 
-            foreach (var c in field.crops)
+            foreach (var c in field.Crops)
             {
                 LegumeRemovalN -= Convert.ToInt16(c.remN);
             }
@@ -324,11 +324,11 @@ namespace Agri.CalculateService
             {
                 string prevYearManureApplFrequency = field.PreviousYearManureApplicationFrequency;
                 int largestPrevYearManureVolumeCategory = 0;
-                if (field.crops != null)
+                if (field.Crops != null)
                 {
-                    if (field.crops.Count() > 0)
+                    if (field.Crops.Count() > 0)
                     {
-                        foreach (FieldCrop crop in field.crops)
+                        foreach (FieldCrop crop in field.Crops)
                             if (crop.prevYearManureAppl_volCatCd > largestPrevYearManureVolumeCategory)
                                 largestPrevYearManureVolumeCategory = crop.prevYearManureAppl_volCatCd;
                     }
@@ -342,9 +342,9 @@ namespace Agri.CalculateService
         {
             if (field != null)
             {
-                if (field.crops != null)
+                if (field.Crops != null)
                 {
-                    if (field.crops.Count() > 0 && field.SoilTest != null)
+                    if (field.Crops.Count() > 0 && field.SoilTest != null)
                     {
                         return field.SoilTest.valNO3H * _sd.GetSoilTestNitratePPMToPoundPerAcreConversionFactor();
                     }
@@ -356,9 +356,9 @@ namespace Agri.CalculateService
         public bool DisplayMessages(Field field)
         {
             //display balance messages when at least one Crop has been added
-            if (field.crops.Count > 0)
+            if (field.Crops.Count > 0)
             {
-                foreach (var crp in field.crops)
+                foreach (var crp in field.Crops)
                 {
                     Crop cp = _sd.GetCrop(Convert.ToInt32(crp.cropId));
                     if (cp.CropTypeId != 2)
