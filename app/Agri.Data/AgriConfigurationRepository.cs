@@ -81,7 +81,7 @@ namespace Agri.Data
             _mapper = mapper;
         }
 
-        private int GetStaticDataVersionId()
+        public int GetStaticDataVersionId()
         {
             return GetCurrentStaticDataVersion().Id;
         }
@@ -1866,19 +1866,25 @@ namespace Agri.Data
             return _context.ManageVersionUsers.SingleOrDefault(m => m.UserName == username);
         }
 
-        public void LoadConfigurations(StaticDataVersion staticDataVersionToLoad)
+        public void LoadConfigurations(StaticDataVersion staticDataVersionToLoad, int? maxStaticDataVersion = null)
         {
             var datestamp = DateTime.Now;
-            var newId = staticDataVersionToLoad.Id;
-            if (GetCurrentStaticDataVersion().Id >= staticDataVersionToLoad.Id)
+            var newId = GetCurrentStaticDataVersion().Id + 1;
+            if (GetCurrentStaticDataVersion().Id <= staticDataVersionToLoad.Id)
             {
                 newId = staticDataVersionToLoad.Id + 1;
             }
+
+            if (maxStaticDataVersion.GetValueOrDefault(0) > 0 && newId > maxStaticDataVersion)
+            {
+                return;
+            }
+
             var newVersion = new StaticDataVersion
             {
                 Id = newId,
                 Version = $"{datestamp.Year}.{datestamp.DayOfYear}.{newId}",
-                CreatedBy = staticDataVersionToLoad.CreatedBy,
+                CreatedBy = "System Load Configurations",
                 CreatedDateTime = staticDataVersionToLoad.CreatedDateTime
             };
             newVersion = MapFullGraphToStaticDataVersion(staticDataVersionToLoad, newVersion);

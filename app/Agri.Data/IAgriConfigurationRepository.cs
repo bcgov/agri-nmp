@@ -216,6 +216,8 @@ namespace Agri.Data
 
         string GetStaticDataVersion();
 
+        int GetStaticDataVersionId();
+
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
 
         PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(
@@ -333,7 +335,7 @@ namespace Agri.Data
 
         ManageVersionUser GetManagerVersionUser(string username);
 
-        void LoadConfigurations(StaticDataVersion staticDataVersionToLoad);
+        void LoadConfigurations(StaticDataVersion staticDataVersionToLoad, int? maxStaticDataVersion = null);
 
         Journey GetJourney(int journeyId);
     }
