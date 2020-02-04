@@ -43,12 +43,15 @@ namespace Agri.Data.Tests
             CreateMap<CropYield, CropYield>()
                 .ForMember(x => x.Crop, opt => opt.Ignore())
                 .ForMember(x => x.Location, opt => opt.Ignore());
+            CreateMap<DailyFeedRequirement, DailyFeedRequirement>();
             CreateMap<DefaultSoilTest, DefaultSoilTest>();
             CreateMap<DensityUnit, DensityUnit>()
                 .ForMember(x => x.LiquidFertilizerDensities, opt => opt.Ignore());
             CreateMap<DryMatter, DryMatter>()
                 .ForMember(x => x.Manures, opt => opt.Ignore());
             //CreateMap<ExternalLink, ExternalLink>();
+            CreateMap<Feed, Feed>();
+            CreateMap<FeedForageType, FeedForageType>();
             CreateMap<Fertilizer, Fertilizer>()
                 .ForMember(x => x.LiquidFertilizerDensities, opt => opt.Ignore());
             CreateMap<FertilizerMethod, FertilizerMethod>();

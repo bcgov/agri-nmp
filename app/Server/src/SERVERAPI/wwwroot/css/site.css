@@ -230,6 +230,15 @@ body {
     height: 52px;
 }
 
+.form-group-right-side-label {
+    display: flex
+}
+
+    .form-group-right-side-label .right-side-label-span {
+        padding-left: 5px;
+        padding-top: 15px
+    }
+
 .navbar-default {
     background-color: #38598a;
     border-color: #2e4a72;
@@ -395,6 +404,19 @@ body {
 
 .readonly-form {
     color: #808080
+}
+
+
+/* Number fields - remove spinner */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
 }
 
 /*Chevron Navigation Style*/

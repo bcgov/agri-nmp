@@ -186,6 +186,8 @@ namespace Agri.Data
 
         LiquidFertilizerDensity GetLiquidFertilizerDensity(int fertilizerId, int densityId);
 
+        List<DailyFeedRequirement> GetDailyFeedRequirement();
+
         DefaultSoilTest GetDefaultSoilTest();
 
         string GetDefaultSoilTestMethod();
@@ -213,6 +215,10 @@ namespace Agri.Data
         StaticDataVersion GetLatestVersionDataTree();
 
         string GetStaticDataVersion();
+
+        List<FeedForageType> GetFeedForageTypes();
+
+        List<Feed> GetFeedForageNames();
 
         int GetStaticDataVersionId();
 
@@ -333,7 +339,7 @@ namespace Agri.Data
 
         ManageVersionUser GetManagerVersionUser(string username);
 
-        void LoadConfigurations(StaticDataVersion staticDataVersionToLoad);
+        void LoadConfigurations(StaticDataVersion staticDataVersionToLoad, int? maxStaticDataVersion = null);
 
         Journey GetJourney(int journeyId);
     }

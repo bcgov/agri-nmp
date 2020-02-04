@@ -66,7 +66,6 @@ namespace SERVERAPI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<AppSettings>(Configuration);
-            //services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<AgriSeeder>();
 
             //// allow for large files to be uploaded
@@ -115,6 +114,7 @@ namespace SERVERAPI
             services.AddTransient<ICalculateManureGeneration, CalculateManureGeneration>();
             services.AddTransient<ICalculateNutrients, CalculateNutrients>();
             services.AddTransient<IChemicalBalanceMessage, ChemicalBalanceMessage>();
+            services.AddTransient<IFeedAreaCalculator, FeedAreaCalculator>();
             services.AddTransient<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
             services.AddTransient<IManureApplicationCalculator, ManureApplicationCalculator>();
             services.AddTransient<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
@@ -192,10 +192,7 @@ namespace SERVERAPI
             {
                 using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
                 {
-                    var refreshDatabase = Environment.GetEnvironmentVariable("REFRESH_DATABASE");
-
-                    if ((!string.IsNullOrEmpty(refreshDatabase) && refreshDatabase.ToLower() == "true") ||
-                        (options.Value.RefreshDatabase && _hostingEnv.IsDevelopment()))
+                    if (options.Value.RefreshDatabase && _hostingEnv.IsDevelopment())
                     {
                         context.Database.EnsureDeleted();
                     }

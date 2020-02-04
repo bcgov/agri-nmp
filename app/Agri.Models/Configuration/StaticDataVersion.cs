@@ -20,9 +20,14 @@ namespace Agri.Models.Configuration
             CropSoilTestPotassiumRegions = new List<CropSoilTestPotassiumRegion>();
             CropTypes = new List<CropType>();
             CropYields = new List<CropYield>();
+            DailyFeedRequirements = new List<DailyFeedRequirement>();
             DefaultSoilTests = new List<DefaultSoilTest>();
             DensityUnits = new List<DensityUnit>();
             DryMatters = new List<DryMatter>();
+            Feeds = new List<Feed>();
+            FeedForageTypes = new List<FeedForageType>();
+            FeedConsumptions = new List<FeedConsumption>();
+            FeedEfficiencies = new List<FeedEfficiency>();
             Fertilizers = new List<Fertilizer>();
             FertilizerMethods = new List<FertilizerMethod>();
             FertilizerTypes = new List<FertilizerType>();
@@ -60,13 +65,16 @@ namespace Agri.Models.Configuration
             SubRegions = new List<SubRegion>();
             Yields = new List<Yield>();
         }
-        
+
         [Key]
         public int Id { get; set; }
+
         [NotMapped]
         public string Version { get; set; }
+
         public DateTime CreatedDateTime { get; set; }
         public string CreatedBy { get; set; }
+
         [Column(TypeName = "VARCHAR(4000)")]
         public string Comments { get; set; }
 
@@ -81,9 +89,14 @@ namespace Agri.Models.Configuration
         public List<CropSoilTestPotassiumRegion> CropSoilTestPotassiumRegions { get; set; }
         public List<CropType> CropTypes { get; set; }
         public List<CropYield> CropYields { get; set; }
+        public List<DailyFeedRequirement> DailyFeedRequirements { get; set; }
         public List<DefaultSoilTest> DefaultSoilTests { get; set; }
         public List<DensityUnit> DensityUnits { get; set; }
         public List<DryMatter> DryMatters { get; set; }
+        public List<Feed> Feeds { get; set; }
+        public List<FeedForageType> FeedForageTypes { get; set; }
+        public List<FeedConsumption> FeedConsumptions { get; set; }
+        public List<FeedEfficiency> FeedEfficiencies { get; set; }
         public List<Fertilizer> Fertilizers { get; set; }
         public List<FertilizerMethod> FertilizerMethods { get; set; }
         public List<FertilizerType> FertilizerTypes { get; set; }
