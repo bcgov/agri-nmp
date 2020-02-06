@@ -11,11 +11,17 @@ namespace Agri.CalculateService
 {
     public interface IFeedAreaCalculator
     {
-        decimal GetK20AgronomicBalance(Field field, Region region);
+        decimal GetK20AgronomicBalance(Field field);
 
         decimal GetNitrogenAgronomicBalance(Field field, Region region);
 
-        decimal GetP205AgronomicBalance(Field field, Region region);
+        decimal GetP205AgronomicBalance(Field field);
+
+        decimal GetK20CropRemovalValue(Field field);
+
+        decimal GetNitrogenCropRemovalValue(Field field, Region region);
+
+        decimal GetP205CropRemovalValue(Field field);
     }
 
     public class FeedAreaCalculator : IFeedAreaCalculator
@@ -36,79 +42,28 @@ namespace Agri.CalculateService
                 return 0m;
             }
 
-            var feedEfficiencies = _db.FeedEfficiencies.ToList();
-            var matureFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("mature", StringComparison.OrdinalIgnoreCase)).Nitrogen;
-            var growingFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("growing", StringComparison.OrdinalIgnoreCase)).Nitrogen;
             var NMineralizationFirstYearValue = _repo
                 .GetNitrogeMineralizations()
                 .Single(nm => nm.LocationId == region.LocationId &&
                                 nm.Name.Contains("Solid - Other (<50%)", StringComparison.OrdinalIgnoreCase))
                 .FirstYearValue;
 
-            var matureAnimalFactor = GetMatureAnimalFactor(field);
-
-            var growingAnimalFactor = GetGrowingAnimalFactor(field);
-
-            var summation = 0M;
-
-            foreach (var analytic in field.FeedForageAnalyses)
-            {
-                summation +=
-                    ((matureAnimalFactor *
-                        (analytic.CrudeProteinPercent / 6.25M / 100M * matureFeedEfficiency))
-                    +
-
-                    (growingAnimalFactor *
-                        (analytic.CrudeProteinPercent / 6.25M / 100M * growingFeedEfficiency)))
-                    *
-                    (analytic.PercentOfTotalFeedForageToAnimals / 100) * ((100 + analytic.PercentOfFeedForageWastage) / 100)
-                    *
-                    ((100 - field.FeedingPercentageOutsideFeeingArea.GetValueOrDefault(0) / 100) * NMineralizationFirstYearValue);
-            }
-
-            var result = summation / (field.Area * 1M);
-
-            return Math.Round(result, 0);
+            return GetNitrogenValue(field, NMineralizationFirstYearValue);
         }
 
-        public decimal GetP205AgronomicBalance(Field field, Region region)
+        public decimal GetP205AgronomicBalance(Field field)
         {
             if (!field.IsSeasonalFeedingArea)
             {
                 return 0m;
             }
 
-            var feedEfficiencies = _db.FeedEfficiencies.ToList();
-            var matureFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("mature", StringComparison.OrdinalIgnoreCase)).Phosphorous;
-            var growingFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("growing", StringComparison.OrdinalIgnoreCase)).Phosphorous;
+            var phosphorousAvailabilityFirstYear = _repo.GetConversionFactor().PhosphorousAvailabilityFirstYear;
 
-            var matureAnimalFactor = GetMatureAnimalFactor(field);
-
-            var growingAnimalFactor = GetGrowingAnimalFactor(field);
-
-            var summation = 0M;
-
-            foreach (var analytic in field.FeedForageAnalyses)
-            {
-                summation +=
-                    ((matureAnimalFactor *
-                        (analytic.Phosphorus / 100M * matureFeedEfficiency))
-                    +
-
-                    (growingAnimalFactor *
-                        (analytic.Phosphorus / 100M * growingFeedEfficiency)))
-                    *
-                    (analytic.PercentOfTotalFeedForageToAnimals / 100) * ((100 + analytic.PercentOfFeedForageWastage) / 100)
-                    *
-                    ((100 - field.FeedingPercentageOutsideFeeingArea.GetValueOrDefault(0) / 100) * 0.7M * 2.29M);
-            }
-
-            var result = summation / (field.Area * 1M);
-
-            return Math.Round(result, 0);
+            return GetP205Value(field, phosphorousAvailabilityFirstYear);
         }
 
-        public decimal GetK20AgronomicBalance(Field field, Region region)
+        public decimal GetK20AgronomicBalance(Field field)
         {
             if (!field.IsSeasonalFeedingArea)
             {
@@ -138,6 +93,104 @@ namespace Agri.CalculateService
                     (analytic.PercentOfTotalFeedForageToAnimals / 100) * ((100 + analytic.PercentOfFeedForageWastage) / 100)
                     *
                     ((100 - field.FeedingPercentageOutsideFeeingArea.GetValueOrDefault(0) / 100) * 1.21M);
+            }
+
+            var result = summation / (field.Area * 1M);
+
+            return Math.Round(result, 0);
+        }
+
+        public decimal GetNitrogenCropRemovalValue(Field field, Region region)
+        {
+            if (!field.IsSeasonalFeedingArea)
+            {
+                return 0m;
+            }
+
+            var NMineralizationFirstYearValue = _repo
+                .GetNitrogeMineralizations()
+                .Single(nm => nm.LocationId == region.LocationId &&
+                                nm.Name.Contains("Solid - Other (<50%)", StringComparison.OrdinalIgnoreCase))
+                .LongTermValue;
+
+            return GetNitrogenValue(field, NMineralizationFirstYearValue);
+        }
+
+        public decimal GetP205CropRemovalValue(Field field)
+        {
+            if (!field.IsSeasonalFeedingArea)
+            {
+                return 0m;
+            }
+
+            var phosphorousAvailabilityFirstYear = _repo.GetConversionFactor().PhosphorousAvailabilityLongTerm;
+
+            return GetP205Value(field, phosphorousAvailabilityFirstYear);
+        }
+
+        public decimal GetK20CropRemovalValue(Field field)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal GetP205Value(Field field, decimal phosphorousAvailability)
+        {
+            var feedEfficiencies = _db.FeedEfficiencies.ToList();
+            var matureFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("mature", StringComparison.OrdinalIgnoreCase)).Phosphorous;
+            var growingFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("growing", StringComparison.OrdinalIgnoreCase)).Phosphorous;
+
+            var matureAnimalFactor = GetMatureAnimalFactor(field);
+
+            var growingAnimalFactor = GetGrowingAnimalFactor(field);
+
+            var summation = 0M;
+
+            foreach (var analytic in field.FeedForageAnalyses)
+            {
+                summation +=
+                    ((matureAnimalFactor *
+                        (analytic.Phosphorus / 100M * matureFeedEfficiency))
+                    +
+
+                    (growingAnimalFactor *
+                        (analytic.Phosphorus / 100M * growingFeedEfficiency)))
+                    *
+                    (analytic.PercentOfTotalFeedForageToAnimals / 100) * ((100 + analytic.PercentOfFeedForageWastage) / 100)
+                    *
+                    (100 - field.FeedingPercentageOutsideFeeingArea.GetValueOrDefault(0) / 100)
+                        * phosphorousAvailability * 2.29M;
+            }
+
+            var result = summation / (field.Area * 1M);
+
+            return Math.Round(result, 0);
+        }
+
+        public decimal GetNitrogenValue(Field field, decimal nitrogenMineralization)
+        {
+            var feedEfficiencies = _db.FeedEfficiencies.ToList();
+            var matureFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("mature", StringComparison.OrdinalIgnoreCase)).Nitrogen;
+            var growingFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("growing", StringComparison.OrdinalIgnoreCase)).Nitrogen;
+
+            var matureAnimalFactor = GetMatureAnimalFactor(field);
+
+            var growingAnimalFactor = GetGrowingAnimalFactor(field);
+
+            var summation = 0M;
+
+            foreach (var analytic in field.FeedForageAnalyses)
+            {
+                summation +=
+                    ((matureAnimalFactor *
+                        (analytic.CrudeProteinPercent / 6.25M / 100M * matureFeedEfficiency))
+                    +
+
+                    (growingAnimalFactor *
+                        (analytic.CrudeProteinPercent / 6.25M / 100M * growingFeedEfficiency)))
+                    *
+                    (analytic.PercentOfTotalFeedForageToAnimals / 100) * ((100 + analytic.PercentOfFeedForageWastage) / 100)
+                    *
+                    ((100 - field.FeedingPercentageOutsideFeeingArea.GetValueOrDefault(0) / 100) * nitrogenMineralization);
             }
 
             var result = summation / (field.Area * 1M);

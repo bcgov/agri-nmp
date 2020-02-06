@@ -104,8 +104,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                     {
                         var calculatedValue = calculatedFields.Single(f => f.Id == field.Id);
                         calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
-                        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
-                        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
+                        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field);
+                        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field);
                         calculatedValue.isFeedForageAvailable = true;
                         ////HardCode to check
                         //calculatedValue.NBalance = 10;
