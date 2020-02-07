@@ -187,8 +187,8 @@ pipeline {
             }
             steps {
                 echo "Removing PR based artifacts from DEV namespace ..."
-                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=build"
-                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=dev"
+                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=${buildEnvironment}"
+                sh "cd .pipeline && ./npmw ci && ./npmw run clean -- --pr=${CHANGE_ID} --env=${devEnvironment}"
             }
         }
     }
