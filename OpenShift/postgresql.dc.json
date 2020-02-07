@@ -69,7 +69,7 @@
       "displayName": "Version of PostgreSQL Image",
       "name": "POSTGRESQL_VERSION",
       "required": true,
-      "value": "9.6"
+      "value": "10"
     },
     {
       "name": "CPU_LIMIT",
@@ -87,14 +87,14 @@
       "displayName": "Persistent Volume Size",
       "description": "The size of the persistent volume , e.g. 512Mi, 1Gi, 2Gi.",
       "required": true,
-      "value": "1Gi"
+      "value": "512Mi"
     },
     {
       "name": "PERSISTENT_VOLUME_CLASS",
       "displayName": "Persistent Volume Class name",
-      "description": "The class of the volume; gluster-file, gluster-block, gluster-file-db",
+      "description": "The class of the volume; gluster-file, gluster-block, gluster-file-db, netapp-file-standard, netapp-block-standard",
       "required": false,
-      "value": "gluster-file-db"
+      "value": "netapp-file-standard"
     },
     {
       "name": "CPU_REQUEST",
@@ -103,13 +103,6 @@
     {
       "name": "MEMORY_REQUEST",
       "value": "1.5Gi"
-    },
-    {
-      "description": "Version of PostgreSQL image to be used (9.5 or 9.6).",
-      "displayName": "Version of PostgreSQL Image",
-      "name": "IMAGE_STREAM_VERSION",
-      "required": true,
-      "value": "v1-stable"
     }
   ],
   "objects": [
@@ -164,10 +157,9 @@
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}${SUFFIX}",
+        "name": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}",
         "annotations": {
-          "volume.beta.kubernetes.io/storage-class": "gluster-file-db",
-          "volume.beta.kubernetes.io/storage-provisioner": "kubernetes.io/glusterfs"
+          "volume.beta.kubernetes.io/storage-class": "${PERSISTENT_VOLUME_CLASS}"
         }
       },
       "spec": {
@@ -284,7 +276,7 @@
                 "volumeMounts": [
                   {
                     "mountPath": "/var/lib/pgsql/data",
-                    "name": "${DATABASE_SERVICE_NAME}${SUFFIX}-data"
+                    "name": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}-data"
                   }
                 ]
               }
@@ -293,9 +285,9 @@
             "restartPolicy": "Always",
             "volumes": [
               {
-                "name": "${DATABASE_SERVICE_NAME}${SUFFIX}-data",
+                "name": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}-data",
                 "persistentVolumeClaim": {
-                  "claimName": "${DATABASE_SERVICE_NAME}${SUFFIX}"
+                  "claimName": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}"
                 }
               }
             ]

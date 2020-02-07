@@ -7,25 +7,25 @@
   },
   "parameters": [
     {
-        "name": "NAME",
-        "displayName": "Name",
-        "description": "The name or prefix for all created objects",
-        "required": true,
-        "value": "nmp"
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name or prefix for all created objects",
+      "required": true,
+      "value": "nmp"
     },
     {
-        "name": "SUFFIX",
-        "displayName": "Name Suffix",
-        "description": "The name suffix for all created objects",
-        "required": true,
-        "value": ""
+      "name": "SUFFIX",
+      "displayName": "Name Suffix",
+      "description": "The name suffix for all created objects",
+      "required": true,
+      "value": ""
     },
     {
-        "name": "VERSION",
-        "displayName": "Tag Version",
-        "description": "Tag version for all created objects",
-        "required": true,
-        "value": ""
+      "name": "VERSION",
+      "displayName": "Tag Version",
+      "description": "Tag version for all created objects",
+      "required": true,
+      "value": ""
     },
     {
       "name": "HOST",
@@ -51,6 +51,12 @@
       "displayName": "Number of Replicas for PDF",
       "description": "Number of Replicas for PDF",
       "value": "1"
+    },
+    {
+      "name": "MS_TEAMS_WEBHOOK_URL",
+      "displayName": "MS Teams Webhook URL",
+      "description": "MS Teams Webhook URL",
+      "value": ""
     }
   ],
   "objects": [
@@ -93,9 +99,25 @@
           "rollingParams": {
             "updatePeriodSeconds": 1,
             "intervalSeconds": 1,
-            "timeoutSeconds": 600,
+            "timeoutSeconds": 900,
             "maxUnavailable": "25%",
-            "maxSurge": "25%"
+            "maxSurge": "25%",
+            "post": {
+              "execNewPod": {
+                "command": [
+                  "curl",
+                  "-X",
+                  "POST",
+                  "-H",
+                  "Content-Type: application/json",
+                  "--data",
+                  "{\"@type\": \"MessageCard\", \"@context\": \"http://schema.org/extensions\", \"themeColor\": \"0076D7\", \"summary\": \"Openshift Deployment Status\", \"sections\": [{ \"activityTitle\": \"Openshift Deployment Status\", \"activitySubtitle\": \"AGRI NMP project\", \"facts\": [{\"name\": \"Description:\",\"value\": \"**[https://${HOST}](https://${HOST})** has been deployed.\"}],\"markdown\": true}]}",
+                  "${MS_TEAMS_WEBHOOK_URL}"
+                ],
+                "containerName": "${NAME}-web${SUFFIX}"
+              },
+              "failurePolicy": "Ignore"
+            }
           },
           "resources": {},
           "activeDeadlineSeconds": 21600
@@ -177,6 +199,18 @@
                   {
                     "name": "POSTGRESQL_URI",
                     "value": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}"
+                  },
+                  {
+                    "name": "LOAD_SEED_DATA",
+                    "value": "false"
+                  },
+                  {
+                    "name": "EXPECTED_SEED_DATA_VERSION",
+                    "value": "0"
+                  },
+                  {
+                    "name": "WEASYPRINT_URL",
+                    "value": "http://${NAME}-weasyprint${SUFFIX}:5001"
                   }
                 ],
                 "resources": {
