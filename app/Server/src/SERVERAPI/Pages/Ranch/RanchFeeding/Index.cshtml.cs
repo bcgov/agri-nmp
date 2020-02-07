@@ -107,10 +107,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                         calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field);
                         calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field);
                         calculatedValue.isFeedForageAvailable = true;
-                        ////HardCode to check
-                        //calculatedValue.NBalance = 10;
-                        //calculatedValue.P205Balance = 20;
-                        //calculatedValue.K20Balance = 30;
                     }
                 }
 

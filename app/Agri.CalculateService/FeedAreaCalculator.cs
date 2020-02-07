@@ -69,35 +69,7 @@ namespace Agri.CalculateService
             {
                 return 0m;
             }
-
-            var feedEfficiencies = _db.FeedEfficiencies.ToList();
-            var matureFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("mature", StringComparison.OrdinalIgnoreCase)).Potassium;
-            var growingFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("growing", StringComparison.OrdinalIgnoreCase)).Potassium;
-
-            var matureAnimalFactor = GetMatureAnimalFactor(field);
-
-            var growingAnimalFactor = GetGrowingAnimalFactor(field);
-
-            var summation = 0M;
-
-            foreach (var analytic in field.FeedForageAnalyses)
-            {
-                summation +=
-                    ((matureAnimalFactor *
-                        (analytic.Potassium / 100M * matureFeedEfficiency))
-                    +
-
-                    (growingAnimalFactor *
-                        (analytic.Potassium / 100M * growingFeedEfficiency)))
-                    *
-                    (analytic.PercentOfTotalFeedForageToAnimals / 100) * ((100 + analytic.PercentOfFeedForageWastage) / 100)
-                    *
-                    ((100 - field.FeedingPercentageOutsideFeeingArea.GetValueOrDefault(0) / 100) * 1.21M);
-            }
-
-            var result = summation / (field.Area * 1M);
-
-            return Math.Round(result, 0);
+            return GetK20Value(field);
         }
 
         public decimal GetNitrogenCropRemovalValue(Field field, Region region)
@@ -130,7 +102,11 @@ namespace Agri.CalculateService
 
         public decimal GetK20CropRemovalValue(Field field)
         {
-            throw new NotImplementedException();
+            if (!field.IsSeasonalFeedingArea)
+            {
+                return 0m;
+            }
+            return GetK20Value(field);
         }
 
         public decimal GetP205Value(Field field, decimal phosphorousAvailability)
@@ -209,6 +185,38 @@ namespace Agri.CalculateService
             }
 
             return result;
+        }
+
+        private decimal GetK20Value(Field field)
+        {
+            var feedEfficiencies = _db.FeedEfficiencies.ToList();
+            var matureFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("mature", StringComparison.OrdinalIgnoreCase)).Potassium;
+            var growingFeedEfficiency = feedEfficiencies.Single(f => f.AnimalType.Contains("growing", StringComparison.OrdinalIgnoreCase)).Potassium;
+
+            var matureAnimalFactor = GetMatureAnimalFactor(field);
+
+            var growingAnimalFactor = GetGrowingAnimalFactor(field);
+
+            var summation = 0M;
+
+            foreach (var analytic in field.FeedForageAnalyses)
+            {
+                summation +=
+                    ((matureAnimalFactor *
+                        (analytic.Potassium / 100M * matureFeedEfficiency))
+                    +
+
+                    (growingAnimalFactor *
+                        (analytic.Potassium / 100M * growingFeedEfficiency)))
+                    *
+                    (analytic.PercentOfTotalFeedForageToAnimals / 100) * ((100 + analytic.PercentOfFeedForageWastage) / 100)
+                    *
+                    ((100 - field.FeedingPercentageOutsideFeeingArea.GetValueOrDefault(0) / 100) * 1.21M);
+            }
+
+            var result = summation / (field.Area * 1M);
+
+            return Math.Round(result, 0);
         }
 
         private decimal GetGrowingAnimalFactor(Field field)
