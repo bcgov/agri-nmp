@@ -21,8 +21,8 @@ void createCommitStatus (String name, String status) {
         GitHubHelper.getPullRequestLastCommitId(this),
         status,
         "${env.BUILD_URL}",
-        "${name}",
-        "${name}"
+        "Stage '${name}'",
+        "Stage: ${name}"
     )
 }
 
@@ -98,9 +98,7 @@ pipeline {
                 sh "cd .pipeline && ./npmw ci && ./npmw run build -- --pr=${CHANGE_ID}"
                 
                 // Report status to GitHub
-                createCommitStatus (buildEnvironment, 'SUCCESS')
-                // The corresponding Pending status for the below is posted by Jenkins image.
-                createCommitStatus ('continuous-integration/jenkins/pr-head', 'SUCCESS')           
+                createCommitStatus (buildEnvironment, 'SUCCESS')         
             }
         }
         stage('Deploy (DEV)') {
