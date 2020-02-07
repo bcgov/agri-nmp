@@ -21,8 +21,8 @@ void createCommitStatus (String name, String status) {
         GitHubHelper.getPullRequestLastCommitId(this),
         status,
         "${env.BUILD_URL}",
-        "Stage '${name}'",
-        "Stage: ${name}"
+        "${name}",
+        "${name}"
     )
 }
 
