@@ -121,11 +121,11 @@
                 "resources": {
                     "requests": {
                         "cpu": "500m",
-                        "memory": "3Gi"
+                        "memory": "2Gi"
                     },
                     "limits": {
                         "cpu": "1000m",
-                        "memory": "2Gi"
+                        "memory": "4Gi"
                     }                    
                 },
                 "postCommit": {},
