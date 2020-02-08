@@ -4,6 +4,7 @@ using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
+using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.NodeServices;
@@ -43,6 +44,7 @@ namespace SERVERAPI.Controllers
         private readonly IHostingEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
+        private readonly IMapper _mapper;
         private readonly IViewRenderService _viewRenderService;
         private readonly ICalculateAnimalRequirement _calculateAnimalRequirement;
         private readonly ICalculateCropRequirementRemoval _calculateCropRequirementRemoval;
@@ -56,6 +58,7 @@ namespace SERVERAPI.Controllers
             IViewRenderService viewRenderService,
             UserData ud,
             IAgriConfigurationRepository sd,
+            IMapper mapper,
             ICalculateAnimalRequirement calculateAnimalRequirement,
             ICalculateCropRequirementRemoval calculateCropRequirementRemoval,
             ICalculateNutrients calculateNutrients,
@@ -67,6 +70,7 @@ namespace SERVERAPI.Controllers
             _env = env;
             _ud = ud;
             _sd = sd;
+            _mapper = mapper;
             _viewRenderService = viewRenderService;
             _calculateAnimalRequirement = calculateAnimalRequirement;
             _calculateCropRequirementRemoval = calculateCropRequirementRemoval;
@@ -1130,6 +1134,32 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
+        public async Task<string> RenderSeasonalFeedAreaSummary()
+        {
+            var fields = _ud.GetFields();
+            var viewModel = new ReportSeasonalFeedAreaViewModel
+            {
+                Fields = _mapper.Map<List<Field>, List<ReportSeasonalFeedAreaViewModel.Field>>(fields)
+            };
+
+            var result = await _viewRenderService
+                .RenderToStringAsync("~/Views/Report/ReportSeasonalFeedArea.cshtml", viewModel);
+
+            return result;
+        }
+
+        public class MappingProfile : Profile
+        {
+            public MappingProfile()
+            {
+                CreateMap<Field, ReportSeasonalFeedAreaViewModel.Field>()
+                    .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
+                    .ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.PreviousYearManureApplicationFrequency))
+                    .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area));
+                CreateMap<FeedForageAnalysis, ReportSeasonalFeedAreaViewModel.FeedForageAnalysis>();
+            }
+        }
+
         public async Task<string> RenderTableOfContents(bool hasFertilizers, bool hasSoilTests)
         {
             var vm = new ReportTableOfContentsViewModel();
@@ -1585,6 +1615,7 @@ namespace SERVERAPI.Controllers
             var reportFields = string.Empty;
             var reportAnalysis = string.Empty;
             var reportSummary = string.Empty;
+            var reportFeedingArea = string.Empty;
 
             Parallel.Invoke(
                 //async () => { reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests); },
@@ -1598,6 +1629,7 @@ namespace SERVERAPI.Controllers
                     reportManureUse = await RenderManureUse();
                     reportSummary = await RenderSummary();
                     reportAnalysis = await RenderAnalysis();
+                    reportFeedingArea = await RenderSeasonalFeedAreaSummary();
                 },
                 async () => { reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes(); }
             );
@@ -1661,6 +1693,12 @@ namespace SERVERAPI.Controllers
             {
                 report += pageBreak;
                 report += reportAnalysis;
+            }
+
+            if (reportAnalysis.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportFeedingArea;
             }
 
             if (reportSummary.Contains("div"))

@@ -258,28 +258,26 @@ namespace Agri.CalculateService
         {
             long LegumeAgronomicN = 0;
 
-            //List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName)
-            var manures = field.Nutrients.nutrientManures;
-            foreach (var m in manures)
+            if (field.HasNutrients)
             {
-                LegumeAgronomicN += Convert.ToInt64(m.yrN);
-            }
+                var manures = field.Nutrients.nutrientManures;
+                foreach (var m in manures)
+                {
+                    LegumeAgronomicN += Convert.ToInt64(m.yrN);
+                }
 
-            //List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
-            var fertilizers = field.Nutrients.nutrientFertilizers;
-            foreach (var f in fertilizers)
-            {
-                LegumeAgronomicN += Convert.ToInt64(f.fertN);
-            }
+                var fertilizers = field.Nutrients.nutrientFertilizers;
+                foreach (var f in fertilizers)
+                {
+                    LegumeAgronomicN += Convert.ToInt64(f.fertN);
+                }
 
-            //List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
-            var others = field.Nutrients.nutrientOthers;
-            foreach (var m in others)
-            {
-                LegumeAgronomicN += Convert.ToInt64(m.yrN);
+                var others = field.Nutrients.nutrientOthers;
+                foreach (var m in others)
+                {
+                    LegumeAgronomicN += Convert.ToInt64(m.yrN);
+                }
             }
-
-            //Field field = _ud.GetFieldDetails(fldName);
 
             if (field.PreviousYearManureApplicationNitrogenCredit != null)
                 LegumeAgronomicN += Convert.ToInt64(field.PreviousYearManureApplicationNitrogenCredit);

@@ -1,0 +1,196 @@
+﻿@model SERVERAPI.ViewModels.ReportSeasonalFeedAreaViewModel
+
+@{
+    var count = 0;
+}
+
+@foreach (var field in Model.Fields)
+{
+    count += 1;
+    @if (count > 1)
+    {
+        <div style="page-break-after:always;">&nbsp;</div>
+    }
+    <div class="Row">
+        <div class="Cell">
+            <span style="font-size:10pt"><b>@field.FieldName Feeding Area</b></span>
+            <br />
+            <br />
+        </div>
+    </div>
+    <div class="Row" style="padding-bottom:20px">
+        <div class="Cell">
+            <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <tr>
+                    <td class="CellHdg" style="">
+                        <b>Area</b>
+                    </td>
+                    <td class="CellDtl" style="">
+                        @field.FieldArea acres
+                    </td>
+                    <td class="CellHdg" style="" rowspan="2">
+                        Comments:
+                    </td>
+                    <td class="CellDtl" style="" rowspan="2">
+                        @(string.IsNullOrEmpty(field.FieldComment) ? Html.Raw("&nbsp;") : Html.Raw(field.FieldComment))
+                    </td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="" colspan="2">
+                        Duration of feeding: @field.FeedingDaysSpentInFeedingArea days
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="Row" style="padding-bottom:20px">
+        <div class="Cell">
+            <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <tr>
+                    <td colspan="5">
+                        <b>Animals</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="">
+                        @field.MatureAnimalCount
+                    </td>
+                    <td class="CellHdg" style="">
+                        <b>Mature</b>
+                    </td>
+                    <td class="CellDtl" style="">
+                    </td>
+                    <td class="CellDtl" style="">
+                        Averaging @field.MatureAnimalAverageWeight lbs
+                    </td>
+                    <td class="CellDtl" style="">
+                        @field.MatureAnimalDailyFeedRequirementId
+                    </td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="">
+                        @field.GrowingAnimalCount
+                    </td>
+                    <td class="CellHdg" style="">
+                        <b>Growing</b>
+                    </td>
+                    <td class="CellDtl" style="">
+                    </td>
+                    <td class="CellDtl" style="">
+                        Averaging @field.GrowingAnimalAverageWeight lbs
+                    </td>
+                    <td class="CellDtl" style="">
+                        @field.GrowingAnimalDailyFeedRequirementId
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="Row" style="padding-bottom:20px">
+        <div class="Cell">
+            <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <tr>
+                    <td colspan="5">
+                        <b>Calculated feed requirement:</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="">
+                        ### tons for mature  animals over ## days
+                    </td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="">
+                        ### tons for mature  animals over ## days
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    @foreach (var analytic in field.FeedForageAnalyses)
+    {
+        <div class="Row">
+            <div class="Cell">
+                <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                    <tr>
+                        <td class="CellHdg" style="" rowspan="2">
+                            <b>Feed @analytic.FeedForageId</b>
+                        </td>
+                        <td class="CellHdg" style="">
+                            <b>Feed Type</b>
+                        </td>
+                        <td class="CellDtl" style="">
+                            @(analytic.PercentOfTotalFeedForageToAnimals) % of intake
+                        </td>
+                        <td class="CellDtl" style="">
+                            @(analytic.PercentOfFeedForageWastage) % wasted feed
+                        </td>
+                        <td class="CellDtl" style="">
+                            &nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="CellHdg" style="">
+                            <span>Analysis</span>
+                            <span>@(analytic.UseBookValues ? "Default" : "Custom")</span>
+                        </td>
+                        <td class="CellDtl" style="">
+                            @analytic.CrudeProteinPercent %CP
+                        </td>
+                        <td class="CellDtl" style="">
+                            @(analytic.Phosphorus) %P
+                        </td>
+                        <td class="CellDtl" style="">
+                            @(analytic.Potassium) %K
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+    <div class="Row" style="padding-top:20px;">
+        <div class="Cell">
+            <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <tr style="padding-top:20px; padding-bottom:20px">
+                    <td class="CellDtl" rowspan="3">
+                        Feed management over the @field.FeedingDaysSpentInFeedingArea day
+                        feeding period can contribute the following total nutrient value to the soil.
+                    </td>
+                    <td class="CellDtl" style="">N</td>
+                    <td class="CellDtl" style="">P<sub>2</sub><sub>O5</sub></td>
+                    <td class="CellDtl" style="">K<sub>2</sub>O</td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" colspan="3" style="">N</td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="">N</td>
+                    <td class="CellDtl" style="">P<sub>2</sub><sub>O5</sub></td>
+                    <td class="CellDtl" style="">K<sub>2</sub>O</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="Row" style="padding-top:20px;">
+        <div class="Cell">
+            <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <tr>
+                    <td class="CellDtl" rowspan="3">
+                        The short-term nutrient benefit to the growing season following winter feeding may be up to
+                    </td>
+                    <td class="CellDtl" style="">N</td>
+                    <td class="CellDtl" style="">P<sub>2</sub><sub>O5</sub></td>
+                    <td class="CellDtl" style="">K<sub>2</sub>O</td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" colspan="3" style="">N</td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="">N</td>
+                    <td class="CellDtl" style="">P<sub>2</sub><sub>O5</sub></td>
+                    <td class="CellDtl" style="">K<sub>2</sub>O</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
