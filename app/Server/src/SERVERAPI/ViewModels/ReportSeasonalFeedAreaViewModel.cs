@@ -35,6 +35,12 @@ namespace SERVERAPI.ViewModels
             public int? GrowingAnimalDailyFeedRequirementId { get; set; }
             public string DailyFeedWarning { get; set; }
             public List<FeedForageAnalysis> FeedForageAnalyses { get; set; } = new List<FeedForageAnalysis>();
+            public decimal NAgroBalance { get; set; }
+            public decimal P205AgroBalance { get; set; }
+            public decimal K20AgroBalance { get; set; }
+            public decimal NCropRemovalValue { get; set; }
+            public decimal P205CropRemovalValue { get; set; }
+            public decimal K20CropRemovalValue { get; set; }
         }
 
         public class FeedForageAnalysis

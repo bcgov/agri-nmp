@@ -52,6 +52,7 @@ namespace SERVERAPI.Controllers
         private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
         private readonly IManureApplicationCalculator _manureApplicationCalculator;
         private readonly ISoilTestConverter _soilTestConverter;
+        private readonly IFeedAreaCalculator _feedCalculator;
 
         public ReportController(ILogger<ReportController> logger,
             IHostingEnvironment env,
@@ -64,7 +65,9 @@ namespace SERVERAPI.Controllers
             ICalculateNutrients calculateNutrients,
             IChemicalBalanceMessage chemicalBalanceMessage,
             IManureApplicationCalculator manureApplicationCalculator,
-            ISoilTestConverter soilTestConverter)
+            ISoilTestConverter soilTestConverter,
+            IFeedAreaCalculator feedCalculator
+            )
         {
             _logger = logger;
             _env = env;
@@ -78,6 +81,7 @@ namespace SERVERAPI.Controllers
             _chemicalBalanceMessage = chemicalBalanceMessage;
             _manureApplicationCalculator = manureApplicationCalculator;
             _soilTestConverter = soilTestConverter;
+            _feedCalculator = feedCalculator;
         }
 
         [HttpGet]
@@ -1141,6 +1145,21 @@ namespace SERVERAPI.Controllers
             {
                 Fields = _mapper.Map<List<Field>, List<ReportSeasonalFeedAreaViewModel.Field>>(fields)
             };
+
+            var region = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value);
+            foreach (var field in fields)
+            {
+                if (field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
+                {
+                    var mappedField = viewModel.Fields.Single(f => f.Id == field.Id);
+                    mappedField.NAgroBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
+                    mappedField.P205AgroBalance = _feedCalculator.GetP205AgronomicBalance(field);
+                    mappedField.K20AgroBalance = _feedCalculator.GetK20AgronomicBalance(field);
+                    mappedField.NCropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field);
+                    mappedField.P205CropRemovalValue = _feedCalculator.GetP205CropRemovalValue(field);
+                    mappedField.K20CropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field);
+                }
+            }
 
             var result = await _viewRenderService
                 .RenderToStringAsync("~/Views/Report/ReportSeasonalFeedArea.cshtml", viewModel);
