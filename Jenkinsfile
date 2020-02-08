@@ -3,6 +3,9 @@
 import groovy.json.JsonOutput
 import bcgov.GitHubHelper
 
+// Note: the below variables are also declared in config.js, but there is no way to reference them in the Jenkins file
+// The way BCDK is currently working, the Github Status Updates need to be done from the Jenkins file, hence
+// some messy code in this file.
 buildEnvironment = "build"
 
 devEnvironment = "dev"
