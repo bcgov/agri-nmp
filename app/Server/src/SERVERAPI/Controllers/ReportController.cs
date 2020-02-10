@@ -1147,6 +1147,8 @@ namespace SERVERAPI.Controllers
             };
 
             var region = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value);
+            var dailyFeedRequirements = _sd.GetDailyFeedRequirement();
+
             foreach (var field in fields)
             {
                 if (field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
@@ -1158,6 +1160,12 @@ namespace SERVERAPI.Controllers
                     mappedField.NCropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field);
                     mappedField.P205CropRemovalValue = _feedCalculator.GetP205CropRemovalValue(field);
                     mappedField.K20CropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field);
+                    mappedField.MatureAnimalDailyFeedRequirement = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Value;
+                    mappedField.GrowingAnimalDailyFeedRequirement = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Value;
                 }
             }
 
@@ -1173,7 +1181,6 @@ namespace SERVERAPI.Controllers
             {
                 CreateMap<Field, ReportSeasonalFeedAreaViewModel.Field>()
                     .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
-                    .ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.PreviousYearManureApplicationFrequency))
                     .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area));
                 CreateMap<FeedForageAnalysis, ReportSeasonalFeedAreaViewModel.FeedForageAnalysis>();
             }

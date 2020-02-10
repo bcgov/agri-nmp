@@ -19,12 +19,7 @@ namespace SERVERAPI.ViewModels
             public decimal? FieldArea { get; set; }
             public string FieldComment { get; set; }
 
-            public string SelectPrevYrManureOption { get; set; }
-            public string PrevYearManureApplicationFrequency { get; set; }
-            public int? PrevYearManureApplicationNitrogenCredit { get; set; }
-
             public bool IsSeasonalFeedingArea { get; set; }
-            public string SeasonalFeedingArea { get; set; }
             public int? FeedingDaysSpentInFeedingArea { get; set; }
             public int? FeedingPercentageOutsideFeeingArea { get; set; }
             public int? MatureAnimalCount { get; set; }
@@ -32,8 +27,31 @@ namespace SERVERAPI.ViewModels
             public int? MatureAnimalAverageWeight { get; set; }
             public int? GrowingAnimalAverageWeight { get; set; }
             public int? MatureAnimalDailyFeedRequirementId { get; set; }
+            public decimal? MatureAnimalDailyFeedRequirement { get; set; }
+
+            public int CalculatedMatureFeedRequirement
+            {
+                get
+                {
+                    return Convert.ToInt32(MatureAnimalDailyFeedRequirement.GetValueOrDefault(0) *
+                        MatureAnimalAverageWeight.GetValueOrDefault(0) *
+                        FeedingDaysSpentInFeedingArea.GetValueOrDefault(0));
+                }
+            }
+
             public int? GrowingAnimalDailyFeedRequirementId { get; set; }
-            public string DailyFeedWarning { get; set; }
+            public decimal? GrowingAnimalDailyFeedRequirement { get; set; }
+
+            public int CalculatedGrowingFeedRequirement
+            {
+                get
+                {
+                    return Convert.ToInt32(GrowingAnimalDailyFeedRequirement.GetValueOrDefault(0) *
+                        GrowingAnimalAverageWeight.GetValueOrDefault(0) *
+                        FeedingDaysSpentInFeedingArea.GetValueOrDefault(0));
+                }
+            }
+
             public List<FeedForageAnalysis> FeedForageAnalyses { get; set; } = new List<FeedForageAnalysis>();
             public decimal NAgroBalance { get; set; }
             public decimal P205AgroBalance { get; set; }
