@@ -16,7 +16,8 @@ namespace SERVERAPI.ViewComponents
         private readonly UserData _ud;
         private readonly IFeedAreaCalculator _feedCalculator;
 
-        public CalcFeedAreaViewComponent(IAgriConfigurationRepository sd, UserData ud, IFeedAreaCalculator feedCalculator)
+        public CalcFeedAreaViewComponent(IAgriConfigurationRepository sd, UserData ud,
+            IFeedAreaCalculator feedCalculator)
         {
             _sd = sd;
             _ud = ud;
@@ -44,7 +45,7 @@ namespace SERVERAPI.ViewComponents
                     NAgroBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region),
                     P205AgroBalance = _feedCalculator.GetP205AgronomicBalance(field),
                     K20AgroBalance = _feedCalculator.GetK20AgronomicBalance(field),
-                    NCropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field),
+                    NCropRemovalValue = _feedCalculator.GetNitrogenCropRemovalValue(field, region),
                     P205CropRemovalValue = _feedCalculator.GetP205CropRemovalValue(field),
                     K20CropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field)
                 };
