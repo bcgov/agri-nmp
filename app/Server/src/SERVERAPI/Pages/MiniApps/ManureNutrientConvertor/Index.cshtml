@@ -1,0 +1,247 @@
+﻿@page
+@model SERVERAPI.Pages.MiniApps.ManureNutrientConvertor.Index
+@using Agri.Models
+@{
+    ViewData["Title"] = "Manure Nutrient Convertor";
+    Layout = "_MiniAppLayout";
+}
+
+<div class="container" style="margin-top:30px">
+    <div class="step-forms col-sm-12">
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <div class="form-box-heading">Manure Nutrient Calculator</div>
+            </div>
+            <div class="form-box-body">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            The calculator will estimate the nutrient contributions of nitrogen, phosphorous and potassium from manures and the other organic nutrient sources.
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-5">
+                            <label>Material Type</label>
+                            <div>
+                                <select class="form-control" asp-for="@Model.Data.SelectedManureType"
+                                        asp-items="@Model.Data.ManureTypeOptions" onchange="typeChange()">
+                                    <option value="0">select</option>
+                                </select>
+                                @*  <span asp-validation-for="Data.SelectedManureType" class=""></span>*@
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2" style="padding-right:0px">
+                            <label>Application Rates</label>
+                            <div>
+                                <input type="number" class="form-control" step=".01" />
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-2" style="padding-left:0px">
+                            <label>Units</label>
+                            <div>
+                                <select class="form-control" asp-for="@Model.Data.SelectedUnit"
+                                        asp-items="@Model.Data.UnitOptions">
+                                    <option value="0">select</option>
+                                </select>
+                                @* <span asp-validation-for="Data.SelectedUnit" class=""></span>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                            <label>Application Season/Method</label>
+                            <div>
+                                <select class="form-control" asp-for="@Model.Data.SelectedApplication"
+                                        asp-items="@Model.Data.ApplicationOptions" onchange="typeChange()">
+                                    <option value="0">select</option>
+                                </select>
+                                @* <span asp-validation-for="Data.SelectedApplication" class=""></span>*@
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>Region</label>
+                            <div>
+                                <select class="form-control" asp-for="@Model.Data.SelectRegion"
+                                        asp-items="@Model.Data.RegionOptions" onchange="typeChange()">
+                                    <option value="0">select</option>
+                                </select>
+                                @*  <span asp-validation-for="Data.SelectRegion" class=""></span>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!--Accordion wrapper-->
+                        <div class="accordion md-accordion col-sm-12" id="accordionEx" role="tablist">
+
+                            <!-- Accordion card -->
+                            <div class="card">
+
+                                <!-- Card header -->
+                                <div class="card-header" role="tab" id="headingOne1" style="padding-left:0px">
+                                    <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="false" class="collapsed"
+                                       aria-controls="collapseOne1">
+                                        <h5 class="mb-0">
+                                            Customize Nutrient analysis and advanced features <i class="fas fa-angle-down rotate-icon"></i>
+                                        </h5>
+                                    </a>
+                                </div>
+
+                                <!-- Card body -->
+                                <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+                                     data-parent="#accordionEx">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group col-sm-2">
+                                                <label>
+                                                    Moisture&nbsp;(%)
+                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    </a>
+                                                </label>
+                                                <div class="row">
+                                                    <input class="form-control col-sm-8" step=".01" asp-for="@Model.Data.Moisture" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2">
+                                                <label>
+                                                    N&nbsp;(%)
+                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    </a>
+                                                </label>
+                                                <div class="row">
+                                                    <input class="form-control col-sm-8" step=".01" asp-for=@Model.Data.Nitrogen />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2">
+                                                <label>
+                                                    NH<sub>4</sub>-N&nbsp;(ppm)
+                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    </a>
+                                                </label>
+                                                <div class="row">
+                                                    <input class="form-control col-sm-8" step=".01" asp-for="@Model.Data.Ammonia" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2">
+                                                <label>
+                                                    P&nbsp;(%)
+                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    </a>
+                                                </label>
+                                                <div class="row">
+                                                    <input class="form-control col-sm-8" asp-for="@Model.Data.Phosphorous" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2">
+                                                <label>
+                                                    K&nbsp;(%)
+                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    </a>
+                                                </label>
+                                                <div class="row">
+                                                    <input class="form-control col-sm-8" step=".01" asp-for="@Model.Data.Potassium" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-sm-2">
+                                                <label>
+                                                    Ammonium-N Retention&nbsp;(%)
+                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    </a>
+                                                </label>
+                                                <div>
+                                                    <input type="number" class="form-control" step=".01" asp-for="@Model.Data.AmmoniaRention" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-2">
+                                                <label>
+                                                    Organic N Available This Year&nbsp;(%)
+                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    </a>
+                                                </label>
+                                                <div>
+                                                    <input type="number" class="form-control" step=".01" asp-for="@Model.Data.OrganicN_FirstYear" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Accordion card -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-primary" id="CalculateButton" data-save="razor-page-modal">Calculate</button>
+                        </div>
+                        @if (@Model.Data.isShowValue)
+                        {
+                        <div class="col-sm-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    Available This Year (lb/ac)
+                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P<sub>2</sub>O<sub>5</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>2</sub>O</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    Available Long Term (lb/ac)
+                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P<sub>2</sub>O<sub>5</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>2</sub>O</strong>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="form-box" style="border:none">
+        <div class="row">
+            <img class="col-sm-1" src="~/images/lightbulb_icon-01.png" />
+            <div class="col-sm-6">
+                <h2>Find Out How Much Apply for your crop</h2>
+                Learn more about nutrient sources, check soil test result <br />and plan nutrient application rates for your
+            </div>
+            <div class="col-sm-5">
+                <a onclick="window.open('');" formtarget="_blank" value="">Nutrient Management Information</a>
+                <br />
+                <a onclick="window.open('');" formtarget="_blank" value="">BC Nutrient Management Calculator</a>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
+@section Scripts{
+    <script>
+        function typeChange() {
+            $('#PostedElementEvent').val("TypeChanged");
+            $("#CalculateButton").click();
+        }
+    </script>
+}
