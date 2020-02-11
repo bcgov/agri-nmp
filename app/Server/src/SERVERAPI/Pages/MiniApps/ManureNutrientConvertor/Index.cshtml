@@ -20,6 +20,11 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-12">
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="form-group col-sm-5">
                             <label>Material Type</label>
                             <div>
@@ -77,17 +82,17 @@
                             <div class="card">
 
                                 <!-- Card header -->
-                                <div class="card-header" role="tab" id="headingOne1" style="padding-left:0px">
+                                <div class="card-header collapse-title" role="tab" id="headingOne1" style="padding-left:0px">
                                     <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="false" class="collapsed"
                                        aria-controls="collapseOne1">
                                         <h5 class="mb-0">
-                                            Customize Nutrient analysis and advanced features <i class="fas fa-angle-down rotate-icon"></i>
+                                            Custom nutrient analysis and advanced features <i id="collapseArrow" class="glyphicon glyphicon-chevron-down" ></i>
                                         </h5>
                                     </a>
                                 </div>
 
                                 <!-- Card body -->
-                                <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+                                <div id="collapseOne1" class="collapse" role="tabpanel" aria-labelledby="headingOne1"
                                      data-parent="#accordionEx">
                                     <div class="card-body">
                                         <div class="row">
@@ -99,7 +104,7 @@
                                                     </a>
                                                 </label>
                                                 <div class="row">
-                                                    <input class="form-control col-sm-8" step=".01" asp-for="@Model.Data.Moisture" />
+                                                    <input class="form-control col-sm-8" step=".01" asp-for="Data.Moisture" />
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-2">
@@ -110,7 +115,7 @@
                                                     </a>
                                                 </label>
                                                 <div class="row">
-                                                    <input class="form-control col-sm-8" step=".01" asp-for=@Model.Data.Nitrogen />
+                                                    <input type="number" class="form-control col-sm-8" step=".01" asp-for="@Model.Data.Nitrogen" />
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-2">
@@ -121,7 +126,7 @@
                                                     </a>
                                                 </label>
                                                 <div class="row">
-                                                    <input class="form-control col-sm-8" step=".01" asp-for="@Model.Data.Ammonia" />
+                                                    <input type="number" class="form-control col-sm-8" step=".01" asp-for="Data.Ammonia" />
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-2">
@@ -132,7 +137,7 @@
                                                     </a>
                                                 </label>
                                                 <div class="row">
-                                                    <input class="form-control col-sm-8" asp-for="@Model.Data.Phosphorous" />
+                                                    <input type="number" class="form-control col-sm-8" asp-for="Data.Phosphorous" />
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-2">
@@ -143,31 +148,31 @@
                                                     </a>
                                                 </label>
                                                 <div class="row">
-                                                    <input class="form-control col-sm-8" step=".01" asp-for="@Model.Data.Potassium" />
+                                                    <input type="number" class="form-control col-sm-8" step=".01" asp-for="Data.Potassium" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-sm-2">
+                                            <div class="form-group col-sm-4">
                                                 <label>
                                                     Ammonium-N Retention&nbsp;(%)
                                                     <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
                                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
-                                                <div>
-                                                    <input type="number" class="form-control" step=".01" asp-for="@Model.Data.AmmoniaRention" />
+                                                <div style="padding-left:30px;">
+                                                    <input type="number" class="form-control" style="width:100px;" step=".01" asp-for="@Model.Data.AmmoniaRention" />
                                                 </div>
                                             </div>
-                                            <div class="form-group col-sm-2">
+                                            <div class="form-group col-sm-4">
                                                 <label>
                                                     Organic N Available This Year&nbsp;(%)
                                                     <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
                                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
-                                                <div>
-                                                    <input type="number" class="form-control" step=".01" asp-for="@Model.Data.OrganicN_FirstYear" />
+                                                <div style="padding-left:30px;">
+                                                    <input type="number" class="form-control" step=".01" style="width:100px;" asp-for="@Model.Data.OrganicN_FirstYear" />
                                                 </div>
                                             </div>
                                         </div>
@@ -178,43 +183,44 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-3" style="padding-top:25px;">
                             <button type="submit" class="btn btn-primary" id="CalculateButton" data-save="razor-page-modal">Calculate</button>
                         </div>
                         @if (@Model.Data.isShowValue)
                         {
-                        <div class="col-sm-4">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    Available This Year (lb/ac)
-                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
-                                    </a>
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        Available This Year (lb/ac)
+                                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P<sub>2</sub>O<sub>5</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>2</sub>O</strong>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P<sub>2</sub>O<sub>5</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>2</sub>O</strong>
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        Available Long Term (lb/ac)
+                                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P<sub>2</sub>O<sub>5</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>2</sub>O</strong>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    Available Long Term (lb/ac)
-                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P<sub>2</sub>O<sub>5</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>2</sub>O</strong>
-                                </div>
-                            </div>
-                        </div>
                         }
                     </div>
+                    @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
                 </form>
             </div>
         </div>
@@ -236,10 +242,15 @@
         </div>
     </div>
 </div>
-@Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
+
 @section Scripts{
     <script>
-        function typeChange() {
+        $(document).ready(function () {
+            $('#collapseArrow').click(function () {
+                $(this).toggleClass('glyphicon-chevron-down').toggleClass('glyphicon-chevron-up');
+            })
+        })
+        function typeChange() {             
             $('#PostedElementEvent').val("TypeChanged");
             $("#CalculateButton").click();
         }
