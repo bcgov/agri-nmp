@@ -67,8 +67,6 @@
                                 <b>Mature</b>
                             </td>
                             <td class="CellDtl" style="">
-                            </td>
-                            <td class="CellDtl" style="">
                                 Averaging @field.MatureAnimalAverageWeight lbs
                             </td>
                             <td class="CellDtl" style="">
@@ -85,8 +83,6 @@
                             </td>
                             <td class="CellHdg" style="">
                                 <b>Growing</b>
-                            </td>
-                            <td class="CellDtl" style="">
                             </td>
                             <td class="CellDtl" style="">
                                 Averaging @field.GrowingAnimalAverageWeight lbs
@@ -113,108 +109,108 @@
                     </tr>
                     @if (field.MatureAnimalCount.HasValue)
                     {
-                    <tr>
-                        <td class="CellDtl" style="">
-                            @field.CalculatedMatureFeedRequirement tons for mature  animals over @field.FeedingDaysSpentInFeedingArea days
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="CellDtl" style="">
+                                @field.CalculatedMatureFeedRequirement tons for mature  animals over @field.FeedingDaysSpentInFeedingArea days
+                            </td>
+                        </tr>
                     }
                     @if (field.GrowingAnimalCount.HasValue)
                     {
-                    <tr>
-                        <td class="CellDtl" style="">
-                            @field.CalculatedGrowingFeedRequirement tons for mature  animals over @field.FeedingDaysSpentInFeedingArea days
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="CellDtl" style="">
+                                @field.CalculatedGrowingFeedRequirement tons for mature  animals over @field.FeedingDaysSpentInFeedingArea days
+                            </td>
+                        </tr>
                     }
                 </table>
             </div>
         </div>
     }
-        @foreach (var analytic in field.FeedForageAnalyses)
-        {
-            <div class="Row">
-                <div class="Cell">
-                    <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
-                        <tr>
-                            <td class="CellHdg" style="" rowspan="2">
-                                <b>Feed @analytic.FeedForageId</b>
-                            </td>
-                            <td class="CellHdg" style="">
-                                <b>Feed Type</b>
-                            </td>
-                            <td class="CellDtl" style="">
-                                @(analytic.PercentOfTotalFeedForageToAnimals) % of intake
-                            </td>
-                            <td class="CellDtl" style="">
-                                @(analytic.PercentOfFeedForageWastage) % wasted feed
-                            </td>
-                            <td class="CellDtl" style="">
-                                &nbsp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="CellHdg" style="">
-                                <span>Analysis</span>
-                                <span>@(analytic.UseBookValues ? "Default" : "Custom")</span>
-                            </td>
-                            <td class="CellDtl" style="">
-                                @analytic.CrudeProteinPercent %CP
-                            </td>
-                            <td class="CellDtl" style="">
-                                @(analytic.Phosphorus) %P
-                            </td>
-                            <td class="CellDtl" style="">
-                                @(analytic.Potassium) %K
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        }
-        <div class="Row" style="padding-top:20px;">
+    @foreach (var analytic in field.FeedForageAnalyses)
+    {
+        <div class="Row">
             <div class="Cell">
-                <table style="border-collapse: collapse; width: 75%;page-break-inside:avoid">
-                    <tr style="padding-top:20px; padding-bottom:20px">
-                        <td class="CellDtl" rowspan="3" style="width: 60%">
-                            Feed management over the @field.FeedingDaysSpentInFeedingArea day
-                            feeding period can contribute the following total nutrient value to the soil.
+                <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                    <tr>
+                        <td class="CellHdg" style="" rowspan="2">
+                            <b>Feed @analytic.FeedForageId</b>
                         </td>
-                        <td class="CellDtl" style="">N</td>
-                        <td class="CellDtl" style="">P<sub>2</sub>O<sub>5</sub></td>
-                        <td class="CellDtl" style="">K<sub>2</sub>O</td>
-                    </tr>
-                    <tr>
-                        <td class="CellDtl" colspan="3" style="text-align: center">lbs/ac</td>
-                    </tr>
-                    <tr>
-                        <td class="CellDtl" style="">@field.NAgroBalance</td>
-                        <td class="CellDtl" style="">@field.P205AgroBalance</td>
-                        <td class="CellDtl" style="">@field.K20AgroBalance</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="Row" style="padding-top:20px;">
-            <div class="Cell">
-                <table style="border-collapse: collapse; width: 75%;page-break-inside:avoid">
-                    <tr>
-                        <td class="CellDtl" rowspan="3" style="width: 60%">
-                            The short-term nutrient benefit to the growing season following winter feeding may be up to
+                        <td class="CellHdg" style="">
+                            <b>Feed Type</b>
                         </td>
-                        <td class="CellDtl" style="">N</td>
-                        <td class="CellDtl" style="">P<sub>2</sub>O<sub>5</sub></td>
-                        <td class="CellDtl" style="">K<sub>2</sub>O</td>
+                        <td class="CellDtl" style="">
+                            @(analytic.PercentOfTotalFeedForageToAnimals) % of intake
+                        </td>
+                        <td class="CellDtl" style="">
+                            @(analytic.PercentOfFeedForageWastage) % wasted feed
+                        </td>
+                        <td class="CellDtl" style="">
+                            &nbsp;
+                        </td>
                     </tr>
                     <tr>
-                        <td class="CellDtl" colspan="3" style="text-align: center">lbs/ac</td>
-                    </tr>
-                    <tr>
-                        <td class="CellDtl" style="">@field.NCropRemovalValue</td>
-                        <td class="CellDtl" style="">@field.P205CropRemovalValue</td>
-                        <td class="CellDtl" style="">@field.K20CropRemovalValue</td>
+                        <td class="CellHdg" style="">
+                            <span>Analysis</span>
+                            <span>@(analytic.UseBookValues ? "Default" : "Custom")</span>
+                        </td>
+                        <td class="CellDtl" style="">
+                            @analytic.CrudeProteinPercent %CP
+                        </td>
+                        <td class="CellDtl" style="">
+                            @(analytic.Phosphorus) %P
+                        </td>
+                        <td class="CellDtl" style="">
+                            @(analytic.Potassium) %K
+                        </td>
                     </tr>
                 </table>
             </div>
         </div>
     }
+    <div class="Row" style="padding-top:20px;">
+        <div class="Cell">
+            <table style="border-collapse: collapse; width: 75%;page-break-inside:avoid">
+                <tr style="padding-top:20px; padding-bottom:20px">
+                    <td class="CellDtl" rowspan="3" style="width: 60%">
+                        Feed management over the @field.FeedingDaysSpentInFeedingArea day
+                        feeding period can contribute the following total nutrient value to the soil.
+                    </td>
+                    <td class="CellDtl" style="">N</td>
+                    <td class="CellDtl" style="">P<sub>2</sub>O<sub>5</sub></td>
+                    <td class="CellDtl" style="">K<sub>2</sub>O</td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" colspan="3" style="text-align: center">lbs/ac</td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="">@field.NAgroBalance</td>
+                    <td class="CellDtl" style="">@field.P205AgroBalance</td>
+                    <td class="CellDtl" style="">@field.K20AgroBalance</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="Row" style="padding-top:20px;">
+        <div class="Cell">
+            <table style="border-collapse: collapse; width: 75%;page-break-inside:avoid">
+                <tr>
+                    <td class="CellDtl" rowspan="3" style="width: 60%">
+                        The short-term nutrient benefit to the growing season following winter feeding may be up to
+                    </td>
+                    <td class="CellDtl" style="">N</td>
+                    <td class="CellDtl" style="">P<sub>2</sub>O<sub>5</sub></td>
+                    <td class="CellDtl" style="">K<sub>2</sub>O</td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" colspan="3" style="text-align: center">lbs/ac</td>
+                </tr>
+                <tr>
+                    <td class="CellDtl" style="">@field.NCropRemovalValue</td>
+                    <td class="CellDtl" style="">@field.P205CropRemovalValue</td>
+                    <td class="CellDtl" style="">@field.K20CropRemovalValue</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+}
