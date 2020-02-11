@@ -33,9 +33,11 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientConvertor
             {
                 ModelState.Clear();
                 Data.PostedElementEvent = "None";
+                Data.isShowValue = Data.isShowValue ? Data.isShowValue : false;
             }
             else if (ModelState.IsValid)
             {
+                Data.isShowValue = true;
                 //Send the Data to Receive conversion result
                 Result = await _mediator.Send(Data);
             }
@@ -96,7 +98,7 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientConvertor
             public async Task<ConverterQuery> Handle(Query request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
-                command.isShowValue = false;
+                command.isShowValue = command.isShowValue ? command.isShowValue : false;
                 command.ManureTypeOptions = new SelectList(_sd.GetManures(), "Id", "Name");
                 command.UnitOptions = new SelectList(_sd.GetUnits(), "Id", "Name");
                 command.RegionOptions = new SelectList(_sd.GetRegions(), "Id", "Name");
