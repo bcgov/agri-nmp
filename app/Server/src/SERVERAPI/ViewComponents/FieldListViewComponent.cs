@@ -42,10 +42,10 @@ namespace SERVERAPI.ViewComponents
                 nf.FieldName = f.FieldName;
                 nf.Area = f.Area;
                 nf.Comment = f.Comment;
-                nf.crops = f.crops;
+                nf.Crops = f.Crops;
 
                 fvm.fields.Add(nf);
-                if (f.crops == null)
+                if (f.Crops == null)
                 {
                     fvm.noCrops = true;
                 }

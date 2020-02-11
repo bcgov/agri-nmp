@@ -33,9 +33,9 @@ namespace SERVERAPI.ViewComponents
             Field fld = _ud.GetFieldDetails(fldName);
             soilvm.display = false;
 
-            if ((fld.crops != null) && (fld.SoilTest != null))
+            if ((fld.Crops != null) && (fld.SoilTest != null))
             {
-                if (fld.crops.Count() > 0)
+                if (fld.Crops.Count() > 0)
                 {
                     soilvm.display = _sd.IsNitrateCreditApplicable(farmdtl.FarmRegion, fld.SoilTest.sampleDate, Convert.ToInt16(farmdtl.Year));
                     if (soilvm.display)

@@ -18,7 +18,7 @@ namespace Agri.Tests.Shared
         protected ServiceProvider serviceProvider;
         protected AgriConfigurationContext agriConfigurationDb => serviceProvider.CreateScope().ServiceProvider.GetService<AgriConfigurationContext>();
         protected IMapper Mapper => serviceProvider.CreateScope().ServiceProvider.GetService<IMapper>();
-        public IConfigurationRoot Configuration { get; }
+        //public IConfigurationRoot Configuration { get; }
 
         public TestBase(ITestOutputHelper output, params (Type svc, Type impl)[] additionalServices)
         {
@@ -36,8 +36,8 @@ namespace Agri.Tests.Shared
                 .AddSingleton(configuration)
                 .AddHttpContextAccessor();
 
-            services.AddSingleton<IConfiguration>(Configuration);
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            //services.AddSingleton<IConfiguration>(Configuration);
+            //services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddAutoMapper();
 

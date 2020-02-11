@@ -120,7 +120,9 @@ namespace Agri.Data
 
             var seedStaticDataVersion = SeedDataLoader.GetSeedJsonData<StaticDataVersion>(Constants.SeedDataFiles.StaticDataVersion);
 
-            if (!_context.StaticDataVersions.Any() || seedStaticDataVersion.Id > _sd.GetStaticDataVersionId())
+            if (!_context.StaticDataVersions.Any() ||
+                seedStaticDataVersion.Id > _sd.GetStaticDataVersionId() ||
+                loadSeedConfigDataAsNewVersion)
             {
                 _sd.LoadConfigurations(seedStaticDataVersion);
             }

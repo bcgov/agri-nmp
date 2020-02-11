@@ -1,0 +1,192 @@
+﻿@page "{handler?}/"
+@using SERVERAPI.Pages.Ranch.RanchFeeding;
+@model SERVERAPI.Pages.Ranch.RanchFeeding.CreateEdit
+
+@{
+    Layout = "_ModalLayout";
+    ViewData["HeaderTitle"] = Model.Title;
+}
+
+<form asp-page="CreateEdit" method="post" class="form-box-body" style="padding:0px">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div>
+        @{
+            var disabledFields = "auto";
+        }
+        @for (int i = 0; i < Model.Data.FeedForageAnalyses.Count; i++)
+        {
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="form-box-heading mb-3">Feed @Model.Data.FeedForageAnalyses[i].Id</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label>Feed/forage Type</label>
+                    <div>
+
+                        <select class="form-control" asp-for="@Model.Data.FeedForageAnalyses[i].FeedForageTypeId" onchange="comboFeedForageChange()"
+                                asp-items="@(new SelectList(Model.Data.FeedForageAnalyses[i].SelectFeedTypeOptions,"Id","Name"))">
+                            <option value="0">select</option>
+                        </select>
+                        <span asp-validation-for="@Model.Data.FeedForageAnalyses[i].FeedForageTypeId"></span>
+                    </div>
+                </div>
+                <div class="form-group col-sm-4">
+                    <label>Feed/forage</label>
+                    <div>
+                        <select class="form-control" asp-for="@Model.Data.FeedForageAnalyses[i].FeedForageId" onchange="comboFeedForageChange()"
+                                asp-items="@(new SelectList(Model.Data.FeedForageAnalyses[i].SelectFeedNameOptions,"Id","Name"))">
+                            <option value="0">select</option>
+                        </select>
+                        <span asp-validation-for="@Model.Data.FeedForageAnalyses[i].FeedForageId"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <label class="form-box-heading mb-3">Feed/forage Analysis</label>
+                </div>
+                <div class="form-group col-sm-5">
+                    <label style="padding-right: 20px">
+                        Use book analysis
+                        <input type="radio" asp-for="@Model.Data.FeedForageAnalyses[i].UseBookValues"
+                               id="bookValues+@Model.Data.FeedForageAnalyses[i].Id" value="true"
+                               onchange="UseBookValueChange()" />
+                    </label>
+                </div>
+                <div class="form-group col-sm-5">
+                    <label style="padding-right: 20px">
+                        Use custom values
+                        <input type="radio" asp-for="@Model.Data.FeedForageAnalyses[i].UseBookValues"
+                               id="customeValues+@Model.Data.FeedForageAnalyses[i].Id" value="false"
+                               onchange="UseBookValueChange()" />
+                    </label>
+                </div>
+            </div>
+
+            @if (Model.Data.FeedForageAnalyses[i].UseBookValues)
+            {
+                disabledFields = "none";
+            }
+            else
+            {
+                disabledFields = "auto";
+            }
+            <div class="row">
+                <div class="form-group col-sm-4 row" style="pointer-events:@disabledFields">
+
+                    <div class="col-sm-3" style="padding:0px !important">
+                        <input type="number" class="form-control" step=".01" asp-for="@Model.Data.FeedForageAnalyses[i].CrudeProteinPercent" />
+                    </div>
+                    <span class="col-sm-9" style="padding-top: 7px;">% Crude protein (CP)</span>
+                    <span asp-validation-for="Data.FeedForageAnalyses[i].CrudeProteinPercent"></span>
+                </div>
+                <div class="form-group col-sm-2 row" style="pointer-events:@disabledFields">
+
+                    <div class="col-sm-7" style="padding:0px !important">
+                        <input type="number" class="form-control" asp-for="@Model.Data.FeedForageAnalyses[i].Phosphorus" />
+                    </div>
+                    <span class="col-sm-5" style="padding-top: 7px;">%&nbsp;P</span>
+                    <span asp-validation-for="Data.FeedForageAnalyses[i].Phosphorus"></span>
+                </div>
+                <div class="form-group col-sm-2 row" style="pointer-events:@disabledFields">
+
+                    <div class="col-sm-7" style="padding:0px !important">
+                        <input type="number" class="form-control" asp-for="@Model.Data.FeedForageAnalyses[i].Potassium" />
+                    </div>
+                    <span class="col-sm-5" style="padding-top: 7px;">%&nbsp;K</span>
+                    <span asp-validation-for="Data.FeedForageAnalyses[i].Potassium"></span>
+                </div>
+            </div>
+            <div class="row" style="padding-top:10px;">
+                <div class="form-group col-sm-6 row">
+
+                    <div class="col-sm-2" style="padding:0px !important;">
+                        <input type="number" class="form-control" asp-for="Data.FeedForageAnalyses[i].PercentOfTotalFeedForageToAnimals" />
+                    </div>
+                    <span class="col-sm-10">
+                        &nbsp;%&nbsp;of total feed/forage provided to animals
+                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                        </a>
+                    </span>
+                    <span asp-validation-for="Data.FeedForageAnalyses[i].PercentOfTotalFeedForageToAnimals"></span>
+                </div>
+                <div class="form-group col-sm-6 row">
+
+                    <div class="col-sm-2" style="padding:0px !important;">
+                        <input type="number" class="form-control" asp-for="Data.FeedForageAnalyses[i].PercentOfFeedForageWastage" />
+                    </div>
+                    <span class="col-sm-10">
+                        &nbsp;%&nbsp;feed/forage wastage
+                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                        </a>
+                    </span>
+                    <span asp-validation-for="Data.FeedForageAnalyses[i].PercentOfFeedForageWastage"></span>
+                </div>
+            </div>
+            <input type="hidden" asp-for="@Model.Data.FeedForageAnalyses[i].Id" />
+            <br />
+            <br />
+        }
+
+        @if (Model.Data.FeedForageAnalyses.Count < 3)
+        {
+            <div class="row" style="margin-top:50px;">
+                <div class="form-group col-sm-12">
+                    <div class="col-sm-4">&nbsp;&nbsp;</div>
+                    <button class="btn btn-default col-sm-4" id="btnAddFeedForage" type="button">Add Another Feed/Forage</button>
+                    <div class="col-sm-4">&nbsp;&nbsp;</div>
+                </div>
+            </div>
+        }
+        <div class="col-sm-12">
+            <hr style="border:0.2px solid lightgray" />
+        </div>
+    </div>
+    <div class="modal-footer" style="border:0px;">
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="saveButton" data-save="razor-page-modal">Save</button>
+    </div>
+    @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
+    @Html.HiddenFor(x => x.Data.FieldName)
+    @Html.HiddenFor(x => x.Data.FeedingAreaWarning)
+</form>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("body").on("click", "#btnAddFeedForage", function () {
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.AddFeedForageAnalysis");
+                $("#saveButton").click();
+            })
+        });
+        function comboFeedForageChange() {
+            $('#PostedElementEvent').val("@CreateEdit.ElementEvent.FeedForageChange");
+            $("#saveButton").click();
+        }
+
+        function UseBookValueChange() {
+            $('#PostedElementEvent').val("@CreateEdit.ElementEvent.UseCustomAnalysis");
+            $("#saveButton").click();
+
+        }
+
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning').click(function () {
+                triggerToolTip($('#toolTipDailyFeedWarning'));
+            });
+        })
+    </script>
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models;
 using AutoMapper;
@@ -25,7 +26,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
 
         public async Task<IActionResult> OnGetAsync(Query query)
         {
-            var data = await _mediator.Send(query);
+            var data = await _mediator.Send(new Query());
 
             ////If no fields exist with seasonal feed skip
             if (!data.Fields.Any())
@@ -52,12 +53,16 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         public class Model
         {
             public List<Field> Fields { get; set; }
-            public string feedingAreaWarning { get; set; }
+            public string FeedingAreaWarning { get; set; }
 
             public class Field
             {
                 public int Id { get; set; }
                 public string FieldName { get; set; }
+                public bool isFeedForageAvailable { get; set; }
+                public decimal NBalance { get; set; }
+                public decimal P205Balance { get; set; }
+                public decimal K20Balance { get; set; }
             }
         }
 
@@ -74,23 +79,46 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             private readonly UserData _ud;
             private readonly IAgriConfigurationRepository _sd;
             private readonly IMapper _mapper;
+            private readonly IFeedAreaCalculator _feedCalculator;
 
-            public Handler(UserData ud, IMapper mapper, IAgriConfigurationRepository sd)
+            public Handler(UserData ud, IMapper mapper,
+                IAgriConfigurationRepository sd,
+                IFeedAreaCalculator feedCalculator
+                )
             {
                 _ud = ud;
                 _sd = sd;
                 _mapper = mapper;
+                _feedCalculator = feedCalculator;
             }
 
             public Task<Model> Handle(Query request, CancellationToken cancellationToken)
             {
                 var fields = _ud.GetFields().Where(x => x.IsSeasonalFeedingArea == true).ToList();
+                var calculatedFields = _mapper.Map<List<Agri.Models.Farm.Field>, List<Model.Field>>(fields);
+
+                var region = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value);
+                foreach (var field in fields)
+                {
+                    if (field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
+                    {
+                        var calculatedValue = calculatedFields.Single(f => f.Id == field.Id);
+                        calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
+                        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
+                        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
+                        calculatedValue.isFeedForageAvailable = true;
+                        ////HardCode to check
+                        //calculatedValue.NBalance = 10;
+                        //calculatedValue.P205Balance = 20;
+                        //calculatedValue.K20Balance = 30;
+                    }
+                }
 
                 return Task.FromResult(new Model
                 {
-                    Fields = _mapper.Map<List<Agri.Models.Farm.Field>, List<Model.Field>>(fields),
-                    feedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
-                }); ;
+                    Fields = calculatedFields,
+                    FeedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
+                });
             }
         }
     }

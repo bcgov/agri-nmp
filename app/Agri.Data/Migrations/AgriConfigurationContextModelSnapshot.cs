@@ -345,7 +345,7 @@ namespace Agri.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<decimal?>("Value");
+                    b.Property<decimal>("Value");
 
                     b.HasKey("Id", "StaticDataVersionId");
 
@@ -431,6 +431,95 @@ namespace Agri.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ExternalLinks");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.Feed", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.Property<decimal?>("CPPercent")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<int>("FeedForageTypeId");
+
+                    b.Property<int?>("GetFeedForageTypeId");
+
+                    b.Property<int?>("GetFeedForageTypeStaticDataVersionId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<decimal?>("PhosphorousPercent")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.Property<decimal?>("PotassiumPercent")
+                        .HasColumnType("decimal(16,4)");
+
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.HasIndex("GetFeedForageTypeId", "GetFeedForageTypeStaticDataVersionId");
+
+                    b.ToTable("Feeds");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FeedConsumption", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId");
+
+                    b.Property<string>("Label");
+
+                    b.Property<decimal>("Value");
+
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.ToTable("FeedConsumptions");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FeedEfficiency", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId");
+
+                    b.Property<string>("AnimalType");
+
+                    b.Property<decimal>("Nitrogen");
+
+                    b.Property<decimal>("Phosphorous");
+
+                    b.Property<decimal>("Potassium");
+
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.ToTable("FeedEfficiencies");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FeedForageType", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("StaticDataVersionId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id", "StaticDataVersionId");
+
+                    b.HasIndex("StaticDataVersionId");
+
+                    b.ToTable("FeedForageTypes");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.Fertilizer", b =>
@@ -1648,6 +1737,42 @@ namespace Agri.Data.Migrations
                 {
                     b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
                         .WithMany("DryMatters")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.Feed", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("Feeds")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Agri.Models.Configuration.FeedForageType", "GetFeedForageType")
+                        .WithMany("Feeds")
+                        .HasForeignKey("GetFeedForageTypeId", "GetFeedForageTypeStaticDataVersionId");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FeedConsumption", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("FeedConsumptions")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FeedEfficiency", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("FeedEfficiencies")
+                        .HasForeignKey("StaticDataVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.FeedForageType", b =>
+                {
+                    b.HasOne("Agri.Models.Configuration.StaticDataVersion", "Version")
+                        .WithMany("FeedForageTypes")
                         .HasForeignKey("StaticDataVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

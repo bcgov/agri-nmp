@@ -115,6 +115,7 @@ namespace SERVERAPI
             services.AddTransient<ICalculateManureGeneration, CalculateManureGeneration>();
             services.AddTransient<ICalculateNutrients, CalculateNutrients>();
             services.AddTransient<IChemicalBalanceMessage, ChemicalBalanceMessage>();
+            services.AddTransient<IFeedAreaCalculator, FeedAreaCalculator>();
             services.AddTransient<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
             services.AddTransient<IManureApplicationCalculator, ManureApplicationCalculator>();
             services.AddTransient<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();

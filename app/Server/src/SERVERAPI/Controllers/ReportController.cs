@@ -97,7 +97,7 @@ namespace SERVERAPI.Controllers
             {
                 foreach (var f in fldLst)
                 {
-                    if (f.crops == null)
+                    if (f.Crops == null)
                     {
                         cropFound = false;
                         break;
@@ -226,9 +226,9 @@ namespace SERVERAPI.Controllers
                 }
 
                 rf.nutrients = new List<ReportFieldNutrient>();
-                if (f.crops != null)
+                if (f.Crops != null)
                 {
-                    foreach (var c in f.crops)
+                    foreach (var c in f.Crops)
                     {
                         ReportFieldCrop fc = new ReportFieldCrop();
 
@@ -305,7 +305,7 @@ namespace SERVERAPI.Controllers
 
                         rf.crops.Add(fc);
                     }
-                    if (f.crops.Count() > 0)
+                    if (f.Crops.Count() > 0)
                     {
                         rf.showNitrogenCredit = f.PreviousYearManureApplicationFrequency != null ? true : false;
                         if (rf.showNitrogenCredit)
@@ -1270,9 +1270,9 @@ namespace SERVERAPI.Controllers
                     rf.nutrients.Add(rfn);
                 }
 
-                if (f.crops != null)
+                if (f.Crops != null)
                 {
-                    foreach (var c in f.crops)
+                    foreach (var c in f.Crops)
                     {
                         crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
@@ -1420,9 +1420,9 @@ namespace SERVERAPI.Controllers
                     rfn.nutrientAmount = "";
                     rf.nutrients.Add(rfn);
                 }
-                if (f.crops != null)
+                if (f.Crops != null)
                 {
-                    foreach (var c in f.crops)
+                    foreach (var c in f.Crops)
                     {
                         crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
