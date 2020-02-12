@@ -1,5 +1,5 @@
 ﻿@page
-@model SERVERAPI.Pages.MiniApps.ManureNutrientConvertor.Index
+@model SERVERAPI.Pages.MiniApps.ManureNutrientCalculator.Index
 @using Agri.Models
 @{
     ViewData["Title"] = "Manure Nutrient Convertor";
@@ -86,7 +86,7 @@
                                     <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="false" class="collapsed"
                                        aria-controls="collapseOne1">
                                         <h5 class="mb-0">
-                                            Custom nutrient analysis and advanced features <i id="collapseArrow" class="glyphicon glyphicon-chevron-down" ></i>
+                                            Custom nutrient analysis and advanced features <i id="collapseArrow" class="glyphicon glyphicon-chevron-down"></i>
                                         </h5>
                                     </a>
                                 </div>
@@ -230,14 +230,16 @@
     <div class="form-box" style="border:none">
         <div class="row">
             <img class="col-sm-1" src="~/images/lightbulb_icon-01.png" />
-            <div class="col-sm-6">
-                <h2>Find Out How Much Apply for your crop</h2>
-                Learn more about nutrient sources, check soil test result <br />and plan nutrient application rates for your
+            <div class="col-sm-6 row">
+                <h2>@Model.Data.ManurenNutrientCalculatorUserInstruction1</h2>
+                <div class="col-sm-11">
+                    @Model.Data.ManurenNutrientCalculatorUserInstruction2
+                </div>
             </div>
             <div class="col-sm-5">
-                <a onclick="window.open('');" formtarget="_blank" value="">Nutrient Management Information</a>
+                <a style="cursor:default" onclick="window.open('@Model.Data.NutrientManagementInformationButtonLink');" formtarget="_blank">@Model.Data.NutrientManagementInformation</a>
                 <br />
-                <a onclick="window.open('');" formtarget="_blank" value="">BC Nutrient Management Calculator</a>
+                <a style="cursor:default" onclick="window.open('@Model.Data.BCNutrientManagementCalculatorButtonLink');" formtarget="_blank">@Model.Data.BCNutrientManagementCalculator</a>
             </div>
         </div>
     </div>
@@ -250,7 +252,7 @@
                 $(this).toggleClass('glyphicon-chevron-down').toggleClass('glyphicon-chevron-up');
             })
         })
-        function typeChange() {             
+        function typeChange() {
             $('#PostedElementEvent').val("TypeChanged");
             $("#CalculateButton").click();
         }

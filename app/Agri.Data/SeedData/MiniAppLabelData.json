@@ -34,5 +34,41 @@
     "Name": "BCNutrientManagementCalculatorButtonLink",
     "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-management-calculator",
     "MiniAppId": "1"
-  }
+  },
+  {
+    "Id": 7,
+    "Name": "ManurenNutrientCalculatorUserInstruction1",
+    "LabelText": "Find Out How Much Apply for your crop",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 8,
+    "Name": "ManurenNutrientCalculatorUserInstruction2",
+    "LabelText": "Learn more about nutrient sources, check soil test result and plan nutrient application rates for your",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 9,
+    "Name": "NutrientManagementInformation",
+    "LabelText": "Nutrient Management information",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 10,
+    "Name": "BCNutrientManagementCalculator",
+    "LabelText": "BC Nutrient Management Caculator",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 11,
+    "Name": "NutrientManagementInformationButtonLink",
+    "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 12,
+    "Name": "BCNutrientManagementCalculatorButtonLink",
+    "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-management-calculator",
+    "MiniAppId": "2"
+  },
 ]

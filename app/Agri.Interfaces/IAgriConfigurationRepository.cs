@@ -36,6 +36,8 @@ namespace Agri.Interfaces
 
         List<KeyValuePair<string, string>> GetSoilConverterDetails();
 
+        List<KeyValuePair<string, string>> GetManureNutrientCalculatorDetails();
+
         List<DryMatter> GetDryMatters();
         List<Region> GetRegions();
         List<SelectListItem> GetRegionsDll();
