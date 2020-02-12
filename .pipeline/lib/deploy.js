@@ -8,13 +8,26 @@ module.exports = (settings)=>{
   const phase=options.env
   const oc=new OpenShiftClientX(Object.assign({'namespace':phases[phase].namespace}, options));
   const templatesLocalBaseUrl =oc.toFileUrl(path.resolve(__dirname, '../../OpenShift'))
+  const msTeamsWebhookSecret = new OpenShiftClientX({namespace:phases.build.namespace}).get('secret/ms-teams-webhook')[0];
+  const msTeamsWebhookURL = Buffer.from(msTeamsWebhookSecret.data.webhookURL, 'base64').toString('utf-8');
+
   var objects = []
 
   // The deployment of your cool app goes here ▼▼▼
+  objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/weasyprint-dc.json`, {
+    'param':{
+      'NAME': phases[phase].name,
+      'SUFFIX': phases[phase].suffix,      
+      'VERSION': phases[phase].tag,
+      'WEASYPRINT_REPLICAS': phases[phase].weasyprintreplicas
+    }
+  }));
+
   objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/postgresql.dc.json`, {
     'param':{
       'NAME': phases[phase].name,
-      'SUFFIX': phases[phase].suffix
+      'SUFFIX': phases[phase].suffix,
+      'PERSISTENT_VOLUME_CLASS': phases[phase].persistentVolumeClass
     }
   }));
 
@@ -25,7 +38,8 @@ module.exports = (settings)=>{
       'VERSION': phases[phase].tag,
       'HOST': phases[phase].host,
       'NMP_REPLICAS': phases[phase].nmpreplicas,
-      'PDF_REPLICAS': phases[phase].pdfreplicas
+      'PDF_REPLICAS': phases[phase].pdfreplicas,
+      'MS_TEAMS_WEBHOOK_URL': msTeamsWebhookURL
     }
   }));
 
