@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
-namespace SERVERAPI.Pages.MiniApps.ManureNutrientConvertor
+namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
 {
     public class Index : PageModel
     {
@@ -71,6 +72,12 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientConvertor
             public decimal OrganicN_FirstYear { get; set; }
             public int NMinerizationId { get; set; }
             public bool isShowValue { get; set; }
+            public string ManurenNutrientCalculatorUserInstruction1 { get; set; }
+            public string ManurenNutrientCalculatorUserInstruction2 { get; set; }
+            public string NutrientManagementInformation { get; set; }
+            public string BCNutrientManagementCalculator { get; set; }
+            public string NutrientManagementInformationButtonLink { get; set; }
+            public string BCNutrientManagementCalculatorButtonLink { get; set; }
         }
 
         public class ResultModel
@@ -98,6 +105,14 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientConvertor
             public async Task<ConverterQuery> Handle(Query request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
+                var details = _sd.GetManureNutrientCalculatorDetails();
+                command.ManurenNutrientCalculatorUserInstruction1 = details.Where(x => x.Key == "ManurenNutrientCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
+                command.ManurenNutrientCalculatorUserInstruction2 = details.Where(x => x.Key == "ManurenNutrientCalculatorUserInstruction2").Select(x => x.Value).FirstOrDefault();
+                command.NutrientManagementInformation = details.Where(x => x.Key == "NutrientManagementInformation").Select(x => x.Value).FirstOrDefault();
+                command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
+                command.NutrientManagementInformationButtonLink = details.Where(x => x.Key == "NutrientManagementInformationButtonLink").Select(x => x.Value).FirstOrDefault();
+                command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
+
                 command.isShowValue = command.isShowValue ? command.isShowValue : false;
                 command.ManureTypeOptions = new SelectList(_sd.GetManures(), "Id", "Name");
                 command.UnitOptions = new SelectList(_sd.GetUnits(), "Id", "Name");
