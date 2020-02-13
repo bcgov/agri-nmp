@@ -36,9 +36,9 @@
                             </div>
                         </div>
                         <div class="form-group col-sm-2" style="padding-right:0px">
-                            <label>Application Rates</label>
+                            <label>Application Rate</label>
                             <div>
-                                <input type="number" class="form-control" step=".01" />
+                                <input type="number" class="form-control" step=".01" asp-for="@Model.Data.ApplicationRate" />
                             </div>
                         </div>
                         <div class="form-group col-sm-2" style="padding-left:0px">
@@ -74,6 +74,16 @@
                             </div>
                         </div>
                     </div>
+                    @{
+                        var collapseClass = "collapse";
+                        var glyphicon = "glyphicon glyphicon-chevron-down";
+                    }
+                    @if (@Model.Data.ToggleElementState)
+                    {
+                        collapseClass = "collapse in";
+                        glyphicon = "glyphicon glyphicon-chevron-up";
+                    }
+
                     <div class="row">
                         <!--Accordion wrapper-->
                         <div class="accordion md-accordion col-sm-12" id="accordionEx" role="tablist">
@@ -85,14 +95,14 @@
                                 <div class="card-header collapse-title" role="tab" id="headingOne1" style="padding-left:0px">
                                     <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="false" class="collapsed"
                                        aria-controls="collapseOne1">
-                                        <h5 class="mb-0">
-                                            Custom nutrient analysis and advanced features <i id="collapseArrow" class="glyphicon glyphicon-chevron-down"></i>
+                                        <h5 class="mb-0" id="collapseHeader">
+                                            Custom nutrient analysis and advanced features&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i id="collapseArrow" class="@glyphicon"></i>
                                         </h5>
                                     </a>
                                 </div>
 
                                 <!-- Card body -->
-                                <div id="collapseOne1" class="collapse" role="tabpanel" aria-labelledby="headingOne1"
+                                <div id="collapseOne1" class="@collapseClass" role="tabpanel" aria-labelledby="headingOne1"
                                      data-parent="#accordionEx">
                                     <div class="card-body">
                                         <div class="row">
@@ -202,6 +212,11 @@
                                         <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P<sub>2</sub>O<sub>5</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>2</sub>O</strong>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Model.Result.N_FirstYear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Result.P2O5_FirstYear&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Result.K2O_FirstYear
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="row">
@@ -217,10 +232,18 @@
                                         <strong>N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P<sub>2</sub>O<sub>5</sub>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;K<sub>2</sub>O</strong>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @Model.Result.N_LongTerm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Result.P2O5_LongTerm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Result.K2O_LongTerm
+                                    </div>
+                                </div>
                             </div>
                         }
                     </div>
                     @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
+                    @Html.HiddenFor(x => x.Data.ToggleElementState, new { id = "ToggleElementState" })
+                    @Html.HiddenFor(x => x.Data.OrganicN_LongTerm)
+                    @Html.HiddenFor(x => x.Data.Nitrate)
                 </form>
             </div>
         </div>
@@ -248,9 +271,15 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $('#collapseArrow').click(function () {
-                $(this).toggleClass('glyphicon-chevron-down').toggleClass('glyphicon-chevron-up');
+            $('#collapseHeader').click(function () {
+                $('#collapseArrow').toggleClass('glyphicon-chevron-down').toggleClass('glyphicon-chevron-up');                
+                if ($('#collapseArrow')[0].className == "glyphicon glyphicon-chevron-up") {
+                    $('#ToggleElementState').val(true);
+                } else {
+                    $('#ToggleElementState').val(false);
+                }
             })
+
         })
         function typeChange() {
             $('#PostedElementEvent').val("TypeChanged");
