@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
+using Agri.Models.Calculate;
 
 namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
 {
@@ -61,6 +63,7 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
             public SelectList UnitOptions { get; set; }
             public SelectList ApplicationOptions { get; set; }
             public SelectList RegionOptions { get; set; }
+            public decimal ApplicationRate { get; set; }
             public string PostedElementEvent { get; set; }
             public string Moisture { get; set; }
             public decimal Nitrogen { get; set; }
@@ -70,8 +73,11 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
             public int DMId { get; set; }
             public decimal AmmoniaRention { get; set; }
             public decimal OrganicN_FirstYear { get; set; }
+            public decimal OrganicN_LongTerm { get; set; }
             public int NMinerizationId { get; set; }
+            public decimal? Nitrate { get; set; }
             public bool isShowValue { get; set; }
+            public bool ToggleElementState { get; set; }
             public string ManurenNutrientCalculatorUserInstruction1 { get; set; }
             public string ManurenNutrientCalculatorUserInstruction2 { get; set; }
             public string NutrientManagementInformation { get; set; }
@@ -82,6 +88,12 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
 
         public class ResultModel
         {
+            public int K2O_FirstYear { get; set; }
+            public int K2O_LongTerm { get; set; }
+            public int P2O5_FirstYear { get; set; }
+            public int P2O5_LongTerm { get; set; }
+            public int N_FirstYear { get; set; }
+            public int N_LongTerm { get; set; }
         }
 
         public class ModelValidator : AbstractValidator<ConverterQuery>
@@ -130,7 +142,7 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                     //command.ManureClass = man.ManureClass;
                     command.Moisture = man.Moisture;
                     //command.Name = man.Name;
-                    //command.Nitrate = man.Nitrate;
+                    command.Nitrate = man.Nitrate;
                     command.Nitrogen = man.Nitrogen;
                     command.NMinerizationId = man.NMineralizationId;
                     command.Phosphorous = man.Phosphorous;
@@ -139,18 +151,94 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                 if (command.SelectedApplication != 0 && command.SelectedManureType != 0 && command.SelectRegion != 0)
                 {
                     var myAmmoniaRetention = _sd.GetAmmoniaRetention(command.SelectedApplication, command.DMId);
-                    command.AmmoniaRention = myAmmoniaRetention.Value ?? 0;
-                    var myNMineralization = _sd.GetNMineralization(command.NMinerizationId, command.SelectRegion);
-                    command.OrganicN_FirstYear = 0;
+                    var ammoniaRention = myAmmoniaRetention.Value ?? 0;
+                    command.AmmoniaRention = ammoniaRention * 100;
+                    var region = _sd.GetRegion(command.SelectRegion);
+                    var myNMineralization = _sd.GetNMineralization(command.NMinerizationId, region.LocationId);
+                    command.OrganicN_FirstYear = myNMineralization.FirstYearValue * 100;
+                    command.OrganicN_LongTerm = myNMineralization.LongTermValue;
                 }
+
                 return await Task.FromResult(command);
             }
 
             public Task<ResultModel> Handle(ConverterQuery request, CancellationToken cancellationToken)
             {
-                var result = new ResultModel
+                var result = new ResultModel();
+                var _cf = _sd.GetConversionFactor();
+
+                decimal potassiumAvailabilityFirstYear = _cf.PotassiumAvailabilityFirstYear;
+                decimal potassiumAvailabilityLongTerm = _cf.PotassiumAvailabilityLongTerm;
+                decimal potassiumKtoK2Oconversion = _cf.PotassiumKtoK2OConversion;
+                decimal phosphorousAvailabilityFirstYear = _cf.PhosphorousAvailabilityFirstYear;
+                decimal phosphorousAvailabilityLongTerm = _cf.PhosphorousAvailabilityLongTerm;
+                decimal phosphorousPtoP2O5Kconversion = _cf.PhosphorousPtoP2O5Conversion;
+                decimal lbPerTonConversion = _cf.PoundPerTonConversion;
+                decimal tenThousand = 10000;
+                decimal applicationRate = request.ApplicationRate;
+
+                // get conversion factor for selected units to lb/ac
+                var myunit = _sd.GetUnit(request.SelectedUnit);
+                decimal conversion = myunit.ConversionlbTon;
+
+                // for solid manures specified in cubic yards per ac, convert application rate to tons/ac
+                if (myunit.Id == 6)//&& farmManure.SolidLiquid.ToUpper() == "SOLID"
                 {
-                };
+                    var manure = _sd.GetManure(request.SelectedManureType);
+                    applicationRate = applicationRate * manure.CubicYardConversion;
+                }
+
+                // get potassium first year
+                result.K2O_FirstYear = Convert.ToInt32(decimal.Multiply(applicationRate, request.Potassium)
+                                                * lbPerTonConversion
+                                                * potassiumKtoK2Oconversion
+                                                * potassiumAvailabilityFirstYear
+                                                * conversion);
+
+                // get potassium long term
+                result.K2O_LongTerm = Convert.ToInt32(decimal.Multiply(applicationRate, request.Potassium)
+                                                * lbPerTonConversion
+                                                * potassiumKtoK2Oconversion
+                                                * potassiumAvailabilityLongTerm
+                                                * conversion);
+
+                // get phosphorous first year
+                result.P2O5_FirstYear = Convert.ToInt32(decimal.Multiply(applicationRate, request.Phosphorous)
+                                                * lbPerTonConversion
+                                                * phosphorousPtoP2O5Kconversion
+                                                * phosphorousAvailabilityFirstYear
+                                                * conversion);
+
+                // get phosphorous long term
+                result.P2O5_LongTerm = Convert.ToInt32(decimal.Multiply(applicationRate, request.Phosphorous)
+                                                * lbPerTonConversion
+                                                * phosphorousPtoP2O5Kconversion
+                                                * phosphorousAvailabilityLongTerm
+                                                * conversion);
+
+                decimal organicN = request.Nitrogen - Convert.ToDecimal(request.Ammonia) / tenThousand;
+
+                var OrganicN_FirstYear = request.OrganicN_FirstYear / 100; // get data from screen
+
+                //decimal ammoniaRetention = GetAmmoniaRetention(mymanure.id, Convert.ToInt32(applicationSeason));
+                decimal ammoniaRetention = request.AmmoniaRention / 100; // get data from screen
+
+                // N 1st year lb/ton = [NH4-N ppm/10,000 * NH4 retention + NO3-N/10,000 + Organic N %  * 1st yr Mineralization] * 20
+
+                decimal a = decimal.Divide(request.Ammonia, tenThousand) * ammoniaRetention;
+
+                decimal b1 = decimal.Multiply(organicN, OrganicN_FirstYear);
+                //E07US20
+                decimal c1 = a + b1 + Convert.ToDecimal(request.Nitrate) / tenThousand;
+                decimal N_Firstyear = decimal.Multiply(c1, lbPerTonConversion);
+                result.N_FirstYear = Convert.ToInt32(applicationRate * N_Firstyear * conversion);
+
+                // same for long term
+                decimal b2 = decimal.Multiply(organicN, request.OrganicN_LongTerm);
+                //E07US20
+                decimal c2 = a + b2 + Convert.ToDecimal(request.Nitrate) / tenThousand;
+                decimal N_LongTerm = decimal.Multiply(c2, lbPerTonConversion);
+                result.N_LongTerm = Convert.ToInt32(applicationRate * N_LongTerm * conversion);
                 return Task.FromResult(result);
             }
         }
