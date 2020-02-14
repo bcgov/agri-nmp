@@ -1162,7 +1162,7 @@ namespace SERVERAPI.Controllers
                     mappedField.NAgroBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
                     mappedField.P205AgroBalance = _feedCalculator.GetP205AgronomicBalance(field);
                     mappedField.K20AgroBalance = _feedCalculator.GetK20AgronomicBalance(field);
-                    mappedField.NCropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field);
+                    mappedField.NCropRemovalValue = _feedCalculator.GetNitrogenCropRemovalValue(field, region);
                     mappedField.P205CropRemovalValue = _feedCalculator.GetP205CropRemovalValue(field);
                     mappedField.K20CropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field);
                     mappedField.MatureAnimalDailyFeedRequirement = dailyFeedRequirements
@@ -1171,6 +1171,9 @@ namespace SERVERAPI.Controllers
                     mappedField.MatureAnimalDailyFeedRequirementName = dailyFeedRequirements
                         .Single(df => df.Id == mappedField.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0))
                         ?.Name;
+                    mappedField.GrowingAnimalDailyFeedRequirement = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Value;
                     mappedField.GrowingAnimalDailyFeedRequirementName = dailyFeedRequirements
                         .Single(df => df.Id == mappedField.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0))
                         ?.Name;

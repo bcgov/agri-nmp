@@ -24,23 +24,23 @@
     </div>
     <div class="Row" style="padding-bottom:20px">
         <div class="Cell">
-            <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+            <table style="border-collapse: collapse; page-break-inside:avoid">
                 <tr>
                     <td class="CellHdg" style="width: 40px">
                         <b>Area</b>
                     </td>
-                    <td class="CellDtl" style="width: 200px">
+                    <td class="CellDtl" style="width: 60px; text-align:center">
                         @field.FieldArea acres
                     </td>
-                    <td class="CellHdg" style="width: 70px" rowspan="2">
+                    <td class="CellHdg" style="width: 50px" rowspan="2">
                         Comments:
                     </td>
-                    <td class="CellDtl" style="" rowspan="2">
+                    <td class="CellDtl" style="min-width:200px" rowspan="2">
                         @(string.IsNullOrEmpty(field.FieldComment) ? Html.Raw("&nbsp;") : Html.Raw(field.FieldComment))
                     </td>
                 </tr>
                 <tr>
-                    <td class="CellDtl" style="" colspan="2">
+                    <td class="CellDtl" style="text-align:center" colspan="2">
                         Duration of feeding: @field.FeedingDaysSpentInFeedingArea days
                     </td>
                 </tr>
@@ -51,7 +51,7 @@
     {
         <div class="Row" style="padding-bottom:20px">
             <div class="Cell">
-                <table style="border-collapse: collapse; width: 80%;page-break-inside:avoid">
+                <table style="border-collapse: collapse; page-break-inside:avoid">
                     <tr>
                         <td colspan="5">
                             <b>Animals</b>
@@ -60,16 +60,16 @@
                     @if (field.MatureAnimalCount.HasValue)
                     {
                         <tr>
-                            <td class="CellDtl" style="width: 40px">
+                            <td class="CellDtl" style="width: 40px; text-align:center">
                                 @field.MatureAnimalCount
                             </td>
-                            <td class="CellHdg" style="width: 80px">
+                            <td class="CellHdg" style="width: 50px">
                                 <b>Mature</b>
                             </td>
-                            <td class="CellDtl" style="width: 90px">
+                            <td class="CellDtl" style="width: 90px; text-align:center">
                                 Averaging @field.MatureAnimalAverageWeight lbs
                             </td>
-                            <td class="CellDtl" style="width: 150px">
+                            <td class="CellDtl" style="width: 150px; text-align:center">
                                 @field.MatureAnimalDailyFeedRequirementName
                             </td>
                         </tr>
@@ -78,16 +78,16 @@
                     @if (field.GrowingAnimalCount.HasValue)
                     {
                         <tr>
-                            <td class="CellDtl" style="">
+                            <td class="CellDtl" style="text-align:center">
                                 @field.GrowingAnimalCount
                             </td>
                             <td class="CellHdg" style="">
                                 <b>Growing</b>
                             </td>
-                            <td class="CellDtl" style="">
+                            <td class="CellDtl" style="text-align:center">
                                 Averaging @field.GrowingAnimalAverageWeight lbs
                             </td>
-                            <td class="CellDtl" style="">
+                            <td class="CellDtl" style="text-align:center">
                                 @field.GrowingAnimalDailyFeedRequirementName
                             </td>
                         </tr>
@@ -101,7 +101,7 @@
     {
         <div class="Row" style="padding-bottom:20px">
             <div class="Cell">
-                <table style="border-collapse: collapse; width: 50%;page-break-inside:avoid">
+                <table style="border-collapse: collapse; page-break-inside:avoid">
                     <tr>
                         <td colspan="5">
                             <b>Calculated feed requirement:</b>
@@ -110,7 +110,7 @@
                     @if (field.MatureAnimalCount.HasValue)
                     {
                         <tr>
-                            <td class="CellDtl" style="">
+                            <td class="CellDtl" style="min-width: 200px; padding-left:5px">
                                 @field.CalculatedMatureFeedRequirement tons for mature  animals over @field.FeedingDaysSpentInFeedingArea days
                             </td>
                         </tr>
@@ -118,7 +118,7 @@
                     @if (field.GrowingAnimalCount.HasValue)
                     {
                         <tr>
-                            <td class="CellDtl" style="">
+                            <td class="CellDtl" style="padding-left:5px">
                                 @field.CalculatedGrowingFeedRequirement tons for mature  animals over @field.FeedingDaysSpentInFeedingArea days
                             </td>
                         </tr>
@@ -131,21 +131,21 @@
     {
         <div class="Row">
             <div class="Cell">
-                <table style="border-collapse: collapse; width: 80%;page-break-inside:avoid">
+                <table style="border-collapse: collapse; page-break-inside:avoid">
                     <tr>
                         <td class="CellHdg" style="width: 25px" rowspan="2">
                             <b>Feed @analytic.Id</b>
                         </td>
-                        <td class="CellHdg" style="width: 55px">
+                        <td class="CellHdg" style="width: 75px">
                             <b>@analytic.FeedForageType</b>
                         </td>
-                        <td class="CellDtl" style="width: 45px">
+                        <td class="CellDtl" style="width: 75px;text-align:center">
                             @(analytic.PercentOfTotalFeedForageToAnimals) % of intake
                         </td>
-                        <td class="CellDtl" style="width: 45px">
+                        <td class="CellDtl" style="width: 75px;text-align:center">
                             @(analytic.PercentOfFeedForageWastage) % wasted feed
                         </td>
-                        <td class="CellDtl" style="width: 45px">
+                        <td class="CellDtl" style="width: 75px;text-align:center">
                             &nbsp;
                         </td>
                     </tr>
@@ -154,13 +154,13 @@
                             <span>Analysis</span>
                             <span>(@(analytic.UseBookValues ? "default" : "custom"))</span>
                         </td>
-                        <td class="CellDtl" style="">
+                        <td class="CellDtl" style="text-align:center">
                             @analytic.CrudeProteinPercent %CP
                         </td>
-                        <td class="CellDtl" style="">
+                        <td class="CellDtl" style="text-align:center">
                             @(analytic.Phosphorus) %P
                         </td>
-                        <td class="CellDtl" style="">
+                        <td class="CellDtl" style="text-align:center">
                             @(analytic.Potassium) %K
                         </td>
                     </tr>
@@ -170,23 +170,24 @@
     }
     <div class="Row" style="padding-top: 20px; ">
         <div class="Cell">
-            <table style="border-collapse: collapse; width: 80%;page-break-inside:avoid">
+            <table style="border-collapse: collapse; width: 75%;page-break-inside:avoid">
                 <tr style="padding-top:20px; padding-bottom:20px">
                     <td class="CellDtl" rowspan="3" style="width: 60%">
                         Feed management over the @field.FeedingDaysSpentInFeedingArea day
                         feeding period can contribute the following total nutrient value to the soil.
                     </td>
-                    <td class="CellDtl" style="width:25px">N</td>
-                    <td class="CellDtl" style="width:25px">P<sub>2</sub>O<sub>5</sub></td>
-                    <td class="CellDtl" style="width:25px">K<sub>2</sub>O</td>
+                    <td class="CellDtl" style="width:25px;text-align:center">N</td>
+                    <td class="CellDtl" style="        width: 25px;
+        text-align: center">P<sub>2</sub>O<sub>5</sub></td>
+                    <td class="CellDtl" style="width:25px;text-align:center">K<sub>2</sub>O</td>
                 </tr>
                 <tr>
                     <td class="CellDtl" colspan="3" style="text-align: center">lbs/ac</td>
                 </tr>
                 <tr>
-                    <td class="CellDtl" style="">@field.NAgroBalance</td>
-                    <td class="CellDtl" style="">@field.P205AgroBalance</td>
-                    <td class="CellDtl" style="">@field.K20AgroBalance</td>
+                    <td class="CellDtl" style="text-align:center">@field.NAgroBalance</td>
+                    <td class="CellDtl" style="text-align:center">@field.P205AgroBalance</td>
+                    <td class="CellDtl" style="text-align:center">@field.K20AgroBalance</td>
                 </tr>
             </table>
         </div>
@@ -198,17 +199,17 @@
                     <td class="CellDtl" rowspan="3" style="width: 60%">
                         The short-term nutrient benefit to the growing season following winter feeding may be up to
                     </td>
-                    <td class="CellDtl" style="width:25px">N</td>
-                    <td class="CellDtl" style="width:25px">P<sub>2</sub>O<sub>5</sub></td>
-                    <td class="CellDtl" style="width:25px">K<sub>2</sub>O</td>
+                    <td class="CellDtl" style="width:25px;text-align:center">N</td>
+                    <td class="CellDtl" style="width:25px;text-align:center">P<sub>2</sub>O<sub>5</sub></td>
+                    <td class="CellDtl" style="width:25px;text-align:center">K<sub>2</sub>O</td>
                 </tr>
                 <tr>
                     <td class="CellDtl" colspan="3" style="text-align: center">lbs/ac</td>
                 </tr>
                 <tr>
-                    <td class="CellDtl" style="">@field.NCropRemovalValue</td>
-                    <td class="CellDtl" style="">@field.P205CropRemovalValue</td>
-                    <td class="CellDtl" style="">@field.K20CropRemovalValue</td>
+                    <td class="CellDtl" style="text-align:center">@field.NCropRemovalValue</td>
+                    <td class="CellDtl" style="text-align:center">@field.P205CropRemovalValue</td>
+                    <td class="CellDtl" style="text-align:center">@field.K20CropRemovalValue</td>
                 </tr>
             </table>
         </div>
