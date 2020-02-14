@@ -35,14 +35,16 @@ namespace Agri.CalculateService
         private readonly IAgriConfigurationRepository _sd;
 
         private readonly ICalculateCropRequirementRemoval _calculateCropRequirementRemoval;
-
+        private readonly IFeedAreaCalculator _feedCalculator;
         public ChemicalBalances chemicalBalances = new ChemicalBalances();
 
         public ChemicalBalanceMessage(IAgriConfigurationRepository sd,
-            ICalculateCropRequirementRemoval calculateCropRequirementRemoval)
+            ICalculateCropRequirementRemoval calculateCropRequirementRemoval,
+            IFeedAreaCalculator feedCalculator)
         {
             _sd = sd;
             _calculateCropRequirementRemoval = calculateCropRequirementRemoval;
+            _feedCalculator = feedCalculator;
         }
 
         public List<BalanceMessages> DetermineBalanceMessages(Field field, int farmRegionId, string year)
@@ -171,6 +173,17 @@ namespace Agri.CalculateService
                 }
             }
 
+            if (field.IsSeasonalFeedingArea && field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
+            {
+                var region = _sd.GetRegion(farmRegionId);
+                chemicalBalances.balance_AgrN += Convert.ToInt64(_feedCalculator.GetNitrogenAgronomicBalance(field, region));
+                chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(_feedCalculator.GetP205AgronomicBalance(field));
+                chemicalBalances.balance_AgrK2O += Convert.ToInt64(_feedCalculator.GetK20AgronomicBalance(field));
+                chemicalBalances.balance_CropN += Convert.ToInt64(_feedCalculator.GetNitrogenCropRemovalValue(field, region));
+                chemicalBalances.balance_CropP2O5 += Convert.ToInt64(_feedCalculator.GetP205CropRemovalValue(field));
+                chemicalBalances.balance_CropK2O += Convert.ToInt64(_feedCalculator.GetK20CropRemovalValue(field));
+            }
+
             // include the Nitrogren credit as a result of adding manure in previous years
             // lookup default Nitrogen credit.
             //Field field = _ud.GetFieldDetails(fldName);
@@ -258,28 +271,29 @@ namespace Agri.CalculateService
         {
             long LegumeAgronomicN = 0;
 
-            //List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName)
-            var manures = field.Nutrients.nutrientManures;
-            foreach (var m in manures)
+            if (field.HasNutrients)
             {
-                LegumeAgronomicN += Convert.ToInt64(m.yrN);
-            }
+                //List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName)
+                var manures = field.Nutrients.nutrientManures;
+                foreach (var m in manures)
+                {
+                    LegumeAgronomicN += Convert.ToInt64(m.yrN);
+                }
 
-            //List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
-            var fertilizers = field.Nutrients.nutrientFertilizers;
-            foreach (var f in fertilizers)
-            {
-                LegumeAgronomicN += Convert.ToInt64(f.fertN);
-            }
+                //List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
+                var fertilizers = field.Nutrients.nutrientFertilizers;
+                foreach (var f in fertilizers)
+                {
+                    LegumeAgronomicN += Convert.ToInt64(f.fertN);
+                }
 
-            //List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
-            var others = field.Nutrients.nutrientOthers;
-            foreach (var m in others)
-            {
-                LegumeAgronomicN += Convert.ToInt64(m.yrN);
+                //List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
+                var others = field.Nutrients.nutrientOthers;
+                foreach (var m in others)
+                {
+                    LegumeAgronomicN += Convert.ToInt64(m.yrN);
+                }
             }
-
-            //Field field = _ud.GetFieldDetails(fldName);
 
             if (field.PreviousYearManureApplicationNitrogenCredit != null)
                 LegumeAgronomicN += Convert.ToInt64(field.PreviousYearManureApplicationNitrogenCredit);
