@@ -29,7 +29,7 @@
                     <td class="CellHdg" style="width: 40px">
                         <b>Area</b>
                     </td>
-                    <td class="CellDtl" style="width: 60px; text-align:center">
+                    <td class="CellDtl" style="width: 100px; text-align:center">
                         @field.FieldArea acres
                     </td>
                     <td class="CellHdg" style="width: 50px" rowspan="2">
@@ -69,7 +69,7 @@
                             <td class="CellDtl" style="width: 90px; text-align:center">
                                 Averaging @field.MatureAnimalAverageWeight lbs
                             </td>
-                            <td class="CellDtl" style="width: 150px; text-align:center">
+                            <td class="CellDtl" style="min-width: 150px; text-align:center">
                                 @field.MatureAnimalDailyFeedRequirementName
                             </td>
                         </tr>
@@ -133,10 +133,10 @@
             <div class="Cell">
                 <table style="border-collapse: collapse; page-break-inside:avoid">
                     <tr>
-                        <td class="CellHdg" style="width: 25px" rowspan="2">
+                        <td class="CellHdg" style="width: 50px" rowspan="2">
                             <b>Feed @analytic.Id</b>
                         </td>
-                        <td class="CellHdg" style="width: 75px">
+                        <td class="CellHdg" style="width: 100px">
                             <b>@analytic.FeedForageType</b>
                         </td>
                         <td class="CellDtl" style="width: 75px;text-align:center">
@@ -177,8 +177,9 @@
                         feeding period can contribute the following total nutrient value to the soil.
                     </td>
                     <td class="CellDtl" style="width:25px;text-align:center">N</td>
-                    <td class="CellDtl" style="        width: 25px;
-        text-align: center">P<sub>2</sub>O<sub>5</sub></td>
+                    <td class="CellDtl" style="width: 25px;text-align: center">
+                        P<sub>2</sub>O<sub>5</sub>
+                    </td>
                     <td class="CellDtl" style="width:25px;text-align:center">K<sub>2</sub>O</td>
                 </tr>
                 <tr>
