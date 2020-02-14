@@ -1744,7 +1744,7 @@ namespace SERVERAPI.Controllers
                 report += reportAnalysis;
             }
 
-            if (reportAnalysis.Contains("div"))
+            if (reportFeedingArea.Contains("div"))
             {
                 report += pageBreak;
                 report += reportFeedingArea;
@@ -1782,25 +1782,25 @@ namespace SERVERAPI.Controllers
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
             PDF_Options options = new PDF_Options();
-            options.Border = new PDF_Border();
-            options.Header = new PDF_Header();
-            options.Footer = new PDF_Footer();
-            options.PaginationOffset = -1;
+            options.border = new PDF_Border();
+            options.header = new PDF_Header();
+            options.footer = new PDF_Footer();
+            options.paginationOffset = -1;
 
-            options.Type = "pdf";
-            options.Quality = "75";
-            options.Format = "letter";
-            options.Orientation = (portrait) ? "portrait" : "landscape";
-            options.Fontbase = "/usr/share/fonts/dejavu";
-            options.Border.Top = ".25in";
-            options.Border.Right = ".25in";
-            options.Border.Bottom = ".25in";
-            options.Border.Left = ".25in";
-            options.Header.Height = "20mm";
-            options.Header.Contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().FarmName + "<br />" +
+            options.type = "pdf";
+            options.quality = "75";
+            options.format = "letter";
+            options.orientation = (portrait) ? "portrait" : "landscape";
+            options.fontbase = "/usr/share/fonts/dejavu";
+            options.border.top = ".25in";
+            options.border.right = ".25in";
+            options.border.bottom = ".25in";
+            options.border.left = ".25in";
+            options.header.height = "20mm";
+            options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().FarmName + "<br />" +
                                       "Planning Year: " + _ud.FarmDetails().Year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
-            options.Footer.Height = "15mm";
-            options.Footer.Contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
+            options.footer.height = "15mm";
+            options.footer.contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
 
             // call the microservice
             try
