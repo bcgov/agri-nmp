@@ -30,13 +30,13 @@ namespace SERVERAPI.ViewModels
             public decimal? MatureAnimalDailyFeedRequirement { get; set; }
             public string MatureAnimalDailyFeedRequirementName { get; set; }
 
-            public int CalculatedMatureFeedRequirement
+            public decimal CalculatedMatureFeedRequirement
             {
                 get
                 {
                     return Convert.ToInt32(MatureAnimalDailyFeedRequirement.GetValueOrDefault(0) *
                         MatureAnimalAverageWeight.GetValueOrDefault(0) *
-                        FeedingDaysSpentInFeedingArea.GetValueOrDefault(0));
+                        FeedingDaysSpentInFeedingArea.GetValueOrDefault(0)) / 2000m;
                 }
             }
 
@@ -44,13 +44,13 @@ namespace SERVERAPI.ViewModels
             public decimal? GrowingAnimalDailyFeedRequirement { get; set; }
             public string GrowingAnimalDailyFeedRequirementName { get; set; }
 
-            public int CalculatedGrowingFeedRequirement
+            public decimal CalculatedGrowingFeedRequirement
             {
                 get
                 {
                     return Convert.ToInt32(GrowingAnimalDailyFeedRequirement.GetValueOrDefault(0) *
                         GrowingAnimalAverageWeight.GetValueOrDefault(0) *
-                        FeedingDaysSpentInFeedingArea.GetValueOrDefault(0));
+                        FeedingDaysSpentInFeedingArea.GetValueOrDefault(0)) / 2000m;
                 }
             }
 
