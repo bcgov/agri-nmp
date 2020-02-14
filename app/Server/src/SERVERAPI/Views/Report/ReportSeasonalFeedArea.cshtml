@@ -134,25 +134,25 @@
                 <table style="border-collapse: collapse; width: 50%;page-break-inside:avoid">
                     <tr>
                         <td class="CellHdg" style="width: 50px" rowspan="2">
-                            <b>Feed @analytic.FeedForageId</b>
+                            <b>Feed @analytic.Id</b>
                         </td>
                         <td class="CellHdg" style="width: 75px">
-                            <b>Feed Type</b>
+                            <b>@analytic.FeedForageType</b>
                         </td>
-                        <td class="CellDtl" style="">
+                        <td class="CellDtl" style="width: 30px">
                             @(analytic.PercentOfTotalFeedForageToAnimals) % of intake
                         </td>
-                        <td class="CellDtl" style="">
+                        <td class="CellDtl" style="width: 30px">
                             @(analytic.PercentOfFeedForageWastage) % wasted feed
                         </td>
-                        <td class="CellDtl" style="">
+                        <td class="CellDtl" style="width: 30px">
                             &nbsp;
                         </td>
                     </tr>
                     <tr>
                         <td class="CellHdg" style="">
                             <span>Analysis</span>
-                            <span>@(analytic.UseBookValues ? "Default" : "Custom")</span>
+                            <span>(@(analytic.UseBookValues ? "default" : "custom"))</span>
                         </td>
                         <td class="CellDtl" style="">
                             @analytic.CrudeProteinPercent %CP
@@ -176,9 +176,9 @@
                         Feed management over the @field.FeedingDaysSpentInFeedingArea day
                         feeding period can contribute the following total nutrient value to the soil.
                     </td>
-                    <td class="CellDtl" style="">N</td>
-                    <td class="CellDtl" style="">P<sub>2</sub>O<sub>5</sub></td>
-                    <td class="CellDtl" style="">K<sub>2</sub>O</td>
+                    <td class="CellDtl" style="width:25px">N</td>
+                    <td class="CellDtl" style="width:25px">P<sub>2</sub>O<sub>5</sub></td>
+                    <td class="CellDtl" style="width:25px">K<sub>2</sub>O</td>
                 </tr>
                 <tr>
                     <td class="CellDtl" colspan="3" style="text-align: center">lbs/ac</td>
@@ -198,9 +198,9 @@
                     <td class="CellDtl" rowspan="3" style="width: 60%">
                         The short-term nutrient benefit to the growing season following winter feeding may be up to
                     </td>
-                    <td class="CellDtl" style="">N</td>
-                    <td class="CellDtl" style="">P<sub>2</sub>O<sub>5</sub></td>
-                    <td class="CellDtl" style="">K<sub>2</sub>O</td>
+                    <td class="CellDtl" style="width:25px">N</td>
+                    <td class="CellDtl" style="width:25px">P<sub>2</sub>O<sub>5</sub></td>
+                    <td class="CellDtl" style="width:25px">K<sub>2</sub>O</td>
                 </tr>
                 <tr>
                     <td class="CellDtl" colspan="3" style="text-align: center">lbs/ac</td>

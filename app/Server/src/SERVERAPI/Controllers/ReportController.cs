@@ -1174,8 +1174,10 @@ namespace SERVERAPI.Controllers
                     mappedField.GrowingAnimalDailyFeedRequirementName = dailyFeedRequirements
                         .Single(df => df.Id == mappedField.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0))
                         ?.Name;
-                    foreach (var analytic in field.FeedForageAnalyses)
+
+                    foreach (var analytic in mappedField.FeedForageAnalyses)
                     {
+                        analytic.FeedForageType = feedForageTypes.Single(f => f.Id == analytic.FeedForageTypeId).Name;
                     }
                 }
             }
