@@ -29,7 +29,7 @@
                     <td class="CellHdg" style="width: 40px">
                         <b>Area</b>
                     </td>
-                    <td class="CellDtl" style="width: 300px">
+                    <td class="CellDtl" style="width: 200px">
                         @field.FieldArea acres
                     </td>
                     <td class="CellHdg" style="width: 70px" rowspan="2">
@@ -51,7 +51,7 @@
     {
         <div class="Row" style="padding-bottom:20px">
             <div class="Cell">
-                <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <table style="border-collapse: collapse; width: 75%;page-break-inside:avoid">
                     <tr>
                         <td colspan="5">
                             <b>Animals</b>
@@ -60,17 +60,17 @@
                     @if (field.MatureAnimalCount.HasValue)
                     {
                         <tr>
-                            <td class="CellDtl" style="">
+                            <td class="CellDtl" style="width: 40px">
                                 @field.MatureAnimalCount
                             </td>
-                            <td class="CellHdg" style="">
+                            <td class="CellHdg" style="width: 80px">
                                 <b>Mature</b>
                             </td>
-                            <td class="CellDtl" style="">
+                            <td class="CellDtl" style="width: 150px">
                                 Averaging @field.MatureAnimalAverageWeight lbs
                             </td>
                             <td class="CellDtl" style="">
-                                @field.MatureAnimalDailyFeedRequirementId
+                                @field.MatureAnimalDailyFeedRequirementName
                             </td>
                         </tr>
                     }
@@ -88,7 +88,7 @@
                                 Averaging @field.GrowingAnimalAverageWeight lbs
                             </td>
                             <td class="CellDtl" style="">
-                                @field.GrowingAnimalDailyFeedRequirementId
+                                @field.GrowingAnimalDailyFeedRequirementName
                             </td>
                         </tr>
                     }
@@ -131,12 +131,12 @@
     {
         <div class="Row">
             <div class="Cell">
-                <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <table style="border-collapse: collapse; width: 50%;page-break-inside:avoid">
                     <tr>
-                        <td class="CellHdg" style="" rowspan="2">
+                        <td class="CellHdg" style="width: 50px" rowspan="2">
                             <b>Feed @analytic.FeedForageId</b>
                         </td>
-                        <td class="CellHdg" style="">
+                        <td class="CellHdg" style="width: 75px">
                             <b>Feed Type</b>
                         </td>
                         <td class="CellDtl" style="">

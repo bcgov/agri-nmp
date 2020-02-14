@@ -28,6 +28,7 @@ namespace SERVERAPI.ViewModels
             public int? GrowingAnimalAverageWeight { get; set; }
             public int? MatureAnimalDailyFeedRequirementId { get; set; }
             public decimal? MatureAnimalDailyFeedRequirement { get; set; }
+            public string MatureAnimalDailyFeedRequirementName { get; set; }
 
             public int CalculatedMatureFeedRequirement
             {
@@ -41,6 +42,7 @@ namespace SERVERAPI.ViewModels
 
             public int? GrowingAnimalDailyFeedRequirementId { get; set; }
             public decimal? GrowingAnimalDailyFeedRequirement { get; set; }
+            public string GrowingAnimalDailyFeedRequirementName { get; set; }
 
             public int CalculatedGrowingFeedRequirement
             {
@@ -72,6 +74,7 @@ namespace SERVERAPI.ViewModels
             public int Id { get; set; }
             public int? FeedForageTypeId { get; set; }
             public int? FeedForageId { get; set; }
+            public string FeedForageType { get; set; }
             public bool UseBookValues { get; set; } = true;
 
             public decimal? CrudeProteinPercent

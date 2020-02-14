@@ -1149,6 +1149,11 @@ namespace SERVERAPI.Controllers
             var region = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value);
             var dailyFeedRequirements = _sd.GetDailyFeedRequirement();
 
+            var feedForageTypes = new List<FeedForageType>();
+            if (fields.Any(f => f.FeedForageAnalyses.Any()))
+            {
+                feedForageTypes = _sd.GetFeedForageTypes();
+            }
             foreach (var field in fields)
             {
                 if (field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
@@ -1163,9 +1168,15 @@ namespace SERVERAPI.Controllers
                     mappedField.MatureAnimalDailyFeedRequirement = dailyFeedRequirements
                         .Single(df => df.Id == mappedField.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0))
                         ?.Value;
-                    mappedField.GrowingAnimalDailyFeedRequirement = dailyFeedRequirements
+                    mappedField.MatureAnimalDailyFeedRequirementName = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Name;
+                    mappedField.GrowingAnimalDailyFeedRequirementName = dailyFeedRequirements
                         .Single(df => df.Id == mappedField.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0))
-                        ?.Value;
+                        ?.Name;
+                    foreach (var analytic in field.FeedForageAnalyses)
+                    {
+                    }
                 }
             }
 
