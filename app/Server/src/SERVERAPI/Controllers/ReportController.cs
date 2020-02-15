@@ -1244,16 +1244,6 @@ namespace SERVERAPI.Controllers
                 vm.ContentItems.Add(new ContentItem { SectionName = "Fertilizer Required", PageNumber = pageNumber });
             }
 
-            //Seasonal Feeding Areas
-            var feedingAreas = _ud.GetFields()
-                .Where(f => f.IsSeasonalFeedingArea && f.FeedForageAnalyses != null && f.FeedForageAnalyses.Any())
-                .Select(f => $"{f.FieldName} Feeding Area");
-            foreach (var area in feedingAreas)
-            {
-                pageNumber = pageNumber + 1;
-                vm.ContentItems.Add(new ContentItem { SectionName = area, PageNumber = pageNumber });
-            }
-
             //ReportFields
             var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.FieldName}");
             foreach (var fieldName in fieldNames)
@@ -1268,6 +1258,16 @@ namespace SERVERAPI.Controllers
                 pageNumber = pageNumber + 1;
                 vm.ContentItems.Add(new ContentItem
                 { SectionName = "Manure and Compost Analysis", PageNumber = pageNumber });
+            }
+
+            //Seasonal Feeding Areas
+            var feedingAreas = _ud.GetFields()
+                .Where(f => f.IsSeasonalFeedingArea && f.FeedForageAnalyses != null && f.FeedForageAnalyses.Any())
+                .Select(f => $"{f.FieldName} Feeding Area");
+            foreach (var area in feedingAreas)
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem { SectionName = area, PageNumber = pageNumber });
             }
 
             //ReportSummary
