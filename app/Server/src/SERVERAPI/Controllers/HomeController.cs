@@ -182,6 +182,17 @@ namespace SERVERAPI.Controllers
                                 return View(lvm);
                             }
 
+                            //Add user journey base as HasMixedLiveStock
+                            if (fd.NMPReleaseVersion < 3)
+                            {
+                                fd.farmDetails.HasSelectedFarmType = true;
+
+                                if (fd.farmDetails.HasAnimals)
+                                {
+                                    fd.farmDetails.HasMixedLiveStock = true;
+                                }
+                            }
+
                             // Returns message that successfully uploaded
                             _ud.SaveFarmData(fd);
                             HttpContext.Session.SetObject("Farm",
