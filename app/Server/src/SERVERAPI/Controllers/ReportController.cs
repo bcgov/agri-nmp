@@ -195,9 +195,23 @@ namespace SERVERAPI.Controllers
 
         public async Task<string> RenderHeader()
         {
-            ReportViewModel rvm = new ReportViewModel();
+            var rvm = new ReportViewModel();
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportHeader.cshtml", rvm);
+
+            return result;
+        }
+
+        public async Task<string> RenderBody(string rawContent, string header, string footer)
+        {
+            var rvm = new ReportPrintViewModel
+            {
+                Body = rawContent,
+                RepeatHeader = header,
+                RepeatFooter = footer
+            };
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportBody.cshtml", rvm);
 
             return result;
         }
@@ -1436,33 +1450,36 @@ namespace SERVERAPI.Controllers
 
         public async Task<string> RenderSheets()
         {
-            string crpName = string.Empty;
-            ReportSheetsViewModel rvm = new ReportSheetsViewModel();
-            rvm.year = _ud.FarmDetails().Year;
-
-            rvm.fields = new List<ReportSheetsField>();
+            var rvm = new ReportSheetsViewModel
+            {
+                year = _ud.FarmDetails().Year,
+                fields = new List<ReportSheetsField>()
+            };
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
             {
-                ReportSheetsField rf = new ReportSheetsField();
-                rf.fieldName = f.FieldName;
-                rf.fieldArea = f.Area.ToString("G29");
-                rf.nutrients = new List<ReportFieldNutrient>();
+                var rf = new ReportSheetsField
+                {
+                    fieldName = f.FieldName,
+                    fieldArea = f.Area.ToString("G29"),
+                    nutrients = new List<ReportFieldNutrient>()
+                };
                 if (f.Nutrients != null)
                 {
                     if (f.Nutrients.nutrientManures != null)
                     {
                         foreach (var m in f.Nutrients.nutrientManures)
                         {
-                            FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
-                            ReportFieldNutrient rfn = new ReportFieldNutrient();
-
-                            rfn.nutrientName = manure.Name;
-                            rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
-                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
-                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
-                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).Name;
+                            var manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
+                            var rfn = new ReportFieldNutrient
+                            {
+                                nutrientName = manure.Name,
+                                nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate)),
+                                nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season,
+                                nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod,
+                                nutrientUnit = _sd.GetUnit(m.unitId).Name
+                            };
                             rf.nutrients.Add(rfn);
                         }
                     }
@@ -1470,10 +1487,10 @@ namespace SERVERAPI.Controllers
                     {
                         foreach (var ft in f.Nutrients.nutrientFertilizers)
                         {
-                            string fertilizerName = string.Empty;
-                            ReportFieldNutrient rfn = new ReportFieldNutrient();
+                            var rfn = new ReportFieldNutrient();
                             FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
 
+                            string fertilizerName;
                             if (ftyp.Custom)
                             {
                                 fertilizerName = ftyp.DryLiquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
@@ -1497,16 +1514,18 @@ namespace SERVERAPI.Controllers
                 }
                 if (rf.nutrients.Count() == 0)
                 {
-                    ReportFieldNutrient rfn = new ReportFieldNutrient();
-                    rfn.nutrientName = "None planned";
-                    rfn.nutrientAmount = "";
+                    var rfn = new ReportFieldNutrient
+                    {
+                        nutrientName = "None planned",
+                        nutrientAmount = ""
+                    };
                     rf.nutrients.Add(rfn);
                 }
                 if (f.Crops != null)
                 {
                     foreach (var c in f.Crops)
                     {
-                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
+                        string crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
                     }
                 }
@@ -1578,12 +1597,9 @@ namespace SERVERAPI.Controllers
 
         public async Task<IActionResult> PrintSources()
         {
-            FileContentResult result = null;
-
             string reportSources = await RenderSources();
 
-            result = await PrintReportAsync(reportSources, true);
-
+            FileContentResult result = await PrintReportAsync(reportSources, true);
             return result;
         }
 
@@ -1597,12 +1613,9 @@ namespace SERVERAPI.Controllers
 
         public async Task<IActionResult> PrintSheets()
         {
-            FileContentResult result = null;
-
             string reportSheets = _ud.GetRecordKeepingSheets();
 
-            result = await PrintReportAsync(reportSheets, false);
-
+            FileContentResult result = await PrintReportAsync(reportSheets, false);
             return result;
         }
 
@@ -1777,43 +1790,18 @@ namespace SERVERAPI.Controllers
 
         public async Task<FileContentResult> PrintReportAsync(string content, bool portrait)
         {
-            string reportHeader = string.Empty;
-
-            FileContentResult result = null;
             var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
-
-            string targetUrl = pdfHost + "/api/PDF/BuildPDF";
-
-            PDF_Options options = new PDF_Options();
-            options.border = new PDF_Border();
-            options.header = new PDF_Header();
-            options.footer = new PDF_Footer();
-            options.paginationOffset = -1;
-
-            options.type = "pdf";
-            options.quality = "75";
-            options.format = "letter";
-            options.orientation = (portrait) ? "portrait" : "landscape";
-            options.fontbase = "/usr/share/fonts/dejavu";
-            options.border.top = ".25in";
-            options.border.right = ".25in";
-            options.border.bottom = ".25in";
-            options.border.left = ".25in";
-            options.header.height = "20mm";
-            options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().FarmName + "<br />" +
-                                      "Planning Year: " + _ud.FarmDetails().Year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
-            options.footer.height = "15mm";
-            options.footer.contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
+            //string targetUrl = pdfHost + "/api/PDF/BuildPDF";
+            //var pdfHost = Environment.GetEnvironmentVariable("WEASYPRINT_URL");
+            string targetUrl = "http://127.0.0.1:5001/pdf";
+            FileContentResult result;
 
             // call the microservice
             try
             {
-                PDFRequest req = new PDFRequest();
+                //PDFRequest req = new PDFRequest();
 
-                HttpClient client = new HttpClient();
-
-                reportHeader = await RenderHeader();
-
+                string reportHeader = await RenderHeader();
                 string rawdata = "<!DOCTYPE html>" +
                     "<html>" +
                     reportHeader +
@@ -1825,15 +1813,16 @@ namespace SERVERAPI.Controllers
                     //"</div>" +
                     "</body></html>";
 
-                req.html = rawdata;
-                req.options = JsonConvert.SerializeObject(options);
-                req.options = req.options.Replace("fontbase", "base");
+                //req.html = rawdata;
+                //req.options = JsonConvert.SerializeObject(options);
+                //req.options = req.options.Replace("fontbase", "base");
 
                 //FileContentResult res = await BuildPDF(nodeServices, req);
 
                 //return res;
 
-                string payload = JsonConvert.SerializeObject(req);
+                //string payload = JsonConvert.SerializeObject(req);
+                string payload = rawdata;
 
                 var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
                 request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
@@ -1847,7 +1836,8 @@ namespace SERVERAPI.Controllers
                     request.Headers.Add(key, value);
                 }
 
-                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
+                var client = new HttpClient();
+                var responseTask = client.SendAsync(request);
                 responseTask.Wait();
 
                 HttpResponseMessage response = responseTask.Result;
@@ -1878,6 +1868,23 @@ namespace SERVERAPI.Controllers
             }
 
             return result;
+        }
+
+        private string GetHeader(string page, string pages)
+        {
+            var header =
+                "<div><span style=\"float: left; font-size:14px\">Farm Name: {0}<br />Planning Year: {1}</span></div>" +
+                "<div style=\"float:right; vertical-align:top; text-align: right\">" +
+                "<span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: {2}</div>";
+
+            header = string.Format(header, _ud.FarmDetails().FarmName, _ud.FarmDetails().Year, DateTime.Now.ToShortDateString());
+
+            return header;
+        }
+
+        private string GetFooter()
+        {
+            return $"<div></div><div style=\"float:right\">Version {_sd.GetStaticDataVersion()}</div>";
         }
     }
 }
