@@ -92,11 +92,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
         {
             public int Id { get; set; }
             public string FieldName { get; set; }
-            //public Nutrients Nutrients { get; set; }
-
-            //public List<FieldCrop> Crops { get; set; }
-            //public SoilTest SoilTest { get; set; }
-
             public decimal? FieldArea { get; set; }
             public string FieldComment { get; set; }
 
@@ -105,7 +100,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
             public string PrevYearManureApplicationFrequency { get; set; }
             public int? PrevYearManureApplicationNitrogenCredit { get; set; }
 
-            //public decimal? SoilTestNitrateOverrideNitrogenCredit { get; set; }
             public string Placehldr { get; set; }
 
             public bool IsSeasonalFeedingArea { get; set; }
