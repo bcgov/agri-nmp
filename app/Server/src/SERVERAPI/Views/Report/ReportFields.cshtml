@@ -105,34 +105,34 @@
                         </tr>
                     </table>
                     <br />
-                    <table style="border-collapse: collapse;page-break-inside:avoid">
+                    <table style="border-collapse: collapse;page-break-inside:avoid;width:100%">
                         <tr>
                             <td colspan="5">
                                 <b>Nutrient Application Plan: @Model.year</b>
                             </td>
                         </tr>
                         <tr style="border: 1px solid black; background-color:#efefef;">
-                            <td class="CellHdg" style="width:250px">
+                            <td class="CellHdg" style="width:26%">
                                 <b>Nutrient Source</b>
                             </td>
-                            <td class="CellHdg" style="width:250px">
+                            <td class="CellHdg" style="width:26%">
                                 <b>Application Timing</b>
                             </td>
-                            <td class="CellHdg" style="width:250px">
+                            <td class="CellHdg" style="width:26%">
                                 <b>Method</b>
                             </td>
-                            <td class="CellHdg" colspan="2" style="text-align:center; width:200px">
+                            <td class="CellHdg" colspan="2" style="text-align:center;">
                                 <b>Rate</b>
                             </td>
                         </tr>
                         @foreach (var n in f.nutrients)
                         {
                             <tr style="border: 1px solid black;">
-                                <td class="CellDtl" style="width:250px">@n.nutrientName</td>
-                                <td class="CellDtl" style="width:250px">@n.nutrientSeason</td>
-                                <td class="CellDtl" style="width:250px">@n.nutrientApplication</td>
-                                <td class="CellDtl" style="text-align:right; width:100px; border-right:none;">@n.nutrientAmount</td>
-                                <td class="CellDtl" style="text-align:left; width:150px; border-left:none">@n.nutrientUnit</td>
+                                <td class="CellDtl" style="width:25%">@n.nutrientName</td>
+                                <td class="CellDtl" style="width:25%">@n.nutrientSeason</td>
+                                <td class="CellDtl" style="width:25%">@n.nutrientApplication</td>
+                                <td class="CellDtl" style="text-align:right; width:10%; border-right:none;">@n.nutrientAmount</td>
+                                <td class="CellDtl" style="text-align:left; width:15%; border-left:none">@n.nutrientUnit</td>
                             </tr>
                         }
                     </table>
@@ -187,7 +187,8 @@
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqK</td>
                         <td></td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remN</td>
-                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remP</td>
+                        <td class="CellDtlNBd" style="        text-align: center;
+        background-color: #efefef">@c.remP</td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remK</td>
                     </tr>
 }
@@ -201,7 +202,8 @@
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
                         <td></td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
-                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td class="CellDtlNBd" style="        text-align: center;
+        background-color: #efefef">0</td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
                     </tr>
                 }

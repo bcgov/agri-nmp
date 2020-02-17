@@ -13,8 +13,8 @@
     {
         <div class="Row">
             <div class="Cell">
-                <table style="border-collapse: collapse;page-break-inside:avoid">
-                    <tr style="padding-top:20px; padding-bottom:20px;align-items: right">
+                <table style="border-collapse: collapse;width: 100%;page-break-inside:avoid;">
+                    <tr style="padding-top:20px; padding-bottom:20px;">
                         <td class="CellHdg">
                             @s.storageName
                         </td>
@@ -25,35 +25,35 @@
                     @if (@s.isThereSolidLiquidSeparation == true)
                     {
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">Materials Generated or Imported</td>
-                            <td class="CellDtl" style="text-align:right; width:80px">@s.materialsGeneratedImported</td>
-                            <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
+                            <td class="CellDtl" style="text-align:left;width:40%;padding-left:30px;">Materials Generated or Imported</td>
+                            <td class="CellDtl" style="text-align:right;width:40%">@s.materialsGeneratedImported</td>
+                            <td class="CellDtl" style="text-align:left;width:20%">US gallons</td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">Yard/Roof Runoff</td>
-                            <td class="CellDtl" style="text-align:right; width:80px">@s.yardRunoff</td>
-                            <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
+                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Yard/Roof Runoff</td>
+                            <td class="CellDtl" style="text-align:right">@s.yardRunoff</td>
+                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="width:300px;font-weight:bold">Material Stored (October to March)</td>
-                            <td class="CellDtl" style="width:300px;text-align:right;font-weight:bold"></td>
-                            <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold"></td>
+                            <td class="CellDtl" style="font-weight:bold">Material Stored (October to March)</td>
+                            <td class="CellDtl" style="text-align:right;font-weight:bold"></td>
+                            <td class="CellDtl" style="text-align:left;font-weight:bold"></td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">Materials Stored (after Solid/Liquid Separation)</td>
-                            <td class="CellDtl" style="text-align:right; width:80px">@s.materialsStoredAfterSLSeparaton</td>
-                            <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
+                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Materials Stored (after Solid/Liquid Separation)</td>
+                            <td class="CellDtl" style="text-align:right">@s.materialsStoredAfterSLSeparaton</td>
+                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">Precipitation, Direct into Storage</td>
-                            <td class="CellDtl" style="text-align:right; width:80px">@s.precipitationIntoStorage</td>
-                            <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
+                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Precipitation, Direct into Storage</td>
+                            <td class="CellDtl" style="text-align:right">@s.precipitationIntoStorage</td>
+                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;font-weight:bold">Total Stored
+                            <td class="CellDtl" style="text-align:left;padding-left:30px;font-weight:bold">Total Stored
                             </td>
-                            <td class="CellDtl" style="text-align:right; width:80px;font-weight:bold">@s.totalStored</td>
-                            <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">
+                            <td class="CellDtl" style="text-align:right;font-weight:bold">@s.totalStored</td>
+                            <td class="CellDtl" style="text-align:left;font-weight:bold">
                                 US gallons
                                 @if (s.isThereDeficitOfStorageVolume)
                                 {
@@ -62,44 +62,44 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="width:300px;font-weight:bold">Storage Volume</td>
-                            <td class="CellDtl" style="text-align:right; width:80px;font-weight:bold">@s.storageVolume</td>
-                            <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons</td>
+                            <td class="CellDtl" style="font-weight:bold">Storage Volume</td>
+                            <td class="CellDtl" style="text-align:right;font-weight:bold">@s.storageVolume</td>
+                            <td class="CellDtl" style="text-align:left;font-weight:bold">US gallons</td>
                         </tr>
                     }
                     else
                     {
                         <tr>
-                            <td class="CellDtl" style="width:300px;font-weight:bold">Material Stored (October to March)</td>
-                            <td class="CellDtl" style="width:300px;text-align:right;font-weight:bold"></td>
-                            <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold"></td>
+                            <td class="CellDtl" style="font-weight:bold;width:40%">Material Stored (October to March)</td>
+                            <td class="CellDtl" style="text-align:right;width:40%;font-weight:bold"></td>
+                            <td class="CellDtl" style="text-align:left;width:20%; font-weight:bold"></td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">Materials Generated or Imported</td>
-                            <td class="CellDtl" style="text-align:right; width:80px">@s.materialsGeneratedImported</td>
-                            <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
+                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Materials Generated or Imported</td>
+                            <td class="CellDtl" style="text-align:right">@s.materialsGeneratedImported</td>
+                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">Yard/Roof Runoff</td>
-                            <td class="CellDtl" style="text-align:right; width:80px">@s.yardRunoff</td>
-                            <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
+                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Yard/Roof Runoff</td>
+                            <td class="CellDtl" style="text-align:right">@s.yardRunoff</td>
+                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">Precipitation, Direct into Storage</td>
-                            <td class="CellDtl" style="text-align:right; width:80px">@s.precipitationIntoStorage</td>
-                            <td class="CellDtl" style="text-align:left; width:80px">US gallons</td>
+                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Precipitation, Direct into Storage</td>
+                            <td class="CellDtl" style="text-align:right">@s.precipitationIntoStorage</td>
+                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;font-weight:bold">
+                            <td class="CellDtl" style="text-align:left;padding-left:30px;font-weight:bold">
                                 Total Stored
                             </td>
-                            <td class="CellDtl" style="text-align:right; width:80px;font-weight:bold">@s.totalStored</td>
-                            <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons</td>
+                            <td class="CellDtl" style="text-align:right;font-weight:bold">@s.totalStored</td>
+                            <td class="CellDtl" style="text-align:left;font-weight:bold">US gallons</td>
                         </tr>
                         <tr>
-                            <td class="CellDtl" style="width:300px;font-weight:bold">Storage Volume</td>
-                            <td class="CellDtl" style="text-align:right; width:80px;font-weight:bold">@s.storageVolume</td>
-                            <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">US gallons
+                            <td class="CellDtl" style="font-weight:bold">Storage Volume</td>
+                            <td class="CellDtl" style="text-align:right;font-weight:bold">@s.storageVolume</td>
+                            <td class="CellDtl" style="text-align:left; font-weight:bold">US gallons
                                 @if (s.isThereDeficitOfStorageVolume)
                                 {
                                     <img src="@Html.Raw(Model.imageurl)" height='10' width='10'/>
@@ -116,7 +116,7 @@
                         @foreach (var fn in @Model.footnotes)
                         {
                             <tr>
-                                <td class="CellDtlNBd" style="padding:0px">
+                                <td class="CellDtlNBd" style="padding: 0px">
                                     <img src="@Html.Raw(Model.imageurl)" height='10' width='10'/> &nbsp;&nbsp; @fn.message
                                 </td>
                             </tr>

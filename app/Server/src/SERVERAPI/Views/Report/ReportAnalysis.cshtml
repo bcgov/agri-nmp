@@ -19,7 +19,7 @@
                     <br/>
                 </tr>
             </table>
-            <table style="border-collapse: collapse;page-break-inside:avoid">
+            <table style="border-collapse: collapse;page-break-inside:avoid;width:100%">
                 <tr style="padding-top:20px; padding-bottom:20px">
                     <td class="CellHdg">
                         Source of Material
@@ -54,21 +54,21 @@
                     <tr>
                         @if (@n.isAssignedToStorage)
                         {
-                            <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName</td>
+                            <td class="CellDtl" style="width:21%;">@n.sourceOfMaterialName</td>
                         }
                         else
                         {
-                            <td class="CellDtl" style="width:300px;">@n.sourceOfMaterialName<sup>@n.footnote</sup></td>
+                            <td class="CellDtl" style="width:21%;">@n.sourceOfMaterialName<sup>@n.footnote</sup></td>
                         }
-                        <td class="CellDtl" style="width:300px;">@n.manureName</td>
-                        <td class="CellDtl" style="text-align:center; width:80px">@n.moisture</td>
-                        <td class="CellDtl" style="text-align:center; width:80px">@n.nitrogen</td>
-                        <td class="CellDtl" style="text-align:center; width:80px">@n.ammonia</td>
-                        <td class="CellDtl" style="text-align:center; width:80px">@n.phosphorous</td>
-                        <td class="CellDtl" style="text-align:center; width:80px">@n.potassium</td>
+                        <td class="CellDtl" style="width:21%;">@n.manureName</td>
+                        <td class="CellDtl" style="text-align:center; width:6%">@n.moisture</td>
+                        <td class="CellDtl" style="text-align:center; width:6%">@n.nitrogen</td>
+                        <td class="CellDtl" style="text-align:center; width:6%">@n.ammonia</td>
+                        <td class="CellDtl" style="text-align:center; width:6%">@n.phosphorous</td>
+                        <td class="CellDtl" style="text-align:center; width:6%">@n.potassium</td>
                         @if (Model.nitratePresent)
                         {
-                            <td class="CellDtl" style="text-align:center; width:80px">@n.nitrate</td>
+                            <td class="CellDtl" style="text-align:center; width:6%">@n.nitrate</td>
                         }
                     </tr>
                 }
