@@ -1799,33 +1799,18 @@ namespace SERVERAPI.Controllers
             // call the microservice
             try
             {
-                //PDFRequest req = new PDFRequest();
-
                 string reportHeader = await RenderHeader();
                 string rawdata = "<!DOCTYPE html>" +
                     "<html>" +
                     reportHeader +
                     "<body>" +
-                    //"<div style='display: table; width: 100%'>" +
-                    //"<div style='display: table-row-group; width: 100%'>" +
                     content +
-                    //"</div>" +
-                    //"</div>" +
                     "</body></html>";
 
-                //req.html = rawdata;
-                //req.options = JsonConvert.SerializeObject(options);
-                //req.options = req.options.Replace("fontbase", "base");
-
-                //FileContentResult res = await BuildPDF(nodeServices, req);
-
-                //return res;
-
-                //string payload = JsonConvert.SerializeObject(req);
                 string payload = rawdata;
 
                 var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+                request.Content = new StringContent(payload, Encoding.UTF8, "application/x-www-form-urlencoded");
 
                 request.Headers.Clear();
                 // transfer over the request headers.
