@@ -65,11 +65,7 @@
     {
         <button class="btn" type="button" data-dismiss="modal">Cancel</button>
     }
-    else
-    {
-        <input class="btn btn-primary" style="float:left; margin-left: 15px;" type="button" value="Previous" onclick="window.location.href='/Farm/Farm';" title="Previous" aria-label="Previous" />
-    }
-    <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" style="margin-right: 15px;"/>
+    <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" style="margin-right: 15px;" />
 </div>
 @Html.HiddenFor(x => x.Data.Id)
 @Html.HiddenFor(x => x.Data.AnimalId)

@@ -6,6 +6,8 @@ namespace SERVERAPI.ViewModels
     {
         public CoreSiteActions CurrentAction { get; set; }
         public FeaturePages CurrentPage { get; set; }
+        public bool ShowPrevious { get; set; } = true;
+        public bool ShowNext { get; set; } = true;
         public bool UseJSInterceptMethod { get; set; }
         public CoreSiteActions PreviousAction { get; set; }
         public CoreSiteActions NextAction { get; set; }
