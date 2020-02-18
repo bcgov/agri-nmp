@@ -32,7 +32,7 @@ namespace SERVERAPI.Controllers
         {
             var farmData = _ud.FarmDetails();
             FarmViewModel fvm = new FarmViewModel();
-            fvm.IsLegacyNMPReleaseVersion = !_ud.FarmData().NMPReleaseVersion.HasValue || _ud.FarmData().NMPReleaseVersion.Value < _appSettings.Value.NMPReleaseVersion;
+            fvm.IsLegacyNMPReleaseVersion = !_ud.FarmData().NMPReleaseVersion.HasValue || _ud.FarmData().NMPReleaseVersion.Value < 2;
 
             if (fvm.IsLegacyNMPReleaseVersion)
             {

@@ -36,7 +36,7 @@ namespace Agri.CalculateService.Tests
         [Fact]
         public void GetP205AgronomicBalanceShouldBeCorrectValue()
         {
-            var result = _calculator.GetP205AgronomicBalance(GetTestField(), new Region { LocationId = 1 });
+            var result = _calculator.GetP205AgronomicBalance(GetTestField());
 
             result.ShouldBe(99);
         }
@@ -44,7 +44,31 @@ namespace Agri.CalculateService.Tests
         [Fact]
         public void GetK20AgronomicBalanceShouldBeCorrectValue()
         {
-            var result = _calculator.GetK20AgronomicBalance(GetTestField(), new Region { LocationId = 1 });
+            var result = _calculator.GetK20AgronomicBalance(GetTestField());
+
+            result.ShouldBe(555);
+        }
+
+        [Fact]
+        public void GetNitrogenCropRemovalValueShouldBeCorrectValue()
+        {
+            var result = _calculator.GetNitrogenCropRemovalValue(GetTestField(), new Region { LocationId = 1 });
+
+            result.ShouldBe(135);
+        }
+
+        [Fact]
+        public void GetP205CropRemovalValueShouldBeCorrectValue()
+        {
+            var result = _calculator.GetP205CropRemovalValue(GetTestField());
+
+            result.ShouldBe(141);
+        }
+
+        [Fact]
+        public void GetK20CropRemovalValueShouldBeCorrectValue()
+        {
+            var result = _calculator.GetK20CropRemovalValue(GetTestField());
 
             result.ShouldBe(555);
         }
