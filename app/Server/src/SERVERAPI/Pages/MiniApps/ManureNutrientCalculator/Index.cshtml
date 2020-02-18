@@ -170,9 +170,9 @@
                                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
-                                                <div >
+                                                <div>
                                                     <div class="input-group" style="width:125px;">
-                                                        <input type="number" class="form-control"  step=".01" asp-for="@Model.Data.AmmoniaRention" />
+                                                        <input type="number" class="form-control" step=".01" asp-for="@Model.Data.AmmoniaRention" />
                                                         @if (@Model.Data.stdN)
                                                         {
                                                             <span class="input-group-btn" title="Reset to standard value">
@@ -189,7 +189,7 @@
                                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
-                                                <div 
+                                                <div
 
                                                     <div class="input-group" style="width:125px;">
                                                         <input type="number" class="form-control" step=".01" asp-for="@Model.Data.OrganicN_FirstYear" />
@@ -297,7 +297,7 @@
                 } else {
                     $('#ToggleElementState').val(false);
                 }
-            })          
+            })
             //$("body").on("click", "#rstN", function () {
             //    $('#PostedElementEvent').val("ResetN");
             //    $("#CalculateButton").submit();
@@ -307,19 +307,19 @@
             //    $("#CalculateButton").submit();
             //})
         })
-        
+
         function typeChange() {
             $('#PostedElementEvent').val("TypeChanged");
             $("#CalculateButton").click();
         }
         function resetN() {
             $('#PostedElementEvent').val("ResetN");
-                $("#CalculateButton").submit();
+            $("#CalculateButton").click();
         }
         function resetA() {
             debugger;
             $('#PostedElementEvent').val("ResetA");
-                $("#CalculateButton").submit();
+            $("#CalculateButton").click();
         }
     </script>
 }
