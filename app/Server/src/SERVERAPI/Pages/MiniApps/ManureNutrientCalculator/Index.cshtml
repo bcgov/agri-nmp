@@ -170,8 +170,16 @@
                                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
-                                                <div style="padding-left:30px;">
-                                                    <input type="number" class="form-control" style="width:100px;" step=".01" asp-for="@Model.Data.AmmoniaRention" />
+                                                <div >
+                                                    <div class="input-group" style="width:125px;">
+                                                        <input type="number" class="form-control"  step=".01" asp-for="@Model.Data.AmmoniaRention" />
+                                                        @if (@Model.Data.stdN)
+                                                        {
+                                                            <span class="input-group-btn" title="Reset to standard value">
+                                                                <button class="btn btn-default" type="button" id="rstN" onclick="resetN()" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                                            </span>
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-4">
@@ -181,8 +189,17 @@
                                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
-                                                <div style="padding-left:30px;">
-                                                    <input type="number" class="form-control" step=".01" style="width:100px;" asp-for="@Model.Data.OrganicN_FirstYear" />
+                                                <div 
+
+                                                    <div class="input-group" style="width:125px;">
+                                                        <input type="number" class="form-control" step=".01" asp-for="@Model.Data.OrganicN_FirstYear" />
+                                                        @if (@Model.Data.stdAvail)
+                                                        {
+                                                            <span class="input-group-btn" title="Reset to standard value">
+                                                                <button class="btn btn-default" type="button" id="rstA" onclick="resetA()" style="background-color:orange"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                                            </span>
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -244,6 +261,8 @@
                     @Html.HiddenFor(x => x.Data.ToggleElementState, new { id = "ToggleElementState" })
                     @Html.HiddenFor(x => x.Data.OrganicN_LongTerm)
                     @Html.HiddenFor(x => x.Data.Nitrate)
+                    @Html.HiddenFor(x => x.Data.stdAvail)
+                    @Html.HiddenFor(x => x.Data.stdN)
                 </form>
             </div>
         </div>
@@ -272,18 +291,35 @@
     <script>
         $(document).ready(function () {
             $('#collapseHeader').click(function () {
-                $('#collapseArrow').toggleClass('glyphicon-chevron-down').toggleClass('glyphicon-chevron-up');                
+                $('#collapseArrow').toggleClass('glyphicon-chevron-down').toggleClass('glyphicon-chevron-up');
                 if ($('#collapseArrow')[0].className == "glyphicon glyphicon-chevron-up") {
                     $('#ToggleElementState').val(true);
                 } else {
                     $('#ToggleElementState').val(false);
                 }
-            })
-
+            })          
+            //$("body").on("click", "#rstN", function () {
+            //    $('#PostedElementEvent').val("ResetN");
+            //    $("#CalculateButton").submit();
+            //})
+            //$("body").on("click", "#rstA", function () {
+            //    $('#PostedElementEvent').val("ResetA");
+            //    $("#CalculateButton").submit();
+            //})
         })
+        
         function typeChange() {
             $('#PostedElementEvent').val("TypeChanged");
             $("#CalculateButton").click();
+        }
+        function resetN() {
+            $('#PostedElementEvent').val("ResetN");
+                $("#CalculateButton").submit();
+        }
+        function resetA() {
+            debugger;
+            $('#PostedElementEvent').val("ResetA");
+                $("#CalculateButton").submit();
         }
     </script>
 }

@@ -38,6 +38,20 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                 Data.PostedElementEvent = "None";
                 Data.isShowValue = Data.isShowValue ? Data.isShowValue : false;
             }
+            else if (Data.PostedElementEvent == "ResetN")
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = "None";
+                Data.isShowValue = false;
+                Data.stdN = false;
+            }
+            else if (Data.PostedElementEvent == "ResetA")
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = "None";
+                Data.isShowValue = false;
+                Data.stdAvail = false;
+            }
             else if (ModelState.IsValid)
             {
                 Data.isShowValue = true;
@@ -84,6 +98,8 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
             public string BCNutrientManagementCalculator { get; set; }
             public string NutrientManagementInformationButtonLink { get; set; }
             public string BCNutrientManagementCalculatorButtonLink { get; set; }
+            public bool stdAvail { get; set; }
+            public bool stdN { get; set; }
         }
 
         public class ResultModel
@@ -127,15 +143,16 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
 
                 command.isShowValue = command.isShowValue ? command.isShowValue : false;
                 command.ManureTypeOptions = new SelectList(_sd.GetManures(), "Id", "Name");
-                command.UnitOptions = new SelectList(_sd.GetUnits(), "Id", "Name");
                 command.RegionOptions = new SelectList(_sd.GetRegions(), "Id", "Name");
                 if (command.SelectedManureType == 0)
                 {
                     command.ApplicationOptions = new SelectList(_sd.GetApplications(), "Id", "Name");
+                    command.UnitOptions = new SelectList(_sd.GetUnits(), "Id", "Name");
                 }
                 else
                 {
                     command.ApplicationOptions = new SelectList(_sd.GetApplicationsDll(_sd.GetManure(command.SelectedManureType).SolidLiquid), "Id", "Value");
+                    command.UnitOptions = new SelectList(_sd.GetUnitsDll(_sd.GetManure(command.SelectedManureType).SolidLiquid), "Id", "Value");
                     var man = _sd.GetManure(command.SelectedManureType);
                     command.Ammonia = man.Ammonia;
                     command.DMId = man.DryMatterId;
@@ -147,15 +164,35 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                     command.NMinerizationId = man.NMineralizationId;
                     command.Phosphorous = man.Phosphorous;
                     command.Potassium = man.Potassium;
+                    if (command.Potassium == 0 && command.Phosphorous == 0 && command.Nitrogen == 0 && command.Ammonia == 0)
+                    {
+                        command.ToggleElementState = true;
+                    }
                 }
                 if (command.SelectedApplication != 0 && command.SelectedManureType != 0 && command.SelectRegion != 0)
                 {
                     var myAmmoniaRetention = _sd.GetAmmoniaRetention(command.SelectedApplication, command.DMId);
-                    var ammoniaRention = myAmmoniaRetention.Value ?? 0;
-                    command.AmmoniaRention = ammoniaRention * 100;
+                    var ammoniaRention = (myAmmoniaRetention.Value ?? 0) * 100;
+                    if (command.isShowValue && command.AmmoniaRention != 0 && command.AmmoniaRention != ammoniaRention)
+                    {
+                        command.stdN = true;
+                    }
+                    else
+                    {
+                        command.AmmoniaRention = ammoniaRention;
+                    }
+
                     var region = _sd.GetRegion(command.SelectRegion);
                     var myNMineralization = _sd.GetNMineralization(command.NMinerizationId, region.LocationId);
-                    command.OrganicN_FirstYear = myNMineralization.FirstYearValue * 100;
+                    var firstYearOrganic = myNMineralization.FirstYearValue * 100;
+                    if (command.isShowValue && command.OrganicN_FirstYear != 0 && command.OrganicN_FirstYear != firstYearOrganic)
+                    {
+                        command.stdAvail = true;
+                    }
+                    else
+                    {
+                        command.OrganicN_FirstYear = firstYearOrganic;
+                    }
                     command.OrganicN_LongTerm = myNMineralization.LongTermValue;
                 }
 
