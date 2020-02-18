@@ -80,13 +80,13 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
             public decimal ApplicationRate { get; set; }
             public string PostedElementEvent { get; set; }
             public string Moisture { get; set; }
-            public decimal Nitrogen { get; set; }
-            public decimal Ammonia { get; set; }
-            public decimal Phosphorous { get; set; }
-            public decimal Potassium { get; set; }
+            public decimal? Nitrogen { get; set; }
+            public decimal? Ammonia { get; set; }
+            public decimal? Phosphorous { get; set; }
+            public decimal? Potassium { get; set; }
             public int DMId { get; set; }
-            public decimal AmmoniaRention { get; set; }
-            public decimal OrganicN_FirstYear { get; set; }
+            public decimal? AmmoniaRention { get; set; }
+            public decimal? OrganicN_FirstYear { get; set; }
             public decimal OrganicN_LongTerm { get; set; }
             public int NMinerizationId { get; set; }
             public decimal? Nitrate { get; set; }
@@ -116,6 +116,21 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
         {
             public ModelValidator()
             {
+                RuleFor(m => m.SelectedManureType).GreaterThan(0).WithMessage("Manure Type is required");
+                RuleFor(m => m.ApplicationRate).NotEmpty().WithMessage("Required");
+                RuleFor(m => m.SelectedUnit).Must(m => !m.Equals("0")).WithMessage("Unit is required");
+                RuleFor(m => m.SelectedApplication).GreaterThan(0).WithMessage("Application is required");
+                RuleFor(m => m.SelectRegion).GreaterThan(0).WithMessage("Region is required");
+                When(m => m.ToggleElementState, () =>
+                {
+                    RuleFor(m => m.Moisture).NotEmpty().WithMessage("Required");
+                    RuleFor(m => m.Nitrogen).NotEmpty().WithMessage("Required");
+                    RuleFor(m => m.Ammonia).NotEmpty().WithMessage("Required");
+                    RuleFor(m => m.Phosphorous).NotEmpty().WithMessage("Required");
+                    RuleFor(m => m.Potassium).NotEmpty().WithMessage("Required");
+                    RuleFor(m => m.AmmoniaRention).NotEmpty().WithMessage("Required");
+                    RuleFor(m => m.OrganicN_FirstYear).NotEmpty().WithMessage("Required");
+                });
             }
         }
 
@@ -226,45 +241,45 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                 }
 
                 // get potassium first year
-                result.K2O_FirstYear = Convert.ToInt32(decimal.Multiply(applicationRate, request.Potassium)
+                result.K2O_FirstYear = Convert.ToInt32(decimal.Multiply(applicationRate, request.Potassium.Value)
                                                 * lbPerTonConversion
                                                 * potassiumKtoK2Oconversion
                                                 * potassiumAvailabilityFirstYear
                                                 * conversion);
 
                 // get potassium long term
-                result.K2O_LongTerm = Convert.ToInt32(decimal.Multiply(applicationRate, request.Potassium)
+                result.K2O_LongTerm = Convert.ToInt32(decimal.Multiply(applicationRate, request.Potassium.Value)
                                                 * lbPerTonConversion
                                                 * potassiumKtoK2Oconversion
                                                 * potassiumAvailabilityLongTerm
                                                 * conversion);
 
                 // get phosphorous first year
-                result.P2O5_FirstYear = Convert.ToInt32(decimal.Multiply(applicationRate, request.Phosphorous)
+                result.P2O5_FirstYear = Convert.ToInt32(decimal.Multiply(applicationRate, request.Phosphorous.Value)
                                                 * lbPerTonConversion
                                                 * phosphorousPtoP2O5Kconversion
                                                 * phosphorousAvailabilityFirstYear
                                                 * conversion);
 
                 // get phosphorous long term
-                result.P2O5_LongTerm = Convert.ToInt32(decimal.Multiply(applicationRate, request.Phosphorous)
+                result.P2O5_LongTerm = Convert.ToInt32(decimal.Multiply(applicationRate, request.Phosphorous.Value)
                                                 * lbPerTonConversion
                                                 * phosphorousPtoP2O5Kconversion
                                                 * phosphorousAvailabilityLongTerm
                                                 * conversion);
 
-                decimal organicN = request.Nitrogen - Convert.ToDecimal(request.Ammonia) / tenThousand;
+                decimal organicN = request.Nitrogen.Value - Convert.ToDecimal(request.Ammonia) / tenThousand;
 
                 var OrganicN_FirstYear = request.OrganicN_FirstYear / 100; // get data from screen
 
                 //decimal ammoniaRetention = GetAmmoniaRetention(mymanure.id, Convert.ToInt32(applicationSeason));
-                decimal ammoniaRetention = request.AmmoniaRention / 100; // get data from screen
+                decimal ammoniaRetention = request.AmmoniaRention.Value / 100; // get data from screen
 
                 // N 1st year lb/ton = [NH4-N ppm/10,000 * NH4 retention + NO3-N/10,000 + Organic N %  * 1st yr Mineralization] * 20
 
-                decimal a = decimal.Divide(request.Ammonia, tenThousand) * ammoniaRetention;
+                decimal a = decimal.Divide(request.Ammonia.Value, tenThousand) * ammoniaRetention;
 
-                decimal b1 = decimal.Multiply(organicN, OrganicN_FirstYear);
+                decimal b1 = decimal.Multiply(organicN, OrganicN_FirstYear.Value);
                 //E07US20
                 decimal c1 = a + b1 + Convert.ToDecimal(request.Nitrate) / tenThousand;
                 decimal N_Firstyear = decimal.Multiply(c1, lbPerTonConversion);
