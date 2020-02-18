@@ -32,13 +32,14 @@
                                         asp-items="@Model.Data.ManureTypeOptions" onchange="typeChange()">
                                     <option value="0">select</option>
                                 </select>
-                                @*  <span asp-validation-for="Data.SelectedManureType" class=""></span>*@
+                                <span asp-validation-for="Data.SelectedManureType" class=""></span>
                             </div>
                         </div>
                         <div class="form-group col-sm-2" style="padding-right:0px">
                             <label>Application Rate</label>
                             <div>
                                 <input type="number" class="form-control" step=".01" asp-for="@Model.Data.ApplicationRate" />
+                                <span asp-validation-for="Data.ApplicationRate" class=""></span>
                             </div>
                         </div>
                         <div class="form-group col-sm-2" style="padding-left:0px">
@@ -48,7 +49,7 @@
                                         asp-items="@Model.Data.UnitOptions">
                                     <option value="0">select</option>
                                 </select>
-                                @* <span asp-validation-for="Data.SelectedUnit" class=""></span>*@
+                                <span asp-validation-for="Data.SelectedUnit" class=""></span>
                             </div>
                         </div>
                     </div>
@@ -60,7 +61,7 @@
                                         asp-items="@Model.Data.ApplicationOptions" onchange="typeChange()">
                                     <option value="0">select</option>
                                 </select>
-                                @* <span asp-validation-for="Data.SelectedApplication" class=""></span>*@
+                                <span asp-validation-for="Data.SelectedApplication" class=""></span>
                             </div>
                         </div>
                         <div class="form-group col-sm-4">
@@ -70,7 +71,7 @@
                                         asp-items="@Model.Data.RegionOptions" onchange="typeChange()">
                                     <option value="0">select</option>
                                 </select>
-                                @*  <span asp-validation-for="Data.SelectRegion" class=""></span>*@
+                                <span asp-validation-for="Data.SelectRegion" class=""></span>
                             </div>
                         </div>
                     </div>
@@ -115,6 +116,7 @@
                                                 </label>
                                                 <div class="row">
                                                     <input class="form-control col-sm-8" step=".01" asp-for="Data.Moisture" />
+                                                    <span asp-validation-for="Data.Moisture" class=""></span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-2">
@@ -126,6 +128,7 @@
                                                 </label>
                                                 <div class="row">
                                                     <input type="number" class="form-control col-sm-8" step=".01" asp-for="@Model.Data.Nitrogen" />
+                                                    <span asp-validation-for="Data.Nitrogen" class=""></span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-2">
@@ -137,6 +140,7 @@
                                                 </label>
                                                 <div class="row">
                                                     <input type="number" class="form-control col-sm-8" step=".01" asp-for="Data.Ammonia" />
+                                                    <span asp-validation-for="Data.Ammonia" class=""></span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-2">
@@ -148,6 +152,7 @@
                                                 </label>
                                                 <div class="row">
                                                     <input type="number" class="form-control col-sm-8" asp-for="Data.Phosphorous" />
+                                                    <span asp-validation-for="Data.Phosphorous" class=""></span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-sm-2">
@@ -159,6 +164,7 @@
                                                 </label>
                                                 <div class="row">
                                                     <input type="number" class="form-control col-sm-8" step=".01" asp-for="Data.Potassium" />
+                                                    <span asp-validation-for="Data.Potassium" class=""></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -173,6 +179,7 @@
                                                 <div>
                                                     <div class="input-group" style="width:125px;">
                                                         <input type="number" class="form-control" step=".01" asp-for="@Model.Data.AmmoniaRention" />
+                                                        <span asp-validation-for="Data.AmmoniaRention" class=""></span>
                                                         @if (@Model.Data.stdN)
                                                         {
                                                             <span class="input-group-btn" title="Reset to standard value">
@@ -193,6 +200,7 @@
 
                                                     <div class="input-group" style="width:125px;">
                                                         <input type="number" class="form-control" step=".01" asp-for="@Model.Data.OrganicN_FirstYear" />
+                                                        <span asp-validation-for="Data.OrganicN_FirstYear" class=""></span>
                                                         @if (@Model.Data.stdAvail)
                                                         {
                                                             <span class="input-group-btn" title="Reset to standard value">
@@ -210,7 +218,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3" style="padding-top:25px;">
+                        <div class="col-sm-3" style="padding-top:25px; padding-bottom:15px;">
                             <button type="submit" class="btn btn-primary" id="CalculateButton" data-save="razor-page-modal">Calculate</button>
                         </div>
                         @if (@Model.Data.isShowValue)
