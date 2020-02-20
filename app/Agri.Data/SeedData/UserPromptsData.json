@@ -566,5 +566,12 @@
     "Text": "e.g., poor drainage in southwest corner (no need to specify crop here)",
     "UserPromptPage": "FieldCreateEdit",
     "UserJourney": "Ranch"
+  },
+  {
+    "Id": 87,
+    "Name": "FeedAreaCalculation-Ranch",
+    "Text": "Feeding area credits are calculated from information on the 'add field screens'",
+    "UserPromptPage": "Calculate",
+    "UserJourney": "Ranch"
   }
 ]
