@@ -155,6 +155,13 @@ namespace Agri.Data
             return details;
         }
 
+        public List<KeyValuePair<string, string>> GetManureNutrientCalculatorDetails()
+        {
+            var details = _context.MiniAppLabels.Where(x => x.MiniAppId == 2).Select(x => new KeyValuePair<string, string>(x.Name, x.LabelText)).ToDictionary(x => x.Key, x => x.Value).ToList();
+
+            return details;
+        }
+
         public AnimalSubType GetAnimalSubType(int id)
         {
             return GetAnimalSubTypes().SingleOrDefault(ast => ast.Id == id);
