@@ -182,6 +182,17 @@ namespace SERVERAPI.Controllers
                                 return View(lvm);
                             }
 
+                            //Add user journey base as HasMixedLiveStock
+                            if (fd.NMPReleaseVersion < 3)
+                            {
+                                fd.farmDetails.HasSelectedFarmType = true;
+
+                                if (fd.farmDetails.HasAnimals)
+                                {
+                                    fd.farmDetails.HasMixedLiveStock = true;
+                                }
+                            }
+
                             // Returns message that successfully uploaded
                             _ud.SaveFarmData(fd);
                             HttpContext.Session.SetObject("Farm",
@@ -526,6 +537,7 @@ namespace SERVERAPI.Controllers
                     if (vm.Authenticated)
                     {
                         var data = _sd.GetLatestVersionDataTree();
+
                         var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                                             new JsonSerializerSettings()
                                             {
@@ -533,7 +545,7 @@ namespace SERVERAPI.Controllers
                                             });
 
                         var fileName = $"StaticData_Version_{data.Id}.nmp";
-                        byte[] fileBytes = Encoding.ASCII.GetBytes(json);
+                        byte[] fileBytes = Encoding.UTF8.GetBytes(json);
                         return File(fileBytes, "application/octet-stream", fileName);
                     }
                 }
