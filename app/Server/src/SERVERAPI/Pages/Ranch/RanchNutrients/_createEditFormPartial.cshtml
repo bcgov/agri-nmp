@@ -42,19 +42,22 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-8 order-md-2">
-            <div class="radio" style="margin-top:0px">
-                <label style="padding-right:20px">
-                    <input asp-for="Data.UseCustomAnalysis" type="radio" value="false" id="rbOnlyCustom" /> Book Value
-                </label>
-                <label>
-                    <input asp-for="Data.UseCustomAnalysis" type="radio" value="true" id="rbOnlyCustom" /> Lab Analysis
-                </label>
-                <span asp-validation-for="Data.OnlyCustom"></span>
+    @if (Model.Data.SelectedNutrientAnalysis > 0)
+    {
+        <div class="row">
+            <div class="col-sm-8 order-md-2">
+                <div class="radio" style="margin-top:0px">
+                    <label style="padding-right:20px">
+                        <input asp-for="Data.UseCustomAnalysis" type="radio" value="false" id="rbOnlyCustom" /> Book Value
+                    </label>
+                    <label>
+                        <input asp-for="Data.UseCustomAnalysis" type="radio" value="true" id="rbOnlyCustom" /> Lab Analysis
+                    </label>
+                    <span asp-validation-for="Data.OnlyCustom"></span>
+                </div>
             </div>
         </div>
-    </div>
+    }
     @if (Model.Data.UseCustomAnalysis)
     {
         <div class="row">
@@ -132,7 +135,7 @@
             </div>
         </div>
     }
-    else
+    else if(Model.Data.SelectedNutrientAnalysis > 0)
     {
         <div class="row">
             <div style="clear:both"></div>
