@@ -25,10 +25,10 @@
         <form asp-controller="Farm" asp-action="Farm" method="post" id="modForm">
             <div class="form-box">
                 <div class="form-box-header clearfix">
-                    <legend class="form-box-heading">Farm Information</legend>
+                    <div class="form-box-heading">Farm Information</div>
                 </div>
-                <div class="form-box-body">
-                    <div class="form-box-fields">
+                <div class="form-box-body" style="padding-bottom: 0px;">
+                    <div class="form-box-fields" style="padding-bottom: 0px;">
                         @if (Model.IsLegacyNMPReleaseVersion)
                         {
                             <div class="row">
@@ -129,29 +129,30 @@
                             </div>
                         }
                         <div class="row">
-                            <div class="col-sm-7">
+                            <div class="col-sm-12">
                                 <label asp-for="SelRegOption" for="ddlRegion">Region</label>
                                 <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
-                                <select id="ddlRegion" class="form-control" asp-for="SelRegOption" asp-items="@(new SelectList(Model.RegOptions, "Id", "Value"))">
-                                    <option>select region</option>
-                                </select>
-                                <span asp-validation-for="SelRegOption"></span>
+                                <div class="col-sm-6">
+                                    <select id="ddlRegion" class="form-control" asp-for="SelRegOption" asp-items="@(new SelectList(Model.RegOptions, "Id", "Value"))">
+                                        <option value="0">select region</option>
+                                    </select>
+                                    <span asp-validation-for="SelRegOption"></span>
+                                </div>
+
+                                @if (Model.ShowSubRegion && Model.HasAnimals && !Model.HasPoultry)
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <select id="ddlSubRegion" class="form-control" asp-for="SelSubRegOption"
+                                                    asp-items="@(new SelectList(Model.SubRegionOptions, "Id", "Value"))">
+                                                <option value="0">select subregion</option>
+                                            </select>
+                                            <span asp-validation-for="SelSubRegOption" class="text-danger">A sub region must be selected</span>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
-                        @if (Model.ShowSubRegion && Model.HasAnimals && !Model.HasPoultry)
-                        {
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <select id="ddlSubRegion" class="form-control" asp-for="SelSubRegOption" asp-items="@(new SelectList(Model.SubRegionOptions, "Id", "Value"))">
-                                        <option>select subregion</option>
-                                    </select>
-                                    @if (Model.MultipleSubRegion)
-                                    {
-                                        <span asp-validation-for="SelSubRegOption" class="text-danger">A sub region must be selected</span>
-                                    }
-                                </div>
-                            </div>
-                        }
                     </div>
                 </div>
             </div>
@@ -163,7 +164,6 @@
             @Html.HiddenFor(x => x.CurrentYear)
             @Html.HiddenFor(x => x.ShowSubRegion)
             @Html.HiddenFor(x => x.ShowAnimals)
-            @Html.HiddenFor(x => x.MultipleSubRegion)
             @Html.HiddenFor(x => x.ButtonPressed)
         </form>
         <!-- PAGE CONTENT -->
@@ -263,15 +263,37 @@
 
         $(document).ready(function () {
             $("body").on("change", "#ddlRegion", function () {
-                $('#ButtonPressed').val("RegionChange");
-                $("#modForm").submit();
+
+                var id = $("#ddlRegion").val();
+                var options = [];
+
+                $.getJSON("/Farm/SubRegions/"+id, function(result) {
+                    for (var i = 0; i < result.length; i++) {
+                        options.push('<option value="',
+                          result[i].id, '">',
+                          result[i].value, '</option>');
+                    }
+
+                    $("#ddlSubRegion").html('');
+                    $("#ddlSubRegion").html(options.join(''));
+
+                    if ($("#ddlSubRegion option").length > 1) {
+                        $("#ddlSubRegion").prop("disabled", false);
+                        if ($("#ddlSubRegion option").length == 2) {
+                            $("#ddlSubRegion>option:eq(1)").attr('selected', true);
+                        }
+                    }
+                    else {
+                        $("#ddlSubRegion").prop("disabled", true);
+                    }
+                });
             })
         });
 
         $(document).ready(function () {
             $("body").on("change", "#ddlSubRegion", function () {
-                $('#ButtonPressed').val("SubRegionChange");
-                $("#modForm").submit();
+                var id = $("#ddlSubRegion").val();
+                $.post("/Farm/FarmSubRegion/"+id, id);
             })
         });
 
@@ -283,6 +305,11 @@
         });
 
         $(document).ready(function () {
+
+            if ($("#ddlRegion").val() == 0) {
+                $("#ddlSubRegion").prop("disabled", true);
+            }
+
             $("body").on("change", "#ddlSubRegionModal", function () {
                 $('#ButtonPressed').val("SubRegionChange");
                 $("#warnForm").submit();
