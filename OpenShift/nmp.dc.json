@@ -227,11 +227,11 @@
                     "port": 8080,
                     "scheme": "HTTP"
                   },
-                  "initialDelaySeconds": 15,
+                  "initialDelaySeconds": 120,
                   "timeoutSeconds": 5,
-                  "periodSeconds": 10,
+                  "periodSeconds": 30,
                   "successThreshold": 1,
-                  "failureThreshold": 5
+                  "failureThreshold": 30
                 },
                 "readinessProbe": {
                   "httpGet": {
@@ -239,11 +239,11 @@
                     "port": 8080,
                     "scheme": "HTTP"
                   },
-                  "initialDelaySeconds": 15,
+                  "initialDelaySeconds": 120,
                   "timeoutSeconds": 5,
-                  "periodSeconds": 10,
+                  "periodSeconds": 30,
                   "successThreshold": 1,
-                  "failureThreshold": 5
+                  "failureThreshold": 30
                 },
                 "terminationMessagePath": "/dev/termination-log",
                 "terminationMessagePolicy": "File",
