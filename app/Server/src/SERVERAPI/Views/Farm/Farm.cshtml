@@ -261,32 +261,35 @@
             $("#submenu-ul-manure").addClass('submenu-display');
         });
 
+        function LoadSubRegion() {
+            var id = $("#ddlRegion").val();
+            var options = [];
+
+            $.getJSON("/Farm/SubRegions/"+id, function(result) {
+                for (var i = 0; i < result.length; i++) {
+                    options.push('<option value="',
+                        result[i].id, '">',
+                        result[i].value, '</option>');
+                }
+
+                $("#ddlSubRegion").html('');
+                $("#ddlSubRegion").html(options.join(''));
+
+                if ($("#ddlSubRegion option").length > 1) {
+                    $("#ddlSubRegion").prop("disabled", false);
+                    if ($("#ddlSubRegion option").length == 2) {
+                        $("#ddlSubRegion>option:eq(1)").attr('selected', true);
+                    }
+                }
+                else {
+                    $("#ddlSubRegion").prop("disabled", true);
+                }
+            });
+        }
+
         $(document).ready(function () {
             $("body").on("change", "#ddlRegion", function () {
-
-                var id = $("#ddlRegion").val();
-                var options = [];
-
-                $.getJSON("/Farm/SubRegions/"+id, function(result) {
-                    for (var i = 0; i < result.length; i++) {
-                        options.push('<option value="',
-                          result[i].id, '">',
-                          result[i].value, '</option>');
-                    }
-
-                    $("#ddlSubRegion").html('');
-                    $("#ddlSubRegion").html(options.join(''));
-
-                    if ($("#ddlSubRegion option").length > 1) {
-                        $("#ddlSubRegion").prop("disabled", false);
-                        if ($("#ddlSubRegion option").length == 2) {
-                            $("#ddlSubRegion>option:eq(1)").attr('selected', true);
-                        }
-                    }
-                    else {
-                        $("#ddlSubRegion").prop("disabled", true);
-                    }
-                });
+                LoadSubRegion();
             })
         });
 
@@ -309,11 +312,6 @@
             if ($("#ddlRegion").val() == 0) {
                 $("#ddlSubRegion").prop("disabled", true);
             }
-
-            $("body").on("change", "#ddlSubRegionModal", function () {
-                $('#ButtonPressed').val("SubRegionChange");
-                $("#warnForm").submit();
-            })
         });
 
         function GetsAnimalsChanged() {
