@@ -16,6 +16,12 @@
         "value": "nmp"
     },
     {
+        "name": "SUFFIX",
+        "description": "The suffix for all created objects",
+        "required": false,
+        "value": ""
+    },    
+    {
         "name": "VERSION",
         "displayName": "Tag Version",
         "description": "Tag version for all created objects",
