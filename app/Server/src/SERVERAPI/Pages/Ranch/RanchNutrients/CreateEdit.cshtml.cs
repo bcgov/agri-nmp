@@ -193,7 +193,6 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             public string ExplainNutrientAnlalysisPhosphorous { get; set; }
             public string ExplainNutrientAnlalysisPotassium { get; set; }
             public bool UseCustomAnalysis { get; set; }
-            public bool ShowCustomCheckbox => SelectedNutrientAnalysis > 0;
             public ElementEvent PostedElementEvent { get; set; }
 
             public class RanchManure
@@ -423,19 +422,16 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                     command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(nutrient);
                 }
 
-                if (!request.PopulatedData.UseBookValue)
-                {
-                    var prompts = _db.UserPrompts
-                        .Where(p => p.UserPromptPage == UserPromptPage.NutrientsAnalysisCreateEdit.ToString() &&
-                                        p.UserJourney == UserJourney.Ranch.ToString())
-                        .ToDictionary(p => p.Name, p => p.Text);
+                var prompts = _db.UserPrompts
+                    .Where(p => p.UserPromptPage == UserPromptPage.NutrientsAnalysisCreateEdit.ToString() &&
+                                    p.UserJourney == UserJourney.Ranch.ToString())
+                    .ToDictionary(p => p.Name, p => p.Text);
 
-                    command.ExplainNutrientAnalysisMoisture = prompts["ExplainNutrientAnalysisMoisture-Ranch"];
-                    command.ExplainNutrientAnalysisNitrogen = prompts["ExplainNutrientAnalysisNitrogen-Ranch"];
-                    command.ExplainNutrientAnlalysisAmmonia = prompts["ExplainNutrientAnlalysisAmmonia-Ranch"];
-                    command.ExplainNutrientAnlalysisPhosphorous = prompts["ExplainNutrientAnlalysisPhosphorous-Ranch"];
-                    command.ExplainNutrientAnlalysisPotassium = prompts["ExplainNutrientAnlalysisPotassium-Ranch"];
-                }
+                command.ExplainNutrientAnalysisMoisture = prompts["ExplainNutrientAnalysisMoisture-Ranch"];
+                command.ExplainNutrientAnalysisNitrogen = prompts["ExplainNutrientAnalysisNitrogen-Ranch"];
+                command.ExplainNutrientAnlalysisAmmonia = prompts["ExplainNutrientAnlalysisAmmonia-Ranch"];
+                command.ExplainNutrientAnlalysisPhosphorous = prompts["ExplainNutrientAnlalysisPhosphorous-Ranch"];
+                command.ExplainNutrientAnlalysisPotassium = prompts["ExplainNutrientAnlalysisPotassium-Ranch"];
 
                 return await Task.FromResult(command);
             }

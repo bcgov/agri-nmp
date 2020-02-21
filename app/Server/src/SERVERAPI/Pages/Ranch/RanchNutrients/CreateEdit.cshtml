@@ -34,9 +34,14 @@ else
         });
 
         $(document).ready(function () {
-            $("body").on("click", "#cbUseCustomAnalysis", function () {
+            $("body").on("click", "#rbOnlyCustom", function () {
+                if ($("#rbOnlyCustom").val() == true) {
+                    $("#manureName").val($("#PostedElementEvent option:selected").text());
+                }
+                else {
+                    $("#manureName").val('');
+                }
                 $('#PostedElementEvent').val("@CreateEdit.ElementEvent.UseCustomAnalysis");
-                $("#manureName").val($("#PostedElementEvent option:selected").text());
                 $("#btnSave").click();
             })
         });
