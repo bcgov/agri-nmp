@@ -1,0 +1,72 @@
+﻿@model SERVERAPI.Pages.Ranch.RanchAnimals.CreateEdit
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-box-fields">
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="ddlSubType">Cattle Type</label>
+            <select class="form-control" asp-for="@Model.Data.CattleSubTypeId"
+                    asp-items="@Model.Data.CattleSubTypeOptions" id="ddlSubType"
+                    onchange="SetCattleSubTypeName(this.selectedOptions[0])">
+                <option value=0>Select Cattle Type</option>
+            </select>
+            <input id="CattleSubTypeName" asp-for="@Model.Data.CattleSubTypeName" type="hidden" />
+            @Html.ValidationMessageFor(model => model.Data.CattleSubTypeId)
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="averageAnimalNumber">Average Animal Number on Farm</label>
+            <input class="form-control" asp-for="@Model.Data.AverageAnimalNumber"
+                   id="averageAnimalNumber" type="number" step="0.01" placeholder="@Model.Data.Placehldr"
+                   style="width: 100px" />
+            @Html.ValidationMessageFor(model => model.Data.AverageAnimalNumber)
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="isManureCollected">Do you pile or collect manure from these animals?</label>
+            <div role="radiogroup" aria-labelledby="labelisManureCollected">
+                <label style="padding-right: 20px">
+                    <input asp-for="@Model.Data.IsManureCollected" type="radio" value="true"
+                           id="rbIsManureCollectedYes" onchange="IsManureCollectedChanged(true)" /> Yes
+                </label>
+                <label>
+                    <input asp-for="@Model.Data.IsManureCollected" type="radio" value="false"
+                           id="rbIsManureCollectedNo" onchange="IsManureCollectedChanged(false)" /> No
+                </label>
+            </div>
+        </div>
+    </div>
+    @{
+        var displayDuration = "none";
+    }
+    @if (Model.Data.IsManureCollected)
+    {
+        displayDuration = "inline";
+    }
+    <div class="row" id="durationValue" style="display:@displayDuration">
+        <div class="form-group col-sm-6">
+            <table class="m-0">
+                <tr>
+                    <td><label for="txtDuration">Duration</label></td>
+                    <td>
+                        <input class="form-control" asp-for="@Model.Data.DurationDays"
+                               id="txtDuration" type="number" style="width: 100px" />
+                        @Html.ValidationMessageFor(model => model.Data.DurationDays)
+                    </td>
+                    <td>Days</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer" style="border-top:none !important;">
+    @if (Model.IsModal)
+    {
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+    }
+    <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" style="margin-right: 15px;" />
+</div>
+@Html.HiddenFor(x => x.Data.Id)
+@Html.HiddenFor(x => x.Data.AnimalId)
+@Html.HiddenFor(x => x.Data.AnimalName)
