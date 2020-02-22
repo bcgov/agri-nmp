@@ -5,10 +5,10 @@
 }
 @inject IJsonHelper Json;
 @*<style>
-    input[type=file].hidden {
-        color: transparent;
-    }
-</style>*@
+        input[type=file].hidden {
+            color: transparent;
+        }
+    </style>*@
 
 <!-- modal placeholder-->
 <div id='myModal' class='modal'>
@@ -18,7 +18,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- BODY CONTENT -->
 <div id="topicTemplate" style="padding-top:0px" class="template container">
@@ -32,7 +31,7 @@
                         @Html.Raw(Model.browserMsg)
                     </div>
                 }
-                
+
                 <div class="device-message">
                     @Html.Raw(Model.DeviceTooSmallMessage)
                 </div>
@@ -60,8 +59,8 @@
                             </div>
                         </div>
                         <hr />
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                         <div class="Row">
                             <div class="Table">
                                 <div class="TableBody">
@@ -82,29 +81,29 @@
                                         </label>
                                         <br />
                                         <br />
-                                        <label>
-                                            <input type="file" title="Choose an &quot;nmp&quot; file" id="fileUpload" name="file" class='type' style="display:none;color: transparent;" accept=".nmp">
-                                        </label>
+                                        <label class="btn btn-primary" id="fileUpload" style="display:none;">
+                                            <input type="file" id="fileUploadInput" name="file" class='type' accept=".nmp">
+                                            Choose an &quot;nmp&quot; file
+                                        </label><span id="filename" style="font-weight: bold; padding-left: 15px;"></span>
                                     </div>
-                                    <br/>
+                                    <br />
                                     <div class="Row">
                                         @*@if (Model.unsavedData)
-                                        {
-                                            <button class="form-box-submit-button btn btn-primary" id="startBtn" style="width:90px;" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
-                                        }
-                                        else
-                                        {
-                                            <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new"/>
-                                        }*@
+                                            {
+                                                <button class="form-box-submit-button btn btn-primary" id="startBtn" style="width:90px;" data_modal2="" type="button" data-type="@Url.Action("NewWarning", "Home")">Start</button>
+                                            }
+                                            else
+                                            {
+                                                <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new" />
+                                            }*@
                                         <input class="form-box-submit-button btn btn-primary" id="strtBtn" style="width:90px;" type="submit" value="Start" name="new" />
                                     </div>
-                                    
-                                    
+
                                     <div class="Row">
-                                         <button class="form-box-submit-button btn btn-primary" id="fileUploadStartBtn" onclick="startUpload()" style="width:90px;" data-type="@Url.Action("uploadFile", "Home")">Start</button>
+                                        <button class="form-box-submit-button btn btn-primary" id="fileUploadStartBtn" onclick="startUpload()" style="width:90px;" data-type="@Url.Action("uploadFile", "Home")">Start</button>
                                     </div>
                                 </div>
-                                </div>
+                            </div>
                         </div>
                         <br />
                         <hr />
@@ -138,16 +137,16 @@
         // ensure this event handler is attached to current and future elements (after partial renders)
         $(document).on("click",
             '[data_modal]',
-            function(e) {
+            function (e) {
                 $.ajaxSetup({ cache: false });
                 $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
                 $('#myModalContent').load($type,
-                    function() {
+                    function () {
                         $('#myModal').modal({
-                                /*backdrop: 'static',*/
-                                //keyboard: true
-                            
-                            },
+                            /*backdrop: 'static',*/
+                            //keyboard: true
+
+                        },
                             'show');
                         bindForm(this);
                     });
@@ -155,7 +154,7 @@
             });
 
         function bindForm(dialog) {
-            $('form', dialog).submit(function() {
+            $('form', dialog).submit(function () {
                 if ($("#unsavedData").val() == "False") {
                     var fileUpload = $("#FileUpload1").get(0);
                     var files = fileUpload.files;
@@ -173,7 +172,7 @@
                         contentType: false,
                         processData: false,
                         data: fileData,
-                        success: function(result) {
+                        success: function (result) {
                             if (result.success) {
                                 $('#myModal').modal('hide');
                                 window.location.href = result.url;
@@ -185,12 +184,12 @@
                     });
                 } else {
                     $.ajax({
-                            cache: false,
-                            url: this.action,
-                            type: this.method,
-                            data: $(this).serialize()
-                        })
-                        .done(function(result) {
+                        cache: false,
+                        url: this.action,
+                        type: this.method,
+                        data: $(this).serialize()
+                    })
+                        .done(function (result) {
                             if (result.success) {
                                 $('#myModal').modal('hide');
                                 $(result.target)
@@ -208,16 +207,16 @@
 
         $(document).on("click",
             '[data_modal2]',
-            function(e) {
+            function (e) {
                 $.ajaxSetup({ cache: false });
                 $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
                 $('#myModalContent').load($type,
-                    function() {
+                    function () {
                         $('#myModal').modal({
-                                /*backdrop: 'static',*/
-                                //keyboard: true
-                            
-                            },
+                            /*backdrop: 'static',*/
+                            //keyboard: true
+
+                        },
                             'show');
                         bindForm2(this);
                     });
@@ -225,14 +224,14 @@
             });
 
         function bindForm2(dialog) {
-            $('form', dialog).submit(function() {
+            $('form', dialog).submit(function () {
                 $.ajax({
-                        cache: false,
-                        url: this.action,
-                        type: this.method,
-                        data: $(this).serialize()
-                    })
-                    .done(function(result) {
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
+                    .done(function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
                             //$(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
@@ -248,7 +247,7 @@
 
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $.ajaxSetup({ cache: false });
             $("#themeTemplate, #subthemeTemplate, #topicTemplate").css("padding-top", 5);
 
@@ -258,7 +257,7 @@
             $("#unsavedData").val("False");
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#toolTipExplainFileUpload').tooltip({
                 template: toolTipClickableInnerHtml,
                 html: true,
@@ -267,18 +266,20 @@
         });
 
         //Using triggerToolTip function from ~/lib/site.js
-        $(document).ready(function() {
-            $('#toolTipExplainFileUpload').click(function() {
+        $(document).ready(function () {
+            $('#toolTipExplainFileUpload').click(function () {
                 triggerToolTip($('#toolTipExplainFileUpload'));
             });
         })
 
-        $("#fileUpload").change(function (e) {
+        $("#fileUploadInput").change(function (e) {
             if (this.files.length > 0) {
+                $('#filename').html(this.files[0].name);
                 $("#startBtn").hide();
                 $("#strtBtn").hide();
                 $("#fileUploadStartBtn").show();
             } else {
+                $('#filename').html($(''));
                 $("#startBtn").hide();
                 $("#strtBtn").hide();
                 $("#fileUploadStartBtn").hide();
@@ -295,12 +296,12 @@
             $("#fileUploadStartBtn").hide();
         });
 
-        $(document).ready(function() {
-            $('input:radio[name=file]').change(function() {
+        $(document).ready(function () {
+            $('input:radio[name=file]').change(function () {
                 if (this.value == 'true') {
                     $('#fileUpload').show();
 
-                    if ($('#fileUpload').filename) {
+                    if ($('#fileUploadInput').filename) {
                         $("#fileUploadStartBtn").show();
                     } else {
                         $("#startBtn").hide();
@@ -309,12 +310,13 @@
                     }
                 }
                 else if (this.value == 'false') {
+                    $('#filename').html($(''));
                     $('#fileUpload').hide();
                     $("#startBtn").show();
                     $("#strtBtn").show();
                     $("#fileUploadStartBtn").hide();
 
-                    var $el = $('#fileUpload');
+                    var $el = $('#fileUploadInput');
                     $el.wrap('<form>').closest('form').get(0).reset();
                     $el.unwrap();
                 }
@@ -326,15 +328,14 @@
         }
 
         $(function () {
-            $('input[type="file"]').change(function () {
+            $('#fileUploadInput').change(function () {
                 if ($(this).val() != "") {
                     $(this).css('color', '#333');
-                }else{
+                } else {
                     $(this).css('color', 'transparent');
                 }
             });
-        }) 
-
+        })
     </script>
 
 }

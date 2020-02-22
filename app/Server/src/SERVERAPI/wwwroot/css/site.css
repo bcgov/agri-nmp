@@ -559,3 +559,8 @@ input[type=number] {
         display: none;
     }
 }
+
+/* fix file input button */
+input[type="file"] {
+    display: none;
+}
