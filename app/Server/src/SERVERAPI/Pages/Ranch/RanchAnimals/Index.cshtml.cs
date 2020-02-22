@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
+using Agri.Data;
 
 namespace SERVERAPI.Pages.Ranch.RanchAnimals
 {
@@ -45,6 +46,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         public class Model
         {
             public List<FarmAnimal> Animals { get; set; }
+            public string RanchAnimalGroupsMessage { get; set; }
 
             public class FarmAnimal
             {
@@ -71,20 +73,26 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         {
             private readonly UserData _ud;
             private readonly IMapper _mapper;
+            private readonly AgriConfigurationContext _db;
 
-            public Handler(UserData ud, IMapper mapper)
+            public Handler(UserData ud, IMapper mapper, AgriConfigurationContext db)
             {
                 _ud = ud;
                 _mapper = mapper;
+                _db = db;
             }
 
             public Task<Model> Handle(Query request, CancellationToken cancellationToken)
             {
                 var animals = _ud.GetAnimals();
+                var message = _db.UserPrompts
+                    .Single(p => p.UserPromptPage == UserPromptPage.NutrientsAnalysisList.ToString() &&
+                                p.UserJourney == UserJourney.Ranch.ToString()).Text;
 
                 return Task.FromResult(new Model
                 {
-                    Animals = _mapper.Map<List<FarmAnimal>, List<Model.FarmAnimal>>(animals)
+                    Animals = _mapper.Map<List<FarmAnimal>, List<Model.FarmAnimal>>(animals),
+                    RanchAnimalGroupsMessage = message
                 });
             }
         }
