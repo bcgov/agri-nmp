@@ -31,7 +31,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         public async Task OnGetCreateAsync(bool ismodal)
         {
             IsModal = ismodal;
-            Title = "Add Animal";
+            Title = "Add Animal            ";
             await PopulateData(new Query());
         }
 
@@ -46,6 +46,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         {
             Data = await _mediator.Send(query);
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
+            Title += Data.RanchAnimalGroupsMessage;
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
@@ -98,6 +99,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
             public string Placehldr { get; set; }
             public bool IsManureCollected { get; set; }
             public int? DurationDays { get; set; }
+            public string RanchAnimalGroupsMessage { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -181,7 +183,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
                                     p.UserJourney == UserJourney.Ranch.ToString())
                     .ToDictionary(p => p.Name, p => p.Text);
 
-                var RanchAnimalGroupsMessage = prompts["RanchAnimalGroupsMessage"];
+                command.RanchAnimalGroupsMessage = prompts["RanchAnimalGroupsMessage"];
 
                 return await Task.FromResult(command);
             }
