@@ -18,14 +18,14 @@
             <div class="col-sm-1 form-box-table-cell">
                 <strong>Number</strong>
             </div>
-            <div class="col-sm-2 form-box-table-cell">
-                <strong>Manure Type</strong>
-            </div>
             <div class="col-sm-1 form-box-table-cell">
                 <strong>Piled/Collected</strong>
             </div>
-            <div class="col-sm-3 form-box-table-cell">
+            <div class="col-sm-2 form-box-table-cell">
                 <strong>Days Collected</strong>
+            </div>
+            <div class="col-sm-3 form-box-table-cell">
+                <strong>Amount Generated</strong>
             </div>
         </div>
         @foreach (var item in Model?.Data?.Animals)
@@ -41,13 +41,20 @@
                     @item.AverageAnimalNumber
                 </div>
                 <div class="col-sm-2 form-box-table-cell">
-                    @item.ManureMaterialType
-                </div>
-                <div class="col-sm-1 form-box-table-cell">
                     @item.ManureCollected
                 </div>
                 <div class="col-sm-1 form-box-table-cell">
                     @item.DurationDays
+                </div>
+                <div class="col-sm-1 form-box-table-cell" style="padding-left:20px">
+                    @if (item.IsManureCollected)
+                    {
+                        <span>@item.ManureGeneratedTonsPerYear @(item.ManureGeneratedTonsPerYear > 1 ? "tons" : "ton")</span>
+                    }
+                    else
+                    {
+                        <i>Manure not collected</i>
+                    }
                 </div>
                 <div class="col-sm-2 form-box-table-cell text-center">
                     @* The 'Edit' button to open the CreateEdit form as a model needs
