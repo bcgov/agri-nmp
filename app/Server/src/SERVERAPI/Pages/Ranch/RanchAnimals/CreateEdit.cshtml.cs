@@ -151,10 +151,13 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         public class LookupDataHandler : IRequestHandler<LookupDataQuery, Command>
         {
             private readonly IAgriConfigurationRepository _sd;
+            private readonly AgriConfigurationContext _db;
 
-            public LookupDataHandler(IAgriConfigurationRepository sd)
+            public LookupDataHandler(IAgriConfigurationRepository sd,
+                AgriConfigurationContext db)
             {
                 _sd = sd;
+                _db = db;
             }
 
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
@@ -172,6 +175,13 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
                     command.CattleSubTypeId = subTypeOptions[0].Id;
                 }
                 command.CattleSubTypeOptions = new SelectList(subTypeOptions, "Id", "Value");
+
+                var prompts = _db.UserPrompts
+                    .Where(p => p.UserPromptPage == UserPromptPage.AnimalsCreateEdit.ToString() &&
+                                    p.UserJourney == UserJourney.Ranch.ToString())
+                    .ToDictionary(p => p.Name, p => p.Text);
+
+                var RanchAnimalGroupsMessage = prompts["RanchAnimalGroupsMessage"];
 
                 return await Task.FromResult(command);
             }
