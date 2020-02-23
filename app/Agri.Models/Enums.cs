@@ -120,6 +120,9 @@ namespace Agri.Models
 
         [Description("/Ranch/RanchFeeding/Index")]
         RanchFeedingIndex,
+
+        [Description("/Poultry/PoultryAnimals/Index")]
+        PoultryAnimalsIndex,
     }
 
     public enum StorageShapes
