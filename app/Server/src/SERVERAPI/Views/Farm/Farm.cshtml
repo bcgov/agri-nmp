@@ -139,7 +139,8 @@
                                     <span asp-validation-for="SelRegOption"></span>
                                 </div>
 
-                                @if (Model.ShowSubRegion && Model.HasAnimals && !Model.HasPoultry)
+                                @if (Model.ShowSubRegion && Model.HasAnimals &&
+                                   (Model.HasBeefCows || Model.HasDairyCows || Model.HasMixedLiveStock))
                                 {
                                     <div class="row">
                                         <div class="col-sm-6">
