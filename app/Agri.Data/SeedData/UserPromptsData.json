@@ -584,14 +584,14 @@
   {
     "Id": 89,
     "Name": "ExplainFeedForageProvided-Ranch",
-    "Text": "Place holder",
+    "Text": "The percent of feed or forage described here that is given to animals out all supplemental feeds or forages (e.g. What percent of the the total feed/forage mix is this feed?)",
     "UserPromptPage": "FeedAreaCreateEdit",
     "UserJourney": "Ranch"
   },
   {
     "Id": 90,
     "Name": "ExplainFeedForageWastage-Ranch",
-    "Text": "Place holder",
+    "Text": "The percent of the supplemental feed or forage that is not consumed by the animals",
     "UserPromptPage": "FeedAreaCreateEdit",
     "UserJourney": "Ranch"
   }
