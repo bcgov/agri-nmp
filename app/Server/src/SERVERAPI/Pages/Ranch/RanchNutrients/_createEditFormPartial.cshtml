@@ -42,24 +42,18 @@
             </div>
         </div>
     </div>
-    @if (Model.Data.ShowCustomCheckbox)
+    @if (Model.Data.SelectedNutrientAnalysis > 0)
     {
         <div class="row">
             <div class="col-sm-8 order-md-2">
-                <div class="form-group align-top">
-
-                    @if (Model.Data.OnlyCustom)
-                    {
-                        <input class="checkbox-inline mr-3" type="checkbox" disabled checked />
-                        <input type="hidden" asp-for="Data.UseCustomAnalysis" />
-                    }
-                    else
-                    {
-                        <input class="checkbox-inline mr-3" type="checkbox" id="cbUseCustomAnalysis"
-                               asp-for="@Model.Data.UseCustomAnalysis" />
-                    }
-
-                    <label for="cbUseCustomAnalysis">Use custom analysis</label>
+                <div class="radio" style="margin-top:0px">
+                    <label style="padding-right:20px">
+                        <input asp-for="Data.UseCustomAnalysis" type="radio" value="false" id="rbOnlyCustom" /> Book Value
+                    </label>
+                    <label>
+                        <input asp-for="Data.UseCustomAnalysis" type="radio" value="true" id="rbOnlyCustom" /> Lab Analysis
+                    </label>
+                    <span asp-validation-for="Data.OnlyCustom"></span>
                 </div>
             </div>
         </div>
@@ -141,8 +135,58 @@
             </div>
         </div>
     }
-    else
+    else if(Model.Data.SelectedNutrientAnalysis > 0)
     {
+        <div class="row">
+            <div style="clear:both"></div>
+            <div class="form-group">
+                <div class="form-group col-sm-2">
+                    <label>Moisture&nbsp;(%)</label>
+                    <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnalysisMoisture" id="toolTipExplainNutrientAnalysisMoisture">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of moisture content" style="font-size:20px; padding-top:5px"></span>
+                    </a>
+                    <div class="input-group col-sm-6">
+                        <span>@Model.Data.BookValues.Moisture</span>
+                    </div>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>N&nbsp;(%)</label>
+                    <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnalysisNitrogen" id="toolTipExplainNutrientAnalysisNitrogen">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of nitrogen content" style="font-size:20px; padding-top:5px"></span>
+                    </a>
+                    <div class="input-group col-sm-6">
+                        <div>@Model.Data.BookValues.Nitrogen</div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>NH<sub>4</sub>-N&nbsp;(ppm)</label>
+                    <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnlalysisAmmonia" id="toolTipExplainNutrientAnlalysisAmmonia">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of NH4-N content" style="font-size:20px; padding-top:5px"></span>
+                    </a>
+                    <div class="input-group col-sm-6">
+                        <div>@Model.Data.BookValues.Ammonia</div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>P&nbsp;(%)</label>
+                    <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnlalysisPhosphorous" id="toolTipExplainNutrientAnlalysisPhosphorous">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of P content" style="font-size:20px; padding-top:5px"></span>
+                    </a>
+                    <div class="input-group col-sm-6">
+                        <div>@Model.Data.BookValues.Phosphorous</div>
+                    </div>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label>K&nbsp;(%)</label>
+                    <a href="#" data-toggle="tooltip" title="@Model.Data.ExplainNutrientAnlalysisPotassium" id="toolTipExplainNutrientAnlalysisPotassium">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of K content" style="font-size:20px; padding-top:5px"></span>
+                    </a>
+                    <div class="input-group col-sm-6">
+                        <div>@Model.Data.BookValues.Potassium</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <input class="form-control" asp-for="@Model.Data.ManureName" id="manureName" type="hidden" />
     }
     <div class="modal-footer">
@@ -154,7 +198,6 @@
 @*Need to be explicit with ID because Data_ is appended to these elements*@
 <input type="hidden" asp-for="Data.Id" />
 <input type="hidden" asp-for="Data.PostedElementEvent" id="PostedElementEvent" />
-<input type="hidden" asp-for="Data.ShowCustomCheckbox" />
 <input type="hidden" asp-for="Data.UseBookValue" />
 <input type="hidden" asp-for="Data.ManureClass" />
 <input type="hidden" asp-for="Data.SolidLiquid" />
