@@ -573,5 +573,26 @@
     "Text": "Feeding area credits are calculated from information on the 'add field screens'",
     "UserPromptPage": "Calculate",
     "UserJourney": "Ranch"
+  },
+  {
+    "Id": 88,
+    "Name": "ExplainFeedArea-Ranch",
+    "Text": "Potential nitrogen, phosphorus, and potassium that may be added to the seasonal feeding area from animals",
+    "UserPromptPage": "FeedAreaIndex",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 89,
+    "Name": "ExplainFeedForageProvided-Ranch",
+    "Text": "Place holder",
+    "UserPromptPage": "FeedAreaCreateEdit",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 90,
+    "Name": "ExplainFeedForageWastage-Ranch",
+    "Text": "Place holder",
+    "UserPromptPage": "FeedAreaCreateEdit",
+    "UserJourney": "Ranch"
   }
 ]

@@ -354,6 +354,7 @@ body {
     background: #ffffff;
     color: #000000;
     border: #23527C 1px solid;
+    min-width: 200px;
     max-width: 300px;
     padding: 3px 8px;
     text-align: left;
