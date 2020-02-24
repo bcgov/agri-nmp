@@ -35,7 +35,7 @@
         <div class="form-group col-sm-6" style="margin-top: -25px !important;">
             <label asp-for="@Model.Data.SelectPrevYrManureOption">Manure application in previous years</label>
             <select class="form-control" asp-for="@Model.Data.SelectPrevYrManureOption" asp-items="@(new SelectList(Model.Data.SelectPrevYrManureOptions,"FieldManureApplicationHistory","Name"))">
-                <option>select</option>
+                <option value="-1">select</option>
             </select>
             <span asp-validation-for="@Model.Data.SelectPrevYrManureOption"></span>
         </div>
@@ -64,7 +64,7 @@
                         <input type="number" asp-for="@Model.Data.FeedingDaysSpentInFeedingArea" class="form-control" style="width: 75px" />
                         <span class="right-side-label-span">days</span>
                     </div>
-                    <!--Need to add validation-->
+                    <span asp-validation-for="@Model.Data.FeedingDaysSpentInFeedingArea"></span>
                 </div>
             </div>
             <div class="row">
@@ -74,13 +74,12 @@
                         <input type="number" asp-for="@Model.Data.FeedingPercentageOutsideFeeingArea" class="form-control" style="width: 75px" />
                         <span class="right-side-label-span">%</span>
                     </div>
-                    <!--Need to add validation-->
+                    <span asp-validation-for="@Model.Data.FeedingPercentageOutsideFeeingArea"></span>
                 </div>
             </div>
         </div>
     </div>
     <div class="row" id="MatureValue" style="display:@displaySeasonal">
-        @*<label class="form-box-heading">Mature Animals</label>*@
         <div class="col-sm-3" style="padding-top: 13px">
             <label asp-for="@Model.Data.MatureAnimalCount">Number of Mature Animals</label>
             <input type="number" asp-for="@Model.Data.MatureAnimalCount" class="form-control" style="width: 75px" />
@@ -98,11 +97,9 @@
             <label asp-for="@Model.Data.MatureAnimalDailyFeedRequirementId">
                 Daily feed requirement
 
-                <a href="#" data-toggle="tooltip" title="@Model.Data.DailyFeedWarning" id="toolTipDailyFeedWarning">
+                <a href="#!" data-toggle="tooltip" title="@Model.Data.DailyFeedWarning" id="toolTipDailyFeedWarning">
                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                 </a>
-
-                @*<span class="text-danger">@Html.Raw(@Model.Data.DailyFeedWarning)</span>*@
             </label>
             <select class="form-control" asp-for="@Model.Data.MatureAnimalDailyFeedRequirementId"
                     asp-items="@(new SelectList(Model.Data.SelectDailyFeedOptions,"Id","Name"))">
@@ -113,6 +110,7 @@
         <div class="col-sm-3" style="padding-top: 13px">
             <label asp-for="@Model.Data.GrowingAnimalCount">Number of Growing Animals</label>
             <input type="number" asp-for="@Model.Data.GrowingAnimalCount" class="form-control col-sm-6" style="width: 75px" />
+            <span asp-validation-for="@Model.Data.GrowingAnimalCount"></span>
         </div>
         <div class="col-sm-2" style="padding-top: 13px">
             <label asp-for="@Model.Data.GrowingAnimalAverageWeight">Average weight</label>
@@ -120,15 +118,14 @@
                 <input type="number" asp-for="@Model.Data.GrowingAnimalAverageWeight" class="form-control " style="width: 75px" />
                 <div class="right-side-label-span">lbs</div>
             </div>
-            <!--Need to add validation-->
+            <span asp-validation-for="@Model.Data.GrowingAnimalAverageWeight"></span>
         </div>
         <div class="col-sm-5">
             <label asp-for="@Model.Data.GrowingAnimalDailyFeedRequirementId">
                 Daily Feed Requirements
-                <a href="#" data-toggle="tooltip" title="@Model.Data.DailyFeedWarning">
+                <a href="#!" data-toggle="tooltip" title="@Model.Data.DailyFeedWarning" id="toolTipDailyFeedWarning2">
                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                 </a>
-                @*<span class="text-danger">@Html.Raw(@Model.Data.DailyFeedWarning)</span>*@
             </label>
             <select class="form-control" asp-for="@Model.Data.GrowingAnimalDailyFeedRequirementId" asp-items="@(new SelectList(Model.Data.SelectDailyFeedOptions,"Id","Name"))">
             </select>
