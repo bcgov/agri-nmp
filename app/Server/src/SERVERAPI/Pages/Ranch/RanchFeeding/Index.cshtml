@@ -14,7 +14,7 @@
             <div class="col-sm-3 form-box-table-cell">
                 <strong>
                     Nutrient additions (lb/ac)
-                    <a href="#" data-toggle="tooltip" id="toolTipFeedingAreaWarning" title="@Model.Data.FeedingAreaWarning">
+                    <a href="#!" data-toggle="tooltip" title="@Model.Data.ExplainFeedArea" id="toolTipFeedingAreaWarning">
                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Nutrient" style="font-size:20px; padding-top:5px"></span>
                     </a>
                 </strong>
@@ -89,8 +89,7 @@
         //Using triggerToolTip function from ~/lib/site.js
         $(document).ready(function () {
             $('#toolTipFeedingAreaWarning').click(function () {
-                debugger;
-                triggerToolTip($('#toolTipFeedingAreaWarning'));
+                triggerToolTip($('#toolTipFeedingAreaWarning   '));
             });
         })
     </script>
