@@ -3274,6 +3274,13 @@ namespace SERVERAPI.Controllers
                 vm.SelectedManureType = ManureMaterialType.Solid;
             }
 
+            var journey = _ud.FarmDetails().UserJourney;
+            vm.ShowIsMaterialStored = journey == UserJourney.Dairy;
+            if (!vm.ShowIsMaterialStored)
+            {
+                vm.IsMaterialStored = false;
+            }
+
             vm.Title = "Imported Material Details";
             vm.Target = target;
             vm.IsMaterialStoredLabelText = _sd.GetUserPrompt("ImportMaterialIsMaterialAppliedQuestion");

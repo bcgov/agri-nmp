@@ -143,6 +143,7 @@ namespace Agri.Data.Tests
             agriConfigurationDb.HarvestUnits.Any().ShouldBeTrue();
             agriConfigurationDb.LiquidFertilizerDensities.Any().ShouldBeTrue();
             agriConfigurationDb.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.Any().ShouldBeTrue();
+            agriConfigurationDb.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.All(c => c.ApplicationRateUnit > 0).ShouldBeTrue();
             agriConfigurationDb.LiquidMaterialsConversionFactors.Any().ShouldBeTrue();
             agriConfigurationDb.LiquidSolidSeparationDefaults.Any().ShouldBeTrue();
             agriConfigurationDb.ManureImportedDefaults.Any().ShouldBeTrue();
@@ -169,6 +170,7 @@ namespace Agri.Data.Tests
             agriConfigurationDb.SoilTestPotassiumKelownaRanges.Any().ShouldBeTrue();
             agriConfigurationDb.SoilTestPotassiumKelownaRanges.Any().ShouldBeTrue();
             agriConfigurationDb.SolidMaterialApplicationTonPerAcreRateConversions.Any().ShouldBeTrue();
+            agriConfigurationDb.SolidMaterialApplicationTonPerAcreRateConversions.All(c => c.ApplicationRateUnit > 0).ShouldBeTrue();
             agriConfigurationDb.SolidMaterialsConversionFactors.Any().ShouldBeTrue();
             agriConfigurationDb.Units.Any().ShouldBeTrue();
             agriConfigurationDb.Regions.SelectMany(r => r.SubRegions).Any().ShouldBeTrue();
