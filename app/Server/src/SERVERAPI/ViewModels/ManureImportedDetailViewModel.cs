@@ -10,20 +10,27 @@ namespace SERVERAPI.ViewModels
         public string Title { get; set; }
         public string Target { get; set; }
         public int? ManureImportId { get; set; }
+
         [Required(ErrorMessage = "Required")]
         public string MaterialName { get; set; }
+
         public ManureMaterialType SelectedManureType { get; set; }
         public string ManureTypeName { get; set; }
+
         [Required(ErrorMessage = "Required")]
-        [Range(0,99999990, ErrorMessage = "Enter a numeric value")]
+        [Range(0, 99999990, ErrorMessage = "Enter a numeric value")]
         public decimal? AnnualAmount { get; set; }
+
         public AnnualAmountUnits SelectedAnnualAmountUnit { get; set; }
         public decimal? Moisture { get; set; }
         public decimal StandardSolidMoisture { get; set; }
+
         public bool IsStdMoisture => SelectedManureType == ManureMaterialType.Solid && Moisture.HasValue &&
                                      Moisture.Value == StandardSolidMoisture;
+
         public bool IsMaterialStored { get; set; }
         public string IsMaterialStoredLabelText { get; set; }
+        public bool ShowIsMaterialStored { get; set; }
         public string ButtonText { get; set; }
         public string ButtonPressed { get; set; }
 
@@ -33,7 +40,6 @@ namespace SERVERAPI.ViewModels
 
             if (SelectedManureType == ManureMaterialType.Solid)
             {
-
                 selectListItems.Add(new MvcRendering.SelectListItem { Value = AnnualAmountUnits.CubicYards.ToString(), Text = EnumHelper<AnnualAmountUnits>.GetDisplayValue(AnnualAmountUnits.CubicYards) });
                 selectListItems.Add(new MvcRendering.SelectListItem { Value = AnnualAmountUnits.tons.ToString(), Text = EnumHelper<AnnualAmountUnits>.GetDisplayValue(AnnualAmountUnits.tons) });
                 selectListItems.Add(new MvcRendering.SelectListItem { Value = AnnualAmountUnits.CubicMeters.ToString(), Text = EnumHelper<AnnualAmountUnits>.GetDisplayValue(AnnualAmountUnits.CubicMeters) });
