@@ -72,6 +72,11 @@ namespace SERVERAPI.ViewComponents
                 currentMainMenuItem.SubMenus.Single(s => s.IsSubMenuCurrent(currentAction)) as Menu :
                 currentMainMenuItem as Menu;
 
+            if (currentAction == CoreSiteActions.SoilTest)
+            {
+                currentMenuItem.UseJavaScriptInterceptMethod = true;
+            }
+
             var mnvm = PopulateViewModel(currentMenuItem);
 
             return Task.FromResult(mnvm);
