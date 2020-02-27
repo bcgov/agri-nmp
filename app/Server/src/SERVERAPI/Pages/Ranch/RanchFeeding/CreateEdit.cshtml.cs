@@ -120,6 +120,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             public bool StateChanged { get; set; }
 
             public string FeedingAreaWarning { get; set; }
+            public string ExplainFeedForageProvided { get; set; }
+            public string ExplainFeedForageWastage { get; set; }
 
             public class FeedForageAnalysis
             {
@@ -298,8 +300,9 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
             {
                 var command = request.PopulatedData;
 
-                //command.FeedingAreaWarning = _sd.GetUserPrompt("feedingcommentplaceholder-Ranch");
                 command.FeedingAreaWarning = "Percent Sum must be 100";
+                command.ExplainFeedForageProvided = _sd.GetUserPrompt("ExplainFeedForageProvided-Ranch");
+                command.ExplainFeedForageWastage = _sd.GetUserPrompt("ExplainFeedForageWastage-Ranch");
 
                 foreach (var feedAnalysis in command.FeedForageAnalyses)
                 {
