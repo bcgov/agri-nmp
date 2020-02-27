@@ -8,6 +8,7 @@ namespace SERVERAPI.Pages
     public class BasePageModel : PageModel
     {
         public string Title { get; set; }
+        public string SideTitle { get; set; }
 
         public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
         {

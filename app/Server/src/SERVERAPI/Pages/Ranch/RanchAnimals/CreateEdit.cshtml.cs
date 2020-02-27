@@ -31,7 +31,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         public async Task OnGetCreateAsync(bool ismodal)
         {
             IsModal = ismodal;
-            Title = "Add Animal            ";
+            Title = "Add Animal";
             await PopulateData(new Query());
         }
 
@@ -46,7 +46,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         {
             Data = await _mediator.Send(query);
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
-            Title += Data.RanchAnimalGroupsMessage;
+            SideTitle = Data.RanchAnimalGroupsMessage;
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
@@ -178,12 +178,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
                 }
                 command.CattleSubTypeOptions = new SelectList(subTypeOptions, "Id", "Value");
 
-                var prompts = _db.UserPrompts
-                    .Where(p => p.UserPromptPage == UserPromptPage.AnimalsCreateEdit.ToString() &&
-                                    p.UserJourney == UserJourney.Ranch.ToString())
-                    .ToDictionary(p => p.Name, p => p.Text);
-
-                command.RanchAnimalGroupsMessage = prompts["RanchAnimalGroupsMessage"];
+                command.RanchAnimalGroupsMessage = _sd.GetUserPrompt("RanchAnimalGroupsMessage");
 
                 return await Task.FromResult(command);
             }

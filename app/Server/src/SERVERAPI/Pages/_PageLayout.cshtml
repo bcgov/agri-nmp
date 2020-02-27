@@ -21,7 +21,10 @@
     @* Puts a border around the form when not in a modal window *@
     <div class="form-box">
         <div class="form-box-header clearfix">
-            <div class="form-box-heading">@ViewBag.HeaderTitle</div>
+            <div class="form-box-heading" style="width: 100%;">
+                <div class="col-md-4">@ViewBag.HeaderTitle</div>
+                <div class="col-md-7" style="font-size: 1.5rem; padding-top: 3px;">@ViewBag.HeaderSideTitle</div>
+            </div>
         </div>
         @RenderBody()
     </div>
