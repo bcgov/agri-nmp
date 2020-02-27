@@ -231,49 +231,19 @@
             "Page": "/Poultry/PoultryAnimals/Index",
             "PreviousController": "Farm",
             "PreviousAction": "Farm",
-            "NextPage": "/Poultry/PoultryManure/Index",
+            "NextPage": "/Poultry/PoultryNutrients/Index",
             "SortNumber": 1
+          },
+          {
+            "Name": "Nutrient Analysis",
+            "Page": "/Poultry/PoultryNutrients/Index",
+            "PreviousPage": "/Poultry/PoultryAnimals/Index",
+            "NextController": "Fields",
+            "NextAction": "Fields",
+            "SortNumber": 2
           }
         ]
       },
-      //{
-      //  "Name": "Animals and Manure",
-      //  "Controller": "ManureManagement",
-      //  "Action": "ManureGeneratedObtained",
-      //  "SortNumber": 2,
-      //  "SubMenus": [
-      //    {
-      //      "Name": "Animals",
-      //      "Controller": "ManureManagement",
-      //      "Action": "ManureGeneratedObtained",
-      //      "PreviousController": "Farm",
-      //      "PreviousAction": "Farm",
-      //      "NextController": "ManureManagement",
-      //      "NextAction": "ManureImported",
-      //      "SortNumber": 1
-      //    },
-      //    {
-      //      "Name": "Manure and Imports",
-      //      "Controller": "ManureManagement",
-      //      "Action": "ManureImported",
-      //      "PreviousController": "ManureManagement",
-      //      "PreviousAction": "ManureGeneratedObtained",
-      //      "NextController": "ManureManagement",
-      //      "NextAction": "ManureNutrientAnalysis",
-      //      "SortNumber": 2
-      //    },
-      //    {
-      //      "Name": "Nutrient Analysis",
-      //      "Controller": "ManureManagement",
-      //      "Action": "ManureNutrientAnalysis",
-      //      "PreviousController": "ManureManagement",
-      //      "PreviousAction": "ManureImported",
-      //      "NextController": "Fields",
-      //      "NextAction": "Fields",
-      //      "SortNumber": 3
-      //    }
-      //  ]
-      //},
       {
         "Name": "Fields and Soil",
         "Controller": "Fields",
@@ -284,8 +254,7 @@
             "Name": "Field List",
             "Controller": "Fields",
             "Action": "Fields",
-            "PreviousController": "ManureManagement",
-            "PreviousAction": "ManureNutrientAnalysis",
+            "PreviousPage": "/Poultry/PoultryAnimals/Index",
             "NextController": "Soil",
             "NextAction": "SoilTest",
             "SortNumber": 1

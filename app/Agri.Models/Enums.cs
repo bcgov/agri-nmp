@@ -113,7 +113,7 @@ namespace Agri.Models
         RanchManureIndex,
 
         [Description("/Ranch/RanchNutrients/Index")]
-        RanchNutrients,
+        RanchNutrientsIndex,
 
         [Description("/Ranch/RanchFields/Index")]
         RanchFieldsIndex,
@@ -123,6 +123,9 @@ namespace Agri.Models
 
         [Description("/Poultry/PoultryAnimals/Index")]
         PoultryAnimalsIndex,
+
+        [Description("/Poultry/PoultryNutrients/Index")]
+        PoultryNutrientsIndex,
     }
 
     public enum StorageShapes
