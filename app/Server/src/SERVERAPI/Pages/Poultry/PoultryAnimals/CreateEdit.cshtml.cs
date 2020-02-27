@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models;
 using Agri.Models.Farm;
@@ -60,15 +62,22 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
 
         private async Task<IActionResult> ProcessPost()
         {
-            if (ModelState.IsValid)
+            if (Data.PostedElementEvent == ElementEvent.AnimalTypeChanged)
             {
-                await _mediator.Send(Data);
-
-                if (IsModal)
+                Data.PostedElementEvent = ElementEvent.None;
+            }
+            else
+            {
+                if (ModelState.IsValid)
                 {
-                    return this.RedirectToPageJson(nameof(Index));
+                    await _mediator.Send(Data);
+
+                    if (IsModal)
+                    {
+                        return this.RedirectToPageJson(nameof(Index));
+                    }
+                    return RedirectToPage(nameof(Index));
                 }
-                return RedirectToPage(nameof(Index));
             }
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
             return Page();
@@ -90,27 +99,36 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
             public int? Id { get; set; }
             public int AnimalId { get; set; }
             public string AnimalName { get; set; }
-            public int CattleSubTypeId { get; set; }
-            public string CattleSubTypeName { get; set; }
-            public SelectList CattleSubTypeOptions { get; set; }
-            public ManureMaterialType ManureMaterialType => ManureMaterialType.Solid;
-            public int? AverageAnimalNumber { get; set; }
-            public string Placehldr { get; set; }
-            public bool IsManureCollected { get; set; }
-            public int? DurationDays { get; set; }
+            public string AnimalTypeName { get; set; }
+            public SelectList AnimalTypeOptions { get; set; }
+            public int AnimalSubTypeId { get; set; }
+            public string AnimalSubTypeName { get; set; }
+            public SelectList AnimalSubTypeOptions { get; set; }
+            public string ManureTypeName { get; set; }
+            public SelectList ManureMaterialTypeOptions { get; set; }
+            public ManureMaterialType ManureType { get; set; }
+            public int? BirdsPerFlock { get; set; }
+            public decimal? FlocksPerYear { get; set; }
+            public int? DaysPerFlock { get; set; }
+            public ElementEvent PostedElementEvent { get; set; }
+        }
+
+        public enum ElementEvent
+        {
+            None,
+            AnimalTypeChanged
         }
 
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
-                RuleFor(m => m.CattleSubTypeId).GreaterThan(0).WithMessage("Cattle Type must be selected");
-                RuleFor(m => m.AverageAnimalNumber).NotEmpty().GreaterThan(0);
-                When(m => m.IsManureCollected, () =>
-                {
-                    RuleFor(m => m.DurationDays).NotEmpty().GreaterThan(0)
-                        .WithMessage("Duration must be greater than 0");
-                });
+                RuleFor(m => m.AnimalId).GreaterThan(0).WithMessage("Animal Type must be selected");
+                RuleFor(m => m.AnimalSubTypeId).GreaterThan(0).WithMessage("Animal Sub Type must be selected");
+                RuleFor(m => m.ManureType).Must(m => m > 0).WithMessage("Manure Material Type must be selected");
+                RuleFor(m => m.BirdsPerFlock).NotEmpty().GreaterThan(0);
+                RuleFor(m => m.FlocksPerYear).NotEmpty().GreaterThan(0);
+                RuleFor(m => m.DaysPerFlock).NotEmpty().GreaterThan(0);
             }
         }
 
@@ -119,8 +137,7 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
             public MappingProfile()
             {
                 CreateMap<FarmAnimal, Command>()
-                    .ForMember(m => m.CattleSubTypeId, opts => opts.MapFrom(src => src.AnimalSubTypeId))
-                    .ForMember(m => m.CattleSubTypeName, opts => opts.MapFrom(src => src.AnimalSubTypeName))
+
                     .ReverseMap();
             }
         }
@@ -161,17 +178,24 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
             {
                 var command = request.PopulatedData;
 
-                var beefCattle = _sd.GetAnimal(1);
-                command.AnimalId = beefCattle.Id;
-                command.AnimalName = beefCattle.Name;
+                var animalOptions = _sd.GetAnimalTypesDll();
+                command.AnimalTypeOptions = new SelectList(animalOptions, "Id", "Value");
 
-                var subTypeOptions = _sd.GetSubtypesDll(beefCattle.Id).ToList();
-
-                if (subTypeOptions.Count() == 1)
+                SelectList subTypeOptions;
+                if (command.AnimalId == 0)
                 {
-                    command.CattleSubTypeId = subTypeOptions[0].Id;
+                    var poultryId = _sd.GetAnimal(6);
+                    command.AnimalId = poultryId.Id;
+                    command.AnimalName = poultryId.Name;
+                    command.ManureType = ManureMaterialType.Solid;
+                    subTypeOptions = new SelectList(_sd.GetSubtypesDll(poultryId.Id).ToList(), "Id", "Value");
                 }
-                command.CattleSubTypeOptions = new SelectList(subTypeOptions, "Id", "Value");
+                else
+                {
+                    subTypeOptions = new SelectList(_sd.GetSubtypesDll(command.AnimalId), "Id", "Value");
+                }
+
+                command.AnimalSubTypeOptions = subTypeOptions;
 
                 return await Task.FromResult(command);
             }
@@ -181,16 +205,27 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
         {
             private readonly UserData _ud;
             private readonly IMapper _mapper;
+            private readonly ICalculateManureGeneration _calculateManureGeneration;
 
-            public CommandHandler(UserData ud, IMapper mapper)
+            public CommandHandler(UserData ud, IMapper mapper, ICalculateManureGeneration calculateManureGeneration)
             {
                 _ud = ud;
                 _mapper = mapper;
+                _calculateManureGeneration = calculateManureGeneration;
             }
 
             public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
             {
                 var farmAnimal = _mapper.Map<Command, FarmAnimal>(message);
+
+                farmAnimal.IsManureCollected = true;
+                if (farmAnimal.AnimalId == 6)
+                {
+                    farmAnimal.IsPoultry = true;
+                    farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
+                        .GetTonsGeneratedForPoultrySubType(farmAnimal.AnimalSubTypeId,
+                            farmAnimal.BirdsPerFlock.Value, farmAnimal.FlocksPerYear.Value, farmAnimal.DaysPerFlock.Value);
+                }
 
                 if (farmAnimal.Id.GetValueOrDefault(0) == 0)
                 {

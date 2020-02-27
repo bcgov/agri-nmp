@@ -9,47 +9,25 @@
 <div class="form-box-body">
     <div class="form-box-table">
         <div class="form-box-table-header form-box-table-row row row-eq-height">
-            <div class="col-sm-2 form-box-table-cell">
-                <strong>Animal Type</strong>
-            </div>
-            <div class="col-sm-3 form-box-table-cell">
-                <strong>Cattle</strong>
-            </div>
-            <div class="col-sm-1 form-box-table-cell">
-                <strong>Number</strong>
+            <div class="col-sm-4 form-box-table-cell">
+                <strong>Material Type</strong>
             </div>
             <div class="col-sm-2 form-box-table-cell">
-                <strong>Manure Type</strong>
+                <strong>Annual Amount</strong>
             </div>
-            <div class="col-sm-1 form-box-table-cell">
-                <strong>Piled/Collected</strong>
-            </div>
-            <div class="col-sm-3 form-box-table-cell">
-                <strong>Days Collected</strong>
+            <div class="col-sm-6 form-box-table-cell">
             </div>
         </div>
         @foreach (var item in Model?.Data?.Animals)
         {
             <div class="form-box-table-row row row-eq-height">
-                <div class="col-sm-2 form-box-table-cell">
-                    @item.AnimalName
-                </div>
-                <div class="col-sm-3 form-box-table-cell">
+                <div class="col-sm-4 form-box-table-cell">
                     @item.AnimalSubTypeName
                 </div>
-                <div class="col-sm-1 form-box-table-cell">
-                    @item.AverageAnimalNumber
-                </div>
                 <div class="col-sm-2 form-box-table-cell">
-                    @item.ManureMaterialType
+                    @item.ManureGeneratedTonsPerYear
                 </div>
-                <div class="col-sm-1 form-box-table-cell">
-                    @item.ManureCollected
-                </div>
-                <div class="col-sm-1 form-box-table-cell">
-                    @item.DurationDays
-                </div>
-                <div class="col-sm-2 form-box-table-cell text-center">
+                <div class="col-sm-6 form-box-table-cell text-center">
                     @* The 'Edit' button to open the CreateEdit form as a model needs
                         data-toggle="razor-page-modal"
                             - For the Javascript to open form as Modal

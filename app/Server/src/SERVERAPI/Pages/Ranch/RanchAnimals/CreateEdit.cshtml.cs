@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models;
 using Agri.Models.Farm;
@@ -181,16 +182,24 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         {
             private readonly UserData _ud;
             private readonly IMapper _mapper;
+            private readonly ICalculateManureGeneration _calculateManureGeneration;
 
-            public CommandHandler(UserData ud, IMapper mapper)
+            public CommandHandler(UserData ud, IMapper mapper, ICalculateManureGeneration calculateManureGeneration)
             {
                 _ud = ud;
                 _mapper = mapper;
+                _calculateManureGeneration = calculateManureGeneration;
             }
 
             public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
             {
                 var farmAnimal = _mapper.Map<Command, FarmAnimal>(message);
+
+                if (farmAnimal.IsManureCollected)
+                {
+                    farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
+                        .GetSolidTonsGeneratedForAnimalSubType(farmAnimal.AnimalSubTypeId, farmAnimal.AverageAnimalNumber, farmAnimal.DurationDays);
+                }
 
                 if (farmAnimal.Id.GetValueOrDefault(0) == 0)
                 {
