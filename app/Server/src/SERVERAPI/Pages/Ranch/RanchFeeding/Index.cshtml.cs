@@ -53,7 +53,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         public class Model
         {
             public List<Field> Fields { get; set; }
-            public string FeedingAreaWarning { get; set; }
+
+            public string ExplainFeedArea { get; set; }
 
             public class Field
             {
@@ -113,7 +114,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                 return Task.FromResult(new Model
                 {
                     Fields = calculatedFields,
-                    FeedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
+                    ExplainFeedArea = _sd.GetUserPrompt("ExplainFeedArea-Ranch")
                 });
             }
         }

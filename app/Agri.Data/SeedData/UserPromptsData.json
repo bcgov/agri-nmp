@@ -576,6 +576,27 @@
   },
   {
     "Id": 88,
+    "Name": "ExplainFeedArea-Ranch",
+    "Text": "Potential nitrogen, phosphorus, and potassium that may be added to the seasonal feeding area from animals",
+    "UserPromptPage": "FeedAreaIndex",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 89,
+    "Name": "ExplainFeedForageProvided-Ranch",
+    "Text": "The percent of feed or forage described here that is given to animals out all supplemental feeds or forages (e.g. What percent of the the total feed/forage mix is this feed?)",
+    "UserPromptPage": "FeedAreaCreateEdit",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 90,
+    "Name": "ExplainFeedForageWastage-Ranch",
+    "Text": "The percent of the supplemental feed or forage that is not consumed by the animals",
+    "UserPromptPage": "FeedAreaCreateEdit",
+    "UserJourney": "Ranch"
+  },
+  {
+    "Id": 91,
     "Name": "RanchAnimalGroupsMessage",
     "Text": "Identify animal groups that generate manure on your farm",
     "UserPromptPage": "AnimalsCreateEdit",
