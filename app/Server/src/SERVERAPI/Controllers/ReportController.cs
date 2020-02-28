@@ -1278,8 +1278,10 @@ namespace SERVERAPI.Controllers
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure/Compost Inventory", PageNumber = pageNumber });
             }
 
-            //ReportManureSummary
-            if (yd.FarmManures.Any())
+            //Dairy Mixed ReportManureSummary
+            if ((_ud.FarmDetails().UserJourney == UserJourney.Dairy ||
+                    _ud.FarmDetails().UserJourney == UserJourney.Mixed) &&
+                yd.FarmManures.Any())
             {
                 pageNumber = pageNumber + 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
@@ -1296,6 +1298,13 @@ namespace SERVERAPI.Controllers
                     SectionName = "Liquid Storage Capacity: October to March",
                     PageNumber = pageNumber
                 });
+            }
+
+            //ReportBeefManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Ranch && yd.FarmManures.Any())
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
             }
 
             //ReportFertilizers
@@ -1790,6 +1799,12 @@ namespace SERVERAPI.Controllers
             {
                 report += pageBreakForManure;
                 report += reportOctoberToMarchStorageVolumes;
+            }
+
+            if (reportBeefManure.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportBeefManure;
             }
 
             if (reportFertilizers.Contains("div"))
