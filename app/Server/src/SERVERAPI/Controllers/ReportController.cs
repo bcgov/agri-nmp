@@ -930,6 +930,67 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
+        public async Task<string> RenderBeefManureUse()
+        {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Ranch)
+            {
+                return string.Empty;
+            }
+
+            var viewModel = new ReportBeefManureCollectedViewModel
+            {
+                Manures = new List<ReportManures>(),
+                Footnotes = new List<ReportFieldFootnote>()
+            };
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.FarmManures != null)
+            {
+                foreach (var fm in yearData.FarmManures)
+                {
+                    ReportManures rm = new ReportManures();
+                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
+
+                    if (appliedManure != null)
+                    {
+                        rm.MaterialName = appliedManure.SourceName;
+
+                        // Annual Amount
+
+                        rm.AnnualAmount = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureToApply)).ToString();
+                        rm.AnnualAmount = $"{rm.AnnualAmount} tons";
+
+                        // Amount Land Applied
+                        rm.LandApplied = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalApplied)).ToString();
+                        rm.LandApplied = $"{rm.LandApplied} tons";
+
+                        // Amount Remaining
+                        if (appliedManure.WholePercentRemaining < 10)
+                        {
+                            rm.AmountRemaining = "None";
+
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = viewModel.Footnotes.Count() + 1;
+                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
+                            rm.footnote = rff.id.ToString();
+                            viewModel.Footnotes.Add(rff);
+                        }
+                        else
+                        {
+                            rm.AmountRemaining = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureRemainingToApply));
+                        }
+
+                        viewModel.Manures.Add(rm);
+                    }
+                }
+            }
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportBeefManureCollected.cshtml", viewModel);
+
+            return result;
+        }
+
         public async Task<string> RenderFerilizers()
         {
             ReportSourcesViewModel rvm = new ReportSourcesViewModel();
@@ -1663,6 +1724,7 @@ namespace SERVERAPI.Controllers
             var reportManureCompostInventory = string.Empty;
             var reportManureUse = string.Empty;
             var reportOctoberToMarchStorageVolumes = string.Empty;
+            var reportBeefManure = string.Empty;
             var reportFertilizers = string.Empty;
             var reportFields = string.Empty;
             var reportAnalysis = string.Empty;
@@ -1680,6 +1742,7 @@ namespace SERVERAPI.Controllers
                     reportFeedingArea = await RenderSeasonalFeedAreaSummary();
                     reportFields = await RenderFields();
                     reportManureUse = await RenderManureUse();
+                    reportBeefManure = await RenderBeefManureUse();
                     reportSummary = await RenderSummary();
                     reportAnalysis = await RenderAnalysis();
                 },

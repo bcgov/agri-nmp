@@ -1,0 +1,33 @@
+﻿@model ReportBeefManureCollected
+
+<div class="Row">
+    <div class="Cell">
+        <span style="font-size:10pt"><b></b></span>
+        <br />
+        <br />
+    </div>
+</div>
+
+<div class="Row" style="padding-bottom:20px">
+    <div class="Cell">
+        <table style="border-collapse: collapse; page-break-inside:avoid">
+            <tr>
+                <td class="CellHdg" style="width:25%">Material</td>
+                <td class="CellHdg" style="width:25%">Material Source</td>
+                <td class="CellHdg" style="width:17%">Annual Ammount</td>
+                <td class="CellHdg" style="width:17%">Land-applied</td>
+                <td class="CellHdg" style="width:17%">Amount Remaining</td>
+            </tr>
+            @foreach (var manure in Model.Manures)
+            {
+                <tr>
+                    <td class="CellDtl" style="">@manure.MaterialName</td>
+                    <td class="CellDtl" style="">@manure.MaterialSource</td>
+                    <td class="CellDtl" style="">@manure.AnnualAmount</td>
+                    <td class="CellDtl" style="">@manure.LandApplied</td>
+                    <td class="CellDtl" style="">@manure.AmountRemaining</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
