@@ -35,19 +35,19 @@
     </div>
     <div class="row">
         <div class="form-group col-sm-4">
-            <label for="birdsPerFlock">Number of birds per Flock</label>
+            <label for="birdsPerFlock">Number of birds per flock</label>
             <input class="form-control" asp-for="@Model.Data.BirdsPerFlock"
                    id="birdsPerFlock" type="number" step="0.01" />
             @Html.ValidationMessageFor(model => model.Data.BirdsPerFlock)
         </div>
         <div class="form-group col-sm-4">
-            <label for="flocksPerYear">Number of flocks per Year</label>
+            <label for="flocksPerYear">Number of flocks per year</label>
             <input class="form-control" asp-for="@Model.Data.FlocksPerYear"
                    id="flocksPerYear" type="number" step="0.01" />
             @Html.ValidationMessageFor(model => model.Data.FlocksPerYear)
         </div>
         <div class="form-group col-sm-4">
-            <label for="birdsPerFlock">Number of days per Flock</label>
+            <label for="birdsPerFlock">Number of days per flock</label>
             <input class="form-control" asp-for="@Model.Data.DaysPerFlock"
                    id="birdsPerFlock" type="number" step="0.01" />
             @Html.ValidationMessageFor(model => model.Data.DaysPerFlock)
