@@ -46,6 +46,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         {
             Data = await _mediator.Send(query);
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
+            SideTitle = Data.RanchAnimalGroupsMessage;
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
@@ -98,6 +99,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
             public string Placehldr { get; set; }
             public bool IsManureCollected { get; set; }
             public int? DurationDays { get; set; }
+            public string RanchAnimalGroupsMessage { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -151,10 +153,13 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         public class LookupDataHandler : IRequestHandler<LookupDataQuery, Command>
         {
             private readonly IAgriConfigurationRepository _sd;
+            private readonly AgriConfigurationContext _db;
 
-            public LookupDataHandler(IAgriConfigurationRepository sd)
+            public LookupDataHandler(IAgriConfigurationRepository sd,
+                AgriConfigurationContext db)
             {
                 _sd = sd;
+                _db = db;
             }
 
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
@@ -172,6 +177,8 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
                     command.CattleSubTypeId = subTypeOptions[0].Id;
                 }
                 command.CattleSubTypeOptions = new SelectList(subTypeOptions, "Id", "Value");
+
+                command.RanchAnimalGroupsMessage = _sd.GetUserPrompt("RanchAnimalGroupsMessage");
 
                 return await Task.FromResult(command);
             }

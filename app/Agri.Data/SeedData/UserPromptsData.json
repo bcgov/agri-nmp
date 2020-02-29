@@ -594,5 +594,13 @@
     "Text": "The percent of the supplemental feed or forage that is not consumed by the animals",
     "UserPromptPage": "FeedAreaCreateEdit",
     "UserJourney": "Ranch"
+  },
+  {
+    "Id": 91,
+    "Name": "RanchAnimalGroupsMessage",
+    "Text": "Identify animal groups that generate manure on your farm",
+    "UserPromptPage": "AnimalsCreateEdit",
+    "UserJourney": "Ranch"
   }
+
 ]
