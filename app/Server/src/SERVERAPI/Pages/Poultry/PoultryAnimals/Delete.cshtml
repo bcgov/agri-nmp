@@ -1,0 +1,22 @@
+﻿@page "{id:int}"
+@model SERVERAPI.Pages.Poultry.PoultryAnimals.Delete
+@{
+    Layout = "_ModalLayout";
+    ViewData["HeaderTitle"] = "Delete Animal";
+}
+
+<form asp-page="Delete" method="post" class="form-box-body">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <div>
+            @Model.Data.CattleSubTypeName<br />
+        </div>
+    </div>
+    <br />
+    <div class="modal-footer">
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+        <input class="btn btn-primary" type="submit" value="Delete" data-save="razor-page-modal" />
+    </div>
+    @Html.HiddenFor(x => x.Data.Id)
+    @Html.HiddenFor(x => x.Data.CattleSubTypeId)
+</form>
