@@ -25,7 +25,7 @@
                     @item.AnimalSubTypeName
                 </div>
                 <div class="col-sm-2 form-box-table-cell">
-                    @item.ManureGeneratedTonsPerYear tons
+                    @(item.ManureGeneratedTonsPerYear.HasValue ? item.MsgManureGeneratedTonsPerYear : item.MsgManureGeneratedGallonsPerYear)
                 </div>
                 <div class="col-sm-6 form-box-table-cell text-center">
                     @* The 'Edit' button to open the CreateEdit form as a model needs

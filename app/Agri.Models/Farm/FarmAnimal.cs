@@ -8,11 +8,41 @@ namespace Agri.Models.Farm
 {
     public class FarmAnimal : GeneratedManure
     {
+        private int? manureGeneratedTonsPerYear;
+        private int? manureGeneratedGallonsPerYear;
+
         public override string ManureId => $"FarmAnimal{Id ?? 0}";
         public bool IsManureCollected { get; set; }
         public string ManureCollected { get; set; }
         public int DurationDays { get; set; }
-        public int? ManureGeneratedTonsPerYear { get; set; }
+
+        public int? ManureGeneratedTonsPerYear
+        {
+            get => manureGeneratedTonsPerYear;
+
+            set
+            {
+                if (manureGeneratedTonsPerYear.HasValue)
+                {
+                    manureGeneratedGallonsPerYear = null;
+                }
+                manureGeneratedTonsPerYear = value;
+            }
+        }
+
+        public int? ManureGeneratedGallonsPerYear
+        {
+            get => manureGeneratedGallonsPerYear;
+
+            set
+            {
+                if (manureGeneratedGallonsPerYear.HasValue)
+                {
+                    manureGeneratedTonsPerYear = null;
+                }
+                manureGeneratedGallonsPerYear = value;
+            }
+        }
 
         public bool IsPoultry { get; set; }
         public int? BirdsPerFlock { get; set; }

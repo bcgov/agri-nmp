@@ -6,13 +6,18 @@
 <div class="form-box-fields">
     <div class="row">
         <div class="form-group col-sm-4">
-            <label for="ddlAnimalType">Animal Type</label>
-            <select class="form-control" asp-for="@Model.Data.AnimalId"
-                    asp-items="@Model.Data.AnimalTypeOptions" id="ddlAnimalType">
-                <option value=0>Select Poultry Type</option>
-            </select>
-            <input id="AnimalName" asp-for="@Model.Data.AnimalName" type="hidden" />
-            @Html.ValidationMessageFor(model => model.Data.AnimalId)
+            <label for="animalType">Animal Type</label>
+            @*<select class="form-control" asp-for="@Model.Data.AnimalId"
+                        asp-items="@Model.Data.AnimalTypeOptions" id="ddlAnimalType">
+                    <option value=0>Select Poultry Type</option>
+                </select>
+                <input id="AnimalName" asp-for="@Model.Data.AnimalName" type="hidden" />
+                @Html.ValidationMessageFor(model => model.Data.AnimalId)*@
+            <div class="row no-gutters">
+                <div class="col">
+                    <span id="animalType">Poultry</span>
+                </div>
+            </div>
         </div>
         <div class="form-group col-sm-4">
             <label for="ddlSubType">Sub Type</label>
@@ -55,6 +60,7 @@
     </div>
 </div>
 <input type="hidden" asp-for="Data.Id" />
+<input type="hidden" asp-for="Data.AnimalId" />
 <input type="hidden" asp-for="Data.PostedElementEvent" id="PostedElementEvent" />
 
 <div class="modal-footer" style="border-top:none !important;">
