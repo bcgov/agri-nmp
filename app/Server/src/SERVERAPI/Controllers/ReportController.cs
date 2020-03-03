@@ -788,6 +788,11 @@ namespace SERVERAPI.Controllers
 
         public async Task<string> RenderManureUse()
         {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Dairy || _ud.FarmDetails().UserJourney != UserJourney.Mixed)
+            {
+                return string.Empty;
+            }
+
             ReportManureSummaryViewModel rmsvm = new ReportManureSummaryViewModel();
             rmsvm.manures = new List<ReportManures>();
             rmsvm.footnotes = new List<ReportFieldFootnote>();
@@ -926,6 +931,78 @@ namespace SERVERAPI.Controllers
             }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportOctoberToMarchStorageSummary.cshtml", romssvm);
+
+            return result;
+        }
+
+        public async Task<string> RenderCropManureUse()
+        {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Crops)
+            {
+                return string.Empty;
+            }
+
+            var viewModel = new ReportCropsManureViewModel();
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.FarmManures != null)
+            {
+                foreach (var fm in yearData.FarmManures)
+                {
+                    ReportManures rm = new ReportManures();
+                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
+
+                    if (appliedManure != null)
+                    {
+                        rm.MaterialName = _sd.GetManure(fm.ManureId).Name;
+                        rm.MaterialSource = appliedManure.SourceName;
+
+                        // Annual Amount
+                        rm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureToApply))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.AnnualAmount += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.AnnualAmount += " tons";
+                        }
+
+                        // Amount Land Applied
+                        rm.LandApplied = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalApplied))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.LandApplied += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.LandApplied += " tons";
+                        }
+                        rm.LandApplied += " (" + appliedManure.WholePercentAppiled + "%)";
+
+                        // Amount Remaining
+                        if (appliedManure.WholePercentRemaining < 10)
+                        {
+                            rm.AmountRemaining = "None";
+
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = viewModel.Footnotes.Count() + 1;
+                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
+                            rm.footnote = rff.id.ToString();
+                            viewModel.Footnotes.Add(rff);
+                        }
+                        else
+                        {
+                            rm.AmountRemaining = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureRemainingToApply))) + " (" + appliedManure.WholePercentRemaining + "%)";
+                        }
+
+                        viewModel.Manures.Add(rm);
+                    }
+                }
+            }
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCropsManure.cshtml", viewModel);
 
             return result;
         }
@@ -1296,11 +1373,20 @@ namespace SERVERAPI.Controllers
                 });
             }
 
+            //Report Crop Manures
+            if (_ud.FarmDetails().UserJourney == UserJourney.Crops && yd.FarmManures.Any())
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
+            }
+        }
+
             //ReportBeefManure
             if (_ud.FarmDetails().UserJourney == UserJourney.Ranch && yd.FarmManures.Any())
             {
                 pageNumber = pageNumber + 1;
-                vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
+                vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber
+    });
             }
 
             //ReportFertilizers
@@ -1349,609 +1435,605 @@ namespace SERVERAPI.Controllers
         }
 
         public async Task<string> RenderApplication()
+{
+    string crpName = string.Empty;
+
+    ReportApplicationViewModel rvm = new ReportApplicationViewModel();
+    rvm.fields = new List<ReportApplicationField>();
+    rvm.year = _ud.FarmDetails().Year;
+
+    List<Field> fldList = _ud.GetFields();
+    foreach (var f in fldList)
+    {
+        ReportApplicationField rf = new ReportApplicationField();
+        rf.fieldName = f.FieldName;
+        rf.fieldArea = f.Area.ToString("G29");
+        rf.fieldComment = f.Comment;
+        rf.nutrients = new List<ReportFieldNutrient>();
+        if (f.Nutrients != null)
         {
-            string crpName = string.Empty;
-
-            ReportApplicationViewModel rvm = new ReportApplicationViewModel();
-            rvm.fields = new List<ReportApplicationField>();
-            rvm.year = _ud.FarmDetails().Year;
-
-            List<Field> fldList = _ud.GetFields();
-            foreach (var f in fldList)
+            if (f.Nutrients.nutrientManures != null)
             {
-                ReportApplicationField rf = new ReportApplicationField();
-                rf.fieldName = f.FieldName;
-                rf.fieldArea = f.Area.ToString("G29");
-                rf.fieldComment = f.Comment;
-                rf.nutrients = new List<ReportFieldNutrient>();
-                if (f.Nutrients != null)
+                foreach (var m in f.Nutrients.nutrientManures)
                 {
-                    if (f.Nutrients.nutrientManures != null)
-                    {
-                        foreach (var m in f.Nutrients.nutrientManures)
-                        {
-                            FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
-                            ReportFieldNutrient rfn = new ReportFieldNutrient();
-
-                            rfn.nutrientName = manure.Name;
-                            rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", m.rate);
-                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
-                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
-                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).Name;
-                            rf.nutrients.Add(rfn);
-                        }
-                    }
-                    if (f.Nutrients.nutrientFertilizers != null)
-                    {
-                        foreach (var ft in f.Nutrients.nutrientFertilizers)
-                        {
-                            string fertilizerName = string.Empty;
-                            ReportFieldNutrient rfn = new ReportFieldNutrient();
-                            FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
-
-                            if (ftyp.Custom)
-                            {
-                                fertilizerName = ftyp.DryLiquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
-                                fertilizerName = fertilizerName + ft.customN.ToString() + "-" + ft.customP2o5.ToString() + "-" + ft.customK2o.ToString();
-                            }
-                            else
-                            {
-                                Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
-                                fertilizerName = ff.Name;
-                            }
-
-                            rfn.nutrientName = fertilizerName;
-                            rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", ft.applRate);
-                            rfn.nutrientSeason = ft.applDate != null ? ft.applDate.Value.ToString("MMM-yyyy") : "";
-                            rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
-                            rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).Name;
-
-                            rf.nutrients.Add(rfn);
-                        }
-                    }
-                }
-                if (rf.nutrients.Count() == 0)
-                {
+                    FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                     ReportFieldNutrient rfn = new ReportFieldNutrient();
-                    rfn.nutrientName = "None planned";
-                    rfn.nutrientAmount = "";
+
+                    rfn.nutrientName = manure.Name;
+                    rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", m.rate);
+                    rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
+                    rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
+                    rfn.nutrientUnit = _sd.GetUnit(m.unitId).Name;
                     rf.nutrients.Add(rfn);
                 }
-
-                if (f.Crops != null)
-                {
-                    foreach (var c in f.Crops)
-                    {
-                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
-                        rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
-                    }
-                }
-                rvm.fields.Add(rf);
             }
-
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportApplication.cshtml", rvm);
-
-            return result;
-        }
-
-        public async Task<string> RenderSummary()
-        {
-            string crpName = string.Empty;
-            ReportSummaryViewModel rvm = new ReportSummaryViewModel();
-
-            rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().TestingMethod) ? "Not Specified" : _sd.GetSoilTestMethod(_ud.FarmDetails().TestingMethod);
-            rvm.year = _ud.FarmDetails().Year;
-
-            FarmDetails fd = _ud.FarmDetails();
-
-            rvm.tests = new List<ReportSummaryTest>();
-
-            List<Field> flds = _ud.GetFields();
-
-            foreach (var m in flds)
+            if (f.Nutrients.nutrientFertilizers != null)
             {
-                ReportSummaryTest dc = new ReportSummaryTest();
-                dc.fieldName = m.FieldName;
-                if (m.SoilTest != null)
+                foreach (var ft in f.Nutrients.nutrientFertilizers)
                 {
-                    dc.sampleDate = m.SoilTest.sampleDate.ToString("MMM-yyyy");
-                    dc.nitrogen = m.SoilTest.valNO3H.ToString("G29");
-                    dc.phosphorous = m.SoilTest.ValP.ToString("G29");
-                    dc.potassium = m.SoilTest.valK.ToString("G29");
-                    dc.pH = m.SoilTest.valPH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, m.SoilTest));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, m.SoilTest));
-                }
-                else
-                {
-                    DefaultSoilTest dt = _sd.GetDefaultSoilTest();
-                    SoilTest st = new SoilTest();
-                    st.valPH = dt.pH;
-                    st.ValP = dt.Phosphorous;
-                    st.valK = dt.Potassium;
-                    st.valNO3H = dt.Nitrogen;
-                    st.ConvertedKelownaP = dt.ConvertedKelownaP;
-                    st.ConvertedKelownaK = dt.ConvertedKelownaK;
-
-                    dc.sampleDate = "Default Values";
-                    dc.nitrogen = dt.Nitrogen.ToString("G29");
-                    dc.phosphorous = dt.Phosphorous.ToString("G29");
-                    dc.potassium = dt.Potassium.ToString("G29");
-                    dc.pH = dt.pH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, st));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, st));
-                }
-                dc.fieldCrops = null;
-
-                List<FieldCrop> crps = _ud.GetFieldCrops(m.FieldName);
-                if (crps != null)
-                {
-                    foreach (var c in crps)
-                    {
-                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
-                        dc.fieldCrops = string.IsNullOrEmpty(dc.fieldCrops) ? crpName : dc.fieldCrops + "\n" + crpName;
-                    }
-                }
-                rvm.tests.Add(dc);
-            }
-
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSummary.cshtml", rvm);
-
-            return result;
-        }
-
-        public async Task<string> RenderSheets()
-        {
-            string crpName = string.Empty;
-            ReportSheetsViewModel rvm = new ReportSheetsViewModel();
-            rvm.year = _ud.FarmDetails().Year;
-
-            rvm.fields = new List<ReportSheetsField>();
-
-            List<Field> fldList = _ud.GetFields();
-            foreach (var f in fldList)
-            {
-                ReportSheetsField rf = new ReportSheetsField();
-                rf.fieldName = f.FieldName;
-                rf.fieldArea = f.Area.ToString("G29");
-                rf.nutrients = new List<ReportFieldNutrient>();
-                if (f.Nutrients != null)
-                {
-                    if (f.Nutrients.nutrientManures != null)
-                    {
-                        foreach (var m in f.Nutrients.nutrientManures)
-                        {
-                            FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
-                            ReportFieldNutrient rfn = new ReportFieldNutrient();
-
-                            rfn.nutrientName = manure.Name;
-                            rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
-                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
-                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
-                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).Name;
-                            rf.nutrients.Add(rfn);
-                        }
-                    }
-                    if (f.Nutrients.nutrientFertilizers != null)
-                    {
-                        foreach (var ft in f.Nutrients.nutrientFertilizers)
-                        {
-                            string fertilizerName = string.Empty;
-                            ReportFieldNutrient rfn = new ReportFieldNutrient();
-                            FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
-
-                            if (ftyp.Custom)
-                            {
-                                fertilizerName = ftyp.DryLiquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
-                                fertilizerName = fertilizerName + ft.customN.ToString() + "-" + ft.customP2o5.ToString() + "-" + ft.customK2o.ToString();
-                            }
-                            else
-                            {
-                                Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
-                                fertilizerName = ff.Name;
-                            }
-
-                            rfn.nutrientName = fertilizerName;
-                            rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (ft.applRate));
-                            rfn.nutrientSeason = ft.applDate != null ? ft.applDate.Value.ToString("MMM-yyyy") : "";
-                            rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
-                            rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).Name;
-
-                            rf.nutrients.Add(rfn);
-                        }
-                    }
-                }
-                if (rf.nutrients.Count() == 0)
-                {
+                    string fertilizerName = string.Empty;
                     ReportFieldNutrient rfn = new ReportFieldNutrient();
-                    rfn.nutrientName = "None planned";
-                    rfn.nutrientAmount = "";
+                    FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
+
+                    if (ftyp.Custom)
+                    {
+                        fertilizerName = ftyp.DryLiquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
+                        fertilizerName = fertilizerName + ft.customN.ToString() + "-" + ft.customP2o5.ToString() + "-" + ft.customK2o.ToString();
+                    }
+                    else
+                    {
+                        Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
+                        fertilizerName = ff.Name;
+                    }
+
+                    rfn.nutrientName = fertilizerName;
+                    rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", ft.applRate);
+                    rfn.nutrientSeason = ft.applDate != null ? ft.applDate.Value.ToString("MMM-yyyy") : "";
+                    rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
+                    rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).Name;
+
                     rf.nutrients.Add(rfn);
                 }
-                if (f.Crops != null)
-                {
-                    foreach (var c in f.Crops)
-                    {
-                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
-                        rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
-                    }
-                }
-                if (string.IsNullOrEmpty(rf.fieldCrops))
-                {
-                    rf.fieldCrops = "None recorded";
-                }
-
-                rvm.fields.Add(rf);
             }
-
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSheets.cshtml", rvm);
-
-            return result;
+        }
+        if (rf.nutrients.Count() == 0)
+        {
+            ReportFieldNutrient rfn = new ReportFieldNutrient();
+            rfn.nutrientName = "None planned";
+            rfn.nutrientAmount = "";
+            rf.nutrients.Add(rfn);
         }
 
-        public async Task<string> RenderFonts()
+        if (f.Crops != null)
         {
-            ReportFontsViewModel rvm = new ReportFontsViewModel();
-
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportFonts.cshtml", rvm);
-
-            return result;
+            foreach (var c in f.Crops)
+            {
+                crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
+                rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
+            }
         }
+        rvm.fields.Add(rf);
+    }
 
-        public async Task<FileContentResult> BuildPDF(INodeServices nodeServices, PDFRequest rawdata)
+    var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportApplication.cshtml", rvm);
+
+    return result;
+}
+
+public async Task<string> RenderSummary()
+{
+    string crpName = string.Empty;
+    ReportSummaryViewModel rvm = new ReportSummaryViewModel();
+
+    rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().TestingMethod) ? "Not Specified" : _sd.GetSoilTestMethod(_ud.FarmDetails().TestingMethod);
+    rvm.year = _ud.FarmDetails().Year;
+
+    FarmDetails fd = _ud.FarmDetails();
+
+    rvm.tests = new List<ReportSummaryTest>();
+
+    List<Field> flds = _ud.GetFields();
+
+    foreach (var m in flds)
+    {
+        ReportSummaryTest dc = new ReportSummaryTest();
+        dc.fieldName = m.FieldName;
+        if (m.SoilTest != null)
         {
-            JObject options = JObject.Parse(rawdata.options);
-            JSONResponse result = null;
-
-            // execute the Node.js component to generate a PDF
-            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
-
-            return new FileContentResult(result.data, "application/pdf");
+            dc.sampleDate = m.SoilTest.sampleDate.ToString("MMM-yyyy");
+            dc.nitrogen = m.SoilTest.valNO3H.ToString("G29");
+            dc.phosphorous = m.SoilTest.ValP.ToString("G29");
+            dc.potassium = m.SoilTest.valK.ToString("G29");
+            dc.pH = m.SoilTest.valPH.ToString("G29");
+            dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, m.SoilTest));
+            dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, m.SoilTest));
         }
-
-        public async Task<IActionResult> PrintFields()
+        else
         {
-            FileContentResult result = null;
+            DefaultSoilTest dt = _sd.GetDefaultSoilTest();
+            SoilTest st = new SoilTest();
+            st.valPH = dt.pH;
+            st.ValP = dt.Phosphorous;
+            st.valK = dt.Potassium;
+            st.valNO3H = dt.Nitrogen;
+            st.ConvertedKelownaP = dt.ConvertedKelownaP;
+            st.ConvertedKelownaK = dt.ConvertedKelownaK;
 
-            string reportFields = await RenderFields();
-
-            result = await PrintReportAsync(reportFields, true);
-
-            return result;
+            dc.sampleDate = "Default Values";
+            dc.nitrogen = dt.Nitrogen.ToString("G29");
+            dc.phosphorous = dt.Phosphorous.ToString("G29");
+            dc.potassium = dt.Potassium.ToString("G29");
+            dc.pH = dt.pH.ToString("G29");
+            dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, st));
+            dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, st));
         }
+        dc.fieldCrops = null;
 
-        public async Task<IActionResult> PrintManure()
+        List<FieldCrop> crps = _ud.GetFieldCrops(m.FieldName);
+        if (crps != null)
         {
-            FileContentResult result = null;
-            string pageBreak = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
-
-            var reportManureCompostInventory = string.Empty;
-            var reportManureUse = string.Empty;
-            var reportFertilizers = string.Empty;
-
-            Parallel.Invoke(
-                async () => { reportManureCompostInventory = await RenderManureCompostInventory(); },
-                async () => { reportManureUse = await RenderManureUse(); },
-                async () => { reportFertilizers = await RenderFerilizers(); }
-            );
-
-            string report = reportManureCompostInventory + pageBreak + reportManureUse + pageBreak + reportFertilizers;
-
-            result = await PrintReportAsync(report, true);
-
-            return result;
+            foreach (var c in crps)
+            {
+                crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
+                dc.fieldCrops = string.IsNullOrEmpty(dc.fieldCrops) ? crpName : dc.fieldCrops + "\n" + crpName;
+            }
         }
+        rvm.tests.Add(dc);
+    }
 
-        public async Task<IActionResult> PrintSources()
+    var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSummary.cshtml", rvm);
+
+    return result;
+}
+
+public async Task<string> RenderSheets()
+{
+    string crpName = string.Empty;
+    ReportSheetsViewModel rvm = new ReportSheetsViewModel();
+    rvm.year = _ud.FarmDetails().Year;
+
+    rvm.fields = new List<ReportSheetsField>();
+
+    List<Field> fldList = _ud.GetFields();
+    foreach (var f in fldList)
+    {
+        ReportSheetsField rf = new ReportSheetsField();
+        rf.fieldName = f.FieldName;
+        rf.fieldArea = f.Area.ToString("G29");
+        rf.nutrients = new List<ReportFieldNutrient>();
+        if (f.Nutrients != null)
         {
-            FileContentResult result = null;
-
-            string reportSources = await RenderSources();
-
-            result = await PrintReportAsync(reportSources, true);
-
-            return result;
-        }
-
-        public async Task<IActionResult> GenerateRecordKeepingSheets()
-        {
-            string reportSheets = await RenderSheets();
-            _ud.SaveRecordKeepingSheets(reportSheets);
-
-            return Json(new { success = true });
-        }
-
-        public async Task<IActionResult> PrintSheets()
-        {
-            FileContentResult result = null;
-
-            string reportSheets = _ud.GetRecordKeepingSheets();
-
-            result = await PrintReportAsync(reportSheets, false);
-
-            return result;
-        }
-
-        public async Task<IActionResult> PrintAnalysis()
-        {
-            FileContentResult result = null;
-
-            string reportAnalysis = await RenderAnalysis();
-
-            result = await PrintReportAsync(reportAnalysis, true);
-
-            return result;
-        }
-
-        public async Task<IActionResult> PrintApplication()
-        {
-            FileContentResult result = null;
-
-            string reportApplication = await RenderApplication();
-
-            result = await PrintReportAsync(reportApplication, true);
-
-            return result;
-        }
-
-        public async Task<IActionResult> PrintSummary()
-        {
-            FileContentResult result = null;
-
-            string reportSummary = await RenderSummary();
-
-            result = await PrintReportAsync(reportSummary, true);
-
-            return result;
-        }
-
-        public async Task<IActionResult> PrintFonts()
-        {
-            FileContentResult result = null;
-
-            string reportFonts = await RenderFonts();
-
-            result = await PrintReportAsync(reportFonts, false);
-
-            return result;
-        }
-
-        [HttpGet]
-        public IActionResult GenerateCompleteReport()
-        {
-            string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
-            string pageBreakForManure = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
-            bool hasFertilizers = false;
-            bool hasSoilTests = false;
-
-            var reportTableOfContents = string.Empty;
-            var reportApplication = string.Empty;
-            var reportManureCompostInventory = string.Empty;
-            var reportManureUse = string.Empty;
-            var reportOctoberToMarchStorageVolumes = string.Empty;
-            var reportBeefManure = string.Empty;
-            var reportFertilizers = string.Empty;
-            var reportFields = string.Empty;
-            var reportAnalysis = string.Empty;
-            var reportSummary = string.Empty;
-            var reportFeedingArea = string.Empty;
-
-            Parallel.Invoke(
-                //async () => { reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests); },
-                async () =>
+            if (f.Nutrients.nutrientManures != null)
+            {
+                foreach (var m in f.Nutrients.nutrientManures)
                 {
+                    FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
+                    ReportFieldNutrient rfn = new ReportFieldNutrient();
+
+                    rfn.nutrientName = manure.Name;
+                    rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
+                    rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
+                    rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
+                    rfn.nutrientUnit = _sd.GetUnit(m.unitId).Name;
+                    rf.nutrients.Add(rfn);
+                }
+            }
+            if (f.Nutrients.nutrientFertilizers != null)
+            {
+                foreach (var ft in f.Nutrients.nutrientFertilizers)
+                {
+                    string fertilizerName = string.Empty;
+                    ReportFieldNutrient rfn = new ReportFieldNutrient();
+                    FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
+
+                    if (ftyp.Custom)
+                    {
+                        fertilizerName = ftyp.DryLiquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
+                        fertilizerName = fertilizerName + ft.customN.ToString() + "-" + ft.customP2o5.ToString() + "-" + ft.customK2o.ToString();
+                    }
+                    else
+                    {
+                        Fertilizer ff = _sd.GetFertilizer(ft.fertilizerId.ToString());
+                        fertilizerName = ff.Name;
+                    }
+
+                    rfn.nutrientName = fertilizerName;
+                    rfn.nutrientAmount = String.Format((ft.applRate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (ft.applRate));
+                    rfn.nutrientSeason = ft.applDate != null ? ft.applDate.Value.ToString("MMM-yyyy") : "";
+                    rfn.nutrientApplication = ft.applMethodId > 0 ? _sd.GetFertilizerMethod(ft.applMethodId.ToString()).Name : "";
+                    rfn.nutrientUnit = _sd.GetFertilizerUnit(ft.applUnitId).Name;
+
+                    rf.nutrients.Add(rfn);
+                }
+            }
+        }
+        if (rf.nutrients.Count() == 0)
+        {
+            ReportFieldNutrient rfn = new ReportFieldNutrient();
+            rfn.nutrientName = "None planned";
+            rfn.nutrientAmount = "";
+            rf.nutrients.Add(rfn);
+        }
+        if (f.Crops != null)
+        {
+            foreach (var c in f.Crops)
+            {
+                crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
+                rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
+            }
+        }
+        if (string.IsNullOrEmpty(rf.fieldCrops))
+        {
+            rf.fieldCrops = "None recorded";
+        }
+
+        rvm.fields.Add(rf);
+    }
+
+    var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportSheets.cshtml", rvm);
+
+    return result;
+}
+
+public async Task<string> RenderFonts()
+{
+    ReportFontsViewModel rvm = new ReportFontsViewModel();
+
+    var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportFonts.cshtml", rvm);
+
+    return result;
+}
+
+public async Task<FileContentResult> BuildPDF(INodeServices nodeServices, PDFRequest rawdata)
+{
+    JObject options = JObject.Parse(rawdata.options);
+    JSONResponse result = null;
+
+    // execute the Node.js component to generate a PDF
+    result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
+
+    return new FileContentResult(result.data, "application/pdf");
+}
+
+public async Task<IActionResult> PrintFields()
+{
+    FileContentResult result = null;
+
+    string reportFields = await RenderFields();
+
+    result = await PrintReportAsync(reportFields, true);
+
+    return result;
+}
+
+public async Task<IActionResult> PrintManure()
+{
+    FileContentResult result = null;
+    string pageBreak = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
+
+    var reportManureCompostInventory = string.Empty;
+    var reportManureUse = string.Empty;
+    var reportFertilizers = string.Empty;
+
+    Parallel.Invoke(
+        async () => { reportManureCompostInventory = await RenderManureCompostInventory(); },
+        async () => { reportManureUse = await RenderManureUse(); },
+        async () => { reportFertilizers = await RenderFerilizers(); }
+    );
+
+    string report = reportManureCompostInventory + pageBreak + reportManureUse + pageBreak + reportFertilizers;
+
+    result = await PrintReportAsync(report, true);
+
+    return result;
+}
+
+public async Task<IActionResult> PrintSources()
+{
+    FileContentResult result = null;
+
+    string reportSources = await RenderSources();
+
+    result = await PrintReportAsync(reportSources, true);
+
+    return result;
+}
+
+public async Task<IActionResult> GenerateRecordKeepingSheets()
+{
+    string reportSheets = await RenderSheets();
+    _ud.SaveRecordKeepingSheets(reportSheets);
+
+    return Json(new { success = true });
+}
+
+public async Task<IActionResult> PrintSheets()
+{
+    FileContentResult result = null;
+
+    string reportSheets = _ud.GetRecordKeepingSheets();
+
+    result = await PrintReportAsync(reportSheets, false);
+
+    return result;
+}
+
+public async Task<IActionResult> PrintAnalysis()
+{
+    FileContentResult result = null;
+
+    string reportAnalysis = await RenderAnalysis();
+
+    result = await PrintReportAsync(reportAnalysis, true);
+
+    return result;
+}
+
+public async Task<IActionResult> PrintApplication()
+{
+    FileContentResult result = null;
+
+    string reportApplication = await RenderApplication();
+
+    result = await PrintReportAsync(reportApplication, true);
+
+    return result;
+}
+
+public async Task<IActionResult> PrintSummary()
+{
+    FileContentResult result = null;
+
+    string reportSummary = await RenderSummary();
+
+    result = await PrintReportAsync(reportSummary, true);
+
+    return result;
+}
+
+public async Task<IActionResult> PrintFonts()
+{
+    FileContentResult result = null;
+
+    string reportFonts = await RenderFonts();
+
+    result = await PrintReportAsync(reportFonts, false);
+
+    return result;
+}
+
+[HttpGet]
+public IActionResult GenerateCompleteReport()
+{
+    string pageBreak = "<div style=\"page-break-after:always;\">&nbsp;</div>";
+    string pageBreakForManure = "<div>&nbsp;&nbsp;&nbsp;&nbsp;<br/><br/><br/><br/><br/><br/><br/><br/><br/></div>";
+    bool hasFertilizers = false;
+    bool hasSoilTests = false;
+
+    var reportTableOfContents = string.Empty;
+    var reportApplication = string.Empty;
+    var reportManureCompostInventory = string.Empty;
+    var reportManureUse = string.Empty;
+    var reportOctoberToMarchStorageVolumes = string.Empty;
+    var reportCropManure = string.Empty;
+    var reportBeefManure = string.Empty;
+    var reportFertilizers = string.Empty;
+    var reportFields = string.Empty;
+    var reportAnalysis = string.Empty;
+    var reportSummary = string.Empty;
+    var reportFeedingArea = string.Empty;
+
+    Parallel.Invoke(
+        //async () => { reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests); },
+        async () =>
+        {
                     //use AgriConfigurationRepostiory and since EF is not threadsafe, they need to
                     //run in sequence and not in parallel
                     reportApplication = await RenderApplication();
-                    reportFertilizers = await RenderFerilizers();
-                    reportFeedingArea = await RenderSeasonalFeedAreaSummary();
-                    reportFields = await RenderFields();
-                    reportManureUse = await RenderManureUse();
+            reportFertilizers = await RenderFerilizers();
+            reportFeedingArea = await RenderSeasonalFeedAreaSummary();
+            reportFields = await RenderFields();
+            reportManureUse = await RenderManureUse();
+                    reportCropManure = await RenderCropManureUse();
                     reportBeefManure = await RenderBeefManureUse();
-                    reportSummary = await RenderSummary();
-                    reportAnalysis = await RenderAnalysis();
-                },
-                async () => { reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes(); }
-            );
+            reportSummary = await RenderSummary();
+            reportAnalysis = await RenderAnalysis();
+        },
+        async () => { reportOctoberToMarchStorageVolumes = await RenderOctoberToMarchStorageVolumes(); }
+    );
 
-            if (reportFertilizers.Contains("div"))
-            {
-                hasFertilizers = true;
-            }
-            if (reportSummary.Contains("div"))
-            {
-                hasSoilTests = true;
-            }
+    if (reportFertilizers.Contains("div"))
+    {
+        hasFertilizers = true;
+    }
+    if (reportSummary.Contains("div"))
+    {
+        hasSoilTests = true;
+    }
 
-            Parallel.Invoke(async () =>
-            {
-                reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests);
-            });
+    Parallel.Invoke(async () =>
+    {
+        reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests);
+    });
 
-            string report = reportTableOfContents;
+    string report = reportTableOfContents;
 
-            //insert disclaimer right after the table of contents
-            report += "<br/><br/><div></div><div></div><div style=\"float:left\">" + _sd.GetUserPrompt("disclaimer") + "</div>";
+    //insert disclaimer right after the table of contents
+    report += "<br/><br/><div></div><div></div><div style=\"float:left\">" + _sd.GetUserPrompt("disclaimer") + "</div>";
 
-            if (reportApplication.Contains("div"))
-            {
-                report += pageBreak;
-                report += reportApplication;
-            }
+    if (reportApplication.Contains("div"))
+    {
+        report += pageBreak;
+        report += reportApplication;
+    }
 
-            if (reportManureCompostInventory.Contains("div"))
-            {
-                report += pageBreak;
-                report += reportManureCompostInventory;
-            }
+    if (reportManureCompostInventory.Contains("div"))
+    {
+        report += pageBreak;
+        report += reportManureCompostInventory;
+    }
 
-            if (reportManureUse.Contains("div"))
-            {
-                report += pageBreakForManure;
-                report += reportManureUse;
-            }
+    if (reportManureUse.Contains("div"))
+    {
+        report += pageBreakForManure;
+        report += reportManureUse;
+    }
 
-            if (reportOctoberToMarchStorageVolumes.Contains("div"))
-            {
-                report += pageBreakForManure;
-                report += reportOctoberToMarchStorageVolumes;
-            }
+    if (reportOctoberToMarchStorageVolumes.Contains("div"))
+    {
+        report += pageBreakForManure;
+        report += reportOctoberToMarchStorageVolumes;
+    }
 
-            if (reportBeefManure.Contains("div"))
-            {
-                report += pageBreakForManure;
-                report += reportBeefManure;
-            }
+    if (reportFertilizers.Contains("div"))
+    {
+        report += pageBreakForManure;
+        report += reportFertilizers;
+    }
 
-            if (reportFertilizers.Contains("div"))
-            {
-                report += pageBreakForManure;
-                report += reportFertilizers;
-            }
+    if (reportFields.Contains("div"))
+    {
+        report += pageBreak;
+        report += reportFields;
+    }
 
-            if (reportFields.Contains("div"))
-            {
-                report += pageBreak;
-                report += reportFields;
-            }
+    if (reportAnalysis.Contains("div"))
+    {
+        report += pageBreak;
+        report += reportAnalysis;
+    }
 
-            if (reportAnalysis.Contains("div"))
-            {
-                report += pageBreak;
-                report += reportAnalysis;
-            }
+    if (reportFeedingArea.Contains("div"))
+    {
+        report += pageBreak;
+        report += reportFeedingArea;
+    }
 
-            if (reportFeedingArea.Contains("div"))
-            {
-                report += pageBreak;
-                report += reportFeedingArea;
-            }
+    if (reportSummary.Contains("div"))
+    {
+        report += pageBreak;
+        report += reportSummary;
+    }
 
-            if (reportSummary.Contains("div"))
-            {
-                report += pageBreak;
-                report += reportSummary;
-            }
+    _ud.SaveCompleteReport(report);
+    return Json(new { success = true });
 
-            _ud.SaveCompleteReport(report);
-            return Json(new { success = true });
+    //return report;
+}
 
-            //return report;
-        }
+public async Task<IActionResult> PrintComplete()
+{
+    FileContentResult result = null;
+    var report = _ud.GetCompleteReport();
 
-        public async Task<IActionResult> PrintComplete()
+    result = await PrintReportAsync(report, true);
+
+    return result;
+}
+
+public async Task<FileContentResult> PrintReportAsync(string content, bool portrait)
+{
+    string reportHeader = string.Empty;
+
+    FileContentResult result = null;
+    var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
+
+    string targetUrl = pdfHost + "/api/PDF/BuildPDF";
+
+    PDF_Options options = new PDF_Options();
+    options.border = new PDF_Border();
+    options.header = new PDF_Header();
+    options.footer = new PDF_Footer();
+    options.paginationOffset = -1;
+
+    options.type = "pdf";
+    options.quality = "75";
+    options.format = "letter";
+    options.orientation = (portrait) ? "portrait" : "landscape";
+    options.fontbase = "/usr/share/fonts/dejavu";
+    options.border.top = ".25in";
+    options.border.right = ".25in";
+    options.border.bottom = ".25in";
+    options.border.left = ".25in";
+    options.header.height = "20mm";
+    options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().FarmName + "<br />" +
+                              "Planning Year: " + _ud.FarmDetails().Year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
+    options.footer.height = "15mm";
+    options.footer.contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
+
+    // call the microservice
+    try
+    {
+        PDFRequest req = new PDFRequest();
+
+        HttpClient client = new HttpClient();
+
+        reportHeader = await RenderHeader();
+
+        string rawdata = "<!DOCTYPE html>" +
+            "<html>" +
+            reportHeader +
+            "<body>" +
+            //"<div style='display: table; width: 100%'>" +
+            //"<div style='display: table-row-group; width: 100%'>" +
+            content +
+            //"</div>" +
+            //"</div>" +
+            "</body></html>";
+
+        req.html = rawdata;
+        req.options = JsonConvert.SerializeObject(options);
+        req.options = req.options.Replace("fontbase", "base");
+
+        //FileContentResult res = await BuildPDF(nodeServices, req);
+
+        //return res;
+
+        string payload = JsonConvert.SerializeObject(req);
+
+        var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
+        request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+
+        request.Headers.Clear();
+        // transfer over the request headers.
+        foreach (var item in Request.Headers)
         {
-            FileContentResult result = null;
-            var report = _ud.GetCompleteReport();
-
-            result = await PrintReportAsync(report, true);
-
-            return result;
+            string key = item.Key;
+            string value = item.Value;
+            request.Headers.Add(key, value);
         }
 
-        public async Task<FileContentResult> PrintReportAsync(string content, bool portrait)
+        Task<HttpResponseMessage> responseTask = client.SendAsync(request);
+        responseTask.Wait();
+
+        HttpResponseMessage response = responseTask.Result;
+
+        ViewBag.StatusCode = response.StatusCode.ToString();
+
+        if (response.StatusCode == HttpStatusCode.OK) // success
         {
-            string reportHeader = string.Empty;
+            var bytetask = response.Content.ReadAsByteArrayAsync();
+            bytetask.Wait();
 
-            FileContentResult result = null;
-            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
-
-            string targetUrl = pdfHost + "/api/PDF/BuildPDF";
-
-            PDF_Options options = new PDF_Options();
-            options.border = new PDF_Border();
-            options.header = new PDF_Header();
-            options.footer = new PDF_Footer();
-            options.paginationOffset = -1;
-
-            options.type = "pdf";
-            options.quality = "75";
-            options.format = "letter";
-            options.orientation = (portrait) ? "portrait" : "landscape";
-            options.fontbase = "/usr/share/fonts/dejavu";
-            options.border.top = ".25in";
-            options.border.right = ".25in";
-            options.border.bottom = ".25in";
-            options.border.left = ".25in";
-            options.header.height = "20mm";
-            options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().FarmName + "<br />" +
-                                      "Planning Year: " + _ud.FarmDetails().Year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
-            options.footer.height = "15mm";
-            options.footer.contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
-
-            // call the microservice
-            try
-            {
-                PDFRequest req = new PDFRequest();
-
-                HttpClient client = new HttpClient();
-
-                reportHeader = await RenderHeader();
-
-                string rawdata = "<!DOCTYPE html>" +
-                    "<html>" +
-                    reportHeader +
-                    "<body>" +
-                    //"<div style='display: table; width: 100%'>" +
-                    //"<div style='display: table-row-group; width: 100%'>" +
-                    content +
-                    //"</div>" +
-                    //"</div>" +
-                    "</body></html>";
-
-                req.html = rawdata;
-                req.options = JsonConvert.SerializeObject(options);
-                req.options = req.options.Replace("fontbase", "base");
-
-                //FileContentResult res = await BuildPDF(nodeServices, req);
-
-                //return res;
-
-                string payload = JsonConvert.SerializeObject(req);
-
-                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
-
-                request.Headers.Clear();
-                // transfer over the request headers.
-                foreach (var item in Request.Headers)
-                {
-                    string key = item.Key;
-                    string value = item.Value;
-                    request.Headers.Add(key, value);
-                }
-
-                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
-                responseTask.Wait();
-
-                HttpResponseMessage response = responseTask.Result;
-
-                ViewBag.StatusCode = response.StatusCode.ToString();
-
-                if (response.StatusCode == HttpStatusCode.OK) // success
-                {
-                    var bytetask = response.Content.ReadAsByteArrayAsync();
-                    bytetask.Wait();
-
-                    result = new FileContentResult(bytetask.Result, "application/pdf");
-                }
-                else
-                {
-                    string errorMsg = "Url: " + targetUrl + "\r\n" +
-                                      "Result: " + response.ToString();
-                    result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
-                }
-            }
-            catch (Exception e)
-            {
-                string errorMsg = "Exception " + "\r\n" +
-                                  "Url: " + targetUrl + "\r\n" +
-                                  "Result: " + e.Message + "\r\n" +
-                                  "Result: " + e.InnerException.Message;
-                result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
-            }
-
-            return result;
+            result = new FileContentResult(bytetask.Result, "application/pdf");
         }
+        else
+        {
+            string errorMsg = "Url: " + targetUrl + "\r\n" +
+                              "Result: " + response.ToString();
+            result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
+        }
+    }
+    catch (Exception e)
+    {
+        string errorMsg = "Exception " + "\r\n" +
+                          "Url: " + targetUrl + "\r\n" +
+                          "Result: " + e.Message + "\r\n" +
+                          "Result: " + e.InnerException.Message;
+        result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
+    }
+
+    return result;
+}
     }
 }
