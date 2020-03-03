@@ -98,7 +98,8 @@ namespace Agri.Models
     public enum NutrientAnalysisTypes
     {
         Stored = 1,
-        Imported = 2
+        Imported = 2,
+        Collected = 3
     }
 
     public enum FeaturePages

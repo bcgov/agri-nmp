@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Agri.Data;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Farm;
@@ -21,15 +22,18 @@ namespace Agri.CalculateService
     public class ManureApplicationCalculator : IManureApplicationCalculator
     {
         private IManureUnitConversionCalculator _manureUnitConversionCalculator;
+        private readonly IAgriConfigurationRepository _repository;
 
-        public ManureApplicationCalculator(IManureUnitConversionCalculator manureUnitConversionCalculator)
+        public ManureApplicationCalculator(IManureUnitConversionCalculator manureUnitConversionCalculator,
+            IAgriConfigurationRepository repository)
         {
             _manureUnitConversionCalculator = manureUnitConversionCalculator;
+            _repository = repository;
         }
 
         public AppliedManure GetAppliedManure(YearData yearData, FarmManure farmManure)
         {
-            AppliedManure appliedManure = null;
+            AppliedManure appliedManure;
             if (farmManure.StoredImported == NutrientAnalysisTypes.Stored)
             {
                 //Stored Manure
@@ -38,6 +42,10 @@ namespace Agri.CalculateService
             else if (farmManure.StoredImported == NutrientAnalysisTypes.Imported)
             {
                 appliedManure = GetAppliedImportedManure(yearData, farmManure);
+            }
+            else
+            {
+                appliedManure = GetAppliedCollectedManure(yearData, farmManure);
             }
 
             return appliedManure;
@@ -146,6 +154,54 @@ namespace Agri.CalculateService
             }
 
             var appliedImportedManure = new AppliedImportedManure(fieldAppliedManures, importedManure);
+
+            return appliedImportedManure;
+        }
+
+        private AppliedManure GetAppliedCollectedManure(YearData yearData, FarmManure farmManure)
+        {
+            var farmAnimal = yearData.FarmAnimals.SingleOrDefault(f => f.Id == farmManure.SourceOfMaterialFarmAnimalId);
+            var fieldsAppliedWithCollectedManure = yearData.GetFieldsAppliedWithManure(farmAnimal);
+            var farmManureIds = yearData.GetFarmManureIds(farmAnimal);
+
+            var fieldAppliedManures = new List<FieldAppliedManure>();
+            foreach (var field in fieldsAppliedWithCollectedManure)
+            {
+                var nutrientManures = field?.Nutrients.nutrientManures
+                    .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
+                    .ToList() ?? new List<NutrientManure>();
+
+                foreach (var nutrientManure in nutrientManures)
+                {
+                    var fieldAppliedManure = new FieldAppliedManure();
+                    if (farmAnimal.ManureType == ManureMaterialType.Liquid)
+                    {
+                        var convertedRate = _manureUnitConversionCalculator
+                            .GetLiquidUSGallonsPerAcreApplicationRate(nutrientManure.rate,
+                                (ApplicationRateUnits)Convert.ToInt32(nutrientManure.unitId));
+
+                        fieldAppliedManure.USGallonsApplied =
+                            field.Area * convertedRate;
+                    }
+                    else
+                    {
+                        if (!decimal.TryParse(farmManure.Moisture.Replace("%", ""), out var moisture))
+                        {
+                            moisture = _repository.GetManure(farmManure.ManureId).DefaultSolidMoisture.GetValueOrDefault(0);
+                        }
+
+                        var convertedRate = _manureUnitConversionCalculator
+                            .GetSolidsTonsPerAcreApplicationRate(moisture, nutrientManure.rate,
+                                (ApplicationRateUnits)Convert.ToInt32(nutrientManure.unitId));
+
+                        fieldAppliedManure.TonsApplied = field.Area * convertedRate;
+                    }
+
+                    fieldAppliedManures.Add(fieldAppliedManure);
+                }
+            }
+
+            var appliedImportedManure = new AppliedCollectedManure(fieldAppliedManures, farmAnimal);
 
             return appliedImportedManure;
         }

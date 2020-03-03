@@ -55,17 +55,17 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Data.ExcludedSourceOfMaterialIds.Clear();
-            Data.IncludedSourceOfMaterialIds.Clear();
+            Data.ExcludedSourceOfMaterialFarmAnimalIds.Clear();
+            Data.IncludedSourceOfMaterialFarmAnimalIds.Clear();
 
             if (Data.RanchManures.Any(rm => !rm.Selected))
             {
-                Data.ExcludedSourceOfMaterialIds
+                Data.ExcludedSourceOfMaterialFarmAnimalIds
                     .AddRange(Data.RanchManures.Where(rm => !rm.Selected).Select(rm => rm.ManureId).ToList());
             }
             if (Data.RanchManures.Any(rm => rm.Selected))
             {
-                Data.IncludedSourceOfMaterialIds
+                Data.IncludedSourceOfMaterialFarmAnimalIds
                     .AddRange(Data.RanchManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
             }
 
@@ -159,8 +159,8 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             public List<RanchManure> RanchManures { get; set; }
             public int SelectedNutrientAnalysis { get; set; }
             public SelectList BeefNutrientAnalysisOptions { get; set; }
-            public List<string> ExcludedSourceOfMaterialIds { get; set; } = new List<string>();
-            public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
+            public List<string> ExcludedSourceOfMaterialFarmAnimalIds { get; set; } = new List<string>();
+            public List<string> IncludedSourceOfMaterialFarmAnimalIds { get; set; } = new List<string>();
 
             [Display(Name = "Material Type")]
             public string ManureName { get; set; }
@@ -388,14 +388,14 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
 
                 var manures = _ud.GetAllManagedManures()
                     .Where(mm => !mm.AssignedWithNutrientAnalysis ||
-                        request.PopulatedData.ExcludedSourceOfMaterialIds
+                        request.PopulatedData.ExcludedSourceOfMaterialFarmAnimalIds
                             .Any(im => im.Equals(mm.ManureId, StringComparison.OrdinalIgnoreCase)))
                     .ToList();
 
                 command.RanchManures = _mapper.Map<List<Command.RanchManure>>(manures);
                 foreach (var manure in command.RanchManures)
                 {
-                    manure.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds
+                    manure.Selected = !request.PopulatedData.ExcludedSourceOfMaterialFarmAnimalIds
                         .Any(m => m.Equals(manure.ManureId));
                 }
 
@@ -481,6 +481,8 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             public async Task<MediatR.Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var farmManure = _mapper.Map<FarmManure>(request);
+
+                farmManure.StoredImported = NutrientAnalysisTypes.Collected;
 
                 if (request.Id.HasValue)
                 {

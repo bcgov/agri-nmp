@@ -787,6 +787,8 @@ namespace Agri.Data.Migrations
 
                     b.Property<decimal>("CubicYardConversion");
 
+                    b.Property<decimal?>("DefaultSolidMoisture");
+
                     b.Property<int>("DryMatterId");
 
                     b.Property<string>("ManureClass");

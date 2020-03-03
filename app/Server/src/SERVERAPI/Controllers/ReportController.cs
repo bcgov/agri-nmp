@@ -937,11 +937,7 @@ namespace SERVERAPI.Controllers
                 return string.Empty;
             }
 
-            var viewModel = new ReportBeefManureCollectedViewModel
-            {
-                Manures = new List<ReportManures>(),
-                Footnotes = new List<ReportFieldFootnote>()
-            };
+            var viewModel = new ReportBeefManureCollectedViewModel();
 
             var yearData = _ud.GetYearData();
 
