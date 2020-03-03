@@ -42,6 +42,7 @@
   
   <ItemGroup>
     <None Remove="SeedData\MiniAppData.json" />
+    <None Remove="SeedData\DepthsData.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +77,8 @@
   
   <ItemGroup>
     <EmbeddedResource Include="SeedData\MiniAppData.json" />
+    <EmbeddedResource Include="SeedData\DepthsData.json" />
+
   </ItemGroup>
 
   <ItemGroup>

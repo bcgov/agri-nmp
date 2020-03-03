@@ -19,6 +19,8 @@ namespace Agri.Interfaces
 
         List<CropSoilTestPhosphorousRegion> GetCropSoilTestPhosphorousRegions();
 
+        List<Depth> GetDepths();
+
         List<UserPrompt> GetUserPrompts();
 
         List<ExternalLink> GetExternalLinks();
