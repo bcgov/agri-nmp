@@ -59,6 +59,8 @@ namespace Agri.Data
 
         List<NitrogenMineralization> GetNitrogeMineralizations();
 
+        List<KeyValuePair<string, string>> GetNitrateCalculatorDetails();
+
         List<KeyValuePair<string, string>> GetSoilConverterDetails();
 
         List<KeyValuePair<string, string>> GetManureNutrientCalculatorDetails();

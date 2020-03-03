@@ -45,6 +45,12 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
         {
             public SelectList DepthOptions { get; set; }
             public string SelectDepthOption { get; set; }
+            public string SoilTestingInformation { get; set; }
+            public string NitrateTestCalculatorUserInstruction1 { get; set; }
+            public string NitrateTestCalculatorUserInstruction2 { get; set; }
+            public string BCNutrientManagementCalculator { get; set; }
+            public string SoilTestInformationButtonLink { get; set; }
+            public string BCNutrientManagementCalculatorButtonLink { get; set; }
         }
 
         public class ResultModel
@@ -73,6 +79,13 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             {
                 var command = request.PopulatedData;
                 command.DepthOptions = new SelectList(_sd.GetDepths(), "Id", "Value");
+                var details = _sd.GetNitrateCalculatorDetails();
+                command.NitrateTestCalculatorUserInstruction1 = details.Where(x => x.Key == "NitrateTestCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
+                command.NitrateTestCalculatorUserInstruction2 = details.Where(x => x.Key == "NitrateTestCalculatorUserInstruction2").Select(x => x.Value).FirstOrDefault();
+                command.SoilTestingInformation = details.Where(x => x.Key == "SoilTestingInformation").Select(x => x.Value).FirstOrDefault();
+                command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
+                command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
+                command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
 
                 return await Task.FromResult(command);
             }

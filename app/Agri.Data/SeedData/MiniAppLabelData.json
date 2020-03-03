@@ -20,7 +20,7 @@
   {
     "Id": 4,
     "Name": "BCNutrientManagementCalculator",
-    "LabelText": "BC Nutrient Management Caculator",
+    "LabelText": "BC Nutrient Management Calculator",
     "MiniAppId": "1"
   },
   {
@@ -71,4 +71,40 @@
     "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-management-calculator",
     "MiniAppId": "2"
   },
+  {
+    "Id": 13,
+    "Name": "NitrateCalculatorUserInstruction1",
+    "LabelText": "This soil calculator will convert laboratory soil nitrate test results from parts per million(ppm) to amounts in kg ha-1",
+    "MiniAppId": "3"
+  },
+  {
+    "Id": 14,
+    "Name": "NitrateCalculatorUserInstruction2",
+    "LabelText": "Post Harvest Nitrate is a way to monitor and track your nitrogen use efficiency.Explore these other resources to help guide and inform your nutrient management",
+    "MiniAppId": "3"
+  },
+  {
+    "Id": 15,
+    "Name": "SoilTestingInformation",
+    "LabelText": "Soil testing information",
+    "MiniAppId": "3"
+  },
+  {
+    "Id": 16,
+    "Name": "BCNutrientManagementCalculator",
+    "LabelText": "BC Nutrient Management Calculator",
+    "MiniAppId": "3"
+  },
+  {
+    "Id": 17,
+    "Name": "SoilTestInformationButtonLink",
+    "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing",
+    "MiniAppId": "3"
+  },
+  {
+    "Id": 18,
+    "Name": "BCNutrientManagementCalculatorButtonLink",
+    "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-management-calculator",
+    "MiniAppId": "3"
+  }
 ]
