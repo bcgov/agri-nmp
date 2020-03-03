@@ -20,10 +20,11 @@
                         <div class="form-group col-sm-4">
                             <label>Sample</label>
                             <div>
-                                <select class="form-control">
-                                    <option value="0">select</option>
+                                <select class="form-control" asp-for="@Model.Data.SelectDepthOption"
+                                        asp-items="@Model.Data.DepthOptions" id="ddlDepth">
+                                    <option value="0">- select sampling depth -</option>
                                 </select>
-                                @*<span asp-validation-for="Data.SelectedManureType" class=""></span>*@
+                                @*<span asp-validation-for="Data.SelectDepthOption" class=""></span>*@
                             </div>
                         </div>
                         <div class="form-group col-sm-3" style="padding-right:0px">
@@ -44,21 +45,19 @@
                                 </div>
                                 @* <span asp-validation-for="Data.ApplicationRate" class=""></span>*@
                             </div>
-                        </div> 
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
                             &nbsp;
                         </div>
-                       @* <div class="col-sm-6">*@
-                            <button class="btn btn-primary col-sm-5" id="CalculateButton" data-save="razor-page-modal">
-                                Add another sample depth
-
-                            </button>
-                            <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
-                            </a>
-                        
+                        @* <div class="col-sm-6">*@
+                        <button class="btn btn-primary col-sm-5" id="CalculateButton" data-save="razor-page-modal">
+                            Add another sample depth
+                        </button>
+                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                        </a>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
@@ -71,10 +70,7 @@
                         <div class="col-sm-2" style="padding-top:5px">
                             kg NO3-Nha-1
                         </div>
-                        
-                        
                     </div>
-
                 </div>
             </div>
         </div>
