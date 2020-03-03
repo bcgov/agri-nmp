@@ -35,6 +35,7 @@ namespace Agri.Data
         private List<DailyFeedRequirement> _dailyFeedRequirements;
         private DefaultSoilTest _defaultSoilTests;
         private List<DensityUnit> _densityUnits;
+        private List<Depth> _depths;
         private List<DryMatter> _dryMatters;
         private List<ExternalLink> _externalLinks;
 
@@ -477,6 +478,23 @@ namespace Agri.Data
             }
 
             return unitsOptions;
+        }
+
+        public string GetDepth(string name)
+        {
+            return GetDepths()
+                .Where(el => el.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                .SingleOrDefault().Value;
+        }
+
+        public List<Depth> GetDepths()
+        {
+            if (_depths == null)
+            {
+                _depths = _context.Depths.AsNoTracking().ToList();
+            }
+
+            return _depths;
         }
 
         public AnimalsUsingWashWater GetAnimalsUsingWashWater()

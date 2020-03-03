@@ -16,7 +16,7 @@ namespace Agri.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
-                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Agri.Models.Configuration.AmmoniaRetention", b =>
@@ -400,6 +400,20 @@ namespace Agri.Data.Migrations
                     b.HasIndex("StaticDataVersionId");
 
                     b.ToTable("DensityUnits");
+                });
+
+            modelBuilder.Entity("Agri.Models.Configuration.Depth", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Depths");
                 });
 
             modelBuilder.Entity("Agri.Models.Configuration.DryMatter", b =>

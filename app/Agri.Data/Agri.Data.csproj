@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SeedData\DepthsData.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="SeedData\BrowserData.json" />
+    <EmbeddedResource Include="SeedData\DepthsData.json" />
     <EmbeddedResource Include="SeedData\ExternalLinksData.json" />
     <EmbeddedResource Include="SeedData\JourneyData.json" />
     <EmbeddedResource Include="SeedData\LocationsData.json" />
