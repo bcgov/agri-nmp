@@ -1002,6 +1002,13 @@ namespace Agri.Data
             return _nutrientIcons;
         }
 
+        public List<KeyValuePair<string, string>> GetNitrateCalculatorDetails()
+        {
+            var details = _context.MiniAppLabels.Where(x => x.MiniAppId == 3).Select(x => new KeyValuePair<string, string>(x.Name, x.LabelText)).ToDictionary(x => x.Key, x => x.Value).ToList();
+
+            return details;
+        }
+
         public PreviousCropType GetPrevCropType(int id)
         {
             return GetPreviousCropTypes().SingleOrDefault(pct => pct.Id == id);

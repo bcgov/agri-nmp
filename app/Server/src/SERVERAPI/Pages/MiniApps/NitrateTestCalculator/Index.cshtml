@@ -14,7 +14,7 @@
             <div class="form-box-body">
                 <div class="form-box-fields">
                     <div class="row">
-                        This soil calculator will convert laboratory and nitrate test results from parts per million(ppm) to amounts in kg ha
+                        @Model.Data.NitrateTestCalculatorUserInstruction1
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-4">
@@ -71,6 +71,29 @@
                             kg NO3-Nha-1
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="step-forms col-sm-12">
+        <div class="form-box" style="border:0px !important;">
+            <div class="row">
+                @Model.Data.NitrateTestCalculatorUserInstruction2
+            </div>
+            <div class="row">
+                &nbsp;
+            </div>
+            <div class="row">
+                <div>
+                    <input class="form-group col-sm-5 btn btn-primary" onclick="window.open('@Model.Data.SoilTestInformationButtonLink');" formtarget="_blank" value="@Model.Data.SoilTestingInformation" />
+                </div>
+                <div class="form-group col-sm-2">
+                    &nbsp;
+                </div>
+                <div>
+                    <input class="form-group col-sm-5 btn btn-primary" onclick="window.open('@Model.Data.BCNutrientManagementCalculatorButtonLink');" formtarget="_blank" value="@Model.Data.BCNutrientManagementCalculator" />
                 </div>
             </div>
         </div>
