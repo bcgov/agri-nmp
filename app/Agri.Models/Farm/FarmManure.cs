@@ -19,6 +19,7 @@ namespace Agri.Models.Farm
                 ? Convert.ToInt32(SourceOfMaterialId.Split(",")[1])
                 : new int?();
 
+        public int? SourceOfMaterialFarmAnimalId { get; set; }
         public string SourceOfMaterialName { get; set; }
         public int ManureId { get; set; }
         public string Name { get; set; }
@@ -34,6 +35,6 @@ namespace Agri.Models.Farm
         public decimal? Nitrate { get; set; }
         public NutrientAnalysisTypes StoredImported { get; set; }
         public bool IsAssignedToStorage { get; set; }
-        public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
+        public List<string> IncludedSourceOfMaterialFarmAnimalIds { get; set; } = new List<string>();
     }
 }

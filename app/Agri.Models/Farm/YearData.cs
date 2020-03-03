@@ -54,6 +54,19 @@ namespace Agri.Models.Farm
             return farmManureIds;
         }
 
+        public List<int> GetFarmManureIds(FarmAnimal farmAnimal)
+        {
+            if (farmAnimal == null)
+            {
+                return new List<int>();
+            }
+            var farmManureIds = FarmManures
+                .Where(fm => fm.SourceOfMaterialImportedManureId == farmAnimal.Id)
+                .Select(fm => fm.Id).ToList();
+
+            return farmManureIds;
+        }
+
         public List<NutrientManure> GetNutrientManuresFromFields(List<int> farmManureIds)
         {
             if (Fields.Any(f => f.Nutrients != null))
@@ -79,6 +92,14 @@ namespace Agri.Models.Farm
         {
             var farmManuresWithImported = GetFarmManureIds(importedManure);
             var fields = GetFieldsAppliedWithFarmManure(farmManuresWithImported);
+
+            return fields;
+        }
+
+        public List<Field> GetFieldsAppliedWithManure(FarmAnimal farmAnimal)
+        {
+            var farmManuresCollectedFromAnimals = GetFarmManureIds(farmAnimal);
+            var fields = GetFieldsAppliedWithFarmManure(farmManuresCollectedFromAnimals);
 
             return fields;
         }
