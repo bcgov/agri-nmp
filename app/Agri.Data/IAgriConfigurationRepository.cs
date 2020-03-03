@@ -131,6 +131,8 @@ namespace Agri.Data
 
         CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soilTestPotassiumRegionCode);
 
+        List<SelectListItem> GetDepthsDll();
+
         DryMatter GetDryMatter(int ID);
 
         AmmoniaRetention GetAmmoniaRetention(int seasonApplicatonId, int dm);

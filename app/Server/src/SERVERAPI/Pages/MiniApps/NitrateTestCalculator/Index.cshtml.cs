@@ -8,6 +8,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 {
@@ -42,6 +43,8 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
         public class ConverterQuery : IRequest<ResultModel>
         {
+            public SelectList DepthOptions { get; set; }
+            public string SelectDepthOption { get; set; }
         }
 
         public class ResultModel
@@ -69,6 +72,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public async Task<ConverterQuery> Handle(Query request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
+                command.DepthOptions = new SelectList(_sd.GetDepths(), "Id", "Value");
 
                 return await Task.FromResult(command);
             }

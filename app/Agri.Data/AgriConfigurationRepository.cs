@@ -515,6 +515,20 @@ namespace Agri.Data
             return GetAnimalsUsingWashWater().Animals.Any(a => a.AnimalSubTypeId == animalSubTypeId);
         }
 
+        public List<SelectListItem> GetDepthsDll()
+        {
+            var depths = GetDepths();
+            List<SelectListItem> depthOptions = new List<SelectListItem>();
+            foreach (var r in depths)
+            {
+                SelectListItem li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                depthOptions.Add(li);
+            }
+
+            return depthOptions;
+        }
+
         public DryMatter GetDryMatter(int ID)
         {
             return GetDryMatters()
