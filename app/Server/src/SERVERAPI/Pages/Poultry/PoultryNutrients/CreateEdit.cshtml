@@ -1,0 +1,124 @@
+﻿@page "{handler?}/{ismodal:bool}"
+
+@using SERVERAPI.Pages.Poultry.PoultryNutrients;
+@model SERVERAPI.Pages.Poultry.PoultryNutrients.CreateEdit
+@{
+    Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
+    ViewData["HeaderTitle"] = Model.Title;
+    //ViewData["Title"] = Model.Title;
+}
+
+@if (Model.IsModal)
+{
+    var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
+    var action = Url.Page("CreateEdit", handler, new { ismodal = true });
+    <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body">
+        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+    </form>
+}
+else
+{
+    <form method="post" class="form-box-body">
+        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+    </form>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("body").on("change", "#Data_SelectedNutrientAnalysis", function () {
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.NutrientAnalysisChanged");
+                $("#btnSave").click();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("click", "#rbOnlyCustom", function () {
+                if ($("#rbOnlyCustom").val() == true) {
+                    $("#manureName").val($("#PostedElementEvent option:selected").text());
+                }
+                else {
+                    $("#manureName").val('');
+                }
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.UseCustomAnalysis");
+                $("#btnSave").click();
+            })
+        });
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnalysisMoisture').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnalysisMoisture').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnalysisMoisture   '));
+            });
+        })
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnalysisNitrogen').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnalysisNitrogen').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnalysisNitrogen   '));
+            });
+        })
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisAmmonia').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisAmmonia').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnlalysisAmmonia   '));
+            });
+        })
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisPhosphorous').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisPhosphorous').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnlalysisPhosphorous   '));
+            });
+        })
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisPotassium').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisPotassium').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnlalysisPotassium   '));
+            });
+        })
+    </script>
+}

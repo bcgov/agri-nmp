@@ -1,0 +1,63 @@
+﻿@page "{handler?}/{ismodal:bool}"
+@using Agri.Models
+@using SERVERAPI.Pages.Poultry.PoultryAnimals
+@model SERVERAPI.Pages.Poultry.PoultryAnimals.CreateEdit
+
+@{
+    Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
+    ViewData["HeaderTitle"] = Model.Title;
+}
+
+@if (Model.IsModal)
+{
+    var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
+    var action = Url.Page("CreateEdit", "Create", new { ismodal = true });
+    <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body">
+        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+    </form>
+}
+else
+{
+    <form method="post" class="form-box-body">
+        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+    </form>
+
+    @section PreviousNextNavigation
+    {
+        @*Ensure that the new index page is added to FeaturePages Enum and it is correct for this index page*@
+        @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel
+        {
+            CurrentPage = FeaturePages.PoultryAnimalsIndex,
+            ShowNext = false
+        })
+    }
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        //Record the Name when Dropdown is changed
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlAnimalType", function () {
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.AnimalTypeChanged");
+                var text = $('#ddlAnimalType option:selected').text();
+                $('#AnimalName').val(text);
+                $("#btnSave").click();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlSubType", function () {
+                var text = $('#ddlSubType option:selected').text();
+                $('#AnimalSubTypeName').val(text);
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlManureMaterialType", function () {
+                var text = $('#ddlManureMaterialType option:selected').text();
+                $('#ManureMaterialTypeName').val(text);
+            })
+        });
+    </script>
+}
