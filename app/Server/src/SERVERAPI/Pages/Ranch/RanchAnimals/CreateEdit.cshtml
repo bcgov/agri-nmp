@@ -5,6 +5,7 @@
 @{
     Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
     ViewData["HeaderTitle"] = Model.Title;
+    ViewData["HeaderSideTitle"] = Model.SideTitle;
 }
 
 @if (Model.IsModal)
