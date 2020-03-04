@@ -55,8 +55,14 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
 
         public async Task<IActionResult> OnPostAsync()
         {
+            Data.ExcludedSourceOfMaterialIds.Clear();
             Data.IncludedSourceOfMaterialIds.Clear();
 
+            if (Data.RanchManures.Any(rm => !rm.Selected))
+            {
+                Data.ExcludedSourceOfMaterialIds
+                    .AddRange(Data.RanchManures.Where(rm => !rm.Selected).Select(rm => rm.ManureId).ToList());
+            }
             if (Data.RanchManures.Any(rm => rm.Selected))
             {
                 Data.IncludedSourceOfMaterialIds
@@ -153,6 +159,7 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             public List<RanchManure> RanchManures { get; set; }
             public int SelectedNutrientAnalysis { get; set; }
             public SelectList BeefNutrientAnalysisOptions { get; set; }
+            public List<string> ExcludedSourceOfMaterialIds { get; set; } = new List<string>();
             public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
 
             [Display(Name = "Material Type")]
@@ -193,16 +200,13 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             public string ExplainNutrientAnlalysisPhosphorous { get; set; }
             public string ExplainNutrientAnlalysisPotassium { get; set; }
             public bool UseCustomAnalysis { get; set; }
-            public bool ShowCustomCheckbox => SelectedNutrientAnalysis > 0;
             public ElementEvent PostedElementEvent { get; set; }
 
             public class RanchManure
             {
                 public string ManureId { get; set; }
                 public string ManureName { get; set; }
-
-                [IgnoreMap]
-                public bool Selected { get; set; }
+                public bool Selected { get; set; } = true;
             }
 
             public class ManureNutrientBookValues
@@ -244,7 +248,8 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                     .ForMember(m => m.UseCustomAnalysis, opts => opts.MapFrom(s => s.Customized))
                     .ReverseMap();
                 CreateMap<ManagedManure, Command.RanchManure>()
-                    .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
+                    .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName))
+                    .BeforeMap((s, d) => d.Selected = true);
                 CreateMap<Manure, Command.ManureNutrientBookValues>();
             }
         }
@@ -383,14 +388,14 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
 
                 var manures = _ud.GetAllManagedManures()
                     .Where(mm => !mm.AssignedWithNutrientAnalysis ||
-                        request.PopulatedData.IncludedSourceOfMaterialIds
+                        request.PopulatedData.ExcludedSourceOfMaterialIds
                             .Any(im => im.Equals(mm.ManureId, StringComparison.OrdinalIgnoreCase)))
                     .ToList();
 
                 command.RanchManures = _mapper.Map<List<Command.RanchManure>>(manures);
                 foreach (var manure in command.RanchManures)
                 {
-                    manure.Selected = request.PopulatedData.IncludedSourceOfMaterialIds
+                    manure.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds
                         .Any(m => m.Equals(manure.ManureId));
                 }
 
@@ -423,19 +428,16 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                     command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(nutrient);
                 }
 
-                if (!request.PopulatedData.UseBookValue)
-                {
-                    var prompts = _db.UserPrompts
-                        .Where(p => p.UserPromptPage == UserPromptPage.NutrientsAnalysisCreateEdit.ToString() &&
-                                        p.UserJourney == UserJourney.Ranch.ToString())
-                        .ToDictionary(p => p.Name, p => p.Text);
+                var prompts = _db.UserPrompts
+                    .Where(p => p.UserPromptPage == UserPromptPage.NutrientsAnalysisCreateEdit.ToString() &&
+                                    p.UserJourney == UserJourney.Ranch.ToString())
+                    .ToDictionary(p => p.Name, p => p.Text);
 
-                    command.ExplainNutrientAnalysisMoisture = prompts["ExplainNutrientAnalysisMoisture-Ranch"];
-                    command.ExplainNutrientAnalysisNitrogen = prompts["ExplainNutrientAnalysisNitrogen-Ranch"];
-                    command.ExplainNutrientAnlalysisAmmonia = prompts["ExplainNutrientAnlalysisAmmonia-Ranch"];
-                    command.ExplainNutrientAnlalysisPhosphorous = prompts["ExplainNutrientAnlalysisPhosphorous-Ranch"];
-                    command.ExplainNutrientAnlalysisPotassium = prompts["ExplainNutrientAnlalysisPotassium-Ranch"];
-                }
+                command.ExplainNutrientAnalysisMoisture = prompts["ExplainNutrientAnalysisMoisture-Ranch"];
+                command.ExplainNutrientAnalysisNitrogen = prompts["ExplainNutrientAnalysisNitrogen-Ranch"];
+                command.ExplainNutrientAnlalysisAmmonia = prompts["ExplainNutrientAnlalysisAmmonia-Ranch"];
+                command.ExplainNutrientAnlalysisPhosphorous = prompts["ExplainNutrientAnlalysisPhosphorous-Ranch"];
+                command.ExplainNutrientAnlalysisPotassium = prompts["ExplainNutrientAnlalysisPotassium-Ranch"];
 
                 return await Task.FromResult(command);
             }

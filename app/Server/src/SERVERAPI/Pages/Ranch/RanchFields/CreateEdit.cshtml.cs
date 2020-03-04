@@ -125,8 +125,23 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
                 _appSettings = appSettings;
                 RuleFor(x => x.FieldName).NotNull().WithMessage("Field Name is required");
                 RuleFor(x => x.FieldArea).NotNull().WithMessage("Field Area is required");
-                RuleFor(x => x.SelectPrevYrManureOption).NotEqual("select").WithMessage("Manure application in previous years must be selected");
+                RuleFor(x => x.SelectPrevYrManureOption).NotEqual("-1").WithMessage("Manure application in previous years must be selected");
                 RuleFor(x => x.FieldComment).MaximumLength(Convert.ToInt32(_appSettings.Value.CommentLength)).WithMessage("Exceeds maximum length of " + _appSettings.Value.CommentLength);
+                When(x => x.IsSeasonalFeedingArea, () =>
+                {
+                    RuleFor(x => x.FeedingDaysSpentInFeedingArea)
+                        .NotEmpty().WithMessage("Required");
+                    RuleFor(x => x.FeedingPercentageOutsideFeeingArea)
+                        .NotEmpty().WithMessage("Required");
+                    RuleFor(x => x.MatureAnimalCount).GreaterThanOrEqualTo(0)
+                        .NotEmpty().WithMessage("Required");
+                    RuleFor(x => x.MatureAnimalAverageWeight).GreaterThanOrEqualTo(0)
+                        .NotEmpty().WithMessage("Required").When(x => x.MatureAnimalCount > 0);
+                    RuleFor(x => x.GrowingAnimalCount).GreaterThanOrEqualTo(0)
+                        .NotEmpty().WithMessage("Required");
+                    RuleFor(x => x.GrowingAnimalAverageWeight).GreaterThanOrEqualTo(0)
+                        .NotEmpty().WithMessage("Required").When(x => x.GrowingAnimalCount > 0);
+                });
             }
         }
 

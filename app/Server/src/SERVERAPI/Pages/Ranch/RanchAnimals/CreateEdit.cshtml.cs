@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models;
 using Agri.Models.Farm;
@@ -46,6 +47,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         {
             Data = await _mediator.Send(query);
             Data = await _mediator.Send(new LookupDataQuery { PopulatedData = Data });
+            SideTitle = Data.RanchAnimalGroupsMessage;
         }
 
         public async Task<IActionResult> OnPostCreateAsync()
@@ -98,6 +100,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
             public string Placehldr { get; set; }
             public bool IsManureCollected { get; set; }
             public int? DurationDays { get; set; }
+            public string RanchAnimalGroupsMessage { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -151,10 +154,13 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         public class LookupDataHandler : IRequestHandler<LookupDataQuery, Command>
         {
             private readonly IAgriConfigurationRepository _sd;
+            private readonly AgriConfigurationContext _db;
 
-            public LookupDataHandler(IAgriConfigurationRepository sd)
+            public LookupDataHandler(IAgriConfigurationRepository sd,
+                AgriConfigurationContext db)
             {
                 _sd = sd;
+                _db = db;
             }
 
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
@@ -173,6 +179,8 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
                 }
                 command.CattleSubTypeOptions = new SelectList(subTypeOptions, "Id", "Value");
 
+                command.RanchAnimalGroupsMessage = _sd.GetUserPrompt("RanchAnimalGroupsMessage");
+
                 return await Task.FromResult(command);
             }
         }
@@ -181,16 +189,24 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         {
             private readonly UserData _ud;
             private readonly IMapper _mapper;
+            private readonly ICalculateManureGeneration _calculateManureGeneration;
 
-            public CommandHandler(UserData ud, IMapper mapper)
+            public CommandHandler(UserData ud, IMapper mapper, ICalculateManureGeneration calculateManureGeneration)
             {
                 _ud = ud;
                 _mapper = mapper;
+                _calculateManureGeneration = calculateManureGeneration;
             }
 
             public async Task<Unit> Handle(Command message, CancellationToken cancellationToken)
             {
                 var farmAnimal = _mapper.Map<Command, FarmAnimal>(message);
+
+                if (farmAnimal.IsManureCollected)
+                {
+                    farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
+                        .GetSolidTonsGeneratedForAnimalSubType(farmAnimal.AnimalSubTypeId, farmAnimal.AverageAnimalNumber, farmAnimal.DurationDays);
+                }
 
                 if (farmAnimal.Id.GetValueOrDefault(0) == 0)
                 {

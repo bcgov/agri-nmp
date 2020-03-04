@@ -45,6 +45,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
         public class Model
         {
             public List<FarmAnimal> Animals { get; set; }
+            public string RanchAnimalGroupsMessage { get; set; }
 
             public class FarmAnimal
             {
@@ -56,6 +57,7 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
                 public bool IsManureCollected { get; set; }
                 public string ManureCollected => IsManureCollected ? "Yes" : "No";
                 public int DurationDays { get; set; }
+                public int? ManureGeneratedTonsPerYear { get; set; }
             }
         }
 

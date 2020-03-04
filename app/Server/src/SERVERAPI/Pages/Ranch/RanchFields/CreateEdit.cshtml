@@ -62,5 +62,19 @@ else
                 triggerToolTip($('#toolTipDailyFeedWarning'));
             });
         })
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning2').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning2').click(function () {
+                triggerToolTip($('#toolTipDailyFeedWarning2'));
+            });
+        })
     </script>
 }
