@@ -55,18 +55,6 @@
         }
       }
     },
-    //{
-    //    "kind": "ImageStream",
-    //    "apiVersion": "v1",
-    //    "metadata": {
-    //        "name": "${NAME}-pdf",
-    //        "generation": 1283,
-    //        "creationTimestamp": null,
-    //        "labels": {
-    //            "base-name":"${NAME}-pdf"
-    //        }
-    //    }
-    //},
     {
       "kind": "BuildConfig",
       "apiVersion": "v1",
@@ -136,75 +124,5 @@
         "lastVersion": 0
       }
     }
-    //{
-    //    "kind": "BuildConfig",
-    //    "apiVersion": "v1",
-    //    "metadata": {
-    //        "name": "${NAME}-pdf${SUFFIX}",
-    //        "creationTimestamp": null,
-    //        "labels": null
-    //    },
-    //    "spec": {
-    //        "triggers": [
-    //            {
-    //                "type": "ImageChange",
-    //                "imageChange": {}
-    //            },
-    //            {
-    //                "type": "ConfigChange"
-    //            }
-    //        ],
-    //        "runPolicy": "SerialLatestOnly",
-    //        "source": {
-    //            "type": "Git",
-    //            "git": {
-    //                "uri": "${SOURCE_REPOSITORY_URL}",
-    //                "ref": "${GIT_REF}"
-    //            },
-    //            "contextDir": "PDF"
-    //        },
-    //        "strategy": {
-    //            "type": "Source",
-    //            "sourceStrategy": {
-    //                "from": {
-    //                    "kind": "ImageStreamTag",
-    //                    "name": "${NAME}-dotnet-31-node:${VERSION}"
-    //                },
-    //                "env": [
-    //                    {
-    //                        "name": "BUILD_LOGLEVEL",
-    //                        "value": "3"
-    //                    },
-    //                    {
-    //                        "name": "DOTNET_STARTUP_PROJECT",
-    //                        "value": "src/PDF.Server/PDF.Server.csproj"
-    //                    }
-    //                ],
-    //                "incremental": false
-    //            }
-    //        },
-    //        "output": {
-    //            "to": {
-    //                "kind": "ImageStreamTag",
-    //                "name": "${NAME}-pdf:${VERSION}"
-    //            }
-    //        },
-    //        "resources": {
-    //            "requests": {
-    //                "cpu": "500m",
-    //                "memory": "2Gi"
-    //            },
-    //            "limits": {
-    //                "cpu": "1000m",
-    //                "memory": "4Gi"
-    //            }
-    //        },
-    //        "postCommit": {},
-    //        "nodeSelector": null
-    //    },
-    //    "status": {
-    //        "lastVersion": 0
-    //    }
-    //}
   ]
 }
