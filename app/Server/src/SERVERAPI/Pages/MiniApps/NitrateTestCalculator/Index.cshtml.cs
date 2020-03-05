@@ -32,26 +32,6 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (Data.PostedElementEvent == "DepthChange")
-            {
-                if (Data.nitrateTestAnalysis[0].SelectDepthOption == "2")
-                {
-                    Data.isNotShowButton = false;
-                }
-            }
-            else
-            {
-                ModelState.Clear();
-                Data.PostedElementEvent = "none";
-                if (Data.nitrateTestAnalysis.Count() != 2)
-                {
-                    var newId = Data.nitrateTestAnalysis.Count + 1;
-                    Data.nitrateTestAnalysis.Add(new NitrateTest { Id = newId });
-                    Data.isNotShowButton = true;
-                }
-                
-                
-            }
             Data = await _mediator.Send(new Query { PopulatedData = Data });
             return Page();
         }
@@ -63,24 +43,15 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
         public class ConverterQuery : IRequest<ResultModel>
         {
-            public List<NitrateTest> nitrateTestAnalysis { get; set; }
-
-            public bool isNotShowButton { get; set; }
+            public SelectList DepthOptions { get; set; }
+            public string SelectDepthOption { get; set; }
             public string SoilTestingInformation { get; set; }
-            public string NitrateTestCalculatorUserInstruction1 { get; set; }
-            public string NitrateTestCalculatorUserInstruction2 { get; set; }
+            public string NitrateCalculatorUserInstruction1 { get; set; }
+            public string NitrateCalculatorUserInstruction2 { get; set; }
             public string BCNutrientManagementCalculator { get; set; }
             public string SoilTestInformationButtonLink { get; set; }
             public string BCNutrientManagementCalculatorButtonLink { get; set; }
-
-            public string PostedElementEvent { get; set; }
-        }
-
-        public class NitrateTest
-        {
-            public int Id { get; set; }
-            public SelectList DepthOptions { get; set; }
-            public string SelectDepthOption { get; set; }
+            public string SampleDepthMessage { get; set; }
         }
 
         public class ResultModel
@@ -108,26 +79,15 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public async Task<ConverterQuery> Handle(Query request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
-                if (command.nitrateTestAnalysis == null)
-                {
-                    command.nitrateTestAnalysis = new List<NitrateTest>();
-                    command.nitrateTestAnalysis.Add(new NitrateTest
-                    {
-                        Id = 1
-                    });
-                }
-                foreach (var nitrateTest in command.nitrateTestAnalysis)
-                {
-                    nitrateTest.DepthOptions = new SelectList(_sd.GetDepths().Where(x => x.Id != 2), "Id", "Value");
-                }
-                command.isNotShowButton = command.isNotShowButton ? command.isNotShowButton : false;
+                command.DepthOptions = new SelectList(_sd.GetDepths(), "Id", "Value");
                 var details = _sd.GetNitrateCalculatorDetails();
-                command.NitrateTestCalculatorUserInstruction1 = details.Where(x => x.Key == "NitrateTestCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
-                command.NitrateTestCalculatorUserInstruction2 = details.Where(x => x.Key == "NitrateTestCalculatorUserInstruction2").Select(x => x.Value).FirstOrDefault();
+                command.NitrateCalculatorUserInstruction1 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
+                command.NitrateCalculatorUserInstruction2 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction2").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestingInformation = details.Where(x => x.Key == "SoilTestingInformation").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
+                command.SampleDepthMessage = details.Where(x => x.Key == "SampleDepthMessage").Select(x => x.Value).FirstOrDefault();
 
                 return await Task.FromResult(command);
             }
