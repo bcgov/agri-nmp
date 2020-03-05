@@ -11,6 +11,8 @@ $(function () {
         //retrieve the url from button
         var url = $(this).data('url');
         //the ajax GET request receives the modal body into memory into 'data'
+
+        //For jquery 3+
         $.get(url).done(function (data) {
             //load it with modal and then we’re going to display it
             placeholderElement.html(data);
@@ -45,6 +47,8 @@ $(function () {
         });
     });
 });
+
+
 
 //Tool tip customziation
 var toolTipClickableInnerHtml = '<div class="tooltip" role="tooltip"><div class="title">Information<button type="button" class="close" id="tooltipCloseButton">×</button></div><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>';

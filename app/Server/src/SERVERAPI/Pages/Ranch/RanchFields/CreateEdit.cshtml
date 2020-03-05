@@ -1,5 +1,6 @@
 ﻿@page "{handler?}/{ismodal:bool}"
 @model SERVERAPI.Pages.Ranch.RanchFields.CreateEdit
+@using Agri.Models
 
 @{
     Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
@@ -21,6 +22,16 @@ else
             @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
         </div>
     </form>
+
+    @section PreviousNextNavigation
+    {
+        @*Ensure that the new index page is added to FeaturePages Enum and it is correct for this index page*@
+        @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel
+        {
+            CurrentPage = FeaturePages.RanchFieldsIndex,
+            ShowNext = false
+        })
+    }
 }
 
 @section Scripts {
@@ -49,6 +60,20 @@ else
         $(document).ready(function () {
             $('#toolTipDailyFeedWarning').click(function () {
                 triggerToolTip($('#toolTipDailyFeedWarning'));
+            });
+        })
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning2').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning2').click(function () {
+                triggerToolTip($('#toolTipDailyFeedWarning2'));
             });
         })
     </script>

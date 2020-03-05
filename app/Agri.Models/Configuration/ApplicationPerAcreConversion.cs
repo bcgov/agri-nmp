@@ -14,8 +14,8 @@ namespace Agri.Models.Configuration
         [Key]
         public int Id { get; set; }
 
-        [JsonIgnore]
-        [IgnoreDataMember]
+        //[JsonIgnore]
+        //[IgnoreDataMember]
         public ApplicationRateUnits ApplicationRateUnit { get; set; }
 
         public string ApplicationRateUnitName { get; set; }
