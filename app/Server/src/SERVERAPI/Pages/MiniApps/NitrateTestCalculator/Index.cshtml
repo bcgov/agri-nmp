@@ -11,66 +11,75 @@
             <div class="form-box-header clearfix">
                 <div class="form-box-heading">Post-harvest nitrate test (PHNT) calculator</div>
             </div>
+
             <div class="form-box-body">
                 <div class="form-box-fields">
-                    <div class="row">
-                        @Model.Data.NitrateTestCalculatorUserInstruction1
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-4">
-                            <label>Sample</label>
-                            <div>
-                                <select class="form-control" asp-for="@Model.Data.SelectDepthOption"
-                                        asp-items="@Model.Data.DepthOptions" id="ddlDepth">
-                                    <option value="0">- select sampling depth -</option>
-                                </select>
-                                @*<span asp-validation-for="Data.SelectDepthOption" class=""></span>*@
-                            </div>
+                    <form method="post">
+                        <div class="row">
+                            @Model.Data.NitrateTestCalculatorUserInstruction1
                         </div>
-                        <div class="form-group col-sm-3" style="padding-right:0px">
-                            <label>Nitrate</label>
-                            <div>
-                                <input type="number" class="form-control col-sm-6" style="width:100px">
-                                <div class="col-sm-4" style="padding-top:5px">
-                                    ppm
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label>Results</label>
+                        @for (int i = 0; i < Model.Data.nitrateTestAnalysis.Count; i++)
+                        {
                             <div class="row">
-                                <input type="number" class="form-control col-sm-6" style="width:100px" />
-                                <div class="col-sm-6" style="padding-top:5px">
-                                    kg NO3-Nha-1
+                                <div class="form-group col-sm-4">
+                                    <label>Sample @Model.Data.nitrateTestAnalysis[i].Id</label>
+                                    <div>
+                                        <select class="form-control" asp-for="@Model.Data.nitrateTestAnalysis[i].SelectDepthOption"
+                                                asp-items="@Model.Data.nitrateTestAnalysis[i].DepthOptions" onchange="comboDepthChange()" id="ddlDepth">
+                                            <option value="0">- select sampling depth -</option>
+                                        </select>
+                                        @*<span asp-validation-for="Data.SelectDepthOption" class=""></span>*@
+                                    </div>
                                 </div>
-                                @* <span asp-validation-for="Data.ApplicationRate" class=""></span>*@
+                                <div class="form-group col-sm-3" style="padding-right:0px">
+                                    <label>Nitrate</label>
+                                    <div>
+                                        <input type="number" class="form-control col-sm-6" style="width:100px">
+                                        <div class="col-sm-4" style="padding-top:5px">
+                                            ppm
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label>Results</label>
+                                    <div class="row">
+                                        <input type="number" class="form-control col-sm-6" style="width:100px" />
+                                        <div class="col-sm-6" style="padding-top:5px">
+                                            kg NO3-Nha-1
+                                        </div>
+                                        @* <span asp-validation-for="Data.ApplicationRate" class=""></span>*@
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (!Model.Data.isNotShowButton)
+                        {
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    &nbsp;
+                                </div>
+                                @* <div class="col-sm-6">*@
+
+                                <input class="btn btn-primary col-sm-5" type="submit" id="AddSample" value="Add another sample depth" />
+                                <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-sm-6">
+                                &nbsp;
+                            </div>
+                            <div class="form-box-heading col-sm-2">
+                                Total for field
+                            </div>
+                            <input type="number" class="form-control col-sm-2" style="width:50px" />
+                            <div class="col-sm-2" style="padding-top:5px">
+                                kg NO3-Nha-1
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            &nbsp;
-                        </div>
-                        @* <div class="col-sm-6">*@
-                        <button class="btn btn-primary col-sm-5" id="CalculateButton" data-save="razor-page-modal">
-                            Add another sample depth
-                        </button>
-                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
-                        </a>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            &nbsp;
-                        </div>
-                        <div class="form-box-heading col-sm-2">
-                            Total for field
-                        </div>
-                        <input type="number" class="form-control col-sm-2" style="width:50px" />
-                        <div class="col-sm-2" style="padding-top:5px">
-                            kg NO3-Nha-1
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -99,8 +108,13 @@
         </div>
     </div>
 </div>
+@Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
 
 @section Scripts{
     <script>
+        function comboDepthChange() {
+            $('#PostedElementEvent').val("DepthChange");
+            $("#AddSample").click();
+        }
     </script>
 }
