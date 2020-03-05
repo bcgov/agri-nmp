@@ -257,7 +257,7 @@ namespace SERVERAPI.Models.Impl
             foreach (var manure in currentManures)
             {
                 manure.AssignedWithNutrientAnalysis = currentFarmManures
-                    .Any(fm => fm.IncludedSourceOfMaterialFarmAnimalIds.Any(sm =>
+                    .Any(fm => fm.IncludedSourceOfMaterialIds.Any(sm =>
                                     sm.Equals(manure.ManureId, StringComparison.OrdinalIgnoreCase)));
 
                 if (manure is FarmAnimal)
@@ -1045,7 +1045,7 @@ namespace SERVERAPI.Models.Impl
             frm.Moisture = updtMan.Moisture;
             frm.Name = updtMan.Name;
             frm.SourceOfMaterialName = updtMan.SourceOfMaterialName;
-            frm.IncludedSourceOfMaterialFarmAnimalIds = updtMan.IncludedSourceOfMaterialFarmAnimalIds;
+            frm.IncludedSourceOfMaterialIds = updtMan.IncludedSourceOfMaterialIds;
             frm.Nitrate = updtMan.Nitrate;
             frm.Nitrogen = updtMan.Nitrogen;
             frm.NMinerizationId = updtMan.NMinerizationId;
@@ -1284,7 +1284,7 @@ namespace SERVERAPI.Models.Impl
                     .Any(fm =>
                         (!string.IsNullOrEmpty(fm.SourceOfMaterialId) &&
                                 (fm.SourceOfMaterialId.Split(',')[0] + fm.SourceOfMaterialId.Split(',')[1]) == manure.ManureId) ||
-                        fm.IncludedSourceOfMaterialFarmAnimalIds.Any(sm => sm.Equals(manure.ManureId, StringComparison.OrdinalIgnoreCase))
+                        fm.IncludedSourceOfMaterialIds.Any(sm => sm.Equals(manure.ManureId, StringComparison.OrdinalIgnoreCase))
                     );
 
                 if (manure is ImportedManure)

@@ -55,17 +55,17 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
 
         public async Task<IActionResult> OnPostAsync()
         {
-            Data.ExcludedSourceOfMaterialFarmAnimalIds.Clear();
-            Data.IncludedSourceOfMaterialFarmAnimalIds.Clear();
+            Data.ExcludedSourceOfMaterialIds.Clear();
+            Data.IncludedSourceOfMaterialIds.Clear();
 
             if (Data.RanchManures.Any(rm => !rm.Selected))
             {
-                Data.ExcludedSourceOfMaterialFarmAnimalIds
+                Data.ExcludedSourceOfMaterialIds
                     .AddRange(Data.RanchManures.Where(rm => !rm.Selected).Select(rm => rm.ManureId).ToList());
             }
             if (Data.RanchManures.Any(rm => rm.Selected))
             {
-                Data.IncludedSourceOfMaterialFarmAnimalIds
+                Data.IncludedSourceOfMaterialIds
                     .AddRange(Data.RanchManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
             }
 
@@ -159,8 +159,8 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             public List<RanchManure> RanchManures { get; set; }
             public int SelectedNutrientAnalysis { get; set; }
             public SelectList BeefNutrientAnalysisOptions { get; set; }
-            public List<string> ExcludedSourceOfMaterialFarmAnimalIds { get; set; } = new List<string>();
-            public List<string> IncludedSourceOfMaterialFarmAnimalIds { get; set; } = new List<string>();
+            public List<string> ExcludedSourceOfMaterialIds { get; set; } = new List<string>();
+            public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
 
             [Display(Name = "Material Type")]
             public string ManureName { get; set; }
@@ -259,6 +259,7 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             public CommandValidator()
             {
                 RuleFor(m => m.RanchManures).Must(m => m.Any(rm => rm.Selected))
+                    .When(m => m.RanchManures != null)
                     .WithMessage("One or more materials must be checked");
                 RuleFor(m => m.SelectedNutrientAnalysis).GreaterThan(0)
                     .WithMessage("A nutrient analysis must be selected");
@@ -388,14 +389,14 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
 
                 var manures = _ud.GetAllManagedManures()
                     .Where(mm => !mm.AssignedWithNutrientAnalysis ||
-                        request.PopulatedData.ExcludedSourceOfMaterialFarmAnimalIds
+                        request.PopulatedData.ExcludedSourceOfMaterialIds
                             .Any(im => im.Equals(mm.ManureId, StringComparison.OrdinalIgnoreCase)))
                     .ToList();
 
                 command.RanchManures = _mapper.Map<List<Command.RanchManure>>(manures);
                 foreach (var manure in command.RanchManures)
                 {
-                    manure.Selected = !request.PopulatedData.ExcludedSourceOfMaterialFarmAnimalIds
+                    manure.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds
                         .Any(m => m.Equals(manure.ManureId));
                 }
 

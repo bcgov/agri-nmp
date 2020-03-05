@@ -160,7 +160,47 @@ namespace Agri.CalculateService
 
         private AppliedManure GetAppliedCollectedManure(YearData yearData, FarmManure farmManure)
         {
-            var farmAnimal = yearData.FarmAnimals.SingleOrDefault(f => f.Id == farmManure.SourceOfMaterialFarmAnimalId);
+            var fieldAppliedManures = new List<FieldAppliedManure>();
+            var groupedManures = new List<ManagedManure>();
+
+            var farmAnimals = yearData.FarmAnimals
+                .Where(fa => farmManure.GroupedWithCollectedAnalysisSourceItemIds
+                                .Where(ids => ids.SourceType == NutrientAnalysisTypes.Collected)
+                                .Select(ids => ids.SourceId).Contains(fa.Id.Value))
+                .Select(fa => fa as ManagedManure)
+                .ToList();
+
+            groupedManures.AddRange(farmAnimals);
+
+            var importedManures = yearData.ImportedManures
+                .Where(imported => farmManure.GroupedWithCollectedAnalysisSourceItemIds
+                                .Where(ids => ids.SourceType == NutrientAnalysisTypes.Imported)
+                                .Select(ids => ids.SourceId).Contains(imported.Id.Value))
+                .Select(fa => fa as ManagedManure)
+                .ToList();
+
+            groupedManures.AddRange(farmAnimals);
+            //foreach (var sourceItem in farmManure.GroupedWithCollectedAnalysisSourceItemIds)
+            //{
+            //    if (sourceItem.SourceType == NutrientAnalysisTypes.Collected)
+            //    {
+            //        groupedManures.AddRange(yearData.FarmAnimals
+            //            .Where(fa => fa.Id == sourceItem.SourceId)
+            //            .Select(fa => fa as ManagedManure)
+            //            .ToList());
+            //    }
+            //}
+
+            var appliedCollectedManure = new AppliedGroupedManure(fieldAppliedManures, groupedManures);
+
+            return appliedCollectedManure;
+        }
+
+        private AppliedManure GetAppliedCollectedManureByFarmAnimalId(int sourceId, YearData yearData)
+        {
+            var farmAnimal = yearData.FarmAnimals
+                .SingleOrDefault(f => f.Id.Value == sourceId);
+
             var fieldsAppliedWithCollectedManure = yearData.GetFieldsAppliedWithManure(farmAnimal);
             var farmManureIds = yearData.GetFarmManureIds(farmAnimal);
 
@@ -185,10 +225,11 @@ namespace Agri.CalculateService
                     }
                     else
                     {
-                        if (!decimal.TryParse(farmManure.Moisture.Replace("%", ""), out var moisture))
-                        {
-                            moisture = _repository.GetManure(farmManure.ManureId).DefaultSolidMoisture.GetValueOrDefault(0);
-                        }
+                        //if (!decimal.TryParse(farmManure.Moisture.Replace("%", ""), out var moisture))
+                        //{
+                        //    moisture = _repository.GetManure(farmManure.ManureId).DefaultSolidMoisture.GetValueOrDefault(0);
+                        //}
+                        var moisture = 0m;
 
                         var convertedRate = _manureUnitConversionCalculator
                             .GetSolidsTonsPerAcreApplicationRate(moisture, nutrientManure.rate,
@@ -201,9 +242,9 @@ namespace Agri.CalculateService
                 }
             }
 
-            var appliedImportedManure = new AppliedCollectedManure(fieldAppliedManures, farmAnimal);
+            var appliedCollectedManure = new AppliedCollectedManure(fieldAppliedManures, farmAnimal);
 
-            return appliedImportedManure;
+            return appliedCollectedManure;
         }
     }
 }

@@ -7,41 +7,44 @@
             @Html.Raw(Model.Data.RanchNutrientAnalysisEntryCreateEditMessage)
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4 order-md-1">
-            <div class="form-group table-bordered" style="padding-left: 5px !important">
-                <table class="table-borderless table-sm">
-                    @for (int i = 0; i < Model.Data.RanchManures.Count; i++)
-                    {
-                        <tr>
-                            <td style="vertical-align: text-top;">
-                                <input type="checkbox" asp-for="@Model.Data.RanchManures[i].Selected" />
-                            </td>
-                            <td>
-                                <label asp-for="@Model.Data.RanchManures[i].Selected">@Model.Data.RanchManures[i].ManureName</label>
-                                <input type="hidden" asp-for="@Model.Data.RanchManures[i].ManureId" />
-                                <input type="hidden" asp-for="@Model.Data.RanchManures[i].ManureName" />
-                            </td>
-                        </tr>
-                    }
-                </table>
-                <span asp-validation-for="@Model.Data.RanchManures" class="text-danger"></span>
+    @if (Model.Data.RanchManures != null && Model.Data.RanchManures.Any())
+    {
+        <div class="row">
+            <div class="col-md-4 order-md-1">
+                <div class="form-group table-bordered" style="padding-left: 5px !important">
+                    <table class="table-borderless table-sm">
+                        @for (int i = 0; i < Model.Data.RanchManures.Count; i++)
+                        {
+                            <tr>
+                                <td style="vertical-align: text-top;">
+                                    <input type="checkbox" asp-for="@Model.Data.RanchManures[i].Selected" />
+                                </td>
+                                <td>
+                                    <label asp-for="@Model.Data.RanchManures[i].Selected">@Model.Data.RanchManures[i].ManureName</label>
+                                    <input type="hidden" asp-for="@Model.Data.RanchManures[i].ManureId" />
+                                    <input type="hidden" asp-for="@Model.Data.RanchManures[i].ManureName" />
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <span asp-validation-for="@Model.Data.RanchManures" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-8 order-md-2">
-            <div class="form-group">
-                <label for="">Nutrient Anaylsis</label>
-                <div>
-                    <select class="form-control"
-                            asp-for="@Model.Data.SelectedNutrientAnalysis"
-                            asp-items="@Model.Data.BeefNutrientAnalysisOptions">
-                        <option>select</option>
-                    </select>
-                    <span asp-validation-for="@Model.Data.SelectedNutrientAnalysis" class="text-danger">Select a Nutrient Analysis</span>
+            <div class="col-sm-8 order-md-2">
+                <div class="form-group">
+                    <label for="">Nutrient Anaylsis</label>
+                    <div>
+                        <select class="form-control"
+                                asp-for="@Model.Data.SelectedNutrientAnalysis"
+                                asp-items="@Model.Data.BeefNutrientAnalysisOptions">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="@Model.Data.SelectedNutrientAnalysis" class="text-danger">Select a Nutrient Analysis</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
     @if (Model.Data.SelectedNutrientAnalysis > 0)
     {
         <div class="row">
@@ -135,7 +138,7 @@
             </div>
         </div>
     }
-    else if(Model.Data.SelectedNutrientAnalysis > 0)
+    else if (Model.Data.SelectedNutrientAnalysis > 0)
     {
         <div class="row">
             <div style="clear:both"></div>
