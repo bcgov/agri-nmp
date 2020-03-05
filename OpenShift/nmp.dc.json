@@ -160,7 +160,7 @@
                 "image": " ",
                 "ports": [
                   {
-                    "containerPort": 8080,
+                    "containerPort": 5000,
                     "protocol": "TCP"
                   }
                 ],
@@ -224,7 +224,7 @@
                 "livenessProbe": {
                   "httpGet": {
                     "path": "/",
-                    "port": 8080,
+                    "port": 5000,
                     "scheme": "HTTP"
                   },
                   "initialDelaySeconds": 120,
@@ -236,7 +236,7 @@
                 "readinessProbe": {
                   "httpGet": {
                     "path": "/",
-                    "port": 8080,
+                    "port": 500,
                     "scheme": "HTTP"
                   },
                   "initialDelaySeconds": 120,
@@ -370,8 +370,8 @@
           {
             "name": "web",
             "protocol": "TCP",
-            "port": 8080,
-            "targetPort": 8080
+            "port": 5000,
+            "targetPort": 5000
           }
         ],
         "selector": {
