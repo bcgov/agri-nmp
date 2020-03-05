@@ -71,17 +71,17 @@
         }
       }
     },
-    {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-pdf",
-        "creationTimestamp": null,
-        "labels": {
-          "base-name": "${NAME}-pdf"
-        }
-      }
-    },
+    //{
+    //  "kind": "ImageStream",
+    //  "apiVersion": "v1",
+    //  "metadata": {
+    //    "name": "${NAME}-pdf",
+    //    "creationTimestamp": null,
+    //    "labels": {
+    //      "base-name": "${NAME}-pdf"
+    //    }
+    //  }
+    //},
     {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
