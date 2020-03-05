@@ -45,14 +45,14 @@ namespace SERVERAPI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
         private readonly BrowserData _bd;
         private readonly IOptions<AppSettings> _appSettings;
 
         public HomeController(ILogger<HomeController> logger,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             UserData ud,
             IAgriConfigurationRepository sd,
             BrowserData bd,

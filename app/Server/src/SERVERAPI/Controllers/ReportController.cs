@@ -41,7 +41,6 @@ namespace SERVERAPI.Controllers
     public class ReportController : BaseController
     {
         private readonly ILogger<ReportController> _logger;
-        private readonly IHostingEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
         private readonly IMapper _mapper;
@@ -55,7 +54,6 @@ namespace SERVERAPI.Controllers
         private readonly IFeedAreaCalculator _feedCalculator;
 
         public ReportController(ILogger<ReportController> logger,
-            IHostingEnvironment env,
             IViewRenderService viewRenderService,
             UserData ud,
             IAgriConfigurationRepository sd,
@@ -70,7 +68,6 @@ namespace SERVERAPI.Controllers
             )
         {
             _logger = logger;
-            _env = env;
             _ud = ud;
             _sd = sd;
             _mapper = mapper;
