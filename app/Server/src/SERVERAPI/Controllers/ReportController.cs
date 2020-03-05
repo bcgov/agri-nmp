@@ -4,6 +4,7 @@ using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
+using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.NodeServices;
@@ -43,6 +44,7 @@ namespace SERVERAPI.Controllers
         private readonly IHostingEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
+        private readonly IMapper _mapper;
         private readonly IViewRenderService _viewRenderService;
         private readonly ICalculateAnimalRequirement _calculateAnimalRequirement;
         private readonly ICalculateCropRequirementRemoval _calculateCropRequirementRemoval;
@@ -50,23 +52,28 @@ namespace SERVERAPI.Controllers
         private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
         private readonly IManureApplicationCalculator _manureApplicationCalculator;
         private readonly ISoilTestConverter _soilTestConverter;
+        private readonly IFeedAreaCalculator _feedCalculator;
 
         public ReportController(ILogger<ReportController> logger,
             IHostingEnvironment env,
             IViewRenderService viewRenderService,
             UserData ud,
             IAgriConfigurationRepository sd,
+            IMapper mapper,
             ICalculateAnimalRequirement calculateAnimalRequirement,
             ICalculateCropRequirementRemoval calculateCropRequirementRemoval,
             ICalculateNutrients calculateNutrients,
             IChemicalBalanceMessage chemicalBalanceMessage,
             IManureApplicationCalculator manureApplicationCalculator,
-            ISoilTestConverter soilTestConverter)
+            ISoilTestConverter soilTestConverter,
+            IFeedAreaCalculator feedCalculator
+            )
         {
             _logger = logger;
             _env = env;
             _ud = ud;
             _sd = sd;
+            _mapper = mapper;
             _viewRenderService = viewRenderService;
             _calculateAnimalRequirement = calculateAnimalRequirement;
             _calculateCropRequirementRemoval = calculateCropRequirementRemoval;
@@ -74,6 +81,7 @@ namespace SERVERAPI.Controllers
             _chemicalBalanceMessage = chemicalBalanceMessage;
             _manureApplicationCalculator = manureApplicationCalculator;
             _soilTestConverter = soilTestConverter;
+            _feedCalculator = feedCalculator;
         }
 
         [HttpGet]
@@ -97,7 +105,7 @@ namespace SERVERAPI.Controllers
             {
                 foreach (var f in fldLst)
                 {
-                    if (f.crops == null)
+                    if (f.Crops == null)
                     {
                         cropFound = false;
                         break;
@@ -226,9 +234,9 @@ namespace SERVERAPI.Controllers
                 }
 
                 rf.nutrients = new List<ReportFieldNutrient>();
-                if (f.crops != null)
+                if (f.Crops != null)
                 {
-                    foreach (var c in f.crops)
+                    foreach (var c in f.Crops)
                     {
                         ReportFieldCrop fc = new ReportFieldCrop();
 
@@ -305,7 +313,7 @@ namespace SERVERAPI.Controllers
 
                         rf.crops.Add(fc);
                     }
-                    if (f.crops.Count() > 0)
+                    if (f.Crops.Count() > 0)
                     {
                         rf.showNitrogenCredit = f.PreviousYearManureApplicationFrequency != null ? true : false;
                         if (rf.showNitrogenCredit)
@@ -780,6 +788,11 @@ namespace SERVERAPI.Controllers
 
         public async Task<string> RenderManureUse()
         {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Dairy || _ud.FarmDetails().UserJourney != UserJourney.Mixed)
+            {
+                return string.Empty;
+            }
+
             ReportManureSummaryViewModel rmsvm = new ReportManureSummaryViewModel();
             rmsvm.manures = new List<ReportManures>();
             rmsvm.footnotes = new List<ReportFieldFootnote>();
@@ -918,6 +931,78 @@ namespace SERVERAPI.Controllers
             }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportOctoberToMarchStorageSummary.cshtml", romssvm);
+
+            return result;
+        }
+
+        public async Task<string> RenderCropManureUse()
+        {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Crops)
+            {
+                return string.Empty;
+            }
+
+            var viewModel = new ReportCropsManureViewModel();
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.FarmManures != null)
+            {
+                foreach (var fm in yearData.FarmManures)
+                {
+                    ReportManures rm = new ReportManures();
+                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
+
+                    if (appliedManure != null)
+                    {
+                        rm.MaterialName = _sd.GetManure(fm.ManureId).Name;
+                        rm.MaterialSource = appliedManure.SourceName;
+
+                        // Annual Amount
+                        rm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureToApply))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.AnnualAmount += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.AnnualAmount += " tons";
+                        }
+
+                        // Amount Land Applied
+                        rm.LandApplied = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalApplied))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.LandApplied += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.LandApplied += " tons";
+                        }
+                        rm.LandApplied += " (" + appliedManure.WholePercentAppiled + "%)";
+
+                        // Amount Remaining
+                        if (appliedManure.WholePercentRemaining < 10)
+                        {
+                            rm.AmountRemaining = "None";
+
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = viewModel.Footnotes.Count() + 1;
+                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
+                            rm.footnote = rff.id.ToString();
+                            viewModel.Footnotes.Add(rff);
+                        }
+                        else
+                        {
+                            rm.AmountRemaining = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureRemainingToApply))) + " (" + appliedManure.WholePercentRemaining + "%)";
+                        }
+
+                        viewModel.Manures.Add(rm);
+                    }
+                }
+            }
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCropsManure.cshtml", viewModel);
 
             return result;
         }
@@ -1130,6 +1215,70 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
+        public async Task<string> RenderSeasonalFeedAreaSummary()
+        {
+            var fields = _ud.GetFields();
+            var viewModel = new ReportSeasonalFeedAreaViewModel
+            {
+                Fields = _mapper.Map<List<Field>, List<ReportSeasonalFeedAreaViewModel.Field>>(fields)
+            };
+
+            var region = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value);
+            var dailyFeedRequirements = _sd.GetDailyFeedRequirement();
+
+            var feedForageTypes = new List<FeedForageType>();
+            if (fields.Any(f => f.FeedForageAnalyses.Any()))
+            {
+                feedForageTypes = _sd.GetFeedForageTypes();
+            }
+            foreach (var field in fields)
+            {
+                if (field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
+                {
+                    var mappedField = viewModel.Fields.Single(f => f.Id == field.Id);
+                    mappedField.NAgroBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
+                    mappedField.P205AgroBalance = _feedCalculator.GetP205AgronomicBalance(field);
+                    mappedField.K20AgroBalance = _feedCalculator.GetK20AgronomicBalance(field);
+                    mappedField.NCropRemovalValue = _feedCalculator.GetNitrogenCropRemovalValue(field, region);
+                    mappedField.P205CropRemovalValue = _feedCalculator.GetP205CropRemovalValue(field);
+                    mappedField.K20CropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field);
+                    mappedField.MatureAnimalDailyFeedRequirement = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Value;
+                    mappedField.MatureAnimalDailyFeedRequirementName = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Name;
+                    mappedField.GrowingAnimalDailyFeedRequirement = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Value;
+                    mappedField.GrowingAnimalDailyFeedRequirementName = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Name;
+
+                    foreach (var analytic in mappedField.FeedForageAnalyses)
+                    {
+                        analytic.FeedForageType = feedForageTypes.Single(f => f.Id == analytic.FeedForageTypeId).Name;
+                    }
+                }
+            }
+
+            var result = await _viewRenderService
+                .RenderToStringAsync("~/Views/Report/ReportSeasonalFeedArea.cshtml", viewModel);
+
+            return result;
+        }
+
+        public class MappingProfile : Profile
+        {
+            public MappingProfile()
+            {
+                CreateMap<Field, ReportSeasonalFeedAreaViewModel.Field>()
+                    .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
+                    .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area));
+                CreateMap<FeedForageAnalysis, ReportSeasonalFeedAreaViewModel.FeedForageAnalysis>();
+            }
+        }
+
         public async Task<string> RenderTableOfContents(bool hasFertilizers, bool hasSoilTests)
         {
             var vm = new ReportTableOfContentsViewModel();
@@ -1145,12 +1294,13 @@ namespace SERVERAPI.Controllers
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure/Compost Inventory", PageNumber = pageNumber });
             }
 
-            //ReportManureSummary
-            if (yd.FarmManures.Any())
-            {
-                pageNumber = pageNumber + 1;
-                vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
-            }
+            //Dairy Mixed ReportManureSummary
+            if (yd.FarmManures.Any()) if ((_ud.FarmDetails().UserJourney == UserJourney.Dairy ||
+                    _ud.FarmDetails().UserJourney == UserJourney.Mixed) && yd.FarmManures.Any())
+                {
+                    pageNumber = pageNumber + 1;
+                    vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
+                }
 
             //ReportOctoberToMarchStorageVolumes
             if (yd.FarmManures.Any() &&
@@ -1163,6 +1313,13 @@ namespace SERVERAPI.Controllers
                     SectionName = "Liquid Storage Capacity: October to March",
                     PageNumber = pageNumber
                 });
+            }
+
+            //Report Crop Manures
+            if (_ud.FarmDetails().UserJourney == UserJourney.Crops && yd.FarmManures.Any())
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
             }
 
             //ReportFertilizers
@@ -1186,6 +1343,16 @@ namespace SERVERAPI.Controllers
                 pageNumber = pageNumber + 1;
                 vm.ContentItems.Add(new ContentItem
                 { SectionName = "Manure and Compost Analysis", PageNumber = pageNumber });
+            }
+
+            //Seasonal Feeding Areas
+            var feedingAreas = _ud.GetFields()
+                .Where(f => f.IsSeasonalFeedingArea && f.FeedForageAnalyses != null && f.FeedForageAnalyses.Any())
+                .Select(f => $"{f.FieldName} Feeding Area");
+            foreach (var area in feedingAreas)
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem { SectionName = area, PageNumber = pageNumber });
             }
 
             //ReportSummary
@@ -1270,9 +1437,9 @@ namespace SERVERAPI.Controllers
                     rf.nutrients.Add(rfn);
                 }
 
-                if (f.crops != null)
+                if (f.Crops != null)
                 {
-                    foreach (var c in f.crops)
+                    foreach (var c in f.Crops)
                     {
                         crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
@@ -1420,9 +1587,9 @@ namespace SERVERAPI.Controllers
                     rfn.nutrientAmount = "";
                     rf.nutrients.Add(rfn);
                 }
-                if (f.crops != null)
+                if (f.Crops != null)
                 {
-                    foreach (var c in f.crops)
+                    foreach (var c in f.Crops)
                     {
                         crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
@@ -1581,10 +1748,12 @@ namespace SERVERAPI.Controllers
             var reportManureCompostInventory = string.Empty;
             var reportManureUse = string.Empty;
             var reportOctoberToMarchStorageVolumes = string.Empty;
+            var reportCropManure = string.Empty;
             var reportFertilizers = string.Empty;
             var reportFields = string.Empty;
             var reportAnalysis = string.Empty;
             var reportSummary = string.Empty;
+            var reportFeedingArea = string.Empty;
 
             Parallel.Invoke(
                 //async () => { reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests); },
@@ -1594,8 +1763,10 @@ namespace SERVERAPI.Controllers
                     //run in sequence and not in parallel
                     reportApplication = await RenderApplication();
                     reportFertilizers = await RenderFerilizers();
+                    reportFeedingArea = await RenderSeasonalFeedAreaSummary();
                     reportFields = await RenderFields();
                     reportManureUse = await RenderManureUse();
+                    reportCropManure = await RenderCropManureUse();
                     reportSummary = await RenderSummary();
                     reportAnalysis = await RenderAnalysis();
                 },
@@ -1645,6 +1816,12 @@ namespace SERVERAPI.Controllers
                 report += reportOctoberToMarchStorageVolumes;
             }
 
+            if (reportCropManure.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportCropManure;
+            }
+
             if (reportFertilizers.Contains("div"))
             {
                 report += pageBreakForManure;
@@ -1661,6 +1838,12 @@ namespace SERVERAPI.Controllers
             {
                 report += pageBreak;
                 report += reportAnalysis;
+            }
+
+            if (reportFeedingArea.Contains("div"))
+            {
+                report += pageBreak;
+                report += reportFeedingArea;
             }
 
             if (reportSummary.Contains("div"))
@@ -1695,25 +1878,25 @@ namespace SERVERAPI.Controllers
             string targetUrl = pdfHost + "/api/PDF/BuildPDF";
 
             PDF_Options options = new PDF_Options();
-            options.Border = new PDF_Border();
-            options.Header = new PDF_Header();
-            options.Footer = new PDF_Footer();
-            options.PaginationOffset = -1;
+            options.border = new PDF_Border();
+            options.header = new PDF_Header();
+            options.footer = new PDF_Footer();
+            options.paginationOffset = -1;
 
-            options.Type = "pdf";
-            options.Quality = "75";
-            options.Format = "letter";
-            options.Orientation = (portrait) ? "portrait" : "landscape";
-            options.Fontbase = "/usr/share/fonts/dejavu";
-            options.Border.Top = ".25in";
-            options.Border.Right = ".25in";
-            options.Border.Bottom = ".25in";
-            options.Border.Left = ".25in";
-            options.Header.Height = "20mm";
-            options.Header.Contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().FarmName + "<br />" +
+            options.type = "pdf";
+            options.quality = "75";
+            options.format = "letter";
+            options.orientation = (portrait) ? "portrait" : "landscape";
+            options.fontbase = "/usr/share/fonts/dejavu";
+            options.border.top = ".25in";
+            options.border.right = ".25in";
+            options.border.bottom = ".25in";
+            options.border.left = ".25in";
+            options.header.height = "20mm";
+            options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().FarmName + "<br />" +
                                       "Planning Year: " + _ud.FarmDetails().Year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
-            options.Footer.Height = "15mm";
-            options.Footer.Contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
+            options.footer.height = "15mm";
+            options.footer.contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
 
             // call the microservice
             try

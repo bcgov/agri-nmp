@@ -34,10 +34,7 @@
                                 <select id="ddlSubRegionModal" class="form-control" asp-for="SelSubRegOption" asp-items="@(new SelectList(Model.SubRegionOptions, "Id", "Value"))">
                                     <option>select subregion</option>
                                 </select>
-                                @if (Model.MultipleSubRegion)
-                                {
-                                    <span asp-validation-for="SelSubRegOption" class="text-danger">A sub region must be selected</span>
-                                }
+                                <span asp-validation-for="SelSubRegOption" class="text-danger">A sub region must be selected</span>
                             </div>
                         </div>
                     }
@@ -51,7 +48,6 @@
         @Html.HiddenFor(x => x.Target)
         @Html.HiddenFor(x => x.Message)
         @Html.HiddenFor(x => x.ShowSubRegion)
-        @Html.HiddenFor(x => x.MultipleSubRegion)
         @Html.HiddenFor(x => x.ButtonPressed)
         @Html.HiddenFor(x => x.ShowAnimals)
     </form>

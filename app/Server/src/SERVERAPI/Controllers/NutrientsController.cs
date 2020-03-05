@@ -2484,5 +2484,16 @@ namespace SERVERAPI.Controllers
             } // ...modelstate
             return PartialView(model);
         }
+
+        [HttpGet]
+        public IActionResult FeedAreaEditNote()
+        {
+            var model = new FeedAreaEditNoteViewModel
+            {
+                Message = _sd.GetUserPrompt("FeedAreaCalculation-Ranch")
+            };
+
+            return PartialView(model);
+        }
     }
 }

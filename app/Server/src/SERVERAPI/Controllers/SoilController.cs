@@ -82,7 +82,7 @@ namespace SERVERAPI.Controllers
                 var updatedFields = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByFarm(_ud.GetFields(), _ud.FarmDetails().FarmRegion.Value);
                 foreach (var field in updatedFields)
                 {
-                    foreach (var crop in field.crops)
+                    foreach (var crop in field.Crops)
                     {
                         _ud.UpdateFieldCrop(field.FieldName, crop);
                     }
@@ -194,7 +194,7 @@ namespace SERVERAPI.Controllers
 
                 //update the Nutrient calculations with the new/changed soil test data
                 var updatedField = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByField(fld, _ud.FarmDetails().FarmRegion.Value);
-                foreach (var crop in updatedField.crops)
+                foreach (var crop in updatedField.Crops)
                 {
                     _ud.UpdateFieldCrop(updatedField.FieldName, crop);
                 }

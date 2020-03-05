@@ -92,12 +92,7 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
         {
             public int Id { get; set; }
             public string FieldName { get; set; }
-            //public Nutrients Nutrients { get; set; }
-
-            //public List<FieldCrop> Crops { get; set; }
-            //public SoilTest SoilTest { get; set; }
-
-            public string FieldArea { get; set; }
+            public decimal? FieldArea { get; set; }
             public string FieldComment { get; set; }
 
             public List<PreviousManureApplicationYear> SelectPrevYrManureOptions { get; set; }
@@ -105,20 +100,19 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
             public string PrevYearManureApplicationFrequency { get; set; }
             public int? PrevYearManureApplicationNitrogenCredit { get; set; }
 
-            //public decimal? SoilTestNitrateOverrideNitrogenCredit { get; set; }
             public string Placehldr { get; set; }
 
             public bool IsSeasonalFeedingArea { get; set; }
             public string SeasonalFeedingArea { get; set; }
-            public string FeedingValueDays { get; set; }
-            public string FeedingPercentage { get; set; }
-            public string MatureAnimalCount { get; set; }
-            public string GrowingAnimalCount { get; set; }
-            public string MatureAnimalAverage { get; set; }
-            public string GrowingAnimalAverage { get; set; }
+            public int? FeedingDaysSpentInFeedingArea { get; set; }
+            public int? FeedingPercentageOutsideFeeingArea { get; set; }
+            public int? MatureAnimalCount { get; set; }
+            public int? GrowingAnimalCount { get; set; }
+            public int? MatureAnimalAverageWeight { get; set; }
+            public int? GrowingAnimalAverageWeight { get; set; }
             public List<DailyFeedRequirement> SelectDailyFeedOptions { get; set; }
-            public string SelectMatureAnimalDailyFeed { get; set; }
-            public string SelectGrowingAnimalDailyFeed { get; set; }
+            public int? MatureAnimalDailyFeedRequirementId { get; set; }
+            public int? GrowingAnimalDailyFeedRequirementId { get; set; }
             public string DailyFeedWarning { get; set; }
         }
 
@@ -131,8 +125,23 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
                 _appSettings = appSettings;
                 RuleFor(x => x.FieldName).NotNull().WithMessage("Field Name is required");
                 RuleFor(x => x.FieldArea).NotNull().WithMessage("Field Area is required");
-                RuleFor(x => x.SelectPrevYrManureOption).NotEqual("select").WithMessage("Manure application in previous years must be selected");
+                RuleFor(x => x.SelectPrevYrManureOption).NotEqual("-1").WithMessage("Manure application in previous years must be selected");
                 RuleFor(x => x.FieldComment).MaximumLength(Convert.ToInt32(_appSettings.Value.CommentLength)).WithMessage("Exceeds maximum length of " + _appSettings.Value.CommentLength);
+                When(x => x.IsSeasonalFeedingArea, () =>
+                {
+                    RuleFor(x => x.FeedingDaysSpentInFeedingArea)
+                        .NotEmpty().WithMessage("Required");
+                    RuleFor(x => x.FeedingPercentageOutsideFeeingArea)
+                        .NotEmpty().WithMessage("Required");
+                    RuleFor(x => x.MatureAnimalCount).GreaterThanOrEqualTo(0)
+                        .NotEmpty().WithMessage("Required");
+                    RuleFor(x => x.MatureAnimalAverageWeight).GreaterThanOrEqualTo(0)
+                        .NotEmpty().WithMessage("Required").When(x => x.MatureAnimalCount > 0);
+                    RuleFor(x => x.GrowingAnimalCount).GreaterThanOrEqualTo(0)
+                        .NotEmpty().WithMessage("Required");
+                    RuleFor(x => x.GrowingAnimalAverageWeight).GreaterThanOrEqualTo(0)
+                        .NotEmpty().WithMessage("Required").When(x => x.GrowingAnimalCount > 0);
+                });
             }
         }
 
@@ -142,18 +151,12 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
             {
                 CreateMap<Field, Command>()
                 //Command as Destination
-                .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area.ToString("G29")))
-                .ForMember(m => m.FeedingPercentage, opts => opts.MapFrom(s => s.FeedingPercentage != null ? s.FeedingPercentage.Value.ToString("G29") : null))
-                .ForMember(m => m.FeedingValueDays, opts => opts.MapFrom(s => s.FeedingValueDays != null ? s.FeedingValueDays.Value.ToString("G29") : null))
-                .ForMember(m => m.MatureAnimalCount, opts => opts.MapFrom(s => s.MatureAnimalCount != null ? s.MatureAnimalCount.Value.ToString("G29") : null))
-                .ForMember(m => m.GrowingAnimalCount, opts => opts.MapFrom(s => s.GrowingAnimalCount != null ? s.GrowingAnimalCount.Value.ToString("G29") : null))
-                .ForMember(m => m.MatureAnimalAverage, opts => opts.MapFrom(s => s.MatureAnimalAverage != null ? s.MatureAnimalAverage.Value.ToString("G29") : null))
-                .ForMember(m => m.GrowingAnimalAverage, opts => opts.MapFrom(s => s.GrowingAnimalAverage != null ? s.GrowingAnimalAverage.Value.ToString("G29") : null))
+
                 .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
                 .ForMember(m => m.SelectPrevYrManureOption, opts => opts.MapFrom(s => s.PreviousYearManureApplicationFrequency))
+                .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area))
                 .ReverseMap()
                 //FarmField as Destination
-                .ForMember(m => m.Area, opts => opts.MapFrom(s => s.FieldArea != null ? Convert.ToDecimal(s.FieldArea) : 0))
                 .ForMember(m => m.SeasonalFeedingArea, opts => opts.MapFrom(s => s.IsSeasonalFeedingArea ? "Yes" : "No")); ;
             }
         }
@@ -176,21 +179,6 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
                 {
                     var field = _ud.GetFieldDetailById(request.Id);
                     command = _mapper.Map<Command>(field);
-                    //command.FieldName = field.fieldName;
-                    //command.Id = field.Id;
-                    //command.FieldArea = field.area.ToString("G29");
-                    //command.IsSeasonalFeedingArea = field.IsSeasonalFeedingArea;
-                    //command.SeasonalFeedingArea = field.SeasonalFeedingArea;
-                    //command.FieldComment = field.comment;
-                    //command.SelectPrevYrManureOption = field.prevYearManureApplicationFrequency;
-                    //command.FeedingValueDays = field.FeedingValueDays;
-                    //command.FeedingPercentage = field.FeedingPercentage;
-                    //command.MatureAnimalAverage = field.MatureAnimalAverage;
-                    //command.MatureAnimalCount = field.MatureAnimalCount;
-                    //command.GrowingAnimalAverage = field.GrowingAnimalAverage;
-                    //command.GrowingAnimalCount = field.GrowingAnimalCount;
-
-                    //command.FeedingValueDays = field.feedingValueDays;
                 }
 
                 return await Task.FromResult(command);
@@ -214,13 +202,13 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
                 var command = request.PopulatedData;
                 command.SelectPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
                 command.SelectDailyFeedOptions = _sd.GetDailyFeedRequirement();
-                if (command.SelectMatureAnimalDailyFeed == null)
+                if (command.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0) == 0)
                 {
-                    command.SelectMatureAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
+                    command.MatureAnimalDailyFeedRequirementId = command.SelectDailyFeedOptions[0].Id;
                 }
-                if (command.SelectGrowingAnimalDailyFeed == null)
+                if (command.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0) == 0)
                 {
-                    command.SelectGrowingAnimalDailyFeed = command.SelectDailyFeedOptions[0].Name;
+                    command.GrowingAnimalDailyFeedRequirementId = command.SelectDailyFeedOptions[0].Id;
                 }
 
                 var prompts = _db.UserPrompts

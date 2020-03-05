@@ -59,6 +59,8 @@ namespace Agri.Data
 
         List<KeyValuePair<string, string>> GetSoilConverterDetails();
 
+        List<KeyValuePair<string, string>> GetManureNutrientCalculatorDetails();
+
         List<DryMatter> GetDryMatters();
 
         List<Region> GetRegions();
@@ -216,6 +218,12 @@ namespace Agri.Data
 
         string GetStaticDataVersion();
 
+        List<FeedForageType> GetFeedForageTypes();
+
+        List<Feed> GetFeedForageNames();
+
+        int GetStaticDataVersionId();
+
         List<PreviousManureApplicationYear> GetPrevManureApplicationInPrevYears();
 
         PreviousManureApplicationYear GetPrevManureApplicationInPrevYearsByManureAppHistory(
@@ -333,7 +341,7 @@ namespace Agri.Data
 
         ManageVersionUser GetManagerVersionUser(string username);
 
-        void LoadConfigurations(StaticDataVersion staticDataVersionToLoad);
+        void LoadConfigurations(StaticDataVersion staticDataVersionToLoad, int? maxStaticDataVersion = null);
 
         Journey GetJourney(int journeyId);
     }

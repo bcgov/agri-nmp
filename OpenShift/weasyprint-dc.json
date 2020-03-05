@@ -1,0 +1,197 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "annotations": {
+      "description": "Deployment template for a weasyprint server."
+    },
+    "name": "weasyprint"
+  },
+  "parameters": [
+    {
+        "name": "NAME",
+        "displayName": "Name",
+        "description": "The name or prefix for all created objects",
+        "required": true,
+        "value": "nmp"
+    },
+    {
+        "name": "SUFFIX",
+        "description": "The suffix for all created objects",
+        "required": false,
+        "value": ""
+    },    
+    {
+        "name": "VERSION",
+        "displayName": "Tag Version",
+        "description": "Tag version for all created objects",
+        "required": true,
+        "value": ""
+    },
+    {
+      "name": "WEASYPRINT_REPLICAS",
+      "displayName": "Number of Replicas for WEASYPRINT",
+      "description": "Number of Replicas for WEASYPRINT",
+      "value": "1"
+    }
+  ],
+  "objects": [
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-weasyprint",
+        "creationTimestamp": null,
+        "labels": {
+          "base-name": "${NAME}-weasyprint"
+        }
+      }
+    },    
+    {      
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-weasyprint${SUFFIX}",
+        "generation": 1,
+        "labels": null,
+        "annotations": {
+          "description": "Defines how to deploy the backend weasyprint server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Rolling",
+          "rollingParams": {
+            "updatePeriodSeconds": 1,
+            "intervalSeconds": 1,
+            "timeoutSeconds": 900,
+            "maxUnavailable": "25%",
+            "maxSurge": "25%"
+          },          
+          "resources": {},
+          "activeDeadlineSeconds": 21600
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [ "${NAME}-weasyprint${SUFFIX}" ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}-weasyprint:${VERSION}"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": "${{WEASYPRINT_REPLICAS}}",
+        "test": false,
+        "selector": {
+          "name": "${NAME}-weasyprint${SUFFIX}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${NAME}-weasyprint${SUFFIX}",
+            "creationTimestamp": null,
+            "labels": {
+              "name": "${NAME}-weasyprint${SUFFIX}"
+            }
+          },
+          "spec": {
+            "volumes": [],
+            "containers": [
+              {
+                "name": "${NAME}-weasyprint${SUFFIX}",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 5001,
+                    "protocol": "TCP"
+                  }
+                ],
+                "env": [],
+                "resources": {
+                  "requests": {
+                    "cpu": "10m",
+                    "memory": "10Mi"
+                  },
+                  "limits": {
+                    "cpu": "1000m",
+                    "memory": "1Gi"
+                  }
+                },
+                "volumeMounts": [],
+                "livenessProbe": {
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 5001,
+                    "scheme": "HTTP"
+                  },
+                  "initialDelaySeconds": 30,
+                  "timeoutSeconds": 5,
+                  "periodSeconds": 10,
+                  "successThreshold": 1,
+                  "failureThreshold": 5
+                },
+                "readinessProbe": {
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 5001,
+                    "scheme": "HTTP"
+                  },
+                  "initialDelaySeconds": 15,
+                  "timeoutSeconds": 5,
+                  "periodSeconds": 10,
+                  "successThreshold": 1,
+                  "failureThreshold": 5
+                },
+                "terminationMessagePath": "/dev/termination-log",
+                "terminationMessagePolicy": "File",
+                "imagePullPolicy": "IfNotPresent",
+                "securityContext": {
+                  "capabilities": {},
+                  "privileged": false
+                }
+              }
+            ],
+            "restartPolicy": "Always",
+            "terminationGracePeriodSeconds": 30,
+            "dnsPolicy": "ClusterFirst",
+            "securityContext": {},
+            "schedulerName": "default-scheduler"
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-weasyprint${SUFFIX}",
+        "creationTimestamp": null,
+        "labels": null,
+        "annotations": {
+          "description": "Exposes and load balances the application pods"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "weasyprint",
+            "protocol": "TCP",
+            "port": 5001,
+            "targetPort": 5001
+          }
+        ],
+        "selector": {
+          "name": "${NAME}-weasyprint${SUFFIX}"
+        },
+        "type": "ClusterIP",
+        "sessionAffinity": "None"
+      }
+    }
+  ]
+}

@@ -73,34 +73,34 @@ namespace SERVERAPI.Utility
 
     public class PDF_Options
     {
-        public string Type { get; set; }
-        public string Quality { get; set; }
-        public string Format { get; set; }
-        public string Orientation { get; set; }
-        public string Fontbase { get; set; }
-        public PDF_Border Border { get; set; }
-        public int PaginationOffset { get; set; }
-        public PDF_Header Header { get; set; }
-        public PDF_Footer Footer { get; set; }
+        public string type { get; set; }
+        public string quality { get; set; }
+        public string format { get; set; }
+        public string orientation { get; set; }
+        public string fontbase { get; set; }
+        public PDF_Border border { get; set; }
+        public int paginationOffset { get; set; }
+        public PDF_Header header { get; set; }
+        public PDF_Footer footer { get; set; }
     }
 
     public class PDF_Border
     {
-        public string Top { get; set; }
-        public string Right { get; set; }
-        public string Bottom { get; set; }
-        public string Left { get; set; }
+        public string top { get; set; }
+        public string right { get; set; }
+        public string bottom { get; set; }
+        public string left { get; set; }
     }
 
     public class PDF_Header
     {
-        public string Height { get; set; }
-        public string Contents { get; set; }
+        public string height { get; set; }
+        public string contents { get; set; }
     }
 
     public class PDF_Footer
     {
-        public string Height { get; set; }
-        public string Contents { get; set; }
+        public string height { get; set; }
+        public string contents { get; set; }
     }
 }

@@ -34,9 +34,9 @@ namespace SERVERAPI.ViewComponents
 
             Field fld = _ud.GetFieldDetails(fldName);
             manureVM.display = false;
-            if (fld.crops != null)
+            if (fld.Crops != null)
             {
-                if (fld.crops.Count() > 0)
+                if (fld.Crops.Count() > 0)
                 {
                     manureVM.display = _sd.WasManureAddedInPreviousYear(fld.PreviousYearManureApplicationFrequency);
                     if (manureVM.display)

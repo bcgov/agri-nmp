@@ -17,7 +17,6 @@
     <title>@ViewBag.Title</title>
 
     <!-- BOOTSTRAP CORE CSS v3.3.6 -->
-
     <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -33,8 +32,10 @@
     <link href="~/lib/bootstrap/css/custom-main.css" rel="stylesheet" />
     <link href="~/lib/bootstrap/css/custom-form.css" rel="stylesheet" />
 
+    <!-- DATATABLES CSS -->
+    <link href="~/lib/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
     <!-- SITE CSS -->
-    @*<link href="~/css/mygovbc-bootstrap-theme.min.css" rel="stylesheet" />*@
     <link href="~/css/site.css?refresh=@DateTime.Now.Ticks" rel="stylesheet" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -46,16 +47,15 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    @*<script src="~/lib/bootstrap/js/bootstrap.min.js"></script>*@
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/lib/bootstrap/js/misc.js"></script>
     <script src="~/lib/bootstrap/js/navMenu.js"></script>
     <script src="~/lib/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+    @*<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>*@
     <script src="~/lib/jquery.lineProgressbar.js"></script>
     <!--Site Javascript-->
     <script src="~/js/site.js"></script>
@@ -77,7 +77,7 @@
 
         <!-- HEADER -->
         <div id="header">
-            <div id="header-main" class="navbar navbar-default ">
+            <div id="header-main" class="navbar navbar-expand-lg navbar-dark ">
 
                 <div class="container">
                     <div id="header-main-row" class="row">
@@ -89,9 +89,6 @@
                             <div>
                                 <h1 style="margin-top: 5px;padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Calculator</h1>
                             </div>
-                            <button type="button" class="navbar-toggle gov-button-custom collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-label="Burger Navigation">
-                                <img src="~/images/menu-open-mobile.png" alt="Mobile Menu" />
-                            </button>
                         </div>
                         <!-- /GOV & ENV TITLE -->
                         <!-- COLLAPSING NAVBAR -->
@@ -142,6 +139,10 @@
 </html>
 
 <script type="text/javascript">
+    //$(function () {
+    //    $('[data-toggle="tooltip"]').tooltip()
+    //})
+
     $(function () {
         $('a.edit').click(function () {
             var url = $(this).attr('href');

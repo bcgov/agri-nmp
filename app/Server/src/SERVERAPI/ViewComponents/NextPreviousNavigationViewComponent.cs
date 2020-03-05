@@ -31,11 +31,19 @@ namespace SERVERAPI.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(NextPrevNavViewModel currentNextPrevVm)
         {
+            NextPrevNavViewModel result;
             if (currentNextPrevVm.CurrentIsAPage)
             {
-                return View(await GetNavigation(currentNextPrevVm.CurrentPage));
+                result = await GetNavigation(currentNextPrevVm.CurrentPage);
             }
-            return View(await GetNavigation(currentNextPrevVm.CurrentAction));
+            else
+            {
+                result = await GetNavigation(currentNextPrevVm.CurrentAction);
+            }
+
+            result.ShowPrevious = currentNextPrevVm.ShowPrevious;
+            result.ShowNext = currentNextPrevVm.ShowNext;
+            return View(result);
         }
 
         private Task<NextPrevNavViewModel> GetNavigation(FeaturePages currentPage)
@@ -63,6 +71,11 @@ namespace SERVERAPI.ViewComponents
             var currentMenuItem = currentMainMenuItem.SubMenus.Any() ?
                 currentMainMenuItem.SubMenus.Single(s => s.IsSubMenuCurrent(currentAction)) as Menu :
                 currentMainMenuItem as Menu;
+
+            if (currentAction == CoreSiteActions.SoilTest)
+            {
+                currentMenuItem.UseJavaScriptInterceptMethod = true;
+            }
 
             var mnvm = PopulateViewModel(currentMenuItem);
 

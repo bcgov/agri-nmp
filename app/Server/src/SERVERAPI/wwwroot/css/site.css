@@ -354,6 +354,7 @@ body {
     background: #ffffff;
     color: #000000;
     border: #23527C 1px solid;
+    min-width: 200px;
     max-width: 300px;
     padding: 3px 8px;
     text-align: left;
@@ -404,6 +405,19 @@ body {
 
 .readonly-form {
     color: #808080
+}
+
+
+/* Number fields - remove spinner */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
 }
 
 /*Chevron Navigation Style*/
@@ -545,4 +559,9 @@ body {
     .device-message {
         display: none;
     }
+}
+
+/* fix file input button */
+input[type="file"] {
+    display: none;
 }

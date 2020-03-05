@@ -34,11 +34,91 @@ else
         });
 
         $(document).ready(function () {
-            $("body").on("click", "#cbUseCustomAnalysis", function () {
+            $("body").on("click", "#rbOnlyCustom", function () {
+                if ($("#rbOnlyCustom").val() == true) {
+                    $("#manureName").val($("#PostedElementEvent option:selected").text());
+                }
+                else {
+                    $("#manureName").val('');
+                }
                 $('#PostedElementEvent').val("@CreateEdit.ElementEvent.UseCustomAnalysis");
-                $("#manureName").val($("#PostedElementEvent option:selected").text());
                 $("#btnSave").click();
             })
         });
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnalysisMoisture').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnalysisMoisture').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnalysisMoisture   '));
+            });
+        })
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnalysisNitrogen').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnalysisNitrogen').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnalysisNitrogen   '));
+            });
+        })
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisAmmonia').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisAmmonia').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnlalysisAmmonia   '));
+            });
+        })
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisPhosphorous').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisPhosphorous').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnlalysisPhosphorous   '));
+            });
+        })
+
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisPotassium').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainNutrientAnlalysisPotassium').click(function() {
+                triggerToolTip($('#toolTipExplainNutrientAnlalysisPotassium   '));
+            });
+        })
     </script>
 }

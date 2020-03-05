@@ -12,6 +12,10 @@ namespace Agri.CalculateService
     public interface ICalculateManureGeneration
     {
         int GetSolidTonsGeneratedForAnimalSubType(int animalSubTypeId, int animalCount, int daysCollected);
+
+        int GetTonsGeneratedForPoultrySubType(int animalSubTypeId, int birdsPerFlock, decimal flocksPerYear, int daysPerFlock);
+
+        int GetGallonsGeneratedForPoultrySubType(int animalSubTypeId, int birdsPerFlock, decimal flocksPerYear, int daysPerFlock);
     }
 
     public class CalculateManureGeneration : ICalculateManureGeneration
@@ -30,6 +34,24 @@ namespace Agri.CalculateService
             var poundPerDay = _sd.GetAnimalSubType(animalSubTypeId).SolidPerPoundPerAnimalPerDay;
 
             var result = (animalCount * poundPerDay * daysCollected / 2000);
+
+            return Convert.ToInt32(result ?? 0);
+        }
+
+        public int GetTonsGeneratedForPoultrySubType(int animalSubTypeId, int birdsPerFlock, decimal flocksPerYear, int daysPerFlock)
+        {
+            var poundsPerDay = _sd.GetAnimalSubType(animalSubTypeId).SolidPerPoundPerAnimalPerDay;
+
+            var result = poundsPerDay * birdsPerFlock * flocksPerYear * daysPerFlock / 2000;
+
+            return Convert.ToInt32(result ?? 0);
+        }
+
+        public int GetGallonsGeneratedForPoultrySubType(int animalSubTypeId, int birdsPerFlock, decimal flocksPerYear, int daysPerFlock)
+        {
+            var gallonsPerDay = _sd.GetAnimalSubType(animalSubTypeId).LiquidPerGalPerAnimalPerDay;
+
+            var result = gallonsPerDay * birdsPerFlock * flocksPerYear * daysPerFlock;
 
             return Convert.ToInt32(result ?? 0);
         }

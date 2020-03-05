@@ -66,7 +66,6 @@ namespace SERVERAPI
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
             services.Configure<AppSettings>(Configuration);
-            //services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<AgriSeeder>();
 
             //// allow for large files to be uploaded
@@ -117,6 +116,7 @@ namespace SERVERAPI
                         opts.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
                         // ReferenceLoopHandling is set to Ignore to prevent JSON parser issues with the user / roles model.
                         opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                        opts.SerializerSettings.StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii;
                     });
 
             services.AddScoped<UserData>();
@@ -128,6 +128,7 @@ namespace SERVERAPI
             services.AddTransient<ICalculateManureGeneration, CalculateManureGeneration>();
             services.AddTransient<ICalculateNutrients, CalculateNutrients>();
             services.AddTransient<IChemicalBalanceMessage, ChemicalBalanceMessage>();
+            services.AddTransient<IFeedAreaCalculator, FeedAreaCalculator>();
             services.AddTransient<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
             services.AddTransient<IManureApplicationCalculator, ManureApplicationCalculator>();
             services.AddTransient<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
