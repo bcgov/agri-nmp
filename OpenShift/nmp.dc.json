@@ -236,7 +236,7 @@
                 "readinessProbe": {
                   "httpGet": {
                     "path": "/",
-                    "port": 500,
+                    "port": 5000,
                     "scheme": "HTTP"
                   },
                   "initialDelaySeconds": 120,
