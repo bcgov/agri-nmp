@@ -11,7 +11,7 @@ if [ "$DOTNET_ASPNET_STORE" != "false" ]; then
 fi
 
 # Private environment
-DOTNET_FRAMEWORK="netcoreapp3.1"
+DOTNET_FRAMEWORK="netcoreapp2.1"
 DOTNET_RID=rhel.7-x64
 
 # npm

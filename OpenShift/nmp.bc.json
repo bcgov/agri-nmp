@@ -1,128 +1,209 @@
 {
-  "kind": "Template",
-  "apiVersion": "v1",
-  "metadata": {
-    "name": "nmp",
-    "creationTimestamp": null
-  },
-  "labels": {
-    "template": "nmp"
-  },
-  "parameters": [
-    {
-      "name": "NAME",
-      "displayName": "Name",
-      "description": "The name or prefix for all created objects",
-      "required": true,
-      "value": "nmp"
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "nmp",
+        "creationTimestamp": null
     },
-    {
-      "name": "SUFFIX",
-      "displayName": "Name Suffix",
-      "description": "The name suffix for all created objects",
-      "required": true,
-      "value": ""
+    "labels": {
+        "template": "nmp"
     },
-    {
-      "name": "VERSION",
-      "displayName": "Tag Version",
-      "description": "Tag version for all created objects",
-      "required": true,
-      "value": ""
-    },
-    {
-      "name": "SOURCE_REPOSITORY_URL",
-      "displayName": "SOURCE_REPOSITORY_URL",
-      "description": "The suffix for all created objects",
-      "required": false,
-      "value": "https://github.com/bcgov/agri-nmp.git"
-    },
-    {
-      "name": "GIT_REF",
-      "value": "master"
-    }
-  ],
-  "objects": [
-    {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-web",
-        "generation": 1515,
-        "creationTimestamp": null,
-        "labels": {
-          "base-name": "${NAME}-web"
+    "parameters": [
+        {
+            "name": "NAME",
+            "displayName": "Name",
+            "description": "The name or prefix for all created objects",
+            "required": true,
+            "value": "nmp"
+        },
+        {
+            "name": "SUFFIX",
+            "displayName": "Name Suffix",
+            "description": "The name suffix for all created objects",
+            "required": true,
+            "value": ""
+        },
+        {
+            "name": "VERSION",
+            "displayName": "Tag Version",
+            "description": "Tag version for all created objects",
+            "required": true,
+            "value": ""
+        },
+        {
+            "name": "SOURCE_REPOSITORY_URL",
+            "displayName": "SOURCE_REPOSITORY_URL",
+            "description": "The suffix for all created objects",
+            "required": false,
+            "value": "https://github.com/bcgov/agri-nmp.git"
+        },{
+            "name": "GIT_REF",
+            "value": "master"
         }
-      }
-    },
-    {
-      "kind": "BuildConfig",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-web${SUFFIX}",
-        "creationTimestamp": null,
-        "labels": null
-      },
-      "spec": {
-        "triggers": [
-          {
-            "type": "ImageChange",
-            "imageChange": {}
-          },
-          {
-            "type": "ConfigChange"
-          }
-        ],
-        "runPolicy": "SerialLatestOnly",
-        "source": {
-          "type": "Git",
-          "git": {
-            "uri": "${SOURCE_REPOSITORY_URL}",
-            "ref": "${GIT_REF}"
-          },
-          "contextDir": "app"
+    ],
+    "objects": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${NAME}-web",
+                "generation": 1515,
+                "creationTimestamp": null,
+                "labels": {
+                    "base-name":"${NAME}-web"
+                }
+            }
         },
-        "strategy": {
-          "type": "Source",
-          "sourceStrategy": {
-            "from": {
-              "kind": "ImageStreamTag",
-              "name": "${NAME}-dotnet-31-rhel7:3.1"
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${NAME}-pdf",
+                "generation": 1283,
+                "creationTimestamp": null,
+                "labels": {
+                    "base-name":"${NAME}-pdf"
+                }
+            }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${NAME}-web${SUFFIX}",
+                "creationTimestamp": null,
+                "labels": null
             },
-            "env": [
-              {
-                "name": "BUILD_LOGLEVEL",
-                "value": "2"
-              },
-              {
-                "name": "DOTNET_STARTUP_PROJECT",
-                "value": "Server/src/SERVERAPI"
-              }
-            ]
-          }
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    },
+                    {
+                        "type": "ConfigChange"
+                    }
+                ],
+                "runPolicy": "SerialLatestOnly",
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "${SOURCE_REPOSITORY_URL}",
+                        "ref": "${GIT_REF}"
+                    },
+                    "contextDir": "app"
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": "${NAME}-dotnet-31-rhel7:3.1"
+                        },
+                        "env": [
+                            {
+                                "name": "BUILD_LOGLEVEL",
+                                "value": "2"
+                            },
+                            {
+                                "name": "DOTNET_STARTUP_PROJECT",
+                                "value": "Server/src/SERVERAPI"
+                            }
+                        ]
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "${NAME}-web:${VERSION}"
+                    }
+                },
+                "resources": {
+                    "requests": {
+                        "cpu": "500m",
+                        "memory": "2Gi"
+                    },
+                    "limits": {
+                        "cpu": "1000m",
+                        "memory": "4Gi"
+                    }                    
+                },
+                "postCommit": {},
+                "nodeSelector": null
+            },
+            "status": {
+                "lastVersion": 0
+            }
         },
-        "output": {
-          "to": {
-            "kind": "ImageStreamTag",
-            "name": "${NAME}-web:${VERSION}"
-          }
-        },
-        "resources": {
-          "requests": {
-            "cpu": "500m",
-            "memory": "2Gi"
-          },
-          "limits": {
-            "cpu": "1000m",
-            "memory": "4Gi"
-          }
-        },
-        "postCommit": {},
-        "nodeSelector": null
-      },
-      "status": {
-        "lastVersion": 0
-      }
-    }
-  ]
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${NAME}-pdf${SUFFIX}",
+                "creationTimestamp": null,
+                "labels": null
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    },
+                    {
+                        "type": "ConfigChange"
+                    }
+                ],
+                "runPolicy": "SerialLatestOnly",
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "${SOURCE_REPOSITORY_URL}",
+                        "ref": "${GIT_REF}"
+                    },
+                    "contextDir": "PDF"
+                },
+                "strategy": {
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": "${NAME}-dotnet-31-node:${VERSION}"
+                        },
+                        "env": [
+                            {
+                                "name": "BUILD_LOGLEVEL",
+                                "value": "3"
+                            },
+                            {
+                                "name": "DOTNET_STARTUP_PROJECT",
+                                "value": "src/PDF.Server/PDF.Server.csproj"
+                            }
+                        ],
+                        "incremental": false
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "${NAME}-pdf:${VERSION}"
+                    }
+                },
+                "resources": {
+                    "requests": {
+                        "cpu": "500m",
+                        "memory": "2Gi"
+                    },
+                    "limits": {
+                        "cpu": "1000m",
+                        "memory": "4Gi"
+                    }                    
+                },
+                "postCommit": {},
+                "nodeSelector": null
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        }
+    ]
 }
