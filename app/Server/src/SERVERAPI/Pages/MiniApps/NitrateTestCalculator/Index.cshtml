@@ -14,7 +14,7 @@
             <div class="form-box-body">
                 <div class="form-box-fields">
                     <div class="row">
-                        @Model.Data.NitrateTestCalculatorUserInstruction1
+                        @Model.Data.NitrateCalculatorUserInstruction1
                     </div>
                     <div class="row">
                         <div class="form-group col-sm-4">
@@ -24,7 +24,6 @@
                                         asp-items="@Model.Data.DepthOptions" id="ddlDepth">
                                     <option value="0">- select sampling depth -</option>
                                 </select>
-                                @*<span asp-validation-for="Data.SelectDepthOption" class=""></span>*@
                             </div>
                         </div>
                         <div class="form-group col-sm-3" style="padding-right:0px">
@@ -39,24 +38,22 @@
                         <div class="form-group col-sm-4">
                             <label>Results</label>
                             <div class="row">
-                                <input type="number" class="form-control col-sm-6" style="width:100px" />
+                                <input type="number" class="form-control col-sm-6" style="width:100px;pointer-events:none;background-color:#F5F5F5" />
                                 <div class="col-sm-6" style="padding-top:5px">
-                                    kg NO3-Nha-1
+                                    kg NO<sub>3</sub>-Nha<sup>-1</sup>
                                 </div>
-                                @* <span asp-validation-for="Data.ApplicationRate" class=""></span>*@
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-7">
                             &nbsp;
                         </div>
-                        @* <div class="col-sm-6">*@
-                        <button class="btn btn-primary col-sm-5" id="CalculateButton" data-save="razor-page-modal">
+                        <button class="btn btn-primary col-sm-3" id="CalculateButton" data-save="razor-page-modal">
                             Add another sample depth
                         </button>
-                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                        <a href="#" data-toggle="tooltip" id="toolTipExplainSampleDepth">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation for Sample Depth" style="font-size:20px; padding-top:5px"></span>
                         </a>
                     </div>
                     <div class="row">
@@ -66,9 +63,9 @@
                         <div class="form-box-heading col-sm-2">
                             Total for field
                         </div>
-                        <input type="number" class="form-control col-sm-2" style="width:50px" />
+                        <input type="number" class="form-control col-sm-2" style="width:50px;pointer-events:none;background-color:#F5F5F5" />
                         <div class="col-sm-2" style="padding-top:5px">
-                            kg NO3-Nha-1
+                            kg NO<sub>3</sub>-Nha<sup>-1</sup>
                         </div>
                     </div>
                 </div>
@@ -80,7 +77,7 @@
     <div class="step-forms col-sm-12">
         <div class="form-box" style="border:0px !important;">
             <div class="row">
-                @Model.Data.NitrateTestCalculatorUserInstruction2
+                @Model.Data.NitrateCalculatorUserInstruction2
             </div>
             <div class="row">
                 &nbsp;
@@ -102,5 +99,20 @@
 
 @section Scripts{
     <script>
+        
+        $(document).ready(function() {
+            $('#toolTipExplainSampleDepth').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function() {
+            $('#toolTipExplainSampleDepth').click(function() {
+                triggerToolTip($('#toolTipExplainSampleDepth   '));
+            });
+        })
     </script>
 }
