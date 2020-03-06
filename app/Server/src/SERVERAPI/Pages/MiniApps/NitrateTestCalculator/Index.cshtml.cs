@@ -34,9 +34,15 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
         {
             if (Data.PostedElementEvent == "DepthChange")
             {
-                if (Data.nitrateTestAnalysis[0].SelectDepthOption == "2")
+                ModelState.Clear();
+                Data.PostedElementEvent = "none";
+                if (Data.nitrateTestAnalysis[0].SelectDepthOption == "3")
                 {
-                    Data.isNotShowButton = false;
+                    Data.isNotShowButton = true;
+                    if (Data.nitrateTestAnalysis.Count == 2)
+                    {
+                        Data.nitrateTestAnalysis.RemoveAt(1);
+                    }
                 }
             }
             else
@@ -49,8 +55,6 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                     Data.nitrateTestAnalysis.Add(new NitrateTest { Id = newId });
                     Data.isNotShowButton = true;
                 }
-                
-                
             }
             Data = await _mediator.Send(new Query { PopulatedData = Data });
             return Page();
@@ -118,7 +122,15 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                 }
                 foreach (var nitrateTest in command.nitrateTestAnalysis)
                 {
-                    nitrateTest.DepthOptions = new SelectList(_sd.GetDepths().Where(x => x.Id != 2), "Id", "Value");
+                    if (nitrateTest.Id != 2)
+                    {
+                        nitrateTest.DepthOptions = new SelectList(_sd.GetDepths().Where(x => x.Id != 2), "Id", "Value");
+                    }
+                    else
+                    {
+                        nitrateTest.DepthOptions = new SelectList(_sd.GetDepths().Where(x => x.Id == 2), "Id", "Value");
+                        nitrateTest.SelectDepthOption = "2";
+                    }
                 }
                 command.isNotShowButton = command.isNotShowButton ? command.isNotShowButton : false;
                 var details = _sd.GetNitrateCalculatorDetails();

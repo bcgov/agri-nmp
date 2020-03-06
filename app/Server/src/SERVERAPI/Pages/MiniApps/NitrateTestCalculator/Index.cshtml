@@ -25,7 +25,7 @@
                                     <label>Sample @Model.Data.nitrateTestAnalysis[i].Id</label>
                                     <div>
                                         <select class="form-control" asp-for="@Model.Data.nitrateTestAnalysis[i].SelectDepthOption"
-                                                asp-items="@Model.Data.nitrateTestAnalysis[i].DepthOptions" onchange="comboDepthChange()" id="ddlDepth">
+                                                asp-items="@Model.Data.nitrateTestAnalysis[i].DepthOptions" onchange="comboDepthChange()">
                                             <option value="0">- select sampling depth -</option>
                                         </select>
                                         @*<span asp-validation-for="Data.SelectDepthOption" class=""></span>*@
@@ -67,6 +67,7 @@
                                 </a>
                             </div>
                         }
+                        @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
                         <div class="row">
                             <div class="col-sm-6">
                                 &nbsp;
@@ -108,7 +109,6 @@
         </div>
     </div>
 </div>
-@Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
 
 @section Scripts{
     <script>
