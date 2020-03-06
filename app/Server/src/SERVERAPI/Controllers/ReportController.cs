@@ -517,45 +517,44 @@ namespace SERVERAPI.Controllers
                 var request = HttpContext.Request;
                 string scheme = request.Scheme;
                 string host = request.Host.ToString();
-                string imgLoc = scheme + "://" + host + "/images/{0}.svg";
 
                 rf.alertMsgs = _chemicalBalanceMessage.DetermineBalanceMessages(f, _ud.FarmDetails().FarmRegion.Value, _ud.FarmDetails().Year);
 
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN") != null)
                 {
                     rf.alertN = true;
-                    rf.iconAgriN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN").Icon);
+                    rf.iconAgriN = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrP2O5") != null)
                 {
                     rf.alertP = true;
-                    rf.iconAgriP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrP2O5").Icon);
+                    rf.iconAgriP = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrP2O5").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrK2O") != null)
                 {
                     rf.alertK = true;
-                    rf.iconAgriK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrK2O").Icon);
+                    rf.iconAgriK = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrK2O").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN") != null)
                 {
                     rf.alertN = true;
-                    rf.iconCropN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN").Icon);
+                    rf.iconCropN = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5") != null)
                 {
                     rf.alertP = true;
-                    rf.iconCropP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5").Icon);
+                    rf.iconCropP = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O") != null)
                 {
                     rf.alertK = true;
-                    rf.iconCropK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon);
+                    rf.iconCropK = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon.Replace(" ", "-");
                 }
 
-                //replace icon type with actual icon url for screen processing
-                foreach (var i in rf.alertMsgs)
+                //replace icon space in name with a dash
+                foreach (var i in rf.alertMsgs.Where(m => m.Icon != null))
                 {
-                    i.Icon = string.Format(imgLoc, i.Icon);
+                    i.Icon = i.Icon.Replace(" ", "-");
                 }
 
                 rvm.fields.Add(rf);
@@ -894,8 +893,7 @@ namespace SERVERAPI.Controllers
             var request = HttpContext.Request;
             string scheme = request.Scheme;
             string host = request.Host.ToString();
-            string imgLoc = scheme + "://" + host + "/images/dollar warning.svg";
-            romssvm.imageurl = imgLoc;
+            romssvm.ImageClass = "dollar-warning";
 
             var yearData = _ud.GetYearData();
 
@@ -1883,13 +1881,11 @@ namespace SERVERAPI.Controllers
 
         public async Task<FileContentResult> PrintReportAsync(string content, bool portrait)
         {
-            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
-            //string targetUrl = pdfHost + "/api/PDF/BuildPDF";
-            //var pdfHost = Environment.GetEnvironmentVariable("WEASYPRINT_URL");
-            string targetUrl = "http://127.0.0.1:5001/pdf";
+            var pdfHost = Environment.GetEnvironmentVariable("WEASYPRINT_URL");
+            string targetUrl = $"{pdfHost}/pdf";
             FileContentResult result;
 
-            // call the microservice
+            // call weasy print
             try
             {
                 string reportHeader = await RenderHeader();
@@ -1900,25 +1896,62 @@ namespace SERVERAPI.Controllers
                     content +
                     "</body></html>";
 
+                //string rawdata = "<!DOCTYPE html>" +
+                //    @"<html lang=""en"">" +
+                //    reportHeader +
+                //    @"<body><table>
+                //    <thead><tr><th><div class=""header-space"">&nbsp;</div></th><tr></thead>
+                //    <tbody><tr><td><div>" + content + @"</div></td></tr></tbody>
+                //    <tfoot><tr><td><div class=""footer-space"">&nbsp;</div></td></tr></tfoot>
+                //    </table>
+                //    </body></html>";
+                //@"<body>
+                //        <table>
+                //            <tr><td><div class=""content"">" + content + @"</div></td></tr>
+                //        </table>
+                //    </body></html>";
+
+                //@"<body>
+                //            <table>
+                //                <thead><tr><td><div class=""header-space"">&nbsp;</div></td ><tr></thead>
+                //                <tbody><tr><td><div class=""content"">" + content + @"</div></td></tr></tbody>
+                //                <tfoot><tr><td><div class=""footer-space"">&nbsp;</div></td></tr></tfoot>
+                //            </table>
+                //        </body>
+                //    </html>";
+
+                //string rawdata = "<!DOCTYPE html>" +
+                //    "<html>" +
+                //        reportHeader +
+                //        "<body>" +
+                //    @"<table>
+                //            <thead>
+                //                <tr><td>
+                //                    <div class=""header-space"">&nbsp;</div>
+                //                </td ><tr>
+                //            </thead>
+                //            <tbody>
+                //                <tr><td>
+                //                    <div class=""content"">" + content + @"</div>
+                //                </td></tr>
+                //            </tbody>
+                //            <tfoot><tr><td>
+                //            <div class=""footer-space"">&nbsp;</div>
+                //            </td></tr></tfoot>
+                //        </table>" +
+                //    "</body></html>";
+
                 string payload = rawdata;
 
-                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-                request.Content = new StringContent(payload, Encoding.UTF8, "application/x-www-form-urlencoded");
+                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl)
+                {
+                    Content = new StringContent(payload, Encoding.UTF8, "text/html")
+                };
 
                 request.Headers.Clear();
-                // transfer over the request headers.
-                foreach (var item in Request.Headers)
-                {
-                    string key = item.Key;
-                    string value = item.Value;
-                    request.Headers.Add(key, value);
-                }
 
                 var client = new HttpClient();
-                var responseTask = client.SendAsync(request);
-                responseTask.Wait();
-
-                HttpResponseMessage response = responseTask.Result;
+                var response = await client.SendAsync(request);
 
                 ViewBag.StatusCode = response.StatusCode.ToString();
 
@@ -1931,8 +1964,7 @@ namespace SERVERAPI.Controllers
                 }
                 else
                 {
-                    string errorMsg = "Url: " + targetUrl + "\r\n" +
-                                      "Result: " + response.ToString();
+                    string errorMsg = "Url: " + targetUrl + "\r\n" + "Result: " + response.ToString();
                     result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
                 }
             }

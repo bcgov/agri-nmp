@@ -1,131 +1,133 @@
 ﻿@model SERVERAPI.ViewModels.ReportOctoberToMarchStorageSummaryViewModel
-@if(Model.storages.Count >0)
+@if (Model.storages.Count > 0)
 {
-<div style="page-break-inside:avoid">
-    <div class="Row">
-        <div class="Cell">
-            <span style="font-size:10pt"><b>Liquid Storage Capacity: October to March</b></span>
-            <br />
-            <br />
-        </div>
-    </div>
-    @foreach (var s in Model.storages)
-    {
+    <div style="page-break-inside:avoid">
         <div class="Row">
             <div class="Cell">
-                <table style="border-collapse: collapse;width: 100%;page-break-inside:avoid;">
-                    <tr style="padding-top:20px; padding-bottom:20px;">
-                        <td class="CellHdg">
-                            @s.storageName
-                        </td>
-                        <td colspan="2" class="CellHdg" style="text-align:center">
-                            October to March volume
-                        </td>
-                    </tr>
-                    @if (@s.isThereSolidLiquidSeparation == true)
-                    {
-                        <tr>
-                            <td class="CellDtl" style="text-align:left;width:40%;padding-left:30px;">Materials Generated or Imported</td>
-                            <td class="CellDtl" style="text-align:right;width:40%">@s.materialsGeneratedImported</td>
-                            <td class="CellDtl" style="text-align:left;width:20%">US gallons</td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Yard/Roof Runoff</td>
-                            <td class="CellDtl" style="text-align:right">@s.yardRunoff</td>
-                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="font-weight:bold">Material Stored (October to March)</td>
-                            <td class="CellDtl" style="text-align:right;font-weight:bold"></td>
-                            <td class="CellDtl" style="text-align:left;font-weight:bold"></td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Materials Stored (after Solid/Liquid Separation)</td>
-                            <td class="CellDtl" style="text-align:right">@s.materialsStoredAfterSLSeparaton</td>
-                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Precipitation, Direct into Storage</td>
-                            <td class="CellDtl" style="text-align:right">@s.precipitationIntoStorage</td>
-                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="text-align:left;padding-left:30px;font-weight:bold">Total Stored
+                <span style="font-size:10pt"><b>Liquid Storage Capacity: October to March</b></span>
+                <br />
+                <br />
+            </div>
+        </div>
+        @foreach (var s in Model.storages)
+        {
+            <div class="Row">
+                <div class="Cell">
+                    <table style="border-collapse: collapse;width: 100%;page-break-inside:avoid;">
+                        <tr style="padding-top:20px; padding-bottom:20px;">
+                            <td class="CellHdg">
+                                @s.storageName
                             </td>
-                            <td class="CellDtl" style="text-align:right;font-weight:bold">@s.totalStored</td>
-                            <td class="CellDtl" style="text-align:left;font-weight:bold">
-                                US gallons
-                                @if (s.isThereDeficitOfStorageVolume)
-                                {
-                                    <img src="@Html.Raw(Model.imageurl)" height='10' width='10'/>
-                                }
+                            <td colspan="2" class="CellHdg" style="text-align:center">
+                                October to March volume
                             </td>
                         </tr>
-                        <tr>
-                            <td class="CellDtl" style="font-weight:bold">Storage Volume</td>
-                            <td class="CellDtl" style="text-align:right;font-weight:bold">@s.storageVolume</td>
-                            <td class="CellDtl" style="text-align:left;font-weight:bold">US gallons</td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <td class="CellDtl" style="font-weight:bold;width:40%">Material Stored (October to March)</td>
-                            <td class="CellDtl" style="text-align:right;width:40%;font-weight:bold"></td>
-                            <td class="CellDtl" style="text-align:left;width:20%; font-weight:bold"></td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Materials Generated or Imported</td>
-                            <td class="CellDtl" style="text-align:right">@s.materialsGeneratedImported</td>
-                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Yard/Roof Runoff</td>
-                            <td class="CellDtl" style="text-align:right">@s.yardRunoff</td>
-                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="text-align:left;padding-left:30px;">Precipitation, Direct into Storage</td>
-                            <td class="CellDtl" style="text-align:right">@s.precipitationIntoStorage</td>
-                            <td class="CellDtl" style="text-align:left; ">US gallons</td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="text-align:left;padding-left:30px;font-weight:bold">
-                                Total Stored
-                            </td>
-                            <td class="CellDtl" style="text-align:right;font-weight:bold">@s.totalStored</td>
-                            <td class="CellDtl" style="text-align:left;font-weight:bold">US gallons</td>
-                        </tr>
-                        <tr>
-                            <td class="CellDtl" style="font-weight:bold">Storage Volume</td>
-                            <td class="CellDtl" style="text-align:right;font-weight:bold">@s.storageVolume</td>
-                            <td class="CellDtl" style="text-align:left; font-weight:bold">US gallons
-                                @if (s.isThereDeficitOfStorageVolume)
-                                {
-                                    <img src="@Html.Raw(Model.imageurl)" height='10' width='10'/>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </table>
-                @if (Model.footnotes.Count() > 0)
-                {
-                    <br/>
-                    <br/>
-                    <table>
-                        @foreach (var fn in @Model.footnotes)
+                        @if (@s.isThereSolidLiquidSeparation == true)
                         {
                             <tr>
-                                <td class="CellDtlNBd" style="padding: 0px">
-                                    <img src="@Html.Raw(Model.imageurl)" height='10' width='10'/> &nbsp;&nbsp; @fn.message
+                                <td class="CellDtl" style="text-align:left;width:40%;padding-left:30px;">Materials Generated or Imported</td>
+                                <td class="CellDtl" style="text-align:right;width:40%">@s.materialsGeneratedImported</td>
+                                <td class="CellDtl" style="text-align:left;width:20%">US gallons</td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="text-align:left;padding-left:30px;">Yard/Roof Runoff</td>
+                                <td class="CellDtl" style="text-align:right">@s.yardRunoff</td>
+                                <td class="CellDtl" style="text-align:left; ">US gallons</td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="font-weight:bold">Material Stored (October to March)</td>
+                                <td class="CellDtl" style="text-align:right;font-weight:bold"></td>
+                                <td class="CellDtl" style="text-align:left;font-weight:bold"></td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="text-align:left;padding-left:30px;">Materials Stored (after Solid/Liquid Separation)</td>
+                                <td class="CellDtl" style="text-align:right">@s.materialsStoredAfterSLSeparaton</td>
+                                <td class="CellDtl" style="text-align:left; ">US gallons</td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="text-align:left;padding-left:30px;">Precipitation, Direct into Storage</td>
+                                <td class="CellDtl" style="text-align:right">@s.precipitationIntoStorage</td>
+                                <td class="CellDtl" style="text-align:left; ">US gallons</td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="text-align:left;padding-left:30px;font-weight:bold">
+                                    Total Stored
+                                </td>
+                                <td class="CellDtl" style="text-align:right;font-weight:bold">@s.totalStored</td>
+                                <td class="CellDtl" style="text-align:left;font-weight:bold">
+                                    US gallons
+                                    @if (s.isThereDeficitOfStorageVolume)
+                                    {
+                                        <img class="img-@Html.Raw(Model.ImageClass)" height='10' width='10' />
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="font-weight:bold">Storage Volume</td>
+                                <td class="CellDtl" style="text-align:right;font-weight:bold">@s.storageVolume</td>
+                                <td class="CellDtl" style="text-align:left;font-weight:bold">US gallons</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td class="CellDtl" style="font-weight:bold;width:40%">Material Stored (October to March)</td>
+                                <td class="CellDtl" style="text-align:right;width:40%;font-weight:bold"></td>
+                                <td class="CellDtl" style="text-align:left;width:20%; font-weight:bold"></td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="text-align:left;padding-left:30px;">Materials Generated or Imported</td>
+                                <td class="CellDtl" style="text-align:right">@s.materialsGeneratedImported</td>
+                                <td class="CellDtl" style="text-align:left; ">US gallons</td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="text-align:left;padding-left:30px;">Yard/Roof Runoff</td>
+                                <td class="CellDtl" style="text-align:right">@s.yardRunoff</td>
+                                <td class="CellDtl" style="text-align:left; ">US gallons</td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="text-align:left;padding-left:30px;">Precipitation, Direct into Storage</td>
+                                <td class="CellDtl" style="text-align:right">@s.precipitationIntoStorage</td>
+                                <td class="CellDtl" style="text-align:left; ">US gallons</td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="text-align:left;padding-left:30px;font-weight:bold">
+                                    Total Stored
+                                </td>
+                                <td class="CellDtl" style="text-align:right;font-weight:bold">@s.totalStored</td>
+                                <td class="CellDtl" style="text-align:left;font-weight:bold">US gallons</td>
+                            </tr>
+                            <tr>
+                                <td class="CellDtl" style="font-weight:bold">Storage Volume</td>
+                                <td class="CellDtl" style="text-align:right;font-weight:bold">@s.storageVolume</td>
+                                <td class="CellDtl" style="text-align:left; font-weight:bold">
+                                    US gallons
+                                    @if (s.isThereDeficitOfStorageVolume)
+                                    {
+                                        <img class="img-@Html.Raw(Model.ImageClass)" height='10' width='10' />
+                                    }
                                 </td>
                             </tr>
                         }
                     </table>
-                }
+                    @if (Model.footnotes.Count() > 0)
+                    {
+                        <br />
+                        <br />
+                        <table>
+                            @foreach (var fn in @Model.footnotes)
+                            {
+                                <tr>
+                                    <td class="CellDtlNBd" style="padding: 0px">
+                                        <img class="img-@Html.Raw(Model.ImageClass)" height='10' width='10' /> &nbsp;&nbsp; @fn.message
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    }
+                </div>
             </div>
-        </div>
-        <br/>
-    }
-</div>
+            <br />
+        }
+    </div>
 }
