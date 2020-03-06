@@ -1,0 +1,27 @@
+﻿@model ReportViewModel
+<table>
+    <thead>
+        <tr>
+            <td>
+                <div class="header-space">&nbsp;</div>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <div class="content">@Html.Raw(Model.Body)</div>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                <div class="footer-space">&nbsp;</div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+<div class="header">...</div>
+<div class="footer">@Html.Raw(Model.RepeatFooter)</div>
