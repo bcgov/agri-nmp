@@ -39,7 +39,7 @@
                 }
 
                 @if (Model.fldsFnd > 1 &&
-               Model.itemsPresent)
+             Model.itemsPresent)
                 {
                     <div>&nbsp;</div>
                     <button class="btn btn-default" type="button" style="width:90px" data_modal3="" data-type="@Url.Action("FieldCopy", "Fields", new { currFld = Model.currFld })">Copy field</button>
@@ -82,6 +82,9 @@
                                     {
                                         <div class="TableBody" id="crop">
                                             @await Component.InvokeAsync("CalcCrops", new { fldName = Model.currFld })
+                                        </div>
+                                        <div class="TableBody" id="crop">
+                                            @await Component.InvokeAsync("CalcFeedArea", new { fldName = Model.currFld })
                                         </div>
                                         <div class="TableBody" id="manure">
                                             @await Component.InvokeAsync("CalcManure", new { fldName = Model.currFld })
@@ -449,10 +452,10 @@
 
     function current() {
         $("#fieldList li a").each(function () {
-            if ($(this).text() == $("#currFld").val()) {
+            if ($(this).text().trim() == $("#currFld").val()) {
                 $(this).addClass('btn-field-selected');
             }
-            if ($(this).text() == "*" + $("#currFld").val()) {
+            if ($(this).text().trim() == "*" + $("#currFld").val()) {
                 $(this).addClass('btn-field-selected');
             }
         });

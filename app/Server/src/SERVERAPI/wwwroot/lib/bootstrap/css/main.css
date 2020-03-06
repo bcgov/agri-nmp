@@ -2235,3 +2235,10 @@ h5.twitterUserName a{
 .alert-danger {
     color: #d2322d;
 }
+
+.mb-0 .collapse-title::after {
+    content: "\f107";
+    top: -2px;
+    right: 0px;
+    position: absolute;
+}

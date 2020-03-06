@@ -60,6 +60,9 @@
                     <span asp-validation-for="Moisture" class="text-danger"></span>
                 </div>
                 }
+
+                @if (Model.ShowIsMaterialStored)
+                {
                 <div class="col-sm-2" style="padding-right: 0;">
                     <label id="IsMaterialStoredLabel">@Model.IsMaterialStoredLabelText</label>
                     <div class="form-group" role="radiogroup" aria-labelledby="IsMaterialStoredLabel">
@@ -71,6 +74,7 @@
                         </label>
                     </div>
                 </div>
+                }
             </div>
         </div>
         <div class="modal-footer">

@@ -69,6 +69,10 @@
             {
                 disabledFields = "none";
             }
+            else
+            {
+                disabledFields = "auto";
+            }
             <div class="row">
                 <div class="form-group col-sm-4 row" style="pointer-events:@disabledFields">
 
@@ -103,8 +107,8 @@
                     </div>
                     <span class="col-sm-10">
                         &nbsp;%&nbsp;of total feed/forage provided to animals
-                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                        <a href="#!" data-toggle="tooltip" title="@Model.Data.ExplainFeedForageProvided" id="toolTipExplainFeedForageProvided">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="% of total feed/forage provided to animals" style="font-size:20px; padding-top:5px"></span>
                         </a>
                     </span>
                     <span asp-validation-for="Data.FeedForageAnalyses[i].PercentOfTotalFeedForageToAnimals"></span>
@@ -116,7 +120,7 @@
                     </div>
                     <span class="col-sm-10">
                         &nbsp;%&nbsp;feed/forage wastage
-                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
+                        <a href="#!" data-toggle="tooltip" title="@Model.Data.ExplainFeedForageWastage" id="toolTipExplainFeedForageWastage">
                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                         </a>
                     </span>
@@ -149,6 +153,8 @@
     @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
     @Html.HiddenFor(x => x.Data.FieldName)
     @Html.HiddenFor(x => x.Data.FeedingAreaWarning)
+    @Html.HiddenFor(x => x.Data.ExplainFeedForageProvided)
+    @Html.HiddenFor(x => x.Data.ExplainFeedForageWastage)
 </form>
 
 @section Scripts {
@@ -182,6 +188,36 @@
         $(document).ready(function () {
             $('#toolTipDailyFeedWarning').click(function () {
                 triggerToolTip($('#toolTipDailyFeedWarning'));
+            });
+        })
+
+        $(document).ready(function () {
+            $('#toolTipExplainFeedForageProvided').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipExplainFeedForageProvided').click(function () {
+                triggerToolTip($('#toolTipExplainFeedForageProvided'));
+            });
+        })
+
+        $(document).ready(function () {
+            $('#toolTipExplainFeedForageWastage').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipExplainFeedForageWastage').click(function () {
+                triggerToolTip($('#toolTipExplainFeedForageWastage'));
             });
         })
     </script>

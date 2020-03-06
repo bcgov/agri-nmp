@@ -53,7 +53,8 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
         public class Model
         {
             public List<Field> Fields { get; set; }
-            public string FeedingAreaWarning { get; set; }
+
+            public string ExplainFeedArea { get; set; }
 
             public class Field
             {
@@ -104,20 +105,16 @@ namespace SERVERAPI.Pages.Ranch.RanchFeeding
                     {
                         var calculatedValue = calculatedFields.Single(f => f.Id == field.Id);
                         calculatedValue.NBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
-                        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field, region);
-                        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field, region);
+                        calculatedValue.P205Balance = _feedCalculator.GetP205AgronomicBalance(field);
+                        calculatedValue.K20Balance = _feedCalculator.GetK20AgronomicBalance(field);
                         calculatedValue.isFeedForageAvailable = true;
-                        ////HardCode to check
-                        //calculatedValue.NBalance = 10;
-                        //calculatedValue.P205Balance = 20;
-                        //calculatedValue.K20Balance = 30;
                     }
                 }
 
                 return Task.FromResult(new Model
                 {
                     Fields = calculatedFields,
-                    FeedingAreaWarning = _sd.GetUserPrompt("FeedingAreaWarning")
+                    ExplainFeedArea = _sd.GetUserPrompt("ExplainFeedArea-Ranch")
                 });
             }
         }

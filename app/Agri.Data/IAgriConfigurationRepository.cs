@@ -59,6 +59,8 @@ namespace Agri.Data
 
         List<KeyValuePair<string, string>> GetSoilConverterDetails();
 
+        List<KeyValuePair<string, string>> GetManureNutrientCalculatorDetails();
+
         List<DryMatter> GetDryMatters();
 
         List<Region> GetRegions();
