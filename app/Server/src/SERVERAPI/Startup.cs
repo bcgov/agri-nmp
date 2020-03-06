@@ -156,13 +156,11 @@ namespace SERVERAPI
             app.UseResponseCompression();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            //app.UseMvcWithDefaultRoute();
 
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                //endpoints.MapControllers();
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
 
