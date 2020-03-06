@@ -22,10 +22,10 @@
 <br />
 
 <div class="container">
-    <div id="overlay" style="display: none;"></div>
-    <div class="step-forms col-sm-12" style="text-align:left">
-        <!-- PAGE CONTENT -->
-        <form asp-controller="Report" asp-action="Report" method="post">
+    <form asp-controller="Report" asp-action="Report" method="post">
+        <div id="overlay" style="display: none;"></div>
+        <div class="step-forms col-sm-12" style="text-align:left">
+            <!-- PAGE CONTENT -->
             @if (!string.IsNullOrEmpty(Model.MaterialsRemainingMessage))
             {
                 <div class="form-box-fields">
@@ -92,7 +92,7 @@
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.materialsNotStoredMessage))
+            @if (!string.IsNullOrEmpty(Model.MaterialsNotStoredMessage))
             {
                 <div class="form-box-fields">
                     <div class="row">
@@ -100,7 +100,7 @@
                             <div class="form-box" style="margin:0px auto 0px">
                                 <div class="form-box-header clearfix">
                                     <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
-                                    <span style="display:inline; font-size:17px">@Html.Raw(Model.materialsNotStoredMessage)</span>
+                                    <span style="display:inline; font-size:17px">@Html.Raw(Model.MaterialsNotStoredMessage)</span>
                                     <ul>
                                         @foreach (var manure in Model.UnallocatedManures)
                                         {
@@ -116,7 +116,7 @@
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.noCropsMsg))
+            @if (!string.IsNullOrEmpty(Model.NoCropsMsg))
             {
                 <div class="form-box-fields">
                     <div class="row">
@@ -125,7 +125,7 @@
                                 <div class="form-box-header clearfix">
                                     <div>
                                         <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
-                                        <span style="display:inline; font-size:17px">@Html.Raw(Model.noCropsMsg)</span>
+                                        <span style="display:inline; font-size:17px">@Html.Raw(Model.NoCropsMsg)</span>
                                     </div>
                                 </div>
                             </div>
@@ -133,6 +133,8 @@
                     </div>
                 </div>
             }
+        </div>
+        <div class="step-forms col-sm-12" style="text-align:center">
 
             <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
                 <div class="form-box-header clearfix" style="text-align:center">
@@ -172,7 +174,7 @@
                 <div class="Table">
                     <div class="Row">
                         <div class="Cell" style="text-align:left">
-                            @Html.Raw(Model.downloadMsg)
+                            @Html.Raw(Model.DownloadMsg)
                         </div>
                     </div>
                     <div class="Row" style="padding-bottom:30px">
@@ -195,14 +197,14 @@
             <br />
             <div class="form-box-submit">
                 <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href = '@Url.Action("Calculate", "Nutrients")';" title="Previous" aria-label="Previous" />
-                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="Intercept('@Model.url');ResetWarning();" title="Finish" aria-label="Finish" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="Intercept('@Model.Url');ResetWarning();" title="Finish" aria-label="Finish" />
             </div>
-            @Html.HiddenFor(x => x.unsavedData)
-            @Html.HiddenFor(x => x.url)
-            @Html.HiddenFor(x => x.downloadMsg)
-            @Html.HiddenFor(x => x.loadMsg)
-        </form>
-    </div>
+            @Html.HiddenFor(x => x.UnsavedData)
+            @Html.HiddenFor(x => x.Url)
+            @Html.HiddenFor(x => x.DownloadMsg)
+            @Html.HiddenFor(x => x.LoadMsg)
+        </div>
+    </form>
 </div>
 @section Scripts {
     <script type="text/javascript">
