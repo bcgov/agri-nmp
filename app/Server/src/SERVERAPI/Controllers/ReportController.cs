@@ -92,8 +92,8 @@ namespace SERVERAPI.Controllers
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
             ReportViewModel rvm = new ReportViewModel();
-            rvm.unsavedData = farmData.unsaved;
-            rvm.url = _sd.GetExternalLink("finishpagetarget");
+            rvm.UnsavedData = farmData.unsaved;
+            rvm.Url = _sd.GetExternalLink("finishpagetarget");
 
             List<Field> fldLst = _ud.GetFields();
 
@@ -115,7 +115,7 @@ namespace SERVERAPI.Controllers
 
             if (!cropFound)
             {
-                rvm.noCropsMsg = _sd.GetUserPrompt("nocropmessage");
+                rvm.NoCropsMsg = _sd.GetUserPrompt("nocropmessage");
             }
 
             rvm.GeneratedManures = _ud.GetGeneratedManures();
@@ -123,7 +123,7 @@ namespace SERVERAPI.Controllers
 
             if (rvm.UnallocatedManures.Count > 0)
             {
-                rvm.materialsNotStoredMessage = _sd.GetUserPrompt("materialsNotStoredMessage");
+                rvm.MaterialsNotStoredMessage = _sd.GetUserPrompt("materialsNotStoredMessage");
             }
 
             if (fldLst.Count() > 0)
@@ -181,8 +181,8 @@ namespace SERVERAPI.Controllers
                 }
             }
 
-            rvm.downloadMsg = string.Format(_sd.GetUserPrompt("reportdownload"), Url.Action("DownloadMessage", "Home"));
-            rvm.loadMsg = _sd.GetUserPrompt("reportload");
+            rvm.DownloadMsg = string.Format(_sd.GetUserPrompt("reportdownload"), Url.Action("DownloadMessage", "Home"));
+            rvm.LoadMsg = _sd.GetUserPrompt("reportload");
 
             return View(rvm);
         }
