@@ -41,7 +41,6 @@ namespace SERVERAPI.Controllers
     public class ReportController : BaseController
     {
         private readonly ILogger<ReportController> _logger;
-        private readonly IHostingEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
         private readonly IMapper _mapper;
@@ -55,7 +54,6 @@ namespace SERVERAPI.Controllers
         private readonly IFeedAreaCalculator _feedCalculator;
 
         public ReportController(ILogger<ReportController> logger,
-            IHostingEnvironment env,
             IViewRenderService viewRenderService,
             UserData ud,
             IAgriConfigurationRepository sd,
@@ -70,7 +68,6 @@ namespace SERVERAPI.Controllers
             )
         {
             _logger = logger;
-            _env = env;
             _ud = ud;
             _sd = sd;
             _mapper = mapper;
@@ -1632,17 +1629,6 @@ namespace SERVERAPI.Controllers
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportFonts.cshtml", rvm);
 
             return result;
-        }
-
-        public async Task<FileContentResult> BuildPDF(INodeServices nodeServices, PDFRequest rawdata)
-        {
-            JObject options = JObject.Parse(rawdata.options);
-            JSONResponse result = null;
-
-            // execute the Node.js component to generate a PDF
-            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
-
-            return new FileContentResult(result.data, "application/pdf");
         }
 
         public async Task<IActionResult> PrintFields()

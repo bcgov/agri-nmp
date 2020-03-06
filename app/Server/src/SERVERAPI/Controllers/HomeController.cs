@@ -45,14 +45,14 @@ namespace SERVERAPI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
         private readonly BrowserData _bd;
         private readonly IOptions<AppSettings> _appSettings;
 
         public HomeController(ILogger<HomeController> logger,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             UserData ud,
             IAgriConfigurationRepository sd,
             BrowserData bd,
@@ -295,24 +295,6 @@ namespace SERVERAPI.Controllers
                 result = null;
                 _logger.LogError(e, "Print Exception");
             }
-
-            return result;
-        }
-
-        private async Task<JSONResponse> BuildReport(INodeServices nodeServices)
-        {
-            JSONResponse result = null;
-            var options = new { format = "letter", orientation = "landscape" };
-
-            var opts = new
-            {
-                orientation = "landscape",
-            };
-
-            string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
-
-            // execute the Node.js component
-            result = await nodeServices.InvokeAsync<JSONResponse>("pdf.js", rawdata, options);
 
             return result;
         }
