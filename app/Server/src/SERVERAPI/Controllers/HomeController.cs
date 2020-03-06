@@ -299,24 +299,6 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
-        private async Task<JSONResponse> BuildReport(INodeServices nodeServices)
-        {
-            JSONResponse result = null;
-            var options = new { format = "letter", orientation = "landscape" };
-
-            var opts = new
-            {
-                orientation = "landscape",
-            };
-
-            string rawdata = "<!DOCTYPE html><html><head><meta charset='utf-8' /><title></title></head><body><div style='width: 100%; background-color:lightgreen'>Section 1</div><br><div style='page -break-after:always; '></div><div style='width: 100%; background-color:lightgreen'>Section 2</div></body></html>";
-
-            // execute the Node.js component
-            result = await nodeServices.InvokeAsync<JSONResponse>("pdf.js", rawdata, options);
-
-            return result;
-        }
-
         public void LoadStatic()
         {
             var assembly = Assembly.GetEntryAssembly();

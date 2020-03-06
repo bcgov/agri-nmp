@@ -1631,17 +1631,6 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
-        public async Task<FileContentResult> BuildPDF(INodeServices nodeServices, PDFRequest rawdata)
-        {
-            JObject options = JObject.Parse(rawdata.options);
-            JSONResponse result = null;
-
-            // execute the Node.js component to generate a PDF
-            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
-
-            return new FileContentResult(result.data, "application/pdf");
-        }
-
         public async Task<IActionResult> PrintFields()
         {
             FileContentResult result = null;

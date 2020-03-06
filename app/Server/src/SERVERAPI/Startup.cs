@@ -84,9 +84,6 @@ namespace SERVERAPI
                 options.IdleTimeout = TimeSpan.FromHours(4);
             });
 
-            // Enable Node Services
-            services.AddNodeServices();
-
             //Automapper
             services.AddAutoMapper(typeof(Startup));
             //Mediatr
