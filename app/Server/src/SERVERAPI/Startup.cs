@@ -131,7 +131,6 @@ namespace SERVERAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             var cultureInfo = new CultureInfo("en-US");
             cultureInfo.NumberFormat.CurrencySymbol = "$";
 
@@ -140,6 +139,17 @@ namespace SERVERAPI
 
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error/Error");
+            }
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseSession();
             app.UseResponseCompression();
