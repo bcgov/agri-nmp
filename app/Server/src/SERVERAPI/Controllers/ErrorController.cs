@@ -30,8 +30,9 @@ namespace SERVERAPI.Controllers
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex);
                 _logger.LogError(ex, "ErrorHandlingMiddleware");
+                //await HandleExceptionAsync(context, ex);
+                throw;
             }
         }
 
@@ -45,17 +46,17 @@ namespace SERVERAPI.Controllers
             //else if (exception is MyException) code = HttpStatusCode.BadRequest;
             context.Response.StatusCode = 500;
             context.Response.ContentType = "text/html";
-            await context.Response.WriteAsync("<html><body>\r\n");
-            await context.Response.WriteAsync(exception.Message + "<br>\r\n");
 
-            await context.Response.WriteAsync("</body></html>\r\n");
-            await context.Response.WriteAsync(new string(' ', 512)); // Padding for IE 
+            //await context.Response.WriteAsync("<html><body>\r\n");
+            //await context.Response.WriteAsync(exception.Message + "<br>\r\n");
+
+            //await context.Response.WriteAsync("</body></html>\r\n");
+            //await context.Response.WriteAsync(new string(' ', 512)); // Padding for IE
         }
     }
 
     public class ErrorController : Controller
     {
-        [Route("Error/Error")]
         public IActionResult Error()
         {
             var exception = HttpContext.Features

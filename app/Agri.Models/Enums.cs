@@ -77,7 +77,8 @@ namespace Agri.Models
         Report,
         RefreshNavigation,
         RefreshNextPreviousNavigation,
-        SessionExpired
+        SessionExpired,
+        Error
     }
 
     public enum DairyCattleAnimalSubTypes
