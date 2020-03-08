@@ -16,7 +16,7 @@
                 <div class="form-box-fields">
                     <form method="post">
                         <div class="row">
-                            @Model.Data.NitrateTestCalculatorUserInstruction1
+                            @Model.Data.NitrateCalculatorUserInstruction1
                         </div>
                         @for (int i = 0; i < Model.Data.nitrateTestAnalysis.Count; i++)
                         {
@@ -43,9 +43,10 @@
                                 <div class="form-group col-sm-4">
                                     <label>Results</label>
                                     <div class="row">
-                                        <input type="number" class="form-control col-sm-6" style="width:100px" />
+                                        <input type="number" class="form-control col-sm-6" style="width:100px;pointer-events:none;background-color:#F5F5F5" />
                                         <div class="col-sm-6" style="padding-top:5px">
-                                            kg NO3-Nha-1
+                                            kg NO<sub>3</sub>-N  ha<sup>-1</sup>
+
                                         </div>
                                         @* <span asp-validation-for="Data.ApplicationRate" class=""></span>*@
                                     </div>
@@ -56,12 +57,12 @@
                         {
 
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-7">
                                     &nbsp;
                                 </div>
-                                @* <div class="col-sm-6">*@
+                                @* <div class="col-sm-7">*@
 
-                                <input class="btn btn-primary col-sm-5" type="submit" id="AddSample" value="Add another sample depth" />
+                                <input class="btn btn-primary col-sm-3" type="submit" id="AddSample" value="Add another sample depth" />
                                 <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
                                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
                                 </a>
@@ -75,9 +76,9 @@
                             <div class="form-box-heading col-sm-2">
                                 Total for field
                             </div>
-                            <input type="number" class="form-control col-sm-2" style="width:50px" />
+                            <input type="number" class="form-control col-sm-2" style="width:50px;pointer-events:none;background-color:#F5F5F5" />
                             <div class="col-sm-2" style="padding-top:5px">
-                                kg NO3-Nha-1
+                                kg NO<sub>3</sub>-N  ha<sup>-1</sup>
                             </div>
                         </div>
                     </form>
