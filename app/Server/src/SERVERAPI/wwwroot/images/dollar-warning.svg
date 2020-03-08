@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="21" height="21" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" viewBox="0 0 21 21">
+    <g>
+        <ellipse stroke="#e8bf0b" ry="8" rx="8" id="svg_2" cy="10.5" cx="10.5" stroke-width="5" fill="#e8bf0b" />
+        <text stroke="#000000" transform="matrix(1.0635289025196357,0,0,0.7675392623715951,-73.34570528908733,-71.75840187177488) " font-weight="normal" xml:space="preserve" text-anchor="middle" font-family="Sans-serif" font-size="24" id="svg_4" y="115.506416" x="79.02201" stroke-width="0" fill="#7f7f7f">!</text>
+    </g>
+</svg>
