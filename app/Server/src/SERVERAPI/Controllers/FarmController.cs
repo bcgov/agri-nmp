@@ -201,7 +201,9 @@ namespace SERVERAPI.Controllers
                 return View(fvm);
             }
 
-            if (fvm.ShowAnimals && (fvm.SelSubRegOption == null || fvm.SelSubRegOption == 0))
+            if (fvm.ShowAnimals &&
+                (fvm.HasBeefCows || fvm.HasDairyCows || fvm.HasMixedLiveStock) &&
+                (fvm.SelSubRegOption == null || fvm.SelSubRegOption == 0))
             {
                 ModelState.AddModelError("SelSubRegOption", "Select a sub region");
                 fvm = SetSubRegions(fvm);

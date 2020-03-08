@@ -1,4 +1,4 @@
-FROM dotnet/dotnet-21-build-rhel7
+FROM dotnet/dotnet-31-rhel7
 # Switch to root for package installs
 USER 0
 

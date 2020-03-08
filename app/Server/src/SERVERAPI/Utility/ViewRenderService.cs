@@ -23,12 +23,12 @@ namespace SERVERAPI.Utility
         private readonly IRazorViewEngine _razorViewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
         public ViewRenderService(IRazorViewEngine razorViewEngine,
             ITempDataProvider tempDataProvider,
             IServiceProvider serviceProvider,
-            IHostingEnvironment env)
+            IWebHostEnvironment env)
         {
             _razorViewEngine = razorViewEngine;
             _tempDataProvider = tempDataProvider;

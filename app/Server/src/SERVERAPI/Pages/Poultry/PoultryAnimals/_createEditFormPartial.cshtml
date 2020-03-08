@@ -1,0 +1,72 @@
+﻿@model SERVERAPI.Pages.Poultry.PoultryAnimals.CreateEdit
+@using Agri.Models
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="form-box-fields">
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label for="animalType">Animal Type</label>
+            @*<select class="form-control" asp-for="@Model.Data.AnimalId"
+                        asp-items="@Model.Data.AnimalTypeOptions" id="ddlAnimalType">
+                    <option value=0>Select Poultry Type</option>
+                </select>
+                <input id="AnimalName" asp-for="@Model.Data.AnimalName" type="hidden" />
+                @Html.ValidationMessageFor(model => model.Data.AnimalId)*@
+            <div class="row no-gutters">
+                <div class="col">
+                    <span id="animalType">Poultry</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-4">
+            <label for="ddlSubType">Sub Type</label>
+            <select class="form-control" asp-for="@Model.Data.AnimalSubTypeId"
+                    asp-items="@Model.Data.AnimalSubTypeOptions" id="ddlSubType">
+                <option value=0>Select Sub Type</option>
+            </select>
+            <input id="AnimalSubTypeName" asp-for="@Model.Data.AnimalSubTypeName" type="hidden" />
+            @Html.ValidationMessageFor(model => model.Data.AnimalSubTypeId)
+        </div>
+        <div class="form-group col-sm-4">
+            <label for="ddlManureMaterialType">Manure Type</label>
+            <select class="form-control" asp-for="@Model.Data.ManureType"
+                    asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
+                <option value=0>Select Manure Type</option>
+            </select>
+            <input id="ManureMaterialTypeName" asp-for="@Model.Data.ManureTypeName" type="hidden" />
+            @Html.ValidationMessageFor(model => model.Data.ManureType)
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-4">
+            <label for="birdsPerFlock">Number of birds per flock</label>
+            <input class="form-control" asp-for="@Model.Data.BirdsPerFlock"
+                   id="birdsPerFlock" type="number" step="0.01" />
+            @Html.ValidationMessageFor(model => model.Data.BirdsPerFlock)
+        </div>
+        <div class="form-group col-sm-4">
+            <label for="flocksPerYear">Number of flocks per year</label>
+            <input class="form-control" asp-for="@Model.Data.FlocksPerYear"
+                   id="flocksPerYear" type="number" step="0.01" />
+            @Html.ValidationMessageFor(model => model.Data.FlocksPerYear)
+        </div>
+        <div class="form-group col-sm-4">
+            <label for="birdsPerFlock">Number of days per flock</label>
+            <input class="form-control" asp-for="@Model.Data.DaysPerFlock"
+                   id="birdsPerFlock" type="number" step="0.01" />
+            @Html.ValidationMessageFor(model => model.Data.DaysPerFlock)
+        </div>
+    </div>
+</div>
+<input type="hidden" asp-for="Data.Id" />
+<input type="hidden" asp-for="Data.AnimalId" />
+<input type="hidden" asp-for="Data.PostedElementEvent" id="PostedElementEvent" />
+
+<div class="modal-footer" style="border-top:none !important;">
+    @if (Model.IsModal)
+    {
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+    }
+    <input class="btn btn-primary" id="btnSave" type="submit" value="Save" data-save="razor-page-modal" style="margin-right: 15px;" />
+</div>

@@ -13,17 +13,14 @@ namespace SERVERAPI.ViewComponents
     {
         private readonly IAgriConfigurationRepository _sd;
         private readonly UserData _ud;
-        private readonly IHostingEnvironment _env;
         private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
 
         public CalcMessages(IAgriConfigurationRepository sd,
             UserData ud,
-            IHostingEnvironment env,
             IChemicalBalanceMessage chemicalBalanceMessage)
         {
             _sd = sd;
             _ud = ud;
-            _env = env;
             _chemicalBalanceMessage = chemicalBalanceMessage;
         }
 

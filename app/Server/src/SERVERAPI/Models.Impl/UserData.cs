@@ -174,7 +174,6 @@ namespace SERVERAPI.Models.Impl
                 nextId = nextId <= a.Id ? a.Id.Value + 1 : nextId;
             }
             newAnimal.Id = nextId;
-            newAnimal.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(newAnimal);
 
             yd.FarmAnimals.Add(newAnimal);
 
@@ -204,7 +203,6 @@ namespace SERVERAPI.Models.Impl
             FarmAnimal animal = yd.FarmAnimals.FirstOrDefault(f => f.Id == updatedAnimal.Id);
 
             _mapper.Map(updatedAnimal, animal);
-            animal.ManureGeneratedTonsPerYear = GetSolidManureGeneratedTonsPerYear(animal);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
