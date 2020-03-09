@@ -134,6 +134,7 @@ namespace SERVERAPI
             services.AddTransient<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
             services.AddTransient<ISoilTestConverter, SoilTestConverter>();
             services.AddTransient<IStorageVolumeCalculator, StorageVolumeCalculator>();
+            services.AddTransient<INitrateTestCalculator, CalculateNitrateTestResult>();
 
             services.AddOptions();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
