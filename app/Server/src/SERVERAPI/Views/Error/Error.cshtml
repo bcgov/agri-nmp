@@ -1,5 +1,17 @@
-﻿<h1>@ViewData["message"]</h1>
+﻿<div class="header-height"></div>
 
-<h2>Status Code : @ViewData["statusCode"]</h2>
+<br />
+<br />
 
-<div>@ViewData["stackTrace"]</div>
+<div class="container">
+    <div class="step-forms col-sm-12">
+
+        <h1>@ViewData["message"]</h1>
+
+        <h2>Status Code : @ViewData["statusCode"]</h2>
+
+        <div>@ViewData["stackTrace"]</div>
+
+        @section Scripts {}
+    </div>
+</div>

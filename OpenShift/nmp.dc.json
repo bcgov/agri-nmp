@@ -47,12 +47,6 @@
       "value": "1"
     },
     {
-      "name": "PDF_REPLICAS",
-      "displayName": "Number of Replicas for PDF",
-      "description": "Number of Replicas for PDF",
-      "value": "1"
-    },
-    {
       "name": "MS_TEAMS_WEBHOOK_URL",
       "displayName": "MS Teams Webhook URL",
       "description": "MS Teams Webhook URL",
@@ -68,17 +62,6 @@
         "creationTimestamp": null,
         "labels": {
           "base-name": "${NAME}-web"
-        }
-      }
-    },
-    {
-      "kind": "ImageStream",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-pdf",
-        "creationTimestamp": null,
-        "labels": {
-          "base-name": "${NAME}-pdf"
         }
       }
     },
@@ -165,10 +148,6 @@
                   }
                 ],
                 "env": [
-                  {
-                    "name": "PDF_SERVICE_NAME",
-                    "value": "http://${NAME}-pdf${SUFFIX}:8080"
-                  },
                   {
                     "name": "POSTGRESQL_DATABASE",
                     "valueFrom": {
@@ -260,101 +239,6 @@
       }
     },
     {
-      "kind": "DeploymentConfig",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-pdf${SUFFIX}",
-        "creationTimestamp": null,
-        "labels": null,
-        "annotations": {
-          "description": "Defines how to deploy the PDF server"
-        }
-      },
-      "spec": {
-        "strategy": {
-          "type": "Rolling",
-          "rollingParams": {
-            "updatePeriodSeconds": 1,
-            "intervalSeconds": 1,
-            "timeoutSeconds": 600,
-            "maxUnavailable": "25%",
-            "maxSurge": "25%"
-          },
-          "resources": {},
-          "activeDeadlineSeconds": 21600
-        },
-        "triggers": [
-          {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "${NAME}-pdf${SUFFIX}"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "${NAME}-pdf:${VERSION}"
-              }
-            }
-          },
-          {
-            "type": "ConfigChange"
-          }
-        ],
-        "replicas": "${{PDF_REPLICAS}}",
-        "test": false,
-        "selector": {
-          "name": "${NAME}-pdf${SUFFIX}"
-        },
-        "template": {
-          "metadata": {
-            "name": "${NAME}-pdf${SUFFIX}",
-            "creationTimestamp": null,
-            "labels": {
-              "name": "${NAME}-pdf${SUFFIX}"
-            }
-          },
-          "spec": {
-            "containers": [
-              {
-                "name": "${NAME}-pdf${SUFFIX}",
-                "image": " ",
-                "ports": [
-                  {
-                    "containerPort": 8080,
-                    "protocol": "TCP"
-                  }
-                ],
-                "env": [
-                  {
-                    "name": "ASPNETCORE_ENVIRONMENT",
-                    "value": "Staging"
-                  },
-                  {
-                    "name": "LC_ALL",
-                    "value": "C"
-                  }
-                ],
-                "resources": {
-                  "limits": {
-                    "memory": "512Mi"
-                  }
-                },
-                "terminationMessagePath": "/dev/termination-log",
-                "terminationMessagePolicy": "File",
-                "imagePullPolicy": "IfNotPresent"
-              }
-            ],
-            "restartPolicy": "Always",
-            "terminationGracePeriodSeconds": 30,
-            "dnsPolicy": "ClusterFirst",
-            "securityContext": {},
-            "schedulerName": "default-scheduler"
-          }
-        }
-      }
-    },
-    {
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
@@ -376,33 +260,6 @@
         ],
         "selector": {
           "name": "${NAME}-web${SUFFIX}"
-        },
-        "type": "ClusterIP",
-        "sessionAffinity": "None"
-      }
-    },
-    {
-      "kind": "Service",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-pdf${SUFFIX}",
-        "creationTimestamp": null,
-        "labels": null,
-        "annotations": {
-          "description": "Exposes and load balances the PDF pods"
-        }
-      },
-      "spec": {
-        "ports": [
-          {
-            "name": "web",
-            "protocol": "TCP",
-            "port": 8080,
-            "targetPort": 8080
-          }
-        ],
-        "selector": {
-          "name": "${NAME}-pdf${SUFFIX}"
         },
         "type": "ClusterIP",
         "sessionAffinity": "None"

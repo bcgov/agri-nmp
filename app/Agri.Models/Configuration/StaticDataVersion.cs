@@ -69,7 +69,6 @@ namespace Agri.Models.Configuration
         [Key]
         public int Id { get; set; }
 
-        [NotMapped]
         public string Version { get; set; }
 
         public DateTime CreatedDateTime { get; set; }

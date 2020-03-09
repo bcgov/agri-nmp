@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models;
+using Agri.Shared;
 using AutoMapper;
-using Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using SERVERAPI.Models.Impl;
 
 namespace SERVERAPI.Pages.Ranch.RanchFeeding

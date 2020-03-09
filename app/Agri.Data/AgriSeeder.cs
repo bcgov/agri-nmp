@@ -42,7 +42,7 @@ namespace Agri.Data
 
             if (refreshDatabase && currentVersion < expectedSeedDataVersion)
             {
-                _context.Database.ExecuteSqlCommand(@"TRUNCATE TABLE ""Browsers"",
+                _context.Database.ExecuteSqlRaw(@"TRUNCATE TABLE ""Browsers"",
                                                                                     ""ExternalLinks"",
                                                                                     ""SubMenu"",
                                                                                     ""MainMenus"",

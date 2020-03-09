@@ -22,10 +22,10 @@
 <br />
 
 <div class="container">
-    <div id="overlay" style="display: none;"></div>
-    <div class="step-forms col-sm-12" style="text-align:left">
-        <!-- PAGE CONTENT -->
-        <form asp-controller="Report" asp-action="Report" method="post">
+    <form asp-controller="Report" asp-action="Report" method="post">
+        <div id="overlay" style="display: none;"></div>
+        <div class="step-forms col-sm-12" style="text-align:left">
+            <!-- PAGE CONTENT -->
             @if (!string.IsNullOrEmpty(Model.MaterialsRemainingMessage))
             {
                 <div class="form-box-fields">
@@ -92,7 +92,7 @@
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.materialsNotStoredMessage))
+            @if (!string.IsNullOrEmpty(Model.MaterialsNotStoredMessage))
             {
                 <div class="form-box-fields">
                     <div class="row">
@@ -100,7 +100,7 @@
                             <div class="form-box" style="margin:0px auto 0px">
                                 <div class="form-box-header clearfix">
                                     <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
-                                    <span style="display:inline; font-size:17px">@Html.Raw(Model.materialsNotStoredMessage)</span>
+                                    <span style="display:inline; font-size:17px">@Html.Raw(Model.MaterialsNotStoredMessage)</span>
                                     <ul>
                                         @foreach (var manure in Model.UnallocatedManures)
                                         {
@@ -116,7 +116,7 @@
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.noCropsMsg))
+            @if (!string.IsNullOrEmpty(Model.NoCropsMsg))
             {
                 <div class="form-box-fields">
                     <div class="row">
@@ -125,7 +125,7 @@
                                 <div class="form-box-header clearfix">
                                     <div>
                                         <img src="~/images/warning.svg" style="vertical-align:baseline;" />&nbsp;
-                                        <span style="display:inline; font-size:17px">@Html.Raw(Model.noCropsMsg)</span>
+                                        <span style="display:inline; font-size:17px">@Html.Raw(Model.NoCropsMsg)</span>
                                     </div>
                                 </div>
                             </div>
@@ -133,78 +133,78 @@
                     </div>
                 </div>
             }
-    </div>
-    <div class="step-forms col-sm-12" style="text-align:center">
+        </div>
+        <div class="step-forms col-sm-12" style="text-align:center">
 
-        <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
-            <div class="form-box-header clearfix" style="text-align:center">
-                PDFs (opens a new tab)
-            </div>
-            <div class="form-box-body">
-                <div style="padding:20px">
-                    <div style="margin-top:10px">
-                        <span aria-hidden="true" style="font-size:20px; padding-top:5px">
-                            <input class="form-box-submit-button btn btn-primary" 
-                                   title="Open Complete Report: &#009;&#013; - Application Schedule &#009;&#013; - Manure and Fertilizer Required &#009;&#013; - Field Summaries &#009;&#013; - Manure and Compost Analysis &#009;&#013; - Soil Test Results" 
-                                   aria-label="Open Complete Report: Application Schedule, Manure and Fertilizer Required, Field Summaries, Manure and Compost Analysis, and Soil Test Results" 
-                                   style="width:220px; padding:5px; font-size:large" type="button" value="Complete Report" 
-                                   onclick="GenerateCompleteReport()"/>
-                            <a href="@Url.Action("PrintComplete", "Report")" target="_blank" id="printComplete"  style="display: none"><span></span></a>
-                        </span>
-                    </div>
-                    <div style="margin-top:10px">
-                        <span aria-hidden="true" style="font-size:20px; padding-top:5px">
-                            <input class="form-box-submit-button btn btn-primary" 
-                                   title="Open Record Keeping Sheets" 
-                                   aria-label="Open Record Keeping Sheets" 
-                                   style="width:220px; padding:5px; font-size:large" type="button" value="Record Keeping Sheets" 
-                                   onclick="GenerateRecordKeepingSheets()"/>
-                        </span>
-                        <a href="@Url.Action("PrintSheets", "Report")" target="_blank" id="printSheets"  style="display: none"><span></span></a>
-                    </div>
+            <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
+                <div class="form-box-header clearfix" style="text-align:center">
+                    PDFs (opens a new tab)
                 </div>
-            </div>
-        </div>
-        <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
-            <div class="form-box-header clearfix" style="text-align:center">
-                NMP Data File
-            </div>
-            <div class="form-box-body">
-            </div>
-            <div class="Table">
-                <div class="Row">
-                    <div class="Cell" style="text-align:left">
-                        @Html.Raw(Model.downloadMsg)
+                <div class="form-box-body">
+                    <div style="padding:20px">
+                        <div style="margin-top:10px">
+                            <span aria-hidden="true" style="font-size:20px; padding-top:5px">
+                                <input class="form-box-submit-button btn btn-primary"
+                                       title="Open Complete Report: &#009;&#013; - Application Schedule &#009;&#013; - Manure and Fertilizer Required &#009;&#013; - Field Summaries &#009;&#013; - Manure and Compost Analysis &#009;&#013; - Soil Test Results"
+                                       aria-label="Open Complete Report: Application Schedule, Manure and Fertilizer Required, Field Summaries, Manure and Compost Analysis, and Soil Test Results"
+                                       style="width:220px; padding:5px; font-size:large" type="button" value="Complete Report"
+                                       onclick="GenerateCompleteReport()" />
+                                <a href="@Url.Action("PrintComplete", "Report")" target="_blank" id="printComplete" style="display: none"><span></span></a>
+                            </span>
+                        </div>
+                        <div style="margin-top:10px">
+                            <span aria-hidden="true" style="font-size:20px; padding-top:5px">
+                                <input class="form-box-submit-button btn btn-primary"
+                                       title="Open Record Keeping Sheets"
+                                       aria-label="Open Record Keeping Sheets"
+                                       style="width:220px; padding:5px; font-size:large" type="button" value="Record Keeping Sheets"
+                                       onclick="GenerateRecordKeepingSheets()" />
+                            </span>
+                            <a href="@Url.Action("PrintSheets", "Report")" target="_blank" id="printSheets" style="display: none"><span></span></a>
+                        </div>
                     </div>
                 </div>
-                <div class="Row" style="padding-bottom:30px">
-                    &nbsp;
+            </div>
+            <div class="form-box" style="display:inline-block; vertical-align:top; margin:20px; min-height:300px">
+                <div class="form-box-header clearfix" style="text-align:center">
+                    NMP Data File
                 </div>
-                <div class="Row" style="padding:30px">
-                    <div class="Cell">
-                        <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="ResetWarning();location.href = '@Url.Action("Download", "Home")'" />
+                <div class="form-box-body">
+                </div>
+                <div class="Table">
+                    <div class="Row">
+                        <div class="Cell" style="text-align:left">
+                            @Html.Raw(Model.DownloadMsg)
+                        </div>
+                    </div>
+                    <div class="Row" style="padding-bottom:30px">
+                        &nbsp;
+                    </div>
+                    <div class="Row" style="padding:30px">
+                        <div class="Cell">
+                            <input class="btn btn-primary" type="button" value="Download file" title="Download data to your local drive" onclick="ResetWarning();location.href = '@Url.Action("Download", "Home")'" />
+                        </div>
+                    </div>
+                    <div class="Row" style="padding-bottom:30px">
+                        &nbsp;
                     </div>
                 </div>
-                <div class="Row" style="padding-bottom:30px">
-                    &nbsp;
-                </div>
             </div>
-        </div>
 
-        <br />
-        <br />
-        <br />
-        <br />
-        <div class="form-box-submit">
-            <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href = '@Url.Action("Calculate", "Nutrients")';" title="Previous" aria-label="Previous" />
-            <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="Intercept('@Model.url');ResetWarning();" title="Finish" aria-label="Finish" />
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="form-box-submit">
+                <input class="form-box-submit-button btn btn-primary" style="float:left" type="button" value="Previous" onclick="window.location.href = '@Url.Action("Calculate", "Nutrients")';" title="Previous" aria-label="Previous" />
+                <input class="form-box-submit-button btn btn-primary" style="float:right" type="button" value="Finish" onclick="Intercept('@Model.Url');ResetWarning();" title="Finish" aria-label="Finish" />
+            </div>
+            @Html.HiddenFor(x => x.UnsavedData)
+            @Html.HiddenFor(x => x.Url)
+            @Html.HiddenFor(x => x.DownloadMsg)
+            @Html.HiddenFor(x => x.LoadMsg)
         </div>
-        @Html.HiddenFor(x => x.unsavedData)
-        @Html.HiddenFor(x => x.url)
-        @Html.HiddenFor(x => x.downloadMsg)
-        @Html.HiddenFor(x => x.loadMsg)
-        </form>
-    </div>
+    </form>
 </div>
 @section Scripts {
     <script type="text/javascript">
@@ -254,7 +254,7 @@
                 $('#myModalContent').load($type, function () {
                         $('#myModal').modal({
                                 /*backdrop: 'static',*/
-                                //keyboard: true 
+                                //keyboard: true
                             }, 'show');
                         bindForm(this);
                     });
@@ -406,7 +406,7 @@
                         $('#myModal').modal({
                                 /*backdrop: 'static',*/
                                 //keyboard: true
-                            
+
                             },
                             'show');
                         bindForm2(this);
@@ -436,6 +436,5 @@
                 return false;
             });
         }
-
     </script>
 }

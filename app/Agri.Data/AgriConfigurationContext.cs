@@ -765,6 +765,7 @@ namespace Agri.Data
             modelBuilder.Entity<Yield>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
 
             modelBuilder.Entity<StaticDataVersion>()
+                .Ignore(table => table.Version)
                 .Property(s => s.CreatedDateTime)
                 .HasDefaultValueSql("NOW()");
 
