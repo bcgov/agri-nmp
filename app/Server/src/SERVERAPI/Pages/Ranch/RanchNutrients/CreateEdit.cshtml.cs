@@ -58,15 +58,26 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             Data.ExcludedSourceOfMaterialIds.Clear();
             Data.IncludedSourceOfMaterialIds.Clear();
 
-            if (Data.RanchManures.Any(rm => !rm.Selected))
+            if (Data.RanchSolidManures.Any(rm => !rm.Selected))
             {
                 Data.ExcludedSourceOfMaterialIds
-                    .AddRange(Data.RanchManures.Where(rm => !rm.Selected).Select(rm => rm.ManureId).ToList());
+                    .AddRange(Data.RanchSolidManures.Where(rm => !rm.Selected).Select(rm => rm.ManureId).ToList());
             }
-            if (Data.RanchManures.Any(rm => rm.Selected))
+            if (Data.RanchSolidManures.Any(rm => rm.Selected))
             {
                 Data.IncludedSourceOfMaterialIds
-                    .AddRange(Data.RanchManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
+                    .AddRange(Data.RanchSolidManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
+            }
+
+            if (Data.RanchLiquidManures.Any(rm => !rm.Selected))
+            {
+                Data.ExcludedSourceOfMaterialIds
+                    .AddRange(Data.RanchLiquidManures.Where(rm => !rm.Selected).Select(rm => rm.ManureId).ToList());
+            }
+            if (Data.RanchLiquidManures.Any(rm => rm.Selected))
+            {
+                Data.IncludedSourceOfMaterialIds
+                    .AddRange(Data.RanchLiquidManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
             }
 
             if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
@@ -156,7 +167,12 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
         public class Command : IRequest<MediatR.Unit>
         {
             public int? Id { get; set; }
-            public List<RanchManure> RanchManures { get; set; }
+            public List<RanchManure> RanchSolidManures { get; set; } = new List<RanchManure>();
+            public List<RanchManure> RanchLiquidManures { get; set; } = new List<RanchManure>();
+
+            public bool ManuresSelected =>
+                RanchSolidManures.Any(s => s.Selected) || RanchLiquidManures.Any(l => l.Selected);
+
             public int SelectedNutrientAnalysis { get; set; }
             public SelectList BeefNutrientAnalysisOptions { get; set; }
             public List<string> ExcludedSourceOfMaterialIds { get; set; } = new List<string>();
@@ -206,7 +222,7 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             {
                 public string ManureId { get; set; }
                 public string ManureName { get; set; }
-                public bool Selected { get; set; } = true;
+                public bool Selected { get; set; }
             }
 
             public class ManureNutrientBookValues
@@ -248,8 +264,7 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                     .ForMember(m => m.UseCustomAnalysis, opts => opts.MapFrom(s => s.Customized))
                     .ReverseMap();
                 CreateMap<ManagedManure, Command.RanchManure>()
-                    .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName))
-                    .BeforeMap((s, d) => d.Selected = true);
+                    .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
                 CreateMap<Manure, Command.ManureNutrientBookValues>();
             }
         }
@@ -258,8 +273,7 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
         {
             public CommandValidator()
             {
-                RuleFor(m => m.RanchManures).Must(m => m.Any(rm => rm.Selected))
-                    .When(m => m.RanchManures != null)
+                RuleFor(m => m.ManuresSelected).Must(ms => ms == true).WithMessage("One or more Solid or Liquid manure must be selected")
                     .WithMessage("One or more materials must be checked");
                 RuleFor(m => m.SelectedNutrientAnalysis).GreaterThan(0)
                     .WithMessage("A nutrient analysis must be selected");
@@ -393,11 +407,38 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                             .Any(im => im.Equals(mm.ManureId, StringComparison.OrdinalIgnoreCase)))
                     .ToList();
 
-                command.RanchManures = _mapper.Map<List<Command.RanchManure>>(manures);
-                foreach (var manure in command.RanchManures)
+                command.RanchSolidManures = _mapper
+                    .Map<List<Command.RanchManure>>(manures.Where(m => m.ManureType == ManureMaterialType.Solid).ToList());
+
+                command.RanchLiquidManures = _mapper
+                    .Map<List<Command.RanchManure>>(manures.Where(m => m.ManureType == ManureMaterialType.Liquid).ToList());
+
+                if (command.RanchLiquidManures.Any(s => s.Selected))
                 {
-                    manure.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds
-                        .Any(m => m.Equals(manure.ManureId));
+                    command.RanchSolidManures.Select(l => { l.Selected = false; return l; }).ToList();
+                }
+                else
+                {
+                    command.RanchSolidManures
+                        .Select(l =>
+                        {
+                            l.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds.Any(m => m.Equals(l.ManureId));
+                            return l;
+                        }).ToList();
+                }
+
+                if (command.RanchSolidManures.Any(s => s.Selected))
+                {
+                    command.RanchLiquidManures.Select(l => { l.Selected = false; return l; }).ToList();
+                }
+                else
+                {
+                    command.RanchLiquidManures
+                        .Select(l =>
+                        {
+                            l.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds.Any(m => m.Equals(l.ManureId));
+                            return l;
+                        }).ToList();
                 }
 
                 var beefManuresNutrients = _sd.GetManures();

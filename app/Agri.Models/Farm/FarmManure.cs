@@ -49,7 +49,7 @@ namespace Agri.Models.Farm
                     if (sourceMaterialId.Contains("Import", StringComparison.OrdinalIgnoreCase))
                     {
                         SourceType = NutrientAnalysisTypes.Imported;
-                        SourceId = Convert.ToInt32(sourceMaterialId.Replace("Import", string.Empty, StringComparison.OrdinalIgnoreCase));
+                        SourceId = Convert.ToInt32(sourceMaterialId.Replace("Imported", string.Empty, StringComparison.OrdinalIgnoreCase));
                     }
                     else if (sourceMaterialId.Contains("FarmAnimal", StringComparison.OrdinalIgnoreCase))
                     {
