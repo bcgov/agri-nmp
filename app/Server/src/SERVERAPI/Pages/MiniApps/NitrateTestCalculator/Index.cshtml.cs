@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Agri.CalculateService;
 using Agri.Data;
 using FluentValidation;
 using MediatR;
@@ -44,6 +45,10 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                         Data.nitrateTestAnalysis.RemoveAt(1);
                     }
                 }
+                else
+                {
+                    Data.isNotShowButton = Data.nitrateTestAnalysis.Count !=2 ? false : true;
+                }
             }
             else
             {
@@ -78,6 +83,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public string BCNutrientManagementCalculatorButtonLink { get; set; }
 
             public string PostedElementEvent { get; set; }
+            public double totalResult { get; set; }
         }
 
         public class NitrateTest
@@ -85,28 +91,32 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public int Id { get; set; }
             public SelectList DepthOptions { get; set; }
             public string SelectDepthOption { get; set; }
+            public double nitrate { get; set; }
+            public double result { get; set; }
         }
 
         public class ResultModel
         {
         }
 
-        public class ModelValidator : AbstractValidator<ConverterQuery>
-        {
-            public ModelValidator()
-            {
-            }
-        }
+        //public class ModelValidator : AbstractValidator<ConverterQuery>
+        //{
+        //    public ModelValidator()
+        //    {
+        //    }
+        //}
 
         public class Handler :
            IRequestHandler<Query, ConverterQuery>,
            IRequestHandler<ConverterQuery, ResultModel>
         {
             private readonly IAgriConfigurationRepository _sd;
+            private readonly INitrateTestCalculator _nitrateTestCalculator;
 
-            public Handler(IAgriConfigurationRepository sd)
+            public Handler(IAgriConfigurationRepository sd, INitrateTestCalculator nitrateTestCalculator)
             {
                 _sd = sd;
+                _nitrateTestCalculator = nitrateTestCalculator;
             }
 
             public async Task<ConverterQuery> Handle(Query request, CancellationToken cancellationToken)
@@ -131,7 +141,12 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                         nitrateTest.DepthOptions = new SelectList(_sd.GetDepths().Where(x => x.Id == 2), "Id", "Value");
                         nitrateTest.SelectDepthOption = "2";
                     }
+                    if (nitrateTest.nitrate != 0)
+                    {
+                        nitrateTest.result = _nitrateTestCalculator.CalculateResult(nitrateTest.SelectDepthOption,nitrateTest.nitrate);
+                    }
                 }
+                command.totalResult = command.nitrateTestAnalysis.Select(x => x.result).Sum();
                 command.isNotShowButton = command.isNotShowButton ? command.isNotShowButton : false;
                 var details = _sd.GetNitrateCalculatorDetails();
                 command.NitrateTestCalculatorUserInstruction1 = details.Where(x => x.Key == "NitrateTestCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
