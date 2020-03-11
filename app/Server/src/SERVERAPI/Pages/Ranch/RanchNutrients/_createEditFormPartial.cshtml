@@ -8,7 +8,7 @@
         </div>
     </div>
     @if ((Model.Data.RanchSolidManures != null && Model.Data.RanchSolidManures.Any()) ||
-   (Model.Data.RanchLiquidManures != null && Model.Data.RanchLiquidManures.Any()))
+(Model.Data.RanchLiquidManures != null && Model.Data.RanchLiquidManures.Any()))
     {
         <div class="row">
             <div class="col-md-4 order-md-1">
@@ -217,7 +217,6 @@
                 </div>
             </div>
         </div>
-        <input class="form-control" asp-for="@Model.Data.ManureName" id="manureName" type="hidden" />
     }
     <div class="modal-footer">
         <div class="float-right">
@@ -232,3 +231,4 @@
 <input type="hidden" asp-for="Data.ManureClass" />
 <input type="hidden" asp-for="Data.SolidLiquid" />
 <input type="hidden" asp-for="Data.OnlyCustom" />
+<input class="form-control" asp-for="@Model.Data.ManureName" id="manureName" type="hidden" />

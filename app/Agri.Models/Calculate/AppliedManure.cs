@@ -16,6 +16,7 @@ namespace Agri.Models.Calculate
         public List<FieldAppliedManure> FieldAppliedManures { get; private set; }
 
         public abstract string SourceName { get; }
+        public abstract string ManureMaterialName { get; set; }
 
         public abstract ManureMaterialType? ManureMaterialType { get; }
 

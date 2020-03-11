@@ -65,8 +65,9 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             }
             if (Data.RanchSolidManures.Any(rm => rm.Selected))
             {
-                Data.IncludedSourceOfMaterialIds
-                    .AddRange(Data.RanchSolidManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
+                var includedManures = Data.RanchSolidManures.Where(rm => rm.Selected).ToList();
+                Data.IncludedSourceOfMaterialIds.AddRange(includedManures.Select(rm => rm.ManureId).ToList());
+                Data.SourceOfMaterialName = string.Join(',', includedManures.Select(iam => iam.ManureName).ToList());
             }
 
             if (Data.RanchLiquidManures.Any(rm => !rm.Selected))
@@ -76,8 +77,9 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             }
             if (Data.RanchLiquidManures.Any(rm => rm.Selected))
             {
-                Data.IncludedSourceOfMaterialIds
-                    .AddRange(Data.RanchLiquidManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
+                var includedManures = Data.RanchLiquidManures.Where(rm => rm.Selected).ToList();
+                Data.IncludedSourceOfMaterialIds.AddRange(includedManures.Select(rm => rm.ManureId).ToList());
+                Data.SourceOfMaterialName = string.Join(',', includedManures.Select(iam => iam.ManureName).ToList());
             }
 
             if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
@@ -125,7 +127,6 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                         Data.Nitrate = null;
                         Data.Phosphorous = null;
                         Data.Potassium = null;
-                        Data.ManureName = null;
                         Data.ShowNitrate = false;
                         Data.Compost = false;
                     }
@@ -215,6 +216,8 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             public string ExplainNutrientAnlalysisAmmonia { get; set; }
             public string ExplainNutrientAnlalysisPhosphorous { get; set; }
             public string ExplainNutrientAnlalysisPotassium { get; set; }
+            public string SourceOfMaterialName { get; set; }
+
             public bool UseCustomAnalysis { get; set; }
             public ElementEvent PostedElementEvent { get; set; }
 

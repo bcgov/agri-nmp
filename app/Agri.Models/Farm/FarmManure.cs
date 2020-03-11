@@ -53,12 +53,12 @@ namespace Agri.Models.Farm
                     }
                     else if (sourceMaterialId.Contains("FarmAnimal", StringComparison.OrdinalIgnoreCase))
                     {
-                        SourceType = NutrientAnalysisTypes.Imported;
+                        SourceType = NutrientAnalysisTypes.Collected;
                         SourceId = Convert.ToInt32(sourceMaterialId.Replace("FarmAnimal", string.Empty, StringComparison.OrdinalIgnoreCase));
                     }
                     else if (sourceMaterialId.Contains("Generated", StringComparison.OrdinalIgnoreCase))
                     {
-                        SourceType = NutrientAnalysisTypes.Imported;
+                        SourceType = NutrientAnalysisTypes.Stored;
                         SourceId = Convert.ToInt32(sourceMaterialId.Replace("Generated", string.Empty, StringComparison.OrdinalIgnoreCase));
                     }
                 }

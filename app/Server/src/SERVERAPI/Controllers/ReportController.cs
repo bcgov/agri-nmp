@@ -5,12 +5,8 @@ using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
@@ -1036,7 +1032,8 @@ namespace SERVERAPI.Controllers
 
                     if (appliedManure != null)
                     {
-                        rm.MaterialName = appliedManure.SourceName;
+                        rm.MaterialName = appliedManure.ManureMaterialName;
+                        rm.MaterialSource = appliedManure.SourceName;
 
                         // Annual Amount
 
@@ -1815,7 +1812,7 @@ namespace SERVERAPI.Controllers
             var reportManureUse = string.Empty;
             var reportOctoberToMarchStorageVolumes = string.Empty;
             var reportCropManure = string.Empty;
-            var reportBeefManure = string.Empty;
+            var reportBeefManureUse = string.Empty;
             var reportFertilizers = string.Empty;
             var reportFields = string.Empty;
             var reportAnalysis = string.Empty;
@@ -1834,7 +1831,7 @@ namespace SERVERAPI.Controllers
                     reportFields = await RenderFields();
                     reportManureUse = await RenderManureUse();
                     reportCropManure = await RenderCropManureUse();
-                    reportBeefManure = await RenderBeefManureUse();
+                    reportBeefManureUse = await RenderBeefManureUse();
                     reportSummary = await RenderSummary();
                     reportAnalysis = await RenderAnalysis();
                 },
@@ -1876,6 +1873,12 @@ namespace SERVERAPI.Controllers
             {
                 report += pageBreakForManure;
                 report += reportManureUse;
+            }
+
+            if (reportBeefManureUse.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportBeefManureUse;
             }
 
             if (reportOctoberToMarchStorageVolumes.Contains("div"))

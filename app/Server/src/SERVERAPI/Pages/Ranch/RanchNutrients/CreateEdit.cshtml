@@ -64,6 +64,7 @@ else
         $(document).ready(function () {
             $("body").on("change", "#Data_SelectedNutrientAnalysis", function () {
                 $('#PostedElementEvent').val("@CreateEdit.ElementEvent.NutrientAnalysisChanged");
+                $('#manureName').val($("#Data_SelectedNutrientAnalysis option:selected").text());
                 $("#btnSave").click();
             })
         });

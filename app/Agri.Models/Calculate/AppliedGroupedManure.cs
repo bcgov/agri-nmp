@@ -31,8 +31,8 @@ namespace Agri.Models.Calculate
                     {
                         var farmAnimal = manure as FarmAnimal;
                         total += farmAnimal.ManureType == Models.ManureMaterialType.Liquid ?
-                                farmAnimal?.ManureGeneratedTonsPerYear.GetValueOrDefault(0) ?? 0 :
-                                farmAnimal?.ManureGeneratedGallonsPerYear.GetValueOrDefault(0) ?? 0;
+                                farmAnimal?.ManureGeneratedGallonsPerYear.GetValueOrDefault(0) ?? 0 :
+                                farmAnimal?.ManureGeneratedTonsPerYear.GetValueOrDefault(0) ?? 0;
                     }
                     else if (manure is ImportedManure)
                     {
@@ -46,5 +46,7 @@ namespace Agri.Models.Calculate
                 return total;
             }
         }
+
+        public override string ManureMaterialName { get; set; }
     }
 }

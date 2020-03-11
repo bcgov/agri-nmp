@@ -23,5 +23,7 @@ namespace Agri.Models.Calculate
         public override decimal TotalAnnualManureToApply => ManureMaterialType == Models.ManureMaterialType.Liquid ?
             FarmAnimal?.ManureGeneratedTonsPerYear.GetValueOrDefault(0) ?? 0 :
             FarmAnimal?.ManureGeneratedGallonsPerYear.GetValueOrDefault(0) ?? 0;
+
+        public override string ManureMaterialName { get; set; }
     }
 }
