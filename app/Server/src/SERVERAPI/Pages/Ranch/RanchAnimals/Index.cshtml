@@ -22,13 +22,13 @@
                             Number
                         </th>
                         <th>
-                            Manure Type
-                        </th>
-                        <th>
                             Piled/Collected
                         </th>
                         <th>
                             Days Collected
+                        </th>
+                        <th>
+                            Amount Generated
                         </th>
                         <th>
                         </th>
@@ -48,13 +48,20 @@
                                 @item.AverageAnimalNumber
                             </td>
                             <td>
-                                @item.ManureMaterialType
-                            </td>
-                            <td>
                                 @item.ManureCollected
                             </td>
                             <td>
                                 @item.DurationDays
+                            </td>
+                            <td>
+                                @if (item.IsManureCollected)
+                                {
+                                    <span>@item.ManureGeneratedTonsPerYear @(item.ManureGeneratedTonsPerYear > 1 ? "tons" : "ton")</span>
+                                }
+                                else
+                                {
+                                    <i>Manure not collected</i>
+                                }
                             </td>
                             <td class="col-sm-2 text-center">
                                 @* The 'Edit' button to open the CreateEdit form as a model needs
