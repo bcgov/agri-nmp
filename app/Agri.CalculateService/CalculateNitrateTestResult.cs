@@ -7,7 +7,7 @@ namespace Agri.CalculateService
 {
     public interface INitrateTestCalculator
     {
-        double CalculateResult(string selectedDepth, double nitrateValue);
+        double CalculateResult(string selectedDepth, double nitrateValue, double bulkDensity);
     }
     public class CalculateNitrateTestResult:INitrateTestCalculator
     {
@@ -17,19 +17,20 @@ namespace Agri.CalculateService
         {
             _sd = sd;
         }
-        public double CalculateResult(string selectedDepth,double nitrateValue)
+        public double CalculateResult(string selectedDepth,double nitrateValue, double bulkDensity)
         {
             double returnValue = 0;
-            var bulkDensity = 1300;
             var depths = _sd.GetDepths();
             var selectedDepthName = depths.Find(x => x.Id == Convert.ToInt32(selectedDepth)).Name;
             if (selectedDepthName == "DepthZeroToThirty") 
             {
                 returnValue = (nitrateValue * bulkDensity * 3000) / (Math.Pow(10, 6));
+                returnValue = Math.Floor(returnValue);
             }
             else
             {
                 returnValue = (nitrateValue * bulkDensity * 1500) / (Math.Pow(10, 6));
+                returnValue = Math.Floor(returnValue);
             }
 
             return returnValue;
