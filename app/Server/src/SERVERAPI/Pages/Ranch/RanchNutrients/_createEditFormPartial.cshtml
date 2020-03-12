@@ -7,10 +7,10 @@
             @Html.Raw(Model.Data.RanchNutrientAnalysisEntryCreateEditMessage)
         </div>
     </div>
-    @if ((Model.Data.RanchSolidManures != null && Model.Data.RanchSolidManures.Any()) ||
-(Model.Data.RanchLiquidManures != null && Model.Data.RanchLiquidManures.Any()))
-    {
-        <div class="row">
+    <div class="row">
+        @if ((Model.Data.RanchSolidManures != null && Model.Data.RanchSolidManures.Any()) ||
+ (Model.Data.RanchLiquidManures != null && Model.Data.RanchLiquidManures.Any()))
+        {
             <div class="col-md-4 order-md-1">
                 <div class="form-group table-bordered" style="padding-left: 5px !important">
                     <table class="table-borderless table-sm">
@@ -57,21 +57,21 @@
                     <span asp-validation-for="@Model.Data.ManuresSelected" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-sm-8 order-md-2">
-                <div class="form-group">
-                    <label for="">Nutrient Anaylsis</label>
-                    <div>
-                        <select class="form-control"
-                                asp-for="@Model.Data.SelectedNutrientAnalysis"
-                                asp-items="@Model.Data.BeefNutrientAnalysisOptions">
-                            <option>select</option>
-                        </select>
-                        <span asp-validation-for="@Model.Data.SelectedNutrientAnalysis" class="text-danger">Select a Nutrient Analysis</span>
-                    </div>
+        }
+        <div class="col-sm-8 order-md-2">
+            <div class="form-group">
+                <label for="">Nutrient Anaylsis</label>
+                <div>
+                    <select class="form-control"
+                            asp-for="@Model.Data.SelectedNutrientAnalysis"
+                            asp-items="@Model.Data.BeefNutrientAnalysisOptions">
+                        <option>select</option>
+                    </select>
+                    <span asp-validation-for="@Model.Data.SelectedNutrientAnalysis" class="text-danger">Select a Nutrient Analysis</span>
                 </div>
             </div>
         </div>
-    }
+    </div>
     @if (Model.Data.SelectedNutrientAnalysis > 0)
     {
         <div class="row">

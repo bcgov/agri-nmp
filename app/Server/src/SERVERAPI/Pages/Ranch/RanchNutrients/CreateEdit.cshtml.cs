@@ -276,8 +276,9 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
         {
             public CommandValidator()
             {
-                RuleFor(m => m.ManuresSelected).Must(ms => ms == true).WithMessage("One or more Solid or Liquid manure must be selected")
-                    .WithMessage("One or more materials must be checked");
+                RuleFor(m => m.ManuresSelected).Must(ms => ms == true)
+                    .When(m => m.RanchLiquidManures.Any() || m.RanchSolidManures.Any())
+                    .WithMessage("One or more Solid or Liquid manure must be selected");
                 RuleFor(m => m.SelectedNutrientAnalysis).GreaterThan(0)
                     .WithMessage("A nutrient analysis must be selected");
                 When(m => !m.UseBookValue, () =>
