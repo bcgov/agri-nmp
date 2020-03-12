@@ -15,7 +15,10 @@ namespace Agri.Models.Calculate
         }
 
         public List<ManagedManure> IncludedManagedManures { get; private set; }
-        public override string SourceName => string.Join(',', IncludedManagedManures.Select(iam => iam.ManagedManureName).ToList());
+
+        public override string SourceName =>
+            string.Join(',', IncludedManagedManures
+                .Select(iam => iam is FarmAnimal ? iam.ManagedManureName : $"Imported - {iam.ManagedManureName}").ToList());
 
         public override ManureMaterialType? ManureMaterialType => null;
 

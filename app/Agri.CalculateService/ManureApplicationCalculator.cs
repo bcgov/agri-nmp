@@ -117,9 +117,41 @@ namespace Agri.CalculateService
 
         public AppliedImportedManure GetAppliedImportedManure(YearData yearData, FarmManure farmManure)
         {
+            var fieldsAppliedWithImportedManure = yearData.GetFieldsAppliedWithManure(farmManure);
             var importedManure = yearData.ImportedManures.SingleOrDefault(mss => mss.Id == farmManure?.SourceOfMaterialImportedManureId.Value);
+            var farmManureIds = yearData.GetFarmManureIds(importedManure);
 
-            var fieldAppliedManures = CalculateFieldAppliedImportedManure(yearData, farmManure, importedManure);
+            var fieldAppliedManures = new List<FieldAppliedManure>();
+            foreach (var field in fieldsAppliedWithImportedManure)
+            {
+                var nutrientManures = field?.Nutrients.nutrientManures
+                    .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
+                    .ToList() ?? new List<NutrientManure>();
+
+                foreach (var nutrientManure in nutrientManures)
+                {
+                    var fieldAppliedManure = new FieldAppliedManure();
+                    if (importedManure.ManureType == ManureMaterialType.Liquid)
+                    {
+                        var convertedRate = _manureUnitConversionCalculator
+                            .GetLiquidUSGallonsPerAcreApplicationRate(nutrientManure.rate,
+                                (ApplicationRateUnits)Convert.ToInt32(nutrientManure.unitId));
+
+                        fieldAppliedManure.USGallonsApplied =
+                            field.Area * convertedRate;
+                    }
+                    else
+                    {
+                        var convertedRate = _manureUnitConversionCalculator
+                            .GetSolidsTonsPerAcreApplicationRate(importedManure.Moisture.Value, nutrientManure.rate,
+                                (ApplicationRateUnits)Convert.ToInt32(nutrientManure.unitId));
+
+                        fieldAppliedManure.TonsApplied = field.Area * convertedRate;
+                    }
+
+                    fieldAppliedManures.Add(fieldAppliedManure);
+                }
+            }
 
             var appliedImportedManure = new AppliedImportedManure(fieldAppliedManures, importedManure);
 
@@ -131,12 +163,11 @@ namespace Agri.CalculateService
         {
             var fieldsAppliedWithImportedManure = yearData.GetFieldsAppliedWithManure(farmManure);
             var fieldAppliedManures = new List<FieldAppliedManure>();
-            var farmManureIds = yearData.GetFarmManureIds(importedManure);
 
             foreach (var field in fieldsAppliedWithImportedManure)
             {
                 var nutrientManures = field?.Nutrients.nutrientManures
-                    .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
+                    .Where(nm => Convert.ToInt32(nm.manureId) == farmManure.Id)
                     .ToList() ?? new List<NutrientManure>();
 
                 foreach (var nutrientManure in nutrientManures)
@@ -214,12 +245,12 @@ namespace Agri.CalculateService
             foreach (var farmAnimal in farmAnimals)
             {
                 var fieldsAppliedWithCollectedManure = yearData.GetFieldsAppliedWithManure(farmAnimal);
-                var farmManureIds = yearData.GetFarmManureIds(farmAnimal);
+                var manure = _repository.GetManure(farmManure.ManureId);
 
                 foreach (var field in fieldsAppliedWithCollectedManure)
                 {
                     var nutrientManures = field?.Nutrients.nutrientManures
-                        .Where(nm => farmManureIds.Any(fm => fm == Convert.ToInt32(nm.manureId)))
+                        .Where(nm => Convert.ToInt32(nm.manureId) == farmManure.Id)
                         .ToList() ?? new List<NutrientManure>();
 
                     foreach (var nutrientManure in nutrientManures)
@@ -236,7 +267,7 @@ namespace Agri.CalculateService
                         }
                         else
                         {
-                            if (!decimal.TryParse(farmManure.Moisture.Replace("%", ""), out var moisture))
+                            if (!decimal.TryParse(manure.Moisture.Replace("%", ""), out var moisture))
                             {
                                 moisture = _repository.GetManure(farmManure.ManureId).DefaultSolidMoisture.GetValueOrDefault(0);
                             }
