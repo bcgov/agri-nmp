@@ -25,12 +25,12 @@ namespace Agri.CalculateService
             if (selectedDepthName == "DepthZeroToThirty") 
             {
                 returnValue = (nitrateValue * bulkDensity * 3000) / (Math.Pow(10, 6));
-                returnValue = Math.Floor(returnValue);
+                returnValue = Math.Round(returnValue);
             }
             else
             {
                 returnValue = (nitrateValue * bulkDensity * 1500) / (Math.Pow(10, 6));
-                returnValue = Math.Floor(returnValue);
+                returnValue = Math.Round(returnValue);
             }
 
             return returnValue;
