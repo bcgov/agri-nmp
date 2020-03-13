@@ -56,24 +56,16 @@
     </div>
 </div>
 <div class="container">
-    <div class="step-forms col-sm-12">
-        <div class="form-box" style="border:0px !important;">
-            <div class="row">
-                @Model.Data.SoilTestConverterUserInstruction2
+    <div class="form-box" style="border:none">
+        <div class="row">
+            <img class="col-sm-1" src="~/images/lightbulb_icon-01.png" />
+            <div class="col-sm-6 row">
+                <h4>@Model.Data.SoilTestConverterUserInstruction2</h4>
             </div>
-            <div class="row">
-                &nbsp;
-            </div>
-            <div class="row">
-                <div>
-                    <input class="form-group col-sm-5 btn btn-primary" onclick="window.open('@Model.Data.SoilTestInformationButtonLink');" formtarget="_blank" value="@Model.Data.SoilTestingInformation" />
-                </div>
-                <div class="form-group col-sm-2">
-                    &nbsp;
-                </div>
-                <div>
-                    <input class="form-group col-sm-5 btn btn-primary" onclick="window.open('@Model.Data.BCNutrientManagementCalculatorButtonLink');" formtarget="_blank" value="@Model.Data.BCNutrientManagementCalculator" />
-                </div>
+            <div class="col-sm-5">
+                <a style="cursor:default" onclick="window.open('@Model.Data.SoilTestInformationButtonLink');" formtarget="_blank">@Model.Data.SoilTestingInformation</a>
+                <br />
+                <a style="cursor:default" onclick="window.open('@Model.Data.BCNutrientManagementCalculatorButtonLink');" formtarget="_blank">@Model.Data.BCNutrientManagementCalculator</a>
             </div>
         </div>
     </div>

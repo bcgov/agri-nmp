@@ -1,0 +1,170 @@
+﻿@page
+@model SERVERAPI.Pages.MiniApps.NitrateTestCalculator.Index
+@{
+    ViewData["Title"] = "Nitrate Test Calculator";
+    Layout = "_MiniAppLayout";
+}
+
+<div class="container" style="margin-top:30px">
+    <div class="step-forms col-sm-12">
+        <div class="form-box">
+            <div class="form-box-header clearfix">
+                <div class="form-box-heading">Post-harvest nitrate test (PHNT) calculator</div>
+            </div>
+
+            <div class="form-box-body">
+                <div class="form-box-fields">
+                    <form method="post">
+                        <div class="row">
+                            @Model.Data.NitrateCalculatorUserInstruction1
+                        </div>
+                        @{
+                            var visibility = "visible";
+                        }
+                        @for (int i = 0; i < Model.Data.nitrateTestAnalysis.Count; i++)
+                        {
+                            <div class="row">
+                                <div class="form-group col-sm-3">
+                                    <label>Sample @Model.Data.nitrateTestAnalysis[i].Id</label>
+                                    <div>
+                                        <select class="form-control" asp-for="@Model.Data.nitrateTestAnalysis[i].SelectDepthOption"
+                                                asp-items="@Model.Data.nitrateTestAnalysis[i].DepthOptions" onchange="comboDepthChange()">
+                                            <option value="0">- select sampling depth -</option>
+                                        </select>
+                                        <span asp-validation-for="Data.nitrateTestAnalysis[i].SelectDepthOption" class=""></span>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-2" style="padding-right:0px">
+                                    <label>Nitrate</label>
+                                    <div>
+                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].nitrate" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px">
+                                        <div class="col-sm-4" style="padding-top:5px">
+                                            ppm
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model.Data.isBasic)
+                                {
+                                    <div class="form-group col-sm-3" style="padding-right:0px">
+                                        <label>Bulk Density</label>
+                                        <div>
+                                            <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].bulkDensity" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px">
+                                            <div class="col-sm-6" style="padding-top:5px">
+                                                kg m<sup>-3</sup>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <input type="hidden" asp-for="@Model.Data.nitrateTestAnalysis[i].bulkDensity" />
+                                }
+                                <div class="form-group col-sm-4">
+                                    <label>Results</label>
+                                    <div class="row">
+                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].result" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px;padding-right:0px;pointer-events:none;background-color:#F5F5F5" />
+                                        <div class="col-sm-6" style="padding-top:5px">
+                                            kg NO<sub>3</sub>-N  ha<sup>-1</sup>
+
+                                        </div>
+                                        @* <span asp-validation-for="Data.ApplicationRate" class=""></span>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" asp-for="@Model.Data.nitrateTestAnalysis[i].Id" />
+                        }
+                        @if (Model.Data.isNotShowButton)
+                        {
+                            visibility = "hidden";
+
+                        }
+                        else
+                        {
+                            visibility = "visible";
+                        }
+
+                        <div class="row">
+                            <div class="col-sm-7">
+                                &nbsp;
+                            </div>
+                            @* <div class="col-sm-7">*@
+
+                            <input class="btn btn-primary col-sm-3" type="submit" id="AddSample" style="visibility:@visibility" value="Add another sample depth" />
+                            <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning" style="visibility:@visibility">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                            </a>
+                        </div>
+
+                        @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
+                        @Html.HiddenFor(x => x.Data.isBasic)
+                        @Html.HiddenFor(x=>x.Data.isNotShowButton)
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                &nbsp;
+                            </div>
+                            <div class="form-box-heading col-sm-2">
+                                Total for field
+                            </div>
+                            <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.totalResult" style="width:64px;pointer-events:none;background-color:#F5F5F5" />
+                            <div class="col-sm-2" style="padding-top:5px">
+                                kg NO<sub>3</sub>-N  ha<sup>-1</sup>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                &nbsp;
+                            </div>
+                            @if (!Model.Data.isBasic)
+                            {
+                                <a class="col-sm-3" style="margin-left:45px;cursor:pointer;text-decoration:underline;" id="btnAdvance" >Advanced</a>
+
+                            }
+                            else
+                            {
+                                <a class="col-sm-3" style="margin-left:45px;cursor:pointer;text-decoration:underline;" id="btnBasic" >Basic</a>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="form-box" style="border:none">
+        <div class="row">
+            <img class="col-sm-1" src="~/images/lightbulb_icon-01.png" />
+            <div class="col-sm-6 row">
+                <h4>@Model.Data.NitrateCalculatorUserInstruction2</h4>                
+            </div>
+            <div class="col-sm-5">
+                <a style="cursor:default" onclick="window.open('@Model.Data.SoilTestInformationButtonLink');" formtarget="_blank">@Model.Data.SoilTestingInformation</a>
+                <br />
+                <a style="cursor:default" onclick="window.open('@Model.Data.BCNutrientManagementCalculatorButtonLink');" formtarget="_blank">@Model.Data.BCNutrientManagementCalculator</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        function comboDepthChange() {
+           
+            $('#PostedElementEvent').val("DepthChange");
+            $("#AddSample").click();
+        }
+
+        $(document).ready(function () {
+            $("body").on("click", "#btnBasic", function () {
+                $('#PostedElementEvent').val("BasicChange");
+                $("#AddSample").click();
+            });
+
+            $("body").on("click", "#btnAdvance", function () {
+                $('#PostedElementEvent').val("AdvancedChange");
+                $("#AddSample").click();
+            });
+        });
+    </script>
+}
