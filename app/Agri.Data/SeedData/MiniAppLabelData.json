@@ -106,5 +106,11 @@
     "Name": "BCNutrientManagementCalculatorButtonLink",
     "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-management-calculator",
     "MiniAppId": "3"
+  },
+  {
+    "Id": 19,
+    "Name": "SampleDepthMessage",
+    "LabelText": "Sample Depth Message",
+    "MiniAppId": "3"
   }
 ]
