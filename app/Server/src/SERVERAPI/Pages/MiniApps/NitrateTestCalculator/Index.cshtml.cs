@@ -94,11 +94,13 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
             public bool isNotShowButton { get; set; }
             public string SoilTestingInformation { get; set; }
-            public string NitrateTestCalculatorUserInstruction1 { get; set; }
-            public string NitrateTestCalculatorUserInstruction2 { get; set; }
+            public string NitrateCalculatorUserInstruction1 { get; set; }
+            public string NitrateCalculatorUserInstruction2 { get; set; }
+            public string NitrateCalculatorUserInstruction3 { get; set; }
             public string BCNutrientManagementCalculator { get; set; }
             public string SoilTestInformationButtonLink { get; set; }
             public string BCNutrientManagementCalculatorButtonLink { get; set; }
+            public string SampleDepthMessage { get; set; }
 
             public string PostedElementEvent { get; set; }
             public double totalResult { get; set; }
@@ -184,12 +186,14 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                 command.isNotShowButton = command.isNotShowButton ? command.isNotShowButton : false;
                 command.isBasic = command.isBasic ? command.isBasic : false;
                 var details = _sd.GetNitrateCalculatorDetails();
-                command.NitrateTestCalculatorUserInstruction1 = details.Where(x => x.Key == "NitrateTestCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
-                command.NitrateTestCalculatorUserInstruction2 = details.Where(x => x.Key == "NitrateTestCalculatorUserInstruction2").Select(x => x.Value).FirstOrDefault();
+                command.NitrateCalculatorUserInstruction1 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
+                command.NitrateCalculatorUserInstruction2 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction2").Select(x => x.Value).FirstOrDefault();
+                command.NitrateCalculatorUserInstruction3 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction3").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestingInformation = details.Where(x => x.Key == "SoilTestingInformation").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
+                command.SampleDepthMessage = details.Where(x => x.Key == "SampleDepthMessage").Select(x => x.Value).FirstOrDefault();
 
                 return await Task.FromResult(command);
             }
