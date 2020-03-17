@@ -73,7 +73,6 @@
   
   <ItemGroup>
     <EmbeddedResource Include="SeedData\MiniAppData.json" />
-    <EmbeddedResource Include="SeedData\UserPromptsData.json" />
   </ItemGroup>
 
   <ItemGroup>
