@@ -902,5 +902,15 @@ namespace Agri.LegacyData.Models.Impl
         {
             throw new NotImplementedException();
         }
+
+        public List<KeyValuePair<string, string>> GetManureNutrientCalculatorDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Manure GetManure(int manId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
