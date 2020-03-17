@@ -59,6 +59,7 @@ namespace SERVERAPI.Pages.MiniApps
             public string SelectLaboratoryOption { get; set; }
             public string SoilTestConverterUserInstruction1 { get; set; }
             public string SoilTestConverterUserInstruction2 { get; set; }
+            public string SoilTestConverterUserInstruction3 { get; set; }
             public string SoilTestingInformation { get; set; }
             public string BCNutrientManagementCalculator { get; set; }
             public string SoilTestInformationButtonLink { get; set; }
@@ -104,6 +105,7 @@ namespace SERVERAPI.Pages.MiniApps
                 var details = _sd.GetSoilConverterDetails();
                 command.SoilTestConverterUserInstruction1 = details.Where(x => x.Key == "SoilTestConverterUserInstruction1").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestConverterUserInstruction2 = details.Where(x => x.Key == "SoilTestConverterUserInstruction2").Select(x => x.Value).FirstOrDefault();
+                command.SoilTestConverterUserInstruction3 = details.Where(x => x.Key == "SoilTestConverterUserInstruction3").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestingInformation = details.Where(x => x.Key == "SoilTestingInformation").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();

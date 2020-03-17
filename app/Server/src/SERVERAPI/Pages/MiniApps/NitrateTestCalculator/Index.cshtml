@@ -135,8 +135,14 @@
     <div class="form-box" style="border:none">
         <div class="row">
             <img class="col-sm-1" src="~/images/lightbulb_icon-01.png" />
+            @*<div class="col-sm-6 row">
+            <h4>@Model.Data.NitrateCalculatorUserInstruction2</h4>
+        </div>*@
             <div class="col-sm-6 row">
-                <h4>@Model.Data.NitrateCalculatorUserInstruction2</h4>                
+                <h2>@Model.Data.NitrateCalculatorUserInstruction2</h2>
+                <div class="col-sm-11">
+                    @Model.Data.NitrateCalculatorUserInstruction3
+                </div>
             </div>
             <div class="col-sm-5">
                 <a style="cursor:default" onclick="window.open('@Model.Data.SoilTestInformationButtonLink');" formtarget="_blank">@Model.Data.SoilTestingInformation</a>
