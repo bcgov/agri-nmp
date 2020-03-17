@@ -183,9 +183,19 @@
             "Controller": "Soil",
             "Action": "SoilTest",
             "PreviousPage": "/Ranch/RanchFeeding/Index",
+            "NextController": "Crops",
+            "NextAction": "Crops",
+            "SortNumber": 3
+          },
+          {
+            "Name": "Crops",
+            "Controller": "Crops",
+            "Action": "Crops",
+            "PreviousController": "Soil",
+            "PreviousAction": "SoilTest",
             "NextController": "Nutrients",
             "NextAction": "Calculate",
-            "SortNumber": 3
+            "SortNumber": 4
           }
         ]
       },
@@ -193,8 +203,8 @@
         "Name": "Calculate Nutrients",
         "Controller": "Nutrients",
         "Action": "Calculate",
-        "PreviousController": "Soil",
-        "PreviousAction": "SoilTest",
+        "PreviousController": "Crops",
+        "PreviousAction": "Crops",
         "NextController": "Report",
         "NextAction": "Report",
         "SortNumber": 4
