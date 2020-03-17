@@ -96,6 +96,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public string SoilTestingInformation { get; set; }
             public string NitrateCalculatorUserInstruction1 { get; set; }
             public string NitrateCalculatorUserInstruction2 { get; set; }
+            public string NitrateCalculatorUserInstruction3 { get; set; }
             public string BCNutrientManagementCalculator { get; set; }
             public string SoilTestInformationButtonLink { get; set; }
             public string BCNutrientManagementCalculatorButtonLink { get; set; }
@@ -187,6 +188,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                 var details = _sd.GetNitrateCalculatorDetails();
                 command.NitrateCalculatorUserInstruction1 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
                 command.NitrateCalculatorUserInstruction2 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction2").Select(x => x.Value).FirstOrDefault();
+                command.NitrateCalculatorUserInstruction3 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction3").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestingInformation = details.Where(x => x.Key == "SoilTestingInformation").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
                 command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
