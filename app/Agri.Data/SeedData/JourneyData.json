@@ -91,9 +91,19 @@
             "Action": "SoilTest",
             "PreviousController": "Fields",
             "PreviousAction": "Fields",
+            "NextController": "Crops",
+            "NextAction": "Crops",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Crops",
+            "Controller": "Crops",
+            "Action": "Crops",
+            "PreviousController": "Soil",
+            "PreviousAction": "SoilTest",
             "NextController": "Nutrients",
             "NextAction": "Calculate",
-            "SortNumber": 2
+            "SortNumber": 4
           }
         ]
       },
@@ -101,8 +111,8 @@
         "Name": "Calculate Nutrients",
         "Controller": "Nutrients",
         "Action": "Calculate",
-        "PreviousController": "Fields",
-        "PreviousAction": "Fields",
+        "PreviousController": "Crops",
+        "PreviousAction": "Crops",
         "NextController": "Report",
         "NextAction": "Report",
         "SortNumber": 4
@@ -275,9 +285,19 @@
             "Action": "SoilTest",
             "PreviousController": "Fields",
             "PreviousAction": "Fields",
+            "NextController": "Crops",
+            "NextAction": "Crops",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Crops",
+            "Controller": "Crops",
+            "Action": "Crops",
+            "PreviousController": "Soil",
+            "PreviousAction": "SoilTest",
             "NextController": "Nutrients",
             "NextAction": "Calculate",
-            "SortNumber": 2
+            "SortNumber": 3
           }
         ]
       },
@@ -285,8 +305,8 @@
         "Name": "Calculate Nutrients",
         "Controller": "Nutrients",
         "Action": "Calculate",
-        "PreviousController": "Soil",
-        "PreviousAction": "SoilTest",
+        "PreviousController": "Crops",
+        "PreviousAction": "Crops",
         "NextController": "Report",
         "NextAction": "Report",
         "SortNumber": 4
@@ -335,9 +355,19 @@
             "Action": "SoilTest",
             "PreviousController": "Fields",
             "PreviousAction": "Fields",
+            "NextController": "Crops",
+            "NextAction": "Crops",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Crops",
+            "Controller": "Crops",
+            "Action": "Crops",
+            "PreviousController": "Soil",
+            "PreviousAction": "SoilTest",
             "NextController": "ManureManagement",
             "NextAction": "ManureImported",
-            "SortNumber": 2
+            "SortNumber": 3
           }
         ]
       },
@@ -351,8 +381,8 @@
             "Name": "Manure and Imports",
             "Controller": "ManureManagement",
             "Action": "ManureImported",
-            "PreviousController": "Soil",
-            "PreviousAction": "SoilTest",
+            "PreviousController": "Crops",
+            "PreviousAction": "Crops",
             "NextController": "ManureManagement",
             "NextAction": "ManureNutrientAnalysis",
             "SortNumber": 1
@@ -481,6 +511,16 @@
             "Action": "SoilTest",
             "PreviousController": "Feeding",
             "PreviousAction": "Feeding",
+            "NextController": "Crops",
+            "NextAction": "Crops",
+            "SortNumber": 2
+          },
+          {
+            "Name": "Crops",
+            "Controller": "Crops",
+            "Action": "Crops",
+            "PreviousController": "Soil",
+            "PreviousAction": "SoilTest",
             "NextController": "Nutrients",
             "NextAction": "Calculate",
             "SortNumber": 3
@@ -491,8 +531,8 @@
         "Name": "Calculate Nutrients",
         "Controller": "Nutrients",
         "Action": "Calculate",
-        "PreviousController": "Soil",
-        "PreviousAction": "SoilTest",
+        "PreviousController": "Crops",
+        "PreviousAction": "Crops",
         "NextController": "Report",
         "NextAction": "Report",
         "SortNumber": 4
