@@ -33,53 +33,52 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (ModelState.IsValid)
+
+            if (Data.PostedElementEvent == "DepthChange" && ModelState.IsValid)
             {
-                if (Data.PostedElementEvent == "DepthChange")
+                ModelState.Clear();
+                Data.PostedElementEvent = "none";
+                if (Data.nitrateTestAnalysis[0].SelectDepthOption == "3")
                 {
-                    ModelState.Clear();
-                    Data.PostedElementEvent = "none";
-                    if (Data.nitrateTestAnalysis[0].SelectDepthOption == "3")
+                    Data.isNotShowButton = true;
+                    if (Data.nitrateTestAnalysis.Count == 2)
                     {
-                        Data.isNotShowButton = true;
-                        if (Data.nitrateTestAnalysis.Count == 2)
-                        {
-                            Data.nitrateTestAnalysis.RemoveAt(1);
-                        }
+                        Data.nitrateTestAnalysis.RemoveAt(1);
                     }
-                    else
-                    {
-                        Data.isNotShowButton = Data.nitrateTestAnalysis.Count != 2 ? false : true;
-                    }
-                }
-                else if (Data.PostedElementEvent == "BasicChange")
-                {
-                    ModelState.Clear();
-                    Data.PostedElementEvent = "none";
-                    Data.isBasic = false;
-                    foreach (var nitrateTest in Data.nitrateTestAnalysis)
-                    {
-                        nitrateTest.bulkDensity = 1300;
-                    }
-                }
-                else if (Data.PostedElementEvent == "AdvancedChange")
-                {
-                    ModelState.Clear();
-                    Data.PostedElementEvent = "none";
-                    Data.isBasic = true;
                 }
                 else
                 {
-                    ModelState.Clear();
-                    Data.PostedElementEvent = "none";
-                    if (Data.nitrateTestAnalysis.Count() != 2)
-                    {
-                        var newId = Data.nitrateTestAnalysis.Count + 1;
-                        Data.nitrateTestAnalysis.Add(new ConverterQuery.NitrateTest { Id = newId, bulkDensity = 1300 });
-                        Data.isNotShowButton = true;
-                    }
+                    Data.isNotShowButton = Data.nitrateTestAnalysis.Count != 2 ? false : true;
                 }
             }
+            else if (Data.PostedElementEvent == "BasicChange")
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = "none";
+                Data.isBasic = false;
+                foreach (var nitrateTest in Data.nitrateTestAnalysis)
+                {
+                    nitrateTest.bulkDensity = 1300;
+                }
+            }
+            else if (Data.PostedElementEvent == "AdvancedChange")
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = "none";
+                Data.isBasic = true;
+            }
+            else if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = "none";
+                if (Data.nitrateTestAnalysis.Count() != 2)
+                {
+                    var newId = Data.nitrateTestAnalysis.Count + 1;
+                    Data.nitrateTestAnalysis.Add(new ConverterQuery.NitrateTest { Id = newId, bulkDensity = 1300 });
+                    Data.isNotShowButton = true;
+                }
+            }
+
             Data = await _mediator.Send(new Query { PopulatedData = Data });
             return Page();
         }
