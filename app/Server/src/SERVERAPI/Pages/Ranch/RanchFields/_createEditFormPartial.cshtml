@@ -39,12 +39,12 @@
             </select>
             <span asp-validation-for="@Model.Data.SelectPrevYrManureOption"></span>
         </div>
-        <div class="form-group col-sm-6" style="width: 350px;">
-            <label style="padding-right: 20px; padding-top:5px;">
-                <input id="isSeasonal" asp-for="@Model.Data.IsSeasonalFeedingArea" onchange="IsSeasonalValueChange()" type="checkbox" />
-            </label>
-            <label i="labelIsSeasonalFeedingArea">This is a seasonal feeding area</label>
-        </div>
+        @*<div class="form-group col-sm-6" style="width: 350px;">
+                <label style="padding-right: 20px; padding-top:5px;">
+                    <input id="isSeasonal" asp-for="@Model.Data.IsSeasonalFeedingArea" onchange="IsSeasonalValueChange()" type="checkbox" />
+                </label>
+                <label i="labelIsSeasonalFeedingArea">This is a seasonal feeding area</label>
+            </div>*@
     </div>
     @{
         var displaySeasonal = "none";
