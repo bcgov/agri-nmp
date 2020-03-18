@@ -923,6 +923,34 @@ namespace Agri.Data
                 _context.AppliedMigrationSeedData.Add(migrationSeedData);
                 _context.SaveChanges();
             }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("98_MiniAppData", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<MiniApp>>("98_MiniAppData");
+                foreach (var label in migrationSeedData.Data)
+                {
+                    if (!_context.MiniApps.Any(up => up.Id == label.Id))
+                    {
+                        _context.MiniApps.Add(label);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("99_MiniAppLabels", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<MiniAppLabel>>("99_MiniAppLabels");
+                foreach (var label in migrationSeedData.Data)
+                {
+                    if (!_context.MiniAppLabels.Any(up => up.Id == label.Id))
+                    {
+                        _context.MiniAppLabels.Add(label);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
         }
     }
 }
