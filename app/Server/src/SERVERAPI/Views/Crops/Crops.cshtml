@@ -1,0 +1,212 @@
+﻿@using Agri.Models
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Calculate Nutrients";
+}
+
+<!-- modal placeholder-->
+<div id='myModal' class='modal'>
+    <div class="modal-dialog" id="divSize">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+
+<!-- BODY CONTENT -->
+
+<div class="header-height"></div>
+
+<br />
+<br />
+
+<div id="overlay" style="display: none;"></div>
+<div class="container">
+    @* Puts a border around the form when not in a modal window *@
+    <div class="form-box">
+        <div class="form-box-header clearfix">
+            <div class="form-box-heading" style="width: 100%;">
+                <div class="col-md-4">Crop List</div>
+            </div>
+        </div>
+        @await Component.InvokeAsync("CropsList")
+    </div>
+</div>
+
+<div id="next-previous-navigation">
+    @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.Crops })
+</div>
+@section Scripts {
+    <script type="text/javascript">
+    $(document).on("click", '[data_modal]', function (e) {
+            $.ajaxSetup({ cache: false });
+            $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
+            $("#divSize").removeClass("modal-carousel");
+            $("#divSize").addClass("modal-large");
+            $('#myModalContent').load($type, function () {
+                $('#myModal').modal({
+                    /*backdrop: 'static',*/
+                    //keyboard: true
+                }, 'show');
+                bindForm(this);
+            });
+            return false;
+    });
+
+    function bindForm(dialog) {
+        $('form', dialog).submit(function () {
+            $.ajax({
+                cache: false,
+                url: this.action,
+                type: this.method,
+                data: $(this).serialize(),
+                success: function (result) {
+                    if (result.success) {
+                        if (result.reload) {
+                            window.location.href = '@Url.Action("Crops","Crops")';
+                        }
+                        else {
+                            document.getElementById("overlay").style.display = "block";
+                            $('#myModal').modal('hide');
+                            $("#heading").load(result.urlHead);
+                            $('#message').load(result.urlMsg);
+                            $('#summary').load(result.urlSumm);
+                            $(result.target).load(result.url, function (response, status, xhr) {
+                                if (status != "error") {
+                                    document.getElementById("overlay").style.display = "none";
+                                }
+                            });
+                        }
+                    } else {
+                        $('#myModalContent').html(result);
+                        bindForm(dialog);
+                    }
+                }
+            });
+            return false;
+        });
+        }
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlTyp", function () {
+                $('#buttonPressed').val("TypeChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlHarvestUnits", function () {
+                $('#buttonPressed').val("HarvestUnitChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlCrop", function () {
+                $('#buttonPressed').val("CropChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlPrev", function () {
+                $('#buttonPressed').val("PrevChange");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("click", "#rstN", function () {
+                $('#buttonPressed').val("ResetN");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("click", "#rstA", function () {
+                $('#buttonPressed').val("ResetA");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("click", "#rstCrude", function () {
+                $('#buttonPressed').val("ResetCrude");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("click", "#rstYield", function () {
+                $('#buttonPressed').val("ResetYield");
+                $("#modForm").submit();
+            })
+        });
+
+        $(document).on('change', '#crude', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#yieldByHarvestUnit', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#cropDesc', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#reqN', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#reqP', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#reqK', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#remN', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#remP', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#remK', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#coverYes', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#coverNo', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#density', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#valN', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#valP', function () {
+            NeedRefresh();
+        });
+
+        $(document).on('change', '#valK', function () {
+            NeedRefresh();
+        });
+
+        function NeedRefresh() {
+            $("#ok_button").html('Calculate');
+            $("#ok_button").css('background-color', '#1abbed');
+            $("#btnText").val("Calculate");
+        }
+    </script>
+}

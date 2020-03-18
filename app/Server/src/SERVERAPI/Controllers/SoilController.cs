@@ -18,19 +18,17 @@ namespace SERVERAPI.Controllers
     [SessionTimeout]
     public class SoilController : BaseController
     {
-        private readonly IHostingEnvironment _env;
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
         private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
         private readonly ISoilTestConverter _soilTestConversions;
 
-        public SoilController(IHostingEnvironment env,
+        public SoilController(
             UserData ud,
             IAgriConfigurationRepository sd,
             IChemicalBalanceMessage chemicalBalanceMessage,
             ISoilTestConverter soilTestConversions)
         {
-            _env = env;
             _ud = ud;
             _sd = sd;
             _chemicalBalanceMessage = chemicalBalanceMessage;

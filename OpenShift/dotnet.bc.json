@@ -1,0 +1,89 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "dotnet",
+        "creationTimestamp": null
+    },
+    "parameters": [
+        {
+            "name": "NAME",
+            "displayName": "Name",
+            "description": "The name or prefix for all created objects",
+            "required": true,
+            "value": "nmp"
+        },
+        {
+            "name": "SUFFIX",
+            "displayName": "Name Suffix",
+            "description": "The name suffix for all created objects",
+            "required": true,
+            "value": ""
+        },
+        {
+            "name": "VERSION",
+            "displayName": "Tag Version",
+            "description": "Tag version for all created objects",
+            "required": true,
+            "value": ""
+        }
+    ],
+    "objects": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${NAME}-dotnet-31-rhel7",
+                "creationTimestamp": null,
+                "annotations": null
+            },
+            "spec": {
+                "lookupPolicy": {
+                    "local": false
+                },
+                "tags": [
+                    {
+                        "name": "3.1",
+                        "annotations": null,
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "registry.redhat.io/dotnet/dotnet-31-rhel7:3.1"
+                        },
+                        "importPolicy": {},
+                        "referencePolicy": {
+                            "type": "Source"
+                        }                   
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${NAME}-dotnet-31-runtime-rhel7",
+                "creationTimestamp": null,
+                "annotations": null
+            },
+            "spec": {
+                "lookupPolicy": {
+                    "local": false
+                },
+                "tags": [
+                    {
+                        "name": "3.1",
+                        "annotations": null,
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "registry.redhat.io/dotnet/dotnet-31-runtime-rhel7:3.1"
+                        },
+                        "importPolicy": {},
+                        "referencePolicy": {
+                            "type": "Source"
+                        }                     
+                    }
+                ]
+            }
+        }
+    ]
+}
