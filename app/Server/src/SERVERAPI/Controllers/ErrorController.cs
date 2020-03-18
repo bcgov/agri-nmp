@@ -30,32 +30,33 @@ namespace SERVERAPI.Controllers
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex);
                 _logger.LogError(ex, "ErrorHandlingMiddleware");
+                //await HandleExceptionAsync(context, ex);
+                throw;
             }
         }
 
-        private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            //var code = HttpStatusCode.InternalServerError; // 500 if unexpected
-            var exception2 = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+        //    private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+        //    {
+        //        //var code = HttpStatusCode.InternalServerError; // 500 if unexpected
+        //        var exception2 = context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
 
-            //if (exception is MyNotFoundException) code = HttpStatusCode.NotFound;
-            //else if (exception is MyUnauthorizedException) code = HttpStatusCode.Unauthorized;
-            //else if (exception is MyException) code = HttpStatusCode.BadRequest;
-            context.Response.StatusCode = 500;
-            context.Response.ContentType = "text/html";
-            await context.Response.WriteAsync("<html><body>\r\n");
-            await context.Response.WriteAsync(exception.Message + "<br>\r\n");
+        //        //if (exception is MyNotFoundException) code = HttpStatusCode.NotFound;
+        //        //else if (exception is MyUnauthorizedException) code = HttpStatusCode.Unauthorized;
+        //        //else if (exception is MyException) code = HttpStatusCode.BadRequest;
+        //        context.Response.StatusCode = 500;
+        //        context.Response.ContentType = "text/html";
 
-            await context.Response.WriteAsync("</body></html>\r\n");
-            await context.Response.WriteAsync(new string(' ', 512)); // Padding for IE 
-        }
+        //        //await context.Response.WriteAsync("<html><body>\r\n");
+        //        //await context.Response.WriteAsync(exception.Message + "<br>\r\n");
+
+        //        //await context.Response.WriteAsync("</body></html>\r\n");
+        //        //await context.Response.WriteAsync(new string(' ', 512)); // Padding for IE
+        //    }
     }
 
     public class ErrorController : Controller
     {
-        [Route("Error/Error")]
         public IActionResult Error()
         {
             var exception = HttpContext.Features

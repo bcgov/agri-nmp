@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
@@ -28,11 +29,11 @@ namespace SERVERAPI
     /// </summary>
     public class Startup
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
 
         public IConfigurationRoot Configuration { get; }
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             _hostingEnv = env;
 
@@ -83,18 +84,28 @@ namespace SERVERAPI
                 options.IdleTimeout = TimeSpan.FromHours(4);
             });
 
-            // Enable Node Services
-            services.AddNodeServices();
-
             //Automapper
             services.AddAutoMapper(typeof(Startup));
             //Mediatr
             services.AddMediatR(typeof(Startup));
 
-            //// Add framework services.
-            services.AddMvc()
+            // Add framework services.
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(
+                    opts =>
+                    {
+                        opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        opts.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                        opts.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
+                        opts.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+                        // ReferenceLoopHandling is set to Ignore to prevent JSON parser issues with the user / roles model.
+                        opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                        opts.SerializerSettings.StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii;
+                    });
+
+            services.AddRazorPages()
                 .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); })
-                .AddJsonOptions(
+                .AddNewtonsoftJson(
                     opts =>
                     {
                         opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -129,23 +140,35 @@ namespace SERVERAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
-            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             var cultureInfo = new CultureInfo("en-US");
             cultureInfo.NumberFormat.CurrencySymbol = "$";
 
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            if (_hostingEnv.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error/Error");
+            }
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseSession();
             app.UseResponseCompression();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
 
             UpdateDatabase(app);
             RunSeeding(app);
@@ -193,7 +216,10 @@ namespace SERVERAPI
             {
                 using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
                 {
-                    if (options.Value.RefreshDatabase && _hostingEnv.IsDevelopment())
+                    var refreshDatabase = Environment.GetEnvironmentVariable("REFRESH_DATABASE");
+
+                    if ((!string.IsNullOrEmpty(refreshDatabase) && refreshDatabase.ToLower() == "true") ||
+                        (options.Value.RefreshDatabase && _hostingEnv.IsDevelopment()))
                     {
                         context.Database.EnsureDeleted();
                     }

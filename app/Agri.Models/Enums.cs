@@ -53,6 +53,7 @@ namespace Agri.Models
         RanchManure,
         Fields,
         Soil,
+        Crops,
         Feeding,
         Nutrients,
         Report,
@@ -72,12 +73,14 @@ namespace Agri.Models
         RanchManure,
         Fields,
         SoilTest,
+        Crops,
         Feeding,
         Calculate,
         Report,
         RefreshNavigation,
         RefreshNextPreviousNavigation,
-        SessionExpired
+        SessionExpired,
+        Error
     }
 
     public enum DairyCattleAnimalSubTypes

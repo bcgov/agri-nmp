@@ -39,7 +39,7 @@ namespace Agri.Tests.Shared
             //services.AddSingleton<IConfiguration>(Configuration);
             //services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup));
 
             foreach (var svc in additionalServices)
             {
