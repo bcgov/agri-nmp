@@ -30,7 +30,7 @@
     {
       "Id": 5,
       "Name": "BCNutrientManagementCalculator",
-      "LabelText": "BC Nutrient Management Caculator",
+      "LabelText": "BC Nutrient Management Calculator",
       "MiniAppId": "1"
     },
     {
@@ -72,7 +72,7 @@
     {
       "Id": 12,
       "Name": "NutrientManagementInformationButtonLink",
-      "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing",
+      "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management",
       "MiniAppId": "2"
     },
     {
