@@ -29,6 +29,15 @@ namespace Agri.Data.Tests
         }
 
         [Fact]
+        public void GetSeedJsonData_Should_Load_Depths_Json()
+        {
+            var result = SeedDataLoader.GetSeedJsonData<List<Depth>>(Constants.SeedDataFiles.Depths);
+
+            result.ShouldNotBeNull();
+            result.Count.ShouldBeGreaterThan(0);
+        }
+
+        [Fact]
         public void GetSeedJsonData_Should_Load_ExternalLinks_Json()
         {
             var result = SeedDataLoader.GetSeedJsonData<List<ExternalLink>>(Constants.SeedDataFiles.ExternalLinks);
@@ -108,6 +117,7 @@ namespace Agri.Data.Tests
             seeder.Seed();
 
             agriConfigurationDb.Browsers.Any().ShouldBeTrue();
+            agriConfigurationDb.Depths.Any().ShouldBeTrue();
             agriConfigurationDb.ExternalLinks.Any().ShouldBeTrue();
             agriConfigurationDb.Locations.Any().ShouldBeTrue();
             agriConfigurationDb.MainMenus.Any().ShouldBeTrue();

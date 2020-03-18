@@ -42,7 +42,8 @@ namespace Agri.Data
 
             if (refreshDatabase && currentVersion < expectedSeedDataVersion)
             {
-                _context.Database.ExecuteSqlRaw(@"TRUNCATE TABLE ""Browsers"",
+                _context.Database.ExecuteSqlCommand(@"TRUNCATE TABLE ""Browsers"",
+                                                                                    ""Depths"",
                                                                                     ""ExternalLinks"",
                                                                                     ""SubMenu"",
                                                                                     ""MainMenus"",
@@ -59,6 +60,13 @@ namespace Agri.Data
             {
                 var browsers = SeedDataLoader.GetSeedJsonData<List<Browser>>(Constants.SeedDataFiles.Browsers);
                 _context.Browsers.AddRange(browsers);
+                _context.SaveChanges();
+            }
+
+            if (!_context.Depths.Any())
+            {
+                var depths = SeedDataLoader.GetSeedJsonData<List<Depth>>(Constants.SeedDataFiles.Depths);
+                _context.Depths.AddRange(depths);
                 _context.SaveChanges();
             }
 

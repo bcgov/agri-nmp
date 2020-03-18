@@ -19,6 +19,8 @@ namespace Agri.Data
 
         List<CropSoilTestPhosphorousRegion> GetCropSoilTestPhosphorousRegions();
 
+        List<Depth> GetDepths();
+
         List<UserPrompt> GetUserPrompts();
 
         List<ExternalLink> GetExternalLinks();
@@ -56,6 +58,8 @@ namespace Agri.Data
         List<LiquidFertilizerDensity> GetLiquidFertilizerDensities();
 
         List<NitrogenMineralization> GetNitrogeMineralizations();
+
+        List<KeyValuePair<string, string>> GetNitrateCalculatorDetails();
 
         List<KeyValuePair<string, string>> GetSoilConverterDetails();
 
@@ -128,6 +132,8 @@ namespace Agri.Data
         CropSoilTestPhosphorousRegion GetCropSTPRegionCd(int cropid, int soilTestPotassiumRegionCode);
 
         CropSoilTestPotassiumRegion GetCropSTKRegionCd(int cropid, int soilTestPotassiumRegionCode);
+
+        List<SelectListItem> GetDepthsDll();
 
         DryMatter GetDryMatter(int ID);
 
