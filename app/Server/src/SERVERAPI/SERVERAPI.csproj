@@ -31,16 +31,20 @@
   <ItemGroup>
     <Compile Remove="Mappings\**" />
     <Compile Remove="Migrations\**" />
+    <Compile Remove="Pages\MiniApps\NitrateTestCalculator\**" />
     <Compile Remove="Services\**" />
     <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
     <Content Remove="Mappings\**" />
     <Content Remove="Migrations\**" />
+    <Content Remove="Pages\MiniApps\NitrateTestCalculator\**" />
     <Content Remove="Services\**" />
     <EmbeddedResource Remove="Mappings\**" />
     <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="Pages\MiniApps\NitrateTestCalculator\**" />
     <EmbeddedResource Remove="Services\**" />
     <None Remove="Mappings\**" />
     <None Remove="Migrations\**" />
+    <None Remove="Pages\MiniApps\NitrateTestCalculator\**" />
     <None Remove="Services\**" />
     <Compile Remove="Utility\BalanceMessages.cs" />
     <Compile Remove="Utility\ChemicalBalances.cs" />

@@ -42,7 +42,6 @@
   
   <ItemGroup>
     <None Remove="SeedData\MiniAppData.json" />
-    <None Remove="SeedData\MiniAppLabelData.json" />
   </ItemGroup>
 
   <ItemGroup>
