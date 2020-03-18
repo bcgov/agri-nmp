@@ -39,7 +39,7 @@
                 }
 
                 @if (Model.fldsFnd > 1 &&
-             Model.itemsPresent)
+           Model.itemsPresent)
                 {
                     <div>&nbsp;</div>
                     <button class="btn btn-default" type="button" style="width:90px" data_modal3="" data-type="@Url.Action("FieldCopy", "Fields", new { currFld = Model.currFld })">Copy field</button>
@@ -51,9 +51,6 @@
                     {
                         <div class="form-box">
                             <div class="form-box-header clearfix">
-                                <span>
-                                    <button title="Add a Crop to the Field" aria-label="Add a Crop to the Field" class="btn btn-success" data_modal="" data-type="@Url.Action("CropDetails", "Nutrients", new { fldName = Model.currFld })">Add Crop</button>
-                                </span>
                                 <span style="float:right;">
                                     <button title="Add a Manure/Compost to the Field" aria-label="Add a Manure/Compost to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
                                     <button title="Add a Fertilizer to the Field" aria-label="Add a Fertilizer to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertilizerDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertilizer</button>
