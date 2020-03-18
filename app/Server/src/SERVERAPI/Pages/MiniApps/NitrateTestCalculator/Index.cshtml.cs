@@ -137,7 +137,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public CommandNitrateTestValidator()
             {
                 RuleFor(m => m.SelectDepthOption).NotEqual("0" +
-                    "").WithMessage("Sample must be selected");
+                    "").WithMessage("select a sample depth");
             }
         }
 
