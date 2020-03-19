@@ -403,19 +403,37 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
-                command.RanchNutrientAnalysisEntryCreateEditMessage = _sd.GetUserPrompt("RanchNutrientAnalysisEntryCreateEditMessage");
+                command.RanchNutrientAnalysisEntryCreateEditMessage = _sd
+                    .GetUserPrompt("RanchNutrientAnalysisEntryCreateEditMessage");
 
-                var manures = _ud.GetAllManagedManures()
-                    .Where(mm => !mm.AssignedWithNutrientAnalysis ||
-                        request.PopulatedData.ExcludedSourceOfMaterialIds
-                            .Any(im => im.Equals(mm.ManureId, StringComparison.OrdinalIgnoreCase)))
+                var otherAnalyticIds = _ud.GetFarmManures()
+                    .Where(fm => fm.Id != command.Id.GetValueOrDefault(0))
+                    .SelectMany(fm => fm.IncludedSourceOfMaterialIds)
                     .ToList();
 
+                var manures = _ud.GetAllManagedManures()
+                    .Where(mm => (command.Id.HasValue && !otherAnalyticIds.Contains(mm.ManureId)) ||
+                                    (!command.Id.HasValue && !mm.AssignedWithNutrientAnalysis));
+
                 command.RanchSolidManures = _mapper
-                    .Map<List<Command.RanchManure>>(manures.Where(m => m.ManureType == ManureMaterialType.Solid).ToList());
+                    .Map<List<Command.RanchManure>>(manures.Where(m => m.ManureType == ManureMaterialType.Solid)
+                    .ToList());
+
+                command.RanchSolidManures.Select(m =>
+                {
+                    m.Selected = command.IncludedSourceOfMaterialIds.Contains(m.ManureId);
+                    return m;
+                }).ToList();
 
                 command.RanchLiquidManures = _mapper
-                    .Map<List<Command.RanchManure>>(manures.Where(m => m.ManureType == ManureMaterialType.Liquid).ToList());
+                    .Map<List<Command.RanchManure>>(manures.Where(m => m.ManureType == ManureMaterialType.Liquid)
+                    .ToList());
+
+                command.RanchLiquidManures.Select(m =>
+                {
+                    m.Selected = command.IncludedSourceOfMaterialIds.Contains(m.ManureId);
+                    return m;
+                }).ToList();
 
                 if (command.RanchLiquidManures.Any(s => s.Selected))
                 {
