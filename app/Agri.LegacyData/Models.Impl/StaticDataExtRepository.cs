@@ -912,5 +912,20 @@ namespace Agri.LegacyData.Models.Impl
         {
             throw new NotImplementedException();
         }
+
+        public List<Depth> GetDepths()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<KeyValuePair<string, string>> GetNitrateCalculatorDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SelectListItem> GetDepthsDll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
