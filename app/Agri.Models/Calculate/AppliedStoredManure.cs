@@ -46,5 +46,7 @@ namespace Agri.Models.Calculate
                 return result;
             }
         }
+
+        public override string ManureMaterialName { get; set; }
     }
 }

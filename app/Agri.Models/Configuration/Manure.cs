@@ -22,6 +22,7 @@ namespace Agri.Models.Configuration
         public int SortNum { get; set; }
         public decimal CubicYardConversion { get; set; }
         public decimal Nitrate { get; set; }
+        public decimal? DefaultSolidMoisture { get; set; }
 
         [JsonIgnore]
         [IgnoreDataMember]
