@@ -1,0 +1,19 @@
+{
+  "Id": 98,
+  "JsonFilename": "98_MiniAppData",
+  "ReasonReference": "Temporary Bridge between Release 2 and 3",
+  "Data": [
+    {
+      "Id": 1,
+      "Name": "SoilTestConverter"
+    },
+    {
+      "Id": 2,
+      "Name": "ManureNutrientCalculator"
+    },
+    {
+      "Id": 3,
+      "Name": "NitrateTestCalculator"
+    }
+  ]
+}
