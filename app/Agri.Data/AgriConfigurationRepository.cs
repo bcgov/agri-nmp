@@ -142,6 +142,20 @@ namespace Agri.Data
             return _animals;
         }
 
+        public List<KeyValuePair<string, string>> GetSoilConverterDetails()
+        {
+            var details = _context.MiniAppLabels.Where(x => x.MiniAppId == 1).Select(x => new KeyValuePair<string, string>(x.Name, x.LabelText)).ToDictionary(x => x.Key, x => x.Value).ToList();
+
+            return details;
+        }
+
+        public List<KeyValuePair<string, string>> GetManureNutrientCalculatorDetails()
+        {
+            var details = _context.MiniAppLabels.Where(x => x.MiniAppId == 2).Select(x => new KeyValuePair<string, string>(x.Name, x.LabelText)).ToDictionary(x => x.Key, x => x.Value).ToList();
+
+            return details;
+        }
+
         public AnimalSubType GetAnimalSubType(int id)
         {
             return GetAnimalSubTypes().SingleOrDefault(ast => ast.Id == id);
@@ -743,7 +757,12 @@ namespace Agri.Data
 
         public Manure GetManure(string manId)
         {
-            return GetManures().SingleOrDefault(m => m.Id == Convert.ToInt32(manId));
+            return GetManure(Convert.ToInt32(manId));
+        }
+
+        public Manure GetManure(int manId)
+        {
+            return GetManures().SingleOrDefault(m => m.Id == manId);
         }
 
         public Manure GetManureByName(string manureName)
