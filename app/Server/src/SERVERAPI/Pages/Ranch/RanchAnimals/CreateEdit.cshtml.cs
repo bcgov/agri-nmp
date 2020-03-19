@@ -208,6 +208,8 @@ namespace SERVERAPI.Pages.Ranch.RanchAnimals
                         .GetSolidTonsGeneratedForAnimalSubType(farmAnimal.AnimalSubTypeId, farmAnimal.AverageAnimalNumber, farmAnimal.DurationDays);
                 }
 
+                farmAnimal.ManureType = ManureMaterialType.Solid;
+
                 if (farmAnimal.Id.GetValueOrDefault(0) == 0)
                 {
                     _ud.AddAnimal(farmAnimal);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Agri.Models.Farm
 {
@@ -35,5 +36,37 @@ namespace Agri.Models.Farm
         public NutrientAnalysisTypes StoredImported { get; set; }
         public bool IsAssignedToStorage { get; set; }
         public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
+
+        public List<GroupedAnalysisSourceItem> GroupedWithCollectedAnalysisSourceItemIds =>
+            IncludedSourceOfMaterialIds.Select(id => new GroupedAnalysisSourceItem(id)).ToList();
+
+        public class GroupedAnalysisSourceItem
+        {
+            public GroupedAnalysisSourceItem(string sourceMaterialId)
+            {
+                if (!string.IsNullOrWhiteSpace(sourceMaterialId))
+                {
+                    if (sourceMaterialId.Contains("Import", StringComparison.OrdinalIgnoreCase))
+                    {
+                        SourceType = NutrientAnalysisTypes.Imported;
+                        SourceId = Convert.ToInt32(sourceMaterialId.Replace("Imported", string.Empty, StringComparison.OrdinalIgnoreCase));
+                    }
+                    else if (sourceMaterialId.Contains("FarmAnimal", StringComparison.OrdinalIgnoreCase))
+                    {
+                        SourceType = NutrientAnalysisTypes.Collected;
+                        SourceId = Convert.ToInt32(sourceMaterialId.Replace("FarmAnimal", string.Empty, StringComparison.OrdinalIgnoreCase));
+                    }
+                    else if (sourceMaterialId.Contains("Generated", StringComparison.OrdinalIgnoreCase))
+                    {
+                        SourceType = NutrientAnalysisTypes.Stored;
+                        SourceId = Convert.ToInt32(sourceMaterialId.Replace("Generated", string.Empty, StringComparison.OrdinalIgnoreCase));
+                    }
+                }
+            }
+
+            public NutrientAnalysisTypes SourceType { get; set; }
+
+            public int SourceId { get; set; }
+        }
     }
 }

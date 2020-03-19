@@ -3275,7 +3275,7 @@ namespace SERVERAPI.Controllers
             }
 
             var journey = _ud.FarmDetails().UserJourney;
-            vm.ShowIsMaterialStored = journey == UserJourney.Dairy;
+            vm.ShowIsMaterialStored = journey == UserJourney.Dairy || journey == UserJourney.Crops;
             if (!vm.ShowIsMaterialStored)
             {
                 vm.IsMaterialStored = false;
