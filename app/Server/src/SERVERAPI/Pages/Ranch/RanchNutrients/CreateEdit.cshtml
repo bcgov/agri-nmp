@@ -26,9 +26,45 @@ else
 @section Scripts
 {
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("body").on("click", "[type='checkbox'][id^='Data_RanchSolidManures']", function () {
+                var result = false;
+                $("[type=checkbox][id^='Data_RanchSolidManures']").each(function() {
+                    if(this.checked)
+                    {
+        	            result = true;
+                    }
+                });
+                if (result) {
+                    $("[type=checkbox][id^='Data_RanchLiquidManures']").each(function() {
+                        this.checked = false;
+                    });
+                }
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("click", "[type='checkbox'][id^='Data_RanchLiquidManures']", function () {
+                var result = false;
+                $("[type=checkbox][id^='Data_RanchLiquidManures']").each(function() {
+                    if(this.checked)
+                    {
+        	            result = true;
+                    }
+                });
+                if (result) {
+                    $("[type=checkbox][id^='Data_RanchSolidManures']").each(function() {
+                        this.checked = false;
+                    });
+                }
+            })
+        });
+
         $(document).ready(function () {
             $("body").on("change", "#Data_SelectedNutrientAnalysis", function () {
                 $('#PostedElementEvent').val("@CreateEdit.ElementEvent.NutrientAnalysisChanged");
+                $('#manureName').val($("#Data_SelectedNutrientAnalysis option:selected").text());
                 $("#btnSave").click();
             })
         });

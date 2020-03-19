@@ -22,7 +22,7 @@
                         <span asp-validation-for="MaterialName" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-sm-2"  style="padding-right: 0;">
+                <div class="col-sm-2" style="padding-right: 0;">
                     <div class="form-group" style="padding-right: 0;">
                         <label for="ddlManureMaterialType">Liquid or Solid</label>
                         <select class="form-control" asp-for="SelectedManureType"
@@ -46,34 +46,34 @@
                 </div>
                 @if (Model.SelectedManureType == ManureMaterialType.Solid)
                 {
-                <div class="col-sm-2 form-group" style="padding-right: 0; max-width: 15%">
-                    <label for="txtMoisture">Moisture (%)</label>
-                    <div class="input-group ">
-                        <input class="form-control" asp-for="Moisture" id="txtMoisture" type="text" />
-                        @if (!Model.IsStdMoisture)
-                        {
-                            <span class="input-group-btn" title="Reset to standard value">
-                                <button class="btn btn-default" type="button" id="rstMoisture" style="background-color:orange;" aria-label="Reset to standard value"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
-                            </span>
-                        }
+                    <div class="col-sm-2 form-group" style="padding-right: 0; max-width: 15%">
+                        <label for="txtMoisture">Moisture (%)</label>
+                        <div class="input-group ">
+                            <input class="form-control" asp-for="Moisture" id="txtMoisture" type="text" />
+                            @if (!Model.IsStdMoisture)
+                            {
+                                <span class="input-group-btn" title="Reset to standard value">
+                                    <button class="btn btn-default" type="button" id="rstMoisture" style="background-color:orange;" aria-label="Reset to standard value"><i class="glyphicon glyphicon-refresh" style="background-color:orange"></i></button>
+                                </span>
+                            }
+                        </div>
+                        <span asp-validation-for="Moisture" class="text-danger"></span>
                     </div>
-                    <span asp-validation-for="Moisture" class="text-danger"></span>
-                </div>
                 }
 
                 @if (Model.ShowIsMaterialStored)
                 {
-                <div class="col-sm-2" style="padding-right: 0;">
-                    <label id="IsMaterialStoredLabel">@Model.IsMaterialStoredLabelText</label>
-                    <div class="form-group" role="radiogroup" aria-labelledby="IsMaterialStoredLabel">
-                        <label style="padding-right: 20px">
-                            <input asp-for="IsMaterialStored" type="radio" value="true" id="rbIsMaterialStoredYes" /> Yes
-                        </label>
-                        <label>
-                            <input asp-for="IsMaterialStored" type="radio" value="false" id="rbIsMaterialStoredYes" /> No
-                        </label>
+                    <div class="col-sm-2" style="padding-right: 0;">
+                        <label id="IsMaterialStoredLabel">@Model.IsMaterialStoredLabelText</label>
+                        <div class="form-group" role="radiogroup" aria-labelledby="IsMaterialStoredLabel">
+                            <label style="padding-right: 20px">
+                                <input asp-for="IsMaterialStored" type="radio" value="true" id="rbIsMaterialStoredYes" /> Yes
+                            </label>
+                            <label>
+                                <input asp-for="IsMaterialStored" type="radio" value="false" id="rbIsMaterialStoredYes" /> No
+                            </label>
+                        </div>
                     </div>
-                </div>
                 }
             </div>
         </div>
@@ -89,5 +89,6 @@
         @Html.HiddenFor(x => x.SelectedAnnualAmountUnit)
         @Html.HiddenFor(x => x.IsMaterialStoredLabelText)
         @Html.HiddenFor(x => x.StandardSolidMoisture)
+        @Html.HiddenFor(x => x.ShowIsMaterialStored)
     </form>
 </div>

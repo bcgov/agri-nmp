@@ -83,6 +83,13 @@ namespace Agri.Models.Farm
             return fields;
         }
 
+        public List<Field> GetFieldsAppliedWithManure(FarmAnimal farmAnimal)
+        {
+            var fields = GetFieldsAppliedWithFarmManure(new List<int> { farmAnimal.Id.GetValueOrDefault(0) });
+
+            return fields;
+        }
+
         public List<Field> GetFieldsAppliedWithManure(FarmManure farmManure)
         {
             var appliedFields = GetFieldsAppliedWithFarmManure(farmManure != null ? new List<int> { farmManure.Id } : new List<int>());
