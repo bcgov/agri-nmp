@@ -115,7 +115,7 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
             public int? BirdsPerFlock { get; set; }
             public decimal? FlocksPerYear { get; set; }
             public int? DaysPerFlock { get; set; }
-            public bool ShowMaterialType => AnimalSubTypeId == 15;   //Only show option for Layers
+            public bool ShowMaterialType { get; set; }
             public ElementEvent PostedElementEvent { get; set; }
         }
 
@@ -195,7 +195,6 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
                     var poultryId = _sd.GetAnimal(6);
                     command.AnimalId = poultryId.Id;
                     command.AnimalName = poultryId.Name;
-                    command.ManureType = ManureMaterialType.Solid;
                     subTypeOptions = new SelectList(_sd.GetSubtypesDll(poultryId.Id).ToList(), "Id", "Value");
                 }
                 else
@@ -204,6 +203,17 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
                 }
 
                 command.AnimalSubTypeOptions = subTypeOptions;
+
+                if (command.AnimalSubTypeId > 0)
+                {
+                    var subType = _sd.GetAnimalSubType(command.AnimalSubTypeId);
+
+                    command.ShowMaterialType = subType.LiquidPerGalPerAnimalPerDay.GetValueOrDefault(0) > 0;
+                    if (!command.ShowMaterialType)
+                    {
+                        command.ManureType = ManureMaterialType.Solid;
+                    }
+                }
 
                 return await Task.FromResult(command);
             }

@@ -228,7 +228,9 @@ namespace Agri.CalculateService
                 fieldAppliedManures.AddRange(CalculateFieldAppliedImportedManure(yearData, farmManure, importedManure as ImportedManure));
             }
 
-            var appliedCollectedManure = new AppliedGroupedManure(fieldAppliedManures, groupedManures)
+            var appliedCollectedManure = new AppliedGroupedManure(fieldAppliedManures,
+                groupedManures,
+                farmManure.Name)
             {
                 ManureMaterialName = farmManure.Name
             };
