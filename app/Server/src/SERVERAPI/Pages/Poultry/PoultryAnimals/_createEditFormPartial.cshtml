@@ -7,12 +7,6 @@
     <div class="row">
         <div class="form-group col-sm-4">
             <label for="animalType">Animal Type</label>
-            @*<select class="form-control" asp-for="@Model.Data.AnimalId"
-                        asp-items="@Model.Data.AnimalTypeOptions" id="ddlAnimalType">
-                    <option value=0>Select Poultry Type</option>
-                </select>
-                <input id="AnimalName" asp-for="@Model.Data.AnimalName" type="hidden" />
-                @Html.ValidationMessageFor(model => model.Data.AnimalId)*@
             <div class="row no-gutters">
                 <div class="col">
                     <span id="animalType">Poultry</span>
@@ -21,22 +15,26 @@
         </div>
         <div class="form-group col-sm-4">
             <label for="ddlSubType">Sub Type</label>
-            <select class="form-control" asp-for="@Model.Data.AnimalSubTypeId"
-                    asp-items="@Model.Data.AnimalSubTypeOptions" id="ddlSubType">
+            <select class="form-control"
+                    asp-for="@Model.Data.AnimalSubTypeId"
+                    asp-items="@Model.Data.AnimalSubTypeOptions">
                 <option value=0>Select Sub Type</option>
             </select>
             <input id="AnimalSubTypeName" asp-for="@Model.Data.AnimalSubTypeName" type="hidden" />
             @Html.ValidationMessageFor(model => model.Data.AnimalSubTypeId)
         </div>
-        <div class="form-group col-sm-4">
-            <label for="ddlManureMaterialType">Manure Type</label>
-            <select class="form-control" asp-for="@Model.Data.ManureType"
-                    asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
-                <option value=0>Select Manure Type</option>
-            </select>
-            <input id="ManureMaterialTypeName" asp-for="@Model.Data.ManureTypeName" type="hidden" />
-            @Html.ValidationMessageFor(model => model.Data.ManureType)
-        </div>
+        @if (Model.Data.ShowMaterialType)
+        {
+            <div class="form-group col-sm-4">
+                <label for="ddlManureMaterialType">Manure Type</label>
+                <select class="form-control" asp-for="@Model.Data.ManureType"
+                        asp-items="@(Html.GetEnumSelectList<ManureMaterialType>())" id="ddlManureMaterialType">
+                    <option value=0>Select Manure Type</option>
+                </select>
+                <input id="ManureMaterialTypeName" asp-for="@Model.Data.ManureTypeName" type="hidden" />
+                @Html.ValidationMessageFor(model => model.Data.ManureType)
+            </div>
+        }
     </div>
     <div class="row">
         <div class="form-group col-sm-4">

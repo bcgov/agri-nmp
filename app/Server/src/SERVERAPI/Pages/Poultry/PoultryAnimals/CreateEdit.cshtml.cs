@@ -62,9 +62,14 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
 
         private async Task<IActionResult> ProcessPost()
         {
-            if (Data.PostedElementEvent == ElementEvent.AnimalTypeChanged)
+            if (!Data.ShowMaterialType)
+            {
+                Data.ManureType = ManureMaterialType.Solid;
+            }
+            if (Data.PostedElementEvent == ElementEvent.AnimalSubTypeChanged)
             {
                 Data.PostedElementEvent = ElementEvent.None;
+                ModelState.Clear();
             }
             else
             {
@@ -110,13 +115,14 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
             public int? BirdsPerFlock { get; set; }
             public decimal? FlocksPerYear { get; set; }
             public int? DaysPerFlock { get; set; }
+            public bool ShowMaterialType => AnimalSubTypeId == 15;   //Only show option for Layers
             public ElementEvent PostedElementEvent { get; set; }
         }
 
         public enum ElementEvent
         {
             None,
-            AnimalTypeChanged
+            AnimalSubTypeChanged
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -125,7 +131,9 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
             {
                 //RuleFor(m => m.AnimalId).GreaterThan(0).WithMessage("Animal Type must be selected");
                 RuleFor(m => m.AnimalSubTypeId).GreaterThan(0).WithMessage("Animal Sub Type must be selected");
-                RuleFor(m => m.ManureType).Must(m => m > 0).WithMessage("Manure Material Type must be selected");
+                RuleFor(m => m.ManureType).Must(m => m > 0)
+                    .When(m => m.ShowMaterialType)
+                    .WithMessage("Manure Material Type must be selected");
                 RuleFor(m => m.BirdsPerFlock).NotEmpty().GreaterThan(0);
                 RuleFor(m => m.FlocksPerYear).NotEmpty().GreaterThan(0);
                 RuleFor(m => m.DaysPerFlock).NotEmpty().GreaterThan(0);
@@ -203,12 +211,17 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
 
         public class CommandHandler : IRequestHandler<Command, Unit>
         {
+            private readonly IAgriConfigurationRepository _sd;
             private readonly UserData _ud;
             private readonly IMapper _mapper;
             private readonly ICalculateManureGeneration _calculateManureGeneration;
 
-            public CommandHandler(UserData ud, IMapper mapper, ICalculateManureGeneration calculateManureGeneration)
+            public CommandHandler(UserData ud,
+                IMapper mapper,
+                ICalculateManureGeneration calculateManureGeneration,
+                IAgriConfigurationRepository sd)
             {
+                _sd = sd;
                 _ud = ud;
                 _mapper = mapper;
                 _calculateManureGeneration = calculateManureGeneration;
@@ -219,22 +232,24 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
                 var farmAnimal = _mapper.Map<Command, FarmAnimal>(message);
 
                 farmAnimal.IsManureCollected = true;
-                if (farmAnimal.AnimalId == 6)
-                {
-                    farmAnimal.IsPoultry = true;
+                farmAnimal.IsPoultry = true;
 
-                    if (farmAnimal.ManureType == ManureMaterialType.Solid)
-                    {
-                        farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
-                            .GetTonsGeneratedForPoultrySubType(farmAnimal.AnimalSubTypeId,
-                                farmAnimal.BirdsPerFlock.Value, farmAnimal.FlocksPerYear.Value, farmAnimal.DaysPerFlock.Value);
-                    }
-                    else
-                    {
-                        farmAnimal.ManureGeneratedGallonsPerYear = _calculateManureGeneration
-                            .GetGallonsGeneratedForPoultrySubType(farmAnimal.AnimalSubTypeId,
-                                farmAnimal.BirdsPerFlock.Value, farmAnimal.FlocksPerYear.Value, farmAnimal.DaysPerFlock.Value);
-                    }
+                if (farmAnimal.ManureType == ManureMaterialType.Solid)
+                {
+                    farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
+                        .GetTonsGeneratedForPoultrySubType(farmAnimal.AnimalSubTypeId,
+                            farmAnimal.BirdsPerFlock.Value, farmAnimal.FlocksPerYear.Value, farmAnimal.DaysPerFlock.Value);
+                }
+                else
+                {
+                    farmAnimal.ManureGeneratedGallonsPerYear = _calculateManureGeneration
+                        .GetGallonsGeneratedForPoultrySubType(farmAnimal.AnimalSubTypeId,
+                            farmAnimal.BirdsPerFlock.Value, farmAnimal.FlocksPerYear.Value, farmAnimal.DaysPerFlock.Value);
+                }
+
+                if (farmAnimal.AnimalSubTypeId > 0 && string.IsNullOrEmpty(farmAnimal.AnimalSubTypeName))
+                {
+                    farmAnimal.AnimalSubTypeName = _sd.GetAnimalSubType(farmAnimal.AnimalSubTypeId).Name;
                 }
 
                 if (farmAnimal.Id.GetValueOrDefault(0) == 0)
