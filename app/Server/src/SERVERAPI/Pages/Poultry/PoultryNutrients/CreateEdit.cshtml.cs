@@ -68,6 +68,7 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                 var includedManures = Data.PoultrySolidManures.Where(rm => rm.Selected).ToList();
                 Data.IncludedSourceOfMaterialIds.AddRange(includedManures.Select(rm => rm.ManureId).ToList());
                 Data.SourceOfMaterialName = string.Join(',', includedManures.Select(iam => iam.ManureName).ToList());
+                Data.SolidLiquid = "Solid";
             }
 
             if (Data.PoultryLiquidManures.Any(rm => !rm.Selected))
@@ -80,6 +81,7 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                 var includedManures = Data.PoultryLiquidManures.Where(rm => rm.Selected).ToList();
                 Data.IncludedSourceOfMaterialIds.AddRange(includedManures.Select(rm => rm.ManureId).ToList());
                 Data.SourceOfMaterialName = string.Join(',', includedManures.Select(iam => iam.ManureName).ToList());
+                Data.SolidLiquid = "Liquid";
             }
 
             if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
@@ -97,6 +99,13 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                 Data.UseCustomAnalysis = false;
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
+            }
+            else if (Data.PostedElementEvent == ElementEvent.MaterialSelected)
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = ElementEvent.None;
+                Data.SelectedNutrientAnalysis = 0;
+                Data.UseCustomAnalysis = false;
             }
             else
             {
@@ -175,7 +184,7 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                 PoultrySolidManures.Any(s => s.Selected) || PoultryLiquidManures.Any(l => l.Selected);
 
             public int SelectedNutrientAnalysis { get; set; }
-            public SelectList BeefNutrientAnalysisOptions { get; set; }
+            public SelectList NutrientAnalysisOptions { get; set; }
             public List<string> ExcludedSourceOfMaterialIds { get; set; } = new List<string>();
             public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
 
@@ -255,6 +264,7 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
             UseCustomAnalysis,
             NutrientAnalysisChanged,
             MaterialStateChanged,
+            MaterialSelected
         }
 
         public class MappingProfile : Profile
@@ -444,7 +454,8 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                     command.PoultrySolidManures
                         .Select(l =>
                         {
-                            l.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds.Any(m => m.Equals(l.ManureId));
+                            l.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds
+                                                    .Any(m => m.Equals(l.ManureId));
                             return l;
                         }).ToList();
                 }
@@ -458,19 +469,23 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                     command.PoultryLiquidManures
                         .Select(l =>
                         {
-                            l.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds.Any(m => m.Equals(l.ManureId));
+                            l.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds
+                                                    .Any(m => m.Equals(l.ManureId));
                             return l;
                         }).ToList();
                 }
 
-                var beefManuresNutrients = _sd.GetManures();
+                var nutrientMaterialType = command.PoultrySolidManures.Any(s => s.Selected) ? "Solid" : "Liquid";
 
-                command.BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients
+                var beefManuresNutrients = _sd.GetManures().Where(m => m.SolidLiquid == nutrientMaterialType);
+
+                command.NutrientAnalysisOptions = new SelectList(beefManuresNutrients
                     .Select(m => new { Id = m.Id, Name = m.Name }).ToList(), "Id", "Name");
 
                 if (request.PopulatedData.SelectedNutrientAnalysis > 0)
                 {
-                    var nutrient = beefManuresNutrients.Single(m => m.Id == request.PopulatedData.SelectedNutrientAnalysis);
+                    var nutrient = beefManuresNutrients
+                        .Single(m => m.Id == request.PopulatedData.SelectedNutrientAnalysis);
                     command.ManureClass = nutrient.ManureClass;
                     command.Compost = _sd.IsManureClassCompostType(nutrient.ManureClass);
                     command.OnlyCustom = _sd.IsManureClassOtherType(nutrient.ManureClass) ||

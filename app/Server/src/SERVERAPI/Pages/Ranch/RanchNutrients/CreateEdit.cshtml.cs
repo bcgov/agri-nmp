@@ -98,6 +98,13 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
             }
+            else if (Data.PostedElementEvent == ElementEvent.MaterialSelected)
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = ElementEvent.None;
+                Data.SelectedNutrientAnalysis = 0;
+                Data.UseCustomAnalysis = false;
+            }
             else
             {
                 if (Data.UseCustomAnalysis)
@@ -255,6 +262,7 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             UseCustomAnalysis,
             NutrientAnalysisChanged,
             MaterialStateChanged,
+            MaterialSelected
         }
 
         public class MappingProfile : Profile
@@ -463,7 +471,9 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                         }).ToList();
                 }
 
-                var beefManuresNutrients = _sd.GetManures();
+                var nutrientMaterialType = command.RanchSolidManures.Any(s => s.Selected) ? "Solid" : "Liquid";
+
+                var beefManuresNutrients = _sd.GetManures().Where(m => m.SolidLiquid == nutrientMaterialType);
 
                 command.BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients
                     .Select(m => new { Id = m.Id, Name = m.Name }).ToList(), "Id", "Name");
