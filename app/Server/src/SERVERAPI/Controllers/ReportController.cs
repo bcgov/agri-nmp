@@ -1019,7 +1019,7 @@ namespace SERVERAPI.Controllers
                 return string.Empty;
             }
 
-            var viewModel = new ReportBeefManureCollectedViewModel();
+            var viewModel = new ReportManureCollectedViewModel();
 
             var yearData = _ud.GetYearData();
 
@@ -1066,6 +1066,64 @@ namespace SERVERAPI.Controllers
             }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportBeefManureCollected.cshtml", viewModel);
+
+            return result;
+        }
+
+        public async Task<string> RenderPoultryManureUse()
+        {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Poultry)
+            {
+                return string.Empty;
+            }
+
+            var viewModel = new ReportManureCollectedViewModel();
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.FarmManures != null)
+            {
+                foreach (var fm in yearData.FarmManures)
+                {
+                    ReportManures rm = new ReportManures();
+                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
+
+                    if (appliedManure != null)
+                    {
+                        rm.MaterialName = appliedManure.ManureMaterialName;
+                        rm.MaterialSource = appliedManure.SourceName;
+
+                        // Annual Amount
+
+                        rm.AnnualAmount = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureToApply)).ToString();
+                        rm.AnnualAmount = $"{rm.AnnualAmount} tons";
+
+                        // Amount Land Applied
+                        rm.LandApplied = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalApplied)).ToString();
+                        rm.LandApplied = $"{rm.LandApplied} tons";
+
+                        // Amount Remaining
+                        if (appliedManure.WholePercentRemaining < 10)
+                        {
+                            rm.AmountRemaining = "None";
+
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = viewModel.Footnotes.Count() + 1;
+                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
+                            rm.footnote = rff.id.ToString();
+                            viewModel.Footnotes.Add(rff);
+                        }
+                        else
+                        {
+                            rm.AmountRemaining = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureRemainingToApply));
+                        }
+
+                        viewModel.Manures.Add(rm);
+                    }
+                }
+            }
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportPoultryManureCollected.cshtml", viewModel);
 
             return result;
         }
@@ -1388,6 +1446,17 @@ namespace SERVERAPI.Controllers
 
             //ReportBeefManure
             if (_ud.FarmDetails().UserJourney == UserJourney.Ranch && yd.FarmManures.Any())
+            {
+                pageNumber = pageNumber + 1;
+                vm.ContentItems.Add(new ContentItem
+                {
+                    SectionName = "Manure and Compost Use",
+                    PageNumber = pageNumber
+                });
+            }
+
+            //ReportPoultryManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Poultry && yd.FarmManures.Any())
             {
                 pageNumber = pageNumber + 1;
                 vm.ContentItems.Add(new ContentItem
@@ -1813,6 +1882,7 @@ namespace SERVERAPI.Controllers
             var reportOctoberToMarchStorageVolumes = string.Empty;
             var reportCropManure = string.Empty;
             var reportBeefManureUse = string.Empty;
+            var reportPoultryManureUse = string.Empty;
             var reportFertilizers = string.Empty;
             var reportFields = string.Empty;
             var reportAnalysis = string.Empty;
@@ -1832,6 +1902,7 @@ namespace SERVERAPI.Controllers
                     reportManureUse = await RenderManureUse();
                     reportCropManure = await RenderCropManureUse();
                     reportBeefManureUse = await RenderBeefManureUse();
+                    reportPoultryManureUse = await RenderPoultryManureUse();
                     reportSummary = await RenderSummary();
                     reportAnalysis = await RenderAnalysis();
                 },
@@ -1879,6 +1950,12 @@ namespace SERVERAPI.Controllers
             {
                 report += pageBreakForManure;
                 report += reportBeefManureUse;
+            }
+
+            if (reportPoultryManureUse.Contains("div"))
+            {
+                report += pageBreakForManure;
+                report += reportPoultryManureUse;
             }
 
             if (reportOctoberToMarchStorageVolumes.Contains("div"))

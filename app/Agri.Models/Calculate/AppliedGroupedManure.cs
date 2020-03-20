@@ -20,7 +20,8 @@ namespace Agri.Models.Calculate
             string.Join(',', IncludedManagedManures
                 .Select(iam => iam is FarmAnimal ? iam.ManagedManureName : $"Imported - {iam.ManagedManureName}").ToList());
 
-        public override ManureMaterialType? ManureMaterialType => null;
+        public override ManureMaterialType? ManureMaterialType =>
+            IncludedManagedManures.FirstOrDefault()?.ManureType;
 
         public override decimal TotalAnnualManureToApply
         {
