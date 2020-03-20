@@ -170,6 +170,8 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                 command.PotassiumMessage = details.Where(x => x.Key == "PotassiumMessage").Select(x => x.Value).FirstOrDefault();
                 command.AmmoniumRetensionMessage = details.Where(x => x.Key == "AmmoniumRetensionMessage").Select(x => x.Value).FirstOrDefault();
                 command.AvailableOrganicNitrogenMessage = details.Where(x => x.Key == "AvailableOrganicNitrogenMessage").Select(x => x.Value).FirstOrDefault();
+                command.AvailableThisYearMessage = details.Where(x => x.Key == "AvailableThisYearMessage").Select(x => x.Value).FirstOrDefault();
+                command.AvailbleLongTermMessage = details.Where(x => x.Key == "AvailbleLongTermMessage").Select(x => x.Value).FirstOrDefault();
 
                 command.isShowValue = command.isShowValue ? command.isShowValue : false;
                 command.ManureTypeOptions = new SelectList(_sd.GetManures(), "Id", "Name");
