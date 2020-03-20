@@ -51,9 +51,22 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
                 public int Id { get; set; }
                 public string AnimalSubTypeName { get; set; }
                 public int? ManureGeneratedTonsPerYear { get; set; }
-                public string MsgManureGeneratedTonsPerYear => ManureGeneratedTonsPerYear.HasValue ? $"{ManureGeneratedTonsPerYear.ToString()} tons" : null;
+
+                public string MsgManureGeneratedTonsPerYear =>
+                    ManureGeneratedTonsPerYear.HasValue ?
+                        ManureGeneratedTonsPerYear > 1 ?
+                            $"{ManureGeneratedTonsPerYear.ToString()} tons" :
+                            $"{ManureGeneratedTonsPerYear.ToString()} ton"
+                    : null;
+
                 public int? ManureGeneratedGallonsPerYear { get; set; }
-                public string MsgManureGeneratedGallonsPerYear => ManureGeneratedGallonsPerYear.HasValue ? $"{ManureGeneratedGallonsPerYear.ToString()} US gallons" : null;
+
+                public string MsgManureGeneratedGallonsPerYear =>
+                    ManureGeneratedGallonsPerYear.HasValue ?
+                        ManureGeneratedGallonsPerYear > 1 ?
+                            $"{ManureGeneratedGallonsPerYear.ToString()} US gallons" :
+                            $"{ManureGeneratedGallonsPerYear.ToString()} US gallon"
+                    : null;
             }
         }
 
