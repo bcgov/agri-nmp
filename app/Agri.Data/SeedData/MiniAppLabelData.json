@@ -176,7 +176,13 @@
   {
     "Id": 30,
     "Name": "SampleDepthMessage",
-    "LabelText": " If a sample was taken from lower depths, results from that sample should also be entered to calculate the complete amount of nitrate found in all samples.",
+    "LabelText": "If a sample was taken from lower depths, results from that sample should also be entered to calculate the complete amount of nitrate found in all samples.",
+    "MiniAppId": "3"
+  },
+  {
+    "Id": 31,
+    "Name": "SoilBulkDensityMessage",
+    "LabelText": "Soil Bulk Density",
     "MiniAppId": "3"
   }
 ]

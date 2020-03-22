@@ -100,10 +100,12 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public string SoilTestInformationButtonLink { get; set; }
             public string BCNutrientManagementCalculatorButtonLink { get; set; }
             public string SampleDepthMessage { get; set; }
+            public string SoilBulkDensityMessage { get; set; }
 
             public string PostedElementEvent { get; set; }
             public double TotalResult { get; set; }
             public bool IsBasic { get; set; }
+            public bool BulkDensity { get; set; }
 
             public class NitrateTest
             {
@@ -113,6 +115,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                 public double? Nitrate { get; set; }
                 public double? BulkDensity { get; set; }
                 public double? Result { get; set; }
+                public string SelectDepthOptionName { get; set; }
             }
         }
 
@@ -134,7 +137,8 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public CommandNitrateTestValidator()
             {
                 RuleFor(m => m.SelectDepthOption).NotEqual("0" +
-                    "").WithMessage("select a sample depth");
+                    "").WithMessage("Sample Depth must be selected");
+                RuleFor(x => x.Nitrate).NotNull().NotEqual(0).WithMessage("Enter soil test results");
             }
         }
 
@@ -173,6 +177,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                     {
                         nitrateTest.DepthOptions = new SelectList(_sd.GetDepths().Where(x => x.Id == 2), "Id", "Value");
                         nitrateTest.SelectDepthOption = "2";
+                        nitrateTest.SelectDepthOptionName = _sd.GetDepths().Where(x => x.Id == 2).Select(x => x.Value).FirstOrDefault();
                     }
                     if (nitrateTest.Nitrate != 0 && (!string.IsNullOrEmpty(nitrateTest.SelectDepthOption) && nitrateTest.SelectDepthOption != "0"))
                     {
@@ -191,6 +196,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                 command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
                 command.SampleDepthMessage = details.Where(x => x.Key == "SampleDepthMessage").Select(x => x.Value).FirstOrDefault();
+                command.SoilBulkDensityMessage = details.Where(x => x.Key == "SoilBulkDensityMessage").Select(x => x.Value).FirstOrDefault();
 
                 return await Task.FromResult(command);
             }
