@@ -33,7 +33,17 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (Data.PostedElementEvent == "DepthChange" && ModelState.IsValid)
+            if (Data.PostedElementEvent == "ResetClicked")
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = "none";
+                Data.IsBasic = false;
+                if (Data.nitrateTestAnalysis.Count > 0)
+                {
+                    Data.nitrateTestAnalysis = null;
+                }
+            }
+            else if (Data.PostedElementEvent == "DepthChange" && ModelState.IsValid)
             {
                 ModelState.Clear();
                 Data.PostedElementEvent = "none";
