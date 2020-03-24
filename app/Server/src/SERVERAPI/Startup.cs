@@ -125,6 +125,7 @@ namespace SERVERAPI
             services.AddScoped<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
             services.AddScoped<ISoilTestConverter, SoilTestConverter>();
             services.AddScoped<IStorageVolumeCalculator, StorageVolumeCalculator>();
+            services.AddTransient<INitrateTestCalculator, CalculateNitrateTestResult>();
 
             services.AddOptions();
             //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();

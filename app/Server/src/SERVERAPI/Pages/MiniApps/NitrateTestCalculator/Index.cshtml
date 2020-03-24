@@ -83,17 +83,15 @@
                             visibility = "visible";
                         }
 
-                        <div class="row">
-                            <div class="col-sm-7">
-                                &nbsp;
-                            </div>
-                            @* <div class="col-sm-7">*@
-
-                            <input class="btn btn-primary col-sm-3" type="submit" id="AddSample" style="visibility:@visibility" value="Add another sample depth" />
-                            <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning" style="visibility:@visibility">
-                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
-                            </a>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            &nbsp;
                         </div>
+                        <input class="btn btn-primary col-sm-3" type="submit" id="AddSample" style="visibility:@visibility" value="Add another sample depth" />
+                        <a href="#" data-toggle="tooltip" title="@Model.Data.SampleDepthMessage" id="toolTipSample" style="visibility:@visibility">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
+                        </a>
+                    </div>
 
                         @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
                         @Html.HiddenFor(x => x.Data.isBasic)
@@ -170,6 +168,21 @@
             $("body").on("click", "#btnAdvance", function () {
                 $('#PostedElementEvent').val("AdvancedChange");
                 $("#AddSample").click();
+            });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipSample').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipSample').click(function () {
+                triggerToolTip($('#toolTipSample'));
             });
         });
     </script>

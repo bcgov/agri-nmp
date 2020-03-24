@@ -35,6 +35,7 @@ namespace Agri.Data
         private StaticDataVersion _currentStaticDataVersion;
         private DefaultSoilTest _defaultSoilTests;
         private List<DensityUnit> _densityUnits;
+        private List<Depth> _depths;
         private List<DryMatter> _dryMatters;
         private List<ExternalLink> _externalLinks;
         private List<FertilizerMethod> _fertilizerMethods;
@@ -461,6 +462,23 @@ namespace Agri.Data
             return unitsOptions;
         }
 
+        public string GetDepth(string name)
+        {
+            return GetDepths()
+                .Where(el => el.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                .SingleOrDefault().Value;
+        }
+
+        public List<Depth> GetDepths()
+        {
+            if (_depths == null)
+            {
+                _depths = _context.Depths.AsNoTracking().ToList();
+            }
+
+            return _depths;
+        }
+
         public AnimalsUsingWashWater GetAnimalsUsingWashWater()
         {
             var animalsUsingWashWater = new AnimalsUsingWashWater();
@@ -477,6 +495,20 @@ namespace Agri.Data
         public bool DoesAnimalUseWashWater(int animalSubTypeId)
         {
             return GetAnimalsUsingWashWater().Animals.Any(a => a.AnimalSubTypeId == animalSubTypeId);
+        }
+
+        public List<SelectListItem> GetDepthsDll()
+        {
+            var depths = GetDepths();
+            List<SelectListItem> depthOptions = new List<SelectListItem>();
+            foreach (var r in depths)
+            {
+                SelectListItem li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                depthOptions.Add(li);
+            }
+
+            return depthOptions;
         }
 
         public DryMatter GetDryMatter(int ID)
@@ -968,6 +1000,13 @@ namespace Agri.Data
             }
 
             return _nutrientIcons;
+        }
+
+        public List<KeyValuePair<string, string>> GetNitrateCalculatorDetails()
+        {
+            var details = _context.MiniAppLabels.Where(x => x.MiniAppId == 3).Select(x => new KeyValuePair<string, string>(x.Name, x.LabelText)).ToDictionary(x => x.Key, x => x.Value).ToList();
+
+            return details;
         }
 
         public PreviousCropType GetPrevCropType(int id)

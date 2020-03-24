@@ -383,6 +383,20 @@ namespace Agri.Data.Migrations
                     b.ToTable("DensityUnits");
                 });
 
+            modelBuilder.Entity("Agri.Models.Configuration.Depth", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Depths");
+                });
+
             modelBuilder.Entity("Agri.Models.Configuration.DryMatter", b =>
                 {
                     b.Property<int>("Id");

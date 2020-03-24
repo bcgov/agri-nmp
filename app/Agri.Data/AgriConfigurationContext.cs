@@ -28,6 +28,7 @@ namespace Agri.Data
         public DbSet<CropType> CropTypes { get; set; }
         public DbSet<DefaultSoilTest> DefaultSoilTests { get; set; }
         public DbSet<DensityUnit> DensityUnits { get; set; }
+        public DbSet<Depth> Depths { get; set; }
         public DbSet<DryMatter> DryMatters { get; set; }
         public DbSet<ExternalLink> ExternalLinks { get; set; }
         public DbSet<Fertilizer> Fertilizers { get; set; }
