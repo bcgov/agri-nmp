@@ -166,7 +166,8 @@ namespace SERVERAPI.Pages.Poultry.PoultryAnimals
                 var command = new Command();
                 if (request.Id.HasValue)
                 {
-                    command = _mapper.Map<FarmAnimal, Command>(_ud.GetAnimalDetail(request.Id.Value));
+                    var animal = _ud.GetAnimalDetail(request.Id.Value);
+                    command = _mapper.Map<FarmAnimal, Command>(animal);
                 }
 
                 return await Task.FromResult(command);
