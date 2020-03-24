@@ -114,32 +114,37 @@
                         <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.TotalResult" style="margin-left:20px;padding-left:20px;width:64px;pointer-events:none;background-color:#F5F5F5" />
                         <div class="col-sm-2" style="padding-top:5px">
                             kg NO<sub>3</sub>-N  ha<sup>-1</sup>
+                            <a href="#" data-toggle="tooltip" title="@Model.Data.SampleDepthMessage" id="toolTipSample">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                         </div>
-                        <a href="#" data-toggle="tooltip" title="@Model.Data.SampleDepthMessage" id="toolTipSample" style="visibility:@visibility">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
-                        </a>
                     </div>
-                        <div class="row">
-                            <div class="col-sm-7 row" style="padding-left: 0px;">
-                                <div class="col-sm-4"> <input class="btn btn-primary col-sm-12" type="submit" id="AddSample" value="Calculate" /></div>
-                                <div class="col-sm-4" style="padding-right:0px;"><input class="btn btn-default col-sm-12" type="submit" id="Reset" value="Clear/Reset" /></div>
-                            </div>
-                            @if (!Model.Data.IsBasic)
-                            {
-                                <a class="col-sm-3" style="margin-left:45px;padding-top:10px;cursor:pointer;text-decoration:underline;" id="btnAdvance">Edit soil bulk density</a>
-                                <a href="#" data-toggle="tooltip" title="@Model.Data.SoilBulkDensityMessage" id="toolTipSoilBulkDensity">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
-                                </a>
-                            }
-                            else
-                            {
-                                <a class="col-sm-4" style="margin-left:45px;padding-top:10px;cursor:pointer;text-decoration:underline;" id="btnBasic">Remove custom soil bulk density</a>
-                                <a href="#" data-toggle="tooltip" title="@Model.Data.SoilBulkDensityMessage" id="toolTipSoilBulkDensity">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
-                                </a>
-                            }
+                    <div class="row">
+                        <div class="col-sm-7 row" style="padding-left: 0px;">
+                            <div class="col-sm-4"> <input class="btn btn-primary col-sm-12" type="submit" id="AddSample" value="Calculate" /></div>
+                            <div class="col-sm-4" style="padding-right:0px;"><input class="btn btn-default col-sm-12" type="submit" id="Reset" value="Clear/Reset" /></div>
                         </div>
-</form>
+                        @if (!Model.Data.IsBasic)
+                        {
+                            <div class="col-sm-4" style="padding-top:5px">
+                                <a style="margin-left:45px;padding-top:10px;cursor:pointer;text-decoration:underline;" id="btnAdvance">Edit soil bulk density</a>
+                                <a href="#" data-toggle="tooltip" title="@Model.Data.SoilBulkDensityMessage" id="toolTipSoilBulkDensity">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+
+                        }
+                        else
+                        {
+                            <div class="col-sm-4" style="padding-top:5px">
+                                <a style="margin-left:45px;padding-top:10px;cursor:pointer;text-decoration:underline;" id="btnBasic">Remove custom soil bulk density</a>
+                                <a href="#" data-toggle="tooltip" title="@Model.Data.SoilBulkDensityMessage" id="toolTipSoilBulkDensity">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                             </div>
+                        }
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
