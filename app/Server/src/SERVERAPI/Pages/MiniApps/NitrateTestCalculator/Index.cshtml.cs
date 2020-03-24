@@ -195,6 +195,10 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                     }
                 }
                 command.TotalResult = command.nitrateTestAnalysis.Select(x => x.Result.GetValueOrDefault(0)).Sum();
+                if(command.nitrateTestAnalysis.Count() == 1 && command.nitrateTestAnalysis[0].SelectDepthOption == null)
+                {
+                    command.isNotShowButton = true;
+                }
                 command.isNotShowButton = command.isNotShowButton ? command.isNotShowButton : false;
                 command.IsBasic = command.IsBasic ? command.IsBasic : false;
                 var details = _sd.GetNitrateCalculatorDetails();
