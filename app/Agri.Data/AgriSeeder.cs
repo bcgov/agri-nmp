@@ -134,6 +134,20 @@ namespace Agri.Data
             {
                 _sd.LoadConfigurations(seedStaticDataVersion);
             }
+
+            if (!_context.AppliedMigrationSeedData.Any(a => a.JsonFilename.Equals("97_DepthsData", StringComparison.CurrentCultureIgnoreCase)))
+            {
+                var migrationSeedData = SeedDataLoader.GetMigrationSeedData<List<Depth>>("97_DepthsData");
+                foreach (var label in migrationSeedData.Data)
+                {
+                    if (!_context.Depths.Any(up => up.Id == label.Id))
+                    {
+                        _context.Depths.Add(label);
+                    }
+                }
+                _context.AppliedMigrationSeedData.Add(migrationSeedData);
+                _context.SaveChanges();
+            }
         }
     }
 }
