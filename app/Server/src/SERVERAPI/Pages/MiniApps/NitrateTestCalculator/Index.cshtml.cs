@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Agri.CalculateService;
 using Agri.Data;
+using Agri.Interfaces;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,6 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
         public async Task<IActionResult> OnPostAsync()
         {
-
             if (Data.PostedElementEvent == "DepthChange" && ModelState.IsValid)
             {
                 ModelState.Clear();
@@ -111,13 +111,11 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                 public int Id { get; set; }
                 public SelectList DepthOptions { get; set; }
                 public string SelectDepthOption { get; set; }
-                public double nitrate { get; set; }
-                public double bulkDensity { get; set; }
-                public double result { get; set; }
+                public double? nitrate { get; set; }
+                public double? bulkDensity { get; set; }
+                public double? result { get; set; }
             }
         }
-
-       
 
         public class ResultModel
         {
@@ -177,12 +175,12 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                         nitrateTest.DepthOptions = new SelectList(_sd.GetDepths().Where(x => x.Id == 2), "Id", "Value");
                         nitrateTest.SelectDepthOption = "2";
                     }
-                    if (nitrateTest.nitrate != 0 && (!string.IsNullOrEmpty(nitrateTest.SelectDepthOption) && nitrateTest.SelectDepthOption!="0"))
+                    if (nitrateTest.nitrate != 0 && (!string.IsNullOrEmpty(nitrateTest.SelectDepthOption) && nitrateTest.SelectDepthOption != "0"))
                     {
-                        nitrateTest.result = _nitrateTestCalculator.CalculateResult(nitrateTest.SelectDepthOption,nitrateTest.nitrate, nitrateTest.bulkDensity);
+                        nitrateTest.result = _nitrateTestCalculator.CalculateResult(nitrateTest.SelectDepthOption, nitrateTest.nitrate.GetValueOrDefault(0), nitrateTest.bulkDensity.GetValueOrDefault(0));
                     }
                 }
-                command.totalResult = command.nitrateTestAnalysis.Select(x => x.result).Sum();
+                command.totalResult = command.nitrateTestAnalysis.Select(x => x.result.GetValueOrDefault(0)).Sum();
                 command.isNotShowButton = command.isNotShowButton ? command.isNotShowButton : false;
                 command.isBasic = command.isBasic ? command.isBasic : false;
                 var details = _sd.GetNitrateCalculatorDetails();
