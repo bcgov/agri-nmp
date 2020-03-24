@@ -52,8 +52,8 @@ namespace SERVERAPI.Pages.MiniApps
 
         public class ConverterQuery : IRequest<ResultModel>
         {
-            public decimal PH { get; set; }
-            public decimal Phosphorous { get; set; }
+            public decimal? PH { get; set; }
+            public decimal? Phosphorous { get; set; }
             public SelectList LaboratoryOptions { get; set; }
             public string SelectLaboratoryOption { get; set; }
             public string SoilTestConverterUserInstruction1 { get; set; }
@@ -67,7 +67,7 @@ namespace SERVERAPI.Pages.MiniApps
 
         public class ResultModel
         {
-            public int KelownaConversion { get; set; }
+            public int? KelownaConversion { get; set; }
             public bool ShowKelowna { get; set; }
         }
 
@@ -78,8 +78,10 @@ namespace SERVERAPI.Pages.MiniApps
                 RuleFor(m => m.SelectLaboratoryOption).NotNull()
                     .Must(m => !m.Equals("0"))
                     .WithMessage("Laboratory must be selected");
-                RuleFor(m => m.PH).GreaterThan(0).WithMessage("pH Field is required");
-                RuleFor(m => m.Phosphorous).GreaterThan(0).WithMessage("Phosphorous Field is required");
+                RuleFor(m => m.PH).NotNull().WithMessage("pH Field is required")
+                    .GreaterThan(0).WithMessage("pH Field is required");
+                RuleFor(m => m.Phosphorous).NotNull().WithMessage("Phosphorous Field is required")
+                    .GreaterThan(0).WithMessage("Phosphorous Field is required");
             }
         }
 
@@ -116,8 +118,8 @@ namespace SERVERAPI.Pages.MiniApps
             public Task<ResultModel> Handle(ConverterQuery request, CancellationToken cancellationToken)
             {
                 var soilTest = new SoilTest();
-                soilTest.ValP = request.Phosphorous;
-                soilTest.valPH = request.PH;
+                soilTest.ValP = request.Phosphorous.GetValueOrDefault(0);
+                soilTest.valPH = request.PH.GetValueOrDefault(0);
 
                 var result = new ResultModel
                 {

@@ -37,18 +37,18 @@
                                 <div class="form-group col-sm-2" style="padding-right:0px">
                                     <label>Nitrate</label>
                                     <div>
-                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].nitrate" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px">
+                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].Nitrate" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px">
                                         <div class="col-sm-4" style="padding-top:5px">
                                             ppm
                                         </div>
                                     </div>
                                 </div>
-                                @if (Model.Data.isBasic)
+                                @if (Model.Data.IsBasic)
                                 {
                                     <div class="form-group col-sm-3" style="padding-right:0px">
                                         <label>Bulk Density</label>
                                         <div>
-                                            <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].bulkDensity" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px">
+                                            <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].BulkDensity" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px">
                                             <div class="col-sm-6" style="padding-top:5px">
                                                 kg m<sup>-3</sup>
                                             </div>
@@ -57,15 +57,14 @@
                                 }
                                 else
                                 {
-                                    <input type="hidden" asp-for="@Model.Data.nitrateTestAnalysis[i].bulkDensity" />
+                                    <input type="hidden" asp-for="@Model.Data.nitrateTestAnalysis[i].BulkDensity" />
                                 }
                                 <div class="form-group col-sm-4">
                                     <label>Results</label>
                                     <div class="row">
-                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].result" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px;padding-right:0px;pointer-events:none;background-color:#F5F5F5" />
+                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].Result" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px;padding-right:0px;pointer-events:none;background-color:#F5F5F5" />
                                         <div class="col-sm-6" style="padding-top:5px">
                                             kg NO<sub>3</sub>-N  ha<sup>-1</sup>
-
                                         </div>
                                         @* <span asp-validation-for="Data.ApplicationRate" class=""></span>*@
                                     </div>
@@ -83,19 +82,19 @@
                             visibility = "visible";
                         }
 
-                    <div class="row">
-                        <div class="col-sm-7">
-                            &nbsp;
+                        <div class="row">
+                            <div class="col-sm-7">
+                                &nbsp;
+                            </div>
+                            <input class="btn btn-primary col-sm-3" type="submit" id="AddSample" style="visibility:@visibility" value="Add another sample depth" />
+                            <a href="#" data-toggle="tooltip" title="@Model.Data.SampleDepthMessage" id="toolTipSample" style="visibility:@visibility">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
+                            </a>
                         </div>
-                        <input class="btn btn-primary col-sm-3" type="submit" id="AddSample" style="visibility:@visibility" value="Add another sample depth" />
-                        <a href="#" data-toggle="tooltip" title="@Model.Data.SampleDepthMessage" id="toolTipSample" style="visibility:@visibility">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
-                        </a>
-                    </div>
 
                         @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
-                        @Html.HiddenFor(x => x.Data.isBasic)
-                        @Html.HiddenFor(x=>x.Data.isNotShowButton)
+                        @Html.HiddenFor(x => x.Data.IsBasic)
+                        @Html.HiddenFor(x => x.Data.isNotShowButton)
 
                         <div class="row">
                             <div class="col-sm-6">
@@ -104,7 +103,7 @@
                             <div class="form-box-heading col-sm-2">
                                 Total for field
                             </div>
-                            <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.totalResult" style="width:64px;pointer-events:none;background-color:#F5F5F5" />
+                            <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.TotalResult" style="width:64px;pointer-events:none;background-color:#F5F5F5" />
                             <div class="col-sm-2" style="padding-top:5px">
                                 kg NO<sub>3</sub>-N  ha<sup>-1</sup>
                             </div>
@@ -113,14 +112,14 @@
                             <div class="col-sm-7">
                                 &nbsp;
                             </div>
-                            @if (!Model.Data.isBasic)
+                            @if (!Model.Data.IsBasic)
                             {
-                                <a class="col-sm-3" style="margin-left:45px;cursor:pointer;text-decoration:underline;" id="btnAdvance" >Advanced</a>
+                                <a class="col-sm-3" style="margin-left:45px;cursor:pointer;text-decoration:underline;" id="btnAdvance">Advanced</a>
 
                             }
                             else
                             {
-                                <a class="col-sm-3" style="margin-left:45px;cursor:pointer;text-decoration:underline;" id="btnBasic" >Basic</a>
+                                <a class="col-sm-3" style="margin-left:45px;cursor:pointer;text-decoration:underline;" id="btnBasic">Basic</a>
                             }
                         </div>
                     </form>
@@ -134,8 +133,8 @@
         <div class="row">
             <img class="col-sm-1" src="~/images/lightbulb_icon-01.png" />
             @*<div class="col-sm-6 row">
-            <h4>@Model.Data.NitrateCalculatorUserInstruction2</h4>
-        </div>*@
+                    <h4>@Model.Data.NitrateCalculatorUserInstruction2</h4>
+                </div>*@
             <div class="col-sm-6 row">
                 <h2>@Model.Data.NitrateCalculatorUserInstruction2</h2>
                 <div class="col-sm-11">
@@ -154,7 +153,7 @@
 @section Scripts{
     <script>
         function comboDepthChange() {
-           
+
             $('#PostedElementEvent').val("DepthChange");
             $("#AddSample").click();
         }

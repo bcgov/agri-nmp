@@ -128,6 +128,9 @@ namespace Agri.Models
         [Description("/Poultry/PoultryAnimals/Index")]
         PoultryAnimalsIndex,
 
+        [Description("/Poultry/PoultryManure/Index")]
+        PoultryManureIndex,
+
         [Description("/Poultry/PoultryNutrients/Index")]
         PoultryNutrientsIndex,
     }

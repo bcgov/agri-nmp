@@ -251,16 +251,23 @@
             "Page": "/Poultry/PoultryAnimals/Index",
             "PreviousController": "Farm",
             "PreviousAction": "Farm",
-            "NextPage": "/Poultry/PoultryNutrients/Index",
+            "NextPage": "/Poultry/PoultryManure/Index",
             "SortNumber": 1
+          },
+          {
+            "Name": "Manure and Imports",
+            "Page": "/Poultry/PoultryManure/Index",
+            "PreviousPage": "/Poultry/PoultryAnimals/Index",
+            "NextPage": "/Poultry/PoultryNutrients/Index",
+            "SortNumber": 2
           },
           {
             "Name": "Nutrient Analysis",
             "Page": "/Poultry/PoultryNutrients/Index",
-            "PreviousPage": "/Poultry/PoultryAnimals/Index",
+            "PreviousPage": "/Poultry/PoultryManure/Index",
             "NextController": "Fields",
             "NextAction": "Fields",
-            "SortNumber": 2
+            "SortNumber": 3
           }
         ]
       },
