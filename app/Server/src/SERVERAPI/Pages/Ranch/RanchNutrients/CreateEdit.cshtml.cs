@@ -136,6 +136,8 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                         Data.Potassium = null;
                         Data.ShowNitrate = false;
                         Data.Compost = false;
+                        Data.DryMatterId = 0;
+                        Data.NMinerizationId = 0;
                     }
 
                     await _mediator.Send(Data);
@@ -195,6 +197,10 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
 
             [Display(Name = "Moisture (%)")]
             public string Moisture { get; set; }
+
+            public int DryMatterId { get; set; }
+
+            public int NMinerizationId { get; set; }
 
             [Display(Name = "N (%)")]
             public decimal? Nitrogen { get; set; }
@@ -273,6 +279,7 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                     .ForMember(m => m.SelectedNutrientAnalysis, opts => opts.MapFrom(s => s.ManureId))
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.Name))
                     .ForMember(m => m.UseCustomAnalysis, opts => opts.MapFrom(s => s.Customized))
+                    .ForMember(m => m.DryMatterId, opts => opts.MapFrom(s => s.DMId))
                     .ReverseMap();
                 CreateMap<ManagedManure, Command.RanchManure>()
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
@@ -497,6 +504,8 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                     if (command.UseCustomAnalysis)
                     {
                         command.SolidLiquid = nutrient.SolidLiquid;
+                        command.DryMatterId = nutrient.DryMatterId;
+                        command.NMinerizationId = nutrient.NMineralizationId;
                     }
 
                     command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(nutrient);
