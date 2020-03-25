@@ -79,10 +79,30 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             else if (Data.PostedElementEvent == "CalculateClicked")
             {
                 ModelState.Clear();
+                Data.PostedElementEvent = "none";
                 Data.IsCalculate = true;
+                Data.isNotShowButton = true;
             }
             else if (ModelState.IsValid)
             {
+                if (Data.PostedElementEvent == "DepthChange")
+                {
+                    ModelState.Clear();
+                    Data.PostedElementEvent = "none";
+                    if (Data.nitrateTestAnalysis[0].SelectDepthOption == "3")
+                    {
+                        Data.isNotShowButton = true;
+                        if (Data.nitrateTestAnalysis.Count == 2)
+                        {
+                            Data.nitrateTestAnalysis.RemoveAt(1);
+                        }
+                    }
+                    else
+                    {
+                        Data.isNotShowButton = Data.nitrateTestAnalysis.Count != 2 ? false : true;
+                    }
+                }
+
                 ModelState.Clear();
                 Data.PostedElementEvent = "none";
                 if (Data.nitrateTestAnalysis.Count() != 2)
@@ -173,6 +193,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
             public async Task<ConverterQuery> Handle(Query request, CancellationToken cancellationToken)
             {
+                
                 var command = request.PopulatedData;
                 if (command.nitrateTestAnalysis == null)
                 {
