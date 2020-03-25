@@ -124,7 +124,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-7 row" style="padding-left: 0px;">
-                                <div class="col-sm-4"> <input class="btn btn-primary col-sm-12" type="submit" id="AddSample" value="Calculate" /></div>
+                                <div class="col-sm-4"> <input class="btn btn-primary col-sm-12" type="submit" id="Calculate" value="Calculate" /></div>
                                 <div class="col-sm-4" style="padding-right:0px;"><input class="btn btn-default col-sm-12" type="submit" id="Reset" value="Clear/Reset" /></div>
                             </div>
                             @if (!Model.Data.IsBasic)
@@ -224,6 +224,9 @@
 
          $("body").on("click", "#Reset", function () {
                 $('#PostedElementEvent').val("ResetClicked");
+         });
+         $("body").on("click", "#Calculate", function () {
+                $('#PostedElementEvent').val("CalculateClicked");
             });
     </script>
 }

@@ -76,6 +76,11 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                 Data.PostedElementEvent = "none";
                 Data.IsBasic = true;
             }
+            else if (Data.PostedElementEvent == "CalculateClicked")
+            {
+                ModelState.Clear();
+                Data.IsCalculate = true;
+            }
             else if (ModelState.IsValid)
             {
                 ModelState.Clear();
@@ -116,6 +121,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public double TotalResult { get; set; }
             public bool IsBasic { get; set; }
             public bool BulkDensity { get; set; }
+            public bool IsCalculate { get; set; }
 
             public class NitrateTest
             {
@@ -177,6 +183,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                         BulkDensity = 1300
                     });
                 }
+
                 foreach (var nitrateTest in command.nitrateTestAnalysis)
                 {
                     if (nitrateTest.Id != 2)
@@ -189,12 +196,19 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                         nitrateTest.SelectDepthOption = "2";
                         nitrateTest.SelectDepthOptionName = _sd.GetDepths().Where(x => x.Id == 2).Select(x => x.Value).FirstOrDefault();
                     }
-                    if (nitrateTest.Nitrate != 0 && (!string.IsNullOrEmpty(nitrateTest.SelectDepthOption) && nitrateTest.SelectDepthOption != "0"))
+                    
+                    
+                    if (nitrateTest.Nitrate != 0 && (!string.IsNullOrEmpty(nitrateTest.SelectDepthOption) && nitrateTest.SelectDepthOption != "0" && command.IsCalculate))
                     {
                         nitrateTest.Result = _nitrateTestCalculator.CalculateResult(nitrateTest.SelectDepthOption, nitrateTest.Nitrate.GetValueOrDefault(0), nitrateTest.BulkDensity.GetValueOrDefault(0));
                     }
                 }
-                command.TotalResult = command.nitrateTestAnalysis.Select(x => x.Result.GetValueOrDefault(0)).Sum();
+
+                if(command.IsCalculate)
+                {
+                    command.TotalResult = command.nitrateTestAnalysis.Select(x => x.Result.GetValueOrDefault(0)).Sum();
+                }
+                
                 if(command.nitrateTestAnalysis.Count() == 1 && command.nitrateTestAnalysis[0].SelectDepthOption == null)
                 {
                     command.isNotShowButton = true;
