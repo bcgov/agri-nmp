@@ -9,18 +9,22 @@ namespace Agri.Models.Calculate
 {
     public class AppliedGroupedManure : AppliedManure
     {
-        public AppliedGroupedManure(List<FieldAppliedManure> fieldAppliedManures, List<ManagedManure> includedAppliedManures) : base(fieldAppliedManures)
+        private readonly string _sourceName;
+
+        public AppliedGroupedManure(List<FieldAppliedManure> fieldAppliedManures,
+            List<ManagedManure> includedAppliedManures,
+            string sourceName) : base(fieldAppliedManures)
         {
             IncludedManagedManures = includedAppliedManures ?? new List<ManagedManure>();
+            _sourceName = sourceName;
         }
 
         public List<ManagedManure> IncludedManagedManures { get; private set; }
 
-        public override string SourceName =>
-            string.Join(',', IncludedManagedManures
-                .Select(iam => iam is FarmAnimal ? iam.ManagedManureName : $"Imported - {iam.ManagedManureName}").ToList());
+        public override string SourceName => _sourceName;
 
-        public override ManureMaterialType? ManureMaterialType => null;
+        public override ManureMaterialType? ManureMaterialType =>
+            IncludedManagedManures.FirstOrDefault()?.ManureType;
 
         public override decimal TotalAnnualManureToApply
         {

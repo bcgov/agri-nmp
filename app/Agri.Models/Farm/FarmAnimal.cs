@@ -22,7 +22,7 @@ namespace Agri.Models.Farm
 
             set
             {
-                if (manureGeneratedTonsPerYear.HasValue)
+                if (value.HasValue)
                 {
                     manureGeneratedGallonsPerYear = null;
                 }
@@ -36,7 +36,7 @@ namespace Agri.Models.Farm
 
             set
             {
-                if (manureGeneratedGallonsPerYear.HasValue)
+                if (value.HasValue)
                 {
                     manureGeneratedTonsPerYear = null;
                 }
