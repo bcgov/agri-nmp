@@ -1,0 +1,30 @@
+﻿@page "{id:int}"
+@model SERVERAPI.Pages.Mixed.MixedManure.Delete
+@{
+    ViewData["HeaderTitle"] = "Delete";
+    Layout = "_ModalLayout";
+}
+
+<form asp-page="Delete" method="post" class="form-box-body">
+    <div class="modal-body">
+        <a href="C:\source\agri\agri-nmp\app\Server\src\SERVERAPI\Pages\Mixed\MixedManure\Delete.cshtml">C:\source\agri\agri-nmp\app\Server\src\SERVERAPI\Pages\Mixed\MixedManure\Delete.cshtml</a>
+        <div class="form-group">
+            <div>
+                @Model.Data.ImportManureName
+            </div>
+            @if (Model.Data.AppliedToAField)
+            {
+                <div style="padding-top: 25px">
+                    @Html.Raw(Model.Data.DeleteWarningForUnstorableMaterial)
+                </div>
+            }
+        </div>
+        <br />
+    </div>
+    <div class="modal-footer">
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+        <input class="btn btn-primary" type="submit" value="Delete" data-save="razor-page-modal" />
+    </div>
+    @Html.HiddenFor(x => x.Data.ImportedManureId)
+    @Html.HiddenFor(x => x.Data.ImportManureName)
+</form>
