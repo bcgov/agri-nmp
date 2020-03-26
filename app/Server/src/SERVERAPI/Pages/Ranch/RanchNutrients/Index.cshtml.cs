@@ -32,17 +32,6 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
         {
             Data = await _mediator.Send(new Query());
 
-            if (!Data.RanchManures.Any() && !Data.ManureAnalytics.Any())
-            {
-                if (Request.Headers["referer"].ToString().Contains("RanchManure"))
-                {
-                    return RedirectToPage(FeaturePages.RanchFieldsIndex.GetDescription());
-                }
-                else
-                {
-                    return RedirectToPage(FeaturePages.RanchManureIndex.GetDescription());
-                }
-            }
             if (!Data.ManureAnalytics.Any())
             {
                 return RedirectToPage("CreateEdit", "Create", new { ismodal = false });

@@ -76,7 +76,6 @@ namespace SERVERAPI.ViewComponents
                         ndvm.SubMenus = currentMainMenu.SubMenus.OrderBy(s => s.SortNumber).ToList();
 
                         ndvm.SubMenus = FilterRanchSubMenus(journey, ndvm.SubMenus);
-                        ndvm.SubMenus = FilterPoultrySubMenus(journey, ndvm.SubMenus);
 
                         var currentSubMenu = ndvm.SubMenus.SingleOrDefault(sm =>
                             sm.IsSubMenuCurrent(currentAction) || sm.IsSubMenuCurrent(currentPage));
@@ -97,16 +96,16 @@ namespace SERVERAPI.ViewComponents
             //Skip Nutrients Menu for Ranch if Nothing to Analyze
             if (journey == UserJourney.Ranch)
             {
-                if (subMenus.Any(sm => sm.UsesFeaturePages &&
-                        sm.Page.Equals(FeaturePages.RanchNutrientsIndex.GetDescription())) &&
-                    !_ud.GetFarmManures().Any() &&
-                    !_ud.GetAllManagedManures().Any(mm => !mm.AssignedWithNutrientAnalysis))
-                {
-                    //Hide Nutrient Analysis Sub Menu
-                    subMenus
-                        .Remove(subMenus
-                        .Single(sm => sm.Page.Equals(FeaturePages.RanchNutrientsIndex.GetDescription())));
-                }
+                //if (subMenus.Any(sm => sm.UsesFeaturePages &&
+                //        sm.Page.Equals(FeaturePages.RanchNutrientsIndex.GetDescription())) &&
+                //    !_ud.GetFarmManures().Any() &&
+                //    !_ud.GetAllManagedManures().Any(mm => !mm.AssignedWithNutrientAnalysis))
+                //{
+                //    //Hide Nutrient Analysis Sub Menu
+                //    subMenus
+                //        .Remove(subMenus
+                //        .Single(sm => sm.Page.Equals(FeaturePages.RanchNutrientsIndex.GetDescription())));
+                //}
 
                 if (subMenus.Any(sm => sm.UsesFeaturePages &&
                          sm.Page.Equals(FeaturePages.RanchFeedingIndex.GetDescription())) &&
