@@ -4,14 +4,16 @@
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 <div class="form-box-fields">
-    <div class="row">
+    <div class="row" style="margin-bottom:0px">
         <div class="form-group col-sm-4">
             <label for="animalType">Animal Type</label>
-            <div class="row no-gutters">
-                <div class="col">
-                    <span id="animalType">Poultry</span>
-                </div>
-            </div>
+            <select class="form-control"
+                    asp-for="@Model.Data.AnimalId"
+                    asp-items="@Model.Data.AnimalTypeOptions">
+                <option value=0>Select Type</option>
+            </select>
+            <input id="AnimalTypeName" asp-for="@Model.Data.AnimalTypeName" type="hidden" />
+            @Html.ValidationMessageFor(model => model.Data.AnimalId)
         </div>
         <div class="form-group col-sm-4">
             <label for="ddlSubType">Sub Type</label>
@@ -36,24 +38,76 @@
             </div>
         }
     </div>
-    <div class="row">
-        <div class="form-group col-sm-4">
-            <label for="birdsPerFlock">Number of birds per flock</label>
-            <input class="form-control" asp-for="@Model.Data.BirdsPerFlock"
-                   id="birdsPerFlock" type="number" step="0.01" />
-            @Html.ValidationMessageFor(model => model.Data.BirdsPerFlock)
+    @if (Model.Data.ShowFlockFields)
+    {
+        <div class="row" style="margin-bottom:0px">
+            <div class="form-group col-sm-4">
+                <label for="birdsPerFlock">Number of birds per flock</label>
+                <input class="form-control" asp-for="@Model.Data.BirdsPerFlock"
+                       id="birdsPerFlock" type="number" step="0.01" />
+                @Html.ValidationMessageFor(model => model.Data.BirdsPerFlock)
+            </div>
+            <div class="form-group col-sm-4">
+                <label for="flocksPerYear">Number of flocks per year</label>
+                <input class="form-control" asp-for="@Model.Data.FlocksPerYear"
+                       id="flocksPerYear" type="number" step="0.01" />
+                @Html.ValidationMessageFor(model => model.Data.FlocksPerYear)
+            </div>
+            <div class="form-group col-sm-4">
+                <label for="birdsPerFlock">Number of days per flock</label>
+                <input class="form-control" asp-for="@Model.Data.DaysPerFlock"
+                       id="birdsPerFlock" type="number" step="0.01" />
+                @Html.ValidationMessageFor(model => model.Data.DaysPerFlock)
+            </div>
         </div>
-        <div class="form-group col-sm-4">
-            <label for="flocksPerYear">Number of flocks per year</label>
-            <input class="form-control" asp-for="@Model.Data.FlocksPerYear"
-                   id="flocksPerYear" type="number" step="0.01" />
-            @Html.ValidationMessageFor(model => model.Data.FlocksPerYear)
+    }
+    else if (Model.Data.ShowAnimalNumbers)
+    {
+        <div class="row" style="margin-bottom:0px">
+            <div class="form-group col-sm-6">
+                <label for="averageAnimalNumber">Average Animal Number on Farm</label>
+                <input class="form-control" asp-for="@Model.Data.AverageAnimalNumber"
+                       id="averageAnimalNumber" type="number" step="0.01" placeholder="@Model.Data.Placehldr"
+                       style="width: 100px" />
+                @Html.ValidationMessageFor(model => model.Data.AverageAnimalNumber)
+            </div>
         </div>
-        <div class="form-group col-sm-4">
-            <label for="birdsPerFlock">Number of days per flock</label>
-            <input class="form-control" asp-for="@Model.Data.DaysPerFlock"
-                   id="birdsPerFlock" type="number" step="0.01" />
-            @Html.ValidationMessageFor(model => model.Data.DaysPerFlock)
+        <div class="row" style="margin-bottom:0px">
+            <div class="form-group col-sm-6">
+                <label for="isManureCollected">Do you pile or collect manure from these animals?</label>
+                <div role="radiogroup" aria-labelledby="labelisManureCollected">
+                    <label style="padding-right: 20px">
+                        <input asp-for="@Model.Data.IsManureCollected" type="radio" value="true"
+                               id="rbIsManureCollectedYes" onchange="IsManureCollectedChanged(true)" /> Yes
+                    </label>
+                    <label>
+                        <input asp-for="@Model.Data.IsManureCollected" type="radio" value="false"
+                               id="rbIsManureCollectedNo" onchange="IsManureCollectedChanged(false)" /> No
+                    </label>
+                </div>
+            </div>
+        </div>
+    }
+    @{
+        var displayDuration = "none";
+    }
+    @if (Model.Data.IsManureCollected)
+    {
+        displayDuration = "inline";
+    }
+    <div class="row" id="durationValue" style="display:@displayDuration;margin-bottom:0px">
+        <div class="form-group col-sm-6">
+            <label for="txtDuration">How long is the manure collected?</label>
+            <table style="margin: 0;">
+                <tr>
+                    <td>
+                        <input class="form-control" asp-for="@Model.Data.DurationDays"
+                               id="txtDuration" type="number" style="width: 100px" />
+                    </td>
+                    <td>Days</td>
+                </tr>
+            </table>
+            @Html.ValidationMessageFor(model => model.Data.DurationDays)
         </div>
     </div>
 </div>
@@ -62,7 +116,7 @@
 <input type="hidden" asp-for="Data.ShowMaterialType" />
 <input type="hidden" asp-for="Data.PostedElementEvent" id="PostedElementEvent" />
 
-<div class="modal-footer" style="border-top:none !important;">
+<div class="modal-footer" style="border-top:none !important; margin-bottom: 0; margin-top: 0">
     @if (Model.IsModal)
     {
         <button class="btn" type="button" data-dismiss="modal">Cancel</button>

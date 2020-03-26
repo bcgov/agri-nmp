@@ -66,7 +66,13 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
             {
                 Data.ManureType = ManureMaterialType.Solid;
             }
-            if (Data.PostedElementEvent == ElementEvent.AnimalSubTypeChanged)
+
+            if (Data.PostedElementEvent == ElementEvent.AnimalTypeChanged)
+            {
+                Data.PostedElementEvent = ElementEvent.None;
+                ModelState.Clear();
+            }
+            else if (Data.PostedElementEvent == ElementEvent.AnimalSubTypeChanged)
             {
                 Data.PostedElementEvent = ElementEvent.None;
                 ModelState.Clear();
@@ -112,16 +118,23 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
             public string ManureTypeName { get; set; }
             public SelectList ManureMaterialTypeOptions { get; set; }
             public ManureMaterialType ManureType { get; set; }
+            public int? AverageAnimalNumber { get; set; }
             public int? BirdsPerFlock { get; set; }
             public decimal? FlocksPerYear { get; set; }
             public int? DaysPerFlock { get; set; }
+            public bool IsManureCollected { get; set; }
+            public int? DurationDays { get; set; }
+            public bool ShowAnimalNumbers { get; set; }
             public bool ShowMaterialType { get; set; }
+            public bool ShowFlockFields { get; set; }
+            public string Placehldr { get; set; }
             public ElementEvent PostedElementEvent { get; set; }
         }
 
         public enum ElementEvent
         {
             None,
+            AnimalTypeChanged,
             AnimalSubTypeChanged
         }
 
@@ -134,9 +147,12 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
                 RuleFor(m => m.ManureType).Must(m => m > 0)
                     .When(m => m.ShowMaterialType)
                     .WithMessage("Manure Material Type must be selected");
-                RuleFor(m => m.BirdsPerFlock).NotEmpty().GreaterThan(0);
-                RuleFor(m => m.FlocksPerYear).NotEmpty().GreaterThan(0);
-                RuleFor(m => m.DaysPerFlock).NotEmpty().GreaterThan(0);
+                When(m => m.ShowFlockFields, () =>
+                    {
+                        RuleFor(m => m.BirdsPerFlock).NotEmpty().GreaterThan(0);
+                        RuleFor(m => m.FlocksPerYear).NotEmpty().GreaterThan(0);
+                        RuleFor(m => m.DaysPerFlock).NotEmpty().GreaterThan(0);
+                    });
             }
         }
 
@@ -190,20 +206,25 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
                 var animalOptions = _sd.GetAnimalTypesDll();
                 command.AnimalTypeOptions = new SelectList(animalOptions, "Id", "Value");
 
-                SelectList subTypeOptions;
-                if (command.AnimalId == 0)
+                if (command.AnimalId > 0)
                 {
-                    var poultryId = _sd.GetAnimal(6);
-                    command.AnimalId = poultryId.Id;
-                    command.AnimalName = poultryId.Name;
-                    subTypeOptions = new SelectList(_sd.GetSubtypesDll(poultryId.Id).ToList(), "Id", "Value");
+                    var subTypeOptions = new SelectList(_sd.GetSubtypesDll(command.AnimalId), "Id", "Value");
+                    command.AnimalSubTypeOptions = subTypeOptions;
+                    command.ShowFlockFields = command.AnimalId == 3 || command.AnimalId == 6;
+                    command.ShowAnimalNumbers = command.AnimalId != 3 && command.AnimalId != 6;
+                }
+
+                if (command.ShowFlockFields)
+                {
+                    command.IsManureCollected = false;
+                    command.DurationDays = null;
                 }
                 else
                 {
-                    subTypeOptions = new SelectList(_sd.GetSubtypesDll(command.AnimalId), "Id", "Value");
+                    command.BirdsPerFlock = null;
+                    command.FlocksPerYear = null;
+                    command.DaysPerFlock = null;
                 }
-
-                command.AnimalSubTypeOptions = subTypeOptions;
 
                 if (command.AnimalSubTypeId > 0)
                 {
