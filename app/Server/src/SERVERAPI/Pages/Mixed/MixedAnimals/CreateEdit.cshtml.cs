@@ -70,11 +70,20 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
             {
                 Data.PostedElementEvent = ElementEvent.None;
                 ModelState.Clear();
+
+                Data.AnimalSubTypeId = 0;
+                Data.ShowAnimalNumbers = false;
+                Data.ShowFlockFields = false;
+                Data.ShowMaterialType = false;
             }
             else if (Data.PostedElementEvent == ElementEvent.AnimalSubTypeChanged)
             {
                 Data.PostedElementEvent = ElementEvent.None;
                 ModelState.Clear();
+
+                Data.ShowAnimalNumbers = false;
+                Data.ShowFlockFields = false;
+                Data.ShowMaterialType = false;
             }
             else
             {
