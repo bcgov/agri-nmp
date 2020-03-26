@@ -794,7 +794,7 @@ namespace SERVERAPI.Controllers
 
         public async Task<string> RenderManureUse()
         {
-            if (_ud.FarmDetails().UserJourney != UserJourney.Dairy || _ud.FarmDetails().UserJourney != UserJourney.Mixed)
+            if (_ud.FarmDetails().UserJourney != UserJourney.Dairy)
             {
                 return string.Empty;
             }
@@ -1469,16 +1469,14 @@ namespace SERVERAPI.Controllers
             //ReportManureCompostInventory
             if (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure/Compost Inventory", PageNumber = pageNumber });
             }
 
             //Dairy Mixed ReportManureSummary
-            if ((_ud.FarmDetails().UserJourney == UserJourney.Dairy ||
-                    _ud.FarmDetails().UserJourney == UserJourney.Mixed) &&
-                yd.FarmManures.Any())
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
             }
 
@@ -1487,7 +1485,7 @@ namespace SERVERAPI.Controllers
                 yd.ManureStorageSystems.Any() &&
                 yd.ManureStorageSystems.Any(mss => mss.ManureMaterialType == ManureMaterialType.Liquid))
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 {
                     SectionName = "Liquid Storage Capacity: October to March",
@@ -1498,14 +1496,14 @@ namespace SERVERAPI.Controllers
             //Report Crop Manures
             if (_ud.FarmDetails().UserJourney == UserJourney.Crops && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
             }
 
             //ReportBeefManure
             if (_ud.FarmDetails().UserJourney == UserJourney.Ranch && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 {
                     SectionName = "Manure and Compost Use",
@@ -1516,7 +1514,7 @@ namespace SERVERAPI.Controllers
             //ReportPoultryManure
             if (_ud.FarmDetails().UserJourney == UserJourney.Poultry && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 {
                     SectionName = "Manure and Compost Use",
@@ -1527,7 +1525,7 @@ namespace SERVERAPI.Controllers
             //ReportMixedManure
             if (_ud.FarmDetails().UserJourney == UserJourney.Mixed && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 {
                     SectionName = "Manure and Compost Use",
@@ -1538,7 +1536,7 @@ namespace SERVERAPI.Controllers
             //ReportFertilizers
             if (hasFertilizers)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Fertilizer Required", PageNumber = pageNumber });
             }
 
@@ -1546,14 +1544,14 @@ namespace SERVERAPI.Controllers
             var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.FieldName}");
             foreach (var fieldName in fieldNames)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = fieldName, PageNumber = pageNumber });
             }
 
             //ReportAnalysis
             if (yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 { SectionName = "Manure and Compost Analysis", PageNumber = pageNumber });
             }
@@ -1564,14 +1562,14 @@ namespace SERVERAPI.Controllers
                 .Select(f => $"{f.FieldName} Feeding Area");
             foreach (var area in feedingAreas)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = area, PageNumber = pageNumber });
             }
 
             //ReportSummary
             if (hasSoilTests)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Soil Test Results", PageNumber = pageNumber });
             }
 
@@ -1621,6 +1619,12 @@ namespace SERVERAPI.Controllers
 
             //ReportPoultryManure
             if (_ud.FarmDetails().UserJourney == UserJourney.Poultry && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+            }
+
+            //ReportMixedManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Mixed && yd.FarmManures.Any())
             {
                 pageNumber += 1;
             }
@@ -2109,7 +2113,6 @@ namespace SERVERAPI.Controllers
 
             if (reportManureUse.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
@@ -2118,7 +2121,6 @@ namespace SERVERAPI.Controllers
 
             if (reportBeefManureUse.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
@@ -2127,7 +2129,6 @@ namespace SERVERAPI.Controllers
 
             if (reportPoultryManureUse.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
@@ -2136,11 +2137,10 @@ namespace SERVERAPI.Controllers
 
             if (reportMixedManureUser.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
-                report += reportPoultryManureUse;
+                report += reportMixedManureUser;
             }
 
             if (reportOctoberToMarchStorageVolumes.Contains("div"))
@@ -2151,7 +2151,6 @@ namespace SERVERAPI.Controllers
 
             if (reportCropManure.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
@@ -2159,7 +2158,6 @@ namespace SERVERAPI.Controllers
             }
             if (reportFertilizers.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
