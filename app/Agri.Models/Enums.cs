@@ -133,6 +133,15 @@ namespace Agri.Models
 
         [Description("/Poultry/PoultryNutrients/Index")]
         PoultryNutrientsIndex,
+
+        [Description("/Mixed/MixedAnimals/Index")]
+        MixedAnimalsIndex,
+
+        [Description("/Mixed/MixedManure/Index")]
+        MixedManureIndex,
+
+        [Description("/Mixed/MixedNutrients/Index")]
+        MixedNutrientsIndex,
     }
 
     public enum StorageShapes
