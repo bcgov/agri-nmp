@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,6 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SERVERAPI.Models.Impl;
 
@@ -124,6 +123,7 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
             public int? DaysPerFlock { get; set; }
             public bool IsManureCollected { get; set; }
             public int? DurationDays { get; set; }
+            public bool ShowSubType { get; set; }
             public bool ShowAnimalNumbers { get; set; }
             public bool ShowMaterialType { get; set; }
             public bool ShowFlockFields { get; set; }
@@ -142,8 +142,11 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
         {
             public CommandValidator()
             {
-                //RuleFor(m => m.AnimalId).GreaterThan(0).WithMessage("Animal Type must be selected");
-                RuleFor(m => m.AnimalSubTypeId).GreaterThan(0).WithMessage("Animal Sub Type must be selected");
+                RuleFor(m => m.AnimalId).GreaterThan(0).WithMessage("Animal Type must be selected");
+                RuleFor(m => m.AnimalSubTypeId)
+                    .GreaterThan(0)
+                    .When(m => m.ShowSubType)
+                    .WithMessage("Animal Sub Type must be selected");
                 RuleFor(m => m.ManureType).Must(m => m > 0)
                     .When(m => m.ShowMaterialType)
                     .WithMessage("Manure Material Type must be selected");
@@ -153,6 +156,16 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
                         RuleFor(m => m.FlocksPerYear).NotEmpty().GreaterThan(0);
                         RuleFor(m => m.DaysPerFlock).NotEmpty().GreaterThan(0);
                     });
+                When(m => m.ShowAnimalNumbers, () =>
+                {
+                    RuleFor(m => m.AverageAnimalNumber).NotEmpty().GreaterThan(0);
+                    When(m => m.IsManureCollected, () =>
+                    {
+                        RuleFor(m => m.DurationDays).NotEmpty().WithMessage("Duration must be greater than 0")
+                            .GreaterThan(0)
+                            .WithMessage("Duration must be greater than 0");
+                    });
+                });
             }
         }
 
@@ -203,15 +216,24 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
             {
                 var command = request.PopulatedData;
 
-                var animalOptions = _sd.GetAnimalTypesDll();
+                var animalOptions = _sd.GetAnimalTypesDll().Where(a => a.Id != 2);
                 command.AnimalTypeOptions = new SelectList(animalOptions, "Id", "Value");
 
                 if (command.AnimalId > 0)
                 {
                     var subTypeOptions = new SelectList(_sd.GetSubtypesDll(command.AnimalId), "Id", "Value");
+
+                    command.ShowSubType = true;
                     command.AnimalSubTypeOptions = subTypeOptions;
                     command.ShowFlockFields = command.AnimalId == 3 || command.AnimalId == 6;
                     command.ShowAnimalNumbers = command.AnimalId != 3 && command.AnimalId != 6;
+
+                    if (subTypeOptions.Count() == 1)
+                    {
+                        command.AnimalSubTypeId = Convert.ToInt32(subTypeOptions.First().Value);
+                        command.AnimalSubTypeName = subTypeOptions.First().Text;
+                        command.ShowSubType = false;
+                    }
                 }
 
                 if (command.ShowFlockFields)
@@ -263,20 +285,39 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
             {
                 var farmAnimal = _mapper.Map<Command, FarmAnimal>(message);
 
-                farmAnimal.IsManureCollected = true;
-                farmAnimal.IsPoultry = true;
+                if (farmAnimal.AnimalId == 3 || farmAnimal.AnimalId == 6)
+                {
+                    farmAnimal.IsManureCollected = true;
+                    farmAnimal.IsPoultry = true;
+                }
 
                 if (farmAnimal.ManureType == ManureMaterialType.Solid)
                 {
-                    farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
-                        .GetTonsGeneratedForPoultrySubType(farmAnimal.AnimalSubTypeId,
-                            farmAnimal.BirdsPerFlock.Value, farmAnimal.FlocksPerYear.Value, farmAnimal.DaysPerFlock.Value);
+                    if (farmAnimal.IsPoultry)
+                    {
+                        farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
+                            .GetTonsGeneratedForPoultrySubType(farmAnimal.AnimalSubTypeId,
+                                farmAnimal.BirdsPerFlock.Value, farmAnimal.FlocksPerYear.Value, farmAnimal.DaysPerFlock.Value);
+                    }
+                    else
+                    {
+                        farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
+                            .GetSolidTonsGeneratedForAnimalSubType(farmAnimal.AnimalSubTypeId, farmAnimal.AverageAnimalNumber, farmAnimal.DurationDays);
+                    }
                 }
                 else
                 {
-                    farmAnimal.ManureGeneratedGallonsPerYear = _calculateManureGeneration
+                    if (farmAnimal.IsPoultry)
+                    {
+                        farmAnimal.ManureGeneratedGallonsPerYear = _calculateManureGeneration
                         .GetGallonsGeneratedForPoultrySubType(farmAnimal.AnimalSubTypeId,
                             farmAnimal.BirdsPerFlock.Value, farmAnimal.FlocksPerYear.Value, farmAnimal.DaysPerFlock.Value);
+                    }
+                    else
+                    {
+                        farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
+                            .GetGallonsGeneratedForAnimalSubType(farmAnimal.AnimalSubTypeId, farmAnimal.AverageAnimalNumber, farmAnimal.DurationDays);
+                    }
                 }
 
                 if (farmAnimal.AnimalSubTypeId > 0 && string.IsNullOrEmpty(farmAnimal.AnimalSubTypeName))

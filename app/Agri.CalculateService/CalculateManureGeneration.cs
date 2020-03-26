@@ -15,6 +15,8 @@ namespace Agri.CalculateService
 
         int GetTonsGeneratedForPoultrySubType(int animalSubTypeId, int birdsPerFlock, decimal flocksPerYear, int daysPerFlock);
 
+        int GetGallonsGeneratedForAnimalSubType(int animalSubTypeId, int animalCount, int daysCollected);
+
         int GetGallonsGeneratedForPoultrySubType(int animalSubTypeId, int birdsPerFlock, decimal flocksPerYear, int daysPerFlock);
     }
 
@@ -52,6 +54,15 @@ namespace Agri.CalculateService
             var gallonsPerDay = _sd.GetAnimalSubType(animalSubTypeId).LiquidPerGalPerAnimalPerDay;
 
             var result = gallonsPerDay * birdsPerFlock * flocksPerYear * daysPerFlock;
+
+            return Convert.ToInt32(result ?? 0);
+        }
+
+        public int GetGallonsGeneratedForAnimalSubType(int animalSubTypeId, int animalCount, int daysCollected)
+        {
+            var gallonsPerDay = _sd.GetAnimalSubType(animalSubTypeId).LiquidPerGalPerAnimalPerDay;
+
+            var result = gallonsPerDay * animalCount * daysCollected;
 
             return Convert.ToInt32(result ?? 0);
         }

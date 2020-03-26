@@ -454,27 +454,17 @@
           {
             "Name": "Manure and Imports",
             "Page": "/Mixed/MixedManure/Index",
+            "PreviousPage": "/Mixed/MixedAnimals/Index",
             "NextPage": "/Mixed/MixedNutrients/Index",
-            "NextController": "ManureManagement",
-            "NextAction": "ManureStorage",
             "SortNumber": 2
-          },
-          {
-            "Name": "Storage",
-            "Controller": "ManureManagement",
-            "Action": "ManureStorage",
-            "PreviousPage": "/Mixed/MixedManure/Index",
-            "NextPage": "/Mixed/MixedNutrients/Index",
-            "SortNumber": 3
           },
           {
             "Name": "Nutrient Analysis",
             "Page": "/Mixed/MixedNutrients/Index",
-            "PreviousController": "ManureManagement",
-            "PreviousAction": "ManureStorage",
+            "PreviousPage": "/Mixed/MixedManure/Index",
             "NextController": "Fields",
             "NextAction": "Fields",
-            "SortNumber": 4
+            "SortNumber": 3
           }
         ]
       },
