@@ -38,16 +38,16 @@ else
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $("body").on("click", "[type='checkbox'][id^='Data_PoultrySolidManures']", function () {
+            $("body").on("click", "[type='checkbox'][id^='Data_SolidManures']", function () {
                 var result = false;
-                $("[type=checkbox][id^='Data_PoultrySolidManures']").each(function() {
+                $("[type=checkbox][id^='Data_SolidManures']").each(function() {
                     if(this.checked)
                     {
         	            result = true;
                     }
                 });
                 if (result) {
-                    $("[type=checkbox][id^='Data_PoultryLiquidManures']").each(function() {
+                    $("[type=checkbox][id^='Data_LiquidManures']").each(function() {
                         this.checked = false;
                     });
 
@@ -60,16 +60,16 @@ else
         });
 
         $(document).ready(function () {
-            $("body").on("click", "[type='checkbox'][id^='Data_PoultryLiquidManures']", function () {
+            $("body").on("click", "[type='checkbox'][id^='Data_LiquidManures']", function () {
                 var result = false;
-                $("[type=checkbox][id^='Data_PoultryLiquidManures']").each(function() {
+                $("[type=checkbox][id^='Data_LiquidManures']").each(function() {
                     if(this.checked)
                     {
         	            result = true;
                     }
                 });
                 if (result) {
-                    $("[type=checkbox][id^='Data_PoultrySolidManures']").each(function() {
+                    $("[type=checkbox][id^='Data_SolidManures']").each(function() {
                         this.checked = false;
                     });
 

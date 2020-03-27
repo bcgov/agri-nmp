@@ -476,7 +476,8 @@
             "Name": "Add Field",
             "Page": "/Mixed/MixedFields/Index",
             "PreviousPage": "/Mixed/MixedNutrients/Index",
-            "NextPage": "/Mixed/MixedFeeding/Index",
+            "NextController": "Soil",
+            "NextAction": "SoilTest",
             "SortNumber": 1
           },
           {
