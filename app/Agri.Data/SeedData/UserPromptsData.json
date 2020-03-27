@@ -649,6 +649,62 @@
     "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
     "UserPromptPage": "NutrientsAnalysisList",
     "UserJourney": "Poultry"
+  },
+  {
+    "Id": 99,
+    "Name": "MixedAnimalGroupsMessage",
+    "Text": "Identify animal groups that generate manure on your farm",
+    "UserPromptPage": "AnimalsCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 100,
+    "Name": "ExplainNutrientAnalysisMoisture-Mixed",
+    "Text": "This value should be a percentage of the moisture contained in the material as received.  It should not be a dry matter value",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 101,
+    "Name": "ExplainNutrientAnalysisNitrogen-Mixed",
+    "Text": "This value is the percentage of the manure/compost made up of total nitrogen (TN), which includes the organic and inorganic portions",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 102,
+    "Name": "ExplainNutrientAnlalysisAmmonia-Mixed",
+    "Text": "This value is the portion of the manure/compost in the form of ammonium-nitrogen (NH4-N), an inorganic/mineral form of nitrogen. It may also be expressed in units of mg/kg or mg/L",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 103,
+    "Name": "ExplainNutrientAnlalysisPhosphorous-Mixed",
+    "Text": "This value is the percentage of the manure/compost made up of phosphorus (P)",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 104,
+    "Name": "ExplainNutrientAnlalysisPotassium-Mixed",
+    "Text": "This value is the percentage of the manure compost made up potassium (K).",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 105,
+    "Name": "MixedNutrientAnalysisEntryCreateEditMessage",
+    "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 106,
+    "Name": "MixedNutrientAnalysisEntryListMessage",
+    "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
+    "UserPromptPage": "NutrientsAnalysisList",
+    "UserJourney": "Mixed"
   }
 
 ]

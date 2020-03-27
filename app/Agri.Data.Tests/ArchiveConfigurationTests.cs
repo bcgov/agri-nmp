@@ -292,6 +292,21 @@ namespace Agri.Data.Tests
                 SerializeToString(agriConfigurationDb.Yields.Where(a => a.StaticDataVersionId == expectedId).ToList()));
         }
 
+        [Fact]
+        public void GetLatestAsJson()
+        {
+            SeedDatabase();
+
+            var user = new ManageVersionUser
+            {
+                FirstName = "TestFirstName",
+                LastName = "TestLastName"
+            };
+            var repo = new AgriConfigurationRepository(agriConfigurationDb, Mapper);
+
+            var result = repo.GetLatestVersionDataTree();
+        }
+
         private string SerializeToString<T>(T entity)
         {
             var result = string.Empty;

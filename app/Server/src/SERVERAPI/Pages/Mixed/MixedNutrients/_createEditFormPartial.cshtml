@@ -3,12 +3,12 @@
 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 <div class="form-box-fields">
 
-    @if ((Model.Data.PoultrySolidManures != null && Model.Data.PoultrySolidManures.Any()) ||
-              (Model.Data.PoultryLiquidManures != null && Model.Data.PoultryLiquidManures.Any()))
+    @if ((Model.Data.SolidManures != null && Model.Data.SolidManures.Any()) ||
+         (Model.Data.LiquidManures != null && Model.Data.LiquidManures.Any()))
     {
         <div class="row">
             <div class="col-md-12">
-                @Html.Raw(Model.Data.PoultryNutrientAnalysisEntryCreateEditMessage)
+                @Html.Raw(Model.Data.MixedNutrientAnalysisEntryCreateEditMessage)
             </div>
         </div>
 
@@ -16,41 +16,41 @@
             <div class="col-md-4 order-md-1">
                 <div class="form-group table-bordered" style="padding-left: 5px !important">
                     <table class="table-borderless table-sm">
-                        @if (Model.Data.PoultrySolidManures.Any())
+                        @if (Model.Data.SolidManures.Any())
                         {
                             <tr>
                                 <td colspan="2" style="font-weight: bold">Solid</td>
                             </tr>
-                            @for (int i = 0; i < Model.Data.PoultrySolidManures.Count; i++)
+                            @for (int i = 0; i < Model.Data.SolidManures.Count; i++)
                             {
                                 <tr>
                                     <td style="vertical-align: text-top;">
-                                        <input type="checkbox" asp-for="@Model.Data.PoultrySolidManures[i].Selected" />
+                                        <input type="checkbox" asp-for="@Model.Data.SolidManures[i].Selected" />
                                     </td>
                                     <td>
-                                        <label asp-for="@Model.Data.PoultrySolidManures[i].Selected">@Model.Data.PoultrySolidManures[i].ManureName</label>
-                                        <input type="hidden" asp-for="@Model.Data.PoultrySolidManures[i].ManureId" />
-                                        <input type="hidden" asp-for="@Model.Data.PoultrySolidManures[i].ManureName" />
+                                        <label asp-for="@Model.Data.SolidManures[i].Selected">@Model.Data.SolidManures[i].ManureName</label>
+                                        <input type="hidden" asp-for="@Model.Data.SolidManures[i].ManureId" />
+                                        <input type="hidden" asp-for="@Model.Data.SolidManures[i].ManureName" />
                                     </td>
                                 </tr>
                             }
                         }
 
-                        @if (Model.Data.PoultryLiquidManures.Any())
+                        @if (Model.Data.LiquidManures.Any())
                         {
                             <tr>
                                 <td colspan="2" style="font-weight: bold">Liquid</td>
                             </tr>
-                            @for (int i = 0; i < Model.Data.PoultryLiquidManures.Count; i++)
+                            @for (int i = 0; i < Model.Data.LiquidManures.Count; i++)
                             {
                                 <tr>
                                     <td style="vertical-align: text-top;">
-                                        <input type="checkbox" asp-for="@Model.Data.PoultryLiquidManures[i].Selected" />
+                                        <input type="checkbox" asp-for="@Model.Data.LiquidManures[i].Selected" />
                                     </td>
                                     <td>
-                                        <label asp-for="@Model.Data.PoultryLiquidManures[i].Selected">@Model.Data.PoultryLiquidManures[i].ManureName</label>
-                                        <input type="hidden" asp-for="@Model.Data.PoultryLiquidManures[i].ManureId" />
-                                        <input type="hidden" asp-for="@Model.Data.PoultryLiquidManures[i].ManureName" />
+                                        <label asp-for="@Model.Data.LiquidManures[i].Selected">@Model.Data.LiquidManures[i].ManureName</label>
+                                        <input type="hidden" asp-for="@Model.Data.LiquidManures[i].ManureId" />
+                                        <input type="hidden" asp-for="@Model.Data.LiquidManures[i].ManureName" />
                                     </td>
                                 </tr>
                             }

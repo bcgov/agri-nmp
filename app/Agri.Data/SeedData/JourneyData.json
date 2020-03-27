@@ -462,43 +462,28 @@
             "Name": "Nutrient Analysis",
             "Page": "/Mixed/MixedNutrients/Index",
             "PreviousPage": "/Mixed/MixedManure/Index",
-            "NextController": "Fields",
-            "NextAction": "Fields",
+            "NextPage": "/Mixed/MixedFields/Index",
             "SortNumber": 3
           }
         ]
       },
       {
         "Name": "Fields and Soil",
-        "Controller": "Fields",
-        "Action": "Fields",
+        "Page": "/Mixed/MixedFields/Index",
         "SortNumber": 3,
         "SubMenus": [
           {
-            "Name": "Field List",
-            "Controller": "Fields",
-            "Action": "Fields",
+            "Name": "Add Field",
+            "Page": "/Mixed/MixedFields/Index",
             "PreviousPage": "/Mixed/MixedNutrients/Index",
-            "NextController": "Soil",
-            "NextAction": "SoilTest",
+            "NextPage": "/Mixed/MixedFeeding/Index",
             "SortNumber": 1
           },
-          //{
-          //  "Name": "Feeding Areas",
-          //  "Controller": "Feeding",
-          //  "Action": "Feeding",
-          //  "PreviousController": "Fields",
-          //  "PreviousAction": "Fields",
-          //  "NextController": "Soil",
-          //  "NextAction": "SoilTest",
-          //  "SortNumber": 2
-          //},
           {
             "Name": "Soil Tests",
             "Controller": "Soil",
             "Action": "SoilTest",
-            "PreviousController": "Fields",
-            "PreviousAction": "Fields",
+            "PreviousPage": "/Mixed/MixedFields/Index",
             "NextController": "Crops",
             "NextAction": "Crops",
             "SortNumber": 2

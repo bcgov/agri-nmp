@@ -142,6 +142,9 @@ namespace Agri.Models
 
         [Description("/Mixed/MixedNutrients/Index")]
         MixedNutrientsIndex,
+
+        [Description("/Mixed/MixedFields/Index")]
+        MixedFieldsIndex,
     }
 
     public enum StorageShapes

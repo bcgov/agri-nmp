@@ -1498,8 +1498,9 @@ namespace Agri.Data
 
         public StaticDataVersion GetLatestVersionDataTree()
         {
-            return _context.StaticDataVersions
-                .OrderByDescending(v => v.Id)
+            var staticVersion = GetCurrentStaticDataVersion();
+
+            var result = _context.StaticDataVersions
                 .Include(x => x.AmmoniaRetentions)
                 .Include(x => x.Animals)
                 .Include(x => x.AnimalSubTypes)
@@ -1515,9 +1516,9 @@ namespace Agri.Data
                 .Include(x => x.DefaultSoilTests)
                 .Include(x => x.DensityUnits)
                 .Include(x => x.DryMatters)
-                 .Include(x => x.Feeds)
-                 .Include(x => x.FeedForageTypes)
-                 .Include(x => x.FeedConsumptions)
+                .Include(x => x.Feeds)
+                .Include(x => x.FeedForageTypes)
+                .Include(x => x.FeedConsumptions)
                 .Include(x => x.FeedEfficiencies)
                 .Include(x => x.Fertilizers)
                 .Include(x => x.FertilizerMethods)
@@ -1555,7 +1556,10 @@ namespace Agri.Data
                 .Include(x => x.Units)
                 .Include(x => x.SubRegions)
                 .Include(x => x.Yields)
-                .First();
+                .AsNoTracking()
+                .Single(s => s.Id == staticVersion.Id);
+
+            return result;
         }
 
         public Yield GetYieldById(int yieldId)
@@ -1940,7 +1944,7 @@ namespace Agri.Data
         {
             if (_currentStaticDataVersion == null)
             {
-                _currentStaticDataVersion = _context.StaticDataVersions.AsNoTracking()
+                _currentStaticDataVersion = _context.StaticDataVersions
                 .AsNoTracking()
                 .OrderByDescending(sdv => sdv.Id).FirstOrDefault();
             }
