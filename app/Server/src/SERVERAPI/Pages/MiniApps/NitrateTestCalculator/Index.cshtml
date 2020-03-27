@@ -108,7 +108,7 @@
                                 <input class="btn btn-default col-sm-6" type="submit" id="AddSample" style="visibility:@visibility;font-size: 12px;padding-right:20px" value="Add another sample depth" />
                             </div>
                         </div>
-                        @if(Model.Data.nitrateTestAnalysis.Count > 1)
+                        @if(Model.Data.nitrateTestAnalysis.Count > 1 && Model.Data.IsCalculate)
                         {
                             <div class="row">
                                 <div class="col-sm-6">
@@ -229,7 +229,8 @@
                 $('#PostedElementEvent').val("ResetClicked");
          });
          $("body").on("click", "#Calculate", function () {
-                $('#PostedElementEvent').val("CalculateClicked");
+             $('#PostedElementEvent').val("CalculateClicked");
+              $("#AddSample").click();
             });
     </script>
 }
