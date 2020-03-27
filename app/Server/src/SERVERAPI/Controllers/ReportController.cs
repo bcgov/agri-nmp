@@ -940,6 +940,74 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
+        public ReportManureCollectedViewModel GetManureManureCollectedViewModel()
+        {
+            var viewModel = new ReportManureCollectedViewModel();
+            viewModel.Manures = new List<ReportManures>();
+            viewModel.Footnotes = new List<ReportFieldFootnote>();
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.FarmManures != null)
+            {
+                foreach (var fm in yearData.FarmManures)
+                {
+                    var rm = new ReportManures();
+                    var appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
+
+                    if (appliedManure != null)
+                    {
+                        rm.MaterialName = appliedManure.ManureMaterialName;
+                        rm.MaterialSource = appliedManure.SourceName;
+
+                        // Annual Amount
+
+                        rm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureToApply))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.AnnualAmount += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.AnnualAmount += " tons";
+                        }
+
+                        // Amount Land Applied
+                        rm.LandApplied = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalApplied))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.LandApplied += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.LandApplied += " tons";
+                        }
+                        rm.LandApplied += " (" + appliedManure.WholePercentAppiled + "%)";
+
+                        // Amount Remaining
+                        if (appliedManure.WholePercentRemaining < 10)
+                        {
+                            rm.AmountRemaining = "None";
+
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = viewModel.Footnotes.Count() + 1;
+                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
+                            rm.footnote = rff.id.ToString();
+                            viewModel.Footnotes.Add(rff);
+                        }
+                        else
+                        {
+                            rm.AmountRemaining = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureRemainingToApply))) + " (" + appliedManure.WholePercentRemaining + "%)";
+                        }
+
+                        viewModel.Manures.Add(rm);
+                    }
+                }
+            }
+
+            return viewModel;
+        }
+
         public async Task<string> RenderCropManureUse()
         {
             if (_ud.FarmDetails().UserJourney != UserJourney.Crops)
@@ -1019,51 +1087,7 @@ namespace SERVERAPI.Controllers
                 return string.Empty;
             }
 
-            var viewModel = new ReportManureCollectedViewModel();
-
-            var yearData = _ud.GetYearData();
-
-            if (yearData.FarmManures != null)
-            {
-                foreach (var fm in yearData.FarmManures)
-                {
-                    ReportManures rm = new ReportManures();
-                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
-
-                    if (appliedManure != null)
-                    {
-                        rm.MaterialName = appliedManure.ManureMaterialName;
-                        rm.MaterialSource = appliedManure.SourceName;
-
-                        // Annual Amount
-
-                        rm.AnnualAmount = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureToApply)).ToString();
-                        rm.AnnualAmount = $"{rm.AnnualAmount} tons";
-
-                        // Amount Land Applied
-                        rm.LandApplied = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalApplied)).ToString();
-                        rm.LandApplied = $"{rm.LandApplied} tons";
-
-                        // Amount Remaining
-                        if (appliedManure.WholePercentRemaining < 10)
-                        {
-                            rm.AmountRemaining = "None";
-
-                            ReportFieldFootnote rff = new ReportFieldFootnote();
-                            rff.id = viewModel.Footnotes.Count() + 1;
-                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
-                            rm.footnote = rff.id.ToString();
-                            viewModel.Footnotes.Add(rff);
-                        }
-                        else
-                        {
-                            rm.AmountRemaining = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureRemainingToApply));
-                        }
-
-                        viewModel.Manures.Add(rm);
-                    }
-                }
-            }
+            var viewModel = GetManureManureCollectedViewModel();
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportBeefManureCollected.cshtml", viewModel);
 
@@ -1077,51 +1101,7 @@ namespace SERVERAPI.Controllers
                 return string.Empty;
             }
 
-            var viewModel = new ReportManureCollectedViewModel();
-
-            var yearData = _ud.GetYearData();
-
-            if (yearData.FarmManures != null)
-            {
-                foreach (var fm in yearData.FarmManures)
-                {
-                    ReportManures rm = new ReportManures();
-                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
-
-                    if (appliedManure != null)
-                    {
-                        rm.MaterialName = appliedManure.ManureMaterialName;
-                        rm.MaterialSource = appliedManure.SourceName;
-
-                        // Annual Amount
-
-                        rm.AnnualAmount = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureToApply)).ToString();
-                        rm.AnnualAmount = $"{rm.AnnualAmount} tons";
-
-                        // Amount Land Applied
-                        rm.LandApplied = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalApplied)).ToString();
-                        rm.LandApplied = $"{rm.LandApplied} tons";
-
-                        // Amount Remaining
-                        if (appliedManure.WholePercentRemaining < 10)
-                        {
-                            rm.AmountRemaining = "None";
-
-                            ReportFieldFootnote rff = new ReportFieldFootnote();
-                            rff.id = viewModel.Footnotes.Count() + 1;
-                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
-                            rm.footnote = rff.id.ToString();
-                            viewModel.Footnotes.Add(rff);
-                        }
-                        else
-                        {
-                            rm.AmountRemaining = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureRemainingToApply));
-                        }
-
-                        viewModel.Manures.Add(rm);
-                    }
-                }
-            }
+            var viewModel = GetManureManureCollectedViewModel();
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportPoultryManureCollected.cshtml", viewModel);
 
@@ -1135,51 +1115,7 @@ namespace SERVERAPI.Controllers
                 return string.Empty;
             }
 
-            var viewModel = new ReportManureCollectedViewModel();
-
-            var yearData = _ud.GetYearData();
-
-            if (yearData.FarmManures != null)
-            {
-                foreach (var fm in yearData.FarmManures)
-                {
-                    ReportManures rm = new ReportManures();
-                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
-
-                    if (appliedManure != null)
-                    {
-                        rm.MaterialName = appliedManure.ManureMaterialName;
-                        rm.MaterialSource = appliedManure.SourceName;
-
-                        // Annual Amount
-
-                        rm.AnnualAmount = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureToApply)).ToString();
-                        rm.AnnualAmount = $"{rm.AnnualAmount} tons";
-
-                        // Amount Land Applied
-                        rm.LandApplied = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalApplied)).ToString();
-                        rm.LandApplied = $"{rm.LandApplied} tons";
-
-                        // Amount Remaining
-                        if (appliedManure.WholePercentRemaining < 10)
-                        {
-                            rm.AmountRemaining = "None";
-
-                            ReportFieldFootnote rff = new ReportFieldFootnote();
-                            rff.id = viewModel.Footnotes.Count() + 1;
-                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
-                            rm.footnote = rff.id.ToString();
-                            viewModel.Footnotes.Add(rff);
-                        }
-                        else
-                        {
-                            rm.AmountRemaining = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureRemainingToApply));
-                        }
-
-                        viewModel.Manures.Add(rm);
-                    }
-                }
-            }
+            var viewModel = GetManureManureCollectedViewModel();
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportMixedManureCollected.cshtml", viewModel);
 
@@ -1467,7 +1403,8 @@ namespace SERVERAPI.Controllers
             //ReportApplication
             vm.ContentItems.Add(new ContentItem { SectionName = "Application Schedule", PageNumber = pageNumber });
             //ReportManureCompostInventory
-            if (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any())
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy &&
+                (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any()))
             {
                 pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure/Compost Inventory", PageNumber = pageNumber });
@@ -1581,18 +1518,17 @@ namespace SERVERAPI.Controllers
         public async Task<int> GetPageCount(bool hasFertilizers, bool hasSoilTests)
         {
             var yd = _ud.GetYearData();
-            var pageNumber = 1;
+            var pageNumber = 2;
 
             //ReportManureCompostInventory
-            if (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any())
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy &&
+                (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any()))
             {
                 pageNumber += 1;
             }
 
             //Dairy Mixed ReportManureSummary
-            if ((_ud.FarmDetails().UserJourney == UserJourney.Dairy ||
-                    _ud.FarmDetails().UserJourney == UserJourney.Mixed) &&
-                yd.FarmManures.Any())
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy && yd.FarmManures.Any())
             {
                 pageNumber += 1;
             }
