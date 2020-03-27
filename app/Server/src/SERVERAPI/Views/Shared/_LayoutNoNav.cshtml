@@ -110,8 +110,20 @@
                         <!-- COLLAPSING NAVBAR -->
                         <div id="navbar" class="collapse navbar-collapse">
                             <ul class="nav navbar-nav">
-                                <li><a href='@Url.Action("About", "Home" )' target="_blank">About</a></li>
-                                <li><a href='@Url.Action("Help", "Home" )' target="_blank">Help</a></li>
+                                <li>
+                                    <a id="disclaimer" href="/Information/Disclaimer"
+                                       data-name="Disclaimer"
+                                       data-popup="disclaimer"
+                                       data-popup-width="640"
+                                       data-popup-height="480">Disclaimer</a>
+                                </li>
+                                <li>
+                                    <a id="help" href="@Url.Action("Help", "Home" )"
+                                       data-name="Disclaimer"
+                                       data-popup="disclaimer"
+                                       data-popup-width="800"
+                                       data-popup-height="600">Help</a>
+                                </li>
                             </ul>
                         </div>
                         <!-- /COLLAPSING NAVBAR -->
@@ -122,10 +134,18 @@
                         <div class="container">
                             <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
                                 <span>
-                                    @Html.ActionLink("About", "About", new { controller = "Home" }, new { target = "_blank", @class = "edit" })
+                                    <a id="disclaimer" href="/Information/Disclaimer"
+                                       data-name="Disclaimer"
+                                       data-popup="disclaimer"
+                                       data-popup-width="640"
+                                       data-popup-height="480">Disclaimer</a>
                                 </span>
                                 <span>
-                                    @Html.ActionLink("Help", "Help", new { controller = "Home" }, new { target = "_blank", @class = "edit" })
+                                    <a id="help" href="@Url.Action("Help", "Home" )"
+                                       data-name="Disclaimer"
+                                       data-popup="disclaimer"
+                                       data-popup-width="800"
+                                       data-popup-height="600">Help</a>
                                 </span>
                             </div>
                         </div>
