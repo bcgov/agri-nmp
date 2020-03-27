@@ -1,0 +1,14 @@
+﻿@page
+@model SERVERAPI.Pages.Information.Disclaimer.Index
+
+@{
+    Layout = "_PageLayoutBare";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="padding:15px;font-size:1.75rem">
+            @Html.Raw(Model.Data.Message)
+        </div>
+    </div>
+</div>
