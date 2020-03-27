@@ -78,10 +78,13 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             }
             else if (Data.PostedElementEvent == "CalculateClicked")
             {
-                ModelState.Clear();
-                Data.PostedElementEvent = "none";
-                Data.IsCalculate = true;
-                Data.isNotShowButton = true;
+                if(ModelState.IsValid)
+                {
+                    ModelState.Clear();
+                    Data.PostedElementEvent = "none";
+                    Data.IsCalculate = true;
+                    Data.isNotShowButton = true;
+                }
             }
             else if (ModelState.IsValid)
             {
