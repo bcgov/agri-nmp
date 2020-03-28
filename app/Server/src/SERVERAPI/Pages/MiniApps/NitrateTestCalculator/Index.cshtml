@@ -94,10 +94,11 @@
                         @Html.HiddenFor(x => x.Data.isNotShowButton)
                         <div class="row">
                             <div class="col-sm-6">
-                                <input class="btn btn-default col-sm-6" type="submit" id="AddSample" style="visibility:@visibility;font-size: 12px;padding-right:20px" value="Add another sample depth" />
+                                <input class="btn btn-default col-sm-6" type="button" id="AddSampleButton" style="visibility:@visibility;font-size: 12px;padding-right:20px" value="Add another sample depth" />
+                                <input class="btn btn-default col-sm-6" type="submit" id="AddSample" style="visibility:hidden" />
                             </div>
                         </div>
-                        @if(Model.Data.nitrateTestAnalysis.Count > 1 && Model.Data.IsCalculate)
+                        @if (Model.Data.nitrateTestAnalysis.Count > 1 && Model.Data.IsCalculate)
                         {
                             <div class="row">
                                 @if (Model.Data.IsBasic)
@@ -175,6 +176,7 @@
 
 @section Scripts{
     <script>
+
         function comboDepthChange() {
 
             $('#PostedElementEvent').val("DepthChange");
@@ -189,6 +191,11 @@
 
             $("body").on("click", "#btnAdvance", function () {
                 $('#PostedElementEvent').val("AdvancedChange");
+                $("#AddSample").click();
+            });
+
+            $("body").on("click", "#AddSampleButton", function () {
+                $('#PostedElementEvent').val("AddDepth");
                 $("#AddSample").click();
             });
         });
@@ -223,12 +230,12 @@
             });
         });
 
-         $("body").on("click", "#Reset", function () {
-                $('#PostedElementEvent').val("ResetClicked");
-         });
-         $("body").on("click", "#Calculate", function () {
-             $('#PostedElementEvent').val("CalculateClicked");
-              $("#AddSample").click();
-            });
+        $("body").on("click", "#Reset", function () {
+            $('#PostedElementEvent').val("ResetClicked");
+        });
+        $("body").on("click", "#Calculate", function () {
+            $('#PostedElementEvent').val("CalculateClicked");
+            $("#AddSample").click();
+        });
     </script>
 }
