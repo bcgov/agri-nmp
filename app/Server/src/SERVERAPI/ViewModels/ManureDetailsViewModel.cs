@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Agri.Models;
 using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
@@ -10,26 +11,37 @@ namespace SERVERAPI.ViewModels
         public string title { get; set; }
         public string btnText { get; set; }
         public string fieldName { get; set; }
+
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string SelectedFarmManure { get; set; }
+
         public List<SelectListItem> ManureTypeOptions { get; set; }
+
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selApplOption { get; set; }
+
         public List<SelectListItem> applOptions { get; set; }
+
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selRateOption { get; set; }
+
         public string selRateOptionText { get; set; }
         public List<SelectListItem> rateOptions { get; set; }
+
         [Required(ErrorMessage = "Required")]
         public string ApplicationRate { get; set; }
+
         public string currUnit { get; set; }
+
         [Required(ErrorMessage = "Required")]
         public string nh4 { get; set; }
+
         [Required(ErrorMessage = "Required")]
         public string avail { get; set; }
+
         public string buttonPressed { get; set; }
         public string yrN { get; set; }
         public string yrP2o5 { get; set; }
@@ -62,5 +74,29 @@ namespace SERVERAPI.ViewModels
         public bool areThereNutrientAnalysis { get; set; }
         public string noManureSourceAddedWarningMsg { get; set; }
         public string noNutrientAnalysisWaningMsg { get; set; }
+        public UserJourney UserJourney { get; set; }
+
+        public string ReturnToManureUrl
+        {
+            get
+            {
+                if (UserJourney == UserJourney.Crops)
+                {
+                    return "~/ManureManagement/ManureImported";
+                }
+                else if (UserJourney == UserJourney.Poultry)
+                {
+                    return "~/Poultry/PoultryAnimals";
+                }
+                else if (UserJourney == UserJourney.Ranch)
+                {
+                    return "~/Ranch/RanchAnimals";
+                }
+                else
+                {
+                    return "~/ManureManagement/ManureGeneratedObtained";
+                }
+            }
+        }
     }
 }

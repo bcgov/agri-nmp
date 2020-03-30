@@ -133,28 +133,29 @@ namespace SERVERAPI.Controllers
 
         public IActionResult ManureDetails(string fldName, int? id)
         {
-            NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
             var managedManuresData = _ud.GetAllManagedManures();
             var farmManuresData = _ud.GetFarmManures();
 
-            ManureDetailsViewModel mvm = new ManureDetailsViewModel();
-
-            mvm.fieldName = fldName;
-            mvm.title = id == null ? "Add" : "Edit";
-            mvm.btnText = id == null ? "Calculate" : "Return";
-            mvm.id = id;
-            mvm.avail = string.Empty;
-            mvm.nh4 = string.Empty;
-            mvm.stdN = true;
-            mvm.stdAvail = true;
-            mvm.url = _sd.GetExternalLink("manureunitexplanation");
-            mvm.urlText = _sd.GetUserPrompt("moreinfo");
-            mvm.AmmoniumRetentionMsg = _sd.GetUserPrompt("AmmoniumRetensionMessage");
-            mvm.AvailablOrganicNitrogranMsg = _sd.GetUserPrompt("AvailableOrganicNitrogenMessage");
-            mvm.AvailableNutrientsThisYearMsg = _sd.GetUserPrompt("AvailableNutrientsThisYearMessage");
-            mvm.AvailableNutrientsLongTermMsg = _sd.GetUserPrompt("AvaiableNutreintsLongTermMessage");
-            mvm.noManureSourceAddedWarningMsg = _sd.GetUserPrompt("NoManureSourceAddedWarning");
-            mvm.noNutrientAnalysisWaningMsg = _sd.GetUserPrompt("NoNutrientAnalysisAddedWarning");
+            var mvm = new ManureDetailsViewModel()
+            {
+                fieldName = fldName,
+                title = id == null ? "Add" : "Edit",
+                btnText = id == null ? "Calculate" : "Return",
+                id = id,
+                avail = string.Empty,
+                nh4 = string.Empty,
+                stdN = true,
+                stdAvail = true,
+                url = _sd.GetExternalLink("manureunitexplanation"),
+                urlText = _sd.GetUserPrompt("moreinfo"),
+                AmmoniumRetentionMsg = _sd.GetUserPrompt("AmmoniumRetensionMessage"),
+                AvailablOrganicNitrogranMsg = _sd.GetUserPrompt("AvailableOrganicNitrogenMessage"),
+                AvailableNutrientsThisYearMsg = _sd.GetUserPrompt("AvailableNutrientsThisYearMessage"),
+                AvailableNutrientsLongTermMsg = _sd.GetUserPrompt("AvaiableNutreintsLongTermMessage"),
+                noManureSourceAddedWarningMsg = _sd.GetUserPrompt("NoManureSourceAddedWarning"),
+                noNutrientAnalysisWaningMsg = _sd.GetUserPrompt("NoNutrientAnalysisAddedWarning"),
+                UserJourney = _ud.FarmDetails().UserJourney
+            };
 
             if (managedManuresData.Count > 0)
             {
@@ -203,7 +204,7 @@ namespace SERVERAPI.Controllers
 
                 int regionid = _ud.FarmDetails().FarmRegion.Value;
                 Region region = _sd.GetRegion(regionid);
-                nOrganicMineralizations = _calculateNutrients
+                var nOrganicMineralizations = _calculateNutrients
                     .GetNMineralization(_ud.GetFarmManure(Convert.ToInt16(mvm.SelectedFarmManure)),
                     region.LocationId);
 

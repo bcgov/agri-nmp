@@ -209,11 +209,30 @@ namespace SERVERAPI.Models.Impl
 
         public void DeleteAnimal(int id)
         {
-            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             userData.unsaved = true;
-            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            FarmAnimal anml = yd.FarmAnimals.FirstOrDefault(f => f.Id == id);
-            yd.FarmAnimals.Remove(anml);
+            var yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+            var animal = yd.FarmAnimals.FirstOrDefault(f => f.Id == id);
+            yd.FarmAnimals.Remove(animal);
+
+            var farmManureToDrop = yd.FarmManures.SingleOrDefault(m => m.GroupedWithCollectedAnalysisSourceItemIds
+                                .Where(ids => ids.SourceType == NutrientAnalysisTypes.Collected)
+                                .Select(ids => ids.SourceId).Contains(animal.Id.GetValueOrDefault(0)));
+
+            if (farmManureToDrop != null)
+            {
+                var nutrientManures =
+                    yd.GetNutrientManuresFromFields(new List<int> { farmManureToDrop.Id });
+
+                foreach (var nutrientManure in nutrientManures)
+                {
+                    yd.Fields
+                        .Single(f => f.Nutrients.nutrientManures.Any(nm =>
+                            nm.id == nutrientManure.id && nm.manureId == nutrientManure.manureId))
+                        .Nutrients.nutrientManures.Remove(nutrientManure);
+                }
+                yd.FarmManures.Remove(farmManureToDrop);
+            }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
@@ -1587,8 +1606,11 @@ namespace SERVERAPI.Models.Impl
             else
             {
                 var farmManuresToDrop = yd.FarmManures?.Where(im =>
-                    im.SourceOfMaterialImportedManureId.HasValue &&
-                    im.SourceOfMaterialImportedManureId == importedManureId).ToList();
+                    (im.SourceOfMaterialImportedManureId.HasValue &&
+                        im.SourceOfMaterialImportedManureId == importedManureId) ||
+                    im.GroupedWithCollectedAnalysisSourceItemIds
+                                .Where(ids => ids.SourceType == NutrientAnalysisTypes.Imported)
+                                .Select(ids => ids.SourceId).Contains(importedManureId)).ToList();
 
                 if (farmManuresToDrop != null && farmManuresToDrop.Any())
                 {

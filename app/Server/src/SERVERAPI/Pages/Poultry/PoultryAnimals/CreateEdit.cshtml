@@ -37,19 +37,11 @@ else
     <script type="text/javascript">
         //Record the Name when Dropdown is changed
 
-        $(document).ready(function () {
-            $("body").on("change", "#ddlAnimalType", function () {
-                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.AnimalTypeChanged");
-                var text = $('#ddlAnimalType option:selected').text();
-                $('#AnimalName').val(text);
+         $(document).ready(function () {
+            $("body").on("change", "#Data_AnimalSubTypeId", function () {
+                $('#PostedElementEvent').val("@CreateEdit.ElementEvent.AnimalSubTypeChanged");
+                $('#AnimalSubTypeName').val($('#ddlSubType option:selected').text());
                 $("#btnSave").click();
-            })
-        });
-
-        $(document).ready(function () {
-            $("body").on("change", "#ddlSubType", function () {
-                var text = $('#ddlSubType option:selected').text();
-                $('#AnimalSubTypeName').val(text);
             })
         });
 

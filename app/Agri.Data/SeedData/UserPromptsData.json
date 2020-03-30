@@ -16,7 +16,7 @@
   {
     "Id": 3,
     "Name": "disclaimer",
-    "Text": "All information contained within the Nutrient Management Calculator is provided solely \"as is\" at the user's own risk. Although every effort has been made to ensure that the information contained in the Nutrient Management Calculator is accurate, the Government of British Columbia assumes no legal liability or responsibility for the completeness, accuracy, or usefulness of the information provided or any product resulting from the use of the Nutrient Management Calculator.<p>Information requested by this website, such as farm name and field names, is not collected or saved anywhere except on your computer.</p>",
+    "Text": "<p>All information contained within the Nutrient Management Calculator is provided solely \"as is\" at the user's own risk. Although every effort has been made to ensure that the information contained in the Nutrient Management Calculator is accurate, the Government of British Columbia assumes no legal liability or responsibility for the completeness, accuracy, or usefulness of the information provided or any product resulting from the use of the Nutrient Management Calculator.</p>",
     "UserPromptPage": "Home",
     "UserJourney": "Initial"
   },
@@ -510,7 +510,6 @@
     "UserPromptPage": "FieldCreateEdit",
     "UserJourney": "Ranch"
   },
-
   {
     "Id": 79,
     "Name": "ExplainNutrientAnalysisMoisture-Ranch",
@@ -597,10 +596,114 @@
   },
   {
     "Id": 91,
-    "Name": "RanchAnimalGroupsMessage",
+    "Name": "PoultryAnimalGroupsMessage",
     "Text": "Identify animal groups that generate manure on your farm",
     "UserPromptPage": "AnimalsCreateEdit",
-    "UserJourney": "Ranch"
+    "UserJourney": "Poultry"
+  },
+  {
+    "Id": 92,
+    "Name": "ExplainNutrientAnalysisMoisture-Poultry",
+    "Text": "This value should be a percentage of the moisture contained in the material as received.  It should not be a dry matter value",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Poultry"
+  },
+  {
+    "Id": 93,
+    "Name": "ExplainNutrientAnalysisNitrogen-Poultry",
+    "Text": "This value is the percentage of the manure/compost made up of total nitrogen (TN), which includes the organic and inorganic portions",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Poultry"
+  },
+  {
+    "Id": 94,
+    "Name": "ExplainNutrientAnlalysisAmmonia-Poultry",
+    "Text": "This value is the portion of the manure/compost in the form of ammonium-nitrogen (NH4-N), an inorganic/mineral form of nitrogen. It may also be expressed in units of mg/kg or mg/L",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Poultry"
+  },
+  {
+    "Id": 95,
+    "Name": "ExplainNutrientAnlalysisPhosphorous-Poultry",
+    "Text": "This value is the percentage of the manure/compost made up of phosphorus (P)",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Poultry"
+  },
+  {
+    "Id": 96,
+    "Name": "ExplainNutrientAnlalysisPotassium-Poultry",
+    "Text": "This value is the percentage of the manure compost made up potassium (K).",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Poultry"
+  },
+  {
+    "Id": 97,
+    "Name": "PoultryNutrientAnalysisEntryCreateEditMessage",
+    "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Poultry"
+  },
+  {
+    "Id": 98,
+    "Name": "PoultryNutrientAnalysisEntryListMessage",
+    "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
+    "UserPromptPage": "NutrientsAnalysisList",
+    "UserJourney": "Poultry"
+  },
+  {
+    "Id": 99,
+    "Name": "MixedAnimalGroupsMessage",
+    "Text": "Identify animal groups that generate manure on your farm",
+    "UserPromptPage": "AnimalsCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 100,
+    "Name": "ExplainNutrientAnalysisMoisture-Mixed",
+    "Text": "This value should be a percentage of the moisture contained in the material as received.  It should not be a dry matter value",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 101,
+    "Name": "ExplainNutrientAnalysisNitrogen-Mixed",
+    "Text": "This value is the percentage of the manure/compost made up of total nitrogen (TN), which includes the organic and inorganic portions",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 102,
+    "Name": "ExplainNutrientAnlalysisAmmonia-Mixed",
+    "Text": "This value is the portion of the manure/compost in the form of ammonium-nitrogen (NH4-N), an inorganic/mineral form of nitrogen. It may also be expressed in units of mg/kg or mg/L",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 103,
+    "Name": "ExplainNutrientAnlalysisPhosphorous-Mixed",
+    "Text": "This value is the percentage of the manure/compost made up of phosphorus (P)",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 104,
+    "Name": "ExplainNutrientAnlalysisPotassium-Mixed",
+    "Text": "This value is the percentage of the manure compost made up potassium (K).",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 105,
+    "Name": "MixedNutrientAnalysisEntryCreateEditMessage",
+    "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
+    "UserPromptPage": "NutrientsAnalysisCreateEdit",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 106,
+    "Name": "MixedNutrientAnalysisEntryListMessage",
+    "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
+    "UserPromptPage": "NutrientsAnalysisList",
+    "UserJourney": "Mixed"
   }
-
 ]

@@ -77,7 +77,7 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
             public SelectList UnitOptions { get; set; }
             public SelectList ApplicationOptions { get; set; }
             public SelectList RegionOptions { get; set; }
-            public decimal ApplicationRate { get; set; }
+            public decimal? ApplicationRate { get; set; }
             public string PostedElementEvent { get; set; }
             public string Moisture { get; set; }
             public decimal? Nitrogen { get; set; }
@@ -98,6 +98,15 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
             public string BCNutrientManagementCalculator { get; set; }
             public string NutrientManagementInformationButtonLink { get; set; }
             public string BCNutrientManagementCalculatorButtonLink { get; set; }
+            public string MoistureMessage { get; set; }
+            public string NitrogenMessage { get; set; }
+            public string AmmoniaMessage { get; set; }
+            public string PhosphorousMessage { get; set; }
+            public string PotassiumMessage { get; set; }
+            public string AmmoniumRetensionMessage { get; set; }
+            public string AvailableOrganicNitrogenMessage { get; set; }
+            public string AvailableThisYearMessage { get; set; }
+            public string AvailbleLongTermMessage { get; set; }
             public bool stdAvail { get; set; }
             public bool stdN { get; set; }
         }
@@ -154,7 +163,15 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                 command.NutrientManagementInformation = details.Where(x => x.Key == "NutrientManagementInformation").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculator = details.Where(x => x.Key == "BCNutrientManagementCalculator").Select(x => x.Value).FirstOrDefault();
                 command.NutrientManagementInformationButtonLink = details.Where(x => x.Key == "NutrientManagementInformationButtonLink").Select(x => x.Value).FirstOrDefault();
-                command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
+                command.MoistureMessage = details.Where(x => x.Key == "MoistureMessage").Select(x => x.Value).FirstOrDefault();
+                command.NitrogenMessage = details.Where(x => x.Key == "NitrogenMessage").Select(x => x.Value).FirstOrDefault();
+                command.AmmoniaMessage = details.Where(x => x.Key == "AmmoniaMessage").Select(x => x.Value).FirstOrDefault();
+                command.PhosphorousMessage = details.Where(x => x.Key == "PhosphorousMessage").Select(x => x.Value).FirstOrDefault();
+                command.PotassiumMessage = details.Where(x => x.Key == "PotassiumMessage").Select(x => x.Value).FirstOrDefault();
+                command.AmmoniumRetensionMessage = details.Where(x => x.Key == "AmmoniumRetensionMessage").Select(x => x.Value).FirstOrDefault();
+                command.AvailableOrganicNitrogenMessage = details.Where(x => x.Key == "AvailableOrganicNitrogenMessage").Select(x => x.Value).FirstOrDefault();
+                command.AvailableThisYearMessage = details.Where(x => x.Key == "AvailableThisYearMessage").Select(x => x.Value).FirstOrDefault();
+                command.AvailbleLongTermMessage = details.Where(x => x.Key == "AvailbleLongTermMessage").Select(x => x.Value).FirstOrDefault();
 
                 command.isShowValue = command.isShowValue ? command.isShowValue : false;
                 command.ManureTypeOptions = new SelectList(_sd.GetManures(), "Id", "Name");
@@ -227,7 +244,7 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                 decimal phosphorousPtoP2O5Kconversion = _cf.PhosphorousPtoP2O5Conversion;
                 decimal lbPerTonConversion = _cf.PoundPerTonConversion;
                 decimal tenThousand = 10000;
-                decimal applicationRate = request.ApplicationRate;
+                decimal applicationRate = request.ApplicationRate.GetValueOrDefault(0);
 
                 // get conversion factor for selected units to lb/ac
                 var myunit = _sd.GetUnit(request.SelectedUnit);

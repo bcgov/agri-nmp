@@ -30,17 +30,6 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
         {
             Data = await _mediator.Send(new Query());
 
-            if (!Data.RanchManures.Any() && !Data.ManureAnalytics.Any())
-            {
-                if (Request.Headers["referer"].ToString().Contains("PoultryAnimals"))
-                {
-                    return RedirectToPage(FeaturePages.PoultryAnimalsIndex.GetDescription());
-                }
-                else
-                {
-                    return RedirectToAction(CoreSiteActions.Fields.ToString(), AppControllers.Fields.ToString());
-                }
-            }
             if (!Data.ManureAnalytics.Any())
             {
                 return RedirectToPage("CreateEdit", "Create", new { ismodal = false });

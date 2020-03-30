@@ -58,15 +58,30 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
             Data.ExcludedSourceOfMaterialIds.Clear();
             Data.IncludedSourceOfMaterialIds.Clear();
 
-            if (Data.RanchManures.Any(rm => !rm.Selected))
+            if (Data.PoultrySolidManures.Any(rm => !rm.Selected))
             {
                 Data.ExcludedSourceOfMaterialIds
-                    .AddRange(Data.RanchManures.Where(rm => !rm.Selected).Select(rm => rm.ManureId).ToList());
+                    .AddRange(Data.PoultrySolidManures.Where(rm => !rm.Selected).Select(rm => rm.ManureId).ToList());
             }
-            if (Data.RanchManures.Any(rm => rm.Selected))
+            if (Data.PoultrySolidManures.Any(rm => rm.Selected))
             {
-                Data.IncludedSourceOfMaterialIds
-                    .AddRange(Data.RanchManures.Where(rm => rm.Selected).Select(rm => rm.ManureId).ToList());
+                var includedManures = Data.PoultrySolidManures.Where(rm => rm.Selected).ToList();
+                Data.IncludedSourceOfMaterialIds.AddRange(includedManures.Select(rm => rm.ManureId).ToList());
+                Data.SourceOfMaterialName = string.Join(',', includedManures.Select(iam => iam.ManureName).ToList());
+                Data.SolidLiquid = "Solid";
+            }
+
+            if (Data.PoultryLiquidManures.Any(rm => !rm.Selected))
+            {
+                Data.ExcludedSourceOfMaterialIds
+                    .AddRange(Data.PoultryLiquidManures.Where(rm => !rm.Selected).Select(rm => rm.ManureId).ToList());
+            }
+            if (Data.PoultryLiquidManures.Any(rm => rm.Selected))
+            {
+                var includedManures = Data.PoultryLiquidManures.Where(rm => rm.Selected).ToList();
+                Data.IncludedSourceOfMaterialIds.AddRange(includedManures.Select(rm => rm.ManureId).ToList());
+                Data.SourceOfMaterialName = string.Join(',', includedManures.Select(iam => iam.ManureName).ToList());
+                Data.SolidLiquid = "Liquid";
             }
 
             if (Data.PostedElementEvent == ElementEvent.UseCustomAnalysis)
@@ -84,6 +99,13 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                 Data.UseCustomAnalysis = false;
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
+            }
+            else if (Data.PostedElementEvent == ElementEvent.MaterialSelected)
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = ElementEvent.None;
+                Data.SelectedNutrientAnalysis = 0;
+                Data.UseCustomAnalysis = false;
             }
             else
             {
@@ -114,9 +136,10 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                         Data.Nitrate = null;
                         Data.Phosphorous = null;
                         Data.Potassium = null;
-                        Data.ManureName = null;
                         Data.ShowNitrate = false;
                         Data.Compost = false;
+                        Data.DryMatterId = 0;
+                        Data.NMinerizationId = 0;
                     }
 
                     await _mediator.Send(Data);
@@ -156,9 +179,14 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
         public class Command : IRequest<MediatR.Unit>
         {
             public int? Id { get; set; }
-            public List<RanchManure> RanchManures { get; set; }
+            public List<PoultryManure> PoultrySolidManures { get; set; } = new List<PoultryManure>();
+            public List<PoultryManure> PoultryLiquidManures { get; set; } = new List<PoultryManure>();
+
+            public bool ManuresSelected =>
+                PoultrySolidManures.Any(s => s.Selected) || PoultryLiquidManures.Any(l => l.Selected);
+
             public int SelectedNutrientAnalysis { get; set; }
-            public SelectList BeefNutrientAnalysisOptions { get; set; }
+            public SelectList NutrientAnalysisOptions { get; set; }
             public List<string> ExcludedSourceOfMaterialIds { get; set; } = new List<string>();
             public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
 
@@ -171,6 +199,9 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
 
             [Display(Name = "Moisture (%)")]
             public string Moisture { get; set; }
+
+            public int DryMatterId { get; set; }
+            public int NMinerizationId { get; set; }
 
             [Display(Name = "N (%)")]
             public decimal? Nitrogen { get; set; }
@@ -193,20 +224,22 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
             public string SolidLiquid { get; set; }
             public ManureNutrientBookValues BookValues { get; set; }
             public NutrientAnalysisTypes StoredImported { get; set; }
-            public string RanchNutrientAnalysisEntryCreateEditMessage { get; set; }
+            public string PoultryNutrientAnalysisEntryCreateEditMessage { get; set; }
             public string ExplainNutrientAnalysisMoisture { get; set; }
             public string ExplainNutrientAnalysisNitrogen { get; set; }
             public string ExplainNutrientAnlalysisAmmonia { get; set; }
             public string ExplainNutrientAnlalysisPhosphorous { get; set; }
             public string ExplainNutrientAnlalysisPotassium { get; set; }
+            public string SourceOfMaterialName { get; set; }
+
             public bool UseCustomAnalysis { get; set; }
             public ElementEvent PostedElementEvent { get; set; }
 
-            public class RanchManure
+            public class PoultryManure
             {
                 public string ManureId { get; set; }
                 public string ManureName { get; set; }
-                public bool Selected { get; set; } = true;
+                public bool Selected { get; set; }
             }
 
             public class ManureNutrientBookValues
@@ -220,7 +253,6 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                 public decimal Phosphorous { get; set; }
 
                 public decimal Potassium { get; set; }
-                //Beef manures don't have Custom Only or Nitrate
             }
         }
 
@@ -236,6 +268,7 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
             UseCustomAnalysis,
             NutrientAnalysisChanged,
             MaterialStateChanged,
+            MaterialSelected
         }
 
         public class MappingProfile : Profile
@@ -246,10 +279,10 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                     .ForMember(m => m.SelectedNutrientAnalysis, opts => opts.MapFrom(s => s.ManureId))
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.Name))
                     .ForMember(m => m.UseCustomAnalysis, opts => opts.MapFrom(s => s.Customized))
+                    .ForMember(m => m.DryMatterId, opts => opts.MapFrom(s => s.DMId))
                     .ReverseMap();
-                CreateMap<ManagedManure, Command.RanchManure>()
-                    .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName))
-                    .BeforeMap((s, d) => d.Selected = true);
+                CreateMap<ManagedManure, Command.PoultryManure>()
+                    .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
                 CreateMap<Manure, Command.ManureNutrientBookValues>();
             }
         }
@@ -258,8 +291,9 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
         {
             public CommandValidator()
             {
-                RuleFor(m => m.RanchManures).Must(m => m.Any(rm => rm.Selected))
-                    .WithMessage("One or more materials must be checked");
+                RuleFor(m => m.ManuresSelected).Must(ms => ms == true)
+                    .When(m => m.PoultryLiquidManures.Any() || m.PoultrySolidManures.Any())
+                    .WithMessage("One or more Solid or Liquid manure must be selected");
                 RuleFor(m => m.SelectedNutrientAnalysis).GreaterThan(0)
                     .WithMessage("A nutrient analysis must be selected");
                 When(m => !m.UseBookValue, () =>
@@ -384,29 +418,79 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
             public async Task<Command> Handle(LookupDataQuery request, CancellationToken cancellationToken)
             {
                 var command = request.PopulatedData;
-                command.RanchNutrientAnalysisEntryCreateEditMessage = _sd.GetUserPrompt("RanchNutrientAnalysisEntryCreateEditMessage");
+                command.PoultryNutrientAnalysisEntryCreateEditMessage = _sd
+                    .GetUserPrompt("PoultryNutrientAnalysisEntryCreateEditMessage");
 
-                var manures = _ud.GetAllManagedManures()
-                    .Where(mm => !mm.AssignedWithNutrientAnalysis ||
-                        request.PopulatedData.ExcludedSourceOfMaterialIds
-                            .Any(im => im.Equals(mm.ManureId, StringComparison.OrdinalIgnoreCase)))
+                var otherAnalyticIds = _ud.GetFarmManures()
+                    .Where(fm => fm.Id != command.Id.GetValueOrDefault(0))
+                    .SelectMany(fm => fm.IncludedSourceOfMaterialIds)
                     .ToList();
 
-                command.RanchManures = _mapper.Map<List<Command.RanchManure>>(manures);
-                foreach (var manure in command.RanchManures)
+                var manures = _ud.GetAllManagedManures()
+                    .Where(mm => (command.Id.HasValue && !otherAnalyticIds.Contains(mm.ManureId)) ||
+                                    (!command.Id.HasValue && !mm.AssignedWithNutrientAnalysis));
+
+                command.PoultrySolidManures = _mapper
+                    .Map<List<Command.PoultryManure>>(manures.Where(m => m.ManureType == ManureMaterialType.Solid)
+                    .ToList());
+
+                command.PoultrySolidManures.Select(m =>
                 {
-                    manure.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds
-                        .Any(m => m.Equals(manure.ManureId));
+                    m.Selected = command.IncludedSourceOfMaterialIds.Contains(m.ManureId);
+                    return m;
+                }).ToList();
+
+                command.PoultryLiquidManures = _mapper
+                    .Map<List<Command.PoultryManure>>(manures.Where(m => m.ManureType == ManureMaterialType.Liquid)
+                    .ToList());
+
+                command.PoultryLiquidManures.Select(m =>
+                {
+                    m.Selected = command.IncludedSourceOfMaterialIds.Contains(m.ManureId);
+                    return m;
+                }).ToList();
+
+                if (command.PoultryLiquidManures.Any(s => s.Selected))
+                {
+                    command.PoultrySolidManures.Select(l => { l.Selected = false; return l; }).ToList();
+                }
+                else
+                {
+                    command.PoultrySolidManures
+                        .Select(l =>
+                        {
+                            l.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds
+                                                    .Any(m => m.Equals(l.ManureId));
+                            return l;
+                        }).ToList();
                 }
 
-                var beefManuresNutrients = _sd.GetManures();
+                if (command.PoultrySolidManures.Any(s => s.Selected))
+                {
+                    command.PoultryLiquidManures.Select(l => { l.Selected = false; return l; }).ToList();
+                }
+                else
+                {
+                    command.PoultryLiquidManures
+                        .Select(l =>
+                        {
+                            l.Selected = !request.PopulatedData.ExcludedSourceOfMaterialIds
+                                                    .Any(m => m.Equals(l.ManureId));
+                            return l;
+                        }).ToList();
+                }
 
-                command.BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients
+                var nutrientMaterialType = command.PoultrySolidManures.Any(s => s.Selected) ? "Solid" : "Liquid";
+
+                var beefManuresNutrients = _sd.GetManures().Where(m => m.SolidLiquid == nutrientMaterialType);
+
+                command.NutrientAnalysisOptions = new SelectList(beefManuresNutrients
                     .Select(m => new { Id = m.Id, Name = m.Name }).ToList(), "Id", "Name");
 
                 if (request.PopulatedData.SelectedNutrientAnalysis > 0)
                 {
-                    var nutrient = beefManuresNutrients.Single(m => m.Id == request.PopulatedData.SelectedNutrientAnalysis);
+                    var nutrient = beefManuresNutrients
+                        .Single(m => m.Id == request.PopulatedData.SelectedNutrientAnalysis);
                     command.ManureClass = nutrient.ManureClass;
                     command.Compost = _sd.IsManureClassCompostType(nutrient.ManureClass);
                     command.OnlyCustom = _sd.IsManureClassOtherType(nutrient.ManureClass) ||
@@ -423,6 +507,8 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
                     if (command.UseCustomAnalysis)
                     {
                         command.SolidLiquid = nutrient.SolidLiquid;
+                        command.DryMatterId = nutrient.DryMatterId;
+                        command.NMinerizationId = nutrient.NMineralizationId;
                     }
 
                     command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(nutrient);
@@ -430,14 +516,14 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
 
                 var prompts = _db.UserPrompts
                     .Where(p => p.UserPromptPage == UserPromptPage.NutrientsAnalysisCreateEdit.ToString() &&
-                                    p.UserJourney == UserJourney.Ranch.ToString())
+                                    p.UserJourney == UserJourney.Poultry.ToString())
                     .ToDictionary(p => p.Name, p => p.Text);
 
-                command.ExplainNutrientAnalysisMoisture = prompts["ExplainNutrientAnalysisMoisture-Ranch"];
-                command.ExplainNutrientAnalysisNitrogen = prompts["ExplainNutrientAnalysisNitrogen-Ranch"];
-                command.ExplainNutrientAnlalysisAmmonia = prompts["ExplainNutrientAnlalysisAmmonia-Ranch"];
-                command.ExplainNutrientAnlalysisPhosphorous = prompts["ExplainNutrientAnlalysisPhosphorous-Ranch"];
-                command.ExplainNutrientAnlalysisPotassium = prompts["ExplainNutrientAnlalysisPotassium-Ranch"];
+                command.ExplainNutrientAnalysisMoisture = prompts["ExplainNutrientAnalysisMoisture-Poultry"];
+                command.ExplainNutrientAnalysisNitrogen = prompts["ExplainNutrientAnalysisNitrogen-Poultry"];
+                command.ExplainNutrientAnlalysisAmmonia = prompts["ExplainNutrientAnlalysisAmmonia-Poultry"];
+                command.ExplainNutrientAnlalysisPhosphorous = prompts["ExplainNutrientAnlalysisPhosphorous-Poultry"];
+                command.ExplainNutrientAnlalysisPotassium = prompts["ExplainNutrientAnlalysisPotassium-Poultry"];
 
                 return await Task.FromResult(command);
             }
@@ -481,6 +567,8 @@ namespace SERVERAPI.Pages.Poultry.PoultryNutrients
             public async Task<MediatR.Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var farmManure = _mapper.Map<FarmManure>(request);
+
+                farmManure.StoredImported = NutrientAnalysisTypes.Collected;
 
                 if (request.Id.HasValue)
                 {

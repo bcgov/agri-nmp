@@ -27,16 +27,16 @@
                     userJourney = UserJourney.Crops;
                     if (HasAnimals)
                     {
+                        if (HasDairyCows)
+                        {
+                            return UserJourney.Dairy;
+                        }
                         if (HasMixedLiveStock)
                         {
                             return UserJourney.Mixed;
                         }
                         var typeCount = 0;
-                        if (HasDairyCows)
-                        {
-                            typeCount += 1;
-                            userJourney = UserJourney.Dairy;
-                        }
+
                         if (HasBeefCows)
                         {
                             typeCount += 1;

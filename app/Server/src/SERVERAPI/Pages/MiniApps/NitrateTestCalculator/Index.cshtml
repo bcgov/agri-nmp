@@ -20,35 +20,44 @@
                         </div>
                         @{
                             var visibility = "visible";
+                            var display = "inline";
                         }
                         @for (int i = 0; i < Model.Data.nitrateTestAnalysis.Count; i++)
                         {
-                            <div class="row">
-                                <div class="form-group col-sm-3">
+                            <div class="row" style="margin-bottom:0px">
+                                <div class="form-group col-sm-3" style="padding-right:0px;">
                                     <label>Sample @Model.Data.nitrateTestAnalysis[i].Id</label>
                                     <div>
-                                        <select class="form-control" asp-for="@Model.Data.nitrateTestAnalysis[i].SelectDepthOption"
-                                                asp-items="@Model.Data.nitrateTestAnalysis[i].DepthOptions" onchange="comboDepthChange()">
-                                            <option value="0">- select sampling depth -</option>
-                                        </select>
-                                        <span asp-validation-for="Data.nitrateTestAnalysis[i].SelectDepthOption" class=""></span>
+                                        @if (i == 0)
+                                        {
+                                            <select class="form-control" asp-for="@Model.Data.nitrateTestAnalysis[i].SelectDepthOption"
+                                                    asp-items="@Model.Data.nitrateTestAnalysis[i].DepthOptions" onchange="comboDepthChange()">
+                                                <option value="0">- select sampling depth -</option>
+                                            </select>
+                                            <span asp-validation-for="Data.nitrateTestAnalysis[i].SelectDepthOption" class=""></span>
+                                        }
+                                        else
+                                        {
+                                            <span>@Model.Data.nitrateTestAnalysis[i].SelectDepthOptionName</span>
+                                        }
                                     </div>
                                 </div>
                                 <div class="form-group col-sm-2" style="padding-right:0px">
                                     <label>Nitrate</label>
                                     <div>
-                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].nitrate" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px">
+                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].Nitrate" class="form-control col-sm-6" style="width:70px">
                                         <div class="col-sm-4" style="padding-top:5px">
                                             ppm
                                         </div>
+                                        <span asp-validation-for="Data.nitrateTestAnalysis[i].Nitrate" class=""></span>
                                     </div>
                                 </div>
-                                @if (Model.Data.isBasic)
+                                @if (Model.Data.IsBasic)
                                 {
                                     <div class="form-group col-sm-3" style="padding-right:0px">
                                         <label>Bulk Density</label>
                                         <div>
-                                            <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].bulkDensity" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px">
+                                            <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].BulkDensity" class="form-control col-sm-6" style="width:70px">
                                             <div class="col-sm-6" style="padding-top:5px">
                                                 kg m<sup>-3</sup>
                                             </div>
@@ -57,17 +66,15 @@
                                 }
                                 else
                                 {
-                                    <input type="hidden" asp-for="@Model.Data.nitrateTestAnalysis[i].bulkDensity" />
+                                    <input type="hidden" asp-for="@Model.Data.nitrateTestAnalysis[i].BulkDensity" />
                                 }
                                 <div class="form-group col-sm-4">
                                     <label>Results</label>
                                     <div class="row">
-                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].result" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px;padding-right:0px;pointer-events:none;background-color:#F5F5F5" />
+                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].Result" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px;padding-right:0px;pointer-events:none;background-color:#F5F5F5" />
                                         <div class="col-sm-6" style="padding-top:5px">
                                             kg NO<sub>3</sub>-N  ha<sup>-1</sup>
-
                                         </div>
-                                        @* <span asp-validation-for="Data.ApplicationRate" class=""></span>*@
                                     </div>
                                 </div>
                             </div>
@@ -76,51 +83,74 @@
                         @if (Model.Data.isNotShowButton)
                         {
                             visibility = "hidden";
-
+                            display = "none";
                         }
                         else
                         {
                             visibility = "visible";
                         }
 
-                    <div class="row">
-                        <div class="col-sm-7">
-                            &nbsp;
-                        </div>
-                        <input class="btn btn-primary col-sm-3" type="submit" id="AddSample" style="visibility:@visibility" value="Add another sample depth" />
-                        <a href="#" data-toggle="tooltip" title="@Model.Data.SampleDepthMessage" id="toolTipSample" style="visibility:@visibility">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
-                        </a>
-                    </div>
-
                         @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
-                        @Html.HiddenFor(x => x.Data.isBasic)
-                        @Html.HiddenFor(x=>x.Data.isNotShowButton)
+                        @Html.HiddenFor(x => x.Data.IsBasic)
+                        @Html.HiddenFor(x => x.Data.isNotShowButton)
 
-                        <div class="row">
-                            <div class="col-sm-6">
-                                &nbsp;
-                            </div>
-                            <div class="form-box-heading col-sm-2">
-                                Total for field
-                            </div>
-                            <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.totalResult" style="width:64px;pointer-events:none;background-color:#F5F5F5" />
-                            <div class="col-sm-2" style="padding-top:5px">
-                                kg NO<sub>3</sub>-N  ha<sup>-1</sup>
+                        <div class="row" style="display:@display">
+                            <div class="col-sm-6" style="padding-bottom:20px">
+                                <input class="btn btn-default col-sm-6" type="button" id="AddSampleButton" style="visibility:@visibility;font-size: 12px;padding-right:20px" value="Add another sample depth" />
+                                <input class="btn btn-default col-sm-6" type="submit" id="AddSample" style="visibility:hidden" />
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-7">
-                                &nbsp;
+                        @if (Model.Data.nitrateTestAnalysis.Count > 1 && Model.Data.IsCalculate)
+                        {
+                            <div class="row">
+                                @if (Model.Data.IsBasic)
+                                {
+                                    <div class="col-sm-6">
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm-3">
+                                    </div>
+                                }
+
+                                <div class="form-box-fields col-sm-2" style="padding-top:5px;padding-left:50px">
+                                    <b>Total for field</b>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.TotalResult" style="width:70px;pointer-events:none;background-color:#F5F5F5" />
+                                </div>
+                                <div class="col-sm-2" style="padding-top:5px">
+                                    kg NO<sub>3</sub>-N  ha<sup>-1</sup>
+                                    <a href="#" data-toggle="tooltip" title="@Model.Data.SampleDepthMessage" id="toolTipSample">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
+                                    </a>
+                                </div>
                             </div>
-                            @if (!Model.Data.isBasic)
+                        }
+                        <div class="row">
+                            <div class="col-sm-7 row" style="padding-left: 0px;">
+                                <div class="col-sm-4"> <input class="btn btn-primary col-sm-12" type="submit" id="Calculate" value="Calculate" /></div>
+                                <div class="col-sm-4" style="padding-right:0px;"><input class="btn btn-default col-sm-12" type="submit" id="Reset" value="Clear/Reset" /></div>
+                            </div>
+                            @if (!Model.Data.IsBasic)
                             {
-                                <a class="col-sm-3" style="margin-left:45px;cursor:pointer;text-decoration:underline;" id="btnAdvance" >Advanced</a>
+                                <div class="col-sm-4" style="padding-top:5px">
+                                    <a style="margin-left:45px;padding-top:10px;cursor:pointer;text-decoration:underline;" id="btnAdvance">Edit soil bulk density</a>
+                                    <a href="#" data-toggle="tooltip" title="@Model.Data.SoilBulkDensityMessage" id="toolTipSoilBulkDensity">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
+                                    </a>
+                                </div>
 
                             }
                             else
                             {
-                                <a class="col-sm-3" style="margin-left:45px;cursor:pointer;text-decoration:underline;" id="btnBasic" >Basic</a>
+                                <div class="col-sm-4" style="padding-top:5px">
+                                    <a style="margin-left:45px;padding-top:10px;cursor:pointer;text-decoration:underline;" id="btnBasic">Remove custom soil bulk density</a>
+                                    <a href="#" data-toggle="tooltip" title="@Model.Data.SoilBulkDensityMessage" id="toolTipSoilBulkDensity">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Add Sample" style="font-size:20px; padding-top:5px"></span>
+                                    </a>
+                                </div>
                             }
                         </div>
                     </form>
@@ -133,9 +163,6 @@
     <div class="form-box" style="border:none">
         <div class="row">
             <img class="col-sm-1" src="~/images/lightbulb_icon-01.png" />
-            @*<div class="col-sm-6 row">
-            <h4>@Model.Data.NitrateCalculatorUserInstruction2</h4>
-        </div>*@
             <div class="col-sm-6 row">
                 <h2>@Model.Data.NitrateCalculatorUserInstruction2</h2>
                 <div class="col-sm-11">
@@ -153,8 +180,9 @@
 
 @section Scripts{
     <script>
+
         function comboDepthChange() {
-           
+
             $('#PostedElementEvent').val("DepthChange");
             $("#AddSample").click();
         }
@@ -167,6 +195,11 @@
 
             $("body").on("click", "#btnAdvance", function () {
                 $('#PostedElementEvent').val("AdvancedChange");
+                $("#AddSample").click();
+            });
+
+            $("body").on("click", "#AddSampleButton", function () {
+                $('#PostedElementEvent').val("AddDepth");
                 $("#AddSample").click();
             });
         });
@@ -184,6 +217,29 @@
             $('#toolTipSample').click(function () {
                 triggerToolTip($('#toolTipSample'));
             });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipSoilBulkDensity').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipSoilBulkDensity').click(function () {
+                triggerToolTip($('#toolTipSoilBulkDensity'));
+            });
+        });
+
+        $("body").on("click", "#Reset", function () {
+            $('#PostedElementEvent').val("ResetClicked");
+        });
+        $("body").on("click", "#Calculate", function () {
+            $('#PostedElementEvent').val("CalculateClicked");
+            $("#AddSample").click();
         });
     </script>
 }

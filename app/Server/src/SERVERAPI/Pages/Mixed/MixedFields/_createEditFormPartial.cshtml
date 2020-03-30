@@ -1,0 +1,52 @@
+﻿@model SERVERAPI.Pages.Mixed.MixedFields.CreateEdit
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-box-fields">
+    <div class="row">
+        <div class="form-group col-sm-6">
+            <label asp-for="@Model.Data.FieldName">Field Name</label>
+            <div>
+                <input type="text" asp-for="@Model.Data.FieldName" class="form-control col-sm-12" />
+                <span asp-validation-for="@Model.Data.FieldName"></span>
+            </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label asp-for="@Model.Data.FieldComment">Comments  (Optional)</label>
+            <div>
+                <textarea asp-for="@Model.Data.FieldComment" style="resize:none" placeholder="@Model.Data.Placehldr" class="form-control col-sm-12"></textarea>
+                <span asp-validation-for="@Model.Data.FieldComment"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-12" style="margin-top: -45px !important;">
+            <label asp-for="@Model.Data.FieldArea">Area</label>
+            <br />
+            <div class="col-sm-2" style="padding-left:0px !important;">
+                <div class="form-group-right-side-label">
+                    <input type="number" asp-for="@Model.Data.FieldArea" class="form-control col-sm-10" />
+                    <span class="right-side-label-span">Acres</span>
+                </div>
+                <span asp-validation-for="@Model.Data.FieldArea"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-6" style="margin-top: -25px !important;">
+            <label asp-for="@Model.Data.SelectPrevYrManureOption">Manure application in previous years</label>
+            <select class="form-control" asp-for="@Model.Data.SelectPrevYrManureOption" asp-items="@(new SelectList(Model.Data.SelectPrevYrManureOptions,"FieldManureApplicationHistory","Name"))">
+                <option value="-1">select</option>
+            </select>
+            <span asp-validation-for="@Model.Data.SelectPrevYrManureOption"></span>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer" style="border-top:none !important;">
+    @if (Model.IsModal)
+    {
+        <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+    }
+    <input class="btn btn-primary" type="submit" value="Save" data-save="razor-page-modal" style="margin-right: 15px;" />
+</div>
+@Html.HiddenFor(x => x.Data.Id)

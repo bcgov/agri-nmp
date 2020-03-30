@@ -53,8 +53,10 @@ namespace SERVERAPI.Pages.Ranch.RanchFields
                 public string FieldName { get; set; }
                 public decimal Area { get; set; }
                 public string Comment { get; set; }
-                public Nutrients Nutrients { get; set; }
+
+                //public Nutrients Nutrients { get; set; }
                 public List<FieldCrop> Crops { get; set; }
+
                 public SoilTest SoilTest { get; set; }
                 public string PrevYearManureApplicationFrequency { get; set; }
                 public int? PrevYearManureApplicationNitrogenCredit { get; set; }
