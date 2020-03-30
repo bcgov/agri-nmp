@@ -161,8 +161,10 @@ namespace Agri.CalculateService
         private List<FieldAppliedManure> CalculateFieldAppliedImportedManure(YearData yearData,
                 FarmManure farmManure, ImportedManure importedManure)
         {
-            var fieldsAppliedWithImportedManure = yearData.GetFieldsAppliedWithManure(farmManure);
             var fieldAppliedManures = new List<FieldAppliedManure>();
+            var fieldsAppliedWithImportedManure = yearData
+                .GetFieldsAppliedWithManure(farmManure)
+                .Where(f => !fieldAppliedManures.Any(fam => fam.FieldId == f.Id)).ToList();
 
             foreach (var field in fieldsAppliedWithImportedManure)
             {
@@ -172,7 +174,7 @@ namespace Agri.CalculateService
 
                 foreach (var nutrientManure in nutrientManures)
                 {
-                    var fieldAppliedManure = new FieldAppliedManure();
+                    var fieldAppliedManure = new FieldAppliedManure() { FieldId = field.Id };
                     if (importedManure.ManureType == ManureMaterialType.Liquid)
                     {
                         var convertedRate = _manureUnitConversionCalculator
@@ -250,7 +252,10 @@ namespace Agri.CalculateService
 
             foreach (var farmAnimal in farmAnimals)
             {
-                var fieldsAppliedWithCollectedManure = yearData.GetFieldsAppliedWithManure(farmAnimal);
+                var fieldsAppliedWithCollectedManure = yearData
+                    .GetFieldsAppliedWithManure(farmAnimal)
+                    .Where(f => !fieldAppliedManures.Any(fam => fam.FieldId == f.Id)).ToList();
+
                 var manure = _repository.GetManure(farmManure.ManureId);
 
                 foreach (var field in fieldsAppliedWithCollectedManure)
@@ -261,7 +266,8 @@ namespace Agri.CalculateService
 
                     foreach (var nutrientManure in nutrientManures)
                     {
-                        var fieldAppliedManure = new FieldAppliedManure();
+                        var fieldAppliedManure = new FieldAppliedManure { FieldId = field.Id };
+
                         if (farmAnimal.ManureType == ManureMaterialType.Liquid)
                         {
                             var convertedRate = _manureUnitConversionCalculator
