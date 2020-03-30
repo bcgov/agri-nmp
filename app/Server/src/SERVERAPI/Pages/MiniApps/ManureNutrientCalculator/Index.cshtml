@@ -110,8 +110,8 @@
                                             <div class="form-group col-sm-2">
                                                 <label>
                                                     Moisture&nbsp;(%)
-                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    <a href="#" data-toggle="tooltip" title="@Model.Data.MoistureMessage" id="toolTipMoisture">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Moisture" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
                                                 <div class="row">
@@ -122,8 +122,8 @@
                                             <div class="form-group col-sm-2">
                                                 <label>
                                                     N&nbsp;(%)
-                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    <a href="#" data-toggle="tooltip" title="@Model.Data.NitrogenMessage" id="toolTipNitrogen">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Nitrogen" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
                                                 <div class="row">
@@ -134,8 +134,8 @@
                                             <div class="form-group col-sm-2">
                                                 <label>
                                                     NH<sub>4</sub>-N&nbsp;(ppm)
-                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    <a href="#" data-toggle="tooltip" title="@Model.Data.AmmoniaMessage" id="toolTipAmmonia">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Ammonia" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
                                                 <div class="row">
@@ -146,8 +146,8 @@
                                             <div class="form-group col-sm-2">
                                                 <label>
                                                     P&nbsp;(%)
-                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    <a href="#" data-toggle="tooltip" title="@Model.Data.PhosphorousMessage" id="toolTipPhosphorus">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Phosphorus" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
                                                 <div class="row">
@@ -158,8 +158,8 @@
                                             <div class="form-group col-sm-2">
                                                 <label>
                                                     K&nbsp;(%)
-                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    <a href="#" data-toggle="tooltip" title="@Model.Data.PotassiumMessage" id="toolTipPotassium">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Potassium" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
                                                 <div class="row">
@@ -172,8 +172,8 @@
                                             <div class="form-group col-sm-4">
                                                 <label>
                                                     Ammonium-N Retention&nbsp;(%)
-                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    <a href="#" data-toggle="tooltip" title="@Model.Data.AmmoniumRetensionMessage" id="toolTipAmmoniumRetension">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Ammonium Retension" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
                                                 <div>
@@ -192,8 +192,8 @@
                                             <div class="form-group col-sm-4">
                                                 <label>
                                                     Organic N Available This Year&nbsp;(%)
-                                                    <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                                    <a href="#" data-toggle="tooltip" title="@Model.Data.AvailableOrganicNitrogenMessage" id="toolTipAvailableOrganicNitrogen">
+                                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Available Organic Nitrogen" style="font-size:20px; padding-top:5px"></span>
                                                     </a>
                                                 </label>
                                                 <div
@@ -227,8 +227,8 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         Available This Year (lb/ac)
-                                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                        <a href="#" data-toggle="tooltip" title="@Model.Data.AvailableThisYearMessage" id="toolTipAvailableThisYearMessage">
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Available this Year" style="font-size:20px; padding-top:5px"></span>
                                         </a>
                                     </div>
                                 </div>
@@ -247,8 +247,8 @@
                                 <div class="row">
                                     <div class="col-sm-12">
                                         Available Long Term (lb/ac)
-                                        <a href="#" data-toggle="tooltip" id="toolTipDailyFeedWarning">
-                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Daily Feed Requirement" style="font-size:20px; padding-top:5px"></span>
+                                        <a href="#" data-toggle="tooltip" title="@Model.Data.AvailbleLongTermMessage" id="toolTipAvailbleLongTermMessage">
+                                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Available Long Term" style="font-size:20px; padding-top:5px"></span>
                                         </a>
                                     </div>
                                 </div>
@@ -329,5 +329,155 @@
             $('#PostedElementEvent').val("ResetA");
             $("#CalculateButton").click();
         }
+
+         $(document).ready(function () {
+            $('#toolTipMoisture').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipMoisture').click(function () {
+                triggerToolTip($('#toolTipMoisture'));
+            });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipNitrogen').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipNitrogen').click(function () {
+                triggerToolTip($('#toolTipNitrogen'));
+            });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipNitrogen').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipNitrogen').click(function () {
+                triggerToolTip($('#toolTipNitrogen'));
+            });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipAmmonia').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipAmmonia').click(function () {
+                triggerToolTip($('#toolTipAmmonia'));
+            });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipPhosphorus').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipPhosphorus').click(function () {
+                triggerToolTip($('#toolTipPhosphorus'));
+            });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipPotassium').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipPotassium').click(function () {
+                triggerToolTip($('#toolTipPotassium'));
+            });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipAmmoniumRetension').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipAmmoniumRetension').click(function () {
+                triggerToolTip($('#toolTipAmmoniumRetension'));
+            });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipAvailableOrganicNitrogen').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipAvailableOrganicNitrogen').click(function () {
+                triggerToolTip($('#toolTipAvailableOrganicNitrogen'));
+            });
+        });
+
+        $(document).ready(function () {
+            $('#toolTipAvailableThisYearMessage').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipAvailableThisYearMessage').click(function () {
+                triggerToolTip($('#toolTipAvailableThisYearMessage'));
+            });
+        });
+
+         $(document).ready(function () {
+            $('#toolTipAvailbleLongTermMessage').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipAvailbleLongTermMessage').click(function () {
+                triggerToolTip($('#toolTipAvailbleLongTermMessage'));
+            });
+        });
     </script>
 }
