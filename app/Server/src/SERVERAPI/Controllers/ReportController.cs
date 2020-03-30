@@ -942,9 +942,11 @@ namespace SERVERAPI.Controllers
 
         public ReportManureCollectedViewModel GetManureManureCollectedViewModel()
         {
-            var viewModel = new ReportManureCollectedViewModel();
-            viewModel.Manures = new List<ReportManures>();
-            viewModel.Footnotes = new List<ReportFieldFootnote>();
+            var viewModel = new ReportManureCollectedViewModel
+            {
+                Manures = new List<ReportManures>(),
+                Footnotes = new List<ReportFieldFootnote>()
+            };
 
             var yearData = _ud.GetYearData();
 
@@ -988,6 +990,7 @@ namespace SERVERAPI.Controllers
                             if (hasMultipleSources)
                             {
                                 var reportManure = GetReportManureForCollectedSource(sourceItem, appliedManure, false);
+                                reportManure.MaterialSource = $"<span style=\"padding-left: 6px\">{reportManure.MaterialSource}</span>";
 
                                 viewModel.Manures.Add(reportManure);
                             }
