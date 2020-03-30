@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Agri.CalculateService;
 using Agri.Data;
+using Agri.Interfaces;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -178,7 +179,6 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
             public async Task<ConverterQuery> Handle(Query request, CancellationToken cancellationToken)
             {
-                
                 var command = request.PopulatedData;
                 if (command.nitrateTestAnalysis == null)
                 {
