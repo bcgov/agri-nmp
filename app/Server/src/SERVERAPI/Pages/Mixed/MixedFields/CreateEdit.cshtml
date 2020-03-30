@@ -1,0 +1,80 @@
+﻿@page "{handler?}/{ismodal:bool}"
+@model SERVERAPI.Pages.Mixed.MixedFields.CreateEdit
+@using Agri.Models
+
+@{
+    Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
+    ViewData["HeaderTitle"] = Model.Title;
+}
+
+@if (Model.IsModal)
+{
+    var handler = Model.Data.Id != 0 ? "Edit" : "Create";
+    var action = Url.Page("CreateEdit", "Create", new { ismodal = true });
+    <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body">
+        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+    </form>
+}
+else
+{
+    <form method="post" class="form-box-body">
+        <div style="padding:10px !important;">
+            @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+        </div>
+    </form>
+
+    @section PreviousNextNavigation
+    {
+        @*Ensure that the new index page is added to FeaturePages Enum and it is correct for this index page*@
+        @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel
+        {
+            CurrentPage = FeaturePages.MixedFieldsIndex,
+            ShowNext = false
+        })
+    }
+}
+
+@section Scripts {
+    <script type="text/javascript">
+
+        function IsSeasonalValueChange() {
+            if (document.getElementById('isSeasonal').checked) {
+                $('#FeedingValue').show();
+                $('#MatureValue').show();
+                $('#GrowingValue').show();
+            } else {
+                $('#FeedingValue').hide();
+                $('#MatureValue').hide();
+                $('#GrowingValue').hide();
+            }
+        }
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning').click(function () {
+                triggerToolTip($('#toolTipDailyFeedWarning'));
+            });
+        })
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning2').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+
+        //Using triggerToolTip function from ~/lib/site.js
+        $(document).ready(function () {
+            $('#toolTipDailyFeedWarning2').click(function () {
+                triggerToolTip($('#toolTipDailyFeedWarning2'));
+            });
+        })
+    </script>
+}

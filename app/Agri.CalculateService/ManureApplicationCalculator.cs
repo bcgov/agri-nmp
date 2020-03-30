@@ -161,8 +161,10 @@ namespace Agri.CalculateService
         private List<FieldAppliedManure> CalculateFieldAppliedImportedManure(YearData yearData,
                 FarmManure farmManure, ImportedManure importedManure)
         {
-            var fieldsAppliedWithImportedManure = yearData.GetFieldsAppliedWithManure(farmManure);
             var fieldAppliedManures = new List<FieldAppliedManure>();
+            var fieldsAppliedWithImportedManure = yearData
+                .GetFieldsAppliedWithManure(farmManure)
+                .Where(f => !fieldAppliedManures.Any(fam => fam.FieldId == f.Id)).ToList();
 
             foreach (var field in fieldsAppliedWithImportedManure)
             {
@@ -172,7 +174,7 @@ namespace Agri.CalculateService
 
                 foreach (var nutrientManure in nutrientManures)
                 {
-                    var fieldAppliedManure = new FieldAppliedManure();
+                    var fieldAppliedManure = new FieldAppliedManure() { FieldId = field.Id };
                     if (importedManure.ManureType == ManureMaterialType.Liquid)
                     {
                         var convertedRate = _manureUnitConversionCalculator
@@ -200,6 +202,9 @@ namespace Agri.CalculateService
 
         private AppliedManure GetAppliedCollectedManure(YearData yearData, FarmManure farmManure)
         {
+            //Since the manures ared grouped and as long as one is used to identify the field
+            //the farmManure is applied, we can determine the FieldAppliedManures
+            //We then pass the list of grouped manures in to order to aggregate the total available for application
             var fieldAppliedManures = new List<FieldAppliedManure>();
             var groupedManures = new List<ManagedManure>();
 
@@ -223,7 +228,8 @@ namespace Agri.CalculateService
 
             groupedManures.AddRange(importedManures);
 
-            foreach (var importedManure in importedManures)
+            var importedManure = importedManures.FirstOrDefault();
+            if (!fieldAppliedManures.Any() && importedManure != null)
             {
                 fieldAppliedManures.AddRange(CalculateFieldAppliedImportedManure(yearData, farmManure, importedManure as ImportedManure));
             }
@@ -246,7 +252,10 @@ namespace Agri.CalculateService
 
             foreach (var farmAnimal in farmAnimals)
             {
-                var fieldsAppliedWithCollectedManure = yearData.GetFieldsAppliedWithManure(farmAnimal);
+                var fieldsAppliedWithCollectedManure = yearData
+                    .GetFieldsAppliedWithManure(farmManure)
+                    .Where(f => !fieldAppliedManures.Any(fam => fam.FieldId == f.Id)).ToList();
+
                 var manure = _repository.GetManure(farmManure.ManureId);
 
                 foreach (var field in fieldsAppliedWithCollectedManure)
@@ -257,7 +266,8 @@ namespace Agri.CalculateService
 
                     foreach (var nutrientManure in nutrientManures)
                     {
-                        var fieldAppliedManure = new FieldAppliedManure();
+                        var fieldAppliedManure = new FieldAppliedManure { FieldId = field.Id };
+
                         if (farmAnimal.ManureType == ManureMaterialType.Liquid)
                         {
                             var convertedRate = _manureUnitConversionCalculator

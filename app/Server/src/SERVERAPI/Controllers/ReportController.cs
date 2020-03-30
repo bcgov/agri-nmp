@@ -794,7 +794,7 @@ namespace SERVERAPI.Controllers
 
         public async Task<string> RenderManureUse()
         {
-            if (_ud.FarmDetails().UserJourney != UserJourney.Dairy || _ud.FarmDetails().UserJourney != UserJourney.Mixed)
+            if (_ud.FarmDetails().UserJourney != UserJourney.Dairy)
             {
                 return string.Empty;
             }
@@ -940,6 +940,133 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
+        public ReportManureCollectedViewModel GetManureManureCollectedViewModel()
+        {
+            var viewModel = new ReportManureCollectedViewModel
+            {
+                Manures = new List<ReportManures>(),
+                Footnotes = new List<ReportFieldFootnote>()
+            };
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.FarmManures != null)
+            {
+                foreach (var fm in yearData.FarmManures)
+                {
+                    var appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
+
+                    if (appliedManure != null)
+                    {
+                        var hasMultipleSources = fm.GroupedWithCollectedAnalysisSourceItemIds.Count() > 1;
+                        var itemCount = 0;
+                        foreach (var sourceItem in fm.GroupedWithCollectedAnalysisSourceItemIds)
+                        {
+                            itemCount += 1;
+
+                            if (itemCount == 1)
+                            {
+                                var reportManure = GetReportManureForCollectedSource(sourceItem, appliedManure, true);
+                                reportManure.MaterialName = appliedManure.ManureMaterialName;
+                                if (hasMultipleSources)
+                                {
+                                    reportManure.MaterialSource = "<i>Multiple Sources</i>";
+                                }
+
+                                if (reportManure.AmountRemaining.Equals("None", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    ReportFieldFootnote rff = new ReportFieldFootnote
+                                    {
+                                        id = viewModel.Footnotes.Count() + 1,
+                                        message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)"
+                                    };
+                                    reportManure.footnote = rff.id.ToString();
+                                    viewModel.Footnotes.Add(rff);
+                                }
+
+                                viewModel.Manures.Add(reportManure);
+                            }
+
+                            if (hasMultipleSources)
+                            {
+                                var reportManure = GetReportManureForCollectedSource(sourceItem, appliedManure, false);
+                                reportManure.MaterialSource = $"<span style=\"padding-left: 6px\">{reportManure.MaterialSource}</span>";
+
+                                viewModel.Manures.Add(reportManure);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return viewModel;
+        }
+
+        private ReportManures GetReportManureForCollectedSource(FarmManure.GroupedAnalysisSourceItem sourceItem,
+            AppliedManure appliedManure,
+            bool includeApplication)
+        {
+            var result = new ReportManures();
+
+            // Annual Amount
+            decimal annualAmount;
+            if (sourceItem.SourceType == NutrientAnalysisTypes.Collected)
+            {
+                var animal = _ud.GetAnimalDetail(sourceItem.SourceId);
+                annualAmount = animal.ManureType == ManureMaterialType.Solid ?
+                    animal.ManureGeneratedTonsPerYear.GetValueOrDefault(0) :
+                    animal.ManureGeneratedGallonsPerYear.GetValueOrDefault(0);
+                result.MaterialSource = animal.AnimalSubTypeName;
+            }
+            else
+            {
+                var imported = _ud.GetImportedManure(sourceItem.SourceId);
+                annualAmount = imported.ManureType == ManureMaterialType.Solid ?
+                    imported.AnnualAmountTonsWeight : imported.AnnualAmountUSGallonsVolume;
+                result.MaterialSource = $"Imported - {imported.ManagedManureName}";
+            }
+            if (includeApplication)
+            {
+                annualAmount = appliedManure.TotalAnnualManureToApply;
+            }
+
+            result.AnnualAmount = string.Format("{0:#,##0}", Math.Round(annualAmount));
+            if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+            {
+                result.AnnualAmount += " US Gallons";
+            }
+            else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+            {
+                result.AnnualAmount += " tons";
+            }
+
+            if (includeApplication)
+            {
+                // Amount Land Applied
+                result.LandApplied = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalApplied))).ToString();
+                if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                {
+                    result.LandApplied += " US Gallons";
+                }
+                else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                {
+                    result.LandApplied += " tons";
+                }
+                result.LandApplied += " (" + appliedManure.WholePercentAppiled + "%)";
+
+                // Amount Remaining
+                if (appliedManure.WholePercentRemaining < 10)
+                {
+                    result.AmountRemaining = "None";
+                }
+                else
+                {
+                    result.AmountRemaining = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureRemainingToApply))) + " (" + appliedManure.WholePercentRemaining + "%)";
+                }
+            }
+            return result;
+        }
+
         public async Task<string> RenderCropManureUse()
         {
             if (_ud.FarmDetails().UserJourney != UserJourney.Crops)
@@ -1019,53 +1146,9 @@ namespace SERVERAPI.Controllers
                 return string.Empty;
             }
 
-            var viewModel = new ReportManureCollectedViewModel();
+            var viewModel = GetManureManureCollectedViewModel();
 
-            var yearData = _ud.GetYearData();
-
-            if (yearData.FarmManures != null)
-            {
-                foreach (var fm in yearData.FarmManures)
-                {
-                    ReportManures rm = new ReportManures();
-                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
-
-                    if (appliedManure != null)
-                    {
-                        rm.MaterialName = appliedManure.ManureMaterialName;
-                        rm.MaterialSource = appliedManure.SourceName;
-
-                        // Annual Amount
-
-                        rm.AnnualAmount = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureToApply)).ToString();
-                        rm.AnnualAmount = $"{rm.AnnualAmount} tons";
-
-                        // Amount Land Applied
-                        rm.LandApplied = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalApplied)).ToString();
-                        rm.LandApplied = $"{rm.LandApplied} tons";
-
-                        // Amount Remaining
-                        if (appliedManure.WholePercentRemaining < 10)
-                        {
-                            rm.AmountRemaining = "None";
-
-                            ReportFieldFootnote rff = new ReportFieldFootnote();
-                            rff.id = viewModel.Footnotes.Count() + 1;
-                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
-                            rm.footnote = rff.id.ToString();
-                            viewModel.Footnotes.Add(rff);
-                        }
-                        else
-                        {
-                            rm.AmountRemaining = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureRemainingToApply));
-                        }
-
-                        viewModel.Manures.Add(rm);
-                    }
-                }
-            }
-
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportBeefManureCollected.cshtml", viewModel);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCollectedManure.cshtml", viewModel);
 
             return result;
         }
@@ -1077,53 +1160,23 @@ namespace SERVERAPI.Controllers
                 return string.Empty;
             }
 
-            var viewModel = new ReportManureCollectedViewModel();
+            var viewModel = GetManureManureCollectedViewModel();
 
-            var yearData = _ud.GetYearData();
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCollectedManure.cshtml", viewModel);
 
-            if (yearData.FarmManures != null)
+            return result;
+        }
+
+        public async Task<string> RenderMixedManureUse()
+        {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Mixed)
             {
-                foreach (var fm in yearData.FarmManures)
-                {
-                    ReportManures rm = new ReportManures();
-                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
-
-                    if (appliedManure != null)
-                    {
-                        rm.MaterialName = appliedManure.ManureMaterialName;
-                        rm.MaterialSource = appliedManure.SourceName;
-
-                        // Annual Amount
-
-                        rm.AnnualAmount = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureToApply)).ToString();
-                        rm.AnnualAmount = $"{rm.AnnualAmount} tons";
-
-                        // Amount Land Applied
-                        rm.LandApplied = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalApplied)).ToString();
-                        rm.LandApplied = $"{rm.LandApplied} tons";
-
-                        // Amount Remaining
-                        if (appliedManure.WholePercentRemaining < 10)
-                        {
-                            rm.AmountRemaining = "None";
-
-                            ReportFieldFootnote rff = new ReportFieldFootnote();
-                            rff.id = viewModel.Footnotes.Count() + 1;
-                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
-                            rm.footnote = rff.id.ToString();
-                            viewModel.Footnotes.Add(rff);
-                        }
-                        else
-                        {
-                            rm.AmountRemaining = string.Format("{0:#,##0}", Math.Round(appliedManure.TotalAnnualManureRemainingToApply));
-                        }
-
-                        viewModel.Manures.Add(rm);
-                    }
-                }
+                return string.Empty;
             }
 
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportPoultryManureCollected.cshtml", viewModel);
+            var viewModel = GetManureManureCollectedViewModel();
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCollectedManure.cshtml", viewModel);
 
             return result;
         }
@@ -1409,18 +1462,17 @@ namespace SERVERAPI.Controllers
             //ReportApplication
             vm.ContentItems.Add(new ContentItem { SectionName = "Application Schedule", PageNumber = pageNumber });
             //ReportManureCompostInventory
-            if (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any())
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy &&
+                (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any()))
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure/Compost Inventory", PageNumber = pageNumber });
             }
 
             //Dairy Mixed ReportManureSummary
-            if ((_ud.FarmDetails().UserJourney == UserJourney.Dairy ||
-                    _ud.FarmDetails().UserJourney == UserJourney.Mixed) &&
-                yd.FarmManures.Any())
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
             }
 
@@ -1429,7 +1481,7 @@ namespace SERVERAPI.Controllers
                 yd.ManureStorageSystems.Any() &&
                 yd.ManureStorageSystems.Any(mss => mss.ManureMaterialType == ManureMaterialType.Liquid))
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 {
                     SectionName = "Liquid Storage Capacity: October to March",
@@ -1440,14 +1492,14 @@ namespace SERVERAPI.Controllers
             //Report Crop Manures
             if (_ud.FarmDetails().UserJourney == UserJourney.Crops && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
             }
 
             //ReportBeefManure
             if (_ud.FarmDetails().UserJourney == UserJourney.Ranch && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 {
                     SectionName = "Manure and Compost Use",
@@ -1458,7 +1510,18 @@ namespace SERVERAPI.Controllers
             //ReportPoultryManure
             if (_ud.FarmDetails().UserJourney == UserJourney.Poultry && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
+                vm.ContentItems.Add(new ContentItem
+                {
+                    SectionName = "Manure and Compost Use",
+                    PageNumber = pageNumber
+                });
+            }
+
+            //ReportMixedManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Mixed && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 {
                     SectionName = "Manure and Compost Use",
@@ -1469,7 +1532,7 @@ namespace SERVERAPI.Controllers
             //ReportFertilizers
             if (hasFertilizers)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Fertilizer Required", PageNumber = pageNumber });
             }
 
@@ -1477,14 +1540,14 @@ namespace SERVERAPI.Controllers
             var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.FieldName}");
             foreach (var fieldName in fieldNames)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = fieldName, PageNumber = pageNumber });
             }
 
             //ReportAnalysis
             if (yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 { SectionName = "Manure and Compost Analysis", PageNumber = pageNumber });
             }
@@ -1495,14 +1558,14 @@ namespace SERVERAPI.Controllers
                 .Select(f => $"{f.FieldName} Feeding Area");
             foreach (var area in feedingAreas)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = area, PageNumber = pageNumber });
             }
 
             //ReportSummary
             if (hasSoilTests)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Soil Test Results", PageNumber = pageNumber });
             }
 
@@ -1514,18 +1577,17 @@ namespace SERVERAPI.Controllers
         public async Task<int> GetPageCount(bool hasFertilizers, bool hasSoilTests)
         {
             var yd = _ud.GetYearData();
-            var pageNumber = 1;
+            var pageNumber = 2;
 
             //ReportManureCompostInventory
-            if (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any())
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy &&
+                (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any()))
             {
                 pageNumber += 1;
             }
 
             //Dairy Mixed ReportManureSummary
-            if ((_ud.FarmDetails().UserJourney == UserJourney.Dairy ||
-                    _ud.FarmDetails().UserJourney == UserJourney.Mixed) &&
-                yd.FarmManures.Any())
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy && yd.FarmManures.Any())
             {
                 pageNumber += 1;
             }
@@ -1552,6 +1614,12 @@ namespace SERVERAPI.Controllers
 
             //ReportPoultryManure
             if (_ud.FarmDetails().UserJourney == UserJourney.Poultry && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+            }
+
+            //ReportMixedManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Mixed && yd.FarmManures.Any())
             {
                 pageNumber += 1;
             }
@@ -1967,6 +2035,7 @@ namespace SERVERAPI.Controllers
             var reportCropManure = string.Empty;
             var reportBeefManureUse = string.Empty;
             var reportPoultryManureUse = string.Empty;
+            var reportMixedManureUser = string.Empty;
             var reportFertilizers = string.Empty;
             var reportFields = string.Empty;
             var reportAnalysis = string.Empty;
@@ -1987,6 +2056,7 @@ namespace SERVERAPI.Controllers
                     reportCropManure = await RenderCropManureUse();
                     reportBeefManureUse = await RenderBeefManureUse();
                     reportPoultryManureUse = await RenderPoultryManureUse();
+                    reportMixedManureUser = await RenderMixedManureUse();
                     reportSummary = await RenderSummary();
                     reportAnalysis = await RenderAnalysis();
                 },
@@ -2038,7 +2108,6 @@ namespace SERVERAPI.Controllers
 
             if (reportManureUse.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
@@ -2047,7 +2116,6 @@ namespace SERVERAPI.Controllers
 
             if (reportBeefManureUse.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
@@ -2056,11 +2124,18 @@ namespace SERVERAPI.Controllers
 
             if (reportPoultryManureUse.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
                 report += reportPoultryManureUse;
+            }
+
+            if (reportMixedManureUser.Contains("div"))
+            {
+                report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
+                report += reportMixedManureUser;
             }
 
             if (reportOctoberToMarchStorageVolumes.Contains("div"))
@@ -2071,7 +2146,6 @@ namespace SERVERAPI.Controllers
 
             if (reportCropManure.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;
@@ -2079,7 +2153,6 @@ namespace SERVERAPI.Controllers
             }
             if (reportFertilizers.Contains("div"))
             {
-                //report += pageBreakForManure;
                 report += pageBreak;
                 report += GetHeader(pageNumber, pageNumbers);
                 pageNumber += 1;

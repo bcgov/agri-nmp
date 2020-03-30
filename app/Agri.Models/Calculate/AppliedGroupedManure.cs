@@ -55,5 +55,29 @@ namespace Agri.Models.Calculate
         }
 
         public override string ManureMaterialName { get; set; }
+
+        public override decimal TotalApplied
+        {
+            get
+            {
+                if (FieldAppliedManures.Any())
+                {
+                    if (ManureMaterialType == Models.ManureMaterialType.Liquid)
+                    {
+                        var totalLiquidApplied = FieldAppliedManures
+                            .Where(f => f.USGallonsApplied.HasValue)
+                            .Sum(f => f.USGallonsApplied.Value);
+                        return totalLiquidApplied;
+                    }
+
+                    var totalSolidApplied = FieldAppliedManures
+                        .Where(f => f.TonsApplied.HasValue)
+                        .Sum(f => f.TonsApplied.Value);
+                    return totalSolidApplied;
+                }
+
+                return 0;
+            }
+        }
     }
 }
