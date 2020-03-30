@@ -1020,7 +1020,7 @@ namespace SERVERAPI.Controllers
                 var imported = _ud.GetImportedManure(sourceItem.SourceId);
                 annualAmount = imported.ManureType == ManureMaterialType.Solid ?
                     imported.AnnualAmountTonsWeight : imported.AnnualAmountUSGallonsVolume;
-                result.MaterialSource = imported.ManagedManureName;
+                result.MaterialSource = $"Imported - {imported.ManagedManureName}";
             }
             if (includeApplication)
             {
@@ -1145,7 +1145,7 @@ namespace SERVERAPI.Controllers
 
             var viewModel = GetManureManureCollectedViewModel();
 
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportBeefManureCollected.cshtml", viewModel);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCollectedManure.cshtml", viewModel);
 
             return result;
         }
@@ -1159,7 +1159,7 @@ namespace SERVERAPI.Controllers
 
             var viewModel = GetManureManureCollectedViewModel();
 
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportPoultryManureCollected.cshtml", viewModel);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCollectedManure.cshtml", viewModel);
 
             return result;
         }
@@ -1173,7 +1173,7 @@ namespace SERVERAPI.Controllers
 
             var viewModel = GetManureManureCollectedViewModel();
 
-            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportMixedManureCollected.cshtml", viewModel);
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCollectedManure.cshtml", viewModel);
 
             return result;
         }
