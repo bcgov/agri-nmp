@@ -253,7 +253,7 @@ namespace Agri.CalculateService
             foreach (var farmAnimal in farmAnimals)
             {
                 var fieldsAppliedWithCollectedManure = yearData
-                    .GetFieldsAppliedWithManure(farmAnimal)
+                    .GetFieldsAppliedWithManure(farmManure)
                     .Where(f => !fieldAppliedManures.Any(fam => fam.FieldId == f.Id)).ToList();
 
                 var manure = _repository.GetManure(farmManure.ManureId);
