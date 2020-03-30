@@ -324,7 +324,7 @@ namespace SERVERAPI.Pages.Mixed.MixedAnimals
                     }
                     else
                     {
-                        farmAnimal.ManureGeneratedTonsPerYear = _calculateManureGeneration
+                        farmAnimal.ManureGeneratedGallonsPerYear = _calculateManureGeneration
                             .GetGallonsGeneratedForAnimalSubType(farmAnimal.AnimalSubTypeId, farmAnimal.AverageAnimalNumber, farmAnimal.DurationDays);
                     }
                 }
