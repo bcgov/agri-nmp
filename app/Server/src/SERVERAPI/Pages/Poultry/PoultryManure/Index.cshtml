@@ -1,6 +1,6 @@
 ﻿@page
 @using Agri.Models
-@model SERVERAPI.Pages.Ranch.RanchManure.Index
+@model SERVERAPI.Pages.Poultry.PoultryManure.Index
 @{
     ViewData["HeaderTitle"] = "Manure and Imports";
     Layout = "_PageLayout";
@@ -30,7 +30,8 @@
                     @animal.AnimalSubTypeName
                 </div>
                 <div class="col-sm-5 form-box-table-cell">
-                    <span>@animal.ManureGeneratedTonsPerYear @(animal.ManureGeneratedTonsPerYear > 1 ? "tons" : "ton")</span>
+                    @(animal.ManureGeneratedTonsPerYear.HasValue ?
+                            animal.MsgManureGeneratedTonsPerYear : animal.MsgManureGeneratedGallonsPerYear)
                 </div>
             </div>
         }

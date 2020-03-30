@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewModels
 {
-    public class ReportBeefManureCollectedViewModel
+    public class ReportManureCollectedViewModel
     {
         public List<ReportManures> Manures { get; set; } = new List<ReportManures>();
         public List<ReportFieldFootnote> Footnotes { get; set; } = new List<ReportFieldFootnote>();

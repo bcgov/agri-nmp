@@ -98,6 +98,13 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                 ModelState.Clear();
                 Data.PostedElementEvent = ElementEvent.None;
             }
+            else if (Data.PostedElementEvent == ElementEvent.MaterialSelected)
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = ElementEvent.None;
+                Data.SelectedNutrientAnalysis = 0;
+                Data.UseCustomAnalysis = false;
+            }
             else
             {
                 if (Data.UseCustomAnalysis)
@@ -129,6 +136,8 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                         Data.Potassium = null;
                         Data.ShowNitrate = false;
                         Data.Compost = false;
+                        Data.DryMatterId = 0;
+                        Data.NMinerizationId = 0;
                     }
 
                     await _mediator.Send(Data);
@@ -188,6 +197,10 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
 
             [Display(Name = "Moisture (%)")]
             public string Moisture { get; set; }
+
+            public int DryMatterId { get; set; }
+
+            public int NMinerizationId { get; set; }
 
             [Display(Name = "N (%)")]
             public decimal? Nitrogen { get; set; }
@@ -255,6 +268,7 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
             UseCustomAnalysis,
             NutrientAnalysisChanged,
             MaterialStateChanged,
+            MaterialSelected
         }
 
         public class MappingProfile : Profile
@@ -265,6 +279,7 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                     .ForMember(m => m.SelectedNutrientAnalysis, opts => opts.MapFrom(s => s.ManureId))
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.Name))
                     .ForMember(m => m.UseCustomAnalysis, opts => opts.MapFrom(s => s.Customized))
+                    .ForMember(m => m.DryMatterId, opts => opts.MapFrom(s => s.DMId))
                     .ReverseMap();
                 CreateMap<ManagedManure, Command.RanchManure>()
                     .ForMember(m => m.ManureName, opts => opts.MapFrom(s => s.ManagedManureName));
@@ -463,7 +478,9 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                         }).ToList();
                 }
 
-                var beefManuresNutrients = _sd.GetManures();
+                var nutrientMaterialType = command.RanchSolidManures.Any(s => s.Selected) ? "Solid" : "Liquid";
+
+                var beefManuresNutrients = _sd.GetManures().Where(m => m.SolidLiquid == nutrientMaterialType);
 
                 command.BeefNutrientAnalysisOptions = new SelectList(beefManuresNutrients
                     .Select(m => new { Id = m.Id, Name = m.Name }).ToList(), "Id", "Name");
@@ -487,6 +504,8 @@ namespace SERVERAPI.Pages.Ranch.RanchNutrients
                     if (command.UseCustomAnalysis)
                     {
                         command.SolidLiquid = nutrient.SolidLiquid;
+                        command.DryMatterId = nutrient.DryMatterId;
+                        command.NMinerizationId = nutrient.NMineralizationId;
                     }
 
                     command.BookValues = _mapper.Map<Command.ManureNutrientBookValues>(nutrient);

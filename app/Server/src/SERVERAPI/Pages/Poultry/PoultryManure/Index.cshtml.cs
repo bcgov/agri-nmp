@@ -51,6 +51,22 @@ namespace SERVERAPI.Pages.Poultry.PoultryManure
                 public string ManureCollected => IsManureCollected ? "Yes" : "No";
                 public int DurationDays { get; set; }
                 public int? ManureGeneratedTonsPerYear { get; set; }
+
+                public string MsgManureGeneratedTonsPerYear =>
+                    ManureGeneratedTonsPerYear.HasValue ?
+                        ManureGeneratedTonsPerYear > 1 ?
+                            $"{ManureGeneratedTonsPerYear.ToString()} tons" :
+                            $"{ManureGeneratedTonsPerYear.ToString()} ton"
+                    : null;
+
+                public int? ManureGeneratedGallonsPerYear { get; set; }
+
+                public string MsgManureGeneratedGallonsPerYear =>
+                    ManureGeneratedGallonsPerYear.HasValue ?
+                        ManureGeneratedGallonsPerYear > 1 ?
+                            $"{ManureGeneratedGallonsPerYear.ToString()} US gallons" :
+                            $"{ManureGeneratedGallonsPerYear.ToString()} US gallon"
+                    : null;
             }
         }
 
