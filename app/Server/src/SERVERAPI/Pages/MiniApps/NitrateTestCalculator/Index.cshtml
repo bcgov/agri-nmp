@@ -20,6 +20,7 @@
                         </div>
                         @{
                             var visibility = "visible";
+                            var display = "inline";
                         }
                         @for (int i = 0; i < Model.Data.nitrateTestAnalysis.Count; i++)
                         {
@@ -82,7 +83,7 @@
                         @if (Model.Data.isNotShowButton)
                         {
                             visibility = "hidden";
-
+                            display = "none";
                         }
                         else
                         {
@@ -92,8 +93,9 @@
                         @Html.HiddenFor(x => x.Data.PostedElementEvent, new { id = "PostedElementEvent" })
                         @Html.HiddenFor(x => x.Data.IsBasic)
                         @Html.HiddenFor(x => x.Data.isNotShowButton)
-                        <div class="row">
-                            <div class="col-sm-6">
+
+                        <div class="row" style="display:@display">
+                            <div class="col-sm-6" style="padding-bottom:20px">
                                 <input class="btn btn-default col-sm-6" type="button" id="AddSampleButton" style="visibility:@visibility;font-size: 12px;padding-right:20px" value="Add another sample depth" />
                                 <input class="btn btn-default col-sm-6" type="submit" id="AddSample" style="visibility:hidden" />
                             </div>
@@ -113,9 +115,9 @@
                                 }
 
                                 <div class="form-box-fields col-sm-2" style="padding-top:5px;padding-left:50px">
-                                    Total for field
+                                    <b>Total for field</b>
                                 </div>
-                                <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.TotalResult" style="margin-left:20px;padding-left:20px;width:64px;pointer-events:none;background-color:#F5F5F5" />
+                                <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.TotalResult" style="margin-left:10px;width:64px;pointer-events:none;background-color:#F5F5F5" />
                                 <div class="col-sm-2" style="padding-top:5px">
                                     kg NO<sub>3</sub>-N  ha<sup>-1</sup>
                                     <a href="#" data-toggle="tooltip" title="@Model.Data.SampleDepthMessage" id="toolTipSample">
