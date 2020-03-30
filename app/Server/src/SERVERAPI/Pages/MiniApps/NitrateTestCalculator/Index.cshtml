@@ -117,7 +117,9 @@
                                 <div class="form-box-fields col-sm-2" style="padding-top:5px;padding-left:50px">
                                     <b>Total for field</b>
                                 </div>
-                                <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.TotalResult" style="margin-left:10px;width:64px;pointer-events:none;background-color:#F5F5F5" />
+                                <div class="col-sm-2">
+                                    <input type="number" class="form-control col-sm-2" asp-for="@Model.Data.TotalResult" style="width:70px;pointer-events:none;background-color:#F5F5F5" />
+                                </div>
                                 <div class="col-sm-2" style="padding-top:5px">
                                     kg NO<sub>3</sub>-N  ha<sup>-1</sup>
                                     <a href="#" data-toggle="tooltip" title="@Model.Data.SampleDepthMessage" id="toolTipSample">

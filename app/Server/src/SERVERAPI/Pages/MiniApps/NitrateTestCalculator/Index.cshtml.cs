@@ -159,7 +159,9 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             {
                 RuleFor(m => m.SelectDepthOption).NotEqual("0" +
                     "").WithMessage("Sample Depth must be selected");
-                RuleFor(x => x.Nitrate).NotNull().NotEqual(0).WithMessage("Required");
+                RuleFor(x => x.Nitrate)
+                    .NotNull().WithMessage("Required")
+                    .NotEqual(0).WithMessage("Required");
             }
         }
 
@@ -178,7 +180,6 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
             public async Task<ConverterQuery> Handle(Query request, CancellationToken cancellationToken)
             {
-                
                 var command = request.PopulatedData;
                 if (command.nitrateTestAnalysis == null)
                 {
