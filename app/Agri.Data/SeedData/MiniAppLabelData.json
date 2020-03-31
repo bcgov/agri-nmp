@@ -134,7 +134,7 @@
   {
     "Id": 23,
     "Name": "NitrateCalculatorUserInstruction1",
-    "LabelText": "This soil calculator will convert laboratory soil nitrate test results from parts per million(ppm) to amounts in kg ha-1",
+    "LabelText": "This soil calculator will convert laboratory soil nitrate test results from parts per million(ppm) to amounts in kg ha<sup>-1</sup>",
     "MiniAppId": "3"
   },
   {
