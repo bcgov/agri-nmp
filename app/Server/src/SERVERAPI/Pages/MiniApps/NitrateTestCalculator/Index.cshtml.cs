@@ -34,7 +34,17 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (Data.PostedElementEvent == "DepthChange" && ModelState.IsValid)
+            if (Data.PostedElementEvent == "ResetClicked")
+            {
+                ModelState.Clear();
+                Data.PostedElementEvent = "none";
+                Data.IsBasic = false;
+                if (Data.nitrateTestAnalysis.Count > 0)
+                {
+                    Data.nitrateTestAnalysis = null;
+                }
+            }
+            else if (Data.PostedElementEvent == "DepthChange")
             {
                 ModelState.Clear();
                 Data.PostedElementEvent = "none";
@@ -55,26 +65,36 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             {
                 ModelState.Clear();
                 Data.PostedElementEvent = "none";
-                Data.isBasic = false;
+                Data.IsBasic = false;
                 foreach (var nitrateTest in Data.nitrateTestAnalysis)
                 {
-                    nitrateTest.bulkDensity = 1300;
+                    nitrateTest.BulkDensity = 1300;
                 }
             }
             else if (Data.PostedElementEvent == "AdvancedChange")
             {
                 ModelState.Clear();
                 Data.PostedElementEvent = "none";
-                Data.isBasic = true;
+                Data.IsBasic = true;
             }
-            else if (ModelState.IsValid)
+            else if (Data.PostedElementEvent == "CalculateClicked")
+            {
+                if (ModelState.IsValid)
+                {
+                    ModelState.Clear();
+                    Data.PostedElementEvent = "none";
+                    Data.IsCalculate = true;
+                    Data.isNotShowButton = true;
+                }
+            }
+            else if (Data.PostedElementEvent == "AddDepth")
             {
                 ModelState.Clear();
                 Data.PostedElementEvent = "none";
                 if (Data.nitrateTestAnalysis.Count() != 2)
                 {
                     var newId = Data.nitrateTestAnalysis.Count + 1;
-                    Data.nitrateTestAnalysis.Add(new ConverterQuery.NitrateTest { Id = newId, bulkDensity = 1300 });
+                    Data.nitrateTestAnalysis.Add(new ConverterQuery.NitrateTest { Id = newId, BulkDensity = 1300 });
                     Data.isNotShowButton = true;
                 }
             }
@@ -101,19 +121,23 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public string SoilTestInformationButtonLink { get; set; }
             public string BCNutrientManagementCalculatorButtonLink { get; set; }
             public string SampleDepthMessage { get; set; }
+            public string SoilBulkDensityMessage { get; set; }
 
             public string PostedElementEvent { get; set; }
-            public double totalResult { get; set; }
-            public bool isBasic { get; set; }
+            public double TotalResult { get; set; }
+            public bool IsBasic { get; set; }
+            public bool BulkDensity { get; set; }
+            public bool IsCalculate { get; set; }
 
             public class NitrateTest
             {
                 public int Id { get; set; }
                 public SelectList DepthOptions { get; set; }
                 public string SelectDepthOption { get; set; }
-                public double? nitrate { get; set; }
-                public double? bulkDensity { get; set; }
-                public double? result { get; set; }
+                public double? Nitrate { get; set; }
+                public double? BulkDensity { get; set; }
+                public double? Result { get; set; }
+                public string SelectDepthOptionName { get; set; }
             }
         }
 
@@ -135,7 +159,10 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
             public CommandNitrateTestValidator()
             {
                 RuleFor(m => m.SelectDepthOption).NotEqual("0" +
-                    "").WithMessage("select a sample depth");
+                    "").WithMessage("Sample Depth must be selected");
+                RuleFor(x => x.Nitrate)
+                    .NotNull().WithMessage("Required")
+                    .NotEqual(0).WithMessage("Required");
             }
         }
 
@@ -161,9 +188,10 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                     command.nitrateTestAnalysis.Add(new ConverterQuery.NitrateTest
                     {
                         Id = 1,
-                        bulkDensity = 1300
+                        BulkDensity = 1300
                     });
                 }
+
                 foreach (var nitrateTest in command.nitrateTestAnalysis)
                 {
                     if (nitrateTest.Id != 2)
@@ -174,15 +202,26 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                     {
                         nitrateTest.DepthOptions = new SelectList(_sd.GetDepths().Where(x => x.Id == 2), "Id", "Value");
                         nitrateTest.SelectDepthOption = "2";
+                        nitrateTest.SelectDepthOptionName = _sd.GetDepths().Where(x => x.Id == 2).Select(x => x.Value).FirstOrDefault();
                     }
-                    if (nitrateTest.nitrate != 0 && (!string.IsNullOrEmpty(nitrateTest.SelectDepthOption) && nitrateTest.SelectDepthOption != "0"))
+
+                    if (nitrateTest.Nitrate != 0 && (!string.IsNullOrEmpty(nitrateTest.SelectDepthOption) && nitrateTest.SelectDepthOption != "0" && command.IsCalculate))
                     {
-                        nitrateTest.result = _nitrateTestCalculator.CalculateResult(nitrateTest.SelectDepthOption, nitrateTest.nitrate.GetValueOrDefault(0), nitrateTest.bulkDensity.GetValueOrDefault(0));
+                        nitrateTest.Result = _nitrateTestCalculator.CalculateResult(nitrateTest.SelectDepthOption, nitrateTest.Nitrate.GetValueOrDefault(0), nitrateTest.BulkDensity.GetValueOrDefault(0));
                     }
                 }
-                command.totalResult = command.nitrateTestAnalysis.Select(x => x.result.GetValueOrDefault(0)).Sum();
+
+                if (command.IsCalculate)
+                {
+                    command.TotalResult = command.nitrateTestAnalysis.Select(x => x.Result.GetValueOrDefault(0)).Sum();
+                }
+
+                if (command.nitrateTestAnalysis.Count() == 1 && command.nitrateTestAnalysis[0].SelectDepthOption == null)
+                {
+                    command.isNotShowButton = true;
+                }
                 command.isNotShowButton = command.isNotShowButton ? command.isNotShowButton : false;
-                command.isBasic = command.isBasic ? command.isBasic : false;
+                command.IsBasic = command.IsBasic ? command.IsBasic : false;
                 var details = _sd.GetNitrateCalculatorDetails();
                 command.NitrateCalculatorUserInstruction1 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
                 command.NitrateCalculatorUserInstruction2 = details.Where(x => x.Key == "NitrateCalculatorUserInstruction2").Select(x => x.Value).FirstOrDefault();
@@ -192,6 +231,7 @@ namespace SERVERAPI.Pages.MiniApps.NitrateTestCalculator
                 command.SoilTestInformationButtonLink = details.Where(x => x.Key == "SoilTestInformationButtonLink").Select(x => x.Value).FirstOrDefault();
                 command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
                 command.SampleDepthMessage = details.Where(x => x.Key == "SampleDepthMessage").Select(x => x.Value).FirstOrDefault();
+                command.SoilBulkDensityMessage = details.Where(x => x.Key == "SoilBulkDensityMessage").Select(x => x.Value).FirstOrDefault();
 
                 return await Task.FromResult(command);
             }

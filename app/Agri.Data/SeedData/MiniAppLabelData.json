@@ -67,62 +67,122 @@
   },
   {
     "Id": 12,
+    "Name": "MoistureMessage",
+    "LabelText": "This value should be a percentage of the moisture contained in the material as received.  It should not be a dry matter value",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 13,
+    "Name": "NitrogenMessage",
+    "LabelText": "This value is the percentage of the manure/compost made up of total nitrogen (TN), which includes the organic and inorganic portions",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 14,
+    "Name": "AmmoniaMessage",
+    "LabelText": "This value is the portion of the manure/compost in the form of ammonium-nitrogen (NH4-N), an inorganic/mineral form of nitrogen. It may also be expressed in units of mg/kg or mg/L",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 15,
+    "Name": "PhosphorousMessage",
+    "LabelText": "This value is the percentage of the manure/compost made up of phosphorus (P)",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 16,
+    "Name": "PotassiumMessage",
+    "LabelText": "This value is the percentage of the manure compost made up potassium (K).",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 17,
+    "Name": "AmmoniumRetensionMessage",
+    "LabelText": "This value is an estimate of how much volatile ammoniums is retained in the manure after application.  Manure type, and the timing and method of application affect retention.",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 18,
+    "Name": "AvailableOrganicNitrogenMessage",
+    "LabelText": "This value is an estimate of how much of the stable organic nitrogen in manure will become available during the growing season.  ",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 19,
+    "Name": "AvailableThisYearMessage",
+    "LabelText": "These values represent the amount of nutrients available to the crop from the nutrient source during the growing season.  These will be added to the Agronomic Balance.",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 20,
+    "Name": "AvailbleLongTermMessage",
+    "LabelText": "These values represent the amount of nutrients added to the soil from the nutrient source.  These will be added to the Crop Removal Balance.",
+    "MiniAppId": "2"
+  },
+  {
+    "Id": 21,
     "Name": "NutrientManagementInformationButtonLink",
     "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management",
     "MiniAppId": "2"
   },
   {
-    "Id": 13,
+    "Id": 22,
     "Name": "BCNutrientManagementCalculatorButtonLink",
     "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-management-calculator",
     "MiniAppId": "2"
   },
   {
-    "Id": 14,
+    "Id": 23,
     "Name": "NitrateCalculatorUserInstruction1",
-    "LabelText": "This soil calculator will convert laboratory soil nitrate test results from parts per million(ppm) to amounts in kg ha-1",
+    "LabelText": "This soil calculator will convert laboratory soil nitrate test results from parts per million(ppm) to amounts in kg ha<sup>-1</sup>",
     "MiniAppId": "3"
   },
   {
-    "Id": 15,
+    "Id": 24,
     "Name": "NitrateCalculatorUserInstruction2",
     "LabelText": "Post Harvest Nitrate is a way to monitor and track your nitrogen use efficiency.",
     "MiniAppId": "3"
   },
   {
-    "Id": 16,
+    "Id": 25,
     "Name": "NitrateCalculatorUserInstruction3",
     "LabelText": "Explore these other resources to help guide and inform your nutrient management",
     "MiniAppId": "3"
   },
   {
-    "Id": 17,
+    "Id": 26,
     "Name": "SoilTestingInformation",
     "LabelText": "Soil Test Phosphorus information",
     "MiniAppId": "3"
   },
   {
-    "Id": 18,
+    "Id": 27,
     "Name": "BCNutrientManagementCalculator",
     "LabelText": "BC Nutrient Management Calculator",
     "MiniAppId": "3"
   },
   {
-    "Id": 19,
+    "Id": 28,
     "Name": "SoilTestInformationButtonLink",
     "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/what-to-apply/soil-nutrient-testing",
     "MiniAppId": "3"
   },
   {
-    "Id": 20,
+    "Id": 29,
     "Name": "BCNutrientManagementCalculatorButtonLink",
     "LabelText": "https://www2.gov.bc.ca/gov/content/industry/agriculture-seafood/agricultural-land-and-environment/soil-nutrients/nutrient-management/nutrient-management-calculator",
     "MiniAppId": "3"
   },
   {
-    "Id": 21,
+    "Id": 30,
     "Name": "SampleDepthMessage",
-    "LabelText": "Sample Depth Message",
+    "LabelText": "If a sample was taken from lower depths, results from that sample should also be entered to calculate the complete amount of nitrate found in all samples.",
+    "MiniAppId": "3"
+  },
+  {
+    "Id": 31,
+    "Name": "SoilBulkDensityMessage",
+    "LabelText": "Soil Bulk Density",
     "MiniAppId": "3"
   }
 ]
