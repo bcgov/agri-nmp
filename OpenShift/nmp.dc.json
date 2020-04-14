@@ -57,7 +57,13 @@
       "displayName": "MS Teams Webhook URL",
       "description": "MS Teams Webhook URL",
       "value": ""
-    }
+    },
+    {
+      "name": "CERTBOT_MANAGED_AUTO_CERT_RENEWAL",
+      "displayName": "Certbot Managed Automatic Certificate Renewal",
+      "description": "Certbot picks up anything with certbot-managed=true",
+      "value": "false"
+    }    
   ],
   "objects": [
     {
@@ -414,7 +420,10 @@
       "metadata": {
         "name": "${NAME}${SUFFIX}",
         "creationTimestamp": null,
-        "labels": { "frontend": "true" },
+        "labels": { 
+          "frontend": "true",
+          "certbot-managed": "${CERTBOT_MANAGED_AUTO_CERT_RENEWAL}"
+        },
         "annotations": {
           "haproxy.router.openshift.io/timeout": "5m",
           "template.openshift.io.bcgov/tls-secret-name.prod": "${NAME}-route-cert${SUFFIX}"

@@ -39,7 +39,8 @@ module.exports = (settings)=>{
       'HOST': phases[phase].host,
       'NMP_REPLICAS': phases[phase].nmpreplicas,
       'PDF_REPLICAS': phases[phase].pdfreplicas,
-      'MS_TEAMS_WEBHOOK_URL': msTeamsWebhookURL
+      'MS_TEAMS_WEBHOOK_URL': msTeamsWebhookURL,
+      'CERTBOT_MANAGED_AUTO_CERT_RENEWAL': phases[phase].certbotManaged
     }
   }));
 
