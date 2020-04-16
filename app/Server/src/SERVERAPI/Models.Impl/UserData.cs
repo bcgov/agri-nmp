@@ -1084,6 +1084,22 @@ namespace SERVERAPI.Models.Impl
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             FarmManure fm = yd.FarmManures.FirstOrDefault(f => f.Id == id);
 
+            foreach (var field in yd.Fields)
+            {
+                if (field.HasNutrients)
+                {
+                    var nutrientManures = field.Nutrients.nutrientManures.ToList();
+
+                    foreach (var nutrientManure in nutrientManures)
+                    {
+                        if (id.ToString() == nutrientManure.manureId)
+                        {
+                            field.Nutrients.nutrientManures.Remove(nutrientManure);
+                        }
+                    }
+                }
+            }
+
             yd.FarmManures.Remove(fm);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
