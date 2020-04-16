@@ -1,5 +1,6 @@
 using Agri.Models.Security;
 using Agri.Tests.Shared;
+using Shouldly;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
@@ -304,7 +305,11 @@ namespace Agri.Data.Tests
             };
             var repo = new AgriConfigurationRepository(agriConfigurationDb, Mapper);
 
-            var result = repo.GetLatestVersionDataTree();
+            //var result = repo.GetLatestVersionDataTree();
+
+            var result = repo.GetCurrentStaticDataVersion();
+
+            result.ShouldNotBeNull();
         }
 
         private string SerializeToString<T>(T entity)

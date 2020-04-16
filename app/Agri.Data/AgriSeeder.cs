@@ -24,9 +24,12 @@ namespace Agri.Data
 
         public void Seed()
         {
-            var refreshDatabaseEnv = Environment.GetEnvironmentVariable("LOAD_SEED_DATA");
-            var refreshDatabase = (!string.IsNullOrEmpty(refreshDatabaseEnv) && refreshDatabaseEnv.ToLower() == "true") ||
+            var loadSeedDataEnv = Environment.GetEnvironmentVariable("LOAD_SEED_DATA");
+            var loadSeedData = (!string.IsNullOrEmpty(loadSeedDataEnv) && loadSeedDataEnv.ToLower() == "true") ||
                 _options.Value.LoadSeedData;
+            var refreshDatabaseEnv = Environment.GetEnvironmentVariable("REFRESH_DATABASE");
+            var refreshDatabase = (!string.IsNullOrEmpty(refreshDatabaseEnv) && refreshDatabaseEnv.ToLower() == "true") ||
+                _options.Value.RefreshDatabase;
 
             var loadSeedConfigDataAsNewVersion = false;
 
@@ -38,11 +41,9 @@ namespace Agri.Data
                 expectedSeedDataVersion = parsedVersion;
             }
 
-            var currentVersion = _sd.GetCurrentStaticDataVersion().Id;
-
-            if (refreshDatabase && currentVersion < expectedSeedDataVersion)
+            if (refreshDatabase)
             {
-                _context.Database.ExecuteSqlCommand(@"TRUNCATE TABLE ""Browsers"",
+                _context.Database.ExecuteSqlRaw(@"TRUNCATE TABLE ""Browsers"",
                                                                                     ""Depths"",
                                                                                     ""ExternalLinks"",
                                                                                     ""SubMenu"",
@@ -130,6 +131,7 @@ namespace Agri.Data
 
             if (!_context.StaticDataVersions.Any() ||
                 seedStaticDataVersion.Id > _sd.GetStaticDataVersionId() ||
+                (loadSeedData && expectedSeedDataVersion > _sd.GetStaticDataVersionId()) ||
                 loadSeedConfigDataAsNewVersion)
             {
                 _sd.LoadConfigurations(seedStaticDataVersion);
