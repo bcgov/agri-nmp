@@ -25,7 +25,12 @@ namespace Agri.Tests.Shared
             var configuration = A.Fake<IConfiguration>();
 
             var services = new ServiceCollection()
-                .AddLogging(builder => builder.AddProvider(new XUnitLoggerProvider(output)))
+                .AddLogging(builder =>
+                    builder.AddProvider(new XUnitLoggerProvider(output))
+                    .AddConsole()
+                    .AddDebug()
+                    .SetMinimumLevel(LogLevel.Debug)
+                )
                 .AddAutoMapper(typeof(Startup))
                 .AddEntityFrameworkInMemoryDatabase()
                 .AddDbContext<AgriConfigurationContext>(options => options
