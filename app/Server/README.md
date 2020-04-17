@@ -1,4 +1,4 @@
-#  ASP.NET Core 2.0 API Server
+#  ASP.NET Core 3.1 API Server
 
 Starter App 
 
@@ -37,3 +37,8 @@ To trigger a reload of the seed data in OpenShift environment set the enviornmen
 `LOAD_SEED_DATA`
 
 To true, which will truncate all non versioned data prior to loading and add a new version of configuration data using 'StaticDataVersion_#.json' file. 
+
+
+
+Set the max version to Load Seed Data as to prevent an unintended overwrite of the current database.  It serves as a second Flag to ensure an unwanted load.
+`EXPECTED_SEED_DATA_VERSION`
