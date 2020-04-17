@@ -51,6 +51,20 @@
       "displayName": "MS Teams Webhook URL",
       "description": "MS Teams Webhook URL",
       "value": ""
+    },
+    {
+      "name": "PERSISTENT_VOLUME_SIZE",
+      "displayName": "Persistent Volume Size",
+      "description": "The size of the persistent volume , e.g. 512Mi, 1Gi, 2Gi.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "PERSISTENT_VOLUME_CLASS",
+      "displayName": "Persistent Volume Class name",
+      "description": "The class of the volume; gluster-file, gluster-block, gluster-file-db, netapp-file-standard, netapp-block-standard",
+      "required": false,
+      "value": "netapp-file-standard"
     }
   ],
   "objects": [
@@ -62,6 +76,27 @@
         "creationTimestamp": null,
         "labels": {
           "base-name": "${NAME}-web"
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}-key-ring${SUFFIX}",
+        "annotations": {
+          "volume.beta.kubernetes.io/storage-class": "${PERSISTENT_VOLUME_CLASS}"
+        }
+      },
+      "spec": {
+        "storageClassName": "${PERSISTENT_VOLUME_CLASS}",
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${PERSISTENT_VOLUME_SIZE}"
+          }
         }
       }
     },
@@ -234,10 +269,24 @@
                 },
                 "terminationMessagePath": "/dev/termination-log",
                 "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/var/dp_keys",
+                    "name": "dp-keys"
+                  }
+                ],
                 "imagePullPolicy": "IfNotPresent"
               }
             ],
             "restartPolicy": "Always",
+            "volumes": [
+              {
+                "name": "dp-keys",
+                "persistentVolumeClaim": {
+                  "claimName": "${NAME}-key-ring${SUFFIX}"
+                }
+              }
+            ],
             "terminationGracePeriodSeconds": 30,
             "dnsPolicy": "ClusterFirst",
             "securityContext": {},
