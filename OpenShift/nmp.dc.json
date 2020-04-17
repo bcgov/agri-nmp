@@ -194,6 +194,10 @@
                   {
                     "name": "REDIS_CONNECTION_STRING",
                     "value": ""
+                  },
+                  {
+                    "name": "KEY_RING_DIRECTORY",
+                    "value": "/var/dp_keys"
                   }
                 ],
                 "resources": {

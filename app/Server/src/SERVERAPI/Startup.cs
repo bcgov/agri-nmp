@@ -5,6 +5,7 @@ using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -12,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using SERVERAPI.Controllers;
@@ -21,6 +21,7 @@ using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using System;
 using System.Globalization;
+using System.IO;
 
 namespace SERVERAPI
 {
@@ -124,6 +125,19 @@ namespace SERVERAPI
                         opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                         opts.SerializerSettings.StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii;
                     });
+
+            var keyRingPath = Configuration.GetValue("KEY_RING_DIRECTORY", string.Empty);
+            var dpBuilder = services.AddDataProtection();
+
+            if (!string.IsNullOrEmpty(keyRingPath))
+            {
+                Console.Write($"Setting data protection keys to persist in {keyRingPath}");
+                dpBuilder.PersistKeysToFileSystem(new DirectoryInfo(keyRingPath));
+            }
+            else
+            {
+                Console.Write("data protection key folder is not set, check if KEY_RING_DIRECTORY env var is missing");
+            }
 
             services.AddScoped<UserData>();
             services.AddTransient<BrowserData>();
