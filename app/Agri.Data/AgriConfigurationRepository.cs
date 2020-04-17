@@ -1498,66 +1498,71 @@ namespace Agri.Data
 
         public StaticDataVersion GetLatestVersionDataTree()
         {
-            var staticVersion = GetCurrentStaticDataVersion();
+            var versionId = GetCurrentStaticDataVersion().Id;
 
             var result = _context.StaticDataVersions
-                .Include(x => x.AmmoniaRetentions)
-                .Include(x => x.Animals)
-                .Include(x => x.AnimalSubTypes)
-                .Include(x => x.BCSampleDateForNitrateCredits)
-                .Include(x => x.Breeds)
-                .Include(x => x.ConversionFactors)
-                .Include(x => x.Crops)
-                .Include(x => x.CropSoilTestPhosphorousRegions)
-                .Include(x => x.CropSoilTestPotassiumRegions)
-                .Include(x => x.CropTypes)
-                .Include(x => x.CropYields)
-                .Include(x => x.DailyFeedRequirements)
-                .Include(x => x.DefaultSoilTests)
-                .Include(x => x.DensityUnits)
-                .Include(x => x.DryMatters)
-                .Include(x => x.Feeds)
-                .Include(x => x.FeedForageTypes)
-                .Include(x => x.FeedConsumptions)
-                .Include(x => x.FeedEfficiencies)
-                .Include(x => x.Fertilizers)
-                .Include(x => x.FertilizerMethods)
-                .Include(x => x.FertilizerTypes)
-                .Include(x => x.FertilizerUnits)
-                .Include(x => x.HarvestUnits)
-                .Include(x => x.LiquidFertilizerDensities)
-                .Include(x => x.LiquidMaterialApplicationUsGallonsPerAcreRateConversions)
-                .Include(x => x.LiquidMaterialsConversionFactors)
-                .Include(x => x.LiquidSolidSeparationDefaults)
-                .Include(x => x.ManureImportedDefaults)
-                .Include(x => x.Manures)
-                .Include(x => x.Messages)
-                .Include(x => x.NitrateCreditSampleDates)
-                .Include(x => x.NitrogenMineralizations)
-                .Include(x => x.NitrogenRecommendations)
-                .Include(x => x.PhosphorusSoilTestRanges)
-                .Include(x => x.PotassiumSoilTestRanges)
-                .Include(x => x.PreviousCropTypes)
-                .Include(x => x.PrevManureApplicationYears)
-                .Include(x => x.PrevYearManureApplicationNitrogenDefaults)
-                .Include(x => x.Regions)
-                .Include(x => x.RptCompletedFertilizerRequiredStdUnits)
-                .Include(x => x.RptCompletedManureRequiredStdUnits)
-                .Include(x => x.SeasonApplications)
-                .Include(x => x.SoilTestMethods)
-                .Include(x => x.SoilTestPhosphorusRanges)
-                .Include(x => x.SoilTestPhosphorousKelownaRanges)
-                .Include(x => x.SoilTestPhosphorousRecommendations)
-                .Include(x => x.SoilTestPotassiumRanges)
-                .Include(x => x.SoilTestPotassiumKelownaRanges)
-                .Include(x => x.SoilTestPotassiumRecommendations)
-                .Include(x => x.SolidMaterialApplicationTonPerAcreRateConversions)
-                .Include(x => x.SolidMaterialsConversionFactors)
-                .Include(x => x.Units)
-                .Include(x => x.SubRegions)
-                .Include(x => x.Yields)
                 .AsNoTracking()
-                .Single(s => s.Id == staticVersion.Id);
+                .Single(s => s.Id == versionId);
+
+            result.AmmoniaRetentions = _context.AmmoniaRetentions.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.AmmoniaRetentions = _context.AmmoniaRetentions.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Animals = _context.Animals.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.AnimalSubTypes = _context.AnimalSubType.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.BCSampleDateForNitrateCredits = _context.BCSampleDateForNitrateCredit.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Breeds = _context.Breed.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.ConversionFactors = _context.ConversionFactors.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Crops = _context.Crops.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.CropSoilTestPhosphorousRegions = _context.CropSoilTestPhosphorousRegions.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.CropSoilTestPotassiumRegions = _context.CropSoilTestPotassiumRegions.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.CropTypes = _context.CropTypes.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.CropYields = _context.CropYields.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.DailyFeedRequirements = _context.DailyFeedRequirements.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.DefaultSoilTests = _context.DefaultSoilTests.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.DensityUnits = _context.DensityUnits.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.DryMatters = _context.DryMatters.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Feeds = _context.Feeds.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.FeedForageTypes = _context.FeedForageTypes.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.FeedConsumptions = _context.FeedConsumptions.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.FeedEfficiencies = _context.FeedEfficiencies.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Fertilizers = _context.Fertilizers.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.FertilizerMethods = _context.FertilizerMethods.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.FertilizerTypes = _context.FertilizerTypes.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.FertilizerUnits = _context.FertilizerUnits.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.HarvestUnits = _context.HarvestUnits.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.LiquidFertilizerDensities = _context.LiquidFertilizerDensities.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.LiquidMaterialApplicationUsGallonsPerAcreRateConversions = _context.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.LiquidMaterialsConversionFactors = _context.LiquidMaterialsConversionFactors.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.LiquidSolidSeparationDefaults = _context.LiquidSolidSeparationDefaults.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.ManureImportedDefaults = _context.ManureImportedDefaults.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Manures = _context.Manures.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Messages = _context.Messages.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.NitrateCreditSampleDates = _context.NitrateCreditSampleDates.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.NitrogenMineralizations = _context.NitrogenMineralizations.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.NitrogenRecommendations = _context.NitrogenRecommendations.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.PhosphorusSoilTestRanges = _context.PhosphorusSoilTestRanges.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.PotassiumSoilTestRanges = _context.PotassiumSoilTestRanges.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.PreviousCropTypes = _context.Crops
+                .Where(x => x.StaticDataVersionId == versionId).SelectMany(x => x.PreviousCropTypes).AsNoTracking().ToList();
+            result.PrevManureApplicationYears = _context.PrevManureApplicationYears.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.PrevYearManureApplicationNitrogenDefaults = _context.PrevYearManureApplicationNitrogenDefaults.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Regions = _context.Regions.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.RptCompletedFertilizerRequiredStdUnits = _context.RptCompletedFertilizerRequiredStdUnits.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.RptCompletedManureRequiredStdUnits = _context.RptCompletedManureRequiredStdUnits.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.SeasonApplications = _context.SeasonApplications.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.SoilTestMethods = _context.SoilTestMethods.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.SoilTestPhosphorusRanges = _context.SoilTestPhosphorusRanges.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.SoilTestPhosphorousKelownaRanges = _context.SoilTestPhosphorousKelownaRanges.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.SoilTestPhosphorousRecommendations = _context.SoilTestPhosphorousKelownaRanges
+                .Where(x => x.StaticDataVersionId == versionId).SelectMany(x => x.SoilTestPhosphorousRecommendations).AsNoTracking().ToList();
+            result.SoilTestPotassiumRanges = _context.SoilTestPotassiumRanges.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.SoilTestPotassiumKelownaRanges = _context.SoilTestPotassiumKelownaRanges.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.SoilTestPotassiumRecommendations = _context.SoilTestPotassiumKelownaRanges
+                .Where(x => x.StaticDataVersionId == versionId).SelectMany(x => x.SoilTestPotassiumRecommendations).AsNoTracking().ToList();
+            result.SolidMaterialApplicationTonPerAcreRateConversions = _context.SolidMaterialApplicationTonPerAcreRateConversions.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.SolidMaterialsConversionFactors = _context.SolidMaterialsConversionFactors.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Units = _context.Units.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.SubRegions = _context.SubRegion.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
+            result.Yields = _context.Yields.Where(x => x.StaticDataVersionId == versionId).AsNoTracking().ToList();
 
             return result;
         }

@@ -59,8 +59,10 @@ namespace SERVERAPI
             //Creates the DbContext as a scoped Service
             services.AddDbContext<AgriConfigurationContext>(options =>
             {
-                options.UseNpgsql(agriConnectionString, b => b.MigrationsAssembly("Agri.Data"));
-            });
+                options.UseNpgsql(agriConnectionString, b =>
+                    b.MigrationsAssembly("Agri.Data"));
+            }, ServiceLifetime.Scoped, ServiceLifetime.Scoped);
+
             //services.AddScoped<IConfigurationRepository>(provider => new ConfigurationRepository(agriConnectionString));
             services.AddScoped<SessionTimeoutAttribute>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
