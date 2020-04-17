@@ -77,13 +77,19 @@ namespace SERVERAPI
                 options.MultipartBodyLengthLimit = 1073741824; // 1 GB
             });
             services.AddResponseCompression();
-            services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
                 options.Cookie.HttpOnly = true;
                 options.Cookie.Name = ".NMP.Session";
                 options.IdleTimeout = TimeSpan.FromHours(4);
+            });
+
+            //Add distributed cache service backed by Redis cache
+            services.AddDistributedRedisCache(options =>
+            {
+                //options.InstanceName = Configuration.GetValue<string>("redis:name");
+                options.Configuration = GetRedisConnectionString();
             });
 
             //Automapper
@@ -208,6 +214,23 @@ namespace SERVERAPI
                 }
 
                 return $"Server={server};Database={database};Username={username};Password={password}";
+            }
+        }
+
+        private string GetRedisConnectionString()
+        {
+            if (_hostingEnv.IsDevelopment())
+            {
+                return Configuration["Redis:ConnectionString"];
+            }
+            else
+            {
+                var redisConnection = Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING");
+                if (string.IsNullOrEmpty(redisConnection))
+                {
+                    throw new Exception(@"Redis Connection String ""REDIS_CONNECTION_STRING"" variable not found");
+                }
+                return redisConnection;
             }
         }
 

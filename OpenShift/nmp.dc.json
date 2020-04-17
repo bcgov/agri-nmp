@@ -190,6 +190,10 @@
                   {
                     "name": "WEASYPRINT_URL",
                     "value": "http://${NAME}-weasyprint${SUFFIX}:5001"
+                  },
+                  {
+                    "name": "REDIS_CONNECTION_STRING",
+                    "value": ""
                   }
                 ],
                 "resources": {
