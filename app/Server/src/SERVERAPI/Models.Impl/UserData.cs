@@ -113,7 +113,8 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             userData.farmDetails.FarmName = fd.FarmName;
             userData.farmDetails.FarmRegion = fd.FarmRegion;
-            if (fd.HasAnimals && !fd.HasPoultry)
+            if (fd.HasAnimals &&
+                (fd.HasBeefCows || fd.HasDairyCows || fd.HasMixedLiveStock))
             {
                 userData.farmDetails.FarmSubRegion = fd.FarmSubRegion;
             }
