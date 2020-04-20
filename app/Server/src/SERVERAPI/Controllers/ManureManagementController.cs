@@ -2478,6 +2478,22 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public IActionResult ManureNutrientAnalysis()
         {
+            var journey = _ud.FarmDetails().UserJourney;
+
+            if (journey == UserJourney.Crops && !_ud.GetImportedManures().Any())
+            {
+                var referringUrl = HttpContext.Request.Headers["Referer"].ToString();
+                if (referringUrl.Contains("ManureImported"))
+                {
+                    return RedirectToAction("Calculate", "Nutrients");
+                }
+                else if (referringUrl.Contains("Calculate"))
+                {
+                    return RedirectToAction("ManureImported", "ManureManagement");
+                }
+                return RedirectToAction("Calculate", "Nutrients");
+            }
+
             return View();
         }
 
