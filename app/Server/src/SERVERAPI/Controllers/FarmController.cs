@@ -196,7 +196,7 @@ namespace SERVERAPI.Controllers
                 return View(fvm);
             }
 
-            if (fvm.ShowAnimals && fvm.SelRegOption == 0)
+            if (fvm.SelRegOption == 0)
             {
                 ModelState.AddModelError("SelRegOption", "Select a region");
                 return View(fvm);
