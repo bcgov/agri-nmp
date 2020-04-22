@@ -23,6 +23,16 @@ module.exports = (settings) => {
         }
     }));
 
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/redis.dc.yaml`, {
+        'param': {
+            'NAME': phases[phase].name,
+            'SUFFIX': phases[phase].suffix,
+            'VERSION': phases[phase].tag,
+            'REDIS_REPLICAS': phases[phase].redisreplicas,
+            'PERSISTENT_VOLUME_CLASS': phases[phase].persistentVolumeClass
+        }
+    }));    
+
     objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/postgresql.dc.json`, {
         'param': {
             'NAME': phases[phase].name,

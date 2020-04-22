@@ -157,10 +157,7 @@
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}",
-        "annotations": {
-          "volume.beta.kubernetes.io/storage-class": "${PERSISTENT_VOLUME_CLASS}"
-        }
+        "name": "${NAME}-${DATABASE_SERVICE_NAME}${SUFFIX}"
       },
       "spec": {
         "storageClassName": "${PERSISTENT_VOLUME_CLASS}",
