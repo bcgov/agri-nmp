@@ -232,11 +232,7 @@
                   {
                     "name": "WEASYPRINT_URL",
                     "value": "http://${NAME}-weasyprint${SUFFIX}:5001"
-                  },
-                  {
-                    "name": "REDIS_SERVICE_NAME",
-                    "value": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
-                  },                  
+                  },              
                   {
                     "name": "REDIS_PASSWORD",
                     "valueFrom": {
@@ -248,7 +244,7 @@
                   },  
                   {
                     "name": "REDIS_CONNECTION_STRING",
-                    "value": "$REDIS_SERVICE_NAME,password=$REDIS_PASSWORD"
+                    "value": "$(REDIS_SERVICE_NAME),password=$(REDIS_PASSWORD)"
                   },                                  
                   {
                     "name": "KEY_RING_DIRECTORY",

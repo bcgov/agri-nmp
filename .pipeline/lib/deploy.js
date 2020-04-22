@@ -23,7 +23,7 @@ module.exports = (settings) => {
         }
     }));
 
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/redis.dc.yaml`, {
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/redis.dc.json`, {
         'param': {
             'NAME': phases[phase].name,
             'SUFFIX': phases[phase].suffix,
