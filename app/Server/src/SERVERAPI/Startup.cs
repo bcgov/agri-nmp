@@ -244,6 +244,12 @@ namespace SERVERAPI
                 {
                     throw new Exception(@"Redis Connection String ""REDIS_CONNECTION_STRING"" variable not found");
                 }
+                var redistPassword = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
+
+                if (!string.IsNullOrEmpty(redistPassword))
+                {
+                    redisConnection = $"{redisConnection},password ={redistPassword}";
+                }
                 return redisConnection;
             }
         }
