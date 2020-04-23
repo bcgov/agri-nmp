@@ -248,8 +248,9 @@ namespace SERVERAPI
 
                 if (!string.IsNullOrEmpty(redistPassword))
                 {
-                    redisConnection = $"{redisConnection},password ={redistPassword}";
+                    redisConnection = $"{redisConnection},password={redistPassword}";
                 }
+                Console.Write(redisConnection);
                 return redisConnection;
             }
         }
