@@ -51,7 +51,8 @@ namespace SERVERAPI.Controllers
             fvm.SelRegOption = farmData.FarmRegion;
             fvm.SelSubRegOption = farmData.FarmSubRegion;
 
-            if (farmData.HasAnimals && !farmData.HasPoultry)
+            if (farmData.HasAnimals &&
+                (farmData.HasBeefCows || farmData.HasDairyCows || farmData.HasMixedLiveStock))
             {
                 fvm = SetSubRegions(fvm);
             }
@@ -195,7 +196,7 @@ namespace SERVERAPI.Controllers
                 return View(fvm);
             }
 
-            if (fvm.ShowAnimals && fvm.SelRegOption == 0)
+            if (fvm.SelRegOption == 0)
             {
                 ModelState.AddModelError("SelRegOption", "Select a region");
                 return View(fvm);
@@ -305,24 +306,35 @@ namespace SERVERAPI.Controllers
         [HttpGet]
         public object CheckCompleted()
         {
-            var regionId = _ud.FarmDetails().FarmRegion;
-            var regionsIncomplete = !regionId.HasValue;
+            var journey = _ud.FarmDetails().UserJourney;
+            //fvm.HasBeefCows || fvm.HasDairyCows || fvm.HasMixedLiveStock
+            var regionsIncomplete = false;
 
-            if (regionId.HasValue)
+            if (journey != Agri.Models.UserJourney.Crops)
             {
-                regionsIncomplete = _sd.GetRegion(regionId.Value) == null;
-            }
+                var regionId = _ud.FarmDetails().FarmRegion;
+                regionsIncomplete = !regionId.HasValue;
 
-            if (!regionsIncomplete)
-            {
-                var subRegionId = _ud.FarmDetails().FarmSubRegion;
-                if (subRegionId.HasValue)
+                if (regionId.HasValue)
                 {
-                    regionsIncomplete = _sd.GetSubRegion(subRegionId.Value) == null;
+                    regionsIncomplete = _sd.GetRegion(regionId.Value) == null;
                 }
-                else
+
+                if (!regionsIncomplete &&
+                    (journey == Agri.Models.UserJourney.Dairy ||
+                        journey == Agri.Models.UserJourney.Mixed ||
+                        journey == Agri.Models.UserJourney.Ranch)
+                    )
                 {
-                    regionsIncomplete = true;
+                    var subRegionId = _ud.FarmDetails().FarmSubRegion;
+                    if (subRegionId.HasValue)
+                    {
+                        regionsIncomplete = _sd.GetSubRegion(subRegionId.Value) == null;
+                    }
+                    else
+                    {
+                        regionsIncomplete = true;
+                    }
                 }
             }
 
