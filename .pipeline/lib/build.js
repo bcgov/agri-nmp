@@ -35,16 +35,6 @@ module.exports = (settings) => {
         }
     }));
 
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-node.bc.json`, {
-        'param': {
-            'NAME': phases[phase].name,
-            'SUFFIX': phases[phase].suffix,
-            'VERSION': phases[phase].tag,
-            'SOURCE_REPOSITORY_URL': oc.git.http_url,
-            'GIT_REF': oc.git.ref
-        }
-    }));
-
     objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/nmp.bc.json`, {
         'param': {
             'NAME': phases[phase].name,
