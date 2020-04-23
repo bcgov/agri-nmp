@@ -1,0 +1,261 @@
+{
+    "apiVersion": "v1",
+    "kind": "Template",
+    "labels": {
+      "template": "redis-template"
+    },
+    "metadata": {
+      "creationTimestamp": null,
+      "name": "nmp-redis-dc"
+    },
+    "parameters": [
+        {
+            "name": "NAME",
+            "displayName": "Name",
+            "description": "The name or prefix for all created objects",
+            "required": true,
+            "value": "nmp"
+        },
+        {
+            "name": "SUFFIX",
+            "description": "The suffix for all created objects",
+            "required": false,
+            "value": ""
+        },    
+        {
+            "name": "VERSION",
+            "displayName": "Tag Version",
+            "description": "Tag version for all created objects",
+            "required": true,
+            "value": ""
+        },
+        {
+            "name": "REDIS_REPLICAS",
+            "displayName": "Number of Replicas for REDIS",
+            "description": "Number of Replicas for REDIS",
+            "value": "1"
+        },
+        {
+            "description": "The name of the OpenShift Service exposed for the database.",
+            "displayName": "Database Service Name",
+            "name": "REDIS_SERVICE_NAME",
+            "required": true,
+            "value": "redis"
+        },
+        {
+            "description": "Password for the Redis DB",
+            "displayName": "Password for the Redis DB",
+            "from": "[a-zA-Z0-9]{16}",
+            "generate": "expression",
+            "name": "REDIS_PASSWORD",
+            "required": true
+        },
+        {
+            "name": "CPU_LIMIT",
+            "value": "500m"
+        },
+        {
+            "description": "Maximum amount of memory the container can use.",
+            "displayName": "Memory Limit",
+            "name": "MEMORY_LIMIT",
+            "required": true,
+            "value": "2Gi"
+        },
+        {
+            "name": "PERSISTENT_VOLUME_SIZE",
+            "displayName": "Persistent Volume Size",
+            "description": "The size of the persistent volume , e.g. 512Mi, 1Gi, 2Gi.",
+            "required": true,
+            "value": "512Mi"
+        },
+        {
+            "name": "PERSISTENT_VOLUME_CLASS",
+            "displayName": "Persistent Volume Class name",
+            "description": "The class of the volume; gluster-file, gluster-block, gluster-file-db, netapp-file-standard, netapp-block-standard",
+            "required": false,
+            "value": "netapp-file-standard"
+        },
+        {
+            "name": "CPU_REQUEST",
+            "value": "200m"
+        },
+        {
+            "name": "MEMORY_REQUEST",
+            "value": "1.5Gi"
+        }       
+    ],
+    "objects": [
+        {
+            "apiVersion": "v1",
+            "kind": "Secret",
+            "metadata": {
+                "name": "${NAME}-${REDIS_SERVICE_NAME}-credentials${SUFFIX}"
+            },
+            "stringData": {
+                "password": "${REDIS_PASSWORD}"
+            }
+        },   
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "name": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "storageClassName": "${PERSISTENT_VOLUME_CLASS}",
+                "resources": {
+                    "requests": {
+                        "storage": "${PERSISTENT_VOLUME_SIZE}"
+                    }
+                }
+            }
+        },                   
+        {
+            "apiVersion": "v1",
+            "kind": "DeploymentConfig",
+            "metadata": {
+                "name": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
+            },
+            "spec": {
+                "replicas": "${{REDIS_REPLICAS}}",
+                "selector": {
+                    "name": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
+                },
+                "strategy": {
+                    "resources": {},
+                    "type": "Rolling"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "name": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "image": "registry.redhat.io/rhscl/redis-5-rhel7",
+                                "imagePullPolicy": "IfNotPresent",
+                                "livenessProbe": {
+                                    "exec": {
+                                        "command": [
+                                            "/bin/sh",
+                                            "-i",
+                                            "-c",
+                                            "test \"$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)\" == \"PONG\""
+                                        ]
+                                    },
+                                    "failureThreshold": 3,
+                                    "initialDelaySeconds": 30,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "name": "redis",
+                                "ports": [
+                                    {
+                                        "containerPort": 6379,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "exec": {
+                                        "command": [
+                                            "/bin/sh",
+                                            "-i",
+                                            "-c",
+                                            "test \"$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)\" == \"PONG\""
+                                        ]
+                                    },
+                                    "failureThreshold": 3,
+                                    "initialDelaySeconds": 5,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "resources": {
+                                    "requests": {
+                                      "cpu": "${CPU_REQUEST}",
+                                      "memory": "${MEMORY_REQUEST}"
+                                    },
+                                    "limits": {
+                                      "cpu": "${CPU_LIMIT}",
+                                      "memory": "${MEMORY_LIMIT}"
+                                    }
+                                },
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/lib/redis/data",
+                                        "name": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}-data"
+                                    }
+                                ],
+                                "env": [
+                                    {
+                                        "name": "REDIS_PASSWORD",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "key": "password",
+                                                "name": "${NAME}-${REDIS_SERVICE_NAME}-credentials${SUFFIX}"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "volumes": [
+                            {
+                                "name": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}-data",
+                                "persistentVolumeClaim": {
+                                    "claimName": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
+                                }
+                            }
+                        ]
+                    }
+                },
+                "test": false,
+                "triggers": [
+                    {
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "redis"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "${NAME}-redis-5-rhel7:5-20",
+                                "namespace": "agri-nmp-tools"
+                            }
+                        },
+                        "type": "ImageChange"
+                    },
+                    {
+                        "type": "ConfigChange"
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "name": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "6379-tcp",
+                        "port": 6379,
+                        "protocol": "TCP",
+                        "targetPort": 6379
+                    }
+                ],
+                "selector": {
+                    "name": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
+                }
+            }
+        }
+    ]   
+}

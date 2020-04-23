@@ -1,0 +1,61 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "redis",
+        "creationTimestamp": null
+    },
+    "parameters": [
+        {
+            "name": "NAME",
+            "displayName": "Name",
+            "description": "The name or prefix for all created objects",
+            "required": true,
+            "value": "nmp"
+        },
+        {
+            "name": "SUFFIX",
+            "displayName": "Name Suffix",
+            "description": "The name suffix for all created objects",
+            "required": true,
+            "value": ""
+        },
+        {
+            "name": "VERSION",
+            "displayName": "Tag Version",
+            "description": "Tag version for all created objects",
+            "required": true,
+            "value": ""
+        }
+    ],
+    "objects": [
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${NAME}-redis-5-rhel7",
+                "creationTimestamp": null,
+                "annotations": null
+            },
+            "spec": {
+                "lookupPolicy": {
+                    "local": false
+                },
+                "tags": [
+                    {
+                        "name": "5-20",
+                        "annotations": null,
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "registry.redhat.io/rhscl/redis-5-rhel7:5-20"
+                        },
+                        "importPolicy": {},
+                        "referencePolicy": {
+                            "type": "Source"
+                        }                   
+                    }
+                ]
+            }
+        }
+    ]
+}

@@ -72,6 +72,8 @@ Where `<SECRETNAME>` is the name you specified in step 7 when you imported the s
 
 10) Adjust your builds to use this imported image
 
+Note: For the Agri project, the pull secret is in the agri-nmp-tools namespace. It can't be shared with any other namespace. This is why you will see redis image stream being created in the agri-nmp-tools namespace and then this namespace being referenced in the deployment scripts which will run in other namespaces.
+
 
 License
 -------
