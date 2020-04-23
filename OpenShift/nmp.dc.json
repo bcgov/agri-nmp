@@ -72,7 +72,7 @@
       "name": "REDIS_SERVICE_NAME",
       "required": true,
       "value": "redis"
-    }    
+    }
   ],
   "objects": [
     {
@@ -232,7 +232,7 @@
                   {
                     "name": "WEASYPRINT_URL",
                     "value": "http://${NAME}-weasyprint${SUFFIX}:5001"
-                  },              
+                  },
                   {
                     "name": "REDIS_PASSWORD",
                     "valueFrom": {
@@ -241,11 +241,11 @@
                         "key": "password"
                       }
                     }
-                  },  
+                  },
                   {
                     "name": "REDIS_CONNECTION_STRING",
-                    "value": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX},password=$(REDIS_PASSWORD)"
-                  },                                  
+                    "value": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX},password=${REDIS_PASSWORD}"
+                  },
                   {
                     "name": "KEY_RING_DIRECTORY",
                     "value": "/var/dp_keys"
