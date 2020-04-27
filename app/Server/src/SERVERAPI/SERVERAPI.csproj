@@ -28,9 +28,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Web.RedisSessionStateProvider" Version="4.0.1" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
     <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="Redis-64" Version="3.0.503" />
+    <PackageReference Include="StackExchange.Redis" Version="2.1.30" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="PDF.js">

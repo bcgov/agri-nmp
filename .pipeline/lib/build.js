@@ -19,7 +19,7 @@ module.exports = (settings) => {
         }
     }));
 
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet.bc.json`, {
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/redis.bc.json`, {
         'param': {
             'NAME': phases[phase].name,
             'SUFFIX': phases[phase].suffix,
@@ -27,13 +27,11 @@ module.exports = (settings) => {
         }
     }));
 
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet-node.bc.json`, {
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/dotnet.bc.json`, {
         'param': {
             'NAME': phases[phase].name,
             'SUFFIX': phases[phase].suffix,
             'VERSION': phases[phase].tag,
-            'SOURCE_REPOSITORY_URL': oc.git.http_url,
-            'GIT_REF': oc.git.ref
         }
     }));
 

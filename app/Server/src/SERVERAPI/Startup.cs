@@ -5,6 +5,7 @@ using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -12,7 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using SERVERAPI.Controllers;
@@ -21,6 +21,7 @@ using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using System;
 using System.Globalization;
+using System.IO;
 
 namespace SERVERAPI
 {
@@ -77,13 +78,19 @@ namespace SERVERAPI
                 options.MultipartBodyLengthLimit = 1073741824; // 1 GB
             });
             services.AddResponseCompression();
-            services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
                 options.Cookie.HttpOnly = true;
                 options.Cookie.Name = ".NMP.Session";
                 options.IdleTimeout = TimeSpan.FromHours(4);
+            });
+
+            //Add distributed cache service backed by Redis cache
+            services.AddDistributedRedisCache(options =>
+            {
+                //options.InstanceName = Configuration.GetValue<string>("redis:name");
+                options.Configuration = GetRedisConnectionString();
             });
 
             //Automapper
@@ -118,6 +125,19 @@ namespace SERVERAPI
                         opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                         opts.SerializerSettings.StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii;
                     });
+
+            var keyRingPath = Configuration.GetValue("KEY_RING_DIRECTORY", string.Empty);
+            var dpBuilder = services.AddDataProtection();
+
+            if (!string.IsNullOrEmpty(keyRingPath))
+            {
+                Console.Write($"Setting data protection keys to persist in {keyRingPath}");
+                dpBuilder.PersistKeysToFileSystem(new DirectoryInfo(keyRingPath));
+            }
+            else
+            {
+                Console.Write("data protection key folder is not set, check if KEY_RING_DIRECTORY env var is missing");
+            }
 
             services.AddScoped<UserData>();
             services.AddTransient<BrowserData>();
@@ -208,6 +228,29 @@ namespace SERVERAPI
                 }
 
                 return $"Server={server};Database={database};Username={username};Password={password}";
+            }
+        }
+
+        private string GetRedisConnectionString()
+        {
+            if (_hostingEnv.IsDevelopment())
+            {
+                return Configuration["Redis:ConnectionString"];
+            }
+            else
+            {
+                var redisConnection = Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING");
+                if (string.IsNullOrEmpty(redisConnection))
+                {
+                    throw new Exception(@"Redis Connection String ""REDIS_CONNECTION_STRING"" variable not found");
+                }
+                var redisPassword = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
+
+                if (!string.IsNullOrEmpty(redisPassword))
+                {
+                    redisConnection = $"{redisConnection},password={redisPassword}";
+                }
+                return redisConnection;
             }
         }
 
