@@ -244,13 +244,13 @@ namespace SERVERAPI
                 {
                     throw new Exception(@"Redis Connection String ""REDIS_CONNECTION_STRING"" variable not found");
                 }
-                var redistPassword = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
+                var redisPassword = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
 
-                if (!string.IsNullOrEmpty(redistPassword))
+                if (!string.IsNullOrEmpty(redisPassword))
                 {
-                    redisConnection = $"{redisConnection},password={redistPassword}";
+                    redisConnection = $"{redisConnection},password={redisPassword}";
                 }
-                Console.Write(redisConnection);
+                Console.WriteLine($"Redis Connection: {redisConnection}");
                 return redisConnection;
             }
         }
