@@ -250,7 +250,6 @@ namespace SERVERAPI
                 {
                     redisConnection = $"{redisConnection},password={redisPassword}";
                 }
-                Console.WriteLine($"Redis Connection: {redisConnection}");
                 return redisConnection;
             }
         }
