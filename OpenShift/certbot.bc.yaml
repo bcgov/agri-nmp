@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Template
+metadata: 
+  creationTimestamp: null
+  name: certbot
+
+parameters:
+  - name: 'SOURCE_REPOSITORY_URL'
+    required: false
+    value: "https://github.com/bcgov/agri-nmp.git"
+  - name: 'GIT_REF'
+    required: false
+    value: "master"   
+
+objects:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: certbot
+    name: rhel7
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: registry.access.redhat.com/rhel7:7.8-265
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/rhel7:7.8-265
+      generation: null
+      importPolicy: {}
+      name: 7.8-265
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: certbot
+    name: certbot
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: certbot
+    name: certbot
+  spec:
+    nodeSelector: null
+    completionDeadlineSeconds: 300
+    output:
+      to:
+        kind: ImageStreamTag
+        name: certbot:latest
+    postCommit: {}
+    resources:
+      requests:
+        cpu: 1
+      limits:
+        cpu: 1
+    source:
+      contextDir: .certbot
+      git:
+        uri: ${SOURCE_REPOSITORY_URL}
+        ref: ${GIT_REF}
+      type: Git
+    strategy:
+      dockerStrategy:
+        from:
+          kind: ImageStreamTag
+          name: rhel7:7.8-265
+      type: Docker
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
