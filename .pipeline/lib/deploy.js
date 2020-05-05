@@ -14,6 +14,16 @@ module.exports = (settings) => {
     var objects = []
 
     // The deployment of your cool app goes here ▼▼▼
+    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/certbot.dc.yaml`, {
+        'param': {
+            'EMAIL': 'rajvir.bains@gov.bc.ca', //must be a valid email
+            'IMAGE': 'agri-nmp-tools/certbot:latest',
+            'CERTBOT_STAGING': 'false',
+            'DEBUG': 'false',
+            'DELETE_ACME_ROUTES': 'true'
+        }
+    }));    
+    
     objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/weasyprint-dc.json`, {
         'param': {
             'NAME': phases[phase].name,
@@ -48,7 +58,8 @@ module.exports = (settings) => {
             'VERSION': phases[phase].tag,
             'HOST': phases[phase].host,
             'NMP_REPLICAS': phases[phase].nmpreplicas,
-            'MS_TEAMS_WEBHOOK_URL': msTeamsWebhookURL
+            'MS_TEAMS_WEBHOOK_URL': msTeamsWebhookURL,
+            'CERTBOT_MANAGED_AUTO_CERT_RENEWAL': phases[phase].certbotManaged
         }
     }));
 

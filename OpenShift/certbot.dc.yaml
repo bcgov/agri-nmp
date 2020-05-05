@@ -1,0 +1,115 @@
+apiVersion: v1
+kind: Template
+metadata: 
+  creationTimestamp: null
+  name: certbot
+parameters:
+  - name: 'EMAIL'
+    required: true
+  - name: 'IMAGE'
+    required: true
+  - name: 'DEBUG'
+    required: false
+    value: "false"
+  - name: 'DELETE_ACME_ROUTES'
+    required: false
+    value: "true"
+  - name: 'CERTBOT_STAGING'
+    required: false
+    value: "false"
+
+objects:
+- apiVersion: v1
+  kind: ServiceAccount
+  metadata:
+    labels:
+      app: certbot
+    creationTimestamp: null
+    name: certbot
+- apiVersion: v1
+  groupNames: null
+  kind: RoleBinding
+  metadata:
+    labels:
+      app: certbot
+    creationTimestamp: null
+    name: certbot_edit
+  roleRef:
+    name: edit
+  subjects:
+  - kind: ServiceAccount
+    name: certbot
+#PVC
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    labels:
+      app: certbot
+    creationTimestamp: null
+    name: certbot
+  spec:
+    storageClassName: netapp-file-standard
+    accessModes:
+      - ReadWriteMany
+    resources:
+      requests:
+        storage: 1Gi
+  status: {}
+#CROBJOB
+- apiVersion: batch/v1beta1
+  kind: CronJob
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: certbot
+    name: certbot
+  spec:
+    concurrencyPolicy: Replace
+    failedJobsHistoryLimit: 3
+    successfulJobsHistoryLimit: 3
+    startingDeadlineSeconds: 60
+    jobTemplate:
+      metadata:
+        creationTimestamp: null
+      spec:
+        backoffLimit: 6
+        activeDeadlineSeconds: 300
+        parallelism: 1
+        completions: 1
+        template:
+          metadata:
+            creationTimestamp: null
+            labels:
+              app: certbot
+          spec:
+            containers:
+            - name: certbot
+              image: ${IMAGE}
+              imagePullPolicy: Always
+              env:
+                - name: CERTBOT_EMAIL
+                  value: '${EMAIL}'
+                - name: CERTBOT_DEBUG
+                  value: '${DEBUG}'
+                - name: CERTBOT_DELETE_ACME_ROUTES
+                  value: '${DELETE_ACME_ROUTES}'                                    
+                - name: CERTBOT_STAGING
+                  value: '${CERTBOT_STAGING}'  
+              resources:
+                requests:
+                  cpu: 100m
+                limits:
+                  cpu: 200m
+              volumeMounts:
+                - mountPath: /etc/letsencrypt
+                  name: certbot-config
+            restartPolicy: Never
+            serviceAccountName: certbot
+            volumes:
+              - name: certbot-config
+                persistentVolumeClaim:
+                  claimName: certbot
+    # https://crontab.guru/every-6-hours                  
+    schedule: '0 18 * * *'
+  status: {}
+#end cron job
