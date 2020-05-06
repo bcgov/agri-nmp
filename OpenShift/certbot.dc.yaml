@@ -4,19 +4,35 @@ metadata:
   creationTimestamp: null
   name: certbot
 parameters:
-  - name: 'EMAIL'
-    required: true
-  - name: 'IMAGE'
-    required: true
+    # https://crontab.guru/every-6-hours 
+  - name: 'CERTBOT_CRON_SCHEDULE'
+    required: false
+    value: "0 */6 * * *"
+    # Let's Encrypt Stage environment will help with non-prod cert renewals, so you don't limits
+  - name: 'CERTBOT_STAGING'
+    required: false
+    value: "false"
+    # in environments using wildcard *.pathfinder cert, you might want to create the cronjob for consistency, but suspend it
+  - name: 'CERTBOT_SUSPEND_CRON'
+    required: false
+    value: "false"
   - name: 'DEBUG'
     required: false
     value: "false"
   - name: 'DELETE_ACME_ROUTES'
     required: false
     value: "true"
-  - name: 'CERTBOT_STAGING'
+  - name: 'EMAIL'
+    required: true
+  - name: 'IMAGE_NAMESPACE'
+    required: true
+    value: ""
+  - name: 'SOURCE_IMAGE_NAME'
     required: false
-    value: "false"
+    value: "certbot"
+  - name: 'TAG_NAME'
+    required: false
+    value: "latest"    
 
 objects:
 - apiVersion: v1
@@ -84,7 +100,7 @@ objects:
           spec:
             containers:
             - name: certbot
-              image: ${IMAGE}
+              image: "docker-registry.default.svc:5000/${IMAGE_NAMESPACE}/${SOURCE_IMAGE_NAME}:${TAG_NAME}"
               imagePullPolicy: Always
               env:
                 - name: CERTBOT_EMAIL
@@ -103,13 +119,13 @@ objects:
               volumeMounts:
                 - mountPath: /etc/letsencrypt
                   name: certbot-config
-            restartPolicy: Never
+            restartPolicy: Never      
             serviceAccountName: certbot
             volumes:
               - name: certbot-config
                 persistentVolumeClaim:
-                  claimName: certbot
-    # https://crontab.guru/every-6-hours                  
-    schedule: '0 18 * * *'
+                  claimName: certbot               
+    schedule: '${CERTBOT_CRON_SCHEDULE}'
+    suspend: '${{CERTBOT_SUSPEND_CRON}}'
   status: {}
 #end cron job

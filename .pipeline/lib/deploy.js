@@ -16,11 +16,10 @@ module.exports = (settings) => {
     // The deployment of your cool app goes here ▼▼▼
     objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/certbot.dc.yaml`, {
         'param': {
-            'EMAIL': 'rajvir.bains@gov.bc.ca', //must be a valid email
-            'IMAGE': 'agri-nmp-tools/certbot:latest',
-            'CERTBOT_STAGING': 'false',
-            'DEBUG': 'false',
-            'DELETE_ACME_ROUTES': 'true'
+            'EMAIL': phases[phase].email, //must be a valid email
+            'IMAGE_NAMESPACE': phases[phase].imageNamespace,
+            'CERTBOT_CRON_SCHEDULE': phases[phase].certbotCronSchedule,
+            'CERTBOT_SUSPEND_CRON': phases[phase].suspendCron
         }
     }));    
     
