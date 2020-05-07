@@ -24,4 +24,7 @@ RUN set -x && \
 
 COPY oc-deploy-certs.sh /usr/local/bin/oc-deploy-certs.sh
 
+RUN set -x && \
+    chmod +x /usr/local/bin/oc-deploy-certs.sh
+
 ENTRYPOINT ["/usr/local/bin/oc-deploy-certs.sh"]
