@@ -17,31 +17,11 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "deploy to BUILD env",
+            "name": "deploy to DEV env",
             "cwd":"${workspaceFolder}/.pipeline",
             "program": "${workspaceFolder}/.pipeline/deploy.js",
             "env": {"DEBUG":"*"},
-            "args": ["--pr=0","--env=build"],
-            "console": "integratedTerminal"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "build-PR-405",
-            "cwd":"${workspaceFolder}/.pipeline",
-            "program": "${workspaceFolder}/.pipeline/build.js",
-            "env": {"DEBUG":"*"},
-            "args": ["--pr=405","--dev-mode=true"],
-            "console": "integratedTerminal"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "deploy-PR-405",
-            "cwd":"${workspaceFolder}/.pipeline",
-            "program": "${workspaceFolder}/.pipeline/deploy.js",
-            "env": {"DEBUG":"*"},
-            "args": ["--pr=405","--env=dev","--dev-mode=true"],
+            "args": ["--pr=0","--env=dev"],
             "console": "integratedTerminal"
         }
     ]
