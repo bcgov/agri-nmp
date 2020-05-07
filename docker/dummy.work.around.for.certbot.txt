@@ -1,0 +1,6 @@
+there is a a bug in bcdk and this dummy file gets around a the failure below.
+
+buildconfig.build.openshift.io/nmp-web-build-521
+Error: Failed running 'git rev-parse HEAD:docker' as it returned 128
+    at Object.execSync (/var/lib/jenkins/nmp-jenkins-build-4-t8x4w/workspace/nmp_PR-521/.pipeline/node_modules/pipeline-cli/lib/util.js:125:11)
+    at OpenShiftClientX.startBuildIfNeeded (/var/lib/jenkins/nmp-jenkins-build-4-t8x4w/workspace/nmp_PR-521/.pipeline/node_modules/pipeline-cli/lib/OpenShiftClientX.js:328:10)
