@@ -3,7 +3,15 @@ kind: Template
 metadata: 
   creationTimestamp: null
   name: certbot
-  
+
+parameters:
+  - name: 'SOURCE_REPOSITORY_URL'
+    required: false
+    value: "https://github.com/bcgov/agri-nmp.git"
+  - name: 'GIT_REF'
+    required: false
+    value: "master"   
+
 objects:
 - apiVersion: v1
   kind: ImageStream
@@ -67,9 +75,10 @@ objects:
       limits:
         cpu: 1
     source:
-      contextDir: docker
+      contextDir: .certbot
       git:
-        uri: https://github.com/BCDevOps/certbot.git
+        uri: ${SOURCE_REPOSITORY_URL}
+        ref: ${GIT_REF}
       type: Git
     strategy:
       dockerStrategy:

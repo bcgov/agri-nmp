@@ -12,6 +12,8 @@ module.exports = (settings) => {
 
     objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/certbot.bc.yaml`, {
         'param': {
+            'SOURCE_REPOSITORY_URL': oc.git.http_url,
+            'GIT_REF': oc.git.ref
         }
     }));
 
