@@ -1,4 +1,9 @@
-# Renewing the Cert
+# Automated Certificate Renewals
+Agri uses wildcard pathfinder cert for non-prod environments, so no cert renewals are needed. For prod, Certbot is deployed from https://github.com/BCDevOps/certbot.git. See the build and deploy yaml files. These yaml files are borrowed from BCDevOps Certbot repo and shouldn't be customized. Instead make any improvements in the BCDevOps Certbot repo and contribute it back to the community.
+
+There are detailed instructions on troubleshooting certbot issues in the BCDevOps Certbot repo.
+
+# Manually Renewing the Cert (these are the old instructions, just kept here for emergencies, in case automated process stalls)
 
 The following are the current (as of Dec. 2018) steps for renewing the SSL Certs for the OpenShift instance of the app. A user with full admin access to the production project must perform the following steps.  It's likely these steps can be automated, but that has not been done.
 
