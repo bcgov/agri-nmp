@@ -2053,6 +2053,7 @@ namespace SERVERAPI.Controllers
                     reportFeedingArea = await RenderSeasonalFeedAreaSummary();
                     reportFields = await RenderFields();
                     reportManureUse = await RenderManureUse();
+                    reportManureCompostInventory = await RenderManureCompostInventory();
                     reportCropManure = await RenderCropManureUse();
                     reportBeefManureUse = await RenderBeefManureUse();
                     reportPoultryManureUse = await RenderPoultryManureUse();
