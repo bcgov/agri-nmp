@@ -78,6 +78,7 @@ namespace SERVERAPI
                 options.MultipartBodyLengthLimit = 1073741824; // 1 GB
             });
             services.AddResponseCompression();
+            services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
@@ -86,12 +87,12 @@ namespace SERVERAPI
                 options.IdleTimeout = TimeSpan.FromHours(4);
             });
 
+            //Re-enable When a stable redis cache solution has been determined
             //Add distributed cache service backed by Redis cache
-            services.AddDistributedRedisCache(options =>
-            {
-                //options.InstanceName = Configuration.GetValue<string>("redis:name");
-                options.Configuration = GetRedisConnectionString();
-            });
+            //services.AddDistributedRedisCache(options =>
+            //{
+            //    options.Configuration = GetRedisConnectionString();
+            //});
 
             //Automapper
             services.AddAutoMapper(typeof(Startup));
