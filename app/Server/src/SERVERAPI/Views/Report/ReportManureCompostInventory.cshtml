@@ -11,7 +11,7 @@
     </div>
     <div class="Row">
         <div class="Cell">
-            <table style="border-collapse: collapse;">
+            <table style="border-collapse: collapse;width:100%;page-break-inside:avoid;">
                 <tr style="padding-top:20px; padding-bottom:20px">
                     <td class="CellHdg">
                         Material
@@ -23,26 +23,26 @@
                 @foreach (var s in Model.storages)
                 {
                     <tr>
-                        <td class="CellDtl" style="width:300px;font-weight:bold">Material in @s.storageSystemName</td>
-                        <td class="CellDtl" style="width:300px;text-align:right;font-weight:bold">@s.annualAmountOfManurePerStorage</td>
-                        <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold">@s.units</td>
+                        <td class="CellDtl" style="width:40%;font-weight:bold">Material in @s.storageSystemName</td>
+                        <td class="CellDtl" style="width:40%;text-align:right;font-weight:bold">@s.annualAmountOfManurePerStorage</td>
+                        <td class="CellDtl" style="text-align:left; width:20%;font-weight:bold">@s.units</td>
                     </tr>
 
                     if (@s.reportManures.Count() > 0)
                     {
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:10px">Animal manure</td>
-                            <td class="CellDtl" style="text-align:left; width:80px"></td>
-                            <td class="CellDtl" style="text-align:left; width:80px"></td>
+                            <td class="CellDtl" style="text-align:left; padding-left:10px">Animal manure</td>
+                            <td class="CellDtl" style="text-align:left;"></td>
+                            <td class="CellDtl" style="text-align:left;"></td>
                         </tr>
                     }
 
                     foreach (var m in @s.reportManures)
                     {
                         <tr>
-                            <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">@m.animalManure</td>
-                            <td class="CellDtl" style="text-align:right; width:80px"> @string.Format("{0:#,0}", @m.annualAmount)</td>
-                            <td class="CellDtl" style="text-align:left; width:80px">@m.units</td>
+                            <td class="CellDtl" style="text-align:left;;padding-left:30px;">@m.animalManure</td>
+                            <td class="CellDtl" style="text-align:right;"> @string.Format("{0:#,0}", @m.annualAmount)</td>
+                            <td class="CellDtl" style="text-align:left;">@m.units</td>
                         </tr>
                     }
 
@@ -50,26 +50,26 @@
                     @if (@s.milkingCenterWashWater != null)
                      {
                          <tr>
-                             <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Milking Center Wash Water<sup>@s.footnote</sup></td>
-                             <td class="CellDtl" style="text-align:right;width:300px;">@s.milkingCenterWashWater</td>
-                             <td class="CellDtl" style="text-align:left;width:300px;">US gallons</td>
+                             <td class="CellDtl" style="text-align:left;padding-left:10px">Milking Center Wash Water<sup>@s.footnote</sup></td>
+                             <td class="CellDtl" style="text-align:right;">@s.milkingCenterWashWater</td>
+                             <td class="CellDtl" style="text-align:left;">US gallons</td>
                          </tr>
                      }
                     @if (@s.precipitation != "0")
                      {
                          <tr>
-                             <td class="CellDtl" style="text-align:left;width:300px;padding-left:10px">Precipitation</td>
-                             <td class="CellDtl" style="text-align:right;width:300px;">@s.precipitation</td>
-                             <td class="CellDtl" style="text-align:left;width:300px;">@s.units</td>
+                             <td class="CellDtl" style="text-align:left;padding-left:10px">Precipitation</td>
+                             <td class="CellDtl" style="text-align:right;">@s.precipitation</td>
+                             <td class="CellDtl" style="text-align:left;">@s.units</td>
                          </tr>
                      }
 
                     @if (!@s.Equals(Model.storages.Last()))
                      {
                          <tr>
-                             <td class="CellDtl" style="width:300px;height:10px;"></td>
-                             <td class="CellDtl" style="width:300px;"></td>
-                             <td class="CellDtl" style="width:300px;"></td>
+                             <td class="CellDtl" style="height:10px;"></td>
+                             <td class="CellDtl" style=""></td>
+                             <td class="CellDtl" style=""></td>
                          </tr>
                      }
                 }
@@ -77,23 +77,23 @@
                 @if (Model.unstoredManures.Count > 0)
                 {
                     <tr>
-                        <td class="CellDtl" style="width:300px;height:10px;"></td>
-                        <td class="CellDtl" style="width:300px;"></td>
-                        <td class="CellDtl" style="width:300px;"></td>
+                        <td class="CellDtl" style="height:10px;"></td>
+                        <td class="CellDtl" style=""></td>
+                        <td class="CellDtl" style=""></td>
                     </tr>
                     <tr>
-                        <td class="CellDtl" style="width:300px;font-weight:bold">Material not Stored</td>
-                        <td class="CellDtl" style="width:300px;text-align:right;font-weight:bold"></td>
-                        <td class="CellDtl" style="text-align:left; width:80px;font-weight:bold"></td>
+                        <td class="CellDtl" style="font-weight:bold">Material not Stored</td>
+                        <td class="CellDtl" style="text-align:right;font-weight:bold"></td>
+                        <td class="CellDtl" style="text-align:left;font-weight:bold"></td>
                     </tr>
                 }
 
                 @foreach (var um in Model.unstoredManures)
                 {
                     <tr>
-                        <td class="CellDtl" style="text-align:left; width:80px;padding-left:30px;">@um.animalManure</td>
-                        <td class="CellDtl" style="text-align:right; width:80px"> @string.Format("{0:#,0}", @um.annualAmount)</td>
-                        <td class="CellDtl" style="text-align:left; width:80px">@um.units</td>
+                        <td class="CellDtl" style="text-align:left; padding-left:30px;">@um.animalManure</td>
+                        <td class="CellDtl" style="text-align:right;"> @string.Format("{0:#,0}", @um.annualAmount)</td>
+                        <td class="CellDtl" style="text-align:left;">@um.units</td>
                     </tr>
                 }
 
