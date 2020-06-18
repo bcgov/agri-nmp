@@ -1144,6 +1144,7 @@ namespace SERVERAPI.Models.Impl
                 RemoveFarmManuresRelatedToManureStorageSystem(yd, updatedSystem);
                 deleteStorageForSeparatedManure = true;
             }
+            ProcessOctoberToMarchVolumes(savedSystem);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
             ProcessSeparatedManureForStorageSystem(updatedSystem, deleteStorageForSeparatedManure);
         }
@@ -1174,6 +1175,37 @@ namespace SERVERAPI.Models.Impl
             _mapper.Map(separatedSolidManure, savedSeparatedSolidManure);
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        private void ProcessOctoberToMarchVolumes(ManureStorageSystem sourceManureStorageSystem)
+        {
+            if (sourceManureStorageSystem.ManureMaterialType == ManureMaterialType.Liquid)
+            {
+                var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+                var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
+
+                var materialVolumes = 0m;
+                foreach (var manure in sourceManureStorageSystem.MaterialsIncludedInSystem)
+                {
+                    if (manure.ManureId.Contains("Generated"))
+                    {
+                        var manureGenerated = GetGeneratedManure(manure.Id.GetValueOrDefault());
+                        materialVolumes += manureGenerated.annualAmountDecimal;
+                        if (manureGenerated.washWaterGallons != 0)
+                        {
+                            materialVolumes += manureGenerated.washWaterGallons;
+                        }
+                    }
+                    else if (manure.ManureId.Contains("Imported"))
+                    {
+                        var manureImported = GetImportedManure(manure.Id.GetValueOrDefault());
+                        materialVolumes += manureImported.AnnualAmount;
+                    }
+                }
+
+                sourceManureStorageSystem.OctoberToMarchManagedManures =
+                    (materialVolumes / 365) * 182;
+            }
         }
 
         private void ProcessSeparatedManureForStorageSystem(ManureStorageSystem sourceManureStorageSystem,
