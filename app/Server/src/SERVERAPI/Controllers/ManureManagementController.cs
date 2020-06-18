@@ -1789,8 +1789,11 @@ namespace SERVERAPI.Controllers
             if (manureStorageSystem.ManureMaterialType == ManureMaterialType.Liquid)
             {
                 manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons = msdvm.OctoberToMarchSeparatedLiquidUSGallons;
-                manureStorageSystem.OctoberToMarchRunoff = msdvm.OctoberToMarchRunoff;
-                manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitationStorageSystem;
+                if (!msdvm.IsStructureCovered)
+                {
+                    manureStorageSystem.OctoberToMarchRunoff = msdvm.OctoberToMarchRunoff;
+                    manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitationStorageSystem;
+                }
                 manureStorageSystem.OctoberToMarchManagedManures = msdvm.OctoberToMarchManagedManures;
             }
 
