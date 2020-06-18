@@ -104,6 +104,7 @@ namespace SERVERAPI
             CreateMap<Yield, Yield>();
 
             CreateMap<ManureStorageSystem, ManureStorageSystem>();
+            CreateMap<GeneratedManure, GeneratedManure>();
             CreateMap<ManureImportedDetailViewModel, ImportedManure>()
                 .ForMember(dest => dest.Id, x => x.MapFrom(src => src.ManureImportId))
                 .ForMember(dest => dest.ManureType, x => x.MapFrom(src => src.SelectedManureType))
