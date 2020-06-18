@@ -431,6 +431,10 @@
                                 <span asp-validation-for="UncoveredAreaOfStorageStructure" class="text-danger"></span>
                             </div>
                         }
+                        else
+                        {
+                            @Html.HiddenFor(x => x.UncoveredAreaOfStorageStructure)
+                        }
                     </div>
                     @if (Model.SelectedManureMaterialType == ManureMaterialType.Liquid)
                     {
