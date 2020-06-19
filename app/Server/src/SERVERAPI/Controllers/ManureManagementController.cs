@@ -1764,7 +1764,9 @@ namespace SERVERAPI.Controllers
             }
 
             var includedManures = _ud.GetAllManagedManures().Where(gm =>
-                            msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.ManureId == includedIds)).ToList();
+                            msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.ManureId == includedIds) ||
+                            (gm is SeparatedSolidManure &&
+                            (gm as SeparatedSolidManure).SeparationSourceStorageSystemId == msdvm.SystemId.GetValueOrDefault(0))).ToList();
             includedManures.ForEach(m => { m.AssignedToStoredSystem = true; });
 
             manureStorageSystem.Name = msdvm.SystemName;

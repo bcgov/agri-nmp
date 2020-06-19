@@ -22,6 +22,7 @@ namespace SERVERAPI.Models.Impl
         private readonly IHttpContextAccessor _ctx;
         public IAgriConfigurationRepository _sd;
         private ISoilTestConverter _soilTestConversions;
+        private readonly IManureLiquidSolidSeparationCalculator _manureLiquidSolidSeparationCalculator;
         private IMapper _mapper;
         private IOptions<AppSettings> _appSettings;
 
@@ -29,6 +30,7 @@ namespace SERVERAPI.Models.Impl
             IHttpContextAccessor ctx,
             IAgriConfigurationRepository sd,
             ISoilTestConverter soilTestConversions,
+            IManureLiquidSolidSeparationCalculator manureLiquidSolidSeparationCalculator,
             IMapper mapper,
             IOptions<AppSettings> appSettings)
         {
@@ -36,6 +38,7 @@ namespace SERVERAPI.Models.Impl
             _ctx = ctx;
             _sd = sd;
             _soilTestConversions = soilTestConversions;
+            _manureLiquidSolidSeparationCalculator = manureLiquidSolidSeparationCalculator;
             _mapper = mapper;
             _appSettings = appSettings;
         }
@@ -1145,6 +1148,7 @@ namespace SERVERAPI.Models.Impl
                 deleteStorageForSeparatedManure = true;
             }
             ProcessOctoberToMarchVolumes(savedSystem);
+            ProcessOctoberToMarchSeparatedManure(savedSystem);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
             ProcessSeparatedManureForStorageSystem(updatedSystem, deleteStorageForSeparatedManure);
         }
@@ -1181,9 +1185,6 @@ namespace SERVERAPI.Models.Impl
         {
             if (sourceManureStorageSystem.ManureMaterialType == ManureMaterialType.Liquid)
             {
-                var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
-                var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
-
                 var materialVolumes = 0m;
                 foreach (var manure in sourceManureStorageSystem.MaterialsIncludedInSystem)
                 {
@@ -1208,18 +1209,49 @@ namespace SERVERAPI.Models.Impl
             }
         }
 
+        private void ProcessOctoberToMarchSeparatedManure(ManureStorageSystem sourceManureStorageSystem)
+        {
+            if (sourceManureStorageSystem.ManureMaterialType == ManureMaterialType.Liquid &&
+                sourceManureStorageSystem.IsThereSolidLiquidSeparation &&
+                    sourceManureStorageSystem.PercentageOfLiquidVolumeSeparated != 0)
+            {
+                var materialVolumes = 0m;
+                foreach (var manure in sourceManureStorageSystem.MaterialsIncludedInSystem)
+                {
+                    if (manure.ManureId.Contains("Generated"))
+                    {
+                        var manureGenerated = GetGeneratedManure(manure.Id.GetValueOrDefault());
+                        materialVolumes += manureGenerated.annualAmountDecimal;
+                        if (manureGenerated.washWaterGallons != 0)
+                        {
+                            materialVolumes += manureGenerated.washWaterGallons;
+                        }
+                    }
+                    else if (manure.ManureId.Contains("Imported"))
+                    {
+                        var manureImported = GetImportedManure(manure.Id.GetValueOrDefault());
+                        materialVolumes += manureImported.AnnualAmount;
+                    }
+                }
+
+                sourceManureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons = (1 - 1M / sourceManureStorageSystem.PercentageOfLiquidVolumeSeparated) * (materialVolumes / 365) * 182;
+            }
+        }
+
         private void ProcessSeparatedManureForStorageSystem(ManureStorageSystem sourceManureStorageSystem,
             bool sourceStorageDeleted)
         {
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             var yd = userData.years.FirstOrDefault(y => y.year == userData.farmDetails.year);
-            var separatedSolidManureToDrop = yd.SeparatedSolidManures?.SingleOrDefault(s =>
+            var savedSeparatedSolidManure = yd.SeparatedSolidManures?.SingleOrDefault(s =>
                 s.SeparationSourceStorageSystemId == sourceManureStorageSystem.Id);
+
+            var savedSystem = yd.ManureStorageSystems.Single(ss => ss.Id == sourceManureStorageSystem.Id);
 
             if (sourceManureStorageSystem.IsThereSolidLiquidSeparation && !sourceStorageDeleted)
             {
                 //Check if the Separated Manure was added to the Year Data
-                if (separatedSolidManureToDrop == null)
+                if (savedSeparatedSolidManure == null)
                 {
                     //Create the Separated Manure and attach the Source System
                     var newId = yd.SeparatedSolidManures.Any() ? yd.SeparatedSolidManures.Max(ssm => ssm.Id) + 1 : 1;
@@ -1229,33 +1261,51 @@ namespace SERVERAPI.Models.Impl
                         Id = newId,
                         AnnualAmountTonsWeight = sourceManureStorageSystem.SeparatedSolidsTons,
                         SeparationSourceStorageSystemId = sourceManureStorageSystem.Id,
+                        AssignedToStoredSystem = true,
                         Name = $"Separated solids{nameIndex}"
                     };
 
                     yd.SeparatedSolidManures.Add(separatedSolidManure);
-                    _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+                    sourceManureStorageSystem.SeparatedSolidManuresIncludedInSystem.Add(separatedSolidManure);
                 }
+                else //Update new values
+                {
+                    savedSystem.SeparatedSolidManuresIncludedInSystem.Remove(savedSeparatedSolidManure);
+
+                    var separatedManure =
+                        _manureLiquidSolidSeparationCalculator.CalculateSeparatedManure(
+                            sourceManureStorageSystem.AnnualTotalStoredGeneratedManure +
+                                sourceManureStorageSystem.AnnualTotalImportedManure,
+                            sourceManureStorageSystem.PercentageOfLiquidVolumeSeparated);
+
+                    savedSeparatedSolidManure.AnnualAmountTonsWeight = separatedManure.SolidTons;
+
+                    savedSystem.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;
+                    savedSystem.SeparatedSolidsTons = separatedManure.SolidTons;
+                    savedSystem.SeparatedSolidManuresIncludedInSystem.Add(savedSeparatedSolidManure);
+                }
+                _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
             }
             else
             {
                 //Check if a Separted Solid was created previous for System in case IsThereSolidLiquidSeparation was
                 //changed to false and thus needs to be dropped
-                if (separatedSolidManureToDrop != null)
+                if (savedSeparatedSolidManure != null)
                 {
                     //If Stored remove it from Storage
                     var currentStorageOfSeparatedSolid = yd.ManureStorageSystems
                         .SingleOrDefault(mss =>
                             mss.SeparatedSolidManuresIncludedInSystem.Any(ssm =>
-                                ssm.ManureId == separatedSolidManureToDrop.ManureId));
+                                ssm.ManureId == savedSeparatedSolidManure.ManureId));
 
-                    yd.SeparatedSolidManures.Remove(separatedSolidManureToDrop);
+                    yd.SeparatedSolidManures.Remove(savedSeparatedSolidManure);
                     _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
                     if (currentStorageOfSeparatedSolid != null)
                     {
                         var storedSeparatedSolid =
                             currentStorageOfSeparatedSolid.SeparatedSolidManuresIncludedInSystem.Single(m =>
-                                m.ManureId == separatedSolidManureToDrop.ManureId);
+                                m.ManureId == savedSeparatedSolidManure.ManureId);
                         currentStorageOfSeparatedSolid.SeparatedSolidManuresIncludedInSystem.Remove(storedSeparatedSolid);
                         UpdateManureStorageSystem(currentStorageOfSeparatedSolid);
                     }
