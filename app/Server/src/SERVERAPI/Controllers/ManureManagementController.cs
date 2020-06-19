@@ -1794,6 +1794,11 @@ namespace SERVERAPI.Controllers
                     manureStorageSystem.OctoberToMarchRunoff = msdvm.OctoberToMarchRunoff;
                     manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitationStorageSystem;
                 }
+                else
+                {
+                    manureStorageSystem.OctoberToMarchRunoff = 0;
+                    manureStorageSystem.OctoberToMarchPrecipitation = 0;
+                }
                 manureStorageSystem.OctoberToMarchManagedManures = msdvm.OctoberToMarchManagedManures;
             }
 
