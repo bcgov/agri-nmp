@@ -1261,17 +1261,13 @@ namespace SERVERAPI.Models.Impl
                         Id = newId,
                         AnnualAmountTonsWeight = sourceManureStorageSystem.SeparatedSolidsTons,
                         SeparationSourceStorageSystemId = sourceManureStorageSystem.Id,
-                        AssignedToStoredSystem = true,
                         Name = $"Separated solids{nameIndex}"
                     };
 
                     yd.SeparatedSolidManures.Add(separatedSolidManure);
-                    sourceManureStorageSystem.SeparatedSolidManuresIncludedInSystem.Add(separatedSolidManure);
                 }
                 else //Update new values
                 {
-                    savedSystem.SeparatedSolidManuresIncludedInSystem.Remove(savedSeparatedSolidManure);
-
                     var separatedManure =
                         _manureLiquidSolidSeparationCalculator.CalculateSeparatedManure(
                             sourceManureStorageSystem.AnnualTotalStoredGeneratedManure +
@@ -1282,7 +1278,20 @@ namespace SERVERAPI.Models.Impl
 
                     savedSystem.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;
                     savedSystem.SeparatedSolidsTons = separatedManure.SolidTons;
-                    savedSystem.SeparatedSolidManuresIncludedInSystem.Add(savedSeparatedSolidManure);
+
+                    //If Stored update it there
+                    var currentStorageOfSeparatedSolid = yd.ManureStorageSystems
+                        .SingleOrDefault(mss =>
+                            mss.SeparatedSolidManuresIncludedInSystem.Any(ssm =>
+                                ssm.ManureId == savedSeparatedSolidManure.ManureId));
+                    if (currentStorageOfSeparatedSolid != null)
+                    {
+                        var separatedSolidToUpdate = currentStorageOfSeparatedSolid
+                            .SeparatedSolidManuresIncludedInSystem
+                                .Single(ssm => ssm.ManureId == savedSeparatedSolidManure.ManureId);
+
+                        separatedSolidToUpdate.AnnualAmountTonsWeight = savedSeparatedSolidManure.AnnualAmountTonsWeight;
+                    }
                 }
                 _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
             }
