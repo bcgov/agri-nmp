@@ -189,7 +189,14 @@ namespace SERVERAPI.Controllers
 
                                 if (fd.farmDetails.HasAnimals)
                                 {
-                                    fd.farmDetails.HasMixedLiveStock = true;
+                                    if (fd.years.Last().GeneratedManures.All(gm => gm.AnimalId == 2))
+                                    {
+                                        fd.farmDetails.HasDairyCows = true;
+                                    }
+                                    else
+                                    {
+                                        fd.farmDetails.HasMixedLiveStock = true;
+                                    }
                                 }
                             }
 
