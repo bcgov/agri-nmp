@@ -135,7 +135,7 @@ namespace Agri.CalculateService
 
             // k2o recommend calculations
             CropSoilTestPotassiumRegion cropSTKRegionCd = _sd.GetCropSTKRegionCd(cropid, region.SoilTestPotassiumRegionCd);
-            int? potassium_crop_group_region_cd = cropSTKRegionCd.PotassiumCropGroupRegionCode;
+            int? potassium_crop_group_region_cd = cropSTKRegionCd?.PotassiumCropGroupRegionCode;
             SoilTestPotassiumKelownaRange sTKKelownaRange = _sd.GetSTKKelownaRangeByPpm(_STK);
             int stk_kelowna_range_id = sTKKelownaRange.Id;
             if (potassium_crop_group_region_cd == null)
@@ -163,7 +163,7 @@ namespace Agri.CalculateService
 
                 case 4:
                     CropYield cropYield = _sd.GetCropYield(cropid, region.LocationId);
-                    if (cropYield.Amount != null)
+                    if (cropYield?.Amount != null)
                         crr.N_Requirement = Convert.ToInt16(decimal.Divide(yield, Convert.ToDecimal(cropYield.Amount)) * crop.NitrogenRecommendationPoundPerAcre);
                     else
                         crr.N_Requirement = 0;

@@ -253,6 +253,38 @@ namespace Agri.Models.Farm
             return ManureStorageStructures.Single(mss => mss.Id == id);
         }
 
+        public void AddIncludedMaterial(ManagedManure manureToRemove)
+        {
+            if (manureToRemove is GeneratedManure)
+            {
+                GeneratedManuresIncludedInSystem.Add(manureToRemove as GeneratedManure);
+            }
+            else if (manureToRemove is ImportedManure)
+            {
+                ImportedManuresIncludedInSystem.Add(manureToRemove as ImportedManure);
+            }
+            else if (manureToRemove is SeparatedSolidManure)
+            {
+                SeparatedSolidManuresIncludedInSystem.Add(manureToRemove as SeparatedSolidManure);
+            }
+        }
+
+        public void RemoveIncludedMaterial(ManagedManure manureToRemove)
+        {
+            if (manureToRemove is GeneratedManure)
+            {
+                GeneratedManuresIncludedInSystem.Remove(manureToRemove as GeneratedManure);
+            }
+            else if (manureToRemove is ImportedManure)
+            {
+                ImportedManuresIncludedInSystem.Remove(manureToRemove as ImportedManure);
+            }
+            else if (manureToRemove is SeparatedSolidManure)
+            {
+                SeparatedSolidManuresIncludedInSystem.Remove(manureToRemove as SeparatedSolidManure);
+            }
+        }
+
         #endregion Methods
     }
 }

@@ -1645,7 +1645,8 @@ namespace SERVERAPI.Controllers
                                 msdvm.surfaceArea = _storageVolumeCalculator.GetSurfaceAreaOfCircle(msdvm.CircularDiameter);
                                 msdvm.volumeUSGallons = _storageVolumeCalculator.GetVolumeUSGallonsOfCircle(msdvm.CircularDiameter, msdvm.CircularHeight);
                             }
-                            msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
+                            if (!msdvm.IsStructureCovered)
+                                msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
                             msdvm.volumeUSGallons = msdvm.volumeUSGallons;
                             msdvm.volumeOfStorageStructure =
                                 msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" + msdvm.StorageStructureName + ")";
@@ -1666,7 +1667,8 @@ namespace SERVERAPI.Controllers
                                 msdvm.surfaceArea = _storageVolumeCalculator.GetSurfaceAreaOfSlopedWall(msdvm.SlopedWallTopLength, msdvm.SlopedWallTopWidth);
                                 msdvm.volumeUSGallons = _storageVolumeCalculator.GetVolumeUSGallonsOfSlopedWall(msdvm.SlopedWallTopLength, msdvm.SlopedWallTopWidth, msdvm.SlopedWallHeight, msdvm.SlopedWallSlopeOfWall);
                             }
-                            msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
+                            if (!msdvm.IsStructureCovered)
+                                msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
                             msdvm.volumeUSGallons = msdvm.volumeUSGallons;
                             msdvm.volumeOfStorageStructure =
                                 msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" + msdvm.StorageStructureName + ")";
@@ -1735,7 +1737,9 @@ namespace SERVERAPI.Controllers
                 rainfallOctToMar = subregion.AnnualPrecipitationOctToMar;
             }
 
-            var runoff = Math.Round(Convert.ToDouble(rainfallOctToMar * msdvm.RunoffAreaSquareFeet * 0.0245424));
+            var runoff = Math.Round(Convert.ToDouble(rainfallOctToMar *
+                msdvm.RunoffAreaSquareFeet.GetValueOrDefault(0) *
+                0.0245424));
             return runoff;
         }
 
@@ -1753,7 +1757,7 @@ namespace SERVERAPI.Controllers
             }
 
             var includedManures = _ud.GetAllManagedManures().Where(gm =>
-                            msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.ManureId == includedIds)).ToList();
+                           msdvm.SelectedMaterialsToInclude.Any(includedIds => gm.ManureId == includedIds)).ToList();
             includedManures.ForEach(m => { m.AssignedToStoredSystem = true; });
 
             manureStorageSystem.Name = msdvm.SystemName;
@@ -1778,8 +1782,16 @@ namespace SERVERAPI.Controllers
             if (manureStorageSystem.ManureMaterialType == ManureMaterialType.Liquid)
             {
                 manureStorageSystem.OctoberToMarchSeparatedLiquidsUSGallons = msdvm.OctoberToMarchSeparatedLiquidUSGallons;
-                manureStorageSystem.OctoberToMarchRunoff = msdvm.OctoberToMarchRunoff;
-                manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitationStorageSystem;
+                if (!msdvm.IsStructureCovered)
+                {
+                    manureStorageSystem.OctoberToMarchRunoff = msdvm.OctoberToMarchRunoff;
+                    manureStorageSystem.OctoberToMarchPrecipitation = msdvm.OctoberToMarchPrecipitationStorageSystem;
+                }
+                else
+                {
+                    manureStorageSystem.OctoberToMarchRunoff = 0;
+                    manureStorageSystem.OctoberToMarchPrecipitation = 0;
+                }
                 manureStorageSystem.OctoberToMarchManagedManures = msdvm.OctoberToMarchManagedManures;
             }
 
@@ -1830,7 +1842,8 @@ namespace SERVERAPI.Controllers
                                 _storageVolumeCalculator.GetVolumeUSGallonsOfCircle(msdvm.CircularDiameter,
                                     msdvm.CircularHeight);
 
-                            msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
+                            if (!msdvm.IsStructureCovered)
+                                msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
                             msdvm.volumeUSGallons = msdvm.volumeUSGallons;
                             msdvm.volumeOfStorageStructure =
                                 msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" +
@@ -1876,6 +1889,10 @@ namespace SERVERAPI.Controllers
                 if (msdvm.UncoveredAreaOfStorageStructure.HasValue)
                 {
                     storageStructure.UncoveredAreaSquareFeet = msdvm.UncoveredAreaOfStorageStructure;
+                }
+                else
+                {
+                    storageStructure.UncoveredAreaSquareFeet = null;
                 }
 
                 if (!msdvm.StorageStructureId.HasValue)
@@ -1992,7 +2009,8 @@ namespace SERVERAPI.Controllers
                             msdvm.RectangularLength,
                             msdvm.RectangularWidth, msdvm.RectangularHeight);
 
-                        msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
+                        if (!msdvm.IsStructureCovered)
+                            msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
                         msdvm.volumeUSGallons = msdvm.volumeUSGallons;
                         msdvm.volumeOfStorageStructure =
                             msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" +
@@ -2053,8 +2071,8 @@ namespace SERVERAPI.Controllers
                         msdvm.volumeUSGallons =
                             _storageVolumeCalculator.GetVolumeUSGallonsOfCircle(msdvm.CircularDiameter,
                                 msdvm.CircularHeight);
-
-                        msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
+                        if (!msdvm.IsStructureCovered)
+                            msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
                         msdvm.volumeUSGallons = msdvm.volumeUSGallons;
                         msdvm.volumeOfStorageStructure =
                             msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" +
@@ -2118,7 +2136,8 @@ namespace SERVERAPI.Controllers
                             _storageVolumeCalculator.GetVolumeUSGallonsOfSlopedWall(msdvm.SlopedWallTopLength,
                                 msdvm.SlopedWallTopWidth, msdvm.SlopedWallHeight, msdvm.SlopedWallSlopeOfWall);
 
-                        msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
+                        if (!msdvm.IsStructureCovered)
+                            msdvm.UncoveredAreaOfStorageStructure = msdvm.surfaceArea;
                         msdvm.volumeUSGallons = msdvm.volumeUSGallons;
                         msdvm.volumeOfStorageStructure =
                             msdvm.volumeUSGallons.Value.ToString("N0") + " U.S. Gallons (" +
