@@ -1677,7 +1677,7 @@ namespace Agri.Data
                     ncs.Location.Equals("CoastalBC", StringComparison.CurrentCultureIgnoreCase))
                 .FirstOrDefault().FromDateMonth;
 
-            return new DateTime(yearOfAnalysis - 1, Convert.ToInt16(fromDate), 01);
+            return new DateTime(yearOfAnalysis, Convert.ToInt16(fromDate), 01);
         }
 
         private DateTime GetCoastalNitrateSampleToDt(int yearOfAnalysis)
