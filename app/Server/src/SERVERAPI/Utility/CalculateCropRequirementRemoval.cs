@@ -8,13 +8,12 @@ using System;
 namespace SERVERAPI.Utility
 {
     public class CalculateCropRequirementRemoval
-    { 
-    
-    private UserData _ud;
-    private IAgriConfigurationRepository _sd;
+    {
+        private UserData _ud;
+        private IAgriConfigurationRepository _sd;
 
-        public CalculateCropRequirementRemoval(UserData ud,IAgriConfigurationRepository sd)
-        {            
+        public CalculateCropRequirementRemoval(UserData ud, IAgriConfigurationRepository sd)
+        {
             _ud = ud;
             _sd = sd;
         }
@@ -24,9 +23,9 @@ namespace SERVERAPI.Utility
         public decimal yield { get; set; }
         public decimal? crudeProtien { get; set; }
         public CropRequirementRemoval cropRequirementRemoval { get; set; }
-        public bool? coverCropHarvested { get; set; }   
+        public bool? coverCropHarvested { get; set; }
         public string fieldName { get; set; }
-        public int nCredit { get; set; }        
+        public int nCredit { get; set; }
 
         public CropRequirementRemoval GetCropRequirementRemoval()
         {
@@ -54,9 +53,9 @@ namespace SERVERAPI.Utility
             //              don't change numbers
             //          if Cover crop not harvested
             //              set all removal amts to zero
-            
+
             if (!crudeProtien.HasValue || (crudeProtien.HasValue && crudeProtien.Value == 0))
-            { 
+            {
                 decimal tmpDec;
                 if (decimal.TryParse(crop.CropRemovalFactorNitrogen.ToString(), out tmpDec))
                     n_removal = tmpDec * yield;
@@ -65,7 +64,7 @@ namespace SERVERAPI.Utility
             }
             else
                 n_removal = decimal.Divide(Convert.ToDecimal(crudeProtien), (_cf.NitrogenProteinConversion * _cf.UnitConversion)) * yield;
-            
+
             crr.P2O5_Removal = Convert.ToInt32(crop.CropRemovalFactorP2O5 * yield);
             crr.K2O_Removal = Convert.ToInt32(crop.CropRemovalFactorK2O * yield);
             crr.N_Removal = Convert.ToInt32(n_removal);
@@ -76,7 +75,6 @@ namespace SERVERAPI.Utility
                 crr.K2O_Removal = 0;
                 crr.N_Removal = 0;
             }
-
 
             //      Crop Requirement
             //          P205
@@ -102,7 +100,7 @@ namespace SERVERAPI.Utility
 
             Field fld = _ud.GetFieldDetails(fieldName);
 
-            if(fld.soilTest == null)
+            if (fld.soilTest == null)
             {
                 fld.soilTest = new SoilTest();
                 DefaultSoilTest dt = _sd.GetDefaultSoilTest();
@@ -123,8 +121,8 @@ namespace SERVERAPI.Utility
                 _STK = _cf.DefaultSoilTestKelownaPotassium;
 
             // p2o5 recommend calculations
-            CropSoilTestPhosphorousRegion cropSTPRegionCd  = _sd.GetCropSTPRegionCd(cropid, region.SoilTestPhosphorousRegionCd);
-            int? phosphorous_crop_group_region_cd = cropSTPRegionCd.PhosphorousCropGroupRegionCode;
+            CropSoilTestPhosphorousRegion cropSTPRegionCd = _sd.GetCropSTPRegionCd(cropid, region.SoilTestPhosphorousRegionCd);
+            int? phosphorous_crop_group_region_cd = cropSTPRegionCd?.PhosphorousCropGroupRegionCode;
             SoilTestPhosphorousKelownaRange sTPKelownaRange = _sd.GetSTPKelownaRangeByPpm(_STP);
             int stp_kelowna_range_id = sTPKelownaRange.Id;
             if (phosphorous_crop_group_region_cd == null)
@@ -137,7 +135,7 @@ namespace SERVERAPI.Utility
 
             // k2o recommend calculations
             CropSoilTestPotassiumRegion cropSTKRegionCd = _sd.GetCropSTKRegionCd(cropid, region.SoilTestPotassiumRegionCd);
-            int? potassium_crop_group_region_cd = cropSTKRegionCd.PotassiumCropGroupRegionCode;
+            int? potassium_crop_group_region_cd = cropSTKRegionCd?.PotassiumCropGroupRegionCode;
             SoilTestPotassiumKelownaRange sTKKelownaRange = _sd.GetSTKKelownaRangeByPpm(_STK);
             int stk_kelowna_range_id = sTKKelownaRange.Id;
             if (potassium_crop_group_region_cd == null)
@@ -154,15 +152,18 @@ namespace SERVERAPI.Utility
                 case 1:
                     crr.N_Requirement = Convert.ToInt16(crop.NitrogenRecommendationPoundPerAcre);
                     break;
+
                 case 2:
                     crr.N_Requirement = Convert.ToInt16(crop.NitrogenRecommendationPoundPerAcre);
                     break;
+
                 case 3:
                     crr.N_Requirement = crr.N_Removal;
                     break;
+
                 case 4:
                     CropYield cropYield = _sd.GetCropYield(cropid, region.LocationId);
-                    if (cropYield.Amount != null)
+                    if (cropYield?.Amount != null)
                         crr.N_Requirement = Convert.ToInt16(decimal.Divide(yield, Convert.ToDecimal(cropYield.Amount)) * crop.NitrogenRecommendationPoundPerAcre);
                     else
                         crr.N_Requirement = 0;
@@ -177,7 +178,6 @@ namespace SERVERAPI.Utility
 
             return crr;
         }
-
 
         // default for % Crude Protien = crop.cropremovalfactor_N * 0.625 [N to protien conversion] * 0.5 [unit conversion]
         public decimal GetCrudeProtienByCropId(int _cropid)
@@ -198,19 +198,23 @@ namespace SERVERAPI.Utility
             decimal? defaultYield = null;
             int _locationid;
             if (_ud.FarmDetails().farmRegion.HasValue)
-            { 
+            {
                 _locationid = _sd.GetRegion(_ud.FarmDetails().farmRegion.Value).LocationId;
                 CropYield cy = _sd.GetCropYield(_cropid, _locationid);
-                if (cy.Amount.HasValue)
-                        defaultYield = cy.Amount.Value;
-                if (useBushelPerAcreUnits && defaultYield.HasValue)
+
+                if (cy != null)
                 {
-                    //E07US18 - convert to bushels per acre
-                    Crop crop = _sd.GetCrop(_cropid);
-                    if  (crop.HarvestBushelsPerTon.HasValue) 
-                        defaultYield = defaultYield * crop.HarvestBushelsPerTon;
+                    if (cy.Amount.HasValue)
+                        defaultYield = cy.Amount.Value;
+                    if (useBushelPerAcreUnits && defaultYield.HasValue)
+                    {
+                        //E07US18 - convert to bushels per acre
+                        Crop crop = _sd.GetCrop(_cropid);
+                        if (crop.HarvestBushelsPerTon.HasValue)
+                            defaultYield = defaultYield * crop.HarvestBushelsPerTon;
+                    }
                 }
-            }            
+            }
 
             return defaultYield;
         }

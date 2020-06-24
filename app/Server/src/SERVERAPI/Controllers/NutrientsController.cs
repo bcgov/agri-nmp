@@ -29,10 +29,10 @@ namespace SERVERAPI.Controllers
         private IManureApplicationCalculator _manureApplicationCalculator;
 
         public NutrientsController(ILogger<NutrientsController> logger,
-            IHostingEnvironment env, 
-            UserData ud, 
+            IHostingEnvironment env,
+            UserData ud,
             IAgriConfigurationRepository sd,
-            IOptions<AppSettings> settings, 
+            IOptions<AppSettings> settings,
             IManureApplicationCalculator manureApplicationCalculator)
         {
             _logger = logger;
@@ -46,7 +46,7 @@ namespace SERVERAPI.Controllers
         // GET: /<controller>/
         public IActionResult Calculate(string nme)
         {
-            FarmDetails fd =_ud.FarmDetails();
+            FarmDetails fd = _ud.FarmDetails();
 
             CalculateViewModel cvm = new CalculateViewModel
             {
@@ -93,10 +93,10 @@ namespace SERVERAPI.Controllers
 
             return View(cvm);
         }
+
         [HttpPost]
         public IActionResult Calculate(CalculateViewModel cvm)
         {
-
             if (!cvm.itemsPresent)
             {
                 cvm.icons = _sd.GetNutrientIcons();
@@ -177,7 +177,6 @@ namespace SERVERAPI.Controllers
 
             if (id != null)
             {
-
                 NutrientManure nm = _ud.GetFieldNutrientsManure(fldName, id.Value);
 
                 mvm.avail = nm.nAvail.ToString("###");
@@ -202,7 +201,6 @@ namespace SERVERAPI.Controllers
 
                 mvm.stdN = Convert.ToDecimal(mvm.nh4) != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.SelectedFarmManure), Convert.ToInt16(mvm.selApplOption)) * 100) ? false : true;
                 mvm.stdAvail = Convert.ToDecimal(mvm.avail) != (nOrganicMineralizations.OrganicN_FirstYear * 100) ? false : true;
-
             }
             else
 
@@ -233,6 +231,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView(mvm);
         }
+
         private void MaunureStillRequired(ref ManureDetailsViewModel mvm)
         {
             //recalc totals for display
@@ -251,10 +250,12 @@ namespace SERVERAPI.Controllers
                         mvm.totNIcon = (chemicalBalances.balance_AgrN > 0) ? "" : m.Icon;
                         mvm.totNIconText = m.IconText;
                         break;
+
                     case "AgrP2O5":
                         mvm.totPIcon = (chemicalBalances.balance_AgrP2O5 > 0) ? "" : m.Icon;
                         mvm.totPIconText = m.IconText;
                         break;
+
                     case "AgrK2O":
                         mvm.totKIcon = (chemicalBalances.balance_AgrK2O > 0) ? "" : m.Icon;
                         mvm.totKIconText = m.IconText;
@@ -266,8 +267,6 @@ namespace SERVERAPI.Controllers
             mvm.totP2o5 = (chemicalBalances.balance_AgrP2O5 > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrP2O5).ToString();
             mvm.totK2o = (chemicalBalances.balance_AgrK2O > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrK2O).ToString();
         }
-
-        
 
         [HttpPost]
         public IActionResult ManureDetails(ManureDetailsViewModel mvm)
@@ -297,7 +296,6 @@ namespace SERVERAPI.Controllers
                 mvm.areThereNutrientAnalysis = false;
             }
 
-
             NutrientManure origManure = new NutrientManure();
 
             var calculateNutrients = new CalculateNutrients(_ud, _sd);
@@ -306,14 +304,13 @@ namespace SERVERAPI.Controllers
 
             try
             {
-
                 if (mvm.buttonPressed == "ResetN")
                 {
                     ModelState.Clear();
                     mvm.buttonPressed = "";
                     mvm.btnText = "Calculate";
 
-                    // reset to calculated amount                
+                    // reset to calculated amount
                     mvm.nh4 = (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(mvm.SelectedFarmManure), Convert.ToInt16(mvm.selApplOption)) * 100).ToString("###");
 
                     mvm.stdN = true;
@@ -339,8 +336,9 @@ namespace SERVERAPI.Controllers
                     mvm.buttonPressed = "";
                     mvm.btnText = "Calculate";
 
-                    if (mvm.SelectedFarmManure != "" && 
-                        !mvm.SelectedFarmManure.Equals("selApplOption", StringComparison.CurrentCultureIgnoreCase))
+                    if (mvm.SelectedFarmManure != "" &&
+                        !mvm.SelectedFarmManure.Equals("selApplOption", StringComparison.CurrentCultureIgnoreCase) &&
+                        !mvm.SelectedFarmManure.Equals("select", StringComparison.CurrentCultureIgnoreCase))
                     {
                         FarmManure man = _ud.GetFarmManure(Convert.ToInt32(mvm.SelectedFarmManure));
                         if (mvm.currUnit != man.solid_liquid)
@@ -350,7 +348,7 @@ namespace SERVERAPI.Controllers
                             mvm.selRateOption = mvm.rateOptions[0].Id.ToString();
                         }
 
-                        // if application is present then recalc N and A                      
+                        // if application is present then recalc N and A
                         mvm.avail = GetOrganicNAvailableThisYear(Convert.ToInt16(mvm.SelectedFarmManure)).ToString("###");
 
                         if (mvm.selApplOption != "" &&
@@ -523,9 +521,10 @@ namespace SERVERAPI.Controllers
                 ltP2o5 = Convert.ToDecimal(mvm.ltP2o5),
                 ltK2o = Convert.ToDecimal(mvm.ltK2o)
             };
-          
+
             return _ud.AddFieldNutrientsManure(mvm.fieldName, nm);
         }
+
         private void ManureUpdate(ManureDetailsViewModel mvm)
         {
             NutrientManure nm = _ud.GetFieldNutrientsManure(mvm.fieldName, mvm.id.Value);
@@ -544,6 +543,7 @@ namespace SERVERAPI.Controllers
 
             _ud.UpdateFieldNutrientsManure(mvm.fieldName, nm);
         }
+
         private void ManureDetailsSetup(ref ManureDetailsViewModel mvm)
         {
             mvm.ManureTypeOptions = new List<SelectListItem>();
@@ -666,6 +666,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView(fvm);
         }
+
         private void FertilizerStillRequired(ref FertilizerDetailsViewModel fvm)
         {
             //recalc totals for display
@@ -684,10 +685,12 @@ namespace SERVERAPI.Controllers
                         fvm.totNIcon = (chemicalBalances.balance_AgrN > 0) ? "" : m.Icon;
                         fvm.totNIconText = m.IconText;
                         break;
+
                     case "AgrP2O5":
                         fvm.totPIcon = (chemicalBalances.balance_AgrP2O5 > 0) ? "" : m.Icon;
                         fvm.totPIconText = m.IconText;
                         break;
+
                     case "AgrK2O":
                         fvm.totKIcon = (chemicalBalances.balance_AgrK2O > 0) ? "" : m.Icon;
                         fvm.totKIconText = m.IconText;
@@ -699,6 +702,7 @@ namespace SERVERAPI.Controllers
             fvm.totP2o5 = (chemicalBalances.balance_AgrP2O5 > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrP2O5).ToString();
             fvm.totK2o = (chemicalBalances.balance_AgrK2O > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrK2O).ToString();
         }
+
         [HttpPost]
         public IActionResult FertilizerDetails(FertilizerDetailsViewModel fvm)
         {
@@ -716,7 +720,6 @@ namespace SERVERAPI.Controllers
 
             try
             {
-
                 if (fvm.buttonPressed == "ResetDensity")
                 {
                     ModelState.Clear();
@@ -741,10 +744,9 @@ namespace SERVERAPI.Controllers
 
                     if (fvm.selTypOption != "" && fvm.selTypOption != "select")
                     {
-                       FertilizerType typ = _sd.GetFertilizerType(fvm.selTypOption);
+                        FertilizerType typ = _sd.GetFertilizerType(fvm.selTypOption);
 
                         fvm.density = "";
-
 
                         if (fvm.currUnit != typ.DryLiquid)
                         {
@@ -803,7 +805,6 @@ namespace SERVERAPI.Controllers
 
                 if (ModelState.IsValid)
                 {
-
                     if (fvm.manEntry &&
                     fvm.fertilizerType == "liquid" &&
                     string.IsNullOrEmpty(fvm.density))
@@ -838,7 +839,6 @@ namespace SERVERAPI.Controllers
                             return View(fvm);
                         }
                     }
-
 
                     if (fvm.manEntry)
                     {
@@ -950,11 +950,9 @@ namespace SERVERAPI.Controllers
                         {
                             _ud.UpdateFieldNutrientsFertilizer(fvm.fieldName, origFertilizer);
                         }
-
                     }
                     else
                     {
-
                         if (fvm.id == null)
                         {
                             FertilizerInsert(fvm);
@@ -975,6 +973,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView(fvm);
         }
+
         private int FertilizerInsert(FertilizerDetailsViewModel fvm)
         {
             NutrientFertilizer nf = new NutrientFertilizer()
@@ -997,6 +996,7 @@ namespace SERVERAPI.Controllers
 
             return _ud.AddFieldNutrientsFertilizer(fvm.fieldName, nf);
         }
+
         private void FertilizerUpdate(FertilizerDetailsViewModel fvm)
         {
             NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fvm.fieldName, fvm.id.Value);
@@ -1017,6 +1017,7 @@ namespace SERVERAPI.Controllers
 
             _ud.UpdateFieldNutrientsFertilizer(fvm.fieldName, nf);
         }
+
         private void FertilizerDetailsSetup(ref FertilizerDetailsViewModel fvm)
         {
             fvm.typOptions = new List<SelectListItem>();
@@ -1100,6 +1101,7 @@ namespace SERVERAPI.Controllers
 
             return;
         }
+
         [HttpGet]
         public ActionResult FertilizerDelete(string fldName, int id)
         {
@@ -1128,6 +1130,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView("FertilizerDelete", fvm);
         }
+
         [HttpPost]
         public ActionResult FertilizerDelete(FertilizerDeleteViewModel dvm)
         {
@@ -1172,8 +1175,8 @@ namespace SERVERAPI.Controllers
                 cvm.selPrevOption = cp.prevCropId.ToString();
                 cvm.coverCropHarvested = cp.coverCropHarvested;
                 cvm.nCredit = cvm.selPrevOption != "0" ? _sd.GetPrevCropType(Convert.ToInt32(cvm.selPrevOption)).NitrogenCreditImperial.ToString() : "0";
-                //E07US18 
-                cvm.showHarvestUnitsDDL = false; 
+                //E07US18
+                cvm.showHarvestUnitsDDL = false;
 
                 if (!cp.yieldHarvestUnit.HasValue)
                 {   // retrofit old version of data
@@ -1194,7 +1197,7 @@ namespace SERVERAPI.Controllers
                 decimal? defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), cp.yieldHarvestUnit != _sd.GetHarvestYieldDefaultUnit());
                 cvm.stdYield = true;
                 if (defaultYield.HasValue)
-                {   // E07US18 
+                {   // E07US18
                     if (cvm.yieldByHarvestUnit != defaultYield.Value.ToString("#.##"))
                     {
                         cvm.stdYield = false;
@@ -1229,9 +1232,9 @@ namespace SERVERAPI.Controllers
                         calculateCropRequirementRemoval.cropid = Convert.ToInt16(cvm.selCropOption);
 
                         // E07US18 - need to convert cvm.yield before assigning to caclculateCropRequirement
-                        if (cvm.showHarvestUnitsDDL && (cp.yieldHarvestUnit != _sd.GetHarvestYieldDefaultUnit() ) )
-                            calculateCropRequirementRemoval.yield  = _sd.ConvertYieldFromBushelToTonsPerAcre(Convert.ToInt16(cvm.selCropOption), Convert.ToDecimal(cvm.yieldByHarvestUnit));
-                        else 
+                        if (cvm.showHarvestUnitsDDL && (cp.yieldHarvestUnit != _sd.GetHarvestYieldDefaultUnit()))
+                            calculateCropRequirementRemoval.yield = _sd.ConvertYieldFromBushelToTonsPerAcre(Convert.ToInt16(cvm.selCropOption), Convert.ToDecimal(cvm.yieldByHarvestUnit));
+                        else
                             calculateCropRequirementRemoval.yield = Convert.ToDecimal(cvm.yieldByHarvestUnit);
                         if (string.IsNullOrEmpty(cvm.crude))
                             calculateCropRequirementRemoval.crudeProtien = null;
@@ -1256,7 +1259,7 @@ namespace SERVERAPI.Controllers
                 {
                     if (cvm.showCrude)
                     {
-                        if (cvm.crude.Replace(".0","") != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
+                        if (cvm.crude.Replace(".0", "") != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#"))
                         {
                             cvm.stdCrude = false;
                         }
@@ -1265,15 +1268,14 @@ namespace SERVERAPI.Controllers
             }
             else
             {
-
                 CropDetailsReset(ref cvm);
 
                 CropDetailsSetup(ref cvm);
             }
 
-
             return PartialView(cvm);
         }
+
         [HttpPost]
         public IActionResult CropDetails(CropDetailsViewModel cvm)
         {
@@ -1434,11 +1436,10 @@ namespace SERVERAPI.Controllers
                         if (cvm.showHarvestUnitsDDL)
                             defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), cvm.selHarvestUnits != _sd.GetHarvestYieldDefaultUnit().ToString());
                         else
-                            defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), false); 
-                       
+                            defaultYield = ccrr.GetDefaultYieldByCropId(Convert.ToInt16(cvm.selCropOption), false);
+
                         if (defaultYield.HasValue)
                             cvm.yieldByHarvestUnit = defaultYield.Value.ToString("#.##");
-
                     }
                     cvm.selPrevOption = string.Empty;
 
@@ -1761,7 +1762,6 @@ namespace SERVERAPI.Controllers
                                     cvm.stdYield = false;
                                 }
                             }
-
                         }
 
                         cvm.btnText = cvm.id == null ? "Add to Field" : "Update Field";
@@ -1783,7 +1783,7 @@ namespace SERVERAPI.Controllers
                                 cropId = thisCrop.ToString(),
                                 cropOther = cvm.cropDesc,
                                 yield = Convert.ToDecimal(cvm.yieldByHarvestUnit),
-                                yieldByHarvestUnit =Convert.ToDecimal(cvm.yieldByHarvestUnit),
+                                yieldByHarvestUnit = Convert.ToDecimal(cvm.yieldByHarvestUnit),
                                 reqN = Convert.ToDecimal(cvm.reqN),
                                 reqP2o5 = Convert.ToDecimal(cvm.reqP2o5),
                                 reqK2o = Convert.ToDecimal(cvm.reqK2o),
@@ -1846,6 +1846,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView(cvm);
         }
+
         private void CropDetailsSetup(ref CropDetailsViewModel cvm)
         {
             cvm.showCrude = false;
@@ -1877,6 +1878,7 @@ namespace SERVERAPI.Controllers
 
             return;
         }
+
         private void CropDetailsReset(ref CropDetailsViewModel cvm)
         {
             cvm.reqN = "  0";
@@ -1891,6 +1893,7 @@ namespace SERVERAPI.Controllers
 
             return;
         }
+
         private void PreviousCropSetup(ref CropDetailsViewModel cvm)
         {
             cvm.prevOptions = new List<SelectListItem>();
@@ -1904,31 +1907,38 @@ namespace SERVERAPI.Controllers
                 }
             }
         }
+
         public IActionResult RefreshManureList(string fieldName)
         {
             return ViewComponent("CalcManure", new { fldName = fieldName });
         }
+
         public IActionResult RefreshFertilizerList(string fieldName)
         {
             return ViewComponent("CalcFertilizer", new { fldName = fieldName });
         }
+
         public IActionResult RefreshFieldList(string fieldName)
         {
             return RedirectToAction("Calculate", "Nutrients", new { nme = fieldName });
             //return ViewComponent("FieldList");
         }
+
         public IActionResult RefreshSummary(string fieldName)
         {
             return ViewComponent("CalcSummary", new { fldName = fieldName });
         }
+
         public IActionResult RefreshHeading(string fieldName)
         {
             return ViewComponent("CalcHeading", new { fldName = fieldName });
         }
+
         public IActionResult RefreshMessages(string fieldName)
         {
             return ViewComponent("CalcMessages", new { fldName = fieldName });
         }
+
         [HttpGet]
         public ActionResult ManureDelete(string fldName, int id)
         {
@@ -1943,6 +1953,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView("ManureDelete", dvm);
         }
+
         [HttpPost]
         public ActionResult ManureDelete(ManureDeleteViewModel dvm)
         {
@@ -1954,14 +1965,17 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("ManureDelete", dvm);
         }
+
         public IActionResult RefreshCropList(string fieldName)
         {
             return ViewComponent("CalcCrops", new { fldName = fieldName });
         }
+
         public IActionResult RefreshOtherList(string fieldName)
         {
             return ViewComponent("CalcOther", new { fldName = fieldName });
         }
+
         [HttpGet]
         public ActionResult CropDelete(string fldName, int id)
         {
@@ -1979,6 +1993,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView("CropDelete", dvm);
         }
+
         [HttpPost]
         public ActionResult CropDelete(CropDeleteViewModel dvm)
         {
@@ -1990,6 +2005,7 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("CropDelete", dvm);
         }
+
         public IActionResult OtherDetails(string fldName, int? id)
         {
             Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_ud, _sd);
@@ -2004,7 +2020,7 @@ namespace SERVERAPI.Controllers
             ovm.url = _sd.GetExternalLink("othernutrientexplanation");
             ovm.urlText = _sd.GetUserPrompt("moreinfo");
             ovm.placehldr = _sd.GetUserPrompt("othernutrientplaceholder");
-            ovm.ExplainCalculateOtherNutrientSource =_sd.GetUserPrompt("CalculateOtherNutrientSourceMessage");
+            ovm.ExplainCalculateOtherNutrientSource = _sd.GetUserPrompt("CalculateOtherNutrientSourceMessage");
             ovm.ExplainCalculateOtherNutrientAvailableThisYear = _sd.GetUserPrompt("CalculateOtherNutrientAvailableThisYearMessage");
             ovm.ExplainCalculateOtherNutrientAvailbleLongTerm = _sd.GetUserPrompt("CalculateOtherNutrientAvailbleLongTermMessage");
 
@@ -2029,6 +2045,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView(ovm);
         }
+
         [HttpPost]
         public IActionResult OtherDetails(OtherDetailsViewModel ovm)
         {
@@ -2215,6 +2232,7 @@ namespace SERVERAPI.Controllers
             }
             return View(ovm);
         }
+
         [HttpGet]
         public ActionResult OtherDelete(string fldName, int id)
         {
@@ -2229,6 +2247,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView("OtherDelete", ovm);
         }
+
         [HttpPost]
         public ActionResult OtherDelete(OtherDeleteViewModel ovm)
         {
@@ -2240,6 +2259,7 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("OtherDelete", ovm);
         }
+
         public object ReDisplay(string target, string fldName)
         {
             string refresher = "";
@@ -2258,22 +2278,26 @@ namespace SERVERAPI.Controllers
                     refresher = "RefreshCropList";
                     reload = true;
                     break;
+
                 case "#manure":
                     refresher = "RefreshManureList";
                     break;
+
                 case "#other":
                     refresher = "RefreshOtherList";
                     break;
+
                 case "#fertilizer":
                     refresher = "RefreshFertilizerList";
                     break;
+
                 case "#prevYearManure":
                     refresher = "RefreshNitrogenCredit";
                     break;
+
                 case "#soilTestNitrogenCredit":
                     refresher = "RefreshSoilTestNitrogenCredit";
                     break;
-
             }
             string url = Url.Action(refresher, "Nutrients", new { fieldName = fldName });
             string urlSumm = Url.Action("RefreshSummary", "Nutrients", new { fieldName = fldName });
@@ -2284,6 +2308,7 @@ namespace SERVERAPI.Controllers
             var result = new { success = true, url = url, target = target, urlSumm = urlSumm, urlHead = urlHead, urlMsg = urlMsg, reload = reload, urlPrevManureNitrogenCredit = urlPrevManureNitrogenCredit };
             return result;
         }
+
         [HttpGet]
         public ActionResult InfoMessage(string type)
         {
@@ -2294,21 +2319,26 @@ namespace SERVERAPI.Controllers
                 case "agri":
                     ivm.text = _sd.GetUserPrompt("agriinfomessage");
                     break;
+
                 case "crop":
                     ivm.text = _sd.GetUserPrompt("cropinfomessage");
                     break;
+
                 case "download":
                     ivm.text = _sd.GetUserPrompt("downloadinfomessage");
                     break;
+
                 case "load":
                     ivm.text = _sd.GetUserPrompt("cropinfomessage");
                     break;
+
                 case "soiltest":
                     ivm.text = _sd.GetUserPrompt("soiltest");
                     break;
             }
             return PartialView("InfoMessage", ivm);
         }
+
         public IActionResult SaveWarning(string target)
         {
             SaveWarningViewModel svm = new SaveWarningViewModel();
@@ -2317,6 +2347,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView("SaveWarning", svm);
         }
+
         [HttpGet]
         public object CheckUnsaved()
         {
@@ -2328,6 +2359,7 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("CalcPrevYearManure", new { fldName = fieldName });
         }
+
         private bool SaveNitrogenCreditToField(string fldName, int nitrogenCredit, int nitrogenCreditDefault)
         {
             try
@@ -2347,6 +2379,7 @@ namespace SERVERAPI.Controllers
             }
             return true;
         }
+
         [HttpGet]
         public IActionResult PrevYearManureApplicationDetails(string fldName)
         {
@@ -2367,6 +2400,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView(model);
         }
+
         [HttpPost]
         public IActionResult PrevYearManureApplicationDetails(PrevYearManureApplicationViewModel model)
         {
@@ -2376,7 +2410,7 @@ namespace SERVERAPI.Controllers
             {
                 try
                 {
-                    nitrogenCredit = Convert.ToInt32(model.nitrogen); 
+                    nitrogenCredit = Convert.ToInt32(model.nitrogen);
                 }
                 catch (Exception ex)
                 {
@@ -2384,8 +2418,9 @@ namespace SERVERAPI.Controllers
                     _logger.LogError(ex, "nitrogenCredit = Convert.ToInt32(model.nitrogen) failed");
                     return PartialView(model);
                 }
-                if  (nitrogenCredit >= 0)  {
-                    if (SaveNitrogenCreditToField(model.fldName, nitrogenCredit, Convert.ToInt32(model.defaultNitrogenCredit)) )
+                if (nitrogenCredit >= 0)
+                {
+                    if (SaveNitrogenCreditToField(model.fldName, nitrogenCredit, Convert.ToInt32(model.defaultNitrogenCredit)))
                     {
                         return Json(ReDisplay("#prevYearManure", model.fldName));
                     }
@@ -2396,7 +2431,6 @@ namespace SERVERAPI.Controllers
                     ModelState.AddModelError("Nitrogen", "Nitrogen Credit cannot be a negative value. It must be greater than or equal to zero");
             } // ...modelstate
             return PartialView(model);
-
         }
 
         private bool SaveSoilTestNitrogenCreditToField(string fldName, decimal nitrogenCredit, decimal nitrogenCreditDefault)
@@ -2423,6 +2457,7 @@ namespace SERVERAPI.Controllers
         {
             return ViewComponent("SoilTestNitrateOverride", new { fldName = fieldName });
         }
+
         [HttpGet]
         public IActionResult SoilTestNitrateOverrideDetails(string fldName)
         {
@@ -2443,6 +2478,7 @@ namespace SERVERAPI.Controllers
 
             return PartialView(model);
         }
+
         [HttpPost]
         public IActionResult SoilTestNitrateOverrideDetails(SoilTestNitrateOverrideViewModel model)
         {
@@ -2473,8 +2509,6 @@ namespace SERVERAPI.Controllers
                     ModelState.AddModelError("Nitrogen", "An invalid value was entered.  Nitrogen Credit must be greater than or equal to zero");
             } // ...modelstate
             return PartialView(model);
-
         }
-
     }
 }
