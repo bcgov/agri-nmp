@@ -1746,7 +1746,9 @@ namespace SERVERAPI.Controllers
                 rainfallOctToMar = subregion.AnnualPrecipitationOctToMar;
             }
 
-            var runoff = Math.Round(Convert.ToDouble(rainfallOctToMar * msdvm.RunoffAreaSquareFeet * 0.0245424));
+            var runoff = Math.Round(Convert.ToDouble(rainfallOctToMar *
+                msdvm.RunoffAreaSquareFeet.GetValueOrDefault(0) *
+                0.0245424));
             return runoff;
         }
 
