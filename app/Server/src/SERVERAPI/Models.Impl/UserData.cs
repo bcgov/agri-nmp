@@ -22,6 +22,7 @@ namespace SERVERAPI.Models.Impl
         private readonly IHttpContextAccessor _ctx;
         private readonly IAgriConfigurationRepository _sd;
         private readonly ICalculateManureGeneration _calculateManureGeneration;
+        private readonly IManureLiquidSolidSeparationCalculator _manureLiquidSolidSeparationCalculator;
         private readonly ICalculateNutrients _calculateNutrients;
         private readonly ISoilTestConverter _SoilTestConversions;
         private readonly IMapper _mapper;
@@ -32,6 +33,7 @@ namespace SERVERAPI.Models.Impl
             IAgriConfigurationRepository sd,
             ICalculateManureGeneration calculateManureGeneration,
             ICalculateNutrients calculateNutrients,
+            IManureLiquidSolidSeparationCalculator manureLiquidSolidSeparationCalculator,
             ISoilTestConverter SoilTestConversions,
             IMapper mapper,
             IOptions<AppSettings> appSettings)
@@ -40,6 +42,7 @@ namespace SERVERAPI.Models.Impl
             _ctx = ctx;
             _sd = sd;
             _calculateManureGeneration = calculateManureGeneration;
+            _manureLiquidSolidSeparationCalculator = manureLiquidSolidSeparationCalculator;
             _calculateNutrients = calculateNutrients;
             _SoilTestConversions = SoilTestConversions;
             _mapper = mapper;
@@ -1452,10 +1455,10 @@ namespace SERVERAPI.Models.Impl
                     if (manure.ManureId.Contains("Generated"))
                     {
                         var manureGenerated = GetGeneratedManure(manure.Id.GetValueOrDefault());
-                        materialVolumes += manureGenerated.annualAmountDecimal;
-                        if (manureGenerated.washWaterGallons != 0)
+                        materialVolumes += manureGenerated.AnnualAmountDecimal;
+                        if (manureGenerated.WashWaterGallons != 0)
                         {
-                            materialVolumes += manureGenerated.washWaterGallons;
+                            materialVolumes += manureGenerated.WashWaterGallons;
                         }
                     }
                     else if (manure.ManureId.Contains("Imported"))
@@ -1482,10 +1485,10 @@ namespace SERVERAPI.Models.Impl
                     if (manure.ManureId.Contains("Generated"))
                     {
                         var manureGenerated = GetGeneratedManure(manure.Id.GetValueOrDefault());
-                        materialVolumes += manureGenerated.annualAmountDecimal;
-                        if (manureGenerated.washWaterGallons != 0)
+                        materialVolumes += manureGenerated.AnnualAmountDecimal;
+                        if (manureGenerated.WashWaterGallons != 0)
                         {
-                            materialVolumes += manureGenerated.washWaterGallons;
+                            materialVolumes += manureGenerated.WashWaterGallons;
                         }
                     }
                     else if (manure.ManureId.Contains("Imported"))
@@ -1504,7 +1507,7 @@ namespace SERVERAPI.Models.Impl
         {
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             var yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
-            var separatedSolidManureToDrop = yd.SeparatedSolidManures?.SingleOrDefault(s =>
+            var savedSeparatedSolidManure = yd.SeparatedSolidManures?.SingleOrDefault(s =>
                 s.SeparationSourceStorageSystemId == sourceManureStorageSystem.Id);
 
             var savedSystem = yd.ManureStorageSystems.Single(ss => ss.Id == sourceManureStorageSystem.Id);
