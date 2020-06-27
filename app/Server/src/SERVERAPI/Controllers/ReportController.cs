@@ -808,7 +808,7 @@ namespace SERVERAPI.Controllers
 
             if (yearData.FarmManures != null)
             {
-                foreach (var fm in yearData.FarmManures)
+                foreach (var fm in yearData.FarmManures.GroupBy(fm => fm.SourceOfMaterialId).Select(fm => fm.First()).ToList())
                 {
                     ReportManures rm = new ReportManures();
                     AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);

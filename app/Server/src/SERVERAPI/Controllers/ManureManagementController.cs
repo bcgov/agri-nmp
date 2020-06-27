@@ -772,6 +772,13 @@ namespace SERVERAPI.Controllers
             mgovm.subTypeOptions = new List<SelectListItem>();
             mgovm.breedOptions = new List<SelectListItem>();
 
+            if (!mgovm.id.HasValue &&
+                string.IsNullOrEmpty(mgovm.selAnimalTypeOption) &&
+                _ud.FarmDetails().UserJourney == UserJourney.Dairy)
+            {
+                mgovm.selAnimalTypeOption = "2"; //Dairy Cattle
+            }
+
             if (!string.IsNullOrEmpty(mgovm.selAnimalTypeOption) &&
                 mgovm.selAnimalTypeOption != "select animal")
             {
