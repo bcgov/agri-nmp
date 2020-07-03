@@ -271,7 +271,7 @@ namespace SERVERAPI.Controllers
                         {
                             // check for standard
                             var cropRequirementRemoval = _calculateCropRequirementRemoval
-                                .GetCropRequirementRemoval(Convert.ToInt16(Convert.ToDecimal(c.yield)),
+                                .GetCropRequirementRemoval(Convert.ToInt16(c.cropId),
                                 Convert.ToDecimal(c.yield),
                                 c.crudeProtien.HasValue ? Convert.ToDecimal(c.crudeProtien) : default(decimal?),
                                 c.coverCropHarvested,
