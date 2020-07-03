@@ -58,7 +58,12 @@ namespace Agri.Models.Farm
         public bool AssignedWithNutrientAnalysis { get; set; }
         public string ManureStorageVolume { get; set; }
         public decimal OctoberToMarchSeparatedLiquidsUSGallons { get; set; }
-        public double OctoberToMarchPrecipitation { get; set; }
+
+        public double OctoberToMarchPrecipitation =>
+            ManureStorageStructures
+                .Where(mss => mss.IsStructureCovered == false)
+                .Sum(ss => ss.OctoberToMarchPrecipitation);
+
         public string OctoberToMarchPrecipitationText => OctoberToMarchPrecipitation.ToString("#,#");
         public double OctoberToMarchRunoff { get; set; }
         public string OctoberToMarchRunoffText => OctoberToMarchRunoff.ToString("#,#");
