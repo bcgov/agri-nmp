@@ -1,5 +1,7 @@
 ﻿@model SERVERAPI.ViewModels.ReportCropsManureViewModel
 
+@if (Model.Manures.Any())
+{
 <div style="page-break-inside:avoid">
     <div class="Row">
         <div class="Cell">
@@ -32,3 +34,4 @@
         </div>
     </div>
 </div>
+}
