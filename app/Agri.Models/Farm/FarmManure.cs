@@ -11,12 +11,12 @@ namespace Agri.Models.Farm
         public string SourceOfMaterialId { get; set; }
 
         public int? SourceOfMaterialStoredSystemId =>
-            StoredImported == NutrientAnalysisTypes.Stored
+            Stored_Imported == NutrientAnalysisTypes.Stored
                 ? Convert.ToInt32(SourceOfMaterialId.Split(",")[1])
                 : new int?();
 
         public int? SourceOfMaterialImportedManureId =>
-            StoredImported == NutrientAnalysisTypes.Imported
+            Stored_Imported == NutrientAnalysisTypes.Imported
                 ? Convert.ToInt32(SourceOfMaterialId.Split(",")[1])
                 : new int?();
 
@@ -33,7 +33,10 @@ namespace Agri.Models.Farm
         public int DMId { get; set; }
         public int NMinerizationId { get; set; }
         public decimal? Nitrate { get; set; }
-        public NutrientAnalysisTypes StoredImported { get; set; }
+
+        //DO NOT Change Name - used on legacy nmp files
+        public NutrientAnalysisTypes Stored_Imported { get; set; }
+
         public bool IsAssignedToStorage { get; set; }
         public List<string> IncludedSourceOfMaterialIds { get; set; } = new List<string>();
 

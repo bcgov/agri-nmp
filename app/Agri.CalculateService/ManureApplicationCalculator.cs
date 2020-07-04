@@ -34,12 +34,12 @@ namespace Agri.CalculateService
         public AppliedManure GetAppliedManure(YearData yearData, FarmManure farmManure)
         {
             AppliedManure appliedManure;
-            if (farmManure.StoredImported == NutrientAnalysisTypes.Stored)
+            if (farmManure.Stored_Imported == NutrientAnalysisTypes.Stored)
             {
                 //Stored Manure
                 appliedManure = GetAppliedStoredManure(yearData, farmManure);
             }
-            else if (farmManure.StoredImported == NutrientAnalysisTypes.Imported)
+            else if (farmManure.Stored_Imported == NutrientAnalysisTypes.Imported)
             {
                 appliedManure = GetAppliedImportedManure(yearData, farmManure);
             }

@@ -815,11 +815,11 @@ namespace SERVERAPI.Controllers
 
                     if (appliedManure != null)
                     {
-                        if (fm.StoredImported == NutrientAnalysisTypes.Stored)
+                        if (fm.Stored_Imported == NutrientAnalysisTypes.Stored)
                         {
                             rm.MaterialName = "Material in ";
                         }
-                        else if (fm.StoredImported == NutrientAnalysisTypes.Imported)
+                        else if (fm.Stored_Imported == NutrientAnalysisTypes.Imported)
                         {
                             rm.MaterialName = "";
                         }

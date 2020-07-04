@@ -2559,7 +2559,7 @@ namespace SERVERAPI.Controllers
                 }
 
                 mvm.SelectedSourceOfMaterialOption = fm.SourceOfMaterialId;
-                mvm.StoredImported = fm.StoredImported;
+                mvm.StoredImported = fm.Stored_Imported;
                 mvm.IsAssignedToStorage = fm.IsAssignedToStorage;
                 mvm.SelectedManureOption = fm.ManureId;
 
@@ -3087,7 +3087,7 @@ namespace SERVERAPI.Controllers
                         {
                             fm.SourceOfMaterialId = cvm.SelectedSourceOfMaterialOption;
                             fm.SourceOfMaterialName = cvm.SourceOfMaterialName;
-                            fm.StoredImported = cvm.StoredImported;
+                            fm.Stored_Imported = cvm.StoredImported;
                             fm.IsAssignedToStorage = cvm.IsAssignedToStorage;
                             fm.ManureId = cvm.SelectedManureOption;
                             fm.Customized = false;
@@ -3111,7 +3111,7 @@ namespace SERVERAPI.Controllers
                             fm.Potassium = Convert.ToDecimal(cvm.Potassium);
                             fm.Nitrate = cvm.ShowNitrate ? Convert.ToDecimal(cvm.Nitrate) : (decimal?)null;
                             fm.SolidLiquid = man.SolidLiquid;
-                            fm.StoredImported = cvm.StoredImported;
+                            fm.Stored_Imported = cvm.StoredImported;
                             fm.IsAssignedToStorage = cvm.IsAssignedToStorage;
                         }
 
@@ -3128,7 +3128,7 @@ namespace SERVERAPI.Controllers
                             fm.SourceOfMaterialName = cvm.SourceOfMaterialName;
                             fm.ManureId = cvm.SelectedManureOption;
                             fm.Customized = false;
-                            fm.StoredImported = cvm.StoredImported;
+                            fm.Stored_Imported = cvm.StoredImported;
                         }
                         else
                         {
@@ -3149,7 +3149,7 @@ namespace SERVERAPI.Controllers
                             fm.Potassium = Convert.ToDecimal(cvm.Potassium);
                             fm.SolidLiquid = man.SolidLiquid;
                             fm.Nitrate = cvm.ShowNitrate ? Convert.ToDecimal(cvm.Nitrate) : (decimal?)null;
-                            fm.StoredImported = cvm.StoredImported;
+                            fm.Stored_Imported = cvm.StoredImported;
                             fm.IsAssignedToStorage = cvm.IsAssignedToStorage;
                         }
 
