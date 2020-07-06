@@ -83,6 +83,18 @@ namespace Agri.Data.Migrations
                 table: "MainMenus",
                 column: "JourneyId");
 
+            migrationBuilder.Sql(@"
+                INSERT INTO public.""Journey"" (""Name"") VALUES
+                ('Initial')
+                , ('Dairy')
+                , ('Ranch')
+                , ('Poultry')
+                , ('Crops')
+                , ('Mixed');
+
+                UPDATE public.""MainMenus"" SET ""JourneyId"" = 2;
+                ; ");
+
             migrationBuilder.AddForeignKey(
                 name: "FK_MainMenus_Journey_JourneyId",
                 table: "MainMenus",
