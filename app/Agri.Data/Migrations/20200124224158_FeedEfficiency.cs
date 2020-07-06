@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Design.Internal;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Agri.Data.Migrations
 {
@@ -6,6 +7,12 @@ namespace Agri.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateIndex(
+                name: "IX_StaticDataVersions_Id",
+                table: "StaticDataVersions",
+                column: "Id",
+                unique: true);
+
             migrationBuilder.CreateTable(
                 name: "FeedEfficiencies",
                 columns: table => new
