@@ -568,7 +568,7 @@ namespace SERVERAPI.Pages.Mixed.MixedNutrients
             {
                 var farmManure = _mapper.Map<FarmManure>(request);
 
-                farmManure.StoredImported = NutrientAnalysisTypes.Collected;
+                farmManure.Stored_Imported = NutrientAnalysisTypes.Collected;
 
                 if (request.Id.HasValue)
                 {

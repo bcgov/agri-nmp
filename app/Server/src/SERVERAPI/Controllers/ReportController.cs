@@ -271,7 +271,7 @@ namespace SERVERAPI.Controllers
                         {
                             // check for standard
                             var cropRequirementRemoval = _calculateCropRequirementRemoval
-                                .GetCropRequirementRemoval(Convert.ToInt16(Convert.ToDecimal(c.yield)),
+                                .GetCropRequirementRemoval(Convert.ToInt16(c.cropId),
                                 Convert.ToDecimal(c.yield),
                                 c.crudeProtien.HasValue ? Convert.ToDecimal(c.crudeProtien) : default(decimal?),
                                 c.coverCropHarvested,
@@ -815,11 +815,11 @@ namespace SERVERAPI.Controllers
 
                     if (appliedManure != null)
                     {
-                        if (fm.StoredImported == NutrientAnalysisTypes.Stored)
+                        if (fm.Stored_Imported == NutrientAnalysisTypes.Stored)
                         {
                             rm.MaterialName = "Material in ";
                         }
-                        else if (fm.StoredImported == NutrientAnalysisTypes.Imported)
+                        else if (fm.Stored_Imported == NutrientAnalysisTypes.Imported)
                         {
                             rm.MaterialName = "";
                         }

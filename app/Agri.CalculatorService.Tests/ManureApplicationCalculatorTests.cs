@@ -58,7 +58,7 @@ namespace Agri.CalculateService.Tests
                 });
             var convertCalculator = new ManureUnitConversionCalculator(repository);
             var calculator = new ManureApplicationCalculator(convertCalculator, repository);
-            var farmManure = new FarmManure() { SourceOfMaterialId = "StorageSystem, 1", StoredImported = NutrientAnalysisTypes.Stored };
+            var farmManure = new FarmManure() { SourceOfMaterialId = "StorageSystem, 1", Stored_Imported = NutrientAnalysisTypes.Stored };
 
             //Act
             var result = calculator.GetAppliedStoredManure(_yearData, farmManure);
@@ -108,7 +108,7 @@ namespace Agri.CalculateService.Tests
         public void GetFieldsAppliedWithImportedManure()
         {
             //arrange
-            var farmManure = new FarmManure() { SourceOfMaterialId = "Imported, 1", StoredImported = NutrientAnalysisTypes.Imported };
+            var farmManure = new FarmManure() { SourceOfMaterialId = "Imported, 1", Stored_Imported = NutrientAnalysisTypes.Imported };
 
             //act
             var result = _yearData.GetFieldsAppliedWithManure(farmManure);

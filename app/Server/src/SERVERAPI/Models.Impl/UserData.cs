@@ -1075,7 +1075,7 @@ namespace SERVERAPI.Models.Impl
             frm.Phosphorous = updtMan.Phosphorous;
             frm.Potassium = updtMan.Potassium;
             frm.SolidLiquid = updtMan.SolidLiquid;
-            frm.StoredImported = updtMan.StoredImported;
+            frm.Stored_Imported = updtMan.Stored_Imported;
             frm.IsAssignedToStorage = updtMan.IsAssignedToStorage;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -1123,7 +1123,7 @@ namespace SERVERAPI.Models.Impl
                 var name = manures.Count(m => m.ManureId == r.ManureId) == 1
                     ? r.Name
                     : $"{r.SourceOfMaterialName}: {r.Name}";
-                if (r.StoredImported == NutrientAnalysisTypes.Imported)
+                if (r.Stored_Imported == NutrientAnalysisTypes.Imported)
                 {
                     name = $"{r.SourceOfMaterialName}";
                 }
