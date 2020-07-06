@@ -199,7 +199,7 @@ namespace Agri.CalculateService
             {
                 _locationid = _sd.GetRegion(farmDetails.FarmRegion.Value).LocationId;
                 CropYield cy = _sd.GetCropYield(_cropid, _locationid);
-                if (cy.Amount.HasValue)
+                if (cy != null && cy.Amount.HasValue)
                     defaultYield = cy.Amount.Value;
                 if (useBushelPerAcreUnits && defaultYield.HasValue)
                 {
