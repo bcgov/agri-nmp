@@ -6,6 +6,8 @@ namespace Agri.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql(@"DELETE FROM public.""UserPrompts""; ");
+
             migrationBuilder.AddColumn<string>(
                 name: "UserPromptPage",
                 table: "UserPrompts",
