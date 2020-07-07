@@ -84,15 +84,8 @@ namespace Agri.Data.Migrations
                 column: "JourneyId");
 
             migrationBuilder.Sql(@"
-                INSERT INTO public.""Journey"" (""Name"") VALUES
-                ('Initial')
-                , ('Dairy')
-                , ('Ranch')
-                , ('Poultry')
-                , ('Crops')
-                , ('Mixed');
-
-                UPDATE public.""MainMenus"" SET ""JourneyId"" = 2;
+                DELETE FROM public.""SubMenu"";
+                DELETE FROM public.""MainMenus"";
                 ; ");
 
             migrationBuilder.AddForeignKey(
