@@ -6,6 +6,12 @@ namespace Agri.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateIndex(
+                name: "IX_StaticDataVersions_Id",
+                table: "StaticDataVersions",
+                column: "Id",
+                unique: true);
+
             migrationBuilder.CreateTable(
                 name: "DailyFeedRequirements",
                 columns: table => new
