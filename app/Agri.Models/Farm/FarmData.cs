@@ -8,7 +8,8 @@ namespace Agri.Models.Farm
     {
         public FarmDetails farmDetails { get; set; }
         public bool unsaved { get; set; }
-        public List<YearData> years { get; set; }
+
+        public List<YearData> years { get; set; } = new List<YearData>();
 
         private string lastAppliedFarmManureId;
 
@@ -29,8 +30,8 @@ namespace Agri.Models.Farm
 
         private string VerifyAppliedFarmManureId(string appliedFarmManureId)
         {
-            var yearData = years.FirstOrDefault(y => y.year == farmDetails.year);
-            if (yearData.farmManures.Any(c => c.id == Convert.ToInt32(appliedFarmManureId)))
+            var yearData = years.FirstOrDefault(y => y.Year == farmDetails.Year);
+            if (yearData.FarmManures.Any(c => c.Id == Convert.ToInt32(appliedFarmManureId)))
             {
                 return appliedFarmManureId;
             }

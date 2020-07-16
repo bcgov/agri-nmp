@@ -1,25 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Models;
-using System;
+﻿using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
 
 namespace SERVERAPI.ViewComponents
 {
     public class ReportFields : ViewComponent
     {
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
+        private readonly UserData _ud;
 
-        public ReportFields(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
+        public ReportFields(UserData ud)
         {
-            _sd = sd;
             _ud = ud;
         }
-
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
@@ -30,22 +24,19 @@ namespace SERVERAPI.ViewComponents
         {
             ReportFieldsViewModel fvm = new ReportFieldsViewModel();
 
-            FarmDetails fd = _ud.FarmDetails();
-
-
             List<Field> flds = _ud.GetFields();
 
             foreach (var m in flds)
             {
                 DisplayReportField dc = new DisplayReportField();
-                dc.fldName = m.fieldName;
-                if (m.soilTest != null)
+                dc.fldName = m.FieldName;
+                if (m.SoilTest != null)
                 {
-                    dc.sampleDate = m.soilTest.sampleDate.ToString("MMM-yyyy");
-                    dc.dispNO3H = m.soilTest.valNO3H.ToString();
-                    dc.dispP = m.soilTest.ValP.ToString();
-                    dc.dispK = m.soilTest.valK.ToString();
-                    dc.dispPH = m.soilTest.valPH.ToString();
+                    dc.sampleDate = m.SoilTest.sampleDate.ToString("MMM-yyyy");
+                    dc.dispNO3H = m.SoilTest.valNO3H.ToString();
+                    dc.dispP = m.SoilTest.ValP.ToString();
+                    dc.dispK = m.SoilTest.valK.ToString();
+                    dc.dispPH = m.SoilTest.valPH.ToString();
                 }
                 fvm.fields.Add(dc);
             }
@@ -53,10 +44,12 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(fvm);
         }
     }
+
     public class ReportFieldsViewModel
     {
         public List<DisplayReportField> fields { get; set; }
     }
+
     public class DisplayReportField
     {
         public string fldName { get; set; }

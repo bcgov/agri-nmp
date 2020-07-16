@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 <div id="next-previous-navigation">
-                    @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.SoilTest })
+                    @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.SoilTest })
                 </div>
             </form>
         </div>
@@ -291,7 +291,6 @@
                 return false;
             });
         }
-
     </script>
 
 }

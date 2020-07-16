@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models;
-using Agri.Models.Farm;
+﻿using Agri.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
 {

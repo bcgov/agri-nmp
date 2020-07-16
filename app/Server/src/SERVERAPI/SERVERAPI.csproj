@@ -3,7 +3,7 @@
     <Description>The API server</Description>
     <Copyright>Copyright© 2017, Province of British Columbia.</Copyright>
     <AssemblyTitle>DOTNET API Server</AssemblyTitle>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <DebugType>portable</DebugType>
     <AssemblyName>SERVERAPI</AssemblyName>
@@ -13,43 +13,31 @@
     <UserSecretsId>aspnet-Core2-37757D75-C7BA-4F7A-8B80-0040DB6484EA</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Bootstrap.Datepicker" Version="1.6.4" />
-    <PackageReference Include="FluentValidation" Version="8.6.2" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="8.6.2" />
-    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="FluentValidation" Version="8.6.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="8.6.1" />
+    <PackageReference Include="MediatR" Version="8.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
-    <PackageReference Include="Bootstrap.Datepicker" Version="1.8.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.1.1" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="4.8.0" />
-    <PackageReference Include="NLog" Version="4.5.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="3.1.0" />
+    <PackageReference Include="Bootstrap.Datepicker" Version="1.8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis.Core" Version="1.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Web.RedisSessionStateProvider" Version="4.0.1" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.0" />
+    <PackageReference Include="NLog" Version="4.6.8" />
+    <PackageReference Include="Redis-64" Version="3.0.503" />
+    <PackageReference Include="StackExchange.Redis" Version="2.1.30" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Mappings\**" />
-    <Compile Remove="Migrations\**" />
-    <Compile Remove="Services\**" />
-    <Compile Remove="wwwroot\**\*;node_modules;bower_components" />
-    <Content Remove="Mappings\**" />
-    <Content Remove="Migrations\**" />
-    <Content Remove="Services\**" />
-    <EmbeddedResource Remove="Mappings\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <EmbeddedResource Remove="Services\**" />
-    <None Remove="Mappings\**" />
-    <None Remove="Migrations\**" />
-    <None Remove="Services\**" />
-    <Compile Remove="Utility\BalanceMessages.cs" />
-    <Compile Remove="Utility\ChemicalBalances.cs" />
-    <Compile Remove="Utility\CropRequirementRemoval.cs" />
-    <Compile Remove="Utility\FertilizerNutrients.cs" />
-    <Compile Remove="Utility\NOrganicMineralizations.cs" />
-    <Compile Remove="Utility\NutrientInputs.cs" />
-    <Compile Remove="Utility\SoilTestConversions.cs" />
-    <None Remove="PDF.js" />
     <Content Include="PDF.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -61,26 +49,21 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.3" />
-    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.3" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.0" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Infrastructure\" />
     <Folder Include="UserAgent\" />
     <Folder Include="Services.Impl\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Pages\MiniApps\NitrateTestCalculator\Index.cshtml" />
-    <None Include="Views\Home\temp.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Agri.CalculateService\Agri.CalculateService.csproj" />
     <ProjectReference Include="..\..\..\Agri.Data\Agri.Data.csproj" />
-    <ProjectReference Include="..\..\..\Agri.Interfaces\Agri.Interfaces.csproj" />
     <ProjectReference Include="..\..\..\Agri.Models\Agri.Models.csproj" />
-    <ProjectReference Include="..\..\..\Common\src\Common\Common.csproj" />
+    <ProjectReference Include="..\..\..\Agri.Shared\Agri.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="nlog.config">

@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Linq;
 using System;
 using Agri.Models.Calculate;
-using Agri.Interfaces;
 
 namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
 {
@@ -78,7 +77,7 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
             public SelectList UnitOptions { get; set; }
             public SelectList ApplicationOptions { get; set; }
             public SelectList RegionOptions { get; set; }
-            public decimal ApplicationRate { get; set; }
+            public decimal? ApplicationRate { get; set; }
             public string PostedElementEvent { get; set; }
             public string Moisture { get; set; }
             public decimal? Nitrogen { get; set; }
@@ -245,7 +244,7 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                 decimal phosphorousPtoP2O5Kconversion = _cf.PhosphorousPtoP2O5Conversion;
                 decimal lbPerTonConversion = _cf.PoundPerTonConversion;
                 decimal tenThousand = 10000;
-                decimal applicationRate = request.ApplicationRate;
+                decimal applicationRate = request.ApplicationRate.GetValueOrDefault(0);
 
                 // get conversion factor for selected units to lb/ac
                 var myunit = _sd.GetUnit(request.SelectedUnit);

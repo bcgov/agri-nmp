@@ -12,12 +12,10 @@ namespace SERVERAPI.ViewComponents
 {
     public class FieldList : ViewComponent
     {
-        private IHostingEnvironment _env;
         private UserData _ud;
 
-        public FieldList(IHostingEnvironment env, UserData ud)
+        public FieldList(UserData ud)
         {
-            _env = env;
             _ud = ud;
         }
 
@@ -41,13 +39,13 @@ namespace SERVERAPI.ViewComponents
             foreach (var f in fldList)
             {
                 Field nf = new Field();
-                nf.fieldName = f.fieldName;
-                nf.area = f.area;
-                nf.comment = f.comment;
-                nf.crops = f.crops;
+                nf.FieldName = f.FieldName;
+                nf.Area = f.Area;
+                nf.Comment = f.Comment;
+                nf.Crops = f.Crops;
 
                 fvm.fields.Add(nf);
-                if(f.crops == null)
+                if (f.Crops == null)
                 {
                     fvm.noCrops = true;
                 }

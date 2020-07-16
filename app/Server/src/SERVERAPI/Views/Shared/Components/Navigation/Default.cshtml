@@ -2,7 +2,7 @@
 @model NavigationDetailViewModel
 
 @{
-    var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"].ToString());
+    var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"]?.ToString() ?? "AddAnimals");
 }
 <!--MAIN MENU-->
 <div style="background: #c1daea;">
@@ -11,30 +11,30 @@
             <li style="padding:0 40px 0 0">
                 @if (currentAction != CoreSiteActions.SessionExpired)
                 {
-                    <input type="button" data_modal2="" data-type="@Url.Action("NewWarning", "Home")" value="Home" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;" />
+                    <input type="button" legacy_modal="" data-type="@Url.Action("NewWarning", "Home")" value="Home" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;" />
                 }
                 else
                 {
-                    <a href="@Url.Action("Index", "Home")"  Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;">Home</a>
+                    <a href="@Url.Action("Index", "Home")" Style="padding-top:8px;background:none!Important;border:none;font-family: arial,sans-serif;color: black;cursor: pointer;">Home</a>
                 }
             </li>
-            @foreach (var item in Model.mainMenuOptions)
+            @foreach (var item in Model.MainMenus)
             {
-                var url = Url.Action(item.Action, item.Controller);
+                var url = item.UsesFeaturePages ? Url.Page(item.Page) : Url.Action(item.Action, item.Controller);
                 var redirectFunction = $"window.location.href='{url}'";
                 if (Model.UseInterceptJS)
                 {
                     redirectFunction = $"Intercept('{url}')";
                 }
                 <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
-                    <a id="@item.ElementId" href='#' onclick="@redirectFunction" class="@item.GreyOutClass">
+                    <a id="@item.ElementId" href='#' onclick="@redirectFunction">
                         @item.Name
                     </a>
                 </li>
             }
-            @if (currentAction != CoreSiteActions.Farm && 
-                 currentAction != CoreSiteActions.Report && 
-                 currentAction != CoreSiteActions.SessionExpired)
+            @if (currentAction != CoreSiteActions.Farm &&
+           currentAction != CoreSiteActions.Report &&
+           currentAction != CoreSiteActions.SessionExpired)
             {
                 <li class="continue-link">
                     <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
@@ -49,10 +49,12 @@
     <div class="second-level-nav">
         <div class="col-lg-offset-2 col-lg-10">
             <ul class="second-level-nav">
-                @foreach (var item in Model.subMenuOptions)
+                @foreach (var item in Model.SubMenus)
                 {
-                    <li id="@item.Controller@item.Action@item.Id">
-                        <a id="@item.ElementId" href='@Url.Action(@item.Action, @item.Controller)' class="@item.GreyOutClass">
+                    var url = item.UsesFeaturePages ? Url.Page(item.Page) : Url.Action(item.Action, item.Controller);
+
+                    <li id="@item.ElementId@item.Id">
+                        <a id="@item.ElementId" href='@url'>
                             <span>@item.Name</span>
                         </a>
                     </li>

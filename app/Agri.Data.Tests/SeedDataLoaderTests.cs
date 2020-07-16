@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Agri.Models.Configuration;
+using Agri.Models.Settings;
 using Agri.Tests.Shared;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Shouldly;
 using Xunit;
 
@@ -64,10 +67,10 @@ namespace Agri.Data.Tests
 
             result.SingleOrDefault(r => r.Name.Equals("Ranch", StringComparison.OrdinalIgnoreCase)).ShouldNotBeNull();
             result.SingleOrDefault(r => r.Name.Equals("Ranch", StringComparison.OrdinalIgnoreCase))
-                .MainMenus.Any(m => !string.IsNullOrWhiteSpace(m.Page) &&
-                    m.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase) &&
-                    m.SubMenus.Any(sb => sb.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase)))
-                .ShouldBeTrue();
+                 .MainMenus.Any(m => !string.IsNullOrWhiteSpace(m.Page) &&
+                     m.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase) &&
+                     m.SubMenus.Any(sb => sb.Page.Equals("RanchAnimals/Index", StringComparison.OrdinalIgnoreCase)))
+                 .ShouldBeTrue();
         }
 
         [Fact]
@@ -110,7 +113,7 @@ namespace Agri.Data.Tests
         public void SeedData_Should_Load_Entire_Database()
         {
             var repo = new AgriConfigurationRepository(agriConfigurationDb, Mapper);
-            var seeder = new AgriSeeder(agriConfigurationDb, repo);
+            var seeder = new AgriSeeder(agriConfigurationDb, repo, serviceProvider.GetService<IOptions<AppSettings>>());
             seeder.Seed();
 
             agriConfigurationDb.Browsers.Any().ShouldBeTrue();
@@ -135,9 +138,14 @@ namespace Agri.Data.Tests
             agriConfigurationDb.CropSoilTestPotassiumRegions.Any().ShouldBeTrue();
             agriConfigurationDb.CropTypes.Any().ShouldBeTrue();
             agriConfigurationDb.CropYields.Any().ShouldBeTrue();
+            agriConfigurationDb.DailyFeedRequirements.Any().ShouldBeTrue();
             agriConfigurationDb.DefaultSoilTests.Any().ShouldBeTrue();
             agriConfigurationDb.DensityUnits.Any().ShouldBeTrue();
             agriConfigurationDb.DryMatters.Any().ShouldBeTrue();
+            agriConfigurationDb.Feeds.Any().ShouldBeTrue();
+            agriConfigurationDb.FeedForageTypes.Any().ShouldBeTrue();
+            agriConfigurationDb.FeedConsumptions.Any().ShouldBeTrue();
+            agriConfigurationDb.FeedEfficiencies.Any().ShouldBeTrue();
             agriConfigurationDb.Fertilizers.Any().ShouldBeTrue();
             agriConfigurationDb.FertilizerMethods.Any().ShouldBeTrue();
             agriConfigurationDb.FertilizerTypes.Any().ShouldBeTrue();
@@ -145,6 +153,7 @@ namespace Agri.Data.Tests
             agriConfigurationDb.HarvestUnits.Any().ShouldBeTrue();
             agriConfigurationDb.LiquidFertilizerDensities.Any().ShouldBeTrue();
             agriConfigurationDb.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.Any().ShouldBeTrue();
+            agriConfigurationDb.LiquidMaterialApplicationUsGallonsPerAcreRateConversions.All(c => c.ApplicationRateUnit > 0).ShouldBeTrue();
             agriConfigurationDb.LiquidMaterialsConversionFactors.Any().ShouldBeTrue();
             agriConfigurationDb.LiquidSolidSeparationDefaults.Any().ShouldBeTrue();
             agriConfigurationDb.ManureImportedDefaults.Any().ShouldBeTrue();
@@ -171,6 +180,7 @@ namespace Agri.Data.Tests
             agriConfigurationDb.SoilTestPotassiumKelownaRanges.Any().ShouldBeTrue();
             agriConfigurationDb.SoilTestPotassiumKelownaRanges.Any().ShouldBeTrue();
             agriConfigurationDb.SolidMaterialApplicationTonPerAcreRateConversions.Any().ShouldBeTrue();
+            agriConfigurationDb.SolidMaterialApplicationTonPerAcreRateConversions.All(c => c.ApplicationRateUnit > 0).ShouldBeTrue();
             agriConfigurationDb.SolidMaterialsConversionFactors.Any().ShouldBeTrue();
             agriConfigurationDb.Units.Any().ShouldBeTrue();
             agriConfigurationDb.Regions.SelectMany(r => r.SubRegions).Any().ShouldBeTrue();

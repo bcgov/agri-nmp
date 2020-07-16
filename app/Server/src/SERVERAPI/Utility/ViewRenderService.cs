@@ -23,12 +23,12 @@ namespace SERVERAPI.Utility
         private readonly IRazorViewEngine _razorViewEngine;
         private readonly ITempDataProvider _tempDataProvider;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
         public ViewRenderService(IRazorViewEngine razorViewEngine,
             ITempDataProvider tempDataProvider,
             IServiceProvider serviceProvider,
-            IHostingEnvironment env)
+            IWebHostEnvironment env)
         {
             _razorViewEngine = razorViewEngine;
             _tempDataProvider = tempDataProvider;
@@ -70,6 +70,7 @@ namespace SERVERAPI.Utility
             }
         }
     }
+
     public class PDF_Options
     {
         public string type { get; set; }
@@ -82,6 +83,7 @@ namespace SERVERAPI.Utility
         public PDF_Header header { get; set; }
         public PDF_Footer footer { get; set; }
     }
+
     public class PDF_Border
     {
         public string top { get; set; }
@@ -89,15 +91,16 @@ namespace SERVERAPI.Utility
         public string bottom { get; set; }
         public string left { get; set; }
     }
+
     public class PDF_Header
     {
         public string height { get; set; }
         public string contents { get; set; }
     }
+
     public class PDF_Footer
     {
         public string height { get; set; }
         public string contents { get; set; }
     }
 }
-

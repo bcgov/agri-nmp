@@ -1,5 +1,4 @@
-﻿using Agri.Data.Migrations;
-using Agri.Models;
+﻿using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using AutoMapper;
@@ -18,7 +17,7 @@ namespace SERVERAPI
             : base(profileName)
         {
             CreateMap<AmmoniaRetention, AmmoniaRetention>();
-            CreateMap<Animal, Animal>()
+            CreateMap<Agri.Models.Configuration.Animal, Agri.Models.Configuration.Animal>()
                 .ForMember(x => x.AnimalSubTypes, opt => opt.Ignore())
                 .ForMember(x => x.Breeds, opt => opt.Ignore());
             CreateMap<AnimalSubType, AnimalSubType>()
@@ -51,6 +50,8 @@ namespace SERVERAPI
                 .ForMember(x => x.LiquidFertilizerDensities, opt => opt.Ignore());
             CreateMap<DryMatter, DryMatter>()
                 .ForMember(x => x.Manures, opt => opt.Ignore());
+            CreateMap<Feed, Feed>();
+            CreateMap<FeedForageType, FeedForageType>();
             CreateMap<Fertilizer, Fertilizer>()
                 .ForMember(x => x.LiquidFertilizerDensities, opt => opt.Ignore());
             CreateMap<FertilizerMethod, FertilizerMethod>();
@@ -103,6 +104,9 @@ namespace SERVERAPI
                 .ForMember(x => x.Region, opt => opt.Ignore()); ;
             CreateMap<Yield, Yield>();
 
+            CreateMap<FarmAnimal, FarmAnimal>();
+            CreateMap<Field, Field>();
+            CreateMap<ImportedManure, ImportedManure>();
             CreateMap<ManureStorageSystem, ManureStorageSystem>();
             CreateMap<GeneratedManure, GeneratedManure>();
             CreateMap<ManureImportedDetailViewModel, ImportedManure>()
@@ -111,10 +115,9 @@ namespace SERVERAPI
                 .ForMember(dest => dest.ManureTypeName, x => x.MapFrom(src => EnumHelper<ManureMaterialType>.GetDisplayValue(src.SelectedManureType)))
                 .ForMember(dest => dest.Units, x => x.MapFrom(src => src.SelectedAnnualAmountUnit))
                 .ReverseMap();
-            CreateMap<ImportedManure, ImportedManure>();
             CreateMap<UserPrompt, UserPrompt>();
             CreateMap<SeparatedSolidManure, SeparatedSolidManure>();
-            CreateMap<SubRegions, SubRegions>();
+            CreateMap<SubRegion, SubRegion>();
 
             CreateMap<StaticDataVersion, StaticDataVersion>();
         }

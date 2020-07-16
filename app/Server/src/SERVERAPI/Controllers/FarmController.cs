@@ -1,37 +1,28 @@
-﻿using System;
-using System.Linq;
-using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models.Configuration;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using SERVERAPI.ViewModels;
-using Microsoft.AspNetCore.Http;
-using SERVERAPI.Models.Impl;
-using Agri.Models;
-using Microsoft.Extensions.Logging;
 using Agri.Models.Settings;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SERVERAPI.Filters;
+using SERVERAPI.Models.Impl;
+using SERVERAPI.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SERVERAPI.Controllers
 {
     [SessionTimeout]
     public class FarmController : BaseController
     {
-        private ILogger<FarmController> _logger;
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
-        private IOptions<AppSettings> _appSettings;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly IOptions<AppSettings> _appSettings;
 
-        public FarmController(ILogger<FarmController> logger,
-            IHostingEnvironment env,
-            UserData ud,
+        public FarmController(UserData ud,
             IAgriConfigurationRepository sd,
             IOptions<AppSettings> appSettings)
         {
-            _logger = logger;
-            _env = env;
             _ud = ud;
             _sd = sd;
             _appSettings = appSettings;
@@ -42,41 +33,53 @@ namespace SERVERAPI.Controllers
         {
             var farmData = _ud.FarmDetails();
             FarmViewModel fvm = new FarmViewModel();
-            fvm.IsLegacyNMPReleaseVersion = !_ud.FarmData().NMPReleaseVersion.HasValue || _ud.FarmData().NMPReleaseVersion.Value < _appSettings.Value.NMPReleaseVersion;
+            fvm.IsLegacyNMPReleaseVersion = !_ud.FarmData().NMPReleaseVersion.HasValue || _ud.FarmData().NMPReleaseVersion.Value < 2;
 
             if (fvm.IsLegacyNMPReleaseVersion)
             {
                 fvm.LegacyNMPMessage = _sd.GetUserPrompt("FarmDataBackwardsCompatibility");
             }
-            fvm.showSubRegion = false;
-            fvm.multipleSubRegion = false;
+            fvm.ShowSubRegion = false;
 
-            fvm.regOptions = _sd.GetRegionsDll().ToList();
-            fvm.selRegOption = null;
+            fvm.RegOptions = _sd.GetRegionsDll().ToList();
+            fvm.SelRegOption = null;
 
-            fvm.year = farmData.year;
-            fvm.currYear = farmData.year;
-            fvm.farmName = farmData.farmName;
+            fvm.Year = farmData.Year;
+            fvm.CurrentYear = farmData.Year;
+            fvm.FarmName = farmData.FarmName;
 
-            fvm.selRegOption = farmData.farmRegion;
-            fvm.selSubRegOption = farmData.farmSubRegion;
+            fvm.SelRegOption = farmData.FarmRegion;
+            fvm.SelSubRegOption = farmData.FarmSubRegion;
 
-            if (fvm.selRegOption.HasValue)
+            if (farmData.HasAnimals &&
+                (farmData.HasBeefCows || farmData.HasDairyCows || farmData.HasMixedLiveStock))
             {
                 fvm = SetSubRegions(fvm);
-                if (fvm.IsLegacyNMPReleaseVersion && fvm.selSubRegOption.HasValue)
-                {
-                    _ud.UpdateFarmDetailsSubRegion(fvm.selSubRegOption.Value);
-                }
-                else
-                {
-                    _ud.SetLegacyDataToUnsaved();
-                }
+            }
+
+            if (fvm.IsLegacyNMPReleaseVersion && fvm.SelSubRegOption.HasValue && farmData.HasAnimals)
+            {
+                _ud.UpdateFarmDetailsSubRegion(fvm.SelSubRegOption.Value);
+            }
+            else
+            {
+                _ud.SetLegacyDataToUnsaved();
             }
 
             fvm.HasAnimals = farmData.HasAnimals;
-            fvm.ImportsManureCompost = farmData.ImportsManureCompost;
-            fvm.UsesFertilizer = farmData.UsesFertilizer;
+            fvm.HasDairyCows = farmData.HasDairyCows;
+            fvm.HasBeefCows = farmData.HasBeefCows;
+            fvm.HasPoultry = farmData.HasPoultry;
+            fvm.HasMixedLiveStock = farmData.HasMixedLiveStock;
+
+            if (fvm.HasAnimals)
+            {
+                fvm.ShowAnimals = true;
+            }
+            else
+            {
+                fvm.ShowAnimals = false;
+            }
 
             return View(fvm);
         }
@@ -93,24 +96,14 @@ namespace SERVERAPI.Controllers
 
         private FarmViewModelBase SetSubRegionsForRegion(FarmViewModelBase fvm)
         {
-            if (fvm.selRegOption.HasValue)
+            if (fvm.SelRegOption.HasValue)
             {
-                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
-                if (fvm.subRegionOptions.Count == 1)
-                {
-                    fvm.selSubRegOption = fvm.selSubRegOption ?? fvm.subRegionOptions[0].Id;
-                    fvm.showSubRegion = false;
-                    fvm.multipleSubRegion = false;
-                }
-                else if (fvm.subRegionOptions.Count > 1)
-                {
-                    fvm.showSubRegion = true;
-                    fvm.multipleSubRegion = true;
-                    if (fvm.selSubRegOption == null)
-                    {
-                        ModelState.AddModelError("", "Select a sub region");
-                    }
-                }
+                fvm.SubRegionOptions = _sd.GetSubRegionsDll(fvm.SelRegOption);
+            }
+            fvm.ShowSubRegion = true;
+            if (fvm.SelSubRegOption == null)
+            {
+                ModelState.AddModelError("", "Select a sub region");
             }
 
             return fvm;
@@ -119,8 +112,6 @@ namespace SERVERAPI.Controllers
         private void UpdateStorageSystemsForSubRegion(int subRegionId)
         {
             var storageSystems = _ud.GetStorageSystems();
-            decimal conversionForLiquid = 0.024542388m;
-            decimal conversionForSolid = 0.000102408m;
 
             if (storageSystems.Count() > 0)
             {
@@ -140,111 +131,210 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult Farm(FarmViewModel fvm)
         {
-            fvm.regOptions = _sd.GetRegionsDll().ToList();
+            fvm.RegOptions = _sd.GetRegionsDll().ToList();
 
-            if (fvm.buttonPressed == "RegionChange")
+            if (fvm.ButtonPressed == "GetsAnimalsChange")
             {
                 ModelState.Clear();
-                fvm.buttonPressed = "";
-                fvm = SetSubRegions(fvm);
+                fvm.ButtonPressed = "";
 
-                var farmData = _ud.FarmDetails();
-                farmData.farmRegion = fvm.selRegOption;
-                _ud.UpdateFarmDetails(farmData);
-
-                if (fvm.multipleSubRegion)
+                if (fvm.HasAnimals)
                 {
-                    return View(fvm);
+                    fvm.ShowAnimals = true;
+                    fvm = SetSubRegions(fvm);
+                }
+                else
+                {
+                    fvm.ShowAnimals = false;
                 }
 
-                fvm.buttonPressed = "SubRegionChange";
+                var farmData = _ud.FarmDetails();
+                farmData.HasSelectedFarmType = fvm.HasSelectedFarmType;
+                farmData.HasAnimals = fvm.HasAnimals;
+                farmData.HasDairyCows = fvm.HasDairyCows;
+                farmData.HasBeefCows = fvm.HasBeefCows;
+                farmData.HasPoultry = fvm.HasPoultry;
+                farmData.HasMixedLiveStock = fvm.HasMixedLiveStock;
+                _ud.UpdateFarmDetails(farmData);
+
+                return View(fvm);
             }
 
-            if (fvm.buttonPressed == "SubRegionChange")
+            if (fvm.ButtonPressed == "RegionChange")
             {
                 ModelState.Clear();
-                fvm.buttonPressed = "";
-
-                if (fvm.multipleSubRegion)
+                fvm.ButtonPressed = "";
+                if (fvm.ShowAnimals)
                 {
                     fvm = SetSubRegions(fvm);
                 }
 
-                UpdateStorageSystemsForSubRegion(fvm.selSubRegOption.Value);
-
                 var farmData = _ud.FarmDetails();
-                farmData.farmSubRegion = fvm.selSubRegOption;
+                farmData.FarmRegion = fvm.SelRegOption;
                 _ud.UpdateFarmDetails(farmData);
 
+                if (fvm.ShowAnimals)
+                {
+                    return View(fvm);
+                }
+
+                return View(fvm);
+            }
+
+            if (fvm.ButtonPressed == "SubRegionChange")
+            {
+                ModelState.Clear();
+                fvm.ButtonPressed = "";
+                fvm = SetSubRegions(fvm);
+
+                UpdateStorageSystemsForSubRegion(fvm.SelSubRegOption.Value);
+
+                var farmData = _ud.FarmDetails();
+                farmData.FarmSubRegion = fvm.SelSubRegOption;
+                _ud.UpdateFarmDetails(farmData);
+
+                return View(fvm);
+            }
+
+            if (fvm.SelRegOption == 0)
+            {
+                ModelState.AddModelError("SelRegOption", "Select a region");
+                return View(fvm);
+            }
+
+            if (fvm.ShowAnimals &&
+                (fvm.HasBeefCows || fvm.HasDairyCows || fvm.HasMixedLiveStock) &&
+                (fvm.SelSubRegOption == null || fvm.SelSubRegOption == 0))
+            {
+                ModelState.AddModelError("SelSubRegOption", "Select a sub region");
+                fvm = SetSubRegions(fvm);
                 return View(fvm);
             }
 
             if (ModelState.IsValid)
             {
+                fvm.HasSelectedFarmType = true;
                 var farmData = _ud.FarmDetails();
 
-                fvm.regOptions = _sd.GetRegionsDll().ToList();
+                fvm.RegOptions = _sd.GetRegionsDll().ToList();
 
-                farmData.year = fvm.year;
-                farmData.farmName = fvm.farmName;
-                farmData.farmRegion = fvm.selRegOption;
-                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
-                if (fvm.subRegionOptions.Count == 1)
+                farmData.Year = fvm.Year;
+                farmData.FarmName = fvm.FarmName;
+                farmData.FarmRegion = fvm.SelRegOption;
+                if (fvm.ShowAnimals)
                 {
-                    fvm.selSubRegOption = fvm.subRegionOptions[0].Id;
+                    fvm.SubRegionOptions = _sd.GetSubRegionsDll(fvm.SelRegOption);
+                    if (fvm.SubRegionOptions.Count == 1)
+                    {
+                        fvm.SelSubRegOption = fvm.SubRegionOptions[0].Id;
+                    }
+                    farmData.FarmSubRegion = fvm.SelSubRegOption;
                 }
-                farmData.farmSubRegion = fvm.selSubRegOption;
+
+                farmData.HasSelectedFarmType = fvm.HasSelectedFarmType;
                 farmData.HasAnimals = fvm.HasAnimals;
-                farmData.ImportsManureCompost = fvm.ImportsManureCompost;
-                farmData.UsesFertilizer = fvm.UsesFertilizer;
+                farmData.HasDairyCows = fvm.HasDairyCows;
+                farmData.HasBeefCows = fvm.HasBeefCows;
+                farmData.HasPoultry = fvm.HasPoultry;
+                farmData.HasMixedLiveStock = fvm.HasMixedLiveStock;
 
                 _ud.UpdateFarmDetails(farmData);
-                HttpContext.Session.SetObject("Farm", _ud.FarmDetails().farmName + " " + _ud.FarmDetails().year);
+                HttpContext.Session.SetObject("Farm", _ud.FarmDetails().FarmName + " " + _ud.FarmDetails().Year);
 
-                fvm.currYear = fvm.year;
+                fvm.CurrentYear = fvm.Year;
                 ModelState.Remove("userData");
 
-                if (farmData.HasAnimals)
+                //Navigate to next item past Farm
+                var journey = _ud.FarmDetails().UserJourney;
+                var initialNavigation = _sd.GetJourney((int)journey)
+                    .MainMenus
+                    .Single(m => m.SortNumber == 2);
+
+                if (initialNavigation.UsesFeaturePages)
                 {
-                    return RedirectToAction("ManureGeneratedObtained", "ManureManagement");
-                }
-                else if (farmData.ImportsManureCompost)
-                {
-                    return RedirectToAction("ManureImported", "ManureManagement");
+                    return RedirectToPage(initialNavigation.Page);
                 }
                 else
                 {
-                    return RedirectToAction("Fields", "Fields");
+                    return RedirectToAction(initialNavigation.Action, initialNavigation.Controller);
                 }
             }
             else
             {
-                fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+                if (fvm.ShowAnimals)
+                {
+                    fvm.SubRegionOptions = _sd.GetSubRegionsDll(fvm.SelRegOption);
+                }
                 return View(fvm);
             }
         }
 
         [HttpGet]
-        public object CheckCompleted()
+        public JsonResult SubRegions(int id)
         {
-            var regionId = _ud.FarmDetails().farmRegion;
-            var regionsIncomplete = !regionId.HasValue;
+            var result = new List<SelectListItem>();
 
-            if (regionId.HasValue)
+            var farmData = _ud.FarmDetails();
+            farmData.FarmRegion = id;
+            _ud.UpdateFarmDetails(farmData);
+
+            if (id > 0)
             {
-                regionsIncomplete = _sd.GetRegion(regionId.Value) == null;
+                result = _sd.GetSubRegionsDll(id).OrderBy(sr => sr.Value).ToList();
             }
 
-            if (!regionsIncomplete)
+            result.Insert(0, new SelectListItem
             {
-                var subRegionId = _ud.FarmDetails().farmSubRegion;
-                if (subRegionId.HasValue)
+                Id = 0,
+                Value = "select subregion"
+            });
+            return new JsonResult(result);
+        }
+
+        [HttpPost]
+        public JsonResult FarmSubRegion(int id)
+        {
+            UpdateStorageSystemsForSubRegion(id);
+
+            var farmData = _ud.FarmDetails();
+            farmData.FarmSubRegion = id;
+            _ud.UpdateFarmDetails(farmData);
+
+            return new JsonResult("");
+        }
+
+        [HttpGet]
+        public object CheckCompleted()
+        {
+            var journey = _ud.FarmDetails().UserJourney;
+            //fvm.HasBeefCows || fvm.HasDairyCows || fvm.HasMixedLiveStock
+            var regionsIncomplete = false;
+
+            if (journey != Agri.Models.UserJourney.Crops)
+            {
+                var regionId = _ud.FarmDetails().FarmRegion;
+                regionsIncomplete = !regionId.HasValue;
+
+                if (regionId.HasValue)
                 {
-                    regionsIncomplete = _sd.GetSubRegion(subRegionId.Value) == null;
+                    regionsIncomplete = _sd.GetRegion(regionId.Value) == null;
                 }
-                else
+
+                if (!regionsIncomplete &&
+                    (journey == Agri.Models.UserJourney.Dairy ||
+                        journey == Agri.Models.UserJourney.Mixed ||
+                        journey == Agri.Models.UserJourney.Ranch)
+                    )
                 {
-                    regionsIncomplete = true;
+                    var subRegionId = _ud.FarmDetails().FarmSubRegion;
+                    if (subRegionId.HasValue)
+                    {
+                        regionsIncomplete = _sd.GetSubRegion(subRegionId.Value) == null;
+                    }
+                    else
+                    {
+                        regionsIncomplete = true;
+                    }
                 }
             }
 
@@ -263,10 +353,26 @@ namespace SERVERAPI.Controllers
                 Target = target
             };
 
-            fvm.selRegOption = farmData.farmRegion;
-            fvm.selSubRegOption = farmData.farmSubRegion;
-            fvm = SetSubRegions(fvm);
-            fvm.regOptions = _sd.GetRegionsDll().ToList();
+            fvm.SelRegOption = farmData.FarmRegion;
+            if (farmData.HasAnimals)
+            {
+                if (!farmData.HasPoultry)
+
+                {
+                    fvm.SelSubRegOption = farmData.FarmSubRegion;
+                    fvm = SetSubRegions(fvm);
+                }
+                else
+                {
+                    fvm.ShowSubRegion = false;
+                }
+                fvm.ShowAnimals = true;
+            }
+            else
+            {
+                fvm.ShowAnimals = false;
+            }
+            fvm.RegOptions = _sd.GetRegionsDll().ToList();
 
             return View(fvm);
         }
@@ -274,37 +380,43 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult FarmIncomplete(FarmIncompleteViewModel fvm)
         {
-            fvm.regOptions = _sd.GetRegionsDll().ToList();
+            fvm.RegOptions = _sd.GetRegionsDll().ToList();
 
-            if (fvm.buttonPressed == "RegionChange")
+            if (fvm.ButtonPressed == "RegionChange")
             {
                 ModelState.Clear();
-                fvm.buttonPressed = "";
-                fvm = SetSubRegions(fvm);
+                fvm.ButtonPressed = "";
+                if (fvm.ShowAnimals && fvm.ShowSubRegion)
+                {
+                    fvm = SetSubRegions(fvm);
+                }
 
                 var farmData = _ud.FarmDetails();
-                farmData.farmRegion = fvm.selRegOption;
+                farmData.FarmRegion = fvm.SelRegOption;
                 _ud.UpdateFarmDetails(farmData);
 
-                if (fvm.multipleSubRegion)
+                if (fvm.ShowAnimals)
                 {
                     return View(fvm);
                 }
 
-                fvm.buttonPressed = "SubRegionChange";
+                if (fvm.ShowAnimals && fvm.ShowSubRegion)
+                {
+                    fvm.ButtonPressed = "SubRegionChange";
+                }
             }
 
-            if (fvm.buttonPressed == "SubRegionChange")
+            if (fvm.ButtonPressed == "SubRegionChange")
             {
                 ModelState.Clear();
-                fvm.buttonPressed = "";
+                fvm.ButtonPressed = "";
 
                 fvm = SetSubRegions(fvm);
 
-                UpdateStorageSystemsForSubRegion(fvm.selSubRegOption.Value);
+                UpdateStorageSystemsForSubRegion(fvm.SelSubRegOption.Value);
 
                 var farmData = _ud.FarmDetails();
-                farmData.farmSubRegion = fvm.selSubRegOption;
+                farmData.FarmSubRegion = fvm.SelSubRegOption;
                 _ud.UpdateFarmDetails(farmData);
                 return View(fvm);
             }
@@ -314,7 +426,11 @@ namespace SERVERAPI.Controllers
                 return Json(new { success = true, url = fvm.Target });
             }
 
-            fvm.subRegionOptions = _sd.GetSubRegionsDll(fvm.selRegOption);
+            if (fvm.ShowAnimals)
+            {
+                fvm.SubRegionOptions = _sd.GetSubRegionsDll(fvm.SelRegOption);
+            }
+
             return View(fvm);
         }
     }

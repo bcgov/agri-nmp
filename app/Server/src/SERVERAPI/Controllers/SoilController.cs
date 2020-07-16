@@ -1,4 +1,5 @@
-﻿using Agri.Interfaces;
+﻿using Agri.CalculateService;
+using Agri.Data;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -17,34 +18,32 @@ namespace SERVERAPI.Controllers
     [SessionTimeout]
     public class SoilController : BaseController
     {
-        private ILogger<SoilController> _logger;
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
-        private ISoilTestConverter _soilTestConversions;
-        public AppSettings _settings;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
+        private readonly ISoilTestConverter _soilTestConversions;
 
-        public SoilController(ILogger<SoilController> logger,
-            IHostingEnvironment env, 
-            UserData ud, 
-            IAgriConfigurationRepository sd, 
+        public SoilController(
+            UserData ud,
+            IAgriConfigurationRepository sd,
+            IChemicalBalanceMessage chemicalBalanceMessage,
             ISoilTestConverter soilTestConversions)
         {
-            _logger = logger;
-            _env = env;
             _ud = ud;
             _sd = sd;
+            _chemicalBalanceMessage = chemicalBalanceMessage;
             _soilTestConversions = soilTestConversions;
         }
+
         [HttpGet]
         public IActionResult SoilTest()
         {
             SoilTestViewModel fvm = new SoilTestViewModel();
 
             FarmDetails fd = _ud.FarmDetails();
-            fvm.selTstOption = fd.testingMethod;
+            fvm.selTstOption = fd.TestingMethod;
 
-            if (!string.IsNullOrEmpty(fd.testingMethod))
+            if (!string.IsNullOrEmpty(fd.TestingMethod))
                 fvm.testSelected = true;
 
             fvm.tstOptions = new List<SelectListItem>();
@@ -58,6 +57,7 @@ namespace SERVERAPI.Controllers
 
             return View(fvm);
         }
+
         [HttpPost]
         public IActionResult SoilTest(SoilTestViewModel fvm)
         {
@@ -68,22 +68,29 @@ namespace SERVERAPI.Controllers
             {
                 ModelState.Clear();
                 FarmDetails fd = _ud.FarmDetails();
-                fd.testingMethod = fvm.selTstOption == "select" ? string.Empty : fvm.selTstOption;
+                fd.TestingMethod = fvm.selTstOption == "select" ? string.Empty : fvm.selTstOption;
                 _ud.UpdateFarmDetails(fd);
-                fvm.testSelected = string.IsNullOrEmpty(fd.testingMethod) ? false : true;
+                fvm.testSelected = string.IsNullOrEmpty(fd.TestingMethod) ? false : true;
                 List<Field> fl = _ud.GetFields();
-                
+
                 //update fields with convert STP and STK
                 _ud.UpdateSTPSTK(fl);
-                
+
                 //update the Nutrient calculations with the new/changed soil test data
-                Utility.ChemicalBalanceMessage cbm = new Utility.ChemicalBalanceMessage(_ud, _sd);
-                cbm.RecalcCropsSoilTestMessagesByFarm();
+                var updatedFields = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByFarm(_ud.GetFields(), _ud.FarmDetails().FarmRegion.Value);
+                foreach (var field in updatedFields)
+                {
+                    foreach (var crop in field.Crops)
+                    {
+                        _ud.UpdateFieldCrop(field.FieldName, crop);
+                    }
+                }
 
                 RedirectToAction("SoilTest", "Soil");
             }
             return View(fvm);
         }
+
         [HttpGet]
         public IActionResult SoilTestDetails(string fldName)
         {
@@ -99,23 +106,24 @@ namespace SERVERAPI.Controllers
 
             Field fld = _ud.GetFieldDetails(fldName);
             tvm.fieldName = fldName;
-            if (fld.soilTest != null)
-            {                
-                tvm.sampleDate = fld.soilTest.sampleDate.ToString("MMM-yyyy");
-                tvm.dispK = fld.soilTest.valK.ToString("G29");
-                tvm.dispNO3H = fld.soilTest.valNO3H.ToString("G29");
-                tvm.dispP = fld.soilTest.ValP.ToString("G29");
-                tvm.dispPH = fld.soilTest.valPH.ToString("G29");
+            if (fld.SoilTest != null)
+            {
+                tvm.sampleDate = fld.SoilTest.sampleDate.ToString("MMM-yyyy");
+                tvm.dispK = fld.SoilTest.valK.ToString("G29");
+                tvm.dispNO3H = fld.SoilTest.valNO3H.ToString("G29");
+                tvm.dispP = fld.SoilTest.ValP.ToString("G29");
+                tvm.dispPH = fld.SoilTest.valPH.ToString("G29");
             }
 
             return View(tvm);
         }
+
         [HttpPost]
         public IActionResult SoilTestDetails(SoilTestDetailsViewModel tvm)
         {
             decimal nmbr;
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 if (!Decimal.TryParse(tvm.dispNO3H, out nmbr))
                 {
@@ -123,7 +131,7 @@ namespace SERVERAPI.Controllers
                 }
                 else
                 {
-                    if(nmbr < 0)
+                    if (nmbr < 0)
                     {
                         ModelState.AddModelError("dispNO3H", "Invalid.");
                     }
@@ -162,37 +170,40 @@ namespace SERVERAPI.Controllers
                         ModelState.AddModelError("dispPH", "Invalid.");
                     }
                 }
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     return View(tvm);
                 }
 
                 Field fld = _ud.GetFieldDetails(tvm.fieldName);
-                if(fld.soilTest == null)
+                if (fld.SoilTest == null)
                 {
-                    fld.soilTest = new SoilTest();
+                    fld.SoilTest = new SoilTest();
                 }
-                fld.soilTest.sampleDate = Convert.ToDateTime(tvm.sampleDate);
-                fld.soilTest.ValP = Convert.ToDecimal(tvm.dispP);
-                fld.soilTest.valK = Convert.ToDecimal(tvm.dispK);
-                fld.soilTest.valNO3H = Convert.ToDecimal(tvm.dispNO3H);
-                fld.soilTest.valPH = Convert.ToDecimal(tvm.dispPH);
-                fld.soilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, fld.soilTest);
-                fld.soilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, fld.soilTest);
+                fld.SoilTest.sampleDate = Convert.ToDateTime(tvm.sampleDate);
+                fld.SoilTest.ValP = Convert.ToDecimal(tvm.dispP);
+                fld.SoilTest.valK = Convert.ToDecimal(tvm.dispK);
+                fld.SoilTest.valNO3H = Convert.ToDecimal(tvm.dispNO3H);
+                fld.SoilTest.valPH = Convert.ToDecimal(tvm.dispPH);
+                fld.SoilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, fld.SoilTest);
+                fld.SoilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, fld.SoilTest);
 
                 _ud.UpdateFieldSoilTest(fld);
 
                 //update the Nutrient calculations with the new/changed soil test data
-                Utility.ChemicalBalanceMessage cbm = new Utility.ChemicalBalanceMessage(_ud, _sd);
-                cbm.RecalcCropsSoilTestMessagesByField(tvm.fieldName);
+                var updatedField = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByField(fld, _ud.FarmDetails().FarmRegion.Value);
+                foreach (var crop in updatedField.Crops)
+                {
+                    _ud.UpdateFieldCrop(updatedField.FieldName, crop);
+                }
 
                 string target = "#test";
                 string url = Url.Action("RefreshTestList", "Soil");
                 return Json(new { success = true, url = url, target = target });
-
             }
             return View(tvm);
         }
+
         [HttpGet]
         public IActionResult SoilTestErase(string fldName)
         {
@@ -203,6 +214,7 @@ namespace SERVERAPI.Controllers
 
             return View(tvm);
         }
+
         [HttpPost]
         public ActionResult SoilTestErase(SoilTestDeleteViewModel dvm)
         {
@@ -210,7 +222,7 @@ namespace SERVERAPI.Controllers
             {
                 Field fld = _ud.GetFieldDetails(dvm.fieldName);
 
-                fld.soilTest = null;
+                fld.SoilTest = null;
 
                 _ud.UpdateFieldSoilTest(fld);
 
@@ -220,15 +232,18 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("SoilTestErase", dvm);
         }
+
         public IActionResult RefreshTestList()
         {
             return ViewComponent("SoilTests");
         }
+
         [HttpGet]
         public IActionResult MissingMethod()
         {
             return View();
         }
+
         public IActionResult MissingTests(string target)
         {
             MissingTestsViewModel mvm = new MissingTestsViewModel();
@@ -237,10 +252,10 @@ namespace SERVERAPI.Controllers
 
             return View(mvm);
         }
+
         [HttpPost]
         public IActionResult MissingTests(MissingTestsViewModel mvm)
         {
-
             return View(mvm);
         }
     }

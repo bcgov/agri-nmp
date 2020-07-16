@@ -14,11 +14,9 @@
     <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
     <META HTTP-EQUIV="Expires" CONTENT="-1">
 
-
     <title>@ViewBag.Title</title>
 
     <!-- BOOTSTRAP CORE CSS v3.3.6 -->
-
     <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -34,8 +32,10 @@
     <link href="~/lib/bootstrap/css/custom-main.css" rel="stylesheet" />
     <link href="~/lib/bootstrap/css/custom-form.css" rel="stylesheet" />
 
+    <!-- DATATABLES CSS -->
+    <link href="~/lib/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+
     <!-- SITE CSS -->
-    @*<link href="~/css/mygovbc-bootstrap-theme.min.css" rel="stylesheet" />*@
     <link href="~/css/site.css?refresh=@DateTime.Now.Ticks" rel="stylesheet" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -53,10 +53,12 @@
     <script src="~/lib/bootstrap/js/misc.js"></script>
     <script src="~/lib/bootstrap/js/navMenu.js"></script>
     <script src="~/lib/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="~/lib/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/lib/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+    @*<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>*@
     <script src="~/lib/jquery.lineProgressbar.js"></script>
+    <!--Jquery plugin for window popups-->
+    <script src="~/lib/jquery.popup.js"></script>
     <!--Site Javascript-->
     <script src="~/js/site.js"></script>
     <!-- DatePicker CSS -->
@@ -73,72 +75,96 @@
     </script>
 </head>
 <body>
-<div id="wrap" class="content">
+    <div id="wrap" class="content">
 
-    <!-- HEADER -->
-    <div id="header">
-        <div id="header-main" class="navbar navbar-default ">
+        <!-- HEADER -->
+        <div id="header">
+            <div id="header-main" class="navbar navbar-expand-lg navbar-dark ">
 
-            <div class="container">
-                <div id="header-main-row" class="row">
-                    <!-- GOV & ENV TITLE -->
-                    <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
-                        <div id="logo">
-                            <a href="http://gov.bc.ca"><img src="~/images/gov3_bc_logo.png" alt="Government of B.C."/></a>
-                        </div>
-                        <div>
-                            <h1 style="margin-top: 5px;padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Calculator</h1>
-                        </div>
-                        <button type="button" class="navbar-toggle gov-button-custom collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-label="Burger Navigation">
-                            <img src="~/images/menu-open-mobile.png" alt="Mobile Menu" />
-                        </button>
-                    </div>
-                    <!-- /GOV & ENV TITLE -->
-                    <!-- COLLAPSING NAVBAR -->
-                    <div id="navbar" class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav">
-                            <li><a href='@Url.Action("About", "Home" )' target="_blank">About</a></li>
-                            <li><a href='@Url.Action("Help", "Home" )' target="_blank">Help</a></li>
-                        </ul>
-                    </div>
-                    <!-- /COLLAPSING NAVBAR -->
-
-                </div>
-            </div>
-            <div class="navigationRibbon">
-                <div class="level2Navigation">
-                    <div class="container">
+                <div class="container">
+                    <div id="header-main-row" class="row">
+                        <!-- GOV & ENV TITLE -->
                         <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
-                            <span>
-                                @Html.ActionLink("About", "About", new { controller = "Home" }, new { target = "_blank", @class = "edit" })
-                            </span>
-                            <span>
-                                @Html.ActionLink("Help", "Help", new { controller = "Home" }, new { target = "_blank", @class = "edit" })
-                            </span>
+                            <div id="logo">
+                                <a href="http://gov.bc.ca"><img src="~/images/gov3_bc_logo.png" alt="Government of B.C." /></a>
+                            </div>
+                            <div>
+                                <h1 style="margin-top: 5px;padding-left:20px; font-size: 30px;font-weight: 700;color: #fff;top: 15px;position: relative;white-space: nowrap;" role="banner">Nutrient Management Calculator</h1>
+                            </div>
+                        </div>
+                        <!-- /GOV & ENV TITLE -->
+                        <!-- COLLAPSING NAVBAR -->
+                        <div id="navbar" class="collapse navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li>
+                                    <a id="disclaimer" href="/Information/Disclaimer"
+                                       data-name="Disclaimer"
+                                       data-popup="disclaimer"
+                                       data-popup-width="640"
+                                       data-popup-height="480">Disclaimer</a>
+                                </li>
+                                <li>
+                                    <a id="help" href="@Url.Action("Help", "Home" )"
+                                       data-name="Disclaimer"
+                                       data-popup="disclaimer"
+                                       data-popup-width="800"
+                                       data-popup-height="600">Help</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /COLLAPSING NAVBAR -->
+                    </div>
+                </div>
+                <div class="navigationRibbon">
+                    <div class="level2Navigation">
+                        <div class="container">
+                            <div class="col-sm-3 col-md-2 col-lg-2 header-main-left">
+                                <span>
+                                    <a id="disclaimer" href="/Information/Disclaimer"
+                                       data-name="Disclaimer"
+                                       data-popup="disclaimer"
+                                       data-popup-width="640"
+                                       data-popup-height="480">Disclaimer</a>
+                                </span>
+                                <span>
+                                    <a id="help" href="@Url.Action("Help", "Home" )"
+                                       data-name="Disclaimer"
+                                       data-popup="disclaimer"
+                                       data-popup-width="800"
+                                       data-popup-height="600">Help</a>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="header-height"></div>
+        <div id="navigation-container">
+            @{
+                var navigationDetailVM = new NavigationDetailViewModel
+                {
+                    CurrentAction = ViewContext.RouteData?.Values["Action"]?.ToString(),
+                    CurrentPage = ViewContext.RouteData?.Values["page"]?.ToString()
+                };
+            }
+            @await Component.InvokeAsync("Navigation", navigationDetailVM)
+        </div>
+        <!-- /Header -->
+        <div>
+            @RenderBody()
+        </div>
     </div>
-    <div class="header-height"></div>
-    <div id="navigation-container">
-        @{
-            var currentAction = EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"].ToString());
-        }
-        @await Component.InvokeAsync("Navigation", new {currentAction = currentAction})
-    </div>
-    <!-- /Header -->
-    <div>
-        @RenderBody()
-    </div>
-</div>
-<footer id="footer" style="border-top:none"></footer>
-@RenderSection("Scripts", required: true)
+    <footer id="footer" style="border-top:none"></footer>
+    @RenderSection("Scripts", required: true)
 </body>
 </html>
 
 <script type="text/javascript">
+    //$(function () {
+    //    $('[data-toggle="tooltip"]').tooltip()
+    //})
+
     $(function () {
         $('a.edit').click(function () {
             var url = $(this).attr('href');

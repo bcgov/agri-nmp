@@ -40,6 +40,41 @@ Steps to conduct static code analysis:
 5) Edit the sonar.bat file in that folder, changing the token to match the value above.
 6) Run sonar.bat on a Windows computer to execute the scan and upload the stats.
 
+
+### Adding a pull secret to the OpenShift project, and import Dotnet builder image
+
+RedHat requires authentication to the image repository where the Dotnet images are stored.  Follow these steps to enable this:
+
+1)  Sign on with a developer account to https://registry.redhat.io.  Developer accounts are free as of October 2019.
+
+2) Go to the Service Accounts section of the website, which as of October 2019 was in the top right of the web page.
+
+3) Add a service account if one does not exist.
+
+4) Once you have a service account, click on it and select the OpenShift Secret tab.
+
+5) Click on "view its contents" at the Step 1: Download secret section.  
+
+6) Copy the contents of the secret 
+
+7) Import the secret into OpenShift.  Note that you will likely need to edit the name of the secret to match naming conventions.
+
+8) In a command line with an active connection to OpenShift, and the current project set to the Tools project, run the following commands:
+
+`oc secrets link default <SECRETNAME> --for=pull`  
+`oc secrets add serviceaccount/builder secrets/<SECRETNAME>`
+
+Where `<SECRETNAME>` is the name you specified in step 7 when you imported the secret.
+
+9) You can now import images from the Redhat repository.  For example:
+
+`oc import-image dotnet/dotnet-31-rhel7 --from=registry.redhat.io/dotnet/dotnet-31-rhel7 --confirm` 
+
+10) Adjust your builds to use this imported image
+
+Note: For the Agri project, the pull secret is in the agri-nmp-tools namespace. It can't be shared with any other namespace. This is why you will see redis image stream being created in the agri-nmp-tools namespace and then this namespace being referenced in the deployment scripts which will run in other namespaces.
+
+
 License
 -------
 

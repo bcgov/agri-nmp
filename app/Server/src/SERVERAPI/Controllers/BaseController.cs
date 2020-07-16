@@ -1,5 +1,6 @@
 ﻿using Agri.Models;
 using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.ViewModels;
 
 namespace SERVERAPI.Controllers
 {
@@ -28,7 +29,7 @@ namespace SERVERAPI.Controllers
 
         public IActionResult RefreshNextPreviousNavigation(CoreSiteActions currentAction)
         {
-            return ViewComponent("NextPreviousNavigation", new { currentAction = currentAction });
+            return ViewComponent("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = currentAction });
         }
     }
 }

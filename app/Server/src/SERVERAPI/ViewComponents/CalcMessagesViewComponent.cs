@@ -1,26 +1,27 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+﻿using Agri.CalculateService;
+using Agri.Data;
 using Agri.Models.Calculate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
 {
     public class CalcMessages : ViewComponent
     {
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
-        public IHostingEnvironment _env { get; set; }
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
+        private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
 
-        public CalcMessages(IAgriConfigurationRepository sd, Models.Impl.UserData ud, IHostingEnvironment env)
+        public CalcMessages(IAgriConfigurationRepository sd,
+            UserData ud,
+            IChemicalBalanceMessage chemicalBalanceMessage)
         {
             _sd = sd;
             _ud = ud;
-            _env = env;
+            _chemicalBalanceMessage = chemicalBalanceMessage;
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
@@ -32,21 +33,20 @@ namespace SERVERAPI.ViewComponents
         {
             CalcMessagesViewModel cvm = new CalcMessagesViewModel();
 
-            ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
             cvm.messages = null;
 
-            cvm.messages = cbm.DetermineBalanceMessages(fldName);
-            cvm.displayMsgs = cbm.displayBalances;
+            var field = _ud.GetFieldDetails(fldName);
+            cvm.messages = _chemicalBalanceMessage.DetermineBalanceMessages(field, _ud.FarmDetails().FarmRegion.Value, _ud.FarmDetails().Year);
+            cvm.displayMsgs = _chemicalBalanceMessage.DisplayMessages(field);
 
             return Task.FromResult(cvm);
         }
     }
+
     public class CalcMessagesViewModel
     {
-
         public List<BalanceMessages> messages { get; set; }
 
         public bool displayMsgs { get; set; }
-
     }
 }

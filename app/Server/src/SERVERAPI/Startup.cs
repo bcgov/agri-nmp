@@ -1,34 +1,27 @@
-/*
-
- *
-
- *
- * OpenAPI spec version: v1
- *
- *
- */
-
 using Agri.CalculateService;
 using Agri.Data;
-using Agri.Interfaces;
 using Agri.Models.Settings;
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using SERVERAPI.Controllers;
 using SERVERAPI.Filters;
+using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
 using System;
 using System.Globalization;
+using System.IO;
 
 namespace SERVERAPI
 {
@@ -37,11 +30,11 @@ namespace SERVERAPI
     /// </summary>
     public class Startup
     {
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
 
         public IConfigurationRoot Configuration { get; }
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             _hostingEnv = env;
 
@@ -67,14 +60,16 @@ namespace SERVERAPI
             //Creates the DbContext as a scoped Service
             services.AddDbContext<AgriConfigurationContext>(options =>
             {
-                options.UseNpgsql(agriConnectionString, b => b.MigrationsAssembly("Agri.Data"));
-            });
+                options.UseNpgsql(agriConnectionString, b =>
+                    b.MigrationsAssembly("Agri.Data"));
+            }, ServiceLifetime.Scoped, ServiceLifetime.Scoped);
+
             //services.AddScoped<IConfigurationRepository>(provider => new ConfigurationRepository(agriConnectionString));
             services.AddScoped<SessionTimeoutAttribute>();
             services.AddScoped<IViewRenderService, ViewRenderService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IConfiguration>(Configuration);
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AppSettings>(Configuration);
             services.AddTransient<AgriSeeder>();
 
             //// allow for large files to be uploaded
@@ -92,18 +87,21 @@ namespace SERVERAPI
                 options.IdleTimeout = TimeSpan.FromHours(4);
             });
 
-            // Enable Node Services
-            services.AddNodeServices();
+            //Re-enable When a stable redis cache solution has been determined
+            //Add distributed cache service backed by Redis cache
+            //services.AddDistributedRedisCache(options =>
+            //{
+            //    options.Configuration = GetRedisConnectionString();
+            //});
 
             //Automapper
             services.AddAutoMapper(typeof(Startup));
             //Mediatr
             services.AddMediatR(typeof(Startup));
 
-            //// Add framework services.
-            services.AddMvc()
-                .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); })
-                .AddJsonOptions(
+            // Add framework services.
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(
                     opts =>
                     {
                         opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -112,44 +110,89 @@ namespace SERVERAPI
                         opts.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
                         // ReferenceLoopHandling is set to Ignore to prevent JSON parser issues with the user / roles model.
                         opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                        opts.SerializerSettings.StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii;
                     });
 
-            services.AddScoped<Models.Impl.UserData>();
-            services.AddScoped<SERVERAPI.Models.Impl.BrowserData>();
-            //services.AddScoped<IAgriConfigurationRepository, StaticDataExtRepository>();
+            services.AddRazorPages()
+                .AddFluentValidation(cfg => { cfg.RegisterValidatorsFromAssemblyContaining<Startup>(); })
+                .AddNewtonsoftJson(
+                    opts =>
+                    {
+                        opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        opts.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                        opts.SerializerSettings.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.IsoDateFormat;
+                        opts.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
+                        // ReferenceLoopHandling is set to Ignore to prevent JSON parser issues with the user / roles model.
+                        opts.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                        opts.SerializerSettings.StringEscapeHandling = Newtonsoft.Json.StringEscapeHandling.EscapeNonAscii;
+                    });
+
+            var keyRingPath = Configuration.GetValue("KEY_RING_DIRECTORY", string.Empty);
+            var dpBuilder = services.AddDataProtection();
+
+            if (!string.IsNullOrEmpty(keyRingPath))
+            {
+                Console.Write($"Setting data protection keys to persist in {keyRingPath}");
+                dpBuilder.PersistKeysToFileSystem(new DirectoryInfo(keyRingPath));
+            }
+            else
+            {
+                Console.Write("data protection key folder is not set, check if KEY_RING_DIRECTORY env var is missing");
+            }
+
+            services.AddScoped<UserData>();
+            services.AddTransient<BrowserData>();
             services.AddScoped<IAgriConfigurationRepository, AgriConfigurationRepository>();
-            services.AddScoped<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
-            services.AddScoped<IManureApplicationCalculator, ManureApplicationCalculator>();
-            services.AddScoped<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
-            services.AddScoped<IManureAnimalNumberCalculator, ManureAnimalNumberCalculator>();
-            services.AddScoped<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
-            services.AddScoped<ISoilTestConverter, SoilTestConverter>();
-            services.AddScoped<IStorageVolumeCalculator, StorageVolumeCalculator>();
+            services.AddTransient<ICalculateAnimalRequirement, CalculateAnimalRequirement>();
+            services.AddTransient<ICalculateCropRequirementRemoval, CalculateCropRequirementRemoval>();
+            services.AddTransient<ICalculateFertilizerNutrients, CalculateFertilizerNutrients>();
+            services.AddTransient<ICalculateManureGeneration, CalculateManureGeneration>();
+            services.AddTransient<ICalculateNutrients, CalculateNutrients>();
+            services.AddTransient<IChemicalBalanceMessage, ChemicalBalanceMessage>();
+            services.AddTransient<IFeedAreaCalculator, FeedAreaCalculator>();
+            services.AddTransient<IManureUnitConversionCalculator, ManureUnitConversionCalculator>();
+            services.AddTransient<IManureApplicationCalculator, ManureApplicationCalculator>();
+            services.AddTransient<IManureLiquidSolidSeparationCalculator, ManureLiquidSolidSeparationCalculator>();
+            services.AddTransient<IManureAnimalNumberCalculator, ManureAnimalNumberCalculator>();
+            services.AddTransient<IManureOctoberToMarchCalculator, ManureOctoberToMarchCalculator>();
+            services.AddTransient<ISoilTestConverter, SoilTestConverter>();
+            services.AddTransient<IStorageVolumeCalculator, StorageVolumeCalculator>();
             services.AddTransient<INitrateTestCalculator, CalculateNitrateTestResult>();
 
             services.AddOptions();
-            //services.AddScoped<SERVERAPI.Utility.CalculateNutrients>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
-            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             var cultureInfo = new CultureInfo("en-US");
             cultureInfo.NumberFormat.CurrencySymbol = "$";
 
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            if (_hostingEnv.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error/Error");
+            }
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.UseSession();
             app.UseResponseCompression();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseMvcWithDefaultRoute();
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
 
             UpdateDatabase(app);
             RunSeeding(app);
@@ -189,12 +232,47 @@ namespace SERVERAPI
             }
         }
 
-        private static void UpdateDatabase(IApplicationBuilder app)
+        private string GetRedisConnectionString()
         {
+            if (_hostingEnv.IsDevelopment())
+            {
+                return Configuration["Redis:ConnectionString"];
+            }
+            else
+            {
+                var redisConnection = Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING");
+                if (string.IsNullOrEmpty(redisConnection))
+                {
+                    throw new Exception(@"Redis Connection String ""REDIS_CONNECTION_STRING"" variable not found");
+                }
+                var redisPassword = Environment.GetEnvironmentVariable("REDIS_PASSWORD");
+
+                if (!string.IsNullOrEmpty(redisPassword))
+                {
+                    redisConnection = $"{redisConnection},password={redisPassword}";
+                }
+                return redisConnection;
+            }
+        }
+
+        private void UpdateDatabase(IApplicationBuilder app)
+        {
+            var options = app.ApplicationServices.GetRequiredService<IOptions<AppSettings>>();
+
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 using (var context = serviceScope.ServiceProvider.GetService<AgriConfigurationContext>())
                 {
+                    var refreshDatabase = Environment.GetEnvironmentVariable("REFRESH_DATABASE");
+
+                    if ((!string.IsNullOrEmpty(refreshDatabase) && refreshDatabase.ToLower() == "true") ||
+                        (options.Value.RefreshDatabase && _hostingEnv.IsDevelopment()))
+                    {
+                        context.Database.EnsureDeleted();
+                    }
+
+                    //If the database is not present or if migrations are required
+                    //create the database and/or run the migrations
                     context.Database.Migrate();
                 }
             }

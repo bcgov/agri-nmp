@@ -1,26 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Agri.Data;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
-using SERVERAPI.Models;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models.Impl;
-using Microsoft.AspNetCore.Hosting;
 
 namespace SERVERAPI.ViewComponents
 {
     public class Fields : ViewComponent
     {
-        private IHostingEnvironment _env;
-        private UserData _ud;
-        private IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
 
-        public Fields(IHostingEnvironment env, UserData ud, IAgriConfigurationRepository sd)
+        public Fields(UserData ud, IAgriConfigurationRepository sd)
         {
-            _env = env;
             _ud = ud;
             _sd = sd;
         }
@@ -35,7 +29,7 @@ namespace SERVERAPI.ViewComponents
             FieldsViewModel fvm = new FieldsViewModel();
             FarmDetails fd = _ud.FarmDetails();
 
-            if(fd.farmRegion.HasValue)
+            if (fd.FarmRegion.HasValue)
             {
                 fvm.regionFnd = true;
             }
@@ -52,9 +46,9 @@ namespace SERVERAPI.ViewComponents
             foreach (var f in fldList)
             {
                 Field nf = new Field();
-                nf.fieldName = f.fieldName;
-                nf.area = Convert.ToDecimal((f.area).ToString("G29"));
-                nf.comment = f.comment;
+                nf.FieldName = f.FieldName;
+                nf.Area = Convert.ToDecimal((f.Area).ToString("G29"));
+                nf.Comment = f.Comment;
                 fvm.fields.Add(nf);
             }
 

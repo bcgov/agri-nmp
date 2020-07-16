@@ -1,6 +1,5 @@
 @using Agri.Models
 
-
 @{
     ViewBag.Title = "Manure/Compost Imported";
 }
@@ -29,7 +28,7 @@
                 @await Component.InvokeAsync("ManureImported")
             </div>
             <div id="next-previous-navigation">
-                @await Component.InvokeAsync("NextPreviousNavigation", new { currentAction = CoreSiteActions.ManureImported })
+                @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel { CurrentAction = CoreSiteActions.ManureImported })
             </div>
         </form>
         <!-- PAGE CONTENT -->
@@ -38,10 +37,7 @@
 
 <!-- /BODY CONTENT -->
 
-
-
 @section Scripts {
-
 
     <script type="text/javascript">
 
@@ -71,8 +67,6 @@
                         if (result.success) {
                             $('#myModal').modal('hide');
                             $(result.target).load(result.url); //  Load data from the server and place the returned HTML into the matched element
-                            RefreshNavigation("ManureManagement", "ManureImported");
-                            RefreshNextPreviousNavigation("ManureManagement", "ManureImported");
                         } else {
                             $('#myModalContent').html(result);
                             bindForm(dialog);
@@ -82,7 +76,7 @@
                 return false;
             });
         }
-        
+
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
@@ -122,7 +116,6 @@
                 return false;
             });
         }
-
 
         $(document).ready(function () {
             $("body").on("change", "#txtMaterialName", function () {
@@ -173,10 +166,10 @@
                 $('#myModalContent').load($type,
                     function () {
                         $('#myModal').modal({
-                                /*backdrop: 'static',*/
-                                //keyboard: true
+                            /*backdrop: 'static',*/
+                            //keyboard: true
 
-                            },
+                        },
                             'show');
                         bindForm2(this);
                     });
@@ -186,11 +179,11 @@
         function bindForm2(dialog) {
             $('form', dialog).submit(function () {
                 $.ajax({
-                        cache: false,
-                        url: this.action,
-                        type: this.method,
-                        data: $(this).serialize()
-                    })
+                    cache: false,
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize()
+                })
                     .done(function (result) {
                         if (result.success) {
                             $('#myModal').modal('hide');
@@ -205,6 +198,5 @@
                 return false;
             });
         }
-
     </script>
 }

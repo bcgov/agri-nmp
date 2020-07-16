@@ -1,6 +1,8 @@
-﻿using Agri.Interfaces;
+﻿using Agri.CalculateService;
+using Agri.Data;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
+using SERVERAPI.Models.Impl;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,65 +10,62 @@ namespace SERVERAPI.ViewComponents
 {
     public class CalcPrevYearManure : ViewComponent
     {
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly UserData _ud;
+        private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
 
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
-
-        public CalcPrevYearManure(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
+        public CalcPrevYearManure(IAgriConfigurationRepository sd, UserData ud, IChemicalBalanceMessage chemicalBalanceMessage)
         {
             _sd = sd;
             _ud = ud;
+            _chemicalBalanceMessage = chemicalBalanceMessage;
         }
-
 
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
         {
             return View(await GetPrevYearManureAsync(fldName));
         }
 
-
         private Task<PrevYearManureApplViewModel> GetPrevYearManureAsync(string fldName)
         {
             PrevYearManureApplViewModel manureVM = new PrevYearManureApplViewModel();
 
             // get the current associated value for nitrogen credit.  Note, can be null
-            SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
 
             Field fld = _ud.GetFieldDetails(fldName);
             manureVM.display = false;
-            if (fld.crops != null) 
+            if (fld.Crops != null)
             {
-                if (fld.crops.Count() > 0)  
+                if (fld.Crops.Count() > 0)
                 {
-                    manureVM.display = _sd.WasManureAddedInPreviousYear(fld.prevYearManureApplicationFrequency);
+                    manureVM.display = _sd.WasManureAddedInPreviousYear(fld.PreviousYearManureApplicationFrequency);
                     if (manureVM.display)
                     {
                         manureVM.fldName = fldName;
-                        if (fld.prevYearManureApplicationNitrogenCredit != null)
-                            manureVM.nitrogen = fld.prevYearManureApplicationNitrogenCredit;
+                        if (fld.PreviousYearManureApplicationNitrogenCredit != null)
+                            manureVM.nitrogen = fld.PreviousYearManureApplicationNitrogenCredit;
                         else
                         {
-                            // lookup default Nitrogen credit 
-                            manureVM.nitrogen = calculator.calcPrevYearManureApplDefault(fldName);
+                            // lookup default Nitrogen credit
+                            manureVM.nitrogen = _chemicalBalanceMessage.CalcPrevYearManureApplDefault(fld);
                         }
                     }
                     else
                     {
-                        fld.prevYearManureApplicationNitrogenCredit = null;
+                        fld.PreviousYearManureApplicationNitrogenCredit = null;
                         _ud.UpdateField(fld);
                     }
-
                 }
                 else
                 {
-                    fld.prevYearManureApplicationNitrogenCredit = null;
+                    fld.PreviousYearManureApplicationNitrogenCredit = null;
                     _ud.UpdateField(fld);
                 }
             }
             else
             {
                 //reset the nitrogen credit to null
-                fld.prevYearManureApplicationNitrogenCredit = null;
+                fld.PreviousYearManureApplicationNitrogenCredit = null;
                 _ud.UpdateField(fld);
             }
             return Task.FromResult(manureVM);
@@ -81,6 +80,4 @@ namespace SERVERAPI.ViewComponents
         public string url { get; set; }
         public string urlText { get; set; }
     }
-
-
 }

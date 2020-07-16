@@ -26,16 +26,22 @@ namespace Agri.Data
         public DbSet<CropSoilTestPotassiumRegion> CropSoilTestPotassiumRegions { get; set; }
         public DbSet<CropSoilTestPhosphorousRegion> CropSoilTestPhosphorousRegions { get; set; }
         public DbSet<CropType> CropTypes { get; set; }
+        public DbSet<DailyFeedRequirement> DailyFeedRequirements { get; set; }
         public DbSet<DefaultSoilTest> DefaultSoilTests { get; set; }
         public DbSet<DensityUnit> DensityUnits { get; set; }
         public DbSet<Depth> Depths { get; set; }
         public DbSet<DryMatter> DryMatters { get; set; }
         public DbSet<ExternalLink> ExternalLinks { get; set; }
+        public DbSet<Feed> Feeds { get; set; }
+        public DbSet<FeedForageType> FeedForageTypes { get; set; }
+        public DbSet<FeedConsumption> FeedConsumptions { get; set; }
+        public DbSet<FeedEfficiency> FeedEfficiencies { get; set; }
         public DbSet<Fertilizer> Fertilizers { get; set; }
         public DbSet<FertilizerMethod> FertilizerMethods { get; set; }
         public DbSet<FertilizerType> FertilizerTypes { get; set; }
         public DbSet<FertilizerUnit> FertilizerUnits { get; set; }
         public DbSet<HarvestUnit> HarvestUnits { get; set; }
+        public DbSet<Journey> Journeys { get; set; }
         public DbSet<LiquidFertilizerDensity> LiquidFertilizerDensities { get; set; }
         public DbSet<LiquidMaterialApplicationUSGallonsPerAcreRateConversion> LiquidMaterialApplicationUsGallonsPerAcreRateConversions { get; set; }
         public DbSet<LiquidMaterialsConversionFactor> LiquidMaterialsConversionFactors { get; set; }
@@ -71,7 +77,6 @@ namespace Agri.Data
         public DbSet<UserPrompt> UserPrompts { get; set; }
         public DbSet<StaticDataVersion> StaticDataVersions { get; set; }
         public DbSet<Yield> Yields { get; set; }
-        public DbSet<AppliedMigrationSeedData> AppliedMigrationSeedData { get; set; }
         public DbSet<ManageVersionUser> ManageVersionUsers { get; set; }
 
         #endregion DbSets
@@ -162,6 +167,13 @@ namespace Agri.Data
                     table.StaticDataVersionId
                 });
 
+            modelBuilder.Entity<DailyFeedRequirement>()
+               .HasKey(table => new
+               {
+                   table.Id,
+                   table.StaticDataVersionId
+               });
+
             modelBuilder.Entity<DefaultSoilTest>()
                 .HasKey(table => new
                 {
@@ -182,6 +194,34 @@ namespace Agri.Data
                     table.Id,
                     table.StaticDataVersionId
                 });
+
+            modelBuilder.Entity<FeedConsumption>()
+             .HasKey(table => new
+             {
+                 table.Id,
+                 table.StaticDataVersionId
+             });
+
+            modelBuilder.Entity<FeedEfficiency>()
+              .HasKey(table => new
+              {
+                  table.Id,
+                  table.StaticDataVersionId
+              });
+
+            modelBuilder.Entity<Feed>()
+              .HasKey(table => new
+              {
+                  table.Id,
+                  table.StaticDataVersionId
+              });
+
+            modelBuilder.Entity<FeedForageType>()
+              .HasKey(table => new
+              {
+                  table.Id,
+                  table.StaticDataVersionId
+              });
 
             modelBuilder.Entity<Fertilizer>()
                 .HasKey(table => new
@@ -217,6 +257,8 @@ namespace Agri.Data
                     table.Id,
                     table.StaticDataVersionId
                 });
+
+            modelBuilder.Entity<Journey>().ToTable("Journey");
 
             modelBuilder.Entity<LiquidFertilizerDensity>()
                 .HasKey(table => new
@@ -680,9 +722,12 @@ namespace Agri.Data
             modelBuilder.Entity<CropSoilTestPotassiumRegion>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<CropType>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<CropYield>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
+            modelBuilder.Entity<DailyFeedRequirement>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DefaultSoilTest>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DensityUnit>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<DryMatter>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
+            modelBuilder.Entity<Feed>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
+            modelBuilder.Entity<FeedForageType>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<Fertilizer>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<FertilizerMethod>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
             modelBuilder.Entity<FertilizerType>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
@@ -721,12 +766,17 @@ namespace Agri.Data
             modelBuilder.Entity<Yield>().Property(x => x.StaticDataVersionId).HasDefaultValue(1);
 
             modelBuilder.Entity<StaticDataVersion>()
+                .Ignore(table => table.Version)
                 .Property(s => s.CreatedDateTime)
                 .HasDefaultValueSql("NOW()");
 
             //Unique Columns
             modelBuilder.Entity<ManageVersionUser>()
                 .HasIndex(table => table.UserName)
+                .IsUnique();
+
+            modelBuilder.Entity<UserPrompt>()
+                .HasIndex(table => table.Name)
                 .IsUnique();
 
             if (!this.Database.IsNpgsql())

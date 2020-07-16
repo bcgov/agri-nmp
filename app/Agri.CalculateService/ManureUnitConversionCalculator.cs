@@ -1,18 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+using Agri.Data;
 using Agri.Models;
-using Agri.Models.Configuration;
 
 namespace Agri.CalculateService
 {
+    public interface IManureUnitConversionCalculator
+    {
+        decimal GetDensity(decimal moistureWholePercent);
+
+        decimal GetCubicMetersVolume(ManureMaterialType manureMaterialType, decimal moistureWholePercent, decimal amountToConvert, AnnualAmountUnits amountUnit);
+
+        decimal GetCubicYardsVolume(ManureMaterialType manureMaterialType, decimal moistureWholePercent, decimal amountToConvert, AnnualAmountUnits amountUnit);
+
+        decimal GetUSGallonsVolume(ManureMaterialType manureMaterialType, decimal amountToConvert, AnnualAmountUnits amountUnit);
+
+        decimal GetTonsWeight(ManureMaterialType manureMaterialType, decimal moistureWholePercent, decimal amountToConvert, AnnualAmountUnits amountUnit);
+
+        decimal GetSolidsTonsPerAcreApplicationRate(decimal moistureWholePercent, decimal amountToConvert, ApplicationRateUnits applicationRateUnit);
+
+        decimal GetSolidsTonsPerAcreApplicationRate(int manureId, decimal amountToConvert, ApplicationRateUnits applicationRateUnit);
+
+        decimal GetLiquidUSGallonsPerAcreApplicationRate(decimal amountToConvert, ApplicationRateUnits applicationRateUnit);
+    }
+
     public class ManureUnitConversionCalculator : IManureUnitConversionCalculator
     {
-        private IAgriConfigurationRepository _repository;
+        private readonly IAgriConfigurationRepository _repository;
 
         public ManureUnitConversionCalculator(IAgriConfigurationRepository repository)
         {
@@ -57,7 +72,7 @@ namespace Agri.CalculateService
 
         public decimal GetCubicYardsVolume(ManureMaterialType manureMaterialType,
             decimal moistureWholePercent,
-            decimal amountToConvert, 
+            decimal amountToConvert,
             AnnualAmountUnits amountUnit)
         {
             if (manureMaterialType == ManureMaterialType.Solid)
@@ -75,6 +90,7 @@ namespace Agri.CalculateService
 
             return 0;
         }
+
         public decimal GetCubicMetersVolume(ManureMaterialType manureMaterialType,
             decimal moistureWholePercent,
             decimal amountToConvert,
@@ -102,7 +118,6 @@ namespace Agri.CalculateService
         {
             if (manureMaterialType == ManureMaterialType.Liquid)
             {
-
                 var converstionFactor = _repository
                     .GetLiquidMaterialsConversionFactors()
                     .Single(cf => cf.InputUnit == amountUnit);
@@ -156,11 +171,11 @@ namespace Agri.CalculateService
         }
 
         public decimal GetSolidsTonsPerAcreApplicationRate(
-            int manureId, 
-            decimal amountToConvert, 
+            int manureId,
+            decimal amountToConvert,
             ApplicationRateUnits applicationRateUnit)
         {
-            var density = _repository.GetManure(manureId.ToString()).CubicYardConversion;
+            var density = _repository.GetManure(manureId).CubicYardConversion;
             var conversionFactor = _repository
                 .GetSolidMaterialApplicationTonPerAcreRateConversions()
                 .Single(cf => cf.ApplicationRateUnit == applicationRateUnit);

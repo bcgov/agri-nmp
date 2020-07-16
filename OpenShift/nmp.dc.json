@@ -47,16 +47,37 @@
       "value": "1"
     },
     {
-      "name": "PDF_REPLICAS",
-      "displayName": "Number of Replicas for PDF",
-      "description": "Number of Replicas for PDF",
-      "value": "1"
-    },
-    {
       "name": "MS_TEAMS_WEBHOOK_URL",
       "displayName": "MS Teams Webhook URL",
       "description": "MS Teams Webhook URL",
       "value": ""
+    },
+    {
+      "name": "PERSISTENT_VOLUME_SIZE",
+      "displayName": "Persistent Volume Size",
+      "description": "The size of the persistent volume , e.g. 512Mi, 1Gi, 2Gi.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "PERSISTENT_VOLUME_CLASS",
+      "displayName": "Persistent Volume Class name",
+      "description": "The class of the volume; gluster-file, gluster-block, gluster-file-db, netapp-file-standard, netapp-block-standard",
+      "required": false,
+      "value": "netapp-file-standard"
+    },
+    {
+      "description": "The name of the OpenShift Service exposed for the database.",
+      "displayName": "Database Service Name",
+      "name": "REDIS_SERVICE_NAME",
+      "required": true,
+      "value": "redis"
+    },
+    {
+      "name": "CERTBOT_MANAGED_AUTO_CERT_RENEWAL",
+      "displayName": "Certbot Managed Automatic Certificate Renewal",
+      "description": "Certbot picks up anything with certbot-managed=true",
+      "value": "false"
     }
   ],
   "objects": [
@@ -72,13 +93,23 @@
       }
     },
     {
-      "kind": "ImageStream",
+      "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}-pdf",
-        "creationTimestamp": null,
-        "labels": {
-          "base-name": "${NAME}-pdf"
+        "name": "${NAME}-key-ring${SUFFIX}",
+        "annotations": {
+          "volume.beta.kubernetes.io/storage-class": "${PERSISTENT_VOLUME_CLASS}"
+        }
+      },
+      "spec": {
+        "storageClassName": "${PERSISTENT_VOLUME_CLASS}",
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${PERSISTENT_VOLUME_SIZE}"
+          }
         }
       }
     },
@@ -166,10 +197,6 @@
                 ],
                 "env": [
                   {
-                    "name": "PDF_SERVICE_NAME",
-                    "value": "http://${NAME}-pdf${SUFFIX}:8080"
-                  },
-                  {
                     "name": "POSTGRESQL_DATABASE",
                     "valueFrom": {
                       "secretKeyRef": {
@@ -211,6 +238,23 @@
                   {
                     "name": "WEASYPRINT_URL",
                     "value": "http://${NAME}-weasyprint${SUFFIX}:5001"
+                  },
+                  {
+                    "name": "REDIS_PASSWORD",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "${NAME}-redis-credentials${SUFFIX}",
+                        "key": "password"
+                      }
+                    }
+                  },
+                  {
+                    "name": "REDIS_CONNECTION_STRING",
+                    "value": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
+                  },
+                  {
+                    "name": "KEY_RING_DIRECTORY",
+                    "value": "/var/dp_keys"
                   }
                 ],
                 "resources": {
@@ -247,105 +291,24 @@
                 },
                 "terminationMessagePath": "/dev/termination-log",
                 "terminationMessagePolicy": "File",
+                "volumeMounts": [
+                  {
+                    "mountPath": "/var/dp_keys",
+                    "name": "dp-keys"
+                  }
+                ],
                 "imagePullPolicy": "IfNotPresent"
               }
             ],
             "restartPolicy": "Always",
-            "terminationGracePeriodSeconds": 30,
-            "dnsPolicy": "ClusterFirst",
-            "securityContext": {},
-            "schedulerName": "default-scheduler"
-          }
-        }
-      }
-    },
-    {
-      "kind": "DeploymentConfig",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-pdf${SUFFIX}",
-        "creationTimestamp": null,
-        "labels": null,
-        "annotations": {
-          "description": "Defines how to deploy the PDF server"
-        }
-      },
-      "spec": {
-        "strategy": {
-          "type": "Rolling",
-          "rollingParams": {
-            "updatePeriodSeconds": 1,
-            "intervalSeconds": 1,
-            "timeoutSeconds": 600,
-            "maxUnavailable": "25%",
-            "maxSurge": "25%"
-          },
-          "resources": {},
-          "activeDeadlineSeconds": 21600
-        },
-        "triggers": [
-          {
-            "type": "ImageChange",
-            "imageChangeParams": {
-              "automatic": true,
-              "containerNames": [
-                "${NAME}-pdf${SUFFIX}"
-              ],
-              "from": {
-                "kind": "ImageStreamTag",
-                "name": "${NAME}-pdf:${VERSION}"
-              }
-            }
-          },
-          {
-            "type": "ConfigChange"
-          }
-        ],
-        "replicas": "${{PDF_REPLICAS}}",
-        "test": false,
-        "selector": {
-          "name": "${NAME}-pdf${SUFFIX}"
-        },
-        "template": {
-          "metadata": {
-            "name": "${NAME}-pdf${SUFFIX}",
-            "creationTimestamp": null,
-            "labels": {
-              "name": "${NAME}-pdf${SUFFIX}"
-            }
-          },
-          "spec": {
-            "containers": [
+            "volumes": [
               {
-                "name": "${NAME}-pdf${SUFFIX}",
-                "image": " ",
-                "ports": [
-                  {
-                    "containerPort": 8080,
-                    "protocol": "TCP"
-                  }
-                ],
-                "env": [
-                  {
-                    "name": "ASPNETCORE_ENVIRONMENT",
-                    "value": "Staging"
-                  },
-                  {
-                    "name": "LC_ALL",
-                    "value": "C"
-                  }
-                ],
-                "resources": {
-                  "limits": {
-                    "memory": "512Mi"
-                  }
-                },
-                "terminationMessagePath": "/dev/termination-log",
-                "terminationMessagePolicy": "File",
-                "imagePullPolicy": "IfNotPresent"
+                "name": "dp-keys",
+                "persistentVolumeClaim": {
+                  "claimName": "${NAME}-key-ring${SUFFIX}"
+                }
               }
             ],
-            "restartPolicy": "Always",
             "terminationGracePeriodSeconds": 30,
             "dnsPolicy": "ClusterFirst",
             "securityContext": {},
@@ -382,39 +345,15 @@
       }
     },
     {
-      "kind": "Service",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}-pdf${SUFFIX}",
-        "creationTimestamp": null,
-        "labels": null,
-        "annotations": {
-          "description": "Exposes and load balances the PDF pods"
-        }
-      },
-      "spec": {
-        "ports": [
-          {
-            "name": "web",
-            "protocol": "TCP",
-            "port": 8080,
-            "targetPort": 8080
-          }
-        ],
-        "selector": {
-          "name": "${NAME}-pdf${SUFFIX}"
-        },
-        "type": "ClusterIP",
-        "sessionAffinity": "None"
-      }
-    },
-    {
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
         "name": "${NAME}${SUFFIX}",
         "creationTimestamp": null,
-        "labels": { "frontend": "true" },
+        "labels": { 
+          "frontend": "true",
+          "certbot-managed": "${CERTBOT_MANAGED_AUTO_CERT_RENEWAL}"
+        },
         "annotations": {
           "haproxy.router.openshift.io/timeout": "5m",
           "template.openshift.io.bcgov/tls-secret-name.prod": "${NAME}-route-cert${SUFFIX}"

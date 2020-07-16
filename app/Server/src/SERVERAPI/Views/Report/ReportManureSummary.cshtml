@@ -30,16 +30,16 @@
                     @foreach (var m in Model.manures)
                     {
                         <tr style="padding-top:20px; padding-bottom:20px">
-                            <td class="CellDtl" style="width:300px;font-weight:bold">@m.MaterialName</td>
-                            <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AnnualAmount</td>
-                            <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.LandApplied</td>
+                            <td class="CellDtl" style="width:25%;font-weight:bold">@m.MaterialName</td>
+                            <td class="CellDtl" style="width:25%;font-weight:bold;text-align:right">@m.AnnualAmount</td>
+                            <td class="CellDtl" style="width:25%;font-weight:bold;text-align:right">@m.LandApplied</td>
                             @if (@m.AmountRemaining == "None")
                             {
-                                <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AmountRemaining<sup>@m.footnote</sup></td>
+                                <td class="CellDtl" style="width:25%;font-weight:bold;text-align:right">@m.AmountRemaining<sup>@m.footnote</sup></td>
                             }
                             else
                             {
-                                <td class="CellDtl" style="width:300px;font-weight:bold;text-align:right">@m.AmountRemaining</td>
+                                <td class="CellDtl" style="width:25%;font-weight:bold;text-align:right">@m.AmountRemaining</td>
                             }
 
                         </tr>

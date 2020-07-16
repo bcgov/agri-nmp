@@ -1,14 +1,10 @@
 {
-  "name": "pdf",
+  "name": "SERVERAPI",
   "version": "1.0.0",
   "description": "",
-  "main": "pdf.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "",
-  "license": "Apache-2.0",
   "dependencies": {
-    "html-pdf": "^2.1.0"
+    "@bcgov/bootstrap-theme": "https://github.com/bcgov/bootstrap-theme/releases/download/v1.0.0/bcgov-bootstrap-theme-1.0.0.tgz",
+    "bootstrap": "~4.3.1"
   }
 }

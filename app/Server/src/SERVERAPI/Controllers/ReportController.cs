@@ -1,15 +1,12 @@
-﻿using Agri.Interfaces;
+﻿using Agri.CalculateService;
+using Agri.Data;
 using Agri.Models;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
-using Agri.Models.Settings;
-using Microsoft.AspNetCore.Hosting;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.NodeServices;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.Utility;
@@ -39,31 +36,45 @@ namespace SERVERAPI.Controllers
     [SessionTimeout]
     public class ReportController : BaseController
     {
-        private ILogger<ReportController> _logger;
-        public IHostingEnvironment _env { get; set; }
-        public UserData _ud { get; set; }
-        public IAgriConfigurationRepository _sd { get; set; }
-        public IViewRenderService _viewRenderService { get; set; }
-        public AppSettings _settings;
-        private IManureApplicationCalculator _manureApplicationCalculator;
-        private ISoilTestConverter _soilTestConverter;
-        private object _semaphore = new object();
+        private readonly ILogger<ReportController> _logger;
+        private readonly UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly IMapper _mapper;
+        private readonly IViewRenderService _viewRenderService;
+        private readonly ICalculateAnimalRequirement _calculateAnimalRequirement;
+        private readonly ICalculateCropRequirementRemoval _calculateCropRequirementRemoval;
+        private readonly ICalculateNutrients _calculateNutrients;
+        private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
+        private readonly IManureApplicationCalculator _manureApplicationCalculator;
+        private readonly ISoilTestConverter _soilTestConverter;
+        private readonly IFeedAreaCalculator _feedCalculator;
 
         public ReportController(ILogger<ReportController> logger,
-            IHostingEnvironment env,
             IViewRenderService viewRenderService,
             UserData ud,
             IAgriConfigurationRepository sd,
+            IMapper mapper,
+            ICalculateAnimalRequirement calculateAnimalRequirement,
+            ICalculateCropRequirementRemoval calculateCropRequirementRemoval,
+            ICalculateNutrients calculateNutrients,
+            IChemicalBalanceMessage chemicalBalanceMessage,
             IManureApplicationCalculator manureApplicationCalculator,
-            ISoilTestConverter soilTestConverter)
+            ISoilTestConverter soilTestConverter,
+            IFeedAreaCalculator feedCalculator
+            )
         {
             _logger = logger;
-            _env = env;
             _ud = ud;
             _sd = sd;
+            _mapper = mapper;
             _viewRenderService = viewRenderService;
+            _calculateAnimalRequirement = calculateAnimalRequirement;
+            _calculateCropRequirementRemoval = calculateCropRequirementRemoval;
+            _calculateNutrients = calculateNutrients;
+            _chemicalBalanceMessage = chemicalBalanceMessage;
             _manureApplicationCalculator = manureApplicationCalculator;
             _soilTestConverter = soilTestConverter;
+            _feedCalculator = feedCalculator;
         }
 
         [HttpGet]
@@ -74,8 +85,8 @@ namespace SERVERAPI.Controllers
             var farmData = HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
 
             ReportViewModel rvm = new ReportViewModel();
-            rvm.unsavedData = farmData.unsaved;
-            rvm.url = _sd.GetExternalLink("finishpagetarget");
+            rvm.UnsavedData = farmData.unsaved;
+            rvm.Url = _sd.GetExternalLink("finishpagetarget");
 
             List<Field> fldLst = _ud.GetFields();
 
@@ -87,7 +98,7 @@ namespace SERVERAPI.Controllers
             {
                 foreach (var f in fldLst)
                 {
-                    if (f.crops == null)
+                    if (f.Crops == null)
                     {
                         cropFound = false;
                         break;
@@ -97,7 +108,7 @@ namespace SERVERAPI.Controllers
 
             if (!cropFound)
             {
-                rvm.noCropsMsg = _sd.GetUserPrompt("nocropmessage");
+                rvm.NoCropsMsg = _sd.GetUserPrompt("nocropmessage");
             }
 
             rvm.GeneratedManures = _ud.GetGeneratedManures();
@@ -105,7 +116,7 @@ namespace SERVERAPI.Controllers
 
             if (rvm.UnallocatedManures.Count > 0)
             {
-                rvm.materialsNotStoredMessage = _sd.GetUserPrompt("materialsNotStoredMessage");
+                rvm.MaterialsNotStoredMessage = _sd.GetUserPrompt("materialsNotStoredMessage");
             }
 
             if (fldLst.Count() > 0)
@@ -163,8 +174,8 @@ namespace SERVERAPI.Controllers
                 }
             }
 
-            rvm.downloadMsg = string.Format(_sd.GetUserPrompt("reportdownload"), Url.Action("DownloadMessage", "Home"));
-            rvm.loadMsg = _sd.GetUserPrompt("reportload");
+            rvm.DownloadMsg = string.Format(_sd.GetUserPrompt("reportdownload"), Url.Action("DownloadMessage", "Home"));
+            rvm.LoadMsg = _sd.GetUserPrompt("reportload");
 
             return View(rvm);
         }
@@ -177,31 +188,42 @@ namespace SERVERAPI.Controllers
 
         public async Task<string> RenderHeader()
         {
-            ReportViewModel rvm = new ReportViewModel();
+            var rvm = new ReportViewModel();
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportHeader.cshtml", rvm);
 
             return result;
         }
 
+        public async Task<string> RenderBody(string rawContent, string header, string footer)
+        {
+            var rvm = new ReportPrintViewModel
+            {
+                Body = rawContent,
+                RepeatHeader = header,
+                RepeatFooter = footer
+            };
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportBody.cshtml", rvm);
+
+            return result;
+        }
+
         public async Task<string> RenderFields()
         {
-            var calculateNutrients = new CalculateNutrients(_ud, _sd);
-            CalculateCropRequirementRemoval calculateCropRequirementRemoval = new CalculateCropRequirementRemoval(_ud, _sd);
-
             ReportFieldsViewModel rvm = new ReportFieldsViewModel();
             rvm.fields = new List<ReportFieldsField>();
-            rvm.year = _ud.FarmDetails().year;
-            rvm.methodName = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "not selected" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
+            rvm.year = _ud.FarmDetails().Year;
+            rvm.methodName = string.IsNullOrEmpty(_ud.FarmDetails().TestingMethod) ? "not selected" : _sd.GetSoilTestMethod(_ud.FarmDetails().TestingMethod);
             rvm.prevHdg = _sd.GetUserPrompt("ncreditlabel");
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
             {
                 ReportFieldsField rf = new ReportFieldsField();
-                rf.fieldArea = f.area.ToString("G29");
-                rf.fieldName = f.fieldName;
-                rf.fieldComment = f.comment;
+                rf.fieldArea = f.Area.ToString("G29");
+                rf.fieldName = f.FieldName;
+                rf.fieldComment = f.Comment;
                 rf.soiltest = new ReportFieldSoilTest();
                 rf.crops = new List<ReportFieldCrop>();
                 rf.otherNutrients = new List<ReportFieldOtherNutrient>();
@@ -209,19 +231,19 @@ namespace SERVERAPI.Controllers
                 rf.showNitrogenCredit = false;
                 rf.showSoilTestNitrogenCredit = false;
 
-                if (f.soilTest != null)
+                if (f.SoilTest != null)
                 {
-                    rf.soiltest.sampleDate = f.soilTest.sampleDate.ToString("MMM yyyy");
-                    rf.soiltest.dispNO3H = f.soilTest.valNO3H.ToString("G29") + " ppm";
-                    rf.soiltest.dispP = f.soilTest.ValP.ToString("G29") + " ppm (" + _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
-                    rf.soiltest.dispK = f.soilTest.valK.ToString("G29") + " ppm (" + _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, f.soilTest)) + ")";
-                    rf.soiltest.dispPH = f.soilTest.valPH.ToString("G29");
+                    rf.soiltest.sampleDate = f.SoilTest.sampleDate.ToString("MMM yyyy");
+                    rf.soiltest.dispNO3H = f.SoilTest.valNO3H.ToString("G29") + " ppm";
+                    rf.soiltest.dispP = f.SoilTest.ValP.ToString("G29") + " ppm (" + _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, f.SoilTest)) + ")";
+                    rf.soiltest.dispK = f.SoilTest.valK.ToString("G29") + " ppm (" + _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, f.SoilTest)) + ")";
+                    rf.soiltest.dispPH = f.SoilTest.valPH.ToString("G29");
                 }
 
                 rf.nutrients = new List<ReportFieldNutrient>();
-                if (f.crops != null)
+                if (f.Crops != null)
                 {
-                    foreach (var c in f.crops)
+                    foreach (var c in f.Crops)
                     {
                         ReportFieldCrop fc = new ReportFieldCrop();
 
@@ -235,7 +257,7 @@ namespace SERVERAPI.Controllers
 
                         if (_sd.GetCropType(_sd.GetCrop(Convert.ToInt32(c.cropId)).CropTypeId).CrudeProteinRequired)
                         {
-                            if (c.crudeProtien.Value.ToString("#.#") != calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt32(c.cropId)).ToString("#.#"))
+                            if (c.crudeProtien.Value.ToString("#.#") != _calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt32(c.cropId)).ToString("#.#"))
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
                                 rff.id = rf.footnotes.Count() + 1;
@@ -248,22 +270,14 @@ namespace SERVERAPI.Controllers
                         if (_sd.GetCropType(_sd.GetCrop(Convert.ToInt32(c.cropId)).CropTypeId).ModifyNitrogen)
                         {
                             // check for standard
-                            CropRequirementRemoval cropRequirementRemoval = new CropRequirementRemoval();
-
-                            calculateCropRequirementRemoval.cropid = Convert.ToInt16(c.cropId);
-                            calculateCropRequirementRemoval.yield = Convert.ToDecimal(c.yield);
-                            if (c.crudeProtien == (decimal?)null)
-                                calculateCropRequirementRemoval.crudeProtien = null;
-                            else
-                                calculateCropRequirementRemoval.crudeProtien = Convert.ToDecimal(c.crudeProtien);
-                            calculateCropRequirementRemoval.coverCropHarvested = c.coverCropHarvested;
-                            calculateCropRequirementRemoval.fieldName = f.fieldName;
-                            string nCredit = c.prevCropId != 0 ? _sd.GetPrevCropType(Convert.ToInt32(c.prevCropId)).NitrogenCreditImperial.ToString() : "0";
-
-                            if (!string.IsNullOrEmpty(nCredit))
-                                calculateCropRequirementRemoval.nCredit = Convert.ToInt16(nCredit);
-
-                            cropRequirementRemoval = calculateCropRequirementRemoval.GetCropRequirementRemoval();
+                            var cropRequirementRemoval = _calculateCropRequirementRemoval
+                                .GetCropRequirementRemoval(Convert.ToInt16(c.cropId),
+                                Convert.ToDecimal(c.yield),
+                                c.crudeProtien.HasValue ? Convert.ToDecimal(c.crudeProtien) : default(decimal?),
+                                c.coverCropHarvested,
+                                c.prevCropId != 0 ? _sd.GetPrevCropType(Convert.ToInt32(c.prevCropId)).NitrogenCreditImperial : 0,
+                                _ud.FarmDetails().FarmRegion.Value,
+                                _ud.GetFieldDetails(f.FieldName));
 
                             string stdNAmt = cropRequirementRemoval.N_Requirement.ToString();
 
@@ -306,29 +320,27 @@ namespace SERVERAPI.Controllers
 
                         rf.crops.Add(fc);
                     }
-                    if (f.crops.Count() > 0)
+                    if (f.Crops.Count() > 0)
                     {
-                        rf.showNitrogenCredit = f.prevYearManureApplicationFrequency != null ? true : false;
+                        rf.showNitrogenCredit = f.PreviousYearManureApplicationFrequency != null ? true : false;
                         if (rf.showNitrogenCredit)
                         {
-                            if (f.prevYearManureApplicationNitrogenCredit == null)
+                            if (f.PreviousYearManureApplicationNitrogenCredit == null)
                             {   // calculate default value.
-                                SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
-                                rf.nitrogenCredit = calculator.calcPrevYearManureApplDefault(f.fieldName);
+                                rf.nitrogenCredit = this._chemicalBalanceMessage.CalcPrevYearManureApplDefault(f);
                             }
                             else
-                                rf.nitrogenCredit = f.prevYearManureApplicationNitrogenCredit;
+                                rf.nitrogenCredit = f.PreviousYearManureApplicationNitrogenCredit;
                             rf.reqN += Convert.ToDecimal(rf.nitrogenCredit);
                         }
-                        if (f.soilTest != null)
+                        if (f.SoilTest != null)
                         {
-                            rf.showSoilTestNitrogenCredit = _sd.IsNitrateCreditApplicable(_ud.FarmDetails().farmRegion, f.soilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().year));
+                            rf.showSoilTestNitrogenCredit = _sd.IsNitrateCreditApplicable(_ud.FarmDetails().FarmRegion, f.SoilTest.sampleDate, Convert.ToInt16(_ud.FarmDetails().Year));
                             if (rf.showSoilTestNitrogenCredit)
                             {
                                 if (f.SoilTestNitrateOverrideNitrogenCredit == null)
                                 {   // calculate default value
-                                    SERVERAPI.Utility.ChemicalBalanceMessage calculator = new Utility.ChemicalBalanceMessage(_ud, _sd);
-                                    rf.soilTestNitrogenCredit = Math.Round(calculator.calcSoitTestNitrateDefault(f.fieldName));
+                                    rf.soilTestNitrogenCredit = Math.Round(this._chemicalBalanceMessage.CalcSoitTestNitrateDefault(f));
                                 }
                                 else
                                     rf.soilTestNitrogenCredit = Math.Round(Convert.ToDecimal(f.SoilTestNitrateOverrideNitrogenCredit));
@@ -338,16 +350,16 @@ namespace SERVERAPI.Controllers
                         }
                     } // f.crops.Count() > 0
                 }
-                if (f.nutrients != null)
+                if (f.Nutrients != null)
                 {
-                    if (f.nutrients.nutrientManures != null)
+                    if (f.Nutrients.nutrientManures != null)
                     {
-                        foreach (var m in f.nutrients.nutrientManures)
+                        foreach (var m in f.Nutrients.nutrientManures)
                         {
                             FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
-                            rfn.nutrientName = manure.name;
+                            rfn.nutrientName = manure.Name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
@@ -369,11 +381,11 @@ namespace SERVERAPI.Controllers
 
                             string footNote = "";
 
-                            int regionid = _ud.FarmDetails().farmRegion.Value;
+                            int regionid = _ud.FarmDetails().FarmRegion.Value;
                             var region = _sd.GetRegion(regionid);
                             if (region != null)
                             {
-                                var nOrganicMineralizations = calculateNutrients.GetNMineralization(Convert.ToInt32(m.manureId), region.LocationId);
+                                var nOrganicMineralizations = _calculateNutrients.GetNMineralization(_ud.GetFarmManure(Convert.ToInt32(m.manureId)), region.LocationId);
 
                                 if (m.nAvail != nOrganicMineralizations.OrganicN_FirstYear * 100)
                                 {
@@ -381,7 +393,7 @@ namespace SERVERAPI.Controllers
                                 }
                             }
 
-                            if (m.nh4Retention != (calculateNutrients.GetAmmoniaRetention(Convert.ToInt16(m.manureId), Convert.ToInt16(m.applicationId)) * 100))
+                            if (m.nh4Retention != (_calculateNutrients.GetAmmoniaRetention(_ud.GetFarmManure(Convert.ToInt32(m.manureId)), Convert.ToInt16(m.applicationId)) * 100))
                             {
                                 footNote = string.IsNullOrEmpty(footNote) ? "" : footNote + ", ";
                                 footNote = footNote + "Ammonium-N Retention adjusted to " + m.nh4Retention.ToString("###") + "%";
@@ -396,9 +408,9 @@ namespace SERVERAPI.Controllers
                             }
                         }
                     }
-                    if (f.nutrients.nutrientFertilizers != null)
+                    if (f.Nutrients.nutrientFertilizers != null)
                     {
-                        foreach (var ft in f.nutrients.nutrientFertilizers)
+                        foreach (var ft in f.Nutrients.nutrientFertilizers)
                         {
                             string fertilizerName = string.Empty;
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
@@ -463,9 +475,9 @@ namespace SERVERAPI.Controllers
                             }
                         }
                     }
-                    if (f.nutrients.nutrientOthers != null)
+                    if (f.Nutrients.nutrientOthers != null)
                     {
-                        foreach (var o in f.nutrients.nutrientOthers)
+                        foreach (var o in f.Nutrients.nutrientOthers)
                         {
                             ReportFieldOtherNutrient fon = new ReportFieldOtherNutrient();
                             fon.otherName = o.description;
@@ -494,50 +506,48 @@ namespace SERVERAPI.Controllers
                     rfn.nutrientAmount = "";
                     rf.nutrients.Add(rfn);
                 }
-                ChemicalBalanceMessage cbm = new ChemicalBalanceMessage(_ud, _sd);
 
                 var request = HttpContext.Request;
                 string scheme = request.Scheme;
                 string host = request.Host.ToString();
-                string imgLoc = scheme + "://" + host + "/images/{0}.svg";
 
-                rf.alertMsgs = cbm.DetermineBalanceMessages(f.fieldName);
+                rf.alertMsgs = _chemicalBalanceMessage.DetermineBalanceMessages(f, _ud.FarmDetails().FarmRegion.Value, _ud.FarmDetails().Year);
 
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN") != null)
                 {
                     rf.alertN = true;
-                    rf.iconAgriN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN").Icon);
+                    rf.iconAgriN = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrN").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrP2O5") != null)
                 {
                     rf.alertP = true;
-                    rf.iconAgriP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrP2O5").Icon);
+                    rf.iconAgriP = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrP2O5").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrK2O") != null)
                 {
                     rf.alertK = true;
-                    rf.iconAgriK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrK2O").Icon);
+                    rf.iconAgriK = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "AgrK2O").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN") != null)
                 {
                     rf.alertN = true;
-                    rf.iconCropN = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN").Icon);
+                    rf.iconCropN = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropN").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5") != null)
                 {
                     rf.alertP = true;
-                    rf.iconCropP = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5").Icon);
+                    rf.iconCropP = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropP2O5").Icon.Replace(" ", "-");
                 }
                 if (rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O") != null)
                 {
                     rf.alertK = true;
-                    rf.iconCropK = string.Format(imgLoc, rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon);
+                    rf.iconCropK = rf.alertMsgs.FirstOrDefault(r => r.Chemical == "CropK2O").Icon.Replace(" ", "-");
                 }
 
-                //replace icon type with actual icon url for screen processing
-                foreach (var i in rf.alertMsgs)
+                //replace icon space in name with a dash
+                foreach (var i in rf.alertMsgs.Where(m => m.Icon != null))
                 {
-                    i.Icon = string.Format(imgLoc, i.Icon);
+                    i.Icon = i.Icon.Replace(" ", "-");
                 }
 
                 rvm.fields.Add(rf);
@@ -551,11 +561,10 @@ namespace SERVERAPI.Controllers
         public async Task<string> RenderManureCompostInventory()
         {
             ReportManureCompostViewModel rmcvm = new ReportManureCompostViewModel();
-            CalculateAnimalRequirement calculateAnimalRequirement = new CalculateAnimalRequirement(_ud, _sd);
 
             rmcvm.storages = new List<ReportStorage>();
             rmcvm.unstoredManures = new List<ReportManuress>();
-            rmcvm.year = _ud.FarmDetails().year;
+            rmcvm.year = _ud.FarmDetails().Year;
             decimal rainInMM;
             decimal conversionForLiquid = 0.024542388m;
             decimal conversionForSolid = 0.000102408m;
@@ -568,10 +577,10 @@ namespace SERVERAPI.Controllers
                     if (g.AssignedToStoredSystem == false)
                     {
                         ReportManuress rm = new ReportManuress();
-                        rm.animalManure = g.animalSubTypeName + "," +
-                                          g.averageAnimalNumber + " animals";
+                        rm.animalManure = g.AnimalSubTypeName + "," +
+                                          g.AverageAnimalNumber + " animals";
                         rm.annualAmount =
-                            string.Format("{0:#,##0}", g.annualAmount.Split(' ')[0]);
+                            string.Format("{0:#,##0}", g.AnnualAmount.Split(' ')[0]);
                         if (g.ManureType == ManureMaterialType.Liquid)
                         {
                             rm.units = "US Gallons";
@@ -581,9 +590,9 @@ namespace SERVERAPI.Controllers
                             rm.units = "tons";
                         }
 
-                        if (g.washWaterGallonsToString != "0")
+                        if (g.WashWaterGallonsToString != "0")
                         {
-                            rm.milkingCenterWashWater = g.washWaterGallonsToString;
+                            rm.milkingCenterWashWater = g.WashWaterGallonsToString;
                         }
 
                         rmcvm.unstoredManures.Add(rm);
@@ -636,7 +645,7 @@ namespace SERVERAPI.Controllers
                 }
 
                 var farmData = _ud.FarmDetails();
-                SubRegion subregion = _sd.GetSubRegion(farmData.farmSubRegion);
+                SubRegion subregion = _sd.GetSubRegion(farmData.FarmSubRegion);
                 rainInMM = subregion?.AnnualPrecipitation ?? 0;
 
                 // rainInMM = Convert.ToDecimal(s.AnnualPrecipitation);
@@ -670,10 +679,10 @@ namespace SERVERAPI.Controllers
                         {
                             var generatedFarmManure = _ud.GetGeneratedManure(m.Id);
                             ReportManuress rm = new ReportManuress();
-                            rm.animalManure = generatedFarmManure.animalSubTypeName + "," +
-                                              generatedFarmManure.averageAnimalNumber + " animals";
+                            rm.animalManure = generatedFarmManure.AnimalSubTypeName + "," +
+                                              generatedFarmManure.AverageAnimalNumber + " animals";
                             rm.annualAmount =
-                                string.Format("{0:#,##0}", generatedFarmManure.annualAmount.Split(' ')[0]);
+                                string.Format("{0:#,##0}", generatedFarmManure.AnnualAmount.Split(' ')[0]);
                             if (s.ManureMaterialType == ManureMaterialType.Liquid)
                             {
                                 rm.units = "US Gallons";
@@ -687,25 +696,25 @@ namespace SERVERAPI.Controllers
                             {
                                 // if solid material is added to the liquid system change the calculations to depict that of liquid
                                 AnimalSubType animalSubType =
-                                    _sd.GetAnimalSubType(Convert.ToInt32(generatedFarmManure.animalSubTypeId));
+                                    _sd.GetAnimalSubType(Convert.ToInt32(generatedFarmManure.AnimalSubTypeId));
                                 if (animalSubType.SolidPerGalPerAnimalPerDay.HasValue)
                                 {
                                     rm.annualAmount =
-                                        (Math.Round(Convert.ToInt32(generatedFarmManure.averageAnimalNumber) *
+                                        (Math.Round(Convert.ToInt32(generatedFarmManure.AverageAnimalNumber) *
                                                     Convert.ToDecimal(animalSubType.SolidPerGalPerAnimalPerDay) * 365))
                                         .ToString();
                                     rm.units = "US gallons";
                                 }
                             }
 
-                            if (generatedFarmManure.washWaterGallonsToString != "0")
+                            if (generatedFarmManure.WashWaterGallonsToString != "0")
                             {
-                                rs.milkingCenterWashWater = generatedFarmManure.washWaterGallonsToString;
-                                washWaterAdjustedValue = generatedFarmManure.washWater;
+                                rs.milkingCenterWashWater = generatedFarmManure.WashWaterGallonsToString;
+                                washWaterAdjustedValue = generatedFarmManure.WashWater;
                             }
 
-                            if (generatedFarmManure.washWater.ToString("#.##") != calculateAnimalRequirement
-                                    .GetWashWaterBySubTypeId(generatedFarmManure.animalSubTypeId).Value
+                            if (generatedFarmManure.WashWater.ToString("#.##") != _calculateAnimalRequirement
+                                    .GetWashWaterBySubTypeId(generatedFarmManure.AnimalSubTypeId).Value
                                     .ToString("#.##"))
                             {
                                 ReportFieldFootnote rff = new ReportFieldFootnote();
@@ -716,22 +725,22 @@ namespace SERVERAPI.Controllers
                                 rs.footnotes.Add(rff);
                             }
 
-                            if (generatedFarmManure.milkProduction.ToString() != "0.0")
+                            if (generatedFarmManure.MilkProduction.ToString() != "0.0")
                             {
                                 var defaultMilkProd =
-                                    calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
-                                        Convert.ToInt16(generatedFarmManure.animalSubTypeId));
+                                    _calculateAnimalRequirement.GetDefaultMilkProductionBySubTypeId(
+                                        Convert.ToInt16(generatedFarmManure.AnimalSubTypeId));
                                 var breedManureFactor =
-                                    calculateAnimalRequirement.GetBreedManureFactorByBreedId(
+                                    _calculateAnimalRequirement.GetBreedManureFactorByBreedId(
                                         Convert.ToInt32(generatedFarmManure.BreedId));
                                 var milkProd = defaultMilkProd * breedManureFactor;
 
-                                if (generatedFarmManure.milkProduction != milkProd)
+                                if (generatedFarmManure.MilkProduction != milkProd)
                                 {
                                     ReportFieldFootnote rff = new ReportFieldFootnote();
                                     rff.id = rs.footnotes.Count() + 1;
                                     rff.message = "Milk Production adjusted to " +
-                                                  generatedFarmManure.milkProduction.ToString("G29") + " lb/day/animal";
+                                                  generatedFarmManure.MilkProduction.ToString("G29") + " lb/day/animal";
                                     rs.footnote = rff.id.ToString();
                                     rs.footnotes.Add(rff);
                                 }
@@ -778,32 +787,6 @@ namespace SERVERAPI.Controllers
                 rmcvm.storages.Add(rs);
             }
 
-            //foreach (var s in rmcvm.storages)
-            //{
-            //    decimal annualAmountOfManurePerStorage = 0;
-            //    if (s.precipitation != null)
-            //    {
-            //        annualAmountOfManurePerStorage = Convert.ToDecimal(s.precipitation);
-            //    }
-
-            //    if (s.milkingCenterWashWater != null)
-            //    {
-            //        annualAmountOfManurePerStorage += Convert.ToDecimal(s.milkingCenterWashWater);
-            //    }
-
-            //    foreach (var m in s.reportManures)
-            //    {
-            //        if (m.annualAmount != null)
-            //        {
-            //            annualAmountOfManurePerStorage += Convert.ToDecimal(m.annualAmount);
-            //        }
-            //    }
-
-            //    if (s.annualAmountOfManurePerStorage != "")
-            //    {
-            //        s.annualAmountOfManurePerStorage = string.Format("{0:#,##0}", (Math.Round(annualAmountOfManurePerStorage))).ToString();
-            //    }
-            //}
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportManureCompostInventory.cshtml", rmcvm);
 
             return result;
@@ -811,27 +794,32 @@ namespace SERVERAPI.Controllers
 
         public async Task<string> RenderManureUse()
         {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Dairy)
+            {
+                return string.Empty;
+            }
+
             ReportManureSummaryViewModel rmsvm = new ReportManureSummaryViewModel();
             rmsvm.manures = new List<ReportManures>();
             rmsvm.footnotes = new List<ReportFieldFootnote>();
-            rmsvm.year = _ud.FarmDetails().year;
+            rmsvm.year = _ud.FarmDetails().Year;
 
             var yearData = _ud.GetYearData();
 
-            if (yearData.farmManures != null)
+            if (yearData.FarmManures != null)
             {
-                foreach (var fm in yearData.farmManures)
+                foreach (var fm in yearData.FarmManures.GroupBy(fm => fm.SourceOfMaterialId).Select(fm => fm.First()).ToList())
                 {
                     ReportManures rm = new ReportManures();
                     AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
 
                     if (appliedManure != null)
                     {
-                        if (fm.stored_imported == NutrientAnalysisTypes.Stored)
+                        if (fm.Stored_Imported == NutrientAnalysisTypes.Stored)
                         {
                             rm.MaterialName = "Material in ";
                         }
-                        else if (fm.stored_imported == NutrientAnalysisTypes.Imported)
+                        else if (fm.Stored_Imported == NutrientAnalysisTypes.Imported)
                         {
                             rm.MaterialName = "";
                         }
@@ -893,17 +881,16 @@ namespace SERVERAPI.Controllers
             ReportOctoberToMarchStorageSummaryViewModel romssvm = new ReportOctoberToMarchStorageSummaryViewModel();
             romssvm.storages = new List<ReportStorages>();
             romssvm.footnotes = new List<ReportFieldFootnote>();
-            romssvm.year = _ud.FarmDetails().year;
+            romssvm.year = _ud.FarmDetails().Year;
 
             var request = HttpContext.Request;
             string scheme = request.Scheme;
             string host = request.Host.ToString();
-            string imgLoc = scheme + "://" + host + "/images/dollar warning.svg";
-            romssvm.imageurl = imgLoc;
+            romssvm.ImageClass = "dollar-warning";
 
             var yearData = _ud.GetYearData();
 
-            if (yearData.farmManures != null)
+            if (yearData.FarmManures != null)
             {
                 foreach (var fm in yearData.ManureStorageSystems)
                 {
@@ -953,22 +940,263 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
+        public ReportManureCollectedViewModel GetManureManureCollectedViewModel()
+        {
+            var viewModel = new ReportManureCollectedViewModel
+            {
+                Manures = new List<ReportManures>(),
+                Footnotes = new List<ReportFieldFootnote>()
+            };
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.FarmManures != null)
+            {
+                foreach (var fm in yearData.FarmManures)
+                {
+                    var appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
+
+                    if (appliedManure != null)
+                    {
+                        var hasMultipleSources = fm.GroupedWithCollectedAnalysisSourceItemIds.Count() > 1;
+                        var itemCount = 0;
+                        foreach (var sourceItem in fm.GroupedWithCollectedAnalysisSourceItemIds)
+                        {
+                            itemCount += 1;
+
+                            if (itemCount == 1)
+                            {
+                                var reportManure = GetReportManureForCollectedSource(sourceItem, appliedManure, true);
+                                reportManure.MaterialName = appliedManure.ManureMaterialName;
+                                if (hasMultipleSources)
+                                {
+                                    reportManure.MaterialSource = "<i>Multiple Sources</i>";
+                                }
+
+                                if (reportManure.AmountRemaining.Equals("None", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    ReportFieldFootnote rff = new ReportFieldFootnote
+                                    {
+                                        id = viewModel.Footnotes.Count() + 1,
+                                        message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)"
+                                    };
+                                    reportManure.footnote = rff.id.ToString();
+                                    viewModel.Footnotes.Add(rff);
+                                }
+
+                                viewModel.Manures.Add(reportManure);
+                            }
+
+                            if (hasMultipleSources)
+                            {
+                                var reportManure = GetReportManureForCollectedSource(sourceItem, appliedManure, false);
+                                reportManure.MaterialSource = $"<span style=\"padding-left: 6px\">{reportManure.MaterialSource}</span>";
+
+                                viewModel.Manures.Add(reportManure);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return viewModel;
+        }
+
+        private ReportManures GetReportManureForCollectedSource(FarmManure.GroupedAnalysisSourceItem sourceItem,
+            AppliedManure appliedManure,
+            bool includeApplication)
+        {
+            var result = new ReportManures();
+
+            // Annual Amount
+            decimal annualAmount;
+            if (sourceItem.SourceType == NutrientAnalysisTypes.Collected)
+            {
+                var animal = _ud.GetAnimalDetail(sourceItem.SourceId);
+                annualAmount = animal.ManureType == ManureMaterialType.Solid ?
+                    animal.ManureGeneratedTonsPerYear.GetValueOrDefault(0) :
+                    animal.ManureGeneratedGallonsPerYear.GetValueOrDefault(0);
+                result.MaterialSource = animal.AnimalSubTypeName;
+            }
+            else
+            {
+                var imported = _ud.GetImportedManure(sourceItem.SourceId);
+                annualAmount = imported.ManureType == ManureMaterialType.Solid ?
+                    imported.AnnualAmountTonsWeight : imported.AnnualAmountUSGallonsVolume;
+                result.MaterialSource = $"Imported - {imported.ManagedManureName}";
+            }
+            if (includeApplication)
+            {
+                annualAmount = appliedManure.TotalAnnualManureToApply;
+            }
+
+            result.AnnualAmount = string.Format("{0:#,##0}", Math.Round(annualAmount));
+            if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+            {
+                result.AnnualAmount += " US Gallons";
+            }
+            else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+            {
+                result.AnnualAmount += " tons";
+            }
+
+            if (includeApplication)
+            {
+                // Amount Land Applied
+                result.LandApplied = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalApplied))).ToString();
+                if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                {
+                    result.LandApplied += " US Gallons";
+                }
+                else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                {
+                    result.LandApplied += " tons";
+                }
+                result.LandApplied += " (" + appliedManure.WholePercentAppiled + "%)";
+
+                // Amount Remaining
+                if (appliedManure.WholePercentRemaining < 10)
+                {
+                    result.AmountRemaining = "None";
+                }
+                else
+                {
+                    result.AmountRemaining = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureRemainingToApply))) + " (" + appliedManure.WholePercentRemaining + "%)";
+                }
+            }
+            return result;
+        }
+
+        public async Task<string> RenderCropManureUse()
+        {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Crops)
+            {
+                return string.Empty;
+            }
+
+            var viewModel = new ReportCropsManureViewModel();
+
+            var yearData = _ud.GetYearData();
+
+            if (yearData.FarmManures != null)
+            {
+                foreach (var fm in yearData.FarmManures)
+                {
+                    ReportManures rm = new ReportManures();
+                    AppliedManure appliedManure = _manureApplicationCalculator.GetAppliedManure(yearData, fm);
+
+                    if (appliedManure != null)
+                    {
+                        rm.MaterialName = _sd.GetManure(fm.ManureId).Name;
+                        rm.MaterialSource = appliedManure.SourceName;
+
+                        // Annual Amount
+                        rm.AnnualAmount = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureToApply))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.AnnualAmount += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.AnnualAmount += " tons";
+                        }
+
+                        // Amount Land Applied
+                        rm.LandApplied = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalApplied))).ToString();
+                        if (appliedManure.ManureMaterialType == ManureMaterialType.Liquid)
+                        {
+                            rm.LandApplied += " US Gallons";
+                        }
+                        else if (appliedManure.ManureMaterialType == ManureMaterialType.Solid)
+                        {
+                            rm.LandApplied += " tons";
+                        }
+                        rm.LandApplied += " (" + appliedManure.WholePercentAppiled + "%)";
+
+                        // Amount Remaining
+                        if (appliedManure.WholePercentRemaining < 10)
+                        {
+                            rm.AmountRemaining = "None";
+
+                            ReportFieldFootnote rff = new ReportFieldFootnote();
+                            rff.id = viewModel.Footnotes.Count() + 1;
+                            rff.message = "If the amount remaining is less than 10% of the annual amount, then the amount remaining is insignificant (i.e. within the margin of error of the calculations)";
+                            rm.footnote = rff.id.ToString();
+                            viewModel.Footnotes.Add(rff);
+                        }
+                        else
+                        {
+                            rm.AmountRemaining = string.Format("{0:#,##0}", (Math.Round(appliedManure.TotalAnnualManureRemainingToApply))) + " (" + appliedManure.WholePercentRemaining + "%)";
+                        }
+
+                        viewModel.Manures.Add(rm);
+                    }
+                }
+            }
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCropsManure.cshtml", viewModel);
+
+            return result;
+        }
+
+        public async Task<string> RenderBeefManureUse()
+        {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Ranch)
+            {
+                return string.Empty;
+            }
+
+            var viewModel = GetManureManureCollectedViewModel();
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCollectedManure.cshtml", viewModel);
+
+            return result;
+        }
+
+        public async Task<string> RenderPoultryManureUse()
+        {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Poultry)
+            {
+                return string.Empty;
+            }
+
+            var viewModel = GetManureManureCollectedViewModel();
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCollectedManure.cshtml", viewModel);
+
+            return result;
+        }
+
+        public async Task<string> RenderMixedManureUse()
+        {
+            if (_ud.FarmDetails().UserJourney != UserJourney.Mixed)
+            {
+                return string.Empty;
+            }
+
+            var viewModel = GetManureManureCollectedViewModel();
+
+            var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportCollectedManure.cshtml", viewModel);
+
+            return result;
+        }
+
         public async Task<string> RenderFerilizers()
         {
             ReportSourcesViewModel rvm = new ReportSourcesViewModel();
             List<ReportSourcesDetail> manureRequired = new List<ReportSourcesDetail>();
             List<ReportSourcesDetail> fertilizerRequired = new List<ReportSourcesDetail>();
 
-            rvm.year = _ud.FarmDetails().year;
+            rvm.year = _ud.FarmDetails().Year;
             rvm.details = new List<ReportSourcesDetail>();
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
             {
-                if (f.nutrients != null)
+                if (f.Nutrients != null)
                 {
-                    if (f.nutrients.nutrientFertilizers != null)
-                        fertilizerRequired = BuildFertilizerRequiredList(fertilizerRequired, f.nutrients.nutrientFertilizers, f.area);
+                    if (f.Nutrients.nutrientFertilizers != null)
+                        fertilizerRequired = BuildFertilizerRequiredList(fertilizerRequired, f.Nutrients.nutrientFertilizers, f.Area);
                 }
             }
 
@@ -986,18 +1214,18 @@ namespace SERVERAPI.Controllers
             List<ReportSourcesDetail> manureRequired = new List<ReportSourcesDetail>();
             List<ReportSourcesDetail> fertilizerRequired = new List<ReportSourcesDetail>();
 
-            rvm.year = _ud.FarmDetails().year;
+            rvm.year = _ud.FarmDetails().Year;
             rvm.details = new List<ReportSourcesDetail>();
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
             {
-                if (f.nutrients != null)
+                if (f.Nutrients != null)
                 {
-                    if (f.nutrients.nutrientManures != null)
-                        manureRequired = BuildManureRequiredList(manureRequired, f.nutrients.nutrientManures, f.area);
-                    if (f.nutrients.nutrientFertilizers != null)
-                        fertilizerRequired = BuildFertilizerRequiredList(fertilizerRequired, f.nutrients.nutrientFertilizers, f.area);
+                    if (f.Nutrients.nutrientManures != null)
+                        manureRequired = BuildManureRequiredList(manureRequired, f.Nutrients.nutrientManures, f.Area);
+                    if (f.Nutrients.nutrientFertilizers != null)
+                        fertilizerRequired = BuildFertilizerRequiredList(fertilizerRequired, f.Nutrients.nutrientFertilizers, f.Area);
                 }
             }
             if (manureRequired.Count > 0)
@@ -1020,7 +1248,7 @@ namespace SERVERAPI.Controllers
                 result = unit.FarmReqdNutrientsStdUnitsAreaConversion * fieldSize * applicationRate * unit.FarmReqdNutrientsStdUnitsConversion;
             else
             {
-                Manure man = _sd.GetManure(manure.manureId.ToString());
+                Manure man = _sd.GetManure(manure.ManureId);
                 result = unit.FarmReqdNutrientsStdUnitsAreaConversion * fieldSize * applicationRate * man.CubicYardConversion;
             }
             return result;
@@ -1042,7 +1270,7 @@ namespace SERVERAPI.Controllers
             {
                 FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                 nutrientAmount = ConvertManureToStdRptUnits(manure, fieldArea, m.rate, m.unitId);
-                ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == manure.name);
+                ReportSourcesDetail rd = details.FirstOrDefault(d => d.nutrientName == manure.Name);
                 if (rd != null)
                 {
                     nutrientAmount += Convert.ToDecimal(rd.nutrientAmount);
@@ -1051,8 +1279,8 @@ namespace SERVERAPI.Controllers
                 else
                 {
                     rd = new ReportSourcesDetail();
-                    rd.nutrientName = manure.name;
-                    rd.nutrientUnit = _sd.GetManureRptStdUnit(manure.solid_liquid);
+                    rd.nutrientName = manure.Name;
+                    rd.nutrientUnit = _sd.GetManureRptStdUnit(manure.SolidLiquid);
                     rd.nutrientAmount = String.Format((nutrientAmount) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", nutrientAmount);
                     details.Add(rd);
                 }
@@ -1129,26 +1357,26 @@ namespace SERVERAPI.Controllers
             {
                 ReportAnalysisDetail rd = new ReportAnalysisDetail();
 
-                rd.sourceOfMaterialName = m.sourceOfMaterialName;
-                rd.manureName = m.name;
-                rd.moisture = m.moisture.ToString();
-                rd.ammonia = m.ammonia.ToString("#0");
-                rd.nitrogen = m.nitrogen.ToString("#0.00");
-                rd.phosphorous = m.phosphorous.ToString("#0.00");
-                rd.potassium = m.potassium.ToString("#0.00");
-                rd.nitrate = (m.nitrate.HasValue && m.nitrate > 0) ? m.nitrate.Value.ToString("#0") : "n/a";
+                rd.sourceOfMaterialName = m.SourceOfMaterialName;
+                rd.manureName = m.Name;
+                rd.moisture = m.Moisture.ToString();
+                rd.ammonia = m.Ammonia.ToString("#0");
+                rd.nitrogen = m.Nitrogen.ToString("#0.00");
+                rd.phosphorous = m.Phosphorous.ToString("#0.00");
+                rd.potassium = m.Potassium.ToString("#0.00");
+                rd.nitrate = (m.Nitrate.HasValue && m.Nitrate > 0) ? m.Nitrate.Value.ToString("#0") : "n/a";
                 rd.isAssignedToStorage = m.IsAssignedToStorage;
 
-                if (m.nitrate.HasValue && m.nitrate > 0)
+                if (m.Nitrate.HasValue && m.Nitrate > 0)
                 {
                     rvm.nitratePresent = true;
                 }
 
-                if (m.IsAssignedToStorage == false)
+                if (m.IsAssignedToStorage == false && _ud.FarmDetails().UserJourney == UserJourney.Dairy)
                 {
                     ReportFieldFootnote rff = new ReportFieldFootnote();
                     rff.id = rvm.footnotes.Count() + 1;
-                    rff.message = rd.sourceOfMaterialName + " includes materials that have not been allocted to a storage";
+                    rff.message = rd.sourceOfMaterialName + " includes materials that have not been allocated to a storage";
                     rd.footnote = rff.id.ToString();
                     rvm.footnotes.Add(rff);
                 }
@@ -1161,6 +1389,70 @@ namespace SERVERAPI.Controllers
             return result;
         }
 
+        public async Task<string> RenderSeasonalFeedAreaSummary()
+        {
+            var fields = _ud.GetFields();
+            var viewModel = new ReportSeasonalFeedAreaViewModel
+            {
+                Fields = _mapper.Map<List<Field>, List<ReportSeasonalFeedAreaViewModel.Field>>(fields)
+            };
+
+            var region = _sd.GetRegion(_ud.FarmDetails().FarmRegion.Value);
+            var dailyFeedRequirements = _sd.GetDailyFeedRequirement();
+
+            var feedForageTypes = new List<FeedForageType>();
+            if (fields.Any(f => f.FeedForageAnalyses.Any()))
+            {
+                feedForageTypes = _sd.GetFeedForageTypes();
+            }
+            foreach (var field in fields)
+            {
+                if (field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
+                {
+                    var mappedField = viewModel.Fields.Single(f => f.Id == field.Id);
+                    mappedField.NAgroBalance = _feedCalculator.GetNitrogenAgronomicBalance(field, region);
+                    mappedField.P205AgroBalance = _feedCalculator.GetP205AgronomicBalance(field);
+                    mappedField.K20AgroBalance = _feedCalculator.GetK20AgronomicBalance(field);
+                    mappedField.NCropRemovalValue = _feedCalculator.GetNitrogenCropRemovalValue(field, region);
+                    mappedField.P205CropRemovalValue = _feedCalculator.GetP205CropRemovalValue(field);
+                    mappedField.K20CropRemovalValue = _feedCalculator.GetK20CropRemovalValue(field);
+                    mappedField.MatureAnimalDailyFeedRequirement = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Value;
+                    mappedField.MatureAnimalDailyFeedRequirementName = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.MatureAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Name;
+                    mappedField.GrowingAnimalDailyFeedRequirement = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Value;
+                    mappedField.GrowingAnimalDailyFeedRequirementName = dailyFeedRequirements
+                        .Single(df => df.Id == mappedField.GrowingAnimalDailyFeedRequirementId.GetValueOrDefault(0))
+                        ?.Name;
+
+                    foreach (var analytic in mappedField.FeedForageAnalyses)
+                    {
+                        analytic.FeedForageType = feedForageTypes.Single(f => f.Id == analytic.FeedForageTypeId).Name;
+                    }
+                }
+            }
+
+            var result = await _viewRenderService
+                .RenderToStringAsync("~/Views/Report/ReportSeasonalFeedArea.cshtml", viewModel);
+
+            return result;
+        }
+
+        public class MappingProfile : Profile
+        {
+            public MappingProfile()
+            {
+                CreateMap<Field, ReportSeasonalFeedAreaViewModel.Field>()
+                    .ForMember(m => m.FieldComment, opts => opts.MapFrom(s => s.Comment))
+                    .ForMember(m => m.FieldArea, opts => opts.MapFrom(s => s.Area));
+                CreateMap<FeedForageAnalysis, ReportSeasonalFeedAreaViewModel.FeedForageAnalysis>();
+            }
+        }
+
         public async Task<string> RenderTableOfContents(bool hasFertilizers, bool hasSoilTests)
         {
             var vm = new ReportTableOfContentsViewModel();
@@ -1170,25 +1462,26 @@ namespace SERVERAPI.Controllers
             //ReportApplication
             vm.ContentItems.Add(new ContentItem { SectionName = "Application Schedule", PageNumber = pageNumber });
             //ReportManureCompostInventory
-            if (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any())
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy &&
+                (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any()))
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure/Compost Inventory", PageNumber = pageNumber });
             }
 
-            //ReportManureSummary
-            if (yd.farmManures.Any())
+            //Dairy Mixed ReportManureSummary
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy && yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
             }
 
             //ReportOctoberToMarchStorageVolumes
-            if (yd.farmManures.Any() &&
+            if (yd.FarmManures.Any() &&
                 yd.ManureStorageSystems.Any() &&
                 yd.ManureStorageSystems.Any(mss => mss.ManureMaterialType == ManureMaterialType.Liquid))
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 {
                     SectionName = "Liquid Storage Capacity: October to March",
@@ -1196,37 +1489,176 @@ namespace SERVERAPI.Controllers
                 });
             }
 
+            //Report Crop Manures
+            if (_ud.FarmDetails().UserJourney == UserJourney.Crops && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+                vm.ContentItems.Add(new ContentItem { SectionName = "Manure and Compost Use", PageNumber = pageNumber });
+            }
+
+            //ReportBeefManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Ranch && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+                vm.ContentItems.Add(new ContentItem
+                {
+                    SectionName = "Manure and Compost Use",
+                    PageNumber = pageNumber
+                });
+            }
+
+            //ReportPoultryManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Poultry && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+                vm.ContentItems.Add(new ContentItem
+                {
+                    SectionName = "Manure and Compost Use",
+                    PageNumber = pageNumber
+                });
+            }
+
+            //ReportMixedManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Mixed && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+                vm.ContentItems.Add(new ContentItem
+                {
+                    SectionName = "Manure and Compost Use",
+                    PageNumber = pageNumber
+                });
+            }
+
             //ReportFertilizers
             if (hasFertilizers)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Fertilizer Required", PageNumber = pageNumber });
             }
 
             //ReportFields
-            var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.fieldName}");
+            var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.FieldName}");
             foreach (var fieldName in fieldNames)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = fieldName, PageNumber = pageNumber });
             }
 
             //ReportAnalysis
-            if (yd.farmManures.Any())
+            if (yd.FarmManures.Any())
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem
                 { SectionName = "Manure and Compost Analysis", PageNumber = pageNumber });
+            }
+
+            //Seasonal Feeding Areas
+            var feedingAreas = _ud.GetFields()
+                .Where(f => f.IsSeasonalFeedingArea && f.FeedForageAnalyses != null && f.FeedForageAnalyses.Any())
+                .Select(f => $"{f.FieldName} Feeding Area");
+            foreach (var area in feedingAreas)
+            {
+                pageNumber += 1;
+                vm.ContentItems.Add(new ContentItem { SectionName = area, PageNumber = pageNumber });
             }
 
             //ReportSummary
             if (hasSoilTests)
             {
-                pageNumber = pageNumber + 1;
+                pageNumber += 1;
                 vm.ContentItems.Add(new ContentItem { SectionName = "Soil Test Results", PageNumber = pageNumber });
             }
 
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportTableOfContents.cshtml", vm);
+
+            return result;
+        }
+
+        public async Task<int> GetPageCount(bool hasFertilizers, bool hasSoilTests)
+        {
+            var yd = _ud.GetYearData();
+            var pageNumber = 2;
+
+            //ReportManureCompostInventory
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy &&
+                (yd.GeneratedManures.Any() || yd.ImportedManures.Any() || yd.ManureStorageSystems.Any()))
+            {
+                pageNumber += 1;
+            }
+
+            //Dairy Mixed ReportManureSummary
+            if (_ud.FarmDetails().UserJourney == UserJourney.Dairy && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+            }
+
+            //ReportOctoberToMarchStorageVolumes
+            if (yd.FarmManures.Any() &&
+                yd.ManureStorageSystems.Any() &&
+                yd.ManureStorageSystems.Any(mss => mss.ManureMaterialType == ManureMaterialType.Liquid))
+            {
+                pageNumber += 1;
+            }
+
+            //Report Crop Manures
+            if (_ud.FarmDetails().UserJourney == UserJourney.Crops && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+            }
+
+            //ReportBeefManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Ranch && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+            }
+
+            //ReportPoultryManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Poultry && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+            }
+
+            //ReportMixedManure
+            if (_ud.FarmDetails().UserJourney == UserJourney.Mixed && yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+            }
+
+            //ReportFertilizers
+            if (hasFertilizers)
+            {
+                pageNumber += 1;
+            }
+
+            //ReportFields
+            var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.FieldName}");
+            foreach (var fieldName in fieldNames)
+            {
+                pageNumber += 1;
+            }
+
+            //ReportAnalysis
+            if (yd.FarmManures.Any())
+            {
+                pageNumber += 1;
+            }
+
+            //Seasonal Feeding Areas
+            var feedingAreas = _ud.GetFields()
+                .Where(f => f.IsSeasonalFeedingArea && f.FeedForageAnalyses != null && f.FeedForageAnalyses.Any())
+                .Select(f => $"{f.FieldName} Feeding Area");
+            foreach (var area in feedingAreas)
+            {
+                pageNumber += 1;
+            }
+
+            //ReportSummary
+            if (hasSoilTests)
+            {
+                pageNumber += 1;
+            }
+
+            var result = pageNumber;
 
             return result;
         }
@@ -1237,26 +1669,26 @@ namespace SERVERAPI.Controllers
 
             ReportApplicationViewModel rvm = new ReportApplicationViewModel();
             rvm.fields = new List<ReportApplicationField>();
-            rvm.year = _ud.FarmDetails().year;
+            rvm.year = _ud.FarmDetails().Year;
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
             {
                 ReportApplicationField rf = new ReportApplicationField();
-                rf.fieldName = f.fieldName;
-                rf.fieldArea = f.area.ToString("G29");
-                rf.fieldComment = f.comment;
+                rf.fieldName = f.FieldName;
+                rf.fieldArea = f.Area.ToString("G29");
+                rf.fieldComment = f.Comment;
                 rf.nutrients = new List<ReportFieldNutrient>();
-                if (f.nutrients != null)
+                if (f.Nutrients != null)
                 {
-                    if (f.nutrients.nutrientManures != null)
+                    if (f.Nutrients.nutrientManures != null)
                     {
-                        foreach (var m in f.nutrients.nutrientManures)
+                        foreach (var m in f.Nutrients.nutrientManures)
                         {
                             FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
 
-                            rfn.nutrientName = manure.name;
+                            rfn.nutrientName = manure.Name;
                             rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", m.rate);
                             rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
                             rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
@@ -1264,9 +1696,9 @@ namespace SERVERAPI.Controllers
                             rf.nutrients.Add(rfn);
                         }
                     }
-                    if (f.nutrients.nutrientFertilizers != null)
+                    if (f.Nutrients.nutrientFertilizers != null)
                     {
-                        foreach (var ft in f.nutrients.nutrientFertilizers)
+                        foreach (var ft in f.Nutrients.nutrientFertilizers)
                         {
                             string fertilizerName = string.Empty;
                             ReportFieldNutrient rfn = new ReportFieldNutrient();
@@ -1301,9 +1733,9 @@ namespace SERVERAPI.Controllers
                     rf.nutrients.Add(rfn);
                 }
 
-                if (f.crops != null)
+                if (f.Crops != null)
                 {
-                    foreach (var c in f.crops)
+                    foreach (var c in f.Crops)
                     {
                         crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
@@ -1322,8 +1754,8 @@ namespace SERVERAPI.Controllers
             string crpName = string.Empty;
             ReportSummaryViewModel rvm = new ReportSummaryViewModel();
 
-            rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().testingMethod) ? "Not Specified" : _sd.GetSoilTestMethod(_ud.FarmDetails().testingMethod);
-            rvm.year = _ud.FarmDetails().year;
+            rvm.testMethod = string.IsNullOrEmpty(_ud.FarmDetails().TestingMethod) ? "Not Specified" : _sd.GetSoilTestMethod(_ud.FarmDetails().TestingMethod);
+            rvm.year = _ud.FarmDetails().Year;
 
             FarmDetails fd = _ud.FarmDetails();
 
@@ -1334,16 +1766,16 @@ namespace SERVERAPI.Controllers
             foreach (var m in flds)
             {
                 ReportSummaryTest dc = new ReportSummaryTest();
-                dc.fieldName = m.fieldName;
-                if (m.soilTest != null)
+                dc.fieldName = m.FieldName;
+                if (m.SoilTest != null)
                 {
-                    dc.sampleDate = m.soilTest.sampleDate.ToString("MMM-yyyy");
-                    dc.nitrogen = m.soilTest.valNO3H.ToString("G29");
-                    dc.phosphorous = m.soilTest.ValP.ToString("G29");
-                    dc.potassium = m.soilTest.valK.ToString("G29");
-                    dc.pH = m.soilTest.valPH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, m.soilTest));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, m.soilTest));
+                    dc.sampleDate = m.SoilTest.sampleDate.ToString("MMM-yyyy");
+                    dc.nitrogen = m.SoilTest.valNO3H.ToString("G29");
+                    dc.phosphorous = m.SoilTest.ValP.ToString("G29");
+                    dc.potassium = m.SoilTest.valK.ToString("G29");
+                    dc.pH = m.SoilTest.valPH.ToString("G29");
+                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, m.SoilTest));
+                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, m.SoilTest));
                 }
                 else
                 {
@@ -1361,12 +1793,12 @@ namespace SERVERAPI.Controllers
                     dc.phosphorous = dt.Phosphorous.ToString("G29");
                     dc.potassium = dt.Potassium.ToString("G29");
                     dc.pH = dt.pH.ToString("G29");
-                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.testingMethod, st));
-                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.testingMethod, st));
+                    dc.phosphorousRange = _sd.GetPhosphorusSoilTestRating(_soilTestConverter.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, st));
+                    dc.potassiumRange = _sd.GetPotassiumSoilTestRating(_soilTestConverter.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, st));
                 }
                 dc.fieldCrops = null;
 
-                List<FieldCrop> crps = _ud.GetFieldCrops(m.fieldName);
+                List<FieldCrop> crps = _ud.GetFieldCrops(m.FieldName);
                 if (crps != null)
                 {
                     foreach (var c in crps)
@@ -1385,44 +1817,47 @@ namespace SERVERAPI.Controllers
 
         public async Task<string> RenderSheets()
         {
-            string crpName = string.Empty;
-            ReportSheetsViewModel rvm = new ReportSheetsViewModel();
-            rvm.year = _ud.FarmDetails().year;
-
-            rvm.fields = new List<ReportSheetsField>();
+            var rvm = new ReportSheetsViewModel
+            {
+                year = _ud.FarmDetails().Year,
+                fields = new List<ReportSheetsField>()
+            };
 
             List<Field> fldList = _ud.GetFields();
             foreach (var f in fldList)
             {
-                ReportSheetsField rf = new ReportSheetsField();
-                rf.fieldName = f.fieldName;
-                rf.fieldArea = f.area.ToString("G29");
-                rf.nutrients = new List<ReportFieldNutrient>();
-                if (f.nutrients != null)
+                var rf = new ReportSheetsField
                 {
-                    if (f.nutrients.nutrientManures != null)
+                    fieldName = f.FieldName,
+                    fieldArea = f.Area.ToString("G29"),
+                    nutrients = new List<ReportFieldNutrient>()
+                };
+                if (f.Nutrients != null)
+                {
+                    if (f.Nutrients.nutrientManures != null)
                     {
-                        foreach (var m in f.nutrients.nutrientManures)
+                        foreach (var m in f.Nutrients.nutrientManures)
                         {
-                            FarmManure manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
-                            ReportFieldNutrient rfn = new ReportFieldNutrient();
-
-                            rfn.nutrientName = manure.name;
-                            rfn.nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate));
-                            rfn.nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season;
-                            rfn.nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod;
-                            rfn.nutrientUnit = _sd.GetUnit(m.unitId).Name;
+                            var manure = _ud.GetFarmManure(Convert.ToInt32(m.manureId));
+                            var rfn = new ReportFieldNutrient
+                            {
+                                nutrientName = manure.Name,
+                                nutrientAmount = String.Format((m.rate) % 1 == 0 ? "{0:#,##0}" : "{0:#,##0.00}", (m.rate)),
+                                nutrientSeason = _sd.GetApplication(m.applicationId.ToString()).Season,
+                                nutrientApplication = _sd.GetApplication(m.applicationId.ToString()).ApplicationMethod,
+                                nutrientUnit = _sd.GetUnit(m.unitId).Name
+                            };
                             rf.nutrients.Add(rfn);
                         }
                     }
-                    if (f.nutrients.nutrientFertilizers != null)
+                    if (f.Nutrients.nutrientFertilizers != null)
                     {
-                        foreach (var ft in f.nutrients.nutrientFertilizers)
+                        foreach (var ft in f.Nutrients.nutrientFertilizers)
                         {
-                            string fertilizerName = string.Empty;
-                            ReportFieldNutrient rfn = new ReportFieldNutrient();
+                            var rfn = new ReportFieldNutrient();
                             FertilizerType ftyp = _sd.GetFertilizerType(ft.fertilizerTypeId.ToString());
 
+                            string fertilizerName;
                             if (ftyp.Custom)
                             {
                                 fertilizerName = ftyp.DryLiquid == "dry" ? "Custom (Dry) " : "Custom (Liquid) ";
@@ -1446,16 +1881,18 @@ namespace SERVERAPI.Controllers
                 }
                 if (rf.nutrients.Count() == 0)
                 {
-                    ReportFieldNutrient rfn = new ReportFieldNutrient();
-                    rfn.nutrientName = "None planned";
-                    rfn.nutrientAmount = "";
+                    var rfn = new ReportFieldNutrient
+                    {
+                        nutrientName = "None planned",
+                        nutrientAmount = ""
+                    };
                     rf.nutrients.Add(rfn);
                 }
-                if (f.crops != null)
+                if (f.Crops != null)
                 {
-                    foreach (var c in f.crops)
+                    foreach (var c in f.Crops)
                     {
-                        crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
+                        string crpName = string.IsNullOrEmpty(c.cropOther) ? _sd.GetCrop(Convert.ToInt32(c.cropId)).CropName : c.cropOther;
                         rf.fieldCrops = string.IsNullOrEmpty(rf.fieldCrops) ? crpName : rf.fieldCrops + "\n" + crpName;
                     }
                 }
@@ -1479,17 +1916,6 @@ namespace SERVERAPI.Controllers
             var result = await _viewRenderService.RenderToStringAsync("~/Views/Report/ReportFonts.cshtml", rvm);
 
             return result;
-        }
-
-        public async Task<FileContentResult> BuildPDF(INodeServices nodeServices, PDFRequest rawdata)
-        {
-            JObject options = JObject.Parse(rawdata.options);
-            JSONResponse result = null;
-
-            // execute the Node.js component to generate a PDF
-            result = await nodeServices.InvokeAsync<JSONResponse>("./pdf.js", rawdata.html, options);
-
-            return new FileContentResult(result.data, "application/pdf");
         }
 
         public async Task<IActionResult> PrintFields()
@@ -1527,12 +1953,9 @@ namespace SERVERAPI.Controllers
 
         public async Task<IActionResult> PrintSources()
         {
-            FileContentResult result = null;
-
             string reportSources = await RenderSources();
 
-            result = await PrintReportAsync(reportSources, true);
-
+            FileContentResult result = await PrintReportAsync(reportSources, true);
             return result;
         }
 
@@ -1546,12 +1969,9 @@ namespace SERVERAPI.Controllers
 
         public async Task<IActionResult> PrintSheets()
         {
-            FileContentResult result = null;
-
             string reportSheets = _ud.GetRecordKeepingSheets();
 
-            result = await PrintReportAsync(reportSheets, false);
-
+            FileContentResult result = await PrintReportAsync(reportSheets, false);
             return result;
         }
 
@@ -1612,10 +2032,15 @@ namespace SERVERAPI.Controllers
             var reportManureCompostInventory = string.Empty;
             var reportManureUse = string.Empty;
             var reportOctoberToMarchStorageVolumes = string.Empty;
+            var reportCropManure = string.Empty;
+            var reportBeefManureUse = string.Empty;
+            var reportPoultryManureUse = string.Empty;
+            var reportMixedManureUser = string.Empty;
             var reportFertilizers = string.Empty;
             var reportFields = string.Empty;
             var reportAnalysis = string.Empty;
             var reportSummary = string.Empty;
+            var reportFeedingArea = string.Empty;
 
             Parallel.Invoke(
                 //async () => { reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests); },
@@ -1625,9 +2050,14 @@ namespace SERVERAPI.Controllers
                     //run in sequence and not in parallel
                     reportApplication = await RenderApplication();
                     reportFertilizers = await RenderFerilizers();
-                    reportManureCompostInventory = await RenderManureCompostInventory();
+                    reportFeedingArea = await RenderSeasonalFeedAreaSummary();
                     reportFields = await RenderFields();
                     reportManureUse = await RenderManureUse();
+                    reportManureCompostInventory = await RenderManureCompostInventory();
+                    reportCropManure = await RenderCropManureUse();
+                    reportBeefManureUse = await RenderBeefManureUse();
+                    reportPoultryManureUse = await RenderPoultryManureUse();
+                    reportMixedManureUser = await RenderMixedManureUse();
                     reportSummary = await RenderSummary();
                     reportAnalysis = await RenderAnalysis();
                 },
@@ -1643,32 +2073,70 @@ namespace SERVERAPI.Controllers
                 hasSoilTests = true;
             }
 
-            Parallel.Invoke(async () =>
-            {
-                reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests);
-            });
+            var pageNumbers = 0;
+            Parallel.Invoke(
+                async () =>
+                {
+                    reportTableOfContents = await RenderTableOfContents(hasFertilizers, hasSoilTests);
+                },
+                async () =>
+                {
+                    pageNumbers = await GetPageCount(hasFertilizers, hasSoilTests);
+                }
+            );
 
             string report = reportTableOfContents;
 
             //insert disclaimer right after the table of contents
             report += "<br/><br/><div></div><div></div><div style=\"float:left\">" + _sd.GetUserPrompt("disclaimer") + "</div>";
 
+            var pageNumber = 2;
             if (reportApplication.Contains("div"))
             {
                 report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
                 report += reportApplication;
             }
 
             if (reportManureCompostInventory.Contains("div"))
             {
                 report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
                 report += reportManureCompostInventory;
             }
 
             if (reportManureUse.Contains("div"))
             {
-                report += pageBreakForManure;
+                report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
                 report += reportManureUse;
+            }
+
+            if (reportBeefManureUse.Contains("div"))
+            {
+                report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
+                report += reportBeefManureUse;
+            }
+
+            if (reportPoultryManureUse.Contains("div"))
+            {
+                report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
+                report += reportPoultryManureUse;
+            }
+
+            if (reportMixedManureUser.Contains("div"))
+            {
+                report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
+                report += reportMixedManureUser;
             }
 
             if (reportOctoberToMarchStorageVolumes.Contains("div"))
@@ -1677,27 +2145,61 @@ namespace SERVERAPI.Controllers
                 report += reportOctoberToMarchStorageVolumes;
             }
 
+            if (reportCropManure.Contains("div"))
+            {
+                report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
+                report += reportCropManure;
+            }
             if (reportFertilizers.Contains("div"))
             {
-                report += pageBreakForManure;
+                report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
                 report += reportFertilizers;
             }
 
             if (reportFields.Contains("div"))
             {
                 report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                var fieldNames = _ud.GetFields().Select(f => $"Field Summary: {f.FieldName}");
+
+                var row = 0;
+                foreach (var field in fieldNames)
+                {
+                    row += 1;
+                    if (row > 1)
+                    {
+                        reportFields = reportFields.Replace($"<div id=\"replace-with-header{row}\"></div>", GetHeader(pageNumber, pageNumbers));
+                    }
+                    pageNumber += 1;
+                }
                 report += reportFields;
             }
 
             if (reportAnalysis.Contains("div"))
             {
                 report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
                 report += reportAnalysis;
+            }
+
+            if (reportFeedingArea.Contains("div"))
+            {
+                report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
+                report += reportFeedingArea;
             }
 
             if (reportSummary.Contains("div"))
             {
                 report += pageBreak;
+                report += GetHeader(pageNumber, pageNumbers);
+                pageNumber += 1;
                 report += reportSummary;
             }
 
@@ -1719,80 +2221,35 @@ namespace SERVERAPI.Controllers
 
         public async Task<FileContentResult> PrintReportAsync(string content, bool portrait)
         {
-            string reportHeader = string.Empty;
+            var pdfHost = Environment.GetEnvironmentVariable("WEASYPRINT_URL");
+            string targetUrl = $"{pdfHost}/pdf";
+            FileContentResult result;
 
-            FileContentResult result = null;
-            var pdfHost = Environment.GetEnvironmentVariable("PDF_SERVICE_NAME");
-
-            string targetUrl = pdfHost + "/api/PDF/BuildPDF";
-
-            PDF_Options options = new PDF_Options();
-            options.border = new PDF_Border();
-            options.header = new PDF_Header();
-            options.footer = new PDF_Footer();
-            options.paginationOffset = -1;
-
-            options.type = "pdf";
-            options.quality = "75";
-            options.format = "letter";
-            options.orientation = (portrait) ? "portrait" : "landscape";
-            options.fontbase = "/usr/share/fonts/dejavu";
-            options.border.top = ".25in";
-            options.border.right = ".25in";
-            options.border.bottom = ".25in";
-            options.border.left = ".25in";
-            options.header.height = "20mm";
-            options.header.contents = "<div><span style=\"float: left; font-size:14px\">Farm Name: " + _ud.FarmDetails().farmName + "<br />" +
-                                      "Planning Year: " + _ud.FarmDetails().year + "</span></div><div style=\"float:right; vertical-align:top; text-align: right\"><span style=\"color: #444;\">Page {{page}}</span>/<span>{{pages}}</span><br />Printed: " + DateTime.Now.ToShortDateString() + "</div>";
-            options.footer.height = "15mm";
-            options.footer.contents = "<div></div><div style=\"float:right\">Version " + _sd.GetStaticDataVersion() + "</div>";
-
-            // call the microservice
+            // call weasy print
             try
             {
-                PDFRequest req = new PDFRequest();
-
-                HttpClient client = new HttpClient();
-
-                reportHeader = await RenderHeader();
+                string reportHeader = await RenderHeader();
 
                 string rawdata = "<!DOCTYPE html>" +
-                    "<html>" +
+                    @"<html lang=""en"">" +
                     reportHeader +
-                    "<body>" +
-                    //"<div style='display: table; width: 100%'>" +
-                    //"<div style='display: table-row-group; width: 100%'>" +
-                    content +
-                    //"</div>" +
-                    //"</div>" +
-                    "</body></html>";
+                        @"<body>
+                            " + content + @"
+                            <footer>" + GetFooter() + @"</footer>
+                        </body>
+                    </html>";
 
-                req.html = rawdata;
-                req.options = JsonConvert.SerializeObject(options);
-                req.options = req.options.Replace("fontbase", "base");
+                string payload = rawdata;
 
-                //FileContentResult res = await BuildPDF(nodeServices, req);
-
-                //return res;
-
-                string payload = JsonConvert.SerializeObject(req);
-
-                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl);
-                request.Content = new StringContent(payload, Encoding.UTF8, "application/json");
+                var request = new HttpRequestMessage(HttpMethod.Post, targetUrl)
+                {
+                    Content = new StringContent(payload, Encoding.UTF8, "text/html")
+                };
 
                 request.Headers.Clear();
-                // transfer over the request headers.
-                foreach (var item in Request.Headers)
-                {
-                    string key = item.Key;
-                    string value = item.Value;
-                    request.Headers.Add(key, value);
-                }
 
-                Task<HttpResponseMessage> responseTask = client.SendAsync(request);
-                responseTask.Wait();
-
-                HttpResponseMessage response = responseTask.Result;
+                var client = new HttpClient();
+                var response = await client.SendAsync(request);
 
                 ViewBag.StatusCode = response.StatusCode.ToString();
 
@@ -1805,8 +2262,7 @@ namespace SERVERAPI.Controllers
                 }
                 else
                 {
-                    string errorMsg = "Url: " + targetUrl + "\r\n" +
-                                      "Result: " + response.ToString();
+                    string errorMsg = "Url: " + targetUrl + "\r\n" + "Result: " + response.ToString();
                     result = new FileContentResult(Encoding.ASCII.GetBytes(errorMsg), "text/plain");
                 }
             }
@@ -1820,6 +2276,23 @@ namespace SERVERAPI.Controllers
             }
 
             return result;
+        }
+
+        private string GetHeader(int page, int pages)
+        {
+            var header =
+                "<div style=\"display:block;padding-bottom: 30px;\">" +
+                $"<div><span style=\"float: left; font-size:14px\">Farm Name: {_ud.FarmDetails().FarmName}<br />Planning Year: {_ud.FarmDetails().Year}</span></div>" +
+                "<div style=\"float:right; vertical-align:top; text-align: right\">" +
+                $"<span style=\"color: #444;\">Page {page}</span>/<span>{pages}</span><br />Printed: {DateTime.Now.ToShortDateString()}</div>" +
+                "</div><div>&nbsp;</div>";
+
+            return header;
+        }
+
+        private string GetFooter()
+        {
+            return $"<div></div><div style=\"float:right\">Version {_sd.GetStaticDataVersion()}</div>";
         }
     }
 }

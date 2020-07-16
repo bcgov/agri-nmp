@@ -1,15 +1,4 @@
-/*
- 
- *
- 
- *
- * OpenAPI spec version: v1
- * 
- * 
- */
-
-using Common;
-using Microsoft.AspNetCore.Authorization;
+using Agri.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -43,21 +32,18 @@ namespace SERVERAPI.Controllers
         {
             return _service.EchoHeaders();
         }
-        
     }
 
     public interface ITestService
     {
         IActionResult EchoHeaders();
-
-     
     }
 
     /// <summary>
     /// TestService, the service implementation for <see cref="TestController"/>
     /// </summary>
     /// <remarks>
-    /// Provides an example of how to split up the controller and service implementation while still being able to apply permissions 
+    /// Provides an example of how to split up the controller and service implementation while still being able to apply permissions
     /// checks to the authenticated user.
     /// </remarks>
     public class TestService : ServiceBase, ITestService
@@ -74,6 +60,5 @@ namespace SERVERAPI.Controllers
         {
             return Ok(Request.Headers.ToHtml());
         }
-        
     }
 }

@@ -1,0 +1,53 @@
+﻿@page "{handler?}/{ismodal:bool}"
+@model SERVERAPI.Pages.Ranch.RanchAnimals.CreateEdit
+@using Agri.Models
+
+@{
+    Layout = Model.IsModal ? "_ModalLayout" : "_PageLayout";
+    ViewData["HeaderTitle"] = Model.Title;
+    ViewData["HeaderSideTitle"] = Model.SideTitle;
+}
+
+@if (Model.IsModal)
+{
+    var handler = Model.Data.Id.HasValue ? "Edit" : "Create";
+    var action = Url.Page("CreateEdit", "Create", new { ismodal = true });
+    <form asp-antiforgery="true" action="@ViewBag.FormAction" method="post" class="form-box-body">
+        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+    </form>
+}
+else
+{
+    <form method="post" class="form-box-body">
+        @await Html.PartialAsync("_createEditFormPartial", Model, new ViewDataDictionary(ViewData))
+    </form>
+
+    @section PreviousNextNavigation
+    {
+        @*Ensure that the new index page is added to FeaturePages Enum and it is correct for this index page*@
+        @await Component.InvokeAsync("NextPreviousNavigation", new NextPrevNavViewModel
+        {
+            CurrentPage = FeaturePages.RanchAnimalsIndex,
+            ShowNext = false
+        })
+    }
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        //Show the Duration Field when IsManureCollected True
+        function IsManureCollectedChanged(value) {
+            if (value) {
+                $('#durationValue').show();
+            } else {
+                $('#durationValue').hide();
+            }
+        }
+
+        //Record the CattleSubTypeName when Dropdown is changed
+        function SetCattleSubTypeName(selectObject) {
+            var text = selectObject.text;
+            $('#CattleSubTypeName').val(text);
+        }
+    </script>
+}

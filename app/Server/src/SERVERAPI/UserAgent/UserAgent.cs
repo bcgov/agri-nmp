@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SERVERAPI.UserAgent
+﻿namespace SERVERAPI.UserAgent
 {
     public class UserAgent
     {
         private string _userAgent;
 
         private ClientBrowser _browser;
+
         public ClientBrowser Browser
         {
             get
@@ -23,6 +19,7 @@ namespace SERVERAPI.UserAgent
         }
 
         private ClientOS _os;
+
         public ClientOS OS
         {
             get

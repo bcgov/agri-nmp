@@ -7,20 +7,17 @@ namespace SERVERAPI.ViewModels
 {
     public class ReportViewModel
     {
-        public bool fields { get; set; }
-        public bool nutrientSources { get; set; }
-        public bool nutrientApplicationSchedule { get; set; }
-        public bool nutrientSourceAnalysis { get; set; }
-        public bool soilTestSummary { get; set; }
-        public bool recordKeepingSheets { get; set; }
-        public bool unsavedData { get; set; }
-        public string url { get; set; }
-        public string noCropsMsg { get; set; }
-        public string downloadMsg { get; set; }
-        public string loadMsg { get; set; }
-        public string materialsNotStoredMessage { get; set; }
+        public string Body { get; set; }
+        public string RepeatFooter { get; set; }
+        public bool UnsavedData { get; set; }
+        public string Url { get; set; }
+        public string NoCropsMsg { get; set; }
+        public string DownloadMsg { get; set; }
+        public string LoadMsg { get; set; }
+        public string MaterialsNotStoredMessage { get; set; }
         public List<GeneratedManure> GeneratedManures { get; set; }
         public List<ImportedManure> ImportedManures { get; set; }
+
         public List<ManagedManure> StorableManures
         {
             get
@@ -39,6 +36,7 @@ namespace SERVERAPI.ViewModels
                 return manures;
             }
         }
+
         public List<ManagedManure> UnallocatedManures => StorableManures.Where(mm => !mm.AssignedToStoredSystem).ToList();
 
         public List<AppliedManure> RemainingManures { get; set; }

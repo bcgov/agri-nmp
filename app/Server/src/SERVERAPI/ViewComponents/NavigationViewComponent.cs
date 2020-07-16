@@ -1,19 +1,20 @@
-﻿using System;
-using Agri.Interfaces;
+﻿using Agri.Data;
+using Agri.Models;
 using Agri.Models.Configuration;
+using Agri.Shared;
 using Microsoft.AspNetCore.Mvc;
 using SERVERAPI.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Agri.Models;
 
 namespace SERVERAPI.ViewComponents
 {
-    public class Navigation: ViewComponent
+    public class Navigation : ViewComponent
     {
-        private IAgriConfigurationRepository _sd;
-        private Models.Impl.UserData _ud;
+        private readonly IAgriConfigurationRepository _sd;
+        private readonly Models.Impl.UserData _ud;
 
         public Navigation(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
@@ -21,76 +22,67 @@ namespace SERVERAPI.ViewComponents
             _ud = ud;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(CoreSiteActions currentAction)
+        public async Task<IViewComponentResult> InvokeAsync(NavigationDetailViewModel currentNavViewModel)
         {
-            return View(await GetNavigationAsync(currentAction));
+            return View(await GetNavigationAsync(currentNavViewModel));
         }
 
-        private Task<NavigationDetailViewModel> GetNavigationAsync(CoreSiteActions currentAction)
+        private Task<NavigationDetailViewModel> GetNavigationAsync(NavigationDetailViewModel currentNavViewModel)
         {
-            var ndvm = new NavigationDetailViewModel();
-            ndvm.mainMenuOptions = new List<MainMenu>();
-            ndvm.subMenuOptions = new List<SubMenu>();
+            var ndvm = new NavigationDetailViewModel
+            {
+                MainMenus = new List<MainMenu>(),
+                SubMenus = new List<SubMenu>()
+            };
 
             if (_ud.IsActiveSession())
             {
-                ndvm.mainMenuOptions = _sd.GetMainMenus();
+                var journey = _ud.FarmDetails().UserJourney;
+                ndvm.MainMenus = _sd.GetJourney((int)journey)
+                    .MainMenus
+                    .OrderBy(m => m.SortNumber)
+                    .ToList();
 
-                var hasAnimals = _ud.FarmDetails()?.HasAnimals ?? true;
-                var importsManureCompost = _ud.FarmDetails()?.ImportsManureCompost ?? true;
+                var currentAction = CoreSiteActions.NotUsed;
+                var currentPage = FeaturePages.NotUsed;
 
-                var greyOutClass = "top-level-nav-greyedout";
+                if (currentNavViewModel.UsesFeaturePages)
+                {
+                    if (currentNavViewModel.CurrentPage.ToLower().EndsWith("index"))
+                    {
+                        currentPage = EnumHelper<FeaturePages>.GetValueFromDescription(currentNavViewModel.CurrentPage);
+                    }
+                    else
+                    {
+                        var indexPage = currentNavViewModel
+                            .CurrentPage.Substring(0, currentNavViewModel.CurrentPage.LastIndexOf('/') + 1);
+                        currentPage = EnumHelper<FeaturePages>.GetValueFromDescription($"{indexPage}Index");
+                    }
+                }
+                else
+                {
+                    currentAction = EnumHelper<CoreSiteActions>.Parse(currentNavViewModel.CurrentAction);
+                }
 
-                var noManureCompost = !_ud.GetAllManagedManures().Any(); //Want true to grey out Storage and Nutrient Analysis
-
-                ndvm.mainMenuOptions
-                        .Single(s => s.Action.Equals(CoreSiteActions.ManureGeneratedObtained.ToString()))
-                        .GreyOutClass = !hasAnimals && !importsManureCompost ? greyOutClass : string.Empty;
-
-                if (currentAction > CoreSiteActions.Home)
+                if (currentNavViewModel.UsesFeaturePages || currentAction > CoreSiteActions.Home)
                 {
                     ndvm.UseInterceptJS = currentAction == CoreSiteActions.Farm;
-                    var currentMainMenu =
-                        ndvm.mainMenuOptions.SingleOrDefault(m => m.IsCurrentMainMenu(currentAction.ToString()));
+                    var currentMainMenu = ndvm.MainMenus
+                        .SingleOrDefault(m => m.IsCurrentMainMenu(currentAction) || m.IsCurrentMainMenu(currentPage));
+
                     if (currentMainMenu != null)
                     {
                         currentMainMenu.ElementId = "current";
-                        ndvm.subMenuOptions = currentMainMenu.SubMenus;
+                        ndvm.SubMenus = currentMainMenu.SubMenus.OrderBy(s => s.SortNumber).ToList();
 
-                        var currentSubMenu = ndvm.subMenuOptions.SingleOrDefault(sm =>
-                            sm.Action.Equals(currentAction.ToString(), StringComparison.CurrentCultureIgnoreCase));
+                        ndvm.SubMenus = FilterRanchSubMenus(journey, ndvm.SubMenus);
+
+                        var currentSubMenu = ndvm.SubMenus.SingleOrDefault(sm =>
+                            sm.IsSubMenuCurrent(currentAction) || sm.IsSubMenuCurrent(currentPage));
 
                         if (currentSubMenu != null)
                         {
                             currentSubMenu.ElementId = "current2";
-                        }
-
-                        if (currentMainMenu.Controller.Equals(AppControllers.ManureManagement.ToString()))
-                        {
-
-                            if (currentMainMenu.Controller == AppControllers.ManureManagement.ToString())
-                            {
-                                greyOutClass = "second-level-nav-greyedout";
-                                ndvm.subMenuOptions
-                                    .Single(s => s.Action.Equals(CoreSiteActions.ManureGeneratedObtained.ToString()))
-                                    .GreyOutClass = !hasAnimals ? greyOutClass : string.Empty;
-
-                                ndvm.subMenuOptions
-                                    .Single(s => s.Action.Equals(CoreSiteActions.ManureImported.ToString()))
-                                    .GreyOutClass = !importsManureCompost ? greyOutClass : string.Empty;
-
-                                ndvm.subMenuOptions
-                                        .Single(s => s.Action.Equals(CoreSiteActions.ManureStorage.ToString()))
-                                        .GreyOutClass = !hasAnimals && !importsManureCompost
-                                        ? greyOutClass
-                                        : string.Empty;
-
-                                ndvm.subMenuOptions
-                                        .Single(s => s.Action.Equals(CoreSiteActions.ManureNutrientAnalysis.ToString()))
-                                        .GreyOutClass = !hasAnimals && !importsManureCompost
-                                        ? greyOutClass
-                                        : string.Empty;
-                            }
                         }
                     }
                 }
@@ -99,5 +91,55 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(ndvm);
         }
 
+        private List<SubMenu> FilterRanchSubMenus(UserJourney journey, List<SubMenu> subMenus)
+        {
+            //Skip Nutrients Menu for Ranch if Nothing to Analyze
+            if (journey == UserJourney.Ranch)
+            {
+                //if (subMenus.Any(sm => sm.UsesFeaturePages &&
+                //        sm.Page.Equals(FeaturePages.RanchNutrientsIndex.GetDescription())) &&
+                //    !_ud.GetFarmManures().Any() &&
+                //    !_ud.GetAllManagedManures().Any(mm => !mm.AssignedWithNutrientAnalysis))
+                //{
+                //    //Hide Nutrient Analysis Sub Menu
+                //    subMenus
+                //        .Remove(subMenus
+                //        .Single(sm => sm.Page.Equals(FeaturePages.RanchNutrientsIndex.GetDescription())));
+                //}
+
+                if (subMenus.Any(sm => sm.UsesFeaturePages &&
+                         sm.Page.Equals(FeaturePages.RanchFeedingIndex.GetDescription())) &&
+                        !_ud.GetFields().Any(x => x.IsSeasonalFeedingArea))
+                {
+                    //Hide Nutrient Analysis Sub Menu
+                    subMenus
+                        .Remove(subMenus
+                        .Single(sm => sm.UsesFeaturePages &&
+                            sm.Page.Equals(FeaturePages.RanchFeedingIndex.GetDescription())));
+                }
+            }
+
+            return subMenus;
+        }
+
+        private List<SubMenu> FilterPoultrySubMenus(UserJourney journey, List<SubMenu> subMenus)
+        {
+            //Skip Nutrients Menu for Ranch if Nothing to Analyze
+            if (journey == UserJourney.Poultry)
+            {
+                if (subMenus.Any(sm => sm.UsesFeaturePages &&
+                        sm.Page.Equals(FeaturePages.PoultryNutrientsIndex.GetDescription())) &&
+                    !_ud.GetFarmManures().Any() &&
+                    !_ud.GetAllManagedManures().Any(mm => !mm.AssignedWithNutrientAnalysis))
+                {
+                    //Hide Nutrient Analysis Sub Menu
+                    subMenus
+                        .Remove(subMenus
+                        .Single(sm => sm.Page.Equals(FeaturePages.PoultryNutrientsIndex.GetDescription())));
+                }
+            }
+
+            return subMenus;
+        }
     }
 }

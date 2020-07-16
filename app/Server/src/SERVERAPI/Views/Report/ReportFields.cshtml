@@ -22,163 +22,170 @@
     </div>
     <div class="Row">
         <div class="Cell">
-                    <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
-                        <tr>
-                            <td class="CellHdgNBd">
-                                <span>Area: @f.fieldArea ac</span>
-                            </td>
-                        </tr>
-                    </table>
-                    <br />
-                    <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
-                        <tr>
-                            <td class="CellHdg" style="width:40%">
-                                <b>Crop</b>
-                            </td>
-                            <td class="CellHdg" style="width:20%; text-align:center">
-                                <b>Yield</b>
-                            </td>
-                            <td class="CellHdg" style="width:40%">
-                                <b>@Model.prevHdg</b>
-                            </td>
-                        </tr> 
-                        @foreach (var c in f.crops)
-                        {
+            <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <tr>
+                    <td class="CellHdgNBd">
+                        <span>Area: @f.fieldArea ac</span>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <tr>
+                    <td class="CellHdg" style="width:40%">
+                        <b>Crop</b>
+                    </td>
+                    <td class="CellHdg" style="width:20%; text-align:center">
+                        <b>Yield</b>
+                    </td>
+                    <td class="CellHdg" style="width:40%">
+                        <b>@Model.prevHdg</b>
+                    </td>
+                </tr>
+                @foreach (var c in f.crops)
+                {
+                    <tr>
+                        <td class="CellDtl">
+                            @c.cropname
+                        </td>
+                        <td class="CellDtl" style="text-align:center">
+                            @c.yield  &nbsp; @c.yieldInUnit
+                        </td>
+                        <td class="CellDtl">
+                            @c.previousCrop
+                        </td>
+                    </tr>
+                }
+            </table>
+            <br />
+            <br />
+            @{
+                var colSpan = "1";
+                if (!string.IsNullOrEmpty(@f.soiltest.sampleDate))
+                {
+                    colSpan = "4";
+                }
+            }
+            <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
+                <tr>
+                    <td class="CellHdg" colspan="@colSpan" style="font-weight:normal">
+                        <table style="border-collapse: collapse; width: 100%">
                             <tr>
-                                <td class="CellDtl">
-                                    @c.cropname
+                                <td class="CellHdg" style="width:30%; border:none">
+                                    <b>Soil Test Results: </b> @f.soiltest.sampleDate
                                 </td>
-                                <td class="CellDtl" style="text-align:center">
-                                    @c.yield  &nbsp; @c.yieldInUnit
-                                </td>
-                                <td class="CellDtl">
-                                    @c.previousCrop
+                                <td class="CellHdg" style="width:70%; border:none">
+                                    <b>Soil test P &amp; K Method: </b> @Model.methodName
                                 </td>
                             </tr>
-                        }
-                    </table>
-                    <br />
-                    <br />
-                    <table style="border-collapse: collapse; width: 100%;page-break-inside:avoid">
-                        <tr>
-                            <td class="CellHdg" colspan="4" style="font-weight:normal">
-                                <table style="border-collapse: collapse; width: 100%">
-                                    <tr>
-                                        <td class="CellHdg" style="width:30%; border:none">
-                                            <b>Soil Test Results: </b> @f.soiltest.sampleDate
-                                        </td>
-                                        <td class="CellHdg" style="width:70%; border:none">
-                                            <b>Soil test P &amp; K Method: </b> @Model.methodName
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        @if (!string.IsNullOrEmpty(@f.soiltest.sampleDate))
-                        {
-                            <tr style="width:30%">
-                                <td class="CellDtl">
-                                    Nitrate-N: @f.soiltest.dispNO3H
-                                </td>
-                                <td class="CellDtl" style="width:30%">
-                                    Phosphorus: @f.soiltest.dispP
-                                </td>
-                                <td class="CellDtl" style="width:30%">
-                                    Potassium: @f.soiltest.dispK
-                                </td>
-                                <td class="CellDtl" style="width:10%">
-                                    pH: @f.soiltest.dispPH
+                        </table>
+                    </td>
+                </tr>
+                @if (!string.IsNullOrEmpty(@f.soiltest.sampleDate))
+                {
+                    <tr style="width:30%">
+                        <td class="CellDtl">
+                            Nitrate-N: @f.soiltest.dispNO3H
+                        </td>
+                        <td class="CellDtl" style="width:30%">
+                            Phosphorus: @f.soiltest.dispP
+                        </td>
+                        <td class="CellDtl" style="width:30%">
+                            Potassium: @f.soiltest.dispK
+                        </td>
+                        <td class="CellDtl" style="width:10%">
+                            pH: @f.soiltest.dispPH
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="CellDtl" style="vertical-align:top" colspan="@colSpan">
+                        <b>Field Comments:</b><br />
+                        <table style=" word-wrap: break-word; table-layout:fixed; width:100%; vertical-align:top; margin-top:0;">
+                            <tr>
+                                <td style="padding-top:0px">
+                                    @f.fieldComment
                                 </td>
                             </tr>
-                        }
-                        <tr>
-                            <td class="CellDtl" style="vertical-align:top" colspan="4">
-                                <b>Field Comments:</b><br />
-                                <table style=" word-wrap: break-word; table-layout:fixed; width:100%; vertical-align:top; margin-top:0;">
-                                    <tr>
-                                        <td style="padding-top:0px">
-                                            @f.fieldComment
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                    <br />
-                    <table style="border-collapse: collapse;page-break-inside:avoid">
-                        <tr>
-                            <td colspan="5">
-                                <b>Nutrient Application Plan: @Model.year</b>
-                            </td>
-                        </tr>
-                        <tr style="border: 1px solid black; background-color:#efefef;">
-                            <td class="CellHdg" style="width:250px">
-                                <b>Nutrient Source</b>
-                            </td>
-                            <td class="CellHdg" style="width:250px">
-                                <b>Application Timing</b>
-                            </td>
-                            <td class="CellHdg" style="width:250px">
-                                <b>Method</b>
-                            </td>
-                            <td class="CellHdg" colspan="2" style="text-align:center; width:200px">
-                                <b>Rate</b>
-                            </td>
-                        </tr>
-                        @foreach (var n in f.nutrients)
-                        {
-                            <tr style="border: 1px solid black;">
-                                <td class="CellDtl" style="width:250px">@n.nutrientName</td>
-                                <td class="CellDtl" style="width:250px">@n.nutrientSeason</td>
-                                <td class="CellDtl" style="width:250px">@n.nutrientApplication</td>
-                                <td class="CellDtl" style="text-align:right; width:100px; border-right:none;">@n.nutrientAmount</td>
-                                <td class="CellDtl" style="text-align:left; width:150px; border-left:none">@n.nutrientUnit</td>
-                            </tr>
-                        }
-                    </table>
-                    <br />
-                    <br />
-                    <table style="border-collapse: collapse; width:100%;page-break-inside:avoid">
-                        <tr>
-                            <td style="width:30%;"></td>
-                            <td style="width:5%"></td>
-                            <td colspan="3" style="text-align:center; background-color:#efefef; width:30%">
-                                <span style="font-size:6pt"><b>Agronomic Balance (lb/ac)</b></span>
-                            </td>
-                            <td style="width:5%">
-                                &nbsp;
-                            </td>
-                            <td colspan="3" style="text-align:center; background-color:#efefef; width:30%">
-                                <span style="font-size:6pt"><b>Crop Removal Balance (lb/ac)</b></span>
-                            </td>
-                        </tr>
-                        <tr style="font-size:6pt;">
-                            <td style=" border-bottom: 1px solid black;"></td>
-                            <td></td>
-                            <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
-                                <b>N</b>
-                            </td>
-                            <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
-                                <b>P<sub>2</sub>O<sub>5</sub></b>
-                            </td>
-                            <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
-                                <b>K<sub>2</sub>O</b>
-                            </td>
-                            <td style="width:5%">
-                                &nbsp;
-                            </td>
-                            <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
-                                <b>N</b>
-                            </td>
-                            <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
-                                <b>P<sub>2</sub>O<sub>5</sub></b>
-                            </td>
-                            <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
-                                <b>K<sub>2</sub>O</b>
-                            </td>
-                        </tr>
-                        @foreach (var c in f.crops)
-    {
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <br />
+            <table style="border-collapse: collapse;page-break-inside:avoid;width:100%">
+                <tr>
+                    <td colspan="5">
+                        <b>Nutrient Application Plan: @Model.year</b>
+                    </td>
+                </tr>
+                <tr style="border: 1px solid black; background-color:#efefef;">
+                    <td class="CellHdg" style="width:26%">
+                        <b>Nutrient Source</b>
+                    </td>
+                    <td class="CellHdg" style="width:26%">
+                        <b>Application Timing</b>
+                    </td>
+                    <td class="CellHdg" style="width:26%">
+                        <b>Method</b>
+                    </td>
+                    <td class="CellHdg" colspan="2" style="text-align:center;">
+                        <b>Rate</b>
+                    </td>
+                </tr>
+                @foreach (var n in f.nutrients)
+                {
+                    <tr style="border: 1px solid black;">
+                        <td class="CellDtl" style="width:25%">@n.nutrientName</td>
+                        <td class="CellDtl" style="width:25%">@n.nutrientSeason</td>
+                        <td class="CellDtl" style="width:25%">@n.nutrientApplication</td>
+                        <td class="CellDtl" style="text-align:right; width:10%; border-right:none;">@n.nutrientAmount</td>
+                        <td class="CellDtl" style="text-align:left; width:15%; border-left:none">@n.nutrientUnit</td>
+                    </tr>
+                }
+            </table>
+            <br />
+            <br />
+            <table style="border-collapse: collapse; width:100%;page-break-inside:avoid">
+                <tr>
+                    <td style="width:30%;"></td>
+                    <td style="width:5%"></td>
+                    <td colspan="3" style="text-align:center; background-color:#efefef; width:30%">
+                        <span style="font-size:6pt"><b>Agronomic Balance (lb/ac)</b></span>
+                    </td>
+                    <td style="width:5%">
+                        &nbsp;
+                    </td>
+                    <td colspan="3" style="text-align:center; background-color:#efefef; width:30%">
+                        <span style="font-size:6pt"><b>Crop Removal Balance (lb/ac)</b></span>
+                    </td>
+                </tr>
+                <tr style="font-size:6pt;">
+                    <td style=" border-bottom: 1px solid black;"></td>
+                    <td></td>
+                    <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
+                        <b>N</b>
+                    </td>
+                    <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
+                        <b>P<sub>2</sub>O<sub>5</sub></b>
+                    </td>
+                    <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
+                        <b>K<sub>2</sub>O</b>
+                    </td>
+                    <td style="width:5%">
+                        &nbsp;
+                    </td>
+                    <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
+                        <b>N</b>
+                    </td>
+                    <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
+                        <b>P<sub>2</sub>O<sub>5</sub></b>
+                    </td>
+                    <td style="width:10%; border-bottom: 1px solid black; text-align:center; background-color:#efefef">
+                        <b>K<sub>2</sub>O</b>
+                    </td>
+                </tr>
+                @foreach (var c in f.crops)
+                {
                     <tr>
                         <td class="CellDtlNBd">@c.cropname <sup>@c.footnote</sup></td>
                         <td></td>
@@ -187,10 +194,13 @@
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.reqK</td>
                         <td></td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remN</td>
-                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remP</td>
+                        <td class="CellDtlNBd" style="        text-align: center;
+        background-color: #efefef">
+                            @c.remP
+                        </td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@c.remK</td>
                     </tr>
-}
+                }
                 @if (f.showNitrogenCredit)
                 {
                     <tr>
@@ -201,7 +211,10 @@
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
                         <td></td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
-                        <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
+                        <td class="CellDtlNBd" style="        text-align: center;
+        background-color: #efefef">
+                            0
+                        </td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
                     </tr>
                 }
@@ -219,8 +232,8 @@
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">0</td>
                     </tr>
                 }
-                        @foreach (var n in f.nutrients)
-    {
+                @foreach (var n in f.nutrients)
+                {
                     <tr>
                         <td class="CellDtlNBd">@n.nutrientName <sup>@n.footnote</sup></td>
                         <td></td>
@@ -232,9 +245,9 @@
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remP</td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remK</td>
                     </tr>
-}
-                        @foreach (var n in f.otherNutrients)
-    {
+                }
+                @foreach (var n in f.otherNutrients)
+                {
                     <tr>
                         <td class="CellDtlNBd">@n.otherName</td>
                         <td></td>
@@ -246,173 +259,173 @@
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remP</td>
                         <td class="CellDtlNBd" style="text-align:center; background-color:#efefef">@n.remK</td>
                     </tr>
-}
-                        <tr style="font-size:7pt">
-                            <td style="border-bottom: 1px solid black;">&nbsp;</td>
-                            <td></td>
-                            <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
-                            <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
-                            <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
-                            <td style="border:none">&nbsp;</td>
-                            <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
-                            <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
-                            <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
-                        </tr>
+                }
+                <tr style="font-size:7pt">
+                    <td style="border-bottom: 1px solid black;">&nbsp;</td>
+                    <td></td>
+                    <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
+                    <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
+                    <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
+                    <td style="border:none">&nbsp;</td>
+                    <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
+                    <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
+                    <td style="border-bottom: 1px solid black; text-align:center; background-color:#efefef">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td class="CellDtlNBd" style="border-top: 1px solid black;"><b>Balance</b></td>
+                    <td></td>
+                    <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                        @if (!string.IsNullOrEmpty(f.iconAgriN))
+                        {
+                            <img class="img-@Html.Raw(f.iconAgriN)" height="10" width="10" />
+                        }
+                        @if (f.reqN < 0)
+                        {
+                            <i> @f.reqN </i>
+                        }
+                        else
+                        {
+                            @f.reqN
+                        }
+                    </td>
+                    <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                        @if (!string.IsNullOrEmpty(f.iconAgriP))
+                        {
+                            <img class="img-@Html.Raw(f.iconAgriP)" height="10" width="10" />
+                        }
+                        @if (f.reqP < 0)
+                        {
+                            <i> @f.reqP </i>
+                        }
+                        else
+                        {
+                            @f.reqP
+                        }
+                    </td>
+                    <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                        @if (!string.IsNullOrEmpty(f.iconAgriK))
+                        {
+                            <img class="img-@Html.Raw(f.iconAgriK)" height="10" width="10" />
+                        }
+                        @if (f.reqK < 0)
+                        {
+                            <i> @f.reqK </i>
+                        }
+                        else
+                        {
+                            @f.reqK
+                        }
+                    </td>
+                    <td style="border:none"></td>
+
+                    <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                        @if (!string.IsNullOrEmpty(f.iconCropN))
+                        {
+                            <img class="img-@Html.Raw(f.iconCropN)" height="10" width="10" />
+                        }
+                        @if (f.remN < 0)
+                        {
+                            <i> @f.remN </i>
+                        }
+                        else
+                        {
+                            @f.remN
+                        }
+                    </td>
+                    <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                        @if (!string.IsNullOrEmpty(f.iconCropP))
+                        {
+                            <img class="img-@Html.Raw(f.iconCropP)" height="10" width="10" />
+                        }
+                        @if (f.remP < 0)
+                        {
+                            <i> @f.remP </i>
+                        }
+                        else
+                        {
+                            @f.remP
+                        }
+                    </td>
+                    <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
+                        @if (!string.IsNullOrEmpty(f.iconCropK))
+                        {
+                            <img class="img-@Html.Raw(f.iconCropK)" height="10" width="10" />
+                        }
+                        @if (f.remK < 0)
+                        {
+                            <i> @f.remK </i>
+                        }
+                        else
+                        {
+                            @f.remK
+                        }
+                    </td>
+                </tr>
+            </table>
+
+            @if (f.alertN || f.alertP || f.alertK)
+            {
+                <br />
+                <br />
+                <table style="border-collapse: collapse; width:100%;page-break-inside:avoid">
+                    <tr>
+                        <td>
+                            <span class="CellDtlNBd">Considerations:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    @foreach (var a in f.alertMsgs)
+                    {
+                        if (!string.IsNullOrEmpty(a.Message))
+                        {
+                            <tr>
+                                <td class="CellDtlNBd" style="padding:0px">
+                                    <img class="img-@Html.Raw(a.Icon)" height="10" width="10" />
+                                    @a.Message
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            }
+            @if (f.footnotes.Count() > 0)
+            {
+                <br />
+                <br />
+                <table>
+                    <tr>
+                        <td>
+                            <span class="CellDtlNBd">Assumptions:</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                    </tr>
+                    @foreach (var fn in f.footnotes)
+                    {
                         <tr>
-                            <td class="CellDtlNBd" style="border-top: 1px solid black;"><b>Balance</b></td>
-                            <td></td>
-                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
-                                @if (!string.IsNullOrEmpty(f.iconAgriN))
-                                {
-                                    <img src="@Html.Raw(f.iconAgriN)" height="10" width="10" />
-                                }           
-                                @if (f.reqN < 0)
-                                {
-                                    <i> @f.reqN </i>
-                                }
-                                else
-                                {
-                                    @f.reqN
-                                }
-                            </td>
-                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
-                                @if (!string.IsNullOrEmpty(f.iconAgriP))
-                                {
-                                    <img src="@Html.Raw(f.iconAgriP)" height="10" width="10" />
-                                }
-                                @if (f.reqP < 0)
-                                {
-                                   <i> @f.reqP </i>
-                                }
-                                else
-                                {
-                                    @f.reqP
-                                }
-                            </td>
-                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
-                                @if (!string.IsNullOrEmpty(f.iconAgriK))
-                                {
-                                    <img src="@Html.Raw(f.iconAgriK)" height="10" width="10" />
-                                }
-                                @if (f.reqK < 0)
-                                {
-                                    <i> @f.reqK </i>
-                                }
-                                else
-                                {
-                                    @f.reqK
-                                }
-                            </td>
-                            <td style="border:none"></td>
-
-                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
-                                @if (!string.IsNullOrEmpty(f.iconCropN))
-                                {
-                                    <img src="@Html.Raw(f.iconCropN)" height="10" width="10" />
-                                }
-                                @if (f.remN < 0 )
-                                {
-                                    <i> @f.remN </i>
-                                }
-                                else
-                                {
-                                    @f.remN
-                                }
-                            </td>
-                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
-                                @if (!string.IsNullOrEmpty(f.iconCropP))
-                                {
-                                    <img src="@Html.Raw(f.iconCropP)" height="10" width="10" />
-                                }
-                                @if (f.remP < 0)
-                                {
-                                    <i> @f.remP </i>
-                                }
-                                else
-                                {
-                                    @f.remP
-                                }
-                            </td>
-                            <td class="CellDtlNBd" style="border-top: 1px solid black; text-align:center; background-color:#efefef">
-                                @if (!string.IsNullOrEmpty(f.iconCropK))
-                                {
-                                    <img src="@Html.Raw(f.iconCropK)" height="10" width="10" />
-                                }
-                                @if (f.remK < 0)
-                                {
-                                    <i> @f.remK </i>
-                                }
-                                else
-                                {
-                                    @f.remK
-                                }
+                            <td class="CellDtlNBd" style="padding:0px">
+                                @fn.id.ToString() &nbsp;&nbsp; @fn.message
                             </td>
                         </tr>
-
-                    </table>
-
-                    @if (f.alertN || f.alertP || f.alertK)
-                    {
-                        <br />
-                        <br />
-                        <table style="border-collapse: collapse; width:100%;page-break-inside:avoid">
-                            <tr>
-                                <td>
-                                    <span class="CellDtlNBd">Considerations:</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    &nbsp;
-                                </td>
-                            </tr> 
-                            @foreach (var a in f.alertMsgs)
-                            {
-                                if (!string.IsNullOrEmpty(a.Message))
-                                { 
-                                    <tr>
-                                        <td class="CellDtlNBd" style="padding:0px">
-                                            <img src="@Html.Raw(a.Icon)" height="10" width="10" />
-                                            @a.Message
-                                        </td>
-                                    </tr>
-                                }
-                            }
-
-                        </table>
                     }
-                    @if(f.footnotes.Count() > 0)
-                    {
-                        <br />
-                        <br />
-                        <table>
-                            <tr>
-                                <td>
-                                    <span class="CellDtlNBd">Assumptions:</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    &nbsp;
-                                </td>
-                            </tr>
-                            @foreach (var fn in f.footnotes)
-                            {
-                                <tr>
-                                    <td class="CellDtlNBd" style="padding:0px">
-                                        @fn.id.ToString() &nbsp;&nbsp; @fn.message
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-                    }
+                </table>
+            }
 
-                    @if (currpage != Model.fields.Count())
-                    {
-                            <div style="page-break-after:always;">
-                                &nbsp;
-                            </div>
-                    }
+            @if (currpage != Model.fields.Count())
+            {
+                <div style="page-break-after:always;">
+                    &nbsp;
+                </div>
+
+                <div id="@Html.Raw($"replace-with-header{currpage+1}")"></div>
+            }
         </div>
     </div>
 }

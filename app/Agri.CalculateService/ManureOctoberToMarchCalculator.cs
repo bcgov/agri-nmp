@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models;
-using Agri.Models.Calculate;
 
 namespace Agri.CalculateService
 {
+    public interface IManureOctoberToMarchCalculator
+    {
+        decimal CalculateOctoberToMarchSeparatedLiquid(decimal separatedLiquidsUSGallons);
+    }
+
     public class ManureOctoberToMarchCalculator : IManureOctoberToMarchCalculator
     {
         public decimal CalculateOctoberToMarchSeparatedLiquid(decimal separatedLiquidsUSGallons)

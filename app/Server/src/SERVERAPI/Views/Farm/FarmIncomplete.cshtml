@@ -19,25 +19,22 @@
                 <div class="form-box-fields">
                     <div class="row">
                         <div class="col-sm-12">
-                            <label asp-for="selRegOption" for="ddlRegionModal">Region</label>
+                            <label asp-for="SelRegOption" for="ddlRegionModal">Region</label>
                             <p class="form-box-subtext">Region selection will customize recommendations to your local climate.</p>
-                            <select id="ddlRegionModal" class="form-control" asp-for="selRegOption" asp-items="@(new SelectList(Model.regOptions, "Id", "Value"))">
+                            <select id="ddlRegionModal" class="form-control" asp-for="SelRegOption" asp-items="@(new SelectList(Model.RegOptions, "Id", "Value"))">
                                 <option>select region</option>
                             </select>
-                            <span asp-validation-for="selRegOption" class="text-danger">A region must be selected</span>
+                            <span asp-validation-for="SelRegOption" class="text-danger">A region must be selected</span>
                         </div>
                     </div>
-                    @if (Model.showSubRegion)
+                    @if (Model.ShowSubRegion && Model.ShowAnimals)
                     {
                         <div class="row">
                             <div class="col-sm-6">
-                                <select id="ddlSubRegionModal" class="form-control" asp-for="selSubRegOption" asp-items="@(new SelectList(Model.subRegionOptions, "Id", "Value"))">
+                                <select id="ddlSubRegionModal" class="form-control" asp-for="SelSubRegOption" asp-items="@(new SelectList(Model.SubRegionOptions, "Id", "Value"))">
                                     <option>select subregion</option>
                                 </select>
-                                @if (Model.multipleSubRegion)
-                                {
-                                    <span asp-validation-for="selSubRegOption" class="text-danger">A sub region must be selected</span>
-                                }
+                                <span asp-validation-for="SelSubRegOption" class="text-danger">A sub region must be selected</span>
                             </div>
                         </div>
                     }
@@ -50,9 +47,8 @@
         </div>
         @Html.HiddenFor(x => x.Target)
         @Html.HiddenFor(x => x.Message)
-        @Html.HiddenFor(x => x.showSubRegion)
-        @Html.HiddenFor(x => x.multipleSubRegion)
-        @Html.HiddenFor(x => x.buttonPressed)
-
+        @Html.HiddenFor(x => x.ShowSubRegion)
+        @Html.HiddenFor(x => x.ButtonPressed)
+        @Html.HiddenFor(x => x.ShowAnimals)
     </form>
 </div>

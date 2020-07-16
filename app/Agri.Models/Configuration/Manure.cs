@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 
 namespace Agri.Models.Configuration
 {
@@ -6,6 +8,7 @@ namespace Agri.Models.Configuration
     {
         [Key]
         public int Id { get; set; }
+
         public string Name { get; set; }
         public string ManureClass { get; set; }
         public string SolidLiquid { get; set; }
@@ -19,7 +22,10 @@ namespace Agri.Models.Configuration
         public int SortNum { get; set; }
         public decimal CubicYardConversion { get; set; }
         public decimal Nitrate { get; set; }
+        public decimal? DefaultSolidMoisture { get; set; }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public DryMatter DryMatter { get; set; }
     }
 }

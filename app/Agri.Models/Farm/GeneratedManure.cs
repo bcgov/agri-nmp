@@ -6,41 +6,43 @@ namespace Agri.Models.Farm
 {
     public class GeneratedManure : ManagedManure
     {
-        public int animalId { get; set; }
-        public string animalName { get; set; }
-        public int animalSubTypeId { get; set; }
-        public string animalSubTypeName { get; set; }
-        public int averageAnimalNumber { get; set; }
-        public string manureTypeName { get; set; }
-        public string annualAmount { get; set; }
-        public decimal annualAmountDecimal => annualAmount != null ? Convert.ToDecimal(annualAmount.Split(' ')[0]) : 0M;
-        public string washWaterGallonsToString => string.Format("{0:#,##0}", washWaterGallons);
-        public decimal washWaterGallons
+        public int AnimalId { get; set; }
+        public string AnimalName { get; set; }
+        public int AnimalSubTypeId { get; set; }
+        public string AnimalSubTypeName { get; set; }
+        public int AverageAnimalNumber { get; set; }
+        public string ManureTypeName { get; set; }
+        public string AnnualAmount { get; set; }
+        public decimal AnnualAmountDecimal => AnnualAmount != null ? Convert.ToDecimal(AnnualAmount.Split(' ')[0]) : 0M;
+        public string WashWaterGallonsToString => string.Format("{0:#,##0}", WashWaterGallons);
+
+        public decimal WashWaterGallons
         {
             get
             {
                 var washWaterGallons = 0m;
-                if (washWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
+                if (WashWaterUnits == WashWaterUnits.USGallonsPerDayPerAnimal)
                 {
-                    washWaterGallons= Math.Round(Convert.ToDecimal(washWater) * Convert.ToInt32(averageAnimalNumber) * 365);
+                    washWaterGallons = Math.Round(Convert.ToDecimal(WashWater) * Convert.ToInt32(AverageAnimalNumber) * 365);
                 }
-                else if (washWaterUnits == WashWaterUnits.USGallonsPerDay)
+                else if (WashWaterUnits == WashWaterUnits.USGallonsPerDay)
                 {
-                    washWaterGallons = Math.Round(Convert.ToDecimal(washWater) * 365);
+                    washWaterGallons = Math.Round(Convert.ToDecimal(WashWater) * 365);
                 }
 
                 return washWaterGallons;
             }
         }
-        public decimal washWater { get; set; }
-        public WashWaterUnits washWaterUnits { get; set; }
-        public decimal milkProduction { get; set; }
-        public decimal? solidPerGalPerAnimalPerDay { get; set; }
+
+        public decimal WashWater { get; set; }
+        public WashWaterUnits WashWaterUnits { get; set; }
+        public decimal MilkProduction { get; set; }
+        public decimal? SolidPerGalPerAnimalPerDay { get; set; }
         public override string ManureId => $"Generated{Id ?? 0}";
-        public override string ManagedManureName => animalSubTypeName;
+        public override string ManagedManureName => AnimalSubTypeName;
         public int BreedId;
         public string BreedName;
-        public int grazingDaysPerYear { get; set; }
-        public bool showBreedAndGrazingDaysPerYear { get; set; }
+        public int GrazingDaysPerYear { get; set; }
+        public bool ShowBreedAndGrazingDaysPerYear { get; set; }
     }
 }

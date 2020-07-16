@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SERVERAPI.Controllers;
-using SERVERAPI.Models;
+﻿using Agri.Data;
+using Agri.Models.Farm;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Agri.Interfaces;
-using Agri.Models.Farm;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -38,7 +35,7 @@ namespace SERVERAPI.ViewComponents
                 {
                     fldName = fldName,
                     manId = m.id,
-                    matType = _ud.GetFarmManure(Convert.ToInt32(m.manureId))?.name,
+                    matType = _ud.GetFarmManure(Convert.ToInt32(m.manureId))?.Name,
                     applType = _sd.GetApplication(m.applicationId)?.Name,
                     rate = m.rate.ToString() + " " + _sd.GetUnit(m.unitId)?.Name,
                     yrN = m.yrN.ToString("G29"),
@@ -54,10 +51,12 @@ namespace SERVERAPI.ViewComponents
             return Task.FromResult(mvm);
         }
     }
+
     public class CalcManureViewModel
     {
         public List<DisplayNutrientManure> manures { get; set; }
     }
+
     public class DisplayNutrientManure
     {
         public string fldName { get; set; }

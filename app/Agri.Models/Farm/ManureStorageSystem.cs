@@ -80,18 +80,18 @@ namespace Agri.Models.Farm
                 var summaries = new List<ManureStorageItemSummary>();
                 foreach (var generatedManure in GeneratedManuresIncludedInSystem)
                 {
-                    var annualAmount = Convert.ToDecimal(generatedManure.annualAmount.Split(' ')[0]);
+                    var annualAmount = Convert.ToDecimal(generatedManure.AnnualAmount.Split(' ')[0]);
                     if (@ManureMaterialType != @generatedManure.ManureType && @generatedManure.ManureType == ManureMaterialType.Solid)
                     {
-                        if (generatedManure.solidPerGalPerAnimalPerDay.HasValue)
+                        if (generatedManure.SolidPerGalPerAnimalPerDay.HasValue)
                         {
                             // if solid material is added to the liquid system change the calculations to depict that of liquid
-                            annualAmount = Math.Round(Convert.ToInt32(generatedManure.averageAnimalNumber) *
-                                                      generatedManure.solidPerGalPerAnimalPerDay.Value) * 365;
+                            annualAmount = Math.Round(Convert.ToInt32(generatedManure.AverageAnimalNumber) *
+                                                      generatedManure.SolidPerGalPerAnimalPerDay.Value) * 365;
                         }
                     }
 
-                    annualAmount += Convert.ToInt32(generatedManure.washWaterGallons);
+                    annualAmount += Convert.ToInt32(generatedManure.WashWaterGallons);
                     var summary = new ManureStorageItemSummary(generatedManure, annualAmount, AnnualAmountUnit);
                     summaries.Add(summary);
                 }

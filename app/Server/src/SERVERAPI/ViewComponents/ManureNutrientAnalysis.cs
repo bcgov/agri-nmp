@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Agri.Interfaces;
+﻿using Agri.Data;
 using Agri.Models;
 using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SERVERAPI.Models;
 using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -37,30 +32,30 @@ namespace SERVERAPI.ViewComponents
             {
                 new GeneratedManure
                 {
-                    animalId = 1,
-                    animalSubTypeId = 1,
-                    animalSubTypeName = "Cow, including calf to weaning",
+                    AnimalId = 1,
+                    AnimalSubTypeId = 1,
+                    AnimalSubTypeName = "Cow, including calf to weaning",
                     ManureType = ManureMaterialType.Solid
                 },
                 new GeneratedManure
                 {
-                    animalId = 1,
-                    animalSubTypeId = 3,
-                    animalSubTypeName = "Heavy Feeders",
+                    AnimalId = 1,
+                    AnimalSubTypeId = 3,
+                    AnimalSubTypeName = "Heavy Feeders",
                     ManureType = ManureMaterialType.Solid
                 },
                 new GeneratedManure
                 {
-                    animalId = 2,
-                    animalSubTypeId = 4,
-                    animalSubTypeName = "Calves (0 to 3 months old)",
+                    AnimalId = 2,
+                    AnimalSubTypeId = 4,
+                    AnimalSubTypeName = "Calves (0 to 3 months old)",
                     ManureType = ManureMaterialType.Liquid
                 },
                 new GeneratedManure
                 {
-                    animalId = 2,
-                    animalSubTypeId = 9,
-                    animalSubTypeName = "Milking Cow",
+                    AnimalId = 2,
+                    AnimalSubTypeId = 9,
+                    AnimalSubTypeName = "Milking Cow",
                     ManureType = ManureMaterialType.Liquid
                 }
             };
