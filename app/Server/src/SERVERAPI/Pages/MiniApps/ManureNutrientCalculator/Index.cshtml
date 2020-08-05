@@ -16,7 +16,7 @@
                 <form method="post">
                     <div class="row">
                         <div class="col-sm-12">
-                            The calculator will estimate the nutrient contributions of nitrogen, phosphorous and potassium from manures and the other organic nutrient sources.
+                            @Model.Data.ManurenNutrientCalculatorDescription
                         </div>
                     </div>
                     <div class="row">
@@ -330,7 +330,7 @@
             $("#CalculateButton").click();
         }
 
-         $(document).ready(function () {
+        $(document).ready(function () {
             $('#toolTipMoisture').tooltip({
                 template: toolTipClickableInnerHtml,
                 html: true,
@@ -465,7 +465,7 @@
             });
         });
 
-         $(document).ready(function () {
+        $(document).ready(function () {
             $('#toolTipAvailbleLongTermMessage').tooltip({
                 template: toolTipClickableInnerHtml,
                 html: true,

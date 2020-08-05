@@ -109,6 +109,7 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
             public string AvailbleLongTermMessage { get; set; }
             public bool stdAvail { get; set; }
             public bool stdN { get; set; }
+            public string ManurenNutrientCalculatorDescription { get; set; }
         }
 
         public class ResultModel
@@ -158,6 +159,8 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
             {
                 var command = request.PopulatedData;
                 var details = _sd.GetManureNutrientCalculatorDetails();
+
+                command.ManurenNutrientCalculatorDescription = details.Where(x => x.Key == "ManurenNutrientCalculatorDescription").Select(x => x.Value).FirstOrDefault();
                 command.ManurenNutrientCalculatorUserInstruction1 = details.Where(x => x.Key == "ManurenNutrientCalculatorUserInstruction1").Select(x => x.Value).FirstOrDefault();
                 command.ManurenNutrientCalculatorUserInstruction2 = details.Where(x => x.Key == "ManurenNutrientCalculatorUserInstruction2").Select(x => x.Value).FirstOrDefault();
                 command.NutrientManagementInformation = details.Where(x => x.Key == "NutrientManagementInformation").Select(x => x.Value).FirstOrDefault();
@@ -172,6 +175,7 @@ namespace SERVERAPI.Pages.MiniApps.ManureNutrientCalculator
                 command.AvailableOrganicNitrogenMessage = details.Where(x => x.Key == "AvailableOrganicNitrogenMessage").Select(x => x.Value).FirstOrDefault();
                 command.AvailableThisYearMessage = details.Where(x => x.Key == "AvailableThisYearMessage").Select(x => x.Value).FirstOrDefault();
                 command.AvailbleLongTermMessage = details.Where(x => x.Key == "AvailbleLongTermMessage").Select(x => x.Value).FirstOrDefault();
+                command.BCNutrientManagementCalculatorButtonLink = details.Where(x => x.Key == "BCNutrientManagementCalculatorButtonLink").Select(x => x.Value).FirstOrDefault();
 
                 command.isShowValue = command.isShowValue ? command.isShowValue : false;
                 command.ManureTypeOptions = new SelectList(_sd.GetManures(), "Id", "Name");

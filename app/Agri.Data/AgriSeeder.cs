@@ -106,10 +106,13 @@ namespace Agri.Data
                 _context.SaveChanges();
             }
 
-            if (!_context.MiniAppLabels.Any())
+            // This will be an example to replace the other seedings for the non static data tables,
+            // so adding new values to the associated json file will be inserted into the table
+            var miniapplabels = SeedDataLoader.GetSeedJsonData<List<MiniAppLabel>>(Constants.SeedDataFiles.MiniAppLabels);
+            if (_context.MiniAppLabels.Count() != miniapplabels.Count())
             {
-                var miniapplabels = SeedDataLoader.GetSeedJsonData<List<MiniAppLabel>>(Constants.SeedDataFiles.MiniAppLabels);
-                _context.MiniAppLabels.AddRange(miniapplabels);
+                var newData = miniapplabels.Where(seedData => !_context.MiniAppLabels.Select(mal => mal.Id).Contains(seedData.Id)).ToList();
+                _context.MiniAppLabels.AddRange(newData);
                 _context.SaveChanges();
             }
 

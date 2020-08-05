@@ -27,14 +27,14 @@
                             </div>
                             <div class="form-group col-sm-2">
                                 <label for="pHValue">pH</label>
-                                <input class="form-control" type="number" asp-for="Data.PH" />
+                                <input class="form-control" type="number" step="any" asp-for="Data.PH" />
                                 <span asp-validation-for="Data.PH" class=""></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-sm-2">
                                 <label for="phosPhorous">Phosphorus (ppm)</label>
-                                <input class="form-control" type="number" asp-for="Data.Phosphorous" />
+                                <input class="form-control" type="number" step="any" asp-for="Data.Phosphorous" />
                                 <span asp-validation-for="Data.Phosphorous" class=""></span>
                             </div>
 
@@ -42,7 +42,7 @@
                             {
                                 <div class="form-group col-sm-3">
                                     <label for="kelowna">Kelowna Method (ppm)</label>
-                                    <input class="form-control" readonly type="number" asp-for="Result.KelownaConversion" />
+                                    <input class="form-control" readonly type="number" step="any" asp-for="Result.KelownaConversion" />
                                 </div>
                             }
                         </div>
