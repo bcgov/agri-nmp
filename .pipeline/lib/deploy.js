@@ -19,6 +19,7 @@ module.exports = (settings) => {
             'EMAIL': phases[phase].email, //must be a valid email
             'IMAGE_NAMESPACE': phases[phase].imageNamespace,
             'CERTBOT_CRON_SCHEDULE': phases[phase].certbotCronSchedule,
+            'DEBUG': 'true',
             'CERTBOT_SUSPEND_CRON': phases[phase].suspendCron
         }
     }));    

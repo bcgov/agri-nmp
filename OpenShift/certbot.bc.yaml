@@ -69,7 +69,7 @@ objects:
     source:
       contextDir: docker
       git:
-        uri: https://github.com/BCDevOps/certbot.git
+        uri: https://github.com/rajvirbains/certbot.git
       type: Git
     strategy:
       dockerStrategy:
