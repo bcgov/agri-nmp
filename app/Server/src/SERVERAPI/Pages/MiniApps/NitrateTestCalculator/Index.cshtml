@@ -45,7 +45,7 @@
                                 <div class="form-group col-sm-2" style="padding-right:0px">
                                     <label>Nitrate</label>
                                     <div>
-                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].Nitrate" class="form-control col-sm-6" style="width:70px">
+                                        <input type="number" step="any" asp-for="@Model.Data.nitrateTestAnalysis[i].Nitrate" class="form-control col-sm-6" style="width:70px">
                                         <div class="col-sm-4" style="padding-top:5px">
                                             ppm
                                         </div>
@@ -57,7 +57,7 @@
                                     <div class="form-group col-sm-3" style="padding-right:0px">
                                         <label>Bulk Density</label>
                                         <div>
-                                            <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].BulkDensity" class="form-control col-sm-6" style="width:70px">
+                                            <input type="number" step="any" asp-for="@Model.Data.nitrateTestAnalysis[i].BulkDensity" class="form-control col-sm-6" style="width:70px">
                                             <div class="col-sm-6" style="padding-top:5px">
                                                 kg m<sup>-3</sup>
                                             </div>
@@ -71,7 +71,7 @@
                                 <div class="form-group col-sm-4">
                                     <label>Results</label>
                                     <div class="row">
-                                        <input type="number" asp-for="@Model.Data.nitrateTestAnalysis[i].Result" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px;padding-right:0px;pointer-events:none;background-color:#F5F5F5" />
+                                        <input type="number" step="any" asp-for="@Model.Data.nitrateTestAnalysis[i].Result" onchange="comboDepthChange()" class="form-control col-sm-6" style="width:70px;padding-right:0px;pointer-events:none;background-color:#F5F5F5" />
                                         <div class="col-sm-6" style="padding-top:5px">
                                             kg NO<sub>3</sub>-N  ha<sup>-1</sup>
                                         </div>
@@ -120,7 +120,7 @@
                                 <div class="form-box-fields col-sm-7">
                                     <div class="row">
                                         <div class="col-sm-2 ml-0" style="padding-left:0">
-                                            <input type="number" class="form-control" asp-for="@Model.Data.TotalResult" style="width:70px;pointer-events:none;background-color:#F5F5F5" />
+                                            <input type="number" step="any" class="form-control" asp-for="@Model.Data.TotalResult" style="width:70px;pointer-events:none;background-color:#F5F5F5" />
                                         </div>
                                         <div class="col-sm-5" style="padding-top:5px">
                                             kg NO<sub>3</sub>-N  ha<sup>-1</sup>

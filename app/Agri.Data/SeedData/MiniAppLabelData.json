@@ -2,13 +2,13 @@
   {
     "Id": 1,
     "Name": "SoilTestConverterUserInstruction1",
-    "LabelText": "This calculator will convert laboratory phosphorous (P) and potassium (K) results from the original testing method to Kelowna method used in BC",
+    "LabelText": "This calculator will convert laboratory phosphorous (P) results from the original testing method to Kelowna method used in BC",
     "MiniAppId": "1"
   },
   {
     "Id": 2,
     "Name": "SoilTestConverterUserInstruction2",
-    "LabelText": "Take action with the soil test results.",
+    "LabelText": "Take action with soil test results.",
     "MiniAppId": "1"
   },
   {
@@ -44,13 +44,13 @@
   {
     "Id": 8,
     "Name": "ManurenNutrientCalculatorUserInstruction1",
-    "LabelText": "Find Out How Much Apply for your crop",
+    "LabelText": "Find out how much to apply for your crop",
     "MiniAppId": "2"
   },
   {
     "Id": 9,
     "Name": "ManurenNutrientCalculatorUserInstruction2",
-    "LabelText": "Learn more about nutrient sources, check soil test result and plan nutrient application rates for your",
+    "LabelText": "Learn more about nutrient sources, check soil test results, and plan nutrient application rates for your crops",
     "MiniAppId": "2"
   },
   {
@@ -184,5 +184,11 @@
     "Name": "SoilBulkDensityMessage",
     "LabelText": "Soil Bulk Density",
     "MiniAppId": "3"
+  },
+  {
+    "Id": 32,
+    "Name": "ManurenNutrientCalculatorDescription",
+    "LabelText": "The calculator will estimate the nutrient contributions of nitrogen, phosphorus and potassium from manures and the other organic nutrient sources.",
+    "MiniAppId": "2"
   }
 ]
