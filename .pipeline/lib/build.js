@@ -10,11 +10,6 @@ module.exports = (settings) => {
     const objects = []
     const templatesLocalBaseUrl = oc.toFileUrl(path.resolve(__dirname, '../../OpenShift'))
 
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/certbot.bc.yaml`, {
-        'param': {
-        }
-    }));
-
     objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/weasyprint-bc.json`, {
         'param': {
             'NAME': phases[phase].name,

@@ -12,16 +12,6 @@ module.exports = (settings) => {
     const msTeamsWebhookURL = Buffer.from(msTeamsWebhookSecret.data.webhookURL, 'base64').toString('utf-8');
 
     var objects = []
-
-    // The deployment of your cool app goes here ▼▼▼
-    objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/certbot.dc.yaml`, {
-        'param': {
-            'EMAIL': phases[phase].email, //must be a valid email
-            'IMAGE_NAMESPACE': phases[phase].imageNamespace,
-            'CERTBOT_CRON_SCHEDULE': phases[phase].certbotCronSchedule,
-            'CERTBOT_SUSPEND_CRON': phases[phase].suspendCron
-        }
-    }));    
     
     objects.push(...oc.processDeploymentTemplate(`${templatesLocalBaseUrl}/weasyprint-dc.json`, {
         'param': {
