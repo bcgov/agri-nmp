@@ -1,5 +1,9 @@
 # Automated Certificate Renewals
-Agri uses wildcard pathfinder cert for non-prod environments, so no cert renewals are needed. For prod, Certbot is deployed from https://github.com/BCDevOps/certbot.git. See the build and deploy yaml files. These yaml files are borrowed from BCDevOps Certbot repo and shouldn't be customized. Instead make any improvements in the BCDevOps Certbot repo and contribute it back to the community.
+Agri uses wildcard pathfinder cert for non-prod environments, so no cert renewals are needed. For prod, Certbot is deployed from https://github.com/BCDevOps/certbot.git. See the build and deploy steps in the Certbot repo. If you ever find an issue with Certbot, do a PR and contribute it back to the original repo, never make a local copy of it in this repo.
+
+Set up of the cronjob in PROD is only required once and is independent of the pipeline for the application. So, the only time, you need to redeploy the cronjob is if there are changes to the cert renewal process or if you are setting up a brand new prod environment. This same job can be deployed to any non-prod environments for testing the process or even on permanent basis, but for now we are sticking with pathfinder wildcard cert in non-prod.
+
+Any route that has `certbotManaged=true` label, will get picked up by certbot. We have set it to `true` for dev, test and prod, so if ever we need to test in non-prod environments, the cronjob will work the same.
 
 There are detailed instructions on troubleshooting certbot issues in the BCDevOps Certbot repo.
 
