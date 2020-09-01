@@ -51,7 +51,8 @@
         "generation": 1515,
         "creationTimestamp": null,
         "labels": {
-          "base-name": "${NAME}-web"
+          "base-name": "${NAME}-web",
+          "shared": "true"
         }
       }
     },

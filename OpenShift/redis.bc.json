@@ -35,7 +35,11 @@
             "metadata": {
                 "name": "${NAME}-redis-5-rhel7",
                 "creationTimestamp": null,
-                "annotations": null
+                "annotations": null,
+                "labels": {
+                    "base-name": "${NAME}-redis-5-rhel7",
+                    "shared": "true"
+                }
             },
             "spec": {
                 "lookupPolicy": {
