@@ -5,7 +5,6 @@
     "template": "postgresql-template"
   },
   "metadata": {
-    "creationTimestamp": null,
     "name": "nmp-postgresql-dc"
   },
   "parameters": [
