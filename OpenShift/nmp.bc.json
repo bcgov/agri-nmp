@@ -5,9 +5,6 @@
     "name": "nmp",
     "creationTimestamp": null
   },
-  "labels": {
-    "template": "nmp"
-  },
   "parameters": [
     {
       "name": "NAME",
