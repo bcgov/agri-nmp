@@ -5,7 +5,6 @@
       "template": "redis-template"
     },
     "metadata": {
-      "creationTimestamp": null,
       "name": "nmp-redis-dc"
     },
     "parameters": [

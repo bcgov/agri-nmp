@@ -41,7 +41,6 @@
       "apiVersion": "v1",
       "metadata": {
         "name": "${NAME}-weasyprint",
-        "creationTimestamp": null,
         "labels": {
           "base-name": "${NAME}-weasyprint"
         }
@@ -95,7 +94,6 @@
         "template": {
           "metadata": {
             "name": "${NAME}-weasyprint${SUFFIX}",
-            "creationTimestamp": null,
             "labels": {
               "name": "${NAME}-weasyprint${SUFFIX}"
             }
@@ -171,7 +169,6 @@
       "apiVersion": "v1",
       "metadata": {
         "name": "${NAME}-weasyprint${SUFFIX}",
-        "creationTimestamp": null,
         "labels": null,
         "annotations": {
           "description": "Exposes and load balances the application pods"
