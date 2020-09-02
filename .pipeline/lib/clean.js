@@ -16,7 +16,7 @@ module.exports = (settings)=>{
         let buildConfigs=oc.get('bc', {selector:`app=${phase.instance},env-id=${phase.changeId},!shared,github-repo=${oc.git.repository},github-owner=${oc.git.owner}`, namespace:phase.namespace})
         buildConfigs.forEach((bc)=>{
           if (bc.spec.output.to.kind == 'ImageStreamTag'){
-            oc.delete([`ImageStreamTag/${bc.spec.output.to.name}`],{'ignore-not-found':'true', 'wait':'true', namespace:phase.namespace})
+            //oc.delete([`ImageStreamTag/${bc.spec.output.to.name}`],{'ignore-not-found':'true', 'wait':'true', namespace:phase.namespace})
           }
         })
         
@@ -24,12 +24,12 @@ module.exports = (settings)=>{
         deploymentConfigs.forEach((dc)=>{
           dc.spec.triggers.forEach((trigger)=>{
             if (trigger.type == 'ImageChange' && trigger.imageChangeParams.from.kind == 'ImageStreamTag'){
-              oc.delete([`ImageStreamTag/${trigger.imageChangeParams.from.name}`],{'ignore-not-found':'true', 'wait':'true', namespace:phase.namespace})
+              //oc.delete([`ImageStreamTag/${trigger.imageChangeParams.from.name}`],{'ignore-not-found':'true', 'wait':'true', namespace:phase.namespace})
             }
           })
         })
         
-        //oc.raw('delete', ['all'], {selector:`app=${phase.instance},env-id=${phase.changeId},!shared,github-repo=${oc.git.repository},github-owner=${oc.git.owner}`, wait:'true', namespace:phase.namespace})
+        oc.raw('delete', ['all'], {selector:`app=${phase.instance},env-id=${phase.changeId},!shared,github-repo=${oc.git.repository},github-owner=${oc.git.owner}`, wait:'true', namespace:phase.namespace})
         oc.raw('delete', ['pvc,Secret,configmap,endpoints,RoleBinding,role,ServiceAccount,Endpoints,service'], {selector:`app=${phase.instance},env-id=${phase.changeId},!shared,github-repo=${oc.git.repository},github-owner=${oc.git.owner}`, wait:'true', namespace:phase.namespace})
       }
     }

@@ -34,7 +34,11 @@
       "kind": "ImageStream",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}-weasyprint"
+        "name": "${NAME}-weasyprint",
+        "labels": {
+          "base-name": "${NAME}-weasyprint",
+          "shared": "true"
+        }
       },
       "spec": {
         "tags": [

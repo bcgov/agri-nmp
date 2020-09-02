@@ -2,8 +2,7 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "dotnet",
-        "creationTimestamp": null
+        "name": "dotnet"
     },
     "parameters": [
         {
@@ -34,8 +33,11 @@
             "apiVersion": "v1",
             "metadata": {
                 "name": "${NAME}-dotnet-31-rhel7",
-                "creationTimestamp": null,
-                "annotations": null
+                "annotations": null,
+                "labels": {
+                    "base-name": "${NAME}-dotnet-31-rhel7",
+                    "shared": "true"
+                  }
             },
             "spec": {
                 "lookupPolicy": {
@@ -62,8 +64,11 @@
             "apiVersion": "v1",
             "metadata": {
                 "name": "${NAME}-dotnet-31-runtime-rhel7",
-                "creationTimestamp": null,
-                "annotations": null
+                "annotations": null,
+                "labels": {
+                    "base-name": "${NAME}-dotnet-31-runtime-rhel7",
+                    "shared": "true"
+                }
             },
             "spec": {
                 "lookupPolicy": {
