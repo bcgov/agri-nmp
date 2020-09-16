@@ -113,12 +113,12 @@
                 "env": [],
                 "resources": {
                   "requests": {
-                    "cpu": "20m",
-                    "memory": "150Mi"
+                    "cpu": "10m",
+                    "memory": "10Mi"
                   },
                   "limits": {
-                    "cpu": "60m",
-                    "memory": "300Mi"
+                    "cpu": "1000m",
+                    "memory": "1Gi"
                   }
                 },
                 "volumeMounts": [],
