@@ -255,10 +255,12 @@
                 ],
                 "resources": {
                   "limits": {
+                    "cpu": "500m",
                     "memory": "2Gi"
                   },
                   "requests": {
-                    "memory": "1Gi"
+                    "cpu": "50m",
+                    "memory": "500Mi"
                   }
                 },
                 "livenessProbe": {

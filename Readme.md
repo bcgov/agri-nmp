@@ -19,7 +19,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 Development
 -----------
-This project uses .NET Core version 2, which is currently in Preview (3).
+This project uses .NET Core version 3.1.
 
 You will need to install Visual Studio 2017 Preview 3 in order to effectively develop the application from a Windows PC.
 
@@ -29,7 +29,7 @@ Updates to code values without developer assistance
 ---------------------------------------------
 This project allows non-technical users (i.e. Product Owners) with business domain knowledge, to revise and update static code table values, message text, etc.  See the [instructions](app/Server/src/SERVERAPI/Data/README.md) for details.
 
-Static Code Analysis
+Static Code Analysis (obsolete)
 --------------------
 
 Steps to conduct static code analysis:
@@ -74,6 +74,15 @@ Where `<SECRETNAME>` is the name you specified in step 7 when you imported the s
 
 Note: For the Agri project, the pull secret is in the agri-nmp-tools namespace. It can't be shared with any other namespace. This is why you will see redis image stream being created in the agri-nmp-tools namespace and then this namespace being referenced in the deployment scripts which will run in other namespaces.
 
+
+# REDIS Code - currently commented out
+As of Release 3 Redis containers were added, but due to some technical issues the application couldn't properly use them for session data. At this moment the code for Redis has been commented out in the application and in the pipelines. Product Owners agreed to run the app as a single container for now.
+
+# NMP application pod - Single Container
+Originally this application was running multiple containers and one of the loadbalancing change to the infrastructure broke this app. It had to do with the stickyness of sessions. As a best practice, application shouldn't rely on loadbalancer to provide sticky session function, rather it should manage its state externally. For this reason Redis was setup, but due to some outstanding issues, this was put on hold and currently the app is running as a single container.
+
+# Postgres - Single Container
+Due to non-critical nature of this appliction, Postgres currently runs as a single container. In the future, it can made HA using Patroni (used by other projects in BC Gov. Openshift platform).
 
 License
 -------

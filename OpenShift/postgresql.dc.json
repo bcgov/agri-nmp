@@ -72,14 +72,22 @@
     },
     {
       "name": "CPU_LIMIT",
-      "value": "500m"
+      "value": "100m"
+    },
+    {
+      "name": "CPU_REQUEST",
+      "value": "50m"
     },
     {
       "description": "Maximum amount of memory the container can use.",
       "displayName": "Memory Limit",
       "name": "MEMORY_LIMIT",
       "required": true,
-      "value": "2Gi"
+      "value": "200Mi"
+    },
+    {
+      "name": "MEMORY_REQUEST",
+      "value": "100Mi"
     },
     {
       "name": "PERSISTENT_VOLUME_SIZE",
@@ -94,14 +102,6 @@
       "description": "The class of the volume; gluster-file, gluster-block, gluster-file-db, netapp-file-standard, netapp-block-standard",
       "required": false,
       "value": "netapp-file-standard"
-    },
-    {
-      "name": "CPU_REQUEST",
-      "value": "200m"
-    },
-    {
-      "name": "MEMORY_REQUEST",
-      "value": "1.5Gi"
     }
   ],
   "objects": [
