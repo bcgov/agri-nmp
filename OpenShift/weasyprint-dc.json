@@ -113,11 +113,11 @@
                 "env": [],
                 "resources": {
                   "requests": {
-                    "cpu": "10m",
-                    "memory": "100Mi"
+                    "cpu": "20m",
+                    "memory": "150Mi"
                   },
                   "limits": {
-                    "cpu": "30m",
+                    "cpu": "60m",
                     "memory": "300Mi"
                   }
                 },
