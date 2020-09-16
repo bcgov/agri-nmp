@@ -81,6 +81,17 @@ As of Release 3 Redis containers were added, but due to some technical issues th
 # NMP application pod - Single Container
 Originally this application was running multiple containers and one of the loadbalancing change to the infrastructure broke this app. It had to do with the stickyness of sessions. As a best practice, application shouldn't rely on loadbalancer to provide sticky session function, rather it should manage its state externally. For this reason Redis was setup, but due to some outstanding issues, this was put on hold and currently the app is running as a single container.
 
+Will need to put this in the NMP pod, to resurrect Redis.
+                  // {
+                  //   "name": "REDIS_PASSWORD",
+                  //   "valueFrom": {
+                  //     "secretKeyRef": {
+                  //       "name": "${NAME}-redis-credentials${SUFFIX}",
+                  //       "key": "password"
+                  //     }
+                  //   }
+                  // },
+
 # Postgres - Single Container
 Due to non-critical nature of this appliction, Postgres currently runs as a single container. In the future, it can made HA using Patroni (used by other projects in BC Gov. Openshift platform).
 
