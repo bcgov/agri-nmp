@@ -236,15 +236,6 @@
                     "value": "http://${NAME}-weasyprint${SUFFIX}:5001"
                   },
                   {
-                    "name": "REDIS_PASSWORD",
-                    "valueFrom": {
-                      "secretKeyRef": {
-                        "name": "${NAME}-redis-credentials${SUFFIX}",
-                        "key": "password"
-                      }
-                    }
-                  },
-                  {
                     "name": "REDIS_CONNECTION_STRING",
                     "value": "${NAME}-${REDIS_SERVICE_NAME}${SUFFIX}"
                   },
@@ -255,10 +246,12 @@
                 ],
                 "resources": {
                   "limits": {
+                    "cpu": "500m",
                     "memory": "2Gi"
                   },
                   "requests": {
-                    "memory": "1Gi"
+                    "cpu": "50m",
+                    "memory": "500Mi"
                   }
                 },
                 "livenessProbe": {
