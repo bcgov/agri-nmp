@@ -3,7 +3,8 @@ BC Ministry of Agriculture Nutrition Management Program
 
 Product Owner
 --------
-David Poon, David.Poon@gov.bc.ca
+Jeff Nimmo, Jeffrey.Nimmo@gov.bc.ca
+David Poon (alternate), David.Poon@gov.bc.ca
 
 
 Contribution
