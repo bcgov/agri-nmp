@@ -1,5 +1,7 @@
 ﻿using Agri.Data;
+using Agri.Models;
 using Agri.Models.Configuration;
+using Agri.Models.Farm;
 using Agri.Models.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +35,9 @@ namespace SERVERAPI.Controllers
         {
             var farmData = _ud.FarmDetails();
             FarmViewModel fvm = new FarmViewModel();
+
+
+
             fvm.IsLegacyNMPReleaseVersion = !_ud.FarmData().NMPReleaseVersion.HasValue || _ud.FarmData().NMPReleaseVersion.Value < 2;
 
             if (fvm.IsLegacyNMPReleaseVersion)
@@ -71,6 +76,13 @@ namespace SERVERAPI.Controllers
             fvm.HasBeefCows = farmData.HasBeefCows;
             fvm.HasPoultry = farmData.HasPoultry;
             fvm.HasMixedLiveStock = farmData.HasMixedLiveStock;
+
+            // need to be able to check if we reverted to original after modification
+            fvm.OriginalHasAnimals = farmData.HasAnimals;
+            fvm.OriginalHasBeefCows = farmData.HasBeefCows;
+            fvm.OriginalHasDairyCows = farmData.HasDairyCows;
+            fvm.OriginalHasMixedLiveStock = farmData.HasMixedLiveStock;
+            fvm.OriginalHasPoultry = farmData.HasPoultry;
 
             if (fvm.HasAnimals)
             {
@@ -128,6 +140,19 @@ namespace SERVERAPI.Controllers
             }
         }
 
+        private bool HasAnimalSelectionChanged(FarmViewModel fvm, FarmDetails farmData)
+        {
+            var animalSelectionsUnchanged = (
+                (farmData.HasAnimals == fvm.OriginalHasAnimals) &&
+                (farmData.HasBeefCows == fvm.OriginalHasBeefCows) &&
+                (farmData.HasDairyCows == fvm.OriginalHasDairyCows) &&
+                (farmData.HasMixedLiveStock == fvm.OriginalHasMixedLiveStock) &&
+                (farmData.HasPoultry == fvm.OriginalHasPoultry)
+            );
+
+            return !animalSelectionsUnchanged;
+        }
+
         [HttpPost]
         public IActionResult Farm(FarmViewModel fvm)
         {
@@ -149,6 +174,8 @@ namespace SERVERAPI.Controllers
                 }
 
                 var farmData = _ud.FarmDetails();
+
+
                 farmData.HasSelectedFarmType = fvm.HasSelectedFarmType;
                 farmData.HasAnimals = fvm.HasAnimals;
                 farmData.HasDairyCows = fvm.HasDairyCows;
@@ -156,6 +183,48 @@ namespace SERVERAPI.Controllers
                 farmData.HasPoultry = fvm.HasPoultry;
                 farmData.HasMixedLiveStock = fvm.HasMixedLiveStock;
                 _ud.UpdateFarmDetails(farmData);
+
+                if (!HasAnimalSelectionChanged(fvm, farmData))
+                {
+                    fvm.TypeChangeDetected = false;
+                }
+                else
+                {
+                    var impactsData = false;
+
+                    if (_ud.GetAnimals().Count != 0)
+                    {
+                        impactsData = true;
+                    }
+
+                    if (_ud.GetAllManagedManures().Count != 0)
+                    {
+                        impactsData = true;
+                    }
+
+                    if (_ud.GetFarmManures().Count != 0)
+                    {
+                        impactsData = true;
+                    }
+
+                    if (_ud.GetStorageSystems().Count != 0)
+                    {
+                        impactsData = true;
+                    }
+
+                    if (_ud.GetSeparatedManures().Count != 0)
+                    {
+                        impactsData = true;
+                    }
+
+                    if (_ud.GetFields().Count != 0)
+                    {
+                        impactsData = true;
+                    }
+
+                    fvm.TypeChangeDetected = impactsData;
+
+                }
 
                 return View(fvm);
             }
@@ -203,13 +272,31 @@ namespace SERVERAPI.Controllers
             }
 
             if (fvm.ShowAnimals &&
-                (fvm.HasBeefCows || fvm.HasDairyCows || fvm.HasMixedLiveStock) &&
-                (fvm.SelSubRegOption == null || fvm.SelSubRegOption == 0))
+                (fvm.HasBeefCows || fvm.HasDairyCows || fvm.HasMixedLiveStock))
             {
-                ModelState.AddModelError("SelSubRegOption", "Select a sub region");
                 fvm = SetSubRegions(fvm);
-                return View(fvm);
+                if ((fvm.SelSubRegOption == null || fvm.SelSubRegOption == 0))
+                {
+                    ModelState.AddModelError("SelSubRegOption", "Select a sub region");
+                    return View(fvm);
+                }
             }
+
+            {
+                var farmData = _ud.FarmDetails();
+
+                if (HasAnimalSelectionChanged(fvm, farmData))
+                {
+                    // something changed. verify user has confirmed.
+                    if (!fvm.TypeChangeConfirmed)
+                    {
+                        ModelState.AddModelError("TypeChangeConfirmed", "Confirmation is required to proceed with this change");
+                        return View(fvm);
+                    }
+                }
+            }
+
+
 
             if (ModelState.IsValid)
             {
@@ -229,6 +316,11 @@ namespace SERVERAPI.Controllers
                         fvm.SelSubRegOption = fvm.SubRegionOptions[0].Id;
                     }
                     farmData.FarmSubRegion = fvm.SelSubRegOption;
+                }
+
+                if (HasAnimalSelectionChanged(fvm, farmData) && fvm.TypeChangeConfirmed)
+                {
+                    _ud.ClearYearlyData();
                 }
 
                 farmData.HasSelectedFarmType = fvm.HasSelectedFarmType;

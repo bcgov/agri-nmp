@@ -15,6 +15,13 @@ namespace SERVERAPI.ViewModels
         public int? SelSubRegOption { get; set; }
         public bool ShowSubRegion { get; set; }
         public string ButtonPressed { get; set; }
+        public bool TypeChangeDetected { get; set; } = false;
+        public bool TypeChangeConfirmed { get; set; } = false;
+        public bool OriginalHasAnimals { get; set; }
+        public bool OriginalHasBeefCows { get; set; }
+        public bool OriginalHasDairyCows { get; set; }
+        public bool OriginalHasPoultry { get; set; }
+        public bool OriginalHasMixedLiveStock { get; set; }
         public bool ShowAnimals { get; set; }
     }
 }

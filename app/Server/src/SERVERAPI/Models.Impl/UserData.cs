@@ -184,6 +184,18 @@ namespace SERVERAPI.Models.Impl
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 
+
+        public void ClearYearlyData()
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+
+            userData.years.Clear();
+            userData.LastAppliedFarmManureId = null;
+
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
         private int? GetSolidManureGeneratedTonsPerYear(FarmAnimal animal)
         {
             var result = default(int?);
@@ -1505,12 +1517,17 @@ namespace SERVERAPI.Models.Impl
         private void ProcessSeparatedManureForStorageSystem(ManureStorageSystem sourceManureStorageSystem,
             bool sourceStorageDeleted)
         {
+
             var userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
             var yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             var savedSeparatedSolidManure = yd.SeparatedSolidManures?.SingleOrDefault(s =>
                 s.SeparationSourceStorageSystemId == sourceManureStorageSystem.Id);
 
-            var savedSystem = yd.ManureStorageSystems.Single(ss => ss.Id == sourceManureStorageSystem.Id);
+            ManureStorageSystem savedSystem = null;
+            if (yd.ManureStorageSystems.Count > 0)
+            {
+                savedSystem = yd.ManureStorageSystems.Single(ss => ss.Id == sourceManureStorageSystem.Id);
+            }
 
             if (sourceManureStorageSystem.IsThereSolidLiquidSeparation && !sourceStorageDeleted)
             {
@@ -1540,8 +1557,11 @@ namespace SERVERAPI.Models.Impl
 
                     savedSeparatedSolidManure.AnnualAmountTonsWeight = separatedManure.SolidTons;
 
-                    savedSystem.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;
-                    savedSystem.SeparatedSolidsTons = separatedManure.SolidTons;
+                    if (savedSystem != null)
+                    {
+                        savedSystem.SeparatedLiquidsUSGallons = separatedManure.LiquidUSGallons;
+                        savedSystem.SeparatedSolidsTons = separatedManure.SolidTons;
+                    }
 
                     //If Stored update it there
                     var currentStorageOfSeparatedSolid = yd.ManureStorageSystems

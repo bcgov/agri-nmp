@@ -127,51 +127,65 @@ namespace Agri.CalculateService
             chemicalBalances.balance_CropK2O = 0;
 
             //List<FieldCrop> crps = _ud.GetFieldCrops(fldName);
-            foreach (var c in field.Crops)
+            if (field.Crops != null)
             {
-                chemicalBalances.balance_AgrN -= Convert.ToInt64(c.reqN);
-                chemicalBalances.balance_AgrP2O5 -= Convert.ToInt64(c.reqP2o5);
-                chemicalBalances.balance_AgrK2O -= Convert.ToInt64(c.reqK2o);
-                chemicalBalances.balance_CropN -= Convert.ToInt64(c.remN);
-                chemicalBalances.balance_CropP2O5 -= Convert.ToInt64(c.remP2o5);
-                chemicalBalances.balance_CropK2O -= Convert.ToInt64(c.remK2o);
+                foreach (var c in field.Crops)
+                {
+                    chemicalBalances.balance_AgrN -= Convert.ToInt64(c.reqN);
+                    chemicalBalances.balance_AgrP2O5 -= Convert.ToInt64(c.reqP2o5);
+                    chemicalBalances.balance_AgrK2O -= Convert.ToInt64(c.reqK2o);
+                    chemicalBalances.balance_CropN -= Convert.ToInt64(c.remN);
+                    chemicalBalances.balance_CropP2O5 -= Convert.ToInt64(c.remP2o5);
+                    chemicalBalances.balance_CropK2O -= Convert.ToInt64(c.remK2o);
+                }
             }
 
             if (field.HasNutrients)
             {
-                //List<NutrientManure> manures = _ud.GetFieldNutrientsManures(fldName);
-                foreach (var m in field.Nutrients.nutrientManures)
+
+                if (field.Nutrients.nutrientManures != null)
                 {
-                    chemicalBalances.balance_AgrN += Convert.ToInt64(m.yrN);
-                    chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.yrP2o5);
-                    chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.yrK2o);
-                    chemicalBalances.balance_CropN += Convert.ToInt64(m.ltN);
-                    chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.ltP2o5);
-                    chemicalBalances.balance_CropK2O += Convert.ToInt64(m.ltK2o);
+                    foreach (var m in field.Nutrients.nutrientManures)
+                    {
+                        chemicalBalances.balance_AgrN += Convert.ToInt64(m.yrN);
+                        chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.yrP2o5);
+                        chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.yrK2o);
+                        chemicalBalances.balance_CropN += Convert.ToInt64(m.ltN);
+                        chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.ltP2o5);
+                        chemicalBalances.balance_CropK2O += Convert.ToInt64(m.ltK2o);
+                    }
                 }
 
-                //List<NutrientFertilizer> fertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
-                foreach (var f in field.Nutrients.nutrientFertilizers)
+
+                if (field.Nutrients.nutrientFertilizers != null)
                 {
-                    chemicalBalances.balance_AgrN += Convert.ToInt64(f.fertN);
-                    chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(f.fertP2o5);
-                    chemicalBalances.balance_AgrK2O += Convert.ToInt64(f.fertK2o);
-                    chemicalBalances.balance_CropN += Convert.ToInt64(f.fertN);
-                    chemicalBalances.balance_CropP2O5 += Convert.ToInt64(f.fertP2o5);
-                    chemicalBalances.balance_CropK2O += Convert.ToInt64(f.fertK2o);
+                    foreach (var f in field.Nutrients.nutrientFertilizers)
+                    {
+                        chemicalBalances.balance_AgrN += Convert.ToInt64(f.fertN);
+                        chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(f.fertP2o5);
+                        chemicalBalances.balance_AgrK2O += Convert.ToInt64(f.fertK2o);
+                        chemicalBalances.balance_CropN += Convert.ToInt64(f.fertN);
+                        chemicalBalances.balance_CropP2O5 += Convert.ToInt64(f.fertP2o5);
+                        chemicalBalances.balance_CropK2O += Convert.ToInt64(f.fertK2o);
+                    }
                 }
 
-                //List<NutrientOther> others = _ud.GetFieldNutrientsOthers(fldName);
-                foreach (var m in field.Nutrients.nutrientOthers)
-                {
-                    chemicalBalances.balance_AgrN += Convert.ToInt64(m.ltN);
-                    chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.ltP2o5);
-                    chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.ltK);
-                    chemicalBalances.balance_CropN += Convert.ToInt64(m.yrN);
-                    chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.yrP2o5);
-                    chemicalBalances.balance_CropK2O += Convert.ToInt64(m.yrK);
+                if (field.Nutrients.nutrientOthers != null) { 
+                    foreach (var m in field.Nutrients.nutrientOthers)
+                    {
+                        chemicalBalances.balance_AgrN += Convert.ToInt64(m.ltN);
+                        chemicalBalances.balance_AgrP2O5 += Convert.ToInt64(m.ltP2o5);
+                        chemicalBalances.balance_AgrK2O += Convert.ToInt64(m.ltK);
+                        chemicalBalances.balance_CropN += Convert.ToInt64(m.yrN);
+                        chemicalBalances.balance_CropP2O5 += Convert.ToInt64(m.yrP2o5);
+                        chemicalBalances.balance_CropK2O += Convert.ToInt64(m.yrK);
+
+                    }
                 }
+
+
             }
+
 
             if (field.IsSeasonalFeedingArea && field.FeedForageAnalyses != null && field.FeedForageAnalyses.Any())
             {

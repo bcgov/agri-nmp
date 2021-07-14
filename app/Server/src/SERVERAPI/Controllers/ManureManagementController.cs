@@ -1971,27 +1971,35 @@ namespace SERVERAPI.Controllers
                 foreach (var manure in managedManures)
                 {
                     var materialsToInclude = "";
-                    if (manure.ManureId.Contains("Generated"))
+                    var matched = false;
+                    if (manure.ManureId.Contains("Generated") || manure.ManureId.Contains("FarmAnimal"))
                     {
                         var manureGenerated = _ud.GetGeneratedManure(manure.Id.GetValueOrDefault());
                         materialsToInclude = $"{manureGenerated.AnimalSubTypeName}({manureGenerated.AverageAnimalNumber} animals), {manureGenerated.ManureTypeName}";
+                        matched = true;
                     }
                     else if (manure.ManureId.Contains("Imported"))
                     {
                         var manureImported = _ud.GetImportedManure(manure.Id.GetValueOrDefault());
                         materialsToInclude = $"{manureImported.MaterialName} ({manureImported.ManureTypeName})";
+                        matched = true;
                     }
                     else
                     {
                         var manureSeparated = _ud.GetSeparatedManure(manure.Id.GetValueOrDefault());
                         materialsToInclude = manureSeparated.Name;
+                        matched = true;
                     }
-                    manureSelectItems.Add(new MvcRendering.SelectListItem
+
+                    if (matched)
                     {
-                        Value = manure.ManureId.ToString(),
-                        Text = materialsToInclude,
-                        Selected = selectedMaterials.Any(sm => sm == manure.ManureId)
-                    });
+                        manureSelectItems.Add(new MvcRendering.SelectListItem
+                        {
+                            Value = manure.ManureId.ToString(),
+                            Text = materialsToInclude,
+                            Selected = selectedMaterials.Any(sm => sm == manure.ManureId)
+                        });
+                    }
                 }
 
                 return manureSelectItems;

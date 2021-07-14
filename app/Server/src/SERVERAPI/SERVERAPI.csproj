@@ -8,7 +8,7 @@
     <DebugType>portable</DebugType>
     <AssemblyName>SERVERAPI</AssemblyName>
     <PackageId>SERVERAPI</PackageId>
-    <StartupObject>SERVERAPI.Program</StartupObject>
+    <StartupObject></StartupObject>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
     <UserSecretsId>aspnet-Core2-37757D75-C7BA-4F7A-8B80-0040DB6484EA</UserSecretsId>
   </PropertyGroup>
@@ -127,5 +127,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;0612</NoWarn>
+    <WarningLevel>5</WarningLevel>
   </PropertyGroup>
 </Project>

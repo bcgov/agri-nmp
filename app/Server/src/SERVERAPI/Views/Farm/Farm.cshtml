@@ -29,6 +29,10 @@
                 </div>
                 <div class="form-box-body" style="padding-bottom: 0px;">
                     <div class="form-box-fields" style="padding-bottom: 0px;">
+
+
+
+
                         @if (Model.IsLegacyNMPReleaseVersion)
                         {
                             <div class="row">
@@ -65,6 +69,21 @@
                                 </label>
                             </div>
                         </div>
+                        @if (Model.TypeChangeDetected)
+                        {
+                            <div class="row" style="margin-bottom: 20px;margin-left:20px; margin-top: 20px;">
+                                <div class="col-sm-8">
+                                    <span class="text-danger">
+                                        <strong>Warning: </strong> You have existing farm data that must be removed in order to process this change in farm type. Check confirm to clear the existing data (including fields, animals, and manures) and proceed or revert your changes to abort.
+                                    </span>
+                                    <br />
+                                    <label>
+                                        <input asp-for="TypeChangeConfirmed" type="checkbox" value="true" id="cbTypeChangeConfirmed" /> <strong>Confirm: Remove existing data</strong>
+                                    </label>
+                                    <span asp-validation-for="TypeChangeConfirmed" class="text-danger"></span>
+                                </div>
+                            </div>
+                        }
                         @if (Model.ShowAnimals)
                         {
                             <div class="row" style="margin-bottom: 0px;margin-left:20px">
@@ -108,7 +127,7 @@
                                         <input asp-for="HasPoultry" type="radio" value="true" id="rbIsHasPoultryYes" onchange="GetsAnimalsChanged()" /> Yes
                                     </label>
                                     <label>
-                                        <input asp-for="HasPoultry" type="radio" value="false" id="rbIsHasPoultryNo" /> No
+                                        <input asp-for="HasPoultry" type="radio" value="false" id="rbIsHasPoultryNo" onchange="GetsAnimalsChanged()" /> No
                                     </label>
                                 </div>
                             </div>
@@ -140,7 +159,7 @@
                                 </div>
 
                                 @if (Model.ShowSubRegion && Model.HasAnimals &&
-                                   (Model.HasBeefCows || Model.HasDairyCows || Model.HasMixedLiveStock))
+(Model.HasBeefCows || Model.HasDairyCows || Model.HasMixedLiveStock))
                                 {
                                     <div class="row">
                                         <div class="col-sm-6">
@@ -154,7 +173,9 @@
                                 }
                             </div>
                         </div>
+
                     </div>
+
                 </div>
             </div>
             <div class="form-box-submit">
@@ -166,6 +187,12 @@
             @Html.HiddenFor(x => x.ShowSubRegion)
             @Html.HiddenFor(x => x.ShowAnimals)
             @Html.HiddenFor(x => x.ButtonPressed)
+            @Html.HiddenFor(x => x.TypeChangeDetected)
+            @Html.HiddenFor(x => x.OriginalHasAnimals)
+            @Html.HiddenFor(x => x.OriginalHasBeefCows)
+            @Html.HiddenFor(x => x.OriginalHasDairyCows)
+            @Html.HiddenFor(x => x.OriginalHasMixedLiveStock)
+            @Html.HiddenFor(x => x.OriginalHasPoultry)
         </form>
         <!-- PAGE CONTENT -->
     </div>
@@ -177,7 +204,8 @@
 
         function Intercept(x) {
             var incomplete = "False";
-            var jqxhr = $.ajax({
+
+            $.ajax({
                     type: "GET",
                     url: '@Url.Action("CheckCompleted", "Farm")',
                     data: '{}',
