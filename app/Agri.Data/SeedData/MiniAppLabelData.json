@@ -188,7 +188,7 @@
   {
     "Id": 32,
     "Name": "ManurenNutrientCalculatorDescription",
-    "LabelText": "The calculator will estimate the nutrient contributions of nitrogen, phosphorus and potassium from manures and the other organic nutrient sources.",
+    "LabelText": "The calculator will estimate the nutrient contributions of nitrogen, phosphorous and potassium from manures and the other organic nutrient sources.",
     "MiniAppId": "2"
   }
 ]

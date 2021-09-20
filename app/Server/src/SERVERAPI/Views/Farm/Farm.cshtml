@@ -30,9 +30,6 @@
                 <div class="form-box-body" style="padding-bottom: 0px;">
                     <div class="form-box-fields" style="padding-bottom: 0px;">
 
-
-
-
                         @if (Model.IsLegacyNMPReleaseVersion)
                         {
                             <div class="row">
@@ -147,6 +144,34 @@
                                 </div>
                             </div>
                         }
+                        @if (Model.HasFields)
+                        {
+                            <div class="row" style="margin-bottom: 0px;">
+                                <div class="col-sm-4">
+                                    <span id="labelHasTestResults" style="font-weight: bold">
+                                        I have current soil test results
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasTestResults" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasTestResults" type="radio" value="true" id="rbIsHasTestResultsNo" onchange="GetHasTestResultsChange()"/> Yes
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasTestResults" type="radio" value="false" id="rbIsHasTestResultsNo" onchange="GetHasTestResultsChange()"/> No
+                                    </label>
+                                </div>
+                            </div>
+                        }
+                        @if (Model.HasTestResults)
+                        {
+                            <div class="row" style="margin-bottom: 20px;margin-left:20px; margin-top: 20px;">
+                                <div class="col-sm-8">
+                                    <span class="text-danger">
+                                        You'll be taken directly to the soil test results page when you click Next.
+                                    </span>
+                                </div>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col-sm-12">
                                 <label asp-for="SelRegOption" for="ddlRegion">Region</label>
@@ -186,6 +211,7 @@
             @Html.HiddenFor(x => x.CurrentYear)
             @Html.HiddenFor(x => x.ShowSubRegion)
             @Html.HiddenFor(x => x.ShowAnimals)
+            @Html.HiddenFor(x => x.HasFields)
             @Html.HiddenFor(x => x.ButtonPressed)
             @Html.HiddenFor(x => x.TypeChangeDetected)
             @Html.HiddenFor(x => x.OriginalHasAnimals)
@@ -345,6 +371,10 @@
 
         function GetsAnimalsChanged() {
             $('#ButtonPressed').val("GetsAnimalsChange");
+            $("#modForm").submit();
+        }
+        function GetHasTestResultsChange() {
+            $('#ButtonPressed').val("GetHasTestResultsChange");
             $("#modForm").submit();
         }
 

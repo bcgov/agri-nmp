@@ -36,8 +36,6 @@ namespace SERVERAPI.Controllers
             var farmData = _ud.FarmDetails();
             FarmViewModel fvm = new FarmViewModel();
 
-
-
             fvm.IsLegacyNMPReleaseVersion = !_ud.FarmData().NMPReleaseVersion.HasValue || _ud.FarmData().NMPReleaseVersion.Value < 2;
 
             if (fvm.IsLegacyNMPReleaseVersion)
@@ -55,6 +53,7 @@ namespace SERVERAPI.Controllers
 
             fvm.SelRegOption = farmData.FarmRegion;
             fvm.SelSubRegOption = farmData.FarmSubRegion;
+            fvm.HasFields = _ud.GetFields().Count > 0;
 
             if (farmData.HasAnimals &&
                 (farmData.HasBeefCows || farmData.HasDairyCows || farmData.HasMixedLiveStock))
@@ -158,6 +157,23 @@ namespace SERVERAPI.Controllers
         {
             fvm.RegOptions = _sd.GetRegionsDll().ToList();
 
+            if (fvm.ButtonPressed == "GetHasTestResultsChange")
+            {
+                ModelState.Clear();
+                fvm.ButtonPressed = "";
+                if (fvm.HasAnimals)
+                {
+                    fvm.ShowAnimals = true;
+                    fvm = SetSubRegions(fvm);
+                }
+                else
+                {
+                    fvm.ShowAnimals = false;
+                }
+
+                return View(fvm);
+            }
+
             if (fvm.ButtonPressed == "GetsAnimalsChange")
             {
                 ModelState.Clear();
@@ -182,6 +198,7 @@ namespace SERVERAPI.Controllers
                 farmData.HasBeefCows = fvm.HasBeefCows;
                 farmData.HasPoultry = fvm.HasPoultry;
                 farmData.HasMixedLiveStock = fvm.HasMixedLiveStock;
+                
                 _ud.UpdateFarmDetails(farmData);
 
                 if (!HasAnimalSelectionChanged(fvm, farmData))
@@ -341,6 +358,13 @@ namespace SERVERAPI.Controllers
                 var initialNavigation = _sd.GetJourney((int)journey)
                     .MainMenus
                     .Single(m => m.SortNumber == 2);
+
+                if (fvm.HasTestResults)
+                {
+                    // override initial navigation if there are new soil test results
+                    var soilTestsNavigation = _sd.GetJourney((int)journey).MainMenus.Single(m => m.Name == "Fields and Soil").SubMenus.Single(s => s.Name == "Soil Tests");
+                    return RedirectToAction(soilTestsNavigation.Action, soilTestsNavigation.Controller);
+                }
 
                 if (initialNavigation.UsesFeaturePages)
                 {
