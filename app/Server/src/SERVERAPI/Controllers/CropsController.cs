@@ -200,6 +200,7 @@ namespace SERVERAPI.Controllers
                             cvm.remP2o5 = string.Empty;
                             cvm.remK2o = string.Empty;
                             cvm.showHarvestUnitsDDL = false;
+                            cvm.selCropOption = "66";
                         }
                         else
                         {

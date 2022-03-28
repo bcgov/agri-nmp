@@ -21,11 +21,28 @@
                         </select>
                         <span asp-validation-for="selTypOption" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-4">
-                        <label for="ddlCrop">Crop</label>
-                        <select class="form-control" asp-for="selCropOption" asp-items="@(new SelectList(Model.cropOptions,"Id","Value"))" id="ddlCrop"></select>
-                        <span asp-validation-for="selCropOption" class="text-danger"></span>
-                    </div>
+                    @if (Model.manEntry)
+                    {
+                        <div class="form-group col-sm-4">
+                            <label asp-for="cropDesc">Crop Description</label>
+                            <div class="input-group col-sm-12">
+                                <input class="form-control col-sm-12" asp-for="cropDesc" id="cropDesc" type="text" />
+                            </div>
+                            <span asp-validation-for="cropDesc" class="text-danger"></span>
+                        </div>
+                        @Html.HiddenFor(x => x.selCropOption)
+
+                    }
+                    else
+                    {
+                        <div class="form-group col-sm-4">
+                            <label for="ddlCrop">Crop</label>
+                            <select class="form-control" asp-for="selCropOption" asp-items="@(new SelectList(Model.cropOptions,"Id","Value"))" id="ddlCrop"></select>
+                            <span asp-validation-for="selCropOption" class="text-danger"></span>
+                        </div>
+                        @Html.HiddenFor(x => x.cropDesc)
+                    }
+
                     <div class="form-group col-sm-2">
                         <label id="labelYieldByHarvestUnit">Yield</label>
                         <div class="input-group">
@@ -80,38 +97,34 @@
                     }
                 </div>
                 <div style="clear:both"></div>
+                
                 <div class="form-group">
-                    <div class="form-group col-sm-5">
-                        <label for="ddlPrev">@Model.nCreditLabel</label>
-                        <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions,"Id","Value"))" id="ddlPrev">
-                            @if (Model.prevOptions.Count() > 1)
-                            {
-                                <option>select</option>
-                            }
-                        </select>
-                        <span asp-validation-for="selPrevOption" class="text-danger" for="ddlPrev"></span>
-                    </div>
-                    <div class="form-group col-sm-2">
-                        <div style="text-align:center">
-                            <label id="labelNCredit">N credit (lb/ac)</label>
-                        </div>
-                        <div style="text-align:center; padding-top:10px;" aria-labelledby="labelNCredit">
-                            <span style="font-weight: bold">@Model.nCredit</span>
-                        </div>
-                    </div>
-                    @if (Model.manEntry)
+                    @if (!Model.manEntry)
                     {
                         <div class="form-group col-sm-5">
-                            <label asp-for="cropDesc">Crop Description</label>
-                            <div class="input-group col-sm-12">
-                                <input class="form-control col-sm-12" asp-for="cropDesc" id="cropDesc" type="text" />
+                            <label for="ddlPrev">@Model.nCreditLabel</label>
+                            <select class="form-control" asp-for="selPrevOption" asp-items="@(new SelectList(Model.prevOptions, "Id", "Value"))" id="ddlPrev">
+                                @if (Model.prevOptions.Count() > 1)
+                                {
+                                    <option>select</option>
+                                }
+                            </select>
+                            <span asp-validation-for="selPrevOption" class="text-danger" for="ddlPrev"></span>
+                        </div>
+                        <div class="form-group col-sm-2">
+                            <div style="text-align:center">
+                                <label id="labelNCredit">N credit (lb/ac)</label>
                             </div>
-                            <span asp-validation-for="cropDesc" class="text-danger"></span>
+                            <div style="text-align:center; padding-top:10px;" aria-labelledby="labelNCredit">
+                                <span style="font-weight: bold">@Model.nCredit</span>
+                            </div>
                         </div>
                     }
                     else
                     {
-                        @Html.HiddenFor(x => x.cropDesc)
+                        <div class="col-sm-7">
+                            @Html.HiddenFor(x => x.selPrevOption)
+                        </div>
                     }
                     @if (Model.coverCrop)
                     {
