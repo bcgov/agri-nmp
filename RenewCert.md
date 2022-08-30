@@ -1,114 +1,143 @@
-# Automated Certificate Renewals
-Agri uses wildcard pathfinder cert for non-prod environments, so no cert renewals are needed. For prod, Certbot is deployed from https://github.com/BCDevOps/certbot.git. See the build and deploy steps in the Certbot repo. If you ever find an issue with Certbot, do a PR and contribute it back to the original repo, never make a local copy of it in this repo.
+# Automated certificate renewals
 
-Set up of the cronjob in PROD is only required once and is independent of the pipeline for the application. So, the only time, you need to redeploy the cronjob is if there are changes to the cert renewal process or if you are setting up a brand new prod environment. This same job can be deployed to any non-prod environments for testing the process or even on permanent basis, but for now we are sticking with pathfinder wildcard cert in non-prod.
+All of the network routes for non-production environments use the OCP4 platform wildcard certificate. No configuration is required.
 
-Any route that has `certbotManaged=true` label, will get picked up by certbot. We have set it to `true` for dev, test and prod, so if ever we need to test in non-prod environments, the cronjob will work the same. This can done by editing the route in the OpenShift GUI also. Remember to remove the cronjob from non-prod after testing. Also remove the certs attached to the route. When you remove the certs from the route in non-prod, it will default to the wildcard pathfind cert.
+For production, a certificate from Entrust is used. This certificate must be renewed every year; while the actual installation process is automated, the issuing/renewal of the updated certifcate must go through a manual approval process.
 
-There are detailed instructions on troubleshooting certbot issues in the BCDevOps Certbot repo.
+Certbot is used to (partially) automate this process (see below).
 
-# Manually Renewing the Cert (these are the old instructions, just kept here for emergencies, in case automated process stalls)
 
-The following are the current (as of Dec. 2018) steps for renewing the SSL Certs for the OpenShift instance of the app. A user with full admin access to the production project must perform the following steps.  It's likely these steps can be automated, but that has not been done.
+## Certbot
 
-## Background
+Common Services maintains [Certbot](https://github.com/BCDevOps/certbot), an OpenShift-specific wrapper around the [EFF's Certbot](https://certbot.eff.org) tool, which is most often used with [Let's Encrypt](https://letsencrypt.org) but can also be used with other ACME servers (e.g. Entrust). 
 
-Agri-nmp uses [Let's Encrypt](https://letsencrypt.org/) certificates and [certbot](https://certbot.eff.org) to manage the certificates.  The certificates are free, but must be renewed every 90 days.  The renewal process (once you know it) is relatively easy, but quite manual, with all the risk that entails.
+When configured correctly, it'll automatically install certificates when they're available, or request one when the currently-installed one is about to expire.
 
-## Install certbot locally
 
-Installation instructions for [certbot](https://certbot.eff.org) can be found here - [https://certbot.eff.org/docs/install.html](https://certbot.eff.org/docs/install.html). 
+### Cronjob
 
-If you are on Windows (and probably other platforms), it's probably easiest to use the docker instructions, but with different local mount points. For example, where they suggest using the command:
+Once Certbot is set up, a cronjob runs to check if a new certificate is available. If not, it does nothing, but if the existing certificate expires in less than a month, it'll submit a [ACME certificate request](https://en.wikipedia.org/wiki/Automatic_Certificate_Management_Environment) to Entrust for approval.
 
+The product owner (or whatever email Certbot is configured with) will then receive an automated email from Entrust acknowledging this request. However, it does not automatically approve the request (see next section).
+
+By default, the cronjob runs late afternoon every Sunday and Wednesday (`0 0 * * 1,4`, i.e. Monday and Thursday midnight UTC).
+
+
+### Manual approval process
+
+All Entrust certificate requests must be externally approved. 
+
+Within the NRM, this is handled by submitting a request to the [Service Desk](https://apps.nrs.gov.bc.ca/int/jira/servicedesk/customer/portal/1) with the following info:
+
+* Domain for the certificate
+* Entrust Tracking ID
+  * This can be found inside the autoamted email from Entrust
+* iStore Coding
+* Expense Authority
+
+Once approved, Entrust will send another automated email informing the product owner. The approval is valid for 2 weeks, during which Certbot will install the updated certificate the next time it runs.
+
+If the certificate is not installed within that timeframe, you'll have to start over with the request process; i.e. Certbot (automatically) submits an ACME certificate request, Entrust will send an email with the Tracking ID, and another ticket will need to be submitted with the Service Desk.
+
+
+### Setup
+
+*For the latest setup instructions, please see the [Common Services Certbot repo](https://github.com/BCDevOps/certbot/blob/master/docker/README.md).*
+
+1. Set an environment variable for the name of the OpenShift namespace for convenience:
+    ```sh
+    export NAMESPACE=xxxxxx-prod
+    ```
+2. Tag the appropriate network route with `certbot-managed=true`. This can be done inside the OpenShift web console under **Networking** > **Routes** > `your-route-here` > **Labels** > **Edit**. To verify:
+    ```sh
+    oc get route -n $NAMESPACE -l certbot-managed=true -o=jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'
+    ```
+3. Set up the Certbot cronjob. Edit the values for `CERTBOT_EMAIL` and `CERTBOT_SERVER` as appropriate:
+    ```sh
+    export CERTBOT_EMAIL=Product.Owner@gov.bc.ca
+    export CERTBOT_SERVER=https://www.entrust.net/acme/api/v1/directory/XX-XXXX-XXXX
+    oc process -n $NAMESPACE -f "https://raw.githubusercontent.com/BCDevOps/certbot/master/openshift/certbot.dc.yaml" -p CERTBOT_EMAIL=$CERTBOT_EMAIL -p CERTBOT_SERVER=$CERTBOT_SERVER -p CERTBOT_DEBUG=true -p CERTBOT_SUBSET=true|oc apply -n $NAMESPACE -f -
+    ```
+    For `CERTBOT_EMAIL`, it's recommended that you use a shared inbox, in order to avoid having to constantly update the email (or forwarding the Entrust emails) whenever the project changes hands.
+
+    The value for `CERTBOT_SERVER` can be found on [Confluence](https://apps.nrs.gov.bc.ca/int/confluence/display/SHOWCASE/Certbot+SSL+Renewal+Process?). If it's out of date, ask around on Rocket.Chat or the internal Stack Overflow.
+
+
+### Troubleshooting
+
+#### Manually running the cronjob
+
+If you don't want to wait for the next scheduled run, the cronjob can also be triggered manually:
+
+```sh
+oc create job -n $NAMESPACE "certbot-manual-$(date +%s)" --from=cronjob/certbot
 ```
-docker run -it --rm --name certbot \
-            -v "/etc/letsencrypt:/etc/letsencrypt" \
-            -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
-            certbot/certbot certonly
+
+(replace `$NAMESPACE` with the corresponding OpenShift namespace; e.g. `xxxxxx-prod`)
+
+Clean up afterwards by deleting the finished cronjob once you're done:
+
+```sh
+oc get job -n $NAMESPACE -o name |grep -F -e '-manual-'|xargs oc delete -n $NAMESPACE
 ```
 
-change the before the colon `/etc/letsencrypt` and `/var/lib/letsencrypt` with references to local directories (e.g. `${PWD}/letsencrypt` and `${PWD}/libletsencrypt`).
 
-If you are on a linux machine, you can just install `certbot` using a package manager (`sudo apt get certbot` on Ubuntu), or on anything, install it to run under python.
+#### Manually backing up certificates
 
-## Run certbot to generate the new certificates
+Certbot stores its configuration within a PersistentVolumeClaim (PVC) called `certbot`, inside `/etc/letsencrypt`.
 
-Generating the cert using certbot is a step run on your local machine.
+As certifcates/keys can't be downloaded from Entrust at a later point in time, it might be a good idea to back things up before wiping the PVC, if necessary:
 
-On a linux-like OS, run the following command to generate the certs, responding to the prompts and stopping at the `Press Enter to Continue` step.  **Don't press "Enter" (yet)**.
+1. Create a dummy pod that mounts `/etc/letsencrypt`. This one uses the `httpd` image, but you can use anything:
 
+    ```sh
+    export NAMESPACE=xxxxxx-prod
+    echo '{"apiVersion":"v1","kind":"Pod","metadata":{"name":"dummy-pod","labels":{"app":"httpd"},"namespace":"'"$NAMESPACE"'"},"spec":{"containers":[{"name":"httpd","image":"image-registry.openshift-image-registry.svc:5000/openshift/httpd:latest","ports":[{"containerPort":8080}],"volumeMounts":[{"name":"certbot-config","mountPath":"/etc/letsencrypt"}]}],"volumes":[{"name":"certbot-config","persistentVolumeClaim":{"claimName":"certbot"}}]}}' | oc create -f -
+    ```
+2. Wait for the pod to spin up. You can check this under **Workloads** > **Pods**. 
+3. Download the entire `/etc/letsencrypt` directory:
+    ```sh
+    oc rsync dummy-pod:/etc/letsencrypt/ /home/insert-username-here/
+    ```
+    *Note:* the target local directory is the last parameter. Modify as appropriate.
+
+    The current certificate can be found inside `live/openshift-route-certs`. The previous one is in `archive/openshift-route-certs` (along with the current one, the certs inside `live/` are symlinks).
+
+4. Delete the pod once you're done:
+    ```sh
+    oc delete pod dummy-pod
+    ```
+
+
+#### Wiping the PersistentVolumeClaim (PVC)
+
+Generally, wiping and re-creating the PVC from scratch is sufficient to trigger a ACME certificate request the next time it runs.
+
+Backup the existing certificates before proceeding!
+
+To delete the PVC and create a new one:
+```sh
+export NAMESPACE=xxxxxx-prod
+oc delete job -n $NAMESPACE -l app=certbot
+oc delete pvc certbot
+echo '{"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"labels":{"app":"certbot","template":"certbot-template"},"name":"certbot","namespace":"'"$NAMESPACE"'"},"spec":{"accessModes":["ReadWriteMany"],"resources":{"requests":{"storage":"64Mi"}},"storageClassName":"netapp-file-standard"}}' | oc create -f -
 ```
-sudo certbot certonly --manual -d nmp.apps.nrs.gov.bc.ca
+
+*Note:* all Certbot jobs (even terminated ones) must be deleted before the PVC can be deleted. The `oc delete job` takes care of this.
+
+
+#### Reinstaling Certbot
+
+If wiping the PVC doesn't work, then the entire Certbot install can be removed, followed by a re-install.
+
+Backup the existing certificates before proceeding!
+
+To wipe the existing Certbot install:
+
+```sh
+export NAMESPACE=xxxxxx-prod
+oc delete all -n $NAMESPACE -l build=certbot
+oc delete cronjob,pvc,rolebinding,sa -n $NAMESPACE -l app=certbot
 ```
 
-Based on the docs, a `--config_dir <dir>` option can be used to change where the cert files are generated (but that's not been tried). That might enable not having to run 
-
-On other OS's the command might be different - eg. on docker.
-
-The prompts are pretty obvious, with the only tricky one being the need to enter an email address for notifications.
-
-Above the `Press Enter to Continue` prompt, you will see a long string in two parts, with a "." separator.  Copy that string as it will be used on the next step.
-![cerbotscreen1](/screenshots/certbotscreen1.png)
-
-## Updating the certbot pod - Proving Control
-
-The copied string needs to be put into an OpenShift Config Map such that it proves that you have control over the URL being renewed.
-
-- go into the OpenShift Agri-NMP Prod project
-- go to Resources -> Config Maps
-- Click into the `certbot` config map
-  - The format of copied string from certbot should be the same as the value of the existing string - e.g same two parts, same length
-- Click Actions -> Edit
-- As a precaution - copy and paste the current key and value into a text editor in case you need to restore them.
-- Set the Key to the first part of the copied string (up to the ".")
-- Set the Value to the entire string
-- Click Save
-![cerbotscreen1](/screenshots/configmap.png)
-
-Redeploy the `certbot` deployment (Applications -> Deployments -> certbot -> Deploy)
-
-To verify that the editing worked, go to the URL: https://nmp.apps.nrs.gov.bc.ca/.well-known/acme-challenge/VQq-yfgiqhq3YLFwSsOhhbKW7WNg6VBBe-71WVBML2I (replacing that last section with the first part of the copied string). You should get back in the browser the full copied string.
-![Browser](/screenshots/browser.png)
-
-Once completed, return to the `certbot` command line and hit `Enter` per the instructions.  You should see a `Congratulations` note and the directory where the certs can be found.
-![cerbotscreen1](/screenshots/certbotscreen2.png)
-
-## Install the Certs
-
-Go to the directory where the certs were saved and display them such that you can copy the text.  
-![cerbotscreen1](/screenshots/certbotscreen3.png)
-As well, go in the OpenShift Agri-NMP Prod project to Applications -> Routes -> nmp-prod and then select Actions -> Edit.  Scroll down to where the values of the certificates are - there are three (`Certificate`, `Private Key` and `CA Certificate`).
-
-- As a precaution - copy and paste the current values into a text editor in case you need to restore them.
-- From the directory where certbot put the certificate files (e.g. /etc/letsencrypt/live/nmp.apps.nrs.gov.bc.ca)
-  - Copy the text from file `cert.pem` to the `Certificate` text box
-  - Copy the text from file `privkey1.pem` to the `Private Key` text box
-  - Copy the text from the file `fullchain1.pem` to the `CA Certificate` text box (note the file contains two keys)
-- Click save
-- Verify that the app is accessible: [https://nmp.apps.nrs.gov.bc.ca/](https://nmp.apps.nrs.gov.bc.ca/)
-- Check the "lock" icon -> "Certificate" that the date of the certificate has been update.
-
-
-Next cert secret for Prod needs to be updated as the secret is used to recreate the route after each production deployment.  Go to the OpenShift Agri-NMP Prod project to Applications -> Resources -> Secrets and select `nmp-route-cert-prod`.  
-
-- Copy the key names and the values into a text editor just in case
-- Delete the secret `nmp-route-cert-prod`
-- Create a new secret by clicking the `Create Secret` button on the top left hand corner of the Secrets screen.
-- Select `Generic Secret` from `Secret Type` drop-down
-- Enter `nmp-route-cert-prod` into `*Secret name` field
-- Enter `certificate` in first 'key'field
-- Copy the text from file `cert.pem` to the text area following the label `Enter a value for the secret entry or use the contents of a file.`
-- Click the `Add Item` button
-- Enter `key` in new 'key' field
-- Copy the text from file `privkey1.pem` to the text area following the label `Enter a value for the secret entry or use the contents of a file.`
-- Click the `Add Item` button
-- Enter `caCertificate` in the new `key` field
-- Copy the text from the file `fullchain1.pem` to the text area following the label `Enter a value for the secret entry or use the contents of a file.`
-- Note that "Destination CA Certificate" is left blank
-- Click the `Create` button
-  
-
-There is likely an OpenShift `oc` command that could be run to automatically copy of the files into the correct place, but we didn't dig into that.
-
-Done!
+Then, follow the setup instructions as usual.
