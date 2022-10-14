@@ -12,11 +12,38 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 ## Development
 
-This project uses .NET Core version 3.1.
+This project uses .NET Core version 3.1 and PostgreSQL.
 
-You will need to install Visual Studio 2017 Preview 3 in order to effectively develop the application from a Windows PC.
+You will need Visual Studio, which supports both Mac and Windows.
 
-Note that .NET Core is cross platform, so you can also use a Mac or Linux computer equipped with the appropriate build tools.  
+### Running NMP locally
+
+1. Download and install [Visual Studio](https://visualstudio.microsoft.com/) (not Visual Studio Code). When installing, make sure you also select .NET or ASP .NET when prompted (menu options may vary depending on OS).
+2. Install PostgreSQL and create the local database. NMP will auto-populate it with static values on its first run:
+    ```sh
+    brew install postgresql
+    brew services run postgresql
+    psql postgres
+    create user nmp with encrypted password 'nmp';
+    create database nmp owner nmp;
+    ```
+3. Clone the repository.
+4. Create a file called `secrets.json` in `src/SERVERAPI` containing the following:
+    ```json
+    {
+        "Agri:ConnectionString": "Server=localhost;Database=nmp;Username=nmp;Password=nmp"
+    }
+    ```
+3. Open `agri-nmp/app/server/Server.sln` in Visual Studio, and wait for NuGet to download all the dependencies.
+4. Run SERVERAPI from inside Visual Studio. On Visual Studio for Mac,  this is the "play" icon in the top-left corner.
+
+
+Once running, the application can be accessed at http://localhost:8080.
+
+Don't forget to shut down the database after quitting:
+```sh
+brew services stop postgresql
+```
 
 ## Updates to code values without developer assistance
 
