@@ -281,6 +281,9 @@ functional-tests/build/*
 !.s2i/*
 1Get Latest.bat
 
-#MacOS stuff
+# MacOS stuff
 .DS_Store
 node_modules/
+
+# Database credentials
+app/Server/src/SERVERAPI/secrets.json
