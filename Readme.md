@@ -1,14 +1,6 @@
-BC Ministry of Agriculture Nutrition Management Program
------------------
+# BC Ministry of Agriculture Nutrition Management Program
 
-Product Owner
---------
-Jeff Nimmo, Jeffrey.Nimmo@gov.bc.ca
-David Poon (alternate), David.Poon@gov.bc.ca
-
-
-Contribution
-------------
+## Contribution
 
 Please report any [issues](https://github.com/bcgov/agri-nmp/issues).
 
@@ -18,20 +10,19 @@ If you would like to contribute, please see our [contributing](CONTRIBUTING.md) 
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-Development
------------
+## Development
+
 This project uses .NET Core version 3.1.
 
 You will need to install Visual Studio 2017 Preview 3 in order to effectively develop the application from a Windows PC.
 
 Note that .NET Core is cross platform, so you can also use a Mac or Linux computer equipped with the appropriate build tools.  
 
-Updates to code values without developer assistance
----------------------------------------------
+## Updates to code values without developer assistance
+
 This project allows non-technical users (i.e. Product Owners) with business domain knowledge, to revise and update static code table values, message text, etc.  See the [instructions](app/Server/src/SERVERAPI/Data/README.md) for details.
 
-Static Code Analysis (obsolete)
---------------------
+## Static Code Analysis (obsolete)
 
 Steps to conduct static code analysis:
 1) Install the Visual Studio 2017 Community Edition plus standalone build tools, such that you are able to compile the source for the application.
@@ -62,42 +53,45 @@ RedHat requires authentication to the image repository where the Dotnet images a
 
 8) In a command line with an active connection to OpenShift, and the current project set to the Tools project, run the following commands:
 
-`oc secrets link default <SECRETNAME> --for=pull`  
-`oc secrets add serviceaccount/builder secrets/<SECRETNAME>`
+    `oc secrets link default <SECRETNAME> --for=pull`  
+    `oc secrets add serviceaccount/builder secrets/<SECRETNAME>`
 
-Where `<SECRETNAME>` is the name you specified in step 7 when you imported the secret.
+    Where `<SECRETNAME>` is the name you specified in step 7 when you imported the secret.
 
 9) You can now import images from the Redhat repository.  For example:
 
-`oc import-image dotnet/dotnet-31-rhel7 --from=registry.redhat.io/dotnet/dotnet-31-rhel7 --confirm` 
+    `oc import-image dotnet/dotnet-31-rhel7 --from=registry.redhat.io/dotnet/dotnet-31-rhel7 --confirm` 
 
 10) Adjust your builds to use this imported image
 
-Note: For the Agri project, the pull secret is in the agri-nmp-tools namespace. It can't be shared with any other namespace. This is why you will see redis image stream being created in the agri-nmp-tools namespace and then this namespace being referenced in the deployment scripts which will run in other namespaces.
+*Note:* For the Agri project, the pull secret is in the agri-nmp-tools namespace. It can't be shared with any other namespace. This is why you will see redis image stream being created in the agri-nmp-tools namespace and then this namespace being referenced in the deployment scripts which will run in other namespaces.
 
 
-# REDIS Code - currently commented out
+# REDIS Code (currently commented out)
+
 As of Release 3 Redis containers were added, but due to some technical issues the application couldn't properly use them for session data. At this moment the code for Redis has been commented out in the application and in the pipelines. Product Owners agreed to run the app as a single container for now.
 
 # NMP application pod - Single Container
+
 Originally this application was running multiple containers and one of the loadbalancing change to the infrastructure broke this app. It had to do with the stickyness of sessions. As a best practice, application shouldn't rely on loadbalancer to provide sticky session function, rather it should manage its state externally. For this reason Redis was setup, but due to some outstanding issues, this was put on hold and currently the app is running as a single container.
 
-Will need to put this in the NMP pod, to resurrect Redis.
-                  // {
-                  //   "name": "REDIS_PASSWORD",
-                  //   "valueFrom": {
-                  //     "secretKeyRef": {
-                  //       "name": "${NAME}-redis-credentials${SUFFIX}",
-                  //       "key": "password"
-                  //     }
-                  //   }
-                  // },
+Will need to put this in the NMP pod, to resurrect Redis:
+```json
+{
+  "name": "REDIS_PASSWORD",
+  "valueFrom": {
+    "secretKeyRef": {
+      "name": "${NAME}-redis-credentials${SUFFIX}",
+      "key": "password"
+    }
+  }
+}
+```
 
 # Postgres - Single Container
-Due to non-critical nature of this appliction, Postgres currently runs as a single container. In the future, it can made HA using Patroni (used by other projects in BC Gov. Openshift platform).
+Due to the non-critical nature of this application, Postgres currently runs as a single container. In the future, it can made HA using Patroni (used by other projects in BC Gov. Openshift platform).
 
-License
--------
+# License
 
     Copyright 2017 Province of British Columbia
 
@@ -112,8 +106,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-Maintenance
------------
-
-This repository is maintained by BC Ministry of Agriculture
