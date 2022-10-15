@@ -51,6 +51,16 @@ By default, if the database is empty, NMP will auto-populate it with static valu
 
 To update the values in the local database, use `pg_dump` to grab data from PROD.
 
+## CI/CD pipeline
+
+As all three NMP projects share the same namespace on OpenShift, they share a similar deployment process.
+
+Image builds are automatically triggered via GitHub webooks, whenever there is a push or PR merge to the main branch. A Tekton pipeline then performs image promotion, auto-deploying the build to DEV. 
+
+Deploying to TEST and PROD are done by manually starting the `promote-test-nmp-web` and `promote-prod-nmp-web` pipelines respectively. This can be done in the OpenShift web conosle, under **Pipelines** > **Pipelines** in the tools namespace, and clicking "Start" for the respective pipeline.
+
+To rollback PROD to the previous build, run the `undo-last-promote-prod-nmp-web` pipeline.
+
 ## Updates to code values without developer assistance
 
 This project allows non-technical users (i.e. Product Owners) with business domain knowledge, to revise and update static code table values, message text, etc.  See the [instructions](app/Server/src/SERVERAPI/Data/README.md) for details.
