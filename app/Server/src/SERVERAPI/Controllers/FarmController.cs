@@ -299,22 +299,6 @@ namespace SERVERAPI.Controllers
                 }
             }
 
-            {
-                var farmData = _ud.FarmDetails();
-
-                if (HasAnimalSelectionChanged(fvm, farmData))
-                {
-                    // something changed. verify user has confirmed.
-                    if (!fvm.TypeChangeConfirmed)
-                    {
-                        ModelState.AddModelError("TypeChangeConfirmed", "Confirmation is required to proceed with this change");
-                        return View(fvm);
-                    }
-                }
-            }
-
-
-
             if (ModelState.IsValid)
             {
                 fvm.HasSelectedFarmType = true;
