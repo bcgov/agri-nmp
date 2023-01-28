@@ -3,7 +3,7 @@
     <Description>The API server</Description>
     <Copyright>Copyright© 2017, Province of British Columbia.</Copyright>
     <AssemblyTitle>DOTNET API Server</AssemblyTitle>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <DebugType>portable</DebugType>
     <AssemblyName>SERVERAPI</AssemblyName>
@@ -13,7 +13,7 @@
     <UserSecretsId>aspnet-Core2-37757D75-C7BA-4F7A-8B80-0040DB6484EA</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Bootstrap.Datepicker" Version="1.6.4" />
     <PackageReference Include="FluentValidation" Version="8.6.1" />
