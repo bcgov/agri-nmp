@@ -432,6 +432,15 @@ namespace SERVERAPI.Models.Impl
             }
         }
 
+        public void ClearSoilTests()
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+            yd.Fields.ForEach(field => field.SoilTest = null);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
         public void DeleteField(string name)
         {
             FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
