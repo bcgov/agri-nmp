@@ -68,9 +68,13 @@ namespace SERVERAPI.Controllers
             {
                 ModelState.Clear();
                 FarmDetails fd = _ud.FarmDetails();
-                fd.TestingMethod = fvm.selTstOption == "select" ? string.Empty : fvm.selTstOption;
+                fd.TestingMethod = fvm.selTstOption == "No soil tests from within past 3 years" ? string.Empty : fvm.selTstOption;
                 _ud.UpdateFarmDetails(fd);
                 fvm.testSelected = string.IsNullOrEmpty(fd.TestingMethod) ? false : true;
+                if(!fvm.testSelected)
+                {
+                    _ud.ClearSoilTests();
+                }
                 List<Field> fl = _ud.GetFields();
 
                 //update fields with convert STP and STK

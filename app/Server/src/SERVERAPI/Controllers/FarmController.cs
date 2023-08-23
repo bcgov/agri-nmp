@@ -54,6 +54,7 @@ namespace SERVERAPI.Controllers
             fvm.SelRegOption = farmData.FarmRegion;
             fvm.SelSubRegOption = farmData.FarmSubRegion;
             fvm.HasFields = _ud.GetFields().Count > 0;
+            fvm.HasTestResults = _ud.GetFields().Any() ? _ud.GetFields().FirstOrDefault().HasSoilTest : false;
 
             if (farmData.HasAnimals &&
                 (farmData.HasBeefCows || farmData.HasDairyCows || farmData.HasMixedLiveStock))
@@ -157,22 +158,6 @@ namespace SERVERAPI.Controllers
         {
             fvm.RegOptions = _sd.GetRegionsDll().ToList();
 
-            if (fvm.ButtonPressed == "GetHasTestResultsChange")
-            {
-                ModelState.Clear();
-                fvm.ButtonPressed = "";
-                if (fvm.HasAnimals)
-                {
-                    fvm.ShowAnimals = true;
-                    fvm = SetSubRegions(fvm);
-                }
-                else
-                {
-                    fvm.ShowAnimals = false;
-                }
-
-                return View(fvm);
-            }
 
             if (fvm.ButtonPressed == "GetsAnimalsChange")
             {
