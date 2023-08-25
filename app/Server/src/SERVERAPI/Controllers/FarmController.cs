@@ -328,13 +328,6 @@ namespace SERVERAPI.Controllers
                     .MainMenus
                     .Single(m => m.SortNumber == 2);
 
-                if (fvm.HasTestResults)
-                {
-                    // override initial navigation if there are new soil test results
-                    var soilTestsNavigation = _sd.GetJourney((int)journey).MainMenus.Single(m => m.Name == "Fields and Soil").SubMenus.Single(s => s.Name == "Soil Tests");
-                    return RedirectToAction(soilTestsNavigation.Action, soilTestsNavigation.Controller);
-                }
-
                 if (initialNavigation.UsesFeaturePages)
                 {
                     return RedirectToPage(initialNavigation.Page);
