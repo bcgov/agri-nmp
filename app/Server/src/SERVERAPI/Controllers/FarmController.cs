@@ -76,7 +76,6 @@ namespace SERVERAPI.Controllers
             fvm.HasBeefCows = farmData.HasBeefCows;
             fvm.HasPoultry = farmData.HasPoultry;
             fvm.HasMixedLiveStock = farmData.HasMixedLiveStock;
-            fvm.HasHorticulturalCrops = farmData.HasHorticulturalCrops;
 
             // need to be able to check if we reverted to original after modification
             fvm.OriginalHasAnimals = farmData.HasAnimals;
@@ -84,7 +83,6 @@ namespace SERVERAPI.Controllers
             fvm.OriginalHasDairyCows = farmData.HasDairyCows;
             fvm.OriginalHasMixedLiveStock = farmData.HasMixedLiveStock;
             fvm.OriginalHasPoultry = farmData.HasPoultry;
-            fvm.OriginalHasHorticulturalCrops = farmData.HasHorticulturalCrops;
 
             if (fvm.HasAnimals)
             {
@@ -155,20 +153,13 @@ namespace SERVERAPI.Controllers
             return !animalSelectionsUnchanged;
         }
 
-        private bool HasHorticulturalCropsChanged(FarmViewModel fvm, FarmDetails farmData)  
-        {
-            var horticulturalCropsSelectionsUnchanged = (farmData.HasHorticulturalCrops == fvm.OriginalHasHorticulturalCrops);
-            return !horticulturalCropsSelectionsUnchanged;
-        }
-
         [HttpPost]
         public IActionResult Farm(FarmViewModel fvm)
         {
             fvm.RegOptions = _sd.GetRegionsDll().ToList();
 
 
-            if (fvm.ButtonPressed == "GetsAnimalsChange" ||
-                fvm.ButtonPressed == "GetsHorticulturalCropsChange")
+            if (fvm.ButtonPressed == "GetsAnimalsChange")
             {
                 ModelState.Clear();
                 fvm.ButtonPressed = "";
@@ -192,9 +183,7 @@ namespace SERVERAPI.Controllers
                 farmData.HasBeefCows = fvm.HasBeefCows;
                 farmData.HasPoultry = fvm.HasPoultry;
                 farmData.HasMixedLiveStock = fvm.HasMixedLiveStock;
-
-                farmData.HasHorticulturalCrops = fvm.HasHorticulturalCrops;
-
+                
                 _ud.UpdateFarmDetails(farmData);
 
                 if (!HasAnimalSelectionChanged(fvm, farmData))
@@ -239,11 +228,6 @@ namespace SERVERAPI.Controllers
 
                 }
 
-                if (!HasHorticulturalCropsChanged(fvm, farmData))
-                {
-                    // Do nothing at this time, may be used to reset submenu
-                }
-
                 return View(fvm);
             }
 
@@ -280,12 +264,6 @@ namespace SERVERAPI.Controllers
                 farmData.FarmSubRegion = fvm.SelSubRegOption;
                 _ud.UpdateFarmDetails(farmData);
 
-                return View(fvm);
-            }
-            
-            if (!fvm.HasAnimals && !fvm.HasHorticulturalCrops)
-            {
-                ModelState.AddModelError("HasAnimals", "You must select yes to either 'I Have Animals' or 'I Have Horticultural Crops'");
                 return View(fvm);
             }
 
