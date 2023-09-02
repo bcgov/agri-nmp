@@ -133,8 +133,6 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.HasPoultry = fd.HasPoultry;
             userData.farmDetails.HasMixedLiveStock = fd.HasMixedLiveStock;
 
-            userData.farmDetails.HasHorticulturalCrops = fd.HasHorticulturalCrops;
-
             //change the year associated with the array
             YearData yd = userData.years.FirstOrDefault();
             if (yd == null)

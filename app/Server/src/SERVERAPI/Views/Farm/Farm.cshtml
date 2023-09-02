@@ -52,7 +52,6 @@
                             </div>
                         </div>
                         <div class="row" style="margin-bottom: 0px;">
-                            <span class="col-sm-12" asp-validation-for="HasAnimals"></span>
                             <div class="col-sm-4">
                                 <span id="labelHasAnimals" style="font-weight: bold">
                                     I have animals
@@ -145,21 +144,6 @@
                                 </div>
                             </div>
                         }
-                        <div class="row" style="margin-bottom: 0px;">
-                            <div class="col-sm-4">
-                                <span id="labelHasHorticulturalCrops" style="font-weight: bold">
-                                    I have horticultural crops
-                                </span>
-                            </div>
-                            <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelHasHorticulturalCrops" style="margin-bottom: 0px;">
-                                <label style="padding-right: 20px">
-                                    <input asp-for="HasHorticulturalCrops" type="radio" value="true" id="rbIsHasHorticulturalCropsYes" onchange="GetsHasHorticulturalCropsChanged()" /> Yes
-                                </label>
-                                <label>
-                                    <input asp-for="HasHorticulturalCrops" type="radio" value="false" id="rbIsHasHorticulturalCropsNo" onchange="GetsHasHorticulturalCropsChanged()" /> No
-                                </label>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <label asp-for="SelRegOption" for="ddlRegion">Region</label>
@@ -208,7 +192,6 @@
             @Html.HiddenFor(x => x.OriginalHasDairyCows)
             @Html.HiddenFor(x => x.OriginalHasMixedLiveStock)
             @Html.HiddenFor(x => x.OriginalHasPoultry)
-            @Html.HiddenFor(x => x.OriginalHasHorticulturalCrops)
         </form>
         <!-- PAGE CONTENT -->
     </div>
@@ -361,11 +344,6 @@
 
         function GetsAnimalsChanged() {
             $('#ButtonPressed').val("GetsAnimalsChange");
-            $("#modForm").submit();
-        }
-
-        function GetsHasHorticulturalCropsChanged() {
-            $('#ButtonPressed').val("GetsHorticulturalCropsChange");
             $("#modForm").submit();
         }
 
