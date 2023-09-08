@@ -289,6 +289,12 @@ namespace SERVERAPI.Controllers
                 return View(fvm);
             }
 
+            if (fvm.HasAnimals && !(fvm.HasDairyCows || fvm.HasBeefCows || fvm.HasPoultry || fvm.HasMixedLiveStock))
+            {
+                ModelState.AddModelError("HasAnimals", "You must select at least one animal type");
+                return View(fvm);
+            }
+
             if (fvm.SelRegOption == 0)
             {
                 ModelState.AddModelError("SelRegOption", "Select a region");
