@@ -8,5 +8,6 @@
         public bool RefreshDatabase { get; set; }
         public bool LoadSeedData { get; set; }
         public int ExpectedSeedDataVersion { get; set; }
+        public bool FLAG_BLUEBERRIES_WORKFLOW { get; set; }
     }
 }

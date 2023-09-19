@@ -24,5 +24,8 @@ namespace SERVERAPI.ViewModels
         public bool OriginalHasMixedLiveStock { get; set; }
         public bool ShowAnimals { get; set; }
         public bool OriginalHasHorticulturalCrops { get; set; }
+        public bool ShowBlueberries { get; set; }
+        public bool OriginalHasBlueberries { get; set; }
+
     }
 }

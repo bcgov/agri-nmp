@@ -134,6 +134,7 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.HasMixedLiveStock = fd.HasMixedLiveStock;
 
             userData.farmDetails.HasHorticulturalCrops = fd.HasHorticulturalCrops;
+            userData.farmDetails.HasBlueberries = fd.HasBlueberries;
 
             //change the year associated with the array
             YearData yd = userData.years.FirstOrDefault();

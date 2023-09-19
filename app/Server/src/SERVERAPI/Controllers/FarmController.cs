@@ -95,6 +95,9 @@ namespace SERVERAPI.Controllers
                 fvm.ShowAnimals = false;
             }
 
+            fvm.ShowBlueberries = fvm.HasHorticulturalCrops && !fvm.HasAnimals && _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
+            fvm.HasBlueberries = farmData.HasBlueberries;
+
             return View(fvm);
         }
 
@@ -176,11 +179,14 @@ namespace SERVERAPI.Controllers
                 if (fvm.HasAnimals)
                 {
                     fvm.ShowAnimals = true;
+                    fvm.HasBlueberries = fvm.OriginalHasBlueberries = false;
                     fvm = SetSubRegions(fvm);
                 }
                 else
                 {
                     fvm.ShowAnimals = false;
+                    fvm.ShowBlueberries = fvm.HasHorticulturalCrops && _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
+                   
                 }
 
                 var farmData = _ud.FarmDetails();
@@ -239,10 +245,30 @@ namespace SERVERAPI.Controllers
 
                 }
 
-                if (!HasHorticulturalCropsChanged(fvm, farmData))
+                if (HasHorticulturalCropsChanged(fvm, farmData))
                 {
-                    // Do nothing at this time, may be used to reset submenu
+                  
+                    if (fvm.HasHorticulturalCrops)
+                    {
+                        fvm.ShowBlueberries = _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW && !fvm.ShowAnimals;
+                    }
+                    else
+                    {
+                        fvm.ShowBlueberries = false;
+                        fvm.HasBlueberries = false;
+                    }
+                    fvm.OriginalHasHorticulturalCrops = farmData.HasHorticulturalCrops;
                 }
+                return View(fvm);
+            }
+
+            if(fvm.ButtonPressed == "GetsCropTypeChange")
+            {
+                ModelState.Clear();
+                fvm.ButtonPressed = "";
+                var farmData = _ud.FarmDetails();
+                farmData.HasBlueberries = fvm.HasBlueberries && _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
+                fvm.ShowBlueberries = _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW; 
 
                 return View(fvm);
             }
@@ -343,6 +369,8 @@ namespace SERVERAPI.Controllers
                 farmData.HasBeefCows = fvm.HasBeefCows;
                 farmData.HasPoultry = fvm.HasPoultry;
                 farmData.HasMixedLiveStock = fvm.HasMixedLiveStock;
+                farmData.HasHorticulturalCrops = fvm.HasHorticulturalCrops;
+                farmData.HasBlueberries = fvm.HasBlueberries;
 
                 _ud.UpdateFarmDetails(farmData);
                 HttpContext.Session.SetObject("Farm", _ud.FarmDetails().FarmName + " " + _ud.FarmDetails().Year);

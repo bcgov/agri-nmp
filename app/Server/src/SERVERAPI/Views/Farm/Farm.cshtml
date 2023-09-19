@@ -160,6 +160,24 @@
                                 </label>
                             </div>
                         </div>
+                        @if (Model.ShowBlueberries)
+                        {
+                            <div class="row" style="margin-bottom: 0px;margin-left:20px">
+                                <div class="col-sm-4">
+                                    <span id="labelCropTypeHeader" style="font-weight: bold">
+                                        I have
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelCropType" style="margin-bottom: 0px;">
+                                    <label style="padding-right: 20px">
+                                        <input asp-for="HasBlueberries" type="radio" value="false" id="rbIsHasVegetables" onchange="GetsCropTypeChanged()" /> Vegetables
+                                    </label>
+                                    <label>
+                                        <input asp-for="HasBlueberries" type="radio" value="true" id="rbIsHasBlueberries" onchange="GetsCropTypeChanged()" /> Blueberries
+                                    </label>
+                                </div>
+                            </div>
+                        }
                         <div class="row">
                             <div class="col-sm-12">
                                 <label asp-for="SelRegOption" for="ddlRegion">Region</label>
@@ -366,6 +384,11 @@
 
         function GetsHasHorticulturalCropsChanged() {
             $('#ButtonPressed').val("GetsHorticulturalCropsChange");
+            $("#modForm").submit();
+        }
+
+        function GetsCropTypeChanged() {
+            $('#ButtonPressed').val("GetsCropTypeChange");
             $("#modForm").submit();
         }
 
