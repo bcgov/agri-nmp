@@ -21,6 +21,7 @@ namespace SERVERAPI.ViewModels
         public bool HasSelectedFarmType { get; set; }
         public bool HasAnimals { get; set; }
         public bool HasHorticulturalCrops { get; set; }
+        public bool HasBlueberries { get; set; }
         public bool HasTestResults { get; set; }
         public bool HasFields { get;  set; }
         public bool HasDairyCows { get; set; }

@@ -17,6 +17,7 @@
         public bool HasPoultry { get; set; }
         public bool HasMixedLiveStock { get; set; }
         public bool HasHorticulturalCrops { get; set; }
+        public bool HasBlueberries { get; set; }
 
         public UserJourney UserJourney
         {
