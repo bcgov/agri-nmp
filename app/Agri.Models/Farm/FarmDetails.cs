@@ -54,8 +54,12 @@
                             userJourney = UserJourney.Mixed;
                         }
                     }
+                    if (HasBlueberries)
+                    {
+                        return UserJourney.Berries;
+                    }
                 }
-                return userJourney;
+                    return userJourney;
             }
         }
     }

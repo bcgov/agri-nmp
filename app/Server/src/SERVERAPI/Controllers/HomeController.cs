@@ -82,8 +82,6 @@ namespace SERVERAPI.Controllers
 
         public IActionResult Index()
         {
-            _logger.LogError("Env:FLAG_BLUEBERRIES_WORKFLOW=" + Environment.GetEnvironmentVariable("FLAG_BLUEBERRIES_WORKFLOW"));
-
             _ud.SetActiveSession();
             IndexViewModel lvm = new IndexViewModel();
             FarmData fd = _ud.FarmData();
