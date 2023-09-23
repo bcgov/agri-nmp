@@ -166,7 +166,8 @@ namespace Agri.Models
         Ranch = 3,
         Poultry = 4,
         Crops = 5,
-        Mixed = 6
+        Mixed = 6,
+        Berries = 7
     }
 
     public enum UserPromptPage
