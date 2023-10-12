@@ -9,6 +9,7 @@ namespace SERVERAPI.ViewModels
         public string Year { get; set; }
 
         [Display(Name = "Farm Name")]
+        [Required]
         public string FarmName { get; set; }
 
         public string CurrentYear { get; set; }

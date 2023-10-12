@@ -581,8 +581,8 @@
             "Name": "Manure and Imports",
             "Controller": "ManureManagement",
             "Action": "ManureImported",
-            "PreviousController": "Crops",
-            "PreviousAction": "Crops",
+            "PreviousController": "Soil",
+            "PreviousAction": "SoilTest",
             "NextController": "ManureManagement",
             "NextAction": "ManureNutrientAnalysis",
             "SortNumber": 1

@@ -80,7 +80,7 @@ namespace SERVERAPI.ViewModels
         {
             get
             {
-                if (UserJourney == UserJourney.Crops)
+                if (UserJourney == UserJourney.Crops || UserJourney == UserJourney.Berries)
                 {
                     return "~/ManureManagement/ManureImported";
                 }
