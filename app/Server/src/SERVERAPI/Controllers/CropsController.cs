@@ -822,5 +822,24 @@ namespace SERVERAPI.Controllers
             }
             return PartialView("CropDelete", dvm);
         }
+
+        [HttpGet]
+        public MissingCropViewModel MissingCrops()
+        {
+            var fieldList = _ud.GetFields();
+            var journey = _ud.FarmDetails().UserJourney.ToString();
+
+            var result = new MissingCropViewModel() {journey = journey, cropPresent = false};
+
+            foreach (Field field in fieldList)
+            {
+                if( field.Crops!= null && field.Crops.Any())
+                {
+                    result.cropPresent = true;
+                    return result;
+                }
+            }
+            return result;
+        }
     }
 }

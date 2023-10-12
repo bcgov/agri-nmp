@@ -208,5 +208,27 @@
             $("#ok_button").css('background-color', '#1abbed');
             $("#btnText").val("Calculate");
         }
+
+        function Intercept(navigateto) {
+            let url = '@Url.Action("MissingCrops", "Crops")';
+            $.ajax({
+                cache: false,
+                url: url,
+                success: function (result) {
+                    if (result) {
+                        const { journey, cropPresent } = result;
+                        if (((journey === "Berries" && navigateto === "/Soil/SoilTest") ||
+                            (journey === "Crops" && navigateto === "/ManureManagement/ManureImported")) &&
+                            !cropPresent) {
+                            $('#crop-missing-warning').removeClass('hidden');
+                        }
+                        else {
+                            window.location.href = navigateto;
+                        }
+                    }
+                }
+            });
+        }
+
     </script>
 }

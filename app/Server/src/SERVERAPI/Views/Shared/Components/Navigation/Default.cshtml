@@ -1,4 +1,5 @@
 ﻿@using Agri.Models
+@using Agri.Models.Configuration
 @model NavigationDetailViewModel
 
 @{
@@ -27,14 +28,23 @@
                     redirectFunction = $"Intercept('{url}')";
                 }
                 <li id="@item.Controller@item.Action@item.Id" style="text-align: center">
+                    @if (enableMainMenu(item))
+                    {
                     <a id="@item.ElementId" href='#' onclick="@redirectFunction">
                         @item.Name
                     </a>
+                    }
+                    else
+                    {
+                    <a id="@item.ElementId">
+                        @item.Name
+                    </a>
+                    }
                 </li>
             }
             @if (currentAction != CoreSiteActions.Farm &&
-           currentAction != CoreSiteActions.Report &&
-           currentAction != CoreSiteActions.SessionExpired)
+         currentAction != CoreSiteActions.Report &&
+         currentAction != CoreSiteActions.SessionExpired)
             {
                 <li class="continue-link">
                     <a href='@Url.Action("Report", "Report")'><u>Continue later</u></a>
@@ -54,12 +64,121 @@
                     var url = item.UsesFeaturePages ? Url.Page(item.Page) : Url.Action(item.Action, item.Controller);
 
                     <li id="@item.ElementId@item.Id">
-                        <a id="@item.ElementId" href='@url'>
-                            <span>@item.Name</span>
-                        </a>
+                        @if (enableSubMenu(item))
+                        {
+                            <a id="@item.ElementId" href='@url'>
+                                <span>@item.Name</span>
+                            </a>
+                        }
+                        else
+                        {
+                            <a id="@item.ElementId">
+                                <span>@item.Name</span>
+                            </a>
+                        }
                     </li>
                 }
             </ul>
         </div>
     </div>
 </div>
+
+@functions
+{
+    public bool enableMainMenu(MainMenu menuItem)
+    {
+        (string Controller, string Action, string Page) = GetRouting();
+        int currentSortOrder = -1;
+        if (!String.IsNullOrEmpty(Page))
+        {
+            string basePage = getBasePath(Page, 3 );
+            foreach (MainMenu mainMenu in Model.MainMenus)
+            {
+                currentSortOrder = mainMenu.SubMenus.Any(item => getBasePath(item.Page, 3) == basePage) ?
+                                                          mainMenu.SortNumber : -1;
+                if (currentSortOrder != -1)
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            currentSortOrder = Model.MainMenus.Where(item => item.Action == Action && item.Controller == Controller)
+                                                  .Select(field => field.SortNumber)
+                                                  .SingleOrDefault(-1);
+            if (currentSortOrder == -1)
+            {
+                foreach (MainMenu mainMenu in Model.MainMenus)
+                {
+                    currentSortOrder = mainMenu.SubMenus.Any(item => item.Action == Action && item.Controller == Controller) ?
+                                                              mainMenu.SortNumber : -1;
+                    if (currentSortOrder != -1)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        bool result = menuItem.SortNumber <= currentSortOrder;
+        return result;
+
+    }
+
+    public bool enableSubMenu(SubMenu subMenuItem)
+    {
+        (string Controller, string Action, string Page) = GetRouting();
+        int currentSortOrder = -1;
+        if (Page != "")
+        {
+            string basePage = getBasePath(Page, 3);
+
+            currentSortOrder = Model.SubMenus.Where(item => getBasePath(item.Page, 3) == basePage)
+                      .Select(field => field.SortNumber)
+                      .SingleOrDefault(-1);
+        }
+        else
+        {
+            currentSortOrder = Model.SubMenus.Where(item => item.Action == Action && item.Controller == Controller)
+                          .Select(field => field.SortNumber)
+                          .SingleOrDefault(-1);
+        }
+
+        bool result = subMenuItem.SortNumber <= currentSortOrder;
+        return result;
+
+    }
+
+    string getBasePath(string route, int sections)
+    {
+        if (String.IsNullOrEmpty(route))
+        {
+            return route;
+        }
+        var tokens = route.Split(@"/");
+        if (tokens.Count() < sections)
+        {
+            return route;        }
+        return String.Join("/", tokens.Take(sections));
+
+    }
+
+    public (string Controller, string Action, string Page) GetRouting()
+    {
+        var result = (Controller: EnumHelper<AppControllers>.Parse(ViewContext.RouteData.Values["Controller"]?
+                                                            .ToString()?? "NotUsed").ToString(),
+                      Action: EnumHelper<CoreSiteActions>.Parse(ViewContext.RouteData.Values["Action"]?
+                                                         .ToString() ?? "NotUsed").ToString(),
+                      Page: String.Empty
+                     );
+
+        if(result.Controller == "NotUsed")
+        {
+            result.Page = ViewContext.RouteData.Values["page"]?.ToString();
+        }
+        return result;
+
+
+   }
+}
+

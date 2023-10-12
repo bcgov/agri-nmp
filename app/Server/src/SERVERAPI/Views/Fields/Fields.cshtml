@@ -172,5 +172,28 @@
                 return false;
             });
         }
+
+        function Intercept(navigateto) {
+
+           let url = '@Url.Action("MissingField", "Fields")';
+            $.ajax({
+                cache: false,
+                url: url,
+                success: function (result) {
+                    if (result) {
+                        const { journey, fieldPresent } = result;
+                        if (((journey === "Berries" && navigateto === "/Crops/Crops") ||
+                            (journey === "Crops" && navigateto === "/Soil/SoilTest")) &&
+                            !fieldPresent) {
+                            $('#field-missing-warning').removeClass('hidden');
+                        }
+                        else {
+                            window.location.href = navigateto;
+                        }
+                    }
+                }
+            });
+
+        }
     </script>
 }

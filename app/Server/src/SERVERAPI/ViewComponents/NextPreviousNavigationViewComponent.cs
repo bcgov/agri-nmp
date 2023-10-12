@@ -72,7 +72,11 @@ namespace SERVERAPI.ViewComponents
                 currentMainMenuItem.SubMenus.Single(s => s.IsSubMenuCurrent(currentAction)) as Menu :
                 currentMainMenuItem as Menu;
 
-            if (currentAction == CoreSiteActions.SoilTest)
+            if (new List<CoreSiteActions>(){
+                    CoreSiteActions.SoilTest,
+                    CoreSiteActions.Fields,
+                    CoreSiteActions.Crops}
+                    .Contains(currentAction))
             {
                 currentMenuItem.UseJavaScriptInterceptMethod = true;
             }

@@ -10,6 +10,7 @@ using SERVERAPI.Models.Impl;
 using SERVERAPI.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -300,6 +301,17 @@ namespace SERVERAPI.Controllers
                 return Json(new { success = true, url = url, target = fvm.target });
             }
             return PartialView("FieldDelete", fvm);
+        }
+
+        [HttpGet]
+        public MissingFieldViewModel MissingField()
+        {
+            var fieldPresent = _ud.GetFields().Any();
+            var journey = _ud.FarmDetails().UserJourney.ToString();
+
+            var result = new MissingFieldViewModel() { journey = journey, fieldPresent = fieldPresent };
+
+            return result;
         }
     }
 }
