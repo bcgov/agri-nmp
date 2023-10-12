@@ -106,7 +106,7 @@
         {
             currentSortOrder = Model.MainMenus.Where(item => item.Action == Action && item.Controller == Controller)
                                                   .Select(field => field.SortNumber)
-                                                  .SingleOrDefault(-1);
+                                                  .DefaultIfEmpty(-1).Single();
             if (currentSortOrder == -1)
             {
                 foreach (MainMenu mainMenu in Model.MainMenus)
@@ -135,13 +135,13 @@
 
             currentSortOrder = Model.SubMenus.Where(item => getBasePath(item.Page, 3) == basePage)
                       .Select(field => field.SortNumber)
-                      .SingleOrDefault(-1);
+                      .DefaultIfEmpty(-1).Single();
         }
         else
         {
             currentSortOrder = Model.SubMenus.Where(item => item.Action == Action && item.Controller == Controller)
                           .Select(field => field.SortNumber)
-                          .SingleOrDefault(-1);
+                          .DefaultIfEmpty(-1).Single();
         }
 
         bool result = subMenuItem.SortNumber <= currentSortOrder;
@@ -179,6 +179,6 @@
         return result;
 
 
-   }
+    }
 }
 
