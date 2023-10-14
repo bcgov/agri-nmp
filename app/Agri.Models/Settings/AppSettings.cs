@@ -9,5 +9,6 @@
         public bool LoadSeedData { get; set; }
         public int ExpectedSeedDataVersion { get; set; }
         public bool FLAG_BLUEBERRIES_WORKFLOW { get; set; }
+        public bool RELOAD_JOURNEYS { get; set; }
     }
 }
