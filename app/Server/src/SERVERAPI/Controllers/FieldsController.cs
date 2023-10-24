@@ -44,8 +44,6 @@ namespace SERVERAPI.Controllers
 
             FarmDetails fd = _ud.FarmDetails();
 
-            var fields = _ud.GetFields();
-
             return View(fvm);
         }
 
