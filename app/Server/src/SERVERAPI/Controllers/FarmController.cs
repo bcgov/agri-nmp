@@ -268,7 +268,12 @@ namespace SERVERAPI.Controllers
                 fvm.ButtonPressed = "";
                 var farmData = _ud.FarmDetails();
                 farmData.HasBlueberries = fvm.HasBlueberries && _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
-                fvm.ShowBlueberries = _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW; 
+                fvm.ShowBlueberries = _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
+                if(fvm.HasBlueberries)
+                {
+                    var fields = _ud.GetFields();
+                    fields.ForEach(field => { field.PreviousYearManureApplicationFrequency = null; _ud.UpdateField(field); });
+                }
 
                 return View(fvm);
             }

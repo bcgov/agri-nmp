@@ -1,4 +1,5 @@
 ﻿using Agri.Data;
+using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -23,6 +24,7 @@ namespace SERVERAPI.Controllers
         private readonly UserData _ud;
         private readonly IAgriConfigurationRepository _sd;
         private readonly IOptions<AppSettings> _appSettings;
+        private UserJourney _journey;
 
         public FieldsController(ILogger<FieldsController> logger,
             UserData ud,
@@ -33,6 +35,7 @@ namespace SERVERAPI.Controllers
             _ud = ud;
             _sd = sd;
             _appSettings = appSettings;
+            _journey = _ud.FarmDetails().UserJourney;
         }
 
         public ActionResult Fields()
@@ -154,7 +157,7 @@ namespace SERVERAPI.Controllers
             fvm.cntl = cntl;
             fvm.currFld = currFld;
             fvm.placehldr = _sd.GetUserPrompt("fieldcommentplaceholder");
-
+          
             if (!string.IsNullOrEmpty(name))
             {
                 Field fld = _ud.GetFieldDetails(name);
@@ -175,6 +178,17 @@ namespace SERVERAPI.Controllers
             {
                 fvm.act = "Add";
             }
+            
+            if(_journey == Agri.Models.UserJourney.Berries)
+            {
+                fvm.showPrevYrManureOption = false;
+                fvm.selPrevYrManureOption = null;
+            }
+            else
+            {
+                fvm.showPrevYrManureOption = true;
+            }
+
             return PartialView("FieldDetail", fvm);
         }
 
@@ -185,6 +199,11 @@ namespace SERVERAPI.Controllers
             string url;
             // required to populate o/w validation messages are suppressed
             fvm.selPrevYrManureOptions = _sd.GetPrevManureApplicationInPrevYears();
+
+            if (_journey == Agri.Models.UserJourney.Berries)
+            {
+                ModelState.Remove("selPrevYrManureOption");
+            }
 
             if (ModelState.IsValid)
             {
