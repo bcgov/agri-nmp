@@ -29,5 +29,6 @@ namespace SERVERAPI.ViewModels
         public string currFld { get; set; }
         public int fieldId { get; set; }
         public string placehldr { get; set; }
+        public bool showPrevYrManureOption { get; set; }
     }
 }
