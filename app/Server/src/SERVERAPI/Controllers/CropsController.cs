@@ -180,6 +180,24 @@ namespace SERVERAPI.Controllers
             CropDetailsSetup(ref cvm);
             try
             {
+                if (cvm.buttonPressed == "NumberOfPlantsPerAcreChange")
+                {
+                    ModelState.Clear();
+                    cvm.selDistanceBtwnPlantsRows = cvm.selNumberOfPlantsPerAcre;
+                    cvm.buttonPressed = "";
+                    cvm.btnText = "Calculate";
+                    return View(cvm);
+                }
+
+                if (cvm.buttonPressed == "DistanceBtwnPlantsRowsChange")
+                {
+                    ModelState.Clear();
+                    cvm.selNumberOfPlantsPerAcre = cvm.selDistanceBtwnPlantsRows;
+                    cvm.buttonPressed = "";
+                    cvm.btnText = "Calculate";
+                    return View(cvm);
+                }
+
                 if (cvm.buttonPressed == "TypeChange")
                 {
                     ModelState.Clear();
@@ -903,7 +921,7 @@ namespace SERVERAPI.Controllers
             return;
         }
 
-        public void InitCrops(ref CropDetailsViewModel cvm)
+        private void InitCrops(ref CropDetailsViewModel cvm)
         {
             if (_journey == UserJourney.Berries)
             {
@@ -918,58 +936,12 @@ namespace SERVERAPI.Controllers
                 cvm.cropOptions.RemoveAll(item => item.Id == 75);
             }
 
-            cvm.plantAgeYears = new List<SelectListItem>
-                {
-                  new SelectListItem() {Id = 0, Value="1"},
-                  new SelectListItem() {Id = 1, Value="2"},
-                  new SelectListItem() {Id = 2, Value="3"},
-                  new SelectListItem() {Id = 3, Value="4"},
-                  new SelectListItem() {Id = 4, Value="5"},
-                  new SelectListItem() {Id = 5, Value="6"},
-                  new SelectListItem() {Id = 6, Value="7"},
-                  new SelectListItem() {Id = 7, Value="8"},
-                  new SelectListItem() {Id = 8, Value="9 or more"},
-                };
-
-            cvm.numberOfPlantsPerAcre = new List<SelectListItem>
-                {
-                  new SelectListItem() {Id = 0, Value="2470"},
-                  new SelectListItem() {Id = 1, Value="2220"},
-                  new SelectListItem() {Id = 2, Value="1480"},
-                  new SelectListItem() {Id = 3, Value="1350"},
-                  new SelectListItem() {Id = 4, Value="1240"},
-                  new SelectListItem() {Id = 5, Value="1110"},
-                  new SelectListItem() {Id = 6, Value="1010"}
-                };
-            cvm.distanceBtwnPlantsRows = new List<SelectListItem>
-                {
-                  new SelectListItem() {Id = 0, Value="0.6 m x 2.7 m (2 ft x 9 ft)"},
-                  new SelectListItem() {Id = 0, Value="0.6 m x 3.0 m (2 ft x 10 ft)"},
-                  new SelectListItem() {Id = 0, Value="0.9 m x 3.0 m (3 ft x 10 ft)"},
-                  new SelectListItem() {Id = 0, Value="0.9 m x 3.3 m (3 ft x 11 ft)"},
-                  new SelectListItem() {Id = 0, Value="1.2 m x 2.7 m (4 ft x 9 ft)"},
-                  new SelectListItem() {Id = 0, Value="1.2 m x 3.0 m (4 ft x 10 ft)"},
-                  new SelectListItem() {Id = 0, Value="1.2 m x 3.3 m (4 ft x 11 ft)"}
-                };
-
-            cvm.willPlantsBePruned = new List<SelectListItem>
-                {
-                  new SelectListItem() {Id = 0, Value="Yes"},
-                  new SelectListItem() {Id = 0, Value="No"},
-                };
-            cvm.whereWillPruningsGo = new List<SelectListItem>
-                {
-                  new SelectListItem() {Id = 0, Value="N/A"},
-                  new SelectListItem() {Id = 0, Value="Removed from field"},
-                  new SelectListItem() {Id = 0, Value="Left in row"},
-                  new SelectListItem() {Id = 0, Value="Left between rows"}
-                };
-
-            cvm.willSawdustBeApplied = new List<SelectListItem>
-                {
-                  new SelectListItem() {Id = 0, Value="Yes"},
-                  new SelectListItem() {Id = 0, Value="No"},
-                };
+            cvm.plantAgeYears = _sd.GetPlantAgeYearsDll();
+            cvm.numberOfPlantsPerAcre = _sd.GetNumberOfPlantsPerAcreDll();
+            cvm.distanceBtwnPlantsRows = _sd.GetDistanceBtwnPlantsRowsDll();
+            cvm.willPlantsBePruned = _sd.GetWillPlantsBePrunedDll();
+            cvm.whereWillPruningsGo = _sd.GetWhereWillPruningsGoDll();
+            cvm.willSawdustBeApplied = _sd.GetWillSawdustBeAppliedDll();
 
         }
     }

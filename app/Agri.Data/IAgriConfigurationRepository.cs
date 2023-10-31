@@ -350,5 +350,18 @@ namespace Agri.Data
         void LoadConfigurations(StaticDataVersion staticDataVersionToLoad, int? maxStaticDataVersion = null);
 
         Journey GetJourney(int journeyId);
+
+        List<SelectListItem> GetPlantAgeYearsDll();
+
+        List<SelectListItem> GetNumberOfPlantsPerAcreDll();
+
+        List<SelectListItem> GetDistanceBtwnPlantsRowsDll();
+
+        List<SelectListItem> GetWillPlantsBePrunedDll();
+
+        List<SelectListItem> GetWhereWillPruningsGoDll();
+
+        List<SelectListItem> GetWillSawdustBeAppliedDll();
+
     }
 }
