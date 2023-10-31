@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
+using SERVERAPI.ViewComponents;
 using SERVERAPI.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -269,11 +270,12 @@ namespace SERVERAPI.Controllers
                 var farmData = _ud.FarmDetails();
                 farmData.HasBlueberries = fvm.HasBlueberries && _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
                 fvm.ShowBlueberries = _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
-                if(fvm.HasBlueberries)
+                var fields = _ud.GetFields();
+                if (fvm.HasBlueberries)
                 {
-                    var fields = _ud.GetFields();
                     fields.ForEach(field => { field.PreviousYearManureApplicationFrequency = null; _ud.UpdateField(field); });
                 }
+                fields.ForEach(field => { field.Crops.Clear(); _ud.UpdateField(field); });
 
                 return View(fvm);
             }

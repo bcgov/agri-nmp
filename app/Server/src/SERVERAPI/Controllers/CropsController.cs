@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Agri.CalculateService;
 using Agri.Data;
+using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -22,6 +23,7 @@ namespace SERVERAPI.Controllers
         private readonly IAgriConfigurationRepository _sd;
         private readonly AppSettings _settings;
         private readonly ICalculateCropRequirementRemoval _calculateCropRequirementRemoval;
+        private readonly UserJourney _journey;
 
         public CropsController(ILogger<NutrientsController> logger,
             UserData ud,
@@ -34,6 +36,7 @@ namespace SERVERAPI.Controllers
             _sd = sd;
             _settings = settings.Value;
             _calculateCropRequirementRemoval = calculateCropRequirementRemoval;
+            _journey = _ud.FarmDetails().UserJourney;
         }
 
         public IActionResult Crops()
@@ -52,7 +55,9 @@ namespace SERVERAPI.Controllers
                 stdCrude = true,
                 stdYield = true,
                 nCredit = "0",
-                nCreditLabel = _sd.GetUserPrompt("ncreditlabel")
+                nCreditLabel = _sd.GetUserPrompt("ncreditlabel"),
+                showBlueberries = _journey == UserJourney.Berries
+
             };
 
             if (id != null)
@@ -144,6 +149,7 @@ namespace SERVERAPI.Controllers
                 }
 
                 CropDetailsSetup(ref cvm);
+                PopulateYield(ref cvm);
 
                 if (!cvm.manEntry)
                 {
@@ -161,6 +167,8 @@ namespace SERVERAPI.Controllers
                 CropDetailsReset(ref cvm);
 
                 CropDetailsSetup(ref cvm);
+                PopulateYield(ref cvm);
+             
             }
 
             return PartialView(cvm);
@@ -221,6 +229,7 @@ namespace SERVERAPI.Controllers
                         cvm.showHarvestUnitsDDL = false;
                         CropDetailsReset(ref cvm);
                     }
+                    PopulateYield(ref cvm);
                     return View(cvm);
                 }
 
@@ -290,47 +299,7 @@ namespace SERVERAPI.Controllers
 
                 if (cvm.buttonPressed == "CropChange")
                 {
-                    ModelState.Clear();
-                    cvm.buttonPressed = "";
-                    cvm.btnText = "Calculate";
-                    cvm.nCredit = "0";
-                    cvm.stdYield = true;
-
-                    PreviousCropSetup(ref cvm);
-                    CropDetailsReset(ref cvm);
-
-                    if (cvm.selCropOption != "" &&
-                        cvm.selCropOption != "0" &&
-                        cvm.selCropOption != "select")
-                    {
-                        Crop cp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
-                        Yield yld = _sd.GetYieldById(cp.YieldCd);
-
-                        cvm.yieldUnit = "(" + yld.YieldDesc + ")";
-                        // E07US18
-                        if (cvm.showHarvestUnitsDDL)
-                        {
-                            cvm.harvestUnitsOptions = _sd.GetCropHarvestUnitsDll();
-                            cvm.selHarvestUnits = _sd.GetHarvestYieldDefaultDisplayUnit().ToString();
-                        }
-                        if (cvm.showCrude)
-                        {
-                            cvm.crude = _calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
-                            cvm.stdCrude = true;
-                        }
-
-                        decimal? defaultYield;
-                        // E07US18
-                        if (cvm.showHarvestUnitsDDL)
-                            defaultYield = _calculateCropRequirementRemoval.GetDefaultYieldByCropId(_ud.FarmDetails(), Convert.ToInt16(cvm.selCropOption), cvm.selHarvestUnits != _sd.GetHarvestYieldDefaultUnit().ToString());
-                        else
-                            defaultYield = _calculateCropRequirementRemoval.GetDefaultYieldByCropId(_ud.FarmDetails(), Convert.ToInt16(cvm.selCropOption), false);
-
-                        if (defaultYield.HasValue)
-                            cvm.yieldByHarvestUnit = defaultYield.Value.ToString("#.##");
-                    }
-                    cvm.selPrevOption = string.Empty;
-
+                    PopulateYield(ref cvm);
                     return View(cvm);
                 }
 
@@ -576,6 +545,46 @@ namespace SERVERAPI.Controllers
                         ModelState.Clear();
                         if (!cvm.manEntry)
                         {
+                            if (_journey == UserJourney.Berries)
+                            {
+                                bool hasValidationErrors = false;
+
+                                if (cvm.selPlantAgeYears == "select")
+                                {
+                                    ModelState.AddModelError("selPlantAgeYears", "Required field");
+                                    hasValidationErrors = true;
+                                }
+                                if (cvm.selNumberOfPlantsPerAcre == "select")
+                                {
+                                    ModelState.AddModelError("selNumberOfPlantsPerAcre", "Required field");
+                                    hasValidationErrors = true;
+                                }
+                                if (cvm.selDistanceBtwnPlantsRows == "select")
+                                {
+                                    ModelState.AddModelError("selDistanceBtwnPlantsRows", "Required field");
+                                    hasValidationErrors = true;
+                                }
+                                if (cvm.selWillPlantsBePruned == "select")
+                                {
+                                    ModelState.AddModelError("selWillPlantsBePruned", "Required field");
+                                    hasValidationErrors = true;
+                                }
+                                if (cvm.selWhereWillPruningsGo == "select")
+                                {
+                                    ModelState.AddModelError("selWhereWillPruningsGo", "Required field");
+                                    hasValidationErrors = true;
+                                }
+                                if (cvm.selWillSawdustBeApplied == "select")
+                                {
+                                    ModelState.AddModelError("selWillSawdustBeApplied", "Required field");
+                                    hasValidationErrors = true;
+                                }
+                                if (hasValidationErrors)
+                                {
+                                    return View(cvm);
+                                }
+                            }
+
                             // E07US18 - need to convert cvm.yield to tons/acre before passing to calculateCrop
                             var yield = cvm.showHarvestUnitsDDL && !_sd.IsCropHarvestYieldDefaultUnit(Convert.ToInt16(cvm.selHarvestUnits)) ?
                                     _sd.ConvertYieldFromBushelToTonsPerAcre(Convert.ToInt16(cvm.selCropOption), Convert.ToDecimal(cvm.yieldByHarvestUnit)) :
@@ -739,6 +748,10 @@ namespace SERVERAPI.Controllers
 
             cvm.cropOptions = new List<SelectListItem>();
             cvm.harvestUnitsOptions = new List<SelectListItem>();
+            if (_journey == UserJourney.Berries)
+            {
+                cvm.selTypOption = "7";
+            }
             if (!string.IsNullOrEmpty(cvm.selTypOption) &&
                 cvm.selTypOption != "select")
             {
@@ -759,6 +772,7 @@ namespace SERVERAPI.Controllers
             }
 
             PreviousCropSetup(ref cvm);
+            InitCrops(ref cvm);
 
             return;
         }
@@ -829,17 +843,134 @@ namespace SERVERAPI.Controllers
             var fieldList = _ud.GetFields();
             var journey = _ud.FarmDetails().UserJourney.ToString();
 
-            var result = new MissingCropViewModel() {journey = journey, cropPresent = false};
+            var result = new MissingCropViewModel() { journey = journey, cropPresent = false };
 
             foreach (Field field in fieldList)
             {
-                if( field.Crops!= null && field.Crops.Any())
+                if (field.Crops != null && field.Crops.Any())
                 {
                     result.cropPresent = true;
                     return result;
                 }
             }
             return result;
+        }
+        public void PopulateYield(ref CropDetailsViewModel cvm)
+        {
+            if (cvm.selCropOption != null && cvm.selTypOption != null)
+            {
+                ModelState.Clear();
+                cvm.buttonPressed = "";
+                cvm.btnText = "Calculate";
+                cvm.nCredit = "0";
+                cvm.stdYield = true;
+
+                PreviousCropSetup(ref cvm);
+                CropDetailsReset(ref cvm);
+
+                if (cvm.selCropOption != "" &&
+                    cvm.selCropOption != "0" &&
+                    cvm.selCropOption != "select")
+                {
+                    Crop cp = _sd.GetCrop(Convert.ToInt32(cvm.selCropOption));
+                    Yield yld = _sd.GetYieldById(cp.YieldCd);
+
+                    cvm.yieldUnit = "(" + yld.YieldDesc + ")";
+                    // E07US18
+                    if (cvm.showHarvestUnitsDDL)
+                    {
+                        cvm.harvestUnitsOptions = _sd.GetCropHarvestUnitsDll();
+                        cvm.selHarvestUnits = _sd.GetHarvestYieldDefaultDisplayUnit().ToString();
+                    }
+                    if (cvm.showCrude)
+                    {
+                        cvm.crude = _calculateCropRequirementRemoval.GetCrudeProtienByCropId(Convert.ToInt16(cvm.selCropOption)).ToString("#.#");
+                        cvm.stdCrude = true;
+                    }
+
+                    decimal? defaultYield;
+                    // E07US18
+                    if (cvm.showHarvestUnitsDDL)
+                        defaultYield = _calculateCropRequirementRemoval.GetDefaultYieldByCropId(_ud.FarmDetails(), Convert.ToInt16(cvm.selCropOption), cvm.selHarvestUnits != _sd.GetHarvestYieldDefaultUnit().ToString());
+                    else
+                        defaultYield = _calculateCropRequirementRemoval.GetDefaultYieldByCropId(_ud.FarmDetails(), Convert.ToInt16(cvm.selCropOption), false);
+
+                    if (defaultYield.HasValue)
+                        cvm.yieldByHarvestUnit = defaultYield.Value.ToString("#.##");
+                }
+                cvm.selPrevOption = string.Empty;
+            }
+            return;
+        }
+
+        public void InitCrops(ref CropDetailsViewModel cvm)
+        {
+            if (_journey == UserJourney.Berries)
+            {
+                cvm.selTypOption = "7";
+                cvm.typOptions.RemoveAll(item => item.Id != 7);
+
+                cvm.selCropOption = "75";
+            }
+            else
+            {
+                cvm.typOptions.RemoveAll(item => item.Id == 7);
+                cvm.cropOptions.RemoveAll(item => item.Id == 75);
+            }
+
+            cvm.plantAgeYears = new List<SelectListItem>
+                {
+                  new SelectListItem() {Id = 0, Value="1"},
+                  new SelectListItem() {Id = 1, Value="2"},
+                  new SelectListItem() {Id = 2, Value="3"},
+                  new SelectListItem() {Id = 3, Value="4"},
+                  new SelectListItem() {Id = 4, Value="5"},
+                  new SelectListItem() {Id = 5, Value="6"},
+                  new SelectListItem() {Id = 6, Value="7"},
+                  new SelectListItem() {Id = 7, Value="8"},
+                  new SelectListItem() {Id = 8, Value="9 or more"},
+                };
+
+            cvm.numberOfPlantsPerAcre = new List<SelectListItem>
+                {
+                  new SelectListItem() {Id = 0, Value="2470"},
+                  new SelectListItem() {Id = 1, Value="2220"},
+                  new SelectListItem() {Id = 2, Value="1480"},
+                  new SelectListItem() {Id = 3, Value="1350"},
+                  new SelectListItem() {Id = 4, Value="1240"},
+                  new SelectListItem() {Id = 5, Value="1110"},
+                  new SelectListItem() {Id = 6, Value="1010"}
+                };
+            cvm.distanceBtwnPlantsRows = new List<SelectListItem>
+                {
+                  new SelectListItem() {Id = 0, Value="0.6 m x 2.7 m (2 ft x 9 ft)"},
+                  new SelectListItem() {Id = 0, Value="0.6 m x 3.0 m (2 ft x 10 ft)"},
+                  new SelectListItem() {Id = 0, Value="0.9 m x 3.0 m (3 ft x 10 ft)"},
+                  new SelectListItem() {Id = 0, Value="0.9 m x 3.3 m (3 ft x 11 ft)"},
+                  new SelectListItem() {Id = 0, Value="1.2 m x 2.7 m (4 ft x 9 ft)"},
+                  new SelectListItem() {Id = 0, Value="1.2 m x 3.0 m (4 ft x 10 ft)"},
+                  new SelectListItem() {Id = 0, Value="1.2 m x 3.3 m (4 ft x 11 ft)"}
+                };
+
+            cvm.willPlantsBePruned = new List<SelectListItem>
+                {
+                  new SelectListItem() {Id = 0, Value="Yes"},
+                  new SelectListItem() {Id = 0, Value="No"},
+                };
+            cvm.whereWillPruningsGo = new List<SelectListItem>
+                {
+                  new SelectListItem() {Id = 0, Value="N/A"},
+                  new SelectListItem() {Id = 0, Value="Removed from field"},
+                  new SelectListItem() {Id = 0, Value="Left in row"},
+                  new SelectListItem() {Id = 0, Value="Left between rows"}
+                };
+
+            cvm.willSawdustBeApplied = new List<SelectListItem>
+                {
+                  new SelectListItem() {Id = 0, Value="Yes"},
+                  new SelectListItem() {Id = 0, Value="No"},
+                };
+
         }
     }
 }

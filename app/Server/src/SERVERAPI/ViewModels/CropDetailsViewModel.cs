@@ -47,5 +47,21 @@ namespace SERVERAPI.ViewModels
         public string selHarvestUnits { get; set; }
         [Required(ErrorMessage = "Required")]
         public string yieldByHarvestUnit { get; set; }
+        public string selPlantAgeYears { get; set; }
+        public string selNumberOfPlantsPerAcre { get; set; }
+        public string selDistanceBtwnPlantsRows { get; set; }
+        public string selWillPlantsBePruned { get; set; }
+        public string selWhereWillPruningsGo { get; set; }
+        public string selWillSawdustBeApplied { get; set; }
+
+        public List<SelectListItem> plantAgeYears { get; set; }
+        public List<SelectListItem> numberOfPlantsPerAcre { get; set; }
+        public List<SelectListItem> distanceBtwnPlantsRows { get; set; }
+        public List<SelectListItem> willPlantsBePruned { get; set; }
+        public List<SelectListItem> whereWillPruningsGo { get; set; }
+        public List<SelectListItem> willSawdustBeApplied { get; set; }
+
+        public bool showBlueberries { get; set; }
+
     }
 }
