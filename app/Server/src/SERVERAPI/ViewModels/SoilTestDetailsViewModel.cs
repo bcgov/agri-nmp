@@ -19,5 +19,14 @@
         public string SoilTestPhosphorousMsg { get; set; }
         public string SoilTestPotassiumMsg { get; set; }
         public string SoilTestPHMsg { get; set; }
+        public bool ShowBlueberries { get; set; }
+
+        public string leafTissueP { get; set; }
+        public string leafTissueK { get; set; }
+        public string cropRequirementN { get; set; }
+        public string cropRequirementP2O5 { get; set; }
+        public string cropRequirementK2O5 { get; set; }
+        public string cropRemovalP2O5 { get; set; }
+        public string cropRemovalK2O5 { get; set; }
     }
 }

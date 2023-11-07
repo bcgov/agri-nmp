@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models;
+using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -23,7 +25,7 @@ namespace SERVERAPI.Controllers
         private readonly IAgriConfigurationRepository _sd;
         private readonly AppSettings _settings;
         private readonly ICalculateCropRequirementRemoval _calculateCropRequirementRemoval;
-        private readonly UserJourney _journey;
+        private readonly bool _showBlueberries;
 
         public CropsController(ILogger<NutrientsController> logger,
             UserData ud,
@@ -36,7 +38,7 @@ namespace SERVERAPI.Controllers
             _sd = sd;
             _settings = settings.Value;
             _calculateCropRequirementRemoval = calculateCropRequirementRemoval;
-            _journey = _ud.FarmDetails().UserJourney;
+            _showBlueberries = _ud.FarmDetails().UserJourney == UserJourney.Berries;
         }
 
         public IActionResult Crops()
@@ -56,8 +58,7 @@ namespace SERVERAPI.Controllers
                 stdYield = true,
                 nCredit = "0",
                 nCreditLabel = _sd.GetUserPrompt("ncreditlabel"),
-                showBlueberries = _journey == UserJourney.Berries
-
+                showBlueberries = _showBlueberries
             };
 
             if (id != null)
@@ -150,6 +151,29 @@ namespace SERVERAPI.Controllers
 
                 CropDetailsSetup(ref cvm);
                 PopulateYield(ref cvm);
+
+                if( _showBlueberries)
+                {
+
+                    cvm.selPlantAgeYears = cvm.plantAgeYears.Where( item => item.Value == cp.plantAgeYears)
+                                                            .Select(field => field.Id.ToString()).FirstOrDefault();
+
+                    cvm.selNumberOfPlantsPerAcre = cvm.numberOfPlantsPerAcre.Where(item => item.Value == cp.numberOfPlantsPerAcre.ToString())
+                                                                 .Select(field => field.Id.ToString()).FirstOrDefault();
+
+                    cvm.selDistanceBtwnPlantsRows = cvm.distanceBtwnPlantsRows.Where(item => item.Value == cp.distanceBtwnPlantsRows)
+                                                                 .Select(field => field.Id.ToString()).FirstOrDefault();
+
+                    cvm.selWillPlantsBePruned = cvm.willPlantsBePruned.Where(item => item.Value == ((cp.willPlantsBePruned ?? false) ? "Yes" : "No"))
+                                                                 .Select(field => field.Id.ToString()).FirstOrDefault();
+
+                    cvm.selWhereWillPruningsGo = cvm.whereWillPruningsGo.Where(item => item.Value == cp.whereWillPruningsGo)
+                                                                 .Select(field => field.Id.ToString()).FirstOrDefault();
+
+                    cvm.selWillSawdustBeApplied = cvm.willSawdustBeApplied.Where(item => item.Value == ((cp.willSawdustBeApplied ?? false) ? "Yes" : "No"))
+                                                                           .Select(field => field.Id.ToString()).FirstOrDefault();
+
+                }
 
                 if (!cvm.manEntry)
                 {
@@ -563,7 +587,7 @@ namespace SERVERAPI.Controllers
                         ModelState.Clear();
                         if (!cvm.manEntry)
                         {
-                            if (_journey == UserJourney.Berries)
+                            if (_showBlueberries)
                             {
                                 bool hasValidationErrors = false;
 
@@ -610,15 +634,31 @@ namespace SERVERAPI.Controllers
 
                             cvm.yield = yield.ToString();
 
-                            var cropRequirementRemoval = _calculateCropRequirementRemoval
-                                .GetCropRequirementRemoval(Convert.ToInt16(cvm.selCropOption),
-                                yield,
-                                string.IsNullOrEmpty(cvm.crude) ? default(decimal?) : Convert.ToDecimal(cvm.crude),
-                                cvm.coverCropHarvested,
-                                !string.IsNullOrEmpty(cvm.nCredit) ? Convert.ToInt16(cvm.nCredit) : 0,
-                                _ud.FarmDetails().FarmRegion.Value,
-                                _ud.GetFieldDetails(cvm.fieldName)
-                            );
+                            CropRequirementRemoval cropRequirementRemoval;
+                            if (_showBlueberries)
+                            {
+                                cropRequirementRemoval = new CropRequirementRemoval
+                                {
+                                    N_Requirement = 0,
+                                    P2O5_Requirement = 0,
+                                    K2O_Requirement = 0,
+                                    N_Removal = 0,
+                                    P2O5_Removal = 0,
+                                    K2O_Removal = 0
+                                };
+                            }
+                            else
+                            {
+                                cropRequirementRemoval = _calculateCropRequirementRemoval
+                                    .GetCropRequirementRemoval(Convert.ToInt16(cvm.selCropOption),
+                                    yield,
+                                    string.IsNullOrEmpty(cvm.crude) ? default(decimal?) : Convert.ToDecimal(cvm.crude),
+                                    cvm.coverCropHarvested,
+                                    !string.IsNullOrEmpty(cvm.nCredit) ? Convert.ToInt16(cvm.nCredit) : 0,
+                                    _ud.FarmDetails().FarmRegion.Value,
+                                    _ud.GetFieldDetails(cvm.fieldName)
+                                );
+                            }
 
                             if (!cvm.modNitrogen)
                             {
@@ -700,8 +740,22 @@ namespace SERVERAPI.Controllers
                                 prevCropId = prevCrop,
                                 coverCropHarvested = cvm.coverCropHarvested,
                                 prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(thisCrop),
-                                yieldHarvestUnit = (cvm.showHarvestUnitsDDL) ? Convert.ToInt16(cvm.selHarvestUnits) : _sd.GetHarvestYieldDefaultUnit()
-                            };
+                                yieldHarvestUnit = (cvm.showHarvestUnitsDDL) ? Convert.ToInt16(cvm.selHarvestUnits) : _sd.GetHarvestYieldDefaultUnit(),
+
+                                plantAgeYears = cvm.plantAgeYears.Where(item => item.Id.ToString() == cvm.selPlantAgeYears)
+                                                                 .Select(field => field.Value).FirstOrDefault(),
+                                numberOfPlantsPerAcre = cvm.numberOfPlantsPerAcre.Where(item => item.Id.ToString() == cvm.selNumberOfPlantsPerAcre)
+                                                                 .Select(field => Convert.ToInt16(field.Value)).FirstOrDefault(),
+                                distanceBtwnPlantsRows = cvm.distanceBtwnPlantsRows.Where(item => item.Id.ToString() == cvm.selDistanceBtwnPlantsRows)
+                                                                 .Select(field => field.Value).FirstOrDefault(),
+                                willPlantsBePruned = cvm.willPlantsBePruned.Where(item => item.Id.ToString() == cvm.selWillPlantsBePruned)
+                                                                 .Select(field => field.Value == "Yes").FirstOrDefault(),
+                                whereWillPruningsGo = cvm.whereWillPruningsGo.Where(item => item.Id.ToString() == cvm.selWhereWillPruningsGo)
+                                                                 .Select(field => field.Value).FirstOrDefault(),
+                                willSawdustBeApplied = cvm.willSawdustBeApplied.Where(item => item.Id.ToString() == cvm.selWillSawdustBeApplied)
+                                                                 .Select(field => field.Value == "Yes").FirstOrDefault()
+
+                        };
                             if (cvm.showHarvestUnitsDDL && (cvm.selHarvestUnits != _sd.GetHarvestYieldDefaultUnit().ToString()))
                                 crp.yield = _sd.ConvertYieldFromBushelToTonsPerAcre(Convert.ToInt16(crp.cropId), Convert.ToDecimal(cvm.yieldByHarvestUnit));
 
@@ -741,6 +795,19 @@ namespace SERVERAPI.Controllers
                             crp.prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(Convert.ToInt32(crp.cropId));
                             crp.yieldHarvestUnit = (cvm.showHarvestUnitsDDL) ? Convert.ToInt16(cvm.selHarvestUnits) : _sd.GetHarvestYieldDefaultUnit();
 
+                            crp.plantAgeYears = cvm.plantAgeYears.Where(item => item.Id.ToString() == cvm.selPlantAgeYears)
+                                                                 .Select(field => field.Value).FirstOrDefault();
+                            crp.numberOfPlantsPerAcre = cvm.numberOfPlantsPerAcre.Where(item => item.Id.ToString() == cvm.selNumberOfPlantsPerAcre)
+                                                                 .Select(field => Convert.ToInt16(field.Value)).FirstOrDefault();
+                            crp.distanceBtwnPlantsRows = cvm.distanceBtwnPlantsRows.Where(item => item.Id.ToString() == cvm.selDistanceBtwnPlantsRows)
+                                                                 .Select(field => field.Value).FirstOrDefault();
+                            crp.willPlantsBePruned = cvm.willPlantsBePruned.Where(item => item.Id.ToString() == cvm.selWillPlantsBePruned)
+                                                                 .Select(field => field.Value == "Yes").FirstOrDefault();
+                            crp.whereWillPruningsGo = cvm.whereWillPruningsGo.Where(item => item.Id.ToString() == cvm.selWhereWillPruningsGo)
+                                                                 .Select(field => field.Value).FirstOrDefault();
+                            crp.willSawdustBeApplied = cvm.willSawdustBeApplied.Where(item => item.Id.ToString() == cvm.selWillSawdustBeApplied)
+                                                                 .Select(field => field.Value == "Yes").FirstOrDefault();
+
                             _ud.UpdateFieldCrop(cvm.fieldName, crp);
 
                             return Json(new { success = true, reload = true });
@@ -766,7 +833,7 @@ namespace SERVERAPI.Controllers
 
             cvm.cropOptions = new List<SelectListItem>();
             cvm.harvestUnitsOptions = new List<SelectListItem>();
-            if (_journey == UserJourney.Berries)
+            if (_showBlueberries)
             {
                 cvm.selTypOption = "7";
             }
@@ -923,7 +990,7 @@ namespace SERVERAPI.Controllers
 
         private void InitCrops(ref CropDetailsViewModel cvm)
         {
-            if (_journey == UserJourney.Berries)
+            if (_showBlueberries)
             {
                 cvm.selTypOption = "7";
                 cvm.typOptions.RemoveAll(item => item.Id != 7);

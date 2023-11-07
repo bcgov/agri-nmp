@@ -275,7 +275,21 @@ namespace SERVERAPI.Controllers
                 {
                     fields.ForEach(field => { field.PreviousYearManureApplicationFrequency = null; _ud.UpdateField(field); });
                 }
-                fields.ForEach(field => { field.Crops.Clear(); _ud.UpdateField(field); });
+                fields.ForEach(field =>
+                {
+                    if (field.Crops != null)
+                    {
+                        field.Crops.Clear();
+                        _ud.UpdateField(field);
+                    }
+
+                    if (field.SoilTest != null)
+                    {
+                        field.SoilTest = null;
+                        _ud.UpdateField(field);
+                    }
+                }
+                );
 
                 return View(fvm);
             }

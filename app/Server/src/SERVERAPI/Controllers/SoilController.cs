@@ -1,5 +1,6 @@
 ﻿using Agri.CalculateService;
 using Agri.Data;
+using Agri.Models;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -22,6 +23,7 @@ namespace SERVERAPI.Controllers
         private readonly IAgriConfigurationRepository _sd;
         private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
         private readonly ISoilTestConverter _soilTestConversions;
+        private readonly bool _showBlueberries;
 
         public SoilController(
             UserData ud,
@@ -33,6 +35,8 @@ namespace SERVERAPI.Controllers
             _sd = sd;
             _chemicalBalanceMessage = chemicalBalanceMessage;
             _soilTestConversions = soilTestConversions;
+            _showBlueberries  = _ud.FarmDetails().UserJourney == UserJourney.Berries;
+
         }
 
         [HttpGet]
@@ -81,12 +85,16 @@ namespace SERVERAPI.Controllers
                 _ud.UpdateSTPSTK(fl);
 
                 //update the Nutrient calculations with the new/changed soil test data
-                var updatedFields = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByFarm(_ud.GetFields(), _ud.FarmDetails().FarmRegion.Value);
-                foreach (var field in updatedFields)
+                if (!_showBlueberries)
                 {
-                    foreach (var crop in field.Crops)
+                    var updatedFields = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByFarm(_ud.GetFields(), _ud.FarmDetails().FarmRegion.Value);
+
+                    foreach (var field in updatedFields)
                     {
-                        _ud.UpdateFieldCrop(field.FieldName, crop);
+                        foreach (var crop in field.Crops)
+                        {
+                            _ud.UpdateFieldCrop(field.FieldName, crop);
+                        }
                     }
                 }
 
@@ -99,6 +107,8 @@ namespace SERVERAPI.Controllers
         public IActionResult SoilTestDetails(string fldName)
         {
             SoilTestDetailsViewModel tvm = new SoilTestDetailsViewModel();
+
+            tvm.ShowBlueberries = _showBlueberries;            
             tvm.title = "Update";
             tvm.url = _sd.GetExternalLink("soiltestexplanation");
             tvm.urlText = _sd.GetUserPrompt("moreinfo");
@@ -117,6 +127,14 @@ namespace SERVERAPI.Controllers
                 tvm.dispNO3H = fld.SoilTest.valNO3H.ToString("G29");
                 tvm.dispP = fld.SoilTest.ValP.ToString("G29");
                 tvm.dispPH = fld.SoilTest.valPH.ToString("G29");
+
+                tvm.leafTissueP = fld.SoilTest.leafTissueP.ToString("G29");
+                tvm.leafTissueK = fld.SoilTest.leafTissueK.ToString("G29");
+                tvm.cropRequirementN = fld.SoilTest.cropRequirementN.ToString("G29");
+                tvm.cropRequirementP2O5 = fld.SoilTest.cropRequirementP2O5.ToString("G29");
+                tvm.cropRequirementK2O5 = fld.SoilTest.cropRequirementK2O5.ToString("G29");
+                tvm.cropRemovalP2O5 = fld.SoilTest.cropRemovalP2O5.ToString("G29");
+                tvm.cropRemovalK2O5 = fld.SoilTest.cropRemovalK2O5.ToString("G29");
             }
 
             return View(tvm);
@@ -174,8 +192,91 @@ namespace SERVERAPI.Controllers
                         ModelState.AddModelError("dispPH", "Invalid.");
                     }
                 }
+
+                if (_showBlueberries)
+                {
+                    if (!Decimal.TryParse(tvm.leafTissueP, out nmbr))
+                    {
+                        ModelState.AddModelError("leafTissueP", "Numbers only.");
+                    }
+                    else
+                    {
+                        if (nmbr < 0)
+                        {
+                            ModelState.AddModelError("leafTissueP", "Invalid.");
+                        }
+                    }
+                    if (!Decimal.TryParse(tvm.leafTissueK, out nmbr))
+                    {
+                        ModelState.AddModelError("leafTissueK", "Numbers only.");
+                    }
+                    else
+                    {
+                        if (nmbr < 0)
+                        {
+                            ModelState.AddModelError("leafTissueK", "Invalid.");
+                        }
+                    }
+                    if (!Decimal.TryParse(tvm.cropRequirementN, out nmbr))
+                    {
+                        ModelState.AddModelError("cropRequirementN", "Numbers only.");
+                    }
+                    else
+                    {
+                        if (nmbr < 0)
+                        {
+                            ModelState.AddModelError("cropRequirementN", "Invalid.");
+                        }
+                    }
+                    if (!Decimal.TryParse(tvm.cropRequirementP2O5, out nmbr))
+                    {
+                        ModelState.AddModelError("cropRequirementP2O5", "Numbers only.");
+                    }
+                    else
+                    {
+                        if (nmbr < 0)
+                        {
+                            ModelState.AddModelError("cropRequirementP2O5", "Invalid.");
+                        }
+                    }
+                    if (!Decimal.TryParse(tvm.cropRequirementK2O5, out nmbr))
+                    {
+                        ModelState.AddModelError("cropRequirementK2O5", "Numbers only.");
+                    }
+                    else
+                    {
+                        if (nmbr < 0)
+                        {
+                            ModelState.AddModelError("cropRequirementK2O5", "Invalid.");
+                        }
+                    }
+                    if (!Decimal.TryParse(tvm.cropRemovalP2O5, out nmbr))
+                    {
+                        ModelState.AddModelError("cropRemovalP2O5", "Numbers only.");
+                    }
+                    else
+                    {
+                        if (nmbr < 0)
+                        {
+                            ModelState.AddModelError("cropRemovalP2O5", "Invalid.");
+                        }
+                    }
+                    if (!Decimal.TryParse(tvm.cropRemovalK2O5, out nmbr))
+                    {
+                        ModelState.AddModelError("cropRemovalK2O5", "Numbers only.");
+                    }
+                    else
+                    {
+                        if (nmbr < 0)
+                        {
+                            ModelState.AddModelError("cropRemovalK2O5", "Invalid.");
+                        }
+                    }
+                }
+
                 if (!ModelState.IsValid)
                 {
+                    tvm.ShowBlueberries = _showBlueberries;
                     return View(tvm);
                 }
 
@@ -192,13 +293,24 @@ namespace SERVERAPI.Controllers
                 fld.SoilTest.ConvertedKelownaK = _soilTestConversions.GetConvertedSTK(_ud.FarmDetails()?.TestingMethod, fld.SoilTest);
                 fld.SoilTest.ConvertedKelownaP = _soilTestConversions.GetConvertedSTP(_ud.FarmDetails()?.TestingMethod, fld.SoilTest);
 
+                fld.SoilTest.leafTissueP = Convert.ToDecimal(tvm.leafTissueP);
+                fld.SoilTest.leafTissueK = Convert.ToDecimal(tvm.leafTissueK);
+                fld.SoilTest.cropRequirementN = Convert.ToDecimal(tvm.cropRequirementN);
+                fld.SoilTest.cropRequirementP2O5 = Convert.ToDecimal(tvm.cropRequirementP2O5);
+                fld.SoilTest.cropRequirementK2O5 = Convert.ToDecimal(tvm.cropRequirementK2O5);
+                fld.SoilTest.cropRemovalP2O5 = Convert.ToDecimal(tvm.cropRemovalP2O5);
+                fld.SoilTest.cropRemovalK2O5 = Convert.ToDecimal(tvm.cropRemovalK2O5);
+
                 _ud.UpdateFieldSoilTest(fld);
 
                 //update the Nutrient calculations with the new/changed soil test data
-                var updatedField = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByField(fld, _ud.FarmDetails().FarmRegion.Value);
-                foreach (var crop in updatedField.Crops)
+                if (!_showBlueberries)
                 {
-                    _ud.UpdateFieldCrop(updatedField.FieldName, crop);
+                    var updatedField = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByField(fld, _ud.FarmDetails().FarmRegion.Value);
+                    foreach (var crop in updatedField.Crops)
+                    {
+                        _ud.UpdateFieldCrop(updatedField.FieldName, crop);
+                    }
                 }
 
                 string target = "#test";

@@ -414,6 +414,14 @@ namespace SERVERAPI.Models.Impl
                 fld.SoilTest.valPH = updtFld.SoilTest.valPH;
                 fld.SoilTest.ConvertedKelownaK = updtFld.SoilTest.ConvertedKelownaK;
                 fld.SoilTest.ConvertedKelownaP = updtFld.SoilTest.ConvertedKelownaP;
+
+                fld.SoilTest.leafTissueP = updtFld.SoilTest.leafTissueP;
+                fld.SoilTest.leafTissueK = updtFld.SoilTest.leafTissueK;
+                fld.SoilTest.cropRequirementN = updtFld.SoilTest.cropRequirementN;
+                fld.SoilTest.cropRequirementP2O5 = updtFld.SoilTest.cropRequirementP2O5;
+                fld.SoilTest.cropRequirementK2O5 = updtFld.SoilTest.cropRequirementK2O5;
+                fld.SoilTest.cropRemovalP2O5 = updtFld.SoilTest.cropRemovalP2O5;
+                fld.SoilTest.cropRemovalK2O5 = updtFld.SoilTest.cropRemovalK2O5;
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
