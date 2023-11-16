@@ -560,7 +560,7 @@
             "SortNumber": 2
           },
           {
-            "Name": "Soil Tests",
+            "Name": "Soil & Leaf Tests",
             "Controller": "Soil",
             "Action": "SoilTest",
             "PreviousController": "Crops",

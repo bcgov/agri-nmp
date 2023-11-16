@@ -12,5 +12,11 @@ namespace SERVERAPI.ViewModels
         public List<SelectListItem> tstOptions { get; set; }
         public bool testSelected { get; set; }
         public string warningMsg { get; set; }
+
+        public bool showLeafTests { get; set; }
+        public string selLeafTstOption { get; set; }
+        public List<SelectListItem> leafTstOptions { get; set; }
+        public bool leafTestSelected { get; set; }
+        
     }
 }

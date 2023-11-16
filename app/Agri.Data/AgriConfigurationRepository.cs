@@ -1371,6 +1371,12 @@ namespace Agri.Data
                 GetDefaultSoilTest().ConvertedKelownaK);
         }
 
+        public string GetLeafTestWarning()
+        {
+            var message = GetUserPrompt("defaultleaftest");
+            return message;
+        }
+
         public string GetStaticDataVersion()
         {
             return GetCurrentStaticDataVersion().Id.ToString();
@@ -2086,6 +2092,17 @@ namespace Agri.Data
             var result = values.ToList().Select((item, index) =>
                                     new SelectListItem() { Id = index, Value = item }).ToList();
             return result;
+        }
+
+
+        public List<SelectListItem> GetLeafTestMethodsDll()
+        {
+            string[] values = { "Yes I have Leaf Tests from within the past 3 years"};
+
+            var result = values.ToList().Select((item, index) =>
+                                    new SelectListItem() { Id = index, Value = item }).ToList();
+            return result;
+
         }
 
         private StaticDataVersion MapFullGraphToStaticDataVersion(StaticDataVersion source, StaticDataVersion destination)

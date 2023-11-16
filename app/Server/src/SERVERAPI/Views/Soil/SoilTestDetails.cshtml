@@ -14,7 +14,7 @@
             <div class="form-horizontal">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <div class="col-md-8">
                                 <h3 style="font-size:14px; font-weight: bold">
@@ -22,9 +22,9 @@
                                     <a href="#" aria-label="Soil Test Value Link" data-toggle="tooltip" title="@Model.SoilTestValuesMsg" id="toolTipSoilTestValuesMsg">
                                         <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Soil Test Values" style="font-size:20px; padding-top:5px"></span>
                                     </a>
-                                </h3>&nbsp;&nbsp;
+                                </h3>
                             </div>
-                        </div>            
+                        </div>
                         <div class="form-group">
                             <div class="col-md-offset-1 col-md-4" style="line-height: 2.6em;">
                                 <label asp-for="sampleDate">Sample Month</label>
@@ -58,7 +58,7 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" asp-for="dispP" id="dispP" type="text" aria-labelledby="labelDispP"/>
+                                <input class="form-control" asp-for="dispP" id="dispP" type="text" aria-labelledby="labelDispP" />
                             </div>
                             <div class="col-md-offset-7 col-md-8">
                                 <span asp-validation-for="dispP" class="text-danger"></span>
@@ -72,7 +72,7 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
-                                <input class="form-control" asp-for="dispK" id="dispK" type="text" aria-labelledby="labelDispK"/>
+                                <input class="form-control" asp-for="dispK" id="dispK" type="text" aria-labelledby="labelDispK" />
                             </div>
                             <div class="col-md-offset-7 col-md-8">
                                 <span asp-validation-for="dispK" class="text-danger"></span>
@@ -92,120 +92,8 @@
                                 <span asp-validation-for="dispPH" class="text-danger"></span>
                             </div>
                         </div>
+                        <br />
                     </div>
-                    @if (Model.ShowBlueberries)
-                    {
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div class="col-md-8">
-                                <h3 style="font-size:14px; font-weight: bold">
-                                    Leaf tests
-                                    <a href="#" aria-label="Leaf Test Value Link" data-toggle="tooltip" title="" id="toolTipLeafTestValuesMsg">
-                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Test Values" style="font-size:20px; padding-top:5px"></span>
-                                    </a>
-                                </h3>&nbsp;&nbsp;
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-1 col-md-6">
-                                <label for="leafTissueP" id="labelLeafTissueP">NO<sub>3</sub>Leaf tissue P (%)</label>
-                                <a href="#" aria-label="Leaf Test Leaf Tissue P Link" data-toggle="tooltip" title="" id="toolTipLeafTestLeafTissuePMsg">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Tissue P" style="font-size:20px; padding-top:5px"></span>
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <input class="form-control" asp-for="leafTissueP" id="leafTissueP" type="text" aria-labelledby="labelLeafTissueP" />
-                            </div>
-                            <div class="col-md-offset-7 col-md-8">
-                                <span asp-validation-for="leafTissueP" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-1 col-md-6">
-                                <label for="leafTissueK" id="labelLeafTissueK">NO<sub>3</sub>Leaf tissue K (%)</label>
-                                <a href="#" aria-label="Leaf Test Leaf Tissue K Link" data-toggle="tooltip" title="" id="toolTipLeafTestLeafTissueKMsg">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Tissue K" style="font-size:20px; padding-top:5px"></span>
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <input class="form-control" asp-for="leafTissueK" id="leafTissueK" type="text" aria-labelledby="labelLeafTissueK" />
-                            </div>
-                            <div class="col-md-offset-7 col-md-8">
-                                <span asp-validation-for="leafTissueK" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-1  col-md-7">
-                                <label for="cropRequirementN" id="labelCropRequirementN">Crop requirement (lb/ac) N</label>
-                                <a href="#" aria-label="Leaf Test Crop Requirement N Link" data-toggle="tooltip" title="" id="toolTipLeafTestCropRequirementNMsg">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Requirement N" style="font-size:20px; padding-top:5px"></span>
-                                </a>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" asp-for="cropRequirementN" id="cropRequirementN" type="text" aria-labelledby="labelCropRequirementN" />
-                            </div>
-                            <div class="col-md-offset-8 col-md-8">
-                                <span asp-validation-for="cropRequirementN" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-1 col-md-7">
-                                <label asp-for="cropRequirementP2O5" id="labelCropRequirementP2O5">Crop requirement (lb/ac) P2O5</label>
-                                <a href="#" aria-label="Leaf Test Crop Requirement P2O5 Link" data-toggle="tooltip" title="" id="toolTipLeafTestCropRequirementP2O5Msg">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Requirement P2O5" style="font-size:20px; padding-top:5px"></span>
-                                </a>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" asp-for="cropRequirementP2O5" id="cropRequirementP2O5" type="text" aria-labelledby="labelCropRequirementP2O5" />
-                            </div>
-                            <div class="col-md-offset-8 col-md-8">
-                                <span asp-validation-for="cropRequirementP2O5" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-1  col-md-7">
-                                <label asp-for="cropRequirementK2O5" id="labelCropRequirementK2O5">Crop requirement (lb/ac) K2O</label>
-                                <a href="#" aria-label="Leaf Test Crop Requirement K2O5 Link" data-toggle="tooltip" title="" id="toolTipLeafTestCropRequirementK2O5Msg">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Requirement K2O5" style="font-size:20px; padding-top:5px"></span>
-                                </a>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-control" asp-for="cropRequirementK2O5" id="cropRequirementK2O5" type="text" />
-                            </div>
-                            <div class="col-md-offset-8 col-md-8">
-                                <span asp-validation-for="cropRequirementK2O5" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-1  col-md-6">
-                                <label for="cropRemovalP2O5" id="labelCropRemovalP2O5">Crop Removal P2O5</label>
-                                <a href="#" aria-label="Leaf Test Crop Removal P2O5 Link" data-toggle="tooltip" title="" id="toolTipLeafTestCropRemovalP2O5Msg">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Removal P2O5" style="font-size:20px; padding-top:5px"></span>
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <input class="form-control" asp-for="cropRemovalP2O5" id="cropRemovalP2O5" type="text" aria-labelledby="labelCropRemovalP2O5" />
-                            </div>
-                            <div class="col-md-offset-7 col-md-8">
-                                <span asp-validation-for="cropRemovalP2O5" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-1 col-md-6">
-                                <label asp-for="cropRemovalK2O5" id="labelCropRemovalK2O5">Crop Removal K2O5</label>
-                                <a href="#" aria-label="Leaf Test Crop Removal K2O5 Link" data-toggle="tooltip" title="" id="toolTipLeafTestCropRemovalK2O5Msg">
-                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Removal K2O5" style="font-size:20px; padding-top:5px"></span>
-                                </a>
-                            </div>
-                            <div class="col-md-4">
-                                <input class="form-control" asp-for="cropRemovalK2O5" id="cropRemovalK2O5" type="text" aria-labelledby="labelCropRemovalK2O5" />
-                            </div>
-                            <div class="col-md-offset-7 col-md-8">
-                                <span asp-validation-for="cropRemovalK2O5" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    }
                 </div>
             </div>
         </div>
@@ -216,7 +104,6 @@
                 @Html.HiddenFor(x => x.title)
                 @Html.HiddenFor(x => x.id)
                 @Html.HiddenFor(x => x.fieldName)
-                @Html.HiddenFor(x => x.buttonPressed)
                 @Html.HiddenFor(x => x.btnText)
                 @Html.HiddenFor(x => x.url)
                 @Html.HiddenFor(x => x.urlText)

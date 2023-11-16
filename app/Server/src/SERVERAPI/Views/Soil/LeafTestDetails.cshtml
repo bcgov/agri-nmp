@@ -1,0 +1,270 @@
+﻿@model SERVERAPI.ViewModels.LeafTestDetailsViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <form asp-action="LeafTestDetails" asp-controller="Soil" id="modForm" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2 class="modal-title" id="myModalLabel">Leaf Test Details</h2>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <h3 style="font-size:14px; font-weight: bold">
+                                    Leaf tests
+                                    <a href="#" aria-label="Leaf Test Value Link" data-toggle="tooltip" title="@Model.leafTestValuesMsg" id="toolTipLeafTestValuesMsg">
+                                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Test Values" style="font-size:20px; padding-top:5px"></span>
+                                    </a>
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-6">
+                                <label for="leafTissueP" id="labelLeafTissueP">NO<sub>3</sub>Leaf tissue P (%)</label>
+                                <a href="#" aria-label="Leaf Test Leaf Tissue P Link" data-toggle="tooltip" title="@Model.leafTestLeafTissuePMsg" id="toolTipLeafTestLeafTissuePMsg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Tissue P" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="form-control" asp-for="leafTissueP" id="leafTissueP" type="text" aria-labelledby="labelLeafTissueP" />
+                            </div>
+                            <div class="col-md-offset-7 col-md-8">
+                                <span asp-validation-for="leafTissueP" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-6">
+                                <label for="leafTissueK" id="labelLeafTissueK">NO<sub>3</sub>Leaf tissue K (%)</label>
+                                <a href="#" aria-label="Leaf Test Leaf Tissue K Link" data-toggle="tooltip" title="@Model.leafTestLeafTissueKMsg" id="toolTipLeafTestLeafTissueKMsg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Tissue K" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="form-control" asp-for="leafTissueK" id="leafTissueK" type="text" aria-labelledby="labelLeafTissueK" />
+                            </div>
+                            <div class="col-md-offset-7 col-md-8">
+                                <span asp-validation-for="leafTissueK" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1  col-md-7">
+                                <label for="cropRequirementN" id="labelCropRequirementN">Crop requirement (lb/ac) N</label>
+                                <a href="#" aria-label="Leaf Test Crop Requirement N Link" data-toggle="tooltip" title="@Model.leafTestCropRequirementNMsg" id="toolTipLeafTestCropRequirementNMsg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Requirement N" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" asp-for="cropRequirementN" id="cropRequirementN" type="text" aria-labelledby="labelCropRequirementN" />
+                            </div>
+                            <div class="col-md-offset-8 col-md-8">
+                                <span asp-validation-for="cropRequirementN" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-7">
+                                <label asp-for="cropRequirementP2O5" id="labelCropRequirementP2O5">Crop requirement (lb/ac) P2O5</label>
+                                <a href="#" aria-label="Leaf Test Crop Requirement P2O5 Link" data-toggle="tooltip" title="@Model.leafTestCropRequirementP2O5Msg" id="toolTipLeafTestCropRequirementP2O5Msg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Requirement P2O5" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" asp-for="cropRequirementP2O5" id="cropRequirementP2O5" type="text" aria-labelledby="labelCropRequirementP2O5" />
+                            </div>
+                            <div class="col-md-offset-8 col-md-8">
+                                <span asp-validation-for="cropRequirementP2O5" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1  col-md-7">
+                                <label asp-for="cropRequirementK2O5" id="labelCropRequirementK2O5">Crop requirement (lb/ac) K2O</label>
+                                <a href="#" aria-label="Leaf Test Crop Requirement K2O5 Link" data-toggle="tooltip" title="@Model.leafTestCropRequirementK2O5Msg" id="toolTipLeafTestCropRequirementK2O5Msg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Requirement K2O5" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control" asp-for="cropRequirementK2O5" id="cropRequirementK2O5" type="text" />
+                            </div>
+                            <div class="col-md-offset-8 col-md-8">
+                                <span asp-validation-for="cropRequirementK2O5" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1  col-md-6">
+                                <label for="cropRemovalP2O5" id="labelCropRemovalP2O5">Crop Removal P2O5</label>
+                                <a href="#" aria-label="Leaf Test Crop Removal P2O5 Link" data-toggle="tooltip" title="@Model.leafTestCropRemovalP2O5Msg" id="toolTipLeafTestCropRemovalP2O5Msg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Removal P2O5" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="form-control" asp-for="cropRemovalP2O5" id="cropRemovalP2O5" type="text" aria-labelledby="labelCropRemovalP2O5" />
+                            </div>
+                            <div class="col-md-offset-7 col-md-8">
+                                <span asp-validation-for="cropRemovalP2O5" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-1 col-md-6">
+                                <label asp-for="cropRemovalK2O5" id="labelCropRemovalK2O5">Crop Removal K2O5</label>
+                                <a href="#" aria-label="Leaf Test Crop Removal K2O5 Link" data-toggle="tooltip" title="@Model.leafTestCropRemovalK2O5Msg" id="toolTipLeafTestCropRemovalK2O5Msg">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Crop Removal K2O5" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="form-control" asp-for="cropRemovalK2O5" id="cropRemovalK2O5" type="text" aria-labelledby="labelCropRemovalK2O5" />
+                            </div>
+                            <div class="col-md-offset-7 col-md-8">
+                                <span asp-validation-for="cropRemovalK2O5" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+                <div class="modal-footer">
+                    <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+                    <input class="btn btn-primary" type="submit" value="Save" />
+                </div>
+                @Html.HiddenFor(x => x.title)
+                @Html.HiddenFor(x => x.id)
+                @Html.HiddenFor(x => x.fieldName)
+                @Html.HiddenFor(x => x.btnText)
+</form>
+</div>
+<script>
+        $(document).ready(function () {
+
+            $('#sampleDate').datepicker({
+                useCurrent: false,
+                autoPick: false,
+                format: "M-yyyy",
+                startView: 1,
+                minViewMode: 1,
+                autoclose: true
+        });
+    });
+
+        $(document).ready(function () {
+            $('#toolTipLeafTestValuesMsg').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+        
+        $(document).ready(function () {
+            $('#toolTipLeafTestValuesMsg').click(function () {
+                triggerToolTip($('#toolTipLeafTestValuesMsg'));
+            });
+    })   
+
+    $(document).ready(function () {
+        $('#toolTipLeafTestLeafTissuePMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipLeafTestLeafTissuePMsg').click(function () {
+            triggerToolTip($('#toolTipLeafTestLeafTissuePMsg'));
+        });
+    })   
+    $(document).ready(function () {
+        $('#toolTipLeafTestLeafTissueKMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipLeafTestLeafTissueKMsg').click(function () {
+            triggerToolTip($('#toolTipLeafTestLeafTissueKMsg'));
+        });
+    })   
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRequirementNMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRequirementNMsg').click(function () {
+            triggerToolTip($('#toolTipLeafTestCropRequirementNMsg'));
+        });
+    })   
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRequirementP2O5Msg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRequirementP2O5Msg').click(function () {
+            triggerToolTip($('#toolTipLeafTestCropRequirementP2O5Msg'));
+        });
+    })
+
+
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRequirementK2O5Msg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRequirementK2O5Msg').click(function () {
+            triggerToolTip($('#toolTipLeafTestCropRequirementK2O5Msg'));
+        });
+    })
+
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRemovalP2O5Msg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRemovalP2O5Msg').click(function () {
+            triggerToolTip($('#toolTipLeafTestCropRemovalP2O5Msg'));
+        });
+    })
+
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRemovalK2O5Msg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipLeafTestCropRemovalK2O5Msg').click(function () {
+            triggerToolTip($('#toolTipLeafTestCropRemovalK2O5Msg'));
+        });
+    })
+        
+</script>

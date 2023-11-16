@@ -58,6 +58,7 @@
     <Folder Include="Infrastructure\" />
     <Folder Include="UserAgent\" />
     <Folder Include="Services.Impl\" />
+    <Folder Include="Views\Shared\Components\LeafTests\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Agri.CalculateService\Agri.CalculateService.csproj" />

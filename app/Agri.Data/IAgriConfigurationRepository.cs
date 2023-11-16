@@ -216,6 +216,8 @@ namespace Agri.Data
 
         string GetSoilTestWarning();
 
+        string GetLeafTestWarning();
+
         string GetExternalLink(string name);
 
         string GetUserPrompt(string name);
@@ -362,6 +364,8 @@ namespace Agri.Data
         List<SelectListItem> GetWhereWillPruningsGoDll();
 
         List<SelectListItem> GetWillSawdustBeAppliedDll();
+
+        List<SelectListItem> GetLeafTestMethodsDll();
 
     }
 }

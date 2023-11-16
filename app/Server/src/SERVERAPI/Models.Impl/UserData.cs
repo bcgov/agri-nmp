@@ -136,6 +136,9 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.HasHorticulturalCrops = fd.HasHorticulturalCrops;
             userData.farmDetails.HasBlueberries = fd.HasBlueberries;
 
+            userData.farmDetails.LeafTests = fd.LeafTests;
+            userData.farmDetails.LeafTestingMethod = fd.LeafTestingMethod;
+
             //change the year associated with the array
             YearData yd = userData.years.FirstOrDefault();
             if (yd == null)
@@ -414,14 +417,34 @@ namespace SERVERAPI.Models.Impl
                 fld.SoilTest.valPH = updtFld.SoilTest.valPH;
                 fld.SoilTest.ConvertedKelownaK = updtFld.SoilTest.ConvertedKelownaK;
                 fld.SoilTest.ConvertedKelownaP = updtFld.SoilTest.ConvertedKelownaP;
+            }
 
-                fld.SoilTest.leafTissueP = updtFld.SoilTest.leafTissueP;
-                fld.SoilTest.leafTissueK = updtFld.SoilTest.leafTissueK;
-                fld.SoilTest.cropRequirementN = updtFld.SoilTest.cropRequirementN;
-                fld.SoilTest.cropRequirementP2O5 = updtFld.SoilTest.cropRequirementP2O5;
-                fld.SoilTest.cropRequirementK2O5 = updtFld.SoilTest.cropRequirementK2O5;
-                fld.SoilTest.cropRemovalP2O5 = updtFld.SoilTest.cropRemovalP2O5;
-                fld.SoilTest.cropRemovalK2O5 = updtFld.SoilTest.cropRemovalK2O5;
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void UpdateFieldLeafTest(Field updtFld)
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+            Field fld = yd.Fields.FirstOrDefault(f => f.FieldName == updtFld.FieldName);
+
+            if (fld.LeafTest == null)
+                fld.LeafTest = new LeafTest();
+
+            if (updtFld.LeafTest == null)
+            {
+                fld.LeafTest = null;
+            }
+            else
+            {
+                fld.LeafTest.leafTissueP = updtFld.LeafTest.leafTissueP;
+                fld.LeafTest.leafTissueK = updtFld.LeafTest.leafTissueK;
+                fld.LeafTest.cropRequirementN = updtFld.LeafTest.cropRequirementN;
+                fld.LeafTest.cropRequirementP2O5 = updtFld.LeafTest.cropRequirementP2O5;
+                fld.LeafTest.cropRequirementK2O5 = updtFld.LeafTest.cropRequirementK2O5;
+                fld.LeafTest.cropRemovalP2O5 = updtFld.LeafTest.cropRemovalP2O5;
+                fld.LeafTest.cropRemovalK2O5 = updtFld.LeafTest.cropRemovalK2O5;
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
@@ -449,6 +472,15 @@ namespace SERVERAPI.Models.Impl
             userData.unsaved = true;
             YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
             yd.Fields.ForEach(field => field.SoilTest = null);
+            _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
+        }
+
+        public void ClearLeafTests()
+        {
+            FarmData userData = _ctx.HttpContext.Session.GetObjectFromJson<FarmData>("FarmData");
+            userData.unsaved = true;
+            YearData yd = userData.years.FirstOrDefault(y => y.Year == userData.farmDetails.Year);
+            yd.Fields.ForEach(field => field.LeafTest = null);
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }
 

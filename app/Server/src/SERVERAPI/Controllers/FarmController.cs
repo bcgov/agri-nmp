@@ -283,9 +283,9 @@ namespace SERVERAPI.Controllers
                         _ud.UpdateField(field);
                     }
 
-                    if (field.SoilTest != null)
+                    if (field.LeafTest != null)
                     {
-                        field.SoilTest = null;
+                        field.LeafTest = null;
                         _ud.UpdateField(field);
                     }
                 }

@@ -1,0 +1,92 @@
+﻿@model LeafTestsViewModel
+@Html.HiddenFor(x => x.missingLeafTests)
+@if (Model.tests.Count > 0)
+{
+    <div class="form-box">
+        <div class="Row">
+            <div class="Cell2" style="width:800px; padding: 10px;">
+                <div class="Table">
+                    <div class="TableBody">
+                        <div class="Row" style="font-weight: bold;text-align:left; padding-bottom: 10px;">
+                            @if (Model.tests.Any(test => test.dispLeafTissueP != null))
+                            {
+                                <div class="Cell2" style="vertical-align:bottom;width:14.3%">
+                                    Field
+                                </div>
+                                <div class="Cell2" style="vertical-align:bottom;width:14.3%">
+                                    Leaf Tissue P
+                                </div>
+                                <div class="Cell2" style="vertical-align:bottom;width:14.3%">
+                                    Leaf Tissue K
+                                </div>
+                                <div class="Cell2" style="vertical-align:bottom;width:14.3%">
+                                    Crop Req. N
+                                </div>
+                                <div class="Cell2" style="vertical-align:bottom;width:14.3%">
+                                    Crop Req. P2O5
+                                </div>
+                                <div class="Cell2" style="vertical-align:bottom;width:14.3%">
+                                    Crop Req. K2O5
+                                </div>
+                                <div class="Cell2" style="vertical-align: bottom;width:14.3%">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="Cell2" style="vertical-align:bottom;width:20%">
+                                    Field
+                                </div>
+                                <div class="Cell2" style="width:80%; vertical-align:bottom;"></div>
+                            }
+                        </div>
+                    </div>
+                    @foreach (var m in Model.tests)
+                    {
+                        <div class="TableBody">
+                            <div class="Row" style="text-align: left;">
+                                @if (m.dispLeafTissueP != null)
+                                {
+                                    <div class="Cell2" style="padding-bottom: 10px;">
+                                        @m.fldName
+                                    </div>
+                                    <div class="Cell2">
+                                        @m.dispLeafTissueP
+                                    </div>
+                                    <div class="Cell2" >
+                                        @m.dispLeafTissueK
+                                    </div>
+                                    <div class="Cell2" >
+                                        @m.dispCropRequirementN
+                                    </div>
+                                    <div class="Cell2">
+                                        @m.dispCropRequirementP2O5
+                                    </div>
+                                    <div class="Cell2">
+                                        @m.dispCropRequirementK2O5
+                                    </div>
+                                    <div class="Cell2">
+                                        <button aria-label="Edit leaf test values" title="Edit leaf test values" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("LeafTestDetails", "Soil", new { fldName = m.fldName })">
+                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="14.5" y1="4.5" x2="19.5" y2="9.5" stroke-linejoin="miter" stroke-linecap="butt"></line> <line data-cap="butt" data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="3" y1="16" x2="8" y2="21" stroke-linejoin="miter" stroke-linecap="butt"></line> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M8,21l-6,1l1-6 L16.586,2.414c0.781-0.781,2.047-0.781,2.828,0l2.172,2.172c0.781,0.781,0.781,2.047,0,2.828L8,21z" stroke-linejoin="miter"></path></g></svg>
+                                        </button>
+                                        <button aria-label="Erase leaf test values" title="Erase leaf test values" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("LeafTestErase", "Soil", new { fldName = m.fldName })">
+                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="20,9 20,23 4,23 4,9 " stroke-linejoin="miter"></polyline> <line fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="1" y1="5" x2="23" y2="5" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="12" y1="12" x2="12" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="8" y1="12" x2="8" y2="18" stroke-linejoin="miter"></line> <line data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" x1="16" y1="12" x2="16" y2="18" stroke-linejoin="miter"></line> <polyline fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points="8,5 8,1 16,1 16,5 " stroke-linejoin="miter"></polyline></g></svg>
+                                        </button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="Cell2"  style="padding-bottom: 15px;">
+                                        @m.fldName
+                                    </div>
+                                    <div class="Cell2" style="vertical-align:top;padding-bottom: 15px;">
+                                        <input type="button" class="btn btn-default" aria-label="Add leaf test values" value="Add leaf test results" title="Add leaf test values" data_modal="" data-type="@Url.Action("LeafTestDetails", "Soil", new { fldName = m.fldName })" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

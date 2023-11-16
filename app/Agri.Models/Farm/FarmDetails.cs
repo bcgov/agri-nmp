@@ -18,6 +18,8 @@
         public bool HasMixedLiveStock { get; set; }
         public bool HasHorticulturalCrops { get; set; }
         public bool HasBlueberries { get; set; }
+        public bool? LeafTests { get; set; }
+        public string LeafTestingMethod { get; set; }
 
         public UserJourney UserJourney
         {
