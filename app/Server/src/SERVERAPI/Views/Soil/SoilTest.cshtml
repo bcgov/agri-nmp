@@ -223,8 +223,10 @@
     function Intercept(x) {
         if ($("#testSelected").val() == "False" ||
             $("#missingTests").val() == "True" ||
-            $("#leafTestSelected").val() == "False" ||
-            $("#missingLeafTests").val() == "True"
+            $("#showLeafTests").val() == "True" && (
+                $("#leafTestSelected").val() == "False" ||
+                $("#missingLeafTests").val() == "True"
+                )
             )
         {
             $.ajaxSetup({ cache: false });
