@@ -3,12 +3,14 @@ using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using System;
+using System.Linq;
 
 namespace Agri.CalculateService
 {
     public interface ICalculateCropRequirementRemoval
     {
         CropRequirementRemoval GetCropRequirementRemoval(int cropid, decimal yield, decimal? crudeProtien, bool? coverCropHarvested, int nCredit, int regionId, Field field);
+        CropRequirementRemoval GetCropRequirementRemovalBlueberries(Field field, FieldCrop crop, string leafTissueP, string leafTissueK);
 
         decimal GetCrudeProtienByCropId(int cropid);
 
@@ -179,8 +181,72 @@ namespace Agri.CalculateService
             return crr;
         }
 
-        // default for % Crude Protien = crop.cropremovalfactor_N * 0.625 [N to protien conversion] * 0.5 [unit conversion]
-        public decimal GetCrudeProtienByCropId(int cropid)
+        public CropRequirementRemoval GetCropRequirementRemovalBlueberries(Field fld, FieldCrop crop, string leafTissueP, string leafTissueK)
+        {
+            var crr = new CropRequirementRemoval();
+
+            var NGmPlantArr = new (string key, decimal value)[]
+            {
+                        ("1", 6), ("2", 8.5m), ("3", 14), ("4", 23), ("5", 28),
+                        ("6", 31),  ("7", 40), ("8", 45), ("9 or more", 63)
+            };
+            string plantAge = crop.plantAgeYears;
+            int plantsPerAcre = crop.numberOfPlantsPerAcre ?? 0;
+            decimal tempN = NGmPlantArr.Where(item => item.key == plantAge).Select(element => element.value).FirstOrDefault();
+            bool sawdust = crop.willSawdustBeApplied ?? false;
+            crr.N_Requirement = Convert.ToInt32(Math.Round((plantsPerAcre * tempN / 1000 / 1.12m + (sawdust ? 25 : 0)), 0));
+
+
+            int tempReqP2O5 = 0;
+
+            var soilTestP = fld.SoilTest.ValP;
+            if (leafTissueP == "< 0.08")
+            {
+                tempReqP2O5 = (soilTestP < 100) ? 63 : 40;
+            }
+            else if (leafTissueP == "0.08 - 0.10")
+            {
+                tempReqP2O5 = (soilTestP < 100) ? 40 : 0;
+            }
+            else if (leafTissueP == "> 0.10" || true)
+            {
+                tempReqP2O5 = 0;
+            }
+            crr.P2O5_Requirement = Convert.ToInt32(tempReqP2O5);
+
+
+            int tempReqK2O = 0;
+
+            if (leafTissueK == "< 0.2")
+            {
+                tempReqK2O = 103;
+            }
+            else if (leafTissueK == "0.2 - 0.4")
+            {
+                tempReqK2O = 76;
+            }
+            else if (leafTissueP == "> 0.4" || true)
+            {
+                tempReqK2O = 0;
+            }
+            crr.K2O_Requirement = Convert.ToInt32(tempReqK2O);
+
+
+            decimal tempRemP2O5 = crop.yield;
+            bool isPrunedAndRemoved = crop.willPlantsBePruned ?? false && crop.whereWillPruningsGo == "Removed from field";
+            tempRemP2O5 = tempRemP2O5 * 0.687m + (isPrunedAndRemoved ? 3.435m : 0);
+            crr.P2O5_Removal = Convert.ToInt32(Math.Round(tempRemP2O5, 0));
+
+
+            decimal tempRemK2O = crop.yield;
+            tempRemK2O = tempRemK2O * 3.509m + (isPrunedAndRemoved ? 7.865m : 0);
+            crr.K2O_Removal = Convert.ToInt32(Math.Round(tempRemK2O, 0));
+
+            return crr;
+        }
+
+            // default for % Crude Protien = crop.cropremovalfactor_N * 0.625 [N to protien conversion] * 0.5 [unit conversion]
+            public decimal GetCrudeProtienByCropId(int cropid)
         {
             ConversionFactor _cf = _sd.GetConversionFactor();
             Crop crop = _sd.GetCrop(cropid);

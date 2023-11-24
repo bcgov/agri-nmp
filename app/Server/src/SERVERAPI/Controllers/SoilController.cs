@@ -1,6 +1,7 @@
 ﻿using Agri.CalculateService;
 using Agri.Data;
 using Agri.Models;
+using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using Agri.Models.Settings;
@@ -13,6 +14,8 @@ using SERVERAPI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SERVERAPI.Controllers
 {
@@ -24,19 +27,21 @@ namespace SERVERAPI.Controllers
         private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
         private readonly ISoilTestConverter _soilTestConversions;
         private readonly bool _showBlueberries;
+        private readonly ICalculateCropRequirementRemoval _calculateCropRequirementRemoval;
 
         public SoilController(
             UserData ud,
             IAgriConfigurationRepository sd,
             IChemicalBalanceMessage chemicalBalanceMessage,
-            ISoilTestConverter soilTestConversions)
+            ISoilTestConverter soilTestConversions,
+            ICalculateCropRequirementRemoval calculateCropRequirementRemoval)
         {
             _ud = ud;
             _sd = sd;
             _chemicalBalanceMessage = chemicalBalanceMessage;
             _soilTestConversions = soilTestConversions;
             _showBlueberries  = _ud.FarmDetails().UserJourney == UserJourney.Berries;
-
+            _calculateCropRequirementRemoval = calculateCropRequirementRemoval;
         }
 
         [HttpGet]
@@ -67,7 +72,6 @@ namespace SERVERAPI.Controllers
 
             fvm.leafTstOptions = new List<SelectListItem>();
             fvm.leafTstOptions = _sd.GetLeafTestMethodsDll().ToList();
-
 
             return View(fvm);
         }
@@ -193,15 +197,29 @@ namespace SERVERAPI.Controllers
             tvm.leafTestCropRemovalP2O5Msg = _sd.GetUserPrompt("leafTestCropRemovalP2O5Message");
             tvm.leafTestCropRemovalK2O5Msg = _sd.GetUserPrompt("leafTestCropRemovalK2O5Message");
 
+            tvm.leafTissuePOptions = new List<SelectListItem>();
+            tvm.leafTissuePOptions = _sd.GetLeafTissuePDll().ToList();
+            tvm.leafTissueKOptions = new List<SelectListItem>();
+            tvm.leafTissueKOptions = _sd.GetLeafTissueKDll().ToList();
+
+            tvm.btnText = "Calculate";
+
             if (fld.LeafTest != null)
             {
-                tvm.leafTissueP = fld.LeafTest.leafTissueP.ToString("G29");
-                tvm.leafTissueK = fld.LeafTest.leafTissueK.ToString("G29");
-                tvm.cropRequirementN = fld.LeafTest.cropRequirementN.ToString("G29");
-                tvm.cropRequirementP2O5 = fld.LeafTest.cropRequirementP2O5.ToString("G29");
-                tvm.cropRequirementK2O5 = fld.LeafTest.cropRequirementK2O5.ToString("G29");
-                tvm.cropRemovalP2O5 = fld.LeafTest.cropRemovalP2O5.ToString("G29");
-                tvm.cropRemovalK2O5 = fld.LeafTest.cropRemovalK2O5.ToString("G29");
+                tvm.btnText = "Return";
+
+                tvm.leafTissueP = tvm.leafTissuePOptions.Where(item => item.Value == fld.LeafTest.leafTissueP)
+                                                            .Select(field => field.Id.ToString()).FirstOrDefault();
+                tvm.leafTissueK = tvm.leafTissueKOptions.Where(item => item.Value == fld.LeafTest.leafTissueK)
+                                                            .Select(field => field.Id.ToString()).FirstOrDefault();
+                foreach (FieldCrop crop in fld.Crops)
+                {
+                    tvm.cropRequirementN = crop.reqN.ToString("#");
+                    tvm.cropRequirementP2O5 = crop.reqP2o5.ToString("#");
+                    tvm.cropRequirementK2O5 = crop.reqK2o.ToString("#");
+                    tvm.cropRemovalP2O5 = crop.remP2o5.ToString("#");
+                    tvm.cropRemovalK2O5 = crop.remK2o.ToString("#");
+                }
             }
             return View(tvm);
         }
@@ -299,112 +317,93 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public IActionResult LeafTestDetails(LeafTestDetailsViewModel tvm)
         {
-            decimal nmbr;
-
+            tvm.leafTissuePOptions = _sd.GetLeafTissuePDll().ToList();
+            tvm.leafTissueKOptions = _sd.GetLeafTissueKDll().ToList();
+            
             if (ModelState.IsValid)
             {
-                if (!Decimal.TryParse(tvm.leafTissueP, out nmbr))
+                ModelState.Clear();
+                if (tvm.selectorAffected == "LeafTissueKChanged" || tvm.selectorAffected == "LeafTissuePChanged")
                 {
-                    ModelState.AddModelError("leafTissueP", "Numbers only.");
-                }
-                else
-                {
-                    if (nmbr < 0)
-                    {
-                        ModelState.AddModelError("leafTissueP", "Invalid.");
-                    }
-                }
-                if (!Decimal.TryParse(tvm.leafTissueK, out nmbr))
-                {
-                    ModelState.AddModelError("leafTissueK", "Numbers only.");
-                }
-                else
-                {
-                    if (nmbr < 0)
-                    {
-                        ModelState.AddModelError("leafTissueK", "Invalid.");
-                    }
-                }
-                if (!Decimal.TryParse(tvm.cropRequirementN, out nmbr))
-                {
-                    ModelState.AddModelError("cropRequirementN", "Numbers only.");
-                }
-                else
-                {
-                    if (nmbr < 0)
-                    {
-                        ModelState.AddModelError("cropRequirementN", "Invalid.");
-                    }
-                }
-                if (!Decimal.TryParse(tvm.cropRequirementP2O5, out nmbr))
-                {
-                    ModelState.AddModelError("cropRequirementP2O5", "Numbers only.");
-                }
-                else
-                {
-                    if (nmbr < 0)
-                    {
-                        ModelState.AddModelError("cropRequirementP2O5", "Invalid.");
-                    }
-                }
-                if (!Decimal.TryParse(tvm.cropRequirementK2O5, out nmbr))
-                {
-                    ModelState.AddModelError("cropRequirementK2O5", "Numbers only.");
-                }
-                else
-                {
-                    if (nmbr < 0)
-                    {
-                        ModelState.AddModelError("cropRequirementK2O5", "Invalid.");
-                    }
-                }
-                if (!Decimal.TryParse(tvm.cropRemovalP2O5, out nmbr))
-                {
-                    ModelState.AddModelError("cropRemovalP2O5", "Numbers only.");
-                }
-                else
-                {
-                    if (nmbr < 0)
-                    {
-                        ModelState.AddModelError("cropRemovalP2O5", "Invalid.");
-                    }
-                }
-                if (!Decimal.TryParse(tvm.cropRemovalK2O5, out nmbr))
-                {
-                    ModelState.AddModelError("cropRemovalK2O5", "Numbers only.");
-                }
-                else
-                {
-                    if (nmbr < 0)
-                    {
-                        ModelState.AddModelError("cropRemovalK2O5", "Invalid.");
-                    }
-                }
-
-                if (!ModelState.IsValid)
-                {
+                    tvm.selectorAffected = "";
+                    tvm.btnText = "Calculate";
+                    tvm.cropRequirementN = "";
+                    tvm.cropRequirementP2O5 = "";
+                    tvm.cropRequirementK2O5 = "";
+                    tvm.cropRemovalP2O5 = "";
+                    tvm.cropRemovalK2O5 = "";
                     return View(tvm);
                 }
-
-                Field fld = _ud.GetFieldDetails(tvm.fieldName);
-                if (fld.LeafTest == null)
+                if (tvm.btnText == "Calculate")
                 {
-                    fld.LeafTest = new LeafTest();
+                    if (tvm.leafTissueP == "select")
+                    {
+                        ModelState.AddModelError("leafTissueP", "Required field");
+                    }
+                    if (tvm.leafTissueK == "select")
+                    {
+                        ModelState.AddModelError("leafTissueK", "Required field");
+                    }
+
+                    if (!ModelState.IsValid)
+                    {
+                        return View(tvm);
+                    }
+                    var fld = _ud.GetFieldDetails(tvm.fieldName);
+                    var leafTissueP = tvm.leafTissuePOptions.Where(item => item.Id.ToString() == tvm.leafTissueP)
+                        .Select(field => field.Value).FirstOrDefault();
+                    var leafTissueK = tvm.leafTissueKOptions.Where(item => item.Id.ToString() == tvm.leafTissueK)
+                        .Select(field => field.Value).FirstOrDefault();
+                    CropRequirementRemoval crr = null;
+                    foreach (FieldCrop crop in fld.Crops)
+                    {
+                        crr = _calculateCropRequirementRemoval.GetCropRequirementRemovalBlueberries(fld, crop, leafTissueP, leafTissueK);
+                    }
+                    tvm.cropRequirementN = crr.N_Requirement.ToString();
+                    tvm.cropRequirementP2O5 = crr.P2O5_Requirement.ToString();
+                    tvm.cropRequirementK2O5 = crr.K2O_Requirement.ToString();
+                    tvm.cropRemovalP2O5 = crr.P2O5_Removal.ToString();
+                    tvm.cropRemovalK2O5 = crr.K2O_Removal.ToString();
+
+                    tvm.btnText = "Add to Field";
+
+                    return View(tvm);
                 }
+                if (tvm.btnText == "Return")
+                {
+                    string target = "#test";
+                    string url = Url.Action("RefreshTestList", "Soil");
+                    return Json(new { success = true, url = url, target = target });
+                }
+                if (tvm.btnText == "Add to Field")
+                {
+                    Field fld = _ud.GetFieldDetails(tvm.fieldName);
+                    if (fld.LeafTest == null)
+                    {
+                        fld.LeafTest = new LeafTest();
+                    }
 
-                fld.LeafTest.leafTissueP = Convert.ToDecimal(tvm.leafTissueP);
-                fld.LeafTest.leafTissueK = Convert.ToDecimal(tvm.leafTissueK);
-                fld.LeafTest.cropRequirementN = Convert.ToDecimal(tvm.cropRequirementN);
-                fld.LeafTest.cropRequirementP2O5 = Convert.ToDecimal(tvm.cropRequirementP2O5);
-                fld.LeafTest.cropRequirementK2O5 = Convert.ToDecimal(tvm.cropRequirementK2O5);
-                fld.LeafTest.cropRemovalP2O5 = Convert.ToDecimal(tvm.cropRemovalP2O5);
-                fld.LeafTest.cropRemovalK2O5 = Convert.ToDecimal(tvm.cropRemovalK2O5);
+                    fld.LeafTest.leafTissueP = tvm.leafTissuePOptions.Where(item => item.Id.ToString() == tvm.leafTissueP)
+                                         .Select(field => field.Value).FirstOrDefault();
 
-                _ud.UpdateFieldLeafTest(fld);
+                    fld.LeafTest.leafTissueK = tvm.leafTissueKOptions.Where(item => item.Id.ToString() == tvm.leafTissueK)
+                         .Select(field => field.Value).FirstOrDefault();
 
-                string target = "#test";
-                string url = Url.Action("RefreshTestList", "Soil");
-                return Json(new { success = true, url = url, target = target });
+                    _ud.UpdateFieldLeafTest(fld);
+                    foreach (FieldCrop crop in fld.Crops)
+                    {
+                        crop.reqN = Convert.ToDecimal(tvm.cropRequirementN);
+                        crop.reqP2o5 = Convert.ToDecimal(tvm.cropRequirementP2O5);
+                        crop.reqK2o = Convert.ToDecimal(tvm.cropRequirementK2O5);
+                        crop.remP2o5 = Convert.ToDecimal(tvm.cropRemovalP2O5);
+                        crop.remK2o = Convert.ToDecimal(tvm.cropRemovalK2O5);
+                        _ud.UpdateFieldCrop(tvm.fieldName, crop);
+                    }
+
+                    string target = "#test";
+                    string url = Url.Action("RefreshTestList", "Soil");
+                    return Json(new { success = true, url = url, target = target });
+                }
             }
             return View(tvm);
         }

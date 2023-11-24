@@ -354,6 +354,19 @@
                 return false;
             });
         }
+        $(document).ready(function () {
+            $("body").on("change", "#ddlLeafTissueP", function () {
+                $('#selectorAffected').val("LeafTissuePChanged");
+                $("#leafTestDetailsForm").submit();
+            })
+        });
+
+        $(document).ready(function () {
+            $("body").on("change", "#ddlLeafTissueK", function () {
+                $('#selectorAffected').val("LeafTissueKChanged");
+                $("#leafTestDetailsForm").submit();
+            })
+        });
     </script>
 
 }

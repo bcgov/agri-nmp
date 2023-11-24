@@ -14,19 +14,16 @@
                                     Field
                                 </div>
                                 <div class="Cell2" style="vertical-align:bottom;width:14.3%">
-                                    Leaf Tissue P
+                                    Leaf Tissue P(%)
                                 </div>
                                 <div class="Cell2" style="vertical-align:bottom;width:14.3%">
-                                    Leaf Tissue K
+                                    Leaf Tissue K(%)
                                 </div>
                                 <div class="Cell2" style="vertical-align:bottom;width:14.3%">
-                                    Crop Req. N
                                 </div>
                                 <div class="Cell2" style="vertical-align:bottom;width:14.3%">
-                                    Crop Req. P2O5
                                 </div>
                                 <div class="Cell2" style="vertical-align:bottom;width:14.3%">
-                                    Crop Req. K2O5
                                 </div>
                                 <div class="Cell2" style="vertical-align: bottom;width:14.3%">
                                 </div>
@@ -56,13 +53,10 @@
                                         @m.dispLeafTissueK
                                     </div>
                                     <div class="Cell2" >
-                                        @m.dispCropRequirementN
                                     </div>
                                     <div class="Cell2">
-                                        @m.dispCropRequirementP2O5
                                     </div>
                                     <div class="Cell2">
-                                        @m.dispCropRequirementK2O5
                                     </div>
                                     <div class="Cell2">
                                         <button aria-label="Edit leaf test values" title="Edit leaf test values" class="form-box-table-button" type="button" data_modal="" data-type="@Url.Action("LeafTestDetails", "Soil", new { fldName = m.fldName })">
@@ -79,7 +73,15 @@
                                         @m.fldName
                                     </div>
                                     <div class="Cell2" style="vertical-align:top;padding-bottom: 15px;">
-                                        <input type="button" class="btn btn-default" aria-label="Add leaf test values" value="Add leaf test results" title="Add leaf test values" data_modal="" data-type="@Url.Action("LeafTestDetails", "Soil", new { fldName = m.fldName })" />
+                                        @if(m.soilTestExist)
+                                        {
+                                            <input type="button" class="btn btn-default" aria-label="Add leaf test values" value="Add leaf test results" title="Add leaf test values" data_modal="" data-type="@Url.Action("LeafTestDetails", "Soil", new { fldName = m.fldName })" />
+                                        }
+                                        else
+                                        {
+
+                                            <span class="text-danger">Enter soil test first</span>
+                                        }
                                     </div>
                                 }
                             </div>

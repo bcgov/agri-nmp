@@ -367,5 +367,11 @@ namespace Agri.Data
 
         List<SelectListItem> GetLeafTestMethodsDll();
 
+        List<SelectListItem> GetLeafTissuePDll();
+
+        List<SelectListItem> GetLeafTissueKDll();
+
+
+
     }
 }

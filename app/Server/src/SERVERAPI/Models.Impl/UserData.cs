@@ -440,11 +440,6 @@ namespace SERVERAPI.Models.Impl
             {
                 fld.LeafTest.leafTissueP = updtFld.LeafTest.leafTissueP;
                 fld.LeafTest.leafTissueK = updtFld.LeafTest.leafTissueK;
-                fld.LeafTest.cropRequirementN = updtFld.LeafTest.cropRequirementN;
-                fld.LeafTest.cropRequirementP2O5 = updtFld.LeafTest.cropRequirementP2O5;
-                fld.LeafTest.cropRequirementK2O5 = updtFld.LeafTest.cropRequirementK2O5;
-                fld.LeafTest.cropRemovalP2O5 = updtFld.LeafTest.cropRemovalP2O5;
-                fld.LeafTest.cropRemovalK2O5 = updtFld.LeafTest.cropRemovalK2O5;
             }
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);

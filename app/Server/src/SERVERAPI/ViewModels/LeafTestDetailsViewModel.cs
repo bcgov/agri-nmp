@@ -1,4 +1,7 @@
-﻿namespace SERVERAPI.ViewModels
+﻿using System.Collections.Generic;
+using Agri.Models.Configuration;
+
+namespace SERVERAPI.ViewModels
 {
     public class LeafTestDetailsViewModel
     {
@@ -6,7 +9,7 @@
         public string title { get; set; }
         public string btnText { get; set; }
         public string fieldName { get; set; }
-        public string buttonPressed { get; set; }
+        public string selectorAffected { get; set; }
         public string sampleDate { get; set; }
         
         public string leafTissueP { get; set; }
@@ -25,5 +28,9 @@
         public string leafTestCropRequirementK2O5Msg { get; set; }
         public string leafTestCropRemovalP2O5Msg { get; set; }
         public string leafTestCropRemovalK2O5Msg { get; set; }
+
+        public List<SelectListItem> leafTissuePOptions { get; set; }
+        public List<SelectListItem> leafTissueKOptions { get; set; }
+
     }
 }
