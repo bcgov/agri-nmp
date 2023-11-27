@@ -398,3 +398,41 @@
         @Html.HiddenFor(x => x.showBlueberries)
     </form>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("body").on("change", "#ddlNumberOfPlantsPerAcre", function () {
+            $('#buttonPressed').val("NumberOfPlantsPerAcreChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("change", "#ddlDistanceBtwnPlantsRows", function () {
+            $('#buttonPressed').val("DistanceBtwnPlantsRowsChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).on('change', '#ddlPlantAgeYears', function () {
+        RequireCalculate();
+    });
+
+    $(document).on('change', '#ddlillPlantsBePruned', function () {
+        RequireCalculate();
+    });
+
+    $(document).on('change', '#ddlWhereWillPruningsGo', function () {
+        RequireCalculate();
+    });
+
+    $(document).on('change', '#ddlWillSawdustBeApplied', function () {
+        RequireCalculate();
+    });
+
+    function RequireCalculate() {
+        $("#ok_button").html('Calculate');
+        $("#ok_button").css('background-color', '#1abbed');
+        $("#btnText").val("Calculate");
+    }
+</script>

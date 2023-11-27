@@ -204,6 +204,8 @@ namespace SERVERAPI.Controllers
 
             tvm.btnText = "Calculate";
 
+            tvm.LeafTestDetailsItems = new List<LeafTestDetailsItem>();
+
             if (fld.LeafTest != null)
             {
                 tvm.btnText = "Return";
@@ -212,13 +214,19 @@ namespace SERVERAPI.Controllers
                                                             .Select(field => field.Id.ToString()).FirstOrDefault();
                 tvm.leafTissueK = tvm.leafTissueKOptions.Where(item => item.Value == fld.LeafTest.leafTissueK)
                                                             .Select(field => field.Id.ToString()).FirstOrDefault();
+
                 foreach (FieldCrop crop in fld.Crops)
                 {
-                    tvm.cropRequirementN = crop.reqN.ToString("#");
-                    tvm.cropRequirementP2O5 = crop.reqP2o5.ToString("#");
-                    tvm.cropRequirementK2O5 = crop.reqK2o.ToString("#");
-                    tvm.cropRemovalP2O5 = crop.remP2o5.ToString("#");
-                    tvm.cropRemovalK2O5 = crop.remK2o.ToString("#");
+                    tvm.LeafTestDetailsItems.Add(new LeafTestDetailsItem()
+                    {
+                        Id = crop.id,
+                        cropName = _sd.GetCrop(Convert.ToInt32(crop.cropId)).CropName,
+                        cropRequirementN = crop.reqN.ToString("#"),
+                        cropRequirementP2O5 = crop.reqP2o5.ToString("#"),
+                        cropRequirementK2O5 = crop.reqK2o.ToString("#"),
+                        cropRemovalP2O5 = crop.remP2o5.ToString("#"),
+                        cropRemovalK2O5 = crop.remK2o.ToString("#")
+                    }); ;
                 }
             }
             return View(tvm);
@@ -327,11 +335,10 @@ namespace SERVERAPI.Controllers
                 {
                     tvm.selectorAffected = "";
                     tvm.btnText = "Calculate";
-                    tvm.cropRequirementN = "";
-                    tvm.cropRequirementP2O5 = "";
-                    tvm.cropRequirementK2O5 = "";
-                    tvm.cropRemovalP2O5 = "";
-                    tvm.cropRemovalK2O5 = "";
+                    if (tvm.LeafTestDetailsItems != null)
+                    {
+                        tvm.LeafTestDetailsItems.Clear();
+                    }
                     return View(tvm);
                 }
                 if (tvm.btnText == "Calculate")
@@ -355,15 +362,31 @@ namespace SERVERAPI.Controllers
                     var leafTissueK = tvm.leafTissueKOptions.Where(item => item.Id.ToString() == tvm.leafTissueK)
                         .Select(field => field.Value).FirstOrDefault();
                     CropRequirementRemoval crr = null;
+                    tvm.LeafTestDetailsItems = new List<LeafTestDetailsItem>();
+
                     foreach (FieldCrop crop in fld.Crops)
                     {
-                        crr = _calculateCropRequirementRemoval.GetCropRequirementRemovalBlueberries(fld, crop, leafTissueP, leafTissueK);
+                        crr = _calculateCropRequirementRemoval.GetCropRequirementRemovalBlueberries(
+                                                                            crop.yieldByHarvestUnit,
+                                                                            crop.plantAgeYears,
+                                                                            crop.numberOfPlantsPerAcre,
+                                                                            crop.willSawdustBeApplied,
+                                                                            crop.willPlantsBePruned,
+                                                                            crop.whereWillPruningsGo,
+                                                                            fld.SoilTest.ValP,
+                                                                            leafTissueP,
+                                                                            leafTissueK);
+
+                        tvm.LeafTestDetailsItems.Add(new LeafTestDetailsItem() {
+                            Id = crop.id,
+                            cropName = _sd.GetCrop(Convert.ToInt32(crop.cropId)).CropName,
+                            cropRequirementN = crr.N_Requirement.ToString(),
+                            cropRequirementP2O5 = crr.P2O5_Requirement.ToString(),
+                            cropRequirementK2O5 = crr.K2O_Requirement.ToString(),
+                            cropRemovalP2O5 = crr.P2O5_Removal.ToString(),
+                            cropRemovalK2O5 = crr.K2O_Removal.ToString()
+                        });
                     }
-                    tvm.cropRequirementN = crr.N_Requirement.ToString();
-                    tvm.cropRequirementP2O5 = crr.P2O5_Requirement.ToString();
-                    tvm.cropRequirementK2O5 = crr.K2O_Requirement.ToString();
-                    tvm.cropRemovalP2O5 = crr.P2O5_Removal.ToString();
-                    tvm.cropRemovalK2O5 = crr.K2O_Removal.ToString();
 
                     tvm.btnText = "Add to Field";
 
@@ -392,14 +415,18 @@ namespace SERVERAPI.Controllers
                     _ud.UpdateFieldLeafTest(fld);
                     foreach (FieldCrop crop in fld.Crops)
                     {
-                        crop.reqN = Convert.ToDecimal(tvm.cropRequirementN);
-                        crop.reqP2o5 = Convert.ToDecimal(tvm.cropRequirementP2O5);
-                        crop.reqK2o = Convert.ToDecimal(tvm.cropRequirementK2O5);
-                        crop.remP2o5 = Convert.ToDecimal(tvm.cropRemovalP2O5);
-                        crop.remK2o = Convert.ToDecimal(tvm.cropRemovalK2O5);
+                        crop.reqN = tvm.LeafTestDetailsItems.Where(item => item.Id == crop.id)
+                                        .Select(crop => Convert.ToDecimal(crop.cropRequirementN)).FirstOrDefault();
+                        crop.reqP2o5 = tvm.LeafTestDetailsItems.Where(item => item.Id == crop.id)
+                                        .Select(crop => Convert.ToDecimal(crop.cropRequirementP2O5)).FirstOrDefault();
+                        crop.reqK2o = tvm.LeafTestDetailsItems.Where(item => item.Id == crop.id)
+                                        .Select(crop => Convert.ToDecimal(crop.cropRequirementK2O5)).FirstOrDefault();
+                        crop.remP2o5 = tvm.LeafTestDetailsItems.Where(item => item.Id == crop.id)
+                                        .Select(crop => Convert.ToDecimal(crop.cropRemovalP2O5)).FirstOrDefault();
+                        crop.remK2o = tvm.LeafTestDetailsItems.Where(item => item.Id == crop.id)
+                                        .Select(crop => Convert.ToDecimal(crop.cropRemovalK2O5)).FirstOrDefault();
                         _ud.UpdateFieldCrop(tvm.fieldName, crop);
                     }
-
                     string target = "#test";
                     string url = Url.Action("RefreshTestList", "Soil");
                     return Json(new { success = true, url = url, target = target });

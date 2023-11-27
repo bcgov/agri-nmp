@@ -637,15 +637,50 @@ namespace SERVERAPI.Controllers
                             CropRequirementRemoval cropRequirementRemoval;
                             if (_showBlueberries)
                             {
-                                cropRequirementRemoval = new CropRequirementRemoval
+                                var fld = _ud.GetFieldDetails(cvm.fieldName);
+                                string plantAgeYears = cvm.plantAgeYears.Where(item => item.Id.ToString() == cvm.selPlantAgeYears)
+                                                                 .Select(field => field.Value).FirstOrDefault();
+                                int? numberOfPlantsPerAcre = cvm.numberOfPlantsPerAcre.Where(item => item.Id.ToString() == cvm.selNumberOfPlantsPerAcre)
+                                                                 .Select(field => Convert.ToInt16(field.Value)).FirstOrDefault();
+                                bool? willPlantsBePruned = cvm.willPlantsBePruned.Where(item => item.Id.ToString() == cvm.selWillPlantsBePruned)
+                                                                 .Select(field => field.Value == "Yes").FirstOrDefault();
+                                string whereWillPruningsGo = cvm.whereWillPruningsGo.Where(item => item.Id.ToString() == cvm.selWhereWillPruningsGo)
+                                                                 .Select(field => field.Value).FirstOrDefault();
+                                bool willSawdustBeApplied = cvm.willSawdustBeApplied.Where(item => item.Id.ToString() == cvm.selWillSawdustBeApplied)
+                                                                 .Select(field => field.Value == "Yes").FirstOrDefault();
+
+
+                                if ( fld.SoilTest != null &&
+                                    fld.SoilTest.ValP != 0 &&
+                                    fld.LeafTest != null &&
+                                    !String.IsNullOrEmpty(fld.LeafTest.leafTissueP) &&
+                                    !String.IsNullOrEmpty(fld.LeafTest.leafTissueK) 
+                                   )
                                 {
-                                    N_Requirement = 0,
-                                    P2O5_Requirement = 0,
-                                    K2O_Requirement = 0,
-                                    N_Removal = 0,
-                                    P2O5_Removal = 0,
-                                    K2O_Removal = 0
-                                };
+                                    cropRequirementRemoval = _calculateCropRequirementRemoval
+                                                                    .GetCropRequirementRemovalBlueberries(
+                                                                            Convert.ToDecimal(cvm.yieldByHarvestUnit),
+                                                                            plantAgeYears,
+                                                                            numberOfPlantsPerAcre,
+                                                                            willSawdustBeApplied,
+                                                                            willPlantsBePruned,
+                                                                            whereWillPruningsGo,
+                                                                            fld.SoilTest.ValP,
+                                                                            fld.LeafTest.leafTissueP,
+                                                                            fld.LeafTest.leafTissueK);
+                                }
+                                else
+                                {
+                                    cropRequirementRemoval = new CropRequirementRemoval
+                                    {
+                                        N_Requirement = 0,
+                                        P2O5_Requirement = 0,
+                                        K2O_Requirement = 0,
+                                        N_Removal = 0,
+                                        P2O5_Removal = 0,
+                                        K2O_Removal = 0
+                                    };
+                                }
                             }
                             else
                             {

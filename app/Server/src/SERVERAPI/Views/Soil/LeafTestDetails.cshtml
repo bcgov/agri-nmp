@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-offset-1 col-md-5">
+                    <div class="form-group col-md-offset-1 col-md-6">
 
                         <label for="leafTissueP" id="labelLeafTissueP">Leaf tissue P (%)</label>
                         <a href="#" aria-label="Leaf Test Leaf Tissue P Link" data-toggle="tooltip" title="@Model.leafTestLeafTissuePMsg" id="toolTipLeafTestLeafTissuePMsg">
@@ -35,7 +35,7 @@
                         <span asp-validation-for="leafTissueP" class="text-danger"></span>
 
                     </div>
-                    <div class="form-group col-md-5">
+                    <div class="form-group col-md-6">
                         <label for="leafTissueK" id="labelLeafTissueK">Leaf tissue K (%)</label>
                         <a href="#" aria-label="Leaf Test Leaf Tissue K Link" data-toggle="tooltip" title="@Model.leafTestLeafTissueKMsg" id="toolTipLeafTestLeafTissueKMsg">
                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Tissue K" style="font-size:20px; padding-top:5px"></span>
@@ -47,12 +47,15 @@
                     </div>
                 </div>
                 <div class="row" style="padding-top:0.7em;">
-                    <div class="form-group col-md-offset-1 col-md-5">
+                    <div class="form-group col-md-offset-1 col-md-6">
                         <div class="Table">
                             <div class="Title">
                                 <p>Crop Requirement (lb/ac)</p>
                             </div>
                             <div class="Heading">
+                                <div class="Cell">
+                                    <p>Crop</p>
+                                </div>
                                 <div class="Cell">
                                     <p>N</p>
                                 </div>
@@ -63,20 +66,26 @@
                                     <p>K<sub>2</sub>O</p>
                                 </div>
                             </div>
-                            <div class="Row">
-                                <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
-                                    <p>@Model.cropRequirementN</p>
+                            @foreach (var item in @Model.LeafTestDetailsItems)
+                            {
+                                <div class="Row">
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropName</p>
+                                    </div>
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRequirementN</p>
+                                    </div>
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRequirementP2O5</p>
+                                    </div>
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRequirementK2O5</p>
+                                    </div>
                                 </div>
-                                <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
-                                    <p>@Model.cropRequirementP2O5</p>
-                                </div>
-                                <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
-                                    <p>@Model.cropRequirementK2O5</p>
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
-                    <div class="form-group col-md-5">
+                    <div class="form-group col-md-6">
                         <div class="Table">
                             <div class="Title">
                                 <p>Nutrient Removal (lb/ac)</p>
@@ -89,14 +98,17 @@
                                     <p>K<sub>2</sub>O</p>
                                 </div>
                             </div>
-                            <div class="Row">
-                                <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
-                                    <p>@Model.cropRemovalP2O5</p>
+                            @foreach (var item in @Model.LeafTestDetailsItems)
+                            {
+                                <div class="Row">
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRemovalP2O5</p>
+                                    </div>
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRemovalK2O5</p>
+                                    </div>
                                 </div>
-                                <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
-                                    <p>@Model.cropRemovalK2O5</p>
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -110,12 +122,17 @@
         @Html.HiddenFor(x => x.title)
         @Html.HiddenFor(x => x.id)
         @Html.HiddenFor(x => x.fieldName)
-        @Html.HiddenFor(x => x.cropRequirementN)
-        @Html.HiddenFor(x => x.cropRequirementP2O5)
-        @Html.HiddenFor(x => x.cropRequirementK2O5)
-        @Html.HiddenFor(x => x.cropRemovalP2O5)
-        @Html.HiddenFor(x => x.cropRemovalK2O5)
         @Html.HiddenFor(x => x.selectorAffected)
+        @for (int i = 0; i < Model.LeafTestDetailsItems.Count; i++)
+        {
+            @Html.HiddenFor(model => model.LeafTestDetailsItems[i].Id);
+            @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropName);
+            @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementN);
+            @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementP2O5);
+            @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementK2O5);
+            @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRemovalP2O5);
+            @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRemovalK2O5);
+        }
     </form>
 </div>
 <script>

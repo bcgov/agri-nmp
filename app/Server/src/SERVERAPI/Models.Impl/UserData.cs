@@ -972,6 +972,13 @@ namespace SERVERAPI.Models.Impl
             crp.prevYearManureAppl_volCatCd = _sd.GetCropPrevYearManureApplVolCatCd(Convert.ToInt32(crp.cropId));
             crp.yieldHarvestUnit = updtCrop.yieldHarvestUnit;
             crp.yieldByHarvestUnit = updtCrop.yieldByHarvestUnit;
+          
+            crp.plantAgeYears = updtCrop.plantAgeYears;
+            crp.numberOfPlantsPerAcre = updtCrop.numberOfPlantsPerAcre;
+            crp.distanceBtwnPlantsRows = updtCrop.distanceBtwnPlantsRows;
+            crp.willPlantsBePruned = updtCrop.willPlantsBePruned;
+            crp.whereWillPruningsGo = updtCrop.whereWillPruningsGo;
+            crp.willSawdustBeApplied = updtCrop.willSawdustBeApplied;
 
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
         }

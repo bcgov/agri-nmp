@@ -358,6 +358,7 @@
             $("body").on("change", "#ddlLeafTissueP", function () {
                 $('#selectorAffected').val("LeafTissuePChanged");
                 $("#leafTestDetailsForm").submit();
+                $('#selectorAffected').val("");
             })
         });
 
@@ -365,6 +366,7 @@
             $("body").on("change", "#ddlLeafTissueK", function () {
                 $('#selectorAffected').val("LeafTissueKChanged");
                 $("#leafTestDetailsForm").submit();
+                $('#selectorAffected').val("");
             })
         });
     </script>
