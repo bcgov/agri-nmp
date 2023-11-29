@@ -2108,7 +2108,7 @@ namespace Agri.Data
 
         public List<SelectListItem> GetLeafTissuePDll()
         {
-            string[] values = { "< 0.08", "> 0.10", "0.08 - 0.10" };
+            string[] values = { "< 0.08", "0.08 - 0.10", "> 0.10" };
             var result = values.ToList().Select((item, index) =>
                                     new SelectListItem() { Id = index, Value = item }).ToList();
             return result;
@@ -2116,7 +2116,7 @@ namespace Agri.Data
 
         public List<SelectListItem> GetLeafTissueKDll()
         {
-            string[] values = { "< 0.2", "> 0.4", "0.2 - 0.4" };
+            string[] values = { "< 0.2", "0.2 - 0.4", "> 0.4" };
             var result = values.ToList().Select((item, index) =>
                                     new SelectListItem() { Id = index, Value = item }).ToList();
             return result;
