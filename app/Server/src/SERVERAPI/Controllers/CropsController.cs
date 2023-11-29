@@ -150,7 +150,6 @@ namespace SERVERAPI.Controllers
                 }
 
                 CropDetailsSetup(ref cvm);
-                PopulateYield(ref cvm);
 
                 if( _showBlueberries)
                 {
@@ -1017,6 +1016,7 @@ namespace SERVERAPI.Controllers
 
                     if (defaultYield.HasValue)
                         cvm.yieldByHarvestUnit = defaultYield.Value.ToString("#.##");
+
                 }
                 cvm.selPrevOption = string.Empty;
             }
