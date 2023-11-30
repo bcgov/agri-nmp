@@ -79,7 +79,7 @@
                                         <p>@item.cropRequirementP2O5</p>
                                     </div>
                                     <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
-                                        <p>@item.cropRequirementK2O5</p>
+                                        <p>@item.cropRequirementK2O</p>
                                     </div>
                                 </div>
                             }
@@ -129,7 +129,7 @@
             @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropName);
             @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementN);
             @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementP2O5);
-            @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementK2O5);
+            @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementK2O);
             @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRemovalP2O5);
             @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRemovalK2O5);
         }
@@ -190,79 +190,5 @@
             triggerToolTip($('#toolTipLeafTestLeafTissueKMsg'));
         });
     })   
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRequirementNMsg').tooltip({
-            template: toolTipClickableInnerHtml,
-            html: true,
-            trigger: 'manual'
-        });
-    });
-
-    //Using triggerToolTip function from ~/lib/site.js
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRequirementNMsg').click(function () {
-            triggerToolTip($('#toolTipLeafTestCropRequirementNMsg'));
-        });
-    })   
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRequirementP2O5Msg').tooltip({
-            template: toolTipClickableInnerHtml,
-            html: true,
-            trigger: 'manual'
-        });
-    });
-
-    //Using triggerToolTip function from ~/lib/site.js
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRequirementP2O5Msg').click(function () {
-            triggerToolTip($('#toolTipLeafTestCropRequirementP2O5Msg'));
-        });
-    })
-
-
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRequirementK2O5Msg').tooltip({
-            template: toolTipClickableInnerHtml,
-            html: true,
-            trigger: 'manual'
-        });
-    });
-
-    //Using triggerToolTip function from ~/lib/site.js
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRequirementK2O5Msg').click(function () {
-            triggerToolTip($('#toolTipLeafTestCropRequirementK2O5Msg'));
-        });
-    })
-
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRemovalP2O5Msg').tooltip({
-            template: toolTipClickableInnerHtml,
-            html: true,
-            trigger: 'manual'
-        });
-    });
-
-    //Using triggerToolTip function from ~/lib/site.js
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRemovalP2O5Msg').click(function () {
-            triggerToolTip($('#toolTipLeafTestCropRemovalP2O5Msg'));
-        });
-    })
-
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRemovalK2O5Msg').tooltip({
-            template: toolTipClickableInnerHtml,
-            html: true,
-            trigger: 'manual'
-        });
-    });
-
-    //Using triggerToolTip function from ~/lib/site.js
-    $(document).ready(function () {
-        $('#toolTipLeafTestCropRemovalK2O5Msg').click(function () {
-            triggerToolTip($('#toolTipLeafTestCropRemovalK2O5Msg'));
-        });
-    })
         
 </script>
