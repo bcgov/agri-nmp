@@ -21,7 +21,7 @@ namespace SERVERAPI.ViewModels
         public string leafTestLeafTissueKMsg { get; set; }
         public string leafTestCropRequirementNMsg { get; set; }
         public string leafTestCropRequirementP2O5Msg { get; set; }
-        public string leafTestCropRequirementK2O5Msg { get; set; }
+        public string leafTestCropRequirementK2OMsg { get; set; }
         public string leafTestCropRemovalP2O5Msg { get; set; }
         public string leafTestCropRemovalK2O5Msg { get; set; }
 
@@ -36,7 +36,7 @@ namespace SERVERAPI.ViewModels
         public string cropName { get; set; }
         public string cropRequirementN { get; set; }
         public string cropRequirementP2O5 { get; set; }
-        public string cropRequirementK2O5 { get; set; }
+        public string cropRequirementK2O { get; set; }
         public string cropRemovalP2O5 { get; set; }
         public string cropRemovalK2O5 { get; set; }
     }

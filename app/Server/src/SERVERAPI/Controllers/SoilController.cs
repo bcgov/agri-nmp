@@ -193,7 +193,7 @@ namespace SERVERAPI.Controllers
             tvm.leafTestLeafTissueKMsg = _sd.GetUserPrompt("leafTestLeafTissueKMessage");
             tvm.leafTestCropRequirementNMsg = _sd.GetUserPrompt("leafTestCropRequirementNMessage");
             tvm.leafTestCropRequirementP2O5Msg = _sd.GetUserPrompt("leafTestCropRequirementP2O5Message");
-            tvm.leafTestCropRequirementK2O5Msg = _sd.GetUserPrompt("leafTestCropRequirementK2O5Message");
+            tvm.leafTestCropRequirementK2OMsg = _sd.GetUserPrompt("leafTestCropRequirementK2O5Message");
             tvm.leafTestCropRemovalP2O5Msg = _sd.GetUserPrompt("leafTestCropRemovalP2O5Message");
             tvm.leafTestCropRemovalK2O5Msg = _sd.GetUserPrompt("leafTestCropRemovalK2O5Message");
 
@@ -221,12 +221,12 @@ namespace SERVERAPI.Controllers
                     {
                         Id = crop.id,
                         cropName = _sd.GetCrop(Convert.ToInt32(crop.cropId)).CropName,
-                        cropRequirementN = crop.reqN.ToString("#"),
-                        cropRequirementP2O5 = crop.reqP2o5.ToString("#"),
-                        cropRequirementK2O5 = crop.reqK2o.ToString("#"),
-                        cropRemovalP2O5 = crop.remP2o5.ToString("#"),
-                        cropRemovalK2O5 = crop.remK2o.ToString("#")
-                    }); ;
+                        cropRequirementN = crop.reqN.ToString("N0"),
+                        cropRequirementP2O5 = crop.reqP2o5.ToString("N0"),
+                        cropRequirementK2O = crop.reqK2o.ToString("N0"),
+                        cropRemovalP2O5 = crop.remP2o5.ToString("N0"),
+                        cropRemovalK2O5 = crop.remK2o.ToString("N0")
+                    });
                 }
             }
             return View(tvm);
@@ -306,7 +306,34 @@ namespace SERVERAPI.Controllers
                 _ud.UpdateFieldSoilTest(fld);
 
                 //update the Nutrient calculations with the new/changed soil test data
-                if (!_showBlueberries)
+                if (_showBlueberries)
+                {
+                    foreach (FieldCrop crop in fld.Crops)
+                    {
+                        if (fld.LeafTest != null &&
+                            !string.IsNullOrEmpty(fld.LeafTest.leafTissueP) &&
+                            !string.IsNullOrEmpty(fld.LeafTest.leafTissueK))
+                        {
+                            var crr = _calculateCropRequirementRemoval.GetCropRequirementRemovalBlueberries(
+                                                                                crop.yieldByHarvestUnit,
+                                                                                crop.plantAgeYears,
+                                                                                crop.numberOfPlantsPerAcre,
+                                                                                crop.willSawdustBeApplied,
+                                                                                crop.willPlantsBePruned,
+                                                                                crop.whereWillPruningsGo,
+                                                                                fld.SoilTest.ValP,
+                                                                                fld.LeafTest.leafTissueP,
+                                                                                fld.LeafTest.leafTissueK);
+                            crop.reqN = crr.N_Requirement;
+                            crop.reqP2o5 = crr.P2O5_Requirement;
+                            crop.reqK2o = crr.K2O_Requirement;
+                            crop.remP2o5 = crr.P2O5_Removal;
+                            crop.remK2o = crr.K2O_Removal;
+                            _ud.UpdateFieldCrop(fld.FieldName, crop);
+                        }
+                    }
+                }
+                else
                 {
                     var updatedField = _chemicalBalanceMessage.RecalcCropsSoilTestMessagesByField(fld, _ud.FarmDetails().FarmRegion.Value);
                     foreach (var crop in updatedField.Crops)
@@ -314,7 +341,7 @@ namespace SERVERAPI.Controllers
                         _ud.UpdateFieldCrop(updatedField.FieldName, crop);
                     }
                 }
-
+                
                 string target = "#test";
                 string url = Url.Action("RefreshTestList", "Soil");
                 return Json(new { success = true, url = url, target = target });
@@ -382,7 +409,7 @@ namespace SERVERAPI.Controllers
                             cropName = _sd.GetCrop(Convert.ToInt32(crop.cropId)).CropName,
                             cropRequirementN = crr.N_Requirement.ToString(),
                             cropRequirementP2O5 = crr.P2O5_Requirement.ToString(),
-                            cropRequirementK2O5 = crr.K2O_Requirement.ToString(),
+                            cropRequirementK2O = crr.K2O_Requirement.ToString(),
                             cropRemovalP2O5 = crr.P2O5_Removal.ToString(),
                             cropRemovalK2O5 = crr.K2O_Removal.ToString()
                         });
@@ -420,7 +447,7 @@ namespace SERVERAPI.Controllers
                         crop.reqP2o5 = tvm.LeafTestDetailsItems.Where(item => item.Id == crop.id)
                                         .Select(crop => Convert.ToDecimal(crop.cropRequirementP2O5)).FirstOrDefault();
                         crop.reqK2o = tvm.LeafTestDetailsItems.Where(item => item.Id == crop.id)
-                                        .Select(crop => Convert.ToDecimal(crop.cropRequirementK2O5)).FirstOrDefault();
+                                        .Select(crop => Convert.ToDecimal(crop.cropRequirementK2O)).FirstOrDefault();
                         crop.remP2o5 = tvm.LeafTestDetailsItems.Where(item => item.Id == crop.id)
                                         .Select(crop => Convert.ToDecimal(crop.cropRemovalP2O5)).FirstOrDefault();
                         crop.remK2o = tvm.LeafTestDetailsItems.Where(item => item.Id == crop.id)
