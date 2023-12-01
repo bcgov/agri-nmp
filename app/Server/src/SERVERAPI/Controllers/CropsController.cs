@@ -649,14 +649,18 @@ namespace SERVERAPI.Controllers
                                                                  .Select(field => field.Value == "Yes").FirstOrDefault();
 
 
-                                if ( fld.SoilTest != null &&
-                                    fld.SoilTest.ValP != 0 &&
-                                    fld.LeafTest != null &&
-                                    !String.IsNullOrEmpty(fld.LeafTest.leafTissueP) &&
-                                    !String.IsNullOrEmpty(fld.LeafTest.leafTissueK) 
-                                   )
-                                {
-                                    cropRequirementRemoval = _calculateCropRequirementRemoval
+
+                                var soilTestValP = (fld.SoilTest == null ||
+                                                          (fld.SoilTest != null && fld.SoilTest.ValP == 0)) ?
+                                                                100 : fld.SoilTest.ValP;
+                                var leafTissueP = (fld.LeafTest == null ||
+                                                          (fld.LeafTest != null && String.IsNullOrEmpty(fld.LeafTest.leafTissueP))) ?
+                                                                "> 0.10" : fld.LeafTest.leafTissueP;
+                                var leafTissueK = (fld.LeafTest == null ||
+                                                          (fld.LeafTest != null && String.IsNullOrEmpty(fld.LeafTest.leafTissueK))) ?
+                                                                "> 0.4" : fld.LeafTest.leafTissueK;
+
+                                cropRequirementRemoval = _calculateCropRequirementRemoval
                                                                     .GetCropRequirementRemovalBlueberries(
                                                                             Convert.ToDecimal(cvm.yieldByHarvestUnit),
                                                                             plantAgeYears,
@@ -664,22 +668,9 @@ namespace SERVERAPI.Controllers
                                                                             willSawdustBeApplied,
                                                                             willPlantsBePruned,
                                                                             whereWillPruningsGo,
-                                                                            fld.SoilTest.ValP,
-                                                                            fld.LeafTest.leafTissueP,
-                                                                            fld.LeafTest.leafTissueK);
-                                }
-                                else
-                                {
-                                    cropRequirementRemoval = new CropRequirementRemoval
-                                    {
-                                        N_Requirement = 0,
-                                        P2O5_Requirement = 0,
-                                        K2O_Requirement = 0,
-                                        N_Removal = 0,
-                                        P2O5_Removal = 0,
-                                        K2O_Removal = 0
-                                    };
-                                }
+                                                                            soilTestValP,
+                                                                            leafTissueP,
+                                                                            leafTissueK);
                             }
                             else
                             {

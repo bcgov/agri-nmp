@@ -60,7 +60,6 @@ namespace SERVERAPI.ViewComponents
                 else
                 {
                     svm.missingLeafTests = true;
-                    dc.soilTestExist = m.SoilTest != null;
                 }
                 svm.tests.Add(dc);
             }
@@ -88,6 +87,5 @@ namespace SERVERAPI.ViewComponents
         public string dispCropRequirementK2O5 { get; set; }
         public string dispCropRemovalP2O5 { get; set; }
         public string dispCropRemovalK2O5 { get; set; }
-        public bool soilTestExist { get; set; }
     }
 }

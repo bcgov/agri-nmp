@@ -1371,9 +1371,15 @@ namespace Agri.Data
                 GetDefaultSoilTest().ConvertedKelownaK);
         }
 
-        public string GetLeafTestWarning()
+        public string GetLeafTestWarningBlueberries()
         {
-            var message = GetUserPrompt("defaultleaftest");
+            var message = GetUserPrompt("defaultleaftestblueberries");
+            return message;
+        }
+
+        public string GetSoilTestWarningBlueberries()
+        {
+            var message = GetUserPrompt("defaultsoiltestblueberries");
             return message;
         }
 

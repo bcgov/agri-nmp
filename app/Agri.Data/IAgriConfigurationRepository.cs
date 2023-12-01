@@ -216,7 +216,9 @@ namespace Agri.Data
 
         string GetSoilTestWarning();
 
-        string GetLeafTestWarning();
+        string GetSoilTestWarningBlueberries();
+
+        string GetLeafTestWarningBlueberries();
 
         string GetExternalLink(string name);
 

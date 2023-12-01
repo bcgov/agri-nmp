@@ -73,15 +73,7 @@
                                         @m.fldName
                                     </div>
                                     <div class="Cell2" style="vertical-align:top;padding-bottom: 15px;">
-                                        @if(m.soilTestExist)
-                                        {
-                                            <input type="button" class="btn btn-default" aria-label="Add leaf test values" value="Add leaf test results" title="Add leaf test values" data_modal="" data-type="@Url.Action("LeafTestDetails", "Soil", new { fldName = m.fldName })" />
-                                        }
-                                        else
-                                        {
-
-                                            <span class="text-danger">Enter soil test first</span>
-                                        }
+                                       <input type="button" class="btn btn-default" aria-label="Add leaf test values" value="Add leaf test results" title="Add leaf test values" data_modal="" data-type="@Url.Action("LeafTestDetails", "Soil", new { fldName = m.fldName })" />
                                     </div>
                                 }
                             </div>

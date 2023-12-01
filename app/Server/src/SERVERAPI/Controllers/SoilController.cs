@@ -308,30 +308,7 @@ namespace SERVERAPI.Controllers
                 //update the Nutrient calculations with the new/changed soil test data
                 if (_showBlueberries)
                 {
-                    foreach (FieldCrop crop in fld.Crops)
-                    {
-                        if (fld.LeafTest != null &&
-                            !string.IsNullOrEmpty(fld.LeafTest.leafTissueP) &&
-                            !string.IsNullOrEmpty(fld.LeafTest.leafTissueK))
-                        {
-                            var crr = _calculateCropRequirementRemoval.GetCropRequirementRemovalBlueberries(
-                                                                                crop.yieldByHarvestUnit,
-                                                                                crop.plantAgeYears,
-                                                                                crop.numberOfPlantsPerAcre,
-                                                                                crop.willSawdustBeApplied,
-                                                                                crop.willPlantsBePruned,
-                                                                                crop.whereWillPruningsGo,
-                                                                                fld.SoilTest.ValP,
-                                                                                fld.LeafTest.leafTissueP,
-                                                                                fld.LeafTest.leafTissueK);
-                            crop.reqN = crr.N_Requirement;
-                            crop.reqP2o5 = crr.P2O5_Requirement;
-                            crop.reqK2o = crr.K2O_Requirement;
-                            crop.remP2o5 = crr.P2O5_Removal;
-                            crop.remK2o = crr.K2O_Removal;
-                            _ud.UpdateFieldCrop(fld.FieldName, crop);
-                        }
-                    }
+                    UpdateCropRequirementsBluberries(fld);
                 }
                 else
                 {
@@ -391,8 +368,10 @@ namespace SERVERAPI.Controllers
                     CropRequirementRemoval crr = null;
                     tvm.LeafTestDetailsItems = new List<LeafTestDetailsItem>();
 
+                    decimal soilTestValP = 0;
                     foreach (FieldCrop crop in fld.Crops)
                     {
+                        soilTestValP = (fld.SoilTest == null || (fld.SoilTest != null && fld.SoilTest.ValP == 0)) ? 100 : fld.SoilTest.ValP;
                         crr = _calculateCropRequirementRemoval.GetCropRequirementRemovalBlueberries(
                                                                             crop.yieldByHarvestUnit,
                                                                             crop.plantAgeYears,
@@ -400,7 +379,7 @@ namespace SERVERAPI.Controllers
                                                                             crop.willSawdustBeApplied,
                                                                             crop.willPlantsBePruned,
                                                                             crop.whereWillPruningsGo,
-                                                                            fld.SoilTest.ValP,
+                                                                            soilTestValP,
                                                                             leafTissueP,
                                                                             leafTissueK);
 
@@ -483,6 +462,7 @@ namespace SERVERAPI.Controllers
                 fld.SoilTest = null;
 
                 _ud.UpdateFieldSoilTest(fld);
+                UpdateCropRequirementsBluberries(fld);
 
                 string target = "#test";
                 string url = Url.Action("RefreshTestList", "Soil");
@@ -512,6 +492,7 @@ namespace SERVERAPI.Controllers
                 fld.LeafTest = null;
 
                 _ud.UpdateFieldLeafTest(fld);
+                UpdateCropRequirementsBluberries(fld);
 
                 string target = "#test";
                 string url = Url.Action("RefreshTestList", "Soil");
@@ -537,15 +518,28 @@ namespace SERVERAPI.Controllers
             mvm.target = target;
             string msg = "";
 
-            if ( TestType == null || TestType.Contains("SoilTest"))
+            if (_showBlueberries)
             {
-                msg += _sd.GetSoilTestWarning();
+                msg += "<ul class='text-danger'>";
+
+                if (TestType != null && TestType.Contains("SoilTest"))
+                {
+                    msg += _sd.GetSoilTestWarningBlueberries();
+                }
+                if (TestType != null && TestType.Contains("LeafTest"))
+                {
+                    msg += _sd.GetLeafTestWarningBlueberries();
+                }
+                msg += "</ul>";
+            }
+            else
+            {
+                if (TestType == null || TestType.Contains("SoilTest"))
+                {
+                    msg += _sd.GetSoilTestWarning();
+                }
             }
 
-            if (TestType.Contains("LeafTest"))
-            {
-                msg += _sd.GetLeafTestWarning();
-            }
             mvm.msg = msg;
 
             return View(mvm);
@@ -555,6 +549,38 @@ namespace SERVERAPI.Controllers
         public IActionResult MissingTests(MissingTestsViewModel mvm)
         {
             return View(mvm);
+        }
+
+        void UpdateCropRequirementsBluberries(Field fld)
+        {
+            foreach (FieldCrop crop in fld.Crops)
+            {
+                string leafTissueP = (fld.LeafTest == null ||
+                                                  (fld.LeafTest != null && String.IsNullOrEmpty(fld.LeafTest.leafTissueP))) ?
+                                                        "> 0.10" : fld.LeafTest.leafTissueP;
+                string leafTissueK = (fld.LeafTest == null ||
+                                                  (fld.LeafTest != null && String.IsNullOrEmpty(fld.LeafTest.leafTissueK))) ?
+                                                        "> 0.4" : fld.LeafTest.leafTissueK;
+                decimal soilTestValP = (fld.SoilTest == null || (fld.SoilTest != null && fld.SoilTest.ValP == 0)) ? 100 : fld.SoilTest.ValP;
+
+                var crr = _calculateCropRequirementRemoval.GetCropRequirementRemovalBlueberries(
+                                                                       crop.yieldByHarvestUnit,
+                                                                        crop.plantAgeYears,
+                                                                        crop.numberOfPlantsPerAcre,
+                                                                        crop.willSawdustBeApplied,
+                                                                        crop.willPlantsBePruned,
+                                                                        crop.whereWillPruningsGo,
+                                                                        soilTestValP,
+                                                                        leafTissueP,
+                                                                        leafTissueK);
+                crop.reqN = crr.N_Requirement;
+                crop.reqP2o5 = crr.P2O5_Requirement;
+                crop.reqK2o = crr.K2O_Requirement;
+                crop.remP2o5 = crr.P2O5_Removal;
+                crop.remK2o = crr.K2O_Removal;
+                _ud.UpdateFieldCrop(fld.FieldName, crop);
+
+            }
         }
     }
 }
