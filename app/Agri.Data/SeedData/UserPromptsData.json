@@ -715,8 +715,8 @@
   },
   {
     "Id": 108,
-    "Name": "defaultleaftest",
-    "Text": "For fields without a leaf test, Low leaf test values will be assumed and used",
+    "Name": "defaultleaftestblueberries",
+    "Text": "<li>For fields without a leaf test, ‘High’ leaf P and K content will be assumed.</li><li>Crop P and K requirements will be 0 on fields without a leaf test.</li>",
     "UserPromptPage": null,
     "UserJourney": null
   },
@@ -773,6 +773,13 @@
     "Id": 116,
     "Name": "leafTestCropRemovalK2O5Message",
     "Text": "To be determined",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 117,
+    "Name": "defaultsoiltestblueberries",
+    "Text": "<li>For fields without a soil test, very high soil P and K fertility and a pH of 4.0 will be assumed.</li><li>Crop P and K requirements will be based on the results of leaf testing.</li>",
     "UserPromptPage": null,
     "UserJourney": null
   }
