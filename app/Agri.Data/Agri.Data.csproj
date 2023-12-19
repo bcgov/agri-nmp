@@ -20,7 +20,7 @@
     <EmbeddedResource Include="SeedData\StaticDataVersion_4.json" />
     <EmbeddedResource Include="SeedData\MiniAppData.json" />
     <EmbeddedResource Include="SeedData\UserPromptsData.json" />
-    <EmbeddedResource Include="SeedData\StaticDataVersion_10.json" />
+    <EmbeddedResource Include="SeedData\StaticDataVersion_11.json" />
   </ItemGroup>
 
   <ItemGroup>

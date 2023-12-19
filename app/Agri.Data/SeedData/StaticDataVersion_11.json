@@ -1,5 +1,5 @@
 {
-  "Id": 10,
+  "Id": 11,
   "Version": null,
   "CreatedDateTime": "2021-08-05T22:38:27.521607",
   "CreatedBy": "System Load Configurations",
@@ -2491,6 +2491,28 @@
     {
       "Id": 75,
       "CropName": "Blueberry",
+      "CropTypeId": 7,
+      "YieldCd": 1,
+      "CropRemovalFactorNitrogen": 0.0,
+      "CropRemovalFactorP2O5": 0.0,
+      "CropRemovalFactorK2O": 0.0,
+      "NitrogenRecommendationId": 0.0,
+      "NitrogenRecommendationPoundPerAcre": 0.0,
+      "NitrogenRecommendationUpperLimitPoundPerAcre": 0.0,
+      "PreviousCropCode": 2,
+      "SortNumber": 100,
+      "ManureApplicationHistory": 0,
+      "HarvestBushelsPerTon": null,
+      "CropYields": [],
+      "CropSoilTestPotassiumRegions": [],
+      "CropSoilTestPhosphorousRegions": [],
+      "PreviousYearManureApplicationNitrogenDefault": null,
+      "PreviousCropTypes": [],
+      "StaticDataVersionId": 11
+    },
+    {
+      "Id": 76,
+      "CropName": "Raspberry",
       "CropTypeId": 7,
       "YieldCd": 1,
       "CropRemovalFactorNitrogen": 0.0,
@@ -5467,13 +5489,25 @@
     {
       "CropId": 75,
       "LocationId": 1,
-      "Amount": 20.0,
+      "Amount": 7.0,
       "StaticDataVersionId": 11
     },
     {
       "CropId": 75,
       "LocationId": 2,
-      "Amount": 20.0,
+      "Amount": 7.0,
+      "StaticDataVersionId": 11
+    },
+    {
+      "CropId": 76,
+      "LocationId": 1,
+      "Amount": 7.0,
+      "StaticDataVersionId": 11
+    },
+    {
+      "CropId": 76,
+      "LocationId": 2,
+      "Amount": 7.0,
       "StaticDataVersionId": 11
     }
   ],
