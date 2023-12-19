@@ -134,7 +134,7 @@ namespace SERVERAPI.Models.Impl
             userData.farmDetails.HasMixedLiveStock = fd.HasMixedLiveStock;
 
             userData.farmDetails.HasHorticulturalCrops = fd.HasHorticulturalCrops;
-            userData.farmDetails.HasBlueberries = fd.HasBlueberries;
+            userData.farmDetails.HasBerries = fd.HasBerries;
 
             userData.farmDetails.LeafTests = fd.LeafTests;
             userData.farmDetails.LeafTestingMethod = fd.LeafTestingMethod;

@@ -61,7 +61,7 @@ namespace SERVERAPI.ViewModels
         public List<SelectListItem> whereWillPruningsGo { get; set; }
         public List<SelectListItem> willSawdustBeApplied { get; set; }
 
-        public bool showBlueberries { get; set; }
-
+        public bool isBerry { get; set; }
+        public string crop { get; set; }
     }
 }

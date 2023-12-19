@@ -355,20 +355,12 @@
             });
         }
         $(document).ready(function () {
-            $("body").on("change", "#ddlLeafTissueP", function () {
-                $('#selectorAffected').val("LeafTissuePChanged");
-                $("#leafTestDetailsForm").submit();
-                $('#selectorAffected').val("");
+            $("body").on("keyup", ["#LeafTissueP", "#LeafTissueK"], function () {
+                $("#ok_button").html('Calculate');
+                $("#btnText").attr('value', 'Calculate');
             })
         });
-
-        $(document).ready(function () {
-            $("body").on("change", "#ddlLeafTissueK", function () {
-                $('#selectorAffected').val("LeafTissueKChanged");
-                $("#leafTestDetailsForm").submit();
-                $('#selectorAffected').val("");
-            })
-        });
+        
     </script>
 
 }

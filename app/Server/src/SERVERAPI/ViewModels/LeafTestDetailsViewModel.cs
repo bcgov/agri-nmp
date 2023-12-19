@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using Agri.Models.Configuration;
 
 namespace SERVERAPI.ViewModels
@@ -11,22 +12,17 @@ namespace SERVERAPI.ViewModels
         public string fieldName { get; set; }
         public string selectorAffected { get; set; }
         public string sampleDate { get; set; }
-
+        [Required(ErrorMessage = "Required")]
+        [RegularExpression(@"^\d+\.?\d*$", ErrorMessage = "Positive numeric value required")]
         public string leafTissueP { get; set; }
+        [RegularExpression(@"^\d+\.?\d*$", ErrorMessage = "Positive numeric value required")]
+        [Required(ErrorMessage = "Required")]
         public string leafTissueK { get; set; }
         public List<LeafTestDetailsItem> LeafTestDetailsItems { get; set; }
 
         public string leafTestValuesMsg { get; set; }
         public string leafTestLeafTissuePMsg { get; set; }
         public string leafTestLeafTissueKMsg { get; set; }
-        public string leafTestCropRequirementNMsg { get; set; }
-        public string leafTestCropRequirementP2O5Msg { get; set; }
-        public string leafTestCropRequirementK2OMsg { get; set; }
-        public string leafTestCropRemovalP2O5Msg { get; set; }
-        public string leafTestCropRemovalK2O5Msg { get; set; }
-
-        public List<SelectListItem> leafTissuePOptions { get; set; }
-        public List<SelectListItem> leafTissueKOptions { get; set; }
 
     }
 

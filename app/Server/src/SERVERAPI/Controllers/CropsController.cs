@@ -25,7 +25,7 @@ namespace SERVERAPI.Controllers
         private readonly IAgriConfigurationRepository _sd;
         private readonly AppSettings _settings;
         private readonly ICalculateCropRequirementRemoval _calculateCropRequirementRemoval;
-        private readonly bool _showBlueberries;
+        private readonly bool _isBerry;
 
         public CropsController(ILogger<NutrientsController> logger,
             UserData ud,
@@ -38,7 +38,7 @@ namespace SERVERAPI.Controllers
             _sd = sd;
             _settings = settings.Value;
             _calculateCropRequirementRemoval = calculateCropRequirementRemoval;
-            _showBlueberries = _ud.FarmDetails().UserJourney == UserJourney.Berries;
+            _isBerry = _ud.FarmDetails().UserJourney == UserJourney.Berries;
         }
 
         public IActionResult Crops()
@@ -58,7 +58,7 @@ namespace SERVERAPI.Controllers
                 stdYield = true,
                 nCredit = "0",
                 nCreditLabel = _sd.GetUserPrompt("ncreditlabel"),
-                showBlueberries = _showBlueberries
+                isBerry = _isBerry,
             };
 
             if (id != null)
@@ -125,6 +125,7 @@ namespace SERVERAPI.Controllers
                     cvm.showHarvestUnitsDDL = _sd.IsCropGrainsAndOilseeds(Convert.ToInt16(crop.CropTypeId));
 
                     CropType crpTyp = _sd.GetCropType(Convert.ToInt32(cvm.selTypOption));
+                    cvm.crop = crop.CropName;
                     if (crpTyp.ModifyNitrogen)
                     {
                         cvm.modNitrogen = true;
@@ -151,7 +152,7 @@ namespace SERVERAPI.Controllers
 
                 CropDetailsSetup(ref cvm);
 
-                if( _showBlueberries)
+                if(_isBerry)
                 {
 
                     cvm.selPlantAgeYears = cvm.plantAgeYears.Where( item => item.Value == cp.plantAgeYears)
@@ -341,6 +342,20 @@ namespace SERVERAPI.Controllers
                 if (cvm.buttonPressed == "CropChange")
                 {
                     PopulateYield(ref cvm);
+
+                    switch (cvm.selCropOption)
+                    {
+                        case "75":
+                            cvm.crop = "Blueberry";
+                            break;
+                        case "76":
+                            cvm.crop = "Raspberry";
+                            break;
+                        default:
+                            cvm.crop = "";
+                            break;
+                    };
+
                     return View(cvm);
                 }
 
@@ -586,7 +601,7 @@ namespace SERVERAPI.Controllers
                         ModelState.Clear();
                         if (!cvm.manEntry)
                         {
-                            if (_showBlueberries)
+                            if (_isBerry)
                             {
                                 bool hasValidationErrors = false;
 
@@ -633,8 +648,8 @@ namespace SERVERAPI.Controllers
 
                             cvm.yield = yield.ToString();
 
-                            CropRequirementRemoval cropRequirementRemoval;
-                            if (_showBlueberries)
+                            var cropRequirementRemoval  = new CropRequirementRemoval();
+                            if (_isBerry)
                             {
                                 var fld = _ud.GetFieldDetails(cvm.fieldName);
                                 string plantAgeYears = cvm.plantAgeYears.Where(item => item.Id.ToString() == cvm.selPlantAgeYears)
@@ -648,29 +663,68 @@ namespace SERVERAPI.Controllers
                                 bool willSawdustBeApplied = cvm.willSawdustBeApplied.Where(item => item.Id.ToString() == cvm.selWillSawdustBeApplied)
                                                                  .Select(field => field.Value == "Yes").FirstOrDefault();
 
+                                if (cvm.crop == "Blueberry")
+                                {
+
+                                    decimal soilTestValP = (fld.SoilTest == null ||
+                                                           (fld.SoilTest != null && fld.SoilTest.ValP == 0)) ?
+                                                                _calculateCropRequirementRemoval.defaultBlueberrySoilTestP :
+                                                                fld.SoilTest.ValP;
+                                    decimal leafTissueP = (fld.LeafTest == null ||
+                                                          (fld.LeafTest != null && fld.LeafTest.leafTissueP == 0)) ?
+                                                                _calculateCropRequirementRemoval.defaultBlueberryLeafTestP :
+                                                                fld.LeafTest.leafTissueP;
+                                    decimal leafTissueK = (fld.LeafTest == null ||
+                                                          (fld.LeafTest != null && fld.LeafTest.leafTissueK == 0)) ?
+                                                                _calculateCropRequirementRemoval.defaultBlueberryLeafTestK :
+                                                                fld.LeafTest.leafTissueK;
+                                    
 
 
-                                var soilTestValP = (fld.SoilTest == null ||
-                                                          (fld.SoilTest != null && fld.SoilTest.ValP == 0)) ?
-                                                                100 : fld.SoilTest.ValP;
-                                var leafTissueP = (fld.LeafTest == null ||
-                                                          (fld.LeafTest != null && String.IsNullOrEmpty(fld.LeafTest.leafTissueP))) ?
-                                                                "> 0.10" : fld.LeafTest.leafTissueP;
-                                var leafTissueK = (fld.LeafTest == null ||
-                                                          (fld.LeafTest != null && String.IsNullOrEmpty(fld.LeafTest.leafTissueK))) ?
-                                                                "> 0.4" : fld.LeafTest.leafTissueK;
+                                    cropRequirementRemoval = _calculateCropRequirementRemoval
+                                                                        .GetCropRequirementRemovalBlueberries(
+                                                                                Convert.ToDecimal(cvm.yieldByHarvestUnit),
+                                                                                plantAgeYears,
+                                                                                numberOfPlantsPerAcre,
+                                                                                willSawdustBeApplied,
+                                                                                willPlantsBePruned,
+                                                                                whereWillPruningsGo,
+                                                                                soilTestValP,
+                                                                                leafTissueP,
+                                                                                leafTissueK);
+                                }
+                                else if (cvm.crop == "Raspberry")
+                                {
 
-                                cropRequirementRemoval = _calculateCropRequirementRemoval
-                                                                    .GetCropRequirementRemovalBlueberries(
-                                                                            Convert.ToDecimal(cvm.yieldByHarvestUnit),
-                                                                            plantAgeYears,
-                                                                            numberOfPlantsPerAcre,
-                                                                            willSawdustBeApplied,
-                                                                            willPlantsBePruned,
-                                                                            whereWillPruningsGo,
-                                                                            soilTestValP,
-                                                                            leafTissueP,
-                                                                            leafTissueK);
+                                    var soilTestValP = (fld.SoilTest == null ||
+                                                       (fld.SoilTest != null && fld.SoilTest.ValP == 0)) ?
+                                                            _calculateCropRequirementRemoval.defaultRaspberrySoilTestP :
+                                                            fld.SoilTest.ValP;
+                                    var soilTestValK = (fld.SoilTest == null ||
+                                                       (fld.SoilTest != null && fld.SoilTest.valK == 0)) ?
+                                                            _calculateCropRequirementRemoval.defaultRaspberrySoilTestK :
+                                                            fld.SoilTest.valK;
+                                    var leafTissueP = (fld.LeafTest == null ||
+                                                      (fld.LeafTest != null && fld.LeafTest.leafTissueP == 0)) ?
+                                                            _calculateCropRequirementRemoval.defaultRaspberryLeafTestP :
+                                                            fld.LeafTest.leafTissueP;
+                                    var leafTissueK = (fld.LeafTest == null ||
+                                                      (fld.LeafTest != null && fld.LeafTest.leafTissueK == 0)) ?
+                                                            _calculateCropRequirementRemoval.defaultRaspberryLeafTestK :
+                                                            fld.LeafTest.leafTissueK;
+
+
+                                    cropRequirementRemoval = _calculateCropRequirementRemoval
+                                                                        .GetCropRequirementRemovalRaspberries(
+                                                                                Convert.ToDecimal(cvm.yieldByHarvestUnit),
+                                                                                willSawdustBeApplied,
+                                                                                willPlantsBePruned,
+                                                                                whereWillPruningsGo,
+                                                                                soilTestValP,
+                                                                                soilTestValK,
+                                                                                leafTissueP,
+                                                                                leafTissueK);
+                                }
                             }
                             else
                             {
@@ -858,7 +912,7 @@ namespace SERVERAPI.Controllers
 
             cvm.cropOptions = new List<SelectListItem>();
             cvm.harvestUnitsOptions = new List<SelectListItem>();
-            if (_showBlueberries)
+            if (_isBerry)
             {
                 cvm.selTypOption = "7";
             }
@@ -1016,12 +1070,10 @@ namespace SERVERAPI.Controllers
 
         private void InitCrops(ref CropDetailsViewModel cvm)
         {
-            if (_showBlueberries)
+            if (_isBerry)
             {
                 cvm.selTypOption = "7";
                 cvm.typOptions.RemoveAll(item => item.Id != 7);
-
-                cvm.selCropOption = "75";
             }
             else
             {

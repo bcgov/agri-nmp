@@ -160,7 +160,7 @@
                                 </label>
                             </div>
                         </div>
-                        @if (Model.ShowBlueberries)
+                        @if (Model.ShowCropTypes)
                         {
                             <div class="row" style="margin-bottom: 0px;margin-left:20px">
                                 <div class="col-sm-4">
@@ -170,10 +170,10 @@
                                 </div>
                                 <div class="col-sm-6 form-group" role="radiogroup" aria-labelledby="labelCropType" style="margin-bottom: 0px;">
                                     <label style="padding-right: 20px">
-                                        <input asp-for="HasBlueberries" type="radio" value="false" id="rbIsHasVegetables" onchange="GetsCropTypeChanged()" /> Vegetables
+                                        <input asp-for="HasBerries" type="radio" value="false" id="rbIsHasVegetables" onchange="GetsCropTypeChanged()" /> Vegetables
                                     </label>
                                     <label>
-                                        <input asp-for="HasBlueberries" type="radio" value="true" id="rbIsHasBlueberries" onchange="GetsCropTypeChanged()" /> Blueberries
+                                        <input asp-for="HasBerries" type="radio" value="true" id="rbIsHasBerries" onchange="GetsCropTypeChanged()" /> Berries
                                     </label>
                                 </div>
                             </div>

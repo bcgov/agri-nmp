@@ -96,32 +96,35 @@
                         @Html.HiddenFor(x => x.crude)
                     }
                 </div>
-                @if (Model.showBlueberries)
+                @if (Model.isBerry)
                 {
-                    <div style="clear:both"></div>
-                    <div class="row" style="margin-bottom: 1.5em;">
-                        <div class="form-group col-sm-3">
-                            <label for="ddlPlantAgeYears">Plant age (years)</label>
-                            <select class="form-control" asp-for="selPlantAgeYears" asp-items="@(new SelectList(Model.plantAgeYears, "Id", "Value"))" id="ddlPlantAgeYears">
-                                <option>select</option>
-                            </select>
-                            <span asp-validation-for="selPlantAgeYears" class="text-danger"></span>
+                    @if (Model.crop == "Blueberry")
+                    {
+                        <div style="clear:both"></div>
+                        <div class="row" style="margin-bottom: 1.5em;">
+                            <div class="form-group col-sm-3">
+                                <label for="ddlPlantAgeYears">Plant age (years)</label>
+                                <select class="form-control" asp-for="selPlantAgeYears" asp-items="@(new SelectList(Model.plantAgeYears, "Id", "Value"))" id="ddlPlantAgeYears">
+                                    <option>select</option>
+                                </select>
+                                <span asp-validation-for="selPlantAgeYears" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                <label for="ddlNumberOfPlantsPerAcre"># of plants per acre</label>
+                                <select class="form-control" asp-for="selNumberOfPlantsPerAcre" asp-items="@(new SelectList(Model.numberOfPlantsPerAcre, "Id", "Value"))" id="ddlNumberOfPlantsPerAcre">
+                                    <option>select</option>
+                                </select>
+                                <span asp-validation-for="selNumberOfPlantsPerAcre" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label for="ddlDistanceBtwnPlantsRows">Distance between plants, distance between rows</label>
+                                <select class="form-control" asp-for="selDistanceBtwnPlantsRows" asp-items="@(new SelectList(Model.distanceBtwnPlantsRows, "Id", "Value"))" id="ddlDistanceBtwnPlantsRows">
+                                    <option>select</option>
+                                </select>
+                                <span asp-validation-for="selDistanceBtwnPlantsRows" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="form-group col-sm-3">
-                            <label for="ddlNumberOfPlantsPerAcre"># of plants per acre</label>
-                            <select class="form-control" asp-for="selNumberOfPlantsPerAcre" asp-items="@(new SelectList(Model.numberOfPlantsPerAcre, "Id", "Value"))" id="ddlNumberOfPlantsPerAcre">
-                                <option>select</option>
-                            </select>
-                            <span asp-validation-for="selNumberOfPlantsPerAcre" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-sm-5">
-                            <label for="ddlDistanceBtwnPlantsRows">Distance between plants, distance between rows</label>
-                            <select class="form-control" asp-for="selDistanceBtwnPlantsRows" asp-items="@(new SelectList(Model.distanceBtwnPlantsRows, "Id", "Value"))" id="ddlDistanceBtwnPlantsRows">
-                                <option>select</option>
-                            </select>
-                            <span asp-validation-for="selDistanceBtwnPlantsRows" class="text-danger"></span>
-                        </div>
-                    </div>
+                    }
                     <div style="clear:both"></div>
                     <div class="row" style="margin-bottom: 1.5em;">
                         <div class="form-group col-sm-3">
@@ -147,7 +150,7 @@
                         </div>
                     </div>
                 }
-                @if (!Model.showBlueberries)
+                @if (!Model.isBerry)
                 {
                     <div class="form-group">
                         @if (!Model.manEntry)
@@ -393,7 +396,8 @@
         @Html.HiddenFor(x => x.stdYield)
         @Html.HiddenFor(x => x.showHarvestUnitsDDL)
         @Html.HiddenFor(x => x.yield)
-        @Html.HiddenFor(x => x.showBlueberries)
+        @Html.HiddenFor(x => x.isBerry)
+        @Html.HiddenFor(x => x.crop)
     </form>
 </div>
 
@@ -427,6 +431,13 @@
     $(document).on('change', '#ddlWillSawdustBeApplied', function () {
         RequireCalculate();
     });
+
+    $(document).ready(function () {
+        $("body").on("keyup", "#yieldByHarvestUnit", function () {
+            RequireCalculate();
+        })
+    });
+
 
     function RequireCalculate() {
         $("#ok_button").html('Calculate');

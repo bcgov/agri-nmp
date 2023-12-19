@@ -45,8 +45,8 @@ namespace SERVERAPI.ViewComponents
                 if (m.LeafTest != null)
                 {
                     //dc.sampleDate = m.SoilTest.sampleDate.ToString("MMM-yyyy");
-                    dc.dispLeafTissueP = m.LeafTest.leafTissueP;
-                    dc.dispLeafTissueK = m.LeafTest.leafTissueK;
+                    dc.dispLeafTissueP = m.LeafTest.leafTissueP.ToString("#.##");
+                    dc.dispLeafTissueK = m.LeafTest.leafTissueK.ToString("#.##"); 
 
                     foreach (FieldCrop crop in m.Crops)
                     {
