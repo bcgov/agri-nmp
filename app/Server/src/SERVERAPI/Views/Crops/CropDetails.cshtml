@@ -128,6 +128,7 @@
                     <div style="clear:both"></div>
                     <div class="row" style="margin-bottom: 1.5em;">
                         <div class="form-group col-sm-3">
+                            <br/>
                             <label for="ddlillPlantsBePruned">Will plants be pruned?</label>
                             <select class="form-control" asp-for="selWillPlantsBePruned" asp-items="@(new SelectList(Model.willPlantsBePruned, "Id", "Value"))" id="ddlillPlantsBePruned">
                                 <option>select</option>
@@ -135,14 +136,16 @@
                             <span asp-validation-for="selWillPlantsBePruned" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-3">
+                            <br />
                             <label for="ddlWhereWillPruningsGo">Where will prunings go?</label>
                             <select class="form-control" asp-for="selWhereWillPruningsGo" asp-items="@(new SelectList(Model.whereWillPruningsGo, "Id", "Value"))" id="ddlWhereWillPruningsGo">
                                 <option>select</option>
                             </select>
                             <span asp-validation-for="selWhereWillPruningsGo" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-sm-5">
-                            <label for="ddlWillSawdustBeApplied">Will sawdust have been applied in the fall prior to fertilization?</label>
+                        <div class="form-group col-sm-4">
+                            <label for="ddlWillSawdustBeApplied" style="margin-bottom:auto">Will sawdust have been applied</label><br />
+                            <label for="ddlWillSawdustBeApplied">in the fall prior to fertilization?</label>
                             <select class="form-control" asp-for="selWillSawdustBeApplied" asp-items="@(new SelectList(Model.willSawdustBeApplied, "Id", "Value"))" id="ddlWillSawdustBeApplied">
                                 <option>select</option>
                             </select>
