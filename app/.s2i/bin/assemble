@@ -6,6 +6,7 @@ set -e
 DOTNET_CONFIGURATION="${DOTNET_CONFIGURATION:-Release}"
 DOTNET_STARTUP_PROJECT="${DOTNET_STARTUP_PROJECT:-.}"
 DOTNET_ASPNET_STORE="${DOTNET_ASPNET_STORE:-false}"
+# Additional parameters to pass to the build. Can be used for troubleshooting.
 DOTNET_ARGUMENTS="${DOTNET_ARGUMENTS:-}"
 if [ "$DOTNET_ASPNET_STORE" != "false" ]; then
   DOTNET_ASPNET_STORE="true"
