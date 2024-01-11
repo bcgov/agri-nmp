@@ -63,10 +63,10 @@
             "kind": "ImageStream",
             "apiVersion": "v1",
             "metadata": {
-                "name": "${NAME}-dotnet-31-runtime-rhel7",
+                "name": "${NAME}-dotnet-7-runtime-rhel8",
                 "annotations": null,
                 "labels": {
-                    "base-name": "${NAME}-dotnet-31-runtime-rhel7",
+                    "base-name": "${NAME}-dotnet-7-runtime-rhel8",
                     "shared": "true"
                 }
             },
@@ -76,11 +76,11 @@
                 },
                 "tags": [
                     {
-                        "name": "3.1",
+                        "name": "7.0",
                         "annotations": null,
                         "from": {
                             "kind": "DockerImage",
-                            "name": "registry.redhat.io/dotnet/dotnet-31-runtime-rhel7:3.1"
+                            "name": "registry.redhat.io/rhel8/dotnet-70-runtime:7.0-25"
                         },
                         "importPolicy": {},
                         "referencePolicy": {
