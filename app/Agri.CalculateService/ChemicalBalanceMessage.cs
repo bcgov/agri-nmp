@@ -63,7 +63,7 @@ namespace Agri.CalculateService
             //determine if a legume is included in the crops
             var fieldCrops = field.Crops;
 
-            if (fieldCrops.Count > 0)
+            if (fieldCrops!= null && fieldCrops.Count > 0)
             {
                 foreach (var _crop in fieldCrops)
                 {
@@ -232,7 +232,7 @@ namespace Agri.CalculateService
             var fieldResult = field;
             var fieldCrops = fieldResult.Crops;
 
-            if (fieldCrops.Count > 0)
+            if (fieldCrops!= null && fieldCrops.Count > 0)
             {
                 foreach (var crop in fieldCrops)
                 {
@@ -381,7 +381,7 @@ namespace Agri.CalculateService
         public bool DisplayMessages(Field field)
         {
             //display balance messages when at least one Crop has been added
-            if (field.Crops.Count > 0)
+            if (field.Crops!= null && field.Crops.Count > 0)
             {
                 foreach (var crp in field.Crops)
                 {

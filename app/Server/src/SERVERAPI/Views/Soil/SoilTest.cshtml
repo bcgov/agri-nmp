@@ -29,9 +29,11 @@
                 @Html.HiddenFor(x => x.buttonPressed)
                 @Html.HiddenFor(x => x.testSelected)
                 @Html.HiddenFor(x => x.warningMsg)
+                @Html.HiddenFor(x => x.showLeafTests)
+                @Html.HiddenFor(x => x.leafTestSelected)
                 <div class="form-box">
                     <div class="form-box-body">
-                        <div class="form-box-fields">
+                        <div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     @if (!Model.fldsFnd)
@@ -52,11 +54,15 @@
                                                 </div>
                                             </div>
                                         }
+                                        else
+                                        {
+                                            <br />
+                                        }
                                     }
                                 </div>
                             </div>
                         </div>
-                        <div class="form-box-fields">
+                        <div>
                             @if (Model.fldsFnd)
                             {
                                 <div class="row">
@@ -81,7 +87,7 @@
                                 </div>
                             }
                         </div>
-                        <div class="form-box-fields">
+                        <div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     @if (Model.testSelected)
@@ -93,6 +99,43 @@
                                 </div>
                             </div>
                         </div>
+                        @if (Model.fldsFnd && Model.showLeafTests)
+                        {
+                            <div>
+                                <div class="row">
+                                    <div class="col-sm-7">
+                                        <label for="ddlLeafTests">Leaf Tests</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-horizontal">
+                                        <div class="form-group col-sm-7">
+                                            <select class="form-control" asp-for="selLeafTstOption" asp-items="@(new SelectList(Model.leafTstOptions, "Id", "Value"))" id="ddlLeafTests">
+                                                <option>No leaf tests from within past 3 years</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-sm-1" style="padding-left:0px">
+                                            <a href="#" aria-label="Leaf Test Methods Link" data_modal3="" data-type="@Url.Action("InfoMessage", "Nutrients", new { type = "leaftest" })"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Tests" style="font-size:20px; padding-top:5px"></span></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <span asp-validation-for="selLeafTstOption"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        @if (Model.leafTestSelected)
+                                        {
+                                            <div id="test">
+                                                @await Component.InvokeAsync("LeafTests")
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div id="next-previous-navigation">
@@ -110,7 +153,8 @@
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
             $("#divSize").removeClass("modal-carousel");
-            $("#divSize").addClass("modal-large");
+            $("#divSize").removeClass("modal-large");
+            $("#divSize").addClass("modal-small");
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({
                     /*backdrop: 'static',*/
@@ -124,6 +168,10 @@
         $(document).ready(function () {
             $("body").on("change", "#ddlMth", function () {
                 $('#buttonPressed').val("MethodChange");
+                $("#modForm").submit();
+            })
+            $("body").on("change", "#ddlLeafTests", function () {
+                $('#buttonPressed').val("LeafTestMethodChange");
                 $("#modForm").submit();
             })
         });
@@ -161,7 +209,7 @@
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
             $("#divSize").removeClass("modal-carousel");
-            $("#divSize").removeClass("modal-large");
+            $("#divSize").removeClass("modal-large modal-small");
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({
                     /*backdrop: 'static',*/
@@ -174,11 +222,26 @@
 
     function Intercept(x) {
         if ($("#testSelected").val() == "False" ||
-            $("#missingTests").val() == "True")
+            $("#missingTests").val() == "True" ||
+            $("#showLeafTests").val() == "True" && (
+                $("#leafTestSelected").val() == "False" ||
+                $("#missingLeafTests").val() == "True"
+                )
+            )
         {
             $.ajaxSetup({ cache: false });
-            var url = '@Url.Action("MissingTests", "Soil", new { target = "zzz" })';
-            $type = url.replace('zzz',x);
+
+            var testType = [];
+            if ($("#testSelected").val() == "False" || $("#missingTests").val() == "True") {
+                testType = [...testType, "SoilTest"];
+            }
+            if ($("#showLeafTests").val() == "True" && ($("#leafTestSelected").val() == "False" || $("#missingLeafTests").val() == "True")) {
+                testType = [...testType, "LeafTest"];
+            }
+            var url = '@Url.Action("MissingTests", "Soil", new { target = "zzz"})';
+            $type = url.replace('zzz', x);
+            $type = `${$type}&TestType=${testType.join(encodeURIComponent(','))}`;
+
             $("#divSize").addClass("modal-large");
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({
@@ -202,7 +265,7 @@
         $(document).on("click", '[data_modalI]', function (e) {
             $.ajaxSetup({ cache: false });
             $type = $(this).data('type'); // this works as of jQuery 1.4.3, otherwise $(this).attr('data-type');
-            $("#divSize").removeClass("modal-large");
+            $("#divSize").removeClass("modal-large modal-small");
             $("#divSize").addClass("modal-carousel");
             $('#myModalContent').load($type, function () {
                 $('#myModal').modal({
@@ -291,6 +354,13 @@
                 return false;
             });
         }
+        $(document).ready(function () {
+            $("body").on("keyup", ["#LeafTissueP", "#LeafTissueK"], function () {
+                $("#ok_button").html('Calculate');
+                $("#btnText").attr('value', 'Calculate');
+            })
+        });
+        
     </script>
 
 }

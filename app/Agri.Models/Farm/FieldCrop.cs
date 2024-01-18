@@ -1,4 +1,6 @@
-﻿namespace Agri.Models.Farm
+﻿using Agri.Models.Configuration;
+using System.Collections.Generic;
+namespace Agri.Models.Farm
 {
     public class FieldCrop
     {
@@ -19,5 +21,12 @@
         public int prevYearManureAppl_volCatCd { get; set; }
         public int? yieldHarvestUnit { get; set; }
         public decimal yieldByHarvestUnit { get; set; }
+
+        public string plantAgeYears { get; set; }
+        public int? numberOfPlantsPerAcre { get; set; }
+        public string distanceBtwnPlantsRows { get; set; }
+        public bool? willPlantsBePruned { get; set; }
+        public string whereWillPruningsGo { get; set; }
+        public bool? willSawdustBeApplied { get; set; }
     }
 }

@@ -81,7 +81,7 @@
           "sourceStrategy": {
             "from": {
               "kind": "ImageStreamTag",
-              "name": "${NAME}-dotnet-31-rhel7:3.1"
+              "name": "${NAME}-dotnet-7-rhel8:7.0-25"
             },
             "env": [
               {

@@ -1371,6 +1371,18 @@ namespace Agri.Data
                 GetDefaultSoilTest().ConvertedKelownaK);
         }
 
+        public string GetLeafTestWarningBlueberries()
+        {
+            var message = GetUserPrompt("defaultleaftestblueberries");
+            return message;
+        }
+
+        public string GetSoilTestWarningBlueberries()
+        {
+            var message = GetUserPrompt("defaultsoiltestblueberries");
+            return message;
+        }
+
         public string GetStaticDataVersion()
         {
             return GetCurrentStaticDataVersion().Id.ToString();
@@ -2037,6 +2049,68 @@ namespace Agri.Data
             _context.StaticDataVersions.Add(newVersion);
             _context.SaveChanges();
         }
+
+        // These values will be obtained from database.
+        // Storing them here temporarily until the database design is complete and migration created.
+        public List<SelectListItem> GetPlantAgeYearsDll()
+        {
+            string[] values = { "1", "2", "3", "4", "5", "6", "7", "8", "9 or more" };
+            var result = values.ToList().Select((item, index) =>
+                                    new SelectListItem() { Id = index, Value = item }).ToList();
+            return result;
+        }
+
+        public List<SelectListItem> GetNumberOfPlantsPerAcreDll()
+        {
+            string[] values = { "2470", "2220", "1480", "1350", "1240", "1110", "1010" };
+            var result = values.ToList().Select((item, index) =>
+                                    new SelectListItem() { Id = index, Value = item }).ToList();
+            return result;
+        }
+
+        public List<SelectListItem> GetDistanceBtwnPlantsRowsDll()
+        {
+            string[] values = { "0.6 m x 2.7 m (2 ft x 9 ft)", "0.6 m x 3.0 m (2 ft x 10 ft)", "0.9 m x 3.0 m (3 ft x 10 ft)",
+                                "0.9 m x 3.3 m (3 ft x 11 ft)", "1.2 m x 2.7 m (4 ft x 9 ft)", "1.2 m x 3.0 m (4 ft x 10 ft)",
+                                "1.2 m x 3.3 m (4 ft x 11 ft)" };
+            var result = values.ToList().Select((item, index) =>
+                                    new SelectListItem() { Id = index, Value = item }).ToList();
+            return result;
+        }
+
+        public List<SelectListItem> GetWillPlantsBePrunedDll()
+        {
+            string[] values = { "Yes", "No" };
+            var result = values.ToList().Select((item, index) =>
+                                    new SelectListItem() { Id = index, Value = item }).ToList();
+            return result;
+        }
+        public List<SelectListItem> GetWhereWillPruningsGoDll()
+        {
+            string[] values = { "N/A", "Removed from field", "Left in row", "Left between rows" };
+            var result = values.ToList().Select((item, index) =>
+                                    new SelectListItem() { Id = index, Value = item }).ToList();
+            return result;
+        }
+        public List<SelectListItem> GetWillSawdustBeAppliedDll()
+        {
+            string[] values = { "Yes", "No" };
+            var result = values.ToList().Select((item, index) =>
+                                    new SelectListItem() { Id = index, Value = item }).ToList();
+            return result;
+        }
+
+
+        public List<SelectListItem> GetLeafTestMethodsDll()
+        {
+            string[] values = { "Yes I have Leaf Tests from within the past 3 years"};
+
+            var result = values.ToList().Select((item, index) =>
+                                    new SelectListItem() { Id = index, Value = item }).ToList();
+            return result;
+
+        }
+
 
         private StaticDataVersion MapFullGraphToStaticDataVersion(StaticDataVersion source, StaticDataVersion destination)
         {

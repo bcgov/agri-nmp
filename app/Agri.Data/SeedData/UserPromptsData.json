@@ -170,7 +170,7 @@
   {
     "Id": 26,
     "Name": "defaultsoiltest",
-    "Text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<p class=\"text-danger\">Crop P and K requirements will be 0 on fields without a soil test.</p>",
+    "Text": "For fields without a soil test, very high soil P and K fertility and a pH of 6.0 will be assumed.<br/>Crop P and K requirements will be 0 on fields without a soil test.<br/>",
     "UserPromptPage": "SoilTestModal",
     "UserJourney": "Mixed"
   },
@@ -705,5 +705,82 @@
     "Text": "To calculate application rates, select source(s) and a nutrient analysis that will be assigned to them.",
     "UserPromptPage": "NutrientsAnalysisList",
     "UserJourney": "Mixed"
+  },
+  {
+    "Id": 107,
+    "Name": "leaftest",
+    "Text": "<h1>Leaf Test Methods</h1><ul><li>Method 1</li>Lab not listed? Click Learn more below</ul><p><a href=\"\" target=\"_blank\">Learn more (opens in new tab)</a></p>",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 108,
+    "Name": "defaultleaftestblueberries",
+    "Text": "<li>For fields without a leaf test, ‘High’ leaf P and K content will be assumed.</li><li>Crop P and K requirements will be 0 on fields without a leaf test.</li>",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 109,
+    "Name": "leafTestValuesMessage",
+    "Text": "To be determined",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 110,
+    "Name": "leafTestLeafTissuePMessage",
+    "Text": "To be determined",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 111,
+    "Name": "leafTestLeafTissueKMessage",
+    "Text": "To be determined",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 112,
+    "Name": "leafTestCropRequirementNMessage",
+    "Text": "To be determined",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 113,
+    "Name": "leafTestCropRequirementP2O5Message",
+    "Text": "To be determined",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 114,
+    "Name": "leafTestCropRequirementK2O5Message",
+    "Text": "To be determined",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 115,
+    "Name": "leafTestCropRemovalP2O5Message",
+    "Text": "To be determined",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 116,
+    "Name": "leafTestCropRemovalK2O5Message",
+    "Text": "To be determined",
+    "UserPromptPage": null,
+    "UserJourney": null
+  },
+  {
+    "Id": 117,
+    "Name": "defaultsoiltestblueberries",
+    "Text": "<li>For fields without a soil test, very high soil P and K fertility and a pH of 4.0 will be assumed.</li><li>Crop P and K requirements will be based on the results of leaf testing.</li>",
+    "UserPromptPage": null,
+    "UserJourney": null
   }
 ]

@@ -62,6 +62,11 @@ namespace Agri.Data
                 _context.Database.ExecuteSqlRaw(@"TRUNCATE TABLE ""SubMenu"", ""MainMenus"", ""Journey"";");
             }
 
+            if (_options.Value.RELOAD_USER_PROMPTS)
+            {
+                _context.Database.ExecuteSqlRaw(@"TRUNCATE TABLE ""UserPrompts"";");
+            }
+
             if (!_context.Browsers.Any())
             {
                 var browsers = SeedDataLoader.GetSeedJsonData<List<Browser>>(Constants.SeedDataFiles.Browsers);

@@ -3,21 +3,58 @@ using Agri.Models.Calculate;
 using Agri.Models.Configuration;
 using Agri.Models.Farm;
 using System;
+using System.Linq;
 
 namespace Agri.CalculateService
 {
     public interface ICalculateCropRequirementRemoval
     {
         CropRequirementRemoval GetCropRequirementRemoval(int cropid, decimal yield, decimal? crudeProtien, bool? coverCropHarvested, int nCredit, int regionId, Field field);
-
+        CropRequirementRemoval GetCropRequirementRemovalBlueberries(decimal yield,
+                                                                    string plantAgeYears,
+                                                                    int? numberOfPlantsPerAcre,
+                                                                    bool? willSawdustBeApplied,
+                                                                    bool? willPlantsBePruned,
+                                                                    string whereWillPruningsGo,
+                                                                    decimal soilTestValP,
+                                                                    decimal leafTissueP,
+                                                                    decimal leafTissueK);
+        CropRequirementRemoval GetCropRequirementRemovalRaspberries(decimal yield,
+                                                                    bool? willSawdustBeApplied,
+                                                                    bool? willPlantsBePruned,
+                                                                    string whereWillPruningsGo,
+                                                                    decimal soilTestValP,
+                                                                    decimal soilTestValK,
+                                                                    decimal leafTissueP,
+                                                                    decimal leafTissueK);
         decimal GetCrudeProtienByCropId(int cropid);
 
         decimal? GetDefaultYieldByCropId(FarmDetails farmDetails, int cropid, bool useBushelPerAcreUnits);
+
+        public decimal defaultBlueberrySoilTestP { get; }
+        public decimal defaultBlueberryLeafTestP { get; }
+        public decimal defaultBlueberryLeafTestK { get; }
+
+        public decimal defaultRaspberrySoilTestP { get; }
+        public decimal defaultRaspberrySoilTestK { get; }
+        public decimal defaultRaspberryLeafTestP { get; }
+        public decimal defaultRaspberryLeafTestK { get; }
     }
 
     public class CalculateCropRequirementRemoval : ICalculateCropRequirementRemoval
     {
         private readonly IAgriConfigurationRepository _sd;
+
+        public decimal defaultBlueberrySoilTestP { get { return 100; }}
+        public decimal defaultBlueberryLeafTestP { get { return 0.11m; }}
+        public decimal defaultBlueberryLeafTestK { get { return 0.41m; } }
+
+
+        public decimal defaultRaspberrySoilTestP { get { return 31; }}
+        public decimal defaultRaspberrySoilTestK { get { return 281; }}
+        public decimal defaultRaspberryLeafTestP { get { return 0.20m; }}
+        public decimal defaultRaspberryLeafTestK { get { return 1.26m; }}
+
 
         public CalculateCropRequirementRemoval(IAgriConfigurationRepository sd)
         {
@@ -178,7 +215,211 @@ namespace Agri.CalculateService
 
             return crr;
         }
+        public CropRequirementRemoval GetCropRequirementRemovalBlueberries( decimal yield,
+                                                                            string plantAgeYears,
+                                                                            int? numberOfPlantsPerAcre,
+                                                                            bool? willSawdustBeApplied,
+                                                                            bool? willPlantsBePruned,
+                                                                            string whereWillPruningsGo,
+                                                                            decimal soilTestValP,
+                                                                            decimal leafTissueP,
+                                                                            decimal leafTissueK)
+        {
+            var crr = new CropRequirementRemoval();
 
+            var NGmPlantArr = new (string key, decimal value)[]
+            {
+                        ("1", 6), ("2", 8.5m), ("3", 14), ("4", 23), ("5", 28),
+                        ("6", 31),  ("7", 40), ("8", 45), ("9 or more", 63)
+            };
+            string plantAge = plantAgeYears;
+            int plantsPerAcre = numberOfPlantsPerAcre ?? 0;
+            decimal tempN = NGmPlantArr.Where(item => item.key == plantAge).Select(element => element.value).FirstOrDefault();
+            bool sawdust = willSawdustBeApplied ?? false;
+            crr.N_Requirement = Convert.ToInt32(Math.Round((plantsPerAcre * tempN / 1000 / 1.12m + (sawdust ? 25 : 0)), 0));
+
+
+            int tempReqP2O5 = 0;
+
+            var soilTestP = soilTestValP;
+            if (leafTissueP < 0.08m)
+            {
+                tempReqP2O5 = (soilTestP < 100) ? 63 : 40;
+            }
+            else if ( leafTissueP >= 0.08m && leafTissueP <= 0.10m)
+            {
+                tempReqP2O5 = (soilTestP < 100) ? 40 : 0;
+            }
+            else if (leafTissueP > 0.10m)
+            {
+                tempReqP2O5 = 0;
+            }
+            crr.P2O5_Requirement = Convert.ToInt32(tempReqP2O5);
+
+
+            int tempReqK2O = 0;
+
+            if (leafTissueK < 0.2m)
+            {
+                tempReqK2O = 103;
+            }
+            else if (leafTissueK >= 0.2m && leafTissueK <= 0.4m)
+            {
+                tempReqK2O = 76;
+            }
+            else if (leafTissueP > 0.4m)
+            {
+                tempReqK2O = 0;
+            }
+            crr.K2O_Requirement = Convert.ToInt32(tempReqK2O);
+
+            decimal tempRemP2O5 = yield;
+            bool isPrunedAndRemoved = (willPlantsBePruned ?? false) && whereWillPruningsGo == "Removed from field";
+            tempRemP2O5 = tempRemP2O5 * 0.687m + (isPrunedAndRemoved ? 3.435m : 0);
+            crr.P2O5_Removal = Convert.ToInt32(Math.Round(tempRemP2O5, 0));
+
+            decimal tempRemK2O = yield;
+            tempRemK2O = tempRemK2O * 3.509m + (isPrunedAndRemoved ? 7.865m : 0);
+            crr.K2O_Removal = Convert.ToInt32(Math.Round(tempRemK2O, 0));
+
+            return crr;
+        }
+
+        public CropRequirementRemoval GetCropRequirementRemovalRaspberries(decimal yield,
+                                                                           bool? willSawdustBeApplied,
+                                                                           bool? willPlantsBePruned,
+                                                                           string whereWillPruningsGo,
+                                                                           decimal soilTestValP,
+                                                                           decimal soilTestValK,
+                                                                           decimal leafTissueP,
+                                                                           decimal leafTissueK)
+        {
+            var crr = new CropRequirementRemoval();
+
+            decimal tempN = 0;
+            if (yield < 3.35m)
+            {
+                tempN = 54;
+            }
+            else if (yield >= 3.35m && yield <= 5.35m)
+            {
+                tempN = 71;
+            }
+            else if (yield > 5.35m)
+            {
+                tempN = 89;
+            }
+
+            bool sawdust = willSawdustBeApplied ?? false;
+            crr.N_Requirement = Convert.ToInt32(tempN + (sawdust ? 25 : 0));
+
+            int tempReqP2O5 = 0;
+            if (leafTissueP < 0.16m)
+            {
+
+                if (soilTestValP < 15)
+                {
+                    tempReqP2O5 = 80;
+                }
+                else if (soilTestValP >= 15 && soilTestValP <= 30)
+                {
+                    tempReqP2O5 = 70;
+                }
+                else if (soilTestValP > 30)
+                {
+                    tempReqP2O5 = 40;
+                }
+            }
+            else if (leafTissueP >= 0.16m && leafTissueP <= 0.18m)
+            {
+                if (soilTestValP < 15)
+                {
+                    tempReqP2O5 = 70;
+                }
+                else if (soilTestValP >= 15 && soilTestValP <= 30)
+                {
+                    tempReqP2O5 = 60;
+                }
+                else if (soilTestValP > 30)
+                {
+                    tempReqP2O5 = 30;
+                }
+            }
+            else if(leafTissueP > 0.19m)
+            { 
+                    if (soilTestValP < 15)
+                    {
+                        tempReqP2O5 = 40;
+                    }
+                    else if (soilTestValP >= 15 && soilTestValP <= 30)
+                    {
+                        tempReqP2O5 = 30;
+                    }
+                    else if (soilTestValP > 30)
+                    {
+                        tempReqP2O5 = 0;
+                    }
+            }
+            crr.P2O5_Requirement = Convert.ToInt32(tempReqP2O5);
+
+            int tempReqK2O = 0;
+            if (leafTissueK < 1.00m)
+            {
+                if (soilTestValK < 120)
+                {
+                    tempReqK2O = 100;
+                }
+                else if (soilTestValK >= 120 && soilTestValK <= 280)
+                {
+                    tempReqK2O = 80;
+                }
+                else if (soilTestValK > 280)
+                {
+                    tempReqK2O = 50;
+                }
+            }
+            else if (leafTissueK >= 1.00m && leafTissueK <= 1.25m)
+            {
+                if (soilTestValK < 120)
+                {
+                    tempReqK2O = 80;
+                }
+                else if (soilTestValK >= 120 && soilTestValK <= 280)
+                {
+                    tempReqK2O = 60;
+                }
+                else if (soilTestValK > 280)
+                {
+                    tempReqK2O = 30;
+                }
+            }
+            else if (leafTissueK > 1.25m)
+            { 
+                    if (soilTestValK < 120)
+                    {
+                        tempReqK2O = 50;
+                    }
+                    else if (soilTestValK >= 120 && soilTestValK <= 280)
+                    {
+                        tempReqK2O = 30;
+                    }
+                    else if (soilTestValK > 280)
+                    {
+                        tempReqK2O = 0;
+                    }
+            }
+            crr.K2O_Requirement = Convert.ToInt32(tempReqK2O);
+            decimal tempRemP2O5 = yield;
+            bool isPrunedAndRemoved = (willPlantsBePruned ?? false) && whereWillPruningsGo == "Removed from field";
+            tempRemP2O5 = tempRemP2O5 * 1.145m + (isPrunedAndRemoved ? 2.748m : 0);
+            crr.P2O5_Removal = Convert.ToInt32(Math.Round(tempRemP2O5, 0));
+
+            decimal tempRemK2O = yield;
+            tempRemK2O = tempRemK2O * 3.63m + (isPrunedAndRemoved ? 11.374m : 0);
+            crr.K2O_Removal = Convert.ToInt32(Math.Round(tempRemK2O, 0));
+
+            return crr;
+        }
         // default for % Crude Protien = crop.cropremovalfactor_N * 0.625 [N to protien conversion] * 0.5 [unit conversion]
         public decimal GetCrudeProtienByCropId(int cropid)
         {

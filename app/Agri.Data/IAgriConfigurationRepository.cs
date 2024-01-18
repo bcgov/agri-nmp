@@ -216,6 +216,10 @@ namespace Agri.Data
 
         string GetSoilTestWarning();
 
+        string GetSoilTestWarningBlueberries();
+
+        string GetLeafTestWarningBlueberries();
+
         string GetExternalLink(string name);
 
         string GetUserPrompt(string name);
@@ -350,5 +354,20 @@ namespace Agri.Data
         void LoadConfigurations(StaticDataVersion staticDataVersionToLoad, int? maxStaticDataVersion = null);
 
         Journey GetJourney(int journeyId);
+
+        List<SelectListItem> GetPlantAgeYearsDll();
+
+        List<SelectListItem> GetNumberOfPlantsPerAcreDll();
+
+        List<SelectListItem> GetDistanceBtwnPlantsRowsDll();
+
+        List<SelectListItem> GetWillPlantsBePrunedDll();
+
+        List<SelectListItem> GetWhereWillPruningsGoDll();
+
+        List<SelectListItem> GetWillSawdustBeAppliedDll();
+
+        List<SelectListItem> GetLeafTestMethodsDll();
+
     }
 }

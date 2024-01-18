@@ -17,7 +17,9 @@
         public bool HasPoultry { get; set; }
         public bool HasMixedLiveStock { get; set; }
         public bool HasHorticulturalCrops { get; set; }
-        public bool HasBlueberries { get; set; }
+        public bool HasBerries { get; set; }
+        public bool? LeafTests { get; set; }
+        public string LeafTestingMethod { get; set; }
 
         public UserJourney UserJourney
         {
@@ -54,7 +56,7 @@
                             userJourney = UserJourney.Mixed;
                         }
                     }
-                    if (HasBlueberries)
+                    if (HasBerries)
                     {
                         return UserJourney.Berries;
                     }

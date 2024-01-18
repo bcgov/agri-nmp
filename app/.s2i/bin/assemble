@@ -6,13 +6,15 @@ set -e
 DOTNET_CONFIGURATION="${DOTNET_CONFIGURATION:-Release}"
 DOTNET_STARTUP_PROJECT="${DOTNET_STARTUP_PROJECT:-.}"
 DOTNET_ASPNET_STORE="${DOTNET_ASPNET_STORE:-false}"
+# Additional parameters to pass to the build. Can be used for troubleshooting.
+DOTNET_ARGUMENTS="${DOTNET_ARGUMENTS:-}"
 if [ "$DOTNET_ASPNET_STORE" != "false" ]; then
   DOTNET_ASPNET_STORE="true"
 fi
 
 # Private environment
-DOTNET_FRAMEWORK="netcoreapp3.1"
-DOTNET_RID=rhel.7-x64
+DOTNET_FRAMEWORK="net7.0"
+DOTNET_RID=rhel.8-x64
 
 # npm
 if [ -n "${DOTNET_NPM_TOOLS}" ]; then
@@ -72,10 +74,10 @@ done
 
 # publish application
 echo "---> Restoring application dependencies..."
-dotnet restore "$DOTNET_STARTUP_PROJECT" $RESTORE_OPTIONS
+dotnet restore "$DOTNET_STARTUP_PROJECT" $RESTORE_OPTIONS $DOTNET_ARGUMENTS
 echo "---> Publishing application..."
 dotnet publish "$DOTNET_STARTUP_PROJECT" -f "$DOTNET_FRAMEWORK" -c "$DOTNET_CONFIGURATION" \
-       --self-contained false /p:PublishWithAspNetCoreTargetManifest=$DOTNET_ASPNET_STORE -o "$DOTNET_APP_PATH"
+       --self-contained false /p:PublishWithAspNetCoreTargetManifest=$DOTNET_ASPNET_STORE -o "$DOTNET_APP_PATH" $DOTNET_ARGUMENTS
 
 # check if the assembly used by the script exists
 if [ ! -f "$DOTNET_APP_PATH/${APP_DLL_NAME}" ]; then

@@ -1570,6 +1570,10 @@ namespace SERVERAPI.Controllers
                 case "soiltest":
                     ivm.text = _sd.GetUserPrompt("soiltest");
                     break;
+
+                case "leaftest":
+                    ivm.text = _sd.GetUserPrompt("leaftest");
+                    break;
             }
             return PartialView("InfoMessage", ivm);
         }

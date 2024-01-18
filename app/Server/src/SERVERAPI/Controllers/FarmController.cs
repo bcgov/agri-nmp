@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SERVERAPI.Filters;
 using SERVERAPI.Models.Impl;
+using SERVERAPI.ViewComponents;
 using SERVERAPI.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,8 +96,8 @@ namespace SERVERAPI.Controllers
                 fvm.ShowAnimals = false;
             }
 
-            fvm.ShowBlueberries = fvm.HasHorticulturalCrops && !fvm.HasAnimals && _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
-            fvm.HasBlueberries = farmData.HasBlueberries;
+            fvm.ShowCropTypes = fvm.HasHorticulturalCrops && !fvm.HasAnimals && _appSettings.Value.FLAG_BERRIES_WORKFLOW;
+            fvm.HasBerries = farmData.HasBerries;
 
             return View(fvm);
         }
@@ -179,13 +180,13 @@ namespace SERVERAPI.Controllers
                 if (fvm.HasAnimals)
                 {
                     fvm.ShowAnimals = true;
-                    fvm.HasBlueberries = fvm.OriginalHasBlueberries = false;
+                    fvm.HasBerries = fvm.OriginalHasBerries = false;
                     fvm = SetSubRegions(fvm);
                 }
                 else
                 {
                     fvm.ShowAnimals = false;
-                    fvm.ShowBlueberries = fvm.HasHorticulturalCrops && _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
+                    fvm.ShowCropTypes = fvm.HasHorticulturalCrops && _appSettings.Value.FLAG_BERRIES_WORKFLOW;
                    
                 }
 
@@ -250,12 +251,12 @@ namespace SERVERAPI.Controllers
                   
                     if (fvm.HasHorticulturalCrops)
                     {
-                        fvm.ShowBlueberries = _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW && !fvm.ShowAnimals;
+                        fvm.ShowCropTypes = _appSettings.Value.FLAG_BERRIES_WORKFLOW && !fvm.ShowAnimals;
                     }
                     else
                     {
-                        fvm.ShowBlueberries = false;
-                        fvm.HasBlueberries = false;
+                        fvm.ShowCropTypes = false;
+                        fvm.HasBerries = false;
                     }
                     fvm.OriginalHasHorticulturalCrops = farmData.HasHorticulturalCrops;
                 }
@@ -267,13 +268,28 @@ namespace SERVERAPI.Controllers
                 ModelState.Clear();
                 fvm.ButtonPressed = "";
                 var farmData = _ud.FarmDetails();
-                farmData.HasBlueberries = fvm.HasBlueberries && _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
-                fvm.ShowBlueberries = _appSettings.Value.FLAG_BLUEBERRIES_WORKFLOW;
-                if(fvm.HasBlueberries)
+                farmData.HasBerries = fvm.HasBerries && _appSettings.Value.FLAG_BERRIES_WORKFLOW;
+                fvm.ShowCropTypes = _appSettings.Value.FLAG_BERRIES_WORKFLOW;
+                var fields = _ud.GetFields();
+                if (fvm.HasBerries)
                 {
-                    var fields = _ud.GetFields();
                     fields.ForEach(field => { field.PreviousYearManureApplicationFrequency = null; _ud.UpdateField(field); });
                 }
+                fields.ForEach(field =>
+                {
+                    if (field.Crops != null)
+                    {
+                        field.Crops.Clear();
+                        _ud.UpdateField(field);
+                    }
+
+                    if (field.LeafTest != null)
+                    {
+                        field.LeafTest = null;
+                        _ud.UpdateField(field);
+                    }
+                }
+                );
 
                 return View(fvm);
             }
@@ -375,7 +391,7 @@ namespace SERVERAPI.Controllers
                 farmData.HasPoultry = fvm.HasPoultry;
                 farmData.HasMixedLiveStock = fvm.HasMixedLiveStock;
                 farmData.HasHorticulturalCrops = fvm.HasHorticulturalCrops;
-                farmData.HasBlueberries = fvm.HasBlueberries;
+                farmData.HasBerries = fvm.HasBerries;
 
                 _ud.UpdateFarmDetails(farmData);
                 HttpContext.Session.SetObject("Farm", _ud.FarmDetails().FarmName + " " + _ud.FarmDetails().Year);

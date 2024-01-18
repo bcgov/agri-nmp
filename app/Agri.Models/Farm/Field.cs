@@ -19,6 +19,7 @@ namespace Agri.Models.Farm
         public List<FieldCrop> Crops { get; set; } = new List<FieldCrop>();
         public List<FeedForageAnalysis> FeedForageAnalyses { get; set; } = new List<FeedForageAnalysis>();
         public SoilTest SoilTest { get; set; }
+        public LeafTest LeafTest { get; set; }
         public bool HasSoilTest => SoilTest != null;
         public string PreviousYearManureApplicationFrequency { get; set; }
         public int? PreviousYearManureApplicationNitrogenCredit { get; set; }

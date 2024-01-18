@@ -1,0 +1,197 @@
+﻿@model SERVERAPI.ViewModels.LeafTestDetailsViewModel
+
+@{
+    Layout = null;
+}
+<div id="target">
+    <form asp-action="LeafTestDetails" asp-controller="Soil" id="leafTestDetailsForm" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2 class="modal-title" id="myModalLabel">Leaf Test Details</h2>
+        </div>
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <h3 style="font-size:14px; font-weight: bold">
+                            Leaf tests
+                            <a href="#" aria-label="Leaf Test Value Link" data-toggle="tooltip" title="@Model.leafTestValuesMsg" id="toolTipLeafTestValuesMsg">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Test Values" style="font-size:20px; padding-top:5px"></span>
+                            </a>
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-offset-1 col-md-6">
+
+                        <label for="leafTissueP" id="labelLeafTissueP">Leaf tissue P (%)</label>
+                        <a href="#" aria-label="Leaf Test Leaf Tissue P Link" data-toggle="tooltip" title="@Model.leafTestLeafTissuePMsg" id="toolTipLeafTestLeafTissuePMsg">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Tissue P" style="font-size:20px; padding-top:5px"></span>
+                        </a>
+                        <input class="form-control" asp-for="leafTissueP" id="LeafTissueP" name="LeafTissueP" type="text"/>
+                        <span asp-validation-for="leafTissueP" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="leafTissueK" id="labelLeafTissueK">Leaf tissue K (%)</label>
+                        <a href="#" aria-label="Leaf Test Leaf Tissue K Link" data-toggle="tooltip" title="@Model.leafTestLeafTissueKMsg" id="toolTipLeafTestLeafTissueKMsg">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Leaf Tissue K" style="font-size:20px; padding-top:5px"></span>
+                        </a>
+                        <input class="form-control" asp-for="leafTissueK" id="LeafTissueK" name="LeafTissueK" type="text"/>
+                        <span asp-validation-for="leafTissueK" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row" style="padding-top:0.7em;">
+                    <div class="form-group col-md-offset-1 col-md-6">
+                        <div class="Table">
+                            <div class="Title">
+                                <p>Crop Requirement (lb/ac)</p>
+                            </div>
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>Crop</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>N</p>
+                                </div>
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
+                            </div>
+                            @if (@Model.LeafTestDetailsItems != null)
+                            {
+                                @foreach (var item in @Model.LeafTestDetailsItems)
+                                {
+                                <div class="Row">
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropName</p>
+                                    </div>
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRequirementN</p>
+                                    </div>
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRequirementP2O5</p>
+                                    </div>
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRequirementK2O</p>
+                                    </div>
+                                </div>
+                                }
+                             }
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="Table">
+                            <div class="Title">
+                                <p>Nutrient Removal (lb/ac)</p>
+                            </div>
+                            <div class="Heading">
+                                <div class="Cell">
+                                    <p>P<sub>2</sub>O<sub>5</sub></p>
+                                </div>
+                                <div class="Cell">
+                                    <p>K<sub>2</sub>O</p>
+                                </div>
+                            </div>
+                            @if (@Model.LeafTestDetailsItems != null)
+                            {
+                                @foreach (var item in @Model.LeafTestDetailsItems)
+                                {
+                                <div class="Row">
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRemovalP2O5</p>
+                                    </div>
+                                    <div class="Cell" style="vertical-align:middle;padding-top:8px;text-align:center">
+                                        <p>@item.cropRemovalK2O5</p>
+                                    </div>
+                                </div>
+                                }
+                           }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="ok_button" @(Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
+        </div>
+        @Html.HiddenFor(x => x.btnText)
+        @Html.HiddenFor(x => x.title)
+        @Html.HiddenFor(x => x.id)
+        @Html.HiddenFor(x => x.fieldName)
+        @if (@Model.LeafTestDetailsItems != null)
+        {
+            @for (int i = 0; i < Model.LeafTestDetailsItems.Count; i++)
+            {
+                @Html.HiddenFor(model => model.LeafTestDetailsItems[i].Id);
+                @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropName);
+                @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementN);
+                @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementP2O5);
+                @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRequirementK2O);
+                @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRemovalP2O5);
+                @Html.HiddenFor(model => model.LeafTestDetailsItems[i].cropRemovalK2O5);
+            }
+       }
+    </form>
+</div>
+<script>
+        $(document).ready(function () {
+
+            $('#sampleDate').datepicker({
+                useCurrent: false,
+                autoPick: false,
+                format: "M-yyyy",
+                startView: 1,
+                minViewMode: 1,
+                autoclose: true
+        });
+    });
+
+        $(document).ready(function () {
+            $('#toolTipLeafTestValuesMsg').tooltip({
+                template: toolTipClickableInnerHtml,
+                html: true,
+                trigger: 'manual'
+            });
+        });
+        
+        $(document).ready(function () {
+            $('#toolTipLeafTestValuesMsg').click(function () {
+                triggerToolTip($('#toolTipLeafTestValuesMsg'));
+            });
+    })   
+
+    $(document).ready(function () {
+        $('#toolTipLeafTestLeafTissuePMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipLeafTestLeafTissuePMsg').click(function () {
+            triggerToolTip($('#toolTipLeafTestLeafTissuePMsg'));
+        });
+    })   
+    $(document).ready(function () {
+        $('#toolTipLeafTestLeafTissueKMsg').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipLeafTestLeafTissueKMsg').click(function () {
+            triggerToolTip($('#toolTipLeafTestLeafTissueKMsg'));
+        });
+    })   
+        
+</script>
