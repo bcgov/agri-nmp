@@ -12,7 +12,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 ## Development
 
-This project uses .NET Core version 3.1 and PostgreSQL.
+This project uses .NET Core version 7 and PostgreSQL.
 
 You will need Visual Studio, which supports both Mac and Windows.
 
@@ -103,7 +103,7 @@ RedHat requires authentication to the image repository where the Dotnet images a
 
 9) You can now import images from the Redhat repository.  For example:
 
-    `oc import-image dotnet/dotnet-31-rhel7 --from=registry.redhat.io/dotnet/dotnet-31-rhel7 --confirm` 
+    `oc import-image rhel8/dotnet-70:7.0-25 --from=registry.redhat.io/rhel8/dotnet-70:7.0-25 –confirm` 
 
 10) Adjust your builds to use this imported image
 
