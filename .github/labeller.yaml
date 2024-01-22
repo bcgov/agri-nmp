@@ -6,23 +6,18 @@
 'GitHub Actions':
   - '.github/workflows/*'
 
-# Any change to the docker-compose file or any dockerfile in the repo
-'Docker':
-  - '**/Dockerfile'
-  - 'docker-compose.yml'
-  - 'docker/**/*'
-
 # Any changes to file of subfolders in app/Server
 'Backend':
   - 'app/server/**/*'
   
 # Any changes to file of subfolders in app/Agri.*
 'Frontend':
-  - 'app/Agri.*/**/*'
+  - 'app/Server/src/ServerAPI/Views/**/*'
 
 # Any changes to file of subfolders in /tests
 'Testing':
   - 'functional-tests/**/*'
+  - 'app/*.Tests/**/*'
 
 # Any change to any file in any directory with a .env in name
 'Environment Variables':
