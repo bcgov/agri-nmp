@@ -1,0 +1,24 @@
+# Auto Label Git Action Config
+# 'label_name'
+#   - path_of_diff/where/code_lives/to_base_label_upon
+
+# Any change to any file in .github/workflows
+'GitHub Actions':
+  - '.github/workflows/*'
+
+# Any changes to file of subfolders in app/Server
+'Backend':
+  - 'app/server/**/*'
+  
+# Any changes to file of subfolders in app/Agri.*
+'Frontend':
+  - 'app/Server/src/ServerAPI/Views/**/*'
+
+# Any changes to file of subfolders in /tests
+'Testing':
+  - 'functional-tests/**/*'
+  - 'app/*.Tests/**/*'
+
+# Any change to any file in any directory with a .env in name
+'Environment Variables':
+  - '**/appsettings.json'
