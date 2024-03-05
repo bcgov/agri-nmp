@@ -58,6 +58,7 @@ namespace SERVERAPI.Controllers
                 stdYield = true,
                 nCredit = "0",
                 nCreditLabel = _sd.GetUserPrompt("ncreditlabel"),
+                sawdustAppliedMessage = _sd.GetUserPrompt("willSawdustBeAppliedMessage"),
                 isBerry = _isBerry,
             };
 

@@ -53,6 +53,7 @@ namespace SERVERAPI.ViewModels
         public string selWillPlantsBePruned { get; set; }
         public string selWhereWillPruningsGo { get; set; }
         public string selWillSawdustBeApplied { get; set; }
+        public string sawdustAppliedMessage { get; set; }
 
         public List<SelectListItem> plantAgeYears { get; set; }
         public List<SelectListItem> numberOfPlantsPerAcre { get; set; }
