@@ -7,6 +7,7 @@
   <ItemGroup>
     <None Remove="SeedData\DepthsData.json" />
     <None Remove="SeedData\StaticDataVersion_10.json" />
+    <None Remove="SeedData\StaticDataVersion_12.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +22,7 @@
     <EmbeddedResource Include="SeedData\MiniAppData.json" />
     <EmbeddedResource Include="SeedData\UserPromptsData.json" />
     <EmbeddedResource Include="SeedData\StaticDataVersion_11.json" />
+    <EmbeddedResource Include="SeedData\StaticDataVersion_12.json" />
   </ItemGroup>
 
   <ItemGroup>
