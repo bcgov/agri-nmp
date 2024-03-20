@@ -4,7 +4,7 @@
     {
         public static class SeedDataFiles
         {
-            public const string StaticDataVersion = "Agri.Data.SeedData.StaticDataVersion_11.json";
+            public const string StaticDataVersion = "Agri.Data.SeedData.StaticDataVersion_13.json";
             public const string Browsers = "Agri.Data.SeedData.BrowserData.json";
             public const string Depths = "Agri.Data.SeedData.DepthsData.json";
             public const string ExternalLinks = "Agri.Data.SeedData.ExternalLinksData.json";

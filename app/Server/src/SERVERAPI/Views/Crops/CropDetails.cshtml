@@ -428,7 +428,9 @@
         RequireCalculate();
     });
 
-    $(document).on('change', '#ddlillPlantsBePruned', function () {
+    $(document).on('change', '#ddlillPlantsBePruned', function (event) {
+        const $this = $(this);
+        setPlantPruningSelectValues($this);
         RequireCalculate();
     });
 
@@ -445,7 +447,6 @@
             RequireCalculate();
         })
     });
-
 
     function RequireCalculate() {
         $("#ok_button").html('Calculate');
@@ -467,4 +468,42 @@
             triggerToolTip($('#toolTipExplainSawdustApplied'));
         });
     })
+
+    function setPlantPruningSelectValues($this) {
+        const currentSelectValue = $this.val();
+        
+        if (currentSelectValue === "1") {
+            $("#ddlWhereWillPruningsGo").empty();
+            $("#ddlWhereWillPruningsGo").append(
+                $('<option>', {
+                    value: '0',
+                    text: 'N/A'
+                })
+            );
+        }
+
+        if (currentSelectValue === "0") {
+            $("#ddlWhereWillPruningsGo").empty();
+            $("#ddlWhereWillPruningsGo").append(
+                $('<option>', {
+                    value: '',
+                    text: 'select'
+                }));
+            $("#ddlWhereWillPruningsGo").append(
+                $('<option>', {
+                    value: '1',
+                    text: 'Removed from field'
+                }));
+            $("#ddlWhereWillPruningsGo").append(
+                $('<option>', {
+                    value: '2',
+                    text: 'Left in row"'
+                }));
+            $("#ddlWhereWillPruningsGo").append(
+                $('<option>', {
+                    value: '3',
+                    text: 'Left between rows'
+                }));
+        }
+    }
 </script>
