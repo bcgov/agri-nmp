@@ -144,8 +144,13 @@
                             <span asp-validation-for="selWhereWillPruningsGo" class="text-danger"></span>
                         </div>
                         <div class="form-group col-sm-4">
-                            <label for="ddlWillSawdustBeApplied" style="margin-bottom:auto">Will sawdust have been applied</label><br />
-                            <label for="ddlWillSawdustBeApplied">in the fall prior to fertilization?</label>
+                            <label for="ddlWillSawdustBeApplied" style="margin-bottom:auto">
+                                <span>Is sawdust or wood mulch applied within the 6 months prior to the growing season?</span>
+                                <a href="#" data-toggle="tooltip" title="@Model.sawdustAppliedMessage" id="toolTipExplainSawdustApplied" style="position:absolute;left:91%;top:0%;">
+                                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Test" style="font-size:20px; padding-top:5px"></span>
+                                </a>
+                            </label>
+
                             <select class="form-control" asp-for="selWillSawdustBeApplied" asp-items="@(new SelectList(Model.willSawdustBeApplied, "Id", "Value"))" id="ddlWillSawdustBeApplied">
                                 <option>select</option>
                             </select>
@@ -448,6 +453,21 @@
         $("#ok_button").css('background-color', '#1abbed');
         $("#btnText").val("Calculate");
     }
+
+    $(document).ready(function () {
+        $('#toolTipExplainSawdustApplied').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual'
+        });
+    });
+
+    //Using triggerToolTip function from ~/lib/site.js
+    $(document).ready(function () {
+        $('#toolTipExplainSawdustApplied').click(function () {
+            triggerToolTip($('#toolTipExplainSawdustApplied'));
+        });
+    })
 
     function setPlantPruningSelectValues($this) {
         const currentSelectValue = $this.val();

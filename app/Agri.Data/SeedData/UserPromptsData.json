@@ -782,5 +782,12 @@
     "Text": "<li>For fields without a soil test, very high soil P and K fertility and a pH of 4.0 will be assumed.</li><li>Crop P and K requirements will be based on the results of leaf testing.</li>",
     "UserPromptPage": null,
     "UserJourney": null
+  },
+  {
+    "Id": 118,
+    "Name": "willSawdustBeAppliedMessage",
+    "Text": "Sawdust and other materials with a high carbon to nitrogen ratio (C:N) will immobilize plant-available nitrogen in the soil. Selecting 'Yes' to this question will increase the amount of nitrogen that needs to be applied to ensure the crop receives enough nitrogen for optimal growth and yield.",
+    "UserPromptPage": null,
+    "UserJourney": null
   }
 ]
