@@ -2062,7 +2062,7 @@ namespace Agri.Data
 
         public List<SelectListItem> GetNumberOfPlantsPerAcreDll()
         {
-            string[] values = { "2470", "2220", "1480", "1350", "1240", "1110", "1010" };
+            string[] values = { "2498", "2248", "1999", "1799", "1665", "1499" };
             var result = values.ToList().Select((item, index) =>
                                     new SelectListItem() { Id = index, Value = item }).ToList();
             return result;
@@ -2070,9 +2070,17 @@ namespace Agri.Data
 
         public List<SelectListItem> GetDistanceBtwnPlantsRowsDll()
         {
-            string[] values = { "0.6 m x 2.7 m (2 ft x 9 ft)", "0.6 m x 3.0 m (2 ft x 10 ft)", "0.9 m x 3.0 m (3 ft x 10 ft)",
-                                "0.9 m x 3.3 m (3 ft x 11 ft)", "1.2 m x 2.7 m (4 ft x 9 ft)", "1.2 m x 3.0 m (4 ft x 10 ft)",
-                                "1.2 m x 3.3 m (4 ft x 11 ft)" };
+
+            string[] values =
+            {
+                "0.6 m x 2.7 m (2 ft x 9 ft)",
+                "0.6 m x 3.0 m (2 ft x 10 ft)",
+                "0.75 m x 2.7 m (2.5 ft x 9 ft)",
+                "0.75 m x 3.0 m (2.5 ft x 10 ft)",
+                "0.9 m x 2.7 m (3 ft x 9 ft)",
+                "0.9 m x 3.0 m (3 ft x 10 ft)"
+            };
+
             var result = values.ToList().Select((item, index) =>
                                     new SelectListItem() { Id = index, Value = item }).ToList();
             return result;
