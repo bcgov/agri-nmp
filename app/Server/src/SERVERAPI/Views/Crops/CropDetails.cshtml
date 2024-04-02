@@ -128,7 +128,7 @@
                     <div style="clear:both"></div>
                     <div class="row" style="margin-bottom: 1.5em;">
                         <div class="form-group col-sm-3">
-                            <br/>
+                            <br />
                             <label for="ddlillPlantsBePruned">Will plants be pruned?</label>
                             <select class="form-control" asp-for="selWillPlantsBePruned" asp-items="@(new SelectList(Model.willPlantsBePruned, "Id", "Value"))" id="ddlillPlantsBePruned">
                                 <option>select</option>
@@ -143,15 +143,17 @@
                             </select>
                             <span asp-validation-for="selWhereWillPruningsGo" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-sm-4">
-                            <label for="ddlWillSawdustBeApplied" style="margin-bottom:auto">
+                    </div>
+                    <div class="row" style="margin-bottom: 1.5em;">
+                        <div class="form-group col-sm-8">
+                            <label for="ddlWillSawdustBeApplied">
                                 <span>Is sawdust or wood mulch applied within the 6 months prior to the growing season?</span>
-                                <a href="#" data-toggle="tooltip" title="@Model.sawdustAppliedMessage" id="toolTipExplainSawdustApplied" style="position:absolute;left:94%;top:0%;">
+                                <a href="#" data-toggle="tooltip" title="@Model.sawdustAppliedMessage" id="toolTipExplainSawdustApplied">
                                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Test" style="font-size:20px; padding-top:5px"></span>
                                 </a>
                             </label>
 
-                            <select class="form-control" asp-for="selWillSawdustBeApplied" asp-items="@(new SelectList(Model.willSawdustBeApplied, "Id", "Value"))" id="ddlWillSawdustBeApplied">
+                            <select class="form-control" style="width: 200px" asp-for="selWillSawdustBeApplied" asp-items="@(new SelectList(Model.willSawdustBeApplied, "Id", "Value"))" id="ddlWillSawdustBeApplied">
                                 <option>select</option>
                             </select>
                             <span asp-validation-for="selWillSawdustBeApplied" class="text-danger"></span>
