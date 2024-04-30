@@ -413,14 +413,16 @@
 
 <script>
     $(document).ready(function () {
-        $("body").on("change", "#ddlNumberOfPlantsPerAcre", function () {
+        $("body").on("change", "#ddlNumberOfPlantsPerAcre", function (event) {
+            event.stopPropagation();
             $('#buttonPressed').val("NumberOfPlantsPerAcreChange");
             $("#modForm").submit();
         })
     });
 
     $(document).ready(function () {
-        $("body").on("change", "#ddlDistanceBtwnPlantsRows", function () {
+        $("body").on("change", "#ddlDistanceBtwnPlantsRows", function (event) {
+            event.stopPropagation();
             $('#buttonPressed').val("DistanceBtwnPlantsRowsChange");
             $("#modForm").submit();
         })
@@ -431,8 +433,8 @@
     });
 
     $(document).on('change', '#ddlillPlantsBePruned', function (event) {
-        //const $this = $(this);
-        //setPlantPruningSelectValues($this);
+        const $this = $(this);
+        setPlantPruningSelectValues($this);
         RequireCalculate();
     });
 
