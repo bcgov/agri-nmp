@@ -96,7 +96,7 @@ namespace SERVERAPI.Controllers
                 fvm.ShowAnimals = false;
             }
 
-            fvm.ShowCropTypes = fvm.HasHorticulturalCrops && !fvm.HasAnimals && _appSettings.Value.FLAG_BERRIES_WORKFLOW;
+            fvm.ShowCropTypes = fvm.HasHorticulturalCrops && !fvm.HasAnimals;
             fvm.HasBerries = farmData.HasBerries;
 
             return View(fvm);
@@ -186,7 +186,7 @@ namespace SERVERAPI.Controllers
                 else
                 {
                     fvm.ShowAnimals = false;
-                    fvm.ShowCropTypes = fvm.HasHorticulturalCrops && _appSettings.Value.FLAG_BERRIES_WORKFLOW;
+                    fvm.ShowCropTypes = fvm.HasHorticulturalCrops;
                    
                 }
 
@@ -251,7 +251,7 @@ namespace SERVERAPI.Controllers
                   
                     if (fvm.HasHorticulturalCrops)
                     {
-                        fvm.ShowCropTypes = _appSettings.Value.FLAG_BERRIES_WORKFLOW && !fvm.ShowAnimals;
+                        fvm.ShowCropTypes = !fvm.ShowAnimals;
                     }
                     else
                     {
@@ -268,8 +268,8 @@ namespace SERVERAPI.Controllers
                 ModelState.Clear();
                 fvm.ButtonPressed = "";
                 var farmData = _ud.FarmDetails();
-                farmData.HasBerries = fvm.HasBerries && _appSettings.Value.FLAG_BERRIES_WORKFLOW;
-                fvm.ShowCropTypes = _appSettings.Value.FLAG_BERRIES_WORKFLOW;
+                farmData.HasBerries = fvm.HasBerries;
+                fvm.ShowCropTypes = true;
                 var fields = _ud.GetFields();
                 if (fvm.HasBerries)
                 {
