@@ -243,6 +243,18 @@ namespace SERVERAPI.Controllers
             return PartialView(mvm);
         }
 
+        public IActionResult FertigationDetails(string fldName, int? id)
+        {
+            var mvm = new FertigationDetailsViewModel()
+            {
+                title = id == null ? "Add" : "Edit",
+                id = id,
+    
+            };
+
+            return PartialView(mvm);
+        }
+
         private void MaunureStillRequired(ref ManureDetailsViewModel mvm)
         {
             //recalc totals for display
