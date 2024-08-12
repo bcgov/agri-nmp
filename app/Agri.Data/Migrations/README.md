@@ -1,6 +1,8 @@
 # NMP Migrations
 
-## Running Migrations
+   Migrations run automatically on application start.
+   
+## Running Migrations Locally
 
 Make sure the EntityFramework command line tool is installed:
     run ```dotnet tool install --global dotnet-ef --version 7.0.2```
@@ -27,3 +29,5 @@ to run these actions when the database is hosted in Openshift (dev,test,prod):
    2. Start port-forwarding the remote database by running ```oc port-forward <name-of-remote-postgresql-pod> 5432:```
       *\*Note\** : Make sure you are logged into Openshift CLI and that your project is set to the namespace of the pod you are accessing
    3. Update the connection string in your secrets.json file using the database name, username, and password found in the Openshift secrets called nmp-postgresql-credentials inside the appropriate namespace
+   4. Run the commands above
+      *\*Note\** : Running migrations this way will use your *LOCAL* Migration files, so be careful about your local environment (current branch, saved states, etc...)
