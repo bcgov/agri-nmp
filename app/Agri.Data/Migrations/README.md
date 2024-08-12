@@ -2,7 +2,7 @@
 
    Migrations run automatically on application start.
    
-## Running Migrations Locally
+## Manually Running Migrations Locally
 
 Make sure the EntityFramework command line tool is installed:
     run ```dotnet tool install --global dotnet-ef --version 7.0.2```
