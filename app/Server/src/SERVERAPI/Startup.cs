@@ -46,6 +46,7 @@ namespace SERVERAPI
 
             if (env.IsDevelopment())
             {
+                builder.AddJsonFile("secrets.json", optional: true, reloadOnChange: true);
                 builder.AddUserSecrets<Startup>();
             }
 
