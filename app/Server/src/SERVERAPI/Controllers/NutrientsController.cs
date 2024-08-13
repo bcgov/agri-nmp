@@ -57,7 +57,8 @@ namespace SERVERAPI.Controllers
 
             CalculateViewModel cvm = new CalculateViewModel
             {
-                fields = new List<Field>()
+                fields = new List<Field>(),
+                AppSettings = _settings
             };
 
             cvm.regionFnd = (fd.FarmRegion.HasValue) ? true : false;

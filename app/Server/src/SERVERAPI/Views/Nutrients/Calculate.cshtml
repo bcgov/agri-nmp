@@ -1,6 +1,5 @@
 ﻿@using Agri.Models
 @model SERVERAPI.ViewModels.CalculateViewModel
-
 @{
     ViewBag.Title = "Calculate Nutrients";
 }
@@ -54,7 +53,9 @@
                                 <span>
                                     <button title="Add a Manure/Compost to the Field" aria-label="Add a Manure/Compost to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("ManureDetails", "Nutrients", new { fldName = Model.currFld })">Add Manure</button>
                                     <button title="Add a Fertilizer to the Field" aria-label="Add a Fertilizer to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertilizerDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertilizer</button>
-                                    <button title="Add Fertigation" aria-label="Add Fertigation" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertigationDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertigation</button>
+                                    @if (Model.AppSettings.FLAG_FERTIGATION_WORKFLOW){
+                                        <button title="Add Fertigation" aria-label="Add Fertigation" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("FertigationDetails", "Nutrients", new { fldName = Model.currFld })">Add Fertigation</button>
+                                    }
                                     <button title="Add Other Nutrient to the Field" aria-label="Add Other Nutrient to the Field" class="btn btn-success" type="button" data_modal="" data-type="@Url.Action("OtherDetails", "Nutrients", new { fldName = Model.currFld })">Add Other</button>
                                 </span>
                             </div>

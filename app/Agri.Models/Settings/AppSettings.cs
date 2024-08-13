@@ -10,6 +10,7 @@
         public int ExpectedSeedDataVersion { get; set; }
         public bool RELOAD_JOURNEYS { get; set; }
         public bool RELOAD_USER_PROMPTS { get; set; }
+        public bool FLAG_FERTIGATION_WORKFLOW { get; set; }
         
     }
 }
