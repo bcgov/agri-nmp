@@ -57,7 +57,8 @@ namespace SERVERAPI.Controllers
 
             CalculateViewModel cvm = new CalculateViewModel
             {
-                fields = new List<Field>()
+                fields = new List<Field>(),
+                AppSettings = _settings
             };
 
             cvm.regionFnd = (fd.FarmRegion.HasValue) ? true : false;
@@ -239,6 +240,18 @@ namespace SERVERAPI.Controllers
             MaunureStillRequired(ref mvm);
 
             ManureApplicationRefresh(mvm);
+
+            return PartialView(mvm);
+        }
+
+        public IActionResult FertigationDetails(string fldName, int? id)
+        {
+            var mvm = new FertigationDetailsViewModel()
+            {
+                title = id == null ? "Add" : "Edit",
+                id = id,
+    
+            };
 
             return PartialView(mvm);
         }

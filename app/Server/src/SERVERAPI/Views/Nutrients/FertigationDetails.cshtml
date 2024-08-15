@@ -1,0 +1,42 @@
+@model SERVERAPI.ViewModels.FertigationDetailsViewModel
+
+@{
+    Layout = null;
+}
+
+<style>
+    /** Progressbar class css*/
+    .progressbar {
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 35px;
+        position: relative;
+        background-color: #EEEEEE;
+        box-shadow: inset 0px 1px 1px rgba(0,0,0,.1);
+    }
+    .proggress {
+        height: 20px;
+        width: 40px;
+        background-color: #3498db;
+    }
+    .percentCount {
+        float: right;
+        margin-top: -20px;
+        margin-right: -60px;
+        font-family: Arial
+    }
+</style>
+
+<div id="target">
+    <form asp-action="FertigationDetails" asp-controller="Nutrients" id="modForm" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2 class="modal-title" id="myModalLabel">Fertigation Details - @Model.title</h2>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+            <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+</div>
