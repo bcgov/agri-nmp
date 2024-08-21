@@ -28,6 +28,7 @@ namespace SERVERAPI.Controllers
         private readonly ICalculateNutrients _calculateNutrients;
         private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
         private readonly IManureApplicationCalculator _manureApplicationCalculator;
+        // private readonly FertigationData;
 
         public NutrientsController(ILogger<NutrientsController> logger,
             UserData ud,
@@ -48,6 +49,7 @@ namespace SERVERAPI.Controllers
             _calculateNutrients = calculateNutrients;
             _chemicalBalanceMessage = chemicalBalanceMessage;
             _manureApplicationCalculator = manureApplicationCalculator;
+
         }
 
         // GET: /<controller>/
