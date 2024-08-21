@@ -12,11 +12,10 @@ namespace SERVERAPI.ViewModels
         public string title { get; set; }
         public string btnText { get; set; }
         public string fieldName { get; set; }
+        public string cropName { get; set; }
+        //fertilizer
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
-        //fertilizer
-        // [Required(ErrorMessage = "Required")]
-        // [Range(1, 9999, ErrorMessage = "Required")]
         public int selFertOption { get; set; }
         public List<SelectListItem> fertOptions { get; set; }
         //product rate
