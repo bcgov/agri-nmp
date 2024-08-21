@@ -27,6 +27,26 @@
     }
 </style>
 
+
+@* - 'Fertilizer Type' dropdown
+- 'Fertilizer' dropdown
+- 'Product Rate' Numerical input
+- 'Unit' Dropdown
+- 'Density' numerical input
+- 'Unit' dropdown
+- 'Injection Rate' numerical input
+- 'Unit' dropdown
+- 'Proposed Number of Fertigation Per Season' numerical input
+- 'Fertigation Scheduling' Dropdown
+- 'Date' (should maybe be start date?)
+Skeleton of calculated values
+- Total Product Volume per fertigation
+- total product volume per growing season
+- Fertigation Time (Minutes)
+- Applied Nutrients Per Fetigation (lb/ac)
+- Total Applied Nutrients (lb/ac)
+- Still Required This Year (lbs/ac) *@
+
 <div id="target">
     <form asp-action="FertigationDetails" asp-controller="Nutrients" id="modForm" method="post">
         <div class="modal-header">
@@ -34,9 +54,53 @@
             <h2 class="modal-title" id="myModalLabel">Fertigation Details - @Model.title</h2>
         </div>
         <div class="modal-body">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div class="form-group col-sm-4">
+                        <label for="ddlMan">Fertilizer Type</label>
+                        <select class="form-control" id="ddlMan">
+                            <option>select</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <label for="ddlMan">Fertilizer</label>
+                        <select class="form-control" id="ddlMan">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selFertOption" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px">
+                        <label for="rate">Product Rate</label>
+                        <div>
+                            <input class="form-control" id="rate" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-3" style="margin-left:0px; padding-left:0px">
+                        <div style="display:table; width:100%">
+                            <div style="display:table-row">
+                                <label for="ddlRate">Units</label>
+                            </div>
+                            <div style="display:table-row">
+                                <select class="form-control" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
+                                    <option>select</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px">
+                        <label for="rate">Density</label>
+                        <div>
+                            <input class="form-control" id="rate" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
         </div>
+        @Html.HiddenFor(x => x.fieldName)
+        @Html.HiddenFor(x => x.selFertOption)
     </form>
 </div>

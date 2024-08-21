@@ -28,6 +28,7 @@ namespace SERVERAPI.Controllers
         private readonly ICalculateNutrients _calculateNutrients;
         private readonly IChemicalBalanceMessage _chemicalBalanceMessage;
         private readonly IManureApplicationCalculator _manureApplicationCalculator;
+        private readonly 
 
         public NutrientsController(ILogger<NutrientsController> logger,
             UserData ud,
@@ -248,13 +249,51 @@ namespace SERVERAPI.Controllers
         {
             var mvm = new FertigationDetailsViewModel()
             {
-                title = id == null ? "Add" : "Edit",
-                id = id,
+              fieldName = fldName,
+              title = id == null ? "Add" : "Edit",
+              btnText = id == null ? "Add to Field" : "Update Field",
+              id = id,
     
             };
 
+            // FertigationStillRequired(rev fvm);
+            //FertigationDetailsSetup(rev fvm);
+
             return PartialView(mvm);
         }
+
+        // private void FertigationStillRequired(ref FertilizerDetailsViewModel fvm)
+        // {
+
+        // }
+
+        // private void FertigationDetailsSetup(ref FertigationDetailsViewModel fvm)
+        // {
+        //     fvm.typOptions = new List<SelectListItem>();
+        //     fvm.typOptions = _sd.GetFertilizerTypesDll().ToList();
+
+        //     fvm.denOptions = new List<SelectListItem>();
+        //     fvm.denOptions = _sd.GetDensityUnitsDll().ToList();
+
+        //     fvm.methOptions = new List<SelectListItem>();
+        //     fvm.methOptions = _sd.GetFertilizerMethodsDll().ToList();
+
+        //     FertilizerDetailSetup_Fertilizer(ref fvm);
+
+        //     fvm.rateOptions = _sd.GetFertilizerUnitsDll(fvm.currUnit).ToList();
+
+        //     return;
+        // }
+
+        // public IActionResult FertigationDetails(FertigationViewsModel fvm)
+        // {
+
+        // }
+
+        // private int FertigationInsert(FertigationViewsModel fvm)
+        // {
+
+        // }
 
         private void MaunureStillRequired(ref ManureDetailsViewModel mvm)
         {
