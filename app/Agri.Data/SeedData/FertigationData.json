@@ -1,0 +1,616 @@
+{
+  "Fertilizers": [
+    {
+      "Id": 18,
+      "Name": "Ammonium polyphosphate (10-34-0)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 10.0,
+      "Phosphorous": 34.0,
+      "Potassium": 0.0,
+      "SortNum": 100,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 19,
+      "Name": "Urea ammonium nitrate (UAN 32-0-0)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 32.0,
+      "Phosphorous": 0.0,
+      "Potassium": 0.0,
+      "SortNum": 100,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 20,
+      "Name": "Urea ammonium nitrate (UAN 30-0-0)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 30.0,
+      "Phosphorous": 0.0,
+      "Potassium": 0.0,
+      "SortNum": 100,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 21,
+      "Name": "Urea ammonium nitrate (UAN 28-0-0)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 28.0,
+      "Phosphorous": 0.0,
+      "Potassium": 0.0,
+      "SortNum": 100,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 27,
+      "Name": "Liquid urea (23-0-0)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 23.0,
+      "Phosphorous": 0.0,
+      "Potassium": 0.0,
+      "SortNum": 100,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 42,
+      "Name": "Stage 2 Xcelerator plus (20.5-5-0)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 20.5,
+      "Phosphorous": 5,
+      "Potassium": 0,
+      "SortNum": 400,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 43,
+      "Name": "Ammonium thiosulphate (12-0-0-26S)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 12,
+      "Phosphorous": 0,
+      "Potassium": 0,
+      "SortNum": 400,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 44,
+      "Name": "DuraGro (22-4-0)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 22,
+      "Phosphorous": 4,
+      "Potassium": 0,
+      "SortNum": 400,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 45,
+      "Name": "Stage 3 Greenfruit Plus (10-0-20)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 10,
+      "Phosphorous": 0,
+      "Potassium": 20,
+      "SortNum": 400,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 46,
+      "Name": "Stage 1 StarterPlus (10-32-0)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 10,
+      "Phosphorous": 32,
+      "Potassium": 0,
+      "SortNum": 400,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 47,
+      "Name": "BerryMall Fall (20-10-10)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 20,
+      "Phosphorous": 10,
+      "Potassium": 10,
+      "SortNum": 400,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 48,
+      "Name": "Calcium Thiosulphate (0-0-0-10S-6Ca)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 0,
+      "Phosphorous": 0,
+      "Potassium": 0,
+      "SortNum": 400,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 49,
+      "Name": "C (0-0-15-9.7S)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 0,
+      "Phosphorous": 0,
+      "Potassium": 15,
+      "SortNum": 400,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 50,
+      "Name": "D (3-18-18)",
+      "DryLiquid": "liquid",
+      "Nitrogen": 3,
+      "Phosphorous": 18,
+      "Potassium": 18,
+      "SortNum": 400,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    }
+  ],
+
+
+
+
+  "LiquidFertilizerDensities":[
+    {
+      "Id": 1,
+      "FertilizerId": 18,
+      "DensityUnitId": 1,
+      "Value": 5.2843511105,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 2,
+      "FertilizerId": 18,
+      "DensityUnitId": 2,
+      "Value": 1.39597787971696,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 3,
+      "FertilizerId": 18,
+      "DensityUnitId": 3,
+      "Value": 13.9910724227868,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 4,
+      "FertilizerId": 18,
+      "DensityUnitId": 4,
+      "Value": 11.65,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 5,
+      "FertilizerId": 19,
+      "DensityUnitId": 1,
+      "Value": 5.0167316122,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 6,
+      "FertilizerId": 19,
+      "DensityUnitId": 2,
+      "Value": 1.32528028752528,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 7,
+      "FertilizerId": 19,
+      "DensityUnitId": 3,
+      "Value": 13.2825116734783,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 8,
+      "FertilizerId": 19,
+      "DensityUnitId": 4,
+      "Value": 11.06,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 9,
+      "FertilizerId": 21,
+      "DensityUnitId": 1,
+      "Value": 4.8398305879,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 10,
+      "FertilizerId": 21,
+      "DensityUnitId": 2,
+      "Value": 1.27854798082231,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 11,
+      "FertilizerId": 21,
+      "DensityUnitId": 3,
+      "Value": 12.8141410086811,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 12,
+      "FertilizerId": 21,
+      "DensityUnitId": 4,
+      "Value": 10.67,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 33,
+      "FertilizerId": 27,
+      "DensityUnitId": 1,
+      "Value": 4.315,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 34,
+      "FertilizerId": 27,
+      "DensityUnitId": 2,
+      "Value": 1.14,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 35,
+      "FertilizerId": 27,
+      "DensityUnitId": 3,
+      "Value": 11.42,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 36,
+      "FertilizerId": 27,
+      "DensityUnitId": 4,
+      "Value": 9.51,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 37,
+      "FertilizerId": 20,
+      "DensityUnitId": 1,
+      "Value": 4.93,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 38,
+      "FertilizerId": 20,
+      "DensityUnitId": 2,
+      "Value": 1.30,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 39,
+      "FertilizerId": 20,
+      "DensityUnitId": 3,
+      "Value": 13.04,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 40,
+      "FertilizerId": 20,
+      "DensityUnitId": 4,
+      "Value": 10.86,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 41,
+      "FertilizerId": 42,
+      "DensityUnitId": 1,
+      "Value": 4.45,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 42,
+      "FertilizerId": 42,
+      "DensityUnitId": 2,
+      "Value": 1.18,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 43,
+      "FertilizerId": 42,
+      "DensityUnitId": 3,
+      "Value": 11.78,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 44,
+      "FertilizerId": 42,
+      "DensityUnitId": 4,
+      "Value": 9.82,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 45,
+      "FertilizerId": 43,
+      "DensityUnitId": 1,
+      "Value": 5.0,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 46,
+      "FertilizerId": 43,
+      "DensityUnitId": 2,
+      "Value": 1.32,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 47,
+      "FertilizerId": 43,
+      "DensityUnitId": 3,
+      "Value": 13.25,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 48,
+      "FertilizerId": 43,
+      "DensityUnitId": 4,
+      "Value": 11.04,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 49,
+      "FertilizerId": 44,
+      "DensityUnitId": 1,
+      "Value": 4.9,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 50,
+      "FertilizerId": 44,
+      "DensityUnitId": 2,
+      "Value": 1.3,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 51,
+      "FertilizerId": 44,
+      "DensityUnitId": 3,
+      "Value": 12.98,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 52,
+      "FertilizerId": 44,
+      "DensityUnitId": 4,
+      "Value": 10.82,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 53,
+      "FertilizerId": 45,
+      "DensityUnitId": 1,
+      "Value": 4.99,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 54,
+      "FertilizerId": 45,
+      "DensityUnitId": 2,
+      "Value": 1.32,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 55,
+      "FertilizerId": 45,
+      "DensityUnitId": 3,
+      "Value": 13.22,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 56,
+      "FertilizerId": 45,
+      "DensityUnitId": 4,
+      "Value": 11.02,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 57,
+      "FertilizerId": 46,
+      "DensityUnitId": 1,
+      "Value": 5.25,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 58,
+      "FertilizerId": 46,
+      "DensityUnitId": 2,
+      "Value": 1.39,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 59,
+      "FertilizerId": 46,
+      "DensityUnitId": 3,
+      "Value": 13.91,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 60,
+      "FertilizerId": 46,
+      "DensityUnitId": 4,
+      "Value": 11.59,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 61,
+      "FertilizerId": 47,
+      "DensityUnitId": 1,
+      "Value": 4.48,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 62,
+      "FertilizerId": 47,
+      "DensityUnitId": 2,
+      "Value": 1.18,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 63,
+      "FertilizerId": 47,
+      "DensityUnitId": 3,
+      "Value": 11.92,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 64,
+      "FertilizerId": 47,
+      "DensityUnitId": 4,
+      "Value": 9.93,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 65,
+      "FertilizerId": 48,
+      "DensityUnitId": 1,
+      "Value": 4.7,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 66,
+      "FertilizerId": 48,
+      "DensityUnitId": 2,
+      "Value": 1.24,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 67,
+      "FertilizerId": 48,
+      "DensityUnitId": 3,
+      "Value": 12.47,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 68,
+      "FertilizerId": 48,
+      "DensityUnitId": 4,
+      "Value": 10.39,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 69,
+      "FertilizerId": 49,
+      "DensityUnitId": 1,
+      "Value": 4.83,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 70,
+      "FertilizerId": 49,
+      "DensityUnitId": 2,
+      "Value": 1.28,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 71,
+      "FertilizerId": 49,
+      "DensityUnitId": 3,
+      "Value": 12.79,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 72,
+      "FertilizerId": 49,
+      "DensityUnitId": 4,
+      "Value": 10.66,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 73,
+      "FertilizerId": 50,
+      "DensityUnitId": 1,
+      "Value": 5.38,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 74,
+      "FertilizerId": 50,
+      "DensityUnitId": 2,
+      "Value": 1.42,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 75,
+      "FertilizerId": 50,
+      "DensityUnitId": 3,
+      "Value": 14.24,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 76,
+      "FertilizerId": 50,
+      "DensityUnitId": 4,
+      "Value": 11.87,
+      "StaticDataVersionId": 14
+    }
+  ],
+  "LiquidMaterialApplicationUsGallonsPerAcreRateConversions": [
+    {
+      "USGallonsPerAcreConversion": 1.20095,
+      "Id": 1,
+      "ApplicationRateUnit": 1,
+      "ApplicationRateUnitName": "Imp. gallons/ac",
+      "StaticDataVersionId": 14
+    },
+    {
+      "USGallonsPerAcreConversion": 106.906780518403,
+      "Id": 2,
+      "ApplicationRateUnit": 2,
+      "ApplicationRateUnitName": "m²/ha",
+      "StaticDataVersionId": 14
+    },
+    {
+      "USGallonsPerAcreConversion": 1.0,
+      "Id": 3,
+      "ApplicationRateUnit": 3,
+      "ApplicationRateUnitName": "US gallons/ac",
+      "StaticDataVersionId": 14
+    },
+    {
+      "USGallonsPerAcreConversion": 3.78541,
+      "Id": 4,
+      "ApplicationRateUnit": 4,
+      "ApplicationRateUnitName": "Litres/ac",
+      "StaticDataVersionId": 14
+    }
+  ],
+  "LiquidMaterialsConversionFactors": [
+    {
+      "USGallonsOutput": 1.20095,
+      "Id": 1,
+      "InputUnit": 1,
+      "InputUnitName": "Imp. gallons",
+      "StaticDataVersionId": 14
+    },
+    {
+      "USGallonsOutput": 264.172,
+      "Id": 2,
+      "InputUnit": 2,
+      "InputUnitName": "cubic meters",
+      "StaticDataVersionId": 14
+    },
+    {
+      "USGallonsOutput": 1.0,
+      "Id": 3,
+      "InputUnit": 3,
+      "InputUnitName": "US gallons",
+      "StaticDataVersionId": 14
+    },
+    {
+      "USGallonsOutput": 3.78541,
+      "Id": 4,
+      "InputUnit": 4,
+      "InputUnitName": "Litres",
+      "StaticDataVersionId": 14
+    }
+  ]
+}
