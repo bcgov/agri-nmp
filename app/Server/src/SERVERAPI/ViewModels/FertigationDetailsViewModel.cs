@@ -15,8 +15,8 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         //fertilizer
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+        // [Required(ErrorMessage = "Required")]
+        // [Range(1, 9999, ErrorMessage = "Required")]
         public int selFertOption { get; set; }
         public List<SelectListItem> fertOptions { get; set; }
         //product rate
@@ -29,6 +29,8 @@ namespace SERVERAPI.ViewModels
         //density unit
         public int selDenOption { get; set; }
         public List<SelectListItem> denOptions { get; set; }
+        public string density { get; set; }
+        public bool stdDensity { get; set; }
         //injection rate
         //injection unit
         public string selInjectionRateOption { get; set; }
