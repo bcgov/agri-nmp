@@ -3,11 +3,6 @@
 @{
     Layout = null;
 }
-
-<style>
-
-</style>
-
 <div id="target">
     <form asp-action="FertigationDetails" asp-controller="Nutrients" id="modForm" method="post">
         <div class="modal-header">
@@ -21,16 +16,17 @@
               <div class="form-group">
                 <div class="title">Provide Product Details</div>
                 <div class="form-group col-sm-3" style="width:150px;">
-                    <label for="ddlMan">Fertilizer Type</label>
-                    <select class="form-control" id="ddlMan">
-                        <option>select</option>
-                    </select>
+                    <label for="ddlTyp">Fertilizer Type</label>
+                        <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
+                            <option>select</option>
+                        </select>
+                        <span asp-validation-for="selTypOption" class="text-danger"></span>
                 </div>
                 <div class="form-group col-sm-3" style="width:150px;">
-                    <label for="ddlMan">Fertilizer</label>
-                    <select class="form-control" id="ddlMan2">
-                        <option>select</option>
-                    </select>
+                    <label for="ddlFert">Fertilizer</label>
+                        <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertilizers,"Id","Value"))" id="ddlFert">
+                            <option>select</option>
+                        </select>
                     <span asp-validation-for="selFertOption" class="text-danger"></span>
                 </div>
                 <div class="form-group col-sm-3 row" style="margin-right:0px; padding-right:0px">
@@ -44,11 +40,11 @@
                         <div style="display:table; width:100%">
                         <div style="display:table-row">
                             <label for="ddlRate">Units</label>
-                        </div>
-                        <div style="display:table-row">
-                            <select class="form-control" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
+                            <select class="form-control" asp-for="selProductRateOption" asp-items="@(new SelectList(Model.productRateOptions,"Id","Value"))" id="ddlRate">
                                 <option>select</option>
                             </select>
+                        </div>
+                        <div style="display:table-row">
                         </div>
                     </div>
                   </div>
@@ -63,12 +59,10 @@
                     <div class="col-sm-8">
                         <div style="display:table; width:100%">
                         <div style="display:table-row">
-                            <label for="ddlRate">Units</label>
+                            <label for="ddlDensity">Units</label>
+                            <select class="form-control" asp-for="selDenOption" asp-items="@(new SelectList(Model.denOptions,"Id","Value"))" id="ddlDensity"></select>
                         </div>
                         <div style="display:table-row">
-                            <select class="form-control" id="ddlRate2" style="width:70%; display:inline; vertical-align:top">
-                                <option>select</option>
-                            </select>
                         </div>
                     </div>
                     </div>
@@ -88,11 +82,9 @@
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label for="ddlRate">Units</label>
+                                <select class="form-control" asp-for="selInjectionRateOption" asp-items="@(new SelectList(Model.injectionRateOptions,"Id","Value"))" id="ddlRate"></select>
                             </div>
                             <div style="display:table-row">
-                                <select class="form-control" id="ddlRate" style="width:70%; display:inline; vertical-align:top">
-                                    <option>select</option>
-                                </select>
                             </div>
                         </div>
                     </div>

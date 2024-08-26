@@ -19,12 +19,13 @@ namespace SERVERAPI.ViewModels
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selTypOption { get; set; }
+        public string selFertOption { get; set; }
         public List<SelectListItem> typOptions { get; set; }
+        public List<SelectListItem> fertilizers { get; set; }
         //fertilizer
         public List<SelectListItem> FertigationList { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
-        public int selFertOption { get; set; }
         public List<SelectListItem> fertOptions { get; set; }
         //product rate
         [Required(ErrorMessage = "Required")]

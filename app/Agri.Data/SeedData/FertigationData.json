@@ -155,10 +155,36 @@
       "StaticDataVersionId": 14
     }
   ],
-
-
-
-
+  "FertigationTypes":[
+    {
+      "Id": 1,
+      "Name": "Liquid Fertilizer",
+      "LiquidSolid": "Liquid",
+      "Custom": false,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 2,
+      "Name": "Liquid Fertilizer (Custom)",
+      "LiquidSolid": "Liquid",
+      "Custom": true,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 1,
+      "Name": "Solid Fertilizer",
+      "LiquidSolid": "Solid",
+      "Custom": false,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 1,
+      "Name": "Solid Fertilizer (Custom)",
+      "LiquidSolid": "Solid",
+      "Custom": true,
+      "StaticDataVersionId": 14
+    }
+  ],
   "LiquidFertilizerDensities":[
     {
       "Id": 1,
@@ -610,6 +636,62 @@
       "Id": 4,
       "InputUnit": 4,
       "InputUnitName": "Litres",
+      "StaticDataVersionId": 14
+    }
+  ],
+  "ProductRateUnits": [
+    {
+      "Id": 1,
+      "Name": "US gallon/ac",
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 2,
+      "Name": "L/ac",
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 3,
+      "Name": "Imp. gallon/ac",
+      "StaticDataVersionId": 14
+    }
+  ],
+  "DensityUnits": [
+    {
+      "Id": 1,
+      "Name": "lb/US gallon",
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 2,
+      "Name": "lb/Imp. Gallon",
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 3,
+      "Name": "kg/L",
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 4,
+      "Name": "kg/US gallon",
+      "StaticDataVersionId": 14
+    }
+  ],
+  "InjectionRateUnits": [
+    {
+      "Id": 1,
+      "Name": "US gallon/min",
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 2,
+      "Name": "L/min",
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 3,
+      "Name": "Imp. gallon/min",
       "StaticDataVersionId": 14
     }
   ]
