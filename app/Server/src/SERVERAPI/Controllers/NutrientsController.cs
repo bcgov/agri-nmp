@@ -257,7 +257,7 @@ namespace SERVERAPI.Controllers
               title = id == null ? "Add" : "Edit",
               btnText = id == null ? "Add to Field" : "Update Field",
               id = id,
-    
+              //selMethOption = 0
             };
 
             // FertigationStillRequired(rev fvm);
