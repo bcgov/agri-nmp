@@ -14,7 +14,7 @@
             <div class="row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <div class="title" style="margin-bottom: 15px;">Provide Product Details</div>
+                    <h4 class="title" style="margin-bottom: 15px;">Provide Product Details</h4>
                     <div class="form-group col-sm-3" style="width:150px;">
                         <label for="ddlTyp">Fertilizer Type</label>
                             <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
@@ -70,7 +70,7 @@
 
             <div class="row">
                 <div class="form-group">
-                    <div class="title" style="margin-bottom: 15px;">Provide Application Details</div>
+                    <h4 class="title" style="margin-bottom: 15px;">Provide Application Details</h4>
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="rate">Injection Rate</label>
                         <div>
