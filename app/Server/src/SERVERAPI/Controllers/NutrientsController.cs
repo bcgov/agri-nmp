@@ -13,6 +13,9 @@ using SERVERAPI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using Newtonsoft.Json;
+using Agri.Models;
 
 namespace SERVERAPI.Controllers
 {
@@ -248,19 +251,19 @@ namespace SERVERAPI.Controllers
 
         public IActionResult FertigationDetails(string fldName, int? id)
         {
-            var mvm = new FertigationDetailsViewModel()
+            var fgvm = new FertigationDetailsViewModel()
             {
               fieldName = fldName,
               title = id == null ? "Add" : "Edit",
               btnText = id == null ? "Add to Field" : "Update Field",
               id = id,
-    
+              //selMethOption = 0
             };
 
             // FertigationStillRequired(rev fvm);
-            //FertigationDetailsSetup(rev fvm);
+            FertigationDetailsSetup(ref fgvm);
 
-            return PartialView(mvm);
+            return PartialView(fgvm);
         }
 
         // private void FertigationStillRequired(ref FertilizerDetailsViewModel fvm)
@@ -268,33 +271,104 @@ namespace SERVERAPI.Controllers
 
         // }
 
-        // private void FertigationDetailsSetup(ref FertigationDetailsViewModel fvm)
-        // {
-        //     fvm.typOptions = new List<SelectListItem>();
-        //     fvm.typOptions = _sd.GetFertilizerTypesDll().ToList();
+        private List<SelectListItem> GetFertigationTypes(){
 
-        //     fvm.denOptions = new List<SelectListItem>();
-        //     fvm.denOptions = _sd.GetDensityUnitsDll().ToList();
+            Fertigation fg = GetFertigationData();
+            List<FertigationType> types = fg.FertigationTypes;
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var r in types)
+            {
+                var li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                list.Add(li);
+            }
+            return list;
+        }
+        private List<SelectListItem> GetFertigationFertilizers(){
 
-        //     fvm.methOptions = new List<SelectListItem>();
-        //     fvm.methOptions = _sd.GetFertilizerMethodsDll().ToList();
+            Fertigation fg = GetFertigationData();
+            List<Fertilizer> fertilizers = fg.Fertilizers;
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var r in fertilizers)
+            {
+                var li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                list.Add(li);
+            }
+            return list;
+        }
+        private List<SelectListItem> GetProductRateUnits(){
 
-        //     FertilizerDetailSetup_Fertilizer(ref fvm);
+            Fertigation fg = GetFertigationData();
+            List<ProductRateUnit> types = fg.ProductRateUnits;
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var r in types)
+            {
+                var li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                list.Add(li);
+            }
+            return list;
+        }
 
-        //     fvm.rateOptions = _sd.GetFertilizerUnitsDll(fvm.currUnit).ToList();
+        private List<SelectListItem> GetInjectionRateUnits(){
 
-        //     return;
-        // }
+            Fertigation fg = GetFertigationData();
+            List<InjectionRateUnit> rates = fg.InjectionRateUnits;
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var r in rates)
+            {
+                var li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                list.Add(li);
+            }
+            return list;
+        }
 
-        // public IActionResult FertigationDetails(FertigationViewsModel fvm)
-        // {
+        private List<SelectListItem> GetDensityUnits(){
 
-        // }
+            Fertigation fg = GetFertigationData();
+            List<DensityUnit> rates = fg.DensityUnits;
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var r in rates)
+            {
+                var li = new SelectListItem()
+                { Id = r.Id, Value = r.Name };
+                list.Add(li);
+            }
+            return list;
+        }
+
+        private void FertigationDetailsSetup(ref FertigationDetailsViewModel fvm)
+        {
+            Fertigation fg = GetFertigationData();
+
+            fvm.fertilizers = GetFertigationFertilizers();
+
+            fvm.typOptions = GetFertigationTypes();
+
+            fvm.productRateOptions = GetProductRateUnits();
+
+            fvm.injectionRateOptions = GetInjectionRateUnits();
+
+            fvm.denOptions = GetDensityUnits();
+
+            // FertilizerDetailSetup_Fertilizer(ref fvm);
+
+            return;
+        }
 
         // private int FertigationInsert(FertigationViewsModel fvm)
         // {
 
         // }
+
+        public Fertigation GetFertigationData()
+        {
+            var filePath = "../../../Agri.Data/SeedData/FertigationData.json";
+            var jsonData = System.IO.File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<Fertigation>(jsonData);
+        }
 
         private void MaunureStillRequired(ref ManureDetailsViewModel mvm)
         {
