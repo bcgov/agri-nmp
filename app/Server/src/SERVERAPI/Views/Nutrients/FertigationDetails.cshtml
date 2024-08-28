@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group col-sm-3" style="width:150px;">
                     <label for="ddlFert">Fertilizer</label>
-                        <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertilizers,"Id","Value"))" id="ddlFert">
+                        <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions,"Id","Value"))" id="ddlFert">
                             <option>select</option>
                         </select>
                     <span asp-validation-for="selFertOption" class="text-danger"></span>
@@ -33,14 +33,14 @@
                     <div class="col-sm-4" style="margin-right:0px; padding-right:0px; width:150px;">
                         <label for="rate">Product Rate</label>
                         <div>
-                            <input class="form-control" id="rate" type="text" style="margin-right:0px; padding-right:0px"/>
+                            <input class="form-control" asp-for="productRate" id="rate" type="text" style="margin-right:0px; padding-right:0px"/>
                         </div>
                     </div>
                     <div class="col-sm-8" style="margin-left:0px; padding-left:0px">
                         <div style="display:table; width:100%">
                         <div style="display:table-row">
                             <label for="ddlRate">Units</label>
-                            <select class="form-control" asp-for="selProductRateOption" asp-items="@(new SelectList(Model.productRateOptions,"Id","Value"))" id="ddlRate">
+                            <select class="form-control" asp-for="selProductRateUnitOption" asp-items="@(new SelectList(Model.productRateUnitOptions,"Id","Value"))" id="ddlRate">
                                 <option>select</option>
                             </select>
                         </div>
@@ -53,14 +53,14 @@
                     <div class="col-sm-4">
                         <label for="rate">Density</label>
                         <div>
-                            <input class="form-control" id="rate" type="text" />
+                            <input class="form-control" asp-for="density" id="rate" type="text" />
                         </div>
                     </div>
                     <div class="col-sm-8">
                         <div style="display:table; width:100%">
                         <div style="display:table-row">
                             <label for="ddlDensity">Units</label>
-                            <select class="form-control" asp-for="selDenOption" asp-items="@(new SelectList(Model.denOptions,"Id","Value"))" id="ddlDensity"></select>
+                            <select class="form-control" asp-for="selDensityUnitOption" asp-items="@(new SelectList(Model.densityUnitOptions,"Id","Value"))" id="ddlDensity"></select>
                         </div>
                         <div style="display:table-row">
                         </div>
@@ -75,14 +75,14 @@
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:150px">
                         <label for="rate">Injection Rate</label>
                         <div>
-                            <input class="form-control" id="rate" type="text" />
+                            <input class="form-control" asp-for="injectionRate" id="rate" type="text" />
                         </div>
                     </div>
                     <div class="form-group col-sm-3" style="margin-left:0px; padding-left:0px">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label for="ddlRate">Units</label>
-                                <select class="form-control" asp-for="selInjectionRateOption" asp-items="@(new SelectList(Model.injectionRateOptions,"Id","Value"))" id="ddlRate"></select>
+                                <select class="form-control" asp-for="selInjectionRateUnitOption" asp-items="@(new SelectList(Model.injectionRateUnitOptions,"Id","Value"))" id="ddlRate"></select>
                             </div>
                             <div style="display:table-row">
                             </div>
