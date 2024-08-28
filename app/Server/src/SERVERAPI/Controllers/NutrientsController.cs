@@ -257,111 +257,528 @@ namespace SERVERAPI.Controllers
               title = id == null ? "Add" : "Edit",
               btnText = id == null ? "Add to Field" : "Update Field",
               id = id,
-              //selMethOption = 0
             };
 
-            // FertigationStillRequired(rev fvm);
+            fgvm.totN = "0";
+            fgvm.totP2o5 = "0";
+            fgvm.totK2o = "0";
+            fgvm.totNIcon = "";
+            fgvm.totPIcon = "";
+            fgvm.totKIcon = "";
+
+            if (id != null){
+                NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id.Value);// Not sure how this is working for fertigation. might need to change
+
+                FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
+
+                // fgvm.currUnit = ft.DryLiquid;
+                fgvm.selFertOption = ft.Custom ? 1 : nf.fertilizerId;
+                fgvm.productRate = nf.applRate.ToString("#.##");
+                fgvm.selProductRateUnitOption = nf.applUnitId.ToString();
+                fgvm.selTypOption = nf.fertilizerTypeId.ToString();
+                fgvm.fertilizerType = ft.DryLiquid;
+                fgvm.calcN = nf.fertN.ToString();
+                fgvm.calcP2o5 = nf.fertP2o5.ToString();
+                fgvm.calcK2o = nf.fertK2o.ToString();
+                if (nf.applDate.HasValue)
+                {
+                    fgvm.applDate = nf.applDate.HasValue ? nf.applDate.Value.ToString("MMM-yyyy") : "";
+                }
+                fgvm.density = nf.liquidDensity.ToString("#.##");
+                    fgvm.selDensityUnitOption = nf.liquidDensityUnitId;
+                    if (!ft.Custom)
+                    {
+                        if (fgvm.density != _sd.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).Value.ToString("#.##"))
+                        {
+                            fgvm.stdDensity = false;
+                        }
+                        else
+                        {
+                            fgvm.stdDensity = true;
+                        }
+                    }
+                if (ft.Custom)
+                {
+                    fgvm.valN = nf.customN.Value.ToString("0");
+                    fgvm.valP2o5 = nf.customP2o5.Value.ToString("0");
+                    fgvm.valK2o = nf.customK2o.Value.ToString("0");
+                    fgvm.manualEntry = true;
+                }
+                else
+                {
+                    Fertilizer ff = _sd.GetFertilizer(nf.fertilizerId.ToString());
+                    fgvm.valN = ff.Nitrogen.ToString("0");
+                    fgvm.valP2o5 = ff.Phosphorous.ToString("0");
+                    fgvm.valK2o = ff.Potassium.ToString("0");
+                    fgvm.manualEntry = false;
+                }
+            }
+            else
+            {
+                FertigationDetail_Reset(ref fgvm);
+            }
+            FertigationStillRequired(ref fgvm);
             FertigationDetailsSetup(ref fgvm);
 
             return PartialView(fgvm);
         }
 
-        // private void FertigationStillRequired(ref FertilizerDetailsViewModel fvm)
-        // {
-
-        // }
-
-        private List<SelectListItem> GetFertigationTypes(){
-
-            Fertigation fg = GetFertigationData();
-            List<FertigationType> types = fg.FertigationTypes;
-            List<SelectListItem> list = new List<SelectListItem>();
-            foreach (var r in types)
-            {
-                var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
-                list.Add(li);
-            }
-            return list;
-        }
-        private List<SelectListItem> GetFertigationFertilizers(){
-
-            Fertigation fg = GetFertigationData();
-            List<Fertilizer> fertilizers = fg.Fertilizers;
-            List<SelectListItem> list = new List<SelectListItem>();
-            foreach (var r in fertilizers)
-            {
-                var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
-                list.Add(li);
-            }
-            return list;
-        }
-        private List<SelectListItem> GetProductRateUnits(){
-
-            Fertigation fg = GetFertigationData();
-            List<ProductRateUnit> types = fg.ProductRateUnits;
-            List<SelectListItem> list = new List<SelectListItem>();
-            foreach (var r in types)
-            {
-                var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
-                list.Add(li);
-            }
-            return list;
-        }
-
-        private List<SelectListItem> GetInjectionRateUnits(){
-
-            Fertigation fg = GetFertigationData();
-            List<InjectionRateUnit> rates = fg.InjectionRateUnits;
-            List<SelectListItem> list = new List<SelectListItem>();
-            foreach (var r in rates)
-            {
-                var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
-                list.Add(li);
-            }
-            return list;
-        }
-
-        private List<SelectListItem> GetDensityUnits(){
-
-            Fertigation fg = GetFertigationData();
-            List<DensityUnit> rates = fg.DensityUnits;
-            List<SelectListItem> list = new List<SelectListItem>();
-            foreach (var r in rates)
-            {
-                var li = new SelectListItem()
-                { Id = r.Id, Value = r.Name };
-                list.Add(li);
-            }
-            return list;
-        }
-
-        private void FertigationDetailsSetup(ref FertigationDetailsViewModel fvm)
+        private void FertigationDetail_Reset(ref FertigationDetailsViewModel fgvm)
         {
-            Fertigation fg = GetFertigationData();
-
-            fvm.fertilizers = GetFertigationFertilizers();
-
-            fvm.typOptions = GetFertigationTypes();
-
-            fvm.productRateOptions = GetProductRateUnits();
-
-            fvm.injectionRateOptions = GetInjectionRateUnits();
-
-            fvm.denOptions = GetDensityUnits();
-
-            // FertilizerDetailSetup_Fertilizer(ref fvm);
+            fgvm.calcN = "0";
+            fgvm.calcK2o = "0";
+            fgvm.calcP2o5 = "0";
+            fgvm.valN = "0";
+            fgvm.valP2o5 = "0";
+            fgvm.valK2o = "0";
 
             return;
         }
 
-        // private int FertigationInsert(FertigationViewsModel fvm)
-        // {
+        private void FertigationStillRequired(ref FertigationDetailsViewModel fgvm)
+        {
 
-        // }
+            var chemicalBalances = _chemicalBalanceMessage
+                .GetChemicalBalances(_ud.GetFieldDetails(fgvm.fieldName), _ud.FarmDetails().FarmRegion.Value, _ud.FarmDetails().Year);
+
+            var msgs = _chemicalBalanceMessage.DetermineBalanceMessages(_ud.GetFieldDetails(fgvm.fieldName), _ud.FarmDetails().FarmRegion.Value, _ud.FarmDetails().Year);
+
+            foreach (var m in msgs)
+            {
+                switch (m.Chemical)
+                {
+                    case "AgrN":
+                        fgvm.totNIcon = (chemicalBalances.balance_AgrN > 0) ? "" : m.Icon;
+                        fgvm.totNIconText = m.IconText;
+                        break;
+
+                    case "AgrP2O5":
+                        fgvm.totPIcon = (chemicalBalances.balance_AgrP2O5 > 0) ? "" : m.Icon;
+                        fgvm.totPIconText = m.IconText;
+                        break;
+
+                    case "AgrK2O":
+                        fgvm.totKIcon = (chemicalBalances.balance_AgrK2O > 0) ? "" : m.Icon;
+                        fgvm.totKIconText = m.IconText;
+                        break;
+                }
+            }
+            fgvm.totN = (chemicalBalances.balance_AgrN > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrN).ToString();
+            fgvm.totP2o5 = (chemicalBalances.balance_AgrP2O5 > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrP2O5).ToString();
+            fgvm.totK2o = (chemicalBalances.balance_AgrK2O > 0) ? "0" : Math.Abs(chemicalBalances.balance_AgrK2O).ToString();
+       
+        }
+
+        private List<SelectListItem> GetFertigationFertilizers(string typeId){
+            if(typeId != null && typeId != "select"){
+                Fertigation fg = GetFertigationData();
+                List<Fertilizer> fertilizers = fg.Fertilizers;
+                FertilizerType type = _sd.GetFertilizerType(typeId);
+                List<SelectListItem> list = new List<SelectListItem>();
+                foreach (var r in fertilizers)
+                {
+                    if(r.DryLiquid == type.DryLiquid){
+                        var li = new SelectListItem()
+                        { Id = r.Id, Value = r.Name };
+                        list.Add(li);
+                    }
+                }
+                return list;
+            }
+            return new List<SelectListItem>();
+
+        }
+
+        private List<SelectListItem> GetOptionsList<T>(List<T> selectOption) where T: SelectOption{
+            List<SelectListItem> list = new List<SelectListItem>();
+            foreach (var option in selectOption)
+            {
+                var li = new SelectListItem(option);
+                list.Add(li);
+            }
+            return list;
+        }
+
+        private void FertigationDetailsSetup(ref FertigationDetailsViewModel fgvm)
+        {
+            Fertigation fg = GetFertigationData();
+
+            fgvm.typOptions = GetOptionsList(fg.FertilizerTypes);
+            // if(fgvm.selTypOption == null && fgvm.selTypOption == "select"){
+            //     fgvm.selTypOption = "3";
+            // }
+            fgvm.fertOptions = GetFertigationFertilizers(fgvm.selTypOption);
+            fgvm.productRateUnitOptions = GetOptionsList(fg.ProductRateUnits);
+            fgvm.injectionRateUnitOptions = GetOptionsList(fg.InjectionRateUnits);
+            fgvm.densityUnitOptions = GetOptionsList(fg.DensityUnits);
+
+            FertigationDetailSetup_Fertilizer(ref fgvm);
+
+            return;
+        }
+
+        private void FertigationDetailSetup_Fertilizer(ref FertigationDetailsViewModel fgvm)
+        {
+            fgvm.fertOptions = new List<SelectListItem>();
+            if (fgvm.selTypOption != null &&
+               fgvm.selTypOption != "select")
+            {
+                FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption);
+                if (!ft.Custom)
+                {
+                    fgvm.fertOptions = GetFertigationFertilizers(ft.Id.ToString());
+                }
+                else
+                {
+                    fgvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
+                    fgvm.selFertOption = 1;
+                    fgvm.stdDensity = true;
+                }
+            }
+            else
+            {
+                fgvm.fertOptions = new List<SelectListItem>();
+                fgvm.selFertOption = 0;
+            }
+
+            return;
+        }
+
+        [HttpPost]
+        public IActionResult FertigationDetails(FertigationDetailsViewModel fgvm)
+        {
+            decimal nmbrDensity = 0;
+            decimal nmbrN = 0;
+            decimal nmbrP = 0;
+            decimal nmbrK = 0;
+            int addedId = 0;
+            NutrientFertilizer origFertilizer = new NutrientFertilizer();
+
+            //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
+            //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
+
+            FertigationDetailsSetup(ref fgvm);
+
+            try
+            {
+                if (fgvm.buttonPressed == "ResetDensity")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+
+                    NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fgvm.fieldName, fgvm.id.Value);
+
+                    fgvm.density = _sd.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).Value.ToString("#.##");
+
+                    fgvm.stdDensity = true;
+                    return View(fgvm);
+                }
+
+                if (fgvm.buttonPressed == "TypeChange")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+
+                    FertigationDetailSetup_Fertilizer(ref fgvm);
+
+                    if (fgvm.selTypOption != "" && fgvm.selTypOption != "select")
+                    {
+                        FertilizerType typ = _sd.GetFertilizerType(fgvm.selTypOption);
+
+                        fgvm.density = "";
+
+                        if (fgvm.currUnit != typ.DryLiquid)
+                        {
+                            fgvm.currUnit = typ.DryLiquid;
+                            fgvm.productRateUnitOptions = _sd.GetFertilizerUnitsDll(fgvm.currUnit).ToList();
+                            fgvm.selProductRateUnitOption = fgvm.productRateUnitOptions[0].Id.ToString();
+                            fgvm.fertilizerType = typ.DryLiquid;
+                        }
+
+                        fgvm.manualEntry = typ.Custom;
+                        if (!fgvm.manualEntry)
+                            fgvm.selFertOption = 0;
+
+                        FertigationDetailSetup_DefaultDensity(ref fgvm);
+                    }
+
+                    FertigationDetail_Reset(ref fgvm);
+
+                    return View(fgvm);
+                }
+
+                if (fgvm.buttonPressed == "FertilizerChange")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+                    //FertilizerDetail_Reset(ref fvm);
+
+                    if (fgvm.selFertOption != 0 &&
+                       !fgvm.manualEntry)
+                    {
+                        Fertilizer ft = _sd.GetFertilizer(fgvm.selFertOption.ToString());
+                        fgvm.valN = ft.Nitrogen.ToString("0");
+                        fgvm.valP2o5 = ft.Phosphorous.ToString("0");
+                        fgvm.valK2o = ft.Potassium.ToString("0");
+
+                        FertigationDetailSetup_DefaultDensity(ref fgvm);
+                    }
+
+                    return View(fgvm);
+                }
+
+                if (fgvm.buttonPressed == "DensityChange")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+
+                    if (!fgvm.manualEntry &&
+                        fgvm.fertilizerType == "liquid")
+                    {
+                        FertigationDetailSetup_DefaultDensity(ref fgvm);
+                    }
+                    return View(fgvm);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    if (fgvm.manualEntry &&
+                    fgvm.fertilizerType == "liquid" &&
+                    string.IsNullOrEmpty(fgvm.density))
+                    {
+                        ModelState.AddModelError("density", "Required");
+                        return View(fgvm);
+                    }
+                    if (fgvm.fertilizerType == "liquid")
+                    {
+                        if (string.IsNullOrEmpty(fgvm.density))
+                        {
+                            ModelState.AddModelError("density", "Required");
+                            return View(fgvm);
+                        }
+                        if (!Decimal.TryParse(fgvm.density, out nmbrDensity))
+                        {
+                            ModelState.AddModelError("density", "Invalid");
+                            return View(fgvm);
+                        }
+                        else
+                        {
+                            if (nmbrDensity < 0 ||
+                                nmbrDensity > 100)
+                            {
+                                ModelState.AddModelError("density", "Invalid");
+                                return View(fgvm);
+                            }
+                        }
+                        if (fgvm.selDensityUnitOption == 0)
+                        {
+                            ModelState.AddModelError("selDenOption", "Required");
+                            return View(fgvm);
+                        }
+                    }
+
+                    if (fgvm.manualEntry)
+                    {
+                        if (string.IsNullOrEmpty(fgvm.valN))
+                        {
+                            ModelState.AddModelError("valN", "Required");
+                            return View(fgvm);
+                        }
+                        if (!Decimal.TryParse(fgvm.valN, out nmbrN))
+                        {
+                            ModelState.AddModelError("valN", "Invalid");
+                            return View(fgvm);
+                        }
+                        if (nmbrN < 0 || nmbrN > 100)
+                        {
+                            ModelState.AddModelError("valN", "Invalid");
+                            return View(fgvm);
+                        }
+                        if (string.IsNullOrEmpty(fgvm.valP2o5))
+                        {
+                            ModelState.AddModelError("valP2o5", "Required");
+                            return View(fgvm);
+                        }
+                        if (!Decimal.TryParse(fgvm.valP2o5, out nmbrP))
+                        {
+                            ModelState.AddModelError("valP2o5", "Invalid");
+                            return View(fgvm);
+                        }
+                        if (nmbrP < 0 || nmbrP > 100)
+                        {
+                            ModelState.AddModelError("valP2o5", "Invalid");
+                            return View(fgvm);
+                        }
+                        if (string.IsNullOrEmpty(fgvm.valK2o))
+                        {
+                            ModelState.AddModelError("valK2o", "Required");
+                            return View(fgvm);
+                        }
+                        if (!Decimal.TryParse(fgvm.valK2o, out nmbrK))
+                        {
+                            ModelState.AddModelError("valK2o", "Invalid");
+                            return View(fgvm);
+                        }
+                        if (nmbrK < 0 || nmbrK > 100)
+                        {
+                            ModelState.AddModelError("valK2o", "Invalid");
+                            return View(fgvm);
+                        }
+                    }
+
+                    if (fgvm.btnText == "Calculate")
+                    {
+                        ModelState.Clear();
+                        FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption.ToString());
+
+                        if (ft.DryLiquid == "liquid")
+                        {
+                            if (!ft.Custom)
+                            {
+                                if (fgvm.density != _sd.GetLiquidFertilizerDensity(fgvm.selFertOption, fgvm.selDensityUnitOption).Value.ToString("#.##"))
+                                {
+                                    fgvm.stdDensity = false;
+                                }
+                                else
+                                {
+                                    fgvm.stdDensity = true;
+                                }
+                            }
+                        }
+
+                        var fertilizerNutrients = _calculateFertilizerNutrients.GetFertilizerNutrients(fgvm.selFertOption,
+                                fgvm.fertilizerType,
+                                Convert.ToDecimal(fgvm.productRate),
+                                Convert.ToInt32(fgvm.selProductRateUnitOption),
+                                fgvm.density != null ? Convert.ToDecimal(fgvm.density) : 0,
+                                Convert.ToInt16(fgvm.selDensityUnitOption),
+                                Convert.ToDecimal(fgvm.valN),
+                                Convert.ToDecimal(fgvm.valP2o5),
+                                Convert.ToDecimal(fgvm.valK2o),
+                                fgvm.manualEntry);
+
+                        fgvm.calcN = Convert.ToInt32(fertilizerNutrients.fertilizer_N).ToString();
+                        fgvm.calcP2o5 = Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5).ToString();
+                        fgvm.calcK2o = Convert.ToInt32(fertilizerNutrients.fertilizer_K2O).ToString();
+
+                        fgvm.btnText = fgvm.id == null ? "Add to Field" : "Update Field";
+
+                        // temporarily update the farm data so as to recalc the Still Required amounts
+                        if (fgvm.id == null)
+                        {
+                            addedId = FertigationInsert(fgvm);
+                        }
+                        else
+                        {
+                            origFertilizer = _ud.GetFieldNutrientsFertilizer(fgvm.fieldName, fgvm.id.Value);
+                            FertigationUpdate(fgvm);
+                        }
+
+                        FertigationStillRequired(ref fgvm);
+                        if (fgvm.id == null)
+                        {
+                            _ud.DeleteFieldNutrientsFertilizer(fgvm.fieldName, addedId);
+                        }
+                        else
+                        {
+                            _ud.UpdateFieldNutrientsFertilizer(fgvm.fieldName, origFertilizer);
+                        }
+                    }
+                    else
+                    {
+                        if (fgvm.id == null)
+                        {
+                            FertigationInsert(fgvm);
+                        }
+                        else
+                        {
+                            FertigationUpdate(fgvm);
+                        }
+                        return Json(ReDisplay("#fertilizer", fgvm.fieldName));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Unexpected system error.");
+                _logger.LogError(ex, "FertilizerDetails Exception");
+            }
+
+            return PartialView(fgvm);
+        }
+
+        private void FertigationDetailSetup_DefaultDensity(ref FertigationDetailsViewModel fgvm)
+        {
+            fgvm.fertOptions = new List<SelectListItem>();
+            if (fgvm.selTypOption != null &&
+               fgvm.selTypOption != "select")
+            {
+                FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption);
+                if (!ft.Custom)
+                {
+                    fgvm.fertOptions = GetFertigationFertilizers(ft.DryLiquid).ToList();
+                }
+                else
+                {
+                    fgvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
+                    fgvm.selFertOption = 1;
+                    fgvm.stdDensity = true;
+                }
+            }
+            else
+            {
+                fgvm.fertOptions = new List<SelectListItem>();
+                fgvm.selFertOption = 0;
+            }
+
+            return;
+        }
+
+        private int FertigationInsert(FertigationDetailsViewModel fgvm)
+        {
+            NutrientFertilizer nf = new NutrientFertilizer()
+            {
+                fertilizerTypeId = Convert.ToInt32(fgvm.selTypOption),
+                fertilizerId = fgvm.selFertOption,
+                applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption),
+                applRate = Convert.ToDecimal(fgvm.productRate),
+                applDate = string.IsNullOrEmpty(fgvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fgvm.applDate),
+                customN = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valN) : (decimal?)null,
+                customP2o5 = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valP2o5) : (decimal?)null,
+                customK2o = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valK2o) : (decimal?)null,
+                fertN = Convert.ToDecimal(fgvm.calcN),
+                fertP2o5 = Convert.ToDecimal(fgvm.calcP2o5),
+                fertK2o = Convert.ToDecimal(fgvm.calcK2o),
+                liquidDensity =  Convert.ToDecimal(fgvm.density),
+                liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption)
+            };
+
+            return _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf);
+        }
+
+        private void FertigationUpdate(FertigationDetailsViewModel fgvm)
+        {
+            NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fgvm.fieldName, fgvm.id.Value);
+            nf.fertilizerTypeId = Convert.ToInt32(fgvm.selTypOption);
+            nf.fertilizerId = fgvm.selFertOption;
+            nf.applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption);
+            nf.applRate = Convert.ToDecimal(fgvm.productRate);
+            nf.applDate = string.IsNullOrEmpty(fgvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fgvm.applDate);
+            nf.customN = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valN) : (decimal?)null;
+            nf.customP2o5 = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valP2o5) : (decimal?)null;
+            nf.customK2o = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valK2o) : (decimal?)null;
+            nf.fertN = Convert.ToDecimal(fgvm.calcN);
+            nf.fertP2o5 = Convert.ToDecimal(fgvm.calcP2o5);
+            nf.fertK2o = Convert.ToDecimal(fgvm.calcK2o);
+            nf.liquidDensity = Convert.ToDecimal(fgvm.density);
+            nf.liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption);
+
+            _ud.UpdateFieldNutrientsFertilizer(fgvm.fieldName, nf);
+        }
 
         public Fertigation GetFertigationData()
         {

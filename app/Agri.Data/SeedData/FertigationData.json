@@ -1,6 +1,50 @@
 {
   "Fertilizers": [
     {
+      "Id": 1,
+      "Name": "Urea (46-0-0)",
+      "DryLiquid": "dry",
+      "Nitrogen": 46.0,
+      "Phosphorous": 0.0,
+      "Potassium": 0.0,
+      "SortNum": 10,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+      {
+      "Id": 6,
+      "Name": "Ammonium nitrate (34-0-0)",
+      "DryLiquid": "dry",
+      "Nitrogen": 34.0,
+      "Phosphorous": 0.0,
+      "Potassium": 0.0,
+      "SortNum": 100,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },    
+    {
+      "Id": 7,
+      "Name": "Ammonium sulphate (21-0-0-24S)",
+      "DryLiquid": "dry",
+      "Nitrogen": 21.0,
+      "Phosphorous": 0.0,
+      "Potassium": 0.0,
+      "SortNum": 100,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },    
+    {
+      "Id": 29,
+      "Name": "Calcium nitrate (15.5-0-0-18Ca)",
+      "DryLiquid": "dry",
+      "Nitrogen": 15.5,
+      "Phosphorous": 0.0,
+      "Potassium": 0.0,
+      "SortNum": 100,
+      "LiquidFertilizerDensities": [],
+      "StaticDataVersionId": 14
+    },
+    {
       "Id": 18,
       "Name": "Ammonium polyphosphate (10-34-0)",
       "DryLiquid": "liquid",
@@ -155,31 +199,31 @@
       "StaticDataVersionId": 14
     }
   ],
-  "FertigationTypes":[
+  "FertilizerTypes":[
     {
       "Id": 1,
-      "Name": "Liquid Fertilizer",
-      "LiquidSolid": "Liquid",
+      "Name": "Dry Fertilizer",
+      "DryLiquid": "Dry",
       "Custom": false,
       "StaticDataVersionId": 14
     },
     {
       "Id": 2,
-      "Name": "Liquid Fertilizer (Custom)",
+      "Name": "Dry Fertilizer (Custom)",
       "LiquidSolid": "Liquid",
       "Custom": true,
       "StaticDataVersionId": 14
     },
     {
-      "Id": 1,
-      "Name": "Solid Fertilizer",
+      "Id": 3,
+      "Name": "Liquid Fertilizer",
       "LiquidSolid": "Solid",
       "Custom": false,
       "StaticDataVersionId": 14
     },
     {
-      "Id": 1,
-      "Name": "Solid Fertilizer (Custom)",
+      "Id": 4,
+      "Name": "Liquid Fertilizer (Custom)",
       "LiquidSolid": "Solid",
       "Custom": true,
       "StaticDataVersionId": 14

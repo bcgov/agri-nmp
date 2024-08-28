@@ -4,7 +4,7 @@
     Layout = null;
 }
 <div id="target">
-    <form asp-action="FertigationDetails" asp-controller="Nutrients" id="modForm" method="post"/>
+    <form asp-action="FertigationDetails" asp-controller="Nutrients" id="modForm" method="post">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h2 class="modal-title" id="myModalLabel">Fertigation Details - @Model.title</h2>
@@ -24,7 +24,7 @@
                     </div>
                     <div class="form-group col-sm-3" style="width:150px;">
                         <label for="ddlFert">Fertilizer</label>
-                            <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertilizers,"Id","Value"))" id="ddlFert">
+                            <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions,"Id","Value"))" id="ddlFert">
                                 <option>select</option>
                             </select>
                         <span asp-validation-for="selFertOption" class="text-danger"></span>
@@ -32,14 +32,14 @@
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="rate">Product Rate</label>
                         <div>
-                            <input class="form-control" id="rate" type="text" />
+                            <input class="form-control" asp-for="productRate" id="rate" type="text" />
                         </div>
                     </div>
                     <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
-                                <label for="ddlRate" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="selProductRateOption" asp-items="@(new SelectList(Model.productRateOptions,"Id","Value"))" id="ddlRate">
+                                <label for="ddlProdRate" style="text-align: center; display: block;">Units</label>
+                                <select class="form-control" asp-for="selProductRateUnitOption" asp-items="@(new SelectList(Model.productRateUnitOptions,"Id","Value"))" id="ddlProdRate">
                                     <option>select</option>
                                 </select>
                             </div>
@@ -49,14 +49,14 @@
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="rate">Density</label>
                         <div>
-                            <input class="form-control" id="rate" type="text" />
+                            <input class="form-control" asp-for="density" id="rate" type="text" />
                         </div>
                     </div>
                     <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label for="ddlDensity" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="selDenOption" asp-items="@(new SelectList(Model.denOptions,"Id","Value"))" id="ddlDensity">
+                                <select class="form-control" asp-for="selDensityUnitOption" asp-items="@(new SelectList(Model.densityUnitOptions,"Id","Value"))" id="ddlDensity">
                                     <option>select</option>
                                 </select>
                             </div>
@@ -74,13 +74,13 @@
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="rate">Injection Rate</label>
                         <div>
-                            <input class="form-control" id="rate" type="text" />
+                            <input class="form-control" asp-for="injectionRate" id="rate" type="text" />
                         </div>
                     </div>
                     <div class="form-group col-sm-2" style="margin-left:0px; padding-left:0px">
                         <div style="display:table; width:100%">
-                                <label for="ddlRate" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="selInjectionRateOption" asp-items="@(new SelectList(Model.injectionRateOptions,"Id","Value"))" id="ddlRate">
+                                <label for="ddlInjRate" style="text-align: center; display: block;">Units</label>
+                                <select class="form-control" asp-for="selInjectionRateUnitOption" asp-items="@(new SelectList(Model.injectionRateUnitOptions,"Id","Value"))" id="ddlInjRate">
                                     <option>select</option>
                                 </select>
                         </div>
@@ -111,8 +111,8 @@
                 <button type="submit" class="btn btn-primary" id="calc_button" style="margin-left: 5px">Calculate</button>   
             </div>
             
-<!-- ********************************************  /Input Section> / <Calculated Results ********************************************* -->
-            <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0; margin-top: 5px;" />
+
+                <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0; margin-top: 5px;" />
               
               <div class="row">
                 <div class="form-group">
@@ -232,7 +232,6 @@
                         </div>
                       </div>
                   </div>
-              </div>
             </div>
         </div>
 
@@ -242,6 +241,7 @@
         </div>
         @Html.HiddenFor(x => x.fieldName)
         @Html.HiddenFor(x => x.selFertOption)
+    </form>
 </div>
 
 <script>

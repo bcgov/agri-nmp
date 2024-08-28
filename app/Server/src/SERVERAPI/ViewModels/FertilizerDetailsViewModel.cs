@@ -16,6 +16,7 @@ namespace SERVERAPI.ViewModels
         public List<SelectListItem> typOptions { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
+
         public int selFertOption { get; set; }
         public List<SelectListItem> fertOptions { get; set; }
         [Required(ErrorMessage = "Required")]
