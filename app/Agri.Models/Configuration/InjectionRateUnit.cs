@@ -3,11 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class InjectionRateUnit : Versionable
+    public class InjectionRateUnit : SelectOption
     {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
 
     }
 }

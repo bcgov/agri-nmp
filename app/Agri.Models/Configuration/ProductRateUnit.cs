@@ -3,16 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class ProductRateUnit
+    public class ProductRateUnit: SelectOption
     {
-        public ProductRateUnit()
-        {
-
-        }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        // public decimal ConvFactor { get; set; }
-
     }
 }

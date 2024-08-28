@@ -3,16 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Configuration
 {
-    public class Fertilizer: Versionable
+    public class Fertilizer: SelectOption
     {
         public Fertilizer()
         {
             LiquidFertilizerDensities = new List<LiquidFertilizerDensity>();
         }
-
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
         public string DryLiquid { get; set; }
         public decimal Nitrogen { get; set; }
         public decimal Phosphorous { get; set; }
