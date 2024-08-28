@@ -4,7 +4,7 @@
     Layout = null;
 }
 <div id="target">
-    <form asp-action="FertigationDetails" asp-controller="Nutrients" id="modForm" method="post">
+    <form asp-action="FertigationDetails" asp-controller="Nutrients" id="modForm" method="post"/>
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h2 class="modal-title" id="myModalLabel">Fertigation Details - @Model.title</h2>
@@ -12,112 +12,107 @@
 
         <div class="modal-body">
             <div class="row">
-              <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-              <div class="form-group">
-                <div class="title">Provide Product Details</div>
-                <div class="form-group col-sm-3" style="width:150px;">
-                    <label for="ddlTyp">Fertilizer Type</label>
-                        <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
-                            <option>select</option>
-                        </select>
-                        <span asp-validation-for="selTypOption" class="text-danger"></span>
-                </div>
-                <div class="form-group col-sm-3" style="width:150px;">
-                    <label for="ddlFert">Fertilizer</label>
-                        <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions,"Id","Value"))" id="ddlFert">
-                            <option>select</option>
-                        </select>
-                    <span asp-validation-for="selFertOption" class="text-danger"></span>
-                </div>
-                <div class="form-group col-sm-3 row" style="margin-right:0px; padding-right:0px">
-                    <div class="col-sm-4" style="margin-right:0px; padding-right:0px; width:150px;">
-                        <label for="rate">Product Rate</label>
-                        <div>
-                            <input class="form-control" asp-for="productRate" id="rate" type="text" style="margin-right:0px; padding-right:0px"/>
-                        </div>
-                    </div>
-                    <div class="col-sm-8" style="margin-left:0px; padding-left:0px">
-                        <div style="display:table; width:100%">
-                        <div style="display:table-row">
-                            <label for="ddlRate">Units</label>
-                            <select class="form-control" asp-for="selProductRateUnitOption" asp-items="@(new SelectList(Model.productRateUnitOptions,"Id","Value"))" id="ddlRate">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <h4 class="title" style="margin-bottom: 15px;">Provide Product Details</h4>
+                    <div class="form-group col-sm-3" style="width:150px;">
+                        <label for="ddlTyp">Fertilizer Type</label>
+                            <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
                                 <option>select</option>
                             </select>
-                        </div>
-                        <div style="display:table-row">
-                        </div>
+                            <span asp-validation-for="selTypOption" class="text-danger"></span>
                     </div>
-                  </div>
-                </div>
-                <div class="form-group col-sm-3" style="margin-right:0px; padding-right:0px">
-                    <div class="col-sm-4">
-                        <label for="rate">Density</label>
-                        <div>
-                            <input class="form-control" asp-for="density" id="rate" type="text" />
-                        </div>
+                    <div class="form-group col-sm-3" style="width:150px;">
+                        <label for="ddlFert">Fertilizer</label>
+                            <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions,"Id","Value"))" id="ddlFert">
+                                <option>select</option>
+                            </select>
+                        <span asp-validation-for="selFertOption" class="text-danger"></span>
                     </div>
-                    <div class="col-sm-8">
-                        <div style="display:table; width:100%">
-                        <div style="display:table-row">
-                            <label for="ddlDensity">Units</label>
-                            <select class="form-control" asp-for="selDensityUnitOption" asp-items="@(new SelectList(Model.densityUnitOptions,"Id","Value"))" id="ddlDensity"></select>
-                        </div>
-                        <div style="display:table-row">
-                        </div>
-                    </div>
-                    </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="form-group">
-                  <div class="title">Provide Application Details</div>
-                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:150px">
-                        <label for="rate">Injection Rate</label>
-                        <div>
-                            <input class="form-control" asp-for="injectionRate" id="rate" type="text" />
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-3" style="margin-left:0px; padding-left:0px">
-                        <div style="display:table; width:100%">
-                            <div style="display:table-row">
-                                <label for="ddlRate">Units</label>
-                                <select class="form-control" asp-for="selInjectionRateUnitOption" asp-items="@(new SelectList(Model.injectionRateUnitOptions,"Id","Value"))" id="ddlRate"></select>
-                            </div>
-                            <div style="display:table-row">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px">
-                        <label for="rate">Proposed Number of Fertigation Per Season</label>
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
+                        <label for="rate">Product Rate</label>
                         <div>
                             <input class="form-control" id="rate" type="text" />
                         </div>
                     </div>
+                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px">
+                        <div style="display:table; width:100%">
+                            <div style="display:table-row">
+                                <label for="ddlRate" style="text-align: center; display: block;">Units</label>
+                                <select class="form-control" asp-for="selProductRateUnitOption" asp-items="@(new SelectList(Model.productRateUnitOptions,"Id","Value"))" id="ddlRate">
+                                    <option>select</option>
+                                </select>
+                            </div>
+                        <div style="display:table-row"></div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
+                        <label for="rate">Density</label>
+                        <div>
+                            <input class="form-control" id="rate" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px">
+                        <div style="display:table; width:100%">
+                            <div style="display:table-row">
+                                <label for="ddlDensity" style="text-align: center; display: block;">Units</label>
+                                <select class="form-control" asp-for="selDensityUnitOption" asp-items="@(new SelectList(Model.densityUnitOptions,"Id","Value"))" id="ddlDensity">
+                                    <option>select</option>
+                                </select>
+                            </div>
+                        <div style="display:table-row"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div style="margin-top: 20px;"></div> 
+
+            <div class="row">
+                <div class="form-group">
+                    <h4 class="title" style="margin-bottom: 15px;">Provide Application Details</h4>
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
+                        <label for="rate">Injection Rate</label>
+                        <div>
+                            <input class="form-control" id="rate" type="text" />
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-2" style="margin-left:0px; padding-left:0px">
+                        <div style="display:table; width:100%">
+                                <label for="ddlRate" style="text-align: center; display: block;">Units</label>
+                                <select class="form-control" asp-for="selInjectionRateUnitOption" asp-items="@(new SelectList(Model.injectionRateUnitOptions,"Id","Value"))" id="ddlRate">
+                                    <option>select</option>
+                                </select>
+                        </div>
+                    </div>
                     <div class="form-group col-sm-4">
-                        <label for="ddlMan">Fertigation Scheduling</label>
-                        <select class="form-control" id="ddlMan">
-                            <option>select</option>
-                        </select>
+                        <label for="rate">Proposed Number of Fertigation Per Season</label>
+                        <div>
+                            <input class="form-control" id="eventsPerSeason" type="text" asp-for="eventsPerSeason" style="width:100px" />
+                        </div>
                     </div>
                     <div class="form-group col-sm-3">
-                      <div class="input-group">
-                          <input class="form-control" asp-for="applDate" id="applDate" type="date" />
-                      </div>
-                      <span asp-validation-for="applDate" class="text-danger"></span>
+                        <label for="ddlMan">Fertigation Scheduling</label>
+                        <select class="form-control" id="ddlMan" style="width:100%">
+                            <option>select</option>
+                        </select>
+                        <div class="mt-2">
+                            <div class="input-group">
+                                <input class="form-control" asp-for="applDate" id="applDate" type="date" style="width:100%" />
+                            </div>
+                            <span asp-validation-for="applDate" class="text-danger"></span>
+                        </div>
                     </div>
-                  </div>
-                  <div style="clear:both"></div>
-                  <div id="btnGrp">
-                    <span class="pull-right">
-                      <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-                      <button type="submit" class="btn btn-primary" id="calc_button">Calculate</button>   
-                    </span>
-                  </div>
                 </div>
-              </div>
+            </div>
+            <div style="clear:both"></div>
+            <div class="row" style="padding-bottom: 15px; text-align: right">
+                <button class="btn" type="button" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="calc_button" style="margin-left: 5px">Calculate</button>   
+            </div>
+            
 <!-- ********************************************  /Input Section> / <Calculated Results ********************************************* -->
-              <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0" />
+            <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0; margin-top: 5px;" />
               
               <div class="row">
                 <div class="form-group">
@@ -148,10 +143,9 @@
                 </div>
               </div>
               <div class="row">
-                <div class="form-group">
-                  <div class="form-group col-sm-3d" style="margin:5px">
-                    <div class="form-group col-sm-3">
-                      <div class="Table">
+                <div class="form-group" style="display:flex; justify-content:space-between; width:90%">
+                  <div class="form-group col-sm-3" style="margin:5px">
+                    <div class="Table">
                           <div class="Title">
                               <p>Applied Nutrients Per Fetigation (lb/ac)</p>
                           </div>
@@ -211,7 +205,7 @@
                   <div class="form-group col-sm-3" style="margin:5px">
                       <div class="Table">
                           <div class="Title">
-                              <p>Applied Nutrients Per Fetigation (lb/ac)</p>
+                              <p>Still Required This Year (lbs/ac)</p>
                           </div>
                           <div class="Heading">
                               <div class="Cell">
@@ -238,9 +232,9 @@
                         </div>
                       </div>
                   </div>
-                </div>
               </div>
             </div>
+        </div>
 
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
@@ -248,7 +242,6 @@
         </div>
         @Html.HiddenFor(x => x.fieldName)
         @Html.HiddenFor(x => x.selFertOption)
-    </form>
 </div>
 
 <script>
