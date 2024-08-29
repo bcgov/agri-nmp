@@ -17,22 +17,23 @@
                     <h4 class="title" style="margin-bottom: 15px;">Provide Product Details</h4>
                     <div class="form-group col-sm-3" style="width:150px;">
                         <label for="ddlTyp">Fertilizer Type</label>
-                            <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
-                                <option>select</option>
-                            </select>
-                            <span asp-validation-for="selTypOption" class="text-danger"></span>
+                        <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
+                            <option value="">select</option>
+                        </select>
+                        <span asp-validation-for="selTypOption" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-3" style="width:150px;">
                         <label for="ddlFert">Fertilizer</label>
-                            <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions,"Id","Value"))" id="ddlFert">
-                                <option>select</option>
-                            </select>
+                        <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions,"Id","Value"))" id="ddlFert">
+                            <option value="">select</option>
+                        </select>
                         <span asp-validation-for="selFertOption" class="text-danger"></span>
                     </div>
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="rate">Product Rate</label>
                         <div>
                             <input class="form-control" asp-for="productRate" id="rate" type="text" />
+                            <span asp-validation-for="productRate" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px">
@@ -42,14 +43,15 @@
                                 <select class="form-control" asp-for="selProductRateUnitOption" asp-items="@(new SelectList(Model.productRateUnitOptions,"Id","Value"))" id="ddlProdRate">
                                     <option>select</option>
                                 </select>
+                                <span asp-validation-for="selProductRateUnitOption" class="text-danger"></span>
                             </div>
-                        <div style="display:table-row"></div>
                         </div>
                     </div>
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
-                        <label for="rate">Density</label>
+                        <label for="density">Density</label>
                         <div>
-                            <input class="form-control" asp-for="density" id="rate" type="text" />
+                            <input class="form-control" asp-for="density" id="density" type="text" />
+                            <span asp-validation-for="density" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px">
@@ -57,10 +59,10 @@
                             <div style="display:table-row">
                                 <label for="ddlDensity" style="text-align: center; display: block;">Units</label>
                                 <select class="form-control" asp-for="selDensityUnitOption" asp-items="@(new SelectList(Model.densityUnitOptions,"Id","Value"))" id="ddlDensity">
-                                    <option>select</option>
+                                    <option value="">select</option>
                                 </select>
+                                <span asp-validation-for="selDensityUnitOption" class="text-danger"></span>
                             </div>
-                        <div style="display:table-row"></div>
                         </div>
                     </div>
                 </div>
@@ -72,30 +74,34 @@
                 <div class="form-group">
                     <h4 class="title" style="margin-bottom: 15px;">Provide Application Details</h4>
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
-                        <label for="rate">Injection Rate</label>
+                        <label for="injectionRate">Injection Rate</label>
                         <div>
-                            <input class="form-control" asp-for="injectionRate" id="rate" type="text" />
+                            <input class="form-control" asp-for="injectionRate" id="injectionRate" type="text" />
+                            <span asp-validation-for="injectionRate" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-2" style="margin-left:0px; padding-left:0px">
                         <div style="display:table; width:100%">
-                                <label for="ddlInjRate" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="selInjectionRateUnitOption" asp-items="@(new SelectList(Model.injectionRateUnitOptions,"Id","Value"))" id="ddlInjRate">
-                                    <option>select</option>
-                                </select>
+                            <label for="ddlInjRate" style="text-align: center; display: block;">Units</label>
+                            <select class="form-control" asp-for="selInjectionRateUnitOption" asp-items="@(new SelectList(Model.injectionRateUnitOptions,"Id","Value"))" id="ddlInjRate">
+                                <option value="">select</option>
+                            </select>
+                            <span asp-validation-for="selInjectionRateUnitOption" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label for="rate">Proposed Number of Fertigation Per Season</label>
+                        <label for="eventsPerSeason">Proposed Number of Fertigation Per Season</label>
                         <div>
                             <input class="form-control" id="eventsPerSeason" type="text" asp-for="eventsPerSeason" style="width:100px" />
+                            <span asp-validation-for="eventsPerSeason" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="ddlMan">Fertigation Scheduling</label>
-                        <select class="form-control" id="ddlMan" style="width:100%">
-                            <option>select</option>
+                        <select class="form-control" id="ddlMan" style="width:100%" asp-for="selFertSchedOption">
+                            <option value="">select</option>
                         </select>
+                        <span asp-validation-for="selFertSchedOption" class="text-danger"></span>
                         <div class="mt-2">
                             <div class="input-group">
                                 <input class="form-control" asp-for="applDate" id="applDate" type="date" style="width:100%" />
@@ -108,7 +114,7 @@
             <div style="clear:both"></div>
             <div class="row" style="padding-bottom: 15px; text-align: right">
                 <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" id="calc_button" style="margin-left: 5px">Calculate</button>   
+                <button type="submit" class="btn btn-primary" id="calc_button" name="buttonPressed" value="Calculate" style="margin-left: 5px">Calculate</button>   
             </div>
             
 

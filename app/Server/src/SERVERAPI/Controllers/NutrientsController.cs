@@ -461,6 +461,21 @@ namespace SERVERAPI.Controllers
 
             try
             {
+                if (fgvm.buttonPressed == "Calculate")
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        FertigationDetailsSetup(ref fgvm);
+                        return PartialView(fgvm);
+                    }   
+
+                    // Calculation logic will be implemented here by Adam and the t
+                    // As of now, clear the model state until that ticket is implemented
+                    ModelState.Clear();
+                    fgvm.btnText = "Add to Field";
+                    FertigationDetailsSetup(ref fgvm); // go back to the setup, somewhat recursive
+                    return PartialView(fgvm);
+                }
                 if (fgvm.buttonPressed == "ResetDensity")
                 {
                     ModelState.Clear();
@@ -639,7 +654,7 @@ namespace SERVERAPI.Controllers
                         {
                             if (!ft.Custom)
                             {
-                                if (fgvm.density != _sd.GetLiquidFertilizerDensity(fgvm.selFertOption, fgvm.selDensityUnitOption).Value.ToString("#.##"))
+                                if (fgvm.density != _sd.GetLiquidFertilizerDensity(fgvm.selFertOption ?? 0, fgvm.selDensityUnitOption ?? 0).Value.ToString("#.##"))
                                 {
                                     fgvm.stdDensity = false;
                                 }
@@ -650,7 +665,7 @@ namespace SERVERAPI.Controllers
                             }
                         }
 
-                        var fertilizerNutrients = _calculateFertilizerNutrients.GetFertilizerNutrients(fgvm.selFertOption,
+                        var fertilizerNutrients = _calculateFertilizerNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
                                 fgvm.fertilizerType,
                                 Convert.ToDecimal(fgvm.productRate),
                                 Convert.ToInt32(fgvm.selProductRateUnitOption),
@@ -743,7 +758,7 @@ namespace SERVERAPI.Controllers
             NutrientFertilizer nf = new NutrientFertilizer()
             {
                 fertilizerTypeId = Convert.ToInt32(fgvm.selTypOption),
-                fertilizerId = fgvm.selFertOption,
+                fertilizerId = fgvm.selFertOption ?? 0,
                 applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption),
                 applRate = Convert.ToDecimal(fgvm.productRate),
                 applDate = string.IsNullOrEmpty(fgvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fgvm.applDate),
@@ -764,7 +779,7 @@ namespace SERVERAPI.Controllers
         {
             NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fgvm.fieldName, fgvm.id.Value);
             nf.fertilizerTypeId = Convert.ToInt32(fgvm.selTypOption);
-            nf.fertilizerId = fgvm.selFertOption;
+            nf.fertilizerId = fgvm.selFertOption ?? 0;
             nf.applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption);
             nf.applRate = Convert.ToDecimal(fgvm.productRate);
             nf.applDate = string.IsNullOrEmpty(fgvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fgvm.applDate);
