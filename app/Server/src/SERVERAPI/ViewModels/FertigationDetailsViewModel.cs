@@ -16,44 +16,71 @@ namespace SERVERAPI.ViewModels
         public string cropName { get; set; }
         public string buttonPressed { get; set; }
         public string fieldArea { get; set; }
+
         //fetilizer type
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selTypOption { get; set; } // the selected fertilizer type
-        public int selFertOption { get; set; } // the selected 
+        [Required(ErrorMessage = "Required")]
+        public int? selFertOption { get; set; } // the selected 
         public string fertilizerType { get; set; }
         public string currUnit { get; set; }
         public List<SelectListItem> typOptions { get; set; }
         public List<SelectListItem> fertilizers { get; set; }
+
         //fertilizer
         public List<SelectListItem> FertigationList { get; set; }
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public List<SelectListItem> fertOptions { get; set; }
+
         //product rate
         [Required(ErrorMessage = "Required")]
         [Range(1, 9999, ErrorMessage = "Required")]
         public string selProductRateUnitOption { get; set; }
         public string selProductRateUnitOptionText { get; set; }
         public List<SelectListItem> productRateUnitOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public string productRate { get; set; }
+
         //density
         //density unit
-        public int selDensityUnitOption { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public int? selDensityUnitOption { get; set; }
         public List<SelectListItem> densityUnitOptions { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public string density { get; set; }
         public bool stdDensity { get; set; }
+
         //injection rate
         //injection unit
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public string injectionRate { get; set; }
+        [Required(ErrorMessage = "Required")]
         public string selInjectionRateUnitOption { get; set; }
+        [Required(ErrorMessage = "Required")]
         public string selInjectionRateUnitOptionText { get; set; }
         public List<SelectListItem> injectionRateUnitOptions { get; set; }
+
         //#of fertigations per season
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
         public int eventsPerSeason { get; set; }
+
         //fertigation scheduling
+        [Required(ErrorMessage = "Required")]
+        public string selFertSchedOption { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public int selApplPeriod { get; set; }
         public List<SelectListItem> applPeriod { get; set; }
+
         //start date
+        [Required(ErrorMessage = "Required")]
         public string applDate { get; set; }
         public bool manualEntry { get; set; }
         //calculated
