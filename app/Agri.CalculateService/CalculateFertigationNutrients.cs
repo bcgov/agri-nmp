@@ -4,6 +4,7 @@ using System.Linq;
 using Agri.Data;
 using Agri.Models.Calculate;
 using Agri.Models.Configuration;
+using Newtonsoft.Json;
 
 namespace Agri.CalculateService
 {
@@ -17,10 +18,10 @@ namespace Agri.CalculateService
         private readonly IAgriConfigurationRepository _sd;
         private readonly Fertigation _fd;
 
-        public CalculateFertigationNutrients(Fertigation fd, IAgriConfigurationRepository sd)
+        public CalculateFertigationNutrients( IAgriConfigurationRepository sd)
         {
             _sd = sd;
-            _fd = fd;
+            _fd = GetFertigationData();
         }
 
         // This processing detemines the N P K values in lb per acre for the fertilizer select and appricatio rate/density etc.
@@ -50,7 +51,7 @@ namespace Agri.CalculateService
             decimal densityInSelectedUnit = 0;
             decimal densityUnitConversion = 0;
 
-            Fertilizer _fertilizer = this.getFertilizer(FertilizerId);
+            Fertilizer _fertilizer = getFertilizer(FertilizerId);
 
             if (customFertilizer && fertilizerType == "dry" || !customFertilizer && _fertilizer.DryLiquid == "dry")
             {
@@ -76,13 +77,13 @@ namespace Agri.CalculateService
             {
                 FertilizerUnit _fU = _sd.GetFertilizerUnit(applicationRateUnits);
                 applicationRateConversion = _fU.ConversionToImperialGallonsPerAcre;
-                if (customFertilizer)
+                //if (customFertilizer)
                     densityInSelectedUnit = density;
-                else
-                {
-                    LiquidFertilizerDensity _lfd = this.GetLiquidFertilizerDensity(FertilizerId, densityUnits);
-                    densityInSelectedUnit = _lfd.Value;
-                }
+                // else
+                // {
+                //     LiquidFertilizerDensity _lfd = GetLiquidFertilizerDensity(FertilizerId, densityUnits);
+                //     densityInSelectedUnit = _lfd.Value;
+                // }
                 DensityUnit _du = _sd.GetDensityUnit(densityUnits);
                 densityUnitConversion = _du.ConvFactor * densityInSelectedUnit;
             }
@@ -95,9 +96,9 @@ namespace Agri.CalculateService
         }
 
         private Fertilizer getFertilizer(int id){
-            return _fd.Fertilizers.Single(fert => fert.Id == id);
+            //return _fd.Fertilizers.Single(fert => fert.Id == id);
 
-            /*
+            
             List<Fertilizer> fertilizers = _fd.Fertilizers;
             foreach (var fert in fertilizers){
                 if(fert.Id == id){
@@ -105,12 +106,19 @@ namespace Agri.CalculateService
                 }
             }
             return _fd.Fertilizers[0];
-            */
+            
             
         }
 
-        private LiquidFertilizerDensity GetLiquidFertilizerDensity( int id, int densityUnit){
-            return _fd.LiquidFertilizerDensities.Single(density => density.FertilizerId == id);
+        private LiquidFertilizerDensity GetLiquidFertilizerDensity( int id, int densityUnitId){
+            return _fd.LiquidFertilizerDensities.Single(density => density.FertilizerId == id && density.DensityUnitId == densityUnitId);
+        }
+
+        private Fertigation GetFertigationData()
+        {
+            var filePath = "../../../Agri.Data/SeedData/FertigationData.json";
+            var jsonData = System.IO.File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<Fertigation>(jsonData);
         }
     }
 }

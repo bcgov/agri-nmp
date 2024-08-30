@@ -408,6 +408,13 @@
     });
 
     $(document).ready(function () {
+        $("body").on("change", "#ddlProdRate", function () {
+            $('#buttonPressed').val("ProductUnitChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
         $("body").on("change", "#ddlAppl", function () {
             $('#buttonPressed').val("ApplChange");
             $("#modForm").submit();

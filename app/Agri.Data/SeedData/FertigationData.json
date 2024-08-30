@@ -685,40 +685,49 @@
   ],
   "ProductRateUnits": [
     {
-      "Id": 1,
+      "Id": 5,
       "Name": "US gallon/ac",
       "StaticDataVersionId": 14
     },
     {
-      "Id": 2,
+      "Id": 3,
       "Name": "L/ac",
       "StaticDataVersionId": 14
     },
     {
-      "Id": 3,
+      "Id": 4,
       "Name": "Imp. gallon/ac",
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 6,
+      "Name": "L/ha",
       "StaticDataVersionId": 14
     }
   ],
   "DensityUnits": [
     {
       "Id": 1,
-      "Name": "lb/US gallon",
+      "Name": "kg/US gallon",
+      "ConvFactor": 2.65,
       "StaticDataVersionId": 14
     },
     {
       "Id": 2,
-      "Name": "lb/Imp. Gallon",
+      "Name": "kg/L",
+      "ConvFactor": 10.02,
       "StaticDataVersionId": 14
     },
     {
       "Id": 3,
-      "Name": "kg/L",
+      "Name": "lb/imp. gallon",
+      "ConvFactor": 1,
       "StaticDataVersionId": 14
     },
     {
       "Id": 4,
-      "Name": "kg/US gallon",
+      "Name": "lb/US gallon",
+      "ConvFactor": 1.2,
       "StaticDataVersionId": 14
     }
   ],

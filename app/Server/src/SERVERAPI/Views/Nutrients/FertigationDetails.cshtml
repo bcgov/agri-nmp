@@ -41,7 +41,7 @@
                             <div style="display:table-row">
                                 <label for="ddlProdRate" style="text-align: center; display: block;">Units</label>
                                 <select class="form-control" asp-for="selProductRateUnitOption" asp-items="@(new SelectList(Model.productRateUnitOptions,"Id","Value"))" id="ddlProdRate">
-                                    <option>select</option>
+                                    <option value="">select</option>
                                 </select>
                                 <span asp-validation-for="selProductRateUnitOption" class="text-danger"></span>
                             </div>
@@ -112,7 +112,7 @@
             <div style="clear:both"></div>
             <div class="row" style="padding-bottom: 15px; text-align: right">
                 <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
+            <button type="submit" class="btn btn-primary" id="calc_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>Calculate</button>
             </div>
             
 
@@ -193,15 +193,15 @@
                                   <p>K<sub>2</sub>O</p>
                               </div>
                           </div>
-                          <div class="Row">
+                          <div class="Row">@* Temporarily val. need to switch back to calcTotal *@
                               <div class="Cell" style="text-align:center">
-                                @Model.calcTotalN
+                                @Model.valN
                               </div>
                               <div class="Cell" style="text-align:center">
-                                @Model.calcTotalP2o5
+                                @Model.valP2o5
                               </div>
                               <div class="Cell" style="text-align:center">
-                                @Model.calcTotalK2o
+                                @Model.valK2o
                               </div>
                           </div>
                       </div>
@@ -245,6 +245,24 @@
         </div>
         @Html.HiddenFor(x => x.fieldName)
         @Html.HiddenFor(x => x.selFertOption)
+        @Html.HiddenFor(x => x.buttonPressed)
+
+        @Html.HiddenFor(x => x.valN)
+        @Html.HiddenFor(x => x.valP2o5)
+        @Html.HiddenFor(x => x.valK2o)
+        @Html.HiddenFor(x => x.calcN)
+        @Html.HiddenFor(x => x.calcP2o5)
+        @Html.HiddenFor(x => x.calcK2o)
+        @Html.HiddenFor(x => x.stdDensity)
+        @Html.HiddenFor(x => x.totK2o)
+        @Html.HiddenFor(x => x.totKIcon)
+        @Html.HiddenFor(x => x.totKIconText)
+        @Html.HiddenFor(x => x.totN)
+        @Html.HiddenFor(x => x.totNIcon)
+        @Html.HiddenFor(x => x.totNIconText)
+        @Html.HiddenFor(x => x.totP2o5)
+        @Html.HiddenFor(x => x.totPIcon)
+        @Html.HiddenFor(x => x.totPIconText)
     </form>
 </div>
 
