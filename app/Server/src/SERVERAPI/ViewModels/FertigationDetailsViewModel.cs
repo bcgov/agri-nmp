@@ -72,15 +72,11 @@ namespace SERVERAPI.ViewModels
         public int eventsPerSeason { get; set; }
 
         //fertigation scheduling
-        [Required(ErrorMessage = "Required")]
         public string selFertSchedOption { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
         public int selApplPeriod { get; set; }
         public List<SelectListItem> applPeriod { get; set; }
 
         //start date
-        [Required(ErrorMessage = "Required")]
         public string applDate { get; set; }
         public bool manualEntry { get; set; }
         //calculated
@@ -106,6 +102,9 @@ namespace SERVERAPI.ViewModels
         public string calcN { get; set; }
         public string calcP2o5 { get; set; }
         public string calcK2o { get; set; }
+        public string calcTotalN { get; set; }
+        public string calcTotalK2o { get; set; }
+        public string calcTotalP2o5 { get; set; }
 
         public string totPIcon { get; set; }
         public string totKIcon { get; set; }

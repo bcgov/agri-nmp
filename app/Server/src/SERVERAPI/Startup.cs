@@ -1,5 +1,6 @@
 using Agri.CalculateService;
 using Agri.Data;
+using Agri.Models.Configuration;
 using Agri.Models.Settings;
 using AutoMapper;
 using FluentValidation.AspNetCore;
@@ -144,9 +145,11 @@ namespace SERVERAPI
             services.AddScoped<UserData>();
             services.AddTransient<BrowserData>();
             services.AddScoped<IAgriConfigurationRepository, AgriConfigurationRepository>();
+            services.AddScoped<Fertigation>();
             services.AddTransient<ICalculateAnimalRequirement, CalculateAnimalRequirement>();
             services.AddTransient<ICalculateCropRequirementRemoval, CalculateCropRequirementRemoval>();
             services.AddTransient<ICalculateFertilizerNutrients, CalculateFertilizerNutrients>();
+            services.AddTransient<ICalculateFertigationNutrients, CalculateFertigationNutrients>();
             services.AddTransient<ICalculateManureGeneration, CalculateManureGeneration>();
             services.AddTransient<ICalculateNutrients, CalculateNutrients>();
             services.AddTransient<IChemicalBalanceMessage, ChemicalBalanceMessage>();

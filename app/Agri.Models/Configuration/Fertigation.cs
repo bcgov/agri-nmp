@@ -18,6 +18,7 @@ namespace Agri.Models.Configuration
         public List<ProductRateUnit> ProductRateUnits { get; set; }
         public List<DensityUnit> DensityUnits { get; set; }
         public List<InjectionRateUnit> InjectionRateUnits { get; set; }
+        public List<FertilizerUnit> FertilizerUnit { get; set; }
 
     }
 }

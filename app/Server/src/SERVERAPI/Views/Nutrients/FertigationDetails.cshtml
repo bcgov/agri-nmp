@@ -93,7 +93,7 @@
                         <label for="eventsPerSeason">Proposed Number of Fertigation Per Season</label>
                         <div>
                             <input class="form-control" id="eventsPerSeason" type="text" asp-for="eventsPerSeason" style="width:100px" />
-                            <span asp-validation-for="eventsPerSeason" class="text-danger"></span>
+                            <span asp-validation-for="eventsPerSeason" class="text-danger" value=1></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
@@ -101,12 +101,10 @@
                         <select class="form-control" id="ddlMan" style="width:100%" asp-for="selFertSchedOption">
                             <option value="">select</option>
                         </select>
-                        <span asp-validation-for="selFertSchedOption" class="text-danger"></span>
                         <div class="mt-2">
                             <div class="input-group">
                                 <input class="form-control" asp-for="applDate" id="applDate" type="date" style="width:100%" />
                             </div>
-                            <span asp-validation-for="applDate" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -114,7 +112,7 @@
             <div style="clear:both"></div>
             <div class="row" style="padding-bottom: 15px; text-align: right">
                 <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary" id="calc_button" name="buttonPressed" value="Calculate" style="margin-left: 5px">Calculate</button>   
+            <button type="submit" class="btn btn-primary" id="ok_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>@Model.btnText</button>
             </div>
             
 
@@ -168,13 +166,13 @@
                           </div>
                           <div class="Row">
                               <div class="Cell" style="text-align:center">
-                                0
+                                @Model.calcN
                               </div>
                               <div class="Cell" style="text-align:center">
-                                0
+                                @Model.calcP2o5
                               </div>
                               <div class="Cell" style="text-align:center">
-                                0
+                                @Model.calcK2o
                               </div>
                           </div>
                       </div>
@@ -197,13 +195,13 @@
                           </div>
                           <div class="Row">
                               <div class="Cell" style="text-align:center">
-                                0
+                                @Model.calcTotalN
                               </div>
                               <div class="Cell" style="text-align:center">
-                                0
+                                @Model.calcTotalP2o5
                               </div>
                               <div class="Cell" style="text-align:center">
-                                0
+                                @Model.calcTotalK2o
                               </div>
                           </div>
                       </div>
@@ -226,13 +224,13 @@
                           </div>
                           <div class="Row">
                               <div class="Cell" style="text-align:center">
-                                0
+                                @Model.totN
                               </div>
                               <div class="Cell" style="text-align:center">
-                                0
+                                @Model.totP2o5
                               </div>
                               <div class="Cell" style="text-align:center">
-                                0
+                                @Model.totK2o
                               </div>
                           </div>
                         </div>
