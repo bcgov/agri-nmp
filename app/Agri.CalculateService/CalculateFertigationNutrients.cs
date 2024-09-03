@@ -110,9 +110,6 @@ namespace Agri.CalculateService
             
         }
 
-        private LiquidFertilizerDensity GetLiquidFertilizerDensity( int id, int densityUnitId){
-            return _fd.LiquidFertilizerDensities.Single(density => density.FertilizerId == id && density.DensityUnitId == densityUnitId);
-        }
 
         private Fertigation GetFertigationData()
         {
