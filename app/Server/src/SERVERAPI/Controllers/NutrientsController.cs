@@ -13,6 +13,7 @@ using SERVERAPI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 using System.IO;
 using Newtonsoft.Json;
 using Agri.Models;
@@ -675,6 +676,9 @@ namespace SERVERAPI.Controllers
                      //       }
                      //   }
                     //
+                        // date for use in fertigation scheduling, if needed and if in yyyy-mm-dd format
+                        fgvm.applDate = string.IsNullOrEmpty(fgvm.applDate) ? null : DateTime.ParseExact(fgvm.applDate, "m/d/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+ 
                         var fertilizerNutrients = _calculateFertigationNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
                                 fgvm.fertilizerType,
                                 Convert.ToDecimal(fgvm.productRate),

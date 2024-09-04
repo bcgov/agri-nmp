@@ -75,6 +75,8 @@ namespace SERVERAPI.ViewModels
         public List<SelectListItem> applPeriod { get; set; }
 
         //start date
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:m/d/yyyy}", ApplyFormatInEditMode = true)]
         public string applDate { get; set; }
         public bool manualEntry { get; set; }
         //calculated

@@ -97,7 +97,10 @@
                         </select>
                         <div class="mt-2">
                             <div class="input-group">
-                                <input class="form-control" asp-for="applDate" id="applDate" type="date" style="width:100%" />
+                                <input class="form-control" asp-for="applDate" id="applDate" type="text" style="width:100%" />
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -264,15 +267,29 @@
 </div>
 
 <script>
-        $(document).ready(function () {
-
-            $('#applDate').datepicker({
-                useCurrent: true,
-                autoPick: false,
-                format: "dd-M-yyyy",
-                startView: 1,
-                minViewMode: 1,
-                autoclose: true
+    $(document).ready(function () {
+        $('#applDate').datepicker({
+            format: "m/d/yyyy",
+            autoclose: true,
+            todayHighlight: true,
+            clearBtn: true,
+            startView: 0,
+            minViewMode: 0,
+            startDate: new Date(), // have to check fertigation scheduling logic if this is correct
+            endDate: '+10y',
+            defaultViewDate: new Date() 
+        }).on('changeDate', function(e) {
+            $('#applDate').val(e.format('m/d/yyyy'));
         });
+
+        // existing date formating, may need to be changed/reviewed when looking at fertigation scheduling
+        var existingDate = $('#applDate').val();
+        if (existingDate) {
+            var dateParts = existingDate.split('-');
+            if (dateParts.length === 3) {
+                var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
+                $('#applDate').datepicker('setDate', date);
+            }
+        }
     });
 </script>
