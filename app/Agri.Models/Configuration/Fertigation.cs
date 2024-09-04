@@ -20,6 +20,7 @@ namespace Agri.Models.Configuration
         public List<DensityUnit> DensityUnits { get; set; }
         public List<InjectionRateUnit> InjectionRateUnits { get; set; }
         public List<FertilizerUnit> FertilizerUnit { get; set; }
+        public List<Scheduling> Schedules { get; set; } 
 
         public LiquidFertilizerDensity GetLiquidFertilizerDensity( int id, int densityUnitId){
             return LiquidFertilizerDensities.Single(density => density.FertilizerId == id && density.DensityUnitId == densityUnitId);

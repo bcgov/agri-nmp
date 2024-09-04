@@ -92,8 +92,8 @@
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="ddlMan">Fertigation Scheduling</label>
-                        <select class="form-control" id="ddlMan" style="width:100%" asp-for="selFertSchedOption">
-                            <option value="">select</option>
+                        <select class="form-control" id="ddlMan" style="width:100%" asp-for="selFertSchedOption" asp-items="@(new SelectList(Model.applPeriod,"Id","Value"))">
+                            <option>select</option>
                         </select>
                         <div class="mt-2">
                             <div class="input-group">
@@ -117,28 +117,34 @@
               
               <div class="row">
                 <div class="form-group">
-                  <div class="form-group col-sm-4">
-                      <div class="input-group">
+                  <div class="form-group col-sm-4" style="display:flex; align-items: center;">
+                      <div>
                           <label >
                               Total Product Volume per fertigation
                           </label>
-                          <input class="form-control" type="text" />
+                          <div class="Cell" style="text-align:center">
+                            @Model.totProductVolPerFert
+                          </div>
                       </div>
                   </div>
                   <div class="form-group col-sm-4">
-                      <div class="input-group">
+                      <div>
                           <label >
                               Total product volume per growing season
                           </label>
-                          <input class="form-control" type="text" />
+                          <div class="Cell" style="text-align:center">
+                            @Model.totProductVolPerSeason
+                          </div>
                       </div>
                   </div>
                   <div class="form-group col-sm-4">
-                      <div class="input-group">
+                      <div>
                           <label >
                               Fertigation Time (Minutes)
                           </label>
-                          <input class="form-control" type="text" />
+                          <div class="Cell" style="text-align:center">
+                            @Model.fertigationTime
+                          </div>
                       </div>
                   </div>
                 </div>
@@ -243,6 +249,7 @@
         @Html.HiddenFor(x => x.fieldName)
         @Html.HiddenFor(x => x.selFertOption)
         @Html.HiddenFor(x => x.buttonPressed)
+        @Html.HiddenFor(x => x.selFertSchedOption)
 
         @Html.HiddenFor(x => x.valN)
         @Html.HiddenFor(x => x.valP2o5)
@@ -263,6 +270,10 @@
         @Html.HiddenFor(x => x.totP2o5)
         @Html.HiddenFor(x => x.totPIcon)
         @Html.HiddenFor(x => x.totPIconText)
+
+        @Html.HiddenFor(x => x.fertigationTime)
+        @Html.HiddenFor(x => x.totProductVolPerFert)
+        @Html.HiddenFor(x => x.totProductVolPerSeason)
     </form>
 </div>
 

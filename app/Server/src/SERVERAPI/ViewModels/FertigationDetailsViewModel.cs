@@ -39,7 +39,7 @@ namespace SERVERAPI.ViewModels
         public string selProductRateUnitOptionText { get; set; }
         public List<SelectListItem> productRateUnitOptions { get; set; }
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+        [Range(1, 9999.99, ErrorMessage = "Required")]
         public string productRate { get; set; }
 
         //density
@@ -56,7 +56,7 @@ namespace SERVERAPI.ViewModels
         //injection rate
         //injection unit
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+        [Range(1, 9999.99, ErrorMessage = "Required")]
         public string injectionRate { get; set; }
         [Required(ErrorMessage = "Required")]
         public string selInjectionRateUnitOption { get; set; }
@@ -66,8 +66,8 @@ namespace SERVERAPI.ViewModels
 
         //#of fertigations per season
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
-        public int eventsPerSeason { get; set; }
+        [Range(1, 9999.99, ErrorMessage = "Required")]
+        public decimal eventsPerSeason { get; set; }
 
         //fertigation scheduling
         public string selFertSchedOption { get; set; }
@@ -116,5 +116,8 @@ namespace SERVERAPI.ViewModels
         public string totPIconText { get; set; }
         public string totKIconText { get; set; }
 
+        public decimal fertigationTime { get; set;}
+        public decimal totProductVolPerFert { get; set;}
+        public decimal totProductVolPerSeason { get; set;}
     }
 }

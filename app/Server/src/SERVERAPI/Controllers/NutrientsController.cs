@@ -343,6 +343,10 @@ namespace SERVERAPI.Controllers
             fgvm.totPIcon = "";
             fgvm.totKIcon = "";
 
+            fgvm.fertigationTime = 0.0M;
+            fgvm.totProductVolPerFert = 0.0M;
+            fgvm.totProductVolPerSeason = 0.0M;
+
             fgvm.eventsPerSeason = 1;
             fgvm.applDate = DateTime.Now.ToShortDateString();
         }
@@ -422,6 +426,7 @@ namespace SERVERAPI.Controllers
             fgvm.productRateUnitOptions = GetOptionsList(_fg.ProductRateUnits);
             fgvm.injectionRateUnitOptions = GetOptionsList(_fg.InjectionRateUnits);
             fgvm.densityUnitOptions = GetOptionsList(_fg.DensityUnits);
+            fgvm.applPeriod = GetOptionsList(_fg.Schedules);
             FertigationDetailSetup_Fertilizer(ref fgvm);
         }
 
@@ -676,7 +681,7 @@ namespace SERVERAPI.Controllers
                      //       }
                      //   }
                     //
-                        // date for use in fertigation scheduling, if needed and if in yyyy-mm-dd format
+                        // date for use in fertigation scheduling, if needed and if in yyyy-mm-dd format for later calcs
                         fgvm.applDate = string.IsNullOrEmpty(fgvm.applDate) ? null : DateTime.ParseExact(fgvm.applDate, "m/d/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
  
                         var fertilizerNutrients = _calculateFertigationNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
@@ -689,11 +694,53 @@ namespace SERVERAPI.Controllers
                                 Convert.ToDecimal(fgvm.valP2o5),
                                 Convert.ToDecimal(fgvm.valK2o),
                                 fgvm.manualEntry);
+                                
+                        
+                        Field field = _ud.GetFieldDetails(fgvm.fieldName);
+                        FertilizerUnit _fU = _sd.GetFertilizerUnit(Convert.ToInt32(fgvm.selProductRateUnitOption));
+                        decimal convertedProductRate = Convert.ToDecimal(fgvm.productRate) * _fU.ConversionToImperialGallonsPerAcre;
 
+                        //Total Product Volume per fertigation
+                        fgvm.totProductVolPerFert =  Math.Round((field.Area * convertedProductRate), 2); // convert to int/string? Error messages?
+
+                        // Total product volume per growing season calc
+                        // Product Rate x Fertigation area x fert per season 
+                        fgvm.totProductVolPerSeason = Math.Round((field.Area * convertedProductRate * fgvm.eventsPerSeason), 2); // convert to int/string? Error messages?
+
+                        decimal injectionRateConversion = 0;
+                        ConversionFactor _cf = _sd.GetConversionFactor();
+                        switch (fgvm.selInjectionRateUnitOption)
+                        {
+                            //US gallon/min
+                            //1 Imperial gallons per minute to gallon/minute = 1.20095 gallon/minute
+                            case "1":
+                                //injectionRateConversion = _cf.
+                                injectionRateConversion = 1.20095M;
+                                break;
+
+                            //L/min
+                            //1 Imperial gallons per minute to litre/minute = 4.54609 litre/minute
+                            case "2":
+                                injectionRateConversion = 4.54609M;
+                                break;
+
+                            //Imp gallon.min
+                            case "3":
+                                injectionRateConversion = 1;
+                                break;
+                        }
+
+                        //Fertigation time 
+                        //volumePerFertigation / (injectionRate / conversionFactor)
+                        decimal fertTimeVal = Convert.ToDecimal(fgvm.totProductVolPerFert) / (Convert.ToDecimal(fgvm.injectionRate) / injectionRateConversion);
+                        fgvm.fertigationTime = Math.Round(fertTimeVal, 2); 
+                        
+                        //Applied nutrients per fertigation  
                         fgvm.calcN = Convert.ToInt32(fertilizerNutrients.fertilizer_N).ToString();
                         fgvm.calcP2o5 = Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5).ToString();
                         fgvm.calcK2o = Convert.ToInt32(fertilizerNutrients.fertilizer_K2O).ToString();
 
+                        //Total Applied Nutrients
                         fgvm.calcTotalN = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_N) * Convert.ToInt32(fgvm.eventsPerSeason));
                         fgvm.calcTotalK2o = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5) * Convert.ToInt32(fgvm.eventsPerSeason));
                         fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_K2O) * Convert.ToInt32(fgvm.eventsPerSeason));
