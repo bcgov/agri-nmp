@@ -15,14 +15,14 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <h4 class="title" style="margin-bottom: 15px;">Provide Product Details</h4>
-                    <div class="form-group col-sm-3" style="width:150px;">
+                    <div class="form-group col-sm-3" style="width:200px;">
                         <label for="ddlTyp">Fertilizer Type</label>
                         <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
                             <option value="">select</option>
                         </select>
                         <span asp-validation-for="selTypOption" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-3" style="width:150px;">
+                    <div class="form-group col-sm-3" style="width:200px;">
                         <label for="ddlFert">Fertilizer</label>
                         <select class="form-control" asp-for="selFertOption" asp-items="@(new SelectList(Model.fertOptions,"Id","Value"))" id="ddlFert">
                             <option value="">select</option>
@@ -96,11 +96,11 @@
                             <option>select</option>
                         </select>
                         <div class="mt-2">
-                            <div class="input-group">
+                            <div class="input-group date">
                                 <input class="form-control" asp-for="applDate" id="applDate" type="text" style="width:100%" />
-                                <div class="input-group-append">
+                                <label class="input-group-addon" for="applDate">
                                     <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                </div>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -247,6 +247,7 @@
             <button type="submit" class="btn btn-primary" id="submit_button">Add to Field</button>
         </div>
         @Html.HiddenFor(x => x.fieldName)
+        @Html.HiddenFor(x => x.title)
         @Html.HiddenFor(x => x.selFertOption)
         @Html.HiddenFor(x => x.buttonPressed)
         @Html.HiddenFor(x => x.selFertSchedOption)
