@@ -92,7 +92,7 @@
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="ddlMan">Fertigation Scheduling</label>
-                        <select class="form-control" id="ddlMan" style="width:100%" asp-for="selFertSchedOption" asp-items="@(new SelectList(Model.applPeriod,"Id","Value"))">
+                        <select class="form-control" id="ddlApplPeriod" style="width:100%" asp-for="selFertSchedOption" asp-items="@(new SelectList(Model.applPeriod,"Id","Value"))">
                             <option>select</option>
                         </select>
                         <div class="mt-2">

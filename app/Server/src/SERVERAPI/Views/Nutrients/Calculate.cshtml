@@ -421,6 +421,13 @@
         })
     });
 
+$(document).ready(function () {
+        $("body").on("change", "#ddlApplPeriod", function () {
+            $('#buttonPressed').val("ApplPeriodChange");
+            $("#modForm").submit();
+        })
+    });
+
     $(document).ready(function () {
         $("body").on("change", "#ddlCrop", function () {
             $('#buttonPressed').val("CropChange");
