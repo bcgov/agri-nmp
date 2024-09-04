@@ -3,7 +3,6 @@ using Agri.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Agri.Models.Configuration;
-using FertigationData.Json;
 
 namespace SERVERAPI.ViewModels
 {
@@ -30,8 +29,7 @@ namespace SERVERAPI.ViewModels
 
         //fertilizer
         public List<SelectListItem> FertigationList { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+
         public List<SelectListItem> fertOptions { get; set; }
 
         //product rate
@@ -51,7 +49,7 @@ namespace SERVERAPI.ViewModels
         public int? selDensityUnitOption { get; set; }
         public List<SelectListItem> densityUnitOptions { get; set; }
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+        [Range(1, 9999.99, ErrorMessage = "Required")]
         public string density { get; set; }
         public bool stdDensity { get; set; }
 
@@ -62,7 +60,7 @@ namespace SERVERAPI.ViewModels
         public string injectionRate { get; set; }
         [Required(ErrorMessage = "Required")]
         public string selInjectionRateUnitOption { get; set; }
-        [Required(ErrorMessage = "Required")]
+        
         public string selInjectionRateUnitOptionText { get; set; }
         public List<SelectListItem> injectionRateUnitOptions { get; set; }
 
@@ -116,26 +114,5 @@ namespace SERVERAPI.ViewModels
         public string totPIconText { get; set; }
         public string totKIconText { get; set; }
 
-    }
-}
-
-namespace FertigationData.Json
-{
-    public class FertigationData
-    {
-      public int Id { get; set; }
-      public string Name { get; set; }
-      public string DryLiquid { get; set; }
-      public string Nitrogen { get; set; }
-      public string Phosphorous { get; set; }
-      public string Potassium { get; set; }
-      public int SortNum { get; set; }
-      public string LiquidFertilizerDensities { get; set; }
-      public int StaticDataVersionId { get; set; }
-    }
-
-    public class FertigationList
-    {
-      public List<Fertilizer> Fertilizers { get; set; }
     }
 }
