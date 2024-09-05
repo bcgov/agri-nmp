@@ -708,13 +708,11 @@ namespace SERVERAPI.Controllers
                         fgvm.totProductVolPerSeason = Math.Round((field.Area * convertedProductRate * fgvm.eventsPerSeason), 2); // convert to int/string? Error messages?
 
                         decimal injectionRateConversion = 0;
-                        ConversionFactor _cf = _sd.GetConversionFactor();
                         switch (fgvm.selInjectionRateUnitOption)
                         {
                             //US gallon/min
                             //1 Imperial gallons per minute to gallon/minute = 1.20095 gallon/minute
                             case "1":
-                                //injectionRateConversion = _cf.
                                 injectionRateConversion = 1.20095M;
                                 break;
 
@@ -731,7 +729,6 @@ namespace SERVERAPI.Controllers
                         }
 
                         //Fertigation time 
-                        //volumePerFertigation / (injectionRate / conversionFactor)
                         decimal fertTimeVal = Convert.ToDecimal(fgvm.totProductVolPerFert) / (Convert.ToDecimal(fgvm.injectionRate) / injectionRateConversion);
                         fgvm.fertigationTime = Math.Round(fertTimeVal, 2); 
                         
@@ -758,6 +755,7 @@ namespace SERVERAPI.Controllers
                             FertigationUpdate(fgvm);
                         }
 
+                        //Still required this year
                         FertigationStillRequired(ref fgvm);
                         if (fgvm.id == null)
                         {
