@@ -685,40 +685,49 @@
   ],
   "ProductRateUnits": [
     {
-      "Id": 1,
+      "Id": 5,
       "Name": "US gallon/ac",
       "StaticDataVersionId": 14
     },
     {
-      "Id": 2,
+      "Id": 3,
       "Name": "L/ac",
       "StaticDataVersionId": 14
     },
     {
-      "Id": 3,
+      "Id": 4,
       "Name": "Imp. gallon/ac",
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 6,
+      "Name": "L/ha",
       "StaticDataVersionId": 14
     }
   ],
   "DensityUnits": [
     {
       "Id": 1,
-      "Name": "lb/US gallon",
+      "Name": "kg/US gallon",
+      "ConvFactor": 2.65,
       "StaticDataVersionId": 14
     },
     {
       "Id": 2,
-      "Name": "lb/Imp. Gallon",
+      "Name": "kg/L",
+      "ConvFactor": 10.02,
       "StaticDataVersionId": 14
     },
     {
       "Id": 3,
-      "Name": "kg/L",
+      "Name": "lb/imp. gallon",
+      "ConvFactor": 1,
       "StaticDataVersionId": 14
     },
     {
       "Id": 4,
-      "Name": "kg/US gallon",
+      "Name": "lb/US gallon",
+      "ConvFactor": 1.2,
       "StaticDataVersionId": 14
     }
   ],
@@ -739,4 +748,93 @@
       "StaticDataVersionId": 14
     }
   ]
+  ,
+"FertilizerUnits": [
+	{
+		"Id" : 1,
+		"Name" : "lb/ac",
+		"DryLiquid" : "dry",
+		"ConversionToImperialGallonsPerAcre" : 0.0,
+		"FarmRequiredNutrientsStdUnitsConversion" : 0.4535923700,
+		"FarmRequiredNutrientsStdUnitsAreaConversion" : 1.0,
+		"StaticDataVersionId" : 14
+	},
+	{
+		"Id" : 2,
+		"Name" : "kg/ha",
+		"DryLiquid" : "dry",
+		"ConversionToImperialGallonsPerAcre" : 0.0,
+		"FarmRequiredNutrientsStdUnitsConversion" : 1.0,
+		"FarmRequiredNutrientsStdUnitsAreaConversion" : 0.4046856422,
+		"StaticDataVersionId" : 14
+	},
+	{
+		"Id" : 3,
+		"Name" : "L/ac",
+		"DryLiquid" : "liquid",
+		"ConversionToImperialGallonsPerAcre" : 0.219969157,
+		"FarmRequiredNutrientsStdUnitsConversion" : 0.2641720523,
+		"FarmRequiredNutrientsStdUnitsAreaConversion" : 1.0,
+		"StaticDataVersionId" : 14
+	},
+	{
+		"Id" : 4,
+		"Name" : "imp. gallons/ac",
+		"DryLiquid" : "liquid",
+		"ConversionToImperialGallonsPerAcre" : 1.0,
+		"FarmRequiredNutrientsStdUnitsConversion" : 1.2009499255,
+		"FarmRequiredNutrientsStdUnitsAreaConversion" : 1.0,
+		"StaticDataVersionId" : 14
+	},
+	{
+		"Id" : 5,
+		"Name" : "US gallons/ac",
+		"DryLiquid" : "liquid",
+		"ConversionToImperialGallonsPerAcre" : 0.83267384,
+		"FarmRequiredNutrientsStdUnitsConversion" : 1.0,
+		"FarmRequiredNutrientsStdUnitsAreaConversion" : 1.0,
+		"StaticDataVersionId" : 14
+	},
+	{
+		"Id" : 6,
+		"Name" : "L/ha",
+		"DryLiquid" : "liquid",
+		"ConversionToImperialGallonsPerAcre" : 0.0890183597,
+		"FarmRequiredNutrientsStdUnitsConversion" : 0.2641720523,
+		"FarmRequiredNutrientsStdUnitsAreaConversion" : 0.4046856422,
+		"StaticDataVersionId" : 14
+	},
+	{
+		"Id" : 7,
+		"Name" : "lb/1000ft²",
+		"DryLiquid" : "dry",
+		"ConversionToImperialGallonsPerAcre" : 0.0,
+		"FarmRequiredNutrientsStdUnitsConversion" : 0.4535923700,
+		"FarmRequiredNutrientsStdUnitsAreaConversion" : 43.56000000001,
+		"StaticDataVersionId" : 14
+	}
+],
+"Schedules": [
+  {
+    "Id": 1,
+    "Name": "Monthly",
+    "StaticDataVersionId": 14
+  },
+  {
+    "Id": 2,
+    "Name": "Biweekly",
+    "StaticDataVersionId": 14
+  },
+  {
+    "Id": 3,
+    "Name": "Weekly",
+    "StaticDataVersionId": 14
+  },
+  {
+    "Id": 4,
+    "Name": "Daily",
+    "StaticDataVersionId": 14
+  }
+]
+
 }

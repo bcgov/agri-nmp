@@ -3,7 +3,6 @@ using Agri.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Agri.Models.Configuration;
-using FertigationData.Json;
 
 namespace SERVERAPI.ViewModels
 {
@@ -30,8 +29,7 @@ namespace SERVERAPI.ViewModels
 
         //fertilizer
         public List<SelectListItem> FertigationList { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+
         public List<SelectListItem> fertOptions { get; set; }
 
         //product rate
@@ -41,7 +39,7 @@ namespace SERVERAPI.ViewModels
         public string selProductRateUnitOptionText { get; set; }
         public List<SelectListItem> productRateUnitOptions { get; set; }
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+        [Range(1, 9999.99, ErrorMessage = "Required")]
         public string productRate { get; set; }
 
         //density
@@ -51,36 +49,34 @@ namespace SERVERAPI.ViewModels
         public int? selDensityUnitOption { get; set; }
         public List<SelectListItem> densityUnitOptions { get; set; }
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+        [Range(1, 9999.99, ErrorMessage = "Required")]
         public string density { get; set; }
         public bool stdDensity { get; set; }
 
         //injection rate
         //injection unit
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+        [Range(1, 9999.99, ErrorMessage = "Required")]
         public string injectionRate { get; set; }
         [Required(ErrorMessage = "Required")]
         public string selInjectionRateUnitOption { get; set; }
-        [Required(ErrorMessage = "Required")]
+        
         public string selInjectionRateUnitOptionText { get; set; }
         public List<SelectListItem> injectionRateUnitOptions { get; set; }
 
         //#of fertigations per season
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
-        public int eventsPerSeason { get; set; }
+        [Range(1, 9999.99, ErrorMessage = "Required")]
+        public decimal eventsPerSeason { get; set; }
 
         //fertigation scheduling
-        [Required(ErrorMessage = "Required")]
         public string selFertSchedOption { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
         public int selApplPeriod { get; set; }
         public List<SelectListItem> applPeriod { get; set; }
 
         //start date
-        [Required(ErrorMessage = "Required")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:m/d/yyyy}", ApplyFormatInEditMode = true)]
         public string applDate { get; set; }
         public bool manualEntry { get; set; }
         //calculated
@@ -106,6 +102,9 @@ namespace SERVERAPI.ViewModels
         public string calcN { get; set; }
         public string calcP2o5 { get; set; }
         public string calcK2o { get; set; }
+        public string calcTotalN { get; set; }
+        public string calcTotalK2o { get; set; }
+        public string calcTotalP2o5 { get; set; }
 
         public string totPIcon { get; set; }
         public string totKIcon { get; set; }
@@ -117,26 +116,8 @@ namespace SERVERAPI.ViewModels
         public string totPIconText { get; set; }
         public string totKIconText { get; set; }
 
-    }
-}
-
-namespace FertigationData.Json
-{
-    public class FertigationData
-    {
-      public int Id { get; set; }
-      public string Name { get; set; }
-      public string DryLiquid { get; set; }
-      public string Nitrogen { get; set; }
-      public string Phosphorous { get; set; }
-      public string Potassium { get; set; }
-      public int SortNum { get; set; }
-      public string LiquidFertilizerDensities { get; set; }
-      public int StaticDataVersionId { get; set; }
-    }
-
-    public class FertigationList
-    {
-      public List<Fertilizer> Fertilizers { get; set; }
+        public decimal fertigationTime { get; set;}
+        public decimal totProductVolPerFert { get; set;}
+        public decimal totProductVolPerSeason { get; set;}
     }
 }

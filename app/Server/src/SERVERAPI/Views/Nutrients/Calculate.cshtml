@@ -386,8 +386,44 @@
     });
 
     $(document).ready(function () {
+        $("body").on("change", "#injectionRate", function () {
+            $('#buttonPressed').val("InjectionChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("change", "#ddlInjRate", function () {
+            $('#buttonPressed').val("InjectionChange");
+            $("#modForm").submit();
+        })
+    });
+
+    
+    $(document).ready(function () {
+        $("body").on("change", "#productRate", function () {
+            $('#buttonPressed').val("ProductChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("change", "#ddlProdRate", function () {
+            $('#buttonPressed').val("ProductUnitChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
         $("body").on("change", "#ddlAppl", function () {
             $('#buttonPressed').val("ApplChange");
+            $("#modForm").submit();
+        })
+    });
+
+$(document).ready(function () {
+        $("body").on("change", "#ddlApplPeriod", function () {
+            $('#buttonPressed').val("ApplPeriodChange");
             $("#modForm").submit();
         })
     });
@@ -430,6 +466,13 @@
     $(document).ready(function () {
         $("body").on("click", "#rstDensity", function () {
             $('#buttonPressed').val("ResetDensity");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("click", "#calc_button", function () {
+            $('#buttonPressed').val("Calculate");
             $("#modForm").submit();
         })
     });
