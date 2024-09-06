@@ -478,6 +478,12 @@ $(document).ready(function () {
     });
 
     $(document).ready(function () {
+        $("body").on("click", "#submit_button", function () {
+            $('#buttonPressed').val("Add to Field");
+            $("#modForm").submit();
+        })
+    });
+    $(document).ready(function () {
         $("body").on("click", "#rstYield", function () {
             $('#buttonPressed').val("ResetYield");
             $("#modForm").submit();

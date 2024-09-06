@@ -765,8 +765,8 @@ namespace SERVERAPI.Controllers
                         {
                             _ud.UpdateFieldNutrientsFertilizer(fgvm.fieldName, origFertilizer);
                         }
-                    } /*
-                    else
+                    }
+                    else if (fgvm.buttonPressed == "Add to Field") // may need to add update field here as well
                     {
                         if (fgvm.id == null)
                         {
@@ -776,9 +776,8 @@ namespace SERVERAPI.Controllers
                         {
                             FertigationUpdate(fgvm);
                         }
-                        return Json(ReDisplay("#fertilizer", fgvm.fieldName));
+                        return Json(new { success = true, reload = true });
                     }
-                    */
                 }
             }
             catch (Exception ex)
