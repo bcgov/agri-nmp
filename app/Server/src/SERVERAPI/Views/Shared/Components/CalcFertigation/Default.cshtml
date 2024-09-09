@@ -1,12 +1,12 @@
-﻿@model CalcFertilizerViewModel
-@if (Model.fldFertilizers.Count > 0 && !Model.fldFertilizers.Any(f => f.isFertigation))
+@model CalcFertigationViewModel
+@if (Model.fldFertilizers.Count > 0 && Model.fldFertilizers.Any(f => f.isFertigation))
 {
     <div class="Row">
         <div class="Cell2">
             <div class="Table" style="width:100%">
                 <div class="TableBody">
                     <div class="Row">
-                        <div class="Cell2"><b>Fertilizer</b></div>
+                        <div class="Cell2"><b>Fertigation</b></div>
                     </div>
                 </div>
             </div>

@@ -119,5 +119,7 @@ namespace SERVERAPI.ViewModels
         public decimal fertigationTime { get; set;}
         public decimal totProductVolPerFert { get; set;}
         public decimal totProductVolPerSeason { get; set;}
+
+        public bool isFertigation { get; set; }
     }
 }

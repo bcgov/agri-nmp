@@ -262,6 +262,7 @@ namespace SERVERAPI.Controllers
               title = id == null ? "Add" : "Edit",
               btnText = id == null ? "Add to Field" : "Update Field",
               id = id,
+              isFertigation = true 
             };
 
             if (id != null){
@@ -467,6 +468,7 @@ namespace SERVERAPI.Controllers
             decimal nmbrK = 0;
             int addedId = 0;
             NutrientFertilizer origFertilizer = new NutrientFertilizer();
+            origFertilizer.isFertigation = true;
 
             //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
@@ -847,7 +849,8 @@ namespace SERVERAPI.Controllers
                 fertP2o5 = Convert.ToDecimal(fgvm.calcP2o5),
                 fertK2o = Convert.ToDecimal(fgvm.calcK2o),
                 liquidDensity =  Convert.ToDecimal(fgvm.density),
-                liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption)
+                liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
+                isFertigation = true
             };
 
             return _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf);
@@ -1356,6 +1359,7 @@ namespace SERVERAPI.Controllers
             decimal nmbrK = 0;
             int addedId = 0;
             NutrientFertilizer origFertilizer = new NutrientFertilizer();
+            origFertilizer.isFertigation = false;
 
             //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
