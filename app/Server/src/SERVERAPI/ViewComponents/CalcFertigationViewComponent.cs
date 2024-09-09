@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace SERVERAPI.ViewComponents
 {
@@ -12,11 +13,13 @@ namespace SERVERAPI.ViewComponents
     {
         private IAgriConfigurationRepository _sd;
         private Models.Impl.UserData _ud;
+        private Fertigation _fd;
 
         public CalcFertigationViewComponent(IAgriConfigurationRepository sd, Models.Impl.UserData ud)
         {
             _sd = sd;
             _ud = ud;
+            _fd = GetFertigationData();
         }
 
         public async Task<IViewComponentResult> InvokeAsync(string fldName)
@@ -44,7 +47,7 @@ namespace SERVERAPI.ViewComponents
                 }
                 else
                 {
-                    Fertilizer ff = _sd.GetFertilizer(f.fertilizerId.ToString());
+                    Fertilizer ff = GetFertigationFertilizer(f.fertilizerId);
                     fertilizerName = ff.Name;
                 }
 
@@ -61,6 +64,17 @@ namespace SERVERAPI.ViewComponents
             }
 
             return Task.FromResult(fgvm);
+        }
+        public Fertigation GetFertigationData()
+        {
+            var filePath = "../../../Agri.Data/SeedData/FertigationData.json";
+            var jsonData = System.IO.File.ReadAllText(filePath);
+            return JsonConvert.DeserializeObject<Fertigation>(jsonData);
+        }
+        private Fertilizer GetFertigationFertilizer(int id)
+        {
+            List<Fertilizer> fertilizers = _fd.Fertilizers;
+            return fertilizers.Find(x => x.Id == id);
         }
     }
     public class CalcFertigationViewModel

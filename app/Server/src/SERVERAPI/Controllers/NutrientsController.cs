@@ -1797,6 +1797,11 @@ namespace SERVERAPI.Controllers
             return ViewComponent("CalcFertilizer", new { fldName = fieldName });
         }
 
+        public IActionResult RefreshFertigationList(string fieldName)
+        {
+            return ViewComponent("CalcFertigation", new { fldName = fieldName });
+        }
+
         public IActionResult RefreshFieldList(string fieldName)
         {
             return RedirectToAction("Calculate", "Nutrients", new { nme = fieldName });
@@ -2165,6 +2170,10 @@ namespace SERVERAPI.Controllers
 
                 case "#fertilizer":
                     refresher = "RefreshFertilizerList";
+                    break;
+
+                case "#fertigation":
+                    refresher = "RefreshFertigationList";
                     break;
 
                 case "#prevYearManure":
