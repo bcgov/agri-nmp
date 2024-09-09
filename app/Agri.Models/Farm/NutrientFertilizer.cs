@@ -19,5 +19,7 @@ namespace Agri.Models.Farm
         public decimal fertK2o { get; set; }
         public decimal liquidDensity { get; set; }
         public int liquidDensityUnitId { get; set; }
+        public int eventsPerSeason { get; set; }
+        public bool isFertigation { get; set; }
     }
 }
