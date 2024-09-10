@@ -4,6 +4,8 @@ using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+
 
 namespace SERVERAPI.ViewComponents
 {
@@ -30,7 +32,7 @@ namespace SERVERAPI.ViewComponents
             fvm.fldFertilizers = new List<DisplayNutrientFertilizer>();
 
             List<NutrientFertilizer> fldFertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
-            foreach (var f in fldFertilizers)
+            foreach (var f in fldFertilizers.Where(f => !f.isFertigation))
             {
                 DisplayNutrientFertilizer dm = new DisplayNutrientFertilizer();
 

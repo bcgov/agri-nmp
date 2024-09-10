@@ -17,6 +17,7 @@ using System.Globalization;
 using System.IO;
 using Newtonsoft.Json;
 using Agri.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace SERVERAPI.Controllers
 {
@@ -262,7 +263,7 @@ namespace SERVERAPI.Controllers
               title = id == null ? "Add" : "Edit",
               btnText = id == null ? "Add to Field" : "Update Field",
               id = id,
-              isFertigation = true 
+              isFertigation = true
             };
 
             if (id != null){
@@ -281,7 +282,7 @@ namespace SERVERAPI.Controllers
                 fgvm.calcK2o = nf.fertK2o.ToString();
                 if (nf.applDate.HasValue)
                 {
-                    fgvm.applDate = nf.applDate.HasValue ? nf.applDate.Value.ToString("MMM-yyyy") : "";
+                    fgvm.applDate = nf.applDate.Value.Date;
                 }
                 fgvm.density = nf.liquidDensity.ToString("#.##");
                 fgvm.selDensityUnitOption = nf.liquidDensityUnitId;
@@ -349,7 +350,6 @@ namespace SERVERAPI.Controllers
             fgvm.totProductVolPerSeason = 0.0M;
 
             fgvm.eventsPerSeason = 1;
-            fgvm.applDate = DateTime.Now.ToShortDateString();
         }
 
         private void FertigationStillRequired(ref FertigationDetailsViewModel fgvm)
@@ -466,9 +466,10 @@ namespace SERVERAPI.Controllers
             decimal nmbrN = 0;
             decimal nmbrP = 0;
             decimal nmbrK = 0;
-            int addedId = 0;
+            List<int> addedIds = new List<int>();
             NutrientFertilizer origFertilizer = new NutrientFertilizer();
             origFertilizer.isFertigation = true;
+            origFertilizer.applDate = origFertilizer.applDate?.Date; 
 
             //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
             //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
@@ -667,6 +668,7 @@ namespace SERVERAPI.Controllers
                        // }
                         ModelState.Clear();
                         FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption.ToString());
+                        fgvm.applDate = fgvm.applDate?.Date;
 
                        // if (ft.DryLiquid == "liquid")
                       //  {
@@ -683,8 +685,6 @@ namespace SERVERAPI.Controllers
                      //       }
                      //   }
                     //
-                        // date for use in fertigation scheduling, if needed and if in yyyy-mm-dd format for later calcs
-                        fgvm.applDate = string.IsNullOrEmpty(fgvm.applDate) ? null : DateTime.ParseExact(fgvm.applDate, "m/d/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
  
                         var fertilizerNutrients = _calculateFertigationNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
                                 fgvm.fertilizerType,
@@ -696,6 +696,7 @@ namespace SERVERAPI.Controllers
                                 Convert.ToDecimal(fgvm.valP2o5),
                                 Convert.ToDecimal(fgvm.valK2o),
                                 fgvm.manualEntry);
+
                                 
                         
                         Field field = _ud.GetFieldDetails(fgvm.fieldName);
@@ -749,7 +750,7 @@ namespace SERVERAPI.Controllers
                         // temporarily update the farm data so as to recalc the Still Required amounts
                         if (fgvm.id == null)
                         {
-                            addedId = FertigationInsert(fgvm);
+                            addedIds = FertigationInsert(fgvm);
                         }
                         else
                         {
@@ -761,7 +762,10 @@ namespace SERVERAPI.Controllers
                         FertigationStillRequired(ref fgvm);
                         if (fgvm.id == null)
                         {
-                            _ud.DeleteFieldNutrientsFertilizer(fgvm.fieldName, addedId);
+                            foreach( int addedId in addedIds){
+                                _ud.DeleteFieldNutrientsFertilizer(fgvm.fieldName, addedId);
+                            }
+                            
                         }
                         else
                         {
@@ -833,27 +837,46 @@ namespace SERVERAPI.Controllers
 
         }
 
-        private int FertigationInsert(FertigationDetailsViewModel fgvm)
+        private List<int> FertigationInsert(FertigationDetailsViewModel fgvm)
         {
-            NutrientFertilizer nf = new NutrientFertilizer()
-            {
-                fertilizerTypeId = Convert.ToInt32(fgvm.selTypOption),
-                fertilizerId = fgvm.selFertOption ?? 0,
-                applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption),
-                applRate = Convert.ToDecimal(fgvm.productRate),
-                applDate = string.IsNullOrEmpty(fgvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fgvm.applDate),
-                customN = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valN) : (decimal?)null,
-                customP2o5 = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valP2o5) : (decimal?)null,
-                customK2o = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valK2o) : (decimal?)null,
-                fertN = Convert.ToDecimal(fgvm.calcN),
-                fertP2o5 = Convert.ToDecimal(fgvm.calcP2o5),
-                fertK2o = Convert.ToDecimal(fgvm.calcK2o),
-                liquidDensity =  Convert.ToDecimal(fgvm.density),
-                liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
-                isFertigation = true
-            };
+            List<int> ret = new List<int>();
+            for( int x = 0 ; x < fgvm.eventsPerSeason ; x++){
+                NutrientFertilizer nf = new NutrientFertilizer()
+                {
+                    fertilizerTypeId = Convert.ToInt32(fgvm.selTypOption),
+                    fertilizerId = fgvm.selFertOption ?? 0,
+                    applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption),
+                    applRate = Convert.ToDecimal(fgvm.productRate),
+                    applDate = getIncrementedDate(fgvm.selApplPeriod, fgvm.applDate, x),
+                    customN = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valN) : (decimal?)null,
+                    customP2o5 = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valP2o5) : (decimal?)null,
+                    customK2o = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valK2o) : (decimal?)null,
+                    fertN = Convert.ToDecimal(fgvm.calcN),
+                    fertP2o5 = Convert.ToDecimal(fgvm.calcP2o5),
+                    fertK2o = Convert.ToDecimal(fgvm.calcK2o),
+                    liquidDensity =  Convert.ToDecimal(fgvm.density),
+                    liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
+                    isFertigation = true
+                };
+                ret.Add( _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf));
+            }
+            
 
-            return _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf);
+            return ret;
+        }
+
+        public DateTime? getIncrementedDate(int incrementKey, DateTime? startingDate, int numTimes){
+            switch(incrementKey){
+                case 1:
+                    return startingDate?.AddMonths(1 * numTimes);
+                case 2:
+                    return startingDate?.AddDays(14 * numTimes);
+                case 3:
+                    return startingDate?.AddDays(7 * numTimes);
+                case 4:
+                    return startingDate?.AddDays(1 * numTimes);
+            }
+           return startingDate; 
         }
 
         private void FertigationUpdate(FertigationDetailsViewModel fgvm)
@@ -863,7 +886,7 @@ namespace SERVERAPI.Controllers
             nf.fertilizerId = fgvm.selFertOption ?? 0;
             nf.applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption);
             nf.applRate = Convert.ToDecimal(fgvm.productRate);
-            nf.applDate = string.IsNullOrEmpty(fgvm.applDate) ? (DateTime?)null : Convert.ToDateTime(fgvm.applDate);
+            nf.applDate = fgvm.applDate?.Date;
             nf.customN = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valN) : (decimal?)null;
             nf.customP2o5 = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valP2o5) : (decimal?)null;
             nf.customK2o = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valK2o) : (decimal?)null;
@@ -881,6 +904,52 @@ namespace SERVERAPI.Controllers
             var filePath = "../../../Agri.Data/SeedData/FertigationData.json";
             var jsonData = System.IO.File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<Fertigation>(jsonData);
+        }
+
+        [HttpGet]
+        public ActionResult FertigationDelete(string fldName, int id)
+        {
+            string fertilizerName = string.Empty;
+
+            FertigationDeleteViewModel fgvm = new FertigationDeleteViewModel();
+            fgvm.id = id;
+            fgvm.fldName = fldName;
+
+            NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id);
+            FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
+
+            if (ft.Custom)
+            {
+                fertilizerName = ft.DryLiquid == "dry" ? "Custom (Solid)" : "Custom (Liquid)";
+            }
+            else
+            {
+                Fertilizer ff = GetFertigationFertilizer(nf.fertilizerId);
+                fertilizerName = ff.Name;
+            }
+
+            fgvm.fertilizerName = fertilizerName;
+
+            fgvm.act = "Delete";
+
+            return PartialView("FertigationDelete", fgvm);
+        }
+
+        [HttpPost]
+        public ActionResult FertigationDelete(FertigationDeleteViewModel dvm)
+        {
+            if (ModelState.IsValid)
+            {
+                _ud.DeleteFieldNutrientsFertilizer(dvm.fldName, dvm.id);
+
+                return Json(ReDisplay("#fertigation", dvm.fldName));
+            }
+            return PartialView("FertigationDelete", dvm);
+        }
+
+        public ActionResult FertigationCalculateDates(CalculateViewModel dvm)
+        {
+            return null;
         }
 
         private void MaunureStillRequired(ref ManureDetailsViewModel mvm)
@@ -1268,7 +1337,7 @@ namespace SERVERAPI.Controllers
                 fvm.calcK2o = nf.fertK2o.ToString();
                 if (nf.applDate.HasValue)
                 {
-                    fvm.applDate = nf.applDate.HasValue ? nf.applDate.Value.ToString("MMM-yyyy") : "";
+                    fvm.applDate = nf.applDate.HasValue ? nf.applDate.Value.ToString("m/d/yyyy") : "";
                 }
                 if (ft.DryLiquid == "liquid")
                 {

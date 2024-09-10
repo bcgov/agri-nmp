@@ -66,8 +66,8 @@ namespace SERVERAPI.ViewModels
 
         //#of fertigations per season
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999.99, ErrorMessage = "Required")]
-        public decimal eventsPerSeason { get; set; }
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public int eventsPerSeason { get; set; }
 
         //fertigation scheduling
         public string selFertSchedOption { get; set; }
@@ -76,8 +76,8 @@ namespace SERVERAPI.ViewModels
 
         //start date
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:m/d/yyyy}", ApplyFormatInEditMode = true)]
-        public string applDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? applDate { get; set; }
         public bool manualEntry { get; set; }
         //calculated
         //total product volume per fertigation
