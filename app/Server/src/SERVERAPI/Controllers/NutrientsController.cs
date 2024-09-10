@@ -839,7 +839,7 @@ namespace SERVERAPI.Controllers
 
         private List<int> FertigationInsert(FertigationDetailsViewModel fgvm)
         {
-            List<int> ret = new List<int>();
+            List<int> ids = new List<int>();
             for( int x = 0 ; x < fgvm.eventsPerSeason ; x++){
                 NutrientFertilizer nf = new NutrientFertilizer()
                 {
@@ -847,7 +847,7 @@ namespace SERVERAPI.Controllers
                     fertilizerId = fgvm.selFertOption ?? 0,
                     applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption),
                     applRate = Convert.ToDecimal(fgvm.productRate),
-                    applDate = getIncrementedDate(fgvm.selApplPeriod, fgvm.applDate, x),
+                    applDate = getIncrementedDate(Int32.Parse(fgvm.selFertSchedOption), fgvm.applDate, x),
                     customN = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valN) : (decimal?)null,
                     customP2o5 = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valP2o5) : (decimal?)null,
                     customK2o = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valK2o) : (decimal?)null,
@@ -858,14 +858,15 @@ namespace SERVERAPI.Controllers
                     liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
                     isFertigation = true
                 };
-                ret.Add( _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf));
+                ids.Add( _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf));
             }
             
 
-            return ret;
+            return ids;
         }
 
         public DateTime? getIncrementedDate(int incrementKey, DateTime? startingDate, int numTimes){
+            Console.WriteLine("getIncrementedDate******", incrementKey, startingDate, numTimes);
             switch(incrementKey){
                 case 1:
                     return startingDate?.AddMonths(1 * numTimes);
