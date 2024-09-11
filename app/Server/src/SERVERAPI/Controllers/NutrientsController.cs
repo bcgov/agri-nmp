@@ -288,7 +288,7 @@ namespace SERVERAPI.Controllers
                 fgvm.selDensityUnitOption = nf.liquidDensityUnitId;
                 fgvm.eventsPerSeason = nf.eventsPerSeason;
                 fgvm.selFertSchedOption = nf.applMethodId.ToString();
-                fgvm.injectionRate = nf.injectionRate.ToString("#.##");
+                fgvm.injectionRate = nf.injectionRate.ToString("#.##"); 
                 fgvm.selInjectionRateUnitOption = nf.injectionRateUnitId.ToString();
                 if (!ft.Custom)
                 {
@@ -671,6 +671,7 @@ namespace SERVERAPI.Controllers
                        //     return PartialView(fgvm);
                        // }
                         ModelState.Clear();
+                        fgvm.buttonPressed = "";
                         FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption.ToString());
                         fgvm.applDate = fgvm.applDate?.Date;
 
@@ -778,6 +779,7 @@ namespace SERVERAPI.Controllers
                     }
                     else if (fgvm.buttonPressed == "Add to Field" || fgvm.buttonPressed == "Update Field") // may need to add update field here as well
                     {
+                        fgvm.buttonPressed = "";
                         if (fgvm.id == null)
                         {
                             FertigationInsert(fgvm);
@@ -860,17 +862,17 @@ namespace SERVERAPI.Controllers
                     fertK2o = Convert.ToDecimal(fgvm.calcK2o),
                     liquidDensity =  Convert.ToDecimal(fgvm.density),
                     liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
+                    //eventsPerSeason = fgvm.eventsPerSeason,
+                    //injectionRate =  Convert.ToDecimal(fgvm.injectionRate),
+                    //injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
                     isFertigation = true
                 };
                 ids.Add( _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf));
             }
-            
-
             return ids;
         }
 
         public DateTime? getIncrementedDate(int incrementKey, DateTime? startingDate, int numTimes){
-            Console.WriteLine("getIncrementedDate******", incrementKey, startingDate, numTimes);
             switch(incrementKey){
                 case 1:
                     return startingDate?.AddMonths(1 * numTimes);
@@ -912,10 +914,10 @@ namespace SERVERAPI.Controllers
                     fertK2o = Convert.ToDecimal(fgvm.calcK2o) / fgvm.eventsPerSeason,
                     liquidDensity = Convert.ToDecimal(fgvm.density),
                     liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
-                    isFertigation = true,
-                    eventsPerSeason = fgvm.eventsPerSeason,
-                    injectionRate = Convert.ToDecimal(fgvm.injectionRate),
-                    injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption)
+                    //eventsPerSeason = fgvm.eventsPerSeason,
+                    //injectionRate = Convert.ToDecimal(fgvm.injectionRate),
+                    //injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
+                    isFertigation = true
                 };
 
                 _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf);
@@ -963,8 +965,9 @@ namespace SERVERAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _ud.DeleteFieldNutrientsFertilizer(dvm.fldName, dvm.id);
-
+                //for( int id = dvm.id; id <= dvm.eventsPerSeason ; id++){
+                    _ud.DeleteFieldNutrientsFertilizer(dvm.fldName, dvm.id);
+              //  }
                 return Json(ReDisplay("#fertigation", dvm.fldName));
             }
             return PartialView("FertigationDelete", dvm);

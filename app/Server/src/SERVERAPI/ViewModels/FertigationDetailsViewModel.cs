@@ -55,10 +55,10 @@ namespace SERVERAPI.ViewModels
 
         //injection rate
         //injection unit
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999.99, ErrorMessage = "Required")]
+        // [Required(ErrorMessage = "Required")]
+        [Range(0, 9999.99, ErrorMessage = "Number must be < 10,000")]
         public string injectionRate { get; set; }
-        [Required(ErrorMessage = "Required")]
+        // [Required(ErrorMessage = "Required")]
         public string selInjectionRateUnitOption { get; set; }
         
         public string selInjectionRateUnitOptionText { get; set; }
@@ -70,8 +70,8 @@ namespace SERVERAPI.ViewModels
         public int eventsPerSeason { get; set; }
 
         //fertigation scheduling
-        public string selFertSchedOption { get; set; }
-        public int selApplPeriod { get; set; }
+        public string selFertSchedOption { get; set; } = "1";
+        public int selApplPeriod { get; set; } = 1;
         public List<SelectListItem> applPeriod { get; set; }
 
         //start date
