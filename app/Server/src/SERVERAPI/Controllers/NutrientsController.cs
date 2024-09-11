@@ -287,6 +287,9 @@ namespace SERVERAPI.Controllers
                 fgvm.density = nf.liquidDensity.ToString("#.##");
                 fgvm.selDensityUnitOption = nf.liquidDensityUnitId;
                 fgvm.eventsPerSeason = nf.eventsPerSeason;
+                fgvm.selFertSchedOption = nf.applMethodId.ToString();
+                fgvm.injectionRate = nf.injectionRate.ToString("#.##");
+                fgvm.selInjectionRateUnitOption = nf.injectionRateUnitId.ToString();
                 if (!ft.Custom)
                 {
                     if (fgvm.density != _fg.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).Value.ToString("#.##"))
@@ -883,23 +886,40 @@ namespace SERVERAPI.Controllers
 
         private void FertigationUpdate(FertigationDetailsViewModel fgvm)
         {
-            NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fgvm.fieldName, fgvm.id.Value);
-            nf.fertilizerTypeId = Convert.ToInt32(fgvm.selTypOption);
-            nf.fertilizerId = fgvm.selFertOption ?? 0;
-            nf.applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption);
-            nf.applRate = Convert.ToDecimal(fgvm.productRate);
-            nf.applDate = fgvm.applDate?.Date;
-            nf.customN = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valN) : (decimal?)null;
-            nf.customP2o5 = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valP2o5) : (decimal?)null;
-            nf.customK2o = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valK2o) : (decimal?)null;
-            nf.fertN = Convert.ToDecimal(fgvm.calcN);
-            nf.fertP2o5 = Convert.ToDecimal(fgvm.calcP2o5);
-            nf.fertK2o = Convert.ToDecimal(fgvm.calcK2o);
-            nf.liquidDensity = Convert.ToDecimal(fgvm.density);
-            nf.liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption);
-            nf.eventsPerSeason = fgvm.eventsPerSeason;
+            var existingFertigations = _ud.GetFieldNutrientsFertilizers(fgvm.fieldName)
+                .Where(nf => nf.id == fgvm.id || (nf.isFertigation && nf.fertilizerTypeId == Convert.ToInt32(fgvm.selTypOption)))
+                .ToList();
 
-            _ud.UpdateFieldNutrientsFertilizer(fgvm.fieldName, nf);
+            foreach (var existingFert in existingFertigations)
+            {
+                _ud.DeleteFieldNutrientsFertilizer(fgvm.fieldName, existingFert.id);
+            }
+
+            for (int x = 0; x < fgvm.eventsPerSeason; x++)
+            {
+                NutrientFertilizer nf = new NutrientFertilizer()
+                {
+                    fertilizerTypeId = Convert.ToInt32(fgvm.selTypOption),
+                    fertilizerId = fgvm.selFertOption ?? 0,
+                    applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption),
+                    applRate = Convert.ToDecimal(fgvm.productRate) / fgvm.eventsPerSeason,
+                    applDate = getIncrementedDate(Int32.Parse(fgvm.selFertSchedOption), fgvm.applDate, x),
+                    customN = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valN) : (decimal?)null,
+                    customP2o5 = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valP2o5) : (decimal?)null,
+                    customK2o = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valK2o) : (decimal?)null,
+                    fertN = Convert.ToDecimal(fgvm.calcN) / fgvm.eventsPerSeason,
+                    fertP2o5 = Convert.ToDecimal(fgvm.calcP2o5) / fgvm.eventsPerSeason,
+                    fertK2o = Convert.ToDecimal(fgvm.calcK2o) / fgvm.eventsPerSeason,
+                    liquidDensity = Convert.ToDecimal(fgvm.density),
+                    liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
+                    isFertigation = true,
+                    eventsPerSeason = fgvm.eventsPerSeason,
+                    injectionRate = Convert.ToDecimal(fgvm.injectionRate),
+                    injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption)
+                };
+
+                _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf);
+            }
         }
 
         public Fertigation GetFertigationData()

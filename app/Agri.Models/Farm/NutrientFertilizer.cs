@@ -24,5 +24,7 @@ namespace Agri.Models.Farm
         public int liquidDensityUnitId { get; set; }
         public int eventsPerSeason { get; set; }
         public bool isFertigation { get; set; }
+        public decimal injectionRate { get; set; }
+        public int injectionRateUnitId { get; set; }
     }
 }
