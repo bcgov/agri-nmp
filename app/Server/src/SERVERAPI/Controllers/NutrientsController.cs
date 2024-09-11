@@ -286,6 +286,7 @@ namespace SERVERAPI.Controllers
                 }
                 fgvm.density = nf.liquidDensity.ToString("#.##");
                 fgvm.selDensityUnitOption = nf.liquidDensityUnitId;
+                fgvm.eventsPerSeason = nf.eventsPerSeason;
                 if (!ft.Custom)
                 {
                     if (fgvm.density != _fg.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).Value.ToString("#.##"))
@@ -772,7 +773,7 @@ namespace SERVERAPI.Controllers
                             _ud.UpdateFieldNutrientsFertilizer(fgvm.fieldName, origFertilizer);
                         }
                     }
-                    else if (fgvm.buttonPressed == "Add to Field") // may need to add update field here as well
+                    else if (fgvm.buttonPressed == "Add to Field" || fgvm.buttonPressed == "Update Field") // may need to add update field here as well
                     {
                         if (fgvm.id == null)
                         {
@@ -896,6 +897,7 @@ namespace SERVERAPI.Controllers
             nf.fertK2o = Convert.ToDecimal(fgvm.calcK2o);
             nf.liquidDensity = Convert.ToDecimal(fgvm.density);
             nf.liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption);
+            nf.eventsPerSeason = fgvm.eventsPerSeason;
 
             _ud.UpdateFieldNutrientsFertilizer(fgvm.fieldName, nf);
         }
