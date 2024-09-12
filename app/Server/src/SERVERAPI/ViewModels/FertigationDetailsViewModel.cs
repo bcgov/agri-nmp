@@ -121,5 +121,6 @@ namespace SERVERAPI.ViewModels
         public decimal totProductVolPerSeason { get; set;}
 
         public bool isFertigation { get; set; }
+        public string groupID { get; set; }
     }
 }

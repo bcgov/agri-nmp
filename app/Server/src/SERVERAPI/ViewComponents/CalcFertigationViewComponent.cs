@@ -72,6 +72,7 @@ namespace SERVERAPI.ViewComponents
                 dm.date = f.applDate;
                 dm.dateAsString = f.applDate?.ToString("dd-MMM");
                 dm.fertilizerTypeId = f.fertilizerTypeId;
+                dm.groupID = f.groupID;
                 fgvm.fldFertilizers.Add(dm);
             }
 
@@ -109,5 +110,6 @@ public class DisplayNutrientFertigation
     public DateTime? date { get; set; }
     public string dateAsString { get; set; }
     public int fertilizerTypeId { get; set; }
+    public string groupID { get; set; }
 }
 }

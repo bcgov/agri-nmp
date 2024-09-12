@@ -57,7 +57,7 @@ namespace SERVERAPI.ViewComponents
                 dm.valK = f.fertK2o.ToString("G29");
                 dm.isFertigation = f.isFertigation;
                 dm.eventsPerSeason = f.eventsPerSeason;
-
+                dm.groupID = f.groupID;
                 fvm.fldFertilizers.Add(dm);
             }
 
@@ -80,5 +80,6 @@ namespace SERVERAPI.ViewComponents
         public string valK { get; set; }
         public bool isFertigation { get; set; }
         public int eventsPerSeason { get; set; }
+        public string groupID { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace SERVERAPI.ViewModels
         [Display(Name = "Fertilizer")]
         public string fertilizerName { get; set; }
         public int fertilizerTypeId { get; set; }
+        public string groupID { get; set; }
     }
 }

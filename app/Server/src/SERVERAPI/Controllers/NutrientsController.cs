@@ -263,7 +263,7 @@ namespace SERVERAPI.Controllers
               title = id == null ? "Add" : "Edit",
               btnText = id == null ? "Add to Field" : "Update Field",
               id = id,
-              isFertigation = true
+              isFertigation = true,
             };
 
             if (id != null){
@@ -846,6 +846,7 @@ namespace SERVERAPI.Controllers
         private List<int> FertigationInsert(FertigationDetailsViewModel fgvm)
         {
             List<int> ids = new List<int>();
+            String groupID = Guid.NewGuid().ToString();
             for( int x = 0 ; x < fgvm.eventsPerSeason ; x++){
                 NutrientFertilizer nf = new NutrientFertilizer()
                 {
@@ -865,7 +866,8 @@ namespace SERVERAPI.Controllers
                     //eventsPerSeason = fgvm.eventsPerSeason,
                     //injectionRate =  Convert.ToDecimal(fgvm.injectionRate),
                     //injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
-                    isFertigation = true
+                    isFertigation = true,
+                    groupID = groupID
                 };
                 ids.Add( _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf));
             }
@@ -932,7 +934,7 @@ namespace SERVERAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult FertigationDelete(string fldName, int id, int fertilizerTypeId)
+        public ActionResult FertigationDelete(string fldName, int id, string groupID)
         {
             string fertilizerName = string.Empty;
 
@@ -943,7 +945,7 @@ namespace SERVERAPI.Controllers
             NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id);
             FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
 
-            fgvm.fertilizerTypeId = fertilizerTypeId;
+            fgvm.groupID = groupID;
 
             if (ft.Custom)
             {
@@ -971,7 +973,7 @@ namespace SERVERAPI.Controllers
 
                 // have to fix the logic here to delete the correct fertigation, currently it deletes all fertigations
                 var fertigationsToDelete = _ud.GetFieldNutrientsFertilizers(dvm.fldName)
-                    .Where(nf => nf.isFertigation && nf.fertilizerTypeId == dvm.fertilizerTypeId)
+                    .Where(nf => nf.isFertigation && nf.groupID == dvm.groupID)
                     .ToList();
 
             foreach (var fertigation in fertigationsToDelete)
