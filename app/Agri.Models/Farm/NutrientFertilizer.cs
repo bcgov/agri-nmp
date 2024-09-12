@@ -26,5 +26,6 @@ namespace Agri.Models.Farm
         public bool isFertigation { get; set; }
         public decimal injectionRate { get; set; }
         public int injectionRateUnitId { get; set; }
+        public string groupID { get; set; }
     }
 }
