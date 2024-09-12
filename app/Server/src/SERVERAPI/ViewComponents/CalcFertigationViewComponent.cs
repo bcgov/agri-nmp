@@ -71,6 +71,7 @@ namespace SERVERAPI.ViewComponents
                 dm.eventsPerSeason = f.eventsPerSeason;
                 dm.date = f.applDate;
                 dm.dateAsString = f.applDate?.ToString("dd-MMM");
+                dm.fertilizerTypeId = f.fertilizerTypeId;
                 fgvm.fldFertilizers.Add(dm);
             }
 
@@ -107,5 +108,6 @@ public class DisplayNutrientFertigation
     [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? date { get; set; }
     public string dateAsString { get; set; }
+    public int fertilizerTypeId { get; set; }
 }
 }

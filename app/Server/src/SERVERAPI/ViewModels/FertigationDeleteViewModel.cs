@@ -9,6 +9,6 @@ namespace SERVERAPI.ViewModels
         public int id { get; set; }
         [Display(Name = "Fertilizer")]
         public string fertilizerName { get; set; }
-        //public int eventsPerSeason { get; set; }
+        public int fertilizerTypeId { get; set; }
     }
 }

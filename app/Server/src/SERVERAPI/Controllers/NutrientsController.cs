@@ -932,7 +932,7 @@ namespace SERVERAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult FertigationDelete(string fldName, int id)
+        public ActionResult FertigationDelete(string fldName, int id, int fertilizerTypeId)
         {
             string fertilizerName = string.Empty;
 
@@ -942,6 +942,8 @@ namespace SERVERAPI.Controllers
 
             NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id);
             FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
+
+            fgvm.fertilizerTypeId = fertilizerTypeId;
 
             if (ft.Custom)
             {
@@ -963,12 +965,21 @@ namespace SERVERAPI.Controllers
         [HttpPost]
         public ActionResult FertigationDelete(FertigationDeleteViewModel dvm)
         {
-            if (ModelState.IsValid)
+           if (ModelState.IsValid)
             {
-                //for( int id = dvm.id; id <= dvm.eventsPerSeason ; id++){
-                    _ud.DeleteFieldNutrientsFertilizer(dvm.fldName, dvm.id);
-              //  }
-                return Json(ReDisplay("#fertigation", dvm.fldName));
+                //var fertigationToDelete = _ud.GetFieldNutrientsFertilizer(dvm.fldName, dvm.id);
+
+                // have to fix the logic here to delete the correct fertigation, currently it deletes all fertigations
+                var fertigationsToDelete = _ud.GetFieldNutrientsFertilizers(dvm.fldName)
+                    .Where(nf => nf.isFertigation && nf.fertilizerTypeId == dvm.fertilizerTypeId)
+                    .ToList();
+
+            foreach (var fertigation in fertigationsToDelete)
+            {
+                _ud.DeleteFieldNutrientsFertilizer(dvm.fldName, fertigation.id);
+            }
+
+            return Json(ReDisplay("#fertigation", dvm.fldName));
             }
             return PartialView("FertigationDelete", dvm);
         }
