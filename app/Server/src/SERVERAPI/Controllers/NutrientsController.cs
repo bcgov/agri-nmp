@@ -255,7 +255,7 @@ namespace SERVERAPI.Controllers
             return PartialView(mvm);
         }
 
-        public IActionResult FertigationDetails(string fldName, int? id)
+        public IActionResult FertigationDetails(string fldName, int? id, string? groupID)
         {
             var fgvm = new FertigationDetailsViewModel()
             {
@@ -264,6 +264,7 @@ namespace SERVERAPI.Controllers
               btnText = id == null ? "Add to Field" : "Update Field",
               id = id,
               isFertigation = true,
+              groupID = groupID,
             };
 
             if (id != null){
@@ -527,13 +528,6 @@ namespace SERVERAPI.Controllers
 
                         fgvm.density = "";
 
-                        // if (fgvm.currUnit != typ.DryLiquid)
-                        // {
-                        //     fgvm.currUnit = typ.DryLiquid;
-                        //     //fgvm.productRateUnitOptions = _sd.GetFertilizerUnitsDll(fgvm.currUnit).ToList();
-                        //     fgvm.selProductRateUnitOption = fgvm.productRateUnitOptions[0].Id.ToString();
-                        //     fgvm.fertilizerType = typ.DryLiquid;
-                        // }
                         fgvm.fertilizerType = typ.DryLiquid;
                         fgvm.manualEntry = typ.Custom;
                         if (!fgvm.manualEntry)
@@ -777,7 +771,7 @@ namespace SERVERAPI.Controllers
                             _ud.UpdateFieldNutrientsFertilizer(fgvm.fieldName, origFertilizer);
                         }
                     }
-                    else if (fgvm.buttonPressed == "Add to Field" || fgvm.buttonPressed == "Update Field") // may need to add update field here as well
+                    else if (fgvm.buttonPressed == "Add to Field" || fgvm.buttonPressed == "Update Field") 
                     {
                         fgvm.buttonPressed = "";
                         if (fgvm.id == null)
@@ -863,9 +857,6 @@ namespace SERVERAPI.Controllers
                     fertK2o = Convert.ToDecimal(fgvm.calcK2o),
                     liquidDensity =  Convert.ToDecimal(fgvm.density),
                     liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
-                    //eventsPerSeason = fgvm.eventsPerSeason,
-                    //injectionRate =  Convert.ToDecimal(fgvm.injectionRate),
-                    //injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
                     isFertigation = true,
                     groupID = groupID
                 };
@@ -891,9 +882,8 @@ namespace SERVERAPI.Controllers
         private void FertigationUpdate(FertigationDetailsViewModel fgvm)
         {
             var existingFertigations = _ud.GetFieldNutrientsFertilizers(fgvm.fieldName)
-                .Where(nf => nf.id == fgvm.id || (nf.isFertigation && nf.fertilizerTypeId == Convert.ToInt32(fgvm.selTypOption)))
+                .Where(nf => nf.isFertigation && nf.groupID == fgvm.groupID)
                 .ToList();
-
             foreach (var existingFert in existingFertigations)
             {
                 _ud.DeleteFieldNutrientsFertilizer(fgvm.fieldName, existingFert.id);
@@ -906,19 +896,16 @@ namespace SERVERAPI.Controllers
                     fertilizerTypeId = Convert.ToInt32(fgvm.selTypOption),
                     fertilizerId = fgvm.selFertOption ?? 0,
                     applUnitId = Convert.ToInt32(fgvm.selProductRateUnitOption),
-                    applRate = Convert.ToDecimal(fgvm.productRate) / fgvm.eventsPerSeason,
+                    applRate = Convert.ToDecimal(fgvm.productRate),
                     applDate = getIncrementedDate(Int32.Parse(fgvm.selFertSchedOption), fgvm.applDate, x),
                     customN = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valN) : (decimal?)null,
                     customP2o5 = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valP2o5) : (decimal?)null,
                     customK2o = fgvm.manualEntry ? Convert.ToDecimal(fgvm.valK2o) : (decimal?)null,
-                    fertN = Convert.ToDecimal(fgvm.calcN) / fgvm.eventsPerSeason,
-                    fertP2o5 = Convert.ToDecimal(fgvm.calcP2o5) / fgvm.eventsPerSeason,
-                    fertK2o = Convert.ToDecimal(fgvm.calcK2o) / fgvm.eventsPerSeason,
+                    fertN = Convert.ToDecimal(fgvm.calcN),
+                    fertP2o5 = Convert.ToDecimal(fgvm.calcP2o5),
+                    fertK2o = Convert.ToDecimal(fgvm.calcK2o),
                     liquidDensity = Convert.ToDecimal(fgvm.density),
                     liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
-                    //eventsPerSeason = fgvm.eventsPerSeason,
-                    //injectionRate = Convert.ToDecimal(fgvm.injectionRate),
-                    //injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
                     isFertigation = true
                 };
 
@@ -969,9 +956,6 @@ namespace SERVERAPI.Controllers
         {
            if (ModelState.IsValid)
             {
-                //var fertigationToDelete = _ud.GetFieldNutrientsFertilizer(dvm.fldName, dvm.id);
-
-                // have to fix the logic here to delete the correct fertigation, currently it deletes all fertigations
                 var fertigationsToDelete = _ud.GetFieldNutrientsFertilizers(dvm.fldName)
                     .Where(nf => nf.isFertigation && nf.groupID == dvm.groupID)
                     .ToList();
