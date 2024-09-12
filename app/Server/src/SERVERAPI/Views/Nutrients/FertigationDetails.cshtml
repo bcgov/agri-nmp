@@ -119,8 +119,8 @@
                 <div class="form-group">
                   <div class="form-group col-sm-4" style="display:flex; align-items: center;">
                       <div>
-                          <label >
-                              Total Product Volume per fertigation
+                          <label style="text-wrap: pretty; text-align: center;">
+                              Total Product Volume per Fertigation (Imp. gal)
                           </label>
                           <div class="cell" style="text-align:center">
                             @Model.totProductVolPerFert
@@ -129,8 +129,8 @@
                   </div>
                   <div class="form-group col-sm-4" style="display:flex; align-items: center;">
                       <div>
-                          <label >
-                              Total Product Volume for Growing Season
+                          <label style="text-wrap: pretty; text-align: center;">
+                              Total Product Volume for Growing Season (Imp. gal)
                           </label>
                           <div class="cell" style="text-align:center">
                             @Model.totProductVolPerSeason
@@ -256,13 +256,14 @@
 
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="submit_button">Add to Field</button>
+            <button type="submit" class="btn btn-primary" id="submit_button" value="@Model.btnText">@Model.btnText</button>
         </div>
         @Html.HiddenFor(x => x.fieldName)
         @Html.HiddenFor(x => x.title)
         @Html.HiddenFor(x => x.selFertOption)
         @Html.HiddenFor(x => x.buttonPressed)
         @Html.HiddenFor(x => x.selFertSchedOption)
+        @Html.HiddenFor(x => x.applDate)
 
         @Html.HiddenFor(x => x.valN)
         @Html.HiddenFor(x => x.valP2o5)
@@ -291,29 +292,32 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('#applDate').datepicker({
-            format: "m/d/yyyy",
-            autoclose: true,
-            todayHighlight: true,
-            clearBtn: true,
-            startView: 0,
-            minViewMode: 0,
-            startDate: new Date(), // have to check fertigation scheduling logic if this is correct
-            endDate: '+10y',
-            defaultViewDate: new Date() 
-        }).on('changeDate', function(e) {
-            $('#applDate').val(e.format('m/d/yyyy'));
-        });
-
-        // existing date formating, may need to be changed/reviewed when looking at fertigation scheduling
-        var existingDate = $('#applDate').val();
-        if (existingDate) {
-            var dateParts = existingDate.split('-');
-            if (dateParts.length === 3) {
-                var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-                $('#applDate').datepicker('setDate', date);
-            }
-        }
+   $(document).ready(function () {
+    $('#applDate').datepicker({
+        format: "dd-M-yyyy", 
+        autoclose: true,
+        todayHighlight: true,
+        clearBtn: true,
+        startView: 0,
+        minViewMode: 0,
+        startDate: new Date(), 
+        endDate: '+10y',
+        defaultViewDate: new Date() 
+    }).on('changeDate', function(e) {
+       
+        $('#applDate').val(e.format('dd-M-yyyy'));  
     });
+
+    var existingDate = $('#applDate').val();
+    if (existingDate) {
+        var dateParts = existingDate.split('-');
+        if (dateParts.length === 3) {
+            var day = dateParts[0];
+            var month = new Date(Date.parse(dateParts[1] +" 1, 2024")).getMonth(); 
+            var year = dateParts[2];
+            var date = new Date(year, month, day); 
+            $('#applDate').datepicker('setDate', date);
+        }
+    }
+});
 </script>

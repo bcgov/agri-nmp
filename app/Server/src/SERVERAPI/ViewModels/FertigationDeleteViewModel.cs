@@ -1,14 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace SERVERAPI.ViewModels
 {
-    public class FertilizerDeleteViewModel
+    public class FertigationDeleteViewModel
     {
         public string act { get; set; }
         public string fldName { get; set; }
         public int id { get; set; }
         [Display(Name = "Fertilizer")]
         public string fertilizerName { get; set; }
-        public int? fertilizerTypeId { get; set; }
+        public int fertilizerTypeId { get; set; }
+        public string groupID { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Agri.Models.Farm
 {
@@ -9,6 +10,8 @@ namespace Agri.Models.Farm
         public int fertilizerId { get; set; }
         public int applUnitId { get; set; }
         public decimal applRate { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? applDate { get; set; }
         public int applMethodId { get; set; }
         public decimal? customN { get; set; }
@@ -19,5 +22,10 @@ namespace Agri.Models.Farm
         public decimal fertK2o { get; set; }
         public decimal liquidDensity { get; set; }
         public int liquidDensityUnitId { get; set; }
+        public int eventsPerSeason { get; set; }
+        public bool isFertigation { get; set; }
+        public decimal injectionRate { get; set; }
+        public int injectionRateUnitId { get; set; }
+        public string groupID { get; set; }
     }
 }

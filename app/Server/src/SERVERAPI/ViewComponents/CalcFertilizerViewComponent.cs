@@ -4,6 +4,8 @@ using Agri.Models.Farm;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+
 
 namespace SERVERAPI.ViewComponents
 {
@@ -30,7 +32,7 @@ namespace SERVERAPI.ViewComponents
             fvm.fldFertilizers = new List<DisplayNutrientFertilizer>();
 
             List<NutrientFertilizer> fldFertilizers = _ud.GetFieldNutrientsFertilizers(fldName);
-            foreach (var f in fldFertilizers)
+            foreach (var f in fldFertilizers.Where(f => !f.isFertigation))
             {
                 DisplayNutrientFertilizer dm = new DisplayNutrientFertilizer();
 
@@ -53,7 +55,9 @@ namespace SERVERAPI.ViewComponents
                 dm.valN = f.fertN.ToString("G29");
                 dm.valP = f.fertP2o5.ToString("G29");
                 dm.valK = f.fertK2o.ToString("G29");
-
+                dm.isFertigation = f.isFertigation;
+                dm.eventsPerSeason = f.eventsPerSeason;
+                dm.groupID = f.groupID;
                 fvm.fldFertilizers.Add(dm);
             }
 
@@ -74,5 +78,8 @@ namespace SERVERAPI.ViewComponents
         public string valN { get; set; }
         public string valP { get; set; }
         public string valK { get; set; }
+        public bool isFertigation { get; set; }
+        public int eventsPerSeason { get; set; }
+        public string groupID { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@model CalcFertilizerViewModel
-@if (Model.fldFertilizers.Count > 0)
+@if (Model.fldFertilizers.Count > 0 && !Model.fldFertilizers.Any(f => f.isFertigation))
 {
     <div class="Row">
         <div class="Cell2">

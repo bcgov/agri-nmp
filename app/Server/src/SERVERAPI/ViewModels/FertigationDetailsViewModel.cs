@@ -55,10 +55,10 @@ namespace SERVERAPI.ViewModels
 
         //injection rate
         //injection unit
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999.99, ErrorMessage = "Required")]
+        // [Required(ErrorMessage = "Required")]
+        [Range(0, 9999.99, ErrorMessage = "Number must be < 10,000")]
         public string injectionRate { get; set; }
-        [Required(ErrorMessage = "Required")]
+        // [Required(ErrorMessage = "Required")]
         public string selInjectionRateUnitOption { get; set; }
         
         public string selInjectionRateUnitOptionText { get; set; }
@@ -66,18 +66,18 @@ namespace SERVERAPI.ViewModels
 
         //#of fertigations per season
         [Required(ErrorMessage = "Required")]
-        [Range(1, 9999.99, ErrorMessage = "Required")]
-        public decimal eventsPerSeason { get; set; }
+        [Range(1, 9999, ErrorMessage = "Required")]
+        public int eventsPerSeason { get; set; }
 
         //fertigation scheduling
-        public string selFertSchedOption { get; set; }
-        public int selApplPeriod { get; set; }
+        public string selFertSchedOption { get; set; } = "1";
+        public int selApplPeriod { get; set; } = 1;
         public List<SelectListItem> applPeriod { get; set; }
 
         //start date
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:m/d/yyyy}", ApplyFormatInEditMode = true)]
-        public string applDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime? applDate { get; set; }
         public bool manualEntry { get; set; }
         //calculated
         //total product volume per fertigation
@@ -119,5 +119,8 @@ namespace SERVERAPI.ViewModels
         public decimal fertigationTime { get; set;}
         public decimal totProductVolPerFert { get; set;}
         public decimal totProductVolPerSeason { get; set;}
+
+        public bool isFertigation { get; set; }
+        public string groupID { get; set; }
     }
 }

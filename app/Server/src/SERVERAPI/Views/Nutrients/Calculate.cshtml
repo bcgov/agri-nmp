@@ -91,6 +91,9 @@
                                         <div class="TableBody" id="fertilizer">
                                             @await Component.InvokeAsync("CalcFertilizer", new { fldName = Model.currFld })
                                         </div>
+                                        <div class="TableBody" id="fertigation">
+                                            @await Component.InvokeAsync("CalcFertigation", new { fldName = Model.currFld })
+                                        </div>
                                         <div class="TableBody" id="other">
                                             @await Component.InvokeAsync("CalcOther", new { fldName = Model.currFld })
                                         </div>
@@ -477,6 +480,12 @@ $(document).ready(function () {
         })
     });
 
+    $(document).ready(function () {
+        $("body").on("click", "#submit_button", function () {
+            $('#buttonPressed').val("Add to Field");
+            $("#modForm").submit();
+        })
+    });
     $(document).ready(function () {
         $("body").on("click", "#rstYield", function () {
             $('#buttonPressed').val("ResetYield");

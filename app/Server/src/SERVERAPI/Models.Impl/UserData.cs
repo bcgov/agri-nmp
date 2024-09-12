@@ -728,24 +728,48 @@ namespace SERVERAPI.Models.Impl
                 fld.Nutrients = new Nutrients();
                 fld.Nutrients.nutrientFertilizers = new List<NutrientFertilizer>();
             }
-            else
+            else if (fld.Nutrients.nutrientFertilizers == null)
             {
-                if (fld.Nutrients.nutrientFertilizers == null)
-                {
-                    fld.Nutrients.nutrientFertilizers = new List<NutrientFertilizer>();
-                }
+                fld.Nutrients.nutrientFertilizers = new List<NutrientFertilizer>();
             }
 
             foreach (var f in fld.Nutrients.nutrientFertilizers)
             {
                 nextId = nextId <= f.id ? f.id + 1 : nextId;
             }
-            newFert.id = nextId;
 
-            fld.Nutrients.nutrientFertilizers.Add(newFert);
+            // Handle fertigation events
+            if (newFert.eventsPerSeason > 1 && newFert.isFertigation)
+            {
+                for (int i = 0; i < newFert.eventsPerSeason; i++)
+                {
+                    var fertigationEvent = new NutrientFertilizer
+                    {
+                        id = nextId + i,
+                        fertilizerTypeId = newFert.fertilizerTypeId,
+                        fertilizerId = newFert.fertilizerId,
+                        applUnitId = newFert.applUnitId,
+                        applRate = newFert.applRate / newFert.eventsPerSeason,
+                        applDate = newFert.applDate?.AddDays(i * 7), // Assuming weekly applications
+                        fertN = newFert.fertN / newFert.eventsPerSeason,
+                        fertP2o5 = newFert.fertP2o5 / newFert.eventsPerSeason,
+                        fertK2o = newFert.fertK2o / newFert.eventsPerSeason,
+                        liquidDensity = newFert.liquidDensity,
+                        liquidDensityUnitId = newFert.liquidDensityUnitId,
+                        eventsPerSeason = newFert.eventsPerSeason,
+                    };
+                    fld.Nutrients.nutrientFertilizers.Add(fertigationEvent);
+                }
+            }
+            else
+            {
+                newFert.id = nextId;
+                fld.Nutrients.nutrientFertilizers.Add(newFert);
+            }
+
             _ctx.HttpContext.Session.SetObjectAsJson("FarmData", userData);
 
-            return newFert.id;
+            return nextId;
         }
 
         public void AddFieldNutrientsOther(string fldName, NutrientOther newOther)
