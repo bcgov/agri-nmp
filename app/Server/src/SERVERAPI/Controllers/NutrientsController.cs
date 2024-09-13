@@ -842,6 +842,8 @@ namespace SERVERAPI.Controllers
                     liquidDensity =  Convert.ToDecimal(fgvm.density),
                     liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
                     isFertigation = true,
+                    injectionRate = Convert.ToDecimal(fgvm.injectionRate),
+                    injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
                     //eventsPerSeason = fgvm.eventsPerSeason,
                     groupID = groupID
                 };
@@ -901,6 +903,8 @@ namespace SERVERAPI.Controllers
                     liquidDensity = Convert.ToDecimal(fgvm.density),
                     liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
                     groupID = fgvm.groupID,
+                    injectionRate = Convert.ToDecimal(fgvm.injectionRate),
+                    injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
                     //eventsPerSeason = fgvm.eventsPerSeason,
                     isFertigation = true
                 };
