@@ -56,14 +56,6 @@ namespace SERVERAPI.ViewComponents
                 dm.fldName = fldName;
                 dm.fertilizerId = f.id;
                 dm.fertilizerName = fertilizerName;
-
-                // int startIndex = fertilizerName.IndexOf('(');
-                // int endIndex = fertilizerName.IndexOf(')');
-                // if (startIndex != -1 && endIndex != -1 && endIndex > startIndex)
-                // {
-                //     string result = fertilizerName.Substring(startIndex +1, endIndex - startIndex -1);
-                //     dm.fertilizerName = result;
-                // }
                 dm.valN = f.fertN.ToString("G29");
                 dm.valP = f.fertP2o5.ToString("G29");
                 dm.valK = f.fertK2o.ToString("G29");
