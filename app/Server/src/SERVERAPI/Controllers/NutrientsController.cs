@@ -287,7 +287,7 @@ namespace SERVERAPI.Controllers
                 }
                 fgvm.density = nf.liquidDensity.ToString("#.##");
                 fgvm.selDensityUnitOption = nf.liquidDensityUnitId;
-                fgvm.eventsPerSeason = nf.eventsPerSeason;
+                fgvm.eventsPerSeason = getNumberOfEvents(fgvm);
                 fgvm.selFertSchedOption = nf.applMethodId.ToString();
                 fgvm.injectionRate = nf.injectionRate.ToString("#.##"); 
                 fgvm.selInjectionRateUnitOption = nf.injectionRateUnitId.ToString();
@@ -483,23 +483,6 @@ namespace SERVERAPI.Controllers
 
             try
             {
-                /*
-                if (fgvm.buttonPressed == "Calculate")
-                {
-                    if (!ModelState.IsValid)
-                    {
-                        FertigationDetailsSetup(ref fgvm);
-                        return PartialView(fgvm);
-                    }   
-
-                    // Calculation logic will be implemented here by Adam and the team
-                    // As of now, clear the model state until that ticket is implemented
-                    ModelState.Clear();
-                    fgvm.btnText = "Add to Field";
-                    FertigationDetailsSetup(ref fgvm); 
-                    return PartialView(fgvm);
-                }
-                */
                 if (fgvm.buttonPressed == "ResetDensity")
                 {
                     ModelState.Clear();
@@ -858,6 +841,7 @@ namespace SERVERAPI.Controllers
                     liquidDensity =  Convert.ToDecimal(fgvm.density),
                     liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
                     isFertigation = true,
+                    //eventsPerSeason = fgvm.eventsPerSeason,
                     groupID = groupID
                 };
                 ids.Add( _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf));
@@ -877,6 +861,14 @@ namespace SERVERAPI.Controllers
                     return startingDate?.AddDays(1 * numTimes);
             }
            return startingDate; 
+        }
+
+        public int getNumberOfEvents(FertigationDetailsViewModel fgvm){
+                var fertigations = _ud.GetFieldNutrientsFertilizers(fgvm.fieldName)
+                .Where(nf => nf.isFertigation && nf.groupID == fgvm.groupID)
+                .ToList();
+
+                return fertigations.Count();
         }
 
         private void FertigationUpdate(FertigationDetailsViewModel fgvm)
@@ -906,6 +898,8 @@ namespace SERVERAPI.Controllers
                     fertK2o = Convert.ToDecimal(fgvm.calcK2o),
                     liquidDensity = Convert.ToDecimal(fgvm.density),
                     liquidDensityUnitId = Convert.ToInt32(fgvm.selDensityUnitOption),
+                    groupID = fgvm.groupID,
+                    //eventsPerSeason = fgvm.eventsPerSeason,
                     isFertigation = true
                 };
 
@@ -960,19 +954,14 @@ namespace SERVERAPI.Controllers
                     .Where(nf => nf.isFertigation && nf.groupID == dvm.groupID)
                     .ToList();
 
-            foreach (var fertigation in fertigationsToDelete)
-            {
-                _ud.DeleteFieldNutrientsFertilizer(dvm.fldName, fertigation.id);
-            }
+                foreach (var fertigation in fertigationsToDelete)
+                {
+                    _ud.DeleteFieldNutrientsFertilizer(dvm.fldName, fertigation.id);
+                }
 
-            return Json(ReDisplay("#fertigation", dvm.fldName));
+                return Json(ReDisplay("#fertigation", dvm.fldName));
             }
             return PartialView("FertigationDelete", dvm);
-        }
-
-        public ActionResult FertigationCalculateDates(CalculateViewModel dvm)
-        {
-            return null;
         }
 
         private void MaunureStillRequired(ref ManureDetailsViewModel mvm)
@@ -2026,7 +2015,7 @@ namespace SERVERAPI.Controllers
             {
                 decimal tmp = 0;
 
-                if (!(string.IsNullOrEmpty(ovm.ltN)))
+                if (!string.IsNullOrEmpty(ovm.ltN))
                 {
                     if (decimal.TryParse(ovm.ltN, out tmp))
                     {
@@ -2048,7 +2037,7 @@ namespace SERVERAPI.Controllers
                     ovm.ltN = "0";
                 }
 
-                if (!(string.IsNullOrEmpty(ovm.ltP)))
+                if (!string.IsNullOrEmpty(ovm.ltP))
                 {
                     if (decimal.TryParse(ovm.ltP, out tmp))
                     {
@@ -2070,7 +2059,7 @@ namespace SERVERAPI.Controllers
                     ovm.ltP = "0";
                 }
 
-                if (!(string.IsNullOrEmpty(ovm.ltK)))
+                if (!string.IsNullOrEmpty(ovm.ltK))
                 {
                     if (decimal.TryParse(ovm.ltK, out tmp))
 
@@ -2092,7 +2081,7 @@ namespace SERVERAPI.Controllers
                 {
                     ovm.ltK = "0";
                 }
-                if (!(string.IsNullOrEmpty(ovm.yrN)))
+                if (!string.IsNullOrEmpty(ovm.yrN))
                 {
                     if (decimal.TryParse(ovm.yrN, out tmp))
                     {
@@ -2114,7 +2103,7 @@ namespace SERVERAPI.Controllers
                     ovm.yrN = "0";
                 }
 
-                if (!(string.IsNullOrEmpty(ovm.yrP)))
+                if (!string.IsNullOrEmpty(ovm.yrP))
                 {
                     if (decimal.TryParse(ovm.yrP, out tmp))
                     {

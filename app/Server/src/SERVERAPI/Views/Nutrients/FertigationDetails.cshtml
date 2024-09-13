@@ -86,14 +86,14 @@
                     <div class="form-group col-sm-4">
                         <label for="eventsPerSeason">Proposed Number of Fertigation Per Season</label>
                         <div>
-                            <input class="form-control" id="eventsPerSeason" type="text" asp-for="eventsPerSeason" style="width:100px" />
+                            <input class="form-control" id="eventsPerSeason" type="number" min="1" asp-for="eventsPerSeason" style="width:100px" />
                             <span asp-validation-for="eventsPerSeason" class="text-danger" value=1></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
                         <label for="ddlMan">Fertigation Scheduling</label>
                         <select class="form-control" id="ddlApplPeriod" style="width:100%" asp-for="selFertSchedOption" asp-items="@(new SelectList(Model.applPeriod,"Id","Value"))">
-                            <option>select</option>
+                            <option></option>
                         </select>
                         <div class="mt-2">
                             <div class="input-group date">
@@ -196,7 +196,7 @@
                                   <p>K<sub>2</sub>O</p>
                               </div>
                           </div>
-                          <div class="Row">@* Temporarily val. need to switch back to calcTotal *@
+                          <div class="Row">
                               <div class="Cell" style="text-align:center">
                                 @Model.calcTotalN
                               </div>
@@ -230,21 +230,21 @@
                                 @if (!string.IsNullOrEmpty(Model.totNIcon))
                             {
                                 <img src="~/images/@(Model.totNIcon).svg" title="@Model.totNIconText"/>
-                        }
+                            }
                                 @Model.totN
                               </div>
                               <div class="Cell" style="text-align:center">
-                                   @if (!string.IsNullOrEmpty(Model.totPIcon))
-                            {
-                                <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
-                        }
+                                    @if (!string.IsNullOrEmpty(Model.totPIcon))
+                                    {
+                                        <img src="~/images/@(Model.totPIcon).svg" title="@Model.totPIconText" />
+                                    }
                                 @Model.totP2o5
                               </div>
                               <div class="Cell" style="text-align:center">
                                 @if (!string.IsNullOrEmpty(Model.totKIcon))
-                            {
-                                <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
-                        }
+                                {
+                                    <img src="~/images/@(Model.totKIcon).svg" title="@Model.totKIconText" />
+                                }
                                 @Model.totK2o
                               </div>
                           </div>
