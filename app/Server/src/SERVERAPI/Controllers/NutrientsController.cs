@@ -257,6 +257,7 @@ namespace SERVERAPI.Controllers
 
         public IActionResult FertigationDetails(string fldName, int? id, string? groupID)
         {
+            var thign = ModelState.IsValid;
             var fgvm = new FertigationDetailsViewModel()
             {
               fieldName = fldName,
@@ -266,9 +267,12 @@ namespace SERVERAPI.Controllers
               isFertigation = true,
               groupID = groupID,
             };
+            if(id == null){
+                ModelState.AddModelError("start", "invalid");
+            }
 
             if (id != null){
-                NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id.Value);// Not sure how this is working for fertigation. might need to change
+                NutrientFertilizer nf = _ud.GetFieldNutrientsFertilizer(fldName, id.Value);
 
                 FertilizerType ft = _sd.GetFertilizerType(nf.fertilizerTypeId.ToString());
 
@@ -476,9 +480,6 @@ namespace SERVERAPI.Controllers
             origFertilizer.isFertigation = true;
             origFertilizer.applDate = origFertilizer.applDate?.Date; 
 
-            //Utility.CalculateNutrients calculateNutrients = new CalculateNutrients(_env, _ud, _sd);
-            //NOrganicMineralizations nOrganicMineralizations = new NOrganicMineralizations();
-
             FertigationDetailsSetup(ref fgvm);
 
             try
@@ -529,12 +530,10 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     fgvm.buttonPressed = "";
                     fgvm.btnText = "Calculate";
-                    //FertilizerDetail_Reset(ref fvm);
 
                     if (fgvm.selFertOption != 0 &&
                        !fgvm.manualEntry)
                     {
-                        //Removed () around
                         Fertilizer ft = GetFertigationFertilizer(fgvm.selFertOption ?? 0);
                         fgvm.valN = ft.Nitrogen.ToString("0");
                         fgvm.valP2o5 = ft.Phosphorous.ToString("0");
@@ -641,12 +640,6 @@ namespace SERVERAPI.Controllers
 
                     if (fgvm.buttonPressed == "Calculate" && ModelState.IsValid)
                     {
-                       // if (!ModelState.IsValid)
-                       // {
-                        //    ModelState.Clear();
-                        //    FertigationDetailsSetup(ref fgvm);
-                       //     return PartialView(fgvm);
-                       // }
                         ModelState.Clear();
                         fgvm.buttonPressed = "";
                         FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption.ToString());
@@ -844,7 +837,6 @@ namespace SERVERAPI.Controllers
                     isFertigation = true,
                     injectionRate = Convert.ToDecimal(fgvm.injectionRate),
                     injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
-                    //eventsPerSeason = fgvm.eventsPerSeason,
                     groupID = groupID
                 };
                 ids.Add( _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf));
@@ -905,7 +897,6 @@ namespace SERVERAPI.Controllers
                     groupID = fgvm.groupID,
                     injectionRate = Convert.ToDecimal(fgvm.injectionRate),
                     injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
-                    //eventsPerSeason = fgvm.eventsPerSeason,
                     isFertigation = true
                 };
 

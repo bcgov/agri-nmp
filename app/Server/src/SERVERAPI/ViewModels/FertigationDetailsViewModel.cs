@@ -79,23 +79,6 @@ namespace SERVERAPI.ViewModels
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? applDate { get; set; }
         public bool manualEntry { get; set; }
-        //calculated
-        //total product volume per fertigation
-        //product volume per fertigation
-        //product vol per growing season
-        //fertigation time
-        //applied nutrients per fertigation
-          //n
-          //p2Os
-          //k2o
-        //total applied nutrients
-          //n
-          //p2Os
-          //k2o
-        //still required this year
-          //n
-          //p2Os
-          //k2o
         public string valN { get; set; }
         public string valP2o5 { get; set; }
         public string valK2o { get; set; }

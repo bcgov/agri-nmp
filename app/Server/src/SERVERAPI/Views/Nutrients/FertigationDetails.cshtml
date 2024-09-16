@@ -256,7 +256,15 @@
 
         <div class="modal-footer">
             <button class="btn" type="button" data-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="submit_button" value="@Model.btnText">@Model.btnText</button>
+            @if(@Model.btnText == "Add to Field" && ViewContext.ViewData.ModelState.IsValid){
+                <button type="submit" class="btn btn-primary" id="submit_button" value="@Model.btnText" >Add to Field</button>
+            } else if (@Model.btnText == "Update Field" && ViewContext.ViewData.ModelState.IsValid){
+                <button type="submit" class="btn btn-primary" id="submit_button" value="@Model.btnText" >Update Field</button>
+
+            }
+            else {
+                <button type="submit" class="btn btn-primary" disabled id="submit_button" value="@Model.btnText">Fertigation not yet Valid</button>
+            }
         </div>
         @Html.HiddenFor(x => x.fieldName)
         @Html.HiddenFor(x => x.title)
@@ -300,8 +308,7 @@
         todayHighlight: true,
         clearBtn: true,
         startView: 0,
-        minViewMode: 0,
-        startDate: new Date(), 
+        minViewMode: 0, 
         endDate: '+10y',
         defaultViewDate: new Date() 
     }).on('changeDate', function(e) {
