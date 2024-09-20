@@ -308,9 +308,9 @@ namespace SERVERAPI.Controllers
                 }
                 if (ft.Custom)
                 {
-                    fgvm.valN = nf.customN.Value.ToString("0");
-                    fgvm.valP2o5 = nf.customP2o5.Value.ToString("0");
-                    fgvm.valK2o = nf.customK2o.Value.ToString("0");
+                    fgvm.valN = nf.customN.Value.ToString("");
+                    fgvm.valP2o5 = nf.customP2o5.Value.ToString("");
+                    fgvm.valK2o = nf.customK2o.Value.ToString("");
                     fgvm.manualEntry = true;
                 }
                 else
@@ -325,6 +325,13 @@ namespace SERVERAPI.Controllers
             else
             {
                 FertigationDetail_Reset(ref fgvm);
+                if (fgvm.selTypOption == "4") // This is custom liquid fertigation, could be put directly into details reset
+                {
+                    fgvm.valN = "";
+                    fgvm.valP2o5 = "";
+                    fgvm.valK2o = "";
+                    fgvm.manualEntry = true;
+                }
             }
             FertigationStillRequired(ref fgvm);
             FertigationDetailsSetup(ref fgvm);
@@ -359,6 +366,13 @@ namespace SERVERAPI.Controllers
             fgvm.totProductVolPerSeason = 0.0M;
 
             fgvm.eventsPerSeason = 1;
+
+            // if custom liquid fertigation, we set these to empty for user to change
+            if (fgvm.selTypOption == "4"){
+                fgvm.valN = "";
+                fgvm.valP2o5 = "";
+                fgvm.valK2o = "";    
+            }
         }
 
         private void FertigationStillRequired(ref FertigationDetailsViewModel fgvm)
@@ -457,6 +471,7 @@ namespace SERVERAPI.Controllers
                     fgvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
                     fgvm.selFertOption = 1;
                     fgvm.stdDensity = true;
+                    fgvm.manualEntry = true;
                 }
             }
             else
@@ -672,8 +687,6 @@ namespace SERVERAPI.Controllers
                                 Convert.ToDecimal(fgvm.valK2o),
                                 fgvm.manualEntry);
 
-                                
-                        
                         Field field = _ud.GetFieldDetails(fgvm.fieldName);
                         FertilizerUnit _fU = _sd.GetFertilizerUnit(Convert.ToInt32(fgvm.selProductRateUnitOption));
                         decimal convertedProductRate = Convert.ToDecimal(fgvm.productRate) * _fU.ConversionToImperialGallonsPerAcre;
@@ -839,6 +852,24 @@ namespace SERVERAPI.Controllers
                     injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
                     groupID = groupID
                 };
+
+                bool isCustomFertigation = fgvm.selTypOption == "4";
+                fgvm.manualEntry = isCustomFertigation;
+
+                if (isCustomFertigation)
+                {
+                    decimal customN = Convert.ToDecimal(fgvm.calcN);
+                    decimal customP = Convert.ToDecimal(fgvm.calcP2o5);
+                    decimal customK = Convert.ToDecimal(fgvm.calcK2o);
+
+                    nf.customN = customN;
+                    nf.customP2o5 = customP;
+                    nf.customK2o = customK;
+                    nf.fertN = customN;
+                    nf.fertP2o5 = customP;
+                    nf.fertK2o = customK;
+                }
+
                 ids.Add( _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf));
             }
             return ids;
@@ -899,6 +930,23 @@ namespace SERVERAPI.Controllers
                     injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
                     isFertigation = true
                 };
+
+                bool isCustomFertigation = fgvm.selTypOption == "4";
+                fgvm.manualEntry = isCustomFertigation;
+
+                if (isCustomFertigation)
+                {
+                    decimal customN = Convert.ToDecimal(fgvm.valN);
+                    decimal customP = Convert.ToDecimal(fgvm.valP2o5);
+                    decimal customK = Convert.ToDecimal(fgvm.valK2o);
+
+                    nf.customN = customN;
+                    nf.customP2o5 = customP;
+                    nf.customK2o = customK;
+                    nf.fertN = customN;
+                    nf.fertP2o5 = customP;
+                    nf.fertK2o = customK;
+                }
 
                 _ud.AddFieldNutrientsFertilizer(fgvm.fieldName, nf);
             }

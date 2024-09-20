@@ -79,9 +79,17 @@ namespace SERVERAPI.ViewModels
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? applDate { get; set; }
         public bool manualEntry { get; set; }
+
+        [Required(ErrorMessage = "Required")]
+        [Range(0, 9999, ErrorMessage = "Required")]  
         public string valN { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(0, 9999, ErrorMessage = "Required")]  
         public string valP2o5 { get; set; }
+        [Required(ErrorMessage = "Required")]
+        [Range(0, 9999, ErrorMessage = "Required")]  
         public string valK2o { get; set; }
+
         public string calcN { get; set; }
         public string calcP2o5 { get; set; }
         public string calcK2o { get; set; }
