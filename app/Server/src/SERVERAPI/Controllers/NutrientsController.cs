@@ -480,13 +480,6 @@ namespace SERVERAPI.Controllers
                 fgvm.selFertOption = 0;
             }
 
-            // if (fgvm.selTypOption == "4") // this is custom liquid fertigation
-            // {
-            //     fgvm.manualEntry = true;
-            //     fgvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
-            //     fgvm.selFertOption = 1;
-            // }
-
             return;
         }
 
@@ -659,44 +652,6 @@ namespace SERVERAPI.Controllers
                             return View(fgvm);
                         }
                     }
-
-                    // bool isCustomFertigation = fgvm.selTypOption == "4";
-                    // fgvm.manualEntry = isCustomFertigation;
-
-                    // if (isCustomFertigation)
-                    // {
-                    //     // Validate custom nutrient inputs here, may have to be moved and altered
-                    //     if (string.IsNullOrEmpty(fgvm.valN))
-                    //     {
-                    //         ModelState.AddModelError("valN", "Required");
-                    //     }
-                    //     else if (!decimal.TryParse(fgvm.valN, out decimal customN) || customN < 0 || customN > 100)
-                    //     {
-                    //         ModelState.AddModelError("valN", "Invalid. Must be between 0 and 100.");
-                    //     }
-
-                    //     if (string.IsNullOrEmpty(fgvm.valP2o5))
-                    //     {
-                    //         ModelState.AddModelError("valP2o5", "Required");
-                    //     }
-                    //     else if (!decimal.TryParse(fgvm.valP2o5, out decimal customP) || customP < 0 || customP > 100)
-                    //     {
-                    //         ModelState.AddModelError("valP2o5", "Invalid. Must be between 0 and 100.");
-                    //     }
-
-                    //     if (string.IsNullOrEmpty(fgvm.valK2o))
-                    //     {
-                    //         ModelState.AddModelError("valK2o", "Required");
-                    //     }
-                    //     else if (!decimal.TryParse(fgvm.valK2o, out decimal customK) || customK < 0 || customK > 100)
-                    //     {
-                    //         ModelState.AddModelError("valK2o", "Invalid. Must be between 0 and 100.");
-                    //     }
-
-                    //     // Set up custom fertilizer options
-                    //     fgvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
-                    //     fgvm.selFertOption = 1;
-                    // }
 
                     if (fgvm.buttonPressed == "Calculate" && ModelState.IsValid)
                     {
