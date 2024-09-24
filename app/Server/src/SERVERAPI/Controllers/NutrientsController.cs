@@ -368,7 +368,7 @@ namespace SERVERAPI.Controllers
             fgvm.eventsPerSeason = 1;
 
             // if custom liquid fertigation, we set these to empty for user to change
-            if (fgvm.selTypOption == "4"){
+            if (fgvm.selTypOption == "2" || fgvm.selTypOption == "4"){
                 fgvm.valN = "";
                 fgvm.valP2o5 = "";
                 fgvm.valK2o = "";    
