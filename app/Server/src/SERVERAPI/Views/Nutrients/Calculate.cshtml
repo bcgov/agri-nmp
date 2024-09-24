@@ -389,6 +389,27 @@
     });
 
     $(document).ready(function () {
+        $("body").on("change", "#ddlTankVolume", function () {
+            $('#buttonPressed').val("TankVolumeChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("change", "#ddlSolInWater", function () {
+            $('#buttonPressed').val("SolInWaterChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
+        $("body").on("change", "#ddlAmountToDissolve", function () {
+            $('#buttonPressed').val("AmountToDissolveChange");
+            $("#modForm").submit();
+        })
+    });
+
+    $(document).ready(function () {
         $("body").on("change", "#injectionRate", function () {
             $('#buttonPressed').val("InjectionChange");
             $("#modForm").submit();

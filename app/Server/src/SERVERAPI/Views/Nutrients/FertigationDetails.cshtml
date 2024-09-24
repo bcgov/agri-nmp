@@ -58,7 +58,7 @@
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="rate">Tank Volume</label>
                         <div>
-                            <input class="form-control" asp-for="tankVolume" id="rate" type="text" />
+                            <input class="form-control" asp-for="tankVolume" id="ddlTankVolume" type="text" />
                             <span asp-validation-for="tankVolume" class="text-danger"></span>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="density">Solubility</label>
                         <div>
-                            <input class="form-control" asp-for="solInWater" id="density" type="text" />
+                            <input class="form-control" asp-for="solInWater" id="ddlSolInWater" type="text" />
                             <span asp-validation-for="solInWater" class="text-danger"></span>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                     <div class="form-group col-sm-4" style="margin-right:0px; padding-right:0px; width:140px">
                         <label for="density">Amount to Disolve</label>
                         <div>
-                            <input class="form-control" asp-for="amountToDissolve" id="density" type="text"/>
+                            <input class="form-control" asp-for="amountToDissolve" id="ddlAmountToDissolve" type="text"/>
                             <span asp-validation-for="amountToDissolve" class="text-danger"></span>
                         </div>
                     </div>
@@ -424,6 +424,7 @@
 
         @Html.HiddenFor(x => x.tankVolume)
         @Html.HiddenFor(x => x.solInWater)
+        @Html.HiddenFor(x => x.amountToDissolve)
 
 
         @Html.HiddenFor(x => x.fertigationTime)

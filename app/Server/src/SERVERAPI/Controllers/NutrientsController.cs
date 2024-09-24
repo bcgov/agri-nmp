@@ -325,13 +325,29 @@ namespace SERVERAPI.Controllers
             else
             {
                 FertigationDetail_Reset(ref fgvm);
-                if (fgvm.selTypOption == "2" ||fgvm.selTypOption == "4") // This is custom liquid fertigation, could be put directly into details reset
+                if (fgvm.selTypOption == "4") // This is custom liquid fertigation 
+                {
+
+                    fgvm.valN = "";
+                    fgvm.valP2o5 = "";
+                    fgvm.valK2o = "";
+
+                    fgvm.manualEntry = true;
+                }
+                else if (fgvm.selTypOption == "2") // This is custom dry fertigation
                 {
                     fgvm.valN = "";
                     fgvm.valP2o5 = "";
                     fgvm.valK2o = "";
+
+                    fgvm.tankVolume = "";
+                    fgvm.amountToDissolve = "";
+                    fgvm.solInWater = "";
+                    fgvm.dryAction = "";
+
                     fgvm.manualEntry = true;
                 }
+
             }
             FertigationStillRequired(ref fgvm);
             FertigationDetailsSetup(ref fgvm);
@@ -353,6 +369,10 @@ namespace SERVERAPI.Controllers
             fgvm.calcTotalK2o = "0";
             fgvm.calcTotalP2o5 = "0";
 
+            fgvm.nutrientConcentrationN = "0";
+            fgvm.nutrientConcentrationP205 = "0";
+            fgvm.nutrientConcentrationK2O = "0";
+
             fgvm.totN = "0";
             fgvm.totP2o5 = "0";
             fgvm.totK2o = "0";
@@ -365,20 +385,27 @@ namespace SERVERAPI.Controllers
             fgvm.totProductVolPerFert = 0.0M;
             fgvm.totProductVolPerSeason = 0.0M;
 
-            fgvm.tankVolume = "0";
-            fgvm.solInWater = "0";
-            fgvm.amountToDissolve = "0";
+            fgvm.tankVolume = "";
+            fgvm.solInWater = "";
+            fgvm.amountToDissolve = "";
 
             fgvm.eventsPerSeason = 1;
 
             // if custom liquid fertigation, we set these to empty for user to change
-            if (fgvm.selTypOption == "2" || fgvm.selTypOption == "4"){
+            if (fgvm.selTypOption == "2"){
                 fgvm.valN = "";
                 fgvm.valP2o5 = "";
                 fgvm.valK2o = "";
+
                 fgvm.tankVolume = "";
+                fgvm.amountToDissolve = "";
                 fgvm.solInWater = "";
-                fgvm.amountToDissolve = "";   
+                fgvm.dryAction = "";
+            }
+            if (fgvm.selTypOption == "4"){
+                fgvm.valN = "";
+                fgvm.valP2o5 = "";
+                fgvm.valK2o = "";
             }
         }
 
@@ -452,6 +479,7 @@ namespace SERVERAPI.Controllers
 
         private void FertigationDetailsSetup(ref FertigationDetailsViewModel fgvm)
         {
+            //here we will have to add the solid units dropdown
             fgvm.typOptions = GetOptionsList(_fg.FertilizerTypes);
             fgvm.fertOptions = GetFertigationFertilizers(fgvm.selTypOption);
             fgvm.productRateUnitOptions = GetOptionsList(_fg.ProductRateUnits);
@@ -580,6 +608,43 @@ namespace SERVERAPI.Controllers
                     }
                     return View(fgvm);
                 }
+                // HERE
+                if (fgvm.buttonPressed == "TankVolumeChange")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+
+                    if (fgvm.selTypOption == "2")
+                    {
+                        FertigationDetailSetup_DefaultDensity(ref fgvm);
+                    }
+                    return View(fgvm);
+                }
+                if (fgvm.buttonPressed == "SolInWaterChange")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+
+                    if (fgvm.selTypOption == "2")
+                    {
+                        FertigationDetailSetup_DefaultDensity(ref fgvm);
+                    }
+                    return View(fgvm);
+                }
+                if (fgvm.buttonPressed == "AmountToDissolveChange")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+
+                    if (fgvm.selTypOption == "2")
+                    {
+                        FertigationDetailSetup_DefaultDensity(ref fgvm);
+                    }
+                    return View(fgvm);
+                }
 
                 if (ModelState.IsValid)
                 {
@@ -667,6 +732,8 @@ namespace SERVERAPI.Controllers
                         FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption.ToString());
                         fgvm.applDate = fgvm.applDate?.Date;
 
+                        if (ft.DryLiquid == "liquid") {
+
                        // if (ft.DryLiquid == "liquid")
                       //  {
                       //      if (!ft.Custom)
@@ -741,6 +808,12 @@ namespace SERVERAPI.Controllers
                         fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_K2O) * Convert.ToInt32(fgvm.eventsPerSeason));
 
                         fgvm.btnText = fgvm.id == null ? "Add to Field" : "Update Field";
+                        }
+
+                        else { // fertigation is dry in this case 
+                        // calculate dry fertigation below (may need to move this else block above ^ to accont for still required and other funcs)
+                        SolidFertigationCalculation(fgvm);
+                        }
 
                         // temporarily update the farm data so as to recalc the Still Required amounts
                         if (fgvm.id == null)
@@ -766,6 +839,7 @@ namespace SERVERAPI.Controllers
                         {
                             _ud.UpdateFieldNutrientsFertilizer(fgvm.fieldName, origFertilizer);
                         }
+                       
                     }
                     else if (fgvm.buttonPressed == "Add to Field" || fgvm.buttonPressed == "Update Field") 
                     {
@@ -789,6 +863,26 @@ namespace SERVERAPI.Controllers
             }
             fgvm.buttonPressed = "";
             return PartialView(fgvm);
+        }
+
+        private void SolidFertigationCalculation(FertigationDetailsViewModel fgvm){
+            // some random calculations for now while we wait for official equations from PO
+            int amountToDissolve = Convert.ToInt32(fgvm.amountToDissolve);
+            int tankVolume = Convert.ToInt32(fgvm.tankVolume);
+
+            fgvm.nutrientConcentrationN = Convert.ToString((amountToDissolve * Convert.ToInt32(fgvm.valN) / 100));
+            fgvm.nutrientConcentrationK2O = Convert.ToString((amountToDissolve * Convert.ToInt32(fgvm.valK2o) / 100));
+            fgvm.nutrientConcentrationP205 = Convert.ToString((amountToDissolve * Convert.ToInt32(fgvm.valP2o5) / 100));
+
+            decimal injectionRate = Convert.ToDecimal(fgvm.injectionRate);
+            fgvm.fertigationTime = Math.Round(Convert.ToInt32(fgvm.tankVolume) / injectionRate, 2);
+            fgvm.calcN = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationN) * tankVolume);
+            fgvm.calcK2o = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationK2O) * tankVolume);
+            fgvm.calcP2o5 = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationP205) * tankVolume);
+
+            fgvm.totN = "9000";
+            fgvm.totK2o = "9000";
+            fgvm.totP2o5 = "9000";
         }
 
         private void FertigationDetailSetup_DefaultDensity(ref FertigationDetailsViewModel fgvm)
