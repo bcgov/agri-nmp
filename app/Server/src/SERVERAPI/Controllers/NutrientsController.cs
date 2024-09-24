@@ -325,7 +325,7 @@ namespace SERVERAPI.Controllers
             else
             {
                 FertigationDetail_Reset(ref fgvm);
-                if (fgvm.selTypOption == "4") // This is custom liquid fertigation, could be put directly into details reset
+                if (fgvm.selTypOption == "2" ||fgvm.selTypOption == "4") // This is custom liquid fertigation, could be put directly into details reset
                 {
                     fgvm.valN = "";
                     fgvm.valP2o5 = "";
@@ -365,13 +365,20 @@ namespace SERVERAPI.Controllers
             fgvm.totProductVolPerFert = 0.0M;
             fgvm.totProductVolPerSeason = 0.0M;
 
+            fgvm.tankVolume = "0";
+            fgvm.solInWater = "0";
+            fgvm.amountToDissolve = "0";
+
             fgvm.eventsPerSeason = 1;
 
             // if custom liquid fertigation, we set these to empty for user to change
             if (fgvm.selTypOption == "2" || fgvm.selTypOption == "4"){
                 fgvm.valN = "";
                 fgvm.valP2o5 = "";
-                fgvm.valK2o = "";    
+                fgvm.valK2o = "";
+                fgvm.tankVolume = "";
+                fgvm.solInWater = "";
+                fgvm.amountToDissolve = "";   
             }
         }
 
