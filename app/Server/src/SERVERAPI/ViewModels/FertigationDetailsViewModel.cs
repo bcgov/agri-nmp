@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Agri.Models;
 using Agri.Models.Configuration;
-
+using SERVERAPI.Attributes;
 namespace SERVERAPI.ViewModels
 {
     public class FertigationDetailsViewModel
@@ -32,22 +32,23 @@ namespace SERVERAPI.ViewModels
         public List<SelectListItem> fertOptions { get; set; }
 
         // Product rate
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+        //[Required(ErrorMessage = "Required")]
+        //[Range(1, 9999, ErrorMessage = "Required")]
         public string selProductRateUnitOption { get; set; }
         public string selProductRateUnitOptionText { get; set; }
         public List<SelectListItem> productRateUnitOptions { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999.99, ErrorMessage = "Required")]
+        [RequiredIf("selTypOption", "3", "4", ErrorMessage = "Required")]
+        //[Range(1, 9999.99, ErrorMessage = "Required")]
         public string productRate { get; set; }
 
         // Density
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999, ErrorMessage = "Required")]
+        //[Required(ErrorMessage = "Required")]
+        //[Range(1, 9999, ErrorMessage = "Required")]
         public int? selDensityUnitOption { get; set; }
         public List<SelectListItem> densityUnitOptions { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [Range(1, 9999.99, ErrorMessage = "Required")]
+        //[Required(ErrorMessage = "Required")]
+        //[Range(1, 9999.99, ErrorMessage = "Required")]
+        [RequiredIf("selTypOption", "3", "4", ErrorMessage = "Required")]
         public string density { get; set; }
         public bool stdDensity { get; set; }
 
@@ -75,14 +76,14 @@ namespace SERVERAPI.ViewModels
         public bool manualEntry { get; set; }
 
         // Nutrient values
-        [Required(ErrorMessage = "Required")]
-        [Range(0, 9999, ErrorMessage = "Required")]
+        //[Required(ErrorMessage = "Required")]
+        //[Range(0, 9999, ErrorMessage = "Required")]
         public string valN { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [Range(0, 9999, ErrorMessage = "Required")]
+        //[Required(ErrorMessage = "Required")]
+        //[Range(0, 9999, ErrorMessage = "Required")]
         public string valP2o5 { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [Range(0, 9999, ErrorMessage = "Required")]
+        //[Required(ErrorMessage = "Required")]
+        //[Range(0, 9999, ErrorMessage = "Required")]
         public string valK2o { get; set; }
 
         // Calculated values
@@ -112,14 +113,17 @@ namespace SERVERAPI.ViewModels
         // Dry fertigation additional fields
         // [Required(ErrorMessage = "Required")]
         // [Range(0, 9999, ErrorMessage = "Required")]
+        [RequiredIf("selTypOption", "1", "2", ErrorMessage = "Required")]
         public string tankVolume { get; set; }
         public string tankVolumeUnits { get; set; }
         // [Required(ErrorMessage = "Required")]
         // [Range(0, 9999, ErrorMessage = "Required")]
+        [RequiredIf("selTypOption", "1", "2", ErrorMessage = "Required")]
         public string solInWater { get; set; }
         public string solInWaterUnits { get; set; }
         // [Required(ErrorMessage = "Required")]
         // [Range(0, 9999, ErrorMessage = "Required")]
+        [RequiredIf("selTypOption", "1", "2", ErrorMessage = "Required")]
         public string amountToDissolve { get; set; }
         public string amountToDissolveUnits { get; set; }
         public string dryAction { get; set; }
