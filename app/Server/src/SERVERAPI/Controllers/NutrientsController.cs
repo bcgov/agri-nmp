@@ -812,7 +812,30 @@ namespace SERVERAPI.Controllers
 
                         else { // fertigation is dry in this case 
                         // calculate dry fertigation below (may need to move this else block above ^ to accont for still required and other funcs)
-                        SolidFertigationCalculation(fgvm);
+                        FertilizerNutrients fertilizerNutrients = _calculateFertigationNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
+                                fgvm.fertilizerType,
+                                Convert.ToDecimal(fgvm.productRate),
+                                Convert.ToInt32(fgvm.selProductRateUnitOption),
+                                fgvm.density != null ? Convert.ToDecimal(fgvm.density) : 0,
+                                Convert.ToInt16(fgvm.selDensityUnitOption),
+                                Convert.ToDecimal(fgvm.valN),
+                                Convert.ToDecimal(fgvm.valP2o5),
+                                Convert.ToDecimal(fgvm.valK2o),
+                                fgvm.manualEntry);
+
+                        Field field = _ud.GetFieldDetails(fgvm.fieldName);
+                        fgvm.fieldArea = Convert.ToString(field.Area);
+                        //FertilizerUnit _fU = _sd.GetFertilizerUnit(Convert.ToInt32(fgvm.selProductRateUnitOption));
+                        //decimal convertedProductRate = Convert.ToDecimal(fgvm.productRate) * _fU.ConversionToImperialGallonsPerAcre;
+
+
+                        SolidFertigationCalculation(fgvm, fertilizerNutrients);
+                        //Total Applied Nutrients
+                        fgvm.calcTotalN = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_N) * Convert.ToInt32(fgvm.eventsPerSeason));
+                        fgvm.calcTotalK2o = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5) * Convert.ToInt32(fgvm.eventsPerSeason));
+                        fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_K2O) * Convert.ToInt32(fgvm.eventsPerSeason));
+
+                        fgvm.btnText = fgvm.id == null ? "Add to Field" : "Update Field";
                         }
 
                         // temporarily update the farm data so as to recalc the Still Required amounts
@@ -865,24 +888,28 @@ namespace SERVERAPI.Controllers
             return PartialView(fgvm);
         }
 
-        private void SolidFertigationCalculation(FertigationDetailsViewModel fgvm){
+        private void SolidFertigationCalculation(FertigationDetailsViewModel fgvm, FertilizerNutrients fertilizerNutrients){
             // some random calculations for now while we wait for official equations from PO
+            // TRY casting to decimal later!
             int amountToDissolve = Convert.ToInt32(fgvm.amountToDissolve);
             int tankVolume = Convert.ToInt32(fgvm.tankVolume);
+            decimal fertArea = Convert.ToDecimal(fgvm.fieldArea);// Fertigation Area?
 
-            fgvm.nutrientConcentrationN = Convert.ToString((amountToDissolve * Convert.ToInt32(fgvm.valN) / 100));
-            fgvm.nutrientConcentrationK2O = Convert.ToString((amountToDissolve * Convert.ToInt32(fgvm.valK2o) / 100));
-            fgvm.nutrientConcentrationP205 = Convert.ToString((amountToDissolve * Convert.ToInt32(fgvm.valP2o5) / 100));
+            fgvm.nutrientConcentrationN = Convert.ToString(amountToDissolve * Convert.ToInt32(fgvm.valN) / 100 / tankVolume);
+            fgvm.nutrientConcentrationK2O = Convert.ToString(amountToDissolve * Convert.ToInt32(fgvm.valK2o) / 100 / tankVolume);
+            fgvm.nutrientConcentrationP205 = Convert.ToString(amountToDissolve * Convert.ToInt32(fgvm.valP2o5) / 100 / tankVolume);
 
             decimal injectionRate = Convert.ToDecimal(fgvm.injectionRate);
-            fgvm.fertigationTime = Math.Round(Convert.ToInt32(fgvm.tankVolume) / injectionRate, 2);
-            fgvm.calcN = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationN) * tankVolume);
-            fgvm.calcK2o = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationK2O) * tankVolume);
-            fgvm.calcP2o5 = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationP205) * tankVolume);
+            fgvm.fertigationTime = Math.Round(Convert.ToInt32(fgvm.tankVolume) * injectionRate, 2);
 
-            fgvm.totN = "9000";
-            fgvm.totK2o = "9000";
-            fgvm.totP2o5 = "9000";
+            fgvm.calcN = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationN) * tankVolume / fertArea);
+            fgvm.calcK2o = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationK2O) * tankVolume / fertArea);
+            fgvm.calcP2o5 = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationP205) * tankVolume / fertArea);
+
+            fgvm.totN = Convert.ToString(Convert.ToInt32(fgvm.calcN) * fgvm.eventsPerSeason);
+            fgvm.totK2o = Convert.ToString(Convert.ToInt32(fgvm.calcK2o) * fgvm.eventsPerSeason);
+            fgvm.totP2o5 = Convert.ToString(Convert.ToInt32(fgvm.calcP2o5) * fgvm.eventsPerSeason);
+
         }
 
         private void FertigationDetailSetup_DefaultDensity(ref FertigationDetailsViewModel fgvm)
