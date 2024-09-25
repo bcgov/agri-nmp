@@ -734,22 +734,6 @@ namespace SERVERAPI.Controllers
 
                         if (ft.DryLiquid == "liquid") {
 
-                       // if (ft.DryLiquid == "liquid")
-                      //  {
-                      //      if (!ft.Custom)
-                      //      {
-                       //         if (fgvm.density != _sd.GetLiquidFertilizerDensity(fgvm.selFertOption ?? 0, fgvm.selDensityUnitOption ?? 0).Value.ToString("#.##"))
-                     //           {
-                     //               fgvm.stdDensity = false;
-                     //           }
-                     //           else
-                     //           {
-                     //               fgvm.stdDensity = true;
-                     //           }
-                     //       }
-                     //   }
-                    //
- 
                         var fertilizerNutrients = _calculateFertigationNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
                                 fgvm.fertilizerType,
                                 Convert.ToDecimal(fgvm.productRate),
@@ -889,11 +873,9 @@ namespace SERVERAPI.Controllers
         }
 
         private void SolidFertigationCalculation(FertigationDetailsViewModel fgvm, FertilizerNutrients fertilizerNutrients){
-            // some random calculations for now while we wait for official equations from PO
-            // TRY casting to decimal later!
             decimal amountToDissolve = Convert.ToDecimal(fgvm.amountToDissolve);
             decimal tankVolume = Convert.ToDecimal(fgvm.tankVolume);
-            decimal fertArea = Convert.ToDecimal(fgvm.fieldArea);// Fertigation Area?
+            decimal fertArea = Convert.ToDecimal(fgvm.fieldArea);
 
             fgvm.nutrientConcentrationN = Convert.ToString(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / tankVolume);
             fgvm.nutrientConcentrationK2O = Convert.ToString(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / tankVolume);
