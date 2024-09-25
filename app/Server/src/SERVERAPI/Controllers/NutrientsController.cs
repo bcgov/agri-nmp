@@ -891,24 +891,24 @@ namespace SERVERAPI.Controllers
         private void SolidFertigationCalculation(FertigationDetailsViewModel fgvm, FertilizerNutrients fertilizerNutrients){
             // some random calculations for now while we wait for official equations from PO
             // TRY casting to decimal later!
-            int amountToDissolve = Convert.ToInt32(fgvm.amountToDissolve);
-            int tankVolume = Convert.ToInt32(fgvm.tankVolume);
+            decimal amountToDissolve = Convert.ToDecimal(fgvm.amountToDissolve);
+            decimal tankVolume = Convert.ToDecimal(fgvm.tankVolume);
             decimal fertArea = Convert.ToDecimal(fgvm.fieldArea);// Fertigation Area?
 
-            fgvm.nutrientConcentrationN = Convert.ToString(amountToDissolve * Convert.ToInt32(fgvm.valN) / 100 / tankVolume);
-            fgvm.nutrientConcentrationK2O = Convert.ToString(amountToDissolve * Convert.ToInt32(fgvm.valK2o) / 100 / tankVolume);
-            fgvm.nutrientConcentrationP205 = Convert.ToString(amountToDissolve * Convert.ToInt32(fgvm.valP2o5) / 100 / tankVolume);
+            fgvm.nutrientConcentrationN = Convert.ToString(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / tankVolume);
+            fgvm.nutrientConcentrationK2O = Convert.ToString(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / tankVolume);
+            fgvm.nutrientConcentrationP205 = Convert.ToString(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / tankVolume);
 
             decimal injectionRate = Convert.ToDecimal(fgvm.injectionRate);
-            fgvm.fertigationTime = Math.Round(Convert.ToInt32(fgvm.tankVolume) * injectionRate, 2);
+            fgvm.fertigationTime = Math.Round(Convert.ToDecimal(fgvm.tankVolume) * injectionRate, 2);
 
-            fgvm.calcN = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationN) * tankVolume / fertArea);
-            fgvm.calcK2o = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationK2O) * tankVolume / fertArea);
-            fgvm.calcP2o5 = Convert.ToString(Convert.ToInt32(fgvm.nutrientConcentrationP205) * tankVolume / fertArea);
+            fgvm.calcN = Convert.ToString(Convert.ToDecimal(fgvm.nutrientConcentrationN) * tankVolume / fertArea);
+            fgvm.calcK2o = Convert.ToString(Convert.ToDecimal(fgvm.nutrientConcentrationK2O) * tankVolume / fertArea);
+            fgvm.calcP2o5 = Convert.ToString(Convert.ToDecimal(fgvm.nutrientConcentrationP205) * tankVolume / fertArea);
 
-            fgvm.totN = Convert.ToString(Convert.ToInt32(fgvm.calcN) * fgvm.eventsPerSeason);
-            fgvm.totK2o = Convert.ToString(Convert.ToInt32(fgvm.calcK2o) * fgvm.eventsPerSeason);
-            fgvm.totP2o5 = Convert.ToString(Convert.ToInt32(fgvm.calcP2o5) * fgvm.eventsPerSeason);
+            fgvm.totN = Convert.ToString(Convert.ToDecimal(fgvm.calcN) * fgvm.eventsPerSeason);
+            fgvm.totK2o = Convert.ToString(Convert.ToDecimal(fgvm.calcK2o) * fgvm.eventsPerSeason);
+            fgvm.totP2o5 = Convert.ToString(Convert.ToDecimal(fgvm.calcP2o5) * fgvm.eventsPerSeason);
 
         }
 
