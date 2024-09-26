@@ -121,6 +121,8 @@ namespace SERVERAPI.ViewModels
         [RequiredIf("selTypOption", "1", "2", ErrorMessage = "Required")]
         public string solInWater { get; set; }
         public string solInWaterUnits { get; set; }
+        public List<SelectListItem> solubilityUnitOptions { get; set; }
+
         // [Required(ErrorMessage = "Required")]
         // [Range(0, 9999, ErrorMessage = "Required")]
         [RequiredIf("selTypOption", "1", "2", ErrorMessage = "Required")]

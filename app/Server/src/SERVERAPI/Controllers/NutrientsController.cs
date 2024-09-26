@@ -485,6 +485,7 @@ namespace SERVERAPI.Controllers
             fgvm.productRateUnitOptions = GetOptionsList(_fg.ProductRateUnits);
             fgvm.injectionRateUnitOptions = GetOptionsList(_fg.InjectionRateUnits);
             fgvm.densityUnitOptions = GetOptionsList(_fg.DensityUnits);
+            fgvm.solubilityUnitOptions = GetOptionsList(_fg.SolubilityUnits);
             fgvm.applPeriod = GetOptionsList(_fg.Schedules);
             FertigationDetailSetup_Fertilizer(ref fgvm);
         }
@@ -591,6 +592,10 @@ namespace SERVERAPI.Controllers
 
                         FertigationDetailSetup_DefaultDensity(ref fgvm);
                     }
+                    if (fgvm.selFertOption == 1)
+                    {
+                        FertigationDetailSetup_DefaultSolubility(ref fgvm);
+                    }
 
                     return View(fgvm);
                 }
@@ -627,9 +632,9 @@ namespace SERVERAPI.Controllers
                     fgvm.buttonPressed = "";
                     fgvm.btnText = "Calculate";
 
-                    if (fgvm.selTypOption == "2")
+                    if (fgvm.selTypOption == "1")
                     {
-                        FertigationDetailSetup_DefaultDensity(ref fgvm);
+                        FertigationDetailSetup_DefaultSolubility(ref fgvm);
                     }
                     return View(fgvm);
                 }
@@ -894,6 +899,48 @@ namespace SERVERAPI.Controllers
 
         }
 
+        private void FertigationDetailSetup_DefaultSolubility(ref FertigationDetailsViewModel fgvm)
+        {
+            fgvm.fertOptions = new List<SelectListItem>();
+            if (fgvm.selTypOption != null &&
+               fgvm.selTypOption != "select")
+            {
+                FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption);
+                if (!ft.Custom)
+                {
+                    fgvm.fertOptions = GetFertigationFertilizers(ft.Id.ToString()).ToList();
+                }
+                else
+                {
+                    fgvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
+                    fgvm.selFertOption = 1;
+                    // fgvm.stdDensity = true;
+                }
+            }
+            else
+            {
+                fgvm.fertOptions = new List<SelectListItem>();
+                fgvm.selFertOption = 0;
+            }
+
+
+            if (fgvm.selDensityUnitOption == 0 || fgvm.selFertOption == 0)
+            {
+                fgvm.density = "";
+                fgvm.stdDensity = true;
+            }
+            
+            if (!fgvm.manualEntry &&
+                fgvm.fertilizerType == "dry" &&
+                fgvm.selFertOption != 0)
+            {
+                var Test  = fgvm.selDensityUnitOption;
+                fgvm.solInWater = _fg.GetDryFertilizerSolubility(Convert.ToInt32(fgvm.selFertOption), Convert.ToInt32(fgvm.solInWaterUnits)).Value.ToString("#.##");
+
+                // fgvm.stdDensity = true;
+            }
+
+        }
         private void FertigationDetailSetup_DefaultDensity(ref FertigationDetailsViewModel fgvm)
         {
             fgvm.fertOptions = new List<SelectListItem>();
