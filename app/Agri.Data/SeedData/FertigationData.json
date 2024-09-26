@@ -838,7 +838,7 @@
     {
       "Id": 1,
       "Name": "g/L",
-      "ConvFacter": 0.01002,
+      "ConvFactor": 0.01002,
       "StaticDataVersionId": 14
     },
     {

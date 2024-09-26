@@ -29,7 +29,6 @@ namespace Agri.Models.Configuration
             return LiquidFertilizerDensities.Single(density => density.FertilizerId == id && density.DensityUnitId == densityUnitId);
         }
         public DryFertilizerSolubility GetDryFertilizerSolubility(int id, int solubilityUnitId){
-            var test = DryFertilizerSolubilities.Single(solubility => solubility.FertilizerId == id && solubility.SolubilityUnitId == solubilityUnitId);
             return DryFertilizerSolubilities.Single(solubility => solubility.FertilizerId == id && solubility.SolubilityUnitId == solubilityUnitId);
         }
 

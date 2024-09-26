@@ -614,7 +614,6 @@ namespace SERVERAPI.Controllers
                     }
                     return View(fgvm);
                 }
-                // HERE
                 if (fgvm.buttonPressed == "TankVolumeChange")
                 {
                     ModelState.Clear();
@@ -627,17 +626,21 @@ namespace SERVERAPI.Controllers
                     }
                     return View(fgvm);
                 }
-                if (fgvm.buttonPressed == "SolInWaterChange")
+                if (fgvm.buttonPressed == "SolInWaterUnitChange")
                 {
                     ModelState.Clear();
                     fgvm.buttonPressed = "";
                     fgvm.btnText = "Calculate";
-
-                    if (fgvm.selTypOption == "1")
-                    {
-                        FertigationDetailSetup_DefaultSolubility(ref fgvm);
+                    // These are just test conversions. Will need to implement actual conversions!!!
+                    if (fgvm.selSolubilityUnitOption == 3){
+                        var solubility = Convert.ToDecimal(fgvm.solInWater) * 1.2M;
+                        fgvm.solInWater = solubility.ToString("#.##");    
                     }
-                    return View(fgvm);
+                    if (fgvm.selSolubilityUnitOption == 2){
+                        var solubility = Convert.ToDecimal(fgvm.solInWater) * 0.5M;
+                        fgvm.solInWater = solubility.ToString("#.##");    
+                    }
+                    return PartialView(fgvm);
                 }
                 if (fgvm.buttonPressed == "AmountToDissolveChange")
                 {
@@ -925,18 +928,17 @@ namespace SERVERAPI.Controllers
             }
 
 
-            if (fgvm.selDensityUnitOption == 0 || fgvm.selFertOption == 0)
+            if (fgvm.selSolubilityUnitOption == 0 || fgvm.selFertOption == 0)
             {
-                fgvm.density = "";
-                fgvm.stdDensity = true;
+                fgvm.solInWater = "";
+                // fgvm.stdDensity = true;
             }
             
             if (!fgvm.manualEntry &&
                 fgvm.fertilizerType == "dry" &&
-                fgvm.selFertOption != 0)
+                fgvm.selFertOption != 0 &&
+                fgvm.selSolubilityUnitOption != 0)
             {
-                var Test  = fgvm.selSolubilityUnitOption;
-                var Test2 = fgvm.selFertOption;
                 fgvm.solInWater = _fg.GetDryFertilizerSolubility(Convert.ToInt32(fgvm.selFertOption), Convert.ToInt32(fgvm.selSolubilityUnitOption)).Value.ToString("#.##");
 
                 // fgvm.stdDensity = true;

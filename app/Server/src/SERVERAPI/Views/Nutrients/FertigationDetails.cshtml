@@ -81,8 +81,8 @@
                     <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
-                                <label for="ddlSolubility" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="selSolubilityUnitOption" asp-items="@(new SelectList(Model.solubilityUnitOptions,"Id","Value"))" id="ddlSolubility"></select>
+                                <label for="ddlSolubilityUnits" style="text-align: center; display: block;">Units</label>
+                                <select class="form-control" asp-for="selSolubilityUnitOption" asp-items="@(new SelectList(Model.solubilityUnitOptions,"Id","Value"))" id="ddlSolubilityUnits"></select>
                                 <span asp-validation-for="selSolubilityUnitOption" class="text-danger"></span>
                             </div>
                         </div>
@@ -425,6 +425,7 @@
         @Html.HiddenFor(x => x.tankVolume)
         @Html.HiddenFor(x => x.solInWater)
         @Html.HiddenFor(x => x.amountToDissolve)
+        @Html.HiddenFor(x => x.selSolubilityUnitOption)
 
         @Html.HiddenFor(x => x.fertigationTime)
         @Html.HiddenFor(x => x.totProductVolPerFert)

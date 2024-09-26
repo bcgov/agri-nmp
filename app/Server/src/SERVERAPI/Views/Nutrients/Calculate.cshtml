@@ -389,15 +389,15 @@
     });
 
     $(document).ready(function () {
-        $("body").on("change", "#ddlTankVolume", function () {
-            $('#buttonPressed').val("TankVolumeChange");
+        $("body").on("change", "#ddlSolubilityUnits", function () {
+            $('#buttonPressed').val("SolInWaterUnitChange");
             $("#modForm").submit();
         })
     });
 
     $(document).ready(function () {
-        $("body").on("change", "#ddlSolInWater", function () {
-            $('#buttonPressed').val("SolInWaterChange");
+        $("body").on("change", "#ddlTankVolume", function () {
+            $('#buttonPressed').val("TankVolumeChange");
             $("#modForm").submit();
         })
     });
