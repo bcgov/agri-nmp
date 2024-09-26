@@ -122,6 +122,7 @@ namespace SERVERAPI.ViewModels
         public string solInWater { get; set; }
         public string solInWaterUnits { get; set; }
         public List<SelectListItem> solubilityUnitOptions { get; set; }
+        public int? selSolubilityUnitOption { get; set; }
 
         // [Required(ErrorMessage = "Required")]
         // [Range(0, 9999, ErrorMessage = "Required")]

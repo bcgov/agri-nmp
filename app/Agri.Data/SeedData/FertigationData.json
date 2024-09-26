@@ -852,12 +852,6 @@
       "Name": "lb/imp. gallon",
       "ConvFactor": 1,
       "StaticDataVersionId": 14
-    },
-    {
-      "Id": 4,
-      "Name": "lb/US gallon",
-      "ConvFactor": 1.2,
-      "StaticDataVersionId": 14
     }
   ],
 "FertilizerUnits": [

@@ -82,8 +82,8 @@
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label for="ddlSolubility" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="solInWaterUnits" asp-items="@(new SelectList(Model.solubilityUnitOptions,"Id","Value"))" id="ddlSolubility"></select>
-                                <span asp-validation-for="solInWaterUnits" class="text-danger"></span>
+                                <select class="form-control" asp-for="selSolubilityUnitOption" asp-items="@(new SelectList(Model.solubilityUnitOptions,"Id","Value"))" id="ddlSolubility"></select>
+                                <span asp-validation-for="selSolubilityUnitOption" class="text-danger"></span>
                             </div>
                         </div>
                     </div>

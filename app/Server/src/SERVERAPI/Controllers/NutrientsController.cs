@@ -291,6 +291,7 @@ namespace SERVERAPI.Controllers
                 }
                 fgvm.density = nf.liquidDensity.ToString("#.##");
                 fgvm.selDensityUnitOption = nf.liquidDensityUnitId;
+                fgvm.selSolubilityUnitOption = nf.solInWaterUnitId;
                 fgvm.eventsPerSeason = getNumberOfEvents(fgvm);
                 fgvm.selFertSchedOption = nf.applMethodId.ToString();
                 fgvm.injectionRate = nf.injectionRate.ToString("#.##"); 
@@ -592,7 +593,7 @@ namespace SERVERAPI.Controllers
 
                         FertigationDetailSetup_DefaultDensity(ref fgvm);
                     }
-                    if (fgvm.selFertOption == 1)
+                    if (fgvm.selTypOption == "1")
                     {
                         FertigationDetailSetup_DefaultSolubility(ref fgvm);
                     }
@@ -934,8 +935,9 @@ namespace SERVERAPI.Controllers
                 fgvm.fertilizerType == "dry" &&
                 fgvm.selFertOption != 0)
             {
-                var Test  = fgvm.selDensityUnitOption;
-                fgvm.solInWater = _fg.GetDryFertilizerSolubility(Convert.ToInt32(fgvm.selFertOption), Convert.ToInt32(fgvm.solInWaterUnits)).Value.ToString("#.##");
+                var Test  = fgvm.selSolubilityUnitOption;
+                var Test2 = fgvm.selFertOption;
+                fgvm.solInWater = _fg.GetDryFertilizerSolubility(Convert.ToInt32(fgvm.selFertOption), Convert.ToInt32(fgvm.selSolubilityUnitOption)).Value.ToString("#.##");
 
                 // fgvm.stdDensity = true;
             }
