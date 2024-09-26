@@ -229,6 +229,92 @@
       "StaticDataVersionId": 14
     }
   ],
+  "DryFertilizerSolubilities":[
+    {
+      "Id": 1,
+      "FertilizerId": 1,
+      "SolubilityUnitId": 1,
+      "Value": 1080,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 2,
+      "FertilizerId": 1,
+      "SolubilityUnitId": 2,
+      "Value": 1.08,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 3,
+      "FertilizerId": 1,
+      "SolubilityUnitId": 3,
+      "Value": 9.01,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 4,
+      "FertilizerId": 6,
+      "SolubilityUnitId": 1,
+      "Value": 1900,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 5,
+      "FertilizerId": 6,
+      "SolubilityUnitId": 2,
+      "Value": 1.9,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 6,
+      "FertilizerId": 6,
+      "SolubilityUnitId": 3,
+      "Value": 15.86,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 7,
+      "FertilizerId": 7,
+      "SolubilityUnitId": 1,
+      "Value": 764,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 8,
+      "FertilizerId": 7,
+      "SolubilityUnitId": 2,
+      "Value": 0.764,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 9,
+      "FertilizerId": 7,
+      "SolubilityUnitId": 3,
+      "Value": 6.38,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 10,
+      "FertilizerId": 29,
+      "SolubilityUnitId": 1,
+      "Value": 1444,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 11,
+      "FertilizerId": 29,
+      "SolubilityUnitId": 2,
+      "Value": 1.444,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 12,
+      "FertilizerId": 29,
+      "SolubilityUnitId": 3,
+      "Value": 12.03,
+      "StaticDataVersionId": 14
+    }
+  ],
   "LiquidFertilizerDensities":[
     {
       "Id": 1,
@@ -747,8 +833,33 @@
       "Name": "Imp. gallon/min",
       "StaticDataVersionId": 14
     }
-  ]
-  ,
+  ],
+  "SolubilityUnits": [
+    {
+      "Id": 1,
+      "Name": "g/L",
+      "ConvFacter": 0.01002,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 2,
+      "Name": "kg/L",
+      "ConvFactor": 10.02,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 3,
+      "Name": "lb/imp. gallon",
+      "ConvFactor": 1,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 4,
+      "Name": "lb/US gallon",
+      "ConvFactor": 1.2,
+      "StaticDataVersionId": 14
+    }
+  ],
 "FertilizerUnits": [
 	{
 		"Id" : 1,
