@@ -129,6 +129,7 @@ namespace SERVERAPI.ViewModels
         [RequiredIf("selTypOption", "1", "2", ErrorMessage = "Required")]
         public string amountToDissolve { get; set; }
         public string amountToDissolveUnits { get; set; }
+        public List<SelectListItem> amountToDissolveUnitOptions { get; set; }
         public string dryAction { get; set; }
         public string nutrientConcentrationN { get; set; }
         public string nutrientConcentrationP205 { get; set; }

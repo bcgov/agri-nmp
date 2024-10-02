@@ -488,6 +488,12 @@ namespace SERVERAPI.Controllers
             fgvm.densityUnitOptions = GetOptionsList(_fg.DensityUnits);
             fgvm.solubilityUnitOptions = GetOptionsList(_fg.SolubilityUnits);
             fgvm.applPeriod = GetOptionsList(_fg.Schedules);
+            fgvm.amountToDissolveUnitOptions = new List<SelectListItem>
+                                                {
+                                                    new SelectListItem { Id = 1, Value = "lbs" },
+                                                    new SelectListItem { Id = 2, Value = "kgs" },
+                                                    new SelectListItem { Id = 3, Value = "grams" }
+                                                };
             FertigationDetailSetup_Fertilizer(ref fgvm);
         }
 
@@ -631,15 +637,20 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     fgvm.buttonPressed = "";
                     fgvm.btnText = "Calculate";
-                    // These are just test conversions. Will need to implement actual conversions!!!
-                    if (fgvm.selSolubilityUnitOption == 3){
-                        var solubility = Convert.ToDecimal(fgvm.solInWater) * 1.2M;
-                        fgvm.solInWater = solubility.ToString("#.##");    
+
+                    if (decimal.TryParse(fgvm.solInWater, out decimal currentValue))
+                    {
+                        if (fgvm.solInWaterUnits == null) {
+                            fgvm.solInWaterUnits = "1";
+                        }
+                        var fromUnit = (SolubilityUnit)(int.TryParse(fgvm.solInWaterUnits, out int result) ? result : fgvm.selSolubilityUnitOption ?? 0);
+                        var toUnit = (SolubilityUnit)fgvm.selSolubilityUnitOption;
+
+                        decimal convertedValue = ConvertSolubility(currentValue, fromUnit, toUnit);
+                        fgvm.solInWater = convertedValue.ToString("#.##");
                     }
-                    if (fgvm.selSolubilityUnitOption == 2){
-                        var solubility = Convert.ToDecimal(fgvm.solInWater) * 0.5M;
-                        fgvm.solInWater = solubility.ToString("#.##");    
-                    }
+
+                    fgvm.solInWaterUnits = fgvm.selSolubilityUnitOption.ToString();
                     return PartialView(fgvm);
                 }
                 if (fgvm.buttonPressed == "AmountToDissolveChange")
@@ -647,10 +658,16 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     fgvm.buttonPressed = "";
                     fgvm.btnText = "Calculate";
+                    // WIP Convert amount to dissolve to grams per liter as a base unit
+                    if (decimal.TryParse(fgvm.amountToDissolve, out decimal amountToDissolve)) {
+                        if (fgvm.amountToDissolveUnits == null) {
+                            fgvm.amountToDissolveUnits = "1";
+                        }
+                        var fromUnit = (SolubilityUnit)(int.TryParse(fgvm.amountToDissolveUnits, out int result) ? result : fgvm.selSolubilityUnitOption ?? 0);
+                        var toUnit = (SolubilityUnit)fgvm.selSolubilityUnitOption;
 
-                    if (fgvm.selTypOption == "2")
-                    {
-                        FertigationDetailSetup_DefaultDensity(ref fgvm);
+                        decimal convertedValue = ConvertSolubility(amountToDissolve, fromUnit, toUnit);
+                        fgvm.amountToDissolve = convertedValue.ToString("#.##");
                     }
                     return View(fgvm);
                 }
@@ -805,28 +822,25 @@ namespace SERVERAPI.Controllers
 
                         else { // fertigation is dry in this case 
                         // calculate dry fertigation below (may need to move this else block above ^ to accont for still required and other funcs)
-                        FertilizerNutrients fertilizerNutrients = _calculateFertigationNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
-                                fgvm.fertilizerType,
-                                Convert.ToDecimal(fgvm.productRate),
-                                Convert.ToInt32(fgvm.selProductRateUnitOption),
-                                fgvm.density != null ? Convert.ToDecimal(fgvm.density) : 0,
-                                Convert.ToInt16(fgvm.selDensityUnitOption),
-                                Convert.ToDecimal(fgvm.valN),
-                                Convert.ToDecimal(fgvm.valP2o5),
-                                Convert.ToDecimal(fgvm.valK2o),
-                                fgvm.manualEntry);
+                        // FertilizerNutrients fertilizerNutrients = _calculateFertigationNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
+                        //         fgvm.fertilizerType,
+                        //         Convert.ToDecimal(fgvm.productRate),
+                        //         Convert.ToInt32(fgvm.selProductRateUnitOption),
+                        //         fgvm.density != null ? Convert.ToDecimal(fgvm.density) : 0,
+                        //         Convert.ToInt16(fgvm.selDensityUnitOption),
+                        //         Convert.ToDecimal(fgvm.valN),
+                        //         Convert.ToDecimal(fgvm.valP2o5),
+                        //         Convert.ToDecimal(fgvm.valK2o),
+                        //         fgvm.manualEntry);
 
                         Field field = _ud.GetFieldDetails(fgvm.fieldName);
                         fgvm.fieldArea = Convert.ToString(field.Area);
-                        //FertilizerUnit _fU = _sd.GetFertilizerUnit(Convert.ToInt32(fgvm.selProductRateUnitOption));
-                        //decimal convertedProductRate = Convert.ToDecimal(fgvm.productRate) * _fU.ConversionToImperialGallonsPerAcre;
 
-
-                        SolidFertigationCalculation(fgvm, fertilizerNutrients);
+                        SolidFertigationCalculation(fgvm);
                         //Total Applied Nutrients
-                        fgvm.calcTotalN = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_N) * Convert.ToInt32(fgvm.eventsPerSeason));
-                        fgvm.calcTotalK2o = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5) * Convert.ToInt32(fgvm.eventsPerSeason));
-                        fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_K2O) * Convert.ToInt32(fgvm.eventsPerSeason));
+                        fgvm.calcTotalN = Convert.ToString(Convert.ToDecimal(fgvm.calcN) * fgvm.eventsPerSeason);
+                        fgvm.calcTotalK2o = Convert.ToString(Convert.ToDecimal(fgvm.calcK2o)* fgvm.eventsPerSeason);
+                        fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToDecimal(fgvm.calcP2o5) * fgvm.eventsPerSeason);
 
                         fgvm.btnText = fgvm.id == null ? "Add to Field" : "Update Field";
                         }
@@ -881,7 +895,41 @@ namespace SERVERAPI.Controllers
             return PartialView(fgvm);
         }
 
-        private void SolidFertigationCalculation(FertigationDetailsViewModel fgvm, FertilizerNutrients fertilizerNutrients){
+        private enum SolubilityUnit {
+            GramsPerLiter = 1,
+            KilogramsPerLiter = 2,
+            PoundsPerImperialGallon = 3
+        }
+
+        private enum DissolveUnit {
+            Pounds = 1,
+            Kilograms = 2,
+            Grams = 3
+        }
+
+        private decimal ConvertSolubility(decimal value, SolubilityUnit fromUnit, SolubilityUnit toUnit)
+        {
+            if (fromUnit == toUnit)
+                return value;
+
+            decimal baseValue = fromUnit switch
+            {
+                SolubilityUnit.GramsPerLiter => value,
+                SolubilityUnit.KilogramsPerLiter => value * 1000,
+                SolubilityUnit.PoundsPerImperialGallon => value * 99.776373M,
+                _ => throw new ArgumentException("Invalid fromUnit")
+            };
+
+            return toUnit switch
+            {
+                SolubilityUnit.GramsPerLiter => baseValue,
+                SolubilityUnit.KilogramsPerLiter => baseValue / 1000,
+                SolubilityUnit.PoundsPerImperialGallon => baseValue / 99.776373M,
+                _ => throw new ArgumentException("Invalid toUnit")
+            };
+        }
+
+        private void SolidFertigationCalculation(FertigationDetailsViewModel fgvm){
             decimal amountToDissolve = Convert.ToDecimal(fgvm.amountToDissolve);
             decimal tankVolume = Convert.ToDecimal(fgvm.tankVolume);
             decimal fertArea = Convert.ToDecimal(fgvm.fieldArea);
@@ -891,7 +939,14 @@ namespace SERVERAPI.Controllers
             fgvm.nutrientConcentrationP205 = Convert.ToString(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / tankVolume);
 
             decimal injectionRate = Convert.ToDecimal(fgvm.injectionRate);
-            fgvm.fertigationTime = Math.Round(Convert.ToDecimal(fgvm.tankVolume) * injectionRate, 2);
+            fgvm.fertigationTime = Math.Round(Convert.ToDecimal(fgvm.tankVolume) / injectionRate, 2);
+
+            if (amountToDissolve <= tankVolume * Convert.ToDecimal(fgvm.solInWater)){
+                fgvm.dryAction = "Good";
+            }
+            else{
+                fgvm.dryAction = "Reduce the amount to dissolve";
+            }
 
             fgvm.calcN = Convert.ToString(Convert.ToDecimal(fgvm.nutrientConcentrationN) * tankVolume / fertArea);
             fgvm.calcK2o = Convert.ToString(Convert.ToDecimal(fgvm.nutrientConcentrationK2O) * tankVolume / fertArea);
