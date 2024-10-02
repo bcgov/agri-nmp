@@ -58,7 +58,7 @@
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="rate">Tank Volume</label>
                         <div>
-                            <input class="form-control" asp-for="tankVolume" id="rate" type="text" />
+                            <input class="form-control" asp-for="tankVolume" id="ddlTankVolume" type="text" />
                             <span asp-validation-for="tankVolume" class="text-danger"></span>
                         </div>
                     </div>
@@ -74,31 +74,31 @@
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="density">Solubility</label>
                         <div>
-                            <input class="form-control" asp-for="solInWater" id="density" type="text" />
+                            <input class="form-control" asp-for="solInWater" id="ddlSolInWater" type="text" />
                             <span asp-validation-for="solInWater" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
-                                <label for="ddlDensity" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="solInWaterUnits" asp-items="@(new SelectList(Model.densityUnitOptions,"Id","Value"))" id="ddlDensity"></select>
-                                <span asp-validation-for="solInWaterUnits" class="text-danger"></span>
+                                <label for="ddlSolubilityUnits" style="text-align: center; display: block;">Units</label>
+                                <select class="form-control" asp-for="selSolubilityUnitOption" asp-items="@(new SelectList(Model.solubilityUnitOptions,"Id","Value"))" id="ddlSolubilityUnits"></select>
+                                <span asp-validation-for="selSolubilityUnitOption" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group col-sm-4" style="margin-right:0px; padding-right:0px; width:140px">
-                        <label for="density">Amount to Disolve</label>
+                        <label for="density">Amount to Dissolve</label>
                         <div>
-                            <input class="form-control" asp-for="amountToDissolve" id="density" type="text"/>
+                            <input class="form-control" asp-for="amountToDissolve" id="ddlAmountToDissolve" type="text"/>
                             <span asp-validation-for="amountToDissolve" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
-                                <label for="ddlDensity" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="amountToDissolveUnits" asp-items="@(new SelectList(Model.densityUnitOptions,"Id","Value"))" id="ddlDensity"></select>
+                                <label for="ddlDissolveUnits" style="text-align: center; display: block;">Units</label>
+                                <select class="form-control" asp-for="amountToDissolveUnits" asp-items="@(new SelectList(Model.amountToDissolveUnitOptions,"Id","Value"))" id="ddlAmountToDissolve"></select>
                                 <span asp-validation-for="amountToDissolveUnits" class="text-danger"></span>
                             </div>
                         </div>
@@ -109,7 +109,17 @@
                               Action
                           </label>
                           <div class="cell" style="text-align:center">
-                            @Model.dryAction
+                            @if (Model.dryAction == "Good")
+                            {
+                                <span style="color: #4BB543;">@Model.dryAction </span>
+                                <img src="~/images/good.svg" title="Good"/>
+                            
+                            }
+                            else if (Model.dryAction == "Reduce the amount to dissolve")
+                            {
+                                 <span style="color: #FF0000;">@Model.dryAction</span>
+                                 <img src="~/images/stop.svg" title="Stop"/>
+                            }
                           </div>
                       </div>
                     </div>
@@ -424,11 +434,19 @@
 
         @Html.HiddenFor(x => x.tankVolume)
         @Html.HiddenFor(x => x.solInWater)
-
+        @Html.HiddenFor(x => x.amountToDissolve)
+        @Html.HiddenFor(x => x.amountToDissolveUnitOptions)
+        @Html.HiddenFor(x => x.amountToDissolveUnits)
+        @Html.HiddenFor(x => x.selSolubilityUnitOption)
+        @Html.HiddenFor(m => m.solInWaterUnits)
 
         @Html.HiddenFor(x => x.fertigationTime)
         @Html.HiddenFor(x => x.totProductVolPerFert)
         @Html.HiddenFor(x => x.totProductVolPerSeason)
+        @Html.HiddenFor(x => x.nutrientConcentrationN)
+        @Html.HiddenFor(x => x.nutrientConcentrationK2O)
+        @Html.HiddenFor(x => x.nutrientConcentrationP205)
+
     </form>
 </div>
 

@@ -291,6 +291,7 @@ namespace SERVERAPI.Controllers
                 }
                 fgvm.density = nf.liquidDensity.ToString("#.##");
                 fgvm.selDensityUnitOption = nf.liquidDensityUnitId;
+                fgvm.selSolubilityUnitOption = nf.solInWaterUnitId;
                 fgvm.eventsPerSeason = getNumberOfEvents(fgvm);
                 fgvm.selFertSchedOption = nf.applMethodId.ToString();
                 fgvm.injectionRate = nf.injectionRate.ToString("#.##"); 
@@ -325,13 +326,29 @@ namespace SERVERAPI.Controllers
             else
             {
                 FertigationDetail_Reset(ref fgvm);
-                if (fgvm.selTypOption == "4") // This is custom liquid fertigation, could be put directly into details reset
+                if (fgvm.selTypOption == "4") // This is custom liquid fertigation 
+                {
+
+                    fgvm.valN = "";
+                    fgvm.valP2o5 = "";
+                    fgvm.valK2o = "";
+
+                    fgvm.manualEntry = true;
+                }
+                else if (fgvm.selTypOption == "2") // This is custom dry fertigation
                 {
                     fgvm.valN = "";
                     fgvm.valP2o5 = "";
                     fgvm.valK2o = "";
+
+                    fgvm.tankVolume = "";
+                    fgvm.amountToDissolve = "";
+                    fgvm.solInWater = "";
+                    fgvm.dryAction = "";
+
                     fgvm.manualEntry = true;
                 }
+
             }
             FertigationStillRequired(ref fgvm);
             FertigationDetailsSetup(ref fgvm);
@@ -353,6 +370,10 @@ namespace SERVERAPI.Controllers
             fgvm.calcTotalK2o = "0";
             fgvm.calcTotalP2o5 = "0";
 
+            fgvm.nutrientConcentrationN = "0";
+            fgvm.nutrientConcentrationP205 = "0";
+            fgvm.nutrientConcentrationK2O = "0";
+
             fgvm.totN = "0";
             fgvm.totP2o5 = "0";
             fgvm.totK2o = "0";
@@ -365,13 +386,27 @@ namespace SERVERAPI.Controllers
             fgvm.totProductVolPerFert = 0.0M;
             fgvm.totProductVolPerSeason = 0.0M;
 
+            fgvm.tankVolume = "";
+            fgvm.solInWater = "";
+            fgvm.amountToDissolve = "";
+
             fgvm.eventsPerSeason = 1;
 
             // if custom liquid fertigation, we set these to empty for user to change
-            if (fgvm.selTypOption == "2" || fgvm.selTypOption == "4"){
+            if (fgvm.selTypOption == "2"){
                 fgvm.valN = "";
                 fgvm.valP2o5 = "";
-                fgvm.valK2o = "";    
+                fgvm.valK2o = "";
+
+                fgvm.tankVolume = "";
+                fgvm.amountToDissolve = "";
+                fgvm.solInWater = "";
+                fgvm.dryAction = "";
+            }
+            if (fgvm.selTypOption == "4"){
+                fgvm.valN = "";
+                fgvm.valP2o5 = "";
+                fgvm.valK2o = "";
             }
         }
 
@@ -445,12 +480,20 @@ namespace SERVERAPI.Controllers
 
         private void FertigationDetailsSetup(ref FertigationDetailsViewModel fgvm)
         {
+            //here we will have to add the solid units dropdown
             fgvm.typOptions = GetOptionsList(_fg.FertilizerTypes);
             fgvm.fertOptions = GetFertigationFertilizers(fgvm.selTypOption);
             fgvm.productRateUnitOptions = GetOptionsList(_fg.ProductRateUnits);
             fgvm.injectionRateUnitOptions = GetOptionsList(_fg.InjectionRateUnits);
             fgvm.densityUnitOptions = GetOptionsList(_fg.DensityUnits);
+            fgvm.solubilityUnitOptions = GetOptionsList(_fg.SolubilityUnits);
             fgvm.applPeriod = GetOptionsList(_fg.Schedules);
+            fgvm.amountToDissolveUnitOptions = new List<SelectListItem>
+                                                {
+                                                    new SelectListItem { Id = 1, Value = "lbs" },
+                                                    new SelectListItem { Id = 2, Value = "kgs" },
+                                                    new SelectListItem { Id = 3, Value = "grams" }
+                                                };
             FertigationDetailSetup_Fertilizer(ref fgvm);
         }
 
@@ -556,6 +599,10 @@ namespace SERVERAPI.Controllers
 
                         FertigationDetailSetup_DefaultDensity(ref fgvm);
                     }
+                    if (fgvm.selTypOption == "1")
+                    {
+                        FertigationDetailSetup_DefaultSolubility(ref fgvm);
+                    }
 
                     return View(fgvm);
                 }
@@ -570,6 +617,57 @@ namespace SERVERAPI.Controllers
                         fgvm.fertilizerType == "liquid")
                     {
                         FertigationDetailSetup_DefaultDensity(ref fgvm);
+                    }
+                    return View(fgvm);
+                }
+                if (fgvm.buttonPressed == "TankVolumeChange")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+
+                    if (fgvm.selTypOption == "2")
+                    {
+                        FertigationDetailSetup_DefaultDensity(ref fgvm);
+                    }
+                    return View(fgvm);
+                }
+                if (fgvm.buttonPressed == "SolInWaterUnitChange")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+
+                    if (decimal.TryParse(fgvm.solInWater, out decimal currentValue))
+                    {
+                        if (fgvm.solInWaterUnits == null) {
+                            fgvm.solInWaterUnits = "1";
+                        }
+                        var fromUnit = (SolubilityUnit)(int.TryParse(fgvm.solInWaterUnits, out int result) ? result : fgvm.selSolubilityUnitOption ?? 0);
+                        var toUnit = (SolubilityUnit)fgvm.selSolubilityUnitOption;
+
+                        decimal convertedValue = ConvertSolubility(currentValue, fromUnit, toUnit);
+                        fgvm.solInWater = convertedValue.ToString("#.##");
+                    }
+
+                    fgvm.solInWaterUnits = fgvm.selSolubilityUnitOption.ToString();
+                    return PartialView(fgvm);
+                }
+                if (fgvm.buttonPressed == "AmountToDissolveChange")
+                {
+                    ModelState.Clear();
+                    fgvm.buttonPressed = "";
+                    fgvm.btnText = "Calculate";
+                    // WIP Convert amount to dissolve to grams per liter as a base unit
+                    if (decimal.TryParse(fgvm.amountToDissolve, out decimal amountToDissolve)) {
+                        if (fgvm.amountToDissolveUnits == null) {
+                            fgvm.amountToDissolveUnits = "1";
+                        }
+                        var fromUnit = (SolubilityUnit)(int.TryParse(fgvm.amountToDissolveUnits, out int result) ? result : fgvm.selSolubilityUnitOption ?? 0);
+                        var toUnit = (SolubilityUnit)fgvm.selSolubilityUnitOption;
+
+                        decimal convertedValue = ConvertSolubility(amountToDissolve, fromUnit, toUnit);
+                        fgvm.amountToDissolve = convertedValue.ToString("#.##");
                     }
                     return View(fgvm);
                 }
@@ -660,22 +758,8 @@ namespace SERVERAPI.Controllers
                         FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption.ToString());
                         fgvm.applDate = fgvm.applDate?.Date;
 
-                       // if (ft.DryLiquid == "liquid")
-                      //  {
-                      //      if (!ft.Custom)
-                      //      {
-                       //         if (fgvm.density != _sd.GetLiquidFertilizerDensity(fgvm.selFertOption ?? 0, fgvm.selDensityUnitOption ?? 0).Value.ToString("#.##"))
-                     //           {
-                     //               fgvm.stdDensity = false;
-                     //           }
-                     //           else
-                     //           {
-                     //               fgvm.stdDensity = true;
-                     //           }
-                     //       }
-                     //   }
-                    //
- 
+                        if (ft.DryLiquid == "liquid") {
+
                         var fertilizerNutrients = _calculateFertigationNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
                                 fgvm.fertilizerType,
                                 Convert.ToDecimal(fgvm.productRate),
@@ -734,6 +818,32 @@ namespace SERVERAPI.Controllers
                         fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_K2O) * Convert.ToInt32(fgvm.eventsPerSeason));
 
                         fgvm.btnText = fgvm.id == null ? "Add to Field" : "Update Field";
+                        }
+
+                        else { // fertigation is dry in this case 
+                        // calculate dry fertigation below (may need to move this else block above ^ to accont for still required and other funcs)
+                        // FertilizerNutrients fertilizerNutrients = _calculateFertigationNutrients.GetFertilizerNutrients(fgvm.selFertOption ?? 0,
+                        //         fgvm.fertilizerType,
+                        //         Convert.ToDecimal(fgvm.productRate),
+                        //         Convert.ToInt32(fgvm.selProductRateUnitOption),
+                        //         fgvm.density != null ? Convert.ToDecimal(fgvm.density) : 0,
+                        //         Convert.ToInt16(fgvm.selDensityUnitOption),
+                        //         Convert.ToDecimal(fgvm.valN),
+                        //         Convert.ToDecimal(fgvm.valP2o5),
+                        //         Convert.ToDecimal(fgvm.valK2o),
+                        //         fgvm.manualEntry);
+
+                        Field field = _ud.GetFieldDetails(fgvm.fieldName);
+                        fgvm.fieldArea = Convert.ToString(field.Area);
+
+                        SolidFertigationCalculation(fgvm);
+                        //Total Applied Nutrients
+                        fgvm.calcTotalN = Convert.ToString(Convert.ToDecimal(fgvm.calcN) * fgvm.eventsPerSeason);
+                        fgvm.calcTotalK2o = Convert.ToString(Convert.ToDecimal(fgvm.calcK2o)* fgvm.eventsPerSeason);
+                        fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToDecimal(fgvm.calcP2o5) * fgvm.eventsPerSeason);
+
+                        fgvm.btnText = fgvm.id == null ? "Add to Field" : "Update Field";
+                        }
 
                         // temporarily update the farm data so as to recalc the Still Required amounts
                         if (fgvm.id == null)
@@ -759,6 +869,7 @@ namespace SERVERAPI.Controllers
                         {
                             _ud.UpdateFieldNutrientsFertilizer(fgvm.fieldName, origFertilizer);
                         }
+                       
                     }
                     else if (fgvm.buttonPressed == "Add to Field" || fgvm.buttonPressed == "Update Field") 
                     {
@@ -784,6 +895,111 @@ namespace SERVERAPI.Controllers
             return PartialView(fgvm);
         }
 
+        private enum SolubilityUnit {
+            GramsPerLiter = 1,
+            KilogramsPerLiter = 2,
+            PoundsPerImperialGallon = 3
+        }
+
+        private enum DissolveUnit {
+            Pounds = 1,
+            Kilograms = 2,
+            Grams = 3
+        }
+
+        private decimal ConvertSolubility(decimal value, SolubilityUnit fromUnit, SolubilityUnit toUnit)
+        {
+            if (fromUnit == toUnit)
+                return value;
+
+            decimal baseValue = fromUnit switch
+            {
+                SolubilityUnit.GramsPerLiter => value,
+                SolubilityUnit.KilogramsPerLiter => value * 1000,
+                SolubilityUnit.PoundsPerImperialGallon => value * 99.776373M,
+                _ => throw new ArgumentException("Invalid fromUnit")
+            };
+
+            return toUnit switch
+            {
+                SolubilityUnit.GramsPerLiter => baseValue,
+                SolubilityUnit.KilogramsPerLiter => baseValue / 1000,
+                SolubilityUnit.PoundsPerImperialGallon => baseValue / 99.776373M,
+                _ => throw new ArgumentException("Invalid toUnit")
+            };
+        }
+
+        private void SolidFertigationCalculation(FertigationDetailsViewModel fgvm){
+            decimal amountToDissolve = Convert.ToDecimal(fgvm.amountToDissolve);
+            decimal tankVolume = Convert.ToDecimal(fgvm.tankVolume);
+            decimal fertArea = Convert.ToDecimal(fgvm.fieldArea);
+
+            fgvm.nutrientConcentrationN = Convert.ToString(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / tankVolume);
+            fgvm.nutrientConcentrationK2O = Convert.ToString(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / tankVolume);
+            fgvm.nutrientConcentrationP205 = Convert.ToString(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / tankVolume);
+
+            decimal injectionRate = Convert.ToDecimal(fgvm.injectionRate);
+            fgvm.fertigationTime = Math.Round(Convert.ToDecimal(fgvm.tankVolume) / injectionRate, 2);
+
+            if (amountToDissolve <= tankVolume * Convert.ToDecimal(fgvm.solInWater)){
+                fgvm.dryAction = "Good";
+            }
+            else{
+                fgvm.dryAction = "Reduce the amount to dissolve";
+            }
+
+            fgvm.calcN = Convert.ToString(Convert.ToDecimal(fgvm.nutrientConcentrationN) * tankVolume / fertArea);
+            fgvm.calcK2o = Convert.ToString(Convert.ToDecimal(fgvm.nutrientConcentrationK2O) * tankVolume / fertArea);
+            fgvm.calcP2o5 = Convert.ToString(Convert.ToDecimal(fgvm.nutrientConcentrationP205) * tankVolume / fertArea);
+
+            fgvm.totN = Convert.ToString(Convert.ToDecimal(fgvm.calcN) * fgvm.eventsPerSeason);
+            fgvm.totK2o = Convert.ToString(Convert.ToDecimal(fgvm.calcK2o) * fgvm.eventsPerSeason);
+            fgvm.totP2o5 = Convert.ToString(Convert.ToDecimal(fgvm.calcP2o5) * fgvm.eventsPerSeason);
+
+        }
+
+        private void FertigationDetailSetup_DefaultSolubility(ref FertigationDetailsViewModel fgvm)
+        {
+            fgvm.fertOptions = new List<SelectListItem>();
+            if (fgvm.selTypOption != null &&
+               fgvm.selTypOption != "select")
+            {
+                FertilizerType ft = _sd.GetFertilizerType(fgvm.selTypOption);
+                if (!ft.Custom)
+                {
+                    fgvm.fertOptions = GetFertigationFertilizers(ft.Id.ToString()).ToList();
+                }
+                else
+                {
+                    fgvm.fertOptions = new List<SelectListItem>() { new SelectListItem() { Id = 1, Value = "Custom" } };
+                    fgvm.selFertOption = 1;
+                    // fgvm.stdDensity = true;
+                }
+            }
+            else
+            {
+                fgvm.fertOptions = new List<SelectListItem>();
+                fgvm.selFertOption = 0;
+            }
+
+
+            if (fgvm.selSolubilityUnitOption == 0 || fgvm.selFertOption == 0)
+            {
+                fgvm.solInWater = "";
+                // fgvm.stdDensity = true;
+            }
+            
+            if (!fgvm.manualEntry &&
+                fgvm.fertilizerType == "dry" &&
+                fgvm.selFertOption != 0 &&
+                fgvm.selSolubilityUnitOption != 0)
+            {
+                fgvm.solInWater = _fg.GetDryFertilizerSolubility(Convert.ToInt32(fgvm.selFertOption), Convert.ToInt32(fgvm.selSolubilityUnitOption)).Value.ToString("#.##");
+
+                // fgvm.stdDensity = true;
+            }
+
+        }
         private void FertigationDetailSetup_DefaultDensity(ref FertigationDetailsViewModel fgvm)
         {
             fgvm.fertOptions = new List<SelectListItem>();
