@@ -17,6 +17,7 @@
             public const string NutrientIcons = "Agri.Data.SeedData.NutrientIconsData.json";
             public const string SubMenus = "Agri.Data.SeedData.SubMenusData.json";
             public const string UserPrompts = "Agri.Data.SeedData.UserPromptsData.json";
+            public const string Fertigation = "Agri.Data.SeedData.FertigationData.json";
         }
     }
 }
