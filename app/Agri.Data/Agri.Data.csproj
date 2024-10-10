@@ -16,6 +16,7 @@
     <EmbeddedResource Include="SeedData\DepthsData.json" />
     <EmbeddedResource Include="SeedData\ExternalLinksData.json" />
     <EmbeddedResource Include="SeedData\JourneyData.json" />
+    <EmbeddedResource Include="SeedData\FertigationData.json" />
     <EmbeddedResource Include="SeedData\LocationsData.json" />
     <EmbeddedResource Include="SeedData\MiniAppLabelData.json" />
     <EmbeddedResource Include="SeedData\NutrientIconsData.json" />
