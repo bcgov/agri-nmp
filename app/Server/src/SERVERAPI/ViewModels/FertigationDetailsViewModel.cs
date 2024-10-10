@@ -116,6 +116,8 @@ namespace SERVERAPI.ViewModels
         [RequiredIf("selTypOption", "1", "2", ErrorMessage = "Required")]
         public string tankVolume { get; set; }
         public string tankVolumeUnits { get; set; }
+        public List<SelectListItem> tankVolumeUnitOptions { get; set; }
+        public int? selTankVolumeUnitOption { get; set; }
         // [Required(ErrorMessage = "Required")]
         // [Range(0, 9999, ErrorMessage = "Required")]
         [RequiredIf("selTypOption", "1", "2", ErrorMessage = "Required")]
@@ -130,6 +132,7 @@ namespace SERVERAPI.ViewModels
         public string amountToDissolve { get; set; }
         public string amountToDissolveUnits { get; set; }
         public List<SelectListItem> amountToDissolveUnitOptions { get; set; }
+        public int? selDissolveUnitOption { get; set; }
         public string dryAction { get; set; }
         public string nutrientConcentrationN { get; set; }
         public string nutrientConcentrationP205 { get; set; }
