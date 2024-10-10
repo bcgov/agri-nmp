@@ -72,9 +72,8 @@ namespace SERVERAPI.ViewComponents
         }
         public Fertigation GetFertigationData()
         {
-            var filePath = "../../../Agri.Data/SeedData/FertigationData.json";
-            var jsonData = System.IO.File.ReadAllText(filePath);
-            return JsonConvert.DeserializeObject<Fertigation>(jsonData);
+            var jsonData = SeedDataLoader.GetSeedJsonData<Fertigation>(Constants.SeedDataFiles.Fertigation);
+            return jsonData;
         }
         private Fertilizer GetFertigationFertilizer(int id)
         {
