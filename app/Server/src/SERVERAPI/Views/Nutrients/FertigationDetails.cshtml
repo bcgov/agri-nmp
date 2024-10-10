@@ -66,8 +66,8 @@
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label for="ddlProdRate" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="tankVolumeUnits" asp-items="@(new SelectList(Model.productRateUnitOptions,"Id","Value"))" id="ddlProdRate"></select>
-                                <span asp-validation-for="tankVolumeUnits" class="text-danger"></span>
+                                <select class="form-control" asp-for="selTankVolumeUnitOption" asp-items="@(new SelectList(Model.tankVolumeUnitOptions,"Id","Value"))" id="ddlTankVolume"></select>
+                                <span asp-validation-for="selTankVolumeUnitOption" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -98,8 +98,8 @@
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label for="ddlDissolveUnits" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="amountToDissolveUnits" asp-items="@(new SelectList(Model.amountToDissolveUnitOptions,"Id","Value"))" id="ddlAmountToDissolve"></select>
-                                <span asp-validation-for="amountToDissolveUnits" class="text-danger"></span>
+                                <select class="form-control" asp-for="selDissolveUnitOption" asp-items="@(new SelectList(Model.amountToDissolveUnitOptions,"Id","Value"))" id="ddlAmountToDissolve"></select>
+                                <span asp-validation-for="selDissolveUnitOption" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -433,9 +433,13 @@
         @Html.HiddenFor(x => x.totPIconText)
 
         @Html.HiddenFor(x => x.tankVolume)
+        @Html.HiddenFor(x => x.tankVolumeUnits)
+        @Html.HiddenFor(x => x.tankVolumeUnitOptions)
+        @Html.HiddenFor(x => x.selTankVolumeUnitOption)
         @Html.HiddenFor(x => x.solInWater)
         @Html.HiddenFor(x => x.amountToDissolve)
         @Html.HiddenFor(x => x.amountToDissolveUnitOptions)
+        @Html.HiddenFor(x => x.selDissolveUnitOption)
         @Html.HiddenFor(x => x.amountToDissolveUnits)
         @Html.HiddenFor(x => x.selSolubilityUnitOption)
         @Html.HiddenFor(m => m.solInWaterUnits)
