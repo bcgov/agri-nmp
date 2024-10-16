@@ -257,7 +257,6 @@ namespace SERVERAPI.Controllers
 
         public IActionResult FertigationDetails(string fldName, int? id, string? groupID)
         {
-            var thign = ModelState.IsValid;
             var fgvm = new FertigationDetailsViewModel()
             {
               fieldName = fldName,
@@ -296,6 +295,15 @@ namespace SERVERAPI.Controllers
                 fgvm.selFertSchedOption = nf.applMethodId.ToString();
                 fgvm.injectionRate = nf.injectionRate.ToString("#.##"); 
                 fgvm.selInjectionRateUnitOption = nf.injectionRateUnitId.ToString();
+                fgvm.tankVolume = nf.tankVolume.ToString("#.##");
+                fgvm.selTankVolumeUnitOption = nf.tankVolumeUnitId;
+                fgvm.solInWater = nf.solInWater.ToString("#.##");
+                fgvm.selSolubilityUnitOption = nf.solInWaterUnitId;
+                fgvm.amountToDissolve = nf.amountToDissolve.ToString("#.##");
+                fgvm.selDissolveUnitOption = nf.dissolveUnitId;
+                fgvm.nutrientConcentrationN = nf.nutrientConcentrationN.ToString("#.##");
+                fgvm.nutrientConcentrationP205 = nf.nutrientConcentrationP205.ToString("#.##");
+                fgvm.nutrientConcentrationK2O = nf.nutrientConcentrationK2O.ToString("#.##");
                 if (!ft.Custom && ft.DryLiquid == "liquid")
                 {
                     if (fgvm.density != _fg.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).Value.ToString("#.##"))
@@ -480,7 +488,6 @@ namespace SERVERAPI.Controllers
 
         private void FertigationDetailsSetup(ref FertigationDetailsViewModel fgvm)
         {
-            //here we will have to add the solid units dropdown
             fgvm.typOptions = GetOptionsList(_fg.FertilizerTypes);
             fgvm.fertOptions = GetFertigationFertilizers(fgvm.selTypOption);
             fgvm.productRateUnitOptions = GetOptionsList(_fg.ProductRateUnits);
@@ -1137,6 +1144,15 @@ namespace SERVERAPI.Controllers
                     isFertigation = true,
                     injectionRate = Convert.ToDecimal(fgvm.injectionRate),
                     injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
+                    tankVolume = Convert.ToDecimal(fgvm.tankVolume),
+                    tankVolumeUnitId = Convert.ToInt32(fgvm.selTankVolumeUnitOption),
+                    solInWater = Convert.ToDecimal(fgvm.solInWater),
+                    solInWaterUnitId = Convert.ToInt32(fgvm.selSolubilityUnitOption),
+                    amountToDissolve = Convert.ToDecimal(fgvm.amountToDissolve),
+                    dissolveUnitId = Convert.ToInt32(fgvm.amountToDissolveUnits),
+                    nutrientConcentrationN = Convert.ToDecimal(fgvm.nutrientConcentrationN),
+                    nutrientConcentrationP205 = Convert.ToDecimal(fgvm.nutrientConcentrationP205),
+                    nutrientConcentrationK2O = Convert.ToDecimal(fgvm.nutrientConcentrationK2O),
                     groupID = groupID
                 };
 
@@ -1215,6 +1231,15 @@ namespace SERVERAPI.Controllers
                     groupID = fgvm.groupID,
                     injectionRate = Convert.ToDecimal(fgvm.injectionRate),
                     injectionRateUnitId = Convert.ToInt32(fgvm.selInjectionRateUnitOption),
+                    tankVolume = Convert.ToDecimal(fgvm.tankVolume),
+                    tankVolumeUnitId = Convert.ToInt32(fgvm.selTankVolumeUnitOption),
+                    solInWater = Convert.ToDecimal(fgvm.solInWater),
+                    solInWaterUnitId = Convert.ToInt32(fgvm.selSolubilityUnitOption),
+                    amountToDissolve = Convert.ToDecimal(fgvm.amountToDissolve),
+                    dissolveUnitId = Convert.ToInt32(fgvm.amountToDissolveUnits),
+                    nutrientConcentrationN = Convert.ToDecimal(fgvm.nutrientConcentrationN),
+                    nutrientConcentrationP205 = Convert.ToDecimal(fgvm.nutrientConcentrationP205),
+                    nutrientConcentrationK2O = Convert.ToDecimal(fgvm.nutrientConcentrationK2O),
                     isFertigation = true
                 };
 

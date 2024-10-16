@@ -27,6 +27,14 @@ namespace Agri.Models.Farm
         public bool isFertigation { get; set; }
         public decimal injectionRate { get; set; }
         public int injectionRateUnitId { get; set; }
+        public decimal tankVolume { get; set; }
+        public int tankVolumeUnitId { get; set; }   
+        public decimal solInWater { get; set; }
+        public decimal amountToDissolve { get; set; }
+        public int dissolveUnitId { get; set; }
+        public decimal nutrientConcentrationN { get; set; }
+        public decimal nutrientConcentrationP205 { get; set; }
+        public decimal nutrientConcentrationK2O { get; set; }
         public string groupID { get; set; }
     }
 }
