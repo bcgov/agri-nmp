@@ -2095,7 +2095,7 @@ namespace Agri.Data
         }
         public List<SelectListItem> GetWhereWillPruningsGoDll()
         {
-            string[] values = { "N/A", "Removed from field", "Left in row", "Left between rows" };
+            string[] values = { "Removed from field", "Left in row", "Left between rows" };
             var result = values.ToList().Select((item, index) =>
                                     new SelectListItem() { Id = index, Value = item }).ToList();
             return result;
