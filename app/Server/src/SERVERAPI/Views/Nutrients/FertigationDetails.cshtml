@@ -153,14 +153,14 @@
                       </div>
                       </div>
                     } else {
-                        <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
-                            <label for="rate">Product Rate</label>
+                        <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:120px">
+                            <label for="rate">Application Rate</label>
                             <div>
                                 <input class="form-control" asp-for="productRate" id="rate" type="text" />
                                 <span asp-validation-for="productRate" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px">
+                        <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px;width:100px">
                             <div style="display:table; width:100%">
                                 <div style="display:table-row">
                                     <label for="ddlProdRate" style="text-align: center; display: block;">Units</label>
@@ -209,14 +209,14 @@
                         </div>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label for="eventsPerSeason">Proposed Number of Fertigation Per Season</label>
+                        <label for="eventsPerSeason">Number of Fertigation Applications per Season</label>
                         <div>
                             <input class="form-control" id="eventsPerSeason" type="number" min="1" asp-for="eventsPerSeason" style="width:100px" />
                             <span asp-validation-for="eventsPerSeason" class="text-danger" value=1></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label for="ddlMan">Fertigation Scheduling</label>
+                        <label for="ddlMan">Application Frequency</label>
                         <select class="form-control" id="ddlApplPeriod" style="width:100%" asp-for="selFertSchedOption" asp-items="@(new SelectList(Model.applPeriod,"Id","Value"))">
                             <option></option>
                         </select>
@@ -256,8 +256,8 @@
                 } else {
                   <div class="form-group col-sm-4" style="display:flex; align-items: center;">
                       <div>
-                          <label style="text-wrap: pretty; text-align: center;">
-                              Total Product Volume per Fertigation (Imp. gal)
+                          <label id="productVolumeLabel" style="text-wrap: pretty; text-align: center;">
+                              Total Product Volume per Application (select a unit)
                           </label>
                           <div class="cell" style="text-align:center">
                             @Model.totProductVolPerFert
@@ -266,8 +266,8 @@
                   </div>
                   <div class="form-group col-sm-4" style="display:flex; align-items: center;">
                       <div>
-                          <label style="text-wrap: pretty; text-align: center;">
-                              Total Product Volume for Growing Season (Imp. gal)
+                          <label id="productVolumeGrowingLabel" style="text-wrap: pretty; text-align: center;">
+                              Total Product Volume for Growing Season (select a unit)
                           </label>
                           <div class="cell" style="text-align:center">
                             @Model.totProductVolPerSeason
@@ -277,7 +277,7 @@
                   <div class="form-group col-sm-4" style="display:flex; align-items: center;">
                       <div>
                           <label >
-                              Fertigation Time (Minutes)
+                              Time per Application
                           </label>
                           <div class="cell" style="text-align:center">
                             @Model.fertigationTime
@@ -481,5 +481,18 @@
             $('#applDate').datepicker('setDate', date);
         }
     }
+
+    //change unit label based on userUnit selection of Application rate units
+    $('#ddlProdRate').on('change', function () {
+        var userUnit = $(this).find("option:selected").text(); 
+        $('#productVolumeLabel').text('Total Product Volume per Application (' + userUnit + ')');
+        $('#productVolumeGrowingLabel').text('Total Product Volume Growing Season (' + userUnit + ')');
+    });
+    // On page load, initialize the label based on the selected unit
+    $(function () {
+        var initialUnit = $('#ddlProdRate option:selected').text();
+        $('#productVolumeLabel').text('Total Product Volume per Application (' + initialUnit + ')');
+        $('#productVolumeGrowingLabel').text('Total Product Volume for Growing Season (' + initialUnit + ')');
+    });
 });
 </script>
