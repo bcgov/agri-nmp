@@ -201,20 +201,6 @@
   ],
   "FertilizerTypes":[
     {
-      "Id": 1,
-      "Name": "Dry Fertilizer",
-      "DryLiquid": "Dry",
-      "Custom": false,
-      "StaticDataVersionId": 14
-    },
-    {
-      "Id": 2,
-      "Name": "Dry Fertilizer (Custom)",
-      "LiquidSolid": "Liquid",
-      "Custom": true,
-      "StaticDataVersionId": 14
-    },
-    {
       "Id": 3,
       "Name": "Liquid Fertilizer",
       "LiquidSolid": "Solid",
@@ -225,6 +211,20 @@
       "Id": 4,
       "Name": "Liquid Fertilizer (Custom)",
       "LiquidSolid": "Solid",
+      "Custom": true,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 1,
+      "Name": "Dry Fertilizer",
+      "DryLiquid": "Dry",
+      "Custom": false,
+      "StaticDataVersionId": 14
+    },
+    {
+      "Id": 2,
+      "Name": "Dry Fertilizer (Custom)",
+      "LiquidSolid": "Liquid",
       "Custom": true,
       "StaticDataVersionId": 14
     }
