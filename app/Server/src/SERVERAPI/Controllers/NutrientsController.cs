@@ -390,7 +390,7 @@ namespace SERVERAPI.Controllers
             fgvm.totPIcon = "";
             fgvm.totKIcon = "";
 
-            fgvm.fertigationTime = 0.0M;
+            fgvm.fertigationTime = 0M;
             fgvm.totProductVolPerFert = 0.0M;
             fgvm.totProductVolPerSeason = 0.0M;
 
@@ -797,11 +797,11 @@ namespace SERVERAPI.Controllers
                         decimal convertedProductRate = Convert.ToDecimal(fgvm.productRate) * _fU.ConversionToImperialGallonsPerAcre;
 
                         //Total Product Volume per fertigation
-                        fgvm.totProductVolPerFert =  Math.Round((field.Area * convertedProductRate), 2); // convert to int/string? Error messages?
+                        fgvm.totProductVolPerFert =  Math.Round((field.Area * convertedProductRate), 1); // convert to int/string? Error messages?
 
                         // Total product volume per growing season calc
                         // Product Rate x Fertigation area x fert per season 
-                        fgvm.totProductVolPerSeason = Math.Round((field.Area * convertedProductRate * fgvm.eventsPerSeason), 2); // convert to int/string? Error messages?
+                        fgvm.totProductVolPerSeason = Math.Round((field.Area * convertedProductRate * fgvm.eventsPerSeason), 1); // convert to int/string? Error messages?
 
                         decimal injectionRateConversion = 0;
                         switch (fgvm.selInjectionRateUnitOption)
@@ -826,7 +826,7 @@ namespace SERVERAPI.Controllers
 
                         //Fertigation time 
                         decimal fertTimeVal = Convert.ToDecimal(fgvm.totProductVolPerFert) / (Convert.ToDecimal(fgvm.injectionRate) / injectionRateConversion);
-                        fgvm.fertigationTime = Math.Round(fertTimeVal, 2); 
+                        fgvm.fertigationTime = Math.Round(fertTimeVal, 0); 
                         
                         //Applied nutrients per fertigation  
                         fgvm.calcN = Convert.ToInt32(fertilizerNutrients.fertilizer_N).ToString();
@@ -1017,10 +1017,10 @@ namespace SERVERAPI.Controllers
             fgvm.nutrientConcentrationP205 = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / tankVolume, 2));
 
             decimal injectionRate = Convert.ToDecimal(fgvm.injectionRate);
-            fgvm.fertigationTime = Math.Round(Convert.ToDecimal(fgvm.tankVolume) / injectionRate, 2);
+            fgvm.fertigationTime = Math.Round(Convert.ToDecimal(fgvm.tankVolume) / injectionRate, 0);
 
             if (amountToDissolve <= tankVolume * solInWater){
-                fgvm.dryAction = "Good";
+                fgvm.dryAction = "Soluble";
             }
             else{
                 fgvm.dryAction = "Reduce the amount to dissolve";

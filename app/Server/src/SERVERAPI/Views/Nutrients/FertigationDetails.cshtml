@@ -22,8 +22,8 @@
                         </select>
                         <span asp-validation-for="selTypOption" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-3">
-                        @if(Model.selTypOption == "4" || Model.selTypOption == "2"){ // if custom liquid fertigation 
+                    <div class="form-group col-sm-3" style="width:200px;">
+                        @if(Model.selTypOption == "4" || Model.selTypOption == "2"){ // if custom liquid fertigation
                             <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:60px">
                                 <label for="valN">N(%)</label>
                                 <div>
@@ -52,9 +52,9 @@
                             </select>
                             <span asp-validation-for="selFertOption" class="text-danger"></span>
                         }
-     
+
                     </div>
-                    @if(Model.selTypOption == "1" || Model.selTypOption == "2"){ 
+                    @if(Model.selTypOption == "1" || Model.selTypOption == "2"){
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
                         <label for="rate">Tank Volume</label>
                         <div>
@@ -106,14 +106,14 @@
                     <div class="form-group col-sm-4" style="display:flex; align-items: center;">
                       <div>
                           <label >
-                              Action
+                              Solubility Assessment
                           </label>
                           <div class="cell" style="text-align:center">
-                            @if (Model.dryAction == "Good")
+                            @if (Model.dryAction == "Soluble")
                             {
                                 <span style="color: #4BB543;">@Model.dryAction </span>
-                                <img src="~/images/good.svg" title="Good"/>
-                            
+                                <img src="~/images/good.svg" title="Soluble"/>
+
                             }
                             else if (Model.dryAction == "Reduce the amount to dissolve")
                             {
@@ -153,14 +153,14 @@
                       </div>
                       </div>
                     } else {
-                        <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
-                            <label for="rate">Product Rate</label>
+                        <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:120px">
+                            <label for="rate">Application Rate</label>
                             <div>
                                 <input class="form-control" asp-for="productRate" id="rate" type="text" />
                                 <span asp-validation-for="productRate" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px">
+                        <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px;width:100px">
                             <div style="display:table; width:100%">
                                 <div style="display:table-row">
                                     <label for="ddlProdRate" style="text-align: center; display: block;">Units</label>
@@ -188,8 +188,8 @@
                     }
                 </div>
             </div>
-        
-            <div style="margin-top: 20px;"></div> 
+
+            <div style="margin-top: 20px;"></div>
 
             <div class="row">
                 <div class="form-group">
@@ -209,14 +209,14 @@
                         </div>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label for="eventsPerSeason">Proposed Number of Fertigation Per Season</label>
+                        <label for="eventsPerSeason">Number of Fertigation Applications per Season</label>
                         <div>
                             <input class="form-control" id="eventsPerSeason" type="number" min="1" asp-for="eventsPerSeason" style="width:100px" />
                             <span asp-validation-for="eventsPerSeason" class="text-danger" value=1></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label for="ddlMan">Fertigation Scheduling</label>
+                        <label for="ddlMan">Application Frequency</label>
                         <select class="form-control" id="ddlApplPeriod" style="width:100%" asp-for="selFertSchedOption" asp-items="@(new SelectList(Model.applPeriod,"Id","Value"))">
                             <option></option>
                         </select>
@@ -236,51 +236,51 @@
                 <button class="btn" type="button" data-dismiss="modal">Cancel</button>
             <button type="submit" class="btn btn-primary" id="calc_button" @( Model.btnText == "Calculate" ? Html.Raw(" style='background-color: #1abbed'") : Html.Raw(""))>Calculate</button>
             </div>
-            
+
 
                 <hr style="height:1px;border:none;color:blue;background-color:lightblue;padding:0; margin-top: 5px;" />
-              
+
               <div class="row">
-                <div class="form-group">
+                <div class="form-group" style="display:flex; justify-content:space-between; width:90%">
                 @if(Model.selTypOption == "1" || Model.selTypOption == "2"){
-                    <div class="form-group col-sm-4" style="display:flex; align-items: center;">
+                    <div class="form-group col-sm-8" style="display:flex; align-items:center; margin:5px; height: 40px;">
                       <div>
-                          <label >
-                              Fertigation Time (Minutes)
+                          <label style="display:flex; align-items:center; padding-left: 50px;">
+                              Time per Application
                           </label>
-                          <div class="cell" style="text-align:center">
-                            @Model.fertigationTime
+                          <div class="cell" style="text-wrap: pretty; text-align: center;">
+                            @Model.fertigationTime minutes
                           </div>
                       </div>
                   </div>
                 } else {
-                  <div class="form-group col-sm-4" style="display:flex; align-items: center;">
-                      <div>
-                          <label style="text-wrap: pretty; text-align: center;">
-                              Total Product Volume per Fertigation (Imp. gal)
+                  <div class="form-group col-sm-8" style="margin:5px">
+                      <div class="table">
+                          <label id="productVolumeLabel" style="text-wrap: pretty; text-align: center; height: 40px;">
+                              Total Product Volume per Application (Select a unit)
                           </label>
                           <div class="cell" style="text-align:center">
                             @Model.totProductVolPerFert
                           </div>
                       </div>
                   </div>
-                  <div class="form-group col-sm-4" style="display:flex; align-items: center;">
-                      <div>
-                          <label style="text-wrap: pretty; text-align: center;">
-                              Total Product Volume for Growing Season (Imp. gal)
+                  <div class="form-group col-sm-8" style="margin:5px">
+                      <div class="table">
+                          <label id="productVolumeGrowingLabel" style="text-wrap: pretty; text-align: center; height: 40px;">
+                              Total Product Volume for Growing Season (select a unit)
                           </label>
                           <div class="cell" style="text-align:center">
                             @Model.totProductVolPerSeason
                           </div>
                       </div>
                   </div>
-                  <div class="form-group col-sm-4" style="display:flex; align-items: center;">
-                      <div>
-                          <label >
-                              Fertigation Time (Minutes)
+                  <div class="form-group col-sm-8" style="margin:5px">
+                      <div class="table">
+                          <label style="height: 40px; text-align:center">
+                              Time per Application
                           </label>
                           <div class="cell" style="text-align:center">
-                            @Model.fertigationTime
+                            @Model.fertigationTime minutes
                           </div>
                       </div>
                   </div>
@@ -289,10 +289,10 @@
               </div>
               <div class="row">
                 <div class="form-group" style="display:flex; justify-content:space-between; width:90%">
-                  <div class="form-group col-sm-3" style="margin:5px">
+                  <div class="form-group col-sm-8" style="margin:5px">
                     <div class="Table">
                           <div class="Title">
-                              <p>Applied Nutrients Per Fetigation (lb/ac)</p>
+                              <p>Applied Nutrients Per Fertigation (lb/ac)</p>
                           </div>
                           <div class="Heading">
                               <div class="Cell">
@@ -318,9 +318,9 @@
                           </div>
                       </div>
                   </div>
-                  <div class="form-group col-sm-3" style="margin:5px">
+                  <div class="form-group col-sm-8" style="margin:5px">
                       <div class="Table">
-                          <div class="Title">
+                          <div class="Title" style="height: 45px;">
                               <p>Total Applied Nutrients (lb/ac)</p>
                           </div>
                           <div class="Heading">
@@ -347,9 +347,9 @@
                           </div>
                       </div>
                   </div>
-                  <div class="form-group col-sm-3" style="margin:5px">
+                  <div class="form-group col-sm-8" style="margin:5px">
                       <div class="Table">
-                          <div class="Title">
+                          <div class="Title" style="height: 45px;">
                               <p>Still Required This Year (lbs/ac)</p>
                           </div>
                           <div class="Heading">
@@ -457,17 +457,17 @@
 <script>
    $(document).ready(function () {
     $('#applDate').datepicker({
-        format: "dd-M-yyyy", 
+        format: "dd-M-yyyy",
         autoclose: true,
         todayHighlight: true,
         clearBtn: true,
         startView: 0,
-        minViewMode: 0, 
+        minViewMode: 0,
         endDate: '+10y',
-        defaultViewDate: new Date() 
+        defaultViewDate: new Date()
     }).on('changeDate', function(e) {
-       
-        $('#applDate').val(e.format('dd-M-yyyy'));  
+
+        $('#applDate').val(e.format('dd-M-yyyy'));
     });
 
     var existingDate = $('#applDate').val();
@@ -475,11 +475,21 @@
         var dateParts = existingDate.split('-');
         if (dateParts.length === 3) {
             var day = dateParts[0];
-            var month = new Date(Date.parse(dateParts[1] +" 1, 2024")).getMonth(); 
+            var month = new Date(Date.parse(dateParts[1] +" 1, 2024")).getMonth();
             var year = dateParts[2];
-            var date = new Date(year, month, day); 
+            var date = new Date(year, month, day);
             $('#applDate').datepicker('setDate', date);
         }
     }
+
+    // Function to update unit labels
+    function updateUnits() {
+        var userUnit = $('#ddlProdRate').find("option:selected").text();
+        $('#productVolumeLabel').text('Total Product Volume per Application (' + userUnit + ')');
+        $('#productVolumeGrowingLabel').text('Total Product Volume Growing Season (' + userUnit + ')');
+    }
+
+    // On page load, initialize unit label
+    updateUnits();
 });
 </script>
