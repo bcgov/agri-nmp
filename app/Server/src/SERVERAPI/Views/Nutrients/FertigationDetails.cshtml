@@ -22,23 +22,23 @@
                         </select>
                         <span asp-validation-for="selTypOption" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-3" style="margin-top: 8px;">
+                    <div class="form-group col-sm-3" style="margin-top: 8px; height: 57.56px;">
                         @if(Model.selTypOption == "4" || Model.selTypOption == "2"){ // if custom liquid fertigation 
-                            <div class="form-group col-sm-2" style="margin:0px; padding:0px; width:60px;">
+                            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:60px">
                                 <label for="valN">N(%)</label>
                                 <div>
                                     <input class="form-control" asp-for="valN" id="valN" type="text" />
                                     <span asp-validation-for="valN" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="form-group col-sm-2" style="margin:0px; padding:0px; width:60px;">
+                            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:60px">
                                 <label for="valP2o5">P₂O₅(%)</label>
                                 <div>
                                     <input class="form-control" asp-for="valP2o5" id="valP2o5" type="text" />
                                     <span asp-validation-for="valP2o5" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="form-group col-sm-2" style="margin:0px; padding:0px; width:60px;">
+                            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:60px">
                                 <label for="valK2o">K₂O(%)</label>
                                 <div>
                                     <input class="form-control" asp-for="valK2o" id="valK2o" type="text" />
