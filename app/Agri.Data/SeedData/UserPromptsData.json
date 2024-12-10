@@ -789,5 +789,33 @@
     "Text": "Sawdust and other materials with a high carbon to nitrogen ratio (C:N) will immobilize plant-available nitrogen in the soil. Selecting 'Yes' to this question will increase the amount of nitrogen that needs to be applied to ensure the crop receives enough nitrogen for optimal growth and yield.",
     "UserPromptPage": null,
     "UserJourney": null
+  },
+  {
+    "Id": 119,
+    "Name": "injectioninfomessage",
+    "Text": "Enter the rate in which your fertigation equipment applies fertilizer, not its overall output rate.",
+    "UserPromptPage": "Calculate",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 120,
+    "Name": "applicationinfomessage",
+    "Text": "The rate of fertilizer to be applied, not the overall output rate of your application system.",
+    "UserPromptPage": "Calculate",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 121,
+    "Name": "timeinfomessage",
+    "Text": "The amount of time required to apply fertilizer at the input fertilizer application rate, based on the injection rate entered above.",
+    "UserPromptPage": "Calculate",
+    "UserJourney": "Mixed"
+  },
+  {
+    "Id": 122,
+    "Name": "tankvolumeinfomessage",
+    "Text": "",
+    "UserPromptPage": "Calculate",
+    "UserJourney": "Mixed"
   }
 ]
