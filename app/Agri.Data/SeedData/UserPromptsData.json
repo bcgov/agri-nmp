@@ -814,7 +814,7 @@
   {
     "Id": 122,
     "Name": "tankvolumeinfomessage",
-    "Text": "",
+    "Text": "Enter the volume of fertilizer mixture to be applied; do not enter the fertigation system's total output volume.",
     "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
   }

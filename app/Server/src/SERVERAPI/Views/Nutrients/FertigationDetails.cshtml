@@ -55,8 +55,11 @@
 
                     </div>
                     @if(Model.selTypOption == "1" || Model.selTypOption == "2"){ 
-                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px; margin-top: 8px;">
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:120px;">
                         <label for="rate">Tank Volume</label>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainTime" id="toolTipExplainTime">
+                              <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Time per Application" style="font-size:20px;"></span>
+                          </a>
                         <div>
                             <input class="form-control" asp-for="tankVolume" id="ddlTankVolume" type="text" />
                             <span asp-validation-for="tankVolume" class="text-danger"></span>
