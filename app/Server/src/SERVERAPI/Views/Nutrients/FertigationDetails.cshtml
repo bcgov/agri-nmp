@@ -57,8 +57,8 @@
                     @if(Model.selTypOption == "1" || Model.selTypOption == "2"){ 
                     <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:120px;">
                         <label for="rate">Tank Volume</label>
-                            <a href="#" data-toggle="tooltip" title="@Model.ExplainTime" id="toolTipExplainTime">
-                              <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Time per Application" style="font-size:20px;"></span>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainTankVolume" id="toolTipExplainTankVolume">
+                              <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Tank Volume" style="font-size:20px;"></span>
                           </a>
                         <div>
                             <input class="form-control" asp-for="tankVolume" id="ddlTankVolume" type="text" />
@@ -471,33 +471,47 @@
 
 <script>
 $(document).ready(function () {
-  //Tooltips for injectionRate rate
-    $('#toolTipExplainInjectionRate').tooltip({
-        template: toolTipClickableInnerHtml,
-        html: true,
-        trigger: 'manual',
-    });
-    $('#toolTipExplainInjectionRate').click(function () {
-        triggerToolTip($('#toolTipExplainInjectionRate'));
-    });
-    //tooltip for Application rate
-    $('#toolTipExplainApplicationRate').tooltip({
-        template: toolTipClickableInnerHtml,
-        html: true,
-        trigger: 'manual',
-    });
-    $('#toolTipExplainApplicationRate').click(function () {
-        triggerToolTip($('#toolTipExplainApplicationRate'));
-    });
-    //tooltip for times per fertigation
-    $('#toolTipExplainTime').tooltip({
-        template: toolTipClickableInnerHtml,
-        html: true,
-        trigger: 'manual',
-    });
-    $('#toolTipExplainTime').click(function () {
-        triggerToolTip($('#toolTipExplainTime'));
-    });
+
+    function initializeToolTips() {
+      //Tooltips for injectionRate rate
+        $('#toolTipExplainInjectionRate').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainInjectionRate').click(function () {
+            triggerToolTip($('#toolTipExplainInjectionRate'));
+        });
+        //tooltip for Application rate
+        $('#toolTipExplainApplicationRate').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainApplicationRate').click(function () {
+            triggerToolTip($('#toolTipExplainApplicationRate'));
+        });
+        //tooltip for times per fertigation
+        $('#toolTipExplainTime').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainTime').click(function () {
+            triggerToolTip($('#toolTipExplainTime'));
+        });
+        //tooltip for tank volume
+        $('#toolTipExplainTankVolume').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainTankVolume').click(function () {
+            triggerToolTip($('#toolTipExplainTankVolume'));
+        });
+    }
+
+    initializeToolTips()
 
     $('#applDate').datepicker({
         format: "dd-M-yyyy",
