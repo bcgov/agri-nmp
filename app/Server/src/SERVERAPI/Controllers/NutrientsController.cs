@@ -265,6 +265,10 @@ namespace SERVERAPI.Controllers
               id = id,
               isFertigation = true,
               groupID = groupID,
+              ExplainInjectionRate = _sd.GetUserPrompt("injectioninfomessage"),
+              ExplainApplicationRate = _sd.GetUserPrompt("applicationinfomessage"),
+              ExplainTime = _sd.GetUserPrompt("timeinfomessage"),
+              ExplainTankVolume = _sd.GetUserPrompt("tankvolumeinfomessage"),
             };
             if(id == null){
                 ModelState.AddModelError("start", "invalid");
@@ -293,7 +297,7 @@ namespace SERVERAPI.Controllers
                 fgvm.selSolubilityUnitOption = nf.solInWaterUnitId;
                 fgvm.eventsPerSeason = getNumberOfEvents(fgvm);
                 fgvm.selFertSchedOption = nf.applMethodId.ToString();
-                fgvm.injectionRate = nf.injectionRate.ToString("#.##"); 
+                fgvm.injectionRate = nf.injectionRate.ToString("#.##");
                 fgvm.selInjectionRateUnitOption = nf.injectionRateUnitId.ToString();
                 fgvm.tankVolume = nf.tankVolume.ToString("#.##");
                 fgvm.selTankVolumeUnitOption = nf.tankVolumeUnitId;

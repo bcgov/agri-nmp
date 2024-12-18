@@ -141,5 +141,11 @@ namespace SERVERAPI.ViewModels
         // Miscellaneous
         public bool isFertigation { get; set; }
         public string groupID { get; set; }
+
+        //Tooltips
+        public string ExplainInjectionRate { get; set; }
+        public string ExplainApplicationRate { get; set; }
+        public string ExplainTime { get; set; }
+        public string ExplainTankVolume { get; set; }
     }
 }

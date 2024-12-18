@@ -15,30 +15,30 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <h4 class="title" style="margin-bottom: 15px;">Provide Product Details</h4>
-                    <div class="form-group col-sm-3" style="width:200px;">
+                    <div class="form-group col-sm-3" style="width:200px;     margin-top: 8px;">
                         <label for="ddlTyp">Fertilizer Type</label>
                         <select class="form-control" asp-for="selTypOption" asp-items="@(new SelectList(Model.typOptions,"Id","Value"))" id="ddlTyp">
                             <option value="">select</option>
                         </select>
                         <span asp-validation-for="selTypOption" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-sm-3" style="width:200px;">
+                    <div class="form-group col-sm-3" style="width:200px; margin-top: 8px; height: 57.56px;">
                         @if(Model.selTypOption == "4" || Model.selTypOption == "2"){ // if custom liquid fertigation
-                            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:60px">
+                            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:50px; padding-left: 0px;">
                                 <label for="valN">N(%)</label>
                                 <div>
                                     <input class="form-control" asp-for="valN" id="valN" type="text" />
                                     <span asp-validation-for="valN" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:60px">
+                            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:50px; padding-left: 0px;">
                                 <label for="valP2o5">P₂O₅(%)</label>
                                 <div>
                                     <input class="form-control" asp-for="valP2o5" id="valP2o5" type="text" />
                                     <span asp-validation-for="valP2o5" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:60px">
+                            <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:50px; padding-left: 0px;">
                                 <label for="valK2o">K₂O(%)</label>
                                 <div>
                                     <input class="form-control" asp-for="valK2o" id="valK2o" type="text" />
@@ -54,16 +54,19 @@
                         }
 
                     </div>
-                    @if(Model.selTypOption == "1" || Model.selTypOption == "2"){
-                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
+                    @if(Model.selTypOption == "1" || Model.selTypOption == "2"){ 
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:120px;">
                         <label for="rate">Tank Volume</label>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainTankVolume" id="toolTipExplainTankVolume">
+                              <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Tank Volume" style="font-size:20px;"></span>
+                          </a>
                         <div>
                             <input class="form-control" asp-for="tankVolume" id="ddlTankVolume" type="text" />
                             <span asp-validation-for="tankVolume" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px">
-                        <div style="display:table; width:100%">
+                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; margin-top: 8px;">
+                        <div style="display:table; width:100%;">
                             <div style="display:table-row">
                                 <label for="ddlProdRate" style="text-align: center; display: block;">Units</label>
                                 <select class="form-control" asp-for="selTankVolumeUnitOption" asp-items="@(new SelectList(Model.tankVolumeUnitOptions,"Id","Value"))" id="ddlTankVolume"></select>
@@ -71,14 +74,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px; margin-top: 8px;">
                         <label for="density">Solubility</label>
                         <div>
                             <input class="form-control" asp-for="solInWater" id="ddlSolInWater" type="text" />
                             <span asp-validation-for="solInWater" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px">
+                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px; margin-top: 8px;">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label for="ddlSolubilityUnits" style="text-align: center; display: block;">Units</label>
@@ -87,14 +90,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-4" style="margin-right:0px; padding-right:0px; width:140px">
+                    <div class="form-group col-sm-4" style="margin-right:0px; padding-right:0px; width:140px; margin-top: 8px;">
                         <label for="density">Amount to Dissolve</label>
                         <div>
                             <input class="form-control" asp-for="amountToDissolve" id="ddlAmountToDissolve" type="text"/>
                             <span asp-validation-for="amountToDissolve" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px">
+                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px; margin-top: 8px;">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label for="ddlDissolveUnits" style="text-align: center; display: block;">Units</label>
@@ -103,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-4" style="display:flex; align-items: center;">
+                    <div class="form-group col-sm-4" style="display:flex; align-items: center; width: 160px; margin-top: 8px;">
                       <div>
                           <label >
                               Solubility Assessment
@@ -153,14 +156,17 @@
                       </div>
                       </div>
                     } else {
-                        <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:120px">
+                        <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:150px">
                             <label for="rate">Application Rate</label>
+                            <a href="#" data-toggle="tooltip" title="@Model.ExplainApplicationRate" id="toolTipExplainApplicationRate">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Application Rate" style="font-size:20px;"></span>
+                            </a>
                             <div>
                                 <input class="form-control" asp-for="productRate" id="rate" type="text" />
                                 <span asp-validation-for="productRate" class="text-danger"></span>
                             </div>
                         </div>
-                        <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px;width:100px">
+                        <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; margin-top: 8px;">
                             <div style="display:table; width:100%">
                                 <div style="display:table-row">
                                     <label for="ddlProdRate" style="text-align: center; display: block;">Units</label>
@@ -169,14 +175,14 @@
                                 </div>
                             </div>
                         </div>
-                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px; margin-top: 8px;">
                         <label for="density">Density</label>
                         <div>
                             <input class="form-control" asp-for="density" id="density" type="text" />
                             <span asp-validation-for="density" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px">
+                    <div class="form-group col-sm-2" style="margin-left:0px;padding-left:0px; width:100px; margin-top: 8px;">
                         <div style="display:table; width:100%">
                             <div style="display:table-row">
                                 <label for="ddlDensity" style="text-align: center; display: block;">Units</label>
@@ -194,8 +200,11 @@
             <div class="row">
                 <div class="form-group">
                     <h4 class="title" style="margin-bottom: 15px;">Provide Application Details</h4>
-                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:100px">
+                    <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:150px">
                         <label for="injectionRate">Injection Rate</label>
+                        <a href="#" data-toggle="tooltip" title="@Model.ExplainInjectionRate" id="toolTipExplainInjectionRate">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Injection Rate" style="font-size:20px;"></span>
+                        </a>
                         <div>
                             <input class="form-control" asp-for="injectionRate" id="injectionRate" type="text" />
                             <span asp-validation-for="injectionRate" class="text-danger"></span>
@@ -203,20 +212,20 @@
                     </div>
                     <div class="form-group col-sm-2" style="margin-left:0px; padding-left:0px">
                         <div style="display:table; width:100%">
-                            <label for="ddlInjRate" style="text-align: center; display: block;">Units</label>
+                            <label for="ddlInjRate" style="text-align: center; display: block; margin-top: 8px;">Units</label>
                             <select class="form-control" asp-for="selInjectionRateUnitOption" asp-items="@(new SelectList(Model.injectionRateUnitOptions,"Id","Value"))" id="ddlInjRate"></select>
                             <span asp-validation-for="selInjectionRateUnitOption" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-4">
-                        <label for="eventsPerSeason">Number of Fertigation Applications per Season</label>
+                        <label for="eventsPerSeason" style="margin-top: 8px;">Number of Fertigation Applications per Season</label>
                         <div>
                             <input class="form-control" id="eventsPerSeason" type="number" min="1" asp-for="eventsPerSeason" style="width:100px" />
                             <span asp-validation-for="eventsPerSeason" class="text-danger" value=1></span>
                         </div>
                     </div>
                     <div class="form-group col-sm-3">
-                        <label for="ddlMan">Application Frequency</label>
+                        <label for="ddlMan" style="margin-top: 8px;">Application Frequency</label>
                         <select class="form-control" id="ddlApplPeriod" style="width:100%" asp-for="selFertSchedOption" asp-items="@(new SelectList(Model.applPeriod,"Id","Value"))">
                             <option></option>
                         </select>
@@ -247,8 +256,11 @@
                       <div>
                           <label style="display:flex; align-items:center; padding-left: 50px;">
                               Time per Application
+                              <a href="#" data-toggle="tooltip" title="@Model.ExplainTime" id="toolTipExplainTime">
+                                  <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Time per Application" style="font-size:20px;"></span>
+                              </a>
                           </label>
-                          <div class="cell" style="text-wrap: pretty; text-align: center;">
+                          <div class="cell" style="text-wrap: pretty; text-align: center; padding-left: 50px;">
                             @Model.fertigationTime minutes
                           </div>
                       </div>
@@ -276,8 +288,11 @@
                   </div>
                   <div class="form-group col-sm-8" style="margin:5px">
                       <div class="table">
-                          <label style="height: 40px; text-align:center">
+                          <label style="height: 40px; text-align:center; margin-left: 50px;">
                               Time per Application
+                              <a href="#" data-toggle="tooltip" title="@Model.ExplainTime" id="toolTipExplainTime">
+                                  <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Time per Application" style="font-size:20px;"></span>
+                              </a>
                           </label>
                           <div class="cell" style="text-align:center">
                             @Model.fertigationTime minutes
@@ -455,7 +470,49 @@
 </div>
 
 <script>
-   $(document).ready(function () {
+$(document).ready(function () {
+
+    function initializeToolTips() {
+      //Tooltips for injectionRate rate
+        $('#toolTipExplainInjectionRate').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainInjectionRate').click(function () {
+            triggerToolTip($('#toolTipExplainInjectionRate'));
+        });
+        //tooltip for Application rate
+        $('#toolTipExplainApplicationRate').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainApplicationRate').click(function () {
+            triggerToolTip($('#toolTipExplainApplicationRate'));
+        });
+        //tooltip for times per fertigation
+        $('#toolTipExplainTime').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainTime').click(function () {
+            triggerToolTip($('#toolTipExplainTime'));
+        });
+        //tooltip for tank volume
+        $('#toolTipExplainTankVolume').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainTankVolume').click(function () {
+            triggerToolTip($('#toolTipExplainTankVolume'));
+        });
+    }
+
+    initializeToolTips()
+
     $('#applDate').datepicker({
         format: "dd-M-yyyy",
         autoclose: true,
@@ -486,7 +543,7 @@
     function updateUnits() {
         var userUnit = $('#ddlProdRate').find("option:selected").text();
         $('#productVolumeLabel').text('Total Product Volume per Application (' + userUnit + ')');
-        $('#productVolumeGrowingLabel').text('Total Product Volume Growing Season (' + userUnit + ')');
+        $('#productVolumeGrowingLabel').text('Total Product Volume for Growing Season (' + userUnit + ')');
     }
 
     // On page load, initialize unit label
