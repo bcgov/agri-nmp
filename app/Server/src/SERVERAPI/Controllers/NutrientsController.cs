@@ -1023,7 +1023,7 @@ namespace SERVERAPI.Controllers
             decimal injectionRate = Convert.ToDecimal(fgvm.injectionRate);
             fgvm.fertigationTime = Math.Round(Convert.ToDecimal(fgvm.tankVolume) / injectionRate, 0);
 
-            if (amountToDissolve <= tankVolume * solInWater){
+            if (amountToDissolve <= tankVolume * solInWater/1000){
                 fgvm.dryAction = "Soluble";
             }
             else{
