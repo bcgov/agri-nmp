@@ -990,6 +990,7 @@ namespace SERVERAPI.Controllers
             decimal tankVolume;
             decimal solInWater;
             decimal fertArea;
+            decimal convertedInjectionRate = 1;
 
             if (fgvm.amountToDissolveUnits != "1"){
                 decimal convertedAmount = ConvertDissolve(Convert.ToDecimal(fgvm.amountToDissolve), (DissolveUnit)Convert.ToInt32(fgvm.amountToDissolveUnits), DissolveUnit.Pounds);
@@ -1014,6 +1015,20 @@ namespace SERVERAPI.Controllers
                 solInWater = Convert.ToDecimal(fgvm.solInWater);
             }
 
+            // used to calculate fertigation time
+            switch (fgvm.selInjectionRateUnitOption)
+            {
+                case "1": // US gallon/min to Imperial Gallon/min
+                    convertedInjectionRate = Convert.ToDecimal(fgvm.injectionRate) / 1.20095M;
+                    break;
+                case "2": // L/min to Imperial Gallon/min
+                    convertedInjectionRate = Convert.ToDecimal(fgvm.injectionRate) / 4.54609M;
+                    break;
+                case "3": // Imperial Gallon/min
+                    convertedInjectionRate = Convert.ToDecimal(fgvm.injectionRate);
+                    break;
+            }
+
             fertArea = Convert.ToDecimal(fgvm.fieldArea);
 
             //Need in lb/us gallon
@@ -1021,8 +1036,9 @@ namespace SERVERAPI.Controllers
             fgvm.nutrientConcentrationK2O = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / (tankVolume * 1.20095m), 2));
             fgvm.nutrientConcentrationP205 = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / (tankVolume * 1.20095m), 2));
 
-            decimal injectionRate = Convert.ToDecimal(fgvm.injectionRate);
-            fgvm.fertigationTime = Math.Round(Convert.ToDecimal(fgvm.tankVolume) / injectionRate, 0);
+
+            fgvm.fertigationTime = Math.Round(tankVolume / convertedInjectionRate, 0);
+
 
             if (amountToDissolve <= tankVolume * solInWater/1000){
                 fgvm.dryAction = "Soluble";
