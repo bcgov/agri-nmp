@@ -550,17 +550,17 @@ $(document).ready(function () {
     updateUnits();
 
     function editCalculate() {
-      //to alculate Nutrients when editing
+      //to calculate Nutrients when editing
         var modelTitle = $('#myModalLabel').text().toLowerCase();
         if (modelTitle.includes("edit")) {
             setTimeout(function () {
                 $('#calc_button').click();
-            }, 500);  // 500ms delay to ensure the modal is fully rendered
+            }, 1000);
         }
     }
 
     $('#myModal').on('show.bs.modal', function () {
-        editCalculate();  // Call the function when the modal opens
+        editCalculate();
     });
 
 });
