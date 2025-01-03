@@ -548,5 +548,20 @@ $(document).ready(function () {
 
     // On page load, initialize unit label
     updateUnits();
+
+    function editCalculate() {
+      //to alculate Nutrients when editing
+        var modelTitle = $('#myModalLabel').text().toLowerCase();
+        if (modelTitle.includes("edit")) {
+            setTimeout(function () {
+                $('#calc_button').click();
+            }, 500);  // 500ms delay to ensure the modal is fully rendered
+        }
+    }
+
+    $('#myModal').on('show.bs.modal', function () {
+        editCalculate();  // Call the function when the modal opens
+    });
+
 });
 </script>
