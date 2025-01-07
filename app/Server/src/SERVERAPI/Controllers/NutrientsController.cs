@@ -903,7 +903,7 @@ namespace SERVERAPI.Controllers
             catch (Exception ex)
             {
                 ModelState.AddModelError("", "Unexpected system error.");
-                _logger.LogError(ex, "FertilizerDetails Exception");
+                _logger.LogError(ex, "FertilizerDetails Exception {Message}", ex.Message);
             }
             fgvm.buttonPressed = "";
             return PartialView(fgvm);
@@ -946,9 +946,27 @@ namespace SERVERAPI.Controllers
 
         private decimal ConvertDissolve(decimal value, DissolveUnit fromUnit, DissolveUnit toUnit)
         {
+            // Log the input values to debug
+            _logger.LogDebug("Converting value: {Value} from {FromUnit} to {ToUnit}", value, fromUnit, toUnit);
+
+            // Validate 'fromUnit' and 'toUnit' are within the defined enum values
+            if (!Enum.IsDefined(typeof(DissolveUnit), fromUnit))
+            {
+                _logger.LogError("Invalid 'fromUnit' provided: {FromUnit}", fromUnit);
+                throw new ArgumentException($"Invalid 'fromUnit' provided: {fromUnit}");
+            }
+
+            if (!Enum.IsDefined(typeof(DissolveUnit), toUnit))
+            {
+                _logger.LogError("Invalid 'toUnit' provided: {ToUnit}", toUnit);
+                throw new ArgumentException($"Invalid 'toUnit' provided: {toUnit}");
+            }
+
+            // If both units are the same, no conversion is needed
             if (fromUnit == toUnit)
                 return value;
 
+            // Perform the conversion based on the units
             return (fromUnit, toUnit) switch
             {
                 (DissolveUnit.Pounds, DissolveUnit.Kilograms) => value * 0.453592m,
@@ -960,6 +978,23 @@ namespace SERVERAPI.Controllers
                 _ => throw new ArgumentException("Invalid unit conversion")
             };
         }
+
+        // private decimal ConvertDissolve(decimal value, DissolveUnit fromUnit, DissolveUnit toUnit)
+        // {
+        //     if (fromUnit == toUnit)
+        //         return value;
+
+        //     return (fromUnit, toUnit) switch
+        //     {
+        //         (DissolveUnit.Pounds, DissolveUnit.Kilograms) => value * 0.453592m,
+        //         (DissolveUnit.Pounds, DissolveUnit.Grams) => value * 453.592m,
+        //         (DissolveUnit.Kilograms, DissolveUnit.Pounds) => value / 0.453592m,
+        //         (DissolveUnit.Kilograms, DissolveUnit.Grams) => value * 1000m,
+        //         (DissolveUnit.Grams, DissolveUnit.Pounds) => value / 453.592m,
+        //         (DissolveUnit.Grams, DissolveUnit.Kilograms) => value / 1000m,
+        //         _ => throw new ArgumentException("Invalid unit conversion")
+        //     };
+        // }
 
         private decimal ConvertSolubility(decimal value, SolubilityUnit fromUnit, SolubilityUnit toUnit)
         {
