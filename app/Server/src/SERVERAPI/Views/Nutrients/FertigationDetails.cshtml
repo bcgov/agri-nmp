@@ -69,7 +69,7 @@
                         <div style="display:table; width:100%;">
                             <div style="display:table-row">
                                 <label for="ddlTankVolume" style="text-align: center; display: block;">Units</label>
-                                <select class="form-control" asp-for="selTankVolumeUnitOption" asp-items="@(new SelectList(Model.tankVolumeUnitOptions,"Id","Value"))" id="ddlTankVolume"></select>
+                                <select class="form-control" asp-for="selTankVolumeUnitOption" asp-items="@(new SelectList(Model.tankVolumeUnitOptions,"Id","Value", Model.selTankVolumeUnitOption))" id="ddlTankVolume"></select>
                                 <span asp-validation-for="selTankVolumeUnitOption" class="text-danger"></span>
                             </div>
                         </div>

@@ -299,12 +299,13 @@ namespace SERVERAPI.Controllers
                 fgvm.selFertSchedOption = nf.applMethodId.ToString();
                 fgvm.injectionRate = nf.injectionRate.ToString("#.##");
                 fgvm.selInjectionRateUnitOption = nf.injectionRateUnitId.ToString();
-                fgvm.tankVolume = nf.tankVolume.ToString("#.##");
                 fgvm.selTankVolumeUnitOption = nf.tankVolumeUnitId;
+                fgvm.tankVolume = nf.tankVolume.ToString("#.##");
+                fgvm.tankVolumeUnits = fgvm.selTankVolumeUnitOption.ToString();
                 fgvm.solInWater = nf.solInWater.ToString("#.##");
-                fgvm.selSolubilityUnitOption = nf.solInWaterUnitId;
                 fgvm.amountToDissolve = nf.amountToDissolve.ToString("#.##");
                 fgvm.selDissolveUnitOption = nf.dissolveUnitId;
+                fgvm.amountToDissolveUnits = fgvm.selDissolveUnitOption.ToString();
                 fgvm.nutrientConcentrationN = nf.nutrientConcentrationN.ToString("#.##");
                 fgvm.nutrientConcentrationP205 = nf.nutrientConcentrationP205.ToString("#.##");
                 fgvm.nutrientConcentrationK2O = nf.nutrientConcentrationK2O.ToString("#.##");
@@ -643,6 +644,7 @@ namespace SERVERAPI.Controllers
                     fgvm.buttonPressed = "";
                     fgvm.btnText = "Calculate";
 
+                    fgvm.tankVolumeUnits = fgvm.selTankVolumeUnitOption.ToString();
                     // Convert tank volume if necessary
                     if (decimal.TryParse(fgvm.tankVolume, out decimal currentValue)){
 
@@ -658,6 +660,7 @@ namespace SERVERAPI.Controllers
                     fgvm.tankVolumeUnits = fgvm.selTankVolumeUnitOption.ToString();
                     return View(fgvm);
                 }
+
                 if (fgvm.buttonPressed == "SolInWaterUnitChange")
                 {
                     ModelState.Clear();
@@ -684,6 +687,9 @@ namespace SERVERAPI.Controllers
                     ModelState.Clear();
                     fgvm.buttonPressed = "";
                     fgvm.btnText = "Calculate";
+
+                    fgvm.amountToDissolveUnits = fgvm.selDissolveUnitOption.ToString();
+
                     if (decimal.TryParse(fgvm.amountToDissolve, out decimal currentValue)) {
                         if (fgvm.amountToDissolveUnits == null) {
                             fgvm.amountToDissolveUnits = "1";
@@ -940,33 +946,15 @@ namespace SERVERAPI.Controllers
                 (TankVolumeUnit.ImperialGallons, TankVolumeUnit.Litres) => value * 4.54609m,
                 (TankVolumeUnit.Litres, TankVolumeUnit.USGallons) => value / 3.78541m,
                 (TankVolumeUnit.Litres, TankVolumeUnit.ImperialGallons) => value / 4.54609m,
-                _ => throw new ArgumentException("Invalid unit conversion")
+                _ => throw new ArgumentException($"Invalid unit conversion: {fromUnit} to {toUnit}")
             };
         }
 
         private decimal ConvertDissolve(decimal value, DissolveUnit fromUnit, DissolveUnit toUnit)
         {
-            // Log the input values to debug
-            _logger.LogDebug("Converting value: {Value} from {FromUnit} to {ToUnit}", value, fromUnit, toUnit);
-
-            // Validate 'fromUnit' and 'toUnit' are within the defined enum values
-            if (!Enum.IsDefined(typeof(DissolveUnit), fromUnit))
-            {
-                _logger.LogError("Invalid 'fromUnit' provided: {FromUnit}", fromUnit);
-                throw new ArgumentException($"Invalid 'fromUnit' provided: {fromUnit}");
-            }
-
-            if (!Enum.IsDefined(typeof(DissolveUnit), toUnit))
-            {
-                _logger.LogError("Invalid 'toUnit' provided: {ToUnit}", toUnit);
-                throw new ArgumentException($"Invalid 'toUnit' provided: {toUnit}");
-            }
-
-            // If both units are the same, no conversion is needed
             if (fromUnit == toUnit)
                 return value;
 
-            // Perform the conversion based on the units
             return (fromUnit, toUnit) switch
             {
                 (DissolveUnit.Pounds, DissolveUnit.Kilograms) => value * 0.453592m,
@@ -975,26 +963,9 @@ namespace SERVERAPI.Controllers
                 (DissolveUnit.Kilograms, DissolveUnit.Grams) => value * 1000m,
                 (DissolveUnit.Grams, DissolveUnit.Pounds) => value / 453.592m,
                 (DissolveUnit.Grams, DissolveUnit.Kilograms) => value / 1000m,
-                _ => throw new ArgumentException("Invalid unit conversion")
+                _ => throw new ArgumentException($"ConvertDissolve Invalid unit conversion: {fromUnit} to {toUnit}")
             };
         }
-
-        // private decimal ConvertDissolve(decimal value, DissolveUnit fromUnit, DissolveUnit toUnit)
-        // {
-        //     if (fromUnit == toUnit)
-        //         return value;
-
-        //     return (fromUnit, toUnit) switch
-        //     {
-        //         (DissolveUnit.Pounds, DissolveUnit.Kilograms) => value * 0.453592m,
-        //         (DissolveUnit.Pounds, DissolveUnit.Grams) => value * 453.592m,
-        //         (DissolveUnit.Kilograms, DissolveUnit.Pounds) => value / 0.453592m,
-        //         (DissolveUnit.Kilograms, DissolveUnit.Grams) => value * 1000m,
-        //         (DissolveUnit.Grams, DissolveUnit.Pounds) => value / 453.592m,
-        //         (DissolveUnit.Grams, DissolveUnit.Kilograms) => value / 1000m,
-        //         _ => throw new ArgumentException("Invalid unit conversion")
-        //     };
-        // }
 
         private decimal ConvertSolubility(decimal value, SolubilityUnit fromUnit, SolubilityUnit toUnit)
         {
