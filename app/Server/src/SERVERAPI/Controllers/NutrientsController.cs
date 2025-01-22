@@ -1039,11 +1039,14 @@ namespace SERVERAPI.Controllers
 
             fgvm.fertigationTime = Math.Round(tankVolume / convertedInjectionRate, 0);
 
-
-            if (amountToDissolve <= tankVolume * solInWater/1000){
+            //convert tankVolume from imp gal to litres
+            //convert amountToDissolve from lbs to kgs
+            if ((amountToDissolve * 0.45359237m) <= ((tankVolume * 4.54609m) * solInWater / 1000))
+            {
                 fgvm.dryAction = "Soluble";
             }
-            else{
+            else
+            {
                 fgvm.dryAction = "Reduce the amount to dissolve";
             }
 
