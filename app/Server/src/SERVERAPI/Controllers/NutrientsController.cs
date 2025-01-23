@@ -1041,7 +1041,7 @@ namespace SERVERAPI.Controllers
 
             //convert tankVolume from imp gal to litres
             //convert amountToDissolve from lbs to kgs
-            if ((amountToDissolve * 0.45359237m) <= ((tankVolume * 4.54609m) * solInWater / 1000))
+            if ((amountToDissolve * 0.45359237m) <= ((tankVolume * 4.54609m) * solInWater / 1000 * 0.65m))
             {
                 fgvm.dryAction = "Soluble";
             }
