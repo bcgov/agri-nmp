@@ -833,14 +833,14 @@ namespace SERVERAPI.Controllers
                         fgvm.fertigationTime = Math.Round(fertTimeVal, 0); 
                         
                         //Applied nutrients per fertigation  
-                        fgvm.calcN = Convert.ToInt32(fertilizerNutrients.fertilizer_N).ToString();
-                        fgvm.calcP2o5 = Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5).ToString();
-                        fgvm.calcK2o = Convert.ToInt32(fertilizerNutrients.fertilizer_K2O).ToString();
+                        fgvm.calcN = (Convert.ToInt32(fertilizerNutrients.fertilizer_N)/100).ToString();
+                        fgvm.calcP2o5 = (Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5)/100).ToString();
+                        fgvm.calcK2o = (Convert.ToInt32(fertilizerNutrients.fertilizer_K2O)/100).ToString();
 
                         //Total Applied Nutrients
-                        fgvm.calcTotalN = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_N) * Convert.ToInt32(fgvm.eventsPerSeason));
-                        fgvm.calcTotalK2o = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5) * Convert.ToInt32(fgvm.eventsPerSeason));
-                        fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_K2O) * Convert.ToInt32(fgvm.eventsPerSeason));
+                        fgvm.calcTotalN = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_N)/100 * Convert.ToInt32(fgvm.eventsPerSeason));
+                        fgvm.calcTotalK2o = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5)/100 * Convert.ToInt32(fgvm.eventsPerSeason));
+                        fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_K2O)/100 * Convert.ToInt32(fgvm.eventsPerSeason));
 
                         fgvm.btnText = fgvm.id == null ? "Add to Field" : "Update Field";
                         }
@@ -1050,9 +1050,9 @@ namespace SERVERAPI.Controllers
                 fgvm.dryAction = "Reduce the amount to dissolve";
             }
 
-            fgvm.calcN = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationN) * tankVolume / fertArea, 2));
-            fgvm.calcK2o = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationK2O) * tankVolume / fertArea, 2));
-            fgvm.calcP2o5 = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationP205) * tankVolume / fertArea, 2));
+            fgvm.calcN = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationN) * amountToDissolve / fertArea, 2));
+            fgvm.calcK2o = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationK2O) * amountToDissolve / fertArea, 2));
+            fgvm.calcP2o5 = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationP205) * amountToDissolve / fertArea, 2));
 
             fgvm.totN = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.calcN) * fgvm.eventsPerSeason, 2));
             fgvm.totK2o = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.calcK2o) * fgvm.eventsPerSeason, 2));
