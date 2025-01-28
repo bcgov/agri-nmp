@@ -797,15 +797,36 @@ namespace SERVERAPI.Controllers
                                 fgvm.manualEntry);
 
                         Field field = _ud.GetFieldDetails(fgvm.fieldName);
+                        // Get the selected unit's conversion factor
                         FertilizerUnit _fU = _sd.GetFertilizerUnit(Convert.ToInt32(fgvm.selProductRateUnitOption));
+                        // Convert the rate to imp gal
                         decimal convertedProductRate = Convert.ToDecimal(fgvm.productRate) * _fU.ConversionToImperialGallonsPerAcre;
 
-                        //Total Product Volume per fertigation
-                        fgvm.totProductVolPerFert =  Math.Round((field.Area * convertedProductRate), 1); // convert to int/string? Error messages?
+                        // Method to get conversion factor based on user's selected unit for product rate
+                        decimal conversionFactor = 1m;
+                          switch(fgvm.selProductRateUnitOption) {
+                            case "5": // imp gal to US gallon/ac
+                              conversionFactor = 1.2m;
+                              break;
+                            case "3": // imp gal to L/ac
+                              conversionFactor = 4.546m;
+                              break;
+                            case "4": // Imp. gallon/ac
+                              break;
+                            case "6": // imp gal to L/ha
+                              conversionFactor = 2.471m;
+                              break;
+                          }
 
+                        // Convert the rate based on the selected unit
+                        decimal selectedProductRate = convertedProductRate * conversionFactor;
+
+                        //Total Product Volume per fertigation
+                        fgvm.totProductVolPerFert =  Math.Round(field.Area * selectedProductRate, 1); // convert to int/string? Error messages?
+                        
                         // Total product volume per growing season calc
                         // Product Rate x Fertigation area x fert per season 
-                        fgvm.totProductVolPerSeason = Math.Round((field.Area * convertedProductRate * fgvm.eventsPerSeason), 1); // convert to int/string? Error messages?
+                        fgvm.totProductVolPerSeason = Math.Round(field.Area * selectedProductRate, 1) * fgvm.eventsPerSeason; // convert to int/string? Error messages?
 
                         decimal injectionRateConversion = 0;
                         switch (fgvm.selInjectionRateUnitOption)
