@@ -823,7 +823,7 @@ namespace SERVERAPI.Controllers
 
                         //Total Product Volume per fertigation
                         fgvm.totProductVolPerFert =  Math.Round(field.Area * selectedProductRate, 1); // convert to int/string? Error messages?
-                        
+
                         // Total product volume per growing season calc
                         // Product Rate x Fertigation area x fert per season 
                         fgvm.totProductVolPerSeason = Math.Round(field.Area * selectedProductRate, 1) * fgvm.eventsPerSeason; // convert to int/string? Error messages?
@@ -1052,12 +1052,6 @@ namespace SERVERAPI.Controllers
 
             fertArea = Convert.ToDecimal(fgvm.fieldArea);
 
-            //Need in lb/us gallon
-            fgvm.nutrientConcentrationN = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / (tankVolume * 1.20095m), 2));
-            fgvm.nutrientConcentrationK2O = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / (tankVolume * 1.20095m), 2));
-            fgvm.nutrientConcentrationP205 = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / (tankVolume * 1.20095m), 2));
-
-
             fgvm.fertigationTime = Math.Round(tankVolume / convertedInjectionRate, 0);
 
             //convert tankVolume from imp gal to litres
@@ -1065,10 +1059,18 @@ namespace SERVERAPI.Controllers
             if ((amountToDissolve * 0.45359237m) <= ((tankVolume * 4.54609m) * solInWater / 1000 * 0.65m))
             {
                 fgvm.dryAction = "Soluble";
-            }
+                //Need in lb/us gallon
+                fgvm.nutrientConcentrationN = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / (tankVolume * 1.20095m), 2));
+                fgvm.nutrientConcentrationK2O = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / (tankVolume * 1.20095m), 2));
+                fgvm.nutrientConcentrationP205 = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / (tankVolume * 1.20095m), 2));
+                }
             else
             {
                 fgvm.dryAction = "Reduce the amount to dissolve";
+                // dont show nutrient concentration calculations if need to reduce amount to dissolve
+                fgvm.nutrientConcentrationN = "0";
+                fgvm.nutrientConcentrationK2O = "0";
+                fgvm.nutrientConcentrationP205 = "0";
             }
 
             fgvm.calcN = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationN) * amountToDissolve / fertArea, 2));
