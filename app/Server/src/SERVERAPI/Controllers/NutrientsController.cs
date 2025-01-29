@@ -308,6 +308,9 @@ namespace SERVERAPI.Controllers
                 fgvm.nutrientConcentrationN = nf.nutrientConcentrationN.ToString("#.##");
                 fgvm.nutrientConcentrationP205 = nf.nutrientConcentrationP205.ToString("#.##");
                 fgvm.nutrientConcentrationK2O = nf.nutrientConcentrationK2O.ToString("#.##");
+                fgvm.kglNutrientConcentrationN = (nf.nutrientConcentrationN * 0.119826m).ToString("#.##");
+                fgvm.kglNutrientConcentrationP205 = (nf.nutrientConcentrationP205 * 0.119826m).ToString("#.##");
+                fgvm.kglNutrientConcentrationK2O = (nf.nutrientConcentrationK2O * 0.119826m).ToString("#.##");
                 if (!ft.Custom && ft.DryLiquid == "liquid")
                 {
                     if (fgvm.density != _fg.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).Value.ToString("#.##"))
@@ -385,6 +388,10 @@ namespace SERVERAPI.Controllers
             fgvm.nutrientConcentrationN = "0";
             fgvm.nutrientConcentrationP205 = "0";
             fgvm.nutrientConcentrationK2O = "0";
+
+            fgvm.kglNutrientConcentrationN = "0";
+            fgvm.kglNutrientConcentrationP205 = "0";
+            fgvm.kglNutrientConcentrationK2O = "0";
 
             fgvm.totN = "0";
             fgvm.totP2o5 = "0";
@@ -1056,13 +1063,16 @@ namespace SERVERAPI.Controllers
 
             //convert tankVolume from imp gal to litres
             //convert amountToDissolve from lbs to kgs
-            if ((amountToDissolve * 0.45359237m) <= ((tankVolume * 4.54609m) * solInWater / 1000 * 0.65m))
+            if ((amountToDissolve * 0.45359237m) <= (tankVolume * 4.54609m * solInWater / 1000))
             {
                 fgvm.dryAction = "Soluble";
                 //Need in lb/us gallon
                 fgvm.nutrientConcentrationN = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / (tankVolume * 1.20095m), 2));
                 fgvm.nutrientConcentrationK2O = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / (tankVolume * 1.20095m), 2));
                 fgvm.nutrientConcentrationP205 = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / (tankVolume * 1.20095m), 2));
+                fgvm.kglNutrientConcentrationN = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / (tankVolume * 1.20095m)/8.3454043m, 2));
+                fgvm.kglNutrientConcentrationK2O = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / (tankVolume * 1.20095m) * 0.119826m, 2));
+                fgvm.kglNutrientConcentrationP205 = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / (tankVolume * 1.20095m) * 0.119826m, 2));
                 }
             else
             {
@@ -1071,6 +1081,9 @@ namespace SERVERAPI.Controllers
                 fgvm.nutrientConcentrationN = "0";
                 fgvm.nutrientConcentrationK2O = "0";
                 fgvm.nutrientConcentrationP205 = "0";
+                fgvm.kglNutrientConcentrationN = "0";
+                fgvm.kglNutrientConcentrationK2O = "0";
+                fgvm.kglNutrientConcentrationP205 = "0";
             }
 
             fgvm.calcN = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationN) * amountToDissolve / fertArea, 2));

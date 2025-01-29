@@ -138,6 +138,10 @@ namespace SERVERAPI.ViewModels
         public string nutrientConcentrationP205 { get; set; }
         public string nutrientConcentrationK2O { get; set; }
 
+        public string kglNutrientConcentrationN { get; set; }
+        public string kglNutrientConcentrationP205 { get; set; }
+        public string kglNutrientConcentrationK2O { get; set; }
+
         // Miscellaneous
         public bool isFertigation { get; set; }
         public string groupID { get; set; }
