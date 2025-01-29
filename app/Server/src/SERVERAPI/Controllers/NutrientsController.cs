@@ -269,6 +269,7 @@ namespace SERVERAPI.Controllers
               ExplainApplicationRate = _sd.GetUserPrompt("applicationinfomessage"),
               ExplainTime = _sd.GetUserPrompt("timeinfomessage"),
               ExplainTankVolume = _sd.GetUserPrompt("tankvolumeinfomessage"),
+              ExplainSolubility = _sd.GetUserPrompt("solubilityinfomessage"),
             };
             if(id == null){
                 ModelState.AddModelError("start", "invalid");

@@ -817,5 +817,12 @@
     "Text": "Enter the volume of fertilizer mixture to be applied; do not enter the fertigation system's total output volume.",
     "UserPromptPage": "Calculate",
     "UserJourney": "Mixed"
+  },
+  {
+    "Id": 123,
+    "Name": "solubilityinfomessage",
+    "Text": "Determines if the fertilizer will fully dissolve based on its solubility, the total volume to apply, and the amount of fertilizer.",
+    "UserPromptPage": "Calculate",
+    "UserJourney": "Mixed"
   }
 ]

@@ -106,11 +106,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-4" style="display:flex; align-items: center; width: 160px; margin-top: 8px; margin-right: 500px; margin-bottom: 50px;">
+                    <div class="form-group col-sm-4" style="display:flex; align-items: center; margin-right: 300px; margin-bottom: 50px;">
                       <div>
                           <label >
                               Solubility Assessment
                           </label>
+                          <a href="#" data-toggle="tooltip" title="@Model.ExplainSolubility" id="toolTipExplainSolubility">
+                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Solubility" style="font-size:20px;"></span>
                           <div class="cell" style="text-align:center">
                             @if (Model.dryAction == "Soluble")
                             {
@@ -540,6 +542,15 @@ $(document).ready(function () {
         });
         $('#toolTipExplainTankVolume').click(function () {
             triggerToolTip($('#toolTipExplainTankVolume'));
+        });
+        //tooltip for solubility
+        $('#toolTipExplainSolubility').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainSolubility').click(function () {
+            triggerToolTip($('#toolTipExplainSolubility'));
         });
     }
 

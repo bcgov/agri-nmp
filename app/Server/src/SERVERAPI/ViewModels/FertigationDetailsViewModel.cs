@@ -151,5 +151,6 @@ namespace SERVERAPI.ViewModels
         public string ExplainApplicationRate { get; set; }
         public string ExplainTime { get; set; }
         public string ExplainTankVolume { get; set; }
+        public string ExplainSolubility { get; set; }
     }
 }
