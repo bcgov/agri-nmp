@@ -269,6 +269,7 @@ namespace SERVERAPI.Controllers
               ExplainApplicationRate = _sd.GetUserPrompt("applicationinfomessage"),
               ExplainTime = _sd.GetUserPrompt("timeinfomessage"),
               ExplainTankVolume = _sd.GetUserPrompt("tankvolumeinfomessage"),
+              ExplainSolubility = _sd.GetUserPrompt("solubilityinfomessage"),
             };
             if(id == null){
                 ModelState.AddModelError("start", "invalid");
@@ -309,6 +310,9 @@ namespace SERVERAPI.Controllers
                 fgvm.nutrientConcentrationN = nf.nutrientConcentrationN.ToString("#.##");
                 fgvm.nutrientConcentrationP205 = nf.nutrientConcentrationP205.ToString("#.##");
                 fgvm.nutrientConcentrationK2O = nf.nutrientConcentrationK2O.ToString("#.##");
+                fgvm.kglNutrientConcentrationN = (nf.nutrientConcentrationN * 0.119826m).ToString("#.##");
+                fgvm.kglNutrientConcentrationP205 = (nf.nutrientConcentrationP205 * 0.119826m).ToString("#.##");
+                fgvm.kglNutrientConcentrationK2O = (nf.nutrientConcentrationK2O * 0.119826m).ToString("#.##");
                 if (!ft.Custom && ft.DryLiquid == "liquid")
                 {
                     if (fgvm.density != _fg.GetLiquidFertilizerDensity(nf.fertilizerId, nf.liquidDensityUnitId).Value.ToString("#.##"))
@@ -386,6 +390,10 @@ namespace SERVERAPI.Controllers
             fgvm.nutrientConcentrationN = "0";
             fgvm.nutrientConcentrationP205 = "0";
             fgvm.nutrientConcentrationK2O = "0";
+
+            fgvm.kglNutrientConcentrationN = "0";
+            fgvm.kglNutrientConcentrationP205 = "0";
+            fgvm.kglNutrientConcentrationK2O = "0";
 
             fgvm.totN = "0";
             fgvm.totP2o5 = "0";
@@ -803,15 +811,36 @@ namespace SERVERAPI.Controllers
                                 fgvm.manualEntry);
 
                         Field field = _ud.GetFieldDetails(fgvm.fieldName);
+                        // Get the selected unit's conversion factor
                         FertilizerUnit _fU = _sd.GetFertilizerUnit(Convert.ToInt32(fgvm.selProductRateUnitOption));
+                        // Convert the rate to imp gal
                         decimal convertedProductRate = Convert.ToDecimal(fgvm.productRate) * _fU.ConversionToImperialGallonsPerAcre;
 
+                        // Method to get conversion factor based on user's selected unit for product rate
+                        decimal conversionFactor = 1m;
+                          switch(fgvm.selProductRateUnitOption) {
+                            case "5": // imp gal to US gallon/ac
+                              conversionFactor = 1.2m;
+                              break;
+                            case "3": // imp gal to L/ac
+                              conversionFactor = 4.546m;
+                              break;
+                            case "4": // Imp. gallon/ac
+                              break;
+                            case "6": // imp gal to L/ha
+                              conversionFactor = 2.471m;
+                              break;
+                          }
+
+                        // Convert the rate based on the selected unit
+                        decimal selectedProductRate = convertedProductRate * conversionFactor;
+
                         //Total Product Volume per fertigation
-                        fgvm.totProductVolPerFert =  Math.Round((field.Area * convertedProductRate), 1); // convert to int/string? Error messages?
+                        fgvm.totProductVolPerFert =  Math.Round(field.Area * selectedProductRate, 1); // convert to int/string? Error messages?
 
                         // Total product volume per growing season calc
                         // Product Rate x Fertigation area x fert per season 
-                        fgvm.totProductVolPerSeason = Math.Round((field.Area * convertedProductRate * fgvm.eventsPerSeason), 1); // convert to int/string? Error messages?
+                        fgvm.totProductVolPerSeason = Math.Round(field.Area * selectedProductRate, 1) * fgvm.eventsPerSeason; // convert to int/string? Error messages?
 
                         decimal injectionRateConversion = 0;
                         switch (fgvm.selInjectionRateUnitOption)
@@ -839,14 +868,14 @@ namespace SERVERAPI.Controllers
                         fgvm.fertigationTime = Math.Round(fertTimeVal, 0); 
                         
                         //Applied nutrients per fertigation  
-                        fgvm.calcN = Convert.ToInt32(fertilizerNutrients.fertilizer_N).ToString();
-                        fgvm.calcP2o5 = Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5).ToString();
-                        fgvm.calcK2o = Convert.ToInt32(fertilizerNutrients.fertilizer_K2O).ToString();
+                        fgvm.calcN = (Convert.ToInt32(fertilizerNutrients.fertilizer_N)/100).ToString();
+                        fgvm.calcP2o5 = (Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5)/100).ToString();
+                        fgvm.calcK2o = (Convert.ToInt32(fertilizerNutrients.fertilizer_K2O)/100).ToString();
 
                         //Total Applied Nutrients
-                        fgvm.calcTotalN = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_N) * Convert.ToInt32(fgvm.eventsPerSeason));
-                        fgvm.calcTotalK2o = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5) * Convert.ToInt32(fgvm.eventsPerSeason));
-                        fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_K2O) * Convert.ToInt32(fgvm.eventsPerSeason));
+                        fgvm.calcTotalN = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_N)/100 * Convert.ToInt32(fgvm.eventsPerSeason));
+                        fgvm.calcTotalK2o = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_P2O5)/100 * Convert.ToInt32(fgvm.eventsPerSeason));
+                        fgvm.calcTotalP2o5 = Convert.ToString(Convert.ToInt32(fertilizerNutrients.fertilizer_K2O)/100 * Convert.ToInt32(fgvm.eventsPerSeason));
 
                         fgvm.btnText = fgvm.id == null ? "Add to Field" : "Update Field";
                         }
@@ -1037,25 +1066,36 @@ namespace SERVERAPI.Controllers
 
             fertArea = Convert.ToDecimal(fgvm.fieldArea);
 
-            //Need in lb/us gallon
-            fgvm.nutrientConcentrationN = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / (tankVolume * 1.20095m), 2));
-            fgvm.nutrientConcentrationK2O = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / (tankVolume * 1.20095m), 2));
-            fgvm.nutrientConcentrationP205 = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / (tankVolume * 1.20095m), 2));
-
-
             fgvm.fertigationTime = Math.Round(tankVolume / convertedInjectionRate, 0);
 
-
-            if (amountToDissolve <= tankVolume * solInWater/1000){
+            //convert tankVolume from imp gal to litres
+            //convert amountToDissolve from lbs to kgs
+            if ((amountToDissolve * 0.45359237m) <= (tankVolume * 4.54609m * solInWater / 1000))
+            {
                 fgvm.dryAction = "Soluble";
-            }
-            else{
+                //Need in lb/us gallon
+                fgvm.nutrientConcentrationN = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / (tankVolume * 1.20095m), 2));
+                fgvm.nutrientConcentrationK2O = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / (tankVolume * 1.20095m), 2));
+                fgvm.nutrientConcentrationP205 = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / (tankVolume * 1.20095m), 2));
+                fgvm.kglNutrientConcentrationN = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valN) / 100 / (tankVolume * 1.20095m)/8.3454043m, 2));
+                fgvm.kglNutrientConcentrationK2O = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valK2o) / 100 / (tankVolume * 1.20095m) * 0.119826m, 2));
+                fgvm.kglNutrientConcentrationP205 = Convert.ToString(Math.Round(amountToDissolve * Convert.ToDecimal(fgvm.valP2o5) / 100 / (tankVolume * 1.20095m) * 0.119826m, 2));
+                }
+            else
+            {
                 fgvm.dryAction = "Reduce the amount to dissolve";
+                // dont show nutrient concentration calculations if need to reduce amount to dissolve
+                fgvm.nutrientConcentrationN = "0";
+                fgvm.nutrientConcentrationK2O = "0";
+                fgvm.nutrientConcentrationP205 = "0";
+                fgvm.kglNutrientConcentrationN = "0";
+                fgvm.kglNutrientConcentrationK2O = "0";
+                fgvm.kglNutrientConcentrationP205 = "0";
             }
 
-            fgvm.calcN = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationN) * tankVolume / fertArea, 2));
-            fgvm.calcK2o = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationK2O) * tankVolume / fertArea, 2));
-            fgvm.calcP2o5 = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationP205) * tankVolume / fertArea, 2));
+            fgvm.calcN = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationN) * amountToDissolve / fertArea, 2));
+            fgvm.calcK2o = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationK2O) * amountToDissolve / fertArea, 2));
+            fgvm.calcP2o5 = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.nutrientConcentrationP205) * amountToDissolve / fertArea, 2));
 
             fgvm.totN = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.calcN) * fgvm.eventsPerSeason, 2));
             fgvm.totK2o = Convert.ToString(Math.Round(Convert.ToDecimal(fgvm.calcK2o) * fgvm.eventsPerSeason, 2));

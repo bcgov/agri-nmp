@@ -106,11 +106,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-sm-4" style="display:flex; align-items: center; width: 160px; margin-top: 8px;">
+                    <div class="form-group col-sm-4" style="display:flex; align-items: center; margin-right: 300px; margin-bottom: 50px;">
                       <div>
                           <label >
                               Solubility Assessment
                           </label>
+                          <a href="#" data-toggle="tooltip" title="@Model.ExplainSolubility" id="toolTipExplainSolubility">
+                          <span class="glyphicon glyphicon-info-sign" aria-hidden="true" title="Explanation of Solubility" style="font-size:20px;"></span>
                           <div class="cell" style="text-align:center">
                             @if (Model.dryAction == "Soluble")
                             {
@@ -127,33 +129,62 @@
                       </div>
                     </div>
                     <div class="form-group col-sm-4" style="display:flex; align-items: center;">
-                    <div class="Table">
-                        <div class="Title">
-                            <p>Nutrient Concentration In Stock Solution(lb/US gallon)</p>
-                        </div>
-                        <div class="Heading">
-                            <div class="Cell">
-                                <p>N</p>
-                            </div>
-                            <div class="Cell">
-                                <p>P<sub>2</sub>O<sub>5</sub></p>
-                            </div>
-                            <div class="Cell">
-                                <p>K<sub>2</sub>O</p>
-                            </div>
-                        </div>
-                        <div class="Row">
-                            <div class="Cell" style="text-align:center">
-                            @Model.nutrientConcentrationN
-                            </div>
-                            <div class="Cell" style="text-align:center">
-                            @Model.nutrientConcentrationP205
-                            </div>
-                            <div class="Cell" style="text-align:center">
-                            @Model.nutrientConcentrationK2O
-                            </div>
+                      <div class="Table">
+                          <div class="Title">
+                              <p>Nutrient Concentration In Stock Solution(lb/US gallon)</p>
                           </div>
+                          <div class="Heading">
+                              <div class="Cell">
+                                  <p>N</p>
+                              </div>
+                              <div class="Cell">
+                                  <p>P<sub>2</sub>O<sub>5</sub></p>
+                              </div>
+                              <div class="Cell">
+                                  <p>K<sub>2</sub>O</p>
+                              </div>
+                          </div>
+                          <div class="Row">
+                              <div class="Cell" style="text-align:center">
+                              @Model.nutrientConcentrationN
+                              </div>
+                              <div class="Cell" style="text-align:center">
+                              @Model.nutrientConcentrationP205
+                              </div>
+                              <div class="Cell" style="text-align:center">
+                              @Model.nutrientConcentrationK2O
+                              </div>
+                            </div>
+                        </div>
                       </div>
+                      <div class="form-group col-sm-4" style="display:flex; align-items: center;">
+                      <div class="Table">
+                          <div class="Title">
+                              <p>Nutrient Concentration In Stock Solution(kg/L)</p>
+                          </div>
+                          <div class="Heading">
+                              <div class="Cell">
+                                  <p>N</p>
+                              </div>
+                              <div class="Cell">
+                                  <p>P<sub>2</sub>O<sub>5</sub></p>
+                              </div>
+                              <div class="Cell">
+                                  <p>K<sub>2</sub>O</p>
+                              </div>
+                          </div>
+                          <div class="Row">
+                              <div class="Cell" style="text-align:center">
+                              @Model.kglNutrientConcentrationN
+                              </div>
+                              <div class="Cell" style="text-align:center">
+                              @Model.kglNutrientConcentrationP205
+                              </div>
+                              <div class="Cell" style="text-align:center">
+                              @Model.kglNutrientConcentrationK2O
+                              </div>
+                            </div>
+                        </div>
                       </div>
                     } else {
                         <div class="form-group col-sm-2" style="margin-right:0px; padding-right:0px; width:150px">
@@ -465,6 +496,9 @@
         @Html.HiddenFor(x => x.nutrientConcentrationN)
         @Html.HiddenFor(x => x.nutrientConcentrationK2O)
         @Html.HiddenFor(x => x.nutrientConcentrationP205)
+        @Html.HiddenFor(x => x.kglNutrientConcentrationN)
+        @Html.HiddenFor(x => x.kglNutrientConcentrationK2O)
+        @Html.HiddenFor(x => x.kglNutrientConcentrationP205)
 
     </form>
 </div>
@@ -508,6 +542,15 @@ $(document).ready(function () {
         });
         $('#toolTipExplainTankVolume').click(function () {
             triggerToolTip($('#toolTipExplainTankVolume'));
+        });
+        //tooltip for solubility
+        $('#toolTipExplainSolubility').tooltip({
+            template: toolTipClickableInnerHtml,
+            html: true,
+            trigger: 'manual',
+        });
+        $('#toolTipExplainSolubility').click(function () {
+            triggerToolTip($('#toolTipExplainSolubility'));
         });
     }
 
