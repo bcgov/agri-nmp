@@ -1,24 +1,11 @@
-# How to manually load templates
+## Applying templates
 
-```
-oc process -f dotnet-20.bc.json -p 'NAME_SUFFIX=-pr-1' -l 'app=nmp-pr-1,app-name=nmp,env-name=pr-1' | oc apply -f - --dry-run
-oc process -f dotnet-20-node.bc.json -p 'NAME_SUFFIX=-pr-1' -l 'app=nmp-pr-1,app-name=nmp,env-name=pr-1' | oc apply -f - --dry-run
-oc process -f nmp.bc.json -p 'NAME_SUFFIX=-pr-1' -l 'app=nmp-pr-1,app-name=nmp,env-name=pr-1' | oc apply -f - --dry-run
+### BuildConfigs
 
-```
+BuildConfigs should be applied in 624dc1-tools. Run `oc apply -f [file]` in the terminal. These yaml files create both the BuildConfig and the ImageStream they output to.
 
-# Deployment
-```
-oc process -f nmp.dc.json -p 'NAME_SUFFIX=-pr-1' -p 'ENV_NAME=pr-1' -l 'app=nmp-pr-1,app-name=nmp,env-name=pr-1' | oc create -f - --dry-run
+### Deployments
 
-oc tag pdf-pr-1:latest pdf-pr-1:pr-1
-oc tag nmp-pr-1:latest nmp-pr-1:pr-1
-```
+Deployments are applied to the dev, test, and prod environment projects. The yaml files create the Deployment, a PersistentVolumeClaim if it uses one, its Service, and, for hosted services, the Route. 
 
-
-```
-oc delete all -l app=nmp-pr-1
-oc delete dc -l app-name=nmp; oc delete svc -l app-name=nmp ; oc delete route -l app-name=nmp
-
-oc delete all -l app-name=nmp
-```
+The nmp-web yaml is a template and can be created by running `oc process -f nmp-web-deployment.yaml`. It is configured for the dev environment. To apply it to a different environment, set the parameters with the flag `-p [name]=[value]` after the file name. The other Deployment files are not templates and use the same command as the BuildConfig files.

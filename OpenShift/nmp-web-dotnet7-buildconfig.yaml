@@ -1,0 +1,46 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: nmp-web-dotnet7
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: nmp-web-dotnet7
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'nmp-web-dotnet7:latest'
+  resources:
+    limits:
+      cpu: 1500m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1500Mi
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'nmp-dotnet-7-rhel8:7.0-25'
+      env:
+        - name: BUILD_LOGLEVEL
+          value: '2'
+        - name: DOTNET_STARTUP_PROJECT
+          value: Server/src/SERVERAPI
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/bcgov/agri-nmp.git'
+      ref: 616-berries-workflow-dotnet7
+    contextDir: app
+  triggers:
+    - type: GitHub
+      github:
+        secretReference:
+          name: nmp-github-webhook
+    - type: ImageChange
+    - type: ConfigChange
+  runPolicy: SerialLatestOnly

@@ -1,0 +1,63 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: nmp-web
+  labels:
+    base-name: nmp-web
+    shared: 'true'
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: nmp-dotnet-7-rhel8
+  labels:
+    base-name: nmp-dotnet-7-rhel8
+    shared: 'true'
+spec:
+  tags:
+    - name: 7.0-25
+      from:
+        kind: DockerImage
+        name: 'registry.redhat.io/rhel8/dotnet-70:7.0-25'
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: nmp-web
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'nmp-web:latest'
+  resources:
+    limits:
+      cpu: 1500m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1500Mi
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'nmp-dotnet-7-rhel8:7.0-25'
+      env:
+        - name: BUILD_LOGLEVEL
+          value: '2'
+        - name: DOTNET_STARTUP_PROJECT
+          value: Server/src/SERVERAPI
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/bcgov/agri-nmp.git'
+      ref: master
+    contextDir: app
+  triggers:
+    - type: GitHub
+      github:
+        secretReference:
+          name: nmp-github-webhook
+    - type: ImageChange
+    - type: ConfigChange
+  runPolicy: SerialLatestOnly

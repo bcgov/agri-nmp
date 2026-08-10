@@ -1,0 +1,71 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nmp-weasyprint
+spec:
+  ports:
+    - name: weasyprint
+      protocol: TCP
+      port: 5001
+      targetPort: 5001
+  selector:
+    name: nmp-weasyprint
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nmp-weasyprint
+  annotations:
+    image.openshift.io/triggers: '[{"from": {"kind": "ImageStreamTag", "name": "nmp-weasyprint:latest",
+      "namespace": "624dc1-tools"}, "fieldPath": "spec.template.spec.containers[?(@.name==\"nmp-weasyprint\")].image",
+      "paused": false}]'
+spec:
+  selector:
+    matchLabels:
+      name: nmp-weasyprint
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        name: nmp-weasyprint
+      name: nmp-weasyprint
+    spec:
+      containers:
+        - image: 'image-registry.openshift-image-registry.svc:5000/624dc1-tools/nmp-weasyprint:latest'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /health
+              port: 5001
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: nmp-weasyprint
+          ports:
+          - containerPort: 5001
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /health
+              port: 5001
+              scheme: HTTP
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: '1'
+              memory: 500Mi
+            requests:
+              cpu: '1'
+              memory: 500Mi
+          terminationMessagePath: /dev/termination-log

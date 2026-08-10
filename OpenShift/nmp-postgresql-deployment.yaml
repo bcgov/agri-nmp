@@ -1,0 +1,106 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nmp-postgresql
+  annotations:
+    template.openshift.io/expose-uri: 'postgres://{.spec.clusterIP}:{.spec.ports[?(.name=="postgresql")].port}'
+spec:
+  ports:
+    - name: postgresql
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
+  selector:
+    name: nmp-postgresql
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nmp-postgresql
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+  storageClassName: netapp-file-standard
+  volumeMode: Filesystem
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    template: postgresql-template
+  name: nmp-postgresql
+  annotations:
+    image.openshift.io/triggers: '[{"from": {"kind": "ImageStreamTag", "name": "postgresql:10",
+      "namespace": "openshift"}, "fieldPath": "spec.template.spec.containers[?(@.name==\"postgresql\")].image",
+      "paused": false}]'
+spec:
+  selector:
+    matchLabels:
+      name: nmp-postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: nmp-postgresql
+    spec:
+      containers:
+        - env:
+          - name: POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                key: database-username
+                name: nmp-postgresql-credentials
+          - name: POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: database-password
+                name: nmp-postgresql-credentials
+          - name: POSTGRESQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                key: database-name
+                name: nmp-postgresql-credentials
+          image: 'image-registry.openshift-image-registry.svc:5000/openshift/postgresql:10'
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            exec:
+              command:
+              - /usr/libexec/check-container
+              - --live
+            failureThreshold: 3
+            initialDelaySeconds: 120
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 10
+          name: postgresql
+          ports:
+          - containerPort: 5432
+            protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+              - /usr/libexec/check-container
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: 100m
+              memory: 200Mi
+            requests:
+              cpu: 50m
+              memory: 100Mi
+          terminationMessagePath: /dev/termination-log
+          volumeMounts:
+            - mountPath: /var/lib/pgsql/data
+              name: nmp-postgresql-data
+      volumes:
+      - name: nmp-postgresql-data
+        persistentVolumeClaim:
+          claimName: nmp-postgresql
