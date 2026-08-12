@@ -1,0 +1,144 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+parameters:
+  - name: IMAGE_TAG
+    description: Default is latest, other valid values are test or prod
+    value: latest
+  - name: URL
+    value: agri-nmp-dev.apps.silver.devops.gov.bc.ca
+objects:
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: nmp-web
+      annotations:
+        image.openshift.io/triggers: '[{"from": {"kind": "ImageStreamTag", "name": "nmp-web:${IMAGE_TAG}",
+          "namespace": "624dc1-tools"}, "fieldPath": "spec.template.spec.containers[?(@.name==\"nmp-web\")].image",
+          "paused": false}]'
+    spec:
+      selector:
+        matchLabels:
+          name: nmp-web
+      strategy:
+        type: Recreate
+      template:
+        metadata:
+          labels:
+            name: nmp-web
+          name: nmp-web
+        spec:
+          containers:
+            - env:
+              - name: POSTGRESQL_DATABASE
+                valueFrom:
+                  secretKeyRef:
+                    key: database-name
+                    name: nmp-postgresql-credentials
+              - name: POSTGRESQL_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    key: database-password
+                    name: nmp-postgresql-credentials
+              - name: POSTGRESQL_USER
+                valueFrom:
+                  secretKeyRef:
+                    key: database-username
+                    name: nmp-postgresql-credentials
+              - name: POSTGRESQL_URI
+                value: nmp-postgresql
+              - name: LOAD_SEED_DATA
+                value: 'false'
+              - name: EXPECTED_SEED_DATA_VERSION
+                value: '0'
+              - name: WEASYPRINT_URL
+                value: http://nmp-weasyprint:5001
+              - name: REDIS_CONNECTION_STRING
+                value: nmp-redis
+              - name: KEY_RING_DIRECTORY
+                value: /var/dp_keys
+              - name: AppSettings__RELOAD_JOURNEYS
+                value: 'false'
+              - name: AppSettings__RELOAD_USER_PROMPTS
+                value: 'false'
+              - name: AppSettings__FLAG_FERTIGATION_WORKFLOW
+                value: 'false'
+              image: 'image-registry.openshift-image-registry.svc:5000/624dc1-tools/nmp-web${IMAGE_TAG}'
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                failureThreshold: 30
+                httpGet:
+                  path: /
+                  port: 8080
+                  scheme: HTTP
+                initialDelaySeconds: 120
+                periodSeconds: 30
+                successThreshold: 1
+                timeoutSeconds: 5
+              name: nmp-web
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              readinessProbe:
+                failureThreshold: 30
+                httpGet:
+                  path: /
+                  port: 8080
+                  scheme: HTTP
+                initialDelaySeconds: 45
+                periodSeconds: 30
+                successThreshold: 1
+                timeoutSeconds: 5
+              resources:
+                limits:
+                  cpu: 500m
+                  memory: 2Gi
+                requests:
+                  cpu: 250m
+                  memory: 500Mi
+              terminationMessagePath: /dev/termination-log
+              volumeMounts:
+                - mountPath: /var/dp_keys
+                  name: dp-keys
+          volumes:
+            - name: dp-keys
+              persistentVolumeClaim:
+                claimName: nmp-key-ring
+  - kind: PersistentVolumeClaim
+    apiVersion: v1
+    metadata:
+      name: nmp-key-ring
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 512Mi
+      storageClassName: netapp-file-standard
+      volumeMode: Filesystem
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: nmp-web
+    spec:
+      ports:
+        - name: web
+          protocol: TCP
+          port: 8080
+          targetPort: 8080
+      selector:
+        name: nmp-web
+  - kind: Route
+    apiVersion: route.openshift.io/v1
+    metadata:
+      name: nmp-web
+    spec:
+      host: ${URL}
+      to:
+          kind: Service
+          name: nmp-web
+          weight: 100
+      port:
+        targetPort: web
+      tls:
+        termination: edge
+        insecureEdgeTerminationPolicy: Redirect
